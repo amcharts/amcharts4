@@ -1,0 +1,22 @@
+{
+  "name": "amcharts4",
+  "version": "4.0.0",
+  "description": "JavaScript Charts V4",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amcharts/amcharts4.git"
+  },
+  "keywords": [
+    "amcharts",
+    "javascript",
+    "charts",
+    "typescript"
+  ],
+  "author": "amCharts <contact@amcharts.com>",
+  "license": "Custom",
+  "bugs": {
+    "url": "https://github.com/amcharts/amcharts4/issues"
+  },
+  "homepage": "https://www.amcharts.com/"
+}
