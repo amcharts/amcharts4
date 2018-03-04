@@ -1,0 +1,377 @@
+/**
+ * Map series module
+ */
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
+import { Series, SeriesDataItem, ISeriesProperties, ISeriesDataFields, ISeriesAdapters, ISeriesEvents } from "../series/Series";
+import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { MapChart } from "../types/MapChart";
+import { MapObject } from "./MapObject";
+import { IListEvents } from "../../core/utils/List";
+import { IGeoPoint } from "../../core/defs/IGeoPoint";
+import { Color } from "../../core/utils/Color";
+/**
+ * ============================================================================
+ * DATA ITEM
+ * ============================================================================
+ * @hidden
+ */
+/**
+ * Defines a [[DataItem]] for [[MapSeries]].
+ *
+ * @see {@link DataItem}
+ */
+export declare class MapSeriesDataItem extends SeriesDataItem {
+    /**
+     * Longitude of the East-most point of the element.
+     *
+     * @type {number}
+     */
+    east: number;
+    /**
+     * Longitude of the West-most point of the element.
+     *
+     * @type {number}
+     */
+    west: number;
+    /**
+     * Latitude of the South-most point of the element.
+     *
+     * @type {number}
+     */
+    south: number;
+    /**
+     * Latitude of the North-most point of the element.
+     *
+     * @type {number}
+     */
+    north: number;
+    /**
+     * Defines a type of [[Component]] this data item is used for.
+     *
+     * @type {Component}
+     */
+    _component: MapSeries;
+    /**
+     * Constructor
+     */
+    constructor();
+    /**
+     * @return {number} Value
+     */
+    /**
+     * Numeric value of the data item.
+     *
+     * Value may be used in heat-map calculations.
+     *
+     * @param {number}  value  Value
+     */
+    value: number;
+    /**
+     * Updates the item's bounding coordinates: coordinates of the East, West,
+     * North, and South-most points.
+     *
+     * @ignore Exclude from docs
+     * @param {IGeoPoint[]}  geoPoints  Points of the element
+     */
+    updateExtremes(geoPoints: IGeoPoint[]): void;
+}
+/**
+ * ============================================================================
+ * REQUISITES
+ * ============================================================================
+ * @hidden
+ */
+/**
+ * [GEOJSONGeometry description]
+ *
+ * @type {string}
+ * @todo Description
+ */
+export declare type GEOJSONGeometry = "Point" | "LineString" | "Polygon" | "MultiPoint" | "MultiLineString" | "MultiPolygon";
+/**
+ * Defines data fields for [[MapSeries]].
+ *
+ * @todo Alllow any number of values?
+ */
+export interface IMapSeriesDataFields extends ISeriesDataFields {
+    /**
+     * A field number in data for a numeric value of the map object.
+     *
+     * @type {string}
+     */
+    value?: string;
+}
+/**
+ * Defines properties for [[MapSeries]].
+ */
+export interface IMapSeriesProperties extends ISeriesProperties {
+    /**
+     * A color to apply to map objects with the lowest value.
+     *
+     * @type {Color}
+     */
+    minColor?: Color;
+    /**
+     * A color to apply to map objects with the highest value.
+     *
+     * @type {Color}
+     */
+    maxColor?: Color;
+    /**
+     * A flag telling if the series should get data from geoJSON or not
+     *
+     * @type {boolean}
+     */
+    getDataFromJSON?: boolean;
+    /**
+     * A list of object ids to include from the series.
+     *
+     * @type {string[]}
+     */
+    include?: string[];
+    /**
+     * A list of object ids to exclude from the series.
+     *
+     * @type {string[]}
+     */
+    exclude?: string[];
+}
+/**
+ * Defines events for [[MapSeries]].
+ */
+export interface IMapSeriesEvents extends ISeriesEvents {
+}
+/**
+ * Defines adapters for [[MapSeries]].
+ *
+ * @see {@link Adapter}
+ */
+export interface IMapSeriesAdapters extends ISeriesAdapters, IMapSeriesProperties {
+}
+/**
+ * ============================================================================
+ * MAIN CLASS
+ * ============================================================================
+ * @hidden
+ */
+/**
+ * A base class for series of map objects.
+ *
+ * @see {@link IMapSeriesEvents} for a list of available Events
+ * @see {@link IMapSeriesAdapters} for a list of available Adapters
+ * @important
+ */
+export declare class MapSeries extends Series {
+    /**
+     * Defines available data fields.
+     *
+     * @ignore Exclude from docs
+     * @type {IMapSeriesDataFields}
+     */
+    _dataFields: IMapSeriesDataFields;
+    /**
+     * Defines available properties.
+     *
+     * @ignore Exclude from docs
+     * @type {IMapSeriesProperties}
+     */
+    _properties: IMapSeriesProperties;
+    /**
+     * Defines available adapters.
+     *
+     * @ignore Exclude from docs
+     * @type {IMapSeriesAdapters}
+     */
+    _adapter: IMapSeriesAdapters;
+    /**
+     * Event dispatcher.
+     *
+     * @type {SpriteEventDispatcher<AMEvent<MapSeries, IMapSeriesEvents>>} Event dispatcher instance
+     */
+    events: SpriteEventDispatcher<AMEvent<MapSeries, IMapSeriesEvents>>;
+    /**
+     * Defines the type of data item.
+     *
+     * @ignore Exclude from docs
+     * @type {MapSeriesDataItem}
+     */
+    _dataItem: MapSeriesDataItem;
+    /**
+     * The longitude of the East-most point in the series. (out of all elements)
+     *
+     * @type {number}
+     */
+    east: number;
+    /**
+     * The longitude of the West-most point in the series. (out of all elements)
+     *
+     * @type {number}
+     */
+    west: number;
+    /**
+     * The latitude of the South-most point in the series. (out of all elements)
+     *
+     * @type {number}
+     */
+    south: number;
+    /**
+     * The latitude of the North-most point in the series. (out of all elements)
+     *
+     * @type {number}
+     */
+    north: number;
+    /**
+     * A related chart/map object, this element is drawn on.
+     *
+     * @type {MapChart}
+     */
+    chart: MapChart;
+    /**
+     * User-defined lowest value in the series.
+     *
+     * @type {number}
+     */
+    protected _min: number;
+    /**
+     * User-defined heighest value in the series.
+     *
+     * @type {number}
+     */
+    protected _max: number;
+    /**
+     * Constructor
+     */
+    constructor();
+    /**
+     * Returns a new/empty DataItem of the type appropriate for this object.
+     *
+     * @see {@link DataItem}
+     * @return {MapSeriesDataItem} Data Item
+     */
+    protected createDataItem(): this["_dataItem"];
+    /**
+     * (Re)validates series data, effectively causing the whole series to be
+     * redrawn.
+     *
+     * @ignore Exclude from docs
+     */
+    validateData(): void;
+    /**
+     * Checks whether object should be included in series.
+     *
+     * @param  {string[]}  includes  A list of explicitly included ids
+     * @param  {string[]}  excludes  A list of explicitly excluded ids
+     * @param  {string}    id        Id of the object
+     * @return {boolean}             Include?
+     */
+    protected checkInclude(includes: string[], excludes: string[], id: string): boolean;
+    /**
+     * @return {boolean} Use GeoJSON data?
+     */
+    /**
+     * Should the map extract all the data about element, such as title, from
+     * GeoJSON format?
+     * @todo: review description, this is more about polygons/lines/points and not about titles. if a mapPolygonSeries doesn't have this set to true, it won't show any areas unless you pass data directly to the series
+     *
+     * @param {boolean}  value  Use GeoJSON data?
+     */
+    getDataFromJSON: boolean;
+    /**
+     * @return {Color} Lowest color
+     */
+    /**
+     * Color for the lowest value in a heat map.
+     *
+     * In heat map, each object will be colored with an intermediate color
+     * between `minColor` and `maxColor` based on their `value` position between
+     * `min` and `max`.
+     *
+     * @param {Color}  value  Lowest color
+     */
+    minColor: Color;
+    /**
+     * @return {Color} Highest color
+     */
+    /**
+     * Color for the highest value in a heat map.
+     *
+     * In heat map, each object will be colored with an intermediate color
+     * between `minColor` and `maxColor` based on their `value` position between
+     * `min` and `max`.
+     *
+     * @param {Color}  value  Highest color
+     */
+    maxColor: Color;
+    /**
+     * @return {number} Highest value
+     */
+    /**
+     * User-defined highest value in the series.
+     *
+     * If not set, the map will use the highest `value` out of actual items in
+     * the series.
+     *
+     * This is used to determine object's color in a heat map.
+     *
+     * @param {number}  value  Highest value
+     */
+    max: number;
+    /**
+     * @return {number} Lowest value
+     */
+    /**
+     * User-defined lowest value in the series.
+     *
+     * If not set, the map will use the lowest `value` out of actual items in
+     * the series.
+     *
+     * This is used to determine object's color in a heat map.
+     *
+     * @param {number}  value  Lowest value
+     */
+    min: number;
+    /**
+     * @return {string[]} Included objects
+     */
+    /**
+     * A list of object ids that should be explictly included in the series.
+     *
+     * If this is not set, the series will automatically include all of the
+     * objects, available in the GeoJSON map. (minus the ones listed in
+     * `exclude`)
+     *
+     * If you need to display only specific objects, use `include`. E.g.:
+     *
+     * `include = ["FR", "ES", "DE"];`
+     *
+     * The above will show only France, Spain, and Germany out of the whole map.
+     *
+     * @param {string[]}  value  Included objects
+     */
+    include: string[];
+    /**
+     * @return {string[]} Excluded ids
+     */
+    /**
+     * A list of object ids that should be excluded from the series.
+     *
+     * E.g. you want to include all of the areas from a GeoJSON map, except
+     * Antarctica.
+     *
+     * You'd leave `include` empty, and set `exclude = ["AQ"]`.
+     *
+     * @param {string[]}  value  Excluded ids
+     */
+    exclude: string[];
+    /**
+     * Decorates a newly added object.
+     *
+     * @param {IListEvents<MapObject>["insert"]} event [description]
+     */
+    protected handleObjectAdded(event: IListEvents<MapObject>["insert"]): void;
+}

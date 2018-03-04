@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "name": "@amcharts/amcharts4-example-simple-column-chart",
+  "version": "1.0.0",
+  "devDependencies": {
+    "@amcharts/amcharts4": "file:../../../es2015",
+    "ts-loader": "^3.1.1",
+    "typescript": "^2.6.1",
+    "webpack": "^3.8.1"
+  },
+  "scripts": {
+    "prepare": "webpack"
+  }
+}

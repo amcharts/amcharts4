@@ -1,0 +1,407 @@
+/**
+ * Pie chart module.
+ */
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
+import { SerialChart, SerialChartDataItem } from "./SerialChart";
+import { percent, Percent } from "../../core/utils/Percent";
+import { PieSeries } from "../series/PieSeries";
+import { system } from "../../core/System";
+import * as $iter from "../../core/utils/Iterator";
+import * as $utils from "../../core/utils/Utils";
+import * as $math from "../../core/utils/Math";
+/**
+ * ============================================================================
+ * DATA ITEM
+ * ============================================================================
+ * @hidden
+ */
+/**
+ * Defines a [[DataItem]] for [[PieChart]].
+ *
+ * @see {@link DataItem}
+ */
+var PieChartDataItem = /** @class */ (function (_super) {
+    __extends(PieChartDataItem, _super);
+    /**
+     * Constructor
+     */
+    function PieChartDataItem() {
+        var _this = _super.call(this) || this;
+        _this.className = "PieChartDataItem";
+        _this.applyTheme();
+        return _this;
+    }
+    return PieChartDataItem;
+}(SerialChartDataItem));
+export { PieChartDataItem };
+/**
+ * ============================================================================
+ * MAIN CLASS
+ * ============================================================================
+ * @hidden
+ */
+/**
+ * Creates a Pie chart.
+ *
+ * ```TypeScript
+ * // Includes
+ * import * as amcharts4 from "@amcharts/amcharts4";
+ * import * as pie from "@amcharts/amcharts4/pie";
+ *
+ * // Create chart
+ * let chart = amcharts4.create("chartdiv", pie.PieChart);
+ *
+ * // Set data
+ * chart.data = [{
+ * 	"country": "Lithuania",
+ * 	"litres": 501.9
+ * }, {
+ * 	"country": "Czech Republic",
+ * 	"litres": 301.9
+ * }, {
+ * 	"country": "Ireland",
+ * 	"litres": 201.1
+ * }];
+ *
+ * // Create series
+ * let series = chart.series.push(new pie.PieSeries());
+ * series.dataFields.value = "litres";
+ * series.dataFields.category = "country";
+ * ```
+ * ```JavaScript
+ * // Create chart
+ * var chart = amcharts4.create("chartdiv", amcharts4.pie.PieChart);
+ *
+ * // The following would work as well:
+ * // var chart = amcharts4.create("chartdiv", "PieChart");
+ *
+ * // Set data
+ * chart.data = [{
+ * 	"country": "Lithuania",
+ * 	"litres": 501.9
+ * }, {
+ * 	"country": "Czech Republic",
+ * 	"litres": 301.9
+ * }, {
+ * 	"country": "Ireland",
+ * 	"litres": 201.1
+ * }];
+ *
+ * // Create series
+ * var series = chart.series.push(new amcharts4.pie.PieSeries());
+ * series.dataFields.value = "litres";
+ * series.dataFields.category = "country";
+ * ```
+ * ```JSON
+ * var chart = amcharts4.createFromConfig({
+ *
+ * 	// Series
+ * 	"series": [{
+ * 		"type": "PieSeries",
+ * 		"dataFields": {
+ * 			"value": "litres",
+ * 			"category": "country"
+ * 		}
+ * 	}],
+ *
+ * 	// Data
+ * 	"data": [{
+ * 		"country": "Lithuania",
+ * 		"litres": 501.9
+ * 	}, {
+ * 		"country": "Czech Republic",
+ * 		"litres": 301.9
+ * 	}, {
+ * 		"country": "Ireland",
+ * 		"litres": 201.1
+ * 	}]
+ *
+ * }, "chartdiv", "PieChart");
+ * ```
+ *
+ * @see {@link IPieChartEvents} for a list of available Events
+ * @see {@link IPieChartAdapters} for a list of available Adapters
+ * @important
+ */
+var PieChart = /** @class */ (function (_super) {
+    __extends(PieChart, _super);
+    /**
+     * Constructor
+     */
+    function PieChart() {
+        var _this = 
+        // Init
+        _super.call(this) || this;
+        _this.className = "PieChart";
+        // Set defaults
+        _this.innerRadius = 0;
+        _this.radius = percent(80);
+        _this.align = "none";
+        _this.valign = "none";
+        _this.startAngle = -90;
+        _this.endAngle = 270;
+        // Apply theme
+        _this.applyTheme();
+        return _this;
+    }
+    /**
+     * Sets defaults that instantiate some objects that rely on parent, so they
+     * cannot be set in constructor.
+     */
+    PieChart.prototype.applyInternalDefaults = function () {
+        _super.prototype.applyInternalDefaults.call(this);
+        // Add a default screen reader title for accessibility
+        // This will be overridden in screen reader if there are any `titles` set
+        this.readerTitle = this.language.translate("Pie chart");
+    };
+    /**
+     * (Re)validates the chart, causing it to redraw.
+     *
+     * @ignore Exclude from docs
+     */
+    PieChart.prototype.validate = function () {
+        _super.prototype.validate.call(this);
+        this.updateRadius();
+    };
+    /**
+     * Recalculates pie's radius, based on a number of criteria.
+     *
+     * @ignore Exclude from docs
+     */
+    PieChart.prototype.updateRadius = function () {
+        var _this = this;
+        var chartCont = this.chartContainer;
+        var rect = $math.getArcRect(this.startAngle, this.endAngle, 1);
+        var innerRect = { x: 0, y: 0, width: 0, height: 0 };
+        var innerRadius = this.innerRadius;
+        if (innerRadius instanceof Percent) {
+            innerRect = $math.getArcRect(this.startAngle, this.endAngle, innerRadius.value);
+        }
+        // @todo handle this when innerRadius set in pixels (do it for radar also)
+        rect = $math.getCommonRectangle([rect, innerRect]);
+        var maxRadius = Math.min(chartCont.innerWidth / rect.width, chartCont.innerHeight / rect.height);
+        var radius = $utils.relativeRadiusToValue(this.radius, maxRadius);
+        var pixelInnerRadius = $utils.relativeRadiusToValue(this.innerRadius, maxRadius);
+        var seriesRadius = (radius - pixelInnerRadius) / this.series.length;
+        //@todo: make it possible to set series radius in percent
+        $iter.each($iter.indexed(this.series.iterator()), function (a) {
+            var i = a[0];
+            var series = a[1];
+            // todo: set this on default state instead?
+            series.radius = pixelInnerRadius + seriesRadius * (i + 1);
+            series.innerRadius = pixelInnerRadius + seriesRadius * i;
+            series.startAngle = _this.startAngle;
+            series.endAngle = _this.endAngle;
+        });
+        var x0 = rect.x;
+        var y0 = rect.y;
+        var x1 = rect.x + rect.width;
+        var y1 = rect.y + rect.height;
+        var point = { x: this.seriesContainer.maxWidth / 2 - radius * (x0 + (x1 - x0) / 2), y: this.seriesContainer.maxHeight / 2 - radius * (y0 + (y1 - y0) / 2) };
+        $iter.each(this.series.iterator(), function (series) {
+            series.moveTo(point);
+        });
+        this.bulletsContainer.moveTo(point);
+    };
+    /**
+     * Setups the legend to use the chart's data.
+     */
+    PieChart.prototype.feedLegend = function () {
+        var legend = this.legend;
+        if (legend) {
+            var legendData_1 = [];
+            $iter.each(this.series.iterator(), function (series) {
+                $iter.each(series.dataItems.iterator(), function (dataItem) {
+                    legendData_1.push(dataItem);
+                });
+            });
+            legend.data = legendData_1;
+            legend.dataFields.name = "category";
+            legend.dataFields.visible = "visible";
+        }
+    };
+    Object.defineProperty(PieChart.prototype, "radius", {
+        /**
+         * @return {number} Radius (px or relative)
+         */
+        get: function () {
+            return this.getPropertyValue("radius");
+        },
+        /**
+         * Sets radius of the pie chart.
+         *
+         * Setting to a number will mean a fixed pixel radius.
+         *
+         * Setting to an instance of [[Percent]] will mean a relative radius to
+         * available space.
+         *
+         * E.g.:
+         *
+         * ```TypeScript
+         * // Set pie chart to be at 50% of the available space
+         * pieChart.radius = amcharts4.percent.percent(50);
+         * ```
+         * ```JavaScript
+         * // Set pie chart to be at 50% of the available space
+         * pieChart.radius = amcharts4.percent.percent(50);
+         * ```
+         * ```JSON
+         * {
+         *   // Set pie chart to be at 50% of the available space
+         *   "radius": "50%"
+         * }
+         * ```
+         *
+         * @param {number | Percent}  value  Radius (px or relative)
+         */
+        set: function (value) {
+            this.setPropertyValue("radius", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PieChart.prototype, "innerRadius", {
+        /**
+         * @return {number} Relative inner radius (0-1)
+         */
+        get: function () {
+            return this.getPropertyValue("innerRadius");
+        },
+        /**
+         * Sets relative inner radius (to create a donut chart).
+         *
+         * The inner radius is relative to pie's radius:
+         * * 0 - solid pie (no hole inside);
+         * * 0.5 - hole is half the radius of the pie;
+         * * 1 - does not make sense, because the hole will take up the whole radius.
+         *
+         * @param {number | Percent}  value  Relative inner radius (0-1)
+         * @todo Setting things like `innerRadius` modifies `slice.radius` and it then looks like it is not the same value as in default state
+         */
+        set: function (value) {
+            this.setPropertyValue("innerRadius", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Creates a new [[PieSeries]].
+     *
+     * @return {PieSeries} New series
+     */
+    PieChart.prototype.createSeries = function () {
+        return new PieSeries();
+    };
+    Object.defineProperty(PieChart.prototype, "startAngle", {
+        /**
+         * @return {number} Start angle (degrees)
+         */
+        get: function () {
+            return this.getPropertyValue("startAngle");
+        },
+        /**
+         * Starting angle of the Pie circle. (degrees)
+         *
+         * Normally, a pie chart begins (the left side of the first slice is drawn)
+         * at the top center. (at -90 degrees)
+         *
+         * You can use `startAngle` to change this setting.
+         *
+         * E.g. setting this to 0 will make the first slice be drawn to the right.
+         *
+         * For a perfect circle the absolute sum of `startAngle` and `endAngle`
+         * needs to be 360.
+         *
+         * However, it's **not** necessary to do so. You can set to those lesser
+         * numbers, to create semi-circles.
+         *
+         * E.g. `startAngle = -90` with `endAngle = 0` will create a Pie chart that
+         * looks like a quarter of a circle.
+         *
+         * @default -90
+         * @param {number}  value  Start angle (degrees)
+         */
+        set: function (value) {
+            this.setPropertyValue("startAngle", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PieChart.prototype, "endAngle", {
+        /**
+         * @return {number} End angle (degrees)
+         */
+        get: function () {
+            return this.getPropertyValue("endAngle");
+        },
+        /**
+         * End angle of the Pie circle. (degrees)
+         *
+         * Normally, a pie chart ends (the right side of the last slice is drawn)
+         * at the top center. (at 270 degrees)
+         *
+         * You can use `endAngle` to change this setting.
+         *
+         * For a perfect circle the absolute sum of `startAngle` and `endAngle`
+         * needs to be 360.
+         *
+         * However, it's **not** necessary to do so. You can set to those lesser
+         * numbers, to create semi-circles.
+         *
+         * E.g. `startAngle = -90` with `endAngle = 0` will create a Pie chart that
+         * looks like a quarter of a circle.
+         *
+         * @default 270
+         * @param {number}  value  End angle (degrees)
+         */
+        set: function (value) {
+            this.setPropertyValue("endAngle", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @ignore
+     */
+    PieChart.prototype.setLegend = function (legend) {
+        _super.prototype.setLegend.call(this, legend);
+        if (legend) {
+            legend.labels.template.text = "${category}";
+            legend.valueLabels.template.text = "${value.percent.formatNumber('#.#')}%";
+            legend.containers.template.events.on("over", function (event) {
+                var pieSeriesDataItem = event.target.dataItem.dataContext;
+                pieSeriesDataItem.slice.isHover = true;
+            });
+            legend.containers.template.events.on("out", function (event) {
+                var pieSeriesDataItem = event.target.dataItem.dataContext;
+                pieSeriesDataItem.slice.isHover = false;
+            });
+        }
+    };
+    return PieChart;
+}(SerialChart));
+export { PieChart };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+system.registeredClasses["PieChart"] = PieChart;
+system.registeredClasses["PieChartDataItem"] = PieChartDataItem;
+//# sourceMappingURL=PieChart.js.map

@@ -1,0 +1,1050 @@
+/**
+ * A collection of universal utility functions.
+ */
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
+import { system } from "../System";
+import { Percent } from "./Percent";
+import { Container } from "../Container";
+import * as $math from "../utils/Math";
+import * as $type from "../utils/Type";
+import * as $string from "./String";
+import * as $strings from "./Strings";
+import * as $object from "./Object";
+/**
+ * ============================================================================
+ * MISC FUNCTIONS
+ * ============================================================================
+ * @hidden
+ */
+/**
+ * Copies all properties of one object to the other, omitting undefined.
+ *
+ * @param  {Object}   fromObject  Source object
+ * @param  {Object}   toObject    Target object
+ * @return {Object}               Updated target object
+ * @todo Maybe consolidate with utils.copy?
+ */
+export function copyProperties(source, target) {
+    $object.each(source, function (key, value) {
+        // only if value is set
+        if ($type.hasValue(value)) {
+            target[key] = value;
+        }
+    });
+    return target;
+}
+/**
+ * Copies all properties of one object to the other.
+ *
+ * @param  {Object}  source     Source object
+ * @param  {Object}  recipient  Target object
+ * @return {Object}             Updated target object
+ */
+export function copy(source, target) {
+    $object.each(source, function (key, value) {
+        target[key] = value;
+    });
+    return target;
+}
+/**
+ * Checks if value is not empty (undefined or zero-length string).
+ *
+ * @param  {any}      value  Value to check
+ * @return {boolean}         `true` if value is "empty"
+ */
+export function empty(value) {
+    return !$type.hasValue(value) || (value.toString() === "");
+}
+/**
+ * [relativeToValue description]
+ *
+ * @ignore Exclude from docs
+ * @todo Description
+ * @param  {$type.Optional<number | Percent>}  percent  [description]
+ * @param  {number}                            full     [description]
+ * @return {number}                                     [description]
+ */
+export function relativeToValue(percent, full) {
+    if ($type.isNumber(percent)) {
+        return percent;
+    }
+    else if (percent != null && $type.isNumber(percent.value)) {
+        return full * percent.value;
+    }
+    else {
+        return 0;
+    }
+}
+/**
+ * [relativeRadiusToValue description]
+ *
+ * Differs from relativeToValue so that if a value is negative, it subtracts
+ * it from full value.
+ *
+ * @ignore Exclude from docs
+ * @todo Description
+ * @param  {$type.Optional<number | Percent>}  percent             [description]
+ * @param  {number}                            full                [description]
+ * @param  {boolean}                           subtractIfNegative  [description]
+ * @return {number}                                                [description]
+ */
+export function relativeRadiusToValue(percent, full, subtractIfNegative) {
+    var value;
+    if ($type.isNumber(percent)) {
+        value = percent;
+        if (value < 0) {
+            if (subtractIfNegative) {
+                value = full + value;
+            }
+            else {
+                value = full - value;
+            }
+        }
+    }
+    else if (percent != null && $type.isNumber(percent.value)) {
+        value = full * percent.value;
+    }
+    return value;
+}
+/**
+ * [valueToRelative description]
+ *
+ * @ignore Exclude from docs
+ * @todo Description
+ * @param  {number | Percent}  value  [description]
+ * @param  {number}            full   [description]
+ * @return {number}                   [description]
+ */
+export function valueToRelative(value, full) {
+    if (value instanceof Percent) {
+        return value.value;
+    }
+    else {
+        return value / full;
+    }
+}
+/**
+ * ============================================================================
+ * STRING FORMATTING FUNCTIONS
+ * ============================================================================
+ * @hidden
+ */
+/**
+ * Converts camelCased text to dashed version:
+ * ("thisIsString" > "this-is-string")
+ *
+ * @param  {string}  str  Input
+ * @return {string}       Output
+ */
+export function camelToDashed(str) {
+    return str.replace(/\W+/g, '-').replace(/([a-z\d])([A-Z])/g, '$1-$2').toLowerCase();
+}
+/**
+ * Converts tring to uppercase.
+ *
+ * @param  {string}  str  String to convert
+ * @return {string}       uppercased string
+ * @todo Maybe make it better
+ */
+export function capitalize(str) {
+    var arr = str.split("");
+    arr[0] = arr[0].toUpperCase();
+    return arr.join("");
+}
+/**
+ * Converts any value into its string representation.
+ *
+ * @param  {any}     value  Value
+ * @return {string}         String represantation of the value
+ */
+export function stringify(value) {
+    return JSON.stringify(value);
+}
+/**
+ * Splits the text into multiple lines, respecting maximum character count.
+ * Prioretizes splitting on spaces and punctuation. Falls back on splitting
+ * mid-word if there's no other option.
+ *
+ * @param  {string}    text      Text
+ * @param  {number}    maxChars  Maximum number of characters per line
+ * @return {string[]}            An array of split text
+ */
+export function splitTextByCharCount(text, maxChars, fullWords, rtl) {
+    // Maybe the text fits?
+    if (text.length <= maxChars) {
+        return [text];
+    }
+    // Init result
+    var res = [];
+    // Split by spacing
+    var currentIndex = -1;
+    var words = text.split(/[\s]+/);
+    //let prefix: string = "";
+    /*if (rtl) {
+        words.reverse();
+    }*/
+    //console.log(words);
+    // Process each word
+    for (var i = 0; i < words.length; i++) {
+        // Get word and symbol count
+        var word = words[i];
+        var wordLength = word.length;
+        // Ignore empty words
+        if (wordLength === 0) {
+            continue;
+        }
+        // Append space
+        if (i < (words.length - 1)) {
+            if (rtl) {
+                word = " " + word;
+            }
+            else {
+                word += " ";
+            }
+        }
+        // Check word length
+        if ((wordLength > maxChars) && fullWords !== true) {
+            // A single word is longer than allowed symbol count
+            // Break it up
+            if (rtl) {
+                word = reverseString(word);
+            }
+            var parts = word.match(new RegExp(".{1," + maxChars + "}", "g"));
+            // TODO is this correct ?
+            if (parts) {
+                if (rtl) {
+                    for (var x = 0; x < parts.length; x++) {
+                        parts[x] = reverseString(parts[x]);
+                    }
+                    //parts.reverse();
+                }
+                res = res.concat(parts);
+            }
+        }
+        else {
+            // Init current line
+            if (currentIndex === -1) {
+                res.push("");
+                currentIndex = 0;
+            }
+            // Check if we need to break into another line
+            if (((res[currentIndex].length + wordLength + 1) > maxChars) && res[currentIndex] !== "") {
+                res.push("");
+                currentIndex++;
+            }
+            // Add word
+            res[currentIndex] += word;
+        }
+        // Update index
+        currentIndex = res.length - 1;
+    }
+    //console.log(res);
+    /*if (rtl) {
+        res.reverse();
+    }*/
+    // Do we have only one word that does not fit?
+    // Since fullWords is set and we can't split the word, we end up with empty
+    // set.
+    if (res.length == 1 && fullWords && (res[0].length > maxChars)) {
+        res = [];
+    }
+    return res;
+}
+/**
+ * Truncates the text to certain character count.
+ *
+ * Will add ellipsis if the string is truncated. Optionally, can truncate on full words only.
+ *
+ * For RTL support, pass in the fifth parameter as `true`.
+ *
+ * @param  {string}   text       Input text
+ * @param  {number}   maxChars   Maximum character count of output
+ * @param  {string}   ellipsis   Ellipsis string, i.e. "..."
+ * @param  {boolean}  fullWords  If `true`, will not break mid-word, unless there's a single word and it does not with into `maxChars`
+ * @param  {boolean}  rtl        Is this an RTL text?
+ * @return {string}              Truncated text
+ */
+export function truncateWithEllipsis(text, maxChars, ellipsis, fullWords, rtl) {
+    if (text.length <= maxChars) {
+        return text;
+    }
+    // Calc max chars
+    maxChars -= ellipsis.length;
+    if (maxChars < 1) {
+        maxChars = 1;
+        //ellipsis = "";
+    }
+    // Get lines
+    var lines = splitTextByCharCount(text, maxChars, fullWords, rtl);
+    // Use first line
+    return lines[0] + ellipsis;
+}
+/**
+ * Removes whitespace from beginning and end of the string.
+ *
+ * @param  {string}  str  Input
+ * @return {string}       Output
+ */
+export function trim(str) {
+    return str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "");
+}
+;
+/**
+ * Removes whitespace from end of the string.
+ *
+ * @param  {string}  str  Input
+ * @return {string}       Output
+ */
+export function rtrim(str) {
+    return str.replace(/[\s\uFEFF\xA0]+$/g, "");
+}
+;
+/**
+ * Removes whitespace from beginning of the string.
+ *
+ * @param  {string}  str  Input
+ * @return {string}       Output
+ */
+export function ltrim(str) {
+    return str.replace(/^[\s\uFEFF\xA0]+/g, "");
+}
+;
+/**
+ * Reverses string.
+ *
+ * @param  {string}  str  Input
+ * @return {string}       Output
+ */
+export function reverseString(str) {
+    return str.split("").reverse().join("");
+}
+/**
+ * Removes quotes from the string.
+ *
+ * @param  {string}  str  Input
+ * @return {string}       Output
+ */
+export function unquote(str) {
+    var res = str.trim();
+    res = str.replace(/^'(.*)'$/, "$1");
+    if (res == str) {
+        res = str.replace(/^"(.*)"$/, "$1");
+    }
+    return res;
+}
+/**
+ * Pads a string with additional characters to certain length.
+ *
+ * @param  {any}            value  A numeric value
+ * @param  {number = 0}     len    Result string length in characters
+ * @param  {string = "0"}   char   A character to use for padding
+ * @return {string}                Padded value as string
+ */
+export function padString(value, len, char) {
+    if (len === void 0) { len = 0; }
+    if (char === void 0) { char = "0"; }
+    if (typeof value !== "string")
+        value = value.toString();
+    return len > value.length ? Array(len - value.length + 1).join(char) + value : value;
+}
+/**
+ * Tries to determine format type.
+ *
+ * @ignore Exclude from docs
+ * @param {string}   format  Format string
+ * @return {string}          Format type ("string" | "number" | "date" | "duration")
+ */
+export function getFormat(format) {
+    // Undefined?
+    if (typeof format === "undefined")
+        return $strings.STRING;
+    // Cleanup and lowercase format
+    format = format.toLowerCase().replace(/^\[[^\]]*\]/, "");
+    // Remove style tags
+    format = format.replace(/\[[^\]]+\]/, "");
+    // Trim
+    format = format.trim();
+    // Check for any explicit format hints (i.e. /Date)
+    var hints = format.match(/\/(date|number|duration)$/);
+    if (hints) {
+        return hints[1];
+    }
+    // Check for explicit hints
+    if (format === $strings.NUMBER) {
+        return $strings.NUMBER;
+    }
+    if (format === $strings.DATE) {
+        return $strings.DATE;
+    }
+    if (format === $strings.DURATION) {
+        return $strings.DURATION;
+    }
+    // Detect number formatting symbols
+    if (format.match(/[#0]/)) {
+        return $strings.NUMBER;
+    }
+    // Detect date formatting symbols
+    if (format.match(/[ymwdhnsqaxkzgtei]/)) {
+        return $strings.DATE;
+    }
+    // Nothing? Let's display as string
+    return $strings.STRING;
+}
+/**
+ * Cleans up format:
+ * * Strips out formatter hints
+ *
+ * @ignore Exclude from docs
+ * @param  {string}  format  Format
+ * @return {string}          Cleaned format
+ */
+export function cleanFormat(format) {
+    return format.replace(/\/(date|number|duration)$/i, "");
+}
+/**
+ * Strips all tags from the string.
+ *
+ * @param  {string}  text  Source string
+ * @return {string}        String without tags
+ */
+export function stripTags(text) {
+    return text ? text.replace(/<[^>]*>/g, "") : text;
+}
+/**
+ * Removes new lines and tags from a string.
+ *
+ * @param  {string}  text  String to conver
+ * @return {string}        Converted string
+ */
+export function plainText(text) {
+    return text ? stripTags(text.replace(/[\n\r]+/g, ". ")) : text;
+}
+/**
+ * ============================================================================
+ * TYPE CONVERSION FUNCTIONS
+ * ============================================================================
+ * @hidden
+ */
+/**
+ * Converts numeric value into string. Deals with large or small numbers that
+ * would otherwise use exponents.
+ *
+ * @param  {number}  value  Numeric value
+ * @return {string}         Numeric value as string
+ */
+export function numberToString(value) {
+    // TODO handle Infinity and -Infinity
+    if ($type.isNaN(value)) {
+        return "NaN";
+    }
+    if (value === Infinity) {
+        return "Infinity";
+    }
+    if (value === -Infinity) {
+        return "-Infinity";
+    }
+    // Negative 0
+    if ((value === 0) && (1 / value === -Infinity)) {
+        return "-0";
+    }
+    // Preserve negative and deal with absoute values
+    var negative = value < 0;
+    value = Math.abs(value);
+    // TODO test this
+    var parsed = $type.getValue(/^([0-9]+)(?:\.([0-9]+))?(?:e[\+\-]([0-9]+))?$/.exec("" + value));
+    var digits = parsed[1];
+    var decimals = parsed[2] || "";
+    var res;
+    // Leave the nummber as it is if it does not use exponents
+    if (parsed[3] == null) {
+        res = (decimals === "" ? digits : digits + "." + decimals);
+    }
+    else {
+        var exponent = +parsed[3];
+        // Deal with decimals
+        if (value < 1) {
+            var zeros = exponent - 1;
+            res = "0." + $string.repeat("0", zeros) + digits + decimals;
+            // Deal with integers
+        }
+        else {
+            var zeros = exponent - decimals.length;
+            if (zeros === 0) {
+                res = digits + decimals;
+            }
+            else if (zeros < 0) {
+                res = digits + decimals.slice(0, zeros) + "." + decimals.slice(zeros);
+            }
+            else {
+                res = digits + decimals + $string.repeat("0", zeros);
+            }
+        }
+    }
+    return negative ? "-" + res : res;
+}
+/**
+ * Converts anything to Date object.
+ *
+ * @param  {Date | number | string}  value  A value of any type
+ * @return {Date}                           Date object representing a value
+ */
+export function anyToDate(value) {
+    if ($type.isDate(value)) {
+        // TODO maybe don't create a new Date ?
+        return new Date(value);
+    }
+    else if ($type.isNumber(value)) {
+        return new Date(value);
+    }
+    else {
+        // Try converting to number (assuming timestamp)
+        var num = Number(value);
+        if (!$type.isNumber(num)) {
+            return new Date(value);
+        }
+        else {
+            return new Date(num);
+        }
+    }
+}
+/**
+ * Tries converting any value to a number.
+ *
+ * @param  {any}     value  Source value
+ * @return {number}         Number
+ */
+export function anyToNumber(value) {
+    if ($type.isDate(value)) {
+        return value.getTime();
+    }
+    else if ($type.isNumber(value)) {
+        return value;
+    }
+    else if ($type.isString(value)) {
+        // Try converting to number (assuming timestamp)
+        var num = Number(value);
+        if (!$type.isNumber(num)) {
+            // Failing
+            return undefined;
+        }
+        else {
+            return num;
+        }
+    }
+}
+/**
+ * ============================================================================
+ * DATE-RELATED FUNCTIONS
+ * ============================================================================
+ * @hidden
+ */
+/**
+ * Returns a year day.
+ *
+ * @param  {Date}     date  Date
+ * @param  {boolean}  utc   Assume UTC dates?
+ * @return {number}         Year day
+ * @todo Account for UTC
+ */
+export function getYearDay(date, utc) {
+    if (utc === void 0) { utc = false; }
+    var first = new Date(date.getFullYear(), 0, 1, 0, 0, 0, 0);
+    return Math.floor((date.getTime() - first.getTime()) / 86400000) + 1;
+}
+/**
+ * Returns week number for a given date.
+ *
+ * @param  {Date}     date  Date
+ * @param  {boolean}  utc   Assume UTC dates?
+ * @return {number}         Week number
+ * @todo Account for UTC
+ */
+export function getWeek(date, utc) {
+    if (utc === void 0) { utc = false; }
+    var day = getYearDay(date, utc) - 1;
+    var week = Math.floor((day - (date.getDay() || 7) + 10) / 7);
+    if (week === 0) {
+        week = 53;
+    }
+    else if (week === 53) {
+        week = 1;
+    }
+    return week;
+}
+/**
+ * Returns a week number in the month.
+ *
+ * @param  {Date}     date  Source Date
+ * @param  {boolean}  utc   Assume UTC dates?
+ * @return {number}         Week number in month
+ */
+export function getMonthWeek(date, utc) {
+    if (utc === void 0) { utc = false; }
+    var firstWeek = getWeek(new Date(date.getFullYear(), date.getMonth(), 1), utc);
+    var currentWeek = getWeek(date, utc);
+    if (currentWeek == 1) {
+        currentWeek = 53;
+    }
+    return currentWeek - firstWeek + 1;
+}
+/**
+ * Returns a year day out of the given week number.
+ *
+ * @param  {number}   week     Week
+ * @param  {number}   year     Year
+ * @param  {number}   weekday  Weekday
+ * @param  {boolean}  utc      Assume UTC dates
+ * @return {number}            Day in a year
+ */
+export function getDayFromWeek(week, year, weekday, utc) {
+    if (weekday === void 0) { weekday = 1; }
+    if (utc === void 0) { utc = false; }
+    var date = new Date(year, 0, 4, 0, 0, 0, 0);
+    if (utc) {
+        date.setUTCFullYear(year);
+    }
+    var day = week * 7 + weekday - ((date.getDay() || 7) + 3);
+    return day;
+}
+/**
+ * Returns 12-hour representation out of the 24-hour hours.
+ *
+ * @param  {number}  hours  24-hour number
+ * @return {number}         12-hour number
+ */
+export function get12Hours(hours, base) {
+    if (hours > 12) {
+        hours -= 12;
+    }
+    else if (hours === 0) {
+        hours = 12;
+    }
+    return $type.hasValue(base) ? hours + (base - 1) : hours;
+}
+/**
+ * Returns a string name of the tome zone.
+ *
+ * @param  {Date}     date     Date object
+ * @param  {boolean}  long     Should return long ("Pacific Standard Time") or short abbreviation ("PST")
+ * @param  {boolean}  savings  Include information if it's in daylight savings mode
+ * @return {string}            Time zone name
+ */
+export function getTimeZone(date, long, savings) {
+    if (long === void 0) { long = false; }
+    if (savings === void 0) { savings = false; }
+    var wotz = date.toLocaleString("UTC");
+    var wtz = date.toLocaleString("UTC", { timeZoneName: long ? "long" : "short" }).substr(wotz.length);
+    //wtz = wtz.replace(/[+-]+[0-9]+$/, "");
+    if (savings === false) {
+        wtz = wtz.replace(/ (standard|daylight|summer|winter) /i, " ");
+    }
+    return wtz;
+}
+/**
+ * ============================================================================
+ * NUMBER-RELATED FUNCTIONS
+ * ============================================================================
+ * @hidden
+ */
+/**
+ * Returns a random number between `from` and `to`.
+ *
+ * @param  {number}  from  From number
+ * @param  {number}  to    To number
+ * @return {number}        Random number
+ */
+export function random(from, to) {
+    return Math.floor(Math.random() * to) + from;
+}
+/**
+ * Fits the number into specific `min` and `max` bounds.
+ *
+ * @param  {number}  value  Input value
+ * @param  {number}  min    Minimum value
+ * @param  {number}  max    Maximum value
+ * @return {number}         Possibly adjusted value
+ */
+export function fitNumber(value, min, max) {
+    if (value > max) {
+        return max;
+    }
+    else if (value < min) {
+        return min;
+    }
+    return value;
+}
+/**
+ * Fits the number into specific `min` and `max` bounds.
+ *
+ * If the value is does not fit withing specified range, it "wraps" around the
+ * values.
+ *
+ * For example, if we have input value 10 with min set at 1 and max set at 8,
+ * the value will not fit. The remainder that does not fit (2) will be added
+ * to `min`, resulting in 3.
+ *
+ * The output of regular `fitNumber()` would return 8 instead.
+ *
+ * @param  {number}  value  Input value
+ * @param  {number}  min    Minimum value
+ * @param  {number}  max    Maximum value
+ * @return {number}         Possibly adjusted value
+ */
+export function fitNumberRelative(value, min, max) {
+    var gap = max - min;
+    var step = gap / 100;
+    if (value > max) {
+        value = min + (value - gap * Math.floor(value / gap));
+    }
+    else if (value < min) {
+        value = min + (value - gap * Math.floor(value / gap));
+    }
+    return value;
+}
+/**
+ * ============================================================================
+ * SPRITE-RELATED FUNCTIONS
+ * ============================================================================
+ * @hidden
+ */
+/**
+ * Converts SVG element coordinates to coordinates within specific [[Sprite]].
+ *
+ * @param  {IPoint}  point   SVG coordinates
+ * @param  {Sprite}  sprite  Sprite
+ * @return {IPoint}         Sprite coordinates
+ */
+export function svgPointToSprite(point, sprite) {
+    var x = point.x;
+    var y = point.y;
+    var sprites = [];
+    while ($type.hasValue(sprite.parent)) {
+        sprites.push(sprite);
+        sprite = sprite.parent;
+    }
+    sprites.reverse();
+    for (var i = 0; i < sprites.length; i++) {
+        var sprite_1 = sprites[i];
+        var angle = sprite_1.rotation;
+        var relativeX = x - sprite_1.pixelX;
+        var relativeY = y - sprite_1.pixelY;
+        if (sprite_1.dx) {
+            x -= sprite_1.dx;
+        }
+        if (sprite_1.dy) {
+            y -= sprite_1.dy;
+        }
+        x = ($math.cos(-angle) * relativeX - $math.sin(-angle) * relativeY) / sprite_1.scale - sprite_1.pixelPaddingLeft;
+        y = ($math.cos(-angle) * relativeY + $math.sin(-angle) * relativeX) / sprite_1.scale - sprite_1.pixelPaddingTop;
+    }
+    return { x: x, y: y };
+}
+/**
+ * Converts coordinates within [[Sprite]] to coordinates relative to the whole
+ * SVG element.
+ *
+ * @param  {IPoint}  point   Sprite coordinates
+ * @param  {Sprite}  sprite  Sprite
+ * @return {IPoint}          SVG coordinates
+ */
+export function spritePointToSvg(point, sprite) {
+    var x = point.x;
+    var y = point.y;
+    while ($type.hasValue(sprite.parent)) {
+        var angle = sprite.rotation;
+        x += sprite.pixelPaddingLeft;
+        y += sprite.pixelPaddingTop;
+        if (sprite.dx) {
+            x += sprite.dx;
+        }
+        if (sprite.dy) {
+            y += sprite.dy;
+        }
+        var relativeX = sprite.pixelX + ((x * $math.cos(angle) - y * $math.sin(angle))) * sprite.scale;
+        var relativeY = sprite.pixelY + ((x * $math.sin(angle) + y * $math.cos(angle))) * sprite.scale;
+        x = relativeX;
+        y = relativeY;
+        sprite = sprite.parent;
+    }
+    return { x: x, y: y };
+}
+/**
+ * Converts a rectangle expressed in SVG element coordinates to coordinates
+ * within specific [[Sprite]].
+ *
+ * @param  {IRectangle}  rect    SVG rectangle
+ * @param  {Sprite}      sprite  Sprite
+ * @return {IRectangle}          Sprite rectangle
+ */
+export function svgRectToSprite(rect, sprite) {
+    var p1 = svgPointToSprite(rect, sprite);
+    var p2 = svgPointToSprite({ x: rect.x + rect.width, y: rect.y + rect.height }, sprite);
+    return { x: p1.x, y: p1.y, width: p2.x - p1.x, height: p2.y - p1.y };
+}
+/**
+ * Converts a rectangle expressed in [[Sprite]] coordinates to SVG coordinates.
+ *
+ * @param  {IRectangle}  rect    Sprite rectangle
+ * @param  {Sprite}      sprite  Sprite
+ * @return {IRectangle}          SVG rectangle
+ */
+export function spriteRectToSvg(rect, sprite) {
+    var p1 = spritePointToSvg(rect, sprite);
+    var p2 = spritePointToSvg({ x: rect.x + rect.width, y: rect.y + rect.height }, sprite);
+    return { x: p1.x, y: p1.y, width: p2.x - p1.x, height: p2.y - p1.y };
+}
+/**
+ * Converts global document-wide coordinates to coordinates within SVG element.
+ *
+ * @param  {IPoint}       point         Global coordinates
+ * @param  {HTMLElement}  svgContainer  SVG element
+ * @return {IPoint}                     SVG coordinates
+ */
+export function documentPointToSvg(point, svgContainer) {
+    var bbox = svgContainer.getBoundingClientRect();
+    return {
+        "x": point.x - bbox.left,
+        "y": point.y - bbox.top
+    };
+}
+/**
+ * Converts SVG coordinates to global document-wide coordinates.
+ *
+ * @param  {IPoint}       point         SVG coordinates
+ * @param  {HTMLElement}  svgContainer  SVG element
+ * @return {IPoint}                     Global coordinates
+ */
+export function svgPointToDocument(point, svgContainer) {
+    var bbox = svgContainer.getBoundingClientRect();
+    return {
+        "x": point.x + bbox.left,
+        "y": point.y + bbox.top
+    };
+}
+/**
+ * Converts document-wide global coordinates to coordinates within specific
+ * [[Sprite]].
+ *
+ * @param  {IPoint}  point   Global coordinates
+ * @param  {Sprite}  sprite  Sprite
+ * @return {IPoint}          Sprite coordinates
+ */
+export function documentPointToSprite(point, sprite) {
+    var svgPoint = documentPointToSvg(point, sprite.htmlContainer);
+    return svgPointToSprite(svgPoint, sprite);
+}
+/**
+ * Converts coordinates within [[Sprite]] to global document coordinates.
+ *
+ * @param  {IPoint}  point   Sprite coordinates
+ * @param  {Sprite}  sprite  Sprite
+ * @return {IPoint}          Global coordinates
+ */
+export function spritePointToDocument(point, sprite) {
+    var svgPoint = spritePointToSvg(point, sprite);
+    return svgPointToDocument(svgPoint, sprite.htmlContainer);
+}
+/**
+ * ============================================================================
+ * INSTANTIATION FUNCTIONS
+ * ============================================================================
+ * @hidden
+ */
+/**
+ * A shortcut to creating a chart instance.
+ *
+ * The first argument is either a reference to or an id of a DOM element to be
+ * used as a container for the chart.
+ *
+ * The second argument is the type reference of the chart type. (for plain
+ * JavaScript users this can also be a string indicating chart type)
+ *
+ * ```TypeScript
+ * let chart = amcharts4.create("chartdiv", pie.PieChart);
+ * ```
+ * ```JavaScript
+ * // Can pass in chart type reference like this:
+ * var chart = amcharts4.create("chartdiv", amcharts4.pie.PieChart);
+ *
+ * // ... or chart class type as a string:
+ * var chart = amcharts4.create("chartdiv", "PieChart");
+ * ```
+ *
+ * @param  {HTMLElement | string}  htmlElement  Reference or id of the target container element
+ * @param  {T}                     classType    Class type of the target chart type
+ * @return {T}                                  Chart instance
+ */
+export function create(htmlElement, classType) {
+    // This is a nasty hack for the benefit of vanilla JS users, who do not
+    // enjoy benefits of type-check anyway.
+    // We're allowing passing in a name of the class rather than type reference
+    // itself.
+    var classError;
+    if ($type.isString(classType)) {
+        if ($type.hasValue(system.registeredClasses[classType])) {
+            classType = system.registeredClasses[classType];
+        }
+        else {
+            classType = system.registeredClasses["Container"];
+            classError = new Error("Class [" + classType + "] is not loaded.");
+            return;
+        }
+    }
+    // Create the chart
+    var chart = system.createChild(htmlElement, classType);
+    // Error?
+    if (classError) {
+        chart.raiseCriticalError(classError);
+    }
+    return chart;
+}
+/**
+ * A shortcut to creating a chart from a config object.
+ *
+ * Example:
+ *
+ * ```TypeScript
+ * let chart amcharts4.createFromConfig({ ... }, "chartdiv", xy.XYChart );
+ * ```
+ * ```JavaScript
+ * var chart amcharts4.createFromConfig({ ... }, "chartdiv", "XYChart" );
+ * ```
+ *
+ * If `chartType` parameter is not supplied it must be set in a config object,
+ * via reference to chart type, e.g.:
+ *
+ * ```TypeScript
+ * {
+ *   "type": xy.XYChart,
+ *   // ...
+ * }
+ * ```
+ * ```JavaScript
+ * {
+ *   "type": amcharts4.xy.XYChart,
+ *   // ...
+ * }
+ * ```
+ *
+ * Or via string: (if you are using JavaScript)
+ *
+ * ```TypeScript
+ * {
+ *   "type": "XYChart",
+ *   // ...
+ * }
+ * ```
+ * ```JavaScript
+ * {
+ *   "type": "XYChart",
+ *   // ...
+ * }
+ * ```
+ *
+ * A `container` can either be a reference to an HTML container to put chart
+ * in, or it's unique id.
+ *
+ * If `container` is not specified, it must be included in the config object:
+ *
+ * ```TypeScript
+ * {
+ *   "type": "XYChart",
+ *   "container": "chartdiv",
+ *   // ...
+ * }
+ * ```
+ * ```JavaScript
+ * {
+ *   "type": "XYChart",
+ *   "container": "chartdiv",
+ *   // ...
+ * }
+ * ```
+ *
+ * @param  {any}                   config       Config object in property/value pairs
+ * @param  {string | HTMLElement}  htmlElement  Container reference or ID
+ * @param  {typeof Chart}          objectType   Chart type
+ * @return {Chart}                              A newly created chart instance
+ * @todo Throw exception if type is not correct
+ */
+export function createFromConfig(config, htmlElement, classType) {
+    // Extract chart type from config if necessary
+    if (!$type.hasValue(classType)) {
+        classType = config.type;
+        delete config.type;
+    }
+    // Extract element from config if necessary
+    if (!$type.hasValue(htmlElement)) {
+        htmlElement = config.container;
+        delete config.container;
+    }
+    // Check if we need to extract actual type reference
+    var finalType;
+    var classError;
+    if ($type.isString(classType) && $type.hasValue(system.registeredClasses[classType])) {
+        finalType = system.registeredClasses[classType];
+    }
+    else {
+        finalType = Container;
+        classError = new Error("Class [" + classType + "] is not loaded.");
+    }
+    // Create the chart
+    var chart = system.createChild(htmlElement, finalType);
+    // Set config
+    if (classError) {
+        chart.raiseCriticalError(classError);
+    }
+    else {
+        chart.config = config;
+    }
+    return chart;
+}
+/**
+ * ============================================================================
+ * DEPRECATED FUNCTIONS
+ * @todo Review and remove
+ * ============================================================================
+ * @hidden
+ */
+/**
+ * Returns element's width.
+ *
+ * @ignore Exclude from docs
+ * @param  {HTMLElement}  element  Element
+ * @return {number}                Width (px)
+ * @deprecated Not used anywhere
+ */
+export function width(element) {
+    return element.clientWidth;
+}
+/**
+ * Returns element's height.
+ *
+ * @ignore Exclude from docs
+ * @param  {HTMLElement}  element  Element
+ * @return {number}                Height (px)
+ * @deprecated Not used anywhere
+ */
+export function height(element) {
+    return element.clientHeight;
+}
+/**
+ * Returns number of decimals
+ *
+ * @ignore Exclude from docs
+ * @param  {number}  number  Input number
+ * @return {number}          Number of decimals
+ */
+export function decimalPlaces(number) {
+    var match = ('' + number).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
+    if (!match) {
+        return 0;
+    }
+    return Math.max(0, (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0));
+}
+//# sourceMappingURL=Utils.js.map

@@ -1,0 +1,1 @@
+{"version":3,"file":"iMinMaxer.js","sourceRoot":"","sources":["../../../../../src/.internal/core/defs/iMinMaxer.ts"],"names":[],"mappings":"","sourcesContent":["export interface iMinMaxer {\r\n\tmin: number;\r\n\tmax: number;\r\n\tignoreMinMax: boolean;\r\n}"]}

@@ -1,0 +1,187 @@
+/**
+ * Module contains functionality related to [[Sprite]] states.
+ */
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
+import { BaseObject } from "./Base";
+import { Adapter } from "./utils/Adapter";
+import { ListTemplate } from "./utils/List";
+import { Filter } from "./rendering/filters/Filter";
+import { Sprite } from "./Sprite";
+/**
+ * Defines a state for [[Sprite]].
+ *
+ * A "state" is a special object that has all the same properties as the
+ * [[Sprite]] of the same type, and which can be used to quickly apply a set
+ * of property values. (set state)
+ *
+ * When [[Sprite]] (or any object that extends Sprite) is created it creates a
+ * "default" state. You can modify the "default" state so that when the Sprite
+ * returns to default state certain properties are added.
+ *
+ * Default state can be accessed using Sprite's `defaultState` getter.
+ *
+ * ```
+ * sprite.defaultState.fillOpacity = 0.5;
+ * ```
+ *
+ * If Sprite is "hoverable", it automatically adds a "hover" state, which is
+ * applied when it has a cursor over it.
+ *
+ * ```
+ * let hoverstate = sprite.states.create("hover");
+ * hoverstate.fillOpacity = 1;
+ * ```
+ *
+ * The above will automatically apply "hover" state when the Sprite is hovered,
+ * thus will set its `fillOpacity` property to 1, and will reset it to 0.5 when
+ * it's no longer hovered.
+ *
+ * Every object that inherits from [[Sprite]] can and will add their own
+ * properties to the available list.
+ *
+ * User can create their own states, and apply them as needed:
+ *
+ * ```
+ * let myCustomState = sprite.states.create("mystate");
+ * myCustomState.fillOpacity = 0.5;
+ * myCustomState.strokeOpacity = 0.8;
+ * sprite.setState("mystate");
+ * ```
+ *
+ * @see {@link SpriteState}
+ * @important
+ */
+export declare class SpriteState<P, A> extends BaseObject {
+    /**
+     * Defines property types.
+     *
+     * @ignore Exclude from docs
+     * @type {ISpriteProperties}
+     */
+    _properties: P;
+    /**
+     * Defines adapter types.
+     *
+     * @ignore Exclude from docs
+     * @type {SpriteAdapters}
+     */
+    _adapter: A;
+    /**
+     * Title of the state, i.e. "default", "hidden", etc.
+     *
+     * @type {string}
+     */
+    name: string;
+    /**
+     * Reference to [[Sprite]] element this State is for.
+     *
+     * @type {Sprite}
+     */
+    sprite: Sprite;
+    /**
+     * Holds Adapter.
+     *
+     * @type {Adapter<Sprite, SpriteAdapters>}
+     */
+    adapter: Adapter<this, A>;
+    /**
+     * Duration of the transition to this state. 0 means instantenous transition.
+     * Any number means the [[Sprite]] will transit smoothly to this state,
+     * animating all animatable properties.
+     *
+     * @type {number}
+     */
+    transitionDuration: number;
+    /**
+     * Easing function to use when transitioning to this state.
+     *
+     * @see {@link Ease}
+     * @type {(number) => number}
+     */
+    easing: (value: number) => number;
+    /**
+     * Collection of properties and their values that should be applied to [[Sprite]]
+     * when switching to this State.
+     *
+     * The property values set on a [[SpriteState]] will override the ones set
+     * directly on a [[Sprite]].
+     *
+     * @type {Dictionary<string, any>}
+     */
+    properties: P;
+    /**
+     * A collection of key/value pairs that can be used to bind specific Sprite
+     * properties to [[DataItem]].
+     *
+     * For example: `fill` property can be bound to `myCustomColor` field in
+     * DataItem. The Sprite will automatically get the value for `fill` from its
+     * DataItem.
+     *
+     * SpriteState-specific binding will override binding set directly on
+     * [[Sprite]]. I.e. you can make Sprite use different fill color on hover by
+     * adding a `fill` binding to a different DataItem key for Sprite's "hover"
+     * state object.
+     *
+     * @see {@link Sprite}
+     * @type {Object}
+     */
+    propertyFields: {
+        [index in keyof this["_properties"]]?: string;
+    };
+    /**
+     * A list of [[Filter]] elements to be applied to the relative [[Sprite]]
+     * when switching to this State.
+     *
+     * @param {ListTemplate<Filter>}
+     */
+    filters: ListTemplate<Filter>;
+    /**
+     * Constructor
+     */
+    constructor();
+    /**
+     * Returns [[Sprite]] element's property value.
+     *
+     * Will check if there are any bindings with [[DataItem]] and if there are
+     * any method callbacks set up for the specific property.
+     *
+     * @param  {Properties}  propertyName  Property name
+     * @return {any}                       Property value
+     */
+    getPropertyValue<Key extends keyof P>(propertyName: Key): P[Key];
+    /**
+     * Copies all property and style values from another [[SpriteState]] object.
+     *
+     * @param {SpriteState}  source  Source [[SpriteState]]
+     */
+    copyFrom(source: this): void;
+    /**
+     * Returns all values that should be applied by the SpriteState.
+     *
+     * It takes adapters into account.
+     *
+     * @ignore Exclude from docs
+     * @return {ISpriteProperties} Properties
+     * @todo Add adapter values
+     * @todo proper type this["_properties"]
+     */
+    readonly allValues: P;
+    /**
+     * Resets the State to initial state - no values or Filters applied.
+     */
+    reset(): void;
+    /**
+     * Processes JSON-based config before it is applied to the object.
+     *
+     * @ignore Exclude from docs
+     * @param {object}  config  Config
+     */
+    processConfig(config?: {
+        [index: string]: any;
+    }): void;
+}

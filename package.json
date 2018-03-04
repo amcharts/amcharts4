@@ -1,8 +1,14 @@
 {
-  "name": "amcharts4",
-  "version": "4.0.0",
-  "description": "JavaScript Charts V4",
-  "main": "index.js",
+  "name": "@amcharts/amcharts4",
+  "version": "4.0.0-beta.1",
+  "author": "amCharts <contact@amcharts.com> (https://www.amcharts.com/)",
+  "description": "AmCharts v4",
+  "homepage": "https://www.amcharts.com/",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://www.amcharts.com/support/",
+    "email": "contact@amcharts.com"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/amcharts/amcharts4.git"
@@ -13,10 +19,11 @@
     "charts",
     "typescript"
   ],
-  "author": "amCharts <contact@amcharts.com>",
-  "license": "Custom",
-  "bugs": {
-    "url": "https://github.com/amcharts/amcharts4/issues"
-  },
-  "homepage": "https://www.amcharts.com/"
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "dependencies": {
+    "fabric": "^2.1.0",
+    "pdfmake": "^0.1.36",
+    "xlsx": "^0.12.2"
+  }
 }
