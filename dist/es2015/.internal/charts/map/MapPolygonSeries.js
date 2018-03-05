@@ -290,6 +290,23 @@ var MapPolygonSeries = /** @class */ (function (_super) {
         return new MapPolygonSeriesDataItem();
     };
     /**
+     * @ignore
+     */
+    MapPolygonSeries.prototype.clearPolygons = function () {
+        $iter.each(this.mapPolygons.iterator(), function (mapPolygon) {
+            mapPolygon.polygon.dispose();
+            mapPolygon.dispose();
+        });
+        this.mapPolygons.clear();
+    };
+    /**
+     * @ignore
+     */
+    MapPolygonSeries.prototype.processIncExc = function () {
+        this.clearPolygons();
+        _super.prototype.processIncExc.call(this);
+    };
+    /**
      * (Re)validates series data, effectively causing the whole series to be
      * redrawn.
      *
@@ -298,11 +315,7 @@ var MapPolygonSeries = /** @class */ (function (_super) {
     MapPolygonSeries.prototype.validateData = function () {
         var _this = this;
         if (this.data.length > 0 && this._parseDataFrom == 0) {
-            $iter.each(this.mapPolygons.iterator(), function (mapPolygon) {
-                mapPolygon.polygon.dispose();
-                mapPolygon.dispose();
-            });
-            this.mapPolygons.clear();
+            this.clearPolygons();
         }
         this.west = null;
         this.east = null;

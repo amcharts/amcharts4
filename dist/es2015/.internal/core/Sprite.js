@@ -3505,6 +3505,7 @@ var Sprite = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Sprite.prototype.handleDragStop = function () {
+        this._isDragged = false;
         this.showTooltip();
         this.interactions.originalPosition = undefined;
     };

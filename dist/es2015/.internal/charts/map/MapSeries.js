@@ -340,13 +340,19 @@ var MapSeries = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (this.setPropertyValue("include", value)) {
-                this.data = [];
-                this.invalidateData();
+                this.processIncExc();
             }
         },
         enumerable: true,
         configurable: true
     });
+    /**
+     * @ignore
+     */
+    MapSeries.prototype.processIncExc = function () {
+        //this.data = [];
+        this.invalidateData();
+    };
     Object.defineProperty(MapSeries.prototype, "exclude", {
         /**
          * @return {string[]} Excluded ids
@@ -366,8 +372,7 @@ var MapSeries = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (this.setPropertyValue("exclude", value)) {
-                this.data = [];
-                this.invalidateData();
+                this.processIncExc();
             }
         },
         enumerable: true,

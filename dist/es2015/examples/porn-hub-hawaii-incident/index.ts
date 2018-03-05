@@ -27,7 +27,7 @@ mapChart.seriesContainer.draggable = false;
 
 let polygonSeries = mapChart.series.push(new map.MapPolygonSeries());
 polygonSeries.getDataFromJSON = true;
-polygonSeries.exclude = ["ATA"];
+polygonSeries.exclude = ["AQ"];
 
 let mapImageSeries = mapChart.series.push(new map.MapImageSeries());
 let pyongyang = mapImageSeries.mapImages.create();

@@ -8,11 +8,15 @@ amcharts4.system.useTheme(AnimatedTheme);
 
 let chart = amcharts4.create("chartdiv", map.MapChart);
 chart.geoJSON = worldMap;
-chart.projection = new map.projections.Mercator();
+chart.projection = new map.projections.Miller();
+
+let title = chart.chartContainer.createChild(amcharts4.Label);
+title.textElement.text = "Life expectancy in the World";
+title.textElement.fontSize = 20;
+title.paddingTop = 30;
+title.align = "center";
 
 let polygonSeries = chart.series.push(new map.MapPolygonSeries());
-polygonSeries.min = 0;
-
 let polygonTemplate = polygonSeries.mapPolygons.template;
 polygonTemplate.tooltipText = "{name}: {value.value}";
 
@@ -20,12 +24,10 @@ polygonSeries.getDataFromJSON = true;
 polygonSeries.minColor = amcharts4.color("#FFFFFF");
 
 let colorSet = new amcharts4.ColorSet();
-polygonSeries.maxColor = colorSet.getIndex(5);
-
-polygonSeries.data = [{ id: "RUS", value: 10, chujalue: 20 }, { id: "USA", value: 100, chujalue: 20 }, { id: "AUS", value: 50, chujalue: 20 }];
+polygonSeries.maxColor = colorSet.getIndex(3);
 
 // life expectancy data
-/*
+
 polygonSeries.data = [{ id: "AF", value: 60.524 },
 { id: "AL", value: 77.185 },
 { id: "DZ", value: 70.874 },
@@ -68,6 +70,7 @@ polygonSeries.data = [{ id: "AF", value: 60.524 },
 { id: "CY", value: 79.674 },
 { id: "CZ", value: 77.552 },
 { id: "DK", value: 79.251 },
+{ id: "GL", value: 79.251 },
 { id: "DJ", value: 61.319 },
 { id: "DO", value: 73.181 },
 { id: "EC", value: 76.195 },
@@ -131,6 +134,7 @@ polygonSeries.data = [{ id: "AF", value: 60.524 },
 { id: "MN", value: 67.286 },
 { id: "ME", value: 74.715 },
 { id: "MA", value: 70.714 },
+{ id: "EH", value: 70.714 },
 { id: "MZ", value: 49.91 },
 { id: "MM", value: 65.009 },
 { id: "NA", value: 64.014 },
@@ -141,6 +145,7 @@ polygonSeries.data = [{ id: "AF", value: 60.524 },
 { id: "NE", value: 57.934 },
 { id: "NG", value: 52.116 },
 { id: "NO", value: 81.367 },
+{ id: "SJ", value: 81.367 },
 { id: "OM", value: 76.287 },
 { id: "PK", value: 66.42 },
 { id: "PA", value: 77.342 },
@@ -196,6 +201,6 @@ polygonSeries.data = [{ id: "AF", value: 60.524 },
 { id: "YE", value: 62.923 },
 { id: "ZM", value: 57.037 },
 { id: "ZW", value: 58.142 }];
-*/
+
 // excludes Antarctica
-polygonSeries.exclude = ["ATA"]; //@todo: change this when we'll change to ISO id's
+polygonSeries.exclude = ["AQ"];

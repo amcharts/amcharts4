@@ -320,6 +320,14 @@ export declare class MapPolygonSeries extends MapSeries {
      */
     protected createDataItem(): this["_dataItem"];
     /**
+     * @ignore
+     */
+    clearPolygons(): void;
+    /**
+     * @ignore
+     */
+    protected processIncExc(): void;
+    /**
      * (Re)validates series data, effectively causing the whole series to be
      * redrawn.
      *

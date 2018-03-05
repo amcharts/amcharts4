@@ -355,6 +355,10 @@ export declare class MapSeries extends Series {
      */
     include: string[];
     /**
+     * @ignore
+     */
+    protected processIncExc(): void;
+    /**
      * @return {string[]} Excluded ids
      */
     /**

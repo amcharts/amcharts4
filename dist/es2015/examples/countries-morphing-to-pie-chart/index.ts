@@ -20,7 +20,7 @@ let morphedPolygon: map.MapPolygon;
 let polygonSeries = chart.series.push(new map.MapPolygonSeries());
 polygonSeries.getDataFromJSON = true;
 // specify which countries to include
-polygonSeries.include = ["ITA", "CHE", "FRA", "DEU", "GBR", "ESP", "PRT", "IRL", "NLD", "LUX", "BEL", "AUT", "DNK"];
+polygonSeries.include = ["IT", "CH", "FR", "DE", "GB", "ES", "PT", "IE", "NL", "LU", "BE", "AT", "DK"]
 
 // country area look and behavior
 let polygonTemplate = polygonSeries.mapPolygons.template;

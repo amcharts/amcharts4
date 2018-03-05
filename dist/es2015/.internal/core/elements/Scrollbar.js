@@ -163,6 +163,10 @@ var Scrollbar = /** @class */ (function (_super) {
     Scrollbar.prototype.validateLayout = function () {
         this.updateSize();
         _super.prototype.validateLayout.call(this);
+        this.background.paddingTop = this.paddingTop;
+        this.background.paddingBottom = this.paddingBottom;
+        this.background.paddingLeft = this.paddingLeft;
+        this.background.paddingRight = this.paddingRight;
         // when size changes, need to update extremes
         this.updateExtremes();
     };
@@ -329,11 +333,11 @@ var Scrollbar = /** @class */ (function (_super) {
         var maxY = 0;
         if (orientation == "horizontal") {
             maxX = this.innerWidth;
-            minY = maxY = this.innerHeight / 2;
+            minY = maxY = this.innerHeight / 2 + this.pixelPaddingTop;
         }
         else {
             maxY = this.innerHeight;
-            minX = maxX = this.innerWidth / 2;
+            minX = maxX = this.innerWidth / 2 + this.pixelPaddingTop;
         }
         var startGrip = this.startGrip;
         startGrip.minX = minX;
