@@ -1,6 +1,5 @@
 import * as amcharts4 from "@amcharts/amcharts4";
 import * as xy from "@amcharts/amcharts4/xy";
-import * as serial from "@amcharts/amcharts4/serial";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 
 
@@ -72,7 +71,7 @@ series1.dataFields.valueYShow = "totalPercent";
 series1.dataItems.template.locations.categoryX = 0.5;
 series1.stacked = true;
 
-let bullet1 = series1.bullets.push(new serial.LabelBullet());
+let bullet1 = series1.bullets.push(new xy.LabelBullet());
 bullet1.label.textElement.text = "{valueY.totalPercent.formatNumber('#.00')}%";
 bullet1.locationY = 0.5;
 
@@ -86,7 +85,7 @@ series2.dataFields.valueYShow = "totalPercent";
 series2.dataItems.template.locations.categoryX = 0.5;
 series2.stacked = true;
 
-let bullet2 = series2.bullets.push(new serial.LabelBullet());
+let bullet2 = series2.bullets.push(new xy.LabelBullet());
 bullet2.label.textElement.text = "{valueY.totalPercent.formatNumber('#.00')}%";
 bullet2.locationY = 0.5;
 
@@ -100,7 +99,7 @@ series3.dataFields.valueYShow = "totalPercent";
 series3.dataItems.template.locations.categoryX = 0.5;
 series3.stacked = true;
 
-let bullet3 = series3.bullets.push(new serial.LabelBullet());
+let bullet3 = series3.bullets.push(new xy.LabelBullet());
 bullet3.label.textElement.text = "{valueY.totalPercent.formatNumber('#.00')}%";
 bullet3.locationY = 0.5;
 

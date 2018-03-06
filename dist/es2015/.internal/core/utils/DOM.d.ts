@@ -171,3 +171,4 @@ export declare class StyleClass extends StyleRule {
      */
     toString(): string;
 }
+export declare function ready(f: () => void): void;

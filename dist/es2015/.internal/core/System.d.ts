@@ -27,12 +27,12 @@ export interface ISystemEvents extends IBaseObjectEvents {
     /**
      * Invoked when update cycle starts. Before invalid elements are re-validated.
      */
-    onenterframe: {};
+    enterframe: {};
     /**
      * Invoked when udpate cycle ends. After invalid elements have been
      * re-validated.
      */
-    onexitframe: {};
+    exitframe: {};
 }
 /**
  * ============================================================================

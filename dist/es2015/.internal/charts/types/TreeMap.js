@@ -420,7 +420,7 @@ var TreeMap = /** @class */ (function (_super) {
         this.yAxis.max = maxY;
         this.layoutItems(homeDataItem);
         this.createTreeSeries(homeDataItem);
-        system.events.once("onexitframe", function () {
+        system.events.once("exitframe", function () {
             _this.toggleBullets(0);
         });
     };
@@ -594,6 +594,7 @@ var TreeMap = /** @class */ (function (_super) {
         if (dataItem.children) {
             this.xAxis.zoomToValues(dataItem.x0, dataItem.x1);
             this.yAxis.zoomToValues(dataItem.y0, dataItem.y1);
+            this.currentLevel = dataItem.level;
             var rangeChangeAnimation = this.xAxis.rangeChangeAnimation || this.yAxis.rangeChangeAnimation;
             if (rangeChangeAnimation) {
                 rangeChangeAnimation.events.once("animationend", function () {
@@ -603,7 +604,6 @@ var TreeMap = /** @class */ (function (_super) {
             else {
                 this.toggleBullets();
             }
-            this.currentLevel = dataItem.level;
             this.createTreeSeries(dataItem);
         }
     };

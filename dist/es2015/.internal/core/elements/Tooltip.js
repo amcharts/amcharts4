@@ -91,6 +91,7 @@ var Tooltip = /** @class */ (function (_super) {
         background.cornerRadius = 3;
         background.pointerLength = 6;
         background.pointerBaseWidth = 10;
+        _this.autoTextColor = true;
         // Create text element
         _this.textElement = _this.createChild(Text);
         _this.textElement.padding(7, 12, 6, 12);
@@ -144,7 +145,7 @@ var Tooltip = /** @class */ (function (_super) {
          * Specifies if text color should be chosen automatically for a better readability.
          *
          * @return {boolean}
-         * @default false
+         * @default true
          */
         get: function () {
             return this.getPropertyValue("autoTextColor");

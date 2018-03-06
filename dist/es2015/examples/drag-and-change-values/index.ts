@@ -1,6 +1,5 @@
 import * as amcharts4 from "@amcharts/amcharts4";
 import * as xy from "@amcharts/amcharts4/xy";
-import * as serial from "@amcharts/amcharts4/serial";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 
 amcharts4.system.useTheme(AnimatedTheme);
@@ -82,7 +81,7 @@ series.tooltip.pointerOrientation = "vertical";
 series.tooltip.dy = -8;
 
 // label bullet
-let labelBullet = new serial.LabelBullet();
+let labelBullet = new xy.LabelBullet();
 series.bullets.push(labelBullet);
 labelBullet.label.textElement.text = "{valueY.value.formatNumber('#.')}";
 labelBullet.strokeOpacity = 0;

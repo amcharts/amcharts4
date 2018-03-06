@@ -31,6 +31,7 @@ export { IAxisBreakProperties, IAxisBreakEvents, IAxisBreakAdapters, AxisBreak }
  */
 export { ITickProperties, ITickEvents, ITickAdapters, Tick } from "./.internal/charts/elements/Tick";
 export { IBulletProperties, IBulletEvents, IBulletAdapters, Bullet } from "./.internal/charts/elements/Bullet";
+export { ILabelBulletProperties, ILabelBulletEvents, ILabelBulletAdapters, LabelBullet } from "./.internal/charts/elements/LabelBullet";
 /**
  * Elements: map
  */

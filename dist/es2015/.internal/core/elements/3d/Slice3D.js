@@ -53,6 +53,7 @@ var Slice3D = /** @class */ (function (_super) {
         lightenFilter.lightness = -0.25;
         _this.edge.filters.push(lightenFilter);
         _this.edge.toBack();
+        _this.edge.strokeOpacity = 0;
         _this._disposers.push(_this.edge);
         // Set defaults
         _this.angle = 30;
@@ -64,6 +65,7 @@ var Slice3D = /** @class */ (function (_super) {
         var lightenFilterA = new LightenFilter();
         lightenFilterA.lightness = -0.25;
         _this.sideA.filters.push(lightenFilterA);
+        _this.sideA.strokeOpacity = 0;
         _this._disposers.push(_this.sideA);
         // Crate side B element
         _this.sideB = _this.createChild(Sprite);
@@ -73,6 +75,7 @@ var Slice3D = /** @class */ (function (_super) {
         lightenFilterB.lightness = -0.25;
         _this.sideB.filters.push(lightenFilterB);
         _this._disposers.push(_this.sideB);
+        _this.sideB.strokeOpacity = 0;
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -95,6 +98,7 @@ var Slice3D = /** @class */ (function (_super) {
                 slice.arc = this.arc;
                 slice.cornerRadius = this.cornerRadius;
                 slice.innerRadius = this.innerRadius;
+                slice.strokeOpacity = 0;
             }
         }
         if (this.arc !== 0 && this.radius > 0 && this.depth > 0) {

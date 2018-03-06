@@ -1,6 +1,5 @@
 import * as amcharts4 from "@amcharts/amcharts4";
 import * as xy from "@amcharts/amcharts4/xy";
-import * as serial from "@amcharts/amcharts4/serial";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 
 

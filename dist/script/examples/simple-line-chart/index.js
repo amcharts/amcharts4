@@ -10,7 +10,8 @@ for (let i = 0; i < 1000; i++) {
 }
 
 chart.data = data;
-chart.legend.disabled = true;
+
+chart.legend = new amcharts4.xy.Legend();
 
 let categoryAxis = chart.xAxes.push(new amcharts4.xy.DateAxis());
 categoryAxis.renderer.grid.template.location = 0;

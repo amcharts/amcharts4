@@ -50,6 +50,7 @@ export { IAxisRendererY3DProperties, IAxisRendererY3DEvents, IAxisRendererY3DAda
  */
 export { ITickProperties, ITickEvents, ITickAdapters, Tick } from "./.internal/charts/elements/Tick";
 export { IBulletProperties, IBulletEvents, IBulletAdapters, Bullet } from "./.internal/charts/elements/Bullet";
+export { ILabelBulletProperties, ILabelBulletEvents, ILabelBulletAdapters, LabelBullet } from "./.internal/charts/elements/LabelBullet";
 export { IXYChartScrollbarProperties, IXYChartScrollbarEvents, IXYChartScrollbarAdapters, XYChartScrollbar } from "./.internal/charts/elements/XYChartScrollbar";
 /**
  * Elements: cursors

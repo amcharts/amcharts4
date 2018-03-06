@@ -303,7 +303,7 @@ var PieSeries = /** @class */ (function (_super) {
         var defaultState = _this.defaultState;
         defaultState.easing = $ease.sinOut;
         var hoverState = _this.slices.template.states.create("hover");
-        hoverState.properties.shiftRadius = 0.15;
+        hoverState.properties.scale = 1.05;
         // Accessibility
         _this.itemReaderText = "${category}: ${value.percent.formatNumber('#.#')}%";
         _this.applyTheme();

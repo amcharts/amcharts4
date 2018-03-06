@@ -734,6 +734,15 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     renderingFrame: number;
     /**
+     * Time in milliseconds after which rollout event happens when user rolls-out of the sprite. This helps to avoid flickering in some cases.
+     * @type {number}
+     */
+    rollOutDelay: number;
+    /**
+     * @ignore
+     */
+    protected _outTimeout: IDisposer;
+    /**
      * Constructor:
      * * Creates initial node
      * * Sets default properties
@@ -2115,6 +2124,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {AMEvent<Sprite, ISpriteEvents>["out"]} ev [description]
      */
     handleOut(ev?: AMEvent<Sprite, ISpriteEvents>["out"]): void;
+    handleOutReal(): void;
     /**
      * ==========================================================================
      * CLICKING/TAPPING AND TOGGLING STUFF

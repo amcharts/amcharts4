@@ -93,7 +93,7 @@ var Chart = /** @class */ (function (_super) {
         // hides everything on first frame and shows only on second. helps to avoid technical flickering
         chartAndLegendContainer.visible = false;
         chartAndLegendContainer.events.once("validated", function () {
-            system.events.once("onenterframe", function () {
+            system.events.once("enterframe", function () {
                 chartAndLegendContainer.visible = true;
             });
         });

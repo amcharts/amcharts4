@@ -287,7 +287,7 @@ var System = /** @class */ (function (_super) {
      */
     System.prototype.update = function () {
         var _this = this;
-        this.dispatchImmediately("onenterframe");
+        this.dispatchImmediately("enterframe");
         this.measureCounter++;
         if (this.measureCounter >= this.measureAt) {
             this.measureCounter = 0;
@@ -436,7 +436,7 @@ var System = /** @class */ (function (_super) {
         // to avoid flicker, we validate positions last time
         this.validateLayouts();
         this.validatePositions();
-        this.dispatchImmediately("onexitframe");
+        this.dispatchImmediately("exitframe");
         system.dummyCounter++;
         raf(function () {
             _this.update();

@@ -182,7 +182,7 @@ var CategoryAxis = /** @class */ (function (_super) {
             value = value.replace(/\#id=.*$/, "");
             return value;
         });
-        _this._prebuildDisposer = system.events.on("onenterframe", _this.prebuildDataItem, _this);
+        _this._prebuildDisposer = system.events.on("enterframe", _this.prebuildDataItem, _this);
         // Apply theme
         _this.applyTheme();
         return _this;

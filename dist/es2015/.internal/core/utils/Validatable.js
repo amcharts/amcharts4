@@ -47,7 +47,7 @@ var Validatable = /** @class */ (function (_super) {
     Validatable.prototype.invalidate = function () {
         if (this._invalid === false) {
             this._invalid = true;
-            system.events.on("onexitframe", this.validate, this);
+            system.events.on("exitframe", this.validate, this);
         }
     };
     /**
@@ -62,7 +62,7 @@ var Validatable = /** @class */ (function (_super) {
     Validatable.prototype.validate = function () {
         if (this._invalid === true) {
             this._invalid = false;
-            system.events.off("onexitframe", this.validate, this);
+            system.events.off("exitframe", this.validate, this);
         }
     };
     return Validatable;

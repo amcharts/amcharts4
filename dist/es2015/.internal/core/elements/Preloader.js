@@ -137,7 +137,7 @@ var Preloader = /** @class */ (function (_super) {
                     this._started = undefined;
                 }
                 // TODO remove closure ?
-                system.events.once("onenterframe", function () {
+                system.events.once("enterframe", function () {
                     _this.hide();
                 });
                 this.mouseEnabled = false;

@@ -34,4 +34,5 @@ export { AxisLabelCircular } from "./.internal/charts/axes/AxisLabelCircular";
  */
 export { Tick } from "./.internal/charts/elements/Tick";
 export { Bullet } from "./.internal/charts/elements/Bullet";
+export { LabelBullet } from "./.internal/charts/elements/LabelBullet";
 //# sourceMappingURL=pie.js.map

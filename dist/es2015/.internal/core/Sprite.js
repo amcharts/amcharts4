@@ -268,6 +268,11 @@ var Sprite = /** @class */ (function (_super) {
          * @ignore Exclude from docs
          */
         _this.renderingFrame = 1;
+        /**
+         * Time in milliseconds after which rollout event happens when user rolls-out of the sprite. This helps to avoid flickering in some cases.
+         * @type {number}
+         */
+        _this.rollOutDelay = 0;
         _this.className = "Sprite";
         // Generate a unique ID
         _this.uid;
@@ -3619,6 +3624,9 @@ var Sprite = /** @class */ (function (_super) {
      * @param {AMEvent<Sprite, ISpriteEvents>["over"]} ev Event object
      */
     Sprite.prototype.handleOver = function (ev) {
+        if (this._outTimeout) {
+            this._outTimeout.dispose();
+        }
         if (this.isHover) {
             if (this.states.hasKey("hover")) {
                 //this.setState("hover");
@@ -3644,6 +3652,9 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.handleOut = function (ev) {
         this.hideTooltip();
+        this._outTimeout = this.setTimeout(this.handleOutReal.bind(this), this.rollOutDelay);
+    };
+    Sprite.prototype.handleOutReal = function () {
         if (this.states.hasKey("hover")) {
             this.applyCurrentState();
         }

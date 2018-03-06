@@ -134,6 +134,14 @@ var Text = /** @class */ (function (_super) {
                 _this.alignSVGText();
             }
         });
+        // helps to avoid a strange bug which incorrectly measures text elementz\
+        _this.events.once("inited", function () {
+            system.events.once("enterframe", function () {
+                if (_this.parent) {
+                    _this.parent.invalidate();
+                }
+            });
+        }, _this);
         // Aply theme
         _this.applyTheme();
         return _this;

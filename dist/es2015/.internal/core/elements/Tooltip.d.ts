@@ -176,7 +176,7 @@ export declare class Tooltip extends Container {
      * Specifies if text color should be chosen automatically for a better readability.
      *
      * @return {boolean}
-     * @default false
+     * @default true
      */
     /**
      * Specifies if text color should be chosen automatically for a better readability.

@@ -151,7 +151,7 @@ export { ColorPurpose, InterfaceColorSet } from "./.internal/core/utils/Interfac
 export { Constructor } from "./.internal/core/utils/Constructor";
 export { IDictionaryEvents, DictionaryLike, DictionaryDisposer, Dictionary, DictionaryTemplate } from "./.internal/core/utils/Dictionary";
 export { IDisposer, Disposer, MultiDisposer, MutableValueDisposer, CounterDisposer } from "./.internal/core/utils/Disposer";
-export { StyleRule, StyleClass, getElement, addClass, removeClass, blur, outerHTML, isElement, copyAttributes, fixPixelPerfect } from "./.internal/core/utils/DOM";
+export { StyleRule, StyleClass, getElement, addClass, removeClass, blur, outerHTML, isElement, copyAttributes, fixPixelPerfect, ready } from "./.internal/core/utils/DOM";
 export { AMEvent, EventListener, EventDispatcher, TargetedEventDispatcher } from "./.internal/core/utils/EventDispatcher";
 export { Iterator, Iterable, ListIterator, min, max, join } from "./.internal/core/utils/Iterator";
 export { KeyboardKeys, Keyboard, keyboard } from "./.internal/core/utils/Keyboard";

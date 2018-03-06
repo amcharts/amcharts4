@@ -383,4 +383,18 @@ var StyleClass = /** @class */ (function (_super) {
     return StyleClass;
 }(StyleRule));
 export { StyleClass };
+export function ready(f) {
+    if (document.readyState !== "loading") {
+        f();
+    }
+    else {
+        var listener_1 = function () {
+            if (document.readyState !== "loading") {
+                document.removeEventListener("readystatechange", listener_1);
+                f();
+            }
+        };
+        document.addEventListener("readystatechange", listener_1);
+    }
+}
 //# sourceMappingURL=DOM.js.map

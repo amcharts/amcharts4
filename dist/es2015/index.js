@@ -125,7 +125,7 @@ export { ColorSet } from "./.internal/core/utils/ColorSet";
 export { InterfaceColorSet } from "./.internal/core/utils/InterfaceColorSet";
 export { DictionaryDisposer, Dictionary, DictionaryTemplate } from "./.internal/core/utils/Dictionary";
 export { Disposer, MultiDisposer, MutableValueDisposer, CounterDisposer } from "./.internal/core/utils/Disposer";
-export { StyleRule, StyleClass, getElement, addClass, removeClass, blur, outerHTML, isElement, copyAttributes, fixPixelPerfect } from "./.internal/core/utils/DOM";
+export { StyleRule, StyleClass, getElement, addClass, removeClass, blur, outerHTML, isElement, copyAttributes, fixPixelPerfect, ready } from "./.internal/core/utils/DOM";
 export { EventDispatcher, TargetedEventDispatcher } from "./.internal/core/utils/EventDispatcher";
 export { ListIterator, min, max, join } from "./.internal/core/utils/Iterator";
 export { Keyboard, keyboard } from "./.internal/core/utils/Keyboard";
