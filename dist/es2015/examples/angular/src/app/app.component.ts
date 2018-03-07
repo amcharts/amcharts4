@@ -12,7 +12,7 @@ export class AppComponent {
   title = 'app';
 
   ngAfterViewInit() {
-	AmCharts4.system.useTheme(AnimatedTheme);
+	AmCharts4.useTheme(AnimatedTheme);
 
 	let chart = AmCharts4.create("chartdiv", XY.XYChart);
 

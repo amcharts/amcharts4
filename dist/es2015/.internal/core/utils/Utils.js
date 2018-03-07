@@ -10,6 +10,7 @@
 import { system } from "../System";
 import { Percent } from "./Percent";
 import { Container } from "../Container";
+import * as $array from "../utils/Array";
 import * as $math from "../utils/Math";
 import * as $type from "../utils/Type";
 import * as $string from "./String";
@@ -1003,6 +1004,43 @@ export function createFromConfig(config, htmlElement, classType) {
         chart.config = config;
     }
     return chart;
+}
+/**
+ * Applies a theme to System, and subsequently all chart instances created
+ * from that point forward.
+ *
+ * amCharts supports multiple themes. Calling `useTheme` multiple times will
+ * make the System apply multiple themes, rather than overwrite previously
+ * set one.
+ *
+ * This enables combining features from multiple themes on the same chart.
+ * E.g.:
+ *
+ * ```TypeScript
+ * amcharts4.useTheme(amcharts4.themes.material);
+ * amcharts4.useTheme(amcharts4.themes.animated);
+ * ```
+ * ```JavaScript
+ * amcharts4.useTheme(amcharts4.themes.material);
+ * amcharts4.useTheme(amcharts4.themes.animated);
+ * ```
+ *
+ * The above will apply both the Material color and animation options to all
+ * charts created.
+ *
+ * @param {ITheme}  value  A reference to a theme
+ */
+export function useTheme(value) {
+    system.themes.push(value);
+}
+/**
+ * Removes a theme from "active themes" list, so it won't get applied to any
+ * charts created subsequently.
+ *
+ * @param {ITheme}  value  A reference to a theme
+ */
+export function unuseTheme(value) {
+    $array.remove(system.themes, value);
 }
 /**
  * ============================================================================

@@ -3,7 +3,7 @@ import * as treemap from "@amcharts/amcharts4/treemap";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 
 
-amcharts4.system.useTheme(AnimatedTheme);
+amcharts4.useTheme(AnimatedTheme);
 
 // create chart
 let chart = amcharts4.create("chartdiv", treemap.TreeMap);

@@ -196,3 +196,4 @@ export { type };
 export { NavigationBar } from "./.internal/charts/elements/NavigationBar";
 export { ITheme } from "./.internal/themes/ITheme";
 export { create, createFromConfig } from "./.internal/core/utils/Utils";
+export { useTheme } from "./.internal/core/utils/Utils";

@@ -2,7 +2,7 @@ import * as amcharts4 from "@amcharts/amcharts4";
 import * as radar from "@amcharts/amcharts4/radar";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 
-amcharts4.system.useTheme(AnimatedTheme);
+amcharts4.useTheme(AnimatedTheme);
 
 // disclaimer: this data is not accuarate, don't use it for any puroposes
 // first temperature is average for 1973-1980 period

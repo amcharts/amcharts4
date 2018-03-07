@@ -1,4 +1,4 @@
-amcharts4.system.useTheme(amcharts4.themes.animated);
+amcharts4.useTheme(amcharts4.themes.animated);
 
 let chart = amcharts4.create("chartdiv", amcharts4.xy.XYChart);
 

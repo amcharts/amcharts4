@@ -168,4 +168,5 @@ import * as type from "./.internal/core/utils/Type";
 export { type };
 export { NavigationBar } from "./.internal/charts/elements/NavigationBar";
 export { create, createFromConfig } from "./.internal/core/utils/Utils";
+export { useTheme } from "./.internal/core/utils/Utils";
 //# sourceMappingURL=index.js.map

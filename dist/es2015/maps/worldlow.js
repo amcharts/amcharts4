@@ -256,4 +256,4 @@ export default { "type": "FeatureCollection", "features": [
         { "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [[[-5.3344, 36.1625], [-5.3383, 36.1121], [-5.3562, 36.1265], [-5.3551, 36.1453], [-5.3344, 36.1625]]] }, "properties": { "name": "Gibraltar", "id": "GII" }, "id": "GII" },
         { "type": "Feature", "geometry": { "type": "Polygon", "coordinates": [[[3.4625, -54.4473], [3.3838, -54.4531], [3.367, -54.3998], [3.4439, -54.3841], [3.4625, -54.4473]]] }, "properties": { "name": "Bouvet Island", "id": "BV" }, "id": "BV" }
     ] };
-//# sourceMappingURL=worldlow.js.map
+//# sourceMappingURL=worldLow.js.map

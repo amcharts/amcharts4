@@ -3,7 +3,7 @@ import * as pie3d from "@amcharts/amcharts4/pie3d";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 
 
-amcharts4.system.useTheme(AnimatedTheme);
+amcharts4.useTheme(AnimatedTheme);
 
 let chart = amcharts4.create("chartdiv", pie3d.PieChart3D);
 

@@ -2,7 +2,7 @@ import * as amcharts4 from "@amcharts/amcharts4";
 import * as xy from "@amcharts/amcharts4/xy";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 
-amcharts4.system.useTheme(AnimatedTheme);
+amcharts4.useTheme(AnimatedTheme);
 
 let chart = amcharts4.create("chartdiv", xy.XYChart);
 

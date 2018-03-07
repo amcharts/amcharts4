@@ -5,7 +5,7 @@ import * as gauge from "@amcharts/amcharts4/gauge";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 import worldMap from "./worldLow";
 
-amcharts4.system.useTheme(AnimatedTheme);
+amcharts4.useTheme(AnimatedTheme);
 
 // times of events
 let startTime = new Date(2018, 0, 13, 6).getTime();

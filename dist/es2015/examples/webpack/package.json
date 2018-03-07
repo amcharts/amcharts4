@@ -1,0 +1,11 @@
+{
+    "name": "my-custom-project",
+    "version": "0.1.0",
+    "scripts": {
+        "build": "webpack"
+    },
+    "dependencies": {
+        "@amcharts/amcharts4": "^4.0.0-beta.3",
+        "webpack": "^3.11.0"
+    }
+}

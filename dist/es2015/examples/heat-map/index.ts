@@ -4,7 +4,7 @@ import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 import worldMap from "./worldLow";
 
 
-amcharts4.system.useTheme(AnimatedTheme);
+amcharts4.useTheme(AnimatedTheme);
 
 let chart = amcharts4.create("chartdiv", map.MapChart);
 chart.geoJSON = worldMap;

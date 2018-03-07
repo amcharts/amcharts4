@@ -519,30 +519,6 @@ var System = /** @class */ (function (_super) {
         }
     };
     /**
-     * Applies a theme to System, and subsequently all chart instances created
-     * from that point forward.
-     *
-     * amCharts supports multiple themes. Calling `useTheme` multiple times will
-     * make the System apply multiple themes, rather than overwrite previously
-     * set one.
-     *
-     * This enables combining features from multiple themes on the same chart.
-     * E.g.:
-     *
-     * ```TypeScript
-     * amcharts4.system.useTheme(amcharts4.system.loadedThemes.material);
-     * amcharts4.system.useTheme(amcharts4.system.loadedThemes.animated);
-     * ```
-     *
-     * The above will apply both the Material color and animation options to all
-     * charts created.
-     *
-     * @param {ITheme} value A reference to a theme
-     */
-    System.prototype.useTheme = function (value) {
-        this.themes.push(value);
-    };
-    /**
      * amCharts Version.
      *
      * This follows npm's semver specification.
@@ -550,7 +526,7 @@ var System = /** @class */ (function (_super) {
      * @see {@link https://docs.npmjs.com/misc/semver}
      * @type {string}
      */
-    System.VERSION = "4.0.0-beta.3";
+    System.VERSION = "4.0.0-beta.4";
     return System;
 }(BaseObjectEvents));
 export { System };

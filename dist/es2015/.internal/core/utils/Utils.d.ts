@@ -2,6 +2,7 @@ import { Sprite } from "../Sprite";
 import { IPoint } from "../defs/IPoint";
 import { IRectangle } from "../defs/IRectangle";
 import { Percent } from "./Percent";
+import { ITheme } from "../../themes/ITheme";
 import * as $type from "../utils/Type";
 /**
  * ============================================================================
@@ -501,6 +502,39 @@ export declare function create<T extends Sprite>(htmlElement: $type.Optional<HTM
 export declare function createFromConfig(config: {
     [index: string]: any;
 }, htmlElement?: string | HTMLElement, classType?: typeof Sprite | string): Sprite;
+/**
+ * Applies a theme to System, and subsequently all chart instances created
+ * from that point forward.
+ *
+ * amCharts supports multiple themes. Calling `useTheme` multiple times will
+ * make the System apply multiple themes, rather than overwrite previously
+ * set one.
+ *
+ * This enables combining features from multiple themes on the same chart.
+ * E.g.:
+ *
+ * ```TypeScript
+ * amcharts4.useTheme(amcharts4.themes.material);
+ * amcharts4.useTheme(amcharts4.themes.animated);
+ * ```
+ * ```JavaScript
+ * amcharts4.useTheme(amcharts4.themes.material);
+ * amcharts4.useTheme(amcharts4.themes.animated);
+ * ```
+ *
+ * The above will apply both the Material color and animation options to all
+ * charts created.
+ *
+ * @param {ITheme}  value  A reference to a theme
+ */
+export declare function useTheme(value: ITheme): void;
+/**
+ * Removes a theme from "active themes" list, so it won't get applied to any
+ * charts created subsequently.
+ *
+ * @param {ITheme}  value  A reference to a theme
+ */
+export declare function unuseTheme(value: ITheme): void;
 /**
  * ============================================================================
  * DEPRECATED FUNCTIONS

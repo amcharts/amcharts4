@@ -3,7 +3,7 @@ import * as treemap from "@amcharts/amcharts4/treemap";
 // import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 
 
-// amcharts4.system.useTheme(AnimatedTheme); // too slow, don't use it
+// amcharts4.useTheme(AnimatedTheme); // too slow, don't use it
 
 let data = {
 	"Acura": { "ILX": 11757, "MDX": 54886, "NSX": 581, "RDX": 51295, "RLX": 1237, "TLX": 34846 },

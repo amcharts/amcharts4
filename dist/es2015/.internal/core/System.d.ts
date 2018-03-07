@@ -334,28 +334,6 @@ export declare class System extends BaseObjectEvents {
      * @param {any} value Message to output to console
      */
     log(value: any): void;
-    /**
-     * Applies a theme to System, and subsequently all chart instances created
-     * from that point forward.
-     *
-     * amCharts supports multiple themes. Calling `useTheme` multiple times will
-     * make the System apply multiple themes, rather than overwrite previously
-     * set one.
-     *
-     * This enables combining features from multiple themes on the same chart.
-     * E.g.:
-     *
-     * ```TypeScript
-     * amcharts4.system.useTheme(amcharts4.system.loadedThemes.material);
-     * amcharts4.system.useTheme(amcharts4.system.loadedThemes.animated);
-     * ```
-     *
-     * The above will apply both the Material color and animation options to all
-     * charts created.
-     *
-     * @param {ITheme} value A reference to a theme
-     */
-    useTheme(value: ITheme): void;
 }
 /**
  * A singleton global instance of [[System]].
