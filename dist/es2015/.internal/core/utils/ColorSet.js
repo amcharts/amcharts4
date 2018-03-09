@@ -162,6 +162,13 @@ var ColorSet = /** @class */ (function (_super) {
          * @type {boolean}
          */
         _this.reuse = false;
+        /**
+         * Saturation of colors. THis will change saturation of all colors of color set.
+         * It is recommended to set this in theme, as changing it at run time won't make the items to redraw and change color.
+         *
+         * @type {boolean}
+         */
+        _this.saturation = 1;
         _this.className = "ColorSet";
         _this.applyTheme();
         return _this;
@@ -209,7 +216,7 @@ var ColorSet = /** @class */ (function (_super) {
         }
         var color = this.list[this._currentStep];
         this._currentStep += this.step;
-        return color;
+        return color.saturate(this.saturation);
     };
     /**
      * Returns a color at specific index in the list.
@@ -225,7 +232,7 @@ var ColorSet = /** @class */ (function (_super) {
             this.generate(this.minColors);
             return this.getIndex(i);
         }
-        return this.list[i];
+        return this.list[i].saturate(this.saturation);
     };
     /**
      * Resets internal iterator.
@@ -321,10 +328,10 @@ var ColorSet = /** @class */ (function (_super) {
          */
         get: function () {
             if (this._list.length == 0) {
-                return this.baseColor;
+                return this.baseColor.saturate(this.saturation);
             }
             else {
-                return this._list[this._list.length - 1];
+                return this._list[this._list.length - 1].saturate(this.saturation);
             }
         },
         enumerable: true,

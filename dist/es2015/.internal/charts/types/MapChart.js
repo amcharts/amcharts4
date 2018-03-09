@@ -154,6 +154,7 @@ var MapChart = /** @class */ (function (_super) {
         chartContainer.events.on("wheel", _this.handleWheel, _this);
         chartContainer.events.on("down", _this.handleMapDown, _this);
         // Add description to background
+        _this.background.fillOpacity = 0;
         _this.background.readerTitle = _this.language.translate("Use plus and minus keys on your keyboard to zoom in and out");
         // Add keyboard events for panning
         interaction.body.events.on("keyup", function (ev) {

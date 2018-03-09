@@ -68,7 +68,6 @@ var Button = /** @class */ (function (_super) {
         // Create default states
         var hoverState = background.states.create("hover");
         hoverState.properties.fillOpacity = 1;
-        hoverState.transitionDuration = 300;
         hoverState.properties.fill = interfaceColors.getFor("secondaryButtonHover");
         var downState = background.states.create("down");
         downState.transitionDuration = 100;

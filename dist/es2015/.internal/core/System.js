@@ -172,8 +172,11 @@ var System = /** @class */ (function (_super) {
         var ghostSvgContainer = new SVGContainer(ghostDiv);
         this.ghostPaper = new Paper(ghostSvgContainer.SVGContainer);
         this.ghostPaper.id = "ghost";
-        raf(function () {
+        $dom.ready(function () {
             _this.update();
+            raf(function () {
+                _this.update();
+            });
         });
         system.time = Date.now();
         // Create an id for system
@@ -246,10 +249,8 @@ var System = /** @class */ (function (_super) {
             //@todo: maybe we don't need to create one by default but only on request?
             contentContainer.preloader = new Preloader();
             if (!this.commercialLicense) {
-                var logo = contentContainer.createChild(AmChartsLogo);
+                var logo = tooltipContainer.createChild(AmChartsLogo);
                 logo.scale = 0.3;
-                logo.y = percent(100);
-                logo.verticalCenter = "bottom";
                 logo.tooltip = sprite.tooltip;
             }
             sprite.numberFormatter; // need to create one.
@@ -526,7 +527,7 @@ var System = /** @class */ (function (_super) {
      * @see {@link https://docs.npmjs.com/misc/semver}
      * @type {string}
      */
-    System.VERSION = "4.0.0-beta.4";
+    System.VERSION = "4.0.0-beta.5";
     return System;
 }(BaseObjectEvents));
 export { System };

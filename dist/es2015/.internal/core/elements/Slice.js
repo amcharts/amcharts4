@@ -59,6 +59,8 @@ var Slice = /** @class */ (function (_super) {
         _this.slice.isMeasured = false;
         _this.slice.element = _this.paper.add("path");
         _this._disposers.push(_this.slice);
+        _this.element.attr({ "stroke-linejoin": "round" });
+        _this.element.attr({ "stroke-linecap": "round" });
         // Apply theme
         _this.applyTheme();
         return _this;

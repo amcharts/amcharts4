@@ -633,6 +633,8 @@ var Sprite = /** @class */ (function (_super) {
         if (this._tooltip) {
             this._tooltip.copyFrom(source.tooltip);
         }
+        this._showSystemTooltip = source.showSystemTooltip;
+        this._shallowRendering = source.shallowRendering;
         $utils.copyProperties(source.propertyFields, this.propertyFields);
         $utils.copyProperties(source.properties, this);
     };
@@ -2244,7 +2246,7 @@ var Sprite = /** @class */ (function (_super) {
                     this.group.attr({ "display": "none" });
                 }
                 else {
-                    if (!this.disabled && this.visible) {
+                    if (!this.disabled) {
                         this.removeSVGAttribute("display");
                     }
                 }

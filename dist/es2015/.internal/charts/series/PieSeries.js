@@ -293,6 +293,7 @@ var PieSeries = /** @class */ (function (_super) {
         label.text = "${category}: ${value.percent.formatNumber('#.#')}%";
         label.isMeasured = false;
         label.radius = 25;
+        //label.shallowRendering = true;
         _this.labels = new ListTemplate(label);
         // Make all slices focusable
         _this.skipFocusThreshold = 50;

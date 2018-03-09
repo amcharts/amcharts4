@@ -206,6 +206,10 @@ export function arc(startAngle, arc, radius, innerRadius, radiusY, cornerRadius,
         return "";
     }
     arc = $math.min(arc, 360);
+    if (arc == 360) {
+        cornerRadius = 0;
+        innerCornerRadius = 0;
+    }
     var endAngle = startAngle + arc;
     var crSin = $math.sin($math.min(arc, 45) / 2);
     innerRadius = innerRadius || 0;
@@ -255,7 +259,7 @@ export function arc(startAngle, arc, radius, innerRadius, radiusY, cornerRadius,
     }
     var path = "";
     // start from b if this is full circle
-    if (arc == 360 && cornerRadius == 0) {
+    if (arc == 360) {
         path = moveTo(b0);
     }
     else {
@@ -280,10 +284,13 @@ export function arc(startAngle, arc, radius, innerRadius, radiusY, cornerRadius,
         if (arc < 360 || cornerRadius > 0) {
             path += arcToPoint(a0, innerCornerRadius, innerCornerRadiusY, true);
         }
+        path += lineTo(a0);
     }
     else {
         path += arcToPoint(c0, cornerRadius, cornerRadiusY, true);
-        path += lineTo(a0);
+        if (arc < 360) {
+            path += lineTo(a0);
+        }
     }
     return path;
 }

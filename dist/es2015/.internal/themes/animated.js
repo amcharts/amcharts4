@@ -2,10 +2,11 @@ import { SpriteState } from "../core/SpriteState";
 import { Component } from "../core/Component";
 import { Scrollbar } from "../core/elements/Scrollbar";
 import { Tooltip } from "../core/elements/Tooltip";
+import { PieSeries } from "../charts/series/PieSeries";
 import { SankeyDiagram } from "../charts/types/SankeyDiagram";
 var theme = function (object) {
     if (object instanceof SpriteState) {
-        object.transitionDuration = 800;
+        object.transitionDuration = 400;
     }
     if (object instanceof Component) {
         object.rangeChangeDuration = 800;
@@ -20,6 +21,9 @@ var theme = function (object) {
     }
     if (object instanceof Scrollbar) {
         object.animationDuration = 800;
+    }
+    if (object instanceof PieSeries) {
+        object.defaultState.transitionDuration = 1200;
     }
 };
 export default theme;

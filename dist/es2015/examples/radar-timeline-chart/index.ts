@@ -4,6 +4,10 @@ import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 
 amcharts4.useTheme(AnimatedTheme);
 
+/**
+ * This is a copy of a chart created by Antti Lipponen: https://twitter.com/anttilip?lang=en Thanks a lot!
+ */
+
 // disclaimer: this data is not accuarate, don't use it for any puroposes
 // first temperature is average for 1973-1980 period
 
@@ -299,6 +303,10 @@ function createRange(name: string, continentData: any[], index: number) {
 	axisFill.disabled = false; // as regular fills are disabled, we need to enable this one
 	axisFill.fillOpacity = 1;
 	axisFill.togglable = true;
+
+    axisFill.showSystemTooltip = true;
+    axisFill.readerTitle = "click to zoom";
+    axisFill.cursorOverStyle = amcharts4.MouseCursorStyle.pointer;	
 
 	axisFill.events.on("hit", (event) => {
 		let dataItem: radar.CategoryAxisDataItem = <radar.CategoryAxisDataItem>event.target.dataItem;

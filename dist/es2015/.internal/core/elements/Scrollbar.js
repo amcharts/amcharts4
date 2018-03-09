@@ -88,22 +88,23 @@ var Scrollbar = /** @class */ (function (_super) {
          */
         _this.updateWhileMoving = true;
         _this.className = "Scrollbar";
-        _this.minHeight = 10;
-        _this.minWidth = 10;
+        _this.minHeight = 12;
+        _this.minWidth = 12;
         _this.animationDuration = 0;
         _this.animationEasing = $ease.cubicOut;
-        _this.padding(2, 2, 2, 2);
+        _this.padding(0, 0, 0, 0);
         _this.margin(10, 10, 10, 10);
         var interfaceColors = new InterfaceColorSet();
         // background is also container as it might contain graphs, grid, etc
         var background = _this.background;
         background.cornerRadius(10, 10, 10, 10);
         background.fill = interfaceColors.getFor("fill");
-        background.fillOpacity = 0.8;
+        background.fillOpacity = 0.5;
         // Create scrollbar controls (setters will handle adding disposers)
         var thumb = new Button();
         thumb.background.cornerRadius(10, 10, 10, 10);
         thumb.padding(0, 0, 0, 0);
+        thumb.background.padding(1, 1, 1, 1);
         thumb.background.strokeOpacity = 0;
         _this.thumb = thumb;
         _this.startGrip = new ResizeButton();
@@ -283,8 +284,8 @@ var Scrollbar = /** @class */ (function (_super) {
             thumb.width = innerWidth_1 * (end - start);
             thumb.maxX = innerWidth_1 - thumb.pixelWidth;
             thumb.x = start * innerWidth_1;
-            startGrip.x = thumb.x;
-            endGrip.x = thumb.x + thumb.innerWidth;
+            startGrip.moveTo({ x: thumb.x, y: 0 }, undefined, undefined, true); // overrides dragging
+            endGrip.moveTo({ x: thumb.x + thumb.innerWidth, y: 0 }, undefined, undefined, true);
             startGrip.readerTitle = this.language.translate("From %1", undefined, this.adapter.apply("positionValue", {
                 value: Math.round(start * 100) + "%",
                 position: start
@@ -299,8 +300,8 @@ var Scrollbar = /** @class */ (function (_super) {
             thumb.height = innerHeight_1 * (end - start);
             thumb.maxY = innerHeight_1 - thumb.pixelHeight;
             thumb.y = (1 - end) * innerHeight_1;
-            startGrip.y = thumb.y + thumb.innerHeight;
-            endGrip.y = thumb.y;
+            startGrip.moveTo({ x: 0, y: thumb.y + thumb.innerHeight }, undefined, undefined, true);
+            endGrip.moveTo({ x: 0, y: thumb.y }, undefined, undefined, true);
             startGrip.readerTitle = this.language.translate("To %1", undefined, this.adapter.apply("positionValue", {
                 value: Math.round((1 - start) * 100) + "%",
                 position: (1 - start)

@@ -1,1 +1,1 @@
-{"version":3,"file":"ITheme.js","sourceRoot":"","sources":["../../../../src/.internal/themes/ITheme.ts"],"names":[],"mappings":"","sourcesContent":["import { BaseObject } from \"../core/Base\";\n\nexport interface ITheme {\n  (object: BaseObject): void;\n}\n"]}
+{"version":3,"file":"ITheme.js","sourceRoot":"","sources":["../../../../src/.internal/themes/ITheme.ts"],"names":[],"mappings":"","sourcesContent":["import { BaseObject } from \"../core/Base\";\r\n\r\nexport interface ITheme {\r\n  (object: BaseObject): void;\r\n}\r\n"]}
