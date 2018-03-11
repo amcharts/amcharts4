@@ -65,6 +65,8 @@ declare const _default: {
     "Sat": string;
     "_dateOrd": (day: number) => string;
     "Zoom Out": string;
+    "Play": string;
+    "Stop": string;
     "Legend": string;
     "Click, tap or press ENTER to toggle": string;
     "Loading": string;

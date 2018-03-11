@@ -54,6 +54,7 @@ export { WavedCircle } from "./.internal/core/elements/WavedCircle";
 export { WavedLine } from "./.internal/core/elements/WavedLine";
 export { WavedRectangle } from "./.internal/core/elements/WavedRectangle";
 export { ZoomOutButton } from "./.internal/core/elements/ZoomOutButton";
+export { PlayButton } from "./.internal/core/elements/PlayButton";
 /**
  * Elements: 3d
  */

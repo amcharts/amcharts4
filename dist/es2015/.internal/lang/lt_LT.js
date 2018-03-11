@@ -84,6 +84,8 @@ export default {
     },
     // Chart elements
     "Zoom Out": "Rodyti viską",
+    "Play": "Paleisti",
+    "Stop": "Sustabdyti",
     "Legend": "Legenda",
     "Click, tap or press ENTER to toggle": "Spragtelkite, palieskite arba spauskite ENTER, kad perjungtumėte",
     "Loading": "Kraunama",

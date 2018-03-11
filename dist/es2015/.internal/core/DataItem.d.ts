@@ -296,6 +296,16 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      */
     protected _hideDisposer: IDisposer;
     /**
+     *
+     * @ignore Exclude from docs
+     */
+    protected _valueAnimation: Animation;
+    /**
+     *
+     * @ignore Exclude from docs
+     */
+    protected _locationAnimation: Animation;
+    /**
      * Constructor
      * @todo Adding events to disposers produces errors in some cases, which means that chart is using disposed Data Items which is not right
      */
@@ -441,7 +451,7 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * @param {number}  duration  Duration (ms) to animate to new value to
      * @param {number}  delay     Delay animation (ms)
      */
-    setWorkingLocation(name: string, value: number, duration?: number, delay?: number): void;
+    setWorkingLocation(name: string, value: number, duration?: number, delay?: number): Animation;
     /**
      * Sets Date value to a data field.
      *

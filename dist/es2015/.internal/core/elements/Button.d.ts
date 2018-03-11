@@ -25,6 +25,10 @@ export interface IButtonProperties extends IContainerProperties {
      * Icon (if available) position - left or right.
      */
     iconPosition?: "left" | "right";
+    /**
+     * Icon sprite
+     */
+    icon?: Sprite;
 }
 /**
  * Defines events for [[Button]].

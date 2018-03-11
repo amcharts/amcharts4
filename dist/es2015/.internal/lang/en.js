@@ -99,6 +99,8 @@ export default {
     },
     // Chart elements
     "Zoom Out": "",
+    "Play": "",
+    "Stop": "",
     "Legend": "",
     "Click, tap or press ENTER to toggle": "",
     "Loading": "",

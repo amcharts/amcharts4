@@ -99,6 +99,8 @@ export interface ILocaleProperties {
     "Fri"?: string;
     "Sat"?: string;
     "Zoom Out"?: string;
+    "Play"?: string;
+    "Stop"?: string;
     "Legend"?: string;
     "Click, tap or press ENTER to toggle"?: string;
     "Loading"?: string;

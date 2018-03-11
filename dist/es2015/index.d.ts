@@ -75,6 +75,7 @@ export { IWavedCircleProperties, IWavedCircleEvents, IWavedCircleAdapters, Waved
 export { IWavedLineProperties, IWavedLineEvents, IWavedLineAdapters, WavedLine } from "./.internal/core/elements/WavedLine";
 export { IWavedRectangleProperties, IWavedRectangleEvents, IWavedRectangleAdapters, WavedRectangle } from "./.internal/core/elements/WavedRectangle";
 export { IZoomOutButtonProperties, IZoomOutButtonEvents, IZoomOutButtonAdapters, ZoomOutButton } from "./.internal/core/elements/ZoomOutButton";
+export { IPlayButtonProperties, IPlayButtonEvents, IPlayButtonAdapters, PlayButton } from "./.internal/core/elements/PlayButton";
 /**
  * Elements: 3d
  */

@@ -654,15 +654,18 @@ var Sprite = /** @class */ (function (_super) {
          * @return {boolean} Is template?
          */
         get: function () {
-            if (this._isTemplate) {
-                return true;
-            }
-            else {
-                if (this.parent) {
-                    return this.parent.isTemplate;
+            var self = this;
+            for (;;) {
+                if (self._isTemplate) {
+                    return true;
+                }
+                else if (self.parent) {
+                    self = self.parent;
+                }
+                else {
+                    return false;
                 }
             }
-            return false;
         },
         /**
          * Sets if this element is a "template".
@@ -6386,7 +6389,7 @@ var Sprite = /** @class */ (function (_super) {
                 tooltip.readerDescribedBy = this.uidAttr();
                 // text might not change but values might
                 tooltip.textElement.invalidate();
-                // Reveal tooltip			
+                // Reveal tooltip
                 tooltip.show();
                 if (tooltip.textElement.text != undefined && tooltip.textElement.text != "") {
                     return true;

@@ -454,12 +454,24 @@ var DataItem = /** @class */ (function (_super) {
             duration = this.getDuration(duration);
             var workingValue = this.values[name].workingValue;
             if ((duration > 0) && $type.isNumber(workingValue) && this.component) {
-                var animation = this.animate({ childObject: this.values[name], property: "workingValue", from: workingValue, to: value }, duration, this.component.interpolationEasing);
-                animation.delay(delay);
-                animation.events.on("animationstart", this.handleInterpolationProgress, this);
-                animation.events.on("animationprogress", this.handleInterpolationProgress, this);
-                animation.events.on("animationend", this.handleInterpolationProgress, this);
-                return animation;
+                if (workingValue != value) {
+                    if (this._valueAnimation) {
+                        this._valueAnimation.stop();
+                    }
+                    var animation = this.animate({ childObject: this.values[name], property: "workingValue", from: workingValue, to: value }, duration, this.component.interpolationEasing);
+                    animation.delay(delay);
+                    animation.events.on("animationstart", this.handleInterpolationProgress, this);
+                    animation.events.on("animationprogress", this.handleInterpolationProgress, this);
+                    animation.events.on("animationend", this.handleInterpolationProgress, this);
+                    this._valueAnimation = animation;
+                    return animation;
+                }
+                else {
+                    if (this._valueAnimation) {
+                        this._valueAnimation.stop();
+                    }
+                    this.values[name].workingValue = value;
+                }
             }
             else {
                 this.values[name].workingValue = value;
@@ -512,11 +524,24 @@ var DataItem = /** @class */ (function (_super) {
         duration = this.getDuration(duration);
         var workingLocation = this.workingLocations[name];
         if ((duration > 0) && $type.isNumber(workingLocation) && this.component) {
-            var animation = this.animate({ childObject: this.workingLocations, property: name, from: workingLocation, to: value }, duration, this.component.interpolationEasing);
-            animation.delay(delay);
-            animation.events.on("animationstart", this.handleInterpolationProgress, this);
-            animation.events.on("animationprogress", this.handleInterpolationProgress, this);
-            animation.events.on("animationend", this.handleInterpolationProgress, this);
+            if (workingLocation != value) {
+                if (this._locationAnimation) {
+                    this._locationAnimation.stop();
+                }
+                var animation = this.animate({ childObject: this.workingLocations, property: name, from: workingLocation, to: value }, duration, this.component.interpolationEasing);
+                animation.delay(delay);
+                animation.events.on("animationstart", this.handleInterpolationProgress, this);
+                animation.events.on("animationprogress", this.handleInterpolationProgress, this);
+                animation.events.on("animationend", this.handleInterpolationProgress, this);
+                this._locationAnimation = animation;
+                return animation;
+            }
+            else {
+                if (this._locationAnimation) {
+                    this._locationAnimation.stop();
+                }
+                this.workingLocations[name] = value;
+            }
         }
         else {
             this.workingLocations[name] = value;

@@ -86,7 +86,7 @@ var Button = /** @class */ (function (_super) {
          * @return {Sprite} Icon Sprite
          */
         get: function () {
-            return this._icon;
+            return this.getPropertyValue("icon");
         },
         /**
          * A [[Sprite]] to be used as an icon on button.
@@ -94,16 +94,18 @@ var Button = /** @class */ (function (_super) {
          * @param {Sprite} icon Icon Sprite
          */
         set: function (icon) {
-            if (this._icon) {
+            var currentIcon = this.getPropertyValue("icon");
+            if (currentIcon) {
                 //this._icon.dispose();
-                this.removeDispose(this._icon);
+                //this.removeDispose(currentIcon);
+                currentIcon.parent = undefined;
             }
             if (icon) {
-                this._icon = icon;
+                this.setPropertyValue("icon", icon);
                 icon.parent = this;
                 icon.mouseEnabled = false;
                 this.iconPosition = this.iconPosition;
-                this._disposers.push(this._icon);
+                this._disposers.push(icon);
             }
         },
         enumerable: true,
