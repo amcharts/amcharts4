@@ -555,7 +555,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
     AxisRendererRadial.prototype.positionToCoordinate = function (position) {
         var coordinate;
         var axis = this.axis;
-        var axisFullLength = this.axisFullLength;
+        var axisFullLength = axis.axisFullLength;
         var innerRadius = this.pixelInnerRadius;
         if (axis.renderer.inversed) {
             coordinate = (axis.end - position) * axisFullLength + innerRadius;

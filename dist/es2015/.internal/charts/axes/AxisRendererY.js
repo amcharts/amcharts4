@@ -123,7 +123,8 @@ var AxisRendererY = /** @class */ (function (_super) {
          * @return {number} Length (px)
          */
         get: function () {
-            return this.innerHeight;
+            var axis = this.axis;
+            return axis.pixelHeight - axis.pixelPaddingTop - axis.pixelPaddingBottom;
         },
         enumerable: true,
         configurable: true
@@ -350,7 +351,7 @@ var AxisRendererY = /** @class */ (function (_super) {
     AxisRendererY.prototype.positionToCoordinate = function (position) {
         var coordinate;
         var axis = this.axis;
-        var axisFullLength = this.axisFullLength;
+        var axisFullLength = axis.axisFullLength;
         if (!axis.renderer.inversed) {
             coordinate = (axis.end - position) * axisFullLength;
         }

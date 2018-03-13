@@ -133,6 +133,18 @@ export declare class Scrollbar extends Container {
      */
     protected _end: number;
     /**
+     * Previously selected lower (start) value.
+     *
+     * @type {number}
+     */
+    protected _previousStart: number;
+    /**
+     * Previously selected upper (end) value.
+     *
+     * @type {number}
+     */
+    protected _previousEnd: number;
+    /**
      * An [[Animation]] instance that moves "thumb".
      *
      * @type {Animation}
@@ -145,13 +157,13 @@ export declare class Scrollbar extends Container {
      */
     protected _zoomAnimation: Animation;
     /**
-     * A value of previously selected lower value (before zoom/pan).
+     * A value of previously selected lower value, used for doubleclick function.
      *
      * @type {number}
      */
     protected _prevStart: number;
     /**
-     * A value of previously selected upper value (before zoom/pan).
+     * A value of previously selected upper value, used for doubleclick function.
      *
      * @type {number}
      */
@@ -273,6 +285,12 @@ export declare class Scrollbar extends Container {
      * @ignore Exclude from docs
      */
     makeUnbusyReal(): void;
+    /**
+     * Disptatches rangechanged event if it really changed
+     *
+     * @ignore Exclude from docs
+     */
+    protected dispatchRangeChange(): void;
     /**
      * Updates the "thumb" element. A draggable element between the grips.
      */

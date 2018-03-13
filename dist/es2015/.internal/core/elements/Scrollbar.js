@@ -52,13 +52,13 @@ var Scrollbar = /** @class */ (function (_super) {
     function Scrollbar() {
         var _this = _super.call(this) || this;
         /**
-         * A value of previously selected lower value (before zoom/pan).
+         * A value of previously selected lower value, used for doubleclick function.
          *
          * @type {number}
          */
         _this._prevStart = 0;
         /**
-         * A value of previously selected upper value (before zoom/pan).
+         * A value of previously selected upper value, used for doubleclick function.
          *
          * @type {number}
          */
@@ -129,6 +129,11 @@ var Scrollbar = /** @class */ (function (_super) {
         _this.thumb.readerLive = "polite";
         _this.startGrip.role = "slider";
         _this.endGrip.role = "slider";
+        // otherwise range changed wont' be registered
+        _this.events.once("inited", function () {
+            _this._previousStart = undefined;
+            _this.dispatchRangeChange();
+        });
         _this.hideGrips = false;
         _this.applyTheme();
         return _this;
@@ -264,6 +269,18 @@ var Scrollbar = /** @class */ (function (_super) {
         this._usingGrip = undefined;
         this._isBusy = false;
         if (!this.updateWhileMoving) {
+            this.dispatchRangeChange();
+        }
+    };
+    /**
+     * Disptatches rangechanged event if it really changed
+     *
+     * @ignore Exclude from docs
+     */
+    Scrollbar.prototype.dispatchRangeChange = function () {
+        if (this._previousEnd != this.end || this._previousStart != this.start) {
+            this._previousStart = this.start;
+            this._previousEnd = this.end;
             this.dispatch("rangechanged");
         }
     };
@@ -320,7 +337,7 @@ var Scrollbar = /** @class */ (function (_super) {
             position: end
         }).value);
         if (!this._skipRangeEvents && this.updateWhileMoving) {
-            this.dispatch("rangechanged");
+            this.dispatchRangeChange();
         }
     };
     /**

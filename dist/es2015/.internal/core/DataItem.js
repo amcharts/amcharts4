@@ -168,6 +168,16 @@ var DataItem = /** @class */ (function (_super) {
          * @type {boolean}
          */
         _this.isHiding = false;
+        /**
+         *
+         * @ignore Exclude from docs
+         */
+        _this._valueAnimations = {};
+        /**
+         *
+         * @ignore Exclude from docs
+         */
+        _this._locationAnimations = {};
         _this.className = "DataItem";
         _this.applyTheme();
         return _this;
@@ -273,7 +283,7 @@ var DataItem = /** @class */ (function (_super) {
      *
      * @param {number}    duration  Animation duration (ms)
      * @param {number}    delay     Delay animation (ms)
-     * @param {string[]}  fields    A list of fields to reset values of
+     * @param {string[]}  fields    A list of fields to set values of
      */
     DataItem.prototype.show = function (duration, delay, fields) {
         var _this = this;
@@ -282,14 +292,14 @@ var DataItem = /** @class */ (function (_super) {
             this.removeDispose(this._hideDisposer);
         }
         var animation;
-        $array.each(this.sprites, function (sprite) {
-            sprite.show(duration);
-        });
         if (fields) {
             $array.each(fields, function (field) {
                 animation = _this.setWorkingValue(field, _this.values[field].value, duration, delay);
             });
         }
+        $array.each(this.sprites, function (sprite) {
+            sprite.show(duration);
+        });
         this._visible = true;
         return animation;
     };
@@ -455,25 +465,26 @@ var DataItem = /** @class */ (function (_super) {
             var workingValue = this.values[name].workingValue;
             if ((duration > 0) && $type.isNumber(workingValue) && this.component) {
                 if (workingValue != value) {
-                    if (this._valueAnimation) {
-                        this._valueAnimation.stop();
-                    }
-                    var animation = this.animate({ childObject: this.values[name], property: "workingValue", from: workingValue, to: value }, duration, this.component.interpolationEasing);
-                    animation.delay(delay);
+                    var animation = this.animate({ childObject: this.values[name], property: "workingValue", from: workingValue, to: value }, duration, this.component.interpolationEasing).delay(delay);
                     animation.events.on("animationstart", this.handleInterpolationProgress, this);
                     animation.events.on("animationprogress", this.handleInterpolationProgress, this);
                     animation.events.on("animationend", this.handleInterpolationProgress, this);
-                    this._valueAnimation = animation;
+                    this._valueAnimations[name] = animation;
                     return animation;
                 }
                 else {
-                    if (this._valueAnimation) {
-                        this._valueAnimation.stop();
+                    var valueAnimation = this._valueAnimations[name];
+                    if (valueAnimation) {
+                        valueAnimation.stop();
                     }
                     this.values[name].workingValue = value;
                 }
             }
             else {
+                var valueAnimation = this._valueAnimations[name];
+                if (valueAnimation) {
+                    valueAnimation.stop();
+                }
                 this.values[name].workingValue = value;
                 if (this.events.isEnabled("workingvaluechanged")) {
                     this.events.dispatchImmediately("workingvaluechanged", {
@@ -525,25 +536,27 @@ var DataItem = /** @class */ (function (_super) {
         var workingLocation = this.workingLocations[name];
         if ((duration > 0) && $type.isNumber(workingLocation) && this.component) {
             if (workingLocation != value) {
-                if (this._locationAnimation) {
-                    this._locationAnimation.stop();
-                }
                 var animation = this.animate({ childObject: this.workingLocations, property: name, from: workingLocation, to: value }, duration, this.component.interpolationEasing);
                 animation.delay(delay);
                 animation.events.on("animationstart", this.handleInterpolationProgress, this);
                 animation.events.on("animationprogress", this.handleInterpolationProgress, this);
                 animation.events.on("animationend", this.handleInterpolationProgress, this);
-                this._locationAnimation = animation;
+                this._locationAnimations[name] = animation;
                 return animation;
             }
             else {
-                if (this._locationAnimation) {
-                    this._locationAnimation.stop();
+                var locationAnimation = this._locationAnimations[name];
+                if (locationAnimation) {
+                    locationAnimation.stop();
                 }
                 this.workingLocations[name] = value;
             }
         }
         else {
+            var locationAnimation = this._locationAnimations[name];
+            if (locationAnimation) {
+                locationAnimation.stop();
+            }
             this.workingLocations[name] = value;
             if (this.events.isEnabled("workinglocationchanged")) {
                 this.events.dispatchImmediately("workinglocationchanged", {

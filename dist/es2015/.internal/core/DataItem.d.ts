@@ -299,12 +299,16 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      *
      * @ignore Exclude from docs
      */
-    protected _valueAnimation: Animation;
+    protected _valueAnimations: {
+        [key: string]: Animation;
+    };
     /**
      *
      * @ignore Exclude from docs
      */
-    protected _locationAnimation: Animation;
+    protected _locationAnimations: {
+        [key: string]: Animation;
+    };
     /**
      * Constructor
      * @todo Adding events to disposers produces errors in some cases, which means that chart is using disposed Data Items which is not right
@@ -357,7 +361,7 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      *
      * @param {number}    duration  Animation duration (ms)
      * @param {number}    delay     Delay animation (ms)
-     * @param {string[]}  fields    A list of fields to reset values of
+     * @param {string[]}  fields    A list of fields to set values of
      */
     show(duration?: number, delay?: number, fields?: string[]): Animation;
     /**

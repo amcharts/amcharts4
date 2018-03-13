@@ -13,7 +13,7 @@ import { Dictionary } from "./utils/Dictionary";
 import { Export } from "./export/Export";
 import { DataSource } from "./data/DataSource";
 import { Responsive } from "./responsive/Responsive";
-import { DataItem } from "./DataItem";
+import { DataItem, IDataItemEvents } from "./DataItem";
 import { IRange } from "./defs/IRange";
 /**
  * ============================================================================
@@ -296,11 +296,8 @@ export declare class Component extends Container {
      */
     dataInvalid: boolean;
     /**
-     * [rawDataInvalid description]
      *
      * @ignore Exclude from docs
-     * @todo Description
-     * @type {boolean}
      */
     rawDataInvalid: boolean;
     /**
@@ -426,7 +423,14 @@ export declare class Component extends Container {
      * @ignore Exclude from docs
      * @todo Description
      */
-    protected handleDataItemWorkingValueChange(): void;
+    protected handleDataItemWorkingValueChange(event: AMEvent<DataItem, IDataItemEvents>["workingvaluechanged"]): void;
+    /**
+     * [handleDataItemWorkingLocationChange description]
+     *
+     * @ignore Exclude from docs
+     * @todo Description
+     */
+    protected handleDataItemWorkingLocationChange(event: AMEvent<DataItem, IDataItemEvents>["workinglocationchanged"]): void;
     /**
      * [handleDataItemCalculatedValueChange description]
      *
@@ -548,12 +552,13 @@ export declare class Component extends Container {
      */
     protected appendDataItem(dataItem: this["_dataItem"]): void;
     /**
-     * [invalidateRawData description]
-     *
-     * @ignore Exclude from docs
-     * @todo Description
+     * If you want to have a smooth transition from one data values to another, you change your raw data and then you must call this method.
+     * then instead of redrawing everything, the chart will check raw data and smoothly transit from previous to new data
      */
     invalidateRawData(): void;
+    /**
+     * @ignore
+     */
     validateRawData(): void;
     /**
      * Validates (processes) data.

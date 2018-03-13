@@ -88,6 +88,8 @@ var LineSeries = /** @class */ (function (_super) {
          */
         _this.minDistance = 0.5;
         _this.segments = new ListTemplate(new LineSeriesSegment());
+        _this._segmentsIterator = new $iter.ListIterator(_this.segments, function () { return _this.segments.create(); });
+        _this._segmentsIterator.createNewItems = true;
         _this.className = "LineSeries";
         _this.strokeOpacity = 1;
         _this.fillOpacity = 0;
@@ -170,11 +172,14 @@ var LineSeries = /** @class */ (function (_super) {
     LineSeries.prototype.validate = function () {
         var _this = this;
         _super.prototype.validate.call(this);
-        this.segmentsContainer.disposeChildren();
+        this._segmentsIterator.reset();
         this.openSegment(this._workingStartIndex);
         $iter.each(this.axisRanges.iterator(), function (range) {
-            range.contents.disposeChildren();
             _this.openSegment(0, range);
+        });
+        // can't use columnsContainer.removeChildren() because with 3d columns we use one container for all columns
+        $iter.each(this._segmentsIterator.iterator(), function (segment) {
+            segment.__disabled = true;
         });
     };
     /**
@@ -219,7 +224,8 @@ var LineSeries = /** @class */ (function (_super) {
         var endIndex = this._workingEndIndex;
         var closeIndex;
         var propertiesChanged = false;
-        var segment = this.segments.create();
+        var segment = this._segmentsIterator.getFirst();
+        segment.__disabled = false;
         if (axisRange) {
             segment.parent = axisRange.contents;
             $object.copyProperties(axisRange.contents, segment, visualProperties);

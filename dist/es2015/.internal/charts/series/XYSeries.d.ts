@@ -22,6 +22,7 @@ import { DateAxis } from "../axes/DateAxis";
 import { Bullet } from "../elements/Bullet";
 import { CalculatedValue } from "../../core/Component";
 import { Animation } from "../../core/utils/Animation";
+import { IDataItemEvents } from "../../core/DataItem";
 /**
  * ============================================================================
  * DATA ITEM
@@ -707,7 +708,7 @@ export declare class XYSeries extends Series {
     /**
      * Updates series appearance when working value changes.
      */
-    protected handleDataItemWorkingValueChange(): void;
+    protected handleDataItemWorkingValueChange(event: AMEvent<SeriesDataItem, IDataItemEvents>["workingvaluechanged"]): void;
     /**
      * [getStackValue description]
      *

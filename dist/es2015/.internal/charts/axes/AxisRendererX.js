@@ -143,7 +143,8 @@ var AxisRendererX = /** @class */ (function (_super) {
          * @return {number} Length (px)
          */
         get: function () {
-            return this.axis.innerWidth;
+            var axis = this.axis;
+            return axis.pixelWidth - axis.pixelPaddingRight - axis.pixelPaddingLeft;
         },
         enumerable: true,
         configurable: true

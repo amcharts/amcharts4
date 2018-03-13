@@ -147,19 +147,6 @@ var AxisRenderer = /** @class */ (function (_super) {
             //item.visible = this.fitsToBounds(point);
         }
     };
-    Object.defineProperty(AxisRenderer.prototype, "axisFullLength", {
-        /**
-         * Returns Axis' full length in pixels.
-         *
-         * @return {number} Axis lenght (px)
-         */
-        get: function () {
-            var axis = this.axis;
-            return this.axisLength / (axis.end - axis.start);
-        },
-        enumerable: true,
-        configurable: true
-    });
     /**
      * Converts relative position on axis to point coordinates.
      *
@@ -193,7 +180,7 @@ var AxisRenderer = /** @class */ (function (_super) {
     AxisRenderer.prototype.positionToCoordinate = function (position) {
         var coordinate;
         var axis = this.axis;
-        var axisFullLength = this.axisFullLength;
+        var axisFullLength = axis.axisFullLength;
         if (axis.renderer.inversed) {
             coordinate = (axis.end - position) * axisFullLength;
         }
@@ -212,7 +199,7 @@ var AxisRenderer = /** @class */ (function (_super) {
     AxisRenderer.prototype.coordinateToPosition = function (coordinate) {
         var position;
         var axis = this.axis;
-        var axisFullLength = this.axisFullLength;
+        var axisFullLength = axis.axisFullLength;
         if (axis.renderer.inversed) {
             position = axis.end - coordinate / axisFullLength;
         }

@@ -42,11 +42,11 @@ var TextLink = /** @class */ (function (_super) {
         _this.className = "TextLink";
         _this.selectable = true;
         var interfaceColors = new InterfaceColorSet();
-        _this.fill = interfaceColors.getFor("primaryButton");
+        _this.fill = interfaceColors.getFor("primaryButton").brighten(0.3);
         var hoverState = _this.states.create("hover");
-        hoverState.properties.fill = interfaceColors.getFor("primaryButtonHover");
+        hoverState.properties.fill = interfaceColors.getFor("primaryButtonHover").brighten(0.3);
         var downState = _this.states.create("down");
-        downState.properties.fill = interfaceColors.getFor("primaryButtonDown");
+        downState.properties.fill = interfaceColors.getFor("primaryButtonDown").brighten(0.3);
         _this.cursorOverStyle = MouseCursorStyle.pointer;
         _this.applyTheme();
         return _this;

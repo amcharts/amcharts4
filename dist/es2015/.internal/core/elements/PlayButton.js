@@ -55,7 +55,7 @@ var PlayButton = /** @class */ (function (_super) {
         _this.showSystemTooltip = true;
         var interfaceColors = new InterfaceColorSet();
         var background = _this.background;
-        background.cornerRadius(20, 20, 20, 20);
+        background.cornerRadius(25, 25, 25, 25);
         background.fill = interfaceColors.getFor("primaryButton");
         background.stroke = interfaceColors.getFor("primaryButtonStroke");
         background.strokeOpacity = 0;

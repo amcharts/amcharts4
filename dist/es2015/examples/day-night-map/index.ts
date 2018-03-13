@@ -1,7 +1,7 @@
 import * as amcharts4 from "@amcharts/amcharts4";
 import * as map from "@amcharts/amcharts4/map";
-import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
-import worldMap from "./worldLow";
+import AnimatedTheme from "@amcharts/amchrts4/themes/animated";
+import worldMap from "@amcharts/amcharts4/maps/worldLow";
 
 let mapChart = amcharts4.create("chartdiv", map.MapChart);
 mapChart.geoJSON = worldMap;

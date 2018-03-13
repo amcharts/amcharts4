@@ -373,9 +373,9 @@ var Tooltip = /** @class */ (function (_super) {
         var pixelWidth = this.pixelWidth;
         var pixelHeight = this.pixelHeight;
         var boundingRect = this._boundingRect;
-        var bgWidth = textElement.pixelWidth;
+        var bgWidth = textWidth;
         var bgX = textElement.pixelX - textWidth / 2;
-        var bgHeight = textElement.pixelHeight;
+        var bgHeight = textHeight;
         var bgY = textElement.pixelY;
         var x = this._pointTo.x;
         var y = this._pointTo.y;
@@ -384,28 +384,32 @@ var Tooltip = /** @class */ (function (_super) {
         var boundY1 = boundingRect.y - y;
         var boundY2 = boundY1 + boundingRect.height;
         // all this math required when tooltip width is set from outside and it's bigger then text width
+        //not working well, when text changes, disabling for now.
+        /*
         if (this.pointerOrientation == "vertical") {
             if (pixelWidth > textWidth) {
-                var x1real = Math.min(-pixelWidth / 2, bgX);
-                var x2real = Math.max(pixelWidth / 2, bgX + textWidth);
+                let x1real: number = Math.min(-pixelWidth / 2, bgX);
+                let x2real: number = Math.max(pixelWidth / 2, bgX + textWidth);
                 // fit to bounds
-                var x1 = $math.fitToRange(x1real, boundX1, boundX2);
-                var x2 = $math.fitToRange(x2real, boundX1, boundX2);
+                let x1: number = $math.fitToRange(x1real, boundX1, boundX2);
+                let x2: number = $math.fitToRange(x2real, boundX1, boundX2);
+
                 bgWidth = x2 - x1;
                 bgX = x1;
             }
         }
         else {
             if (pixelHeight > textHeight) {
-                var y1real = Math.min(-pixelHeight / 2, bgY);
-                var y2real = Math.max(pixelHeight / 2, bgY + textHeight);
+                let y1real: number = Math.min(-pixelHeight / 2, bgY);
+                let y2real: number = Math.max(pixelHeight / 2, bgY + textHeight);
                 // fit to bounds
-                var y1 = $math.fitToRange(y1real, boundY1, boundY2);
-                var y2 = $math.fitToRange(y2real, boundY1, boundY2);
+                let y1: number = $math.fitToRange(y1real, boundY1, boundY2);
+                let y2: number = $math.fitToRange(y2real, boundY1, boundY2);
+
                 bgHeight = y2 - y1;
                 bgY = y1;
             }
-        }
+        }*/
         background.x = bgX;
         background.y = bgY;
         background.width = bgWidth;

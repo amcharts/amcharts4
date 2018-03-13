@@ -506,6 +506,7 @@ var Animation = /** @class */ (function (_super) {
      */
     Animation.prototype.setProgress = function (progress) {
         var _this = this;
+        this._time = this.duration * progress; // just in case we call this from outside
         $array.each(this.animationOptions, function (options) {
             var value = options.updateMethod(options, progress);
             if (options.childObject) {

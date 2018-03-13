@@ -2,7 +2,7 @@ import * as amcharts4 from "@amcharts/amcharts4";
 import * as map from "@amcharts/amcharts4/map";
 import * as pie from "@amcharts/amcharts4/pie";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
-import worldMap from "./worldLow";
+import worldMap from "@amcharts/amcharts4/maps/worldLow";
 
 amcharts4.useTheme(AnimatedTheme);
 
@@ -36,7 +36,7 @@ polygonTemplate.filters.push(desaturateFilter);
 
 // take a color from color set
 polygonTemplate.adapter.add("fill", (fill, target) => {
-	return colorSet.getIndex(target.dataItem.index);
+	return colorSet.getIndex(target.dataItem.index + 1);
 })
 
 // set fillOpacity to 1 when hovered

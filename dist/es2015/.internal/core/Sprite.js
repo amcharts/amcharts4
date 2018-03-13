@@ -6148,11 +6148,11 @@ var Sprite = /** @class */ (function (_super) {
             }
             // Dispach "hide" event
             this.dispatchImmediately("hide");
+            this.invalidate(); // hide it at once to avoid flickers // validate() causes SO
         }
         if (!$type.isNumber(duration)) {
             duration = this.hiddenState.transitionDuration;
         }
-        this.invalidate(); // hide it at once to avoid flickers // validate() causes SO
         return transition;
     };
     Object.defineProperty(Sprite.prototype, "visible", {

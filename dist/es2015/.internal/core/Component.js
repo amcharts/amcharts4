@@ -145,11 +145,8 @@ var Component = /** @class */ (function (_super) {
          */
         _this.dataInvalid = false;
         /**
-         * [rawDataInvalid description]
          *
          * @ignore Exclude from docs
-         * @todo Description
-         * @type {boolean}
          */
         _this.rawDataInvalid = false;
         /**
@@ -251,7 +248,15 @@ var Component = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      * @todo Description
      */
-    Component.prototype.handleDataItemWorkingValueChange = function () {
+    Component.prototype.handleDataItemWorkingValueChange = function (event) {
+    };
+    /**
+     * [handleDataItemWorkingLocationChange description]
+     *
+     * @ignore Exclude from docs
+     * @todo Description
+     */
+    Component.prototype.handleDataItemWorkingLocationChange = function (event) {
     };
     /**
      * [handleDataItemCalculatedValueChange description]
@@ -328,7 +333,7 @@ var Component = /** @class */ (function (_super) {
             dataItem.events.on("calculatedvaluechanged", this.handleDataItemCalculatedValueChange, this);
             dataItem.events.on("propertychanged", this.handleDataItemPropertyChange, this);
             dataItem.events.on("locationchanged", this.handleDataItemValueChange, this);
-            dataItem.events.on("workinglocationchanged", this.handleDataItemWorkingValueChange, this);
+            dataItem.events.on("workinglocationchanged", this.handleDataItemWorkingLocationChange, this);
         }
     };
     /**
@@ -506,10 +511,8 @@ var Component = /** @class */ (function (_super) {
         //dataItem.invalidate();
     };
     /**
-     * [invalidateRawData description]
-     *
-     * @ignore Exclude from docs
-     * @todo Description
+     * If you want to have a smooth transition from one data values to another, you change your raw data and then you must call this method.
+     * then instead of redrawing everything, the chart will check raw data and smoothly transit from previous to new data
      */
     Component.prototype.invalidateRawData = function () {
         if (this.disabled || this.isTemplate) {
@@ -521,6 +524,9 @@ var Component = /** @class */ (function (_super) {
             x.invalidateRawData();
         });
     };
+    /**
+     * @ignore
+     */
     Component.prototype.validateRawData = function () {
         var _this = this;
         $array.remove(system.invalidRawDatas, this);
@@ -545,7 +551,7 @@ var Component = /** @class */ (function (_super) {
         // need this to slice new data
         this._prevStartIndex = undefined;
         this._prevEndIndex = undefined;
-        // todo: this needs some overthinking, maybe some extra settings like zoomOUtonDataupdate like in v3 or so. some charts like pie chart probably should act like this always
+        // todo: this needs some overthinking, maybe some extra settings like zoomOotonDataupdate like in v3 or so. some charts like pie chart probably should act like this always
         this._startIndex = undefined;
         this._endIndex = undefined;
         if (this.data.length > 0) {

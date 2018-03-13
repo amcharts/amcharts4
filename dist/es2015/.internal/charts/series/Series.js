@@ -497,7 +497,7 @@ var Series = /** @class */ (function (_super) {
             });
         }
         $iter.each(this.axisRanges.iterator(), function (axisRange) {
-            axisRange.contents.disposeChildren();
+            //axisRange.contents.disposeChildren(); // not good for columns, as they are reused
             //			axisRange.appendChildren();
             axisRange.validate();
         });
@@ -577,7 +577,7 @@ var Series = /** @class */ (function (_super) {
      *
      * @todo Description
      */
-    Series.prototype.handleDataItemWorkingValueChange = function () {
+    Series.prototype.handleDataItemWorkingValueChange = function (event) {
         this.invalidateProcessedData();
     };
     Object.defineProperty(Series.prototype, "ignoreMinMax", {

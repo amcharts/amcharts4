@@ -38,11 +38,66 @@ var Slider = /** @class */ (function (_super) {
     function Slider() {
         var _this = _super.call(this) || this;
         _this.className = "Slider";
-        _this.thumb.disabled = true;
-        _this.endGrip.disabled = true;
+        _this.thumb.opacity = 0;
+        _this.thumb.mouseEnabled = false;
+        _this.endGrip.opacity = 0;
+        _this.endGrip.mouseEnabled = false;
+        _this.startGrip.events.on("drag", function () {
+            _this.endGrip.x = _this.startGrip.x;
+            _this.endGrip.y = _this.startGrip.y;
+        });
         _this.applyTheme();
         return _this;
     }
+    Object.defineProperty(Slider.prototype, "__end", {
+        /**
+         * @return {number} [description]
+         */
+        get: function () {
+            return this._start;
+        },
+        set: function (value) {
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Slider.prototype, "end", {
+        /**
+         * @return {number} [description]
+         */
+        get: function () {
+            return this._start;
+        },
+        /**
+         * Relative position (0-1) of the end grip.
+         *
+         * @param {number}  position  Position (0-1)
+         */
+        set: function (position) {
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Slider.prototype, "start", {
+        /**
+         * @return {number} Position (0-1)
+         */
+        get: function () {
+            return this._start;
+        },
+        /**
+         * Relative position (0-1) of the start grip.
+         *
+         * @param {number}  position  Position (0-1)
+         */
+        set: function (position) {
+            if (!this._isBusy) {
+                this.__start = position;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Slider;
 }(Scrollbar));
 export { Slider };

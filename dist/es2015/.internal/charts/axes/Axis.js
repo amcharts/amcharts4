@@ -515,6 +515,7 @@ var Axis = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Axis.prototype.validateLayout = function () {
+        this.axisFullLength = this.axisLength / (this.end - this.start);
         _super.prototype.validateLayout.call(this);
         this.updateGridCount();
         this.renderer.updateAxisLine();
@@ -562,6 +563,7 @@ var Axis = /** @class */ (function (_super) {
      */
     Axis.prototype.validate = function () {
         _super.prototype.validate.call(this);
+        this.axisFullLength = this.axisLength / (this.end - this.start);
         this.validateAxisRanges();
         this.validateBreaks();
     };
@@ -575,6 +577,10 @@ var Axis = /** @class */ (function (_super) {
         $iter.each(this.axisRanges.iterator(), function (axisRange) {
             _this.appendDataItem(axisRange);
             _this.validateDataElement(axisRange);
+            axisRange.grid.invalidate();
+            axisRange.label.deepInvalidate();
+            axisRange.tick.invalidate();
+            axisRange.axisFill.invalidate();
         });
     };
     /**
@@ -663,15 +669,6 @@ var Axis = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    /**
-     * Converts a relative position on Axis (0-1) to pixel coordinates.
-     *
-     * @param  {number} position Position (0-1)
-     * @return {IPoint}          Coordinates (px)
-     */
-    Axis.prototype.positionToPoint = function (position) {
-        return this.renderer.positionToPoint(position);
-    };
     /**
      * Converts a relative position to angle. (for circular axes)
      *
@@ -774,8 +771,8 @@ var Axis = /** @class */ (function (_super) {
                 var endPosition = this.getCellEndPosition(position);
                 position = startPosition + (endPosition - startPosition) * tooltipLocation;
                 position = $math.fitToRange(position, this.start, this.end);
-                var startPoint = this.positionToPoint(startPosition);
-                var endPoint = this.positionToPoint(endPosition);
+                var startPoint = renderer.positionToPoint(startPosition);
+                var endPoint = renderer.positionToPoint(endPosition);
                 // save values so cursor could use them
                 this.currentItemStartPoint = startPoint;
                 this.currentItemEndPoint = endPoint;
@@ -783,7 +780,7 @@ var Axis = /** @class */ (function (_super) {
                     tooltip.width = endPoint.x - startPoint.x;
                     tooltip.height = endPoint.y - startPoint.y;
                 }
-                var point = this.positionToPoint(position);
+                var point = renderer.positionToPoint(position);
                 var globalPoint = $utils.spritePointToSvg(point, this.renderer.line);
                 tooltip.text = this.getTooltipText(position);
                 tooltip.pointTo(globalPoint);

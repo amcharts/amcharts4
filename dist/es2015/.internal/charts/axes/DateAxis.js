@@ -899,7 +899,7 @@ var DateAxis = /** @class */ (function (_super) {
         if (!$type.isNumber(value)) {
             value = this.baseValue;
         }
-        return this.positionToPoint(this.valueToPosition(value + stack)).x;
+        return this.renderer.positionToPoint(this.valueToPosition(value)).x;
     };
     /**
      * Returns the Y coordinate for series' data item's value.
@@ -917,7 +917,7 @@ var DateAxis = /** @class */ (function (_super) {
         if (!$type.isNumber(value)) {
             value = this.baseValue;
         }
-        return this.positionToPoint(this.valueToPosition(value + stack)).y;
+        return this.renderer.positionToPoint(this.valueToPosition(value + stack)).y;
     };
     /**
      * Returns an angle for series data item.

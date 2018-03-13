@@ -14,6 +14,7 @@ import { ListTemplate } from "../../core/utils/List";
 import { IPoint } from "../../core/defs/IPoint";
 import { LineSeriesSegment } from "./LineSeriesSegment";
 import { AxisDataItem } from "../axes/Axis";
+import * as $iter from "../../core/utils/Iterator";
 /**
  * ============================================================================
  * DATA ITEM
@@ -169,6 +170,12 @@ export declare class LineSeries extends XYSeries {
      * @type {number}
      */
     minDistance: number;
+    /**
+     * Iterator for segments.
+     *
+     * @type {ListIterator<LineSeriesSegment>}
+     */
+    protected _segmentsIterator: $iter.ListIterator<LineSeriesSegment>;
     /**
      * Constructor
      */

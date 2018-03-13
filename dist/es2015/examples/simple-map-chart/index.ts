@@ -1,7 +1,7 @@
 import * as amcharts4 from "@amcharts/amcharts4";
 import * as map from "@amcharts/amcharts4/map";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
-import worldMap from "./worldLow";
+import worldMap from "@amcharts/maps/worldLow";
 
 
 amcharts4.useTheme(AnimatedTheme);

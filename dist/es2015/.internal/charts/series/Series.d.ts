@@ -13,7 +13,7 @@ import { AxisDataItem } from "../axes/Axis";
 import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { List, ListTemplate, IListEvents } from "../../core/utils/List";
 import { Dictionary } from "../../core/utils/Dictionary";
-import { DataItem } from "../../core/DataItem";
+import { DataItem, IDataItemEvents } from "../../core/DataItem";
 import { Container } from "../../core/Container";
 import { SerialChart } from "../types/SerialChart";
 import { Axis } from "../axes/Axis";
@@ -471,7 +471,7 @@ export declare class Series extends Component implements ILegendItem<Series, ISe
      *
      * @todo Description
      */
-    protected handleDataItemWorkingValueChange(): void;
+    protected handleDataItemWorkingValueChange(event: AMEvent<SeriesDataItem, IDataItemEvents>["workingvaluechanged"]): void;
     /**
      * @return {boolean} Exclude from calculations?
      */
