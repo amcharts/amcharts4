@@ -60,6 +60,25 @@ var Group = /** @class */ (function (_super) {
         }
     };
     /**
+     * Adds an element to group.
+     *
+     * This will manipulate DOM. `element` will be physically moved into group.
+     *
+     * @param {AMElement}  element  Element
+     */
+    Group.prototype.addToBack = function (element) {
+        if (element) {
+            var first = this.node.childNodes[0];
+            if (first) {
+                this.node.insertBefore(element.node, first);
+            }
+            else {
+                this.node.appendChild(element.node);
+            }
+            this.children.moveValue(element);
+        }
+    };
+    /**
      * Removes the `element` from group.
      *
      * Please note that this will not dispose the element itself, it will just

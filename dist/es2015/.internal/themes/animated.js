@@ -2,7 +2,7 @@ import { SpriteState } from "../core/SpriteState";
 import { Component } from "../core/Component";
 import { Scrollbar } from "../core/elements/Scrollbar";
 import { Tooltip } from "../core/elements/Tooltip";
-import { PieSeries } from "../charts/series/PieSeries";
+import { Series } from "../charts/series/Series";
 import { SankeyDiagram } from "../charts/types/SankeyDiagram";
 var theme = function (object) {
     if (object instanceof SpriteState) {
@@ -22,7 +22,7 @@ var theme = function (object) {
     if (object instanceof Scrollbar) {
         object.animationDuration = 800;
     }
-    if (object instanceof PieSeries) {
+    if (object instanceof Series) {
         object.defaultState.transitionDuration = 1200;
     }
 };

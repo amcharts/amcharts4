@@ -18,7 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Container } from "../Container";
-import { Text } from "./Text";
+import { Label } from "./Label";
 import { RoundedRectangle } from "../elements/RoundedRectangle";
 import { ColorSet } from "../utils/ColorSet";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
@@ -61,9 +61,9 @@ var Button = /** @class */ (function (_super) {
         background.fillOpacity = 1;
         background.strokeOpacity = 1;
         background.cornerRadius(3, 3, 3, 3);
-        // Create the text element
-        _this.textElement = new Text();
-        _this.textElement.fill = interfaceColors.getFor("secondaryButtonText");
+        // Create the label element
+        _this.label = new Label();
+        _this.label.fill = interfaceColors.getFor("secondaryButtonText");
         ;
         // Create default states
         var hoverState = background.states.create("hover");
@@ -138,27 +138,27 @@ var Button = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Button.prototype, "textElement", {
+    Object.defineProperty(Button.prototype, "label", {
         /**
-         * @return {Text} Text element
+         * @return {Label} Label element
          */
         get: function () {
-            return this._textElement;
+            return this._label;
         },
         /**
-         * [[Text]] element to be used for text.
+         * [[Label]] element to be used for text.
          *
-         * @param {Text}  textElement  Text element
+         * @param {Label}  label element
          */
-        set: function (textElement) {
-            if (this._textElement) {
-                //this._textElement.dispose();
-                this.removeDispose(this._textElement);
+        set: function (label) {
+            if (this._label) {
+                //this._label.dispose();
+                this.removeDispose(this._label);
             }
-            if (textElement) {
-                this._textElement = textElement;
-                textElement.parent = this;
-                this._disposers.push(this._textElement);
+            if (label) {
+                this._label = label;
+                label.parent = this;
+                this._disposers.push(this._label);
             }
         },
         enumerable: true,

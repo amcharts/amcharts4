@@ -8,7 +8,6 @@
  * @hidden
  */
 import { BaseObject } from "../Base";
-import { List } from "../utils/List";
 import { InteractionObject } from "./InteractionObject";
 import { Animation, IAnimatable } from "../utils/Animation";
 import { IPoint } from "../defs/IPoint";
@@ -61,7 +60,7 @@ export declare class Inertia extends BaseObject implements IAnimatable {
      *
      * @type {List<Animation>}
      */
-    animations: List<Animation>;
+    animations: Array<Animation>;
     /**
      * Constructor
      */

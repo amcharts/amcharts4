@@ -55,8 +55,7 @@ var MapImageSeriesDataItem = /** @class */ (function (_super) {
         get: function () {
             if (!this._mapImage) {
                 this._mapImage = this.component.mapImages.create();
-                this._mapImage.dataItem = this;
-                this.sprites.push(this._mapImage);
+                this.addSprite(this._mapImage);
             }
             return this._mapImage;
         },

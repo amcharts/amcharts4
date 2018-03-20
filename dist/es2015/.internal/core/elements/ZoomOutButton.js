@@ -52,8 +52,8 @@ var ZoomOutButton = /** @class */ (function (_super) {
         _super.call(this) || this;
         _this.className = "ZoomOutButton";
         _this.padding(9, 9, 9, 9);
-        _this.dx = -5;
-        _this.dy = 5;
+        //this.dx = - 5;
+        //this.dy = 5;
         _this.showSystemTooltip = true;
         var interfaceColors = new InterfaceColorSet();
         var background = _this.background;

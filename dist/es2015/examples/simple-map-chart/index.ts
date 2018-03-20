@@ -1,7 +1,7 @@
 import * as amcharts4 from "@amcharts/amcharts4";
 import * as map from "@amcharts/amcharts4/map";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
-import worldMap from "@amcharts/maps/worldLow";
+import worldMap from "@amcharts/amcharts4/maps/worldLow";
 
 
 amcharts4.useTheme(AnimatedTheme);
@@ -14,7 +14,7 @@ let polygonSeries = chart.series.push(new map.MapPolygonSeries());
 polygonSeries.getDataFromJSON = true;
 // excludes Antarctica
 polygonSeries.exclude = ["ATA"]; //@todo: chanhe this when we'll change to ISO id's
-polygonSeries.tooltip.textElement.fill = amcharts4.color("#000000");
+polygonSeries.tooltip.fill = amcharts4.color("#000000");
 
 let colorSet = new amcharts4.ColorSet();
 

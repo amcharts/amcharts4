@@ -146,20 +146,21 @@ let yearLabel = chart.radarContainer.createChild(amcharts4.Label);
 yearLabel.horizontalCenter = "middle";
 yearLabel.verticalCenter = "middle";
 yearLabel.fill = amcharts4.color("#673AB7");
-yearLabel.textElement.fontSize = 30;
-yearLabel.textElement.text = String(currentYear);
+yearLabel.fontSize = 30;
+yearLabel.text = String(currentYear);
 
 // zoomout button
 let zoomOutButton = chart.zoomOutButton;
 zoomOutButton.dx = 0;
 zoomOutButton.dy = 0;
-zoomOutButton.horizontalCenter = "middle";
+zoomOutButton.marginBottom = 15;
 zoomOutButton.parent = chart.rightAxesContainer;
 
 // scrollbar
 chart.scrollbarX = new amcharts4.Scrollbar();
 chart.scrollbarX.parent = chart.rightAxesContainer;
 chart.scrollbarX.orientation = "vertical";
+chart.scrollbarX.align = "center";
 
 // vertical orientation for zoom out button and scrollbar to be positioned properly
 chart.rightAxesContainer.layout = "vertical";
@@ -176,11 +177,12 @@ categoryAxisLabel.location = 0.5;
 categoryAxisLabel.radius = 20;
 categoryAxisLabel.relativeRotation = 90;
 
-categoryAxisRenderer.minGridDistance = 10;
+categoryAxisRenderer.minGridDistance = 13;
 categoryAxisRenderer.grid.template.radius = -25;
 categoryAxisRenderer.grid.template.strokeOpacity = 0.05;
 categoryAxisRenderer.ticks.template.disabled = true;
 categoryAxisRenderer.axisFills.template.disabled = true;
+categoryAxisRenderer.line.disabled = true;
 
 categoryAxisRenderer.tooltipLocation = 0.5;
 categoryAxis.tooltip.defaultState.properties.opacity = 0;
@@ -200,7 +202,7 @@ valueAxisRenderer.minGridDistance = 20;
 valueAxisRenderer.line.disabled = true;
 valueAxisRenderer.ticks.template.disabled = true;
 valueAxisRenderer.labels.template.horizontalCenter = "middle";
-valueAxisRenderer.labels.template.textElement.dx = 15;
+valueAxisRenderer.labels.template.dx = 15;
 valueAxisRenderer.grid.template.strokeOpacity = 0.05;
 
 
@@ -208,7 +210,6 @@ valueAxisRenderer.grid.template.strokeOpacity = 0.05;
 let series = chart.series.push(new radar.RadarColumnSeries());
 series.columns.template.width = amcharts4.percent(90);
 series.columns.template.strokeOpacity = 0;
-;
 series.dataFields.valueY = "value" + currentYear;
 series.dataFields.categoryX = "country";
 series.tooltipText = "{categoryX}:{valueY.value}°C";
@@ -277,7 +278,7 @@ function generateRadarData() {
 function updateRadarData(year: number) {
 	if (currentYear != year) {
 		currentYear = year;
-		yearLabel.textElement.text = String(currentYear);
+		yearLabel.text = String(currentYear);
 		series.dataFields.valueY = "value" + currentYear;
 		chart.invalidateRawData();
 	}
@@ -295,18 +296,19 @@ function createRange(name: string, continentData: any[], index: number) {
 	// every 3rd color for a bigger contrast
 	axisRange.axisFill.fill = colorSet.getIndex(index * 3);
 	axisRange.grid.disabled = true;
-
+	axisRange.label.mouseEnabled = false;
 
 	let axisFill: radar.AxisFillCircular = <radar.AxisFillCircular>axisRange.axisFill;
 	axisFill.innerRadius = -0.001; // almost the same as 100%, we set it in pixels as later we animate this property to some pixel value
-	axisFill.radius = -20; // negative radius means it is calculated from max radius	
+	axisFill.radius = -20; // negative radius means it is calculated from max radius  
 	axisFill.disabled = false; // as regular fills are disabled, we need to enable this one
 	axisFill.fillOpacity = 1;
 	axisFill.togglable = true;
 
-    axisFill.showSystemTooltip = true;
-    axisFill.readerTitle = "click to zoom";
-    axisFill.cursorOverStyle = amcharts4.MouseCursorStyle.pointer;	
+
+	axisFill.showSystemTooltip = true;
+	axisFill.readerTitle = "click to zoom";
+	axisFill.cursorOverStyle = amcharts4.MouseCursorStyle.pointer;
 
 	axisFill.events.on("hit", (event) => {
 		let dataItem: radar.CategoryAxisDataItem = <radar.CategoryAxisDataItem>event.target.dataItem;
@@ -325,7 +327,21 @@ function createRange(name: string, continentData: any[], index: number) {
 
 	let axisLabel: radar.AxisLabelCircular = <radar.AxisLabelCircular>axisRange.label;
 	axisLabel.location = 0.5;
-	axisLabel.radius = -5;
 	axisLabel.fill = amcharts4.color("#ffffff");
+	axisLabel.radius = 1;
 	axisLabel.relativeRotation = 0;
 }
+
+let slider = chart.createChild(amcharts4.Slider);
+slider.start = 1;
+slider.events.on("rangechanged", () => {
+	slider.paddingLeft = 50;
+	slider.paddingRight = 50;
+
+	let start = slider.start;
+
+	chart.startAngle = 270 - start * 179 - 1;
+	chart.endAngle = 270 + start * 179 + 1;
+
+	valueAxis.renderer.axisAngle = chart.startAngle;
+})

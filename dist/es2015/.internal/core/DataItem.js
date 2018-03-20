@@ -28,13 +28,13 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { BaseObjectEvents } from "./Base";
-import { List, ListDisposer } from "./utils/List";
 import { Adapter } from "./utils/Adapter";
 import { Animation } from "./utils/Animation";
 import * as $utils from "./utils/Utils";
 import * as $array from "./utils/Array";
 import * as $object from "./utils/Object";
 import * as $type from "./utils/Type";
+import { MultiDisposer } from "./utils/Disposer";
 /**
  * ============================================================================
  * DATA ITEM
@@ -189,7 +189,12 @@ var DataItem = /** @class */ (function (_super) {
          * @return {number} Index
          */
         get: function () {
-            return this.component.dataItems.indexOf(this);
+            if (this.component) {
+                return this.component.dataItems.indexOf(this);
+            }
+            else {
+                return -1;
+            }
         },
         enumerable: true,
         configurable: true
@@ -198,12 +203,12 @@ var DataItem = /** @class */ (function (_super) {
         /**
          * A list of [[Animations]] objects currently mutating Data Item's values.
          *
-         * @return {List<Animation>} [description]
+         * @return {Array<Animation>} [description]
          */
         get: function () {
             if (!this._animations) {
-                this._animations = new List();
-                this._disposers.push(new ListDisposer(this._animations));
+                this._animations = [];
+                this._disposers.push(new MultiDisposer(this._animations));
             }
             return this._animations;
         },
@@ -302,6 +307,13 @@ var DataItem = /** @class */ (function (_super) {
         });
         this._visible = true;
         return animation;
+    };
+    // if data item is disposed, dispose sprites
+    DataItem.prototype.dispose = function () {
+        _super.prototype.dispose.call(this);
+        $array.each(this.sprites, function (sprite) {
+            sprite.dispose();
+        });
     };
     /**
      * Hides the Data Item and related visual elements.
@@ -785,6 +797,17 @@ var DataItem = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * adds a sprite to dataItem.sprites array
+     * @ignore
+     */
+    DataItem.prototype.addSprite = function (sprite) {
+        if (sprite.dataItem && sprite.dataItem != this) {
+            $array.remove(sprite.dataItem.sprites, sprite);
+        }
+        this.sprites.push(sprite);
+        sprite.dataItem = this;
+    };
     return DataItem;
 }(BaseObjectEvents));
 export { DataItem };

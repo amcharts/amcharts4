@@ -456,6 +456,14 @@ export declare class Component extends Container {
      */
     protected processDataItem(dataItem: this["_dataItem"], dataContext?: Object, index?: number): void;
     /**
+     *
+     * When validating raw data, instead of processing data item, we update it
+     *
+     * @ignore Exclude from docs
+     * @param {Object} item
+     */
+    protected updateDataItem(dataItem: this["_dataItem"]): void;
+    /**
      * [validateDataElements description]
      *
      * @ignore Exclude from docs
@@ -780,6 +788,13 @@ export declare class Component extends Container {
      * @param {IListEvents<DataItem>["insert"]} event [description]
      */
     protected handleDataItemAdded(event: IListEvents<DataItem>["insert"]): void;
+    /**
+     * removes [[DataItem]] as well as triggers data re-validation.
+     *
+     * @ignore Exclude from docs
+     * @param {IListEvents<DataItem>["insert"]} event [description]
+     */
+    protected handleDataItemRemoved(event: IListEvents<DataItem>["remove"]): void;
     /**
      * [dataMethods description]
      *

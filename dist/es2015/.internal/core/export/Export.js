@@ -2077,7 +2077,7 @@ var Export = /** @class */ (function (_super) {
         var preloader = this.preloader;
         if (preloader) {
             preloader.progress = 0.5;
-            preloader.label.textElement.text = "...";
+            preloader.label.text = "...";
         }
     };
     /**

@@ -243,6 +243,7 @@ var System = /** @class */ (function (_super) {
             var tooltipContainer = container.createChild(Container);
             tooltipContainer.width = percent(100);
             tooltipContainer.height = percent(100);
+            tooltipContainer.isMeasured = false;
             contentContainer.tooltipContainer = tooltipContainer;
             sprite.tooltip = new Tooltip();
             sprite.tooltip.hide(0);
@@ -251,7 +252,6 @@ var System = /** @class */ (function (_super) {
             if (!this.commercialLicense) {
                 var logo = tooltipContainer.createChild(AmChartsLogo);
                 logo.scale = 0.3;
-                logo.tooltip = sprite.tooltip;
             }
             sprite.numberFormatter; // need to create one.
             return sprite;
@@ -425,7 +425,7 @@ var System = /** @class */ (function (_super) {
         this.reportTime(" sprites validated");
         // TODO make this more efficient
         // TODO don't copy the array
-        $array.each(animations.slice(), function (x) {
+        $array.each($array.copy(animations), function (x) {
             x.update();
         });
         this.reportTime("anim");
@@ -527,7 +527,7 @@ var System = /** @class */ (function (_super) {
      * @see {@link https://docs.npmjs.com/misc/semver}
      * @type {string}
      */
-    System.VERSION = "4.0.0-beta.5";
+    System.VERSION = "4.0.0-beta.6";
     return System;
 }(BaseObjectEvents));
 export { System };

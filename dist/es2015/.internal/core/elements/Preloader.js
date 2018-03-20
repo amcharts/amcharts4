@@ -76,9 +76,9 @@ var Preloader = /** @class */ (function (_super) {
         label.verticalCenter = "middle";
         label.isMeasured = false;
         label.width = 200;
-        label.textElement.fill = interfaceColors.getFor("text");
-        label.textElement.align = "center";
-        label.textElement.valign = "middle";
+        label.fill = interfaceColors.getFor("text");
+        label.align = "center";
+        label.valign = "middle";
         label.fillOpacity = 0.4;
         _this.label = label;
         // Set defaults
@@ -129,7 +129,7 @@ var Preloader = /** @class */ (function (_super) {
             }*/
             this.progressSlice.arc = 360 * value;
             if (this.label) {
-                this.label.textElement.text = Math.round(value * 100) + "%";
+                this.label.text = Math.round(value * 100) + "%";
             }
             if (value >= 1) {
                 // Cancel the timeout

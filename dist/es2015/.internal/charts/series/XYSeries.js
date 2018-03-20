@@ -1024,7 +1024,6 @@ var XYSeries = /** @class */ (function (_super) {
         var axisSeries = this.baseAxis.series;
         $iter.each(axisSeries.iterator(), function (series) {
             if (series.stacked) {
-                series.invalidateBullets = true;
                 series.invalidateProcessedData();
             }
         });

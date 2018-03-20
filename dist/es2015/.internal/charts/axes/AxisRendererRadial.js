@@ -277,8 +277,6 @@ var AxisRendererRadial = /** @class */ (function (_super) {
         if (axisAngle < 0) {
             axisAngle += 360;
         }
-        var verticalCenter = "middle";
-        var horizontalCenter = "middle";
         var tickLength = this.ticks.template.length;
         var sign = 1;
         if (label.inside) {
@@ -286,8 +284,6 @@ var AxisRendererRadial = /** @class */ (function (_super) {
         }
         label.dx = sign * tickLength * $math.sin(axisAngle) + sign * label.pixelWidth / 2 * $math.sin(axisAngle);
         label.dy = -sign * tickLength * $math.cos(axisAngle) - sign * label.pixelHeight / 2 * $math.cos(axisAngle);
-        label.verticalCenter = verticalCenter;
-        label.horizontalCenter = horizontalCenter;
         this.positionItem(label, point);
         this.toggleVisibility(label, position, this.minLabelPosition, this.maxLabelPosition);
     };

@@ -19,6 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { BaseObject } from "../../Base";
 import { List, ListDisposer } from "../../utils/List";
+import { MultiDisposer } from "../../utils/Disposer";
 import { Animation } from "../../utils/Animation";
 import { system } from "../../System";
 import * as $iter from "../../utils/Iterator";
@@ -446,12 +447,12 @@ var Pattern = /** @class */ (function (_super) {
          * A list of animations currently running on the patter.
          *
          * @ignore Exclude from docs
-         * @return {List<Animation>} Animation list
+         * @return {Array<Animation>} Animation list
          */
         get: function () {
             if (!this._animations) {
-                this._animations = new List();
-                this._disposers.push(new ListDisposer(this._animations));
+                this._animations = [];
+                this._disposers.push(new MultiDisposer(this._animations));
             }
             return this._animations;
         },

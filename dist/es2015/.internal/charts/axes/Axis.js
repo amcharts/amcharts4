@@ -90,8 +90,7 @@ var AxisDataItem = /** @class */ (function (_super) {
                     grid.dataItem.grid = undefined;
                 }
                 grid.__disabled = false;
-                grid.dataItem = this;
-                this.sprites.push(grid);
+                this.addSprite(grid);
             }
             this._grid = grid;
         },
@@ -137,8 +136,7 @@ var AxisDataItem = /** @class */ (function (_super) {
                     tick.dataItem.tick = undefined;
                 }
                 tick.__disabled = false;
-                tick.dataItem = this;
-                this.sprites.push(tick);
+                this.addSprite(tick);
             }
             this._tick = tick;
         },
@@ -179,8 +177,7 @@ var AxisDataItem = /** @class */ (function (_super) {
                     label.dataItem.label = undefined;
                 }
                 label.__disabled = false;
-                label.dataItem = this;
-                this.sprites.push(label);
+                this.addSprite(label);
             }
             this._label = label;
         },
@@ -221,9 +218,8 @@ var AxisDataItem = /** @class */ (function (_super) {
                     axisFill.dataItem.axisFill = undefined;
                 }
                 axisFill.__disabled = false;
-                axisFill.dataItem = this;
                 axisFill.axis = this.component;
-                this.sprites.push(axisFill);
+                this.addSprite(axisFill);
             }
             this._axisFill = axisFill;
         },
@@ -247,7 +243,7 @@ var AxisDataItem = /** @class */ (function (_super) {
         set: function (text) {
             this._text = text;
             if (this._label) {
-                this._label.textElement.text = text;
+                this._label.text = text;
             }
         },
         enumerable: true,
@@ -277,16 +273,14 @@ var AxisDataItem = /** @class */ (function (_super) {
         get: function () {
             if (!this._contents) {
                 var contents = new Container();
-                this.sprites.push(contents);
+                this.addSprite(contents);
                 contents.isMeasured = false;
-                contents.dataItem = this;
                 this._contents = contents;
                 var component = this.component;
                 if (component) {
                     var mask = component.renderer.axisFills.create();
                     mask.axis = component;
-                    mask.dataItem = this;
-                    this.sprites.push(mask);
+                    this.addSprite(mask);
                     this._mask = mask;
                     contents.mask = mask;
                 }
@@ -464,7 +458,7 @@ var Axis = /** @class */ (function (_super) {
         _this._dataItemsIterator.createNewItems = true;
         // Create tooltip
         var tooltip = new Tooltip();
-        tooltip.textElement.padding(5, 10, 5, 10);
+        tooltip.label.padding(5, 10, 5, 10);
         tooltip.background.pointerLength = 5;
         tooltip.fitPointerToBounds = true;
         tooltip.filters.clear();
@@ -475,7 +469,7 @@ var Axis = /** @class */ (function (_super) {
         background.stroke = background.fill;
         background.strokeWidth = 1;
         background.fillOpacity = 1;
-        tooltip.textElement.fill = interfaceColors.getFor("alternativeText");
+        tooltip.label.fill = interfaceColors.getFor("alternativeText");
         _this.tooltip = tooltip;
         _this.applyTheme();
         return _this;

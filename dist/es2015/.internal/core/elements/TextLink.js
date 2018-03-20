@@ -17,7 +17,7 @@ var __extends = (this && this.__extends) || (function () {
  * ============================================================================
  * @hidden
  */
-import { Text } from "../../core/elements/Text";
+import { Label } from "../../core/elements/Label";
 import { MouseCursorStyle } from "../../core/interaction/Mouse";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 /**
@@ -52,6 +52,6 @@ var TextLink = /** @class */ (function (_super) {
         return _this;
     }
     return TextLink;
-}(Text));
+}(Label));
 export { TextLink };
 //# sourceMappingURL=TextLink.js.map

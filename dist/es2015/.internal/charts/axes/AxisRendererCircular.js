@@ -47,6 +47,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
         var _this = 
         // Init
         _super.call(this, axis) || this;
+        // axis.noLayouting = true; // does not trigger redraw when size changes
         _this.className = "AxisRendererCircular";
         _this.isMeasured = false;
         _this.startAngle = -90;

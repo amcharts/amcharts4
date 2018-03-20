@@ -41,6 +41,7 @@ var MapLineObject = /** @class */ (function (_super) {
         _this.adjustRotation = true;
         _this.className = "MapLineObject";
         _this.isMeasured = false;
+        _this.noLayouting = true;
         _this.cloneChildren = true;
         _this.applyTheme();
         return _this;

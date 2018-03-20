@@ -9,7 +9,6 @@
  * @hidden
  */
 import { BaseObject } from "../Base";
-import { List } from "../utils/List";
 import { IPoint } from "../defs/IPoint";
 import { IRectangle } from "../defs/IRectangle";
 import { IMorphable } from "../defs/IMorphable";
@@ -56,9 +55,9 @@ export declare class Morpher extends BaseObject implements IAnimatable {
     /**
      * List of animations currently running.
      *
-     * @type {Optional<List<Animation>>}
+     * @type {Optional<Array<Animation>>}
      */
-    protected _animations: $type.Optional<List<Animation>>;
+    protected _animations: $type.Optional<Array<Animation>>;
     /**
      * A storage for measurements.
      *
@@ -179,7 +178,7 @@ export declare class Morpher extends BaseObject implements IAnimatable {
     /**
      * Returns a list of morph animations currently being played.
      *
-     * @return {List<Animation>} List of animations
+     * @return {Array<Animation>} List of animations
      */
-    readonly animations: List<Animation>;
+    readonly animations: Array<Animation>;
 }

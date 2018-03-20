@@ -43,6 +43,7 @@ var MapObject = /** @class */ (function (_super) {
         _this.className = "MapObject";
         // Set defaults
         _this.isMeasured = false;
+        _this.noLayouting = true;
         _this.clickable = true;
         // Apply theme
         _this.applyTheme();

@@ -26,3 +26,19 @@ chart.dataFields.value = "value";
 
 // for right-most label to fit
 chart.paddingRight = 30;
+
+// make nodes draggable
+let nodeTemplate = chart.nodes.template;
+nodeTemplate.draggable = true;
+nodeTemplate.inert = true;
+nodeTemplate.readerTitle = "Drag me!";
+nodeTemplate.showSystemTooltip = true;
+nodeTemplate.width = 30;
+
+let defaultState = nodeTemplate.background.defaultState;
+let defaultDropShadow = defaultState.filters.push(new amcharts4.DropShadowFilter());
+defaultDropShadow.opacity = 0;
+
+let hoverState = nodeTemplate.background.states.create("hover");
+let hoverDropShadow = hoverState.filters.push(new amcharts4.DropShadowFilter());
+hoverDropShadow.dy = 0;

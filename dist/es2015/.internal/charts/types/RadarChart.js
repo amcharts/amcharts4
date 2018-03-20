@@ -91,6 +91,11 @@ var RadarChart = /** @class */ (function (_super) {
          * @type {AxisRendererRadial}
          */
         _this._axisRendererY = AxisRendererRadial;
+        /**
+         * used by cursor. We adjust innerradius if start and end angle are close to each other
+         * @ignore Exclude from docs
+         */
+        _this.innerRadiusModifyer = 1;
         _this.className = "RadarChart";
         _this.startAngle = -90;
         _this.endAngle = 270;
@@ -99,6 +104,7 @@ var RadarChart = /** @class */ (function (_super) {
         var radarContainer = _this.plotContainer.createChild(Container);
         radarContainer.width = percent(100);
         radarContainer.height = percent(100);
+        radarContainer.noLayouting = true;
         radarContainer.events.on("maxsizechanged", function () {
             _this.invalidate();
         });
@@ -213,6 +219,7 @@ var RadarChart = /** @class */ (function (_super) {
             var mr = Math.min(wr, hr);
             value = Math.max(mr * value, mr - Math.min(radarCont.innerHeight, radarCont.innerWidth)) / mr;
             innerRect = $math.getArcRect(this.startAngle, this.endAngle, value);
+            this.innerRadiusModifyer = value / innerRadius.value;
             innerRadius = percent(value * 100);
         }
         // @todo handle this when innerRadius set in pixels (do it for pie also)
@@ -221,8 +228,8 @@ var RadarChart = /** @class */ (function (_super) {
         var diameter = $utils.relativeRadiusToValue(this.radius, maxRadius) * 2;
         var startAngle = this.startAngle;
         var endAngle = this.endAngle;
-        var pixelInnerRadius = $utils.relativeRadiusToValue(innerRadius, diameter / 2);
-        this._bulletMask.element.attr({ "d": $path.arc(startAngle, endAngle - startAngle, diameter / 2, pixelInnerRadius) });
+        this._pixelInnerRadius = $utils.relativeRadiusToValue(innerRadius, diameter / 2);
+        this._bulletMask.element.attr({ "d": $path.arc(startAngle, endAngle - startAngle, diameter / 2, this._pixelInnerRadius) });
         $iter.each(this.xAxes.iterator(), function (axis) {
             axis.renderer.startAngle = startAngle;
             axis.renderer.endAngle = endAngle;
@@ -351,6 +358,16 @@ var RadarChart = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("radius", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(RadarChart.prototype, "pixelInnerRadius", {
+        /**
+         * @return {number} Inner radius in pixels
+         */
+        get: function () {
+            return this._pixelInnerRadius;
         },
         enumerable: true,
         configurable: true

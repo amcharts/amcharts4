@@ -17,7 +17,7 @@ import { BaseObjectEvents } from "./Base";
 import { Adapter } from "./utils/Adapter";
 import { ITheme } from "../themes/ITheme";
 import { Dictionary, IDictionaryEvents, DictionaryTemplate } from "./utils/Dictionary";
-import { List, ListTemplate } from "./utils/List";
+import { ListTemplate } from "./utils/List";
 import { EventDispatcher } from "./utils/EventDispatcher";
 import { IDisposer, MutableValueDisposer } from "./utils/Disposer";
 import { Animation, IAnimatable } from "./utils/Animation";
@@ -515,16 +515,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     protected _tabindex: number;
     /**
-     * Houses boolean setting if Sprite should use speedier version of rendering
-     * if it supports it.
-     *
-     * Use accessors `shallowRendering` to set and retrieve.
-     *
-     * @ignore Exclude from docs
-     * @type {boolean}
-     */
-    protected _shallowRendering: boolean;
-    /**
      * Should system tooltips be allowed to be displayed if the element has
      * `readerTitle` set?
      *
@@ -540,9 +530,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * List of animations currently playing for this Sprite.
      *
      * @ignore Exclude from docs
-     * @type {List<Animation>}
+     * @type {Array<Animation>}
      */
-    protected _animations: List<Animation>;
+    protected _animations: Array<Animation>;
     /**
      * A link to [[Disposer]] for event handler which is attached to hide
      * animation. In some cases we need to cancel this event. This property is
@@ -687,6 +677,12 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @type {SVGDescElement}
      */
     protected _descriptionElement: Optional<AMElement>;
+    /**
+     * @todo: review description
+     * Specifies if a property changed on this sprite should also affect all the clones cloned from it. This is only important if you want to change properties of clones after the cloning was done. When cloning Sprite initially, all the properties are copied anyway.
+     * @default false
+     */
+    applyOnClones: boolean;
     /**
      * Internal storage properties.
      *
@@ -879,22 +875,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {boolean} value Is template?
      */
     isTemplate: boolean;
-    /**
-     * @ignore Exclude from docs
-     * @return {boolean} Enable shallow rendering?
-     */
-    /**
-     * Enables or disables "shallow rendering".
-     *
-     * Normally a Sprite is re-rendered each time some of it's properties change.
-     * If `shallowRendering` is set to `true`, either directly on Sprite or any of
-     * its ancestors, a Sprite might take a quicker route for rendering, assuming
-     * some information or elements might be re-used instead of created anew.
-     *
-     * @ignore Exclude from docs
-     * @param {boolean}  value  Enable shallow rendering?
-     */
-    shallowRendering: boolean;
     /**
      * Returns whether the element should attempt to construct itself in a way so
      * that system tooltip is shown if its `readerTitle` is set.
@@ -1370,9 +1350,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * If the list has not been initialized it is created.
      *
-     * @return {List<Animation>} List of animations
+     * @return {Array<Animation>} List of animations
      */
-    readonly animations: List<Animation>;
+    readonly animations: Array<Animation>;
     /**
      * Converts element's local coordinates to the coordinates within the main
      * chart container.

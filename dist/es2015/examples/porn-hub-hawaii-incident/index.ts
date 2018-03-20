@@ -6,7 +6,7 @@ import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 import DarkTheme from "@amcharts/amcharts4/themes/dark";
 import continentsLow from "@amcharts/amcharts4/maps/continentsLow";
 
-
+ 
 amcharts4.useTheme(AnimatedTheme);
 amcharts4.useTheme(DarkTheme);
 
@@ -49,12 +49,12 @@ pyongyangCircle.radius = 4;
 pyongyangCircle.tooltip = new amcharts4.Tooltip();
 pyongyangCircle.tooltip.filters.clear();
 pyongyangCircle.tooltip.background.cornerRadius = 20;
-pyongyangCircle.tooltip.textElement.padding(15, 20, 15, 20);
+pyongyangCircle.tooltip.label.padding(15, 20, 15, 20);
 pyongyangCircle.tooltip.background.strokeOpacity = 0;
 pyongyangCircle.tooltipY = -5;
 
 
-let koreaText = pyongyang.createChild(amcharts4.Text);
+let koreaText = pyongyang.createChild(amcharts4.Label);
 koreaText.text = "North Korea";
 koreaText.fillOpacity = 0.2;
 koreaText.fontSize = 20;
@@ -100,15 +100,11 @@ honoluluCircle.tooltipY = -5;
 honoluluCircle.tooltip = new amcharts4.Tooltip();
 honoluluCircle.tooltip.filters.clear();
 honoluluCircle.tooltip.background.cornerRadius = 20;
-honoluluCircle.tooltip.textElement.padding(15, 20, 15, 20);
+honoluluCircle.tooltip.label.padding(15, 20, 15, 20);
 honoluluCircle.tooltip.background.strokeOpacity = 0;
 
 
-
-
-
-
-let hawaiiText = honolulu.createChild(amcharts4.Text);
+let hawaiiText = honolulu.createChild(amcharts4.Label);
 hawaiiText.text = "Hawaii, USA";
 hawaiiText.fillOpacity = 0.1;
 hawaiiText.fontSize = 35;
@@ -137,7 +133,7 @@ line.line.strokeOpacity = 0; // it's invisible, we use it for a bomb image to fo
 setTimeout(zoomToHawaii, 100);
 
 function zoomToHawaii() {
-	mapChart.zoomToGeoPoint({ longitude: -175, latitude: 15 }, 2.2, true);
+  mapChart.zoomToGeoPoint({ longitude: -175, latitude: 15 }, 2.2, true);
 }
 
 // clock chart //////////////////////////////////////////////////////////////////
@@ -185,14 +181,14 @@ minutesHand.zIndex = 1;
 
 
 function updateHands(date: Date) {
-	var hours = date.getHours();
-	var minutes = date.getMinutes();
-	var seconds = date.getSeconds();
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var seconds = date.getSeconds();
 
-	// set hours
-	hourHand.showValue(hours + minutes / 60, 0);
-	// set minutes
-	minutesHand.showValue(12 * (minutes + seconds / 60) / 60, 0);
+  // set hours
+  hourHand.showValue(hours + minutes / 60, 0);
+  // set minutes
+  minutesHand.showValue(12 * (minutes + seconds / 60) / 60, 0);
 }
 
 /// end of clock
@@ -200,119 +196,122 @@ function updateHands(date: Date) {
 let exploded = false;
 
 let honoluluTexts = [
-	{ time: new Date(2018, 0, 13, 6, 7).getTime(), text: "Heh, good one!" },
-	{ time: new Date(2018, 0, 13, 6, 30).getTime(), text: "Check this out!" },
-	{ time: new Date(2018, 0, 13, 7, 10).getTime(), text: "Nice..." },
-	{ time: new Date(2018, 0, 13, 8, 7).getTime(), text: "Whaaaat?!?" },
-	{ time: new Date(2018, 0, 13, 8, 15).getTime(), text: "OMG!!!" },
-	{ time: new Date(2018, 0, 13, 8, 30).getTime(), text: "I swear I will never do this again!" },
-	{ time: new Date(2018, 0, 13, 8, 49).getTime(), text: "God saved us!" },
-	{ time: new Date(2018, 0, 13, 8, 59).getTime(), text: "Ok, time for porn." },
-	{ time: new Date(2018, 0, 13, 9, 20).getTime(), text: "" }
+  { time: new Date(2018, 0, 13, 6, 7).getTime(), text: "Heh, good one!" },
+  { time: new Date(2018, 0, 13, 6, 30).getTime(), text: "Check this out!" },
+  { time: new Date(2018, 0, 13, 7, 10).getTime(), text: "Nice..." },
+  { time: new Date(2018, 0, 13, 8, 7).getTime(), text: "Whaaaat?!?" },
+  { time: new Date(2018, 0, 13, 8, 15).getTime(), text: "OMG!!!" },
+  { time: new Date(2018, 0, 13, 8, 30).getTime(), text: "I swear I will never do this again!" },
+  { time: new Date(2018, 0, 13, 8, 49).getTime(), text: "God saved us!" },
+  { time: new Date(2018, 0, 13, 8, 59).getTime(), text: "Ok, time for porn." },
+  { time: new Date(2018, 0, 13, 9, 20).getTime(), text: "" }
 ];
 
 let pyongyangTexts = [
-	{ time: new Date(2018, 0, 13, 6, 5).getTime(), text: "Great comrade Kim Jong-un..." },
-	{ time: new Date(2018, 0, 13, 6, 20).getTime(), text: "WHAT!?" },
-	{ time: new Date(2018, 0, 13, 6, 40).getTime(), text: "Please, push this button..." },
-	{ time: new Date(2018, 0, 13, 7, 0).getTime(), text: "O.K." },
-	{ time: new Date(2018, 0, 13, 7, 30).getTime(), text: "" },
+  { time: new Date(2018, 0, 13, 6, 5).getTime(), text: "Great comrade Kim Jong-un..." },
+  { time: new Date(2018, 0, 13, 6, 20).getTime(), text: "WHAT!?" },
+  { time: new Date(2018, 0, 13, 6, 40).getTime(), text: "Please, push this button..." },
+  { time: new Date(2018, 0, 13, 7, 0).getTime(), text: "O.K." },
+  { time: new Date(2018, 0, 13, 7, 30).getTime(), text: "" },
 ];
 
 // updates all elements
 function setTime() {
-	let time = new Date(startTime + (endTime - startTime) * slider.start).getTime();;
-	let roundedTime = amcharts4.time.round(new Date(time), "minute").getTime();
+  let time = new Date(startTime + (endTime - startTime) * slider.start).getTime();;
+  let roundedTime = amcharts4.time.round(new Date(time), "minute").getTime();
 
-	if (roundedTime != currentTime) {
-		currentTime = roundedTime;
-		let count = columnSeries.dataItems.length;
-		if (slider) {
-			for (let i = 0; i < count; i++) {
-				let dataItem = columnSeries.dataItems.getIndex(i);
+  if (roundedTime != currentTime) {
+    currentTime = roundedTime;
+    let count = columnSeries.dataItems.length;
+    if (slider) {
+      for (let i = 0; i < count; i++) {
+        let dataItem = columnSeries.dataItems.getIndex(i);
+        let dataItem2 = linesSeries.dataItems.getIndex(i);
 
-				if (i < slider.start * count) {
-					dataItem.show(500, 0, ["valueY"]);
-				}
-				else {
-					dataItem.hide(500, 0, 0, ["valueY"]);
-				}
-			}
-		}
-	}
+        if (i < slider.start * count) {
+          dataItem.show(500, 0, ["valueY"]);
+          dataItem2.show(500, 0, ["valueY"]);
+        }
+        else {
+          dataItem.hide(500, 0, 0, ["valueY"]);
+          dataItem2.hide(500, 0, 0, ["valueY"]);
+        }
+      }
+    }
+  }
 
-	// add some drama by zooming the map
-	updateHands(new Date(time));
+  // add some drama by zooming the map
+  updateHands(new Date(time));
 
-	let bombFlyDuration = cancelTime - launchTime;
-	let bombPosition = (time - launchTime) / bombFlyDuration;
-	bombPosition = Math.min(1, bombPosition);
-	bombPosition = Math.max(0, bombPosition);
+  let bombFlyDuration = cancelTime - launchTime;
+  let bombPosition = (time - launchTime) / bombFlyDuration;
+  bombPosition = Math.min(1, bombPosition);
+  bombPosition = Math.max(0, bombPosition);
 
-	let oPoint = line.positionToPoint(bombPosition);
-	let geoPoint = mapChart.seriesPointToGeo(oPoint);
-	bomb.latitude = geoPoint.latitude;
-	bomb.longitude = geoPoint.longitude;
-	bomb.rotation = oPoint.rotation + 90;
+  let oPoint = line.positionToPoint(bombPosition);
+  let geoPoint = mapChart.seriesPointToGeo(oPoint);
+  bomb.latitude = geoPoint.latitude;
+  bomb.longitude = geoPoint.longitude;
+  bomb.rotation = oPoint.rotation + 90;
 
-	if (bombPosition > 0 && bombPosition < 1) {
-		bomb.opacity = 1;
-	}
+  if (bombPosition > 0 && bombPosition < 1) {
+    bomb.opacity = 1;
+  }
 
-	if ((bombPosition >= 1 && !exploded)) {
-		bomb.opacity = 0;
-		bang.opacity = 1;
-		bang.animate({ property: "opacity", to: 0, from: 1 }, 1000);
-		exploded = true;
-	}
+  if ((bombPosition >= 1 && !exploded)) {
+    bomb.opacity = 0;
+    bang.opacity = 1;
+    bang.animate({ property: "opacity", to: 0, from: 1 }, 1000);
+    exploded = true;
+  }
 
-	if (exploded && bombPosition < 1) {
-		exploded = false;
-		bang.opacity = 0;
-		bomb.opacity = 1;
-	}
+  if (exploded && bombPosition < 1) {
+    exploded = false;
+    bang.opacity = 0;
+    bomb.opacity = 1;
+  }
 
-	if (bombPosition <= 0.001) {
-		bomb.opacity = 0;
-	}
+  if (bombPosition <= 0.001) {
+    bomb.opacity = 0;
+  }
 
-	if (time > alertTime && time < cancelTime) {
-		if (!bulletAlertCircle.visible) {
-			bulletAlertCircle.visible = true;
-			bulletAlertAnimation.resume();
-		}
-	}
-	else {
-		bulletAlertCircle.visible = false;
-	}
+  if (time > alertTime && time < cancelTime) {
+    if (!bulletAlertCircle.visible) {
+      bulletAlertCircle.visible = true;
+      bulletAlertAnimation.resume();
+    }
+  }
+  else {
+    bulletAlertCircle.visible = false;
+  }
 
-	for (let i = 0; i < honoluluTexts.length; i++) {
-		let honoluluText = honoluluTexts[i];
-		if (time > honoluluText.time) {
-			honoluluCircle.tooltipText = honoluluText.text;
-		}
-	}
+  for (let i = 0; i < honoluluTexts.length; i++) {
+    let honoluluText = honoluluTexts[i];
+    if (time > honoluluText.time) {
+      honoluluCircle.tooltipText = honoluluText.text;
+    }
+  }
 
-	if (honoluluCircle.tooltipText) {
-		honoluluCircle.showTooltip();
-	}
-	else {
-		honoluluCircle.hideTooltip();
-	}
+  if (honoluluCircle.tooltipText) {
+    honoluluCircle.showTooltip();
+  }
+  else {
+    honoluluCircle.hideTooltip();
+  }
 
-	for (let i = 0; i < pyongyangTexts.length; i++) {
-		let pyongyangText = pyongyangTexts[i];
-		if (time > pyongyangText.time) {
-			pyongyangCircle.tooltipText = pyongyangText.text;
-		}
-	}
+  for (let i = 0; i < pyongyangTexts.length; i++) {
+    let pyongyangText = pyongyangTexts[i];
+    if (time > pyongyangText.time) {
+      pyongyangCircle.tooltipText = pyongyangText.text;
+    }
+  }
 
-	if (pyongyangCircle.tooltipText) {
-		pyongyangCircle.showTooltip();
-	}
-	else {
-		pyongyangCircle.hideTooltip();
-	}
+  if (pyongyangCircle.tooltipText) {
+    pyongyangCircle.showTooltip();
+  }
+  else {
+    pyongyangCircle.hideTooltip();
+  }
 }
 
 
@@ -365,18 +364,37 @@ columnSeries.tooltipText = "{valueY.workingValue}%";
 columnSeries.stroke = amcharts4.color("#3f2698");
 columnSeries.tooltip.background.fillOpacity = 0;
 columnSeries.tooltip.autoTextColor = false;
-columnSeries.tooltip.textElement.fill = amcharts4.color("#ffffff");
+columnSeries.tooltip.label.fill = amcharts4.color("#ffffff");
 columnSeries.tooltip.filters.clear();
 columnSeries.tooltip.pointerOrientation = "vertical";
 columnSeries.simplifiedProcessing = true;
 
 columnSeries.events.on("predatavalidate", () => {
-	let count = columnSeries.dataItems.length;
+  let count = columnSeries.dataItems.length;
 
-	for (let i = 0; i < count; i++) {
-		let dataItem = columnSeries.dataItems.getIndex(i);
-		dataItem.hide(0);
-	}
+  for (let i = 0; i < count; i++) {
+    let dataItem = columnSeries.dataItems.getIndex(i);
+    dataItem.hide(0);
+  }
+});
+
+
+
+let linesSeries = chart.series.push(new xy.LineSeries());
+linesSeries.dataFields.valueY = "value";
+linesSeries.dataFields.dateX = "time";
+linesSeries.tooltipText = "{valueY.workingValue}%";
+linesSeries.stroke = amcharts4.color("#3f2698");
+linesSeries.tooltip.background.fillOpacity = 0;
+linesSeries.tooltip.autoTextColor = false;
+linesSeries.tooltip.label.fill = amcharts4.color("#ffffff");
+linesSeries.tooltip.filters.clear();
+linesSeries.tooltip.pointerOrientation = "vertical";
+linesSeries.tensionX = 0.7;
+
+
+linesSeries.events.on("inited", () => {
+  linesSeries.opacity = 0;
 });
 
 
@@ -386,6 +404,13 @@ range.endValue = - 100;
 range.contents.stroke = amcharts4.color("#84279a");
 range.contents.fill = range.contents.stroke;
 
+
+let range2 = valueAxis.createSeriesRange(linesSeries);
+range2.startValue = 0;
+range2.endValue = - 100;
+range2.contents.stroke = amcharts4.color("#84279a");
+range2.contents.fill = range.contents.stroke;
+
 chart.dateFormatter.inputDateFormat = "yyyy-MM-dd HH:mm";
 
 chart.cursor = new xy.XYCursor();
@@ -394,7 +419,7 @@ chart.cursor.xAxis = dateAxis;
 chart.cursor.lineX.strokeOpacity = 0;
 
 chart.events.on("inited", () => {
-	createSlider();
+  createSlider();
 })
 
 let slider: amcharts4.Slider;
@@ -423,59 +448,59 @@ alertCanceled.label.horizontalCenter = "left";
 let playButton: amcharts4.PlayButton;
 
 function createSlider() {
-	let sliderContainer = container.createChild(amcharts4.Container);
+  let sliderContainer = container.createChild(amcharts4.Container);
 
-	sliderContainer.width = amcharts4.percent(100);
-	sliderContainer.valign = "bottom";
-	sliderContainer.padding(0, 50, 25, 50);
-	sliderContainer.layout = "horizontal";
+  sliderContainer.width = amcharts4.percent(100);
+  sliderContainer.valign = "bottom";
+  sliderContainer.padding(0, 50, 25, 50);
+  sliderContainer.layout = "horizontal";
 
 
-	playButton = sliderContainer.createChild(amcharts4.PlayButton);
-	playButton.events.on("toggle", (event) => {
-		if (event.target.isActive) {
-			play();
-		}
-		else {
-			stop();
-		}
-	})
+  playButton = sliderContainer.createChild(amcharts4.PlayButton);
+  playButton.events.on("toggle", (event) => {
+    if (event.target.isActive) {
+      play();
+    }
+    else {
+      stop();
+    }
+  })
 
-	slider = sliderContainer.createChild(amcharts4.Slider);
-	slider.valign = "middle";
-	slider.margin(0, 0, 0, 0);
-	slider.marginLeft = 30;
-	slider.events.on("rangechanged", () => {
-		setTime();
-	});
+  slider = sliderContainer.createChild(amcharts4.Slider);
+  slider.valign = "middle";
+  slider.margin(0, 0, 0, 0);
+  slider.marginLeft = 30;
+  slider.events.on("rangechanged", () => {
+    setTime();
+  });
 
-	slider.startGrip.events.on("drag", () => {
-		stop();
-		sliderAnimation.setProgress(slider.start);
-	});
+  slider.startGrip.events.on("drag", () => {
+    stop();
+    sliderAnimation.setProgress(slider.start);
+  });
 
-	sliderAnimation = slider.animate({ property: "start", to: 1 }, 50000, amcharts4.ease.linear).pause();
-	sliderAnimation.events.on("animationend", () => {
-		playButton.isActive = false;
-	})
+  sliderAnimation = slider.animate({ property: "start", to: 1 }, 50000, amcharts4.ease.linear).pause();
+  sliderAnimation.events.on("animationend", () => {
+    playButton.isActive = false;
+  })
 }
 
 
 var sliderAnimation: amcharts4.Animation;
 
 function play() {
-	if (slider) {
-		if (slider.start >= 1) {
-			slider.start = 0;
-			sliderAnimation.start();
-		}
-		sliderAnimation.resume();
-	}
+  if (slider) {
+    if (slider.start >= 1) {
+      slider.start = 0;
+      sliderAnimation.start();
+    }
+    sliderAnimation.resume();
+  }
 }
 
 function stop() {
-	sliderAnimation.pause();
-	playButton.isActive = false;
+  sliderAnimation.pause();
+  playButton.isActive = false;
 }
 
 
@@ -486,6 +511,32 @@ pornhubLink.url = "https://www.pornhub.com/insights/hawaii-alert";
 pornhubLink.valign = "bottom";
 pornhubLink.padding(0, 50, 10, 0);
 pornhubLink.align = "right";
+
+
+let linesColumns = container.createChild(amcharts4.Button);
+linesColumns.dx = 15;
+linesColumns.dy = 15;
+linesColumns.label.text = "show lines";
+linesColumns.togglable = true;
+linesColumns.isMeasured = false;
+
+linesColumns.events.on("toggle", ()=>{
+  if(linesColumns.isActive){
+    linesColumns.label.text = "show columns";
+    linesSeries.visible = true;
+    linesSeries.opacity = 1;
+    columnSeries.visible = false;
+  }
+  else{
+    linesColumns.label.text = "show lines";
+    linesSeries.visible = false;
+    columnSeries.visible = true;    
+    linesSeries.opacity = 0;
+  }
+
+
+})
+
 
 
 // source: https://www.pornhub.com/insights/hawaii-alert
@@ -849,7 +900,3 @@ chart.data = [{ "time": "2018-01-13 06:00", "value": 0 },
 { "time": "2018-01-13 11:57", "value": 15 },
 { "time": "2018-01-13 11:58", "value": 0 },
 { "time": "2018-01-13 11:59", "value": 0 }];
-
-
-
-

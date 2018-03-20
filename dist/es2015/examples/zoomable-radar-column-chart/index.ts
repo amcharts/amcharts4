@@ -67,7 +67,7 @@ chart.data = [
 
 chart.padding(10, 10, 10, 10);
 
-var categoryAxis = chart.xAxes.push(new xy.CategoryAxis());
+var categoryAxis = chart.xAxes.push(new radar.CategoryAxis<radar.AxisRendererCircular>());
 categoryAxis.dataFields.category = "category";
 categoryAxis.renderer.minGridDistance = 60;
 categoryAxis.renderer.labels.template.location = 0.5;
@@ -76,11 +76,11 @@ categoryAxis.renderer.cellStartLocation = 0;
 categoryAxis.renderer.tooltipLocation = 0.5;
 
 
-var valueAxis = chart.yAxes.push(new xy.ValueAxis());
+var valueAxis = chart.yAxes.push(new radar.ValueAxis<radar.AxisRendererRadial>());
 valueAxis.tooltip.disabled = true;
 valueAxis.renderer.minGridDistance = 10;
 valueAxis.renderer.grid.template.strokeOpacity = 0.05;
-valueAxis.renderer.labels.template.textElement.fontSize = 9;
+valueAxis.renderer.labels.template.fontSize = 9;
 valueAxis.mouseEnabled = false;
 //valueAxis.renderer.gridType = "polygons";
 valueAxis.min = 0;

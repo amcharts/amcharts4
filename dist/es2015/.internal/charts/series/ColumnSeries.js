@@ -82,8 +82,7 @@ var ColumnSeriesDataItem = /** @class */ (function (_super) {
                 if (prevDataItem && prevDataItem != this) {
                     prevDataItem.column = undefined;
                 }
-                column.dataItem = this;
-                this.sprites.push(column);
+                this.addSprite(column);
             }
         },
         enumerable: true,
@@ -156,6 +155,7 @@ var ColumnSeries = /** @class */ (function (_super) {
         _this.clustered = true;
         _this._columnsContainer = _this.mainContainer.createChild(Container);
         _this._columnsContainer.isMeasured = false;
+        _this._columnsContainer.noLayouting = true;
         _this.columns;
         _this.columns.template.pixelPerfect = false;
         _this.applyTheme();
@@ -407,8 +407,7 @@ var ColumnSeries = /** @class */ (function (_super) {
                         if (rangeColumn.dataItem) {
                             $array.remove(rangeColumn.dataItem.sprites, rangeColumn);
                         }
-                        rangeColumn.dataItem = dataItem;
-                        dataItem.sprites.push(rangeColumn);
+                        dataItem.addSprite(rangeColumn);
                         _this.setColumnStates(rangeColumn);
                     }
                     dataItem.rangesColumns.setKey(axisRange.uid, rangeColumn);

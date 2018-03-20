@@ -21,7 +21,7 @@ import { Container } from "../Container";
 import { Sprite } from "../Sprite";
 import * as $math from "../utils/Math";
 import * as $path from "../rendering/Path";
-import * as $type from "../../core/utils/Type";
+import * as $type from "../utils/Type";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -44,6 +44,8 @@ var Slice = /** @class */ (function (_super) {
         // Init
         _super.call(this) || this;
         _this.className = "Slice";
+        // this is dumb container
+        _this.noLayouting = true;
         // Set defaults
         // @todo Override `measureElement` method and calculate size using math
         _this.isMeasured = false;

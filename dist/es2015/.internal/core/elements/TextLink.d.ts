@@ -7,7 +7,7 @@
  * ============================================================================
  * @hidden
  */
-import { Text, ITextProperties, ITextAdapters, ITextEvents } from "../../core/elements/Text";
+import { Label, ILabelProperties, ILabelAdapters, ILabelEvents } from "../../core/elements/Label";
 import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 /**
  * ============================================================================
@@ -18,19 +18,19 @@ import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 /**
  * Defines properties for [[TextLink]].
  */
-export interface ITextLinkProperties extends ITextProperties {
+export interface ITextLinkProperties extends ILabelProperties {
 }
 /**
  * Defines events for [[TextLink]].
  */
-export interface ITextLinkEvents extends ITextEvents {
+export interface ITextLinkEvents extends ILabelEvents {
 }
 /**
  * Defines adapters for [[TextLink]].
  *
  * @see {@link Adapter}
  */
-export interface ITextLinkAdapters extends ITextAdapters, ITextLinkProperties {
+export interface ITextLinkAdapters extends ILabelAdapters, ITextLinkProperties {
 }
 /**
  * ============================================================================
@@ -44,7 +44,7 @@ export interface ITextLinkAdapters extends ITextAdapters, ITextLinkProperties {
  * @see {@link ITextLinkEvents} for a list of available events
  * @see {@link ITextLinkAdapters} for a list of available Adapters
  */
-export declare class TextLink extends Text {
+export declare class TextLink extends Label {
     /**
      * Defines available properties.
      *

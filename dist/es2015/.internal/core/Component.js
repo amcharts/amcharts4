@@ -303,7 +303,7 @@ var Component = /** @class */ (function (_super) {
                     if (value) {
                         var children = new OrderedListTemplate(_this.createDataItem());
                         children.events.on("insert", _this.handleDataItemAdded, _this);
-                        children.events.on("remove", _this.invalidateDataItems, _this);
+                        children.events.on("remove", _this.handleDataItemRemoved, _this);
                         for (var i = 0; i < value.length; i++) {
                             var rawDataItem = value[i];
                             var childDataItem = children.create();
@@ -320,20 +320,60 @@ var Component = /** @class */ (function (_super) {
                     }
                 }
             });
-            // todo: use some iterator
             $object.each(this.propertyFields, function (f, fieldValue) {
                 var value = dataContext[fieldValue];
                 if ($type.hasValue(value)) {
                     dataItem.setProperty(f, value);
                 }
             });
-            // TODO dispose of these at some point ?
-            dataItem.events.on("valuechanged", this.handleDataItemValueChange, this);
-            dataItem.events.on("workingvaluechanged", this.handleDataItemWorkingValueChange, this);
-            dataItem.events.on("calculatedvaluechanged", this.handleDataItemCalculatedValueChange, this);
-            dataItem.events.on("propertychanged", this.handleDataItemPropertyChange, this);
-            dataItem.events.on("locationchanged", this.handleDataItemValueChange, this);
-            dataItem.events.on("workinglocationchanged", this.handleDataItemWorkingLocationChange, this);
+            this._disposers.push(dataItem.events.on("valuechanged", this.handleDataItemValueChange, this));
+            this._disposers.push(dataItem.events.on("workingvaluechanged", this.handleDataItemWorkingValueChange, this));
+            this._disposers.push(dataItem.events.on("calculatedvaluechanged", this.handleDataItemCalculatedValueChange, this));
+            this._disposers.push(dataItem.events.on("propertychanged", this.handleDataItemPropertyChange, this));
+            this._disposers.push(dataItem.events.on("locationchanged", this.handleDataItemValueChange, this));
+            this._disposers.push(dataItem.events.on("workinglocationchanged", this.handleDataItemWorkingLocationChange, this));
+        }
+    };
+    /**
+     *
+     * When validating raw data, instead of processing data item, we update it
+     *
+     * @ignore Exclude from docs
+     * @param {Object} item
+     */
+    Component.prototype.updateDataItem = function (dataItem) {
+        var _this = this;
+        if (dataItem) {
+            var dataContext_1 = dataItem.dataContext;
+            $object.each(this.dataFields, function (fieldName, fieldValue) {
+                var value = dataContext_1[fieldValue];
+                // Apply adapters to a retrieved value
+                value = _this.adapter.apply("dataContextValue", {
+                    field: fieldName,
+                    value: value,
+                    dataItem: dataItem
+                }).value;
+                if (dataItem.hasChildren[fieldName]) {
+                    if (value) {
+                        var children = (dataItem[fieldName]);
+                        $iter.each(children.iterator(), function (child) {
+                            _this.updateDataItem(child);
+                        });
+                    }
+                }
+                else {
+                    // data is converted to numbers/dates in each dataItem
+                    if ($type.hasValue(value)) {
+                        dataItem[fieldName] = value;
+                    }
+                }
+            });
+            $object.each(this.propertyFields, function (f, fieldValue) {
+                var value = dataContext_1[fieldValue];
+                if ($type.hasValue(value)) {
+                    dataItem.setProperty(f, value);
+                }
+            });
         }
     };
     /**
@@ -533,7 +573,7 @@ var Component = /** @class */ (function (_super) {
         var i = 0;
         $iter.each(this.dataItems.iterator(), function (dataItem) {
             if (dataItem) {
-                _this.processDataItem(dataItem, dataItem.dataContext, i);
+                _this.updateDataItem(dataItem);
                 i++;
             }
         });
@@ -558,6 +598,9 @@ var Component = /** @class */ (function (_super) {
             var preloader = this.preloader;
             // data items array is reset only if all data is validated, if _parseDataFrom is not 0, we append new data only
             if (this._parseDataFrom === 0) {
+                $iter.each(this.dataItems.iterator(), function (dataItem) {
+                    dataItem.dispose();
+                });
                 this.dataItems.clear();
                 // and for all components
                 $iter.each(this._dataUsers.iterator(), function (dataUser) {
@@ -1114,6 +1157,16 @@ var Component = /** @class */ (function (_super) {
      */
     Component.prototype.handleDataItemAdded = function (event) {
         event.newValue.component = this;
+        this.invalidateDataItems();
+    };
+    /**
+     * removes [[DataItem]] as well as triggers data re-validation.
+     *
+     * @ignore Exclude from docs
+     * @param {IListEvents<DataItem>["insert"]} event [description]
+     */
+    Component.prototype.handleDataItemRemoved = function (event) {
+        event.oldValue.component = undefined;
         this.invalidateDataItems();
     };
     Object.defineProperty(Component.prototype, "dataMethods", {

@@ -45,7 +45,6 @@ export { RoundedRectangle } from "./.internal/core/elements/RoundedRectangle";
 export { Scrollbar } from "./.internal/core/elements/Scrollbar";
 export { Slider } from "./.internal/core/elements/Slider";
 export { Slice } from "./.internal/core/elements/Slice";
-export { Text } from "./.internal/core/elements/Text";
 export { TextLink } from "./.internal/core/elements/TextLink";
 export { Tooltip } from "./.internal/core/elements/Tooltip";
 export { Trapezoid } from "./.internal/core/elements/Trapezoid";

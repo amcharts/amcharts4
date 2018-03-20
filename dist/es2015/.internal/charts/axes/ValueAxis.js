@@ -456,8 +456,8 @@ var ValueAxis = /** @class */ (function (_super) {
                     if (dataItem.value != value_1) {
                         dataItem.value = value_1;
                         dataItem.text = this.formatLabel(value_1);
-                        if (dataItem.label.textElement.invalid) {
-                            dataItem.label.textElement.validate();
+                        if (dataItem.label.invalid) {
+                            dataItem.label.validate();
                         }
                     }
                     this.validateDataElement(dataItem);
@@ -493,8 +493,8 @@ var ValueAxis = /** @class */ (function (_super) {
                                 if (dataItem.value != breakValue_1) {
                                     dataItem.value = breakValue_1;
                                     dataItem.text = _this.formatLabel(breakValue_1);
-                                    if (dataItem.label.textElement.invalid) {
-                                        dataItem.label.textElement.validate();
+                                    if (dataItem.label.invalid) {
+                                        dataItem.label.validate();
                                     }
                                 }
                                 _this.validateDataElement(dataItem);

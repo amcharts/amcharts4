@@ -91,6 +91,15 @@ export declare class SeriesDataItem extends DataItem {
      * @param {boolean} value Visible in legend?
      */
     visibleInLegend: boolean;
+    /**
+     * @return {number} Value
+     */
+    /**
+     * data items's numeric value.
+     *
+     * @param {number}  value  Value
+     */
+    value: number;
 }
 /**
  * ============================================================================
@@ -102,6 +111,12 @@ export declare class SeriesDataItem extends DataItem {
  * Defines data fields for [[Series]].
  */
 export interface ISeriesDataFields extends IComponentDataFields {
+    /**
+     * Name of the field in data that holds numeric value.
+     *
+     * @type {string}
+     */
+    value?: string;
 }
 /**
  * Defines properties for [[Series]].
@@ -355,11 +370,6 @@ export declare class Series extends Component implements ILegendItem<Series, ISe
      * @type {string}
      */
     protected _itemReaderText: string;
-    /**
-     * internal use, a flag which is set to true if series is stacked to force redraw bullets. @todo: this is quite a workaround, think of a better solution. the problem is that if we fire events when totals are changed it results stackoverflow
-     * @ignore
-     */
-    invalidateBullets: boolean;
     /**
      * flag which is set to true when initial animation is finished
      */

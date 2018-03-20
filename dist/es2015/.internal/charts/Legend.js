@@ -153,15 +153,13 @@ var Legend = /** @class */ (function (_super) {
         label.text = "${name}";
         label.margin(0, 5, 0, 5);
         label.valign = "middle";
-        label.shallowRendering = true;
         _this.labels = new ListTemplate(label);
         // Create a template container and list for item value labels
         var valueLabel = new Label();
         valueLabel.margin(0, 5, 0, 0);
         valueLabel.valign = "middle";
         valueLabel.width = 40; // to avoid rearranging legend entries when value changes.
-        valueLabel.textElement.align = "right";
-        valueLabel.shallowRendering = true;
+        valueLabel.align = "right";
         _this.valueLabels = new ListTemplate(valueLabel);
         _this.position = "bottom";
         var interfaceColors = new InterfaceColorSet();

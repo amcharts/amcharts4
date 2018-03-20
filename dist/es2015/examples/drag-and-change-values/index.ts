@@ -47,13 +47,13 @@ chart.data = [{
 chart.padding(40, 40, 40, 40);
 chart.maskBullets = false; // allow bullets to go out of plot area
 
-let text = chart.plotContainer.createChild(amcharts4.Text);
-text.text = "Dragg column bullet to change it's value";
-text.y = 92;
-text.x = amcharts4.percent(98);
-text.horizontalCenter = "right";
-text.zIndex = 100;
-text.fillOpacity = 0.7;
+let label = chart.plotContainer.createChild(amcharts4.Label);
+label.text = "Dragg column bullet to change it's value";
+label.y = 92;
+label.x = amcharts4.percent(98);
+label.horizontalCenter = "right";
+label.zIndex = 100;
+label.fillOpacity = 0.7;
 
 // category axis
 let categoryAxis = chart.xAxes.push(new xy.CategoryAxis());
@@ -83,7 +83,7 @@ series.tooltip.dy = -8;
 // label bullet
 let labelBullet = new xy.LabelBullet();
 series.bullets.push(labelBullet);
-labelBullet.label.textElement.text = "{valueY.value.formatNumber('#.')}";
+labelBullet.label.text = "{valueY.value.formatNumber('#.')}";
 labelBullet.strokeOpacity = 0;
 labelBullet.stroke = amcharts4.color("#dadada");
 labelBullet.dy = - 20;

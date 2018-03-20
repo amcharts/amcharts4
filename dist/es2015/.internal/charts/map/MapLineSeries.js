@@ -56,8 +56,7 @@ var MapLineSeriesDataItem = /** @class */ (function (_super) {
         get: function () {
             if (!this._mapLine) {
                 this._mapLine = this.component.mapLines.create(MapLine);
-                this._mapLine.dataItem = this;
-                this.sprites.push(this._mapLine);
+                this.addSprite(this._mapLine);
             }
             return this._mapLine;
         },

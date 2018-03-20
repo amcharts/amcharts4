@@ -49,7 +49,7 @@ var MapSeriesDataItem = /** @class */ (function (_super) {
          * @return {number} Value
          */
         get: function () {
-            return this.values["value"].value;
+            return this.values.value.value;
         },
         /**
          * Numeric value of the data item.

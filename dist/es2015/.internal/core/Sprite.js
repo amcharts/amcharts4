@@ -26,7 +26,7 @@ export { SpriteEventDispatcher };
 import { BaseObjectEvents } from "./Base";
 import { Adapter } from "./utils/Adapter";
 import { Dictionary, DictionaryTemplate, DictionaryDisposer } from "./utils/Dictionary";
-import { List, ListTemplate, ListDisposer } from "./utils/List";
+import { ListTemplate, ListDisposer } from "./utils/List";
 import { MultiDisposer, Disposer, MutableValueDisposer } from "./utils/Disposer";
 import { Animation } from "./utils/Animation";
 import { Container } from "./Container";
@@ -237,6 +237,12 @@ var Sprite = /** @class */ (function (_super) {
          * @type {Object}
          */
         _this.propertyFields = {};
+        /**
+         * @todo: review description
+         * Specifies if a property changed on this sprite should also affect all the clones cloned from it. This is only important if you want to change properties of clones after the cloning was done. When cloning Sprite initially, all the properties are copied anyway.
+         * @default false
+         */
+        _this.applyOnClones = false;
         _this._overflowX = 0;
         _this._overflowY = 0;
         _this._isDragged = false;
@@ -438,6 +444,10 @@ var Sprite = /** @class */ (function (_super) {
             var elementHeigth = bbox.height;
             var overflowX = 0;
             var overflowY = 0;
+            var pixelPaddingLeft = this.pixelPaddingLeft;
+            var pixelPaddingRight = this.pixelPaddingRight;
+            var pixelPaddingTop = this.pixelPaddingTop;
+            var pixelPaddingBottom = this.pixelPaddingBottom;
             switch (this.horizontalCenter) {
                 case "none":
                     ex = this.pixelPaddingLeft + elementX;
@@ -447,12 +457,12 @@ var Sprite = /** @class */ (function (_super) {
                     ex = this.pixelPaddingLeft;
                     break;
                 case "middle":
-                    ex = (-elementWidth) / 2;
-                    overflowX = ex;
+                    ex = pixelPaddingLeft - (elementWidth + pixelPaddingRight + pixelPaddingLeft) / 2;
+                    overflowX = ex - pixelPaddingLeft;
                     break;
                 case "right":
-                    ex = -elementWidth - this.pixelPaddingRight;
-                    overflowX = -elementWidth;
+                    ex = -elementWidth - pixelPaddingRight;
+                    overflowX = ex - pixelPaddingLeft;
                     break;
             }
             switch (this.verticalCenter) {
@@ -464,12 +474,12 @@ var Sprite = /** @class */ (function (_super) {
                     ey = this.pixelPaddingTop;
                     break;
                 case "middle":
-                    ey = (-elementHeigth) / 2;
-                    overflowY = ey;
+                    ey = pixelPaddingTop - (elementHeigth + pixelPaddingBottom + pixelPaddingTop) / 2;
+                    overflowY = ey - pixelPaddingTop;
                     break;
                 case "bottom":
-                    ey = -elementHeigth - this.pixelPaddingBottom;
-                    overflowY = -elementHeigth;
+                    ey = -elementHeigth - pixelPaddingBottom;
+                    overflowY = ey - pixelPaddingTop;
                     break;
             }
             this._overflowX = overflowX;
@@ -626,6 +636,7 @@ var Sprite = /** @class */ (function (_super) {
         this.adapter.copyFrom(source.adapter);
         this.interactions.copyFrom(source.interactions);
         this.configField = source.configField;
+        this.applyOnClones = source.applyOnClones;
         // this.numberFormatter = source.numberFormatter; // todo: this creates loose number formatter and copies it to all clones. somehow we need to know if source had numberFormatter explicitly created and not just because a getter was called.
         //this.mask = source.mask; need to think about this, generally this causes a lot of problems
         this.disabled = source.disabled;
@@ -634,7 +645,6 @@ var Sprite = /** @class */ (function (_super) {
             this._tooltip.copyFrom(source.tooltip);
         }
         this._showSystemTooltip = source.showSystemTooltip;
-        this._shallowRendering = source.shallowRendering;
         $utils.copyProperties(source.propertyFields, this.propertyFields);
         $utils.copyProperties(source.properties, this);
     };
@@ -654,18 +664,7 @@ var Sprite = /** @class */ (function (_super) {
          * @return {boolean} Is template?
          */
         get: function () {
-            var self = this;
-            for (;;) {
-                if (self._isTemplate) {
-                    return true;
-                }
-                else if (self.parent) {
-                    self = self.parent;
-                }
-                else {
-                    return false;
-                }
-            }
+            return this._isTemplate;
         },
         /**
          * Sets if this element is a "template".
@@ -682,6 +681,11 @@ var Sprite = /** @class */ (function (_super) {
             value = $type.toBoolean(value);
             if (this._isTemplate != value) {
                 this._isTemplate = value;
+                if (this instanceof Container) {
+                    $iter.each(this.children.iterator(), function (child) {
+                        child.isTemplate = true;
+                    });
+                }
                 if (value) {
                     this.parent = this.parent;
                     this.removeFromInvalids();
@@ -690,37 +694,6 @@ var Sprite = /** @class */ (function (_super) {
                     this.invalidate();
                 }
             }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Sprite.prototype, "shallowRendering", {
-        /**
-         * @ignore Exclude from docs
-         * @return {boolean} Enable shallow rendering?
-         */
-        get: function () {
-            if (!this._shallowRendering) {
-                if (this.parent) {
-                    return this.parent.shallowRendering;
-                }
-            }
-            return this._shallowRendering;
-        },
-        /**
-         * Enables or disables "shallow rendering".
-         *
-         * Normally a Sprite is re-rendered each time some of it's properties change.
-         * If `shallowRendering` is set to `true`, either directly on Sprite or any of
-         * its ancestors, a Sprite might take a quicker route for rendering, assuming
-         * some information or elements might be re-used instead of created anew.
-         *
-         * @ignore Exclude from docs
-         * @param {boolean}  value  Enable shallow rendering?
-         */
-        set: function (value) {
-            value = $type.toBoolean(value);
-            this._shallowRendering = value;
         },
         enumerable: true,
         configurable: true
@@ -1850,12 +1823,12 @@ var Sprite = /** @class */ (function (_super) {
          *
          * If the list has not been initialized it is created.
          *
-         * @return {List<Animation>} List of animations
+         * @return {Array<Animation>} List of animations
          */
         get: function () {
             if (!this._animations) {
-                this._animations = new List();
-                this._disposers.push(new ListDisposer(this._animations));
+                this._animations = [];
+                this._disposers.push(new MultiDisposer(this._animations));
             }
             return this._animations;
         },
@@ -2724,10 +2697,8 @@ var Sprite = /** @class */ (function (_super) {
         var propValue;
         var fieldName = this.propertyFields[propertyName];
         if ($type.hasValue(fieldName)) {
-            if (this.dataItem) {
-                if (this.dataItem.dataContext) {
-                    propValue = this.dataItem.dataContext[fieldName];
-                }
+            if (this.dataItem && this.dataItem.dataContext) {
+                propValue = this.dataItem.dataContext[fieldName];
             }
         }
         if (!$type.hasValue(propValue)) {
@@ -2769,14 +2740,14 @@ var Sprite = /** @class */ (function (_super) {
                     this.invalidatePosition();
                 }
             }
-            var clones = this.clones.values;
-            var length_1 = clones.length;
-            // @todo: maybe we need a setting for this, as without it animations set on slice (or other properties)
-            // will not work. clone(true/false?)
-            for (var i = 0; i < length_1; ++i) {
-                var clone = clones[i];
-                if (!clone.isDisposed()) {
-                    clone.setPropertyValue(property, value, invalidate, transform);
+            if (this.applyOnClones) {
+                var clones = this.clones.values;
+                var length_1 = clones.length;
+                for (var i = 0; i < length_1; ++i) {
+                    var clone = clones[i];
+                    if (!clone.isDisposed()) {
+                        clone.setPropertyValue(property, value, invalidate, transform);
+                    }
                 }
             }
             return true;
@@ -3487,7 +3458,7 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.handleDragStart = function () {
         this._isDragged = true;
-        this.hideTooltip();
+        this.hideTooltip(0);
     };
     /**
      * Tell this element to start being dragged. This is useful if you want to
@@ -6053,10 +6024,14 @@ var Sprite = /** @class */ (function (_super) {
         var _this = this;
         var transition;
         if (!this.disabled && (!this.visible || this.isHiding || (this.opacity < this.defaultState.properties.opacity && !this.isShowing))) {
+            if (!$type.isNumber(duration)) {
+                duration = this.defaultState.transitionDuration;
+            }
             this.isHiding = false;
             this.isShowing = true;
             if (this._hideAnimation) {
-                this._hideAnimation.dispose();
+                this._hideAnimation.stop();
+                this._hideAnimation = null;
             }
             // Cancel hide handler just in case it was there
             if (this._showHideDisposer) {
@@ -6073,9 +6048,6 @@ var Sprite = /** @class */ (function (_super) {
             this.visible = true;
             // Dispatch "show" event
             this.dispatchImmediately("show");
-        }
-        if (!$type.isNumber(duration)) {
-            duration = this.defaultState.transitionDuration;
         }
         return transition;
     };
@@ -6114,10 +6086,11 @@ var Sprite = /** @class */ (function (_super) {
         var _this = this;
         var transition;
         if (!this.isHiding && this.visible) {
-            this.hideTooltip();
+            this.hideTooltip(0);
             this.isShowing = false;
             if (this._hideAnimation) {
-                this._hideAnimation.dispose();
+                this._hideAnimation.stop();
+                this._hideAnimation = null;
             }
             // Cancel hide handler just in case it was there
             if (this._showHideDisposer) {
@@ -6361,7 +6334,7 @@ var Sprite = /** @class */ (function (_super) {
                     }
                     tooltip.background.fill = fill;
                     if (tooltip.autoTextColor && fill instanceof Color) {
-                        tooltip.textElement.fill = fill.alternative;
+                        tooltip.fill = fill.alternative;
                     }
                 }
                 // Apply tooltip text
@@ -6387,11 +6360,9 @@ var Sprite = /** @class */ (function (_super) {
                 }
                 // Set accessibility option
                 tooltip.readerDescribedBy = this.uidAttr();
-                // text might not change but values might
-                tooltip.textElement.invalidate();
                 // Reveal tooltip
                 tooltip.show();
-                if (tooltip.textElement.text != undefined && tooltip.textElement.text != "") {
+                if (tooltip.text != undefined && tooltip.text != "") {
                     return true;
                 }
             }

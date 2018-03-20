@@ -41,12 +41,15 @@ amcharts4.ready(function() {
 	let chart1 = container.createChild(pie.PieChart);
 	chart1.data = data;
 	chart1.innerRadius = amcharts4.percent(40);
+	chart1.zIndex = 1;
 
 	let series1 = chart1.series.push(new pie.PieSeries());
 	series1.dataFields.value = "litres";
 	series1.dataFields.category = "country";
+	series1.colors.step = 2;
 
 	let sliceTemplate1 = series1.slices.template;
+	sliceTemplate1.cornerRadius = 5;
 	sliceTemplate1.draggable = true;
 	sliceTemplate1.inert = true;
 	sliceTemplate1.propertyFields.fill = "color";
@@ -55,6 +58,15 @@ amcharts4.ready(function() {
 	sliceTemplate1.propertyFields.strokeDasharray = "strokeDasharray";
 	sliceTemplate1.strokeWidth = 1;
 	sliceTemplate1.strokeOpacity = 1;
+
+	let zIndex = 2;
+
+	sliceTemplate1.events.on("down", (event) => {
+		event.target.toFront();
+		// also put chart to front
+		let series = <pie.PieSeries>event.target.dataItem.component;
+		series.chart.zIndex = zIndex++;
+	})
 
 	series1.labels.template.propertyFields.disabled = "disabled";
 	series1.ticks.template.propertyFields.disabled = "disabled";
@@ -75,7 +87,7 @@ amcharts4.ready(function() {
 	separatorLine.strokeDasharray = "5,5";
 
 
-	let dragText = container.createChild(amcharts4.Text);
+	let dragText = container.createChild(amcharts4.Label);
 	dragText.text = "Drag slices over the line";
 	dragText.rotation = 90;
 	dragText.valign = "middle";
@@ -86,30 +98,18 @@ amcharts4.ready(function() {
 	let chart2 = container.createChild(pie.PieChart);
 	chart2.data = data;
 	chart2.innerRadius = amcharts4.percent(40);
+	chart2.zIndex = 1;
 
 	let series2 = chart2.series.push(new pie.PieSeries());
 	series2.dataFields.value = "litres";
 	series2.dataFields.category = "country";
+	series2.colors.step = 2;
 
 	let sliceTemplate2 = series2.slices.template;
-	sliceTemplate2.draggable = true;
-	sliceTemplate2.inert = true;
-	sliceTemplate2.propertyFields.fill = "color";
-	sliceTemplate2.propertyFields.fillOpacity = "opacity";
-	sliceTemplate2.propertyFields.stroke = "color";
-	sliceTemplate2.propertyFields.strokeDasharray = "strokeDasharray";
-	sliceTemplate2.strokeWidth = 1;
-	sliceTemplate2.strokeOpacity = 1;
+	sliceTemplate2.copyFrom(sliceTemplate1);
 
 	series2.labels.template.propertyFields.disabled = "disabled";
 	series2.ticks.template.propertyFields.disabled = "disabled";
-
-	sliceTemplate2.states.getKey("active").properties.shiftRadius = 0;
-
-	sliceTemplate2.events.on("dragstop", (event) => {
-		handleDragStop(event);
-	})
-
 
 	function handleDragStop(event) {
 		let targetSlice = event.target;

@@ -59,7 +59,7 @@ var ZoomControl = /** @class */ (function (_super) {
         _this.padding(5, 5, 5, 5);
         var interfaceColors = new InterfaceColorSet();
         var plusButton = _this.createChild(Button);
-        plusButton.textElement.text = "+";
+        plusButton.label.text = "+";
         plusButton.width = percent(100);
         plusButton.padding(5, 5, 5, 5);
         _this.plusButton = plusButton;
@@ -76,7 +76,7 @@ var ZoomControl = /** @class */ (function (_super) {
         thumb.events.on("drag", _this.handleThumbDrag, _this);
         _this.thumb = thumb;
         var minusButton = _this.createChild(Button);
-        minusButton.textElement.text = "-";
+        minusButton.label.text = "-";
         minusButton.padding(5, 5, 5, 5);
         _this.minusButton = minusButton;
         // Set roles

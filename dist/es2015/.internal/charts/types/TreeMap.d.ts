@@ -50,7 +50,7 @@ export declare class TreeMapDataItem extends XYChartDataItem {
      *
      * @type {TreeMapSeries}
      */
-    series: TreeMapSeries;
+    protected _series: TreeMapSeries;
     /**
      * Related series data item.
      *
@@ -181,6 +181,11 @@ export declare class TreeMapDataItem extends XYChartDataItem {
      * @param {Color}  value  Color
      */
     color: Color;
+    /**
+     * series of data item
+     * @todo: proper descrition
+     */
+    series: TreeMapSeries;
 }
 /**
  * ============================================================================
@@ -426,7 +431,7 @@ export declare class TreeMap extends XYChart {
      * @ignore Exclude from docs
      * @param {TreeMapDataItem}  parent  Parent data item
      */
-    layoutItems(parent: TreeMapDataItem): void;
+    layoutItems(parent: TreeMapDataItem, sorting?: "none" | "ascending" | "descending"): void;
     /**
      * Creates and returns a new treemap series.
      *
@@ -537,6 +542,8 @@ export declare class TreeMap extends XYChart {
     processConfig(config?: {
         [index: string]: any;
     }): void;
+    protected handleDataItemValueChange(): void;
+    validateDataItems(): void;
     /**
      * ==========================================================================
      * TREEMAP LAYOUT FUNCTIONS

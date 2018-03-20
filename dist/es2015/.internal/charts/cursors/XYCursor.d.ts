@@ -10,6 +10,7 @@
 import { Cursor, ICursorProperties, ICursorAdapters, ICursorEvents } from "./Cursor";
 import { Sprite, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
+import { IPoint } from "../../core/defs/IPoint";
 import { IRange } from "../../core/defs/IRange";
 import { Axis } from "../axes/Axis";
 import { AxisRenderer } from "../axes/AxisRenderer";
@@ -166,6 +167,11 @@ export declare class XYCursor extends Cursor {
      * @ignore Exclude from docs
      */
     updateSelection(): void;
+    /**
+     *
+     * @ignore Exclude from docs
+     */
+    protected fixPoint(point: IPoint): IPoint;
     /**
      * Updates position of Cursor's line(s) as pointer moves.
      *
