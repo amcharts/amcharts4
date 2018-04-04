@@ -8,7 +8,7 @@ This is an official repository for amCharts Version 4.
 |Directory|Description|
 |---------|-----------|
 |/distr/es2015/|Compiled ES2015 modules|
-|/distr/script/|Compiled stabdalone JavaScript files|
+|/distr/script/|Compiled standalone JavaScript files|
 
 
 ### Source code
@@ -36,3 +36,8 @@ Otherwise, please refer to our [freeware license](https://github.com/amcharts/am
 ### Questions?
 
 [Contact amCharts](mailto:contact@amcharts.com).
+
+
+### Found a bug?
+
+Open an [issue](https://github.com/amcharts/amcharts4/issues).
