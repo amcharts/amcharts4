@@ -35,14 +35,13 @@ export declare class TreeMapSeriesDataItem extends ColumnSeriesDataItem {
      */
     constructor();
     /**
-     * @return {Object} Item's data
-     */
-    /**
      * Data for the this particular item.
      *
      * @param {Object}  value  Item's data
      */
-    dataContext: Object;
+    /**
+     * @return {Object} Item's data
+     */
     /**
      * The name of the item's parent item.
      *

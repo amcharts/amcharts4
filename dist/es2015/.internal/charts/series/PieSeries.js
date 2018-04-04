@@ -49,8 +49,6 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
     function PieSeriesDataItem() {
         var _this = _super.call(this) || this;
         _this.className = "PieSeriesDataItem";
-        _this.values.value = {};
-        _this.values.value = {};
         _this.values.radiusValue = {};
         _this.values.radiusValue = {};
         _this.applyTheme();
@@ -122,24 +120,6 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(PieSeriesDataItem.prototype, "value", {
-        /**
-         * @return {number} Value
-         */
-        get: function () {
-            return this.values.value.value;
-        },
-        /**
-         * Slice's numeric value.
-         *
-         * @param {number}  value  Value
-         */
-        set: function (value) {
-            this.setValue("value", value);
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(PieSeriesDataItem.prototype, "radiusValue", {
         /**
          * @return {number} Radius
@@ -181,7 +161,6 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._legendDataItem = value;
-            value.container.deepInvalidate();
             value.label.dataItem = this;
             value.valueLabel.dataItem = this;
         },
@@ -198,8 +177,7 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
         get: function () {
             if (!this._tick) {
                 this._tick = this.component.ticks.create();
-                this._tick.dataItem = this;
-                this.sprites.push(this._tick);
+                this.addSprite(this._tick);
                 this._tick.slice = this.slice;
                 this._tick.label = this.label;
             }
@@ -218,8 +196,7 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
         get: function () {
             if (!this._label) {
                 this._label = this.component.labels.create();
-                this._label.dataItem = this;
-                this.sprites.push(this._label);
+                this.addSprite(this._label);
             }
             return this._label;
         },
@@ -236,8 +213,7 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
         get: function () {
             if (!this._slice) {
                 this._slice = this.component.slices.create();
-                this._slice.dataItem = this;
-                this.sprites.push(this._slice);
+                this.addSprite(this._slice);
             }
             return this._slice;
         },
@@ -276,10 +252,13 @@ var PieSeries = /** @class */ (function (_super) {
         _this.colors.step = 1;
         _this.slicesContainer = _this.createChild(Container);
         _this.slicesContainer.isMeasured = false;
+        _this.slicesContainer.noLayouting = true;
         _this.ticksContainer = _this.createChild(Container);
         _this.ticksContainer.isMeasured = false;
+        _this.ticksContainer.noLayouting = true;
         _this.labelsContainer = _this.createChild(Container);
         _this.labelsContainer.isMeasured = false;
+        _this.labelsContainer.noLayouting = true;
         _this.bulletsContainer.toFront();
         _this.initSlice(Slice);
         // Create tick list
@@ -290,7 +269,7 @@ var PieSeries = /** @class */ (function (_super) {
         // @todo create a labelText/labelHTML properties just like
         // tooltipText/tooltipHTML
         var label = new AxisLabelCircular();
-        label.text = "${category}: ${value.percent.formatNumber('#.#')}%";
+        label.text = "${category}: ${value.percent.formatNumber('#.0')}%";
         label.isMeasured = false;
         label.radius = 25;
         _this.labels = new ListTemplate(label);
@@ -345,11 +324,14 @@ var PieSeries = /** @class */ (function (_super) {
         var defaultState = slice.defaultState;
         defaultState.properties.shiftRadius = 0;
         slice.togglable = true;
+        slice.events.on("toggle", function (event) {
+            event.target.hideTooltip();
+        });
         var activeState = slice.states.create("active");
-        activeState.properties.shiftRadius = 0.15;
+        activeState.properties.shiftRadius = 0.10;
         var hiddenState = slice.hiddenState;
         hiddenState.properties.visible = true;
-        hiddenState.properties.opacity = 0;
+        hiddenState.properties.opacity = 1;
         // Create slices list
         this.slices = new ListTemplate(slice);
         return slice;
@@ -367,10 +349,6 @@ var PieSeries = /** @class */ (function (_super) {
         if (this.chart.invalid) {
             this.chart.validate();
         }
-        // todo: it's not good for performance, solve it without removing
-        this.slicesContainer.removeChildren();
-        this.ticksContainer.removeChildren();
-        this.labelsContainer.removeChildren();
         this._leftItems = [];
         this._rightItems = [];
         this._currentStartAngle = this.startAngle;
@@ -456,13 +434,6 @@ var PieSeries = /** @class */ (function (_super) {
                 }
                 label.moveTo(point);
                 this._currentStartAngle += slice_1.arc;
-                label.textElement.update(); // so that text would change
-                if (label.textElement.invalid) {
-                    label.textElement.validate();
-                }
-                if (dataItem.legendDataItem) {
-                    dataItem.legendDataItem.container.deepInvalidate();
-                }
                 // Apply accessibility
                 if (this.itemsFocusable()) {
                     slice_1.role = "menuitem";
@@ -675,60 +646,6 @@ var PieSeries = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(PieSeries.prototype, "labelText", {
-        /**
-         * @return {string} Label text
-         */
-        get: function () {
-            return this.labels.template.textElement.text;
-        },
-        /**
-         * Label plain text to be used for for slice labels.
-         *
-         * Can inlcude formatting codes.
-         *
-         * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-strings/} String formatting tutorial
-         * @param {string}  value  Label text
-         */
-        set: function (value) {
-            this.labels.template.textElement.text = value;
-            $iter.each(this.labels.iterator(), function (label) {
-                label.textElement.text = value;
-            });
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(PieSeries.prototype, "labelHtml", {
-        /**
-         * @return {string} Label HTML
-         */
-        get: function () {
-            return this.labels.template.textElement.html;
-        },
-        /**
-         * Label HTML to be used for for slice labels.
-         *
-         * @param {string}  value  Label HTML
-         */
-        set: function (value) {
-            this.labels.template.textElement.html = value;
-            $iter.each(this.labels.iterator(), function (label) {
-                label.textElement.html = value;
-            });
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * Shows or hides data items in series, as well as related tooltip.
-     *
-     * @ignore Exclude from docs
-     */
-    PieSeries.prototype.handleDataItemVisibility = function () {
-        this.invalidateDataItems();
-        this.hideTooltip();
-    };
     /**
      * Binds related legend data item's visual settings to this series' visual
      * settings.
@@ -792,8 +709,9 @@ var PieSeries = /** @class */ (function (_super) {
             var slice = event.target;
             var dataItem = slice.dataItem;
             // moving textelement, as label dx and dy are already employed for aligning
-            dataItem.label.textElement.dx = slice.dx + slice.pixelX;
-            dataItem.label.textElement.dy = slice.dy + slice.pixelY;
+            //@labeltodo
+            dataItem.label.dx = slice.dx + slice.pixelX;
+            dataItem.label.dy = slice.dy + slice.pixelY;
         }
     };
     return PieSeries;

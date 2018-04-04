@@ -270,6 +270,25 @@ var TreeMapDataItem = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(TreeMapDataItem.prototype, "series", {
+        get: function () {
+            return this._series;
+        },
+        /**
+         * series of data item
+         * @todo: proper descrition
+         */
+        set: function (series) {
+            if (this._series) {
+                this.component.series.removeValue(this._series);
+                this._series.dispose();
+            }
+            this._series = series;
+            this._disposers.push(series);
+        },
+        enumerable: true,
+        configurable: true
+    });
     return TreeMapDataItem;
 }(XYChartDataItem));
 export { TreeMapDataItem };
@@ -399,18 +418,23 @@ var TreeMap = /** @class */ (function (_super) {
     TreeMap.prototype.validateData = function () {
         var _this = this;
         _super.prototype.validateData.call(this);
+        $iter.each(this.series.iterator(), function (series) {
+            series.dispose();
+        });
+        this.series.clear();
+        if (this._homeDataItem) {
+            this._homeDataItem.dispose();
+        }
         var homeDataItem = this.dataItems.template.clone(); // cant' use createDataItem here!
         this._homeDataItem = homeDataItem;
         $iter.each(this.dataItems.iterator(), function (dataItem) {
             dataItem.parent = homeDataItem;
         });
         homeDataItem.children = this.dataItems;
-        var max = Math.sqrt(homeDataItem.value);
-        var minMax = this.xAxis.adjustMinMax(0, max, max, 100);
         homeDataItem.x0 = 0;
         homeDataItem.y0 = 0;
         homeDataItem.name = this._homeText;
-        var maxX = minMax.max;
+        var maxX = 1000;
         var maxY = maxX * this.pixelHeight / this.pixelWidth;
         homeDataItem.x1 = maxX;
         homeDataItem.y1 = maxY;
@@ -431,23 +455,28 @@ var TreeMap = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      * @param {TreeMapDataItem}  parent  Parent data item
      */
-    TreeMap.prototype.layoutItems = function (parent) {
-        var children = parent.children;
-        if (this.sorting == "ascending") {
-            children.values.sort(function (a, b) {
-                return a.value - b.value;
-            });
-        }
-        if (this.sorting == "descending") {
-            children.values.sort(function (a, b) {
-                return b.value - a.value;
-            });
-        }
-        this.layoutAlgorithm(parent);
-        for (var i = 0; i < children.length; i++) {
-            var node = children.getIndex(i);
-            if (node.children) {
-                this.layoutItems(node);
+    TreeMap.prototype.layoutItems = function (parent, sorting) {
+        if (parent) {
+            var children = parent.children;
+            if (!sorting) {
+                sorting = this.sorting;
+            }
+            if (sorting == "ascending") {
+                children.values.sort(function (a, b) {
+                    return a.value - b.value;
+                });
+            }
+            if (sorting == "descending") {
+                children.values.sort(function (a, b) {
+                    return b.value - a.value;
+                });
+            }
+            this.layoutAlgorithm(parent);
+            for (var i = 0; i < children.length; i++) {
+                var node = children.getIndex(i);
+                if (node.children) {
+                    this.layoutItems(node);
+                }
             }
         }
     };
@@ -521,7 +550,7 @@ var TreeMap = /** @class */ (function (_super) {
             if (dataContext) {
                 series.config = dataContext.config;
             }
-            this.dataUsers.removeValue(series);
+            this.dataUsers.removeValue(series); // series do not use data directly, that's why we remove it
             series.data = dataItem.children.values;
             series.columns.template.adapter.add("fill", function (fill, target) {
                 var dataItem = target.dataItem;
@@ -746,6 +775,18 @@ var TreeMap = /** @class */ (function (_super) {
             }
         }
         _super.prototype.processConfig.call(this, config);
+    };
+    TreeMap.prototype.handleDataItemValueChange = function () {
+        this.invalidateDataItems();
+    };
+    TreeMap.prototype.validateDataItems = function () {
+        _super.prototype.validateDataItems.call(this);
+        this.layoutItems(this._homeDataItem);
+        $iter.each(this.series.iterator(), function (series) {
+            series.validateRawData();
+        });
+        this.currentLevel = 0;
+        this.zoomToChartDataItem(this._homeDataItem);
     };
     /**
      * ==========================================================================

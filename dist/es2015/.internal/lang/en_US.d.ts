@@ -64,6 +64,8 @@ declare const _default: {
     "Fri": string;
     "Sat": string;
     "_dateOrd": (day: number) => string;
+    "Play": string;
+    "Stop": string;
     "Zoom Out": string;
     "Legend": string;
     "Click, tap or press ENTER to toggle": string;

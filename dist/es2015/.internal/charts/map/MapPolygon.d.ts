@@ -13,7 +13,7 @@ import { MapPolygonSeriesDataItem, MapPolygonSeries } from "./MapPolygonSeries";
 import { IGeoPoint } from "../../core/defs/IGeoPoint";
 import { Polygon } from "../../core/elements/Polygon";
 /**
- * ============================================================================
+ * ============================f================================================
  * REQUISITES
  * ============================================================================
  * @hidden

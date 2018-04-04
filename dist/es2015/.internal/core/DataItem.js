@@ -28,13 +28,13 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { BaseObjectEvents } from "./Base";
-import { List, ListDisposer } from "./utils/List";
 import { Adapter } from "./utils/Adapter";
 import { Animation } from "./utils/Animation";
 import * as $utils from "./utils/Utils";
 import * as $array from "./utils/Array";
 import * as $object from "./utils/Object";
 import * as $type from "./utils/Type";
+import { MultiDisposer } from "./utils/Disposer";
 /**
  * ============================================================================
  * DATA ITEM
@@ -168,6 +168,16 @@ var DataItem = /** @class */ (function (_super) {
          * @type {boolean}
          */
         _this.isHiding = false;
+        /**
+         *
+         * @ignore Exclude from docs
+         */
+        _this._valueAnimations = {};
+        /**
+         *
+         * @ignore Exclude from docs
+         */
+        _this._locationAnimations = {};
         _this.className = "DataItem";
         _this.applyTheme();
         return _this;
@@ -179,7 +189,12 @@ var DataItem = /** @class */ (function (_super) {
          * @return {number} Index
          */
         get: function () {
-            return this.component.dataItems.indexOf(this);
+            if (this.component) {
+                return this.component.dataItems.indexOf(this);
+            }
+            else {
+                return -1;
+            }
         },
         enumerable: true,
         configurable: true
@@ -188,12 +203,12 @@ var DataItem = /** @class */ (function (_super) {
         /**
          * A list of [[Animations]] objects currently mutating Data Item's values.
          *
-         * @return {List<Animation>} [description]
+         * @return {Array<Animation>} [description]
          */
         get: function () {
             if (!this._animations) {
-                this._animations = new List();
-                this._disposers.push(new ListDisposer(this._animations));
+                this._animations = [];
+                this._disposers.push(new MultiDisposer(this._animations));
             }
             return this._animations;
         },
@@ -273,7 +288,7 @@ var DataItem = /** @class */ (function (_super) {
      *
      * @param {number}    duration  Animation duration (ms)
      * @param {number}    delay     Delay animation (ms)
-     * @param {string[]}  fields    A list of fields to reset values of
+     * @param {string[]}  fields    A list of fields to set values of
      */
     DataItem.prototype.show = function (duration, delay, fields) {
         var _this = this;
@@ -282,16 +297,23 @@ var DataItem = /** @class */ (function (_super) {
             this.removeDispose(this._hideDisposer);
         }
         var animation;
-        $array.each(this.sprites, function (sprite) {
-            sprite.show(duration);
-        });
         if (fields) {
             $array.each(fields, function (field) {
                 animation = _this.setWorkingValue(field, _this.values[field].value, duration, delay);
             });
         }
+        $array.each(this.sprites, function (sprite) {
+            sprite.show(duration);
+        });
         this._visible = true;
         return animation;
+    };
+    // if data item is disposed, dispose sprites
+    DataItem.prototype.dispose = function () {
+        _super.prototype.dispose.call(this);
+        $array.each(this.sprites, function (sprite) {
+            sprite.dispose();
+        });
     };
     /**
      * Hides the Data Item and related visual elements.
@@ -454,14 +476,27 @@ var DataItem = /** @class */ (function (_super) {
             duration = this.getDuration(duration);
             var workingValue = this.values[name].workingValue;
             if ((duration > 0) && $type.isNumber(workingValue) && this.component) {
-                var animation = this.animate({ childObject: this.values[name], property: "workingValue", from: workingValue, to: value }, duration, this.component.interpolationEasing);
-                animation.delay(delay);
-                animation.events.on("animationstart", this.handleInterpolationProgress, this);
-                animation.events.on("animationprogress", this.handleInterpolationProgress, this);
-                animation.events.on("animationend", this.handleInterpolationProgress, this);
-                return animation;
+                if (workingValue != value) {
+                    var animation = this.animate({ childObject: this.values[name], property: "workingValue", from: workingValue, to: value }, duration, this.component.interpolationEasing).delay(delay);
+                    animation.events.on("animationstart", this.handleInterpolationProgress, this);
+                    animation.events.on("animationprogress", this.handleInterpolationProgress, this);
+                    animation.events.on("animationend", this.handleInterpolationProgress, this);
+                    this._valueAnimations[name] = animation;
+                    return animation;
+                }
+                else {
+                    var valueAnimation = this._valueAnimations[name];
+                    if (valueAnimation) {
+                        valueAnimation.stop();
+                    }
+                    this.values[name].workingValue = value;
+                }
             }
             else {
+                var valueAnimation = this._valueAnimations[name];
+                if (valueAnimation) {
+                    valueAnimation.stop();
+                }
                 this.values[name].workingValue = value;
                 if (this.events.isEnabled("workingvaluechanged")) {
                     this.events.dispatchImmediately("workingvaluechanged", {
@@ -512,13 +547,28 @@ var DataItem = /** @class */ (function (_super) {
         duration = this.getDuration(duration);
         var workingLocation = this.workingLocations[name];
         if ((duration > 0) && $type.isNumber(workingLocation) && this.component) {
-            var animation = this.animate({ childObject: this.workingLocations, property: name, from: workingLocation, to: value }, duration, this.component.interpolationEasing);
-            animation.delay(delay);
-            animation.events.on("animationstart", this.handleInterpolationProgress, this);
-            animation.events.on("animationprogress", this.handleInterpolationProgress, this);
-            animation.events.on("animationend", this.handleInterpolationProgress, this);
+            if (workingLocation != value) {
+                var animation = this.animate({ childObject: this.workingLocations, property: name, from: workingLocation, to: value }, duration, this.component.interpolationEasing);
+                animation.delay(delay);
+                animation.events.on("animationstart", this.handleInterpolationProgress, this);
+                animation.events.on("animationprogress", this.handleInterpolationProgress, this);
+                animation.events.on("animationend", this.handleInterpolationProgress, this);
+                this._locationAnimations[name] = animation;
+                return animation;
+            }
+            else {
+                var locationAnimation = this._locationAnimations[name];
+                if (locationAnimation) {
+                    locationAnimation.stop();
+                }
+                this.workingLocations[name] = value;
+            }
         }
         else {
+            var locationAnimation = this._locationAnimations[name];
+            if (locationAnimation) {
+                locationAnimation.stop();
+            }
             this.workingLocations[name] = value;
             if (this.events.isEnabled("workinglocationchanged")) {
                 this.events.dispatchImmediately("workinglocationchanged", {
@@ -747,6 +797,17 @@ var DataItem = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * adds a sprite to dataItem.sprites array
+     * @ignore
+     */
+    DataItem.prototype.addSprite = function (sprite) {
+        if (sprite.dataItem && sprite.dataItem != this) {
+            $array.remove(sprite.dataItem.sprites, sprite);
+        }
+        this.sprites.push(sprite);
+        sprite.dataItem = this;
+    };
     return DataItem;
 }(BaseObjectEvents));
 export { DataItem };

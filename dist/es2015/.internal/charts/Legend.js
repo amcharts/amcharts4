@@ -159,7 +159,7 @@ var Legend = /** @class */ (function (_super) {
         valueLabel.margin(0, 5, 0, 0);
         valueLabel.valign = "middle";
         valueLabel.width = 40; // to avoid rearranging legend entries when value changes.
-        valueLabel.textElement.align = "right";
+        valueLabel.align = "right";
         _this.valueLabels = new ListTemplate(valueLabel);
         _this.position = "bottom";
         var interfaceColors = new InterfaceColorSet();

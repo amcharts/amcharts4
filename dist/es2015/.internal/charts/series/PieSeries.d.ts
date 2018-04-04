@@ -117,15 +117,6 @@ export declare class PieSeriesDataItem extends SeriesDataItem implements ILegend
      */
     category: string;
     /**
-     * @return {number} Value
-     */
-    /**
-     * Slice's numeric value.
-     *
-     * @param {number}  value  Value
-     */
-    value: number;
-    /**
      * @return {number} Radius
      */
     /**
@@ -182,12 +173,6 @@ export declare class PieSeriesDataItem extends SeriesDataItem implements ILegend
  * Defines data fields for [[PieSeries]].
  */
 export interface IPieSeriesDataFields extends ISeriesDataFields {
-    /**
-     * Name of the field in data that holds numeric value.
-     *
-     * @type {string}
-     */
-    value?: string;
     /**
      * Name of the field in data that holds category.
      *
@@ -518,33 +503,6 @@ export declare class PieSeries extends Series {
      * @param {ColorSet}  value  Color set
      */
     colors: ColorSet;
-    /**
-     * @return {string} Label text
-     */
-    /**
-     * Label plain text to be used for for slice labels.
-     *
-     * Can inlcude formatting codes.
-     *
-     * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-strings/} String formatting tutorial
-     * @param {string}  value  Label text
-     */
-    labelText: string;
-    /**
-     * @return {string} Label HTML
-     */
-    /**
-     * Label HTML to be used for for slice labels.
-     *
-     * @param {string}  value  Label HTML
-     */
-    labelHtml: string;
-    /**
-     * Shows or hides data items in series, as well as related tooltip.
-     *
-     * @ignore Exclude from docs
-     */
-    handleDataItemVisibility(): void;
     /**
      * Binds related legend data item's visual settings to this series' visual
      * settings.

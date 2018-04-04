@@ -8,7 +8,6 @@
  * @hidden
  */
 import { BaseObjectEvents, IBaseObjectEvents } from "../Base";
-import { List } from "../utils/List";
 import { EventDispatcher, AMEvent } from "../utils/EventDispatcher";
 import { IDisposer } from "../utils/Disposer";
 import { Color } from "../utils/Color";
@@ -26,7 +25,7 @@ export interface IAnimationObject {
  * Defines interface for objects that can be animated
  */
 export interface IAnimatable {
-    animations: List<Animation>;
+    animations: Array<Animation>;
 }
 /**
  * Defines interface for animation options.

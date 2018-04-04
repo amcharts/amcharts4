@@ -29,7 +29,6 @@ import * as $ease from "../utils/Ease";
 import * as $colors from "../utils/Colors";
 import * as $math from "../utils/Math";
 import * as $array from "../utils/Array";
-import * as $iter from "../utils/Iterator";
 import * as $type from "../utils/Type";
 /**
  * Calls a `callback` function for the `duration` of milliseconds.
@@ -226,8 +225,6 @@ var Animation = /** @class */ (function (_super) {
         // Run check if there are already animations playing on the same properties
         // and stop them - the last animation takes precedence
         //this.stopSameAnimations();
-        // Register this animation in object's `animations` list
-        object.animations.moveValue(_this);
         /*if ($type.hasValue(callback)) {
             // TODO don't use .call
             this.events.on("animationend", callback, object);
@@ -242,7 +239,10 @@ var Animation = /** @class */ (function (_super) {
     Animation.prototype.dispose = function () {
         _super.prototype.dispose.call(this);
         this.pause();
-        this.object.animations.removeValue(this);
+        if (this._delayTimeout) {
+            this.removeDispose(this._delayTimeout);
+            this._delayTimeout = null;
+        }
         $array.remove(animations, this);
     };
     /**
@@ -352,6 +352,8 @@ var Animation = /** @class */ (function (_super) {
         }
         // Register animation
         $array.move(animations, this);
+        // Register this animation in object's `animations` list
+        $array.move(this.object.animations, this);
         // Apply static options (just in case they were reset by previous
         // animation loop)
         this.applyStaticOptions();
@@ -427,7 +429,7 @@ var Animation = /** @class */ (function (_super) {
             this.start();
         }
         else {
-            this.dispose();
+            this.stop();
         }
         return this;
     };
@@ -457,6 +459,7 @@ var Animation = /** @class */ (function (_super) {
     Animation.prototype.stop = function (skipEvent) {
         this.pause();
         this.dispose();
+        $array.remove(this.object.animations, this);
         if (!skipEvent) {
             if (this.events.isEnabled("animationstop")) {
                 this.events.dispatchImmediately("animationstop", {
@@ -506,6 +509,7 @@ var Animation = /** @class */ (function (_super) {
      */
     Animation.prototype.setProgress = function (progress) {
         var _this = this;
+        this._time = this.duration * progress; // just in case we call this from outside
         $array.each(this.animationOptions, function (options) {
             var value = options.updateMethod(options, progress);
             if (options.childObject) {
@@ -584,7 +588,7 @@ var Animation = /** @class */ (function (_super) {
         // stop animation of the same property
         // TODO make this more efficient
         // TODO don't copy the array
-        $array.each($iter.toArray(this.object.animations.iterator()), function (animation) {
+        $array.each($array.copy(this.object.animations), function (animation) {
             if (animation !== _this && !animation.delayed) {
                 var killed_1 = [];
                 $array.each(_this.animationOptions, function (newOptions) {

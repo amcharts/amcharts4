@@ -52,13 +52,15 @@ var ZoomOutButton = /** @class */ (function (_super) {
         _super.call(this) || this;
         _this.className = "ZoomOutButton";
         _this.padding(9, 9, 9, 9);
-        _this.dx = -5;
-        _this.dy = 5;
+        //this.dx = - 5;
+        //this.dy = 5;
         _this.showSystemTooltip = true;
         var interfaceColors = new InterfaceColorSet();
         var background = _this.background;
         background.cornerRadius(20, 20, 20, 20);
         background.fill = interfaceColors.getFor("primaryButton");
+        background.stroke = interfaceColors.getFor("primaryButtonStroke");
+        background.strokeOpacity = 0;
         background.states.getKey("hover").properties.fill = interfaceColors.getFor("primaryButtonHover");
         background.states.getKey("down").properties.fill = interfaceColors.getFor("primaryButtonActive");
         // Create an icon
@@ -69,7 +71,7 @@ var ZoomOutButton = /** @class */ (function (_super) {
         icon.element.attr({ "d": path });
         icon.pixelPerfect = true;
         icon.padding(8, 3, 8, 3);
-        icon.stroke = interfaceColors.getFor("stroke");
+        icon.stroke = interfaceColors.getFor("primaryButtonText");
         _this.icon = icon;
         // Apply theme
         _this.applyTheme();

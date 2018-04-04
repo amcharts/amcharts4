@@ -202,7 +202,7 @@ var Chart = /** @class */ (function (_super) {
         if (this.titles.length) {
             var titleIds_1 = [];
             $iter.each(this.titles.iterator(), function (title) {
-                titleIds_1.push(title.textElement.uid);
+                titleIds_1.push(title.uid);
             });
             this.setSVGAttribute({ "aria-labelledby": titleIds_1.join(" ") });
         }

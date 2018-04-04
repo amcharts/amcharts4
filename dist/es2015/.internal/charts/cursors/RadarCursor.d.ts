@@ -230,4 +230,9 @@ export declare class RadarCursor extends XYCursor {
      * @readonly
      */
     readonly pixelInnerRadius: number;
+    /**
+     *
+     * @ignore Exclude from docs
+     */
+    protected fixPoint(point: IPoint): IPoint;
 }

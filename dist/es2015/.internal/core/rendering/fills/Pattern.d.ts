@@ -61,9 +61,9 @@ export declare class Pattern extends BaseObject implements IAnimatable {
     /**
      * List of available animations currently running on a pattern.
      *
-     * @type {List<Animation>}
+     * @type {Array<Animation>}
      */
-    protected _animations: List<Animation>;
+    protected _animations: Array<Animation>;
     /**
      * An SVG `<group>` element to put sub-elements into.
      *
@@ -278,7 +278,7 @@ export declare class Pattern extends BaseObject implements IAnimatable {
      * A list of animations currently running on the patter.
      *
      * @ignore Exclude from docs
-     * @return {List<Animation>} Animation list
+     * @return {Array<Animation>} Animation list
      */
-    readonly animations: List<Animation>;
+    readonly animations: Array<Animation>;
 }

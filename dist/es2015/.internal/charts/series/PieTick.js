@@ -66,7 +66,7 @@ var PieTick = /** @class */ (function (_super) {
         var slice = this.slice;
         var label = this.label;
         var series = slice.dataItem.component;
-        if (slice && slice.radius > 0 && label && label.textElement.text) {
+        if (slice && slice.radius > 0 && label && label.text) {
             var x0 = slice.dx + slice.slice.dx + slice.pixelX + slice.ix * slice.radius * slice.scale;
             var y0 = slice.dy + slice.slice.dy + slice.pixelY + slice.iy * slice.radius * slice.scale;
             var x1 = void 0;

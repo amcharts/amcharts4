@@ -48,7 +48,7 @@ var InterfaceColorSet = /** @class */ (function (_super) {
          * color set.
          */
         _this._purposes = {
-            stroke: color("#eeeeee"),
+            stroke: color("#e5e5e5"),
             fill: color("#f3f3f3"),
             primaryButton: color("#6794dc"),
             primaryButtonHover: color("#6771dc"),

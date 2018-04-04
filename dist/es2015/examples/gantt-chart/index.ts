@@ -51,7 +51,4 @@ series1.columns.template.propertyFields.fill = "color"; // get color from data
 series1.columns.template.propertyFields.stroke = "color";
 series1.columns.template.strokeOpacity = 1;
 
-chart.cursor = new xy.XYCursor();
-chart.cursor.xAxis = dateAxis;
-
 chart.scrollbarX = new amcharts4.Scrollbar();

@@ -21,6 +21,7 @@ import { XYSeries, XYSeriesDataItem } from "./XYSeries";
 import { visualProperties } from "../../core/Sprite";
 import { Container } from "../../core/Container";
 import { ListTemplate } from "../../core/utils/List";
+import { Dictionary } from "../../core/utils/Dictionary";
 import { ValueAxis } from "../axes/ValueAxis";
 import { system } from "../../core/System";
 import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
@@ -81,9 +82,23 @@ var ColumnSeriesDataItem = /** @class */ (function (_super) {
                 if (prevDataItem && prevDataItem != this) {
                     prevDataItem.column = undefined;
                 }
-                column.dataItem = this;
-                this.sprites.push(column);
+                this.addSprite(column);
             }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ColumnSeriesDataItem.prototype, "rangesColumns", {
+        /**
+         * A dictionary storing axes ranges columns by axis uid
+         *
+         * @type {Dictionary<string, Sprite>}
+         */
+        get: function () {
+            if (!this._rangesColumns) {
+                this._rangesColumns = new Dictionary();
+            }
+            return this._rangesColumns;
         },
         enumerable: true,
         configurable: true
@@ -124,6 +139,14 @@ var ColumnSeries = /** @class */ (function (_super) {
          * @type {number}
          */
         _this._endLocation = 1;
+        /**
+         * When working value of dataItem changes, we must process all the values to calculate sum, min, max etc. Also update stack values. This is quite expensive operation.
+         * Unfortunately we do not know if user needs this processed values or not. By setting simplifiedProcessing = true you disable this processing and in case working
+         * value changes, we only redraw the particular column. Do not do this if you have staked chart or use calculated values in bullets or in tooltips.
+         *
+         * @type {boolean}
+         */
+        _this.simplifiedProcessing = false;
         _this.className = "ColumnSeries";
         _this.width = percent(100);
         _this.height = percent(100);
@@ -132,6 +155,7 @@ var ColumnSeries = /** @class */ (function (_super) {
         _this.clustered = true;
         _this._columnsContainer = _this.mainContainer.createChild(Container);
         _this._columnsContainer.isMeasured = false;
+        _this._columnsContainer.noLayouting = true;
         _this.columns;
         _this.columns.template.pixelPerfect = false;
         _this.applyTheme();
@@ -230,6 +254,14 @@ var ColumnSeries = /** @class */ (function (_super) {
         }
         return startLocation;
     };
+    ColumnSeries.prototype.handleDataItemWorkingValueChange = function (event) {
+        if (this.simplifiedProcessing) {
+            this.validateDataElement(event.target);
+        }
+        else {
+            _super.prototype.handleDataItemWorkingValueChange.call(this, event);
+        }
+    };
     /**
      * Returns relative end location for the data item.
      *
@@ -254,7 +286,7 @@ var ColumnSeries = /** @class */ (function (_super) {
      */
     ColumnSeries.prototype.validateDataElementReal = function (dataItem) {
         var _this = this;
-        //		if (dataItem.hasValue([this.xField, this.yField])) { // todo: this doesn't work with categories, think of a better way
+        //	if (dataItem.hasValue([this.xField, this.yField])) { // todo: this doesn't work with categories, think of a better way
         var l;
         var r;
         var t;
@@ -341,45 +373,66 @@ var ColumnSeries = /** @class */ (function (_super) {
         var x = Math.min(l, r);
         var y = Math.min(t, b);
         if (w - paddingLeft - paddingRight > 0 && h - paddingTop - paddingBottom > 0) {
-            var column_1;
+            var column = void 0;
             if (!dataItem.column) {
-                column_1 = this._columnsIterator.getFirst();
-                if (column_1.dataItem != dataItem) {
-                    $object.forceCopyProperties(this.columns.template, column_1, visualProperties);
+                column = this._columnsIterator.getFirst();
+                if (column.dataItem != dataItem) {
+                    $object.forceCopyProperties(this.columns.template, column, visualProperties);
+                    $object.copyProperties(this, column, visualProperties); // need this because 3d columns are not in the same container
+                    $object.copyProperties(this.columns.template, column, visualProperties); // second time, no force, so that columns.template would override series properties
+                    column.dataItem = dataItem;
+                    this.setColumnStates(column);
                 }
-                $object.copyProperties(this, column_1, visualProperties); // need this because 3d columns are not in the same container
-                $object.copyProperties(this.columns.template, column_1, visualProperties); // second time, no force, so that columns.template would override series properties
-                column_1.dataItem = dataItem;
-                this.setColumnStates(column_1);
+                dataItem.column = column;
             }
             else {
-                column_1 = dataItem.column;
+                column = dataItem.column;
             }
-            column_1.__disabled = false;
-            column_1.width = w;
-            column_1.height = h;
-            column_1.x = x;
-            column_1.y = y;
-            column_1.parent = this.columnsContainer;
-            dataItem.column = column_1; // what do we do with range columns?
+            column.width = w;
+            column.height = h;
+            column.x = x;
+            column.y = y;
+            column.parent = this.columnsContainer;
+            if (column.invalid) {
+                column.validate(); // validate as if it was used previously, it will flicker with previous dimensions
+            }
+            column.__disabled = false;
             $iter.each(this.axisRanges.iterator(), function (axisRange) {
-                var rangeColumn = column_1.clone();
-                rangeColumn.parent = axisRange.contents;
-                $object.copyProperties(axisRange, rangeColumn, visualProperties);
-                if (rangeColumn.dataItem != dataItem) {
-                    $object.forceCopyProperties(_this.columns.template, rangeColumn, visualProperties);
+                var rangeColumn = dataItem.rangesColumns.getKey(axisRange.uid);
+                if (!rangeColumn) {
+                    rangeColumn = _this._columnsIterator.getFirst();
+                    if (rangeColumn.dataItem != dataItem) {
+                        $object.forceCopyProperties(_this.columns.template, rangeColumn, visualProperties);
+                        $object.copyProperties(axisRange.contents, rangeColumn, visualProperties); // need this because 3d columns are not in the same container
+                        if (rangeColumn.dataItem) {
+                            $array.remove(rangeColumn.dataItem.sprites, rangeColumn);
+                        }
+                        dataItem.addSprite(rangeColumn);
+                        _this.setColumnStates(rangeColumn);
+                    }
+                    dataItem.rangesColumns.setKey(axisRange.uid, rangeColumn);
                 }
+                rangeColumn.parent = axisRange.contents;
                 rangeColumn.width = w;
                 rangeColumn.height = h;
-                rangeColumn.dataItem = dataItem;
+                rangeColumn.x = x;
+                rangeColumn.y = y;
+                if (rangeColumn.invalid) {
+                    rangeColumn.validate(); // validate as if it was used previously, it will flicker with previous dimensions
+                }
                 rangeColumn.__disabled = false;
-                _this.setColumnStates(rangeColumn);
             });
         }
         else {
             if (dataItem.column) {
                 dataItem.column.__disabled = true;
             }
+            $iter.each(this.axisRanges.iterator(), function (axisRange) {
+                var rangeColumn = dataItem.rangesColumns.getKey(axisRange.uid);
+                if (rangeColumn) {
+                    rangeColumn.__disabled = true;
+                }
+            });
         }
         dataItem.itemWidth = w;
         dataItem.itemHeight = h;

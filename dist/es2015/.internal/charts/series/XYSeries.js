@@ -787,9 +787,6 @@ var XYSeries = /** @class */ (function (_super) {
                 this.dispatchImmediately("extremeschanged");
             }
         }
-        //if (this.stackedSeries) {
-        //this.stackedSeries.invalidateDataItems();
-        //}
     };
     /**
      * Shows series tooltip at specific position.
@@ -1021,13 +1018,12 @@ var XYSeries = /** @class */ (function (_super) {
     /**
      * Updates series appearance when working value changes.
      */
-    XYSeries.prototype.handleDataItemWorkingValueChange = function () {
-        _super.prototype.handleDataItemWorkingValueChange.call(this);
+    XYSeries.prototype.handleDataItemWorkingValueChange = function (event) {
+        _super.prototype.handleDataItemWorkingValueChange.call(this, event);
         // to calculate stack values
         var axisSeries = this.baseAxis.series;
         $iter.each(axisSeries.iterator(), function (series) {
             if (series.stacked) {
-                series.invalidateBullets = true;
                 series.invalidateProcessedData();
             }
         });

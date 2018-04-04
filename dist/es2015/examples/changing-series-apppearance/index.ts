@@ -67,7 +67,7 @@ columnTemplate.strokeOpacity = 1;
 columnTemplate.stroke = columnSeries.fill;
 
 let desaturateFilter = new amcharts4.DesaturateFilter();
-desaturateFilter.saturation = 0.3;
+desaturateFilter.saturation = 0.5;
 
 columnTemplate.filters.push(desaturateFilter);
 

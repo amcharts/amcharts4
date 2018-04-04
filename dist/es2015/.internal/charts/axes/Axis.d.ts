@@ -450,6 +450,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @param {number}       index    [description]
      */
     fillRule: (dataItem: AxisDataItem, index?: number) => any;
+    axisFullLength: number;
     /**
      * Constructor
      */
@@ -558,13 +559,6 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @param {T} renderer Renderer
      */
     renderer: T;
-    /**
-     * Converts a relative position on Axis (0-1) to pixel coordinates.
-     *
-     * @param  {number} position Position (0-1)
-     * @return {IPoint}          Coordinates (px)
-     */
-    positionToPoint(position: number): IPoint;
     /**
      * Converts a relative position to angle. (for circular axes)
      *

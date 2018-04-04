@@ -9,11 +9,12 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import { XYCursor } from "./XYCursor";
-import { percent } from "../../core/utils/Percent";
+import { Percent, percent } from "../../core/utils/Percent";
 import { system } from "../../core/System";
 import * as $path from "../../core/rendering/Path";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
+import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -51,7 +52,7 @@ var RadarCursor = /** @class */ (function (_super) {
      */
     RadarCursor.prototype.fitsToBounds = function (point) {
         var radius = $math.getDistance(point);
-        if (radius <= this.truePixelRadius + 10) {
+        if (radius < this.truePixelRadius + 1 && radius > this.pixelInnerRadius - 1) {
             return true;
         }
         return false;
@@ -114,10 +115,10 @@ var RadarCursor = /** @class */ (function (_super) {
      */
     RadarCursor.prototype.updateLineX = function (point) {
         var radius = this.pixelRadius;
-        if (radius > 0) {
+        var startAngle = this.startAngle;
+        var endAngle = this.endAngle;
+        if (radius > 0 && $type.isNumber(startAngle) && $type.isNumber(endAngle)) {
             var innerRadius = this.pixelInnerRadius;
-            var startAngle = this.startAngle;
-            var endAngle = this.endAngle;
             var angle = $math.fitAngleToRange($math.getAngle(point), startAngle, endAngle);
             var path = void 0;
             this.lineX.moveTo({ x: 0, y: 0 });
@@ -206,14 +207,6 @@ var RadarCursor = /** @class */ (function (_super) {
                 var endAngle = Math.max(this.startAngle, this.endAngle);
                 var downAngle = $math.fitAngleToRange($math.getAngle(downPoint), startAngle, endAngle);
                 var angle = $math.fitAngleToRange($math.getAngle(point), startAngle, endAngle);
-                // crossed starting angle from right to left
-                if (angle - this._prevAngle > (endAngle - startAngle) / 2) {
-                    angle = startAngle;
-                }
-                // crossed starting angle from left to right
-                if (this._prevAngle - angle > (endAngle - startAngle) / 2) {
-                    angle = endAngle;
-                }
                 var downRadius = $math.getDistance(downPoint);
                 if (downRadius < truePixelRadius) {
                     var currentRadius = $math.fitToRange($math.getDistance(point), 0, truePixelRadius);
@@ -410,11 +403,23 @@ var RadarCursor = /** @class */ (function (_super) {
          * @readonly
          */
         get: function () {
-            return $utils.relativeRadiusToValue(this.innerRadius, this.truePixelRadius) || 0;
+            var innerRadius = this.innerRadius;
+            if (innerRadius instanceof Percent) {
+                innerRadius = percent(100 * innerRadius.value * this.chart.innerRadiusModifyer);
+            }
+            return $utils.relativeRadiusToValue(innerRadius, this.truePixelRadius) || 0;
         },
         enumerable: true,
         configurable: true
     });
+    /**
+     *
+     * @ignore Exclude from docs
+     */
+    RadarCursor.prototype.fixPoint = function (point) {
+        // overriding xy method
+        return point;
+    };
     return RadarCursor;
 }(XYCursor));
 export { RadarCursor };

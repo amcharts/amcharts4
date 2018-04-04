@@ -126,7 +126,7 @@ level1SeriesTemplate.strokeOpacity = 0.3;
 let bullet1 = level1SeriesTemplate.bullets.push(new treemap.LabelBullet());
 bullet1.locationY = 0.5;
 bullet1.locationX = 0.5;
-bullet1.label.textElement.text = "{name}";
+bullet1.label.text = "{name}";
 
 // as we have bullets on 1st level only and we want them to be visible, we set current level to 1 (by default it's 0)
 chart.currentLevel = 1;

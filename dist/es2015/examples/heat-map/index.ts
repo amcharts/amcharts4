@@ -1,7 +1,7 @@
 import * as amcharts4 from "@amcharts/amcharts4";
 import * as map from "@amcharts/amcharts4/map";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
-import worldMap from "./worldLow";
+import worldMap from "@amcharts/amcharts4/maps/worldLow";
 
 
 amcharts4.useTheme(AnimatedTheme);
@@ -11,8 +11,8 @@ chart.geoJSON = worldMap;
 chart.projection = new map.projections.Miller();
 
 let title = chart.chartContainer.createChild(amcharts4.Label);
-title.textElement.text = "Life expectancy in the World";
-title.textElement.fontSize = 20;
+title.text = "Life expectancy in the World";
+title.fontSize = 20;
 title.paddingTop = 30;
 title.align = "center";
 

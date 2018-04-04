@@ -18,7 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { BaseObject } from "../Base";
-import { List, ListDisposer } from "../utils/List";
+import { MultiDisposer } from "../utils/Disposer";
 import { interaction } from "./Interaction";
 import * as $type from "../utils/Type";
 /**
@@ -47,10 +47,10 @@ var Inertia = /** @class */ (function (_super) {
          *
          * @type {List<Animation>}
          */
-        _this.animations = new List();
+        _this.animations = [];
         _this.className = "Inertia";
         // Make animations disposable
-        _this._disposers.push(new ListDisposer(_this.animations));
+        _this._disposers.push(new MultiDisposer(_this.animations));
         return _this;
     }
     Object.defineProperty(Inertia.prototype, "x", {

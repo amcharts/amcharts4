@@ -57,8 +57,7 @@ var MapPolygonSeriesDataItem = /** @class */ (function (_super) {
         get: function () {
             if (!this._mapPolygon) {
                 this._mapPolygon = this.component.mapPolygons.create();
-                this.sprites.push(this._mapPolygon);
-                this._mapPolygon.dataItem = this;
+                this.addSprite(this._mapPolygon);
             }
             return this._mapPolygon;
         },
@@ -269,7 +268,7 @@ var MapPolygonSeries = /** @class */ (function (_super) {
                 polygon.fill = $colors.interpolate(series.minColor, series.maxColor, percent);
             }
         };
-        _this.parsingStepDuration = 500; // to avoid some extra redrawing
+        _this.parsingStepDuration = 5000; // to avoid some extra redrawing
         _this.className = "MapPolygonSeries";
         // Set data fields
         _this.dataFields.multiPolygon = "multiPolygon";

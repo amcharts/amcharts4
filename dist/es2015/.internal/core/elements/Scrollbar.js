@@ -52,13 +52,13 @@ var Scrollbar = /** @class */ (function (_super) {
     function Scrollbar() {
         var _this = _super.call(this) || this;
         /**
-         * A value of previously selected lower value (before zoom/pan).
+         * A value of previously selected lower value, used for doubleclick function.
          *
          * @type {number}
          */
         _this._prevStart = 0;
         /**
-         * A value of previously selected upper value (before zoom/pan).
+         * A value of previously selected upper value, used for doubleclick function.
          *
          * @type {number}
          */
@@ -88,22 +88,23 @@ var Scrollbar = /** @class */ (function (_super) {
          */
         _this.updateWhileMoving = true;
         _this.className = "Scrollbar";
-        _this.minHeight = 10;
-        _this.minWidth = 10;
+        _this.minHeight = 12;
+        _this.minWidth = 12;
         _this.animationDuration = 0;
         _this.animationEasing = $ease.cubicOut;
-        _this.padding(2, 2, 2, 2);
+        _this.padding(0, 0, 0, 0);
         _this.margin(10, 10, 10, 10);
         var interfaceColors = new InterfaceColorSet();
         // background is also container as it might contain graphs, grid, etc
         var background = _this.background;
         background.cornerRadius(10, 10, 10, 10);
         background.fill = interfaceColors.getFor("fill");
-        background.fillOpacity = 0.8;
+        background.fillOpacity = 0.5;
         // Create scrollbar controls (setters will handle adding disposers)
         var thumb = new Button();
         thumb.background.cornerRadius(10, 10, 10, 10);
         thumb.padding(0, 0, 0, 0);
+        thumb.background.padding(1, 1, 1, 1);
         thumb.background.strokeOpacity = 0;
         _this.thumb = thumb;
         _this.startGrip = new ResizeButton();
@@ -128,6 +129,11 @@ var Scrollbar = /** @class */ (function (_super) {
         _this.thumb.readerLive = "polite";
         _this.startGrip.role = "slider";
         _this.endGrip.role = "slider";
+        // otherwise range changed wont' be registered
+        _this.events.once("inited", function () {
+            _this._previousStart = undefined;
+            _this.dispatchRangeChange();
+        });
         _this.hideGrips = false;
         _this.applyTheme();
         return _this;
@@ -263,6 +269,18 @@ var Scrollbar = /** @class */ (function (_super) {
         this._usingGrip = undefined;
         this._isBusy = false;
         if (!this.updateWhileMoving) {
+            this.dispatchRangeChange();
+        }
+    };
+    /**
+     * Disptatches rangechanged event if it really changed
+     *
+     * @ignore Exclude from docs
+     */
+    Scrollbar.prototype.dispatchRangeChange = function () {
+        if (this._previousEnd != this.end || this._previousStart != this.start) {
+            this._previousStart = this.start;
+            this._previousEnd = this.end;
             this.dispatch("rangechanged");
         }
     };
@@ -283,8 +301,8 @@ var Scrollbar = /** @class */ (function (_super) {
             thumb.width = innerWidth_1 * (end - start);
             thumb.maxX = innerWidth_1 - thumb.pixelWidth;
             thumb.x = start * innerWidth_1;
-            startGrip.x = thumb.x;
-            endGrip.x = thumb.x + thumb.innerWidth;
+            startGrip.moveTo({ x: thumb.x, y: 0 }, undefined, undefined, true); // overrides dragging
+            endGrip.moveTo({ x: thumb.x + thumb.innerWidth, y: 0 }, undefined, undefined, true);
             startGrip.readerTitle = this.language.translate("From %1", undefined, this.adapter.apply("positionValue", {
                 value: Math.round(start * 100) + "%",
                 position: start
@@ -299,8 +317,8 @@ var Scrollbar = /** @class */ (function (_super) {
             thumb.height = innerHeight_1 * (end - start);
             thumb.maxY = innerHeight_1 - thumb.pixelHeight;
             thumb.y = (1 - end) * innerHeight_1;
-            startGrip.y = thumb.y + thumb.innerHeight;
-            endGrip.y = thumb.y;
+            startGrip.moveTo({ x: 0, y: thumb.y + thumb.innerHeight }, undefined, undefined, true);
+            endGrip.moveTo({ x: 0, y: thumb.y }, undefined, undefined, true);
             startGrip.readerTitle = this.language.translate("To %1", undefined, this.adapter.apply("positionValue", {
                 value: Math.round((1 - start) * 100) + "%",
                 position: (1 - start)
@@ -319,7 +337,7 @@ var Scrollbar = /** @class */ (function (_super) {
             position: end
         }).value);
         if (!this._skipRangeEvents && this.updateWhileMoving) {
-            this.dispatch("rangechanged");
+            this.dispatchRangeChange();
         }
     };
     /**

@@ -19,8 +19,8 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { BaseObject } from "../Base";
-import { List, ListDisposer } from "../utils/List";
 import { Animation } from "../utils/Animation";
+import { MultiDisposer } from "../utils/Disposer";
 import * as $math from "../utils/Math";
 import * as $ease from "../utils/Ease";
 import * as $type from "../utils/Type";
@@ -443,12 +443,12 @@ var Morpher = /** @class */ (function (_super) {
         /**
          * Returns a list of morph animations currently being played.
          *
-         * @return {List<Animation>} List of animations
+         * @return {Array<Animation>} List of animations
          */
         get: function () {
             if (!this._animations) {
-                this._animations = new List();
-                this._disposers.push(new ListDisposer(this._animations));
+                this._animations = [];
+                this._disposers.push(new MultiDisposer(this._animations));
             }
             return this._animations;
         },

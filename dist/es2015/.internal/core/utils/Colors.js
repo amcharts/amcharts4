@@ -415,6 +415,9 @@ export function getBrightnessStep(value, percent) {
  * @return {Color}               New color
  */
 export function saturate(color, saturation) {
+    if (saturation == 1) {
+        return color;
+    }
     var hsl = rgbToHsl(color.rgb);
     hsl.s = saturation;
     return new Color(hslToRgb(hsl));

@@ -41,9 +41,9 @@ var AxisLabelCircular = /** @class */ (function (_super) {
     function AxisLabelCircular() {
         var _this = _super.call(this) || this;
         _this.className = "AxisLabelCircular";
-        _this.textElement.padding(3, 3, 3, 3);
+        _this.padding(0, 5, 0, 5);
         _this.location = 0.5;
-        _this.radius = 5;
+        _this.radius = 0;
         _this.applyTheme();
         return _this;
     }
@@ -103,8 +103,8 @@ var AxisLabelCircular = /** @class */ (function (_super) {
      */
     AxisLabelCircular.prototype.fixPoint = function (point, axisRadius) {
         var angle = $math.DEGREES * Math.atan2(point.y, point.x);
-        if (this.textElement.invalid) {
-            this.textElement.validate();
+        if (this.invalid) {
+            this.validate(); //@todo" check if we need this
         }
         var sign = 1;
         if (this.inside) {
@@ -114,24 +114,23 @@ var AxisLabelCircular = /** @class */ (function (_super) {
         // we don't use valign for labels because then they would jump while animating. instead we modify dy depending on a y position
         // this math makes dy to be 1 at the top of the circle, 0.5 at the middle and 1 at the bottom
         // @todo with this math doesn't work well with inside = true
-        this.dy = -this.pixelHeight * (1 - (point.y + axisRadius) / (2 * axisRadius));
+        this.dy = -this.measuredHeight * (1 - (point.y + axisRadius) / (2 * axisRadius));
         // simmilar with dx
-        this.dx = -this.pixelWidth * (1 - (point.x + axisRadius) / (2 * axisRadius));
+        this.dx = -this.measuredWidth * (1 - (point.x + axisRadius) / (2 * axisRadius));
         var labelRadius = this.radius * sign;
         if ($type.isNumber(relativeRotation)) {
             this.rotation = relativeRotation + angle + 90;
-            var textElement = this.textElement;
-            var pixelWidth = textElement.pixelWidth;
-            var pixelHeight = textElement.pixelHeight;
+            var pixelWidth = this._bbox.width;
+            var pixelHeight = this._bbox.height;
             var dH = $math.sin(relativeRotation) / 2;
             var dW = $math.cos(relativeRotation) / 2;
             var rotation = this.rotation;
             this.dx = pixelHeight * dH * $math.sin(rotation) - pixelWidth * dW * $math.cos(rotation);
             this.dy = -pixelHeight * dH * $math.cos(rotation) - pixelWidth * dW * $math.sin(rotation);
-            var pixelPaddingBottom = textElement.pixelPaddingBottom;
-            var pixelPaddingTop = textElement.pixelPaddingTop;
-            var pixelPaddingLeft = textElement.pixelPaddingLeft;
-            var pixelPaddingRight = textElement.pixelPaddingRight;
+            var pixelPaddingBottom = this.pixelPaddingBottom;
+            var pixelPaddingTop = this.pixelPaddingTop;
+            var pixelPaddingLeft = this.pixelPaddingLeft;
+            var pixelPaddingRight = this.pixelPaddingRight;
             if (!this.inside) {
                 labelRadius += (pixelHeight + pixelPaddingBottom + pixelPaddingTop) * $math.cos(relativeRotation) + (pixelWidth + pixelPaddingLeft + pixelPaddingRight) * $math.sin(relativeRotation);
             }

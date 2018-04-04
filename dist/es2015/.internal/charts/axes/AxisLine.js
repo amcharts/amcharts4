@@ -48,6 +48,7 @@ var AxisLine = /** @class */ (function (_super) {
         _this.pixelPerfect = true;
         _this.fill = color();
         _this.applyTheme();
+        _this.mouseEnabled = false;
         _this.element.moveTo({ x: 0, y: 0 });
         return _this;
     }

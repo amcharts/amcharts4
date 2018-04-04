@@ -96,6 +96,8 @@ export default {
         return res;
     },
     // Chart elements
+    "Play": "",
+    "Stop": "",
     "Zoom Out": "",
     "Legend": "",
     "Click, tap or press ENTER to toggle": "",

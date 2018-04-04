@@ -4,84 +4,95 @@ import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 
 amcharts4.useTheme(AnimatedTheme);
 
-let chart = amcharts4.create("chartdiv", radar.RadarChart);
+var chart = amcharts4.create("chartdiv", radar.RadarChart);
 
-chart.data = [{
-  "category": "One",
-  "value1": 8,
-  "value2": 2,
-  "value3": 4,
-  "value4": 3
-}, {
-  "category": "Two",
-  "value1": 11,
-  "value2": 4,
-  "value3": 2,
-  "value4": 4
-}, {
-  "category": "Three",
-  "value1": 7,
-  "value2": 6,
-  "value3": 6,
-  "value4": 2
-}, {
-  "category": "Four",
-  "value1": 13,
-  "value2": 8,
-  "value3": 3,
-  "value4": 2
-}, {
-  "category": "Five",
-  "value1": 12,
-  "value2": 10,
-  "value3": 5,
-  "value4": 1
-}, {
-  "category": "Six",
-  "value1": 15,
-  "value2": 12,
-  "value3": 4,
-  "value4": 4
-}, {
-  "category": "Seven",
-  "value1": 9,
-  "value2": 14,
-  "value3": 6,
-  "value4": 2
-}, {
-  "category": "Eight",
-  "value1": 6,
-  "value2": 16,
-  "value3": 5,
-  "value4": 1
-}]
-
+chart.data = [
+  {
+    category: "One",
+    value1: 8,
+    value2: 2,
+    value3: 4,
+    value4: 3
+  },
+  {
+    category: "Two",
+    value1: 11,
+    value2: 4,
+    value3: 2,
+    value4: 4
+  },
+  {
+    category: "Three",
+    value1: 7,
+    value2: 6,
+    value3: 6,
+    value4: 2
+  },
+  {
+    category: "Four",
+    value1: 13,
+    value2: 8,
+    value3: 3,
+    value4: 2
+  },
+  {
+    category: "Five",
+    value1: 12,
+    value2: 10,
+    value3: 5,
+    value4: 1
+  },
+  {
+    category: "Six",
+    value1: 15,
+    value2: 12,
+    value3: 4,
+    value4: 4
+  },
+  {
+    category: "Seven",
+    value1: 9,
+    value2: 14,
+    value3: 6,
+    value4: 2
+  },
+  {
+    category: "Eight",
+    value1: 6,
+    value2: 16,
+    value3: 5,
+    value4: 1
+  }
+];
 
 chart.padding(10, 10, 10, 10);
 
-let categoryAxis = chart.xAxes.push(new radar.CategoryAxis());
+var categoryAxis = chart.xAxes.push(new radar.CategoryAxis<radar.AxisRendererCircular>());
 categoryAxis.dataFields.category = "category";
 categoryAxis.renderer.minGridDistance = 60;
 categoryAxis.renderer.labels.template.location = 0.5;
 categoryAxis.mouseEnabled = false;
+categoryAxis.renderer.cellStartLocation = 0;
+categoryAxis.renderer.tooltipLocation = 0.5;
 
-let valueAxis = chart.yAxes.push(new radar.ValueAxis());
+
+var valueAxis = chart.yAxes.push(new radar.ValueAxis<radar.AxisRendererRadial>());
 valueAxis.tooltip.disabled = true;
 valueAxis.renderer.minGridDistance = 10;
-valueAxis.renderer.grid.template.strokeOpacity = 0.05
-valueAxis.renderer.labels.template.textElement.fontSize = 9;
+valueAxis.renderer.grid.template.strokeOpacity = 0.05;
+valueAxis.renderer.labels.template.fontSize = 9;
 valueAxis.mouseEnabled = false;
 //valueAxis.renderer.gridType = "polygons";
 valueAxis.min = 0;
 
-let series1 = chart.series.push(new radar.RadarColumnSeries());
+var series1 = chart.series.push(new radar.RadarColumnSeries());
 series1.columns.template.width = amcharts4.percent(80);
 series1.name = "Series 1";
 series1.dataFields.categoryX = "category";
 series1.dataFields.valueY = "value2";
 series1.stacked = true;
 
-let series2 = chart.series.push(new radar.RadarColumnSeries());
+var series2 = chart.series.push(new radar.RadarColumnSeries());
 series2.columns.template.width = amcharts4.percent(80);
 series2.columns.template.tooltipText = "{name}: {valueY.value}";
 series2.name = "Series 2";
@@ -89,7 +100,7 @@ series2.dataFields.categoryX = "category";
 series2.dataFields.valueY = "value2";
 series2.stacked = true;
 
-let series3 = chart.series.push(new radar.RadarColumnSeries());
+var series3 = chart.series.push(new radar.RadarColumnSeries());
 series3.columns.template.width = amcharts4.percent(80);
 series3.columns.template.tooltipText = "{name}: {valueY.value}";
 series3.name = "Series 3";
@@ -97,7 +108,7 @@ series3.dataFields.categoryX = "category";
 series3.dataFields.valueY = "value3";
 series3.stacked = true;
 
-let series4 = chart.series.push(new radar.RadarColumnSeries());
+var series4 = chart.series.push(new radar.RadarColumnSeries());
 series4.columns.template.width = amcharts4.percent(80);
 series4.columns.template.tooltipText = "{name}: {valueY.value}";
 series4.name = "Series 4";
@@ -109,3 +120,10 @@ chart.seriesContainer.zIndex = -1;
 
 chart.scrollbarX = new amcharts4.Scrollbar();
 chart.scrollbarY = new amcharts4.Scrollbar();
+
+chart.cursor = new radar.RadarCursor();
+chart.cursor.xAxis = categoryAxis;
+chart.cursor.fullWidthXLine = true;
+chart.cursor.lineX.strokeOpacity = 0;
+chart.cursor.lineX.fillOpacity = 0.1;
+chart.cursor.lineX.fill = amcharts4.color("#000000");

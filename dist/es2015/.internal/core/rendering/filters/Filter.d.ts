@@ -75,9 +75,9 @@ export declare class Filter extends BaseObject implements IAnimatable {
     /**
      * List of animations currently running for the filter.
      *
-     * @type {List<Animation>}
+     * @type {Optional<Array<Animation>>}
      */
-    protected _animations: $type.Optional<List<Animation>>;
+    protected _animations: $type.Optional<Array<Animation>>;
     /**
      * Contains a list of filter primitives (effects) applied by the filter.
      *
@@ -196,9 +196,9 @@ export declare class Filter extends BaseObject implements IAnimatable {
      * All animations currently in play.
      *
      * @ignore Exclude from docs
-     * @return {List<Animation>} List of animations
+     * @return {Array<Animation>} List of animations
      */
-    readonly animations: List<Animation>;
+    readonly animations: Array<Animation>;
     /**
      * @ignore Exclude from docs
      */

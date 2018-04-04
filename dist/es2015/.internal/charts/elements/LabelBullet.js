@@ -48,19 +48,17 @@ var LabelBullet = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.className = "LabelBullet";
         _this.cloneChildren = false;
-        _this.isDynamic = true;
         var label = _this.createChild(Label);
         label.verticalCenter = "middle";
         label.horizontalCenter = "middle";
-        label.textElement.truncate = true;
-        label.textElement.hideOversized = true;
-        label.textElement.shallowRendering = true;
+        label.truncate = true;
+        label.hideOversized = true;
         label.stroke = color();
         label.strokeOpacity = 0;
         label.fill = new InterfaceColorSet().getFor("text");
         _this.events.on("maxsizechanged", function () {
-            _this.label.textElement.maxWidth = _this.maxWidth;
-            _this.label.textElement.maxHeight = _this.maxHeight;
+            _this.label.maxWidth = _this.maxWidth;
+            _this.label.maxHeight = _this.maxHeight;
         }, _this);
         _this.label = label;
         return _this;
@@ -77,6 +75,18 @@ var LabelBullet = /** @class */ (function (_super) {
     LabelBullet.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
         this.label.copyFrom(source.label);
+    };
+    /**
+     * Sets currently used [[DataItem]].
+     *
+     * If the element has also `configField` set, it will also look for any
+     * config in DataItem's data context to apply to this element.
+     *
+     * @param {DataItem} dataItem DataItem
+     */
+    LabelBullet.prototype.setDataItem = function (dataItem) {
+        _super.prototype.setDataItem.call(this, dataItem);
+        this.label.dataItem = dataItem;
     };
     return LabelBullet;
 }(Bullet));

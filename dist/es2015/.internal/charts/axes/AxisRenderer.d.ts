@@ -263,12 +263,6 @@ export declare class AxisRenderer extends Container {
      */
     positionItem(item: Sprite, point: IPoint): void;
     /**
-     * Returns Axis' full length in pixels.
-     *
-     * @return {number} Axis lenght (px)
-     */
-    readonly axisFullLength: number;
-    /**
      * Converts relative position on axis to point coordinates.
      *
      * @ignore Exclude from docs

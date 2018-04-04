@@ -60,7 +60,7 @@ var Cursor = /** @class */ (function (_super) {
         _this.background.opacity = 0;
         _this.width = percent(100);
         _this.height = percent(100);
-        _this.visible = false;
+        _this.hide(0);
         _this.trackable = true;
         _this.clickable = true;
         _this.isMeasured = false;

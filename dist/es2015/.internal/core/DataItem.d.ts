@@ -18,7 +18,6 @@
  * @hidden
  */
 import { BaseObjectEvents, IBaseObjectEvents } from "./Base";
-import { List } from "./utils/List";
 import { EventDispatcher, AMEvent } from "./utils/EventDispatcher";
 import { Adapter } from "./utils/Adapter";
 import { Component, CalculatedValue } from "./Component";
@@ -254,9 +253,9 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * List of animations currently animating Data Item's values.
      *
      * @ignore Exclude from docs
-     * @type {List<Animation>}
+     * @type {Array<Animation>}
      */
-    protected _animations: List<Animation>;
+    protected _animations: Array<Animation>;
     /**
      * Is Data Item currently visible?
      *
@@ -296,6 +295,20 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      */
     protected _hideDisposer: IDisposer;
     /**
+     *
+     * @ignore Exclude from docs
+     */
+    protected _valueAnimations: {
+        [key: string]: Animation;
+    };
+    /**
+     *
+     * @ignore Exclude from docs
+     */
+    protected _locationAnimations: {
+        [key: string]: Animation;
+    };
+    /**
      * Constructor
      * @todo Adding events to disposers produces errors in some cases, which means that chart is using disposed Data Items which is not right
      */
@@ -309,9 +322,9 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
     /**
      * A list of [[Animations]] objects currently mutating Data Item's values.
      *
-     * @return {List<Animation>} [description]
+     * @return {Array<Animation>} [description]
      */
-    readonly animations: List<Animation>;
+    readonly animations: Array<Animation>;
     /**
      * Returns `true` if this Data Item is currently visible.
      *
@@ -347,9 +360,10 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      *
      * @param {number}    duration  Animation duration (ms)
      * @param {number}    delay     Delay animation (ms)
-     * @param {string[]}  fields    A list of fields to reset values of
+     * @param {string[]}  fields    A list of fields to set values of
      */
     show(duration?: number, delay?: number, fields?: string[]): Animation;
+    dispose(): void;
     /**
      * Hides the Data Item and related visual elements.
      *
@@ -441,7 +455,7 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * @param {number}  duration  Duration (ms) to animate to new value to
      * @param {number}  delay     Delay animation (ms)
      */
-    setWorkingLocation(name: string, value: number, duration?: number, delay?: number): void;
+    setWorkingLocation(name: string, value: number, duration?: number, delay?: number): Animation;
     /**
      * Sets Date value to a data field.
      *
@@ -547,4 +561,9 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * @param {Object} value Original data object
      */
     dataContext: Object;
+    /**
+     * adds a sprite to dataItem.sprites array
+     * @ignore
+     */
+    addSprite(sprite: Sprite): void;
 }

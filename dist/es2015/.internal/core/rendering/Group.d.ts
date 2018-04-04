@@ -41,6 +41,14 @@ export declare class Group extends AMElement {
      */
     add(element: AMElement): void;
     /**
+     * Adds an element to group.
+     *
+     * This will manipulate DOM. `element` will be physically moved into group.
+     *
+     * @param {AMElement}  element  Element
+     */
+    addToBack(element: AMElement): void;
+    /**
      * Removes the `element` from group.
      *
      * Please note that this will not dispose the element itself, it will just

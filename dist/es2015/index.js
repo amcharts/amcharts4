@@ -45,7 +45,6 @@ export { RoundedRectangle } from "./.internal/core/elements/RoundedRectangle";
 export { Scrollbar } from "./.internal/core/elements/Scrollbar";
 export { Slider } from "./.internal/core/elements/Slider";
 export { Slice } from "./.internal/core/elements/Slice";
-export { Text } from "./.internal/core/elements/Text";
 export { TextLink } from "./.internal/core/elements/TextLink";
 export { Tooltip } from "./.internal/core/elements/Tooltip";
 export { Trapezoid } from "./.internal/core/elements/Trapezoid";
@@ -54,6 +53,7 @@ export { WavedCircle } from "./.internal/core/elements/WavedCircle";
 export { WavedLine } from "./.internal/core/elements/WavedLine";
 export { WavedRectangle } from "./.internal/core/elements/WavedRectangle";
 export { ZoomOutButton } from "./.internal/core/elements/ZoomOutButton";
+export { PlayButton } from "./.internal/core/elements/PlayButton";
 /**
  * Elements: 3d
  */

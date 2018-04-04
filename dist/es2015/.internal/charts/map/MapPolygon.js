@@ -44,7 +44,7 @@ var MapPolygon = /** @class */ (function (_super) {
         _this.polygon = _this.createChild(Polygon);
         var interfaceColors = new InterfaceColorSet();
         _this.fill = interfaceColors.getFor("secondaryButton");
-        _this.stroke = interfaceColors.getFor("background");
+        _this.stroke = interfaceColors.getFor("secondaryButtonStroke");
         _this.strokeOpacity = 1;
         /*this.events.on("focus", (event) => {
             //this.toFront();

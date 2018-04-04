@@ -487,22 +487,27 @@ export function fitAngleToRange(value, startAngle, endAngle) {
         endAngle = temp;
     }
     value = normalizeAngle(value);
-    var antiArcMiddle = normalizeAngle(endAngle + (360 - (endAngle - startAngle)) / 2);
+    var count = (startAngle - normalizeAngle(startAngle)) / 360;
+    if (value < startAngle) {
+        value += 360 * (count + 1);
+    }
+    var maxEnd = startAngle + (endAngle - startAngle) / 2 + 180;
+    var maxStart = startAngle + (endAngle - startAngle) / 2 - 180;
     if (value > endAngle) {
         if (value - 360 > startAngle) {
             value -= 360;
         }
         else {
-            if (value > antiArcMiddle) {
-                value = startAngle;
+            if (value < maxEnd) {
+                value = endAngle;
             }
             else {
-                value = endAngle;
+                value = startAngle;
             }
         }
     }
     if (value < startAngle) {
-        if (value > antiArcMiddle) {
+        if (value > maxStart) {
             value = startAngle;
         }
         else {

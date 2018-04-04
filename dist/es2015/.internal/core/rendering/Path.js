@@ -97,7 +97,7 @@ export function wavedLine(point1, point2, waveLength, waveHeight, tension, adjus
  * @return {string}         SVG path
  */
 export function moveTo(point) {
-    return " M" + $math.round(point.x, 3) + "," + $math.round(point.y, 3) + " ";
+    return " M" + $math.round(point.x, 4) + "," + $math.round(point.y, 4) + " ";
 }
 /**
  * Returns a line part of SVG path.
@@ -107,7 +107,7 @@ export function moveTo(point) {
  * @return {string}         SVG path
  */
 export function lineTo(point) {
-    return " L" + $math.round(point.x, 3) + "," + $math.round(point.y, 3) + " ";
+    return " L" + $math.round(point.x, 4) + "," + $math.round(point.y, 4) + " ";
 }
 /**
  * Returns a quadratic curve part of an SVG path.
@@ -118,9 +118,9 @@ export function lineTo(point) {
  * @return {string}                SVG path
  */
 export function quadraticCurveTo(point, controlPoint) {
-    return " Q" + $math.round(controlPoint.x, 3)
-        + "," + $math.round(controlPoint.y, 3) + " " + $math.round(point.x, 3)
-        + "," + $math.round(point.y, 3);
+    return " Q" + $math.round(controlPoint.x, 4)
+        + "," + $math.round(controlPoint.y, 4) + " " + $math.round(point.x, 4)
+        + "," + $math.round(point.y, 4);
 }
 /**
  * Returns a cubic curve part of an SVG path.
@@ -132,10 +132,10 @@ export function quadraticCurveTo(point, controlPoint) {
  * @return {string}                 SVG path
  */
 export function cubicCurveTo(point, controlPointA, controlPointB) {
-    return " C" + $math.round(controlPointA.x, 3)
-        + "," + $math.round(controlPointA.y, 3) + " " + $math.round(controlPointB.x, 3)
-        + "," + $math.round(controlPointB.y, 3) + " " + $math.round(point.x, 3)
-        + "," + $math.round(point.y, 3);
+    return " C" + $math.round(controlPointA.x, 4)
+        + "," + $math.round(controlPointA.y, 4) + " " + $math.round(controlPointB.x, 4)
+        + "," + $math.round(controlPointB.y, 4) + " " + $math.round(point.x, 4)
+        + "," + $math.round(point.y, 4);
 }
 /**
  * Returns a terminator for an SVG path.
@@ -179,8 +179,8 @@ export function arcTo(startAngle, arc, radius, radiusY) {
     var pay = 0;
     for (var i = 0; i < segments; i++) {
         var endAngle = startAngle + arc / segments * (i + 1);
-        var ax = $math.round($math.cos(endAngle) * radius + cx - pax, 3);
-        var ay = $math.round($math.sin(endAngle) * radiusY + cy - pay, 3);
+        var ax = $math.round($math.cos(endAngle) * radius + cx - pax, 4);
+        var ay = $math.round($math.sin(endAngle) * radiusY + cy - pay, 4);
         path += " a" + radius + c + radiusY + c + 0 + c + 0 + c + l + c + ax + c + ay;
         pax = ax;
         pay = ay;
@@ -206,6 +206,10 @@ export function arc(startAngle, arc, radius, innerRadius, radiusY, cornerRadius,
         return "";
     }
     arc = $math.min(arc, 360);
+    if (arc == 360) {
+        cornerRadius = 0;
+        innerCornerRadius = 0;
+    }
     var endAngle = startAngle + arc;
     var crSin = $math.sin($math.min(arc, 45) / 2);
     innerRadius = innerRadius || 0;
@@ -219,10 +223,10 @@ export function arc(startAngle, arc, radius, innerRadius, radiusY, cornerRadius,
     cornerRadiusY = $math.fitToRange(cornerRadiusY, 0, (radiusY - innerRadiusY) / 2);
     innerCornerRadius = $math.fitToRange(innerCornerRadius, 0, (radius - innerRadius) / 2);
     innerCornerRadiusY = $math.fitToRange(innerCornerRadiusY, 0, (radiusY - innerRadiusY) / 2);
-    cornerRadius = $math.round($math.fitToRange(cornerRadius, 0, radius * crSin), 3);
-    cornerRadiusY = $math.round($math.fitToRange(cornerRadiusY, 0, radiusY * crSin), 3);
-    innerCornerRadius = $math.round($math.fitToRange(innerCornerRadius, 0, innerRadius * crSin), 3);
-    innerCornerRadiusY = $math.round($math.fitToRange(innerCornerRadiusY, 0, innerRadiusY * crSin), 3);
+    cornerRadius = $math.round($math.fitToRange(cornerRadius, 0, radius * crSin), 4);
+    cornerRadiusY = $math.round($math.fitToRange(cornerRadiusY, 0, radiusY * crSin), 4);
+    innerCornerRadius = $math.round($math.fitToRange(innerCornerRadius, 0, innerRadius * crSin), 4);
+    innerCornerRadiusY = $math.round($math.fitToRange(innerCornerRadiusY, 0, innerRadiusY * crSin), 4);
     var crAngle = Math.asin(cornerRadius / radius / 2) * $math.DEGREES * 2;
     var crAngleY = Math.asin(cornerRadiusY / radiusY / 2) * $math.DEGREES * 2;
     if (innerRadius < innerCornerRadius) {
@@ -240,7 +244,7 @@ export function arc(startAngle, arc, radius, innerRadius, radiusY, cornerRadius,
         crInnerAngleY = 0;
     }
     var middleAngle = startAngle + arc / 2;
-    var mPoint = { x: $math.round($math.cos(middleAngle) * innerRadius, 3), y: $math.sin(middleAngle) * innerRadiusY };
+    var mPoint = { x: $math.round($math.cos(middleAngle) * innerRadius, 4), y: $math.sin(middleAngle) * innerRadiusY };
     var a0 = { x: $math.cos(startAngle) * (innerRadius + innerCornerRadius), y: $math.sin(startAngle) * (innerRadiusY + innerCornerRadiusY) };
     var b0 = { x: $math.cos(startAngle) * (radius - cornerRadius), y: $math.sin(startAngle) * (radiusY - cornerRadiusY) };
     var c0 = { x: $math.cos(endAngle) * (radius - cornerRadius), y: $math.sin(endAngle) * (radiusY - cornerRadiusY) };
@@ -255,7 +259,7 @@ export function arc(startAngle, arc, radius, innerRadius, radiusY, cornerRadius,
     }
     var path = "";
     // start from b if this is full circle
-    if (arc == 360 && cornerRadius == 0) {
+    if (arc == 360) {
         path = moveTo(b0);
     }
     else {
@@ -280,10 +284,13 @@ export function arc(startAngle, arc, radius, innerRadius, radiusY, cornerRadius,
         if (arc < 360 || cornerRadius > 0) {
             path += arcToPoint(a0, innerCornerRadius, innerCornerRadiusY, true);
         }
+        path += lineTo(a0);
     }
     else {
         path += arcToPoint(c0, cornerRadius, cornerRadiusY, true);
-        path += lineTo(a0);
+        if (arc < 360) {
+            path += lineTo(a0);
+        }
     }
     return path;
 }
@@ -310,7 +317,7 @@ export function arcToPoint(point, radius, radiusY, sweepFlag, largeArcFlag, xAxi
     var c = ",";
     var sweepFlagValue = +sweepFlag; // converts to 1 or 0
     var largeArcFlagValue = +largeArcFlag; // converts to 1 or 0
-    return " A" + radius + c + radiusY + c + xAxisRotation + c + largeArcFlagValue + c + sweepFlagValue + c + $math.round(point.x, 4) + c + $math.round(point.y, 3);
+    return " A" + radius + c + radiusY + c + xAxisRotation + c + largeArcFlagValue + c + sweepFlagValue + c + $math.round(point.x, 4) + c + $math.round(point.y, 4);
 }
 /**
  * Creates a new rectangle.

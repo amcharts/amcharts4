@@ -169,6 +169,17 @@ var XYCursor = /** @class */ (function (_super) {
         }
     };
     /**
+     *
+     * @ignore Exclude from docs
+     */
+    XYCursor.prototype.fixPoint = function (point) {
+        point.x = Math.max(0, point.x);
+        point.y = Math.max(0, point.y);
+        point.x = Math.min(this.pixelWidth, point.x);
+        point.y = Math.min(this.pixelHeight, point.y);
+        return point;
+    };
+    /**
      * Updates position of Cursor's line(s) as pointer moves.
      *
      * @ignore Exclude from docs
@@ -176,7 +187,7 @@ var XYCursor = /** @class */ (function (_super) {
      */
     XYCursor.prototype.handleCursorMove = function (event) {
         _super.prototype.handleCursorMove.call(this, event);
-        var point = this.point;
+        var point = this.fixPoint(this.point);
         if (this.lineX && this.lineX.visible && !this.xAxis) {
             this.lineX.x = point.x;
         }

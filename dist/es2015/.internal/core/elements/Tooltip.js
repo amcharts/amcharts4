@@ -19,7 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Container } from "../Container";
 import { PointedRectangle } from "./PointedRectangle";
-import { Text } from "../elements/Text";
+import { Label } from "../elements/Label";
 import { Animation } from "../utils/Animation";
 import { color } from "../utils/Color";
 import { DropShadowFilter } from "../rendering/filters/DropShadowFilter";
@@ -47,10 +47,6 @@ var Tooltip = /** @class */ (function (_super) {
         var _this = 
         // Init
         _super.call(this) || this;
-        /**
-         * Text element that represents tooltip contents.
-         */
-        _this.textElement = new Text();
         /**
          * Holds numeric boundary values. Calculated from the `boundingContainer`.
          *
@@ -93,13 +89,19 @@ var Tooltip = /** @class */ (function (_super) {
         background.pointerBaseWidth = 10;
         _this.autoTextColor = true;
         // Create text element
-        _this.textElement = _this.createChild(Text);
-        _this.textElement.padding(7, 12, 6, 12);
-        _this.textElement.mouseEnabled = false;
-        _this.textElement.horizontalCenter = "middle";
-        _this.textElement.fill = color("#ffffff");
-        _this._disposers.push(_this.textElement);
-        _this.textElement.zIndex = 1; // @todo remove this line when bg sorting is solved
+        _this.label = _this.createChild(Label);
+        _this.label.padding(7, 12, 6, 12);
+        _this.label.mouseEnabled = false;
+        _this.label.horizontalCenter = "middle";
+        _this.label.fill = color("#ffffff");
+        _this._disposers.push(_this.label);
+        _this.label.events.on("sizechanged", function () {
+            _this.drawBackground();
+        });
+        _this.label.events.on("positionchanged", function () {
+            _this.drawBackground();
+        });
+        _this.label.zIndex = 1; // @todo remove this line when bg sorting is solved
         // Set defaults
         _this.pointerOrientation = "vertical";
         var dropShadow = new DropShadowFilter();
@@ -115,6 +117,12 @@ var Tooltip = /** @class */ (function (_super) {
         _this.opacity = 0;
         _this.x = 0;
         _this.y = 0;
+        _this.events.on("visibilitychanged", function () {
+            _this.label.disabled = !_this.visible;
+            if (_this.visible) {
+                _this.label.invalidate();
+            }
+        });
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -253,7 +261,7 @@ var Tooltip = /** @class */ (function (_super) {
          * @return {string} HTML content
          */
         get: function () {
-            return this.textElement.html;
+            return this.label.html;
         },
         /**
          * HTML content for the Tooltip.
@@ -264,7 +272,7 @@ var Tooltip = /** @class */ (function (_super) {
          * @param {string}  value  HTML content
          */
         set: function (value) {
-            this.textElement.html = value;
+            this.label.html = value;
             this.invalidate();
         },
         enumerable: true,
@@ -280,7 +288,7 @@ var Tooltip = /** @class */ (function (_super) {
      * @param {DataItem}  dataItem  Data item
      */
     Tooltip.prototype.setDataItem = function (dataItem) {
-        this.textElement.dataItem = dataItem;
+        this.label.dataItem = dataItem;
         _super.prototype.setDataItem.call(this, dataItem);
     };
     Object.defineProperty(Tooltip.prototype, "text", {
@@ -288,7 +296,7 @@ var Tooltip = /** @class */ (function (_super) {
          * @return {string} SVG text
          */
         get: function () {
-            return this.textElement.text;
+            return this.label.text;
         },
         /**
          * SVG text content for the Tooltip.
@@ -299,8 +307,8 @@ var Tooltip = /** @class */ (function (_super) {
          * @param {string}  value  SVG text
          */
         set: function (value) {
-            if (this.textElement.text != value) {
-                this.textElement.text = value;
+            if (this.label.text != value) {
+                this.label.text = value;
                 this.invalidate();
             }
         },
@@ -314,15 +322,15 @@ var Tooltip = /** @class */ (function (_super) {
      */
     Tooltip.prototype.draw = function () {
         _super.prototype.draw.call(this);
-        var textElement = this.textElement;
-        if (textElement.invalid) {
-            textElement.validate();
+        var label = this.label;
+        if (label.invalid) {
+            label.validate();
         }
         var x = this._pointTo.x;
         var y = this._pointTo.y;
         var boundingRect = this._boundingRect;
-        var textW = textElement.pixelWidth;
-        var textH = textElement.pixelHeight;
+        var textW = label.pixelWidth;
+        var textH = label.pixelHeight;
         var pointerLength = this.background.pointerLength;
         var textX;
         var textY;
@@ -348,9 +356,8 @@ var Tooltip = /** @class */ (function (_super) {
             }
         }
         textY = $math.fitToRange(textY, boundingRect.y - y, boundingRect.y + boundingRect.height - textH - y);
-        textElement.x = textX;
-        textElement.y = textY;
-        this.drawBackground();
+        label.x = textX;
+        label.y = textY;
     };
     /**
      * Overrides functionality from the superclass.
@@ -358,7 +365,7 @@ var Tooltip = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Tooltip.prototype.updateBackground = function () {
-        // Do nothing
+        this.group.addToBack(this.background.group);
     };
     /**
      * Draws Tooltip background (chrome, background and pointer/stem).
@@ -366,46 +373,21 @@ var Tooltip = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Tooltip.prototype.drawBackground = function () {
-        var textElement = this.textElement;
+        var label = this.label;
         var background = this.background;
-        var textWidth = textElement.pixelWidth;
-        var textHeight = textElement.pixelHeight;
-        var pixelWidth = this.pixelWidth;
-        var pixelHeight = this.pixelHeight;
+        var textWidth = label.measuredWidth;
+        var textHeight = label.measuredHeight;
         var boundingRect = this._boundingRect;
-        var bgWidth = textElement.pixelWidth;
-        var bgX = textElement.pixelX - textWidth / 2;
-        var bgHeight = textElement.pixelHeight;
-        var bgY = textElement.pixelY;
+        var bgWidth = textWidth;
+        var bgX = label.pixelX - textWidth / 2;
+        var bgHeight = textHeight;
+        var bgY = label.pixelY;
         var x = this._pointTo.x;
         var y = this._pointTo.y;
         var boundX1 = boundingRect.x - x;
         var boundX2 = boundX1 + boundingRect.width;
         var boundY1 = boundingRect.y - y;
         var boundY2 = boundY1 + boundingRect.height;
-        // all this math required when tooltip width is set from outside and it's bigger then text width
-        if (this.pointerOrientation == "vertical") {
-            if (pixelWidth > textWidth) {
-                var x1real = Math.min(-pixelWidth / 2, bgX);
-                var x2real = Math.max(pixelWidth / 2, bgX + textWidth);
-                // fit to bounds
-                var x1 = $math.fitToRange(x1real, boundX1, boundX2);
-                var x2 = $math.fitToRange(x2real, boundX1, boundX2);
-                bgWidth = x2 - x1;
-                bgX = x1;
-            }
-        }
-        else {
-            if (pixelHeight > textHeight) {
-                var y1real = Math.min(-pixelHeight / 2, bgY);
-                var y2real = Math.max(pixelHeight / 2, bgY + textHeight);
-                // fit to bounds
-                var y1 = $math.fitToRange(y1real, boundY1, boundY2);
-                var y2 = $math.fitToRange(y2real, boundY1, boundY2);
-                bgHeight = y2 - y1;
-                bgY = y1;
-            }
-        }
         background.x = bgX;
         background.y = bgY;
         background.width = bgWidth;

@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@amcharts/amcharts4-example-simple-column-chart",
+  "name": "@amcharts/amcharts4-example",
   "version": "1.0.0",
   "devDependencies": {
     "@amcharts/amcharts4": "file:../..",

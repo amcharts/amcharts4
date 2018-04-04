@@ -178,6 +178,16 @@ export declare class RadarChart extends XYChart {
      */
     radarContainer: Container;
     /**
+     *
+     * @ignore Exclude from docs
+     */
+    protected _pixelInnerRadius: number;
+    /**
+     * used by cursor. We adjust innerradius if start and end angle are close to each other
+     * @ignore Exclude from docs
+     */
+    innerRadiusModifyer: number;
+    /**
      * Constructor
      */
     constructor();
@@ -294,6 +304,10 @@ export declare class RadarChart extends XYChart {
      * @param {number | Percent}  value  Outer radius
      */
     radius: number | Percent;
+    /**
+     * @return {number} Inner radius in pixels
+     */
+    readonly pixelInnerRadius: number;
     /**
      * @return {number} Inner radius
      */

@@ -69,15 +69,18 @@ var AxisRenderer = /** @class */ (function (_super) {
         _this.cellEndLocation = 1;
         _this.minLabelPosition = 0;
         _this.maxLabelPosition = 1;
+        _this.noLayouting = true;
         // Set axis
         _this.axis = axis;
         var gridContainer = _this.createChild(Container);
+        gridContainer.noLayouting = true;
         gridContainer.isMeasured = false;
         gridContainer.width = percent(100);
         gridContainer.height = percent(100);
         _this.gridContainer = gridContainer;
         var breakContainer = _this.createChild(Container);
         breakContainer.isMeasured = false;
+        breakContainer.noLayouting = true;
         breakContainer.width = percent(100);
         breakContainer.height = percent(100);
         _this.breakContainer = breakContainer;
@@ -147,19 +150,6 @@ var AxisRenderer = /** @class */ (function (_super) {
             //item.visible = this.fitsToBounds(point);
         }
     };
-    Object.defineProperty(AxisRenderer.prototype, "axisFullLength", {
-        /**
-         * Returns Axis' full length in pixels.
-         *
-         * @return {number} Axis lenght (px)
-         */
-        get: function () {
-            var axis = this.axis;
-            return this.axisLength / (axis.end - axis.start);
-        },
-        enumerable: true,
-        configurable: true
-    });
     /**
      * Converts relative position on axis to point coordinates.
      *
@@ -193,7 +183,7 @@ var AxisRenderer = /** @class */ (function (_super) {
     AxisRenderer.prototype.positionToCoordinate = function (position) {
         var coordinate;
         var axis = this.axis;
-        var axisFullLength = this.axisFullLength;
+        var axisFullLength = axis.axisFullLength;
         if (axis.renderer.inversed) {
             coordinate = (axis.end - position) * axisFullLength;
         }
@@ -212,7 +202,7 @@ var AxisRenderer = /** @class */ (function (_super) {
     AxisRenderer.prototype.coordinateToPosition = function (coordinate) {
         var position;
         var axis = this.axis;
-        var axisFullLength = this.axisFullLength;
+        var axisFullLength = axis.axisFullLength;
         if (axis.renderer.inversed) {
             position = axis.end - coordinate / axisFullLength;
         }

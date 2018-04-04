@@ -123,7 +123,8 @@ var AxisRendererY = /** @class */ (function (_super) {
          * @return {number} Length (px)
          */
         get: function () {
-            return this.innerHeight;
+            var axis = this.axis;
+            return axis.pixelHeight - axis.pixelPaddingTop - axis.pixelPaddingBottom;
         },
         enumerable: true,
         configurable: true
@@ -257,25 +258,32 @@ var AxisRendererY = /** @class */ (function (_super) {
         label.isMeasured = !label.inside;
         var point = this.positionToPoint(position);
         var align;
+        var tickLenght = 0;
+        var tick = label.dataItem.tick;
+        if (tick) {
+            tickLenght = tick.length;
+        }
         if (this.opposite) {
             if (label.inside) {
                 align = "right";
-                label.horizontalCenter = "right";
+                tickLenght *= -1;
             }
             else {
                 align = "left";
             }
+            point.x = tickLenght;
         }
         else {
             if (label.inside) {
                 align = "left";
-                point.x = this.pixelWidth;
             }
             else {
                 align = "right";
+                tickLenght *= -1;
             }
+            point.x = this.pixelWidth + tickLenght;
         }
-        label.align = align;
+        label.horizontalCenter = align;
         this.positionItem(label, point);
         this.toggleVisibility(label, position, this.minLabelPosition, this.maxLabelPosition);
     };
@@ -350,7 +358,7 @@ var AxisRendererY = /** @class */ (function (_super) {
     AxisRendererY.prototype.positionToCoordinate = function (position) {
         var coordinate;
         var axis = this.axis;
-        var axisFullLength = this.axisFullLength;
+        var axisFullLength = axis.axisFullLength;
         if (!axis.renderer.inversed) {
             coordinate = (axis.end - position) * axisFullLength;
         }

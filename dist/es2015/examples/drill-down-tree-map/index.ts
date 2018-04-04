@@ -86,6 +86,7 @@ chart.dataFields.value = "count";
 chart.dataFields.name = "name";
 chart.dataFields.children = "children";
 chart.homeText = "US Car Sales 2017";
+chart.padding(0,0,0,0);
 
 // enable navigation
 chart.navigationBar.disabled = false;
@@ -148,11 +149,11 @@ let level1SeriesTemplate = chart.seriesTemplates.create("1");
 let bullet1 = level1SeriesTemplate.bullets.push(new treemap.LabelBullet());
 bullet1.locationX = 0.5;
 bullet1.locationY = 0.5;
-bullet1.label.textElement.text = "{name}";
+bullet1.label.text = "{name}";
 
 // level2 series template
 let level2SeriesTemplate = chart.seriesTemplates.create("2");
 let bullet2 = level2SeriesTemplate.bullets.push(new treemap.LabelBullet());
 bullet2.locationX = 0.5;
 bullet2.locationY = 0.5;
-bullet2.label.textElement.text = "{name}";
+bullet2.label.text = "{name}";

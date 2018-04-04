@@ -262,7 +262,10 @@ var XYChart = /** @class */ (function (_super) {
         _this.bulletsContainer.parent = plotCont;
         var zoomOutButton = plotCont.createChild(ZoomOutButton);
         zoomOutButton.align = "right";
+        zoomOutButton.valign = "top";
         zoomOutButton.zIndex = Number.MAX_SAFE_INTEGER;
+        zoomOutButton.marginTop = 5;
+        zoomOutButton.marginRight = 5;
         zoomOutButton.hide(0);
         _this.zoomOutButton = zoomOutButton;
         _this._bulletMask = _this.plotContainer;
@@ -798,7 +801,8 @@ var XYChart = /** @class */ (function (_super) {
                     tooltip.validate();
                 }
                 tooltip.toBack();
-                nextY = $utils.spritePointToSvg({ x: 0, y: tooltip.textElement.pixelY + tooltip.textElement.pixelHeight - tooltip.pixelY + pointY + tooltip.pixelMarginBottom }, tooltip).y;
+                //@labeltodo
+                nextY = $utils.spritePointToSvg({ x: 0, y: tooltip.label.pixelY + tooltip.label.pixelHeight - tooltip.pixelY + pointY + tooltip.pixelMarginBottom }, tooltip).y;
             }
             var nextHeight = bottom;
             for (var i = botSeriesPoints.length - 1; i >= 0; i--) {
@@ -810,7 +814,8 @@ var XYChart = /** @class */ (function (_super) {
                     tooltip.validate();
                 }
                 tooltip.toBack();
-                nextHeight = $utils.spritePointToSvg({ x: 0, y: tooltip.textElement.pixelY - tooltip.pixelY + pointY - tooltip.pixelMarginTop }, tooltip).y;
+                //@labeltodo
+                nextHeight = $utils.spritePointToSvg({ x: 0, y: tooltip.label.pixelY - tooltip.pixelY + pointY - tooltip.pixelMarginTop }, tooltip).y;
             }
         }
     };
@@ -843,7 +848,12 @@ var XYChart = /** @class */ (function (_super) {
     XYChart.prototype.getUpdatedRange = function (axis, range) {
         var start;
         var end;
-        if (axis.renderer.inversed) {
+        var inversed = axis.renderer.inversed;
+        if (axis.renderer instanceof AxisRendererY) {
+            range = $math.invertRange(range);
+        }
+        if (inversed) {
+            $math.invertRange(range);
             start = 1 - axis.end;
             end = 1 - axis.start;
         }

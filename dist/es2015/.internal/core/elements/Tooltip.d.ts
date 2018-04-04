@@ -11,7 +11,7 @@ import { Container, IContainerProperties, IContainerAdapters, IContainerEvents }
 import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { PointedRectangle } from "./PointedRectangle";
 import { IPoint } from "../defs/IPoint";
-import { Text } from "../elements/Text";
+import { Label } from "../elements/Label";
 import { IRectangle } from "../defs/IRectangle";
 import { DataItem } from "../DataItem";
 /**
@@ -120,7 +120,7 @@ export declare class Tooltip extends Container {
     /**
      * Text element that represents tooltip contents.
      */
-    textElement: Text;
+    label: Label;
     /**
      * A container that should be considered a "boundary" for the tolltip. A
      * bounding container is used to calculate numeric boundaries

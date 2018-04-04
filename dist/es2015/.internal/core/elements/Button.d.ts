@@ -9,7 +9,7 @@
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
 import { Sprite, SpriteEventDispatcher, AMEvent } from "../Sprite";
-import { Text } from "./Text";
+import { Label } from "./Label";
 import { RoundedRectangle } from "../elements/RoundedRectangle";
 /**
  * ============================================================================
@@ -25,6 +25,10 @@ export interface IButtonProperties extends IContainerProperties {
      * Icon (if available) position - left or right.
      */
     iconPosition?: "left" | "right";
+    /**
+     * Icon sprite
+     */
+    icon?: Sprite;
 }
 /**
  * Defines events for [[Button]].
@@ -79,11 +83,11 @@ export declare class Button extends Container {
      */
     protected _icon: Sprite;
     /**
-     * [[Text]] element for button content.
+     * [[Label]] element for button content.
      *
-     * @type {Text}
+     * @type {Label}
      */
-    protected _textElement: Text;
+    protected _label: Label;
     /**
      * A type for background.
      *
@@ -115,14 +119,14 @@ export declare class Button extends Container {
      */
     iconPosition: "left" | "right";
     /**
-     * @return {Text} Text element
+     * @return {Label} Label element
      */
     /**
-     * [[Text]] element to be used for text.
+     * [[Label]] element to be used for text.
      *
-     * @param {Text}  textElement  Text element
+     * @param {Label}  label element
      */
-    textElement: Text;
+    label: Label;
     /**
      * Creates a background element for the button.
      *

@@ -50,7 +50,7 @@ export { IButtonProperties, IButtonEvents, IButtonAdapters, Button } from "./.in
 export { ICircleProperties, ICircleEvents, ICircleAdapters, Circle } from "./.internal/core/elements/Circle";
 export { IEllipseProperties, IEllipseEvents, IEllipseAdapters, Ellipse } from "./.internal/core/elements/Ellipse";
 export { IImageProperties, IImageEvents, IImageAdapters, Image } from "./.internal/core/elements/Image";
-export { ILabelProperties, ILabelEvents, ILabelAdapters, Label } from "./.internal/core/elements/Label";
+export { FontWeight, TextDecoration, ITextLineInfo, ILabelProperties, ILabelEvents, ILabelAdapters, Label } from "./.internal/core/elements/Label";
 export { ILineProperties, ILineEvents, ILineAdapters, Line } from "./.internal/core/elements/Line";
 export { IModalAdapters, Modal } from "./.internal/core/elements/Modal";
 export { IPointedRectangleProperties, IPointedRectangleEvents, IPointedRectangleAdapters, PointedRectangle } from "./.internal/core/elements/PointedRectangle";
@@ -66,7 +66,6 @@ export { IRoundedRectangleProperties, IRoundedRectangleEvents, IRoundedRectangle
 export { IScrollbarProperties, IScrollbarEvents, IScrollbarAdapters, Scrollbar } from "./.internal/core/elements/Scrollbar";
 export { ISliderProperties, ISliderEvents, ISliderAdapters, Slider } from "./.internal/core/elements/Slider";
 export { ISliceProperties, ISliceEvents, ISliceAdapters, Slice } from "./.internal/core/elements/Slice";
-export { FontWeight, TextDecoration, ITextProperties, ITextLineInfo, ITextEvents, ITextAdapters, Text } from "./.internal/core/elements/Text";
 export { ITextLinkProperties, ITextLinkEvents, ITextLinkAdapters, TextLink } from "./.internal/core/elements/TextLink";
 export { PointerOrientation, ITooltipProperties, ITooltipEvents, ITooltipAdapters, Tooltip } from "./.internal/core/elements/Tooltip";
 export { ITrapezoidProperties, ITrapezoidEvents, ITrapezoidAdapters, Trapezoid } from "./.internal/core/elements/Trapezoid";
@@ -75,6 +74,7 @@ export { IWavedCircleProperties, IWavedCircleEvents, IWavedCircleAdapters, Waved
 export { IWavedLineProperties, IWavedLineEvents, IWavedLineAdapters, WavedLine } from "./.internal/core/elements/WavedLine";
 export { IWavedRectangleProperties, IWavedRectangleEvents, IWavedRectangleAdapters, WavedRectangle } from "./.internal/core/elements/WavedRectangle";
 export { IZoomOutButtonProperties, IZoomOutButtonEvents, IZoomOutButtonAdapters, ZoomOutButton } from "./.internal/core/elements/ZoomOutButton";
+export { IPlayButtonProperties, IPlayButtonEvents, IPlayButtonAdapters, PlayButton } from "./.internal/core/elements/PlayButton";
 /**
  * Elements: 3d
  */

@@ -12,7 +12,9 @@ import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { SpriteState } from "../../core/SpriteState";
 import { Container } from "../../core/Container";
 import { ListTemplate } from "../../core/utils/List";
+import { Dictionary } from "../../core/utils/Dictionary";
 import { Bullet } from "../elements/Bullet";
+import { IDataItemEvents } from "../../core/DataItem";
 import * as $iter from "../../core/utils/Iterator";
 /**
  * ============================================================================
@@ -50,6 +52,13 @@ export declare class ColumnSeriesDataItem extends XYSeriesDataItem {
      */
     _component: ColumnSeries;
     /**
+     * A dictionary storing axes ranges columns by axis uid
+     *
+     * @type {Dictionary<string, Sprite>}
+     * @ignore
+     */
+    protected _rangesColumns: Dictionary<string, Sprite>;
+    /**
      * Constructor
      */
     constructor();
@@ -65,6 +74,12 @@ export declare class ColumnSeriesDataItem extends XYSeriesDataItem {
      * @param {Sprite}  column  Column sprite
      */
     column: Sprite;
+    /**
+     * A dictionary storing axes ranges columns by axis uid
+     *
+     * @type {Dictionary<string, Sprite>}
+     */
+    readonly rangesColumns: Dictionary<string, Sprite>;
 }
 /**
  * ============================================================================
@@ -202,6 +217,14 @@ export declare class ColumnSeries extends XYSeries {
      */
     protected _riseFromPreviousState: SpriteState<this["_properties"], this["_adapter"]>;
     /**
+     * When working value of dataItem changes, we must process all the values to calculate sum, min, max etc. Also update stack values. This is quite expensive operation.
+     * Unfortunately we do not know if user needs this processed values or not. By setting simplifiedProcessing = true you disable this processing and in case working
+     * value changes, we only redraw the particular column. Do not do this if you have staked chart or use calculated values in bullets or in tooltips.
+     *
+     * @type {boolean}
+     */
+    simplifiedProcessing: boolean;
+    /**
      * Constructor
      */
     constructor();
@@ -243,6 +266,7 @@ export declare class ColumnSeries extends XYSeries {
      * @return {number}                       Location (0-1)
      */
     protected getStartLocation(dataItem: this["_dataItem"]): number;
+    protected handleDataItemWorkingValueChange(event: AMEvent<ColumnSeriesDataItem, IDataItemEvents>["workingvaluechanged"]): void;
     /**
      * Returns relative end location for the data item.
      *

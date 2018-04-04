@@ -184,6 +184,12 @@ export declare class Container extends Sprite {
     protected _containerOverflowX: number;
     protected _containerOverflowY: number;
     /**
+     * @todo:review description
+     * Sometimes containers might be dumb, without any need of layouting. in this case setting noLayouting = true will save some cpu
+     * @default false;
+     */
+    noLayouting: boolean;
+    /**
      * Constructor
      */
     constructor();

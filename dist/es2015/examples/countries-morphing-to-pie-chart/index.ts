@@ -2,7 +2,7 @@ import * as amcharts4 from "@amcharts/amcharts4";
 import * as map from "@amcharts/amcharts4/map";
 import * as pie from "@amcharts/amcharts4/pie";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
-import worldMap from "./worldLow";
+import worldMap from "@amcharts/amcharts4/maps/worldLow";
 
 amcharts4.useTheme(AnimatedTheme);
 
@@ -36,7 +36,7 @@ polygonTemplate.filters.push(desaturateFilter);
 
 // take a color from color set
 polygonTemplate.adapter.add("fill", (fill, target) => {
-	return colorSet.getIndex(target.dataItem.index);
+	return colorSet.getIndex(target.dataItem.index + 1);
 })
 
 // set fillOpacity to 1 when hovered
@@ -84,8 +84,8 @@ hiddenState.properties.visible = false;
 
 // series labels
 let labelTemplate = pieSeries.labels.template;
-labelTemplate.textElement.fill = amcharts4.color("#FFFFFF");
-labelTemplate.textElement.fontSize = 10;
+labelTemplate.fill = amcharts4.color("#FFFFFF");
+labelTemplate.fontSize = 10;
 labelTemplate.background = new amcharts4.RoundedRectangle();
 labelTemplate.background.fillOpacity = 0.9;
 labelTemplate.padding(4, 9, 4, 9);
@@ -96,9 +96,9 @@ pieSeries.hiddenState.transitionDuration = 200;
 
 // country label
 let countryLabel = chart.chartContainer.createChild(amcharts4.Label);
-countryLabel.textElement.text = "Select a country";
-countryLabel.textElement.fill = amcharts4.color("#7678a0");
-countryLabel.textElement.fontSize = 40;
+countryLabel.text = "Select a country";
+countryLabel.fill = amcharts4.color("#7678a0");
+countryLabel.fontSize = 40;
 
 countryLabel.hiddenState.properties.dy = 1000;
 countryLabel.defaultState.properties.dy = 0;
@@ -226,9 +226,9 @@ function showPieChart(polygon: map.MapPolygon) {
 	pieSeries.show();
 	pieChart.show();
 
-	countryLabel.textElement.text = "{name}";
+	countryLabel.text = "{name}";
 	countryLabel.dataItem = polygon.dataItem;
-	countryLabel.textElement.fill = desaturated;
+	countryLabel.fill = desaturated;
 	countryLabel.show();
 }
 

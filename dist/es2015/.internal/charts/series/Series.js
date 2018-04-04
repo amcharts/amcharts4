@@ -68,6 +68,8 @@ var SeriesDataItem = /** @class */ (function (_super) {
         _this.className = "SeriesDataItem";
         //@todo Should we make `bullets` list disposable?
         //this._disposers.push(new DictionaryDisposer(this.bullets));
+        _this.values.value = {};
+        _this.values.value = {};
         _this.applyTheme();
         return _this;
     }
@@ -85,6 +87,24 @@ var SeriesDataItem = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setProperty("visibleInLegend", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SeriesDataItem.prototype, "value", {
+        /**
+         * @return {number} Value
+         */
+        get: function () {
+            return this.values.value.value;
+        },
+        /**
+         * data items's numeric value.
+         *
+         * @param {number}  value  Value
+         */
+        set: function (value) {
+            this.setValue("value", value);
         },
         enumerable: true,
         configurable: true
@@ -180,23 +200,20 @@ var Series = /** @class */ (function (_super) {
          */
         _this.skipFocusThreshold = 20;
         /**
-         * internal use, a flag which is set to true if series is stacked to force redraw bullets. @todo: this is quite a workaround, think of a better solution. the problem is that if we fire events when totals are changed it results stackoverflow
-         * @ignore
-         */
-        _this.invalidateBullets = false;
-        /**
          * flag which is set to true when initial animation is finished
          */
         _this.appeared = false;
         _this.className = "Series";
         _this.isMeasured = false;
+        _this.noLayouting = true;
         _this.axisRanges = new List();
         _this.axisRanges.events.on("insert", _this.processAxisRange, _this);
-        _this.minBulletDistance = 30;
+        _this.minBulletDistance = 0; // otherwise we'll have a lot of cases when people won't see bullets and think it's a bug
         _this.mainContainer = _this.createChild(Container);
         _this.mainContainer.mask = _this.createChild(Sprite);
         // all bullets should go on top of lines/fills. So we add a separate container for bullets and later set it's parent to chart.bulletsContainer
         _this.bulletsContainer = _this.mainContainer.createChild(Container);
+        _this.bulletsContainer.noLayouting = true;
         _this.tooltip = new Tooltip();
         _this.hiddenState.easing = $ease.cubicIn;
         // this data item holds sums, averages, etc
@@ -205,6 +222,7 @@ var Series = /** @class */ (function (_super) {
         // Apply accessibility
         _this.role = "group";
         _this.events.once("prevalidate", _this.appear, _this);
+        _this.hiddenState.properties.opacity = 1; // because we hide by changing values
         _this.applyTheme();
         return _this;
     }
@@ -497,7 +515,7 @@ var Series = /** @class */ (function (_super) {
             });
         }
         $iter.each(this.axisRanges.iterator(), function (axisRange) {
-            axisRange.contents.disposeChildren();
+            //axisRange.contents.disposeChildren(); // not good for columns, as they are reused
             //			axisRange.appendChildren();
             axisRange.validate();
         });
@@ -505,7 +523,6 @@ var Series = /** @class */ (function (_super) {
         this.hideUnusedBullets();
         this.bulletsContainer.fill = this.fill;
         this.bulletsContainer.stroke = this.stroke;
-        this.invalidateBullets = false;
     };
     /**
      * Validates data item's element, effectively redrawing it.
@@ -541,9 +558,6 @@ var Series = /** @class */ (function (_super) {
                     }
                     bullet.deepInvalidate();
                 }
-                if (_this.invalidateBullets) {
-                    bullet.deepInvalidate();
-                }
                 bullet.parent = _this.bulletsContainer;
                 bullet.visible = true;
                 dataItem.bullets.setKey(bulletTemplate.uid, bullet);
@@ -577,7 +591,7 @@ var Series = /** @class */ (function (_super) {
      *
      * @todo Description
      */
-    Series.prototype.handleDataItemWorkingValueChange = function () {
+    Series.prototype.handleDataItemWorkingValueChange = function (event) {
         this.invalidateProcessedData();
     };
     Object.defineProperty(Series.prototype, "ignoreMinMax", {

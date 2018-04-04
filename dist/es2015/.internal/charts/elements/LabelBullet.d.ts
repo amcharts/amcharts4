@@ -10,6 +10,7 @@
 import { Bullet, IBulletProperties, IBulletAdapters, IBulletEvents } from "./Bullet";
 import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Label } from "../../core/elements/Label";
+import { DataItem } from "../../core/DataItem";
 /**
  * ============================================================================
  * REQUISITES
@@ -88,4 +89,13 @@ export declare class LabelBullet extends Bullet {
      * @param {this}  source  Source element
      */
     copyFrom(source: this): void;
+    /**
+     * Sets currently used [[DataItem]].
+     *
+     * If the element has also `configField` set, it will also look for any
+     * config in DataItem's data context to apply to this element.
+     *
+     * @param {DataItem} dataItem DataItem
+     */
+    protected setDataItem(dataItem: DataItem): void;
 }

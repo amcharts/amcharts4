@@ -61,6 +61,7 @@ var ResizeButton = /** @class */ (function (_super) {
         icon.pixelPerfect = true;
         icon.padding(0, 3, 0, 3);
         icon.stroke = new InterfaceColorSet().getFor("alternativeText");
+        icon.strokeOpacity = 0.7;
         _this.icon = icon;
         // Apply theme
         _this.applyTheme();

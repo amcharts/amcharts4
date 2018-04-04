@@ -49,6 +49,7 @@ var Tick = /** @class */ (function (_super) {
         _this.length = 6;
         _this.strokeOpacity = 0.2;
         _this.stroke = interfaceColors.getFor("grid");
+        _this.isMeasured = false;
         _this.nonScalingStroke = true;
         _this.applyTheme();
         return _this;

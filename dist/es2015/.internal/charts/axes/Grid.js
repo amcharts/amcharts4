@@ -49,7 +49,7 @@ var Grid = /** @class */ (function (_super) {
         var interfaceColors = new InterfaceColorSet();
         _this.stroke = interfaceColors.getFor("grid");
         _this.pixelPerfect = true;
-        _this.strokeOpacity = 0.1;
+        _this.strokeOpacity = 0.15;
         _this.fill = color(); // "none";
         _this.applyTheme();
         return _this;

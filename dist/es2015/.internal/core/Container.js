@@ -73,6 +73,12 @@ var Container = /** @class */ (function (_super) {
          * @ignore
          */
         _this._containerOverflowY = 0;
+        /**
+         * @todo:review description
+         * Sometimes containers might be dumb, without any need of layouting. in this case setting noLayouting = true will save some cpu
+         * @default false;
+         */
+        _this.noLayouting = false;
         _this.className = "Container";
         _this.element = _this.paper.addGroup("g");
         _this.pixelPerfect = false;
@@ -159,7 +165,7 @@ var Container = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Container.prototype.invalidateLayout = function () {
-        if (this.disabled || this.isTemplate) {
+        if (this.disabled || this.isTemplate || this.noLayouting) {
             return;
         }
         //this.validateLayout();
@@ -541,7 +547,6 @@ var Container = /** @class */ (function (_super) {
         get: function () {
             if (!this._background) {
                 this._background = this.createBackground();
-                this._background.fill = new InterfaceColorSet().getFor("background");
                 this.processBackground();
             }
             return this._background;
@@ -582,8 +587,9 @@ var Container = /** @class */ (function (_super) {
         var background = this._background;
         if (background) {
             background.isMeasured = false;
-            background.zIndex = -Infinity;
-            background.parent = this;
+            this._background.fill = new InterfaceColorSet().getFor("background");
+            //background.zIndex = -Infinity;
+            //background.parent = this;
             this._disposers.push(background);
         }
     };
@@ -602,8 +608,8 @@ var Container = /** @class */ (function (_super) {
         var measuredWidth = 0;
         var measuredHeight = 0;
         var allValid = true;
-        this.sortChildren();
         if (this.children) {
+            this.sortChildren();
             // we itterate through list of children, sorted by layout priority. sprites which width non-relative width/height will go first, so we will reduce available width before proceeding to sprites with relative width/height
             $array.each(this._childrenByLayout, function (child) {
                 var maxWidth;
@@ -1053,8 +1059,11 @@ var Container = /** @class */ (function (_super) {
             else {
                 background.height = measuredHeight + this.pixelPaddingTop + this.pixelPaddingBottom;
             }
-            background.x = -this.pixelPaddingLeft; // - background.overflowX;
-            background.y = -this.pixelPaddingTop; // - background.overflowY;
+            //background.x = - this.pixelPaddingLeft + this.overflowX;
+            //background.y = - this.pixelPaddingTop + this.overflowY;
+            background.x = this.overflowX;
+            background.y = this.overflowY;
+            this.group.addToBack(background.group);
         }
     };
     /**
@@ -1200,6 +1209,7 @@ var Container = /** @class */ (function (_super) {
     Container.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
         this.layout = source.layout;
+        this.noLayouting = source.noLayouting;
         if (source._background) {
             this.background = source._background.clone();
         }

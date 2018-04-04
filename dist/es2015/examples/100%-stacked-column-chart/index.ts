@@ -2,7 +2,6 @@ import * as amcharts4 from "@amcharts/amcharts4";
 import * as xy from "@amcharts/amcharts4/xy";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 
-
 amcharts4.useTheme(AnimatedTheme);
 
 let chart = amcharts4.create("chartdiv", xy.XYChart);
@@ -72,7 +71,7 @@ series1.dataItems.template.locations.categoryX = 0.5;
 series1.stacked = true;
 
 let bullet1 = series1.bullets.push(new xy.LabelBullet());
-bullet1.label.textElement.text = "{valueY.totalPercent.formatNumber('#.00')}%";
+bullet1.label.text = "{valueY.totalPercent.formatNumber('#.00')}%";
 bullet1.locationY = 0.5;
 
 let series2 = chart.series.push(new xy.ColumnSeries());
@@ -86,7 +85,7 @@ series2.dataItems.template.locations.categoryX = 0.5;
 series2.stacked = true;
 
 let bullet2 = series2.bullets.push(new xy.LabelBullet());
-bullet2.label.textElement.text = "{valueY.totalPercent.formatNumber('#.00')}%";
+bullet2.label.text = "{valueY.totalPercent.formatNumber('#.00')}%";
 bullet2.locationY = 0.5;
 
 let series3 = chart.series.push(new xy.ColumnSeries());
@@ -100,7 +99,7 @@ series3.dataItems.template.locations.categoryX = 0.5;
 series3.stacked = true;
 
 let bullet3 = series3.bullets.push(new xy.LabelBullet());
-bullet3.label.textElement.text = "{valueY.totalPercent.formatNumber('#.00')}%";
+bullet3.label.text = "{valueY.totalPercent.formatNumber('#.00')}%";
 bullet3.locationY = 0.5;
 
 chart.scrollbarX = new amcharts4.Scrollbar();

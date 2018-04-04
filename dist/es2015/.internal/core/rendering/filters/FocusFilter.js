@@ -52,8 +52,8 @@ var FocusFilter = /** @class */ (function (_super) {
         _this.feBlend.attr({ "in": "SourceGraphic", "in2": "drop", "mode": "normal" });
         _this.filterPrimitives.push(_this.feBlend);
         // Set default properties
-        _this.width = 110;
-        _this.height = 110;
+        _this.width = 130;
+        _this.height = 130;
         _this.applyTheme();
         return _this;
     }

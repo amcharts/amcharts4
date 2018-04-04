@@ -47,7 +47,8 @@ var AmChartsLogo = /** @class */ (function (_super) {
         // Init
         _super.call(this) || this;
         _this.className = "AmChartsLogo";
-        _this.isMeasured = false;
+        //this.isMeasured = false;
+        _this.valign = "bottom";
         _this.opacity = 0.3;
         _this.defaultState.properties.opacity = 0.4;
         _this.url = "http://www.amcharts.com";

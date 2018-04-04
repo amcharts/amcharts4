@@ -43,28 +43,25 @@ var TreeMapSeriesDataItem = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
-    Object.defineProperty(TreeMapSeriesDataItem.prototype, "dataContext", {
-        /**
-         * @return {Object} Item's data
-         */
-        get: function () {
-            // It's because data of tree series is TreeMapDataItems.
-            if (this._dataContext) {
-                return this._dataContext.dataContext;
-            }
-        },
+    Object.defineProperty(TreeMapSeriesDataItem.prototype, "parentName", {
         /**
          * Data for the this particular item.
          *
          * @param {Object}  value  Item's data
          */
-        set: function (value) {
-            this._dataContext = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(TreeMapSeriesDataItem.prototype, "parentName", {
+        //public set dataContext(value: Object) {
+        //	this._dataContext = value;
+        //}
+        /**
+         * @return {Object} Item's data
+         */
+        /*
+       public get dataContext(): Object {
+           // It's because data of tree series is TreeMapDataItems.
+           if (this._dataContext) {
+               return (<any>this._dataContext).dataContext;
+           }
+       }*/
         /**
          * The name of the item's parent item.
          *
@@ -155,7 +152,7 @@ var TreeMapSeries = /** @class */ (function (_super) {
      * @param {number}                 index        Index of the data item
      */
     TreeMapSeries.prototype.processDataItem = function (dataItem, dataContext, index) {
-        dataContext.seriesDataItem = dataItem; // save a reference here. dataContect is TreeMapDataItem and we need to know dataItem sometimes
+        dataContext.seriesDataItem = dataItem; // save a reference here. dataContext is TreeMapDataItem and we need to know dataItem sometimes
         _super.prototype.processDataItem.call(this, dataItem, dataContext, index);
     };
     /**
