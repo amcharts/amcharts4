@@ -4,6 +4,7 @@
 /**
  * Elements: types
  */
+export { XYChart3DDataItem, IXYChart3DDataFields, IXYChart3DProperties, IXYChart3DEvents, IXYChart3DAdapters, XYChart3D } from "./.internal/charts/types/XYChart3D";
 export { XYChartDataItem, IXYChartDataFields, IXYChartProperties, IXYChartEvents, IXYChartAdapters, XYChart } from "./.internal/charts/types/XYChart";
 export { SerialChartDataItem, ISerialChartDataFields, ISerialChartProperties, ISerialChartEvents, ISerialChartAdapters, SerialChart } from "./.internal/charts/types/SerialChart";
 /**
@@ -23,6 +24,8 @@ export { CandlestickSeriesDataItem, ICandlestickSeriesDataFields, ICandlestickSe
 export { ColumnSeriesDataItem, IColumnSeriesDataFields, IColumnSeriesProperties, IColumnSeriesEvents, IColumnSeriesAdapters, ColumnSeries } from "./.internal/charts/series/ColumnSeries";
 export { HeatMapSeriesDataItem, IHeatMapSeriesDataFields, IHeatMapSeriesProperties, IHeatMapSeriesEvents, IHeatMapSeriesAdapters, HeatMapSeries } from "./.internal/charts/series/HeatMapSeries";
 export { StepLineSeriesDataItem, IStepLineSeriesDataFields, IStepLineSeriesProperties, IStepLineSeriesEvents, IStepLineSeriesAdapters, StepLineSeries } from "./.internal/charts/series/StepLineSeries";
+export { ColumnSeries3DDataItem, IColumnSeries3DDataFields, IColumnSeries3DProperties, IColumnSeries3DEvents, IColumnSeries3DAdapters, ColumnSeries3D } from "./.internal/charts/series/ColumnSeries3D";
+export { ConeSeriesDataItem, IConeSeriesDataFields, IConeSeriesProperties, IConeSeriesEvents, IConeSeriesAdapters, ConeSeries } from "./.internal/charts/series/ConeSeries";
 /**
  * Elements: axes
  */
@@ -42,6 +45,8 @@ export { IDateAxisBreakProperties, IDateAxisBreakEvents, IDateAxisBreakAdapters,
 export { IValueAxisBreakProperties, IValueAxisBreakEvents, IValueAxisBreakAdapters, ValueAxisBreak } from "./.internal/charts/axes/ValueAxisBreak";
 export { IAxisRendererXProperties, IAxisRendererXEvents, IAxisRendererXAdapters, AxisRendererX } from "./.internal/charts/axes/AxisRendererX";
 export { IAxisRendererYProperties, IAxisRendererYEvents, IAxisRendererYAdapters, AxisRendererY } from "./.internal/charts/axes/AxisRendererY";
+export { IAxisRendererX3DProperties, IAxisRendererX3DEvents, IAxisRendererX3DAdapters, AxisRendererX3D } from "./.internal/charts/axes/AxisRendererX3D";
+export { IAxisRendererY3DProperties, IAxisRendererY3DEvents, IAxisRendererY3DAdapters, AxisRendererY3D } from "./.internal/charts/axes/AxisRendererY3D";
 /**
  * Elements: elements
  */

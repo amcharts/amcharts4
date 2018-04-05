@@ -4,6 +4,7 @@
 /**
  * Elements: types
  */
+export { PieChart3DDataItem, PieChart3D } from "./.internal/charts/types/PieChart3D";
 export { PieChartDataItem, PieChart } from "./.internal/charts/types/PieChart";
 export { SerialChartDataItem, SerialChart } from "./.internal/charts/types/SerialChart";
 /**
@@ -17,6 +18,7 @@ export { LegendDataItem, Legend, LegendSettings } from "./.internal/charts/Legen
 export { SeriesDataItem, Series } from "./.internal/charts/series/Series";
 export { PieSeriesDataItem, PieSeries } from "./.internal/charts/series/PieSeries";
 export { PieTick } from "./.internal/charts/series/PieTick";
+export { PieSeries3DDataItem, PieSeries3D } from "./.internal/charts/series/PieSeries3D";
 /**
  * Elements: axes
  */

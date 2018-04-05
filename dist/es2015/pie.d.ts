@@ -4,6 +4,7 @@
 /**
  * Elements: types
  */
+export { PieChart3DDataItem, IPieChart3DDataFields, IPieChart3DProperties, IPieChart3DEvents, IPieChart3DAdapters, PieChart3D } from "./.internal/charts/types/PieChart3D";
 export { PieChartDataItem, IPieChartDataFields, IPieChartProperties, IPieChartEvents, IPieChartAdapters, PieChart } from "./.internal/charts/types/PieChart";
 export { SerialChartDataItem, ISerialChartDataFields, ISerialChartProperties, ISerialChartEvents, ISerialChartAdapters, SerialChart } from "./.internal/charts/types/SerialChart";
 /**
@@ -17,6 +18,7 @@ export { LegendDataItem, LegendPosition, ILegendDataFields, ILegendProperties, I
 export { SeriesDataItem, ISeriesDataFields, ISeriesProperties, ISeriesEvents, ISeriesAdapters, Series } from "./.internal/charts/series/Series";
 export { PieSeriesDataItem, IPieSeriesDataFields, IPieSeriesProperties, IPieSeriesEvents, IPieSeriesAdapters, PieSeries } from "./.internal/charts/series/PieSeries";
 export { IPieTickProperties, IPieTickEvents, IPieTickAdapters, PieTick } from "./.internal/charts/series/PieTick";
+export { IPieSeries3DProperties, IPieSeries3DDataFields, PieSeries3DDataItem, IPieSeries3DEvents, IPieSeries3DAdapters, PieSeries3D } from "./.internal/charts/series/PieSeries3D";
 /**
  * Elements: axes
  */

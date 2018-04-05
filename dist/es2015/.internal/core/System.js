@@ -513,7 +513,7 @@ var System = /** @class */ (function (_super) {
      * @see {@link https://docs.npmjs.com/misc/semver}
      * @type {string}
      */
-    System.VERSION = "4.0.0-beta.6";
+    System.VERSION = "4.0.0-beta.7";
     return System;
 }(BaseObjectEvents));
 export { System };

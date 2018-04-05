@@ -4,6 +4,7 @@
 /**
  * Elements: types
  */
+export { XYChart3DDataItem, XYChart3D } from "./.internal/charts/types/XYChart3D";
 export { XYChartDataItem, XYChart } from "./.internal/charts/types/XYChart";
 export { SerialChartDataItem, SerialChart } from "./.internal/charts/types/SerialChart";
 /**
@@ -23,6 +24,8 @@ export { CandlestickSeriesDataItem, CandlestickSeries } from "./.internal/charts
 export { ColumnSeriesDataItem, ColumnSeries } from "./.internal/charts/series/ColumnSeries";
 export { HeatMapSeriesDataItem, HeatMapSeries } from "./.internal/charts/series/HeatMapSeries";
 export { StepLineSeriesDataItem, StepLineSeries } from "./.internal/charts/series/StepLineSeries";
+export { ColumnSeries3DDataItem, ColumnSeries3D } from "./.internal/charts/series/ColumnSeries3D";
+export { ConeSeriesDataItem, ConeSeries } from "./.internal/charts/series/ConeSeries";
 /**
  * Elements: axes
  */
@@ -42,6 +45,8 @@ export { DateAxisBreak } from "./.internal/charts/axes/DateAxisBreak";
 export { ValueAxisBreak } from "./.internal/charts/axes/ValueAxisBreak";
 export { AxisRendererX } from "./.internal/charts/axes/AxisRendererX";
 export { AxisRendererY } from "./.internal/charts/axes/AxisRendererY";
+export { AxisRendererX3D } from "./.internal/charts/axes/AxisRendererX3D";
+export { AxisRendererY3D } from "./.internal/charts/axes/AxisRendererY3D";
 /**
  * Elements: elements
  */
