@@ -9,6 +9,8 @@
  * @hidden
  */
 import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "./Sprite";
+import { SpriteState } from "./SpriteState";
+import { Animation } from "./utils/Animation";
 import { List, IListEvents, ListGrouper } from "./utils/List";
 import { VerticalAlign } from "./defs/VerticalAlign";
 import { Align } from "./defs/Align";
@@ -32,7 +34,7 @@ import { Optional } from "./utils/Type";
  * Defines available [[Container]] layout types
  * @type {string}
  */
-export declare type ContainerLayout = "absolute" | "vertical" | "horizontal" | "grid";
+export declare type ContainerLayout = "absolute" | "vertical" | "horizontal" | "grid" | "none";
 /**
  * Defines properties for [[Container]]
  */
@@ -51,6 +53,18 @@ export interface IContainerProperties extends ISpriteProperties {
  * Defines events for the [[Container]]
  */
 export interface IContainerEvents extends ISpriteEvents {
+    /**
+     * Invoked when a child Sprite is added to Container.
+     */
+    childadded: {
+        newValue: Sprite;
+    };
+    /**
+     * Invoked when a child Sprite is removed from
+     */
+    childremoved: {
+        oldValue: Sprite;
+    };
 }
 /**
  * Defines adapters
@@ -177,18 +191,16 @@ export declare class Container extends Sprite {
      * Whether children of the container should be cloned when cloning this
      * Container.
      *
-     * @ignore Exclude from docs
      * @type {boolean}
      */
     cloneChildren: boolean;
+    /**
+     * Specifies if, when state is applied on this container, the same state should be applied to container's children
+     * @type {boolean}
+     */
+    setStateOnChildren: boolean;
     protected _containerOverflowX: number;
     protected _containerOverflowY: number;
-    /**
-     * @todo:review description
-     * Sometimes containers might be dumb, without any need of layouting. in this case setting noLayouting = true will save some cpu
-     * @default false;
-     */
-    noLayouting: boolean;
     /**
      * Constructor
      */
@@ -420,7 +432,9 @@ export declare class Container extends Sprite {
     /**
      * Container layout.
      *
-     * Options: "absolute" (default), "vertical", "horizontal", or "grid".
+     * Options: "absolute" (default), "vertical", "horizontal", "grid", "none". "none" is quite the same as "absolute" - the objects will
+     * be positioned at their x, y coordinates, the difference is that with "absolute" you can still use align/valign for children and with "none" you can not.
+     * Use "none" as much as you can as it's most cpu-saving layout.
      *
      * @default "absolute"
      * @param {ContainerLayout} value Layout
@@ -471,11 +485,11 @@ export declare class Container extends Sprite {
      * Copies all properties from different Container, including background
      * clone.
      *
-     * @param {this}  source  Source COntainer to copy from
+     * @param {this}  source  Source Container to copy from
      */
     copyFrom(source: this): void;
     /**
-     * Clones the Container, including all of its children.
+     * Clones the Container, including all of its children, if cloneChildren is set to true.
      *
      * @return {this} New Container clone
      */
@@ -487,7 +501,7 @@ export declare class Container extends Sprite {
      * @return {Preloader} Preloader instance
      */
     /**
-     * Sets a [[Preloader]] instance to be used when COntainer is busy.
+     * Sets a [[Preloader]] instance to be used when Container is busy.
      *
      * @param {Preloader} preloader Preloader instance
      */
@@ -525,4 +539,21 @@ export declare class Container extends Sprite {
      * @return {number} Y (px)
      */
     protected getTooltipY(): number;
+    dispose(): void;
+    /**
+     * Applies a [[SpriteState]] on this element.
+     *
+     * The first parameter can either be a name state or a [[SpriteState]]
+     * instance.
+     *
+     * When run, this method will apply SVG properties defined in a
+     * [[SpriteState]], but only those that are relevant to this particular
+     * element, i.e. are in the `properties` array.
+     *
+     * @see {@link SpriteState}
+     * @param {string | SpriteState} value               A state - name key or instance
+     * @param {number}               transitionDuration  Duration of the transition between current and new state
+     * @param {number) => number}    easing              An easing function
+     */
+    setState(value: string | SpriteState<this["_properties"], this["_adapter"]>, transitionDuration?: number, easing?: (value: number) => number): Animation;
 }

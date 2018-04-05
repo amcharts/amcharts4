@@ -381,15 +381,15 @@ var PieChart = /** @class */ (function (_super) {
     PieChart.prototype.setLegend = function (legend) {
         _super.prototype.setLegend.call(this, legend);
         if (legend) {
-            legend.labels.template.text = "${category}";
-            legend.valueLabels.template.text = "${value.percent.formatNumber('#.0')}%";
-            legend.containers.template.events.on("over", function (event) {
+            legend.labels.template.text = "{category}";
+            legend.valueLabels.template.text = "{value.percent.formatNumber('#.0')}%";
+            legend.itemContainers.template.events.on("over", function (event) {
                 var pieSeriesDataItem = event.target.dataItem.dataContext;
                 if (pieSeriesDataItem.visible && !pieSeriesDataItem.isHiding) {
                     pieSeriesDataItem.slice.isHover = true;
                 }
             });
-            legend.containers.template.events.on("out", function (event) {
+            legend.itemContainers.template.events.on("out", function (event) {
                 var pieSeriesDataItem = event.target.dataItem.dataContext;
                 pieSeriesDataItem.slice.isHover = false;
             });

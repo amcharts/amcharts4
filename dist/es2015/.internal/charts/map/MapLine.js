@@ -84,7 +84,7 @@ var MapLine = /** @class */ (function (_super) {
         if (this.line) {
             return this.line.positionToPoint(position);
         }
-        return { x: 0, y: 0, rotation: 0 };
+        return { x: 0, y: 0, angle: 0 };
     };
     Object.defineProperty(MapLine.prototype, "multiGeoLine", {
         /**

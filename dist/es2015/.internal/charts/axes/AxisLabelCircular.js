@@ -41,7 +41,7 @@ var AxisLabelCircular = /** @class */ (function (_super) {
     function AxisLabelCircular() {
         var _this = _super.call(this) || this;
         _this.className = "AxisLabelCircular";
-        _this.padding(0, 5, 0, 5);
+        _this.padding(0, 0, 0, 0);
         _this.location = 0.5;
         _this.radius = 0;
         _this.applyTheme();

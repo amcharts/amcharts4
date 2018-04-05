@@ -51,6 +51,10 @@ export interface IBulletProperties extends IContainerProperties {
      * @type {string}
      */
     yField?: string;
+    /**
+     * Defines if this bullet should be copied to legend marker
+     */
+    copyToLegendMarker?: boolean;
 }
 /**
  * Defines events for [[Bullet]].
@@ -160,4 +164,14 @@ export declare class Bullet extends Container {
      * @param {boolean}  value  Redraw on data change?
      */
     isDynamic: boolean;
+    /**
+     * @return {boolean} Redraw on data change?
+     */
+    /**
+     * Indicates if the bullet should be copied to legend marker
+     *
+     * @default false
+     * @param {boolean}  value  Redraw on data change?
+     */
+    copyToLegendMarker: boolean;
 }

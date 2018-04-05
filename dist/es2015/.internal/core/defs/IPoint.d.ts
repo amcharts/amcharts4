@@ -3,5 +3,5 @@ export interface IPoint {
     y: number;
 }
 export interface IOrientationPoint extends IPoint {
-    rotation: number;
+    angle: number;
 }

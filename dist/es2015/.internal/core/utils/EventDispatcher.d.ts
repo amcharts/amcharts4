@@ -115,6 +115,15 @@ export declare class EventDispatcher<T> implements IDisposer {
      */
     isEnabled(type: string): boolean;
     /**
+     * Checks if there's already a listener with specific parameters.
+     *
+     * @param   {Key | null}  type      Listener's type
+     * @param   {A}           callback  Callback function
+     * @param   {B}           context   Callback context
+     * @return {boolean}                Has listener?
+     */
+    has<C, Key extends keyof T>(type: Key, callback: (this: C, event: T[Key]) => void, context?: C): boolean;
+    /**
      * Checks whether event of the particular type should be dispatched.
      *
      * @param  {string}   type  Event type

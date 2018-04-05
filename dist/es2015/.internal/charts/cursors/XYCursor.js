@@ -316,12 +316,12 @@ var XYCursor = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(XYCursor.prototype, "fullWidthXLine", {
+    Object.defineProperty(XYCursor.prototype, "fullWidthLineX", {
         /**
          * @return {boolean} Full width?
          */
         get: function () {
-            return this.getPropertyValue("fullWidthXLine");
+            return this.getPropertyValue("fullWidthLineX");
         },
         /**
          * Cursor's horizontal line is expanded to take full width of the related
@@ -333,17 +333,17 @@ var XYCursor = /** @class */ (function (_super) {
          * @param {boolean} value Full width?
          */
         set: function (value) {
-            this.setPropertyValue("fullWidthXLine", value);
+            this.setPropertyValue("fullWidthLineX", value);
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(XYCursor.prototype, "fullWidthYLine", {
+    Object.defineProperty(XYCursor.prototype, "fullWidthLineY", {
         /**
          * @return {boolean} Full width?
          */
         get: function () {
-            return this.getPropertyValue("fullWidthYLine");
+            return this.getPropertyValue("fullWidthLineY");
         },
         /**
          * Cursor's vertical line is expanded to take full width of the related
@@ -355,7 +355,7 @@ var XYCursor = /** @class */ (function (_super) {
          * @param {boolean} value Full width?
          */
         set: function (value) {
-            this.setPropertyValue("fullWidthYLine", value);
+            this.setPropertyValue("fullWidthLineY", value);
         },
         enumerable: true,
         configurable: true
@@ -440,7 +440,7 @@ var XYCursor = /** @class */ (function (_super) {
                 this.hide();
             }
         }
-        if (this.xAxis && this.fullWidthXLine) {
+        if (this.xAxis && this.fullWidthLineX) {
             var startPoint = this.xAxis.currentItemStartPoint;
             var endPoint = this.xAxis.currentItemEndPoint;
             if (startPoint && endPoint) {
@@ -466,7 +466,7 @@ var XYCursor = /** @class */ (function (_super) {
                 this.hide();
             }
         }
-        if (this.yAxis && this.fullWidthYLine) {
+        if (this.yAxis && this.fullWidthLineY) {
             var startPoint = this.yAxis.currentItemStartPoint;
             var endPoint = this.yAxis.currentItemEndPoint;
             if (startPoint && endPoint) {

@@ -11,7 +11,7 @@ import { SerialChart, ISerialChartProperties, ISerialChartDataFields, ISerialCha
 import { Sprite, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Container } from "../../core/Container";
 import { IComponentEvents } from "../../core/Component";
-import { List, ListTemplate, IListEvents } from "../../core/utils/List";
+import { List, IListEvents } from "../../core/utils/List";
 import { Axis } from "../axes/Axis";
 import { AxisRenderer } from "../axes/AxisRenderer";
 import { AxisRendererX } from "../axes/AxisRendererX";
@@ -251,13 +251,13 @@ export declare class XYChart extends SerialChart {
      *
      * @type {List<Axis<AxisRendererX>>}
      */
-    protected _xAxes: ListTemplate<Axis<this["_xAxisRendererType"]>>;
+    protected _xAxes: List<Axis<this["_xAxisRendererType"]>>;
     /**
      * A list of vertical axes.
      *
-     * @type {ListTemplate<Axis<AxisRendererX>>}
+     * @type {List<Axis<AxisRendererX>>}
      */
-    protected _yAxes: ListTemplate<Axis<this["_yAxisRendererType"]>>;
+    protected _yAxes: List<Axis<this["_yAxisRendererType"]>>;
     /**
      * A container that holds vertical axes and plot area.
      *
@@ -460,6 +460,11 @@ export declare class XYChart extends SerialChart {
      */
     protected toggleZoomOutButton(): void;
     /**
+     * @ignore
+     * moved this check to a separate method so that we could override it in TreeMapSeries
+     */
+    protected seriesAppeared(): boolean;
+    /**
      * Updates vertical (Y) scrollbar and other horizontal axis whenever axis'
      * value range changes.
      *
@@ -509,13 +514,13 @@ export declare class XYChart extends SerialChart {
      *
      * @return {List<Axis>} List of axes
      */
-    readonly xAxes: ListTemplate<Axis<this["_xAxisRendererType"]>>;
+    readonly xAxes: List<Axis<this["_xAxisRendererType"]>>;
     /**
      * A list of vertical (Y) axes.
      *
      * @return {List<Axis>} List of axes
      */
-    readonly yAxes: ListTemplate<Axis<this["_yAxisRendererType"]>>;
+    readonly yAxes: List<Axis<this["_yAxisRendererType"]>>;
     /**
      * Decorates a new [[XYSeries]] object with required parameters when it is
      * added to the chart.

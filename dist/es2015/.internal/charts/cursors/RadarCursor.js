@@ -124,7 +124,7 @@ var RadarCursor = /** @class */ (function (_super) {
             this.lineX.moveTo({ x: 0, y: 0 });
             if (this.lineX && this.lineX.visible) {
                 // fill
-                if (this.xAxis && this.fullWidthXLine) {
+                if (this.xAxis && this.fullWidthLineX) {
                     var startPoint = this.xAxis.currentItemStartPoint;
                     var endPoint = this.xAxis.currentItemEndPoint;
                     if (startPoint && endPoint) {
@@ -170,24 +170,26 @@ var RadarCursor = /** @class */ (function (_super) {
             var endAngle = this.endAngle;
             var truePixelRadius = this.truePixelRadius;
             var radius = $math.fitToRange($math.getDistance(point), 0, this.truePixelRadius);
-            this.lineY.moveTo({ x: 0, y: 0 });
-            var path = void 0;
-            var arc = endAngle - startAngle;
-            if (this.yAxis && this.fullWidthYLine) {
-                // fill
-                var startPoint = this.yAxis.currentItemStartPoint;
-                var endPoint = this.yAxis.currentItemEndPoint;
-                if (startPoint && endPoint) {
-                    var innerRadius = $math.fitToRange($math.getDistance(startPoint), 0, truePixelRadius);
-                    radius = $math.fitToRange($math.getDistance(endPoint), 0, truePixelRadius);
-                    path = $path.moveTo({ x: radius * $math.cos(startAngle), y: radius * $math.sin(startAngle) }) + $path.arcTo(startAngle, arc, radius);
-                    path += $path.moveTo({ x: innerRadius * $math.cos(endAngle), y: innerRadius * $math.sin(endAngle) }) + $path.arcTo(endAngle, -arc, innerRadius);
+            if ($type.isNumber(radius) && $type.isNumber(startAngle)) {
+                this.lineY.moveTo({ x: 0, y: 0 });
+                var path = void 0;
+                var arc = endAngle - startAngle;
+                if (this.yAxis && this.fullWidthLineY) {
+                    // fill
+                    var startPoint = this.yAxis.currentItemStartPoint;
+                    var endPoint = this.yAxis.currentItemEndPoint;
+                    if (startPoint && endPoint) {
+                        var innerRadius = $math.fitToRange($math.getDistance(startPoint), 0, truePixelRadius);
+                        radius = $math.fitToRange($math.getDistance(endPoint), 0, truePixelRadius);
+                        path = $path.moveTo({ x: radius * $math.cos(startAngle), y: radius * $math.sin(startAngle) }) + $path.arcTo(startAngle, arc, radius);
+                        path += $path.moveTo({ x: innerRadius * $math.cos(endAngle), y: innerRadius * $math.sin(endAngle) }) + $path.arcTo(endAngle, -arc, innerRadius);
+                    }
                 }
+                if (!path) {
+                    path = $path.moveTo({ x: radius * $math.cos(startAngle), y: radius * $math.sin(startAngle) }) + $path.arcTo(startAngle, endAngle - startAngle, radius);
+                }
+                this.lineY.element.attr({ "d": path });
             }
-            if (!path) {
-                path = $path.moveTo({ x: radius * $math.cos(startAngle), y: radius * $math.sin(startAngle) }) + $path.arcTo(startAngle, endAngle - startAngle, radius);
-            }
-            this.lineY.element.attr({ "d": path });
         }
     };
     /**

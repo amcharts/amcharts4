@@ -19,8 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { SerialChart, SerialChartDataItem } from "./SerialChart";
 import { Container } from "../../core/Container";
-import { ListTemplate } from "../../core/utils/List";
-import { Axis } from "../axes/Axis";
+import { List } from "../../core/utils/List";
 import { AxisRendererX } from "../axes/AxisRendererX";
 import { AxisRendererY } from "../axes/AxisRendererY";
 import { CategoryAxis } from "../axes/CategoryAxis";
@@ -216,7 +215,7 @@ var XYChart = /** @class */ (function (_super) {
         // Create main chart container
         var chartCont = _this.chartContainer;
         chartCont.layout = "vertical";
-        _this.padding(10, 10, 10, 10);
+        _this.padding(15, 15, 15, 15);
         // Create top axes container
         var topAxesCont = chartCont.createChild(Container);
         topAxesCont.layout = "vertical";
@@ -465,11 +464,9 @@ var XYChart = /** @class */ (function (_super) {
                 }
                 return true;
             });
-            $iter.each(this.series.iterator(), function (series) {
-                if (!series.appeared) {
-                    show_1 = false;
-                }
-            });
+            if (!this.seriesAppeared) {
+                show_1 = false;
+            }
             if (show_1) {
                 this.zoomOutButton.show();
             }
@@ -477,6 +474,20 @@ var XYChart = /** @class */ (function (_super) {
                 this.zoomOutButton.hide();
             }
         }
+    };
+    /**
+     * @ignore
+     * moved this check to a separate method so that we could override it in TreeMapSeries
+     */
+    XYChart.prototype.seriesAppeared = function () {
+        var appeared = false;
+        $iter.each(this.series.iterator(), function (series) {
+            if (!series.appeared) {
+                appeared = false;
+                return false;
+            }
+        });
+        return appeared;
     };
     /**
      * Updates vertical (Y) scrollbar and other horizontal axis whenever axis'
@@ -596,9 +607,9 @@ var XYChart = /** @class */ (function (_super) {
          */
         get: function () {
             if (!this._xAxes) {
-                var template = new Axis();
-                template.renderer = new this._axisRendererX(template);
-                this._xAxes = new ListTemplate(template);
+                //let template = new Axis();
+                //template.renderer = new this._axisRendererX(template);
+                this._xAxes = new List();
                 this._xAxes.events.on("insert", this.processXAxis, this);
                 this._xAxes.events.on("remove", this.processXAxisRemoval, this);
             }
@@ -615,9 +626,9 @@ var XYChart = /** @class */ (function (_super) {
          */
         get: function () {
             if (!this._yAxes) {
-                var template = new Axis();
-                template.renderer = new this._axisRendererY(template);
-                this._yAxes = new ListTemplate(template);
+                //let template = new Axis();
+                //template.renderer = new this._axisRendererY(template);
+                this._yAxes = new List();
                 this._yAxes.events.on("insert", this.processYAxis, this);
                 this._yAxes.events.on("remove", this.processYAxisRemoval, this);
             }
@@ -1137,12 +1148,6 @@ var XYChart = /** @class */ (function (_super) {
         if (a == b) {
             return 0;
         }
-        else if (a == "series") {
-            return 1;
-        }
-        else if (b == "series") {
-            return -1;
-        }
         else if (a == "scrollbarX") {
             return 1;
         }
@@ -1153,6 +1158,12 @@ var XYChart = /** @class */ (function (_super) {
             return 1;
         }
         else if (b == "scrollbarY") {
+            return -1;
+        }
+        else if (a == "series") {
+            return 1;
+        }
+        else if (b == "series") {
             return -1;
         }
         else {

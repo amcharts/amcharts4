@@ -205,7 +205,7 @@ var Series = /** @class */ (function (_super) {
         _this.appeared = false;
         _this.className = "Series";
         _this.isMeasured = false;
-        _this.noLayouting = true;
+        _this.layout = "none";
         _this.axisRanges = new List();
         _this.axisRanges.events.on("insert", _this.processAxisRange, _this);
         _this.minBulletDistance = 0; // otherwise we'll have a lot of cases when people won't see bullets and think it's a bug
@@ -213,7 +213,7 @@ var Series = /** @class */ (function (_super) {
         _this.mainContainer.mask = _this.createChild(Sprite);
         // all bullets should go on top of lines/fills. So we add a separate container for bullets and later set it's parent to chart.bulletsContainer
         _this.bulletsContainer = _this.mainContainer.createChild(Container);
-        _this.bulletsContainer.noLayouting = true;
+        _this.bulletsContainer.layout = "none";
         _this.tooltip = new Tooltip();
         _this.hiddenState.easing = $ease.cubicIn;
         // this data item holds sums, averages, etc
@@ -561,6 +561,7 @@ var Series = /** @class */ (function (_super) {
                 bullet.parent = _this.bulletsContainer;
                 bullet.visible = true;
                 dataItem.bullets.setKey(bulletTemplate.uid, bullet);
+                dataItem.addSprite(bullet);
                 // Add accessibility to bullet
                 var readerText = _this.itemReaderText || ("{" + bullet.xField + "}: {" + bullet.yField + "}");
                 if (bullet.focusable) {
@@ -688,7 +689,6 @@ var Series = /** @class */ (function (_super) {
         /**
          * List of bullets that can be used for the series' purposes.
          *
-         * @ignore Exclude from docs
          * @return {ListTemplate<Bullet>} [description]
          */
         get: function () {
@@ -705,6 +705,7 @@ var Series = /** @class */ (function (_super) {
     });
     /**
      * Hides bullet elements that are currently not in use.
+     * @ignore
      */
     Series.prototype.hideUnusedBullets = function () {
         // hide all unused
@@ -819,7 +820,7 @@ var Series = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._legendDataItem = value;
-            this._legendDataItem.container.deepInvalidate();
+            this._legendDataItem.itemContainer.deepInvalidate();
         },
         enumerable: true,
         configurable: true

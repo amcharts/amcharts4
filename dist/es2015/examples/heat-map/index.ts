@@ -1,206 +1,907 @@
 import * as amcharts4 from "@amcharts/amcharts4";
-import * as map from "@amcharts/amcharts4/map";
+import * as xy from "@amcharts/amcharts4/xy";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
-import worldMap from "@amcharts/amcharts4/maps/worldLow";
-
 
 amcharts4.useTheme(AnimatedTheme);
 
-let chart = amcharts4.create("chartdiv", map.MapChart);
-chart.geoJSON = worldMap;
-chart.projection = new map.projections.Miller();
+let chart = amcharts4.create("chartdiv", xy.XYChart);
+chart.maskBullets = false;
 
-let title = chart.chartContainer.createChild(amcharts4.Label);
-title.text = "Life expectancy in the World";
-title.fontSize = 20;
-title.paddingTop = 30;
-title.align = "center";
+let xAxis = chart.xAxes.push(new xy.CategoryAxis());
+let yAxis = chart.yAxes.push(new xy.CategoryAxis());
 
-let polygonSeries = chart.series.push(new map.MapPolygonSeries());
-let polygonTemplate = polygonSeries.mapPolygons.template;
-polygonTemplate.tooltipText = "{name}: {value.value}";
+xAxis.dataFields.category = "weekday";
+yAxis.dataFields.category = "hour";
 
-polygonSeries.getDataFromJSON = true;
-polygonSeries.minColor = amcharts4.color("#FFFFFF");
+xAxis.renderer.grid.template.disabled = true;
+xAxis.renderer.minGridDistance = 40;
 
-let colorSet = new amcharts4.ColorSet();
-polygonSeries.maxColor = colorSet.getIndex(3);
+yAxis.renderer.grid.template.disabled = true;
+yAxis.renderer.inversed = true;
+yAxis.renderer.minGridDistance = 30;
 
-// life expectancy data
+let series = chart.series.push(new xy.HeatMapSeries());
+series.dataFields.categoryX = "weekday";
+series.dataFields.categoryY = "hour";
+series.dataFields.value = "value";
+series.sequencedInterpolation = true;
+series.defaultState.transitionDuration = 3000;
 
-polygonSeries.data = [{ id: "AF", value: 60.524 },
-{ id: "AL", value: 77.185 },
-{ id: "DZ", value: 70.874 },
-{ id: "AO", value: 51.498 },
-{ id: "AR", value: 76.128 },
-{ id: "AM", value: 74.469 },
-{ id: "AU", value: 82.364 },
-{ id: "AT", value: 80.965 },
-{ id: "AZ", value: 70.686 },
-{ id: "BH", value: 76.474 },
-{ id: "BD", value: 70.258 },
-{ id: "BY", value: 69.829 },
-{ id: "BE", value: 80.373 },
-{ id: "BJ", value: 59.165 },
-{ id: "BT", value: 67.888 },
-{ id: "BO", value: 66.969 },
-{ id: "BA", value: 76.211 },
-{ id: "BW", value: 47.152 },
-{ id: "BR", value: 73.667 },
-{ id: "BN", value: 78.35 },
-{ id: "BG", value: 73.448 },
-{ id: "BF", value: 55.932 },
-{ id: "BI", value: 53.637 },
-{ id: "KH", value: 71.577 },
-{ id: "CM", value: 54.61 },
-{ id: "CA", value: 81.323 },
-{ id: "CV", value: 74.771 },
-{ id: "CF", value: 49.517 },
-{ id: "TD", value: 50.724 },
-{ id: "CL", value: 79.691 },
-{ id: "CN", value: 75.178 },
-{ id: "CO", value: 73.835 },
-{ id: "KM", value: 60.661 },
-{ id: "CD", value: 49.643 },
-{ id: "CG", value: 58.32 },
-{ id: "CR", value: 79.712 },
-{ id: "CI", value: 50.367 },
-{ id: "HR", value: 76.881 },
-{ id: "CU", value: 79.088 },
-{ id: "CY", value: 79.674 },
-{ id: "CZ", value: 77.552 },
-{ id: "DK", value: 79.251 },
-{ id: "GL", value: 79.251 },
-{ id: "DJ", value: 61.319 },
-{ id: "DO", value: 73.181 },
-{ id: "EC", value: 76.195 },
-{ id: "EG", value: 70.933 },
-{ id: "SV", value: 72.361 },
-{ id: "GQ", value: 52.562 },
-{ id: "ER", value: 62.329 },
-{ id: "EE", value: 74.335 },
-{ id: "ET", value: 62.983 },
-{ id: "FJ", value: 69.626 },
-{ id: "FI", value: 80.362 },
-{ id: "FR", value: 81.663 },
-{ id: "GA", value: 63.115 },
-{ id: "GM", value: 58.59 },
-{ id: "GE", value: 74.162 },
-{ id: "DE", value: 80.578 },
-{ id: "GH", value: 60.979 },
-{ id: "GR", value: 80.593 },
-{ id: "GT", value: 71.77 },
-{ id: "GN", value: 55.865 },
-{ id: "GW", value: 54.054 },
-{ id: "GY", value: 66.134 },
-{ id: "HT", value: 62.746 },
-{ id: "HN", value: 73.503 },
-{ id: "HK", value: 83.199 },
-{ id: "HU", value: 74.491 },
-{ id: "IS", value: 81.96 },
-{ id: "IN", value: 66.168 },
-{ id: "ID", value: 70.624 },
-{ id: "IR", value: 73.736 },
-{ id: "IQ", value: 69.181 },
-{ id: "IE", value: 80.531 },
-{ id: "IL", value: 81.641 },
-{ id: "IT", value: 82.235 },
-{ id: "JM", value: 73.338 },
-{ id: "JP", value: 83.418 },
-{ id: "JO", value: 73.7 },
-{ id: "KZ", value: 66.394 },
-{ id: "KE", value: 61.115 },
-{ id: "KP", value: 69.701 },
-{ id: "KR", value: 81.294 },
-{ id: "KW", value: 74.186 },
-{ id: "KG", value: 67.37 },
-{ id: "LA", value: 67.865 },
-{ id: "LV", value: 72.045 },
-{ id: "LB", value: 79.716 },
-{ id: "LS", value: 48.947 },
-{ id: "LR", value: 60.23 },
-{ id: "LY", value: 75.13 },
-{ id: "LT", value: 71.942 },
-{ id: "LU", value: 80.371 },
-{ id: "MK", value: 75.041 },
-{ id: "MG", value: 64.28 },
-{ id: "MW", value: 54.798 },
-{ id: "MY", value: 74.836 },
-{ id: "ML", value: 54.622 },
-{ id: "MR", value: 61.39 },
-{ id: "MU", value: 73.453 },
-{ id: "MX", value: 77.281 },
-{ id: "MD", value: 68.779 },
-{ id: "MN", value: 67.286 },
-{ id: "ME", value: 74.715 },
-{ id: "MA", value: 70.714 },
-{ id: "EH", value: 70.714 },
-{ id: "MZ", value: 49.91 },
-{ id: "MM", value: 65.009 },
-{ id: "NA", value: 64.014 },
-{ id: "NP", value: 67.989 },
-{ id: "NL", value: 80.906 },
-{ id: "NZ", value: 80.982 },
-{ id: "NI", value: 74.515 },
-{ id: "NE", value: 57.934 },
-{ id: "NG", value: 52.116 },
-{ id: "NO", value: 81.367 },
-{ id: "SJ", value: 81.367 },
-{ id: "OM", value: 76.287 },
-{ id: "PK", value: 66.42 },
-{ id: "PA", value: 77.342 },
-{ id: "PG", value: 62.288 },
-{ id: "PY", value: 72.181 },
-{ id: "PE", value: 74.525 },
-{ id: "PH", value: 68.538 },
-{ id: "PL", value: 76.239 },
-{ id: "PT", value: 79.732 },
-{ id: "QA", value: 78.231 },
-{ id: "RO", value: 73.718 },
-{ id: "RU", value: 67.874 },
-{ id: "RW", value: 63.563 },
-{ id: "SA", value: 75.264 },
-{ id: "SN", value: 63.3 },
-{ id: "RS", value: 73.934 },
-{ id: "SL", value: 45.338 },
-{ id: "SG", value: 82.155 },
-{ id: "SK", value: 75.272 },
-{ id: "SI", value: 79.444 },
-{ id: "SB", value: 67.465 },
-{ id: "SO", value: 54 },
-{ id: "ZA", value: 56.271 },
-{ id: "SS", value: 54.666 },
-{ id: "ES", value: 81.958 },
-{ id: "LK", value: 74.116 },
-{ id: "SD", value: 61.875 },
-{ id: "SR", value: 70.794 },
-{ id: "SZ", value: 48.91 },
-{ id: "SE", value: 81.69 },
-{ id: "CH", value: 82.471 },
-{ id: "SY", value: 71 },
-{ id: "TW", value: 79.45 },
-{ id: "TJ", value: 67.118 },
-{ id: "TZ", value: 60.885 },
-{ id: "TH", value: 74.225 },
-{ id: "TL", value: 67.033 },
-{ id: "TG", value: 56.198 },
-{ id: "TT", value: 69.761 },
-{ id: "TN", value: 75.632 },
-{ id: "TR", value: 74.938 },
-{ id: "TM", value: 65.299 },
-{ id: "UG", value: 58.668 },
-{ id: "UA", value: 68.414 },
-{ id: "AE", value: 76.671 },
-{ id: "GB", value: 80.396 },
-{ id: "US", value: 78.797 },
-{ id: "UY", value: 77.084 },
-{ id: "UZ", value: 68.117 },
-{ id: "VE", value: 74.477 },
-{ id: "PS", value: 73.018 },
-{ id: "VN", value: 75.793 },
-{ id: "YE", value: 62.923 },
-{ id: "ZM", value: 57.037 },
-{ id: "ZW", value: 58.142 }];
+let columnTemplate = series.columns.template;
+columnTemplate.strokeWidth = 2;
+columnTemplate.strokeOpacity = 1;
+columnTemplate.stroke = amcharts4.color("#ffffff");
+columnTemplate.tooltipText = "{weekday}, {hour}: {value.workingValue.formatNumber('#.')}";
 
-// excludes Antarctica
-polygonSeries.exclude = ["AQ"];
+// heat legend
+let heatLegend = chart.bottomAxesContainer.createChild(xy.HeatLegend);
+heatLegend.width = amcharts4.percent(100);
+heatLegend.series = series;
+heatLegend.valueAxis.renderer.labels.template.fontSize = 9;
+heatLegend.valueAxis.renderer.minGridDistance = 30;
+
+// heat legend behavior
+series.columns.template.events.on("over", (event) => {
+	handleHover(event.target);
+})
+
+series.columns.template.events.on("hit", (event) => {
+	handleHover(event.target);
+})
+
+function handleHover(column) {
+	if (!isNaN(column.dataItem.value)) {
+		heatLegend.valueAxis.showTooltipAt(column.dataItem.value)
+	}
+	else {
+		heatLegend.valueAxis.hideTooltip();
+	}
+}
+
+series.columns.template.events.on("out", (event) => {
+	heatLegend.valueAxis.hideTooltip();
+})
+
+chart.data = [
+	{
+		"hour": "12pm",
+		"weekday": "Sun",
+		"value": 2990
+	},
+	{
+		"hour": "1am",
+		"weekday": "Sun",
+		"value": 2520
+	},
+	{
+		"hour": "2am",
+		"weekday": "Sun",
+		"value": 2334
+	},
+	{
+		"hour": "3am",
+		"weekday": "Sun",
+		"value": 2230
+	},
+	{
+		"hour": "4am",
+		"weekday": "Sun",
+		"value": 2325
+	},
+	{
+		"hour": "5am",
+		"weekday": "Sun",
+		"value": 2019
+	},
+	{
+		"hour": "6am",
+		"weekday": "Sun",
+		"value": 2128
+	},
+	{
+		"hour": "7am",
+		"weekday": "Sun",
+		"value": 2246
+	},
+	{
+		"hour": "8am",
+		"weekday": "Sun",
+		"value": 2421
+	},
+	{
+		"hour": "9am",
+		"weekday": "Sun",
+		"value": 2788
+	},
+	{
+		"hour": "10am",
+		"weekday": "Sun",
+		"value": 2959
+	},
+	{
+		"hour": "11am",
+		"weekday": "Sun",
+		"value": 3018
+	},
+	{
+		"hour": "12am",
+		"weekday": "Sun",
+		"value": 3154
+	},
+	{
+		"hour": "1pm",
+		"weekday": "Sun",
+		"value": 3172
+	},
+	{
+		"hour": "2pm",
+		"weekday": "Sun",
+		"value": 3368
+	},
+	{
+		"hour": "3pm",
+		"weekday": "Sun",
+		"value": 3464
+	},
+	{
+		"hour": "4pm",
+		"weekday": "Sun",
+		"value": 3746
+	},
+	{
+		"hour": "5pm",
+		"weekday": "Sun",
+		"value": 3656
+	},
+	{
+		"hour": "6pm",
+		"weekday": "Sun",
+		"value": 3336
+	},
+	{
+		"hour": "7pm",
+		"weekday": "Sun",
+		"value": 3292
+	},
+	{
+		"hour": "8pm",
+		"weekday": "Sun",
+		"value": 3269
+	},
+	{
+		"hour": "9pm",
+		"weekday": "Sun",
+		"value": 3300
+	},
+	{
+		"hour": "10pm",
+		"weekday": "Sun",
+		"value": 3403
+	},
+	{
+		"hour": "11pm",
+		"weekday": "Sun",
+		"value": 3323
+	},
+	{
+		"hour": "12pm",
+		"weekday": "Mon",
+		"value": 3346
+	},
+	{
+		"hour": "1am",
+		"weekday": "Mon",
+		"value": 2725
+	},
+	{
+		"hour": "2am",
+		"weekday": "Mon",
+		"value": 3052
+	},
+	{
+		"hour": "3am",
+		"weekday": "Mon",
+		"value": 3876
+	},
+	{
+		"hour": "4am",
+		"weekday": "Mon",
+		"value": 4453
+	},
+	{
+		"hour": "5am",
+		"weekday": "Mon",
+		"value": 3972
+	},
+	{
+		"hour": "6am",
+		"weekday": "Mon",
+		"value": 4644
+	},
+	{
+		"hour": "7am",
+		"weekday": "Mon",
+		"value": 5715
+	},
+	{
+		"hour": "8am",
+		"weekday": "Mon",
+		"value": 7080
+	},
+	{
+		"hour": "9am",
+		"weekday": "Mon",
+		"value": 8022
+	},
+	{
+		"hour": "10am",
+		"weekday": "Mon",
+		"value": 8446
+	},
+	{
+		"hour": "11am",
+		"weekday": "Mon",
+		"value": 9313
+	},
+	{
+		"hour": "12am",
+		"weekday": "Mon",
+		"value": 9011
+	},
+	{
+		"hour": "1pm",
+		"weekday": "Mon",
+		"value": 8508
+	},
+	{
+		"hour": "2pm",
+		"weekday": "Mon",
+		"value": 8515
+	},
+	{
+		"hour": "3pm",
+		"weekday": "Mon",
+		"value": 8399
+	},
+	{
+		"hour": "4pm",
+		"weekday": "Mon",
+		"value": 8649
+	},
+	{
+		"hour": "5pm",
+		"weekday": "Mon",
+		"value": 7869
+	},
+	{
+		"hour": "6pm",
+		"weekday": "Mon",
+		"value": 6933
+	},
+	{
+		"hour": "7pm",
+		"weekday": "Mon",
+		"value": 5969
+	},
+	{
+		"hour": "8pm",
+		"weekday": "Mon",
+		"value": 5552
+	},
+	{
+		"hour": "9pm",
+		"weekday": "Mon",
+		"value": 5434
+	},
+	{
+		"hour": "10pm",
+		"weekday": "Mon",
+		"value": 5070
+	},
+	{
+		"hour": "11pm",
+		"weekday": "Mon",
+		"value": 4851
+	},
+	{
+		"hour": "12pm",
+		"weekday": "Tue",
+		"value": 4468
+	},
+	{
+		"hour": "1am",
+		"weekday": "Tue",
+		"value": 3306
+	},
+	{
+		"hour": "2am",
+		"weekday": "Tue",
+		"value": 3906
+	},
+	{
+		"hour": "3am",
+		"weekday": "Tue",
+		"value": 4413
+	},
+	{
+		"hour": "4am",
+		"weekday": "Tue",
+		"value": 4726
+	},
+	{
+		"hour": "5am",
+		"weekday": "Tue",
+		"value": 4584
+	},
+	{
+		"hour": "6am",
+		"weekday": "Tue",
+		"value": 5717
+	},
+	{
+		"hour": "7am",
+		"weekday": "Tue",
+		"value": 6504
+	},
+	{
+		"hour": "8am",
+		"weekday": "Tue",
+		"value": 8104
+	},
+	{
+		"hour": "9am",
+		"weekday": "Tue",
+		"value": 8813
+	},
+	{
+		"hour": "10am",
+		"weekday": "Tue",
+		"value": 9278
+	},
+	{
+		"hour": "11am",
+		"weekday": "Tue",
+		"value": 10425
+	},
+	{
+		"hour": "12am",
+		"weekday": "Tue",
+		"value": 10137
+	},
+	{
+		"hour": "1pm",
+		"weekday": "Tue",
+		"value": 9290
+	},
+	{
+		"hour": "2pm",
+		"weekday": "Tue",
+		"value": 9255
+	},
+	{
+		"hour": "3pm",
+		"weekday": "Tue",
+		"value": 9614
+	},
+	{
+		"hour": "4pm",
+		"weekday": "Tue",
+		"value": 9713
+	},
+	{
+		"hour": "5pm",
+		"weekday": "Tue",
+		"value": 9667
+	},
+	{
+		"hour": "6pm",
+		"weekday": "Tue",
+		"value": 8774
+	},
+	{
+		"hour": "7pm",
+		"weekday": "Tue",
+		"value": 8649
+	},
+	{
+		"hour": "8pm",
+		"weekday": "Tue",
+		"value": 9937
+	},
+	{
+		"hour": "9pm",
+		"weekday": "Tue",
+		"value": 10286
+	},
+	{
+		"hour": "10pm",
+		"weekday": "Tue",
+		"value": 9175
+	},
+	{
+		"hour": "11pm",
+		"weekday": "Tue",
+		"value": 8581
+	},
+	{
+		"hour": "12pm",
+		"weekday": "Wed",
+		"value": 8145
+	},
+	{
+		"hour": "1am",
+		"weekday": "Wed",
+		"value": 7177
+	},
+	{
+		"hour": "2am",
+		"weekday": "Wed",
+		"value": 5657
+	},
+	{
+		"hour": "3am",
+		"weekday": "Wed",
+		"value": 6802
+	},
+	{
+		"hour": "4am",
+		"weekday": "Wed",
+		"value": 8159
+	},
+	{
+		"hour": "5am",
+		"weekday": "Wed",
+		"value": 8449
+	},
+	{
+		"hour": "6am",
+		"weekday": "Wed",
+		"value": 9453
+	},
+	{
+		"hour": "7am",
+		"weekday": "Wed",
+		"value": 9947
+	},
+	{
+		"hour": "8am",
+		"weekday": "Wed",
+		"value": 11471
+	},
+	{
+		"hour": "9am",
+		"weekday": "Wed",
+		"value": 12492
+	},
+	{
+		"hour": "10am",
+		"weekday": "Wed",
+		"value": 9388
+	},
+	{
+		"hour": "11am",
+		"weekday": "Wed",
+		"value": 9928
+	},
+	{
+		"hour": "12am",
+		"weekday": "Wed",
+		"value": 9644
+	},
+	{
+		"hour": "1pm",
+		"weekday": "Wed",
+		"value": 9034
+	},
+	{
+		"hour": "2pm",
+		"weekday": "Wed",
+		"value": 8964
+	},
+	{
+		"hour": "3pm",
+		"weekday": "Wed",
+		"value": 9069
+	},
+	{
+		"hour": "4pm",
+		"weekday": "Wed",
+		"value": 8898
+	},
+	{
+		"hour": "5pm",
+		"weekday": "Wed",
+		"value": 8322
+	},
+	{
+		"hour": "6pm",
+		"weekday": "Wed",
+		"value": 6909
+	},
+	{
+		"hour": "7pm",
+		"weekday": "Wed",
+		"value": 5810
+	},
+	{
+		"hour": "8pm",
+		"weekday": "Wed",
+		"value": 5151
+	},
+	{
+		"hour": "9pm",
+		"weekday": "Wed",
+		"value": 4911
+	},
+	{
+		"hour": "10pm",
+		"weekday": "Wed",
+		"value": 4487
+	},
+	{
+		"hour": "11pm",
+		"weekday": "Wed",
+		"value": 4118
+	},
+	{
+		"hour": "12pm",
+		"weekday": "Thu",
+		"value": 3689
+	},
+	{
+		"hour": "1am",
+		"weekday": "Thu",
+		"value": 3081
+	},
+	{
+		"hour": "2am",
+		"weekday": "Thu",
+		"value": 6525
+	},
+	{
+		"hour": "3am",
+		"weekday": "Thu",
+		"value": 6228
+	},
+	{
+		"hour": "4am",
+		"weekday": "Thu",
+		"value": 6917
+	},
+	{
+		"hour": "5am",
+		"weekday": "Thu",
+		"value": 6568
+	},
+	{
+		"hour": "6am",
+		"weekday": "Thu",
+		"value": 6405
+	},
+	{
+		"hour": "7am",
+		"weekday": "Thu",
+		"value": 8106
+	},
+	{
+		"hour": "8am",
+		"weekday": "Thu",
+		"value": 8542
+	},
+	{
+		"hour": "9am",
+		"weekday": "Thu",
+		"value": 8501
+	},
+	{
+		"hour": "10am",
+		"weekday": "Thu",
+		"value": 8802
+	},
+	{
+		"hour": "11am",
+		"weekday": "Thu",
+		"value": 9420
+	},
+	{
+		"hour": "12am",
+		"weekday": "Thu",
+		"value": 8966
+	},
+	{
+		"hour": "1pm",
+		"weekday": "Thu",
+		"value": 8135
+	},
+	{
+		"hour": "2pm",
+		"weekday": "Thu",
+		"value": 8224
+	},
+	{
+		"hour": "3pm",
+		"weekday": "Thu",
+		"value": 8387
+	},
+	{
+		"hour": "4pm",
+		"weekday": "Thu",
+		"value": 8218
+	},
+	{
+		"hour": "5pm",
+		"weekday": "Thu",
+		"value": 7641
+	},
+	{
+		"hour": "6pm",
+		"weekday": "Thu",
+		"value": 6469
+	},
+	{
+		"hour": "7pm",
+		"weekday": "Thu",
+		"value": 5441
+	},
+	{
+		"hour": "8pm",
+		"weekday": "Thu",
+		"value": 4952
+	},
+	{
+		"hour": "9pm",
+		"weekday": "Thu",
+		"value": 4643
+	},
+	{
+		"hour": "10pm",
+		"weekday": "Thu",
+		"value": 4393
+	},
+	{
+		"hour": "11pm",
+		"weekday": "Thu",
+		"value": 4017
+	},
+	{
+		"hour": "12pm",
+		"weekday": "Fri",
+		"value": 4022
+	},
+	{
+		"hour": "1am",
+		"weekday": "Fri",
+		"value": 3063
+	},
+	{
+		"hour": "2am",
+		"weekday": "Fri",
+		"value": 3638
+	},
+	{
+		"hour": "3am",
+		"weekday": "Fri",
+		"value": 3968
+	},
+	{
+		"hour": "4am",
+		"weekday": "Fri",
+		"value": 4070
+	},
+	{
+		"hour": "5am",
+		"weekday": "Fri",
+		"value": 4019
+	},
+	{
+		"hour": "6am",
+		"weekday": "Fri",
+		"value": 4548
+	},
+	{
+		"hour": "7am",
+		"weekday": "Fri",
+		"value": 5465
+	},
+	{
+		"hour": "8am",
+		"weekday": "Fri",
+		"value": 6909
+	},
+	{
+		"hour": "9am",
+		"weekday": "Fri",
+		"value": 7706
+	},
+	{
+		"hour": "10am",
+		"weekday": "Fri",
+		"value": 7867
+	},
+	{
+		"hour": "11am",
+		"weekday": "Fri",
+		"value": 8615
+	},
+	{
+		"hour": "12am",
+		"weekday": "Fri",
+		"value": 8218
+	},
+	{
+		"hour": "1pm",
+		"weekday": "Fri",
+		"value": 7604
+	},
+	{
+		"hour": "2pm",
+		"weekday": "Fri",
+		"value": 7429
+	},
+	{
+		"hour": "3pm",
+		"weekday": "Fri",
+		"value": 7488
+	},
+	{
+		"hour": "4pm",
+		"weekday": "Fri",
+		"value": 7493
+	},
+	{
+		"hour": "5pm",
+		"weekday": "Fri",
+		"value": 6998
+	},
+	{
+		"hour": "6pm",
+		"weekday": "Fri",
+		"value": 5941
+	},
+	{
+		"hour": "7pm",
+		"weekday": "Fri",
+		"value": 5068
+	},
+	{
+		"hour": "8pm",
+		"weekday": "Fri",
+		"value": 4636
+	},
+	{
+		"hour": "9pm",
+		"weekday": "Fri",
+		"value": 4241
+	},
+	{
+		"hour": "10pm",
+		"weekday": "Fri",
+		"value": 3858
+	},
+	{
+		"hour": "11pm",
+		"weekday": "Fri",
+		"value": 3833
+	},
+	{
+		"hour": "12pm",
+		"weekday": "Sat",
+		"value": 3503
+	},
+	{
+		"hour": "1am",
+		"weekday": "Sat",
+		"value": 2842
+	},
+	{
+		"hour": "2am",
+		"weekday": "Sat",
+		"value": 2808
+	},
+	{
+		"hour": "3am",
+		"weekday": "Sat",
+		"value": 2399
+	},
+	{
+		"hour": "4am",
+		"weekday": "Sat",
+		"value": 2280
+	},
+	{
+		"hour": "5am",
+		"weekday": "Sat",
+		"value": 2139
+	},
+	{
+		"hour": "6am",
+		"weekday": "Sat",
+		"value": 2527
+	},
+	{
+		"hour": "7am",
+		"weekday": "Sat",
+		"value": 2940
+	},
+	{
+		"hour": "8am",
+		"weekday": "Sat",
+		"value": 3066
+	},
+	{
+		"hour": "9am",
+		"weekday": "Sat",
+		"value": 3494
+	},
+	{
+		"hour": "10am",
+		"weekday": "Sat",
+		"value": 3287
+	},
+	{
+		"hour": "11am",
+		"weekday": "Sat",
+		"value": 3416
+	},
+	{
+		"hour": "12am",
+		"weekday": "Sat",
+		"value": 3432
+	},
+	{
+		"hour": "1pm",
+		"weekday": "Sat",
+		"value": 3523
+	},
+	{
+		"hour": "2pm",
+		"weekday": "Sat",
+		"value": 3542
+	},
+	{
+		"hour": "3pm",
+		"weekday": "Sat",
+		"value": 3347
+	},
+	{
+		"hour": "4pm",
+		"weekday": "Sat",
+		"value": 3292
+	},
+	{
+		"hour": "5pm",
+		"weekday": "Sat",
+		"value": 3416
+	},
+	{
+		"hour": "6pm",
+		"weekday": "Sat",
+		"value": 3131
+	},
+	{
+		"hour": "7pm",
+		"weekday": "Sat",
+		"value": 3057
+	},
+	{
+		"hour": "8pm",
+		"weekday": "Sat",
+		"value": 3227
+	},
+	{
+		"hour": "9pm",
+		"weekday": "Sat",
+		"value": 3060
+	},
+	{
+		"hour": "10pm",
+		"weekday": "Sat",
+		"value": 2855
+	},
+	{
+		"hour": "11pm",
+		"weekday": "Sat",
+		"value": 2625
+	}
+
+];

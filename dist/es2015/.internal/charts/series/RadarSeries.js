@@ -110,14 +110,25 @@ var RadarSeries = /** @class */ (function (_super) {
      * @param {string}              stackKeyY [description]
      */
     RadarSeries.prototype.getPoint = function (dataItem, xKey, yKey, locationX, locationY, stackKeyX, stackKeyY) {
+        if (!stackKeyX) {
+            stackKeyX = "valueX";
+        }
+        if (!stackKeyY) {
+            stackKeyY = "valueY";
+        }
         var x = this.yAxis.getX(dataItem, yKey, locationY, stackKeyY);
         var y = this.yAxis.getY(dataItem, yKey, locationY, stackKeyY);
         var radius = $math.getDistance({ x: x, y: y });
         var angle = this.xAxis.getAngle(dataItem, xKey, locationX, stackKeyX);
         var startAngle = this.chart.startAngle;
         var endAngle = this.chart.endAngle;
-        angle = $math.fitToRange(angle, startAngle, endAngle);
-        return { x: radius * $math.cos(angle), y: radius * $math.sin(angle) };
+        //		angle = $math.fitToRange(angle, startAngle, endAngle);
+        if (angle < startAngle || angle > endAngle) {
+            return undefined;
+        }
+        else {
+            return { x: radius * $math.cos(angle), y: radius * $math.sin(angle) };
+        }
     };
     /**
      * [addPoints description]
@@ -130,7 +141,10 @@ var RadarSeries = /** @class */ (function (_super) {
      * @param {boolean}           backwards [description]
      */
     RadarSeries.prototype.addPoints = function (points, dataItem, xField, yField, backwards) {
-        points.push(this.getPoint(dataItem, xField, yField, dataItem.locations[xField], dataItem.locations[yField], "valueX", "valueY"));
+        var point = this.getPoint(dataItem, xField, yField, dataItem.locations[xField], dataItem.locations[yField]);
+        if (point) {
+            points.push(point);
+        }
     };
     /**
      * Returns an SVG path to be used as a mask for the series.
@@ -140,27 +154,6 @@ var RadarSeries = /** @class */ (function (_super) {
     RadarSeries.prototype.getMaskPath = function () {
         var renderer = this.yAxis.renderer;
         return $path.arc(renderer.startAngle, renderer.endAngle - renderer.startAngle, renderer.pixelRadius, renderer.pixelInnerRadius);
-    };
-    /**
-     * [closeSegment description]
-     *
-     * @todo Description
-     * @param {LineSeriesSegment}  segment     [description]
-     * @param {IPoint[]}           points      [description]
-     * @param {number}             openIndex   [description]
-     * @param {number}             closeIndex  [description]
-     * @param {AxisDataItem}       axisRange   [description]
-     */
-    RadarSeries.prototype.closeSegment = function (segment, points, openIndex, closeIndex, axisRange) {
-        if (closeIndex == this.dataItems.length - 1) {
-            // do not close if there is a gap between start angle and end angle
-            var axis = this.yAxis;
-            var renderer = axis.renderer;
-            if (this.connectEnds && Math.abs(renderer.endAngle - renderer.startAngle) == 360) {
-                this.addPoints(points, this.dataItems.getIndex(this._workingStartIndex), this.xField, this.yField);
-            }
-        }
-        _super.prototype.closeSegment.call(this, segment, points, openIndex, closeIndex, axisRange);
     };
     /**
      * [drawSegment description]
@@ -178,10 +171,9 @@ var RadarSeries = /** @class */ (function (_super) {
             if (this.dataFields[this._xOpenField] ||
                 this.dataFields[this._yOpenField] ||
                 this.stacked) {
-                var dataItem = this.dataItems.getIndex(this._workingStartIndex);
-                if (dataItem && dataItem.hasValue(this._xValueFields) && dataItem.hasValue(this._yValueFields)) {
-                    this.addPoints(closePoints, dataItem, this.xOpenField, this.yOpenField, true);
-                    closePoints.unshift(closePoints.pop());
+                points.push(points[0]);
+                if (closePoints.length > 0) {
+                    closePoints.unshift(closePoints[closePoints.length - 1]);
                 }
             }
         }

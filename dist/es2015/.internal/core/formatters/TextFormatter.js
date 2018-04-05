@@ -233,7 +233,7 @@ var TextFormatter = /** @class */ (function (_super) {
      */
     TextFormatter.prototype.translateStyleShortcuts = function (style) {
         // Get style parts
-        var b = style.match(/([\w\-]*:[\s]?[^;\s]*)|(\#[\w]{1,6})|([\w]+)|(\/)/gi);
+        var b = style.match(/([\w\-]*:[\s]?[^;\s\]]*)|(\#[\w]{1,6})|([\w]+)|(\/)/gi);
         // Empty?
         if (!b) {
             return style;

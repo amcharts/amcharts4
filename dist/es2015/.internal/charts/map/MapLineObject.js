@@ -41,7 +41,7 @@ var MapLineObject = /** @class */ (function (_super) {
         _this.adjustRotation = true;
         _this.className = "MapLineObject";
         _this.isMeasured = false;
-        _this.noLayouting = true;
+        _this.layout = "none";
         _this.cloneChildren = true;
         _this.applyTheme();
         return _this;
@@ -57,7 +57,7 @@ var MapLineObject = /** @class */ (function (_super) {
             this.x = point.x;
             this.y = point.y;
             if (this.adjustRotation) {
-                this.rotation = point.rotation;
+                this.rotation = point.angle;
             }
             var dataItem = this.mapLine.dataItem;
             if (dataItem) {

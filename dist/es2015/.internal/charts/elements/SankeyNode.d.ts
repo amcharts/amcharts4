@@ -163,6 +163,13 @@ export declare class SankeyNode extends Container {
      */
     nameLabel: LabelBullet;
     /**
+     * Defines the type of the [[SankeyDiagramDataItem]] used in the class.
+     *
+     * @ignore Exclude from docs
+     * @type {SankeyDiagramDataItem}
+     */
+    _dataItem: SankeyDiagramDataItem;
+    /**
      * Constructor
      */
     constructor();

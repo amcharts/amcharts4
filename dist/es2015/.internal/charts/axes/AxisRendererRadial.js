@@ -63,11 +63,11 @@ var AxisRendererRadial = /** @class */ (function (_super) {
         _this.gridType = "circles";
         _this.axisAngle = -90;
         _this.isMeasured = false;
-        axis.isMeasured = false;
+        _this.layout = "none";
         _this.width = percent(100);
         _this.radius = percent(100);
-        _this.layout = "absolute";
-        _this.line.strokeOpacity = 0.15;
+        _this.line.strokeOpacity = 0;
+        _this.labels.template.horizontalCenter = "middle";
         _this.applyTheme();
         return _this;
     }
@@ -273,17 +273,6 @@ var AxisRendererRadial = /** @class */ (function (_super) {
     AxisRendererRadial.prototype.updateLabelElement = function (label, position, endPosition) {
         position = position + (endPosition - position) * label.location;
         var point = this.positionToPoint(position);
-        var axisAngle = this.axisAngle;
-        if (axisAngle < 0) {
-            axisAngle += 360;
-        }
-        var tickLength = this.ticks.template.length;
-        var sign = 1;
-        if (label.inside) {
-            sign = -1;
-        }
-        label.dx = sign * tickLength * $math.sin(axisAngle) + sign * label.pixelWidth / 2 * $math.sin(axisAngle);
-        label.dy = -sign * tickLength * $math.cos(axisAngle) - sign * label.pixelHeight / 2 * $math.cos(axisAngle);
         this.positionItem(label, point);
         this.toggleVisibility(label, position, this.minLabelPosition, this.maxLabelPosition);
     };

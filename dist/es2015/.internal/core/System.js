@@ -125,13 +125,6 @@ var System = /** @class */ (function (_super) {
          */
         _this.dummyCounter = 0;
         /**
-         * @todo Description
-         * @todo Needed?
-         * @ignore Exclude from docs
-         * @type {number}
-         */
-        _this.dummyCounter2 = 0;
-        /**
          * Keeps register of class references so that they can be instnatiated using
          * string key.
          *
@@ -231,13 +224,13 @@ var System = /** @class */ (function (_super) {
             // content container
             // setting mask directly on classType object would result mask to shift together with object transformations
             var contentContainer = container.createChild(Container);
-            contentContainer.layout = "absolute";
             contentContainer.width = percent(100);
             contentContainer.height = percent(100);
             // content mask
             contentContainer.mask = contentContainer.background;
             // creating classType instance
             var sprite = contentContainer.createChild(classType);
+            sprite.isBaseSprite = true;
             sprite.focusFilter = new FocusFilter();
             // tooltip container
             var tooltipContainer = container.createChild(Container);
@@ -294,7 +287,6 @@ var System = /** @class */ (function (_super) {
             this.measureCounter = 0;
             this.measure();
         }
-        this.reportTime("**********************");
         this.validateLayouts();
         this.validatePositions();
         // data objects first - do all calculations
@@ -329,7 +321,6 @@ var System = /** @class */ (function (_super) {
                 }
             }
         }
-        this.reportTime("data");
         while (this.invalidRawDatas.length > 0) {
             var component = this.invalidRawDatas[0];
             try {
@@ -360,7 +351,6 @@ var System = /** @class */ (function (_super) {
             // this might seem too much, as validateValues removes from invalidDataItems aswell, but just to be sure (in case validateData is overriden and no super is called)
             $array.remove(system.invalidDataItems, component);
         }
-        this.reportTime("value");
         // TODO use iterator instead
         while (this.invalidDataRange.length > 0) {
             var component = this.invalidDataRange[0];
@@ -384,7 +374,6 @@ var System = /** @class */ (function (_super) {
             // this might seem too much, as validateDataRange removes from invalidDataRange aswell, but just to be sure (in case validateData is overriden and no super is called)
             $array.remove(system.invalidDataRange, component);
         }
-        this.reportTime("data elements " + this.invalidSprites.length);
         var skippedSprites = [];
         // display objects later
         // TODO use iterator instead
@@ -422,23 +411,20 @@ var System = /** @class */ (function (_super) {
             $array.remove(system.invalidSprites, sprite);
         }
         system.invalidSprites = skippedSprites;
-        this.reportTime(" sprites validated");
         // TODO make this more efficient
         // TODO don't copy the array
         $array.each($array.copy(animations), function (x) {
             x.update();
         });
-        this.reportTime("anim");
         // to avoid flicker, we validate positions last time
         //this.validateLayouts();
         //this.validatePositions();
         triggerIdle();
-        this.reportTime("even");
         // to avoid flicker, we validate positions last time
         this.validateLayouts();
         this.validatePositions();
         this.dispatchImmediately("exitframe");
-        system.dummyCounter++;
+        //system.dummyCounter++;
         raf(function () {
             _this.update();
         });

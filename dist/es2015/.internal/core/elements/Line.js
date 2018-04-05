@@ -60,6 +60,10 @@ var Line = /** @class */ (function (_super) {
         else {
             this.pixelPerfect = false;
         }
+        this.x1 = this.x1;
+        this.x2 = this.x2;
+        this.y1 = this.y1;
+        this.y2 = this.y2;
     };
     Object.defineProperty(Line.prototype, "x1", {
         /**

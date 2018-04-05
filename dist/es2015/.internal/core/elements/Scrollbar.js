@@ -92,7 +92,6 @@ var Scrollbar = /** @class */ (function (_super) {
         _this.minWidth = 12;
         _this.animationDuration = 0;
         _this.animationEasing = $ease.cubicOut;
-        _this.padding(0, 0, 0, 0);
         _this.margin(10, 10, 10, 10);
         var interfaceColors = new InterfaceColorSet();
         // background is also container as it might contain graphs, grid, etc
@@ -100,21 +99,13 @@ var Scrollbar = /** @class */ (function (_super) {
         background.cornerRadius(10, 10, 10, 10);
         background.fill = interfaceColors.getFor("fill");
         background.fillOpacity = 0.5;
-        // Create scrollbar controls (setters will handle adding disposers)
-        var thumb = new Button();
-        thumb.background.cornerRadius(10, 10, 10, 10);
-        thumb.padding(0, 0, 0, 0);
-        thumb.background.padding(1, 1, 1, 1);
-        thumb.background.strokeOpacity = 0;
-        _this.thumb = thumb;
         _this.startGrip = new ResizeButton();
         _this.endGrip = new ResizeButton();
         // Set button defaults
         _this.startGrip.showSystemTooltip = true;
         _this.endGrip.showSystemTooltip = true;
-        // Add cursor styles to thumb
-        _this.thumb.cursorOverStyle = MouseCursorStyle.grab;
-        _this.thumb.cursorDownStyle = MouseCursorStyle.grabbing;
+        _this.startGrip.zIndex = 100;
+        _this.endGrip.zIndex = 100;
         // Default orientation...
         // ... is set in `applyInternalDefaults()` because it accesses `language`
         // and should only be started to access when parent is set
@@ -169,10 +160,10 @@ var Scrollbar = /** @class */ (function (_super) {
     Scrollbar.prototype.validateLayout = function () {
         this.updateSize();
         _super.prototype.validateLayout.call(this);
-        this.background.paddingTop = this.paddingTop;
-        this.background.paddingBottom = this.paddingBottom;
-        this.background.paddingLeft = this.paddingLeft;
-        this.background.paddingRight = this.paddingRight;
+        //this.background.paddingTop = this.paddingTop;
+        //this.background.paddingBottom = this.paddingBottom;
+        //this.background.paddingLeft = this.paddingLeft;
+        //this.background.paddingRight = this.paddingRight;
         // when size changes, need to update extremes
         this.updateExtremes();
     };
@@ -351,11 +342,11 @@ var Scrollbar = /** @class */ (function (_super) {
         var maxY = 0;
         if (orientation == "horizontal") {
             maxX = this.innerWidth;
-            minY = maxY = this.innerHeight / 2 + this.pixelPaddingTop;
+            minY = maxY = this.innerHeight / 2;
         }
         else {
             maxY = this.innerHeight;
-            minX = maxX = this.innerWidth / 2 + this.pixelPaddingTop;
+            minX = maxX = this.innerWidth / 2;
         }
         var startGrip = this.startGrip;
         startGrip.minX = minX;
@@ -704,6 +695,14 @@ var Scrollbar = /** @class */ (function (_super) {
          * @return {RoundedRectangle} Thumb element
          */
         get: function () {
+            if (!this._thumb) {
+                // Create scrollbar controls (setters will handle adding disposers)
+                var thumb = new Button();
+                thumb.background.cornerRadius(10, 10, 10, 10);
+                thumb.padding(0, 0, 0, 0);
+                thumb.background.strokeOpacity = 0;
+                this.thumb = thumb;
+            }
             return this._thumb;
         },
         /**
@@ -730,6 +729,9 @@ var Scrollbar = /** @class */ (function (_super) {
                 thumb.focusable = true;
                 // TODO remove closures ?
                 // Add events
+                // Add cursor styles to thumb
+                thumb.cursorOverStyle = MouseCursorStyle.grab;
+                thumb.cursorDownStyle = MouseCursorStyle.grabbing;
                 thumb.events.on("dragstart", this.makeBusy, this);
                 thumb.events.on("dragstop", this.makeUnbusy, this);
                 thumb.events.on("positionchanged", this.handleThumbPosition, this);

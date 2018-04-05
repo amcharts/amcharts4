@@ -20,8 +20,6 @@ chart.data = data;
 
 let dateAxis = chart.xAxes.push(new xy.DateAxis());
 dateAxis.renderer.grid.template.location = 0;
-dateAxis.renderer.ticks.template.length = 8;
-dateAxis.renderer.ticks.template.strokeOpacity = 0.1;
 
 let valueAxis = chart.yAxes.push(new xy.ValueAxis());
 valueAxis.tooltip.disabled = true;

@@ -13,7 +13,7 @@ import { AxisItemLocation } from "./Axis";
 import { AxisRenderer } from "./AxisRenderer";
 import { List } from "../../core/utils/List";
 import { Dictionary } from "../../core/utils/Dictionary";
-import { IPoint } from "../../core/defs/IPoint";
+import { IPoint, IOrientationPoint } from "../../core/defs/IPoint";
 import { XYSeries, XYSeriesDataItem } from "../series/XYSeries";
 import { TimeUnit } from "../../core/defs/TimeUnit";
 import { ITimeInterval } from "../../core/defs/ITimeInterval";
@@ -519,12 +519,26 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      */
     dateToPosition(date: Date): number;
     /**
-     * Converts a numeric timestamp or a `Date` to a pixel position on axis.
+     * Converts a numeric timestamp or a `Date` to a relative position on axis.
      *
      * @param  {Date | number}  date  Date or a timestamp
-     * @return {number}               Position (px)
+     * @return {number}               Relative position
      */
     anyToPosition(date: Date | number): number;
+    /**
+     * Converts date to orientation point (x, y, angle) on axis
+     *
+     * @param  {Date}  date Date
+     * @return {IOrientationPoint} IOrientationPoint
+     */
+    dateToPoint(date: Date): IOrientationPoint;
+    /**
+     * Converts a numeric value to orientation (x, y, angle) point on axis
+     *
+     * @param  {number}  value  Value
+     * @return {IOrientationPoint}  Orientation point
+     */
+    anyToPoint(date: Date | number): IOrientationPoint;
     /**
      * Converts pixel position within Axis to a corresponding Date.
      *
@@ -565,7 +579,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @param  {string}            stackKey  Stack ID
      * @return {number}                      Angle
      */
-    getAngle(dataItem: XYSeriesDataItem, key: string, location: number, stackKey?: string): number;
+    getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number;
     /**
      * [getTimeByLocation description]
      *

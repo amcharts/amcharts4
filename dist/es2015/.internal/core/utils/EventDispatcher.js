@@ -166,6 +166,23 @@ var EventDispatcher = /** @class */ (function () {
         return this._enabled && this._disabled[type] == null && this._listeners.length > 0;
     };
     /**
+     * Checks if there's already a listener with specific parameters.
+     *
+     * @param   {Key | null}  type      Listener's type
+     * @param   {A}           callback  Callback function
+     * @param   {B}           context   Callback context
+     * @return {boolean}                Has listener?
+     */
+    EventDispatcher.prototype.has = function (type, callback, context) {
+        var index = $array.findIndex(this._listeners, function (info) {
+            return info.once !== true && // Ignoring "once" listeners
+                info.type === type &&
+                info.callback === callback &&
+                info.context === context;
+        });
+        return index !== -1;
+    };
+    /**
      * Checks whether event of the particular type should be dispatched.
      *
      * @param  {string}   type  Event type

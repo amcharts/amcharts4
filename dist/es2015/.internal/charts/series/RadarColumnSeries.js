@@ -197,6 +197,12 @@ var RadarColumnSeries = /** @class */ (function (_super) {
      * @param {string}                    stackKeyY [description]
      */
     RadarColumnSeries.prototype.getPoint = function (dataItem, xKey, yKey, locationX, locationY, stackKeyX, stackKeyY) {
+        if (!stackKeyX) {
+            stackKeyX = "valueX";
+        }
+        if (!stackKeyY) {
+            stackKeyY = "valueY";
+        }
         var x = this.yAxis.getX(dataItem, yKey, locationY, stackKeyY);
         var y = this.yAxis.getY(dataItem, yKey, locationY, stackKeyY);
         var radius = $math.getDistance({ x: x, y: y });

@@ -183,6 +183,8 @@ var CategoryAxis = /** @class */ (function (_super) {
             return value;
         });
         _this._prebuildDisposer = system.events.on("enterframe", _this.prebuildDataItem, _this);
+        _this._lastDataItem = _this.createDataItem();
+        _this._lastDataItem.component = _this;
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -251,11 +253,16 @@ var CategoryAxis = /** @class */ (function (_super) {
         this._frequency = frequency;
         _super.prototype.validateDataRange.call(this);
         $iter.each(this._series.iterator(), function (series) {
-            series.start = _this.start;
-            series.end = _this.end;
-            // range might not change, but axis breaks might.
-            if (_this.axisBreaks.length > 0) {
+            if ((series.xAxis instanceof CategoryAxis) && (series.yAxis instanceof CategoryAxis)) {
                 series.invalidateDataRange();
+            }
+            else {
+                series.start = _this.start;
+                series.end = _this.end;
+                // range might not change, but axis breaks might.
+                if (_this.axisBreaks.length > 0) {
+                    series.invalidateDataRange();
+                }
             }
         });
     };
@@ -299,6 +306,8 @@ var CategoryAxis = /** @class */ (function (_super) {
                 itemIndex++;
             }
         }
+        this.appendDataItem(this._lastDataItem);
+        this.validateDataElement(this._lastDataItem, itemIndex + 1, this.dataItems.length);
         var axisBreaks = this.axisBreaks;
         $iter.each(axisBreaks.iterator(), function (axisBreak) {
             var adjustedStartValue = axisBreak.adjustedStartValue;
@@ -324,11 +333,13 @@ var CategoryAxis = /** @class */ (function (_super) {
      * @param {CategoryAxisDataItem}  dataItem   [description]
      * @param {number}                itemIndex  [description]
      */
-    CategoryAxis.prototype.validateDataElement = function (dataItem, itemIndex) {
+    CategoryAxis.prototype.validateDataElement = function (dataItem, itemIndex, index) {
         _super.prototype.validateDataElement.call(this, dataItem);
         dataItem.__disabled = false;
         var renderer = this.renderer;
-        var index = this.categoryToIndex(dataItem.category);
+        if (!$type.isNumber(index)) {
+            index = this.categoryToIndex(dataItem.category);
+        }
         var endIndex = this.categoryToIndex(dataItem.endCategory);
         if (!$type.isNumber(endIndex)) {
             endIndex = index;
@@ -336,14 +347,18 @@ var CategoryAxis = /** @class */ (function (_super) {
         var position = this.indexToPosition(index, dataItem.locations.category);
         var endPosition = this.indexToPosition(endIndex, dataItem.locations.endCategory);
         var fillEndIndex;
+        var fillPosition;
         var fillEndPosition;
         if (dataItem.isRange) {
             fillEndIndex = endIndex;
+            fillPosition = this.indexToPosition(index, dataItem.locations.category);
+            fillEndPosition = this.indexToPosition(fillEndIndex, dataItem.locations.endCategory);
         }
         else {
             fillEndIndex = index + this._frequency;
+            fillPosition = this.indexToPosition(index, dataItem.axisFill.location);
+            fillEndPosition = this.indexToPosition(fillEndIndex, dataItem.axisFill.location);
         }
-        fillEndPosition = this.indexToPosition(fillEndIndex, dataItem.locations.endCategory);
         dataItem.point = renderer.positionToPoint(position);
         var tick = dataItem.tick;
         if (tick) {
@@ -360,14 +375,14 @@ var CategoryAxis = /** @class */ (function (_super) {
         }
         var fill = dataItem.axisFill;
         if (fill) {
-            renderer.updateFillElement(fill, position, fillEndPosition);
+            renderer.updateFillElement(fill, fillPosition, fillEndPosition);
             if (!dataItem.isRange) {
                 this.fillRule(dataItem, itemIndex);
             }
         }
         var mask = dataItem.mask;
         if (mask) {
-            renderer.updateFillElement(mask, position, endPosition);
+            renderer.updateFillElement(mask, fillPosition, fillEndPosition);
         }
     };
     /**
@@ -434,27 +449,54 @@ var CategoryAxis = /** @class */ (function (_super) {
         return $math.round((index + location - cellStartLocation - startIndex) / difference, 5);
     };
     /**
-     * Converts a string category name to a pixel coordinate.
+     * Converts a string category name to relative position on axis.
      *
      * `location` identifies relative location within category. 0 - beginning,
      * 0.5 - middle, 1 - end, and anything inbetween.
      *
      * @param  {string}            category  Category name
      * @param  {AxisItemLocation}  location  Location (0-1)
-     * @return {number}                      Position (px)
+     * @return {number}                      Position
      */
     CategoryAxis.prototype.categoryToPosition = function (category, location) {
         var index = this.categoryToIndex(category);
         return this.indexToPosition(index, location);
     };
     /**
-     * Converts a string category name to a pixel coordinate.
+     * Converts a string category name to a orientation point (x, y, angle) on axis
+     *
+     * `location` identifies relative location within category. 0 - beginning,
+     * 0.5 - middle, 1 - end, and anything inbetween.
+     * @param  {string}            category  Category name
+     * @param  {AxisItemLocation}  location  Location (0-1)
+     * @return {IOrientationPoint}  Orientation point
+     */
+    CategoryAxis.prototype.categoryToPoint = function (category, location) {
+        var position = this.categoryToPosition(category, location);
+        var point = this.renderer.positionToPoint(position);
+        var angle = this.renderer.positionToAngle(position);
+        return { x: point.x, y: point.y, angle: angle };
+    };
+    /**
+     * Converts a string category name to a orientation point (x, y, angle) on axis
+     *
+     * `location` identifies relative location within category. 0 - beginning,
+     * 0.5 - middle, 1 - end, and anything inbetween.
+     * @param  {string}            category  Category name
+     * @param  {AxisItemLocation}  location  Location (0-1)
+     * @return {IOrientationPoint}  Orientation point
+     */
+    CategoryAxis.prototype.anyToPoint = function (category, location) {
+        return this.categoryToPoint(category, location);
+    };
+    /**
+     * Converts a string category name to relative position on axis.
      *
      * An alias to `categoryToPosition()`.
      *
      * @param  {string}            category  Category name
      * @param  {AxisItemLocation}  location  Location (0-1)
-     * @return {number}                      Position (px)
+     * @return {number}                      Relative position
      */
     CategoryAxis.prototype.anyToPosition = function (category, location) {
         return this.categoryToPosition(category, location);
@@ -689,8 +731,8 @@ var CategoryAxis = /** @class */ (function (_super) {
      */
     CategoryAxis.prototype.initRenderer = function () {
         _super.prototype.initRenderer.call(this);
-        this.renderer.baseGrid.disabled = true;
-        this.renderer.grid.template.location = 1;
+        var renderer = this.renderer;
+        renderer.baseGrid.disabled = true;
     };
     return CategoryAxis;
 }(Axis));

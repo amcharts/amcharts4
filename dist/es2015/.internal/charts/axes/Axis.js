@@ -418,9 +418,9 @@ var Axis = /** @class */ (function (_super) {
          */
         _this._gridCount = 5;
         /**
-         * A list of [[Series]] that are using this Axis.
+         * A list of [[XYSeries]] that are using this Axis.
          *
-         * @type {List<Series>}
+         * @type {List<XYSeries>}
          */
         _this._series = new List();
         /**
@@ -442,8 +442,10 @@ var Axis = /** @class */ (function (_super) {
             }
             if (index / 2 == Math.round(index / 2)) {
                 dataItem.axisFill.__disabled = true;
+                dataItem.axisFill.opacity = 0;
             }
             else {
+                dataItem.axisFill.opacity = 1;
                 dataItem.axisFill.__disabled = false;
             }
         };
@@ -600,12 +602,12 @@ var Axis = /** @class */ (function (_super) {
         axisBreak.axis = this;
     };
     /**
-     * Registers a [[Series]] element with this Axis.
+     * Registers a [[XYSeries]] element with this Axis.
      *
      * Returns a [[Disposer]] for all events, added to Series for watching
      * changes in Axis, and vice versa.
      *
-     * @param  {Series}     series  Series
+     * @param  {XYSeries}     series  Series
      * @return {IDisposer}          Event disposer
      */
     Axis.prototype.registerSeries = function (series) {
@@ -704,6 +706,16 @@ var Axis = /** @class */ (function (_super) {
         return 0;
     };
     /**
+     * Converts any positional parameter to a relative position on axis.
+     *
+     * @todo Description (review)
+     * @param  {any}     value  Pisition
+     * @return {IOrientationPoint}  Orientation point
+     */
+    Axis.prototype.anyToPoint = function (value) {
+        return { x: 0, y: 0, angle: 0 };
+    };
+    /**
      * [getPositionRangePath description]
      *
      * @ignore Exclude from docs
@@ -756,6 +768,10 @@ var Axis = /** @class */ (function (_super) {
      * @param {number} position Position (0-1)
      */
     Axis.prototype.showTooltipAtPosition = function (position) {
+        //@todo: think of how to solve this better
+        if (this._tooltip && !this._tooltip.parent) {
+            this._tooltip.parent = this.tooltipContainer;
+        }
         if (this._cursorTooltipEnabled) {
             var tooltip = this._tooltip;
             var renderer = this.renderer;
@@ -919,7 +935,7 @@ var Axis = /** @class */ (function (_super) {
         /**
          * A list of Series currently associated with this Axis.
          *
-         * @return {List<Series>} Series
+         * @return {List<XYSeries>} Series
          */
         get: function () {
             if (!this._series) {
@@ -945,7 +961,7 @@ var Axis = /** @class */ (function (_super) {
      * This is a placeholder to override for extending classes.
      *
      * @ignore Exclude from docs
-     * @param {SeriesDataItem} dataItem Data item
+     * @param {XYSeriesDataItem} dataItem Data item
      */
     Axis.prototype.processSeriesDataItem = function (dataItem) {
     };
@@ -964,7 +980,7 @@ var Axis = /** @class */ (function (_super) {
      * This is a placeholder to override for extending classes.
      *
      * @ignore Exclude from docs
-     * @param {SeriesDataItem} dataItem Data item
+     * @param {XYSeriesDataItem} dataItem Data item
      */
     Axis.prototype.postProcessSeriesDataItem = function (dataItem) {
     };
@@ -1004,7 +1020,7 @@ var Axis = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      * @param  {Series}          series    Series
      * @param  {number}          position  Position (0-1)
-     * @return {SeriesDataItem}            Data item
+     * @return {XYSeriesDataItem}            Data item
      */
     Axis.prototype.getSeriesDataItem = function (series, position) {
         return;
@@ -1016,7 +1032,7 @@ var Axis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {SeriesDataItem}  dataItem  Data item
+     * @param  {XYSeriesDataItem}  dataItem  Data item
      * @param  {string}          key       ???
      * @param  {number}          location  Location
      * @param  {string}          stackKey  ???
@@ -1032,7 +1048,7 @@ var Axis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {SeriesDataItem} dataItem [description]
+     * @param  {XYSeriesDataItem} dataItem [description]
      * @param  {string}         key      [description]
      * @param  {number}         location [description]
      * @param  {string}         stackKey [description]
@@ -1048,7 +1064,7 @@ var Axis = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {SeriesDataItem} dataItem [description]
+     * @param  {XYSeriesDataItem} dataItem [description]
      * @param  {string}         key      [description]
      * @param  {number}         location [description]
      * @param  {string}         stackKey [description]
@@ -1260,7 +1276,7 @@ var Axis = /** @class */ (function (_super) {
     /**
      * Creates a data item for a Series range.
      *
-     * @param  {Series}  series  Target Series
+     * @param  {XYSeries}  series  Target Series
      * @return {this}            Range data item
      */
     Axis.prototype.createSeriesRange = function (series) {

@@ -16,6 +16,7 @@ import { system } from "../System";
 import { MultiDisposer } from "../utils/Disposer";
 import * as $math from "../utils/Math";
 import * as $utils from "../utils/Utils";
+import * as $iter from "../utils/Iterator";
 import * as $type from "../utils/Type";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 ;
@@ -39,14 +40,14 @@ import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
  *
  * ```TypeScript
  * label.dataItem = myDataItem;
- * label.text = "The title is: ${title}";
+ * label.text = "The title is: {title}";
  * ```
  * ```JavaScript
  * label.dataItem = myDataItem;
- * label.text = "The title is: ${title}";
+ * label.text = "The title is: {title}";
  * ```
  *
- * The above will atuomatically replace "${title}" in the string with the
+ * The above will atuomatically replace "{title}" in the string with the
  * actual data value from `myDataItem`.
  *
  *
@@ -75,8 +76,6 @@ var Label = /** @class */ (function (_super) {
         _this._svgLines = [];
         // Set this class name
         _this.className = "Label";
-        // Create the element
-        _this.element = _this.paper.addGroup("g");
         _this.fill = new InterfaceColorSet().getFor("text");
         _this.textDecoration = "none";
         _this.fontWeigth = "normal";
@@ -86,8 +85,9 @@ var Label = /** @class */ (function (_super) {
         _this.ellipsis = "...";
         _this.textAlign = "start";
         _this.textValign = "top";
-        _this.noLayouting = true;
-        _this.renderingFrequency = 4;
+        _this.layout = "none";
+        _this.renderingFrequency = 1;
+        _this.ignoreOverflow = false;
         // Set up adapters for manipulating accessibility
         _this.adapter.add("readerTitle", function (arg) {
             if (!arg) {
@@ -110,10 +110,25 @@ var Label = /** @class */ (function (_super) {
                 _this.alignSVGText();
             }
         });
+        // trying to solve strange bug when text is measured as 0x0
+        _this.events.once("validated", function () {
+            if (_this.text && (_this._bbox.width == 0 || _this._bbox.height == 0)) {
+                system.events.once("exitframe", function () {
+                    _this._prevStatus = "";
+                    _this.invalidate();
+                });
+            }
+        });
         // Aply theme
         _this.applyTheme();
         return _this;
     }
+    /**
+     * [arrange description]
+     *
+     * @ignore Exclude from docs
+     * @todo Description
+     */
     Label.prototype.arrange = function () {
     };
     /**
@@ -174,9 +189,11 @@ var Label = /** @class */ (function (_super) {
         var status = maxHeight + "," + maxWidth + this.wrap + this.truncate + this.rtl + this.ellipsis;
         // Update text
         if (!this.updateCurrentText() && this.inited && this._prevStatus == status) {
-            this.updateBackground(this._bbox.width, this._bbox.height);
+            //	this.updateBackground(this._measuredWidth, this._measuredHeight);
             return;
         }
+        this._measuredWidth = 0;
+        this._measuredHeight = 0;
         // Reset
         this.isOversized = false;
         // Determine output format
@@ -192,11 +209,17 @@ var Label = /** @class */ (function (_super) {
         // Do we need to go through the trouble of measuring lines
         var measure = true; // (lines.length > 1) || this.wrap;
         this._prevStatus = status;
+        this.textAlign = this.textAlign;
+        var display = this.group.getAttr("display");
+        if (display == "none") {
+            this.group.removeAttr("display");
+        }
         // SVG or HTML?
         if (output === "svg") {
             /**
              * SVG
              */
+            this.element.removeAttr("display");
             // Clear the element
             var group = this.element;
             this.resetBBox();
@@ -207,6 +230,22 @@ var Label = /** @class */ (function (_super) {
             for (var i = 0; i < lines.length; i++) {
                 // Get line
                 var line = lines[i];
+                // Check if line is empty
+                if (line == "") {
+                    // It is, let's just update currentHeight and go to the next one
+                    // If it's the first line, we'll have to use arbirary line height,
+                    // since there's nothing to measure. For subsequent lines we can take
+                    // previous line's height
+                    var tempElement = this.getSVGLineElement("", 0);
+                    tempElement.add(this.getSvgElement(".", system.textFormatter.translateStyleShortcuts(currentFormat)));
+                    group.add(tempElement);
+                    var offset = Math.ceil(tempElement.getBBox().height);
+                    if (offset > 0) {
+                        currentHeight += offset;
+                    }
+                    group.removeElement(tempElement);
+                    continue;
+                }
                 // Chunk up the line and process each chunk
                 var chunks = system.textFormatter.chunk(line);
                 var currentLineHeight = 0, currentLineWidth = 0;
@@ -426,6 +465,9 @@ var Label = /** @class */ (function (_super) {
                         if (this._bbox.width < lineInfo.bbox.width) {
                             this._bbox.width = lineInfo.bbox.width;
                         }
+                        if (this._bbox.x > lineInfo.bbox.x) {
+                            this._bbox.x = lineInfo.bbox.x;
+                        }
                         this._bbox.height = currentHeight + currentLineHeight;
                         // Position current line
                         lineInfo.element.attr({
@@ -450,14 +492,15 @@ var Label = /** @class */ (function (_super) {
             }
             // Check if maybe we need to hide the whole label if it doesn't fit
             if (this.hideOversized && ((this.availableWidth < this._bbox.width) || (this.availableHeight < this._bbox.height))) {
-                this.hide();
+                this.element.attr({ display: "none" });
                 this.isOversized = true;
             }
-            else {
-                this.show();
-            }
+            this._measuredWidth = $math.max(this._bbox.width, this.pixelWidth - this.pixelPaddingLeft - this.pixelPaddingRight);
+            this._measuredHeight = $math.max(this._bbox.height, this.pixelHeight - this.pixelPaddingTop - this.pixelPaddingBottom);
             // Align the lines
             this.alignSVGText();
+            this._bbox.width = this._measuredWidth;
+            this._bbox.height = this._measuredHeight;
             this.hideUnused(lines.length);
         }
         else {
@@ -481,13 +524,13 @@ var Label = /** @class */ (function (_super) {
             this.element.node.appendChild(lineElement);
             this.isOversized = true;
         }
-        // temp @todo
-        this.updateCenter();
         // Set applicable styles
         this.setStyles();
-        this._measuredWidth = this._bbox.width;
-        this._measuredHeight = this._bbox.height;
-        this.updateBackground(this._bbox.width, this._bbox.height);
+        this.updateCenter();
+        this.updateBackground(this._measuredWidth, this._measuredHeight);
+        if (display == "none") {
+            this.group.attr({ display: "none" });
+        }
     };
     /**
      * Aligns the lines horizontally ant vertically, based on properties.
@@ -495,59 +538,55 @@ var Label = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Label.prototype.alignSVGText = function () {
-        /*
+        var _this = this;
         // Get Group
-        let group: Group = <Group>this.element;
-
+        var group = this.element;
         // Is there anything to align?
         if (!group.children) {
             return;
         }
-
-        // Calculate max width
-        let maxWidth: number = $math.max(this.availableWidth - this.pixelPaddingLeft - this.pixelPaddingRight, 0);
-
-        // Measure the whole stuff
-        //let bbox: SVGRect = this.element.getBBox();
-        let width: number = $math.max(this._bbox.width, maxWidth);
-
+        var width = this._measuredWidth;
+        var height = this._measuredHeight;
         // Process each line
-        $iter.each(group.children.backwards().iterator(), (element) => {
+        $iter.each(group.children.backwards().iterator(), function (element) {
             // Align horizontally
             // Since we are using `text-anchor` for horizontal alignement, all we need
             // to do here is move the `x` position
-            
-            switch (this.textAlign) {
+            element.attr({ "text-anchor": _this.textAlign });
+            switch (_this.textAlign) {
                 case "middle":
                     element.attr({ "x": (width / 2).toString() });
-                    element.attr({ "text-anchor": "middle" });
                     break;
                 case "end":
-                    if (this.rtl) {
-                        //element.attr({ "x": "0" });
-                        element.attr({ "text-anchor": "end" });
+                    if (_this.rtl) {
                     }
                     else {
-                        //element.attr({ "x": (width).toString() });
-                        element.attr({ "text-anchor": "end" });
+                        element.attr({ "x": width.toString() });
                     }
                     break;
                 default:
-                    if (this.rtl) {
-                        //element.attr({ "x": (width).toString() });
-                        element.attr({ "text-anchor": "start" });
+                    if (_this.rtl) {
+                        element.attr({ "x": width.toString() });
                     }
                     else {
-                        //element.attr({ "x": "0" });
                         element.removeAttr("text-anchor");
                     }
                     break;
-
             }
-
-            // Align vertically
-            // @todo Maybe?
-        });*/
+            if (_this.textValign != "top") {
+                var y = $type.toNumber(element.getAttr("y"));
+                switch (_this.textValign) {
+                    case "middle":
+                        element.attr({ "y": (y + (height - _this._bbox.height) / 2).toString() });
+                        break;
+                    case "bottom":
+                        element.attr({ "y": (y + height - _this._bbox.height).toString() });
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     };
     /**
      * Produces an SVG line element with formatted text.
@@ -811,7 +850,6 @@ var Label = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("textAlign", value, true);
-            this.group.attr({ "text-anchor": value });
         },
         enumerable: true,
         configurable: true

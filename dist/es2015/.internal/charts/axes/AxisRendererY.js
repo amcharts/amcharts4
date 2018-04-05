@@ -258,20 +258,14 @@ var AxisRendererY = /** @class */ (function (_super) {
         label.isMeasured = !label.inside;
         var point = this.positionToPoint(position);
         var align;
-        var tickLenght = 0;
-        var tick = label.dataItem.tick;
-        if (tick) {
-            tickLenght = tick.length;
-        }
         if (this.opposite) {
             if (label.inside) {
                 align = "right";
-                tickLenght *= -1;
             }
             else {
                 align = "left";
             }
-            point.x = tickLenght;
+            point.x = 0;
         }
         else {
             if (label.inside) {
@@ -279,9 +273,8 @@ var AxisRendererY = /** @class */ (function (_super) {
             }
             else {
                 align = "right";
-                tickLenght *= -1;
             }
-            point.x = this.pixelWidth + tickLenght;
+            point.x = this.pixelWidth;
         }
         label.horizontalCenter = align;
         this.positionItem(label, point);

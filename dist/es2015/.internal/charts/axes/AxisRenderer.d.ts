@@ -474,7 +474,7 @@ export declare class AxisRenderer extends Container {
      * @return {boolean} Labels inside?
      */
     /**
-     * Sets if Axis labels should be drawn inside Axis.
+     * Sets if Axis labels and ticks should be drawn inside Plot area, does not work with all renderers, like AxisRendererRadial.
      *
      * @param {boolean} value Labels inside?
      */
@@ -486,7 +486,7 @@ export declare class AxisRenderer extends Container {
      */
     /**
      * Sets whether axis should be drawn on the opposite side of the plot area,
-     * than it would normally be drawn base on chart's settings.
+     * than it would normally be drawn base on chart's settings. Does not work with all renderers, like AxisRendererRadial and AxisRenderer Circular.
      *
      * @param {boolean} value Draw axis on opposite side?
      */

@@ -26,7 +26,7 @@ import * as $smoothing from "./Smoothing";
  * @return {string}            SVG path
  */
 export function polyline(points) {
-    var path = moveTo(points[0]);
+    var path = lineTo(points[0]);
     for (var i = 0; i < points.length; i++) {
         path += lineTo(points[i]);
     }

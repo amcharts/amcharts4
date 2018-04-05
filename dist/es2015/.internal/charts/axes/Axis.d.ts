@@ -18,8 +18,8 @@ import { AxisFill } from "./AxisFill";
 import { AxisBreak } from "./AxisBreak";
 import { AxisRenderer } from "./AxisRenderer";
 import { Chart } from "../Chart";
-import { Series, SeriesDataItem } from "../series/Series";
-import { IPoint } from "../../core/defs/IPoint";
+import { XYSeries, XYSeriesDataItem } from "../series/XYSeries";
+import { IPoint, IOrientationPoint } from "../../core/defs/IPoint";
 import { Label } from "../../core/elements/Label";
 import { IRectangle } from "../../core/defs/IRectangle";
 import { PointerOrientation } from "../../core/elements/Tooltip";
@@ -394,11 +394,11 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      */
     protected _gridCount: number;
     /**
-     * A list of [[Series]] that are using this Axis.
+     * A list of [[XYSeries]] that are using this Axis.
      *
-     * @type {List<Series>}
+     * @type {List<XYSeries>}
      */
-    protected _series: List<Series>;
+    protected _series: List<XYSeries>;
     /**
      * [_prevLength description]
      *
@@ -523,15 +523,15 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      */
     processBreak(event: IListEvents<AxisBreak>["insert"]): void;
     /**
-     * Registers a [[Series]] element with this Axis.
+     * Registers a [[XYSeries]] element with this Axis.
      *
      * Returns a [[Disposer]] for all events, added to Series for watching
      * changes in Axis, and vice versa.
      *
-     * @param  {Series}     series  Series
+     * @param  {XYSeries}     series  Series
      * @return {IDisposer}          Event disposer
      */
-    registerSeries(series: Series): IDisposer;
+    registerSeries(series: XYSeries): IDisposer;
     /**
      * Returns currently set [[AxisRenderer]].
      *
@@ -591,6 +591,14 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @return {number}         Position (0-1)
      */
     anyToPosition(value: any): number;
+    /**
+     * Converts any positional parameter to a relative position on axis.
+     *
+     * @todo Description (review)
+     * @param  {any}     value  Pisition
+     * @return {IOrientationPoint}  Orientation point
+     */
+    anyToPoint(value: any): IOrientationPoint;
     /**
      * [getPositionRangePath description]
      *
@@ -706,9 +714,9 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
     /**
      * A list of Series currently associated with this Axis.
      *
-     * @return {List<Series>} Series
+     * @return {List<XYSeries>} Series
      */
-    readonly series: List<Series>;
+    readonly series: List<XYSeries>;
     /**
      * Processes Series' data items.
      *
@@ -723,9 +731,9 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * This is a placeholder to override for extending classes.
      *
      * @ignore Exclude from docs
-     * @param {SeriesDataItem} dataItem Data item
+     * @param {XYSeriesDataItem} dataItem Data item
      */
-    processSeriesDataItem(dataItem: SeriesDataItem): void;
+    processSeriesDataItem(dataItem: XYSeriesDataItem): void;
     /**
      * Post-processes Serie's data items.
      *
@@ -740,9 +748,9 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * This is a placeholder to override for extending classes.
      *
      * @ignore Exclude from docs
-     * @param {SeriesDataItem} dataItem Data item
+     * @param {XYSeriesDataItem} dataItem Data item
      */
-    postProcessSeriesDataItem(dataItem: SeriesDataItem): void;
+    postProcessSeriesDataItem(dataItem: XYSeriesDataItem): void;
     /**
      * Updates Axis based on all Series that might influence it.
      *
@@ -768,9 +776,9 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @ignore Exclude from docs
      * @param  {Series}          series    Series
      * @param  {number}          position  Position (0-1)
-     * @return {SeriesDataItem}            Data item
+     * @return {XYSeriesDataItem}            Data item
      */
-    getSeriesDataItem(series: Series, position: number): SeriesDataItem;
+    getSeriesDataItem(series: XYSeries, position: number): XYSeriesDataItem;
     /**
      * Returns an angle that corresponds to specific angle.
      *
@@ -778,13 +786,13 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {SeriesDataItem}  dataItem  Data item
+     * @param  {XYSeriesDataItem}  dataItem  Data item
      * @param  {string}          key       ???
      * @param  {number}          location  Location
      * @param  {string}          stackKey  ???
      * @return {number}                    Angle
      */
-    getAngle(dataItem: SeriesDataItem, key: string, location: number, stackKey?: string): number;
+    getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number;
     /**
      * [getX description]
      *
@@ -792,13 +800,13 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {SeriesDataItem} dataItem [description]
+     * @param  {XYSeriesDataItem} dataItem [description]
      * @param  {string}         key      [description]
      * @param  {number}         location [description]
      * @param  {string}         stackKey [description]
      * @return {number}                  [description]
      */
-    getX(dataItem: SeriesDataItem, key: string, location?: number, stackKey?: string): number;
+    getX(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number;
     /**
      * [getY description]
      *
@@ -806,13 +814,13 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {SeriesDataItem} dataItem [description]
+     * @param  {XYSeriesDataItem} dataItem [description]
      * @param  {string}         key      [description]
      * @param  {number}         location [description]
      * @param  {string}         stackKey [description]
      * @return {number}                  [description]
      */
-    getY(dataItem: SeriesDataItem, key: string, location?: number, stackKey?: string): number;
+    getY(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number;
     /**
      * [basePoint description]
      *
@@ -919,10 +927,10 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
     /**
      * Creates a data item for a Series range.
      *
-     * @param  {Series}  series  Target Series
+     * @param  {XYSeries}  series  Target Series
      * @return {this}            Range data item
      */
-    createSeriesRange(series: Series): this["_dataItem"];
+    createSeriesRange(series: XYSeries): this["_dataItem"];
     /**
      * Copies all properties and related data from a different instance of Axis.
      *

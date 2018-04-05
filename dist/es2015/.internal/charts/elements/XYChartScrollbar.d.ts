@@ -162,4 +162,13 @@ export declare class XYChartScrollbar extends Scrollbar {
      * Updates scrollbar thumb.
      */
     protected updateThumb(): void;
+    /**
+     * Processes JSON-based config before it is applied to the object.
+     *
+     * @ignore Exclude from docs
+     * @param {object}  config  Config
+     */
+    processConfig(config?: {
+        [index: string]: any;
+    }): void;
 }

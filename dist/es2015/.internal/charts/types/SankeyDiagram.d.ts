@@ -16,6 +16,7 @@ import * as $iter from "../../core/utils/Iterator";
 import { SankeyNode } from "../elements/SankeyNode";
 import { SankeyLink } from "../elements/SankeyLink";
 import { ColorSet } from "../../core/utils/ColorSet";
+import { Color } from "../../core/utils/Color";
 import { Orientation } from "../../core/defs/Orientation";
 /**
  * ============================================================================
@@ -68,7 +69,7 @@ export declare class SankeyDiagramDataItem extends ChartDataItem {
      */
     fromName: string;
     /**
-     * @return {string} Name
+     * @return {string} name
      */
     /**
      * Destination node's name.
@@ -76,6 +77,15 @@ export declare class SankeyDiagramDataItem extends ChartDataItem {
      * @param {string}  value  Name
      */
     toName: string;
+    /**
+     * @return {string} color
+     */
+    /**
+     * Node color
+     *
+     * @param {string}  value  Name
+     */
+    color: Color;
     /**
      * @return {number} Value
      */
@@ -124,6 +134,12 @@ export interface ISankeyDiagramDataFields extends IChartDataFields {
      * @type {string}
      */
     value?: string;
+    /**
+     * Color of a from node
+     *
+     * @type {string}
+     */
+    color?: string;
 }
 /**
  * Defines properties for [[SankeyDiagram]]
@@ -136,11 +152,17 @@ export interface ISankeyDiagramProperties extends IChartProperties {
      */
     nodePadding?: number;
     /**
-     * Sort nodes by name or value?
+     * Sort nodes by name or value or do not sort at all
      *
-     * @type {"name" | "value"}
+     * @type {"top" | "bottom" | "middle"}
      */
-    sortBy?: "name" | "value";
+    nodeAlign?: "top" | "bottom" | "middle";
+    /**
+     * Sort nodes by name or value or do not sort a
+     *
+     * @type {"none" | "name" | "value"}
+     */
+    sortBy?: "none" | "name" | "value";
     /**
      * Orientation of the chart.
      *
@@ -274,9 +296,17 @@ export declare class SankeyDiagram extends Chart {
     /**
      * Sorted nodes iterator.
      *
+     * @ignore
      * @type {Iterator}
      */
     protected _sorted: $iter.Iterator<[string, SankeyNode]>;
+    /**
+     * Alignment of nodes
+     *
+     * @ignore
+     * @type {"top" | "bottom" | "middle"}
+     */
+    protected _nodeAlign: "top" | "bottom" | "middle";
     /**
      * Constructor
      */
@@ -357,14 +387,23 @@ export declare class SankeyDiagram extends Chart {
      */
     nodePadding: number;
     /**
-     * @returns {"name" | "value"} Node sorting
+     * @returns {"none" | name" | "value"} Node sorting
      */
     /**
-     * Sort nodes by "name" or "value"?
-     *
-     * @param {"name" | "value"}  value  Node sorting
+     * Sort nodes by "name" or "value" or do not sort at all. If not sorted, nodes will appear in the same order as they are in the data.
+     * @default "none"
+     * @param {"none" "name" | "value"}  value  Node sorting
      */
-    sortBy: "name" | "value";
+    sortBy: "none" | "name" | "value";
+    /**
+     * @returns {"top" | "middle" | "bottom"} Returns nodeAlign value
+     */
+    /**
+     * How to align nodes. In case layout is vertical, top means left and bottom means right
+     *
+     * @param {"top" | "middle" | "bottom"}  value  Node sorting
+     */
+    nodeAlign: "top" | "middle" | "bottom";
     /**
      * @return {Orientation} Orientation
      */

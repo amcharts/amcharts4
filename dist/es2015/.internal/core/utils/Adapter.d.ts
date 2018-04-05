@@ -199,6 +199,16 @@ export declare class Adapter<Target, T> {
      */
     add<Key extends keyof T, C>(key: Key, callback: (this: C, value: T[Key], target: Target) => T[Key], priority?: number, scope?: C): void;
     /**
+     * Checks whether specific adapter is already set.
+     *
+     * @param   {string}         key       Key
+     * @param   {any[]) => any}  callback  A callback function
+     * @param   {number}         priority  The higher priority, the more chance the adapter will be applied last
+     * @param   {any}            scope     Scope for the callback function
+     * @returns                            Adapter set?
+     */
+    has<Key extends keyof T, C>(key: Key, callback: (this: C, value: T[Key], target: Target) => T[Key], priority?: number, scope?: C): boolean;
+    /**
      * Removes adapter callbacks for the specific `key`.
      *
      * If `priority` is specified, only callbacks for that priority are removed.

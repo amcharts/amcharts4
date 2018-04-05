@@ -74,21 +74,18 @@ var AxisBreak = /** @class */ (function (_super) {
         fillShape.fillOpacity = 0.9;
         fillShape.zIndex = 0;
         _this._fillShape = fillShape;
-        _this._disposers.push(_this._fillShape);
         var startLine = new WavedLine();
         startLine.fill = color();
         startLine.stroke = interfaceColors.getFor("grid");
         startLine.strokeOpacity = 0.3;
         startLine.zIndex = 1;
         _this._startLine = startLine;
-        _this._disposers.push(_this._startLine);
         var endLine = new WavedLine();
         endLine.fill = color();
-        endLine.stroke = interfaceColors.getFor("grid");
+        endLine.stroke = color("#000000"); // interfaceColors.getFor("grid");
         endLine.strokeOpacity = 0.3;
         endLine.zIndex = 2;
         _this._endLine = endLine;
-        _this._disposers.push(_this._endLine);
         // Apply theme
         _this.applyTheme();
         return _this;

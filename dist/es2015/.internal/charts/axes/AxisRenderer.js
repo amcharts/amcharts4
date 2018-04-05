@@ -69,22 +69,25 @@ var AxisRenderer = /** @class */ (function (_super) {
         _this.cellEndLocation = 1;
         _this.minLabelPosition = 0;
         _this.maxLabelPosition = 1;
-        _this.noLayouting = true;
         // Set axis
         _this.axis = axis;
         var gridContainer = _this.createChild(Container);
-        gridContainer.noLayouting = true;
+        gridContainer.layout = "none";
         gridContainer.isMeasured = false;
         gridContainer.width = percent(100);
         gridContainer.height = percent(100);
         _this.gridContainer = gridContainer;
         var breakContainer = _this.createChild(Container);
         breakContainer.isMeasured = false;
-        breakContainer.noLayouting = true;
+        breakContainer.layout = "none";
         breakContainer.width = percent(100);
         breakContainer.height = percent(100);
         _this.breakContainer = breakContainer;
         _this.line = axis.createChild(AxisLine); // yes, to axis, not to renderer
+        _this.line.strokeOpacity = 0;
+        _this.ticks.template.strokeOpacity = 0;
+        //this.ticks.template.disabled = true;
+        //this.axisFills.template.disabled = true;
         var baseGrid = axis.createChild(Grid);
         _this.baseGrid = baseGrid;
         _this.gridContainer.events.on("maxsizechanged", _this.invalidateAxisItems, _this);
@@ -504,7 +507,7 @@ var AxisRenderer = /** @class */ (function (_super) {
             return this.getPropertyValue("inside");
         },
         /**
-         * Sets if Axis labels should be drawn inside Axis.
+         * Sets if Axis labels and ticks should be drawn inside Plot area, does not work with all renderers, like AxisRendererRadial.
          *
          * @param {boolean} value Labels inside?
          */
@@ -525,7 +528,7 @@ var AxisRenderer = /** @class */ (function (_super) {
         },
         /**
          * Sets whether axis should be drawn on the opposite side of the plot area,
-         * than it would normally be drawn base on chart's settings.
+         * than it would normally be drawn base on chart's settings. Does not work with all renderers, like AxisRendererRadial and AxisRenderer Circular.
          *
          * @param {boolean} value Draw axis on opposite side?
          */

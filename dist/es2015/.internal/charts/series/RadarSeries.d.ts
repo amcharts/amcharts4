@@ -11,7 +11,6 @@ import { LineSeries, LineSeriesDataItem, ILineSeriesDataFields, ILineSeriesPrope
 import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { LineSeriesSegment } from "./LineSeriesSegment";
 import { IPoint } from "../../core/defs/IPoint";
-import { AxisDataItem } from "../axes/Axis";
 import { RadarChart } from "../types/RadarChart";
 /**
  * ============================================================================
@@ -178,17 +177,6 @@ export declare class RadarSeries extends LineSeries {
      * @return {string} SVG path
      */
     protected getMaskPath(): string;
-    /**
-     * [closeSegment description]
-     *
-     * @todo Description
-     * @param {LineSeriesSegment}  segment     [description]
-     * @param {IPoint[]}           points      [description]
-     * @param {number}             openIndex   [description]
-     * @param {number}             closeIndex  [description]
-     * @param {AxisDataItem}       axisRange   [description]
-     */
-    protected closeSegment(segment: LineSeriesSegment, points: IPoint[], openIndex: number, closeIndex: number, axisRange?: AxisDataItem): void;
     /**
      * [drawSegment description]
      *

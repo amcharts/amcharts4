@@ -739,6 +739,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     protected _outTimeout: IDisposer;
     /**
+     * @ignore
+     * this flag is set to true for the initial sprite you create and place to the div so that we could clear all additional sprites/containers when this sprite is disposed
+     */
+    isBaseSprite: boolean;
+    /**
      * Constructor:
      * * Creates initial node
      * * Sets default properties
@@ -853,9 +858,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {Sprite} source Source Sprite
      */
     copyFrom(source: this): void;
-    /**
-     * Disposes this element and removes all dependencies.
-     */
     dispose(): void;
     /**
      * Returns if the the Sprite is template.
@@ -1608,16 +1610,16 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @hidden
      */
     /**
-     * Parses the string for meta tags `${tag}` and replaces them with a real
+     * Parses the string for meta tags `{tag}` and replaces them with a real
      * value. Supports straight up tags referring to the field in data, i.e.
-     * `${value}` or tags with additional formatting info. E.g.:
+     * `{value}` or tags with additional formatting info. E.g.:
      *
      * ```Text
      * {myfield.formatDate("yyyy-MM-dd")}
      * {myfield.formatDate()}
-     * {myfield:formatNumber("#,####.00")}
-     * {myfield:formatNumber()}
-     * {myField:formatDuration("mm:ss")}
+     * {myfield.formatNumber("#,####.00")}
+     * {myfield.formatNumber()}
+     * {myField.formatDuration("mm:ss")}
      * ```
      *
      * Etc.

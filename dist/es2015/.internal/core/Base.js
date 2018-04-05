@@ -437,6 +437,11 @@ var BaseObject = /** @class */ (function () {
                                 }
                             }
                         });
+                        // Truncate the list if it contains less items than the config
+                        // array
+                        while (configValue.length > item_1.length) {
+                            item_1.pop();
+                        }
                     }
                     else if ($type.isObject(configValue)) {
                         // It's a single oject.
@@ -510,6 +515,11 @@ var BaseObject = /** @class */ (function () {
                             }
                         }
                     });
+                    // Truncate the list if it contains less items than the config
+                    // array
+                    while (configValue.length > item_1.length) {
+                        item_1.pop();
+                    }
                 }
                 else if (item_1 instanceof DictionaryTemplate) {
                     // ... a dictionary with template
@@ -552,14 +562,18 @@ var BaseObject = /** @class */ (function () {
     BaseObject.prototype.processAdapters = function (item, config) {
         if ($type.isObject(config)) {
             $object.each(config, function (key, entry) {
-                item.add(key, entry);
+                if (!item.has(key, entry)) {
+                    item.add(key, entry);
+                }
             });
         }
     };
     BaseObject.prototype.processEvents = function (item, config) {
         if ($type.isObject(config)) {
             $object.each(config, function (key, entry) {
-                item.on(key, entry);
+                if (!item.has(key, entry)) {
+                    item.on(key, entry);
+                }
             });
         }
     };

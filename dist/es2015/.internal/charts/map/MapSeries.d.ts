@@ -145,6 +145,10 @@ export interface IMapSeriesProperties extends ISeriesProperties {
  * Defines events for [[MapSeries]].
  */
 export interface IMapSeriesEvents extends ISeriesEvents {
+    /**
+     * Invoked when minValue or maxValue changes
+     */
+    valueextremeschanged: {};
 }
 /**
  * Defines adapters for [[MapSeries]].
@@ -233,16 +237,28 @@ export declare class MapSeries extends Series {
     chart: MapChart;
     /**
      * User-defined lowest value in the series.
-     *
+     * @ignore
      * @type {number}
      */
-    protected _min: number;
+    protected _minValue: number;
     /**
      * User-defined heighest value in the series.
-     *
+     * @ignore
      * @type {number}
      */
-    protected _max: number;
+    protected _maxValue: number;
+    /**
+     * previous min value
+     * @ignore
+     * @type {number}
+     */
+    protected _prevMin: number;
+    /**
+     * previous max value
+     * @ignore
+     * @type {number}
+     */
+    protected _prevMax: number;
     /**
      * Constructor
      */
@@ -261,6 +277,12 @@ export declare class MapSeries extends Series {
      * @ignore Exclude from docs
      */
     validateData(): void;
+    /**
+     * (Re)validates the series
+     *
+     * @ignore Exclude from docs
+     */
+    validate(): void;
     /**
      * Checks whether object should be included in series.
      *
@@ -320,7 +342,7 @@ export declare class MapSeries extends Series {
      *
      * @param {number}  value  Highest value
      */
-    max: number;
+    maxValue: number;
     /**
      * @return {number} Lowest value
      */
@@ -334,7 +356,7 @@ export declare class MapSeries extends Series {
      *
      * @param {number}  value  Lowest value
      */
-    min: number;
+    minValue: number;
     /**
      * @return {string[]} Included objects
      */

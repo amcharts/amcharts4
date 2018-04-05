@@ -443,6 +443,9 @@ var ValueAxis = /** @class */ (function (_super) {
         if ($type.isNumber(this.max) && $type.isNumber(this.min)) {
             // first regular items
             var value_1 = this.minZoomed;
+            if (this.strictMinMax) {
+                value_1 = Math.floor(value_1 / this._step) * this._step;
+            }
             this.resetIterators();
             var dataItemsIterator_1 = this._dataItemsIterator;
             var i = 0;
@@ -603,21 +606,42 @@ var ValueAxis = /** @class */ (function (_super) {
         configurable: true
     });
     /**
-     * Converts a numeric value to a pixel coordinate.
+     * Converts a numeric value to relative position on axis
      *
      * An alias to `valueToPosition()`.
      *
      * @param  {number}  value  Value
-     * @return {number}         Position (px)
+     * @return {number}         Position
      */
     ValueAxis.prototype.anyToPosition = function (value) {
         return this.valueToPosition(value);
     };
     /**
-     * Converts a numeric value to a pixel coordinate.
+     * Converts a numeric value to orientation point (x, y, angle) on axis
      *
      * @param  {number}  value  Value
-     * @return {number}         Position (px)
+     * @return {IOrientationPoint}  Orientation point
+     */
+    ValueAxis.prototype.valueToPoint = function (value) {
+        var position = this.valueToPosition(value);
+        var point = this.renderer.positionToPoint(position);
+        var angle = this.renderer.positionToAngle(position);
+        return { x: point.x, y: point.y, angle: angle };
+    };
+    /**
+     * Converts a numeric value to orientation (x, y, angle) point on axis
+     *
+     * @param  {number}  value  Value
+     * @return {IOrientationPoint}  Orientation point
+     */
+    ValueAxis.prototype.anyToPoint = function (value) {
+        return this.valueToPoint(value);
+    };
+    /**
+     * Converts a numeric value to relative position on axis.
+     *
+     * @param  {number}  value  Value
+     * @return {number}  relative position
      */
     ValueAxis.prototype.valueToPosition = function (value) {
         if ($type.isNumber(value)) {
@@ -675,7 +699,7 @@ var ValueAxis = /** @class */ (function (_super) {
         }
     };
     /**
-     * Converts an absolute position in pixels to a corresponding value within
+     * Converts an relative position to a corresponding value within
      * axis' scale.
      *
      * @param  {number}  position  Position (px)
@@ -903,9 +927,16 @@ var ValueAxis = /** @class */ (function (_super) {
         }
         if (!this.logarithmic) {
             // round down min
-            min = Math.floor(min / power) * power - extra;
-            // round up max
-            max = Math.ceil(max / power) * power + extra;
+            if (strictMode) {
+                min = Math.floor(min / power) * power;
+                // round up max
+                max = Math.ceil(max / power) * power;
+            }
+            else {
+                min = Math.ceil(min / power) * power - extra;
+                // round up max
+                max = Math.floor(max / power) * power + extra;
+            }
             // don't let min go below 0 if real min is >= 0
             if (min < 0 && initialMin >= 0) {
                 min = 0;
@@ -1331,6 +1362,14 @@ var ValueAxis = /** @class */ (function (_super) {
     ValueAxis.prototype.getPositionLabel = function (position) {
         var value = this.positionToValue(position);
         return this.numberFormatter.format(value);
+    };
+    /**
+     * Shows Axis tooltip at specific value
+     *
+     * @param {number} value Value
+     */
+    ValueAxis.prototype.showTooltipAt = function (value) {
+        this.showTooltipAtPosition(this.valueToPosition(value));
     };
     return ValueAxis;
 }(Axis));

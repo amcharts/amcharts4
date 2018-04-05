@@ -28,7 +28,6 @@ import { system } from "../../core/System";
 import { DictionaryTemplate } from "../../core/utils/Dictionary";
 import { ValueAxis } from "../axes/ValueAxis";
 import { TreeMapSeries } from "../series/TreeMapSeries";
-import { NavigationBar } from "../elements/NavigationBar";
 import { ColorSet } from "../../core/utils/ColorSet";
 import { MouseCursorStyle } from "../../core/interaction/Mouse";
 /**
@@ -391,15 +390,6 @@ var TreeMap = /** @class */ (function (_super) {
         // shortcuts
         _this.xAxis = xAxis;
         _this.yAxis = yAxis;
-        var navigationBar = _this.createChild(NavigationBar);
-        navigationBar.disabled = true;
-        navigationBar.toBack();
-        navigationBar.links.template.events.on("hit", function (event) {
-            var dataItem = event.target.dataItem.dataContext;
-            _this.zoomToChartDataItem(dataItem);
-            _this.createTreeSeries(dataItem);
-        });
-        _this.navigationBar = navigationBar;
         _this.zoomOutButton.events.on("hit", function () {
             _this.zoomToChartDataItem(_this._homeDataItem);
         });
@@ -410,6 +400,36 @@ var TreeMap = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    Object.defineProperty(TreeMap.prototype, "navigationBar", {
+        /**
+         * Returns navigationBar if it is added to a chart
+         */
+        get: function () {
+            return this._navigationBar;
+        },
+        /**
+         * A navigation bar used to show "breadcrumb" control, indicating current
+         * drill-down path.
+         *
+         * @type {NavigationBar}
+         */
+        set: function (navigationBar) {
+            var _this = this;
+            if (this._navigationBar != navigationBar) {
+                this._navigationBar = navigationBar;
+                navigationBar.parent = this;
+                navigationBar.toBack();
+                navigationBar.links.template.events.on("hit", function (event) {
+                    var dataItem = event.target.dataItem.dataContext;
+                    _this.zoomToChartDataItem(dataItem);
+                    _this.createTreeSeries(dataItem);
+                });
+                this._disposers.push(navigationBar);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * (Re)validates chart's data.
      *
@@ -498,7 +518,9 @@ var TreeMap = /** @class */ (function (_super) {
             parentDataItem = parentDataItem.parent;
         }
         navigationData.reverse();
-        this.navigationBar.data = navigationData;
+        if (this.navigationBar) {
+            this.navigationBar.data = navigationData;
+        }
         // create series and children series
         this.createTreeSeriesReal(dataItem);
         // add those which are not in the list
@@ -528,6 +550,13 @@ var TreeMap = /** @class */ (function (_super) {
                 }
             }
         }
+    };
+    /**
+     * @ignore
+     * Overriding, as tree map series are created on the fly all the time
+     */
+    TreeMap.prototype.seriesAppeared = function () {
+        return true;
     };
     /**
      * Initializes the treemap series.
@@ -595,7 +624,7 @@ var TreeMap = /** @class */ (function (_super) {
             }
             else {
                 series.show();
-                if (series.level != _this.currentLevel) {
+                if (series.level > _this.currentLevel + _this.maxLevels - 1) {
                     series.bulletsContainer.hide(duration);
                 }
                 else {
@@ -785,7 +814,6 @@ var TreeMap = /** @class */ (function (_super) {
         $iter.each(this.series.iterator(), function (series) {
             series.validateRawData();
         });
-        this.currentLevel = 0;
         this.zoomToChartDataItem(this._homeDataItem);
     };
     /**

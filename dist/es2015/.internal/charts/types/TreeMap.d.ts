@@ -363,13 +363,6 @@ export declare class TreeMap extends XYChart {
      */
     _seriesType: TreeMapSeries;
     /**
-     * A navigation bar used to show "breadcrumb" control, indicating current
-     * drill-down path.
-     *
-     * @type {NavigationBar}
-     */
-    navigationBar: NavigationBar;
-    /**
      * [_homeDataItem description]
      *
      * @todo Description
@@ -415,9 +408,26 @@ export declare class TreeMap extends XYChart {
      */
     zoomable: boolean;
     /**
+     * A navigation bar used to show "breadcrumb" control, indicating current
+     * drill-down path.
+     *
+     * @type {NavigationBar}
+     */
+    protected _navigationBar: NavigationBar;
+    /**
      * Constructor
      */
     constructor();
+    /**
+     * Returns navigationBar if it is added to a chart
+     */
+    /**
+     * A navigation bar used to show "breadcrumb" control, indicating current
+     * drill-down path.
+     *
+     * @type {NavigationBar}
+     */
+    navigationBar: NavigationBar;
     /**
      * (Re)validates chart's data.
      *
@@ -446,6 +456,11 @@ export declare class TreeMap extends XYChart {
      * @param {TreeMapDataItem} dataItem [description]
      */
     protected createTreeSeriesReal(dataItem: TreeMapDataItem): void;
+    /**
+     * @ignore
+     * Overriding, as tree map series are created on the fly all the time
+     */
+    protected seriesAppeared(): boolean;
     /**
      * Initializes the treemap series.
      *

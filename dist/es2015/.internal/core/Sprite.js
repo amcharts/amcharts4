@@ -279,6 +279,11 @@ var Sprite = /** @class */ (function (_super) {
          * @type {number}
          */
         _this.rollOutDelay = 0;
+        /**
+         * @ignore
+         * this flag is set to true for the initial sprite you create and place to the div so that we could clear all additional sprites/containers when this sprite is disposed
+         */
+        _this.isBaseSprite = false;
         _this.className = "Sprite";
         // Generate a unique ID
         _this.uid;
@@ -637,6 +642,7 @@ var Sprite = /** @class */ (function (_super) {
         this.interactions.copyFrom(source.interactions);
         this.configField = source.configField;
         this.applyOnClones = source.applyOnClones;
+        this.renderingFrequency = source.renderingFrequency;
         // this.numberFormatter = source.numberFormatter; // todo: this creates loose number formatter and copies it to all clones. somehow we need to know if source had numberFormatter explicitly created and not just because a getter was called.
         //this.mask = source.mask; need to think about this, generally this causes a lot of problems
         this.disabled = source.disabled;
@@ -648,13 +654,27 @@ var Sprite = /** @class */ (function (_super) {
         $utils.copyProperties(source.propertyFields, this.propertyFields);
         $utils.copyProperties(source.properties, this);
     };
-    /**
-     * Disposes this element and removes all dependencies.
-     */
     Sprite.prototype.dispose = function () {
+        if (this.isBaseSprite) {
+            this.isBaseSprite = false;
+            this.parent.parent.dispose();
+            while (this.htmlContainer.children.length > 0) {
+                this.htmlContainer.removeChild(this.htmlContainer.children[0]);
+            }
+        }
         _super.prototype.dispose.call(this);
-        this.parent = undefined;
         this.removeFromInvalids();
+        if (this.element) {
+            this.element.dispose();
+        }
+        if (this.group) {
+            this.group.dispose();
+        }
+        while (this.filters.length > 0) {
+            var filter = this.filters.getIndex(0);
+            filter.dispose();
+            this.filters.removeValue(filter);
+        }
     };
     Object.defineProperty(Sprite.prototype, "isTemplate", {
         /**
@@ -1274,7 +1294,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {Optional<AMElement>}  element  Element
          */
         set: function (element) {
-            // Destroy previous element if there was one before
+            // Destroy previous element if there was one before		
             this.removeElement();
             // Set new element
             this._element = element;
@@ -1419,7 +1439,6 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.removeElement = function () {
         // remove visual element
         if (this._element) {
-            //this._element.dispose();
             this.removeDispose(this._element);
             this._element = undefined;
         }
@@ -1530,6 +1549,9 @@ var Sprite = /** @class */ (function (_super) {
      * @param {number}  scale     New Scale
      */
     Sprite.prototype.moveTo = function (point, rotation, scale, isDragged) {
+        if (this.className == "SankeyLink") {
+            debugger;
+        }
         if (this.isDragged && !isDragged) {
             return;
         }
@@ -2418,16 +2440,16 @@ var Sprite = /** @class */ (function (_super) {
      * @hidden
      */
     /**
-     * Parses the string for meta tags `${tag}` and replaces them with a real
+     * Parses the string for meta tags `{tag}` and replaces them with a real
      * value. Supports straight up tags referring to the field in data, i.e.
-     * `${value}` or tags with additional formatting info. E.g.:
+     * `{value}` or tags with additional formatting info. E.g.:
      *
      * ```Text
      * {myfield.formatDate("yyyy-MM-dd")}
      * {myfield.formatDate()}
-     * {myfield:formatNumber("#,####.00")}
-     * {myfield:formatNumber()}
-     * {myField:formatDuration("mm:ss")}
+     * {myfield.formatNumber("#,####.00")}
+     * {myfield.formatNumber()}
+     * {myField.formatDuration("mm:ss")}
      * ```
      *
      * Etc.
@@ -2449,11 +2471,11 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.populateString = function (string, dataItem) {
         if ($type.hasValue(string)) {
             string = $type.castString(string);
-            var tags = string.match(/[$]?\{([^}]+)\}/g);
+            var tags = string.match(/\{([^}]+)\}/g);
             var i = void 0;
             if (tags) {
                 for (i = 0; i < tags.length; i++) {
-                    var tag = tags[i].replace(/[$]?\{([^}]+)\}/, "$1");
+                    var tag = tags[i].replace(/\{([^}]+)\}/, "$1");
                     var value = this.getTagValue(tag, "", dataItem);
                     if (!$type.hasValue(value)) {
                         value = "";
@@ -2527,8 +2549,13 @@ var Sprite = /** @class */ (function (_super) {
                 value = this.getTagValueFromObject(parts, dataItem);
             }
             // Check data context
-            if (!$type.hasValue(value) && dataItem.dataContext) {
+            var dataContext = dataItem.dataContext;
+            if (!$type.hasValue(value) && dataContext) {
                 value = this.getTagValueFromObject(parts, dataItem.dataContext);
+                // scond data context level sometimes exist (tree map)
+                if (!$type.hasValue(value) && dataContext.dataContext) {
+                    value = this.getTagValueFromObject(parts, dataContext.dataContext);
+                }
             }
             // Check component's data item
             if (!$type.hasValue(value) && dataItem.component && dataItem.component.dataItem !== dataItem) {
@@ -6043,6 +6070,7 @@ var Sprite = /** @class */ (function (_super) {
                 this._showHideDisposer = transition.events.on("animationend", function () {
                     _this.isShowing = false;
                 });
+                this._disposers.push(this._showHideDisposer);
             }
             // Make it visible
             this.visible = true;
@@ -6109,6 +6137,7 @@ var Sprite = /** @class */ (function (_super) {
                     this._showHideDisposer = transition.events.on("animationend", function () {
                         _this.isHiding = false;
                     }, this);
+                    this._disposers.push(this._showHideDisposer);
                 }
                 // Thrown everything into `_disposers` just in case Sprite gets
                 // destroyed in the meantime
@@ -6334,7 +6363,7 @@ var Sprite = /** @class */ (function (_super) {
                     }
                     tooltip.background.fill = fill;
                     if (tooltip.autoTextColor && fill instanceof Color) {
-                        tooltip.fill = fill.alternative;
+                        tooltip.label.fill = fill.alternative;
                     }
                 }
                 // Apply tooltip text
@@ -6360,9 +6389,9 @@ var Sprite = /** @class */ (function (_super) {
                 }
                 // Set accessibility option
                 tooltip.readerDescribedBy = this.uidAttr();
-                // Reveal tooltip
-                tooltip.show();
                 if (tooltip.text != undefined && tooltip.text != "") {
+                    // Reveal tooltip
+                    tooltip.show();
                     return true;
                 }
             }
@@ -6440,7 +6469,9 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = $type.toText(value);
-            this.hoverable = true;
+            if (value) {
+                this.hoverable = true;
+            }
             this.setPropertyValue("tooltipText", value);
         },
         enumerable: true,

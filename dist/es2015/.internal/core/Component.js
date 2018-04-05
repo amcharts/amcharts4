@@ -101,13 +101,6 @@ var Component = /** @class */ (function (_super) {
          */
         _this._end = 1;
         /**
-         * [_maxZoomFactor description]
-         *
-         * @ignore Exclude from docs
-         * @type {number}
-         */
-        _this._maxZoomFactor = Infinity;
-        /**
          * If set to `true`, changing data range in element will not trigger
          * `daterangechanged` event.
          *
@@ -976,7 +969,7 @@ var Component = /** @class */ (function (_super) {
          * @return {number} Maximum `zoomFactor`
          */
         get: function () {
-            return this._maxZoomFactor;
+            return this.getPropertyValue("maxZoomFactor");
         },
         /**
          * Sets max available `zoomFactor`.
@@ -984,8 +977,7 @@ var Component = /** @class */ (function (_super) {
          * @param {number} value Maximum `zoomFactor`
          */
         set: function (value) {
-            this._maxZoomFactor = value;
-            if (this.zoomFactor > value) {
+            if (this.setPropertyValue("maxZoomFactor", value)) {
                 this.invalidateDataRange();
             }
         },

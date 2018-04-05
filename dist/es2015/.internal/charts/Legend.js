@@ -23,7 +23,6 @@ import { ListTemplate } from "../core/utils/List";
 import { RoundedRectangle } from "../core/elements/RoundedRectangle";
 import { Container } from "../core/Container";
 import { Label } from "../core/elements/Label";
-import { ColorizeFilter } from "../core/rendering/filters/ColorizeFilter";
 import { keyboard } from "../core/utils/Keyboard";
 import { system } from "../core/System";
 import { interaction } from "../core/interaction/Interaction";
@@ -107,52 +106,62 @@ var Legend = /** @class */ (function (_super) {
         _this.useDefaultMarker = false;
         _this.contentAlign = "center";
         // Create a template container and list for legend items
-        var container = new Container();
-        container.padding(10, 0, 10, 0);
-        container.margin(0, 5, 0, 0);
-        container.layout = "horizontal";
-        container.contentValign = "middle";
-        container.clickable = true;
-        container.focusable = true;
-        container.role = "checkbox";
-        container.background.opacity = 0; // creates hit area
+        var itemContainer = new Container();
+        itemContainer.padding(10, 0, 10, 0);
+        itemContainer.margin(0, 5, 0, 0);
+        itemContainer.layout = "horizontal";
+        itemContainer.clickable = true;
+        itemContainer.focusable = true;
+        itemContainer.role = "checkbox";
+        itemContainer.background.opacity = 0; // creates hit area
+        itemContainer.togglable = true;
         // Add click/tap event to toggle item
-        container.events.on("hit", function (ev) {
+        itemContainer.events.on("hit", function (ev) {
             _this.toggleDataItem(ev.target.dataItem);
         }, _this);
         // Add focus event so that we can track which object is currently in focus
         // for keyboard toggling
-        container.events.on("focus", function (ev) {
+        itemContainer.events.on("focus", function (ev) {
             _this.focusedItem = ev.target.dataItem;
         });
-        container.events.on("blur", function (ev) {
+        itemContainer.events.on("blur", function (ev) {
             _this.focusedItem = undefined;
         });
         // Create container list using item template we just created
-        _this.containers = new ListTemplate(container);
+        _this.itemContainers = new ListTemplate(itemContainer);
         // Set up global keyboard events for toggling elements
         interaction.body.events.on("keyup", function (ev) {
             if (keyboard.isKey(ev.event, "enter") && _this.focusedItem) {
                 _this.toggleDataItem(_this.focusedItem);
             }
         }, _this);
+        var interfaceColors = new InterfaceColorSet();
         // Create a template container and list for the a marker
         var marker = new Container();
         marker.cloneChildren = true;
         marker.width = 23;
         marker.height = 23;
         marker.mouseEnabled = false;
+        marker.setStateOnChildren = true;
+        marker.propertyFields.fill = "fill";
+        var disabledColor = interfaceColors.getFor("disabledBackground");
+        marker.events.on("childadded", function (event) {
+            var activeState = event.newValue.states.create("active");
+            activeState.properties.stroke = disabledColor;
+            activeState.properties.fill = disabledColor;
+        });
         _this.markers = new ListTemplate(marker);
         // Create a legend background element
         var rectangle = marker.createChild(RoundedRectangle);
         rectangle.width = percent(100);
         rectangle.height = percent(100);
-        rectangle.propertyFields["fill"] = "fill";
         // Create a template container and list for item labels
         var label = new Label();
-        label.text = "${name}";
+        label.text = "{name}";
         label.margin(0, 5, 0, 5);
         label.valign = "middle";
+        label.states.create("active").properties.fill = interfaceColors.getFor("disabledBackground");
+        label.renderingFrequency = 2;
         _this.labels = new ListTemplate(label);
         // Create a template container and list for item value labels
         var valueLabel = new Label();
@@ -160,24 +169,14 @@ var Legend = /** @class */ (function (_super) {
         valueLabel.valign = "middle";
         valueLabel.width = 40; // to avoid rearranging legend entries when value changes.
         valueLabel.align = "right";
+        valueLabel.textAlign = "end";
+        valueLabel.states.create("active").properties.fill = interfaceColors.getFor("disabledBackground");
+        valueLabel.renderingFrequency = 2;
         _this.valueLabels = new ListTemplate(valueLabel);
         _this.position = "bottom";
-        var interfaceColors = new InterfaceColorSet();
-        // Create a filter
-        // @todo better description
-        var colorizeFilter = new ColorizeFilter();
-        colorizeFilter.color = interfaceColors.getFor("disabledBackground");
-        colorizeFilter.intensity = 0;
-        container.filters.push(colorizeFilter);
-        // Create a state for disabled legend items
-        var disabledState = container.states.create("disabled");
-        var colorizeFilterDisabled = new ColorizeFilter();
-        colorizeFilterDisabled.color = interfaceColors.getFor("disabledBackground");
-        colorizeFilterDisabled.intensity = 1;
-        disabledState.filters.push(colorizeFilterDisabled);
-        // Create a default state
-        var defaultState = container.states.create("default");
-        defaultState.filters.push(colorizeFilter);
+        // Create a state for disabled legend items		
+        itemContainer.states.create("active");
+        itemContainer.setStateOnChildren = true;
         // Apply accessibility settings
         _this.role = "group";
         _this.applyTheme();
@@ -222,15 +221,15 @@ var Legend = /** @class */ (function (_super) {
     Legend.prototype.validateDataElement = function (dataItem) {
         _super.prototype.validateDataElement.call(this, dataItem);
         // Get data item (legend item's) container and assign it to legend container
-        var container = dataItem.container;
+        var container = dataItem.itemContainer;
         if (!container) {
             // Create new container for the data item
-            container = this.containers.create();
+            container = this.itemContainers.create();
             container.dataItem = dataItem;
             container.readerTitle = this.language.translate("Click, tap or press ENTER to toggle");
             container.readerControls = dataItem.dataContext.uidAttr();
             container.readerLabelledBy = dataItem.dataContext.uidAttr();
-            dataItem.container = container;
+            dataItem.itemContainer = container;
             // Add an event to check for item's properties
             // We cannot do this on a template since template does not have
             // dataContext, yet
@@ -293,14 +292,14 @@ var Legend = /** @class */ (function (_super) {
         set: function (value) {
             if (this.setPropertyValue("position", value)) {
                 if (value == "left" || value == "right") {
-                    this.containers.template.maxWidth = 200;
                     this.width = 200;
                     this.margin(10, 20, 10, 20);
                     this.valign = "middle";
+                    this.itemContainers.template.width = percent(100);
                     this.valueLabels.template.width = percent(100);
                 }
                 else {
-                    this.containers.template.maxWidth = undefined;
+                    this.itemContainers.template.maxWidth = undefined;
                     this.width = percent(100);
                     this.valueLabels.template.width = 40;
                 }
@@ -347,11 +346,9 @@ var Legend = /** @class */ (function (_super) {
         var dataContext = item.dataContext;
         if (!dataContext.visible || dataContext.isHiding) {
             dataContext.show();
-            item.container.setState("default");
         }
         else {
             dataContext.hide();
-            item.container.setState("disabled");
         }
     };
     Object.defineProperty(Legend.prototype, "preloader", {

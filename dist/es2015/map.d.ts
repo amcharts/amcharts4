@@ -31,7 +31,9 @@ export { IAxisBreakProperties, IAxisBreakEvents, IAxisBreakAdapters, AxisBreak }
  */
 export { ITickProperties, ITickEvents, ITickAdapters, Tick } from "./.internal/charts/elements/Tick";
 export { IBulletProperties, IBulletEvents, IBulletAdapters, Bullet } from "./.internal/charts/elements/Bullet";
+export { IHeatLegendProperties, IHeatLegendEvents, IHeatLegendAdapters, HeatLegend } from "./.internal/charts/elements/HeatLegend";
 export { ILabelBulletProperties, ILabelBulletEvents, ILabelBulletAdapters, LabelBullet } from "./.internal/charts/elements/LabelBullet";
+export { ICircleBulletProperties, ICircleBulletEvents, ICircleBulletAdapters, CircleBullet } from "./.internal/charts/elements/CircleBullet";
 /**
  * Elements: map
  */

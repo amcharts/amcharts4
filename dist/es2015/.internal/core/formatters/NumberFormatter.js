@@ -524,7 +524,7 @@ var NumberFormatter = /** @class */ (function (_super) {
          * The modifier for big/small number modification is "a":
          *
          * ```Text
-         * ${myfield:formatNumber("#,###.00a")}
+         * {myfield.formatNumber("#,###.00a")}
          * ```
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
@@ -572,7 +572,7 @@ var NumberFormatter = /** @class */ (function (_super) {
          * The modifier for big/small number modification is "a":
          *
          * ```Text
-         * ${myfield:formatNumber("#,###.00a")}
+         * {myfield.formatNumber("#,###.00a")}
          * ```
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
@@ -598,7 +598,7 @@ var NumberFormatter = /** @class */ (function (_super) {
          * The modifier is "b".
          *
          *  ```Text
-         * ${myfield:formatNumber("#,###.00b")}
+         * {myfield.formatNumber("#,###.00b")}
          * ```
          *
          * The above `2048` will change to `2K`.

@@ -538,12 +538,12 @@ export declare class Series extends Component implements ILegendItem<Series, ISe
     /**
      * List of bullets that can be used for the series' purposes.
      *
-     * @ignore Exclude from docs
      * @return {ListTemplate<Bullet>} [description]
      */
     readonly bullets: ListTemplate<Bullet>;
     /**
      * Hides bullet elements that are currently not in use.
+     * @ignore
      */
     protected hideUnusedBullets(): void;
     /**

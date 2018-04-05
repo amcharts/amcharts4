@@ -23,6 +23,7 @@ import { Container } from "../../core/Container";
 import { ListTemplate } from "../../core/utils/List";
 import { Dictionary } from "../../core/utils/Dictionary";
 import { ValueAxis } from "../axes/ValueAxis";
+import { CategoryAxis } from "../axes/CategoryAxis";
 import { system } from "../../core/System";
 import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
 import * as $math from "../../core/utils/Math";
@@ -155,7 +156,7 @@ var ColumnSeries = /** @class */ (function (_super) {
         _this.clustered = true;
         _this._columnsContainer = _this.mainContainer.createChild(Container);
         _this._columnsContainer.isMeasured = false;
-        _this._columnsContainer.noLayouting = true;
+        _this._columnsContainer.layout = "none";
         _this.columns;
         _this.columns.template.pixelPerfect = false;
         _this.applyTheme();
@@ -302,8 +303,40 @@ var ColumnSeries = /** @class */ (function (_super) {
         var percentHeight = template.percentHeight;
         var pixelWidth = template.pixelWidth;
         var pixelHeight = template.pixelHeight;
-        // vertical columns
-        if (this.baseAxis == this.xAxis) {
+        // two category axes
+        if ((this.xAxis instanceof CategoryAxis) && (this.yAxis instanceof CategoryAxis)) {
+            startLocation = 0;
+            endLocation = 1;
+            if (!$type.isNaN(percentWidth)) {
+                var offset = $math.round((endLocation - startLocation) * (1 - percentWidth / 100) / 2, 5);
+                startLocation += offset;
+                endLocation -= offset;
+            }
+            l = this.xAxis.getX(dataItem, xOpenField, startLocation);
+            r = this.xAxis.getX(dataItem, xField, endLocation);
+            // in case width is set in pixels
+            if ($type.isNaN(percentWidth)) {
+                var offset = ((r - l) - pixelWidth) / 2;
+                l += offset;
+                r -= offset;
+            }
+            startLocation = 0;
+            endLocation = 1;
+            if (!$type.isNaN(percentHeight)) {
+                var offset = $math.round((1 - percentHeight / 100) / 2, 5);
+                startLocation += offset;
+                endLocation -= offset;
+            }
+            t = this.yAxis.getY(dataItem, yOpenField, startLocation);
+            b = this.yAxis.getY(dataItem, yField, endLocation);
+            // in case width is set in pixels
+            if ($type.isNaN(percentHeight)) {
+                var offset = ((b - t) - pixelHeight) / 2;
+                b += offset;
+                t -= offset;
+            }
+        }
+        else if (this.baseAxis == this.xAxis) {
             // in case width is set in percent
             if (!$type.isNaN(percentWidth)) {
                 var offset = $math.round((endLocation - startLocation) * (1 - percentWidth / 100) / 2, 5);

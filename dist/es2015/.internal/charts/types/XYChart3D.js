@@ -88,7 +88,7 @@ var XYChart3D = /** @class */ (function (_super) {
         // Creeate container for columns
         _this.columnsContainer = _this.seriesContainer.createChild(Container);
         _this.columnsContainer.isMeasured = false;
-        _this.columnsContainer.noLayouting = true;
+        _this.columnsContainer.layout = "none";
         // Apply theme
         _this.applyTheme();
         return _this;

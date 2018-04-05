@@ -9,11 +9,10 @@
  */
 import { Axis, AxisItemLocation, AxisDataItem, IAxisProperties, IAxisDataFields, IAxisAdapters, IAxisEvents } from "./Axis";
 import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
-import { IPoint } from "../../core/defs/IPoint";
+import { IPoint, IOrientationPoint } from "../../core/defs/IPoint";
 import { AxisRenderer } from "./AxisRenderer";
 import { SerialChart } from "../types/SerialChart";
 import { Dictionary } from "../../core/utils/Dictionary";
-import { SeriesDataItem } from "../series/Series";
 import { XYSeries, XYSeriesDataItem } from "../series/XYSeries";
 import { CategoryAxisBreak } from "./CategoryAxisBreak";
 import { IDisposer } from "../../core/utils/Disposer";
@@ -224,6 +223,7 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      * @type {IDisposer}
      */
     protected _prebuildDisposer: IDisposer;
+    protected _lastDataItem: CategoryAxisDataItem;
     /**
      * Constructor
      */
@@ -277,7 +277,7 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      * @param {CategoryAxisDataItem}  dataItem   [description]
      * @param {number}                itemIndex  [description]
      */
-    validateDataElement(dataItem: this["_dataItem"], itemIndex?: number): void;
+    validateDataElement(dataItem: this["_dataItem"], itemIndex?: number, index?: number): void;
     /**
      * Processes the axis data item.
      *
@@ -298,24 +298,44 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      */
     indexToPosition(index: number, location?: AxisItemLocation | number): number;
     /**
-     * Converts a string category name to a pixel coordinate.
+     * Converts a string category name to relative position on axis.
      *
      * `location` identifies relative location within category. 0 - beginning,
      * 0.5 - middle, 1 - end, and anything inbetween.
      *
      * @param  {string}            category  Category name
      * @param  {AxisItemLocation}  location  Location (0-1)
-     * @return {number}                      Position (px)
+     * @return {number}                      Position
      */
     categoryToPosition(category: string, location?: AxisItemLocation): number;
     /**
-     * Converts a string category name to a pixel coordinate.
+     * Converts a string category name to a orientation point (x, y, angle) on axis
+     *
+     * `location` identifies relative location within category. 0 - beginning,
+     * 0.5 - middle, 1 - end, and anything inbetween.
+     * @param  {string}            category  Category name
+     * @param  {AxisItemLocation}  location  Location (0-1)
+     * @return {IOrientationPoint}  Orientation point
+     */
+    categoryToPoint(category: string, location?: AxisItemLocation): IOrientationPoint;
+    /**
+     * Converts a string category name to a orientation point (x, y, angle) on axis
+     *
+     * `location` identifies relative location within category. 0 - beginning,
+     * 0.5 - middle, 1 - end, and anything inbetween.
+     * @param  {string}            category  Category name
+     * @param  {AxisItemLocation}  location  Location (0-1)
+     * @return {IOrientationPoint}  Orientation point
+     */
+    anyToPoint(category: string, location?: AxisItemLocation): IOrientationPoint;
+    /**
+     * Converts a string category name to relative position on axis.
      *
      * An alias to `categoryToPosition()`.
      *
      * @param  {string}            category  Category name
      * @param  {AxisItemLocation}  location  Location (0-1)
-     * @return {number}                      Position (px)
+     * @return {number}                      Relative position
      */
     anyToPosition(category: string, location?: AxisItemLocation): number;
     /**
@@ -372,7 +392,7 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      * @param  {number}          location  Location (0-1)
      * @return {number}                    X coordinate (px)
      */
-    getX(dataItem: SeriesDataItem, key?: string, location?: number): number;
+    getX(dataItem: XYSeriesDataItem, key?: string, location?: number): number;
     /**
      * Returns the Y coordinate for series' data item.
      *
@@ -383,7 +403,7 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      * @param  {number}          location  Location (0-1)
      * @return {number}                    Y coordinate (px)
      */
-    getY(dataItem: SeriesDataItem, key?: string, location?: number): number;
+    getY(dataItem: XYSeriesDataItem, key?: string, location?: number): number;
     /**
      * Returns an angle for series data item.
      *
@@ -395,7 +415,7 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      * @param  {string}            stackKey  Stack key (?)
      * @return {number}                      Angle
      */
-    getAngle(dataItem: XYSeriesDataItem, key: string, location: number, stackKey?: string): number;
+    getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number;
     /**
      * Returns an absolute pixel coordinate of the start of the cell (category),
      * that specific position value falls into.

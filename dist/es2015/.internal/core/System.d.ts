@@ -225,13 +225,6 @@ export declare class System extends BaseObjectEvents {
     dummyCounter: number;
     /**
      * @todo Description
-     * @todo Needed?
-     * @ignore Exclude from docs
-     * @type {number}
-     */
-    dummyCounter2: number;
-    /**
-     * @todo Description
      * @ignore Exclude from docs
      * @type {number}
      */

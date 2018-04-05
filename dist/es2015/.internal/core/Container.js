@@ -19,6 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Sprite } from "./Sprite";
+import { SpriteState } from "./SpriteState";
 import { List } from "./utils/List";
 import { Rectangle } from "./elements/Rectangle";
 import { system } from "./System";
@@ -61,10 +62,14 @@ var Container = /** @class */ (function (_super) {
          * Whether children of the container should be cloned when cloning this
          * Container.
          *
-         * @ignore Exclude from docs
          * @type {boolean}
          */
         _this.cloneChildren = false;
+        /**
+         * Specifies if, when state is applied on this container, the same state should be applied to container's children
+         * @type {boolean}
+         */
+        _this.setStateOnChildren = false;
         /*
          * @ignore
          */
@@ -73,12 +78,6 @@ var Container = /** @class */ (function (_super) {
          * @ignore
          */
         _this._containerOverflowY = 0;
-        /**
-         * @todo:review description
-         * Sometimes containers might be dumb, without any need of layouting. in this case setting noLayouting = true will save some cpu
-         * @default false;
-         */
-        _this.noLayouting = false;
         _this.className = "Container";
         _this.element = _this.paper.addGroup("g");
         _this.pixelPerfect = false;
@@ -165,7 +164,7 @@ var Container = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Container.prototype.invalidateLayout = function () {
-        if (this.disabled || this.isTemplate || this.noLayouting) {
+        if (this.disabled || this.isTemplate || this.layout == "none") {
             return;
         }
         //this.validateLayout();
@@ -230,9 +229,16 @@ var Container = /** @class */ (function (_super) {
          * @return {List<Sprite>} List of child elements (Sprites)
          */
         get: function () {
+            var _this = this;
             // @todo Review if we can add all children to disposers
             if (!this._children) {
                 this._children = new List();
+                this._children.events.on("insert", function (event) {
+                    _this.dispatchImmediately("childadded", { type: "childadded", newValue: event.newValue });
+                });
+                this._children.events.on("insert", function (event) {
+                    _this.dispatchImmediately("childremoved", { type: "childremoved", newValue: event.newValue });
+                });
                 //this._disposers.push(new ListDisposer(this._children));
             }
             return this._children;
@@ -524,7 +530,9 @@ var Container = /** @class */ (function (_super) {
         // remove all children
         // TODO use iteration instead
         while (this.children.length > 0) {
-            this.children.getIndex(0).parent = undefined;
+            var child = this.children.getIndex(0);
+            child.parent = undefined;
+            this.children.removeValue(child);
         }
     };
     /**
@@ -536,8 +544,9 @@ var Container = /** @class */ (function (_super) {
     Container.prototype.disposeChildren = function () {
         // TODO use iteration instead
         while (this.children.length > 0) {
-            this.removeDispose(this.children.getIndex(0));
-            //this.children.getIndex(0).dispose();
+            var child = this.children.getIndex(0);
+            child.dispose();
+            this.children.removeValue(child);
         }
     };
     Object.defineProperty(Container.prototype, "background", {
@@ -588,8 +597,9 @@ var Container = /** @class */ (function (_super) {
         if (background) {
             background.isMeasured = false;
             this._background.fill = new InterfaceColorSet().getFor("background");
-            //background.zIndex = -Infinity;
-            //background.parent = this;
+            background.parent = this;
+            background.isMeasured = false;
+            this.children.removeValue(background);
             this._disposers.push(background);
         }
     };
@@ -1059,8 +1069,6 @@ var Container = /** @class */ (function (_super) {
             else {
                 background.height = measuredHeight + this.pixelPaddingTop + this.pixelPaddingBottom;
             }
-            //background.x = - this.pixelPaddingLeft + this.overflowX;
-            //background.y = - this.pixelPaddingTop + this.overflowY;
             background.x = this.overflowX;
             background.y = this.overflowY;
             this.group.addToBack(background.group);
@@ -1104,7 +1112,9 @@ var Container = /** @class */ (function (_super) {
         /**
          * Container layout.
          *
-         * Options: "absolute" (default), "vertical", "horizontal", or "grid".
+         * Options: "absolute" (default), "vertical", "horizontal", "grid", "none". "none" is quite the same as "absolute" - the objects will
+         * be positioned at their x, y coordinates, the difference is that with "absolute" you can still use align/valign for children and with "none" you can not.
+         * Use "none" as much as you can as it's most cpu-saving layout.
          *
          * @default "absolute"
          * @param {ContainerLayout} value Layout
@@ -1204,18 +1214,18 @@ var Container = /** @class */ (function (_super) {
      * Copies all properties from different Container, including background
      * clone.
      *
-     * @param {this}  source  Source COntainer to copy from
+     * @param {this}  source  Source Container to copy from
      */
     Container.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
         this.layout = source.layout;
-        this.noLayouting = source.noLayouting;
+        this.setStateOnChildren = source.setStateOnChildren;
         if (source._background) {
             this.background = source._background.clone();
         }
     };
     /**
-     * Clones the Container, including all of its children.
+     * Clones the Container, including all of its children, if cloneChildren is set to true.
      *
      * @return {this} New Container clone
      */
@@ -1247,7 +1257,7 @@ var Container = /** @class */ (function (_super) {
             }
         },
         /**
-         * Sets a [[Preloader]] instance to be used when COntainer is busy.
+         * Sets a [[Preloader]] instance to be used when Container is busy.
          *
          * @param {Preloader} preloader Preloader instance
          */
@@ -1314,6 +1324,37 @@ var Container = /** @class */ (function (_super) {
      */
     Container.prototype.getTooltipY = function () {
         return _super.prototype.getTooltipY.call(this) + this._containerOverflowY;
+    };
+    Container.prototype.dispose = function () {
+        this.disposeChildren();
+        _super.prototype.dispose.call(this);
+    };
+    /**
+     * Applies a [[SpriteState]] on this element.
+     *
+     * The first parameter can either be a name state or a [[SpriteState]]
+     * instance.
+     *
+     * When run, this method will apply SVG properties defined in a
+     * [[SpriteState]], but only those that are relevant to this particular
+     * element, i.e. are in the `properties` array.
+     *
+     * @see {@link SpriteState}
+     * @param {string | SpriteState} value               A state - name key or instance
+     * @param {number}               transitionDuration  Duration of the transition between current and new state
+     * @param {number) => number}    easing              An easing function
+     */
+    Container.prototype.setState = function (value, transitionDuration, easing) {
+        var stateName = value;
+        if (value instanceof SpriteState) {
+            stateName = value.name;
+        }
+        if (this.setStateOnChildren) {
+            $iter.each(this.children.iterator(), function (child) {
+                child.setState(stateName, transitionDuration, easing);
+            });
+        }
+        return _super.prototype.setState.call(this, value, transitionDuration, easing);
     };
     return Container;
 }(Sprite));

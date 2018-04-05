@@ -47,7 +47,8 @@ var AxisRendererCircular = /** @class */ (function (_super) {
         var _this = 
         // Init
         _super.call(this, axis) || this;
-        // axis.noLayouting = true; // does not trigger redraw when size changes
+        // axis.layout = "none"; // does not trigger redraw when size changes
+        _this.layout = "none";
         _this.className = "AxisRendererCircular";
         _this.isMeasured = false;
         _this.startAngle = -90;
@@ -57,14 +58,14 @@ var AxisRendererCircular = /** @class */ (function (_super) {
         _this.radius = percent(100);
         _this.isMeasured = false;
         axis.isMeasured = false;
-        axis.layout = "absolute";
         _this.grid.template.location = 0;
         _this.labels.template.location = 0;
         _this.labels.template.isMeasured = true;
+        _this.labels.template.radius = 15;
         _this.ticks.template.location = 0;
         _this.ticks.template.pixelPerfect = false;
         _this.tooltipLocation = 0;
-        _this.line.strokeOpacity = 0.15;
+        _this.line.strokeOpacity = 0;
         // modify x and y so that tooltip would always be on circle
         var tooltip = axis.tooltip;
         tooltip.adapter.add("dx", function (x, target) {

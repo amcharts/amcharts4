@@ -60,6 +60,7 @@ export { IBulletProperties, IBulletEvents, IBulletAdapters, Bullet } from "./.in
 export { IXYChartScrollbarProperties, IXYChartScrollbarEvents, IXYChartScrollbarAdapters, XYChartScrollbar } from "./.internal/charts/elements/XYChartScrollbar";
 export { NavigationBarDataItem, INavigationBarDataFields, INavigationBarProperties, INavigationBarEvents, INavigationBarAdapters, NavigationBar } from "./.internal/charts/elements/NavigationBar";
 export { ILabelBulletProperties, ILabelBulletEvents, ILabelBulletAdapters, LabelBullet } from "./.internal/charts/elements/LabelBullet";
+export { ICircleBulletProperties, ICircleBulletEvents, ICircleBulletAdapters, CircleBullet } from "./.internal/charts/elements/CircleBullet";
 /**
  * Elements: cursors
  */

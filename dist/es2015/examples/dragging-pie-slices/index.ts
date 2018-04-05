@@ -32,11 +32,19 @@ amcharts4.ready(function() {
 		"litres": 128.3
 	}];
 
+
 	// cointainer to hold both charts
 	let container = amcharts4.create("chartdiv", amcharts4.Container);
 	container.width = amcharts4.percent(100);
 	container.height = amcharts4.percent(100);
 	container.layout = "horizontal";
+
+	container.events.on("maxsizechanged", () => {
+		chart1.zIndex = 0;
+		separatorLine.zIndex = 1;
+		dragText.zIndex = 2;
+		chart2.zIndex = 3;
+	})
 
 	let chart1 = container.createChild(pie.PieChart);
 	chart1.data = data;

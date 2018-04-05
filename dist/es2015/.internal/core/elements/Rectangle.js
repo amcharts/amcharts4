@@ -53,7 +53,7 @@ var Rectangle = /** @class */ (function (_super) {
      */
     Rectangle.prototype.draw = function () {
         _super.prototype.draw.call(this);
-        var precision = 2;
+        var precision = this._positionPrecision;
         if (this.pixelPerfect) {
             precision = 0;
         }

@@ -45,7 +45,7 @@ var Slice = /** @class */ (function (_super) {
         _super.call(this) || this;
         _this.className = "Slice";
         // this is dumb container
-        _this.noLayouting = true;
+        _this.layout = "none";
         // Set defaults
         // @todo Override `measureElement` method and calculate size using math
         _this.isMeasured = false;

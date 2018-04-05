@@ -252,13 +252,13 @@ var PieSeries = /** @class */ (function (_super) {
         _this.colors.step = 1;
         _this.slicesContainer = _this.createChild(Container);
         _this.slicesContainer.isMeasured = false;
-        _this.slicesContainer.noLayouting = true;
+        _this.slicesContainer.layout = "none";
         _this.ticksContainer = _this.createChild(Container);
         _this.ticksContainer.isMeasured = false;
-        _this.ticksContainer.noLayouting = true;
+        _this.ticksContainer.layout = "none";
         _this.labelsContainer = _this.createChild(Container);
         _this.labelsContainer.isMeasured = false;
-        _this.labelsContainer.noLayouting = true;
+        _this.labelsContainer.layout = "none";
         _this.bulletsContainer.toFront();
         _this.initSlice(Slice);
         // Create tick list
@@ -269,9 +269,11 @@ var PieSeries = /** @class */ (function (_super) {
         // @todo create a labelText/labelHTML properties just like
         // tooltipText/tooltipHTML
         var label = new AxisLabelCircular();
-        label.text = "${category}: ${value.percent.formatNumber('#.0')}%";
+        label.text = "{category}: {value.percent.formatNumber('#.0')}%";
         label.isMeasured = false;
         label.radius = 25;
+        label.padding(5, 5, 5, 5);
+        label.renderingFrequency = 2;
         _this.labels = new ListTemplate(label);
         // Make all slices focusable
         _this.skipFocusThreshold = 50;
@@ -284,7 +286,7 @@ var PieSeries = /** @class */ (function (_super) {
         var hoverState = _this.slices.template.states.create("hover");
         hoverState.properties.scale = 1.05;
         // Accessibility
-        _this.itemReaderText = "${category}: ${value.percent.formatNumber('#.#')}%";
+        _this.itemReaderText = "{category}: {value.percent.formatNumber('#.#')}%";
         _this.applyTheme();
         return _this;
     }
@@ -318,7 +320,7 @@ var PieSeries = /** @class */ (function (_super) {
         slice.defaultState.properties.scale = 1;
         slice.observe("scale", this.handleSliceScale, this);
         slice.observe(["dx", "dy", "x", "y", "shiftRadius"], this.handleSliceMove, this);
-        slice.tooltipText = "${category}: ${value.percent.formatNumber('#.#')}% ({value.value})";
+        slice.tooltipText = "{category}: {value.percent.formatNumber('#.#')}% ({value.value})";
         // Create slice hover state
         var hoverState = slice.states.create("hover");
         var defaultState = slice.defaultState;

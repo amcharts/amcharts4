@@ -146,9 +146,9 @@ var Polyline = /** @class */ (function (_super) {
             }
             var positionAB = (position - positionA) / (positionB - positionA);
             var midPoint = $math.getMidPoint(pointA, pointB, positionAB);
-            return { x: midPoint.x, y: midPoint.y, rotation: deltaAngle + $math.getAngle(pointA, pointB) };
+            return { x: midPoint.x, y: midPoint.y, angle: deltaAngle + $math.getAngle(pointA, pointB) };
         }
-        return { x: 0, y: 0, rotation: 0 };
+        return { x: 0, y: 0, angle: 0 };
     };
     return Polyline;
 }(Sprite));

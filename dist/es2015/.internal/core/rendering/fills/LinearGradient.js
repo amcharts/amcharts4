@@ -72,14 +72,14 @@ var LinearGradient = /** @class */ (function (_super) {
      */
     LinearGradient.prototype.validate = function () {
         var _this = this;
-        var rotation = this._rotation * $math.RADIANS;
+        var rotation = (this._rotation + 90) * $math.RADIANS;
         var x1 = Math.round(50 + Math.sin(rotation + Math.PI) * 50) + '%';
         var y1 = Math.round(50 + Math.cos(rotation) * 50) + '%';
         var x2 = Math.round(50 + Math.sin(rotation) * 50) + '%';
         var y2 = Math.round(50 + Math.cos(rotation + Math.PI) * 50) + '%';
         var gradientElement = this.element;
         gradientElement.removeChildNodes();
-        //		gradientElement.attr({"x1": x1, "x2":x2, "y1": y1, "y2":y2});
+        gradientElement.attr({ "x1": x1, "x2": x2, "y1": y1, "y2": y2 });
         $iter.each($iter.indexed(this._stops.iterator()), function (a) {
             var i = a[0];
             var stop = a[1];
@@ -168,7 +168,7 @@ var LinearGradient = /** @class */ (function (_super) {
          * @param {number}  value  Rotation
          */
         set: function (value) {
-            this.element.attr({ "gradientTransform": "rotate(" + value + ")" });
+            //this.element.attr({ "gradientTransform": "rotate(" + value + " 10 100)" });
             this._rotation = value;
             this.validate();
         },

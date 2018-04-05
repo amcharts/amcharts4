@@ -861,10 +861,10 @@ var DateAxis = /** @class */ (function (_super) {
         return this.valueToPosition(date.getTime());
     };
     /**
-     * Converts a numeric timestamp or a `Date` to a pixel position on axis.
+     * Converts a numeric timestamp or a `Date` to a relative position on axis.
      *
      * @param  {Date | number}  date  Date or a timestamp
-     * @return {number}               Position (px)
+     * @return {number}               Relative position
      */
     DateAxis.prototype.anyToPosition = function (date) {
         if (date instanceof Date) {
@@ -872,6 +872,32 @@ var DateAxis = /** @class */ (function (_super) {
         }
         else {
             return this.valueToPosition(date);
+        }
+    };
+    /**
+     * Converts date to orientation point (x, y, angle) on axis
+     *
+     * @param  {Date}  date Date
+     * @return {IOrientationPoint} IOrientationPoint
+     */
+    DateAxis.prototype.dateToPoint = function (date) {
+        var position = this.dateToPosition(date);
+        var point = this.renderer.positionToPoint(position);
+        var angle = this.renderer.positionToAngle(position);
+        return { x: point.x, y: point.y, angle: angle };
+    };
+    /**
+     * Converts a numeric value to orientation (x, y, angle) point on axis
+     *
+     * @param  {number}  value  Value
+     * @return {IOrientationPoint}  Orientation point
+     */
+    DateAxis.prototype.anyToPoint = function (date) {
+        if (date instanceof Date) {
+            return this.dateToPoint(date);
+        }
+        else {
+            return this.valueToPoint(date);
         }
     };
     /**

@@ -33,7 +33,7 @@ export declare class LegendDataItem<T, E> extends DataItem {
      *
      * @type {Container}
      */
-    container: Container;
+    itemContainer: Container;
     /**
      * A [[Label]] element for the item label.
      *
@@ -297,23 +297,20 @@ export declare class Legend extends Component {
      * @deprecated Moved to prroperties
      */
     /**
-     * List of legend item containers.
+     * List of legend Item containers. Legend item containers contain marker, title label and value label.
      *
-     * @ignore Exclude from docs
      * @type {ListTemplate<Container>}
      */
-    containers: ListTemplate<Container>;
+    itemContainers: ListTemplate<Container>;
     /**
      * List of legend item labels.
      *
-     * @ignore Exclude from docs
      * @type {ListTemplate<Label>}
      */
     labels: ListTemplate<Label>;
     /**
      * List of legend item markers.
      *
-     * @ignore Exclude from docs
      * @type {ListTemplate<Container>}
      */
     markers: ListTemplate<Container>;

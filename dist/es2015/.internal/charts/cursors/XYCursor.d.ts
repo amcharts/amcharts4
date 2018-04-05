@@ -46,14 +46,14 @@ export interface IXYCursorProperties extends ICursorProperties {
      *
      * @type {boolean}
      */
-    fullWidthXLine?: boolean;
+    fullWidthLineX?: boolean;
     /**
      * Cursor's vertical line is expanded to take full width of the related
      * Axis' cell/category.
      *
      * @type {boolean}
      */
-    fullWidthYLine?: boolean;
+    fullWidthLineY?: boolean;
 }
 /**
  * Defines events for [[XYCursor]].
@@ -239,7 +239,7 @@ export declare class XYCursor extends Cursor {
      *
      * @param {boolean} value Full width?
      */
-    fullWidthXLine: boolean;
+    fullWidthLineX: boolean;
     /**
      * @return {boolean} Full width?
      */
@@ -252,7 +252,7 @@ export declare class XYCursor extends Cursor {
      *
      * @param {boolean} value Full width?
      */
-    fullWidthYLine: boolean;
+    fullWidthLineY: boolean;
     /**
      * @return {Axis} X axis
      */

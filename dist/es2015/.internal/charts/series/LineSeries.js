@@ -450,26 +450,34 @@ var LineSeries = /** @class */ (function (_super) {
             var fill = marker.createChild(Rectangle);
             fill.copyFrom(this);
             fill.width = w;
-            fill.height = h / 2;
-            fill.y = h / 2;
+            fill.height = h;
+            fill.y = 0;
             fill.strokeOpacity = 0;
             fill.visible = true;
+            line.y = 0;
         }
         $iter.eachContinue(this.bullets.iterator(), function (bullet) {
-            if (bullet.children.length == 1) {
-                if (bullet.children.getIndex(0) instanceof Label) {
-                    return true;
+            if (bullet.copyToLegendMarker) {
+                // do not copy bullets with labels
+                var hasLabels_1 = false;
+                $iter.each(bullet.children.iterator(), function (child) {
+                    if (child instanceof Label) {
+                        hasLabels_1 = true;
+                        return true;
+                    }
+                });
+                if (!hasLabels_1) {
+                    var clone = bullet.clone();
+                    clone.copyFrom(_this);
+                    clone.parent = marker;
+                    clone.isMeasured = true;
+                    clone.tooltipText = undefined;
+                    clone.x = w / 2;
+                    clone.y = h / 2;
+                    clone.visible = true;
+                    return false;
                 }
             }
-            var clone = bullet.clone();
-            clone.copyFrom(_this);
-            clone.parent = marker;
-            clone.isMeasured = true;
-            clone.tooltipText = undefined;
-            clone.x = w / 2;
-            clone.y = h / 2;
-            clone.visible = true;
-            return false;
         });
     };
     return LineSeries;

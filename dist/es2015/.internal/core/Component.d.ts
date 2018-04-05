@@ -31,6 +31,10 @@ export declare type CalculatedValue = "value" | "percent" | "change" | "changePe
  * Defines properties for [[Component]].
  */
 export interface IComponentProperties extends IContainerProperties {
+    /**
+     * maximum zoom factor of a component
+     */
+    maxZoomFactor?: number;
 }
 /**
  * Defines data fields for [[Component]].
@@ -245,13 +249,6 @@ export declare class Component extends Container {
      * @type {number}
      */
     protected _finalEnd: number;
-    /**
-     * [_maxZoomFactor description]
-     *
-     * @ignore Exclude from docs
-     * @type {number}
-     */
-    protected _maxZoomFactor: number;
     /**
      * If set to `true`, changing data range in element will not trigger
      * `daterangechanged` event.

@@ -70,7 +70,6 @@ valueAxis.min = 0;
 valueAxis.max = 3500;
 valueAxis.strictMinMax = true;
 valueAxis.renderer.line.disabled = true;
-valueAxis.renderer.ticks.template.disabled = true;
 valueAxis.renderer.minWidth = 40;
 
 // series

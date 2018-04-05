@@ -76,8 +76,10 @@ var SankeyNode = /** @class */ (function (_super) {
         _this.background.fillOpacity = 1;
         // @todo because we copy nameLabel and valueLabel in copyFrom, however if user adds custom items to Sankey node, they won't be cloned. 
         _this.cloneChildren = false;
-        //this.draggable = true;
-        //this.inert = true;
+        _this.pixelPerfect = false;
+        _this.background.pixelPerfect = false;
+        _this.draggable = true;
+        _this.inert = true;
         _this.events.on("positionchanged", _this.invalidateLinks, _this);
         var nameLabel = _this.createChild(LabelBullet);
         //@should we auto update these locations if position is changed?
@@ -160,11 +162,10 @@ var SankeyNode = /** @class */ (function (_super) {
                                 stop_1.color = _this.color;
                             }
                             stop_1.opacity = 0;
-                            link.stroke = link.gradient;
+                            link.fill = link.gradient;
                             link.gradient.validate();
                         }
                     }
-                    link.opacity = _this.opacity;
                     if (link.colorMode == "gradient") {
                         var stop_2 = link.gradient.stops.getIndex(1);
                         if (stop_2) {
@@ -215,7 +216,7 @@ var SankeyNode = /** @class */ (function (_super) {
                                 stop_3.color = _this.color;
                             }
                             stop_3.opacity = 0;
-                            link.stroke = link.gradient;
+                            link.fill = link.gradient;
                             link.gradient.validate();
                         }
                     }
@@ -260,8 +261,11 @@ var SankeyNode = /** @class */ (function (_super) {
                     if (_this.chart.sortBy == "name") {
                         _this._incomingSorted = $iter.sort(_this._incomingDataItems.iterator(), function (x, y) { return $string.order(x.fromName, y.fromName); });
                     }
-                    else {
+                    else if (_this.chart.sortBy == "value") {
                         _this._incomingSorted = $iter.sort(_this._incomingDataItems.iterator(), function (x, y) { return $order.reverse($number.order(x.value, y.value)); });
+                    }
+                    else {
+                        _this._incomingSorted = _this._incomingDataItems.iterator();
                     }
                 }, this);
                 this._incomingDataItems = incomingDataItems;
@@ -286,8 +290,11 @@ var SankeyNode = /** @class */ (function (_super) {
                     if (_this.chart.sortBy == "name") {
                         _this._outgoingSorted = $iter.sort(_this._outgoingDataItems.iterator(), function (x, y) { return $string.order(x.fromName, y.fromName); });
                     }
-                    else {
+                    else if (_this.chart.sortBy == "value") {
                         _this._outgoingSorted = $iter.sort(_this._outgoingDataItems.iterator(), function (x, y) { return $order.reverse($number.order(x.value, y.value)); });
+                    }
+                    else {
+                        _this._outgoingSorted = _this._outgoingDataItems.iterator();
                     }
                 }, this);
                 this._outgoingDataItems = outgoingDataItems;

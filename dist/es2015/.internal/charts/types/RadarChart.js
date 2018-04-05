@@ -104,7 +104,7 @@ var RadarChart = /** @class */ (function (_super) {
         var radarContainer = _this.plotContainer.createChild(Container);
         radarContainer.width = percent(100);
         radarContainer.height = percent(100);
-        radarContainer.noLayouting = true;
+        radarContainer.layout = "none";
         radarContainer.events.on("maxsizechanged", function () {
             _this.invalidate();
         });
@@ -138,6 +138,7 @@ var RadarChart = /** @class */ (function (_super) {
         _super.prototype.processAxis.call(this, axis);
         var renderer = axis.renderer;
         renderer.gridContainer.parent = renderer;
+        renderer.breakContainer.parent = renderer;
         axis.parent = this.radarContainer;
         renderer.toBack();
     };

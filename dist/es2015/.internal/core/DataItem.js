@@ -303,7 +303,10 @@ var DataItem = /** @class */ (function (_super) {
             });
         }
         $array.each(this.sprites, function (sprite) {
-            sprite.show(duration);
+            var animation = sprite.show(duration);
+            if (delay > 0 && animation && !animation.isDisposed()) {
+                animation.delay(delay);
+            }
         });
         this._visible = true;
         return animation;
@@ -327,7 +330,10 @@ var DataItem = /** @class */ (function (_super) {
         var _this = this;
         this.isHiding = true;
         $array.each(this.sprites, function (sprite) {
-            sprite.hide(duration);
+            var animation = sprite.hide(duration);
+            if (delay > 0 && animation && !animation.isDisposed()) {
+                animation.delay(delay);
+            }
         });
         if ($type.isNumber(toValue) && fields) {
             var animation_1;

@@ -306,3 +306,7 @@ export declare function getArcRect(startAngle: number, endAngle: number, radius?
  * @return {boolean}
  */
 export declare function isInRectangle(point: IPoint, rectangle: IRectangle): boolean;
+export declare function getLineIntersection(pointA1: IPoint, pointA2: IPoint, pointB1: IPoint, pointB2: IPoint): {
+    x: number;
+    y: number;
+};

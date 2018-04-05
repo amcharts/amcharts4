@@ -11,6 +11,7 @@ export { SerialChartDataItem, ISerialChartDataFields, ISerialChartProperties, IS
  */
 export { ChartDataItem, IChartDataFields, IChartProperties, IChartEvents, IChartAdapters, Chart } from "./.internal/charts/Chart";
 export { LegendDataItem, LegendPosition, ILegendDataFields, ILegendProperties, ILegendEvents, ILegendAdapters, ILegendItem, Legend, LegendSettings } from "./.internal/charts/Legend";
+export { IHeatLegendProperties, IHeatLegendEvents, IHeatLegendAdapters, HeatLegend } from "./.internal/charts/elements/HeatLegend";
 /**
  * Elements: series
  */
@@ -20,6 +21,7 @@ export { LineSeriesDataItem, ILineSeriesDataFields, ILineSeriesProperties, ILine
 export { ILineSeriesSegmentPropertiess, ILineSeriesSegmentEvents, ILineSeriesSegmentAdapters, LineSeriesSegment } from "./.internal/charts/series/LineSeriesSegment";
 export { CandlestickSeriesDataItem, ICandlestickSeriesDataFields, ICandlestickSeriesProperties, ICandlestickSeriesEvents, ICandlestickSeriesAdapters, CandlestickSeries } from "./.internal/charts/series/CandlestickSeries";
 export { ColumnSeriesDataItem, IColumnSeriesDataFields, IColumnSeriesProperties, IColumnSeriesEvents, IColumnSeriesAdapters, ColumnSeries } from "./.internal/charts/series/ColumnSeries";
+export { HeatMapSeriesDataItem, IHeatMapSeriesDataFields, IHeatMapSeriesProperties, IHeatMapSeriesEvents, IHeatMapSeriesAdapters, HeatMapSeries } from "./.internal/charts/series/HeatMapSeries";
 export { StepLineSeriesDataItem, IStepLineSeriesDataFields, IStepLineSeriesProperties, IStepLineSeriesEvents, IStepLineSeriesAdapters, StepLineSeries } from "./.internal/charts/series/StepLineSeries";
 /**
  * Elements: axes
@@ -46,6 +48,7 @@ export { IAxisRendererYProperties, IAxisRendererYEvents, IAxisRendererYAdapters,
 export { ITickProperties, ITickEvents, ITickAdapters, Tick } from "./.internal/charts/elements/Tick";
 export { IBulletProperties, IBulletEvents, IBulletAdapters, Bullet } from "./.internal/charts/elements/Bullet";
 export { ILabelBulletProperties, ILabelBulletEvents, ILabelBulletAdapters, LabelBullet } from "./.internal/charts/elements/LabelBullet";
+export { ICircleBulletProperties, ICircleBulletEvents, ICircleBulletAdapters, CircleBullet } from "./.internal/charts/elements/CircleBullet";
 export { IXYChartScrollbarProperties, IXYChartScrollbarEvents, IXYChartScrollbarAdapters, XYChartScrollbar } from "./.internal/charts/elements/XYChartScrollbar";
 /**
  * Elements: cursors

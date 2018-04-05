@@ -80,14 +80,14 @@ var SerialChart = /** @class */ (function (_super) {
         seriesContainer.width = percent(100);
         seriesContainer.height = percent(100);
         seriesContainer.isMeasured = false;
-        seriesContainer.noLayouting = true;
+        seriesContainer.layout = "none";
         _this.seriesContainer = seriesContainer;
         // Create a container for bullets
         var bulletsContainer = _this.chartContainer.createChild(Container);
         bulletsContainer.width = percent(100);
         bulletsContainer.height = percent(100);
         bulletsContainer.isMeasured = false;
-        bulletsContainer.noLayouting = true;
+        bulletsContainer.layout = "none";
         _this.bulletsContainer = bulletsContainer;
         // Apply theme
         _this.applyTheme();

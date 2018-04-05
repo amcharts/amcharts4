@@ -180,14 +180,14 @@ export interface ILabelAdapters extends IContainerAdapters, ILabelProperties {
  *
  * ```TypeScript
  * label.dataItem = myDataItem;
- * label.text = "The title is: ${title}";
+ * label.text = "The title is: {title}";
  * ```
  * ```JavaScript
  * label.dataItem = myDataItem;
- * label.text = "The title is: ${title}";
+ * label.text = "The title is: {title}";
  * ```
  *
- * The above will atuomatically replace "${title}" in the string with the
+ * The above will atuomatically replace "{title}" in the string with the
  * actual data value from `myDataItem`.
  *
  *
@@ -251,6 +251,12 @@ export declare class Label extends Container {
      * Constructor
      */
     constructor();
+    /**
+     * [arrange description]
+     *
+     * @ignore Exclude from docs
+     * @todo Description
+     */
     arrange(): void;
     /**
      * Updates current text according to data item and supported features.

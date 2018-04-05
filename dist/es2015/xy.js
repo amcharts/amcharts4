@@ -11,6 +11,7 @@ export { SerialChartDataItem, SerialChart } from "./.internal/charts/types/Seria
  */
 export { ChartDataItem, Chart } from "./.internal/charts/Chart";
 export { LegendDataItem, Legend, LegendSettings } from "./.internal/charts/Legend";
+export { HeatLegend } from "./.internal/charts/elements/HeatLegend";
 /**
  * Elements: series
  */
@@ -20,6 +21,7 @@ export { LineSeriesDataItem, LineSeries } from "./.internal/charts/series/LineSe
 export { LineSeriesSegment } from "./.internal/charts/series/LineSeriesSegment";
 export { CandlestickSeriesDataItem, CandlestickSeries } from "./.internal/charts/series/CandlestickSeries";
 export { ColumnSeriesDataItem, ColumnSeries } from "./.internal/charts/series/ColumnSeries";
+export { HeatMapSeriesDataItem, HeatMapSeries } from "./.internal/charts/series/HeatMapSeries";
 export { StepLineSeriesDataItem, StepLineSeries } from "./.internal/charts/series/StepLineSeries";
 /**
  * Elements: axes
@@ -46,6 +48,7 @@ export { AxisRendererY } from "./.internal/charts/axes/AxisRendererY";
 export { Tick } from "./.internal/charts/elements/Tick";
 export { Bullet } from "./.internal/charts/elements/Bullet";
 export { LabelBullet } from "./.internal/charts/elements/LabelBullet";
+export { CircleBullet } from "./.internal/charts/elements/CircleBullet";
 export { XYChartScrollbar } from "./.internal/charts/elements/XYChartScrollbar";
 /**
  * Elements: cursors

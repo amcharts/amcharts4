@@ -21,6 +21,7 @@ import { Series, SeriesDataItem } from "../series/Series";
 import { system } from "../../core/System";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
+import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 /**
  * ============================================================================
  * DATA ITEM
@@ -117,6 +118,7 @@ var MapSeries = /** @class */ (function (_super) {
         _this.className = "MapSeries";
         // Set defaults
         _this.isMeasured = false;
+        _this.minColor = new InterfaceColorSet().getFor("background");
         _this.nonScalingStroke = true;
         // Set data fields
         _this.dataFields.value = "value";
@@ -157,6 +159,19 @@ var MapSeries = /** @class */ (function (_super) {
             }
         });
         this.chart.updateExtremes();
+    };
+    /**
+     * (Re)validates the series
+     *
+     * @ignore Exclude from docs
+     */
+    MapSeries.prototype.validate = function () {
+        if (this.minValue != this._prevMin || this.maxValue != this._prevMax) {
+            this.dispatchImmediately("valueextremeschanged");
+            this._prevMin = this.minValue;
+            this._prevMax = this.maxValue;
+        }
+        _super.prototype.validate.call(this);
     };
     /**
      * Checks whether object should be included in series.
@@ -250,12 +265,12 @@ var MapSeries = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(MapSeries.prototype, "max", {
+    Object.defineProperty(MapSeries.prototype, "maxValue", {
         /**
          * @return {number} Highest value
          */
         get: function () {
-            var max = this._max;
+            var max = this._maxValue;
             if ($type.isNumber(max)) {
                 return max;
             }
@@ -277,18 +292,18 @@ var MapSeries = /** @class */ (function (_super) {
          * @param {number}  value  Highest value
          */
         set: function (value) {
-            this._max = value;
+            this._maxValue = value;
             this.invalidateData();
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(MapSeries.prototype, "min", {
+    Object.defineProperty(MapSeries.prototype, "minValue", {
         /**
          * @return {number} Lowest value
          */
         get: function () {
-            var min = this._min;
+            var min = this._minValue;
             if ($type.isNumber(min)) {
                 return min;
             }
@@ -310,7 +325,7 @@ var MapSeries = /** @class */ (function (_super) {
          * @param {number}  value  Lowest value
          */
         set: function (value) {
-            this._min = value;
+            this._minValue = value;
             this.invalidateData();
         },
         enumerable: true,

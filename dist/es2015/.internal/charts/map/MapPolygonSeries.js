@@ -25,6 +25,7 @@ import * as $mapUtils from "./MapUtils";
 import * as $array from "../../core/utils/Array";
 import * as $utils from "../../core/utils/Utils";
 import * as $iter from "../../core/utils/Iterator";
+import * as $type from "../../core/utils/Type";
 import * as $colors from "../../core/utils/Colors";
 /**
  * ============================================================================
@@ -264,8 +265,10 @@ var MapPolygonSeries = /** @class */ (function (_super) {
             var dataItem = polygon.dataItem;
             if (dataItem && dataItem.value) {
                 var series = dataItem.component;
-                var percent = (dataItem.value - series.min) / (series.max - series.min);
-                polygon.fill = $colors.interpolate(series.minColor, series.maxColor, percent);
+                if ($type.hasValue(series.minColor) && $type.hasValue(series.maxColor) && $type.isNumber(series.minValue) && $type.isNumber(series.maxValue)) {
+                    var percent = (dataItem.value - series.minValue) / (series.maxValue - series.minValue);
+                    polygon.fill = $colors.interpolate(series.minColor, series.maxColor, percent);
+                }
             }
         };
         _this.parsingStepDuration = 5000; // to avoid some extra redrawing

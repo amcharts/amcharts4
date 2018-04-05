@@ -204,6 +204,19 @@ export declare class XYSeriesDataItem extends SeriesDataItem {
     getMax(fields: string[], working?: boolean, stackValue?: number): number;
 }
 /**
+ * Defines property set for a [[XYSeries]] tooltip event that contains information about dataItem
+ *
+ * @type {Object}
+ */
+export declare type XYSeriesTooltipEvent = {
+    /**
+     * Shift in coordinates after dragging.
+     *
+     * @type {XYSeriesDataItem}
+     */
+    dataItem: XYSeriesDataItem;
+};
+/**
  * ============================================================================
  * REQUISITES
  * ============================================================================
@@ -339,6 +352,10 @@ export interface IXYSeriesProperties extends ISeriesProperties {
  * Defines events for [[XYSeries]].
  */
 export interface IXYSeriesEvents extends ISeriesEvents {
+    /**
+     * Invoked when series tooltip was shown on some particular data item
+     */
+    tooltipshownat: XYSeriesTooltipEvent;
 }
 /**
  * Defines adapters for [[XYSeries]].
@@ -505,6 +522,11 @@ export declare class XYSeries extends Series {
      * @type {XYSeries}
      */
     stackedSeries: XYSeries;
+    /**
+     * dataitem of previously shown tooltip, used to avoid multiple tooltipshownat dispatches
+     * @ignore
+     */
+    protected _prevTooltipDataItem: XYSeriesDataItem;
     /**
      * Constructor
      */
@@ -822,7 +844,7 @@ export declare class XYSeries extends Series {
      * [getPoint description]
      *
      * @todo Description
-     * @param {SeriesDataItem}  dataItem   [description]
+     * @param {XYSeriesDataItem}  dataItem   [description]
      * @param {string}          xKey       [description]
      * @param {string}          yKey       [description]
      * @param {number}          locationX  [description]
@@ -830,7 +852,7 @@ export declare class XYSeries extends Series {
      * @param {string}          stackKeyX  [description]
      * @param {string}          stackKeyY  [description]
      */
-    protected getPoint(dataItem: SeriesDataItem, xKey: string, yKey: string, locationX?: number, locationY?: number, stackKeyX?: string, stackKeyY?: string): {
+    protected getPoint(dataItem: XYSeriesDataItem, xKey: string, yKey: string, locationX?: number, locationY?: number, stackKeyX?: string, stackKeyY?: string): {
         x: number;
         y: number;
     };

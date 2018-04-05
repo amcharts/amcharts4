@@ -1,43 +1,56 @@
-import * as AmCharts4 from "@amcharts/amcharts4";
-import * as XY from "@amcharts/amcharts4/xy";
+import { Component } from "@angular/core";
+import * as amcharts4 from "@amcharts/amcharts4";
+import * as xy from "@amcharts/amcharts4/xy";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
-import { Component } from '@angular/core';
+
+amcharts4.system.commercialLicense = true;
+
+amcharts4.useTheme(AnimatedTheme);
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: "app-root",
+  template: `<div id="chartdiv" style="width: 100%; height: 500px;"></div>`
 })
 export class AppComponent {
-  title = 'app';
+  private chart: xy.XYChart;
 
   ngAfterViewInit() {
-	AmCharts4.useTheme(AnimatedTheme);
+    let chart = amcharts4.create("chartdiv", xy.XYChart);
+    chart.paddingRight = 20;
 
-	let chart = AmCharts4.create("chartdiv", XY.XYChart);
+    let data = [];
+    let visits = 10;
+    for (let i = 1; i < 366; i++) {
+      visits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
+      data.push({ date: new Date(2018, 0, i), name: "name" + i, value: visits });
+    }
 
-	let data = [];
-	let visits = 10;
-	for (let i = 0; i < 1000; i++) {
-		visits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-		data.push({ date: new Date(2000, 1, i), name: "name" + i, value: visits });
-	}
+    chart.data = data;
 
-	chart.data = data;
-	chart.legend.disabled = true;
+    let dateAxis = chart.xAxes.push(new xy.DateAxis());
+    dateAxis.renderer.grid.template.location = 0;
 
-	let categoryAxis = chart.xAxes.push(new XY.DateAxis());
-	categoryAxis.renderer.grid.template.location = 0;
+    let valueAxis = chart.yAxes.push(new xy.ValueAxis());
+    valueAxis.tooltip.disabled = true;
+    valueAxis.renderer.minWidth = 35;
 
-	let valueAxis = chart.yAxes.push(new XY.ValueAxis());
-	valueAxis.tooltip.disabled = true;
+    let series = chart.series.push(new xy.LineSeries());
+    series.dataFields.dateX = "date";
+    series.dataFields.valueY = "value";
 
-	let series = chart.series.push(new XY.LineSeries());
-	series.dataFields.dateX = "date";
-	series.dataFields.valueY = "value";
+    series.tooltipText = "{valueY.value}";
+    chart.cursor = new xy.XYCursor();
 
-	series.tooltipText = "{valueY.value}";
-	chart.cursor = new XY.XYCursor();
-	chart.scrollbarX = new AmCharts4.Scrollbar();
+    let scrollbarX = new xy.XYChartScrollbar();
+    scrollbarX.series.push(series);
+    chart.scrollbarX = scrollbarX;
+
+    this.chart = chart;
+  }
+
+  ngOnDestroy() {
+    if (this.chart) {
+      this.chart.dispose();
+    }
   }
 }

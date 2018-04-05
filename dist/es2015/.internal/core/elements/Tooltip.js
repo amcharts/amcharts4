@@ -52,7 +52,7 @@ var Tooltip = /** @class */ (function (_super) {
          *
          * @type {IRectangle}
          */
-        _this._boundingRect = { x: -20000, y: -20000, width: 40000, height: 40000 };
+        _this._boundingRect = { x: 0, y: 0, width: 40000, height: 40000 };
         /**
          * Coordinates tolltip's pointer (stem) should point to.
          *

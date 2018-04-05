@@ -15,6 +15,7 @@ export { LegendDataItem, Legend, LegendSettings } from "./.internal/charts/Legen
  */
 export { SankeyNode } from "./.internal/charts/elements/SankeyNode";
 export { LabelBullet } from "./.internal/charts/elements/LabelBullet";
+export { CircleBullet } from "./.internal/charts/elements/CircleBullet";
 export { Bullet } from "./.internal/charts/elements/Bullet";
 export { SankeyLink } from "./.internal/charts/elements/SankeyLink";
 //# sourceMappingURL=sankey.js.map

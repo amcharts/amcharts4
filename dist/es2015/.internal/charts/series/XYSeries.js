@@ -495,6 +495,11 @@ var XYSeries = /** @class */ (function (_super) {
         if (this.stacked && this.baseAxis == this.yAxis) {
             this._yOpenField = yField;
         }
+        if ((this.xAxis instanceof CategoryAxis) && (this.yAxis instanceof CategoryAxis)) {
+            if (!this._yOpenField) {
+                this._yOpenField = yField;
+            }
+        }
         this._xValueFields = [];
         this._yValueFields = [];
         this.addValueField(this.xAxis, this._xValueFields, this._xField);
@@ -813,10 +818,20 @@ var XYSeries = /** @class */ (function (_super) {
                 var tooltipXField = this.tooltipXField;
                 var tooltipYField = this.tooltipYField;
                 var tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, dataItem.locations[tooltipXField], dataItem.locations[tooltipYField]);
-                this.tooltipX = tooltipPoint.x;
-                this.tooltipY = tooltipPoint.y;
-                if (this.showTooltip()) {
-                    return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
+                if (tooltipPoint) {
+                    this.tooltipX = tooltipPoint.x;
+                    this.tooltipY = tooltipPoint.y;
+                    if (this._prevTooltipDataItem != dataItem) {
+                        this.dispatchImmediately("tooltipshownat", {
+                            type: "tooltipshownat",
+                            target: this,
+                            dataItem: dataItem
+                        });
+                    }
+                    if (this.showTooltip()) {
+                        return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
+                    }
+                    return;
                 }
             }
         }
@@ -847,17 +862,22 @@ var XYSeries = /** @class */ (function (_super) {
             var bulletLocationX = this.getBulletLocationX(bullet, xField);
             var bulletLocationY = this.getBulletLocationX(bullet, yField);
             var point = this.getPoint(dataItem, xField, yField, bulletLocationX, bulletLocationY);
-            var x = point.x;
-            var y = point.y;
-            if ($type.isNumber(bullet.locationX)) {
-                var openX = this.xAxis.getX(dataItem, this.xOpenField);
-                x = x - (x - openX) * bullet.locationX;
+            if (point) {
+                var x = point.x;
+                var y = point.y;
+                if ($type.isNumber(bullet.locationX) && this.xOpenField != this.xField) {
+                    var openX = this.xAxis.getX(dataItem, this.xOpenField);
+                    x = x - (x - openX) * bullet.locationX;
+                }
+                if ($type.isNumber(bullet.locationY) && this.yOpenField != this.yField) {
+                    var openY = this.yAxis.getY(dataItem, this.yOpenField);
+                    y = y - (y - openY) * bullet.locationY;
+                }
+                bullet.moveTo({ x: x, y: y });
             }
-            if ($type.isNumber(bullet.locationY)) {
-                var openY = this.yAxis.getY(dataItem, this.yOpenField);
-                y = y - (y - openY) * bullet.locationY;
+            else {
+                bullet.visible = false;
             }
-            bullet.moveTo({ x: x, y: y });
         }
     };
     /**
@@ -995,24 +1015,24 @@ var XYSeries = /** @class */ (function (_super) {
                 value = yAxis.min;
             }
         }
-        if ($type.hasValue(fields)) {
-            var startIndex_1 = this.startIndex;
-            var endIndex_1 = this.endIndex;
-            $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
-                var i = a[0];
-                var dataItem = a[1];
-                var delay = 0;
-                if (_this.sequencedInterpolation) {
-                    delay = _this.sequencedInterpolationDelay * i + duration * (i - startIndex_1) / (endIndex_1 - startIndex_1);
-                }
-                var realDuration = duration;
-                // to avoid animation of non visible items
-                if (i < startIndex_1 || i > endIndex_1) {
-                    realDuration = 0;
-                }
-                dataItem.hide(realDuration, delay, value, fields);
-            });
-        }
+        //if ($type.hasValue(fields)) {
+        var startIndex = this.startIndex;
+        var endIndex = this.endIndex;
+        $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
+            var i = a[0];
+            var dataItem = a[1];
+            var delay = 0;
+            if (_this.sequencedInterpolation) {
+                delay = _this.sequencedInterpolationDelay * i + duration * (i - startIndex) / (endIndex - startIndex);
+            }
+            var realDuration = duration;
+            // to avoid animation of non visible items
+            if (i < startIndex || i > endIndex) {
+                realDuration = 0;
+            }
+            dataItem.hide(realDuration, delay, value, fields);
+        });
+        //}
         return animation;
     };
     /**
@@ -1275,7 +1295,7 @@ var XYSeries = /** @class */ (function (_super) {
      * [getPoint description]
      *
      * @todo Description
-     * @param {SeriesDataItem}  dataItem   [description]
+     * @param {XYSeriesDataItem}  dataItem   [description]
      * @param {string}          xKey       [description]
      * @param {string}          yKey       [description]
      * @param {number}          locationX  [description]

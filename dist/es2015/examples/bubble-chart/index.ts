@@ -5,7 +5,6 @@ import DarkTheme from "@amcharts/amcharts4/themes/dark";
 
 
 amcharts4.useTheme(AnimatedTheme);
-
 amcharts4.useTheme(DarkTheme);
 
 let chart = amcharts4.create("chartdiv", xy.XYChart);

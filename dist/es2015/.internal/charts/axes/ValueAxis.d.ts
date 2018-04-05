@@ -10,7 +10,7 @@
 import { Axis, AxisDataItem, IAxisProperties, IAxisDataFields, IAxisAdapters, IAxisEvents } from "./Axis";
 import { AxisRenderer } from "./AxisRenderer";
 import { List } from "../../core/utils/List";
-import { IPoint } from "../../core/defs/IPoint";
+import { IPoint, IOrientationPoint } from "../../core/defs/IPoint";
 import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { IDisposer } from "../../core/utils/Disposer";
 import { SerialChart } from "../types/SerialChart";
@@ -444,23 +444,37 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      */
     baseValue: number;
     /**
-     * Converts a numeric value to a pixel coordinate.
+     * Converts a numeric value to relative position on axis
      *
      * An alias to `valueToPosition()`.
      *
      * @param  {number}  value  Value
-     * @return {number}         Position (px)
+     * @return {number}         Position
      */
     anyToPosition(value: number): number;
     /**
-     * Converts a numeric value to a pixel coordinate.
+     * Converts a numeric value to orientation point (x, y, angle) on axis
      *
      * @param  {number}  value  Value
-     * @return {number}         Position (px)
+     * @return {IOrientationPoint}  Orientation point
+     */
+    valueToPoint(value: number): IOrientationPoint;
+    /**
+     * Converts a numeric value to orientation (x, y, angle) point on axis
+     *
+     * @param  {number}  value  Value
+     * @return {IOrientationPoint}  Orientation point
+     */
+    anyToPoint(value: number): IOrientationPoint;
+    /**
+     * Converts a numeric value to relative position on axis.
+     *
+     * @param  {number}  value  Value
+     * @return {number}  relative position
      */
     valueToPosition(value: number): number;
     /**
-     * Converts an absolute position in pixels to a corresponding value within
+     * Converts an relative position to a corresponding value within
      * axis' scale.
      *
      * @param  {number}  position  Position (px)
@@ -658,7 +672,7 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @param  {string}            stackKey  Stack ID
      * @return {number}                      Angle
      */
-    getAngle(dataItem: XYSeriesDataItem, key: string, location: number, stackKey?: string): number;
+    getAngle(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number;
     /**
      * [getAnyRangePath description]
      *
@@ -714,4 +728,10 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @return {string}            Position label
      */
     getPositionLabel(position: number): string;
+    /**
+     * Shows Axis tooltip at specific value
+     *
+     * @param {number} value Value
+     */
+    showTooltipAt(value: number): void;
 }

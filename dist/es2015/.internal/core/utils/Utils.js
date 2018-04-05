@@ -775,6 +775,17 @@ export function spritePointToSvg(point, sprite) {
     return { x: x, y: y };
 }
 /**
+ * Converts coordinates of one sprite to another.
+ *
+ * @param  {IPoint}  point   Sprite coordinates
+ * @param  {Sprite}  sprite  Sprite
+ * @param  {Sprite}  toSprite  Sprite
+ * @return {IPoint}  converted coordinates
+ */
+export function spritePointToSprite(point, sprite, toSprite) {
+    return svgPointToSprite(spritePointToSvg(point, sprite), toSprite);
+}
+/**
  * Converts a rectangle expressed in SVG element coordinates to coordinates
  * within specific [[Sprite]].
  *

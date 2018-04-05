@@ -45,6 +45,8 @@ var Bullet = /** @class */ (function (_super) {
         _this.isMeasured = false;
         _this.tooltipX = 0;
         _this.tooltipY = 0;
+        _this.layout = "none";
+        _this.copyToLegendMarker = true;
         return _this;
     }
     Object.defineProperty(Bullet.prototype, "locationX", {
@@ -60,7 +62,7 @@ var Bullet = /** @class */ (function (_super) {
          * @param {number}  value  Location (0-1)
          */
         set: function (value) {
-            this.setPropertyValue("locationX", value, true);
+            this.setPropertyValue("locationX", value, false, true);
         },
         enumerable: true,
         configurable: true
@@ -78,7 +80,7 @@ var Bullet = /** @class */ (function (_super) {
          * @param {number}  value  Location (0-1)
          */
         set: function (value) {
-            this.setPropertyValue("locationY", value, true);
+            this.setPropertyValue("locationY", value, false, true);
         },
         enumerable: true,
         configurable: true
@@ -145,6 +147,25 @@ var Bullet = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("isDynamic", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Bullet.prototype, "copyToLegendMarker", {
+        /**
+         * @return {boolean} Redraw on data change?
+         */
+        get: function () {
+            return this.getPropertyValue("copyToLegendMarker");
+        },
+        /**
+         * Indicates if the bullet should be copied to legend marker
+         *
+         * @default false
+         * @param {boolean}  value  Redraw on data change?
+         */
+        set: function (value) {
+            this.setPropertyValue("copyToLegendMarker", value);
         },
         enumerable: true,
         configurable: true

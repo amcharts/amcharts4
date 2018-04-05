@@ -31,7 +31,9 @@ export { AxisBreak } from "./.internal/charts/axes/AxisBreak";
  */
 export { Tick } from "./.internal/charts/elements/Tick";
 export { Bullet } from "./.internal/charts/elements/Bullet";
+export { HeatLegend } from "./.internal/charts/elements/HeatLegend";
 export { LabelBullet } from "./.internal/charts/elements/LabelBullet";
+export { CircleBullet } from "./.internal/charts/elements/CircleBullet";
 /**
  * Elements: map
  */

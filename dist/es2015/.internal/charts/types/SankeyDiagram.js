@@ -96,7 +96,7 @@ var SankeyDiagramDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(SankeyDiagramDataItem.prototype, "toName", {
         /**
-         * @return {string} Name
+         * @return {string} name
          */
         get: function () {
             return this.properties.toName;
@@ -108,6 +108,24 @@ var SankeyDiagramDataItem = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setProperty("toName", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SankeyDiagramDataItem.prototype, "color", {
+        /**
+         * @return {string} color
+         */
+        get: function () {
+            return this.properties.color;
+        },
+        /**
+         * Node color
+         *
+         * @param {string}  value  Name
+         */
+        set: function (value) {
+            this.setProperty("color", $type.toColor(value));
         },
         enumerable: true,
         configurable: true
@@ -203,18 +221,23 @@ var SankeyDiagram = /** @class */ (function (_super) {
         _this.valueHeight = 0;
         _this.className = "SankeyDiagram";
         _this.nodePadding = 20;
-        _this.sortBy = "name";
+        _this.sortBy = "none";
         _this.orientation = "horizontal";
         _this.sequencedInterpolation = true;
+        _this.nodeAlign = "middle";
         _this.colors.step = 2;
         var linksContainer = _this.chartContainer.createChild(Container);
         linksContainer.width = percent(100);
         linksContainer.height = percent(100);
+        linksContainer.layout = "none";
+        linksContainer.isMeasured = false;
         _this.linksContainer = linksContainer;
         _this.linksContainer.id = "linksContainer";
         var nodesContainer = _this.chartContainer.createChild(Container);
         nodesContainer.width = percent(100);
         nodesContainer.height = percent(100);
+        nodesContainer.layout = "none";
+        nodesContainer.isMeasured = false;
         _this.nodesContainer = nodesContainer;
         // Apply theme
         _this.applyTheme();
@@ -238,24 +261,28 @@ var SankeyDiagram = /** @class */ (function (_super) {
         $iter.each(this.dataItems.iterator(), function (dataItem) {
             var fromName = dataItem.fromName;
             if (fromName) {
-                if (!_this.nodes.getKey(fromName)) {
-                    var node = _this.nodes.create(fromName);
-                    node.color = _this.colors.next();
+                var node = _this.nodes.getKey(fromName);
+                if (!node) {
+                    node = _this.nodes.create(fromName);
                     node.name = fromName;
                     node.chart = _this;
                 }
-                dataItem.fromNode = _this.nodes.getKey(fromName);
+                dataItem.addSprite(node);
+                dataItem.fromNode = node;
                 dataItem.fromNode.outgoingDataItems.push(dataItem);
             }
             var toName = dataItem.toName;
             if (toName) {
-                if (!_this.nodes.getKey(toName)) {
-                    var node = _this.nodes.create(toName);
-                    node.color = _this.colors.next();
+                var node = _this.nodes.getKey(toName);
+                if (!node) {
+                    node = _this.nodes.create(toName);
                     node.name = toName;
                     node.chart = _this;
+                    if (!node.dataItem) {
+                        dataItem.addSprite(node);
+                    }
                 }
-                dataItem.toNode = _this.nodes.getKey(toName);
+                dataItem.toNode = node;
                 dataItem.toNode.incomingDataItems.push(dataItem);
             }
             if (!dataItem.fromNode) {
@@ -272,6 +299,12 @@ var SankeyDiagram = /** @class */ (function (_super) {
         this._levelCount = 0;
         $iter.each(this.nodes.iterator(), function (strNode) {
             var node = strNode[1];
+            if (node.color == undefined) {
+                node.color = _this.colors.next();
+            }
+            if (node.dataItem.color != undefined) {
+                node.color = node.dataItem.color;
+            }
             node.level = _this.getNodeLevel(node, 0);
             _this._levelCount = $math.max(_this._levelCount, node.level);
         });
@@ -304,8 +337,11 @@ var SankeyDiagram = /** @class */ (function (_super) {
         if (this.sortBy == "name") {
             this._sorted = this.nodes.sortedIterator();
         }
-        else {
+        else if (this.sortBy == "value") {
             this._sorted = $iter.sort(this.nodes.iterator(), function (x, y) { return $order.reverse($number.order(x[1].value, y[1].value)); });
+        }
+        else {
+            this._sorted = this.nodes.iterator();
         }
     };
     /**
@@ -351,10 +387,10 @@ var SankeyDiagram = /** @class */ (function (_super) {
         var maxSumLevelNodeCount = this._levelNodesCount[maxSumLevel];
         var availableHeight;
         if (this.orientation == "horizontal") {
-            availableHeight = this.chartContainer.maxHeight;
+            availableHeight = this.chartContainer.maxHeight - 1;
         }
         else {
-            availableHeight = this.chartContainer.maxWidth;
+            availableHeight = this.chartContainer.maxWidth - 1;
         }
         this.valueHeight = (availableHeight - (maxSumLevelNodeCount - 1) * this.nodePadding) / this.maxSum;
     };
@@ -390,11 +426,30 @@ var SankeyDiagram = /** @class */ (function (_super) {
         var container = this.nodesContainer;
         container.removeChildren();
         var nextCoordinate = {};
+        var nodesInLevel = [];
+        $iter.each(this._sorted, function (strNode) {
+            var node = strNode[1];
+            var level = node.level;
+            if (!$type.isNumber(nodesInLevel[level])) {
+                nodesInLevel[level] = 1;
+            }
+            else {
+                nodesInLevel[level]++;
+            }
+        });
         var i = 0;
         $iter.each(this._sorted, function (strNode) {
             var node = strNode[1];
             var level = node.level;
-            var levelCoordinate = (_this.maxSum - _this._levelSum[level]) * _this.valueHeight / 2;
+            var levelCoordinate = 0;
+            switch (_this.nodeAlign) {
+                case "bottom":
+                    levelCoordinate = (_this.maxSum - _this._levelSum[level]) * _this.valueHeight - (nodesInLevel[level] - 2) * _this.nodePadding;
+                    break;
+                case "middle":
+                    levelCoordinate = (_this.maxSum - _this._levelSum[level]) * _this.valueHeight / 2 - (nodesInLevel[level] - 2) * _this.nodePadding / 2;
+                    break;
+            }
             if (node.value > 0) {
                 node.parent = container;
             }
@@ -527,18 +582,37 @@ var SankeyDiagram = /** @class */ (function (_super) {
     });
     Object.defineProperty(SankeyDiagram.prototype, "sortBy", {
         /**
-         * @returns {"name" | "value"} Node sorting
+         * @returns {"none" | name" | "value"} Node sorting
          */
         get: function () {
             return this.getPropertyValue("sortBy");
         },
         /**
-         * Sort nodes by "name" or "value"?
-         *
-         * @param {"name" | "value"}  value  Node sorting
+         * Sort nodes by "name" or "value" or do not sort at all. If not sorted, nodes will appear in the same order as they are in the data.
+         * @default "none"
+         * @param {"none" "name" | "value"}  value  Node sorting
          */
         set: function (value) {
             this.setPropertyValue("sortBy", value);
+            this.changeSorting();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SankeyDiagram.prototype, "nodeAlign", {
+        /**
+         * @returns {"top" | "middle" | "bottom"} Returns nodeAlign value
+         */
+        get: function () {
+            return this.getPropertyValue("nodeAlign");
+        },
+        /**
+         * How to align nodes. In case layout is vertical, top means left and bottom means right
+         *
+         * @param {"top" | "middle" | "bottom"}  value  Node sorting
+         */
+        set: function (value) {
+            this.setPropertyValue("nodeAlign", value);
             this.changeSorting();
         },
         enumerable: true,

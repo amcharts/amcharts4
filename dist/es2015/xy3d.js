@@ -51,6 +51,7 @@ export { AxisRendererY3D } from "./.internal/charts/axes/AxisRendererY3D";
 export { Tick } from "./.internal/charts/elements/Tick";
 export { Bullet } from "./.internal/charts/elements/Bullet";
 export { LabelBullet } from "./.internal/charts/elements/LabelBullet";
+export { CircleBullet } from "./.internal/charts/elements/CircleBullet";
 export { XYChartScrollbar } from "./.internal/charts/elements/XYChartScrollbar";
 /**
  * Elements: cursors

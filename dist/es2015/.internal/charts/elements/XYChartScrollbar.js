@@ -25,6 +25,7 @@ import { XYChart } from "../types/XYChart";
 import { system } from "../../core/System";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $iter from "../../core/utils/Iterator";
+import * as $type from "../../core/utils/Type";
 import * as $path from "../../core/rendering/Path";
 import { DesaturateFilter } from "../../core/rendering/filters/DesaturateFilter";
 /**
@@ -71,7 +72,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         var unselectedOverlay = _this.createChild(Sprite);
         unselectedOverlay.element = _this.paper.add("path");
         unselectedOverlay.fill = interfaceColors.getFor("background");
-        unselectedOverlay.fillOpacity = 0.7;
+        unselectedOverlay.fillOpacity = 0.8;
         unselectedOverlay.mouseEnabled = false;
         unselectedOverlay.toBack();
         _this._unselectedOverlay = unselectedOverlay;
@@ -306,6 +307,25 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             });
             this._unselectedOverlay.element.attr({ "d": path });
         }
+    };
+    /**
+     * Processes JSON-based config before it is applied to the object.
+     *
+     * @ignore Exclude from docs
+     * @param {object}  config  Config
+     */
+    XYChartScrollbar.prototype.processConfig = function (config) {
+        if (config) {
+            if ($type.hasValue(config.series) && $type.isArray(config.series)) {
+                for (var i = 0, len = config.series.length; i < len; i++) {
+                    var series = config.series[i];
+                    if ($type.hasValue(series) && $type.isString(series) && this.map.hasKey(series)) {
+                        config.series[i] = this.map.getKey(series);
+                    }
+                }
+            }
+        }
+        _super.prototype.processConfig.call(this, config);
     };
     return XYChartScrollbar;
 }(Scrollbar));

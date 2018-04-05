@@ -60,6 +60,7 @@ export { Bullet } from "./.internal/charts/elements/Bullet";
 export { XYChartScrollbar } from "./.internal/charts/elements/XYChartScrollbar";
 export { NavigationBarDataItem, NavigationBar } from "./.internal/charts/elements/NavigationBar";
 export { LabelBullet } from "./.internal/charts/elements/LabelBullet";
+export { CircleBullet } from "./.internal/charts/elements/CircleBullet";
 /**
  * Elements: cursors
  */
