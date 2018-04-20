@@ -19,7 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Button } from "./Button";
 import { RoundedRectangle } from "./RoundedRectangle";
-import { system } from "../System";
+import { registry } from "../Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import { Triangle } from "./Triangle";
 /**
@@ -108,5 +108,5 @@ export { PlayButton };
  *
  * @ignore
  */
-system.registeredClasses["PlayButton"] = PlayButton;
+registry.registeredClasses["PlayButton"] = PlayButton;
 //# sourceMappingURL=PlayButton.js.map

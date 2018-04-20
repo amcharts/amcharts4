@@ -24,7 +24,7 @@ import { RoundedRectangle } from "../core/elements/RoundedRectangle";
 import { Container } from "../core/Container";
 import { Label } from "../core/elements/Label";
 import { keyboard } from "../core/utils/Keyboard";
-import { system } from "../core/System";
+import { registry } from "../core/Registry";
 import { interaction } from "../core/interaction/Interaction";
 import { percent } from "../core/utils/Percent";
 import { InterfaceColorSet } from "../core/utils/InterfaceColorSet";
@@ -138,7 +138,6 @@ var Legend = /** @class */ (function (_super) {
         var interfaceColors = new InterfaceColorSet();
         // Create a template container and list for the a marker
         var marker = new Container();
-        marker.cloneChildren = true;
         marker.width = 23;
         marker.height = 23;
         marker.mouseEnabled = false;
@@ -174,7 +173,7 @@ var Legend = /** @class */ (function (_super) {
         valueLabel.renderingFrequency = 2;
         _this.valueLabels = new ListTemplate(valueLabel);
         _this.position = "bottom";
-        // Create a state for disabled legend items		
+        // Create a state for disabled legend items
         itemContainer.states.create("active");
         itemContainer.setStateOnChildren = true;
         // Apply accessibility settings
@@ -225,7 +224,7 @@ var Legend = /** @class */ (function (_super) {
         if (!container) {
             // Create new container for the data item
             container = this.itemContainers.create();
-            container.dataItem = dataItem;
+            dataItem.addSprite(container);
             container.readerTitle = this.language.translate("Click, tap or press ENTER to toggle");
             container.readerControls = dataItem.dataContext.uidAttr();
             container.readerLabelledBy = dataItem.dataContext.uidAttr();
@@ -374,5 +373,5 @@ export { Legend };
  *
  * @ignore
  */
-system.registeredClasses["Legend"] = Legend;
+registry.registeredClasses["Legend"] = Legend;
 //# sourceMappingURL=Legend.js.map

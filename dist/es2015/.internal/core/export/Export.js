@@ -79,6 +79,7 @@ import { DateFormatter } from "../formatters/DateFormatter";
 import { Language } from "../utils/Language";
 import { Validatable } from "../utils/Validatable";
 import { system } from "../System";
+import { registry } from "../Registry";
 import * as $object from "../utils/Object";
 import * as $net from "../utils/Net";
 import * as $dom from "../utils/DOM";
@@ -911,7 +912,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.simplifiedImageExport = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var cache, canvas, ctx, DOMURL, svg, url, img, uri, e_4;
+            var cache, canvas, ctx, DOMURL, svg, url, img, e_4;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -935,7 +936,7 @@ var Export = /** @class */ (function (_super) {
                         ctx.drawImage(img, 0, 0);
                         DOMURL.revokeObjectURL(url);
                         try {
-                            uri = canvas.toDataURL("image/png");
+                            //let uri = canvas.toDataURL("image/png");
                             system.setCache("simplifiedImageExport", true);
                             return [2 /*return*/, true];
                         }
@@ -2331,7 +2332,7 @@ var Export = /** @class */ (function (_super) {
      * @param {object}  config  Config
      */
     Export.prototype.processConfig = function (config) {
-        system.registeredClasses["ExportMenu"] = ExportMenu;
+        registry.registeredClasses["ExportMenu"] = ExportMenu;
         if (config) {
             // Set up menu
             if ($type.hasValue(config.menu) && !$type.hasValue(config.menu.type)) {

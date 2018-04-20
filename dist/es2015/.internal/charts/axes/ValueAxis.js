@@ -20,7 +20,7 @@ var __extends = (this && this.__extends) || (function () {
 import { Axis, AxisDataItem } from "./Axis";
 import { AxisRendererY } from "./AxisRendererY";
 import { MultiDisposer } from "../../core/utils/Disposer";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { ValueAxisBreak } from "./ValueAxisBreak";
 import * as $math from "../../core/utils/Math";
 import * as $iter from "../../core/utils/Iterator";
@@ -121,14 +121,14 @@ export { ValueAxisDataItem };
  *
  * ```TypeScript
  * // Create the axis
- * let valueAxis = chart.yAxes.push(new xy.ValueAxis());
+ * let valueAxis = chart.yAxes.push(new charts.ValueAxis());
  *
  * // Set settings
  * valueAxis.title.text = "Monthly Sales";
  * ```
  * ```JavaScript
  * // Create the axis
- * var valueAxis = chart.yAxes.push(new amcharts4.xy.ValueAxis());
+ * var valueAxis = chart.yAxes.push(new amcharts4.charts.ValueAxis());
  *
  * // Set settings
  * valueAxis.title.text = "Monthly Sales";
@@ -442,7 +442,7 @@ var ValueAxis = /** @class */ (function (_super) {
         var _this = this;
         if ($type.isNumber(this.max) && $type.isNumber(this.min)) {
             // first regular items
-            var value_1 = this.minZoomed;
+            var value_1 = this.minZoomed - this._step * 2;
             if (this.strictMinMax) {
                 value_1 = Math.floor(value_1 / this._step) * this._step;
             }
@@ -667,7 +667,7 @@ var ValueAxis = /** @class */ (function (_super) {
                             if (value < startValue) {
                                 return false;
                             }
-                            if ($math.intersect({ start: startValue, end: endValue }, { start: min_1, end: max_1 })) {
+                            if ($math.intersect({ start: startValue, end: endValue }, { start: min_1, end: max_1 })) { // todo: check this once and set some flag in axisBreak
                                 startValue = Math.max(startValue, min_1);
                                 endValue = Math.min(endValue, max_1);
                                 var breakSize = axisBreak.breakSize;
@@ -675,8 +675,10 @@ var ValueAxis = /** @class */ (function (_super) {
                                 if (value > endValue) {
                                     min_1 += (endValue - startValue) * (1 - breakSize); // todo: maybe this can be done differently?
                                 }
+                                // value to the left of break start
                                 else if (value < startValue) {
                                 }
+                                // value within break
                                 else {
                                     value = startValue + (value - startValue) * breakSize;
                                 }
@@ -738,8 +740,10 @@ var ValueAxis = /** @class */ (function (_super) {
                             if (position > breakEndPosition) {
                                 min_2 += (breakEndValue - breakStartValue) * (1 - breakSize);
                             }
+                            // position to the left of break start
                             else if (position < breakStartPosition) {
                             }
+                            // value within break
                             else {
                                 var breakPosition = (position - breakStartPosition) / (breakEndPosition - breakStartPosition);
                                 value_2 = breakStartValue + breakPosition * (breakEndValue - breakStartValue);
@@ -1380,6 +1384,6 @@ export { ValueAxis };
  *
  * @ignore
  */
-system.registeredClasses["ValueAxis"] = ValueAxis;
-system.registeredClasses["ValueAxisDataItem"] = ValueAxisDataItem;
+registry.registeredClasses["ValueAxis"] = ValueAxis;
+registry.registeredClasses["ValueAxisDataItem"] = ValueAxisDataItem;
 //# sourceMappingURL=ValueAxis.js.map

@@ -1,5 +1,6 @@
 /**
  * ConeSeries module
+ * Not recommended using if you use scrollbars or your chart is zoomable in some other way.
  */
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -17,10 +18,10 @@ var __extends = (this && this.__extends) || (function () {
  * ============================================================================
  * @hidden
  */
-import { ColumnSeries3D, ColumnSeries3DDataItem } from "./ColumnSeries3D";
-import { Cone } from "../../core/elements/3d/Cone";
-import { percent } from "../../core/utils/Percent";
-import { system } from "../../core/System";
+import { ColumnSeries, ColumnSeriesDataItem } from "./ColumnSeries";
+import { ConeColumn } from "../elements/ConeColumn";
+import { registry } from "../../core/Registry";
+import * as $path from "../../core/rendering/Path";
 /**
  * ============================================================================
  * DATA ITEM
@@ -44,7 +45,7 @@ var ConeSeriesDataItem = /** @class */ (function (_super) {
         return _this;
     }
     return ConeSeriesDataItem;
-}(ColumnSeries3DDataItem));
+}(ColumnSeriesDataItem));
 export { ConeSeriesDataItem };
 /**
  * ============================================================================
@@ -72,19 +73,62 @@ var ConeSeries = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     * Returns a new element to use as a template for the series.
-     *
-     * @return {Sprite} Element
+     * Returns an element to use for Candlestick
+     * @ignore
+     * @return {this["_column"]} Element.
      */
-    ConeSeries.prototype.getColumnTemplate = function () {
-        var template = new Cone();
-        template.topRadius = percent(0);
-        template.width = percent(80);
-        template.height = percent(80);
-        return template;
+    ConeSeries.prototype.createColumnTemplate = function () {
+        return new ConeColumn();
+    };
+    /**
+     * (Re)validates the whole series, effectively causing it to redraw.
+     *
+     * @ignore Exclude from docs
+     */
+    ConeSeries.prototype.validate = function () {
+        _super.prototype.validate.call(this);
+    };
+    /**
+     * Returns an SVG path to use as series mask.
+     *
+     * @return {string} SVG path
+     */
+    ConeSeries.prototype.getMaskPath = function () {
+        var dx = 0;
+        var dy = 0;
+        var column = this.columns.getIndex(0);
+        if (this.baseAxis == this.xAxis) {
+            dy = column.coneColumn.bottom.radiusY + 1;
+        }
+        else {
+            dx = column.coneColumn.bottom.radiusY + 1;
+        }
+        return $path.rectToPath({
+            x: -dx,
+            y: 0,
+            width: this.xAxis.axisLength + dx,
+            height: this.yAxis.axisLength + dy
+        });
+    };
+    /**
+     * Validates data item's elements.
+     *
+     * @ignore Exclude from docs
+     * @param {this["_dataItem"]}  dataItem  Data item
+     */
+    ConeSeries.prototype.validateDataElementReal = function (dataItem) {
+        _super.prototype.validateDataElementReal.call(this, dataItem);
+        var coneColumn = dataItem.column.coneColumn;
+        coneColumn.fill = dataItem.column.fill;
+        if (this.baseAxis == this.yAxis) {
+            coneColumn.orientation = "horizontal";
+        }
+        else {
+            coneColumn.orientation = "vertical";
+        }
     };
     return ConeSeries;
-}(ColumnSeries3D));
+}(ColumnSeries));
 export { ConeSeries };
 /**
  * Register class in system, so that it can be instantiated using its name from
@@ -92,6 +136,6 @@ export { ConeSeries };
  *
  * @ignore
  */
-system.registeredClasses["ConeSeries"] = ConeSeries;
-system.registeredClasses["ConeSeriesDataItem"] = ConeSeriesDataItem;
+registry.registeredClasses["ConeSeries"] = ConeSeries;
+registry.registeredClasses["ConeSeriesDataItem"] = ConeSeriesDataItem;
 //# sourceMappingURL=ConeSeries.js.map

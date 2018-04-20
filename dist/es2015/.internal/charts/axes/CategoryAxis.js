@@ -19,6 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Axis, AxisDataItem } from "./Axis";
 import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { Dictionary } from "../../core/utils/Dictionary";
 import { CategoryAxisBreak } from "./CategoryAxisBreak";
 import * as $math from "../../core/utils/Math";
@@ -126,14 +127,14 @@ export { CategoryAxisDataItem };
  *
  * ```TypeScript
  * // Create the axis
- * let xAxis = chart.xAxes.push(new xy.CategoryAxis());
+ * let xAxis = chart.xAxes.push(new charts.CategoryAxis());
  *
  * // Set settings
  * xAxis.title.text = "Clients";
  * ```
  * ```JavaScript
  * // Create the axis
- * var valueAxis = chart.xAxes.push(new amcharts4.xy.CategoryAxis());
+ * var valueAxis = chart.xAxes.push(new amcharts4.charts.CategoryAxis());
  *
  * // Set settings
  * valueAxis.title.text = "Clients";
@@ -438,8 +439,10 @@ var CategoryAxis = /** @class */ (function (_super) {
                 if (index > breakEndIndex) {
                     startIndex += (breakEndIndex - breakStartIndex) * (1 - breakSize);
                 }
+                // value to the left of break start
                 else if (index < breakStartIndex) {
                 }
+                // value within break
                 else {
                     index = breakStartIndex + (index - breakStartIndex) * breakSize;
                 }
@@ -660,7 +663,6 @@ var CategoryAxis = /** @class */ (function (_super) {
      */
     CategoryAxis.prototype.positionToIndex = function (position) {
         position = $math.round(position, 10);
-        var strPosition = position.toString();
         var startIndex = this.startIndex;
         var endIndex = this.endIndex;
         var difference = endIndex - startIndex;
@@ -680,8 +682,10 @@ var CategoryAxis = /** @class */ (function (_super) {
             if (position > breakEndPosition) {
                 startIndex += (breakEndIndex - breakStartIndex) * (1 - breakSize);
             }
+            // position to the left of break start
             else if (position < breakStartPosition) {
             }
+            // value within break
             else {
                 var breakPosition = (position - breakStartPosition) / (breakEndPosition - breakStartPosition);
                 index = breakStartIndex + Math.round(breakPosition * (breakEndIndex - breakStartIndex));
@@ -705,7 +709,7 @@ var CategoryAxis = /** @class */ (function (_super) {
      */
     CategoryAxis.prototype.getPositionLabel = function (position) {
         var dataItem = this.dataItems.getIndex(this.positionToIndex(position));
-        if (dataItem) {
+        if (dataItem) { // @martynas todo: added this check, but this means that some aria label might not be received?
             return dataItem.category;
         }
     };
@@ -743,6 +747,6 @@ export { CategoryAxis };
  *
  * @ignore
  */
-system.registeredClasses["CategoryAxis"] = CategoryAxis;
-system.registeredClasses["CategoryAxisDataItem"] = CategoryAxisDataItem;
+registry.registeredClasses["CategoryAxis"] = CategoryAxis;
+registry.registeredClasses["CategoryAxisDataItem"] = CategoryAxisDataItem;
 //# sourceMappingURL=CategoryAxis.js.map

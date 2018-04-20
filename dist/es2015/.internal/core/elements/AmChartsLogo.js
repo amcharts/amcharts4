@@ -1,7 +1,7 @@
 /**
  * AmChartsLogo module.
  *
- * AmChartsLogo is a progress indicator.
+ * AmChartsLogo shows amCharts logo for non-commercial users of a library.
  */
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -21,9 +21,9 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Container } from "../Container";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
-import { Line } from "./Line";
 import { Polyspline } from "./Polyspline";
 import { color } from "../utils/Color";
+import { LinearGradient } from "../rendering/fills/LinearGradient";
 import { DesaturateFilter } from "../rendering/filters/DesaturateFilter";
 /**
  * ============================================================================
@@ -49,47 +49,38 @@ var AmChartsLogo = /** @class */ (function (_super) {
         _this.className = "AmChartsLogo";
         //this.isMeasured = false;
         _this.valign = "bottom";
+        var d = 0.3;
         _this.opacity = 0.3;
         _this.defaultState.properties.opacity = 0.4;
         _this.url = "http://www.amcharts.com";
         _this.showSystemTooltip = true;
         _this.readerTitle = "chart created using amCharts library";
-        _this.width = 220;
-        _this.height = 70;
+        _this.width = 220 * d;
+        _this.height = 70 * d;
         _this.background.opacity = 0;
-        var aStroke = color("#474758");
+        var aColor = color("#474758");
         if (new InterfaceColorSet().getFor("background").alternative.hex == "#ffffff") {
-            aStroke = color("#ffffff");
+            aColor = color("#ffffff");
         }
-        var ae = _this.createChild(Line);
-        ae.isMeasured = false;
-        ae.x1 = 167;
-        ae.y1 = 50.5;
-        ae.x2 = 180;
-        ae.y2 = 50.5;
-        ae.pixelPerfect = false;
-        ae.strokeWidth = 6;
-        ae.stroke = aStroke;
-        ae.strokeOpacity = 1;
+        var aGradient = new LinearGradient();
+        aGradient.addColor(aColor);
+        aGradient.addColor(aColor, 1, 0.75);
+        aGradient.addColor(color("#3cabff"), 1, 0.755);
+        aGradient.rotation = -10;
+        var aStroke = aGradient;
         var m = _this.createChild(Polyspline);
+        m.shouldClone = false;
         m.isMeasured = false;
-        m.segments = [[{ x: 70, y: 50 }, { x: 90, y: 50 }, { x: 120, y: 20 }, { x: 135, y: 35 }, { x: 150, y: 20 }, { x: 180, y: 50 }, { x: 200, y: 50 }]];
-        m.strokeWidth = 6;
+        m.segments = [[{ x: 50 * d, y: 50 * d }, { x: 90 * d, y: 50 * d }, { x: 120 * d, y: 20 * d }, { x: 135 * d, y: 35 * d }, { x: 150 * d, y: 20 * d }, { x: 180 * d, y: 50 * d }, { x: 200 * d, y: 50 * d }]];
+        m.strokeWidth = 6 * d;
         m.tensionX = 0.8;
         m.tensionY = 1;
         m.stroke = color("#3cabff");
-        var mb = _this.createChild(Line);
-        mb.isMeasured = false;
-        mb.strokeWidth = 6;
-        mb.x1 = 25;
-        mb.y1 = 50.5;
-        mb.x2 = 70.5;
-        mb.y2 = 50.5;
-        mb.stroke = color("#3cabff");
         var a = _this.createChild(Polyspline);
+        a.shouldClone = false;
         a.isMeasured = false;
-        a.segments = [[{ x: 20, y: 50 }, { x: 50, y: 50 }, { x: 90, y: 12 }, { x: 127, y: 50 }, { x: 167, y: 50 }]];
-        a.strokeWidth = 6;
+        a.segments = [[{ x: 20 * d, y: 50 * d }, { x: 50 * d, y: 50 * d }, { x: 90 * d, y: 12 * d }, { x: 133 * d, y: 50 * d }, { x: 170 * d, y: 50 * d }, { x: 200 * d, y: 50 * d }]];
+        a.strokeWidth = 6 * d;
         a.tensionX = 0.75;
         a.tensionY = 1;
         a.stroke = aStroke;
@@ -100,6 +91,8 @@ var AmChartsLogo = /** @class */ (function (_super) {
         var hoverState = _this.states.create("hover");
         hoverState.properties.opacity = 1;
         hoverState.filters.push(desaturateFilterHover);
+        // temp
+        _this.scale = 0.001;
         return _this;
     }
     return AmChartsLogo;

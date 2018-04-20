@@ -20,12 +20,12 @@ var __extends = (this && this.__extends) || (function () {
 import { Container } from "../../core/Container";
 import { List } from "../../core/utils/List";
 import { LabelBullet } from "./LabelBullet";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
+import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $iter from "../../core/utils/Iterator";
 import * as $string from "../../core/utils/String";
 import * as $order from "../../core/utils/Order";
 import * as $number from "../../core/utils/Number";
-import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -74,14 +74,13 @@ var SankeyNode = /** @class */ (function (_super) {
         var interfaceColors = new InterfaceColorSet();
         _this.background.fill = interfaceColors.getFor("alternativeBackground");
         _this.background.fillOpacity = 1;
-        // @todo because we copy nameLabel and valueLabel in copyFrom, however if user adds custom items to Sankey node, they won't be cloned. 
-        _this.cloneChildren = false;
         _this.pixelPerfect = false;
         _this.background.pixelPerfect = false;
         _this.draggable = true;
         _this.inert = true;
         _this.events.on("positionchanged", _this.invalidateLinks, _this);
         var nameLabel = _this.createChild(LabelBullet);
+        nameLabel.shouldClone = false;
         //@should we auto update these locations if position is changed?
         nameLabel.locationX = 1;
         nameLabel.locationY = 0.5;
@@ -93,6 +92,7 @@ var SankeyNode = /** @class */ (function (_super) {
         nameLabel.label.horizontalCenter = "left";
         _this.nameLabel = nameLabel;
         var valueLabel = _this.createChild(LabelBullet);
+        valueLabel.shouldClone = false;
         valueLabel.label.hideOversized = false;
         valueLabel.locationX = 0.5;
         valueLabel.locationY = 0.5;
@@ -402,5 +402,5 @@ export { SankeyNode };
  *
  * @ignore
  */
-system.registeredClasses["SankeyNode"] = SankeyNode;
+registry.registeredClasses["SankeyNode"] = SankeyNode;
 //# sourceMappingURL=SankeyNode.js.map

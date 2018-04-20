@@ -1,12 +1,10 @@
-import * as amcharts4 from "@amcharts/amcharts4";
-import * as map from "@amcharts/amcharts4/map";
-import * as xy from "@amcharts/amcharts4/xy";
-import * as gauge from "@amcharts/amcharts4/gauge";
+import * as amcharts4 from "@amcharts/amcharts4/core";
+import * as charts from "@amcharts/amcharts4/charts";
+import * as maps from "@amcharts/amcharts4/maps";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 import DarkTheme from "@amcharts/amcharts4/themes/dark";
-import continentsLow from "@amcharts/amcharts4/maps/continentsLow";
+import continentsLow from "@amcharts/amcharts4/geodata/continentsLow";
 
- 
 amcharts4.useTheme(AnimatedTheme);
 amcharts4.useTheme(DarkTheme);
 
@@ -25,17 +23,17 @@ container.width = amcharts4.percent(100);
 container.height = amcharts4.percent(100);
 
 // map chart ////////////////////////////////////////////////////////
-let mapChart = container.createChild(map.MapChart);
-mapChart.geoJSON = continentsLow;
-mapChart.projection = new map.projections.Miller();
+let mapChart = container.createChild(maps.MapChart);
+mapChart.geodata = continentsLow;
+mapChart.projection = new maps.projections.Miller();
 mapChart.deltaLongitude = 145;
 mapChart.seriesContainer.draggable = false;
 
-let polygonSeries = mapChart.series.push(new map.MapPolygonSeries());
-polygonSeries.getDataFromJSON = true;
+let polygonSeries = mapChart.series.push(new maps.MapPolygonSeries());
+polygonSeries.useGeodata = true;
 polygonSeries.exclude = ["Antarctica"];
 
-let mapImageSeries = mapChart.series.push(new map.MapImageSeries());
+let mapImageSeries = mapChart.series.push(new maps.MapImageSeries());
 let pyongyang = mapImageSeries.mapImages.create();
 pyongyang.longitude = 125.739708;
 pyongyang.latitude = 39.034333;
@@ -124,7 +122,7 @@ bangImage.horizontalCenter = "middle";
 bangImage.href = "bang.png";
 bang.opacity = 0;
 
-let mapLineSeries = mapChart.series.push(new map.MapLineSeries());
+let mapLineSeries = mapChart.series.push(new maps.MapLineSeries());
 let line = mapLineSeries.mapLines.create();
 line.imagesToConnect = [pyongyang, bang];
 line.line.strokeOpacity = 0; // it's invisible, we use it for a bomb image to follow it
@@ -137,7 +135,7 @@ function zoomToHawaii() {
 }
 
 // clock chart //////////////////////////////////////////////////////////////////
-let clock = mapChart.chartContainer.createChild(gauge.GaugeChart);
+let clock = mapChart.chartContainer.createChild(charts.GaugeChart);
 clock.align = "right";
 clock.width = 250;
 clock.height = 250;
@@ -147,7 +145,7 @@ clock.zIndex = 10;
 clock.startAngle = -90;
 clock.endAngle = 270;
 
-let axis = clock.xAxes.push(new gauge.ValueAxis<gauge.AxisRendererCircular>());
+let axis = clock.xAxes.push(new charts.ValueAxis<charts.AxisRendererCircular>());
 axis.min = 0;
 axis.max = 12;
 axis.strictMinMax = true;
@@ -164,7 +162,7 @@ axis.renderer.ticks.template.length = 4;
 axis.renderer.ticks.template.strokeOpacity = 0.2;
 
 // clock hands
-let hourHand = clock.hands.push(new gauge.ClockHand());
+let hourHand = clock.hands.push(new charts.ClockHand());
 hourHand.radius = amcharts4.percent(60);
 hourHand.startWidth = 5;
 hourHand.endWidth = 5;
@@ -172,7 +170,7 @@ hourHand.rotationDirection = "clockWise";
 hourHand.pin.radius = 5;
 hourHand.zIndex = 0;
 
-let minutesHand = clock.hands.push(new gauge.ClockHand());
+let minutesHand = clock.hands.push(new charts.ClockHand());
 minutesHand.rotationDirection = "clockWise";
 minutesHand.startWidth = 2;
 minutesHand.endWidth = 2;
@@ -252,7 +250,7 @@ function setTime() {
   let geoPoint = mapChart.seriesPointToGeo(oPoint);
   bomb.latitude = geoPoint.latitude;
   bomb.longitude = geoPoint.longitude;
-  bomb.rotation = oPoint.rotation + 90;
+  bomb.rotation = oPoint.angle + 90;
 
   if (bombPosition > 0 && bombPosition < 1) {
     bomb.opacity = 1;
@@ -315,9 +313,9 @@ function setTime() {
 }
 
 
-let chart = container.createChild(xy.XYChart);
+let chart = container.createChild(charts.XYChart);
 chart.padding(0, 50, 50, 50);
-let dateAxis = chart.xAxes.push(new xy.DateAxis());
+let dateAxis = chart.xAxes.push(new charts.DateAxis());
 dateAxis.tooltip.background.pointerLength = 4;
 dateAxis.tooltip.background.fillOpacity = 1;
 dateAxis.tooltip.background.fill = amcharts4.color("#666666");
@@ -344,7 +342,7 @@ dateAxis.renderer.inside = false;
 dateAxis.renderer.labels.template.fillOpacity = 0.4;
 dateAxis.renderer.minLabelPosition = 0.03;
 
-let valueAxis = chart.yAxes.push(new xy.ValueAxis());
+let valueAxis = chart.yAxes.push(new charts.ValueAxis());
 valueAxis.renderer.ticks.template.disabled = true;
 valueAxis.min = -90;
 valueAxis.max = 90;
@@ -356,7 +354,7 @@ valueAxis.strictMinMax = true;
 valueAxis.renderer.labels.template.fillOpacity = 0.4;
 valueAxis.renderer.inside = true;
 
-let columnSeries = chart.series.push(new xy.ColumnSeries());
+let columnSeries = chart.series.push(new charts.ColumnSeries());
 columnSeries.columns.template.hiddenState.properties.opacity = 1;
 columnSeries.dataFields.valueY = "value";
 columnSeries.dataFields.dateX = "time";
@@ -368,6 +366,7 @@ columnSeries.tooltip.label.fill = amcharts4.color("#ffffff");
 columnSeries.tooltip.filters.clear();
 columnSeries.tooltip.pointerOrientation = "vertical";
 columnSeries.simplifiedProcessing = true;
+columnSeries.columns.template.strokeOpacity = 0;
 
 columnSeries.events.on("predatavalidate", () => {
   let count = columnSeries.dataItems.length;
@@ -380,7 +379,7 @@ columnSeries.events.on("predatavalidate", () => {
 
 
 
-let linesSeries = chart.series.push(new xy.LineSeries());
+let linesSeries = chart.series.push(new charts.LineSeries());
 linesSeries.dataFields.valueY = "value";
 linesSeries.dataFields.dateX = "time";
 linesSeries.tooltipText = "{valueY.workingValue}%";
@@ -391,12 +390,7 @@ linesSeries.tooltip.label.fill = amcharts4.color("#ffffff");
 linesSeries.tooltip.filters.clear();
 linesSeries.tooltip.pointerOrientation = "vertical";
 linesSeries.tensionX = 0.7;
-
-
-linesSeries.events.on("inited", () => {
-  linesSeries.opacity = 0;
-});
-
+linesSeries.defaultState.properties.visible = false;
 
 let range = valueAxis.createSeriesRange(columnSeries);
 range.startValue = 0;
@@ -413,7 +407,7 @@ range2.contents.fill = range.contents.stroke;
 
 chart.dateFormatter.inputDateFormat = "yyyy-MM-dd HH:mm";
 
-chart.cursor = new xy.XYCursor();
+chart.cursor = new charts.XYCursor();
 chart.cursor.behavior = "none";
 chart.cursor.xAxis = dateAxis;
 chart.cursor.lineX.strokeOpacity = 0;
@@ -530,7 +524,7 @@ linesColumns.events.on("toggle", ()=>{
   else{
     linesColumns.label.text = "show lines";
     linesSeries.visible = false;
-    columnSeries.visible = true;    
+    columnSeries.visible = true;
     linesSeries.opacity = 0;
   }
 

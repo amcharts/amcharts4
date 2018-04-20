@@ -22,7 +22,7 @@ import { Adapter } from "../utils/Adapter";
 import { EventDispatcher } from "../utils/EventDispatcher";
 import { Language } from "../utils/Language";
 import { DateFormatter } from "../formatters/DateFormatter";
-import { system } from "../System";
+import { registry } from "../Registry";
 import * as $type from "../utils/Type";
 ;
 ;
@@ -379,10 +379,10 @@ var DataSource = /** @class */ (function (_super) {
      * @param {object}  config  Config
      */
     DataSource.prototype.processConfig = function (config) {
-        system.registeredClasses["json"] = JSONParser;
-        system.registeredClasses["JSONParser"] = JSONParser;
-        system.registeredClasses["csv"] = CSVParser;
-        system.registeredClasses["CSVParser"] = CSVParser;
+        registry.registeredClasses["json"] = JSONParser;
+        registry.registeredClasses["JSONParser"] = JSONParser;
+        registry.registeredClasses["csv"] = CSVParser;
+        registry.registeredClasses["CSVParser"] = CSVParser;
         _super.prototype.processConfig.call(this, config);
     };
     return DataSource;

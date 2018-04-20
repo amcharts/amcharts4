@@ -7,7 +7,6 @@
  * ============================================================================
  * @hidden
  */
-import { Color } from "./Color";
 import * as $math from "./Math";
 import * as $type from "./Type";
 /**
@@ -171,10 +170,11 @@ var namedColors = {
  * @ignore Exclude from docs
  * @param  {string}  value  Color name
  * @return {string}         Color
+ * @deprecated
  */
-export function resolveNamedColor(value) {
-    return namedColors[value] ? namedColors[value] : undefined;
-}
+/*export function resolveNamedColor(value: string): Color {
+    return (<any>namedColors)[value] ? (<any>namedColors)[value] : undefined;
+}*/
 /**
  * Converts a proper color hex code (i.e. "#FF5500") or named color (i.e. "red")
  * into an {iRGB} object. If the code is not correctly formatted, an RGB of
@@ -193,9 +193,11 @@ export function rgb(color, alpha) {
     if (namedColors[color]) {
         rgb = namedColors[color];
     }
+    // Hex code?
     else if (color.charAt(0) === "#") {
         rgb = hexToRgb(color);
     }
+    // rgb() format?
     else if (color.match(/^rgba?\(/)) {
         rgb = rgbaToRgb(color);
     }
@@ -298,56 +300,53 @@ export function pad2(c) {
  * resulting color will be closest to the first reference color.
  *
  * @ignore Exclude from docs
- * @param  {Color}   color1   First reference color
- * @param  {Color}   color2   Second reference color
+ * @param  {iRGB}    color1   First reference color
+ * @param  {iRGB}    color2   Second reference color
  * @param  {number}  percent  Relative position (0-1)
- * @return {Color}            Interpolated color
+ * @return {iRGB}             Interpolated color
  */
-export function interpolate(color1, color2, percent) {
+export function interpolate(rgb1, rgb2, percent) {
     percent = $math.fitToRange(percent, 0, 1);
-    var rgb1 = color1.rgb;
-    var rgb2 = color2.rgb;
     if (rgb1) {
         if (rgb2) {
-            return new Color({
+            return {
                 r: rgb1.r + Math.round((rgb2.r - rgb1.r) * percent),
                 g: rgb1.g + Math.round((rgb2.g - rgb1.g) * percent),
                 b: rgb1.b + Math.round((rgb2.b - rgb1.b) * percent),
                 a: (rgb1.a || 1) + Math.round(((rgb2.a || 1) - (rgb1.a || 1)) * percent)
-            });
+            };
         }
         else {
-            return color1;
+            return rgb1;
         }
     }
     else if (rgb2) {
-        return color2;
+        return rgb2;
     }
     else {
-        return color1;
+        return rgb1;
     }
 }
 /**
  * Returns a color that is `percent` brighter than the reference color.
  *
  * @ignore Exclude from docs
- * @param  {Color}   color    Reference color
+ * @param  {iRGB}    color    Reference color
  * @param  {number}  percent  Brightness percent
- * @return {Color}            Hex code of the new color
+ * @return {iRGB}             Hex code of the new color
  */
-export function lighten(color, percent) {
-    var rgb = color.rgb;
+export function lighten(rgb, percent) {
     if (rgb) {
-        return new Color({
+        return {
             r: Math.max(0, Math.min(255, rgb.r + getLightnessStep(rgb.r, percent))),
             g: Math.max(0, Math.min(255, rgb.g + getLightnessStep(rgb.g, percent))),
             b: Math.max(0, Math.min(255, rgb.b + getLightnessStep(rgb.b, percent))),
             a: rgb.a
-        });
+        };
     }
     else {
         // TODO is this correct ?
-        return color;
+        return rgb;
     }
 }
 ;
@@ -367,26 +366,25 @@ export function getLightnessStep(value, percent) {
  * Returns a color that is `percent` brighter than the source `color`.
  *
  * @ignore Exclude from docs
- * @param  {Color}   color    Source color
+ * @param  {iRGB}    color    Source color
  * @param  {number}  percent  Brightness percent
- * @return {Color}           New color
+ * @return {iRGB}             New color
  */
-export function brighten(color, percent) {
-    var rgb = color.rgb;
+export function brighten(rgb, percent) {
     if (rgb) {
         var base = Math.min(Math.max(rgb.r, rgb.g, rgb.b), 230);
         //let base = Math.max(rgb.r, rgb.g, rgb.b);
         var step = getLightnessStep(base, percent);
-        return new Color({
+        return {
             r: Math.max(0, Math.min(255, Math.round(rgb.r + step))),
             g: Math.max(0, Math.min(255, Math.round(rgb.g + step))),
             b: Math.max(0, Math.min(255, Math.round(rgb.b + step))),
             a: rgb.a
-        });
+        };
     }
     else {
         // TODO is this correct ?
-        return color;
+        return rgb;
     }
 }
 ;
@@ -403,24 +401,24 @@ export function getBrightnessStep(value, percent) {
     return Math.round(base * percent);
 }
 /**
- * Returns a new [[Color]] based on `color` parameter with specific saturation
- * applied.
+ * Returns a new [[iRGB]] object based on `rgb` parameter with specific
+ * saturation applied.
  *
  * `saturation` can be in the range of 0 (fully desaturated) to 1 (fully
  * saturated).
  *
  * @ignore Exclude from docs
- * @param  {Color}   color       Base color
+ * @param  {iRGB}    color       Base color
  * @param  {number}  saturation  Saturation (0-1)
- * @return {Color}               New color
+ * @return {iRGB}                New color
  */
-export function saturate(color, saturation) {
+export function saturate(rgb, saturation) {
     if (saturation == 1) {
-        return color;
+        return rgb;
     }
-    var hsl = rgbToHsl(color.rgb);
+    var hsl = rgbToHsl(rgb);
     hsl.s = saturation;
-    return new Color(hslToRgb(hsl));
+    return hslToRgb(hsl);
 }
 /*
 // not used
@@ -645,48 +643,5 @@ export function hsvToRgb(color) {
  */
 export function isLight(color) {
     return ((color.r * 299) + (color.g * 587) + (color.b * 114)) / 1000 >= 128;
-}
-/**
- * Resolves an input variable to a normal [[iRGB]] color and creates [[Color]]
- * object for it.
- *
- * @param  {string | iRGB | Color}  value  Input value
- * @param  {number}                 alpha  Alpha (0-1)
- * @return {Color}                         Color object
- */
-export function color(value, alpha) {
-    if (!$type.hasValue(value)) {
-        return new Color();
-    }
-    if (typeof value == "string") {
-        return new Color(rgb(value, alpha));
-    }
-    // Check if it's already a Color object
-    if (value instanceof Color) {
-        if ($type.hasValue(alpha)) {
-            value.alpha = alpha;
-        }
-        return value;
-    }
-    // Not a string or Color instance, it's the iRGB object then
-    return new Color(value);
-}
-/**
- * Checks if supplied argument is instance of [[Color]].
- *
- * @param  {any}      value  Input value
- * @return {boolean}         Is Color?
- */
-export function isColor(value) {
-    return value instanceof Color;
-}
-/**
- * Converts any value to [[Color]].
- *
- * @param  {any}    value  Input value
- * @return {Color}         Color
- */
-export function castColor(value) {
-    return color(value);
 }
 //# sourceMappingURL=Colors.js.map

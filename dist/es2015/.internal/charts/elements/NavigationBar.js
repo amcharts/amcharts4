@@ -22,7 +22,7 @@ import { DataItem } from "../../core/DataItem";
 import { ListTemplate } from "../../core/utils/List";
 import { TextLink } from "../../core/elements/TextLink";
 import { Triangle } from "../../core/elements/Triangle";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import { percent } from "../../core/utils/Percent";
 import * as $iter from "../../core/utils/Iterator";
@@ -171,6 +171,6 @@ export { NavigationBar };
  *
  * @ignore
  */
-system.registeredClasses["NavigationBar"] = NavigationBar;
-system.registeredClasses["NavigationBarDataItem"] = NavigationBarDataItem;
+registry.registeredClasses["NavigationBar"] = NavigationBar;
+registry.registeredClasses["NavigationBarDataItem"] = NavigationBarDataItem;
 //# sourceMappingURL=NavigationBar.js.map

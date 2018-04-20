@@ -18,10 +18,9 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Series, SeriesDataItem } from "../series/Series";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
-import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 /**
  * ============================================================================
  * DATA ITEM
@@ -118,7 +117,6 @@ var MapSeries = /** @class */ (function (_super) {
         _this.className = "MapSeries";
         // Set defaults
         _this.isMeasured = false;
-        _this.minColor = new InterfaceColorSet().getFor("background");
         _this.nonScalingStroke = true;
         // Set data fields
         _this.dataFields.value = "value";
@@ -161,19 +159,6 @@ var MapSeries = /** @class */ (function (_super) {
         this.chart.updateExtremes();
     };
     /**
-     * (Re)validates the series
-     *
-     * @ignore Exclude from docs
-     */
-    MapSeries.prototype.validate = function () {
-        if (this.minValue != this._prevMin || this.maxValue != this._prevMax) {
-            this.dispatchImmediately("valueextremeschanged");
-            this._prevMin = this.minValue;
-            this._prevMax = this.maxValue;
-        }
-        _super.prototype.validate.call(this);
-    };
-    /**
      * Checks whether object should be included in series.
      *
      * @param  {string[]}  includes  A list of explicitly included ids
@@ -199,12 +184,12 @@ var MapSeries = /** @class */ (function (_super) {
         }
         return true;
     };
-    Object.defineProperty(MapSeries.prototype, "getDataFromJSON", {
+    Object.defineProperty(MapSeries.prototype, "useGeodata", {
         /**
          * @return {boolean} Use GeoJSON data?
          */
         get: function () {
-            return this.getPropertyValue("getDataFromJSON");
+            return this.getPropertyValue("useGeodata");
         },
         /**
          * Should the map extract all the data about element, such as title, from
@@ -214,119 +199,9 @@ var MapSeries = /** @class */ (function (_super) {
          * @param {boolean}  value  Use GeoJSON data?
          */
         set: function (value) {
-            if (this.setPropertyValue("getDataFromJSON", value)) {
+            if (this.setPropertyValue("useGeodata", value)) {
                 this.invalidateData();
             }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MapSeries.prototype, "minColor", {
-        /**
-         * @return {Color} Lowest color
-         */
-        get: function () {
-            return this.getPropertyValue("minColor");
-        },
-        /**
-         * Color for the lowest value in a heat map.
-         *
-         * In heat map, each object will be colored with an intermediate color
-         * between `minColor` and `maxColor` based on their `value` position between
-         * `min` and `max`.
-         *
-         * @param {Color}  value  Lowest color
-         */
-        set: function (value) {
-            this.setPropertyValue("minColor", value, true);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MapSeries.prototype, "maxColor", {
-        /**
-         * @return {Color} Highest color
-         */
-        get: function () {
-            return this.getPropertyValue("maxColor");
-        },
-        /**
-         * Color for the highest value in a heat map.
-         *
-         * In heat map, each object will be colored with an intermediate color
-         * between `minColor` and `maxColor` based on their `value` position between
-         * `min` and `max`.
-         *
-         * @param {Color}  value  Highest color
-         */
-        set: function (value) {
-            this.setPropertyValue("maxColor", value, true);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MapSeries.prototype, "maxValue", {
-        /**
-         * @return {number} Highest value
-         */
-        get: function () {
-            var max = this._maxValue;
-            if ($type.isNumber(max)) {
-                return max;
-            }
-            else {
-                var dataItem = this.dataItem;
-                if (dataItem) {
-                    return dataItem.values.value.high;
-                }
-            }
-        },
-        /**
-         * User-defined highest value in the series.
-         *
-         * If not set, the map will use the highest `value` out of actual items in
-         * the series.
-         *
-         * This is used to determine object's color in a heat map.
-         *
-         * @param {number}  value  Highest value
-         */
-        set: function (value) {
-            this._maxValue = value;
-            this.invalidateData();
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MapSeries.prototype, "minValue", {
-        /**
-         * @return {number} Lowest value
-         */
-        get: function () {
-            var min = this._minValue;
-            if ($type.isNumber(min)) {
-                return min;
-            }
-            else {
-                var dataItem = this.dataItem;
-                if (dataItem) {
-                    return dataItem.values.value.low;
-                }
-            }
-        },
-        /**
-         * User-defined lowest value in the series.
-         *
-         * If not set, the map will use the lowest `value` out of actual items in
-         * the series.
-         *
-         * This is used to determine object's color in a heat map.
-         *
-         * @param {number}  value  Lowest value
-         */
-        set: function (value) {
-            this._minValue = value;
-            this.invalidateData();
         },
         enumerable: true,
         configurable: true
@@ -412,6 +287,6 @@ export { MapSeries };
  *
  * @ignore
  */
-system.registeredClasses["MapSeries"] = MapSeries;
-system.registeredClasses["MapSeriesDataItem"] = MapSeriesDataItem;
+registry.registeredClasses["MapSeries"] = MapSeries;
+registry.registeredClasses["MapSeriesDataItem"] = MapSeriesDataItem;
 //# sourceMappingURL=MapSeries.js.map

@@ -26,7 +26,7 @@ import { Tooltip } from "../../core/elements/Tooltip";
 import { SortedListTemplate } from "../../core/utils/SortedList";
 import { List, ListTemplate, ListDisposer } from "../../core/utils/List";
 import { Disposer, MultiDisposer } from "../../core/utils/Disposer";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
@@ -242,7 +242,7 @@ var AxisDataItem = /** @class */ (function (_super) {
          */
         set: function (text) {
             this._text = text;
-            if (this._label) {
+            if (this._label) { // do not use getter, it will create unwanted instances!
                 this._label.text = text;
             }
         },
@@ -450,10 +450,12 @@ var Axis = /** @class */ (function (_super) {
             }
         };
         _this.className = "Axis";
+        _this.shouldClone = false;
         _this.cursorTooltipEnabled = true;
         var interfaceColors = new InterfaceColorSet();
         // Create title
         _this.title = new Label();
+        _this.title.shouldClone = false;
         _this._disposers.push(_this.title);
         // Data item iterator
         _this._dataItemsIterator = new $iter.ListIterator(_this.dataItems, function () { return _this.dataItems.create(); });
@@ -606,7 +608,7 @@ var Axis = /** @class */ (function (_super) {
      *
      * Returns a [[Disposer]] for all events, added to Series for watching
      * changes in Axis, and vice versa.
-     *
+     * @ignore
      * @param  {XYSeries}     series  Series
      * @return {IDisposer}          Event disposer
      */
@@ -768,14 +770,14 @@ var Axis = /** @class */ (function (_super) {
      * @param {number} position Position (0-1)
      */
     Axis.prototype.showTooltipAtPosition = function (position) {
-        //@todo: think of how to solve this better
-        if (this._tooltip && !this._tooltip.parent) {
-            this._tooltip.parent = this.tooltipContainer;
-        }
         if (this._cursorTooltipEnabled) {
             var tooltip = this._tooltip;
             var renderer = this.renderer;
             if (tooltip) {
+                //@todo: think of how to solve this better
+                if (tooltip && !tooltip.parent) {
+                    tooltip.parent = this.tooltipContainer;
+                }
                 var tooltipLocation = renderer.tooltipLocation;
                 var startPosition = this.getCellStartPosition(position);
                 var endPosition = this.getCellEndPosition(position);
@@ -1311,6 +1313,6 @@ export { Axis };
  *
  * @ignore
  */
-system.registeredClasses["Axis"] = Axis;
-system.registeredClasses["AxisDataItem"] = AxisDataItem;
+registry.registeredClasses["Axis"] = Axis;
+registry.registeredClasses["AxisDataItem"] = AxisDataItem;
 //# sourceMappingURL=Axis.js.map

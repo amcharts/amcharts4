@@ -2,13 +2,101 @@ define('@amcharts/amcharts4', [], function () {
   'use strict';
   return self.amcharts4;
 });
-define('@amcharts/amcharts4/gauge', [], function () {
+define('@amcharts/amcharts4/charts', [], function () {
   'use strict';
-  var output = self.amcharts4.gauge;
+  var output = self.amcharts4.charts;
   if (output != null) {
     return output;
   }
-  throw new Error("You must add 'gauge' to the amcharts4.files array in your EmberApp.");
+  throw new Error("You must add 'charts' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4/geodata/continentsHigh', [], function () {
+  'use strict';
+  var output = self.amcharts4.geodata;
+  if (output != null) {
+  	output = output.continentsHigh;
+    if (output != null) {
+      return output;
+    }
+  }
+  throw new Error("You must add 'geodata/continentsHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4/geodata/continentsLow', [], function () {
+  'use strict';
+  var output = self.amcharts4.geodata;
+  if (output != null) {
+  	output = output.continentsLow;
+    if (output != null) {
+      return output;
+    }
+  }
+  throw new Error("You must add 'geodata/continentsLow' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4/geodata/usa2High', [], function () {
+  'use strict';
+  var output = self.amcharts4.geodata;
+  if (output != null) {
+  	output = output.usa2High;
+    if (output != null) {
+      return output;
+    }
+  }
+  throw new Error("You must add 'geodata/usa2High' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4/geodata/usa2Low', [], function () {
+  'use strict';
+  var output = self.amcharts4.geodata;
+  if (output != null) {
+  	output = output.usa2Low;
+    if (output != null) {
+      return output;
+    }
+  }
+  throw new Error("You must add 'geodata/usa2Low' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4/geodata/usaHigh', [], function () {
+  'use strict';
+  var output = self.amcharts4.geodata;
+  if (output != null) {
+  	output = output.usaHigh;
+    if (output != null) {
+      return output;
+    }
+  }
+  throw new Error("You must add 'geodata/usaHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4/geodata/usaLow', [], function () {
+  'use strict';
+  var output = self.amcharts4.geodata;
+  if (output != null) {
+  	output = output.usaLow;
+    if (output != null) {
+      return output;
+    }
+  }
+  throw new Error("You must add 'geodata/usaLow' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4/geodata/worldHigh', [], function () {
+  'use strict';
+  var output = self.amcharts4.geodata;
+  if (output != null) {
+  	output = output.worldHigh;
+    if (output != null) {
+      return output;
+    }
+  }
+  throw new Error("You must add 'geodata/worldHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4/geodata/worldlow', [], function () {
+  'use strict';
+  var output = self.amcharts4.geodata;
+  if (output != null) {
+  	output = output.worldlow;
+    if (output != null) {
+      return output;
+    }
+  }
+  throw new Error("You must add 'geodata/worldlow' to the amcharts4.files array in your EmberApp.");
 });
 define('@amcharts/amcharts4/lang/en_US', [], function () {
   'use strict';
@@ -32,133 +120,13 @@ define('@amcharts/amcharts4/lang/lt_LT', [], function () {
   }
   throw new Error("You must add 'lang/lt_LT' to the amcharts4.files array in your EmberApp.");
 });
-define('@amcharts/amcharts4/map', [], function () {
+define('@amcharts/amcharts4/maps', [], function () {
   'use strict';
-  var output = self.amcharts4.map;
+  var output = self.amcharts4.maps;
   if (output != null) {
     return output;
   }
-  throw new Error("You must add 'map' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4/maps/continentsHigh', [], function () {
-  'use strict';
-  var output = self.amcharts4.maps;
-  if (output != null) {
-  	output = output.continentsHigh;
-    if (output != null) {
-      return output;
-    }
-  }
-  throw new Error("You must add 'maps/continentsHigh' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4/maps/continentsLow', [], function () {
-  'use strict';
-  var output = self.amcharts4.maps;
-  if (output != null) {
-  	output = output.continentsLow;
-    if (output != null) {
-      return output;
-    }
-  }
-  throw new Error("You must add 'maps/continentsLow' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4/maps/usa2High', [], function () {
-  'use strict';
-  var output = self.amcharts4.maps;
-  if (output != null) {
-  	output = output.usa2High;
-    if (output != null) {
-      return output;
-    }
-  }
-  throw new Error("You must add 'maps/usa2High' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4/maps/usa2Low', [], function () {
-  'use strict';
-  var output = self.amcharts4.maps;
-  if (output != null) {
-  	output = output.usa2Low;
-    if (output != null) {
-      return output;
-    }
-  }
-  throw new Error("You must add 'maps/usa2Low' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4/maps/usaHigh', [], function () {
-  'use strict';
-  var output = self.amcharts4.maps;
-  if (output != null) {
-  	output = output.usaHigh;
-    if (output != null) {
-      return output;
-    }
-  }
-  throw new Error("You must add 'maps/usaHigh' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4/maps/usaLow', [], function () {
-  'use strict';
-  var output = self.amcharts4.maps;
-  if (output != null) {
-  	output = output.usaLow;
-    if (output != null) {
-      return output;
-    }
-  }
-  throw new Error("You must add 'maps/usaLow' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4/maps/worldHigh', [], function () {
-  'use strict';
-  var output = self.amcharts4.maps;
-  if (output != null) {
-  	output = output.worldHigh;
-    if (output != null) {
-      return output;
-    }
-  }
-  throw new Error("You must add 'maps/worldHigh' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4/maps/worldlow', [], function () {
-  'use strict';
-  var output = self.amcharts4.maps;
-  if (output != null) {
-  	output = output.worldlow;
-    if (output != null) {
-      return output;
-    }
-  }
-  throw new Error("You must add 'maps/worldlow' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4/pie', [], function () {
-  'use strict';
-  var output = self.amcharts4.pie;
-  if (output != null) {
-    return output;
-  }
-  throw new Error("You must add 'pie' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4/pie3d', [], function () {
-  'use strict';
-  var output = self.amcharts4.pie3d;
-  if (output != null) {
-    return output;
-  }
-  throw new Error("You must add 'pie3d' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4/radar', [], function () {
-  'use strict';
-  var output = self.amcharts4.radar;
-  if (output != null) {
-    return output;
-  }
-  throw new Error("You must add 'radar' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4/sankey', [], function () {
-  'use strict';
-  var output = self.amcharts4.sankey;
-  if (output != null) {
-    return output;
-  }
-  throw new Error("You must add 'sankey' to the amcharts4.files array in your EmberApp.");
+  throw new Error("You must add 'maps' to the amcharts4.files array in your EmberApp.");
 });
 define('@amcharts/amcharts4/themes/animated', [], function () {
   'use strict';
@@ -203,28 +171,4 @@ define('@amcharts/amcharts4/themes/material', [], function () {
     }
   }
   throw new Error("You must add 'themes/material' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4/treemap', [], function () {
-  'use strict';
-  var output = self.amcharts4.treemap;
-  if (output != null) {
-    return output;
-  }
-  throw new Error("You must add 'treemap' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4/xy', [], function () {
-  'use strict';
-  var output = self.amcharts4.xy;
-  if (output != null) {
-    return output;
-  }
-  throw new Error("You must add 'xy' to the amcharts4.files array in your EmberApp.");
-});
-define('@amcharts/amcharts4/xy3d', [], function () {
-  'use strict';
-  var output = self.amcharts4.xy3d;
-  if (output != null) {
-    return output;
-  }
-  throw new Error("You must add 'xy3d' to the amcharts4.files array in your EmberApp.");
 });

@@ -20,7 +20,7 @@ var __extends = (this && this.__extends) || (function () {
 import { SerialChart, SerialChartDataItem } from "./SerialChart";
 import { percent, Percent } from "../../core/utils/Percent";
 import { PieSeries } from "../series/PieSeries";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import * as $iter from "../../core/utils/Iterator";
 import * as $utils from "../../core/utils/Utils";
 import * as $math from "../../core/utils/Math";
@@ -60,11 +60,11 @@ export { PieChartDataItem };
  *
  * ```TypeScript
  * // Includes
- * import * as amcharts4 from "@amcharts/amcharts4";
- * import * as pie from "@amcharts/amcharts4/pie";
+ * import * as amcharts4 from "@amcharts/amcharts4/core";
+ * import * as charts from "@amcharts/amcharts4/charts";
  *
  * // Create chart
- * let chart = amcharts4.create("chartdiv", pie.PieChart);
+ * let chart = amcharts4.create("chartdiv", charts.PieChart);
  *
  * // Set data
  * chart.data = [{
@@ -79,13 +79,13 @@ export { PieChartDataItem };
  * }];
  *
  * // Create series
- * let series = chart.series.push(new pie.PieSeries());
+ * let series = chart.series.push(new charts.PieSeries());
  * series.dataFields.value = "litres";
  * series.dataFields.category = "country";
  * ```
  * ```JavaScript
  * // Create chart
- * var chart = amcharts4.create("chartdiv", amcharts4.pie.PieChart);
+ * var chart = amcharts4.create("chartdiv", amcharts4.charts.PieChart);
  *
  * // The following would work as well:
  * // var chart = amcharts4.create("chartdiv", "PieChart");
@@ -103,7 +103,7 @@ export { PieChartDataItem };
  * }];
  *
  * // Create series
- * var series = chart.series.push(new amcharts4.pie.PieSeries());
+ * var series = chart.series.push(new amcharts4.charts.PieSeries());
  * series.dataFields.value = "litres";
  * series.dataFields.category = "country";
  * ```
@@ -232,7 +232,7 @@ var PieChart = /** @class */ (function (_super) {
             });
             legend.data = legendData_1;
             legend.dataFields.name = "category";
-            legend.dataFields.visible = "visible";
+            legend.itemContainers.template.propertyFields.disabled = "hiddenInLegend";
         }
     };
     Object.defineProperty(PieChart.prototype, "radius", {
@@ -404,6 +404,6 @@ export { PieChart };
  *
  * @ignore
  */
-system.registeredClasses["PieChart"] = PieChart;
-system.registeredClasses["PieChartDataItem"] = PieChartDataItem;
+registry.registeredClasses["PieChart"] = PieChart;
+registry.registeredClasses["PieChartDataItem"] = PieChartDataItem;
 //# sourceMappingURL=PieChart.js.map

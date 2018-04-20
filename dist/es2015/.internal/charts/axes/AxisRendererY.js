@@ -20,10 +20,11 @@ var __extends = (this && this.__extends) || (function () {
 import { AxisRenderer } from "./AxisRenderer";
 import { WavedLine } from "../../core/elements/WavedLine";
 import { WavedRectangle } from "../../core/elements/WavedRectangle";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { percent } from "../../core/utils/Percent";
 import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
+import * as $utils from "../../core/utils/Utils";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -107,6 +108,7 @@ var AxisRendererY = /** @class */ (function (_super) {
                     bbw = bigNum;
                 }
             }
+            // left
             else {
                 if (!this.inside) {
                     bbx = -bigNum;
@@ -236,10 +238,7 @@ var AxisRendererY = /** @class */ (function (_super) {
             baseGrid.hide(0);
         }
         else {
-            var x = this.line.pixelX;
-            if (this.opposite) {
-                x = -w;
-            }
+            var x = $utils.spritePointToSprite({ x: 0, y: 0 }, this.gridContainer, this).x;
             baseGrid.element.attr({ "d": $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: w, y: 0 }) });
             baseGrid.moveTo({ x: x, y: y });
             baseGrid.show(0);
@@ -369,5 +368,5 @@ export { AxisRendererY };
  *
  * @ignore
  */
-system.registeredClasses["AxisRendererY"] = AxisRendererY;
+registry.registeredClasses["AxisRendererY"] = AxisRendererY;
 //# sourceMappingURL=AxisRendererY.js.map

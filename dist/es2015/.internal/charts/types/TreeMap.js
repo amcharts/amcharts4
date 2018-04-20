@@ -21,15 +21,16 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { XYChart, XYChartDataItem } from "./XYChart";
-import * as $iter from "../../core/utils/Iterator";
-import * as $type from "../../core/utils/Type";
-import * as $array from "../../core/utils/Array";
 import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { DictionaryTemplate } from "../../core/utils/Dictionary";
 import { ValueAxis } from "../axes/ValueAxis";
 import { TreeMapSeries } from "../series/TreeMapSeries";
 import { ColorSet } from "../../core/utils/ColorSet";
 import { MouseCursorStyle } from "../../core/interaction/Mouse";
+import * as $iter from "../../core/utils/Iterator";
+import * as $type from "../../core/utils/Type";
+import * as $array from "../../core/utils/Array";
 /**
  * ============================================================================
  * DATA ITEM
@@ -567,12 +568,15 @@ var TreeMap = /** @class */ (function (_super) {
     TreeMap.prototype.initSeries = function (dataItem) {
         var _this = this;
         if (!dataItem.series) {
-            var series = this.series.create();
-            dataItem.series = series;
+            var series = void 0;
             var template = this.seriesTemplates.getKey(dataItem.level.toString());
             if (template) {
-                series.copyFrom(template);
+                series = template.clone();
             }
+            else {
+                series = this.series.create();
+            }
+            dataItem.series = series;
             var level = dataItem.level;
             series.level = level;
             var dataContext = dataItem.dataContext;
@@ -954,7 +958,6 @@ var TreeMap = /** @class */ (function (_super) {
         var y0 = parent.y0;
         var y1 = parent.y1;
         var nodes = parent.children;
-        var row;
         var nodeValue;
         var i0 = 0;
         var i1 = 0;
@@ -997,21 +1000,21 @@ var TreeMap = /** @class */ (function (_super) {
                 minRatio = newRatio;
             }
             // Position and record the row orientation.
-            var row_1 = this.dataItems.template.clone();
-            row_1.value = sumValue;
-            row_1.dice = dx < dy;
-            row_1.children = nodes.slice(i0, i1);
-            row_1.x0 = x0;
-            row_1.y0 = y0;
-            row_1.x1 = x1;
-            row_1.y1 = y1;
-            if (row_1.dice) {
-                row_1.y1 = value ? y0 += dy * sumValue / value : y1;
-                this.dice(row_1);
+            var row = this.dataItems.template.clone();
+            row.value = sumValue;
+            row.dice = dx < dy;
+            row.children = nodes.slice(i0, i1);
+            row.x0 = x0;
+            row.y0 = y0;
+            row.x1 = x1;
+            row.y1 = y1;
+            if (row.dice) {
+                row.y1 = value ? y0 += dy * sumValue / value : y1;
+                this.dice(row);
             }
             else {
-                row_1.x1 = value ? x0 += dx * sumValue / value : x1, y1;
-                this.slice(row_1);
+                row.x1 = value ? x0 += dx * sumValue / value : x1, y1;
+                this.slice(row);
             }
             value -= sumValue, i0 = i1;
         }
@@ -1025,5 +1028,5 @@ export { TreeMap };
  *
  * @ignore
  */
-system.registeredClasses["TreeMap"] = TreeMap;
+registry.registeredClasses["TreeMap"] = TreeMap;
 //# sourceMappingURL=TreeMap.js.map

@@ -187,4 +187,10 @@ export declare class SerialChart extends Chart {
      * @param {ColorSet} value Color list
      */
     colors: ColorSet;
+    /**
+     * Copies all parameters from another [[SerialChart]].
+     *
+     * @param {SerialChart} source Source SerialChart
+     */
+    copyFrom(source: this): void;
 }

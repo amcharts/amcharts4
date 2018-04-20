@@ -13,7 +13,6 @@ import { PointedRectangle } from "./PointedRectangle";
 import { IPoint } from "../defs/IPoint";
 import { Label } from "../elements/Label";
 import { IRectangle } from "../defs/IRectangle";
-import { DataItem } from "../DataItem";
 /**
  * ============================================================================
  * REQUISITES
@@ -245,16 +244,6 @@ export declare class Tooltip extends Container {
      * @param {string}  value  HTML content
      */
     html: string;
-    /**
-     * Sets data item for the tooltip.
-     *
-     * This wil be used in resolving field references in text and replacing them
-     * with real values.
-     *
-     * @ignore Exclude from docs
-     * @param {DataItem}  dataItem  Data item
-     */
-    setDataItem(dataItem: DataItem): void;
     /**
      * @return {string} SVG text
      */

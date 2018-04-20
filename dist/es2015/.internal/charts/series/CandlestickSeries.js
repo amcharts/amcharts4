@@ -19,10 +19,9 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { ColumnSeries, ColumnSeriesDataItem } from "./ColumnSeries";
 import { visualProperties } from "../../core/Sprite";
-import { Line } from "../../core/elements/Line";
-import { ListTemplate } from "../../core/utils/List";
-import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
-import { system } from "../../core/System";
+import { Candlestick } from "../elements/Candlestick";
+import { registry } from "../../core/Registry";
+import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $utils from "../../core/utils/Utils";
 import * as $object from "../../core/utils/Object";
 import * as $iter from "../../core/utils/Iterator";
@@ -195,8 +194,14 @@ var CandlestickSeries = /** @class */ (function (_super) {
     function CandlestickSeries() {
         var _this = _super.call(this) || this;
         _this.className = "CandlestickSeries";
-        _this.lowLines;
-        _this.highLines;
+        _this.strokeOpacity = 1;
+        var interfaceColors = new InterfaceColorSet();
+        var positiveColor = interfaceColors.getFor("positive");
+        var negativeColor = interfaceColors.getFor("negative");
+        _this.dropFromOpenState.properties.fill = negativeColor;
+        _this.dropFromOpenState.properties.stroke = negativeColor;
+        _this.riseFromOpenState.properties.fill = positiveColor;
+        _this.riseFromOpenState.properties.stroke = positiveColor;
         _this.applyTheme();
         return _this;
     }
@@ -223,70 +228,78 @@ var CandlestickSeries = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      * @param {CandlestickSeriesDataItem}  dataItem  Data item
      */
-    CandlestickSeries.prototype.validateDataElement = function (dataItem) {
-        _super.prototype.validateDataElement.call(this, dataItem);
-        var lowLine = this._lowLinesIterator.getFirst();
-        var highLine = this._highLinesIterator.getFirst();
-        lowLine.dataItem = dataItem;
-        highLine.dataItem = dataItem;
+    CandlestickSeries.prototype.validateDataElementReal = function (dataItem) {
+        _super.prototype.validateDataElementReal.call(this, dataItem);
         var column = dataItem.column;
-        if (this.baseAxis == this.xAxis) {
-            var x = column.pixelX + column.pixelWidth / 2;
-            lowLine.x = x;
-            highLine.x = x;
-            var open_1 = dataItem.getWorkingValue(this.yOpenField);
-            var close_1 = dataItem.getWorkingValue(this.yField);
-            var yOpen = this.yAxis.getY(dataItem, this.yOpenField);
-            var yClose = this.yAxis.getY(dataItem, this.yField);
-            var yLow = this.yAxis.getY(dataItem, this.yLowField);
-            var yHigh = this.yAxis.getY(dataItem, this.yHighField);
-            lowLine.y1 = yLow;
-            highLine.y1 = yHigh;
-            if (open_1 < close_1) {
-                lowLine.y2 = yOpen;
-                highLine.y2 = yClose;
+        if (column) {
+            var lowLine_1 = column.lowLine;
+            var highLine_1 = column.highLine;
+            if (this.baseAxis == this.xAxis) {
+                var x = column.pixelWidth / 2;
+                lowLine_1.x = x;
+                highLine_1.x = x;
+                var open_1 = dataItem.getWorkingValue(this.yOpenField);
+                var close_1 = dataItem.getWorkingValue(this.yField);
+                var yOpen = this.yAxis.getY(dataItem, this.yOpenField);
+                var yClose = this.yAxis.getY(dataItem, this.yField);
+                var yLow = this.yAxis.getY(dataItem, this.yLowField);
+                var yHigh = this.yAxis.getY(dataItem, this.yHighField);
+                var pixelY = column.pixelY;
+                lowLine_1.y1 = yLow - pixelY;
+                highLine_1.y1 = yHigh - pixelY;
+                if (open_1 < close_1) {
+                    lowLine_1.y2 = yOpen - pixelY;
+                    highLine_1.y2 = yClose - pixelY;
+                }
+                else {
+                    lowLine_1.y2 = yClose - pixelY;
+                    highLine_1.y2 = yOpen - pixelY;
+                }
             }
-            else {
-                lowLine.y2 = yClose;
-                highLine.y2 = yOpen;
+            if (this.baseAxis == this.yAxis) {
+                var y = column.pixelHeight / 2;
+                lowLine_1.y = y;
+                highLine_1.y = y;
+                var open_2 = dataItem.getWorkingValue(this.xOpenField);
+                var close_2 = dataItem.getWorkingValue(this.xField);
+                var xOpen = this.xAxis.getX(dataItem, this.xOpenField);
+                var xClose = this.xAxis.getX(dataItem, this.xField);
+                var xLow = this.xAxis.getX(dataItem, this.xLowField);
+                var xHigh = this.xAxis.getX(dataItem, this.xHighField);
+                var pixelX = column.pixelX;
+                lowLine_1.x1 = xLow - pixelX;
+                highLine_1.x1 = xHigh - pixelX;
+                if (open_2 < close_2) {
+                    lowLine_1.x2 = xOpen - pixelX;
+                    highLine_1.x2 = xClose - pixelX;
+                }
+                else {
+                    lowLine_1.x2 = xClose - pixelX;
+                    highLine_1.x2 = xOpen - pixelX;
+                }
             }
+            $iter.each(this.axisRanges.iterator(), function (axisRange) {
+                // LOW LINE
+                var rangeColumn = dataItem.rangesColumns.getKey(axisRange.uid);
+                if (rangeColumn) {
+                    var rangeLowLine = rangeColumn.lowLine;
+                    rangeLowLine.x = lowLine_1.x;
+                    rangeLowLine.y = lowLine_1.y;
+                    rangeLowLine.x1 = lowLine_1.x1;
+                    rangeLowLine.x2 = lowLine_1.x2;
+                    rangeLowLine.y1 = lowLine_1.y1;
+                    rangeLowLine.y2 = lowLine_1.y2;
+                    // HIGH LINE
+                    var rangehighLine = rangeColumn.highLine;
+                    rangehighLine.x = highLine_1.x;
+                    rangehighLine.y = highLine_1.y;
+                    rangehighLine.x1 = highLine_1.x1;
+                    rangehighLine.x2 = highLine_1.x2;
+                    rangehighLine.y1 = highLine_1.y1;
+                    rangehighLine.y2 = highLine_1.y2;
+                }
+            });
         }
-        if (this.baseAxis == this.yAxis) {
-            var y = column.pixelY + column.pixelHeight / 2;
-            lowLine.y = y;
-            highLine.y = y;
-            var open_2 = dataItem.getWorkingValue(this.xOpenField);
-            var close_2 = dataItem.getWorkingValue(this.xField);
-            var xOpen = this.xAxis.getX(dataItem, this.xOpenField);
-            var xClose = this.xAxis.getX(dataItem, this.xField);
-            var xLow = this.xAxis.getX(dataItem, this.xLowField);
-            var xHigh = this.xAxis.getX(dataItem, this.xHighField);
-            lowLine.x1 = xLow;
-            highLine.x1 = xHigh;
-            if (open_2 < close_2) {
-                lowLine.x2 = xOpen;
-                highLine.x2 = xClose;
-            }
-            else {
-                lowLine.x2 = xClose;
-                highLine.x2 = xOpen;
-            }
-        }
-        this.setColumnStates(lowLine);
-        this.setColumnStates(highLine);
-        lowLine.parent = this.columnsContainer;
-        highLine.parent = this.columnsContainer;
-    };
-    /**
-     * (Re)validates the whole series, effectively causing it to redraw.
-     *
-     * @ignore Exclude from docs
-     */
-    CandlestickSeries.prototype.validate = function () {
-        this._columnsIterator.reset();
-        this._lowLinesIterator.reset();
-        this._highLinesIterator.reset();
-        _super.prototype.validate.call(this);
     };
     Object.defineProperty(CandlestickSeries.prototype, "xLowField", {
         /**
@@ -360,48 +373,6 @@ var CandlestickSeries = /** @class */ (function (_super) {
         this.addValueField(this.yAxis, this._yValueFields, this._yLowField);
         this.addValueField(this.yAxis, this._yValueFields, this._yHighField);
     };
-    Object.defineProperty(CandlestickSeries.prototype, "lowLines", {
-        /**
-         * List of "low" line elements.
-         *
-         * @ignore Exclude from docs
-         * @return {ListTemplate<Line>} Element list
-         */
-        get: function () {
-            var _this = this;
-            if (!this._lowLines) {
-                var lineTemplate = new Line();
-                lineTemplate.isMeasured = false;
-                this._lowLines = new ListTemplate(lineTemplate);
-                this._lowLinesIterator = new $iter.ListIterator(this._lowLines, function () { return _this._lowLines.create(); });
-                this._lowLinesIterator.createNewItems = true;
-            }
-            return this._lowLines;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CandlestickSeries.prototype, "highLines", {
-        /**
-         * List of "high" line elements.
-         *
-         * @ignore Exclude from docs
-         * @return {ListTemplate<Line>} Element list
-         */
-        get: function () {
-            var _this = this;
-            if (!this._highLines) {
-                var lineTemplate = new Line();
-                lineTemplate.isMeasured = false;
-                this._highLines = new ListTemplate(lineTemplate);
-                this._highLinesIterator = new $iter.ListIterator(this._highLines, function () { return _this._highLines.create(); });
-                this._highLinesIterator.createNewItems = true;
-            }
-            return this._highLines;
-        },
-        enumerable: true,
-        configurable: true
-    });
     /**
      * Creates elements in related legend container, that mimics the look of this
      * Series.
@@ -413,12 +384,13 @@ var CandlestickSeries = /** @class */ (function (_super) {
         var w = marker.pixelWidth;
         var h = marker.pixelHeight;
         marker.removeChildren();
-        var column = marker.createChild(RoundedRectangle);
+        var column = marker.createChild(Candlestick);
+        column.shouldClone = false;
         column.copyFrom(this.columns.template);
         var cw;
         var ch;
-        var highLine = marker.createChild(Line);
-        var lowLine = marker.createChild(Line);
+        var highLine = column.lowLine;
+        var lowLine = column.highLine;
         if (this.baseAxis == this.yAxis) {
             cw = w / 3;
             ch = h;
@@ -427,7 +399,7 @@ var CandlestickSeries = /** @class */ (function (_super) {
             highLine.x2 = w / 3;
             lowLine.x2 = w / 3;
             lowLine.x = w / 3 * 2;
-            column.x = w / 3;
+            column.column.x = w / 3;
         }
         else {
             cw = w;
@@ -437,14 +409,20 @@ var CandlestickSeries = /** @class */ (function (_super) {
             highLine.y2 = h / 3;
             lowLine.y2 = h / 3;
             lowLine.y = h / 3 * 2;
-            column.y = h / 3;
+            column.column.y = h / 3;
         }
         column.width = cw;
         column.height = ch;
         $object.copyProperties(this, marker, visualProperties);
         $object.copyProperties(this.columns.template, column, visualProperties);
-        $object.copyProperties(this.lowLines.template, lowLine, visualProperties);
-        $object.copyProperties(this.highLines.template, highLine, visualProperties);
+    };
+    /**
+     * Returns an element to use for Candlestick
+     * @ignore
+     * @return {this["_column"]} Element.
+     */
+    CandlestickSeries.prototype.createColumnTemplate = function () {
+        return new Candlestick();
     };
     return CandlestickSeries;
 }(ColumnSeries));
@@ -455,6 +433,6 @@ export { CandlestickSeries };
  *
  * @ignore
  */
-system.registeredClasses["CandlestickSeries"] = CandlestickSeries;
-system.registeredClasses["CandlestickSeriesDataItem"] = CandlestickSeriesDataItem;
+registry.registeredClasses["CandlestickSeries"] = CandlestickSeries;
+registry.registeredClasses["CandlestickSeriesDataItem"] = CandlestickSeriesDataItem;
 //# sourceMappingURL=CandlestickSeries.js.map

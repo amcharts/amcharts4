@@ -19,7 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Bullet } from "./Bullet";
 import { Label } from "../../core/elements/Label";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { color } from "../../core/utils/Color";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 /**
@@ -47,8 +47,8 @@ var LabelBullet = /** @class */ (function (_super) {
     function LabelBullet() {
         var _this = _super.call(this) || this;
         _this.className = "LabelBullet";
-        _this.cloneChildren = false;
         var label = _this.createChild(Label);
+        label.shouldClone = false;
         label.verticalCenter = "middle";
         label.horizontalCenter = "middle";
         label.truncate = true;
@@ -77,18 +77,6 @@ var LabelBullet = /** @class */ (function (_super) {
         _super.prototype.copyFrom.call(this, source);
         this.label.copyFrom(source.label);
     };
-    /**
-     * Sets currently used [[DataItem]].
-     *
-     * If the element has also `configField` set, it will also look for any
-     * config in DataItem's data context to apply to this element.
-     *
-     * @param {DataItem} dataItem DataItem
-     */
-    LabelBullet.prototype.setDataItem = function (dataItem) {
-        _super.prototype.setDataItem.call(this, dataItem);
-        this.label.dataItem = dataItem;
-    };
     return LabelBullet;
 }(Bullet));
 export { LabelBullet };
@@ -98,5 +86,5 @@ export { LabelBullet };
  *
  * @ignore
  */
-system.registeredClasses["LabelBullet"] = LabelBullet;
+registry.registeredClasses["LabelBullet"] = LabelBullet;
 //# sourceMappingURL=LabelBullet.js.map

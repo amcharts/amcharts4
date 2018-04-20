@@ -1,5 +1,14 @@
-import { Color } from "./Color";
-import { DateFormatter } from "../formatters/DateFormatter";
+/**
+ * A collection of utility functions for various type checks and conversion
+ * @todo Review unused functions for removal
+ * @hidden
+ */
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
 import { Percent } from "./Percent";
 /**
  * @todo Description
@@ -127,8 +136,9 @@ export declare function castNumber(value: string | number | Date): number;
  * @return {Date}                            Date object
  * @deprecated Not used anywhere
  * @throws {Error}
+ * @hidden
+ * @deprecated
  */
-export declare function castDate(value: string | number | Date, formatter?: DateFormatter): Date;
 /**
  * ============================================================================
  * QUICK CONVERSION
@@ -150,28 +160,12 @@ export declare function toBoolean(value: any): boolean;
  */
 export declare function toNumber(value: any): number;
 /**
- * Converts any value and fits it into a specific value range.
- *
- * @param  {any}     value  Source value
- * @param  {number}  min    Minimum allowable value
- * @param  {number}  max    Maximum allowable value
- * @return {number}         Number
- */
-export declare function toNumberRange(value: any, min: number, max: number): number;
-/**
  * Converts any value into a string (text).
  *
  * @param  {any}     value  Source value
  * @return {string}         String representation of the input
  */
 export declare function toText(value: any): string;
-/**
- * Converts any value into a [[Color]].
- *
- * @param  {any}    value  Source value
- * @return {Color}         Color object
- */
-export declare function toColor(value: any): Color;
 /**
  * Converts any value to a number or [[Percent]].
  *
@@ -181,7 +175,7 @@ export declare function toColor(value: any): Color;
  * Otherwise, it will convert into a number.
  *
  * @param {number | Percent}   value  Number or percent
- * @return {number | Percent}         Color object
+ * @return {number | Percent}         Percent object
  */
 export declare function toNumberOrPercent(value: any): number | Percent;
 /**

@@ -25,7 +25,7 @@ import { Projection } from "../map/projections/Projection";
 import { SmallMap } from "../map/SmallMap";
 import { keyboard } from "../../core/utils/Keyboard";
 import { interaction } from "../../core/interaction/Interaction";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
 import * as $ease from "../../core/utils/Ease";
@@ -244,10 +244,10 @@ var MapChart = /** @class */ (function (_super) {
          * * Orthographic
          *
          * ```TypeScript
-         * map.projection = new map.projections.Mercator();
+         * map.projection = new maps.projections.Mercator();
          * ```
          * ```JavaScript
-         * map1.projection = new amcharts4.map.projections.Mercator();
+         * map.projection = new amcharts4.maps.projections.Mercator();
          * ```
          * ```JSON
          * {
@@ -407,12 +407,12 @@ var MapChart = /** @class */ (function (_super) {
         seriesContainer.x = chartContainer.pixelWidth / 2;
         seriesContainer.y = chartContainer.pixelHeight / 2;
     };
-    Object.defineProperty(MapChart.prototype, "geoJSON", {
+    Object.defineProperty(MapChart.prototype, "geodata", {
         /**
          * @return {Object} GeoJSON data
          */
         get: function () {
-            return this._geoJSON;
+            return this._geodata;
         },
         /**
          * Map data in GeoJSON format.
@@ -423,9 +423,9 @@ var MapChart = /** @class */ (function (_super) {
          * @see {@link http://geojson.org/} Official GeoJSON format specification
          * @param {Object} geoJSON GeoJSON data
          */
-        set: function (geoJSON) {
-            if (geoJSON != this._geoJSON) {
-                this._geoJSON = geoJSON;
+        set: function (geodata) {
+            if (geodata != this._geodata) {
+                this._geodata = geodata;
                 this.invalidateData();
             }
         },
@@ -667,11 +667,11 @@ var MapChart = /** @class */ (function (_super) {
          *
          * ```TypeScript
          * // Create a zoom control
-         * map.zoomControl = new map.ZoomControl();
+         * map.zoomControl = new maps.ZoomControl();
          * ```
          * ```JavaScript
          * // Create a zoom control
-         * map.zoomControl = new amcharts4.map.ZoomControl();
+         * map.zoomControl = new amcharts4.maps.ZoomControl();
          * ```
          * ```JSON
          * {
@@ -787,6 +787,13 @@ var MapChart = /** @class */ (function (_super) {
         if (a == b) {
             return 0;
         }
+        // Must come last
+        else if (a == "smallMap") {
+            return 1;
+        }
+        else if (b == "smallMap") {
+            return -1;
+        }
         else if (a == "series") {
             return 1;
         }
@@ -815,5 +822,5 @@ export { MapChart };
  *
  * @ignore
  */
-system.registeredClasses["MapChart"] = MapChart;
+registry.registeredClasses["MapChart"] = MapChart;
 //# sourceMappingURL=MapChart.js.map

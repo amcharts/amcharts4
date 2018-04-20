@@ -19,7 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Bullet } from "./Bullet";
 import { Circle } from "../../core/elements/Circle";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -45,8 +45,8 @@ var CircleBullet = /** @class */ (function (_super) {
     function CircleBullet() {
         var _this = _super.call(this) || this;
         _this.className = "CircleBullet";
-        _this.cloneChildren = false;
         _this.circle = _this.createChild(Circle);
+        _this.circle.shouldClone = false;
         _this.circle.radius = 5;
         return _this;
     }
@@ -60,18 +60,6 @@ var CircleBullet = /** @class */ (function (_super) {
         _super.prototype.copyFrom.call(this, source);
         this.circle.copyFrom(source.circle);
     };
-    /**
-     * Sets currently used [[DataItem]].
-     *
-     * If the element has also `configField` set, it will also look for any
-     * config in DataItem's data context to apply to this element.
-     *
-     * @param {DataItem} dataItem DataItem
-     */
-    CircleBullet.prototype.setDataItem = function (dataItem) {
-        _super.prototype.setDataItem.call(this, dataItem);
-        this.circle.dataItem = dataItem;
-    };
     return CircleBullet;
 }(Bullet));
 export { CircleBullet };
@@ -81,5 +69,5 @@ export { CircleBullet };
  *
  * @ignore
  */
-system.registeredClasses["CircleBullet"] = CircleBullet;
+registry.registeredClasses["CircleBullet"] = CircleBullet;
 //# sourceMappingURL=CircleBullet.js.map

@@ -43,7 +43,9 @@ var Rectangle3D = /** @class */ (function (_super) {
         _this.angle = 30;
         _this.depth = 30;
         _this.className = "Rectangle3D";
+        _this.layout = "none";
         var sideBack = _this.createChild(Sprite);
+        sideBack.shouldClone = false;
         sideBack.element = _this.paper.add("path");
         sideBack.isMeasured = false;
         var lightenFilterBack = new LightenFilter();
@@ -52,6 +54,7 @@ var Rectangle3D = /** @class */ (function (_super) {
         _this.sideBack = sideBack;
         _this._disposers.push(_this.sideBack);
         var sideBottom = _this.createChild(Sprite);
+        sideBottom.shouldClone = false;
         sideBottom.element = _this.paper.add("path");
         sideBottom.isMeasured = false;
         var lightenFilterBottom = new LightenFilter();
@@ -60,6 +63,7 @@ var Rectangle3D = /** @class */ (function (_super) {
         _this.sideBottom = sideBottom;
         _this._disposers.push(_this.sideBottom);
         var sideLeft = _this.createChild(Sprite);
+        sideLeft.shouldClone = false;
         sideLeft.element = _this.paper.add("path");
         sideLeft.isMeasured = false;
         var lightenFilterLeft = new LightenFilter();
@@ -68,6 +72,7 @@ var Rectangle3D = /** @class */ (function (_super) {
         _this.sideLeft = sideLeft;
         _this._disposers.push(_this.sideLeft);
         var sideRight = _this.createChild(Sprite);
+        sideRight.shouldClone = false;
         sideRight.element = _this.paper.add("path");
         sideRight.isMeasured = false;
         var lightenFilterRight = new LightenFilter();
@@ -76,6 +81,7 @@ var Rectangle3D = /** @class */ (function (_super) {
         _this.sideRight = sideRight;
         _this._disposers.push(_this.sideRight);
         var sideTop = _this.createChild(Sprite);
+        sideTop.shouldClone = false;
         sideTop.element = _this.paper.add("path");
         sideTop.isMeasured = false;
         var lightenFilterTop = new LightenFilter();
@@ -84,6 +90,7 @@ var Rectangle3D = /** @class */ (function (_super) {
         _this.sideTop = sideTop;
         _this._disposers.push(_this.sideTop);
         var sideFront = _this.createChild(Sprite);
+        sideFront.shouldClone = false;
         sideFront.element = _this.paper.add("path");
         sideFront.isMeasured = false;
         _this.sideFront = sideFront;

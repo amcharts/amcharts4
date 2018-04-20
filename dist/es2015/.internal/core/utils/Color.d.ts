@@ -7,9 +7,9 @@
  * ============================================================================
  * @hidden
  */
-import { iRGB, iHSV, iHSL, color, isColor, castColor } from "./Colors";
+import { iRGB, iHSV, iHSL } from "./Colors";
 import * as $type from "./Type";
-export { iRGB, iHSV, iHSL, color, isColor, castColor };
+export { iRGB, iHSV, iHSL };
 /**
  * Represents a color.
  *
@@ -166,3 +166,33 @@ export declare class Color {
      */
     readonly alternative: Color;
 }
+/**
+ * Resolves an input variable to a normal [[iRGB]] color and creates [[Color]]
+ * object for it.
+ *
+ * @param  {string | iRGB | Color}  value  Input value
+ * @param  {number}                 alpha  Alpha (0-1)
+ * @return {Color}                         Color object
+ */
+export declare function color(value?: string | iRGB | Color, alpha?: number): Color;
+/**
+ * Checks if supplied argument is instance of [[Color]].
+ *
+ * @param  {any}      value  Input value
+ * @return {boolean}         Is Color?
+ */
+export declare function isColor(value: any): boolean;
+/**
+ * Converts any value to [[Color]].
+ *
+ * @param  {any}    value  Input value
+ * @return {Color}         Color
+ */
+export declare function castColor(value: any): Color;
+/**
+ * Converts any value into a [[Color]].
+ *
+ * @param  {any}    value  Source value
+ * @return {Color}         Color object
+ */
+export declare function toColor(value: any): Color;

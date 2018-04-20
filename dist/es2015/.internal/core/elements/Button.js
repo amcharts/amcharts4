@@ -20,7 +20,6 @@ var __extends = (this && this.__extends) || (function () {
 import { Container } from "../Container";
 import { Label } from "./Label";
 import { RoundedRectangle } from "../elements/RoundedRectangle";
-import { ColorSet } from "../utils/ColorSet";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 /**
  * ============================================================================
@@ -46,7 +45,6 @@ var Button = /** @class */ (function (_super) {
         _super.call(this) || this;
         _this.className = "Button";
         _this.tooltipY = 0;
-        var colorSet = new ColorSet();
         // Set defaults
         _this.iconPosition = "left";
         _this.layout = "horizontal";

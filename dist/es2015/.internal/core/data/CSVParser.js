@@ -73,7 +73,6 @@ var CSVParser = /** @class */ (function (_super) {
         // possible separators and check if it results in same number of columns.
         // If it does, we're going to assume it's a CSV
         var lines = data.split("\n");
-        var cnt = Math.min(5, lines.length);
         var separator;
         for (var x in separators) {
             var sep = separators[x], columns = 0, lineColums = 0;

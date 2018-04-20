@@ -15,9 +15,9 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Sprite } from "../../core/Sprite";
-import { system } from "../../core/System";
-import * as $type from "../../core/utils/Type";
+import { registry } from "../../core/Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
+import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -137,5 +137,5 @@ export { AxisFill };
  *
  * @ignore
  */
-system.registeredClasses["AxisFill"] = AxisFill;
+registry.registeredClasses["AxisFill"] = AxisFill;
 //# sourceMappingURL=AxisFill.js.map

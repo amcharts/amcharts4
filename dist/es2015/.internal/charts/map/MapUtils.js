@@ -13,7 +13,7 @@ export function multiPolygonToGeo(multiPolygon) {
     for (var i = 0; i < multiPolygon.length; i++) {
         var surface = multiPolygon[i][0];
         var hole = multiPolygon[i][1];
-        var holePoints = [];
+        //let holePoints: IGeoPoint[] = [];
         multiGeoArea[i] = [];
         if (surface) {
             multiGeoArea[i].push(multiPointToGeo(surface));

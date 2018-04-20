@@ -19,7 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { MapObject } from "./MapObject";
 import { Polygon } from "../../core/elements/Polygon";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 /**
  * ============================================================================
@@ -42,6 +42,7 @@ var MapPolygon = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.className = "MapPolygon";
         _this.polygon = _this.createChild(Polygon);
+        _this.polygon.shouldClone = false;
         var interfaceColors = new InterfaceColorSet();
         _this.fill = interfaceColors.getFor("secondaryButton");
         _this.stroke = interfaceColors.getFor("secondaryButtonStroke");
@@ -80,7 +81,6 @@ var MapPolygon = /** @class */ (function (_super) {
     MapPolygon.prototype.validate = function () {
         if (this.series) {
             this.polygon.points = this.series.chart.projection.projectGeoArea(this.multiGeoPolygon);
-            this.series.fillRule(this);
         }
         _super.prototype.validate.call(this);
     };
@@ -185,5 +185,5 @@ export { MapPolygon };
  *
  * @ignore
  */
-system.registeredClasses["MapPolygon"] = MapPolygon;
+registry.registeredClasses["MapPolygon"] = MapPolygon;
 //# sourceMappingURL=MapPolygon.js.map

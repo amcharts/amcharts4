@@ -16,7 +16,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { AxisFill } from "./AxisFill";
 import { percent } from "../../core/utils/Percent";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
@@ -128,5 +128,5 @@ export { AxisFillCircular };
  *
  * @ignore
  */
-system.registeredClasses["AxisFillCircular"] = AxisFillCircular;
+registry.registeredClasses["AxisFillCircular"] = AxisFillCircular;
 //# sourceMappingURL=AxisFillCircular.js.map

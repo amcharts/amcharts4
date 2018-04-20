@@ -412,6 +412,35 @@ var EventDispatcher = /** @class */ (function () {
     EventDispatcher.prototype.off = function (type, callback, context) {
         this._removeExistingListener(false, type, callback, context);
     };
+    /**
+     * Copies all dispatcher parameters, including listeners, from another event
+     * dispatcher.
+     *
+     * @param {this} source Source event dispatcher
+     */
+    EventDispatcher.prototype.copyFrom = function (source) {
+        var _this = this;
+        if (this._disposed) {
+            throw new Error("EventDispatcher is disposed");
+        }
+        if (source === this) {
+            throw new Error("Cannot copyFrom the same TargetedEventDispatcher");
+        }
+        $array.each(source._listeners, function (x) {
+            // TODO is this correct ?
+            if (!x.killed) {
+                if (x.type === null) {
+                    _this.onAll(x.callback, x.context);
+                }
+                else if (x.once) {
+                    _this.once(x.type, x.callback, x.context);
+                }
+                else {
+                    _this.on(x.type, x.callback, x.context);
+                }
+            }
+        });
+    };
     return EventDispatcher;
 }());
 export { EventDispatcher };

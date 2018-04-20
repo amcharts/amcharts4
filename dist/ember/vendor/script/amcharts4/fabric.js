@@ -17,12 +17,16080 @@
  * PLEASE DO NOT REMOVE THIS COPYRIGHT NOTICE.
  * @hidden
  */
-webpackJsonp([3],{624:function(t,e,i){(function(r){var n,s,o,a,h,c,l,u,f,d,g,p,v,m,y,_,x,b=b||{version:"2.1.0"};function C(t,e){var i=t.canvas,r=e.targetCanvas,n=r.getContext("2d");n.translate(0,r.height),n.scale(1,-1);var s=i.height-r.height;n.drawImage(i,0,s,r.width,r.height,0,0,r.width,r.height)}function S(t,e){var i=e.targetCanvas.getContext("2d"),r=e.destinationWidth,n=e.destinationHeight,s=r*n*4,o=new Uint8Array(this.imageBuffer,0,s),a=new Uint8ClampedArray(this.imageBuffer,0,s);t.readPixels(0,0,r,n,t.RGBA,t.UNSIGNED_BYTE,o);var h=new ImageData(a,r,n);i.putImageData(h,0,0)}e.fabric=b,"undefined"!=typeof document&&"undefined"!=typeof window?(b.document=document,b.window=window):(b.document=i(635).jsdom(decodeURIComponent("%3C!DOCTYPE%20html%3E%3Chtml%3E%3Chead%3E%3C%2Fhead%3E%3Cbody%3E%3C%2Fbody%3E%3C%2Fhtml%3E"),{features:{FetchExternalResources:["img"]}}),b.jsdomImplForWrapper=i(636).implForWrapper,b.nodeCanvas=i(637).Canvas,b.window=b.document.defaultView,DOMParser=i(638).DOMParser),b.isTouchSupported="ontouchstart"in b.window,b.isLikelyNode=void 0!==r&&"undefined"==typeof window,b.SHARED_ATTRIBUTES=["display","transform","fill","fill-opacity","fill-rule","opacity","stroke","stroke-dasharray","stroke-linecap","stroke-linejoin","stroke-miterlimit","stroke-opacity","stroke-width","id","paint-order","instantiated_by_use"],b.DPI=96,b.reNum="(?:[-+]?(?:\\d+|\\d*\\.\\d+)(?:e[-+]?\\d+)?)",b.fontPaths={},b.iMatrix=[1,0,0,1,0,0],b.canvasModule="canvas",b.perfLimitSizeTotal=2097152,b.maxCacheSideLimit=4096,b.minCacheSideLimit=256,b.charWidthsCache={},b.textureSize=2048,b.enableGLFiltering=!0,b.devicePixelRatio=b.window.devicePixelRatio||b.window.webkitDevicePixelRatio||b.window.mozDevicePixelRatio||1,b.browserShadowBlurConstant=1,b.initFilterBackend=function(){return b.enableGLFiltering&&b.isWebglSupported&&b.isWebglSupported(b.textureSize)?(console.log("max texture size: "+b.maxTextureSize),new b.WebglFilterBackend({tileSize:b.textureSize})):b.Canvas2dFilterBackend?new b.Canvas2dFilterBackend:void 0},"undefined"!=typeof document&&"undefined"!=typeof window&&(window.fabric=b),function(){function t(t,e){if(this.__eventListeners[t]){var i=this.__eventListeners[t];e?i[i.indexOf(e)]=!1:b.util.array.fill(i,!1)}}function e(t,e){if(this.__eventListeners||(this.__eventListeners={}),1===arguments.length)for(var i in t)this.on(i,t[i]);else this.__eventListeners[t]||(this.__eventListeners[t]=[]),this.__eventListeners[t].push(e);return this}function i(e,i){if(this.__eventListeners){if(0===arguments.length)for(e in this.__eventListeners)t.call(this,e);else if(1===arguments.length&&"object"==typeof arguments[0])for(var r in e)t.call(this,r,e[r]);else t.call(this,e,i);return this}}function r(t,e){if(this.__eventListeners){var i=this.__eventListeners[t];if(i){for(var r=0,n=i.length;r<n;r++)i[r]&&i[r].call(this,e||{});return this.__eventListeners[t]=i.filter(function(t){return!1!==t}),this}}}b.Observable={observe:e,stopObserving:i,fire:r,on:e,off:i,trigger:r}}(),b.Collection={_objects:[],add:function(){if(this._objects.push.apply(this._objects,arguments),this._onObjectAdded)for(var t=0,e=arguments.length;t<e;t++)this._onObjectAdded(arguments[t]);return this.renderOnAddRemove&&this.requestRenderAll(),this},insertAt:function(t,e,i){var r=this.getObjects();return i?r[e]=t:r.splice(e,0,t),this._onObjectAdded&&this._onObjectAdded(t),this.renderOnAddRemove&&this.requestRenderAll(),this},remove:function(){for(var t,e=this.getObjects(),i=!1,r=0,n=arguments.length;r<n;r++)-1!==(t=e.indexOf(arguments[r]))&&(i=!0,e.splice(t,1),this._onObjectRemoved&&this._onObjectRemoved(arguments[r]));return this.renderOnAddRemove&&i&&this.requestRenderAll(),this},forEachObject:function(t,e){for(var i=this.getObjects(),r=0,n=i.length;r<n;r++)t.call(e,i[r],r,i);return this},getObjects:function(t){return void 0===t?this._objects:this._objects.filter(function(e){return e.type===t})},item:function(t){return this.getObjects()[t]},isEmpty:function(){return 0===this.getObjects().length},size:function(){return this.getObjects().length},contains:function(t){return this.getObjects().indexOf(t)>-1},complexity:function(){return this.getObjects().reduce(function(t,e){return t+=e.complexity?e.complexity():0},0)}},b.CommonMethods={_setOptions:function(t){for(var e in t)this.set(e,t[e])},_initGradient:function(t,e){!t||!t.colorStops||t instanceof b.Gradient||this.set(e,new b.Gradient(t))},_initPattern:function(t,e,i){!t||!t.source||t instanceof b.Pattern?i&&i():this.set(e,new b.Pattern(t,i))},_initClipping:function(t){if(t.clipTo&&"string"==typeof t.clipTo){var e=b.util.getFunctionBody(t.clipTo);void 0!==e&&(this.clipTo=new Function("ctx",e))}},_setObject:function(t){for(var e in t)this._set(e,t[e])},set:function(t,e){return"object"==typeof t?this._setObject(t):"function"==typeof e&&"clipTo"!==t?this._set(t,e(this.get(t))):this._set(t,e),this},_set:function(t,e){this[t]=e},toggle:function(t){var e=this.get(t);return"boolean"==typeof e&&this.set(t,!e),this},get:function(t){return this[t]}},s=e,o=Math.sqrt,a=Math.atan2,h=Math.pow,c=Math.abs,l=Math.PI/180,u=Math.PI/2,b.util={cos:function(t){if(0===t)return 1;switch(t<0&&(t=-t),t/u){case 1:case 3:return 0;case 2:return-1}return Math.cos(t)},sin:function(t){if(0===t)return 0;var e=1;switch(t<0&&(e=-1),t/u){case 1:return e;case 2:return 0;case 3:return-e}return Math.sin(t)},removeFromArray:function(t,e){var i=t.indexOf(e);return-1!==i&&t.splice(i,1),t},getRandomInt:function(t,e){return Math.floor(Math.random()*(e-t+1))+t},degreesToRadians:function(t){return t*l},radiansToDegrees:function(t){return t/l},rotatePoint:function(t,e,i){t.subtractEquals(e);var r=b.util.rotateVector(t,i);return new b.Point(r.x,r.y).addEquals(e)},rotateVector:function(t,e){var i=b.util.sin(e),r=b.util.cos(e);return{x:t.x*r-t.y*i,y:t.x*i+t.y*r}},transformPoint:function(t,e,i){return i?new b.Point(e[0]*t.x+e[2]*t.y,e[1]*t.x+e[3]*t.y):new b.Point(e[0]*t.x+e[2]*t.y+e[4],e[1]*t.x+e[3]*t.y+e[5])},makeBoundingBoxFromPoints:function(t){var e=[t[0].x,t[1].x,t[2].x,t[3].x],i=b.util.array.min(e),r=b.util.array.max(e)-i,n=[t[0].y,t[1].y,t[2].y,t[3].y],s=b.util.array.min(n);return{left:i,top:s,width:r,height:b.util.array.max(n)-s}},invertTransform:function(t){var e=1/(t[0]*t[3]-t[1]*t[2]),i=[e*t[3],-e*t[1],-e*t[2],e*t[0]],r=b.util.transformPoint({x:t[4],y:t[5]},i,!0);return i[4]=-r.x,i[5]=-r.y,i},toFixed:function(t,e){return parseFloat(Number(t).toFixed(e))},parseUnit:function(t,e){var i=/\D{0,2}$/.exec(t),r=parseFloat(t);switch(e||(e=b.Text.DEFAULT_SVG_FONT_SIZE),i[0]){case"mm":return r*b.DPI/25.4;case"cm":return r*b.DPI/2.54;case"in":return r*b.DPI;case"pt":return r*b.DPI/72;case"pc":return r*b.DPI/72*12;case"em":return r*e;default:return r}},falseFunction:function(){return!1},getKlass:function(t,e){return t=b.util.string.camelize(t.charAt(0).toUpperCase()+t.slice(1)),b.util.resolveNamespace(e)[t]},getSvgAttributes:function(t){var e=["instantiated_by_use","style","id","class"];switch(t){case"linearGradient":e=e.concat(["x1","y1","x2","y2","gradientUnits","gradientTransform"]);break;case"radialGradient":e=e.concat(["gradientUnits","gradientTransform","cx","cy","r","fx","fy","fr"]);break;case"stop":e=e.concat(["offset","stop-color","stop-opacity"])}return e},resolveNamespace:function(t){if(!t)return b;var e,i=t.split("."),r=i.length,n=s||b.window;for(e=0;e<r;++e)n=n[i[e]];return n},loadImage:function(t,e,i,r){if(t){var n=b.util.createImage(),s=function(){e&&e.call(i,n),n=n.onload=n.onerror=null};n.onload=s,n.onerror=function(){b.log("Error loading "+n.src),e&&e.call(i,null,!0),n=n.onload=n.onerror=null},0!==t.indexOf("data")&&r&&(n.crossOrigin=r),"data:image/svg"===t.substring(0,14)&&(n.onload=null,b.util.loadImageInDom(n,s)),n.src=t}else e&&e.call(i,t)},loadImageInDom:function(t,e){var i=b.document.createElement("div");i.style.width=i.style.height="1px",i.style.left=i.style.top="-100%",i.style.position="absolute",i.appendChild(t),b.document.querySelector("body").appendChild(i),t.onload=function(){e(),i.parentNode.removeChild(i),i=null}},enlivenObjects:function(t,e,i,r){function n(){++o===a&&e&&e(s)}var s=[],o=0,a=(t=t||[]).length;a?t.forEach(function(t,e){t&&t.type?b.util.getKlass(t.type,i).fromObject(t,function(i,o){o||(s[e]=i),r&&r(t,i,o),n()}):n()}):e&&e(s)},enlivenPatterns:function(t,e){function i(){++n===s&&e&&e(r)}var r=[],n=0,s=(t=t||[]).length;s?t.forEach(function(t,e){t&&t.source?new b.Pattern(t,function(t){r[e]=t,i()}):(r[e]=t,i())}):e&&e(r)},groupSVGElements:function(t,e,i){var r;return 1===t.length?t[0]:(e&&(e.width&&e.height?e.centerPoint={x:e.width/2,y:e.height/2}:(delete e.width,delete e.height)),r=new b.Group(t,e),void 0!==i&&(r.sourcePath=i),r)},populateWithProperties:function(t,e,i){if(i&&"[object Array]"===Object.prototype.toString.call(i))for(var r=0,n=i.length;r<n;r++)i[r]in t&&(e[i[r]]=t[i[r]])},drawDashedLine:function(t,e,i,r,n,s){var h=r-e,c=n-i,l=o(h*h+c*c),u=a(c,h),f=s.length,d=0,g=!0;for(t.save(),t.translate(e,i),t.moveTo(0,0),t.rotate(u),e=0;l>e;)(e+=s[d++%f])>l&&(e=l),t[g?"lineTo":"moveTo"](e,0),g=!g;t.restore()},createCanvasElement:function(){return b.document.createElement("canvas")},createImage:function(){return b.document.createElement("img")},clipContext:function(t,e){e.save(),e.beginPath(),t.clipTo(e),e.clip()},multiplyTransformMatrices:function(t,e,i){return[t[0]*e[0]+t[2]*e[1],t[1]*e[0]+t[3]*e[1],t[0]*e[2]+t[2]*e[3],t[1]*e[2]+t[3]*e[3],i?0:t[0]*e[4]+t[2]*e[5]+t[4],i?0:t[1]*e[4]+t[3]*e[5]+t[5]]},qrDecompose:function(t){var e=a(t[1],t[0]),i=h(t[0],2)+h(t[1],2),r=o(i),n=(t[0]*t[3]-t[2]*t[1])/r,s=a(t[0]*t[2]+t[1]*t[3],i);return{angle:e/l,scaleX:r,scaleY:n,skewX:s/l,skewY:0,translateX:t[4],translateY:t[5]}},customTransformMatrix:function(t,e,i){var r=[1,0,c(Math.tan(i*l)),1],n=[c(t),0,0,c(e)];return b.util.multiplyTransformMatrices(n,r,!0)},resetObjectTransform:function(t){t.scaleX=1,t.scaleY=1,t.skewX=0,t.skewY=0,t.flipX=!1,t.flipY=!1,t.rotate(0)},getFunctionBody:function(t){return(String(t).match(/function[^{]*\{([\s\S]*)\}/)||{})[1]},isTransparent:function(t,e,i,r){r>0&&(e>r?e-=r:e=0,i>r?i-=r:i=0);var n,s=!0,o=t.getImageData(e,i,2*r||1,2*r||1),a=o.data.length;for(n=3;n<a&&!1!=(s=o.data[n]<=0);n+=4);return o=null,s},parsePreserveAspectRatioAttribute:function(t){var e,i="meet",r=t.split(" ");return r&&r.length&&("meet"!==(i=r.pop())&&"slice"!==i?(e=i,i="meet"):r.length&&(e=r.pop())),{meetOrSlice:i,alignX:"none"!==e?e.slice(1,4):"none",alignY:"none"!==e?e.slice(5,8):"none"}},clearFabricFontCache:function(t){t?b.charWidthsCache[t]&&delete b.charWidthsCache[t]:b.charWidthsCache={}},limitDimsByArea:function(t,e){var i=Math.sqrt(e*t),r=Math.floor(e/i);return{x:Math.floor(i),y:r}},capValue:function(t,e,i){return Math.max(t,Math.min(e,i))},findScaleToFit:function(t,e){return Math.min(e.width/t.width,e.height/t.height)},findScaleToCover:function(t,e){return Math.max(e.width/t.width,e.height/t.height)}},function(){var t={},e={},i={},r=Array.prototype.join;function n(e,i,n,a,h,c,l){var u=r.call(arguments);if(t[u])return t[u];var f=Math.PI,d=l*f/180,g=b.util.sin(d),p=b.util.cos(d),v=0,m=0,y=-p*e*.5-g*i*.5,_=-p*i*.5+g*e*.5,x=(n=Math.abs(n))*n,C=(a=Math.abs(a))*a,S=_*_,w=y*y,T=x*C-x*S-C*w,O=0;if(T<0){var E=Math.sqrt(1-T/(x*C));n*=E,a*=E}else O=(h===c?-1:1)*Math.sqrt(T/(x*S+C*w));var k=O*n*_/a,D=-O*a*y/n,A=p*k-g*D+.5*e,j=g*k+p*D+.5*i,P=o(1,0,(y-k)/n,(_-D)/a),M=o((y-k)/n,(_-D)/a,(-y-k)/n,(-_-D)/a);0===c&&M>0?M-=2*f:1===c&&M<0&&(M+=2*f);for(var F=Math.ceil(Math.abs(M/f*2)),I=[],L=M/F,R=8/3*Math.sin(L/4)*Math.sin(L/4)/Math.sin(L/2),B=P+L,X=0;X<F;X++)I[X]=s(P,B,p,g,n,a,A,j,R,v,m),v=I[X][4],m=I[X][5],P=B,B+=L;return t[u]=I,I}function s(t,i,n,s,o,a,h,c,l,u,f){var d=r.call(arguments);if(e[d])return e[d];var g=b.util.cos(t),p=b.util.sin(t),v=b.util.cos(i),m=b.util.sin(i),y=n*o*v-s*a*m+h,_=s*o*v+n*a*m+c,x=u+l*(-n*o*p-s*a*g),C=f+l*(-s*o*p+n*a*g),S=y+l*(n*o*m+s*a*v),w=_+l*(s*o*m-n*a*v);return e[d]=[x,C,S,w,y,_],e[d]}function o(t,e,i,r){var n=Math.atan2(e,t),s=Math.atan2(r,i);return s>=n?s-n:2*Math.PI-(n-s)}function a(t,e,n,s,o,a,h,c){var l=r.call(arguments);if(i[l])return i[l];var u,f,d,g,p,v,m,y,_=Math.sqrt,x=Math.min,b=Math.max,C=Math.abs,S=[],w=[[],[]];f=6*t-12*n+6*o,u=-3*t+9*n-9*o+3*h,d=3*n-3*t;for(var T=0;T<2;++T)if(T>0&&(f=6*e-12*s+6*a,u=-3*e+9*s-9*a+3*c,d=3*s-3*e),C(u)<1e-12){if(C(f)<1e-12)continue;0<(g=-d/f)&&g<1&&S.push(g)}else(m=f*f-4*d*u)<0||(0<(p=(-f+(y=_(m)))/(2*u))&&p<1&&S.push(p),0<(v=(-f-y)/(2*u))&&v<1&&S.push(v));for(var O,E,k,D=S.length,A=D;D--;)O=(k=1-(g=S[D]))*k*k*t+3*k*k*g*n+3*k*g*g*o+g*g*g*h,w[0][D]=O,E=k*k*k*e+3*k*k*g*s+3*k*g*g*a+g*g*g*c,w[1][D]=E;w[0][A]=t,w[1][A]=e,w[0][A+1]=h,w[1][A+1]=c;var j=[{x:x.apply(null,w[0]),y:x.apply(null,w[1])},{x:b.apply(null,w[0]),y:b.apply(null,w[1])}];return i[l]=j,j}b.util.drawArc=function(t,e,i,r){for(var s=r[0],o=r[1],a=r[2],h=r[3],c=r[4],l=[[],[],[],[]],u=n(r[5]-e,r[6]-i,s,o,h,c,a),f=0,d=u.length;f<d;f++)l[f][0]=u[f][0]+e,l[f][1]=u[f][1]+i,l[f][2]=u[f][2]+e,l[f][3]=u[f][3]+i,l[f][4]=u[f][4]+e,l[f][5]=u[f][5]+i,t.bezierCurveTo.apply(t,l[f])},b.util.getBoundsOfArc=function(t,e,i,r,s,o,h,c,l){for(var u,f=0,d=0,g=[],p=n(c-t,l-e,i,r,o,h,s),v=0,m=p.length;v<m;v++)u=a(f,d,p[v][0],p[v][1],p[v][2],p[v][3],p[v][4],p[v][5]),g.push({x:u[0].x+t,y:u[0].y+e}),g.push({x:u[1].x+t,y:u[1].y+e}),f=p[v][4],d=p[v][5];return g},b.util.getBoundsOfCurve=a}(),function(){var t=Array.prototype.slice;function e(t,e,i){if(t&&0!==t.length){var r=t.length-1,n=e?t[r][e]:t[r];if(e)for(;r--;)i(t[r][e],n)&&(n=t[r][e]);else for(;r--;)i(t[r],n)&&(n=t[r]);return n}}b.util.array={fill:function(t,e){for(var i=t.length;i--;)t[i]=e;return t},invoke:function(e,i){for(var r=t.call(arguments,2),n=[],s=0,o=e.length;s<o;s++)n[s]=r.length?e[s][i].apply(e[s],r):e[s][i].call(e[s]);return n},min:function(t,i){return e(t,i,function(t,e){return t<e})},max:function(t,i){return e(t,i,function(t,e){return t>=e})}}}(),function(){function t(e,i,r){if(r)if(!b.isLikelyNode&&i instanceof Element)e=i;else if(i instanceof Array){e=[];for(var n=0,s=i.length;n<s;n++)e[n]=t({},i[n],r)}else if(i&&"object"==typeof i)for(var o in i)i.hasOwnProperty(o)&&(e[o]=t({},i[o],r));else e=i;else for(var o in i)e[o]=i[o];return e}b.util.object={extend:t,clone:function(e,i){return t({},e,i)}},b.util.object.extend(b.util,b.Observable)}(),function(){function t(t,e){var i=t.charCodeAt(e);if(isNaN(i))return"";if(i<55296||i>57343)return t.charAt(e);if(55296<=i&&i<=56319){if(t.length<=e+1)throw"High surrogate without following low surrogate";var r=t.charCodeAt(e+1);if(56320>r||r>57343)throw"High surrogate without following low surrogate";return t.charAt(e)+t.charAt(e+1)}if(0===e)throw"Low surrogate without preceding high surrogate";var n=t.charCodeAt(e-1);if(55296>n||n>56319)throw"Low surrogate without preceding high surrogate";return!1}b.util.string={camelize:function(t){return t.replace(/-+(.)?/g,function(t,e){return e?e.toUpperCase():""})},capitalize:function(t,e){return t.charAt(0).toUpperCase()+(e?t.slice(1):t.slice(1).toLowerCase())},escapeXml:function(t){return t.replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/'/g,"&apos;").replace(/</g,"&lt;").replace(/>/g,"&gt;")},graphemeSplit:function(e){var i,r=0,n=[];for(r=0;r<e.length;r++)!1!==(i=t(e,r))&&n.push(i);return n}}}(),function(){var t=Array.prototype.slice,e=function(){},i=function(){for(var t in{toString:1})if("toString"===t)return!1;return!0}(),r=function(t,e,r){for(var n in e)n in t.prototype&&"function"==typeof t.prototype[n]&&(e[n]+"").indexOf("callSuper")>-1?t.prototype[n]=function(t){return function(){var i=this.constructor.superclass;this.constructor.superclass=r;var n=e[t].apply(this,arguments);if(this.constructor.superclass=i,"initialize"!==t)return n}}(n):t.prototype[n]=e[n],i&&(e.toString!==Object.prototype.toString&&(t.prototype.toString=e.toString),e.valueOf!==Object.prototype.valueOf&&(t.prototype.valueOf=e.valueOf))};function n(){}function s(e){for(var i=null,r=this;r.constructor.superclass;){var n=r.constructor.superclass.prototype[e];if(r[e]!==n){i=n;break}r=r.constructor.superclass.prototype}return i?arguments.length>1?i.apply(this,t.call(arguments,1)):i.call(this):console.log("tried to callSuper "+e+", method not found in prototype chain",this)}b.util.createClass=function(){var i=null,o=t.call(arguments,0);function a(){this.initialize.apply(this,arguments)}"function"==typeof o[0]&&(i=o.shift()),a.superclass=i,a.subclasses=[],i&&(n.prototype=i.prototype,a.prototype=new n,i.subclasses.push(a));for(var h=0,c=o.length;h<c;h++)r(a,o[h],i);return a.prototype.initialize||(a.prototype.initialize=e),a.prototype.constructor=a,a.prototype.callSuper=s,a}}(),function(){var t="unknown";function e(t){var e,i,r=Array.prototype.slice.call(arguments,1),n=r.length;for(i=0;i<n;i++)if(e=typeof t[r[i]],!/^(?:function|object|unknown)$/.test(e))return!1;return!0}var i,r,n,s,o=(n=0,function(t){return t.__uniqueID||(t.__uniqueID="uniqueID__"+n++)});function a(t,e){return{handler:e,wrappedHandler:function(t,e){return function(r){e.call(i(t),r||b.window.event)}}(t,e)}}s={},i=function(t){return s[t]},r=function(t,e){s[t]=e};var h,c,l=e(b.document.documentElement,"addEventListener","removeEventListener")&&e(b.window,"addEventListener","removeEventListener"),u=e(b.document.documentElement,"attachEvent","detachEvent")&&e(b.window,"attachEvent","detachEvent"),f={},d={};l?(h=function(t,e,i,r){t&&t.addEventListener(e,i,!u&&r)},c=function(t,e,i,r){t&&t.removeEventListener(e,i,!u&&r)}):u?(h=function(t,e,i){if(t){var n=o(t);r(n,t),f[n]||(f[n]={}),f[n][e]||(f[n][e]=[]);var s=a(n,i);f[n][e].push(s),t.attachEvent("on"+e,s.wrappedHandler)}},c=function(t,e,i){if(t){var r,n=o(t);if(f[n]&&f[n][e])for(var s=0,a=f[n][e].length;s<a;s++)(r=f[n][e][s])&&r.handler===i&&(t.detachEvent("on"+e,r.wrappedHandler),f[n][e][s]=null)}}):(h=function(t,e,i){if(t){var r=o(t);if(d[r]||(d[r]={}),!d[r][e]){d[r][e]=[];var n=t["on"+e];n&&d[r][e].push(n),t["on"+e]=function(t,e){return function(i){if(d[t]&&d[t][e])for(var r=d[t][e],n=0,s=r.length;n<s;n++)r[n].call(this,i||b.window.event)}}(r,e)}d[r][e].push(i)}},c=function(t,e,i){if(t){var r=o(t);if(d[r]&&d[r][e])for(var n=d[r][e],s=0,a=n.length;s<a;s++)n[s]===i&&n.splice(s,1)}}),b.util.addListener=h,b.util.removeListener=c;var g=function(t){return t.clientX},p=function(t){return t.clientY};function v(t,e,i){var r="touchend"===t.type?"changedTouches":"touches";return t[r]&&t[r][0]&&t[r][0][e]-(t[r][0][e]-t[r][0][i])||t[i]}b.isTouchSupported&&(g=function(t){return v(t,"pageX","clientX")},p=function(t){return v(t,"pageY","clientY")}),b.util.getPointer=function(e){e||(e=b.window.event);var i=e.target||(typeof e.srcElement!==t?e.srcElement:null),r=b.util.getScrollLeftTop(i);return{x:g(e)+r.left,y:p(e)+r.top}}}(),function(){var t=b.document.createElement("div"),e="string"==typeof t.style.opacity,i="string"==typeof t.style.filter,r=/alpha\s*\(\s*opacity\s*=\s*([^\)]+)\)/,n=function(t){return t};e?n=function(t,e){return t.style.opacity=e,t}:i&&(n=function(t,e){var i=t.style;return t.currentStyle&&!t.currentStyle.hasLayout&&(i.zoom=1),r.test(i.filter)?(e=e>=.9999?"":"alpha(opacity="+100*e+")",i.filter=i.filter.replace(r,e)):i.filter+=" alpha(opacity="+100*e+")",t}),b.util.setStyle=function(t,e){var i=t.style;if(!i)return t;if("string"==typeof e)return t.style.cssText+=";"+e,e.indexOf("opacity")>-1?n(t,e.match(/opacity:\s*(\d?\.?\d*)/)[1]):t;for(var r in e)"opacity"===r?n(t,e[r]):i["float"===r||"cssFloat"===r?void 0===i.styleFloat?"cssFloat":"styleFloat":r]=e[r];return t}}(),function(){var t=Array.prototype.slice;var e,i,r=function(e){return t.call(e,0)};try{e=r(b.document.childNodes)instanceof Array}catch(t){}function n(t,e){var i=b.document.createElement(t);for(var r in e)"class"===r?i.className=e[r]:"for"===r?i.htmlFor=e[r]:i.setAttribute(r,e[r]);return i}function s(t){for(var e=0,i=0,r=b.document.documentElement,n=b.document.body||{scrollLeft:0,scrollTop:0};t&&(t.parentNode||t.host)&&((t=t.parentNode||t.host)===b.document?(e=n.scrollLeft||r.scrollLeft||0,i=n.scrollTop||r.scrollTop||0):(e+=t.scrollLeft||0,i+=t.scrollTop||0),1!==t.nodeType||"fixed"!==t.style.position););return{left:e,top:i}}e||(r=function(t){for(var e=new Array(t.length),i=t.length;i--;)e[i]=t[i];return e}),i=b.document.defaultView&&b.document.defaultView.getComputedStyle?function(t,e){var i=b.document.defaultView.getComputedStyle(t,null);return i?i[e]:void 0}:function(t,e){var i=t.style[e];return!i&&t.currentStyle&&(i=t.currentStyle[e]),i},function(){var t=b.document.documentElement.style,e="userSelect"in t?"userSelect":"MozUserSelect"in t?"MozUserSelect":"WebkitUserSelect"in t?"WebkitUserSelect":"KhtmlUserSelect"in t?"KhtmlUserSelect":"";b.util.makeElementUnselectable=function(t){return void 0!==t.onselectstart&&(t.onselectstart=b.util.falseFunction),e?t.style[e]="none":"string"==typeof t.unselectable&&(t.unselectable="on"),t},b.util.makeElementSelectable=function(t){return void 0!==t.onselectstart&&(t.onselectstart=null),e?t.style[e]="":"string"==typeof t.unselectable&&(t.unselectable=""),t}}(),function(){b.util.getScript=function(t,e){var i=b.document.getElementsByTagName("head")[0],r=b.document.createElement("script"),n=!0;r.onload=r.onreadystatechange=function(t){if(n){if("string"==typeof this.readyState&&"loaded"!==this.readyState&&"complete"!==this.readyState)return;n=!1,e(t||b.window.event),r=r.onload=r.onreadystatechange=null}},r.src=t,i.appendChild(r)}}(),b.util.getById=function(t){return"string"==typeof t?b.document.getElementById(t):t},b.util.toArray=r,b.util.makeElement=n,b.util.addClass=function(t,e){t&&-1===(" "+t.className+" ").indexOf(" "+e+" ")&&(t.className+=(t.className?" ":"")+e)},b.util.wrapElement=function(t,e,i){return"string"==typeof e&&(e=n(e,i)),t.parentNode&&t.parentNode.replaceChild(e,t),e.appendChild(t),e},b.util.getScrollLeftTop=s,b.util.getElementOffset=function(t){var e,r,n=t&&t.ownerDocument,o={left:0,top:0},a={left:0,top:0},h={borderLeftWidth:"left",borderTopWidth:"top",paddingLeft:"left",paddingTop:"top"};if(!n)return a;for(var c in h)a[h[c]]+=parseInt(i(t,c),10)||0;return e=n.documentElement,void 0!==t.getBoundingClientRect&&(o=t.getBoundingClientRect()),r=s(t),{left:o.left+r.left-(e.clientLeft||0)+a.left,top:o.top+r.top-(e.clientTop||0)+a.top}},b.util.getElementStyle=i,b.util.getNodeCanvas=function(t){var e=b.jsdomImplForWrapper(t);return e._canvas||e._image}}(),function(){var t=function(){for(var t=[function(){return new ActiveXObject("Microsoft.XMLHTTP")},function(){return new ActiveXObject("Msxml2.XMLHTTP")},function(){return new ActiveXObject("Msxml2.XMLHTTP.3.0")},function(){return new XMLHttpRequest}],e=t.length;e--;)try{if(t[e]())return t[e]}catch(t){}}();function e(){}b.util.request=function(i,r){r||(r={});var n=r.method?r.method.toUpperCase():"GET",s=r.onComplete||function(){},o=t(),a=r.body||r.parameters;return o.onreadystatechange=function(){4===o.readyState&&(s(o),o.onreadystatechange=e)},"GET"===n&&(a=null,"string"==typeof r.parameters&&(i=function(t,e){return t+(/\?/.test(t)?"&":"?")+e}(i,r.parameters))),o.open(n,i,!0),"POST"!==n&&"PUT"!==n||o.setRequestHeader("Content-Type","application/x-www-form-urlencoded"),o.send(a),o}}(),b.log=function(){},b.warn=function(){},"undefined"!=typeof console&&["log","warn"].forEach(function(t){void 0!==console[t]&&"function"==typeof console[t].apply&&(b[t]=function(){return console[t].apply(console,arguments)})}),function(){function t(){return!1}var e=b.window.requestAnimationFrame||b.window.webkitRequestAnimationFrame||b.window.mozRequestAnimationFrame||b.window.oRequestAnimationFrame||b.window.msRequestAnimationFrame||function(t){return b.window.setTimeout(t,1e3/60)},i=b.window.cancelAnimationFrame||b.window.clearTimeout;function r(){return e.apply(b.window,arguments)}b.util.animate=function(e){r(function(i){e||(e={});var n,s=i||+new Date,o=e.duration||500,a=s+o,h=e.onChange||t,c=e.abort||t,l=e.onComplete||t,u=e.easing||function(t,e,i,r){return-i*Math.cos(t/r*(Math.PI/2))+i+e},f="startValue"in e?e.startValue:0,d="endValue"in e?e.endValue:100,g=e.byValue||d-f;e.onStart&&e.onStart(),function t(i){if(c())l(d,1,1);else{var p=(n=i||+new Date)>a?o:n-s,v=p/o,m=u(p,f,g,o),y=Math.abs((m-f)/g);h(m,y,v),n>a?e.onComplete&&e.onComplete():r(t)}}(s)})},b.util.requestAnimFrame=r,b.util.cancelAnimFrame=function(){return i.apply(b.window,arguments)}}(),function(){b.util.animateColor=function(t,e,i,r){var n=new b.Color(t).getSource(),s=new b.Color(e).getSource();r=r||{},b.util.animate(b.util.object.extend(r,{duration:i||500,startValue:n,endValue:s,byValue:s,easing:function(t,e,i,n){var s,o,a,h,c=r.colorEasing?r.colorEasing(t,n):1-Math.cos(t/n*(Math.PI/2));return s=e,o=i,a=c,h="rgba("+parseInt(s[0]+a*(o[0]-s[0]),10)+","+parseInt(s[1]+a*(o[1]-s[1]),10)+","+parseInt(s[2]+a*(o[2]-s[2]),10),h+=","+(s&&o?parseFloat(s[3]+a*(o[3]-s[3])):1),h+=")"}}))}}(),function(){function t(t,e,i,r){return t<Math.abs(e)?(t=e,r=i/4):r=0===e&&0===t?i/(2*Math.PI)*Math.asin(1):i/(2*Math.PI)*Math.asin(e/t),{a:t,c:e,p:i,s:r}}function e(t,e,i){return t.a*Math.pow(2,10*(e-=1))*Math.sin((e*i-t.s)*(2*Math.PI)/t.p)}function i(t,e,i,n){return i-r(n-t,0,i,n)+e}function r(t,e,i,r){return(t/=r)<1/2.75?i*(7.5625*t*t)+e:t<2/2.75?i*(7.5625*(t-=1.5/2.75)*t+.75)+e:t<2.5/2.75?i*(7.5625*(t-=2.25/2.75)*t+.9375)+e:i*(7.5625*(t-=2.625/2.75)*t+.984375)+e}b.util.ease={easeInQuad:function(t,e,i,r){return i*(t/=r)*t+e},easeOutQuad:function(t,e,i,r){return-i*(t/=r)*(t-2)+e},easeInOutQuad:function(t,e,i,r){return(t/=r/2)<1?i/2*t*t+e:-i/2*(--t*(t-2)-1)+e},easeInCubic:function(t,e,i,r){return i*(t/=r)*t*t+e},easeOutCubic:function(t,e,i,r){return i*((t=t/r-1)*t*t+1)+e},easeInOutCubic:function(t,e,i,r){return(t/=r/2)<1?i/2*t*t*t+e:i/2*((t-=2)*t*t+2)+e},easeInQuart:function(t,e,i,r){return i*(t/=r)*t*t*t+e},easeOutQuart:function(t,e,i,r){return-i*((t=t/r-1)*t*t*t-1)+e},easeInOutQuart:function(t,e,i,r){return(t/=r/2)<1?i/2*t*t*t*t+e:-i/2*((t-=2)*t*t*t-2)+e},easeInQuint:function(t,e,i,r){return i*(t/=r)*t*t*t*t+e},easeOutQuint:function(t,e,i,r){return i*((t=t/r-1)*t*t*t*t+1)+e},easeInOutQuint:function(t,e,i,r){return(t/=r/2)<1?i/2*t*t*t*t*t+e:i/2*((t-=2)*t*t*t*t+2)+e},easeInSine:function(t,e,i,r){return-i*Math.cos(t/r*(Math.PI/2))+i+e},easeOutSine:function(t,e,i,r){return i*Math.sin(t/r*(Math.PI/2))+e},easeInOutSine:function(t,e,i,r){return-i/2*(Math.cos(Math.PI*t/r)-1)+e},easeInExpo:function(t,e,i,r){return 0===t?e:i*Math.pow(2,10*(t/r-1))+e},easeOutExpo:function(t,e,i,r){return t===r?e+i:i*(1-Math.pow(2,-10*t/r))+e},easeInOutExpo:function(t,e,i,r){return 0===t?e:t===r?e+i:(t/=r/2)<1?i/2*Math.pow(2,10*(t-1))+e:i/2*(2-Math.pow(2,-10*--t))+e},easeInCirc:function(t,e,i,r){return-i*(Math.sqrt(1-(t/=r)*t)-1)+e},easeOutCirc:function(t,e,i,r){return i*Math.sqrt(1-(t=t/r-1)*t)+e},easeInOutCirc:function(t,e,i,r){return(t/=r/2)<1?-i/2*(Math.sqrt(1-t*t)-1)+e:i/2*(Math.sqrt(1-(t-=2)*t)+1)+e},easeInElastic:function(i,r,n,s){var o=0;return 0===i?r:1==(i/=s)?r+n:(o||(o=.3*s),-e(t(n,n,o,1.70158),i,s)+r)},easeOutElastic:function(e,i,r,n){var s=0,o=r;if(0===e)return i;if(1==(e/=n))return i+r;s||(s=.3*n);var a=t(o,r,s,1.70158);return a.a*Math.pow(2,-10*e)*Math.sin((e*n-a.s)*(2*Math.PI)/a.p)+a.c+i},easeInOutElastic:function(i,r,n,s){var o=0,a=n;if(0===i)return r;if(2==(i/=s/2))return r+n;o||(o=s*(.3*1.5));var h=t(a,n,o,1.70158);return i<1?-.5*e(h,i,s)+r:h.a*Math.pow(2,-10*(i-=1))*Math.sin((i*s-h.s)*(2*Math.PI)/h.p)*.5+h.c+r},easeInBack:function(t,e,i,r,n){return void 0===n&&(n=1.70158),i*(t/=r)*t*((n+1)*t-n)+e},easeOutBack:function(t,e,i,r,n){return void 0===n&&(n=1.70158),i*((t=t/r-1)*t*((n+1)*t+n)+1)+e},easeInOutBack:function(t,e,i,r,n){return void 0===n&&(n=1.70158),(t/=r/2)<1?i/2*(t*t*((1+(n*=1.525))*t-n))+e:i/2*((t-=2)*t*((1+(n*=1.525))*t+n)+2)+e},easeInBounce:i,easeOutBounce:r,easeInOutBounce:function(t,e,n,s){return t<s/2?.5*i(2*t,0,n,s)+e:.5*r(2*t-s,0,n,s)+.5*n+e}}}(),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.util.object.extend,r=e.util.object.clone,n=e.util.toFixed,s=e.util.parseUnit,o=e.util.multiplyTransformMatrices,a={cx:"left",x:"left",r:"radius",cy:"top",y:"top",display:"visible",visibility:"visible",transform:"transformMatrix","fill-opacity":"fillOpacity","fill-rule":"fillRule","font-family":"fontFamily","font-size":"fontSize","font-style":"fontStyle","font-weight":"fontWeight","paint-order":"paintFirst","stroke-dasharray":"strokeDashArray","stroke-linecap":"strokeLineCap","stroke-linejoin":"strokeLineJoin","stroke-miterlimit":"strokeMiterLimit","stroke-opacity":"strokeOpacity","stroke-width":"strokeWidth","text-decoration":"textDecoration","text-anchor":"textAnchor",opacity:"opacity"},h={stroke:"strokeOpacity",fill:"fillOpacity"};function c(t){return t in a?a[t]:t}function l(t,i,r,n){var a,h="[object Array]"===Object.prototype.toString.call(i);if("fill"!==t&&"stroke"!==t||"none"!==i)if("strokeDashArray"===t)i="none"===i?null:i.replace(/,/g," ").split(/\s+/).map(function(t){return parseFloat(t)});else if("transformMatrix"===t)i=r&&r.transformMatrix?o(r.transformMatrix,e.parseTransformAttribute(i)):e.parseTransformAttribute(i);else if("visible"===t)i="none"!==i&&"hidden"!==i,r&&!1===r.visible&&(i=!1);else if("opacity"===t)i=parseFloat(i),r&&void 0!==r.opacity&&(i*=r.opacity);else if("textAnchor"===t)i="start"===i?"left":"end"===i?"right":"center";else if("paintFirst"===t){var c=i.indexOf("fill"),l=i.indexOf("stroke");i="fill";c>-1&&l>-1&&l<c?i="stroke":-1===c&&l>-1&&(i="stroke")}else a=h?i.map(s):s(i,n);else i="";return!h&&isNaN(a)?i:a}function u(t){return new RegExp("^("+t.join("|")+")\\b","i")}function f(t,e){var i,r,n,s,o=[];for(n=0,s=e.length;n<s;n++)i=e[n],r=t.getElementsByTagName(i),o=o.concat(Array.prototype.slice.call(r));return o}function d(t,e){var i,r=!0;return(i=g(t,e.pop()))&&e.length&&(r=function(t,e){var i,r=!0;for(;t.parentNode&&1===t.parentNode.nodeType&&e.length;)r&&(i=e.pop()),t=t.parentNode,r=g(t,i);return 0===e.length}(t,e)),i&&r&&0===e.length}function g(t,e){var i,r,n=t.nodeName,s=t.getAttribute("class"),o=t.getAttribute("id");if(i=new RegExp("^"+n,"i"),e=e.replace(i,""),o&&e.length&&(i=new RegExp("#"+o+"(?![a-zA-Z\\-]+)","i"),e=e.replace(i,"")),s&&e.length)for(r=(s=s.split(" ")).length;r--;)i=new RegExp("\\."+s[r]+"(?![a-zA-Z\\-]+)","i"),e=e.replace(i,"");return 0===e.length}function p(t,e){var i;if(t.getElementById&&(i=t.getElementById(e)),i)return i;var r,n,s,o=t.getElementsByTagName("*");for(n=0,s=o.length;n<s;n++)if(e===(r=o[n]).getAttribute("id"))return r}e.svgValidTagNamesRegEx=u(["path","circle","polygon","polyline","ellipse","rect","line","image","text","linearGradient","radialGradient","stop"]),e.svgViewBoxElementsRegEx=u(["symbol","image","marker","pattern","view","svg"]),e.svgInvalidAncestorsRegEx=u(["pattern","defs","symbol","metadata","clipPath","mask","desc"]),e.svgValidParentsRegEx=u(["symbol","g","a","svg"]),e.cssRules={},e.gradientDefs={},e.parseTransformAttribute=function(){function t(t,i,r){t[r]=Math.tan(e.util.degreesToRadians(i[0]))}var i=[1,0,0,1,0,0],r=e.reNum,n="(?:\\s+,?\\s*|,\\s*)",s="(?:"+("(?:(matrix)\\s*\\(\\s*("+r+")"+n+"("+r+")"+n+"("+r+")"+n+"("+r+")"+n+"("+r+")"+n+"("+r+")\\s*\\))")+"|"+("(?:(translate)\\s*\\(\\s*("+r+")(?:"+n+"("+r+"))?\\s*\\))")+"|"+("(?:(scale)\\s*\\(\\s*("+r+")(?:"+n+"("+r+"))?\\s*\\))")+"|"+("(?:(rotate)\\s*\\(\\s*("+r+")(?:"+n+"("+r+")"+n+"("+r+"))?\\s*\\))")+"|"+("(?:(skewX)\\s*\\(\\s*("+r+")\\s*\\))")+"|"+("(?:(skewY)\\s*\\(\\s*("+r+")\\s*\\))")+")",o=new RegExp("^\\s*(?:"+("(?:"+s+"(?:"+n+"*"+s+")*)")+"?)\\s*$"),a=new RegExp(s,"g");return function(r){var n=i.concat(),h=[];if(!r||r&&!o.test(r))return n;r.replace(a,function(r){var o=new RegExp(s).exec(r).filter(function(t){return!!t}),a=o[1],c=o.slice(2).map(parseFloat);switch(a){case"translate":!function(t,e){t[4]=e[0],2===e.length&&(t[5]=e[1])}(n,c);break;case"rotate":c[0]=e.util.degreesToRadians(c[0]),function(t,i){var r=e.util.cos(i[0]),n=e.util.sin(i[0]),s=0,o=0;3===i.length&&(s=i[1],o=i[2]),t[0]=r,t[1]=n,t[2]=-n,t[3]=r,t[4]=s-(r*s-n*o),t[5]=o-(n*s+r*o)}(n,c);break;case"scale":!function(t,e){var i=e[0],r=2===e.length?e[1]:e[0];t[0]=i,t[3]=r}(n,c);break;case"skewX":t(n,c,2);break;case"skewY":t(n,c,1);break;case"matrix":n=c}h.push(n.concat()),n=i.concat()});for(var c=h[0];h.length>1;)h.shift(),c=e.util.multiplyTransformMatrices(c,h[0]);return c}}();var v=new RegExp("^\\s*("+e.reNum+"+)\\s*,?\\s*("+e.reNum+"+)\\s*,?\\s*("+e.reNum+"+)\\s*,?\\s*("+e.reNum+"+)\\s*$");function m(t){var i,r,n,o,a,h,c=t.getAttribute("viewBox"),l=1,u=1,f=t.getAttribute("width"),d=t.getAttribute("height"),g=t.getAttribute("x")||0,p=t.getAttribute("y")||0,m=t.getAttribute("preserveAspectRatio")||"",y=!c||!e.svgViewBoxElementsRegEx.test(t.nodeName)||!(c=c.match(v)),_=!f||!d||"100%"===f||"100%"===d,x=y&&_,b={},C="";if(b.width=0,b.height=0,b.toBeParsed=x,x)return b;if(y)return b.width=s(f),b.height=s(d),b;if(i=-parseFloat(c[1]),r=-parseFloat(c[2]),n=parseFloat(c[3]),o=parseFloat(c[4]),_?(b.width=n,b.height=o):(b.width=s(f),b.height=s(d),l=b.width/n,u=b.height/o),"none"!==(m=e.util.parsePreserveAspectRatioAttribute(m)).alignX&&(u=l=l>u?u:l),1===l&&1===u&&0===i&&0===r&&0===g&&0===p)return b;if((g||p)&&(C=" translate("+s(g)+" "+s(p)+") "),a=C+" matrix("+l+" 0 0 "+u+" "+i*l+" "+r*u+") ","svg"===t.nodeName){for(h=t.ownerDocument.createElement("g");t.firstChild;)h.appendChild(t.firstChild);t.appendChild(h)}else a=(h=t).getAttribute("transform")+a;return h.setAttribute("transform",a),b}e.parseSVGDocument=function(t,i,n,s){if(t){!function(t){for(var e=f(t,["use","svg:use"]),i=0;e.length&&i<e.length;){var r,n,s,o,a=e[i],h=a.getAttribute("xlink:href").substr(1),c=a.getAttribute("x")||0,l=a.getAttribute("y")||0,u=p(t,h).cloneNode(!0),d=(u.getAttribute("transform")||"")+" translate("+c+", "+l+")",g=e.length;if(m(u),/^svg$/i.test(u.nodeName)){var v=u.ownerDocument.createElement("g");for(n=0,o=(s=u.attributes).length;n<o;n++)r=s.item(n),v.setAttribute(r.nodeName,r.nodeValue);for(;u.firstChild;)v.appendChild(u.firstChild);u=v}for(n=0,o=(s=a.attributes).length;n<o;n++)"x"!==(r=s.item(n)).nodeName&&"y"!==r.nodeName&&"xlink:href"!==r.nodeName&&("transform"===r.nodeName?d=r.nodeValue+" "+d:u.setAttribute(r.nodeName,r.nodeValue));u.setAttribute("transform",d),u.setAttribute("instantiated_by_use","1"),u.removeAttribute("id"),a.parentNode.replaceChild(u,a),e.length===g&&i++}}(t);var o,a,h=e.Object.__uid++,c=m(t),l=e.util.toArray(t.getElementsByTagName("*"));if(c.crossOrigin=s&&s.crossOrigin,c.svgUid=h,0===l.length&&e.isLikelyNode){var u=[];for(o=0,a=(l=t.selectNodes('//*[name(.)!="svg"]')).length;o<a;o++)u[o]=l[o];l=u}var d=l.filter(function(t){return m(t),e.svgValidTagNamesRegEx.test(t.nodeName.replace("svg:",""))&&!function(t,e){for(;t&&(t=t.parentNode);)if(t.nodeName&&e.test(t.nodeName.replace("svg:",""))&&!t.getAttribute("instantiated_by_use"))return!0;return!1}(t,e.svgInvalidAncestorsRegEx)});!d||d&&!d.length?i&&i([],{}):(e.gradientDefs[h]=e.getGradientDefs(t),e.cssRules[h]=e.getCSSRules(t),e.parseElements(d,function(t,e){i&&i(t,c,e,l)},r(c),n,s))}};var y=new RegExp("(normal|italic)?\\s*(normal|small-caps)?\\s*(normal|bold|bolder|lighter|100|200|300|400|500|600|700|800|900)?\\s*("+e.reNum+"(?:px|cm|mm|em|pt|pc|in)*)(?:\\/(normal|"+e.reNum+"))?\\s+(.*)");i(e,{parseFontDeclaration:function(t,e){var i=t.match(y);if(i){var r=i[1],n=i[3],o=i[4],a=i[5],h=i[6];r&&(e.fontStyle=r),n&&(e.fontWeight=isNaN(parseFloat(n))?n:parseFloat(n)),o&&(e.fontSize=s(o)),h&&(e.fontFamily=h),a&&(e.lineHeight="normal"===a?1:a)}},getGradientDefs:function(t){var e,i,r,n=f(t,["linearGradient","radialGradient","svg:linearGradient","svg:radialGradient"]),s=0,o={},a={};for(s=n.length;s--;)r=(e=n[s]).getAttribute("xlink:href"),i=e.getAttribute("id"),r&&(a[i]=r.substr(1)),o[i]=e;for(i in a){var h=o[a[i]].cloneNode(!0);for(e=o[i];h.firstChild;)e.appendChild(h.firstChild)}return o},parseAttributes:function(t,r,s){if(t){var o,a,u={};void 0===s&&(s=t.getAttribute("svgUid")),t.parentNode&&e.svgValidParentsRegEx.test(t.parentNode.nodeName)&&(u=e.parseAttributes(t.parentNode,r,s)),a=u&&u.fontSize||t.getAttribute("font-size")||e.Text.DEFAULT_SVG_FONT_SIZE;var f=r.reduce(function(e,i){return(o=t.getAttribute(i))&&(e[i]=o),e},{});f=i(f,i(function(t,i){var r={};for(var n in e.cssRules[i])if(d(t,n.split(" ")))for(var s in e.cssRules[i][n])r[s]=e.cssRules[i][n][s];return r}(t,s),e.parseStyleAttribute(t)));var g,p,v={};for(var m in f)p=l(g=c(m),f[m],u,a),v[g]=p;v&&v.font&&e.parseFontDeclaration(v.font,v);var y=i(u,v);return e.svgValidParentsRegEx.test(t.nodeName)?y:function(t){for(var i in h)if(void 0!==t[h[i]]&&""!==t[i]){if(void 0===t[i]){if(!e.Object.prototype[i])continue;t[i]=e.Object.prototype[i]}if(0!==t[i].indexOf("url(")){var r=new e.Color(t[i]);t[i]=r.setAlpha(n(r.getAlpha()*t[h[i]],2)).toRgba()}}return t}(y)}},parseElements:function(t,i,r,n,s){new e.ElementsParser(t,i,r,n,s).parse()},parseStyleAttribute:function(t){var e={},i=t.getAttribute("style");return i?("string"==typeof i?function(t,e){var i,r;t.replace(/;\s*$/,"").split(";").forEach(function(t){var n=t.split(":");i=n[0].trim().toLowerCase(),r=n[1].trim(),e[i]=r})}(i,e):function(t,e){var i,r;for(var n in t)void 0!==t[n]&&(i=n.toLowerCase(),r=t[n],e[i]=r)}(i,e),e):e},parsePointsAttribute:function(t){if(!t)return null;var e,i,r=[];for(e=0,i=(t=(t=t.replace(/,/g," ").trim()).split(/\s+/)).length;e<i;e+=2)r.push({x:parseFloat(t[e]),y:parseFloat(t[e+1])});return r},getCSSRules:function(t){var i,r,n=t.getElementsByTagName("style"),s={};for(i=0,r=n.length;i<r;i++){var o=n[i].textContent||n[i].text;""!==(o=o.replace(/\/\*[\s\S]*?\*\//g,"")).trim()&&o.match(/[^{]*\{[\s\S]*?\}/g).map(function(t){return t.trim()}).forEach(function(t){var n=t.match(/([\s\S]*?)\s*\{([^}]*)\}/),o={},a=n[2].trim().replace(/;$/,"").split(/\s*;\s*/);for(i=0,r=a.length;i<r;i++){var h=a[i].split(/\s*:\s*/),c=h[0],l=h[1];o[c]=l}(t=n[1]).split(",").forEach(function(t){""!==(t=t.replace(/^svg/i,"").trim())&&(s[t]?e.util.object.extend(s[t],o):s[t]=e.util.object.clone(o))})})}return s},loadSVGFromURL:function(t,i,r,n){t=t.replace(/^\n\s*/,"").trim(),new e.util.request(t,{method:"get",onComplete:function(t){var s=t.responseXML;s&&!s.documentElement&&e.window.ActiveXObject&&t.responseText&&((s=new ActiveXObject("Microsoft.XMLDOM")).async="false",s.loadXML(t.responseText.replace(/<!DOCTYPE[\s\S]*?(\[[\s\S]*\])*?>/i,"")));s&&s.documentElement||i&&i(null);e.parseSVGDocument(s.documentElement,function(t,e,r,n){i&&i(t,e,r,n)},r,n)}})},loadSVGFromString:function(t,i,r,n){var s;if(t=t.trim(),"undefined"!=typeof DOMParser){var o=new DOMParser;o&&o.parseFromString&&(s=o.parseFromString(t,"text/xml"))}else e.window.ActiveXObject&&((s=new ActiveXObject("Microsoft.XMLDOM")).async="false",s.loadXML(t.replace(/<!DOCTYPE[\s\S]*?(\[[\s\S]*\])*?>/i,"")));e.parseSVGDocument(s.documentElement,function(t,e,r,n){i(t,e,r,n)},r,n)}})}(e),b.ElementsParser=function(t,e,i,r,n){this.elements=t,this.callback=e,this.options=i,this.reviver=r,this.svgUid=i&&i.svgUid||0,this.parsingOptions=n},b.ElementsParser.prototype.parse=function(){this.instances=new Array(this.elements.length),this.numElements=this.elements.length,this.createObjects()},b.ElementsParser.prototype.createObjects=function(){for(var t=0,e=this.elements.length;t<e;t++)this.elements[t].setAttribute("svgUid",this.svgUid),function(t,e){setTimeout(function(){t.createObject(t.elements[e],e)},0)}(this,t)},b.ElementsParser.prototype.createObject=function(t,e){var i=b[b.util.string.capitalize(t.tagName.replace("svg:",""))];if(i&&i.fromElement)try{this._createObject(i,t,e)}catch(t){b.log(t)}else this.checkIfDone()},b.ElementsParser.prototype._createObject=function(t,e,i){t.fromElement(e,this.createCallback(i,e),this.options)},b.ElementsParser.prototype.createCallback=function(t,e){var i=this;return function(r){var n;i.resolveGradient(r,"fill"),i.resolveGradient(r,"stroke"),r instanceof b.Image&&(n=r.parsePreserveAspectRatioAttribute(e)),r._removeTransformMatrix(n),i.reviver&&i.reviver(e,r),i.instances[t]=r,i.checkIfDone()}},b.ElementsParser.prototype.resolveGradient=function(t,e){var i=t.get(e);if(/^url\(/.test(i)){var r=i.slice(5,i.length-1);b.gradientDefs[this.svgUid][r]&&t.set(e,b.Gradient.fromElement(b.gradientDefs[this.svgUid][r],t))}},b.ElementsParser.prototype.checkIfDone=function(){0==--this.numElements&&(this.instances=this.instances.filter(function(t){return null!=t}),this.callback(this.instances,this.elements))},function(t){"use strict";var e=t.fabric||(t.fabric={});function i(t,e){this.x=t,this.y=e}e.Point?e.warn("fabric.Point is already defined"):(e.Point=i,i.prototype={type:"point",constructor:i,add:function(t){return new i(this.x+t.x,this.y+t.y)},addEquals:function(t){return this.x+=t.x,this.y+=t.y,this},scalarAdd:function(t){return new i(this.x+t,this.y+t)},scalarAddEquals:function(t){return this.x+=t,this.y+=t,this},subtract:function(t){return new i(this.x-t.x,this.y-t.y)},subtractEquals:function(t){return this.x-=t.x,this.y-=t.y,this},scalarSubtract:function(t){return new i(this.x-t,this.y-t)},scalarSubtractEquals:function(t){return this.x-=t,this.y-=t,this},multiply:function(t){return new i(this.x*t,this.y*t)},multiplyEquals:function(t){return this.x*=t,this.y*=t,this},divide:function(t){return new i(this.x/t,this.y/t)},divideEquals:function(t){return this.x/=t,this.y/=t,this},eq:function(t){return this.x===t.x&&this.y===t.y},lt:function(t){return this.x<t.x&&this.y<t.y},lte:function(t){return this.x<=t.x&&this.y<=t.y},gt:function(t){return this.x>t.x&&this.y>t.y},gte:function(t){return this.x>=t.x&&this.y>=t.y},lerp:function(t,e){return void 0===e&&(e=.5),e=Math.max(Math.min(1,e),0),new i(this.x+(t.x-this.x)*e,this.y+(t.y-this.y)*e)},distanceFrom:function(t){var e=this.x-t.x,i=this.y-t.y;return Math.sqrt(e*e+i*i)},midPointFrom:function(t){return this.lerp(t)},min:function(t){return new i(Math.min(this.x,t.x),Math.min(this.y,t.y))},max:function(t){return new i(Math.max(this.x,t.x),Math.max(this.y,t.y))},toString:function(){return this.x+","+this.y},setXY:function(t,e){return this.x=t,this.y=e,this},setX:function(t){return this.x=t,this},setY:function(t){return this.y=t,this},setFromPoint:function(t){return this.x=t.x,this.y=t.y,this},swap:function(t){var e=this.x,i=this.y;this.x=t.x,this.y=t.y,t.x=e,t.y=i},clone:function(){return new i(this.x,this.y)}})}(e),function(t){"use strict";var e=t.fabric||(t.fabric={});function i(t){this.status=t,this.points=[]}e.Intersection?e.warn("fabric.Intersection is already defined"):(e.Intersection=i,e.Intersection.prototype={constructor:i,appendPoint:function(t){return this.points.push(t),this},appendPoints:function(t){return this.points=this.points.concat(t),this}},e.Intersection.intersectLineLine=function(t,r,n,s){var o,a=(s.x-n.x)*(t.y-n.y)-(s.y-n.y)*(t.x-n.x),h=(r.x-t.x)*(t.y-n.y)-(r.y-t.y)*(t.x-n.x),c=(s.y-n.y)*(r.x-t.x)-(s.x-n.x)*(r.y-t.y);if(0!==c){var l=a/c,u=h/c;0<=l&&l<=1&&0<=u&&u<=1?(o=new i("Intersection")).appendPoint(new e.Point(t.x+l*(r.x-t.x),t.y+l*(r.y-t.y))):o=new i}else o=new i(0===a||0===h?"Coincident":"Parallel");return o},e.Intersection.intersectLinePolygon=function(t,e,r){var n,s,o,a,h=new i,c=r.length;for(a=0;a<c;a++)n=r[a],s=r[(a+1)%c],o=i.intersectLineLine(t,e,n,s),h.appendPoints(o.points);return h.points.length>0&&(h.status="Intersection"),h},e.Intersection.intersectPolygonPolygon=function(t,e){var r,n=new i,s=t.length;for(r=0;r<s;r++){var o=t[r],a=t[(r+1)%s],h=i.intersectLinePolygon(o,a,e);n.appendPoints(h.points)}return n.points.length>0&&(n.status="Intersection"),n},e.Intersection.intersectPolygonRectangle=function(t,r,n){var s=r.min(n),o=r.max(n),a=new e.Point(o.x,s.y),h=new e.Point(s.x,o.y),c=i.intersectLinePolygon(s,a,t),l=i.intersectLinePolygon(a,o,t),u=i.intersectLinePolygon(o,h,t),f=i.intersectLinePolygon(h,s,t),d=new i;return d.appendPoints(c.points),d.appendPoints(l.points),d.appendPoints(u.points),d.appendPoints(f.points),d.points.length>0&&(d.status="Intersection"),d})}(e),function(t){"use strict";var e=t.fabric||(t.fabric={});function i(t){t?this._tryParsingColor(t):this.setSource([0,0,0,1])}function r(t,e,i){return i<0&&(i+=1),i>1&&(i-=1),i<1/6?t+6*(e-t)*i:i<.5?e:i<2/3?t+(e-t)*(2/3-i)*6:t}e.Color?e.warn("fabric.Color is already defined."):(e.Color=i,e.Color.prototype={_tryParsingColor:function(t){var e;t in i.colorNameMap&&(t=i.colorNameMap[t]),"transparent"===t&&(e=[255,255,255,0]),e||(e=i.sourceFromHex(t)),e||(e=i.sourceFromRgb(t)),e||(e=i.sourceFromHsl(t)),e||(e=[0,0,0,1]),e&&this.setSource(e)},_rgbToHsl:function(t,i,r){t/=255,i/=255,r/=255;var n,s,o,a=e.util.array.max([t,i,r]),h=e.util.array.min([t,i,r]);if(o=(a+h)/2,a===h)n=s=0;else{var c=a-h;switch(s=o>.5?c/(2-a-h):c/(a+h),a){case t:n=(i-r)/c+(i<r?6:0);break;case i:n=(r-t)/c+2;break;case r:n=(t-i)/c+4}n/=6}return[Math.round(360*n),Math.round(100*s),Math.round(100*o)]},getSource:function(){return this._source},setSource:function(t){this._source=t},toRgb:function(){var t=this.getSource();return"rgb("+t[0]+","+t[1]+","+t[2]+")"},toRgba:function(){var t=this.getSource();return"rgba("+t[0]+","+t[1]+","+t[2]+","+t[3]+")"},toHsl:function(){var t=this.getSource(),e=this._rgbToHsl(t[0],t[1],t[2]);return"hsl("+e[0]+","+e[1]+"%,"+e[2]+"%)"},toHsla:function(){var t=this.getSource(),e=this._rgbToHsl(t[0],t[1],t[2]);return"hsla("+e[0]+","+e[1]+"%,"+e[2]+"%,"+t[3]+")"},toHex:function(){var t,e,i,r=this.getSource();return t=1===(t=r[0].toString(16)).length?"0"+t:t,e=1===(e=r[1].toString(16)).length?"0"+e:e,i=1===(i=r[2].toString(16)).length?"0"+i:i,t.toUpperCase()+e.toUpperCase()+i.toUpperCase()},toHexa:function(){var t,e=this.getSource();return t=1===(t=(t=Math.round(255*e[3])).toString(16)).length?"0"+t:t,this.toHex()+t.toUpperCase()},getAlpha:function(){return this.getSource()[3]},setAlpha:function(t){var e=this.getSource();return e[3]=t,this.setSource(e),this},toGrayscale:function(){var t=this.getSource(),e=parseInt((.3*t[0]+.59*t[1]+.11*t[2]).toFixed(0),10),i=t[3];return this.setSource([e,e,e,i]),this},toBlackWhite:function(t){var e=this.getSource(),i=(.3*e[0]+.59*e[1]+.11*e[2]).toFixed(0),r=e[3];return t=t||127,i=Number(i)<Number(t)?0:255,this.setSource([i,i,i,r]),this},overlayWith:function(t){t instanceof i||(t=new i(t));var e,r=[],n=this.getAlpha(),s=this.getSource(),o=t.getSource();for(e=0;e<3;e++)r.push(Math.round(.5*s[e]+.5*o[e]));return r[3]=n,this.setSource(r),this}},e.Color.reRGBa=/^rgba?\(\s*(\d{1,3}(?:\.\d+)?\%?)\s*,\s*(\d{1,3}(?:\.\d+)?\%?)\s*,\s*(\d{1,3}(?:\.\d+)?\%?)\s*(?:\s*,\s*((?:\d*\.?\d+)?)\s*)?\)$/,e.Color.reHSLa=/^hsla?\(\s*(\d{1,3})\s*,\s*(\d{1,3}\%)\s*,\s*(\d{1,3}\%)\s*(?:\s*,\s*(\d+(?:\.\d+)?)\s*)?\)$/,e.Color.reHex=/^#?([0-9a-f]{8}|[0-9a-f]{6}|[0-9a-f]{4}|[0-9a-f]{3})$/i,e.Color.colorNameMap={aliceblue:"#F0F8FF",antiquewhite:"#FAEBD7",aqua:"#00FFFF",aquamarine:"#7FFFD4",azure:"#F0FFFF",beige:"#F5F5DC",bisque:"#FFE4C4",black:"#000000",blanchedalmond:"#FFEBCD",blue:"#0000FF",blueviolet:"#8A2BE2",brown:"#A52A2A",burlywood:"#DEB887",cadetblue:"#5F9EA0",chartreuse:"#7FFF00",chocolate:"#D2691E",coral:"#FF7F50",cornflowerblue:"#6495ED",cornsilk:"#FFF8DC",crimson:"#DC143C",cyan:"#00FFFF",darkblue:"#00008B",darkcyan:"#008B8B",darkgoldenrod:"#B8860B",darkgray:"#A9A9A9",darkgrey:"#A9A9A9",darkgreen:"#006400",darkkhaki:"#BDB76B",darkmagenta:"#8B008B",darkolivegreen:"#556B2F",darkorange:"#FF8C00",darkorchid:"#9932CC",darkred:"#8B0000",darksalmon:"#E9967A",darkseagreen:"#8FBC8F",darkslateblue:"#483D8B",darkslategray:"#2F4F4F",darkslategrey:"#2F4F4F",darkturquoise:"#00CED1",darkviolet:"#9400D3",deeppink:"#FF1493",deepskyblue:"#00BFFF",dimgray:"#696969",dimgrey:"#696969",dodgerblue:"#1E90FF",firebrick:"#B22222",floralwhite:"#FFFAF0",forestgreen:"#228B22",fuchsia:"#FF00FF",gainsboro:"#DCDCDC",ghostwhite:"#F8F8FF",gold:"#FFD700",goldenrod:"#DAA520",gray:"#808080",grey:"#808080",green:"#008000",greenyellow:"#ADFF2F",honeydew:"#F0FFF0",hotpink:"#FF69B4",indianred:"#CD5C5C",indigo:"#4B0082",ivory:"#FFFFF0",khaki:"#F0E68C",lavender:"#E6E6FA",lavenderblush:"#FFF0F5",lawngreen:"#7CFC00",lemonchiffon:"#FFFACD",lightblue:"#ADD8E6",lightcoral:"#F08080",lightcyan:"#E0FFFF",lightgoldenrodyellow:"#FAFAD2",lightgray:"#D3D3D3",lightgrey:"#D3D3D3",lightgreen:"#90EE90",lightpink:"#FFB6C1",lightsalmon:"#FFA07A",lightseagreen:"#20B2AA",lightskyblue:"#87CEFA",lightslategray:"#778899",lightslategrey:"#778899",lightsteelblue:"#B0C4DE",lightyellow:"#FFFFE0",lime:"#00FF00",limegreen:"#32CD32",linen:"#FAF0E6",magenta:"#FF00FF",maroon:"#800000",mediumaquamarine:"#66CDAA",mediumblue:"#0000CD",mediumorchid:"#BA55D3",mediumpurple:"#9370DB",mediumseagreen:"#3CB371",mediumslateblue:"#7B68EE",mediumspringgreen:"#00FA9A",mediumturquoise:"#48D1CC",mediumvioletred:"#C71585",midnightblue:"#191970",mintcream:"#F5FFFA",mistyrose:"#FFE4E1",moccasin:"#FFE4B5",navajowhite:"#FFDEAD",navy:"#000080",oldlace:"#FDF5E6",olive:"#808000",olivedrab:"#6B8E23",orange:"#FFA500",orangered:"#FF4500",orchid:"#DA70D6",palegoldenrod:"#EEE8AA",palegreen:"#98FB98",paleturquoise:"#AFEEEE",palevioletred:"#DB7093",papayawhip:"#FFEFD5",peachpuff:"#FFDAB9",peru:"#CD853F",pink:"#FFC0CB",plum:"#DDA0DD",powderblue:"#B0E0E6",purple:"#800080",rebeccapurple:"#663399",red:"#FF0000",rosybrown:"#BC8F8F",royalblue:"#4169E1",saddlebrown:"#8B4513",salmon:"#FA8072",sandybrown:"#F4A460",seagreen:"#2E8B57",seashell:"#FFF5EE",sienna:"#A0522D",silver:"#C0C0C0",skyblue:"#87CEEB",slateblue:"#6A5ACD",slategray:"#708090",slategrey:"#708090",snow:"#FFFAFA",springgreen:"#00FF7F",steelblue:"#4682B4",tan:"#D2B48C",teal:"#008080",thistle:"#D8BFD8",tomato:"#FF6347",turquoise:"#40E0D0",violet:"#EE82EE",wheat:"#F5DEB3",white:"#FFFFFF",whitesmoke:"#F5F5F5",yellow:"#FFFF00",yellowgreen:"#9ACD32"},e.Color.fromRgb=function(t){return i.fromSource(i.sourceFromRgb(t))},e.Color.sourceFromRgb=function(t){var e=t.match(i.reRGBa);if(e){var r=parseInt(e[1],10)/(/%$/.test(e[1])?100:1)*(/%$/.test(e[1])?255:1),n=parseInt(e[2],10)/(/%$/.test(e[2])?100:1)*(/%$/.test(e[2])?255:1),s=parseInt(e[3],10)/(/%$/.test(e[3])?100:1)*(/%$/.test(e[3])?255:1);return[parseInt(r,10),parseInt(n,10),parseInt(s,10),e[4]?parseFloat(e[4]):1]}},e.Color.fromRgba=i.fromRgb,e.Color.fromHsl=function(t){return i.fromSource(i.sourceFromHsl(t))},e.Color.sourceFromHsl=function(t){var e=t.match(i.reHSLa);if(e){var n,s,o,a=(parseFloat(e[1])%360+360)%360/360,h=parseFloat(e[2])/(/%$/.test(e[2])?100:1),c=parseFloat(e[3])/(/%$/.test(e[3])?100:1);if(0===h)n=s=o=c;else{var l=c<=.5?c*(h+1):c+h-c*h,u=2*c-l;n=r(u,l,a+1/3),s=r(u,l,a),o=r(u,l,a-1/3)}return[Math.round(255*n),Math.round(255*s),Math.round(255*o),e[4]?parseFloat(e[4]):1]}},e.Color.fromHsla=i.fromHsl,e.Color.fromHex=function(t){return i.fromSource(i.sourceFromHex(t))},e.Color.sourceFromHex=function(t){if(t.match(i.reHex)){var e=t.slice(t.indexOf("#")+1),r=3===e.length||4===e.length,n=8===e.length||4===e.length,s=r?e.charAt(0)+e.charAt(0):e.substring(0,2),o=r?e.charAt(1)+e.charAt(1):e.substring(2,4),a=r?e.charAt(2)+e.charAt(2):e.substring(4,6),h=n?r?e.charAt(3)+e.charAt(3):e.substring(6,8):"FF";return[parseInt(s,16),parseInt(o,16),parseInt(a,16),parseFloat((parseInt(h,16)/255).toFixed(2))]}},e.Color.fromSource=function(t){var e=new i;return e.setSource(t),e})}(e),function(){function t(t){var e,i,r,n,s=t.getAttribute("style"),o=t.getAttribute("offset")||0;if(o=(o=parseFloat(o)/(/%$/.test(o)?100:1))<0?0:o>1?1:o,s){var a=s.split(/\s*;\s*/);for(""===a[a.length-1]&&a.pop(),n=a.length;n--;){var h=a[n].split(/\s*:\s*/),c=h[0].trim(),l=h[1].trim();"stop-color"===c?e=l:"stop-opacity"===c&&(r=l)}}return e||(e=t.getAttribute("stop-color")||"rgb(0,0,0)"),r||(r=t.getAttribute("stop-opacity")),i=(e=new b.Color(e)).getAlpha(),r=isNaN(parseFloat(r))?1:parseFloat(r),r*=i,{offset:o,color:e.toRgb(),opacity:r}}var e=b.util.object.clone;function i(t,e,i){var r,n=0,s=1,o="";for(var a in e)"Infinity"===e[a]?e[a]=1:"-Infinity"===e[a]&&(e[a]=0),r=parseFloat(e[a],10),s="string"==typeof e[a]&&/^(\d+\.\d+)%|(\d+)%$/.test(e[a])?.01:1,"x1"===a||"x2"===a||"r2"===a?(s*="objectBoundingBox"===i?t.width:1,n="objectBoundingBox"===i&&t.left||0):"y1"!==a&&"y2"!==a||(s*="objectBoundingBox"===i?t.height:1,n="objectBoundingBox"===i&&t.top||0),e[a]=r*s+n;if("ellipse"===t.type&&null!==e.r2&&"objectBoundingBox"===i&&t.rx!==t.ry){var h=t.ry/t.rx;o=" scale(1, "+h+")",e.y1&&(e.y1/=h),e.y2&&(e.y2/=h)}return o}b.Gradient=b.util.createClass({offsetX:0,offsetY:0,initialize:function(t){t||(t={});var e={};this.id=b.Object.__uid++,this.type=t.type||"linear",e={x1:t.coords.x1||0,y1:t.coords.y1||0,x2:t.coords.x2||0,y2:t.coords.y2||0},"radial"===this.type&&(e.r1=t.coords.r1||0,e.r2=t.coords.r2||0),this.coords=e,this.colorStops=t.colorStops.slice(),t.gradientTransform&&(this.gradientTransform=t.gradientTransform),this.offsetX=t.offsetX||this.offsetX,this.offsetY=t.offsetY||this.offsetY},addColorStop:function(t){for(var e in t){var i=new b.Color(t[e]);this.colorStops.push({offset:parseFloat(e),color:i.toRgb(),opacity:i.getAlpha()})}return this},toObject:function(t){var e={type:this.type,coords:this.coords,colorStops:this.colorStops,offsetX:this.offsetX,offsetY:this.offsetY,gradientTransform:this.gradientTransform?this.gradientTransform.concat():this.gradientTransform};return b.util.populateWithProperties(this,e,t),e},toSVG:function(t){var i,r,n,s,o=e(this.coords,!0),a=e(this.colorStops,!0),h=o.r1>o.r2,c=t.width/2,l=t.height/2;for(var u in a.sort(function(t,e){return t.offset-e.offset}),"path"===t.type&&(c-=t.pathOffset.x,l-=t.pathOffset.y),o)"x1"===u||"x2"===u?o[u]+=this.offsetX-c:"y1"!==u&&"y2"!==u||(o[u]+=this.offsetY-l);if(s='id="SVGID_'+this.id+'" gradientUnits="userSpaceOnUse"',this.gradientTransform&&(s+=' gradientTransform="matrix('+this.gradientTransform.join(" ")+')" '),"linear"===this.type?n=["<linearGradient ",s,' x1="',o.x1,'" y1="',o.y1,'" x2="',o.x2,'" y2="',o.y2,'">\n']:"radial"===this.type&&(n=["<radialGradient ",s,' cx="',h?o.x1:o.x2,'" cy="',h?o.y1:o.y2,'" r="',h?o.r1:o.r2,'" fx="',h?o.x2:o.x1,'" fy="',h?o.y2:o.y1,'">\n']),"radial"===this.type){if(h)for((a=a.concat()).reverse(),i=0,r=a.length;i<r;i++)a[i].offset=1-a[i].offset;var f=Math.min(o.r1,o.r2);if(f>0){var d=f/Math.max(o.r1,o.r2);for(i=0,r=a.length;i<r;i++)a[i].offset+=d*(1-a[i].offset)}}for(i=0,r=a.length;i<r;i++){var g=a[i];n.push("<stop ",'offset="',100*g.offset+"%",'" style="stop-color:',g.color,null!==g.opacity?";stop-opacity: "+g.opacity:";",'"/>\n')}return n.push("linear"===this.type?"</linearGradient>\n":"</radialGradient>\n"),n.join("")},toLive:function(t){var e,i,r,n=b.util.object.clone(this.coords);if(this.type){for("linear"===this.type?e=t.createLinearGradient(n.x1,n.y1,n.x2,n.y2):"radial"===this.type&&(e=t.createRadialGradient(n.x1,n.y1,n.r1,n.x2,n.y2,n.r2)),i=0,r=this.colorStops.length;i<r;i++){var s=this.colorStops[i].color,o=this.colorStops[i].opacity,a=this.colorStops[i].offset;void 0!==o&&(s=new b.Color(s).setAlpha(o).toRgba()),e.addColorStop(a,s)}return e}}}),b.util.object.extend(b.Gradient,{fromElement:function(e,r){var n,s,o,a,h=e.getElementsByTagName("stop"),c=e.getAttribute("gradientUnits")||"objectBoundingBox",l=e.getAttribute("gradientTransform"),u=[];for("linear"===(n="linearGradient"===e.nodeName||"LINEARGRADIENT"===e.nodeName?"linear":"radial")?s=function(t){return{x1:t.getAttribute("x1")||0,y1:t.getAttribute("y1")||0,x2:t.getAttribute("x2")||"100%",y2:t.getAttribute("y2")||0}}(e):"radial"===n&&(s=function(t){return{x1:t.getAttribute("fx")||t.getAttribute("cx")||"50%",y1:t.getAttribute("fy")||t.getAttribute("cy")||"50%",r1:0,x2:t.getAttribute("cx")||"50%",y2:t.getAttribute("cy")||"50%",r2:t.getAttribute("r")||"50%"}}(e)),a=h.length;a--;)u.push(t(h[a]));o=i(r,s,c);var f=new b.Gradient({type:n,coords:s,colorStops:u,offsetX:-r.left,offsetY:-r.top});return(l||""!==o)&&(f.gradientTransform=b.parseTransformAttribute((l||"")+o)),f},forObject:function(t,e){return e||(e={}),i(t,e.coords,"userSpaceOnUse"),new b.Gradient(e)}})}(),function(){"use strict";var t=b.util.toFixed;b.Pattern=b.util.createClass({repeat:"repeat",offsetX:0,offsetY:0,crossOrigin:"",patternTransform:null,initialize:function(t,e){if(t||(t={}),this.id=b.Object.__uid++,this.setOptions(t),!t.source||t.source&&"string"!=typeof t.source)e&&e(this);else if(void 0!==b.util.getFunctionBody(t.source))this.source=new Function(b.util.getFunctionBody(t.source)),e&&e(this);else{var i=this;this.source=b.util.createImage(),b.util.loadImage(t.source,function(t){i.source=t,e&&e(i)},null,this.crossOrigin)}},toObject:function(e){var i,r,n=b.Object.NUM_FRACTION_DIGITS;return"function"==typeof this.source?i=String(this.source):"string"==typeof this.source.src?i=this.source.src:"object"==typeof this.source&&this.source.toDataURL&&(i=this.source.toDataURL()),r={type:"pattern",source:i,repeat:this.repeat,crossOrigin:this.crossOrigin,offsetX:t(this.offsetX,n),offsetY:t(this.offsetY,n),patternTransform:this.patternTransform?this.patternTransform.concat():null},b.util.populateWithProperties(this,r,e),r},toSVG:function(t){var e="function"==typeof this.source?this.source():this.source,i=e.width/t.width,r=e.height/t.height,n=this.offsetX/t.width,s=this.offsetY/t.height,o="";return"repeat-x"!==this.repeat&&"no-repeat"!==this.repeat||(r=1),"repeat-y"!==this.repeat&&"no-repeat"!==this.repeat||(i=1),e.src?o=e.src:e.toDataURL&&(o=e.toDataURL()),'<pattern id="SVGID_'+this.id+'" x="'+n+'" y="'+s+'" width="'+i+'" height="'+r+'">\n<image x="0" y="0" width="'+e.width+'" height="'+e.height+'" xlink:href="'+o+'"></image>\n</pattern>\n'},setOptions:function(t){for(var e in t)this[e]=t[e]},toLive:function(t){var e="function"==typeof this.source?this.source():this.source;if(!e)return"";if(void 0!==e.src){if(!e.complete)return"";if(0===e.naturalWidth||0===e.naturalHeight)return""}return t.createPattern(e,this.repeat)}})}(),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.util.toFixed;e.Shadow?e.warn("fabric.Shadow is already defined."):(e.Shadow=e.util.createClass({color:"rgb(0,0,0)",blur:0,offsetX:0,offsetY:0,affectStroke:!1,includeDefaultValues:!0,initialize:function(t){for(var i in"string"==typeof t&&(t=this._parseShadow(t)),t)this[i]=t[i];this.id=e.Object.__uid++},_parseShadow:function(t){var i=t.trim(),r=e.Shadow.reOffsetsAndBlur.exec(i)||[];return{color:(i.replace(e.Shadow.reOffsetsAndBlur,"")||"rgb(0,0,0)").trim(),offsetX:parseInt(r[1],10)||0,offsetY:parseInt(r[2],10)||0,blur:parseInt(r[3],10)||0}},toString:function(){return[this.offsetX,this.offsetY,this.blur,this.color].join("px ")},toSVG:function(t){var r=40,n=40,s=e.Object.NUM_FRACTION_DIGITS,o=e.util.rotateVector({x:this.offsetX,y:this.offsetY},e.util.degreesToRadians(-t.angle));return t.width&&t.height&&(r=100*i((Math.abs(o.x)+this.blur)/t.width,s)+20,n=100*i((Math.abs(o.y)+this.blur)/t.height,s)+20),t.flipX&&(o.x*=-1),t.flipY&&(o.y*=-1),'<filter id="SVGID_'+this.id+'" y="-'+n+'%" height="'+(100+2*n)+'%" x="-'+r+'%" width="'+(100+2*r)+'%" >\n\t<feGaussianBlur in="SourceAlpha" stdDeviation="'+i(this.blur?this.blur/2:0,s)+'"></feGaussianBlur>\n\t<feOffset dx="'+i(o.x,s)+'" dy="'+i(o.y,s)+'" result="oBlur" ></feOffset>\n\t<feFlood flood-color="'+this.color+'"/>\n\t<feComposite in2="oBlur" operator="in" />\n\t<feMerge>\n\t\t<feMergeNode></feMergeNode>\n\t\t<feMergeNode in="SourceGraphic"></feMergeNode>\n\t</feMerge>\n</filter>\n'},toObject:function(){if(this.includeDefaultValues)return{color:this.color,blur:this.blur,offsetX:this.offsetX,offsetY:this.offsetY,affectStroke:this.affectStroke};var t={},i=e.Shadow.prototype;return["color","blur","offsetX","offsetY","affectStroke"].forEach(function(e){this[e]!==i[e]&&(t[e]=this[e])},this),t}}),e.Shadow.reOffsetsAndBlur=/(?:\s|^)(-?\d+(?:px)?(?:\s?|$))?(-?\d+(?:px)?(?:\s?|$))?(\d+(?:px)?)?(?:\s?|$)(?:$|\s)/)}(e),function(){"use strict";if(b.StaticCanvas)b.warn("fabric.StaticCanvas is already defined.");else{var t=b.util.object.extend,e=b.util.getElementOffset,i=b.util.removeFromArray,r=b.util.toFixed,n=b.util.transformPoint,s=b.util.invertTransform,o=new Error("Could not initialize `canvas` element");b.StaticCanvas=b.util.createClass(b.CommonMethods,{initialize:function(t,e){e||(e={}),this.renderAndResetBound=this.renderAndReset.bind(this),this.requestRenderAllBound=this.requestRenderAll.bind(this),this._initStatic(t,e)},backgroundColor:"",backgroundImage:null,overlayColor:"",overlayImage:null,includeDefaultValues:!0,stateful:!1,renderOnAddRemove:!0,clipTo:null,controlsAboveOverlay:!1,allowTouchScrolling:!1,imageSmoothingEnabled:!0,viewportTransform:b.iMatrix.concat(),backgroundVpt:!0,overlayVpt:!0,onBeforeScaleRotate:function(){},enableRetinaScaling:!0,vptCoords:{},skipOffscreen:!0,_initStatic:function(t,e){var i=this.requestRenderAllBound;this._objects=[],this._createLowerCanvas(t),this._initOptions(e),this._setImageSmoothing(),this.interactive||this._initRetinaScaling(),e.overlayImage&&this.setOverlayImage(e.overlayImage,i),e.backgroundImage&&this.setBackgroundImage(e.backgroundImage,i),e.backgroundColor&&this.setBackgroundColor(e.backgroundColor,i),e.overlayColor&&this.setOverlayColor(e.overlayColor,i),this.calcOffset()},_isRetinaScaling:function(){return 1!==b.devicePixelRatio&&this.enableRetinaScaling},getRetinaScaling:function(){return this._isRetinaScaling()?b.devicePixelRatio:1},_initRetinaScaling:function(){this._isRetinaScaling()&&(this.lowerCanvasEl.setAttribute("width",this.width*b.devicePixelRatio),this.lowerCanvasEl.setAttribute("height",this.height*b.devicePixelRatio),this.contextContainer.scale(b.devicePixelRatio,b.devicePixelRatio))},calcOffset:function(){return this._offset=e(this.lowerCanvasEl),this},setOverlayImage:function(t,e,i){return this.__setBgOverlayImage("overlayImage",t,e,i)},setBackgroundImage:function(t,e,i){return this.__setBgOverlayImage("backgroundImage",t,e,i)},setOverlayColor:function(t,e){return this.__setBgOverlayColor("overlayColor",t,e)},setBackgroundColor:function(t,e){return this.__setBgOverlayColor("backgroundColor",t,e)},_setImageSmoothing:function(){var t=this.getContext();t.imageSmoothingEnabled=t.imageSmoothingEnabled||t.webkitImageSmoothingEnabled||t.mozImageSmoothingEnabled||t.msImageSmoothingEnabled||t.oImageSmoothingEnabled,t.imageSmoothingEnabled=this.imageSmoothingEnabled},__setBgOverlayImage:function(t,e,i,r){return"string"==typeof e?b.util.loadImage(e,function(e){e&&(this[t]=new b.Image(e,r)),i&&i(e)},this,r&&r.crossOrigin):(r&&e.setOptions(r),this[t]=e,i&&i(e)),this},__setBgOverlayColor:function(t,e,i){return this[t]=e,this._initGradient(e,t),this._initPattern(e,t,i),this},_createCanvasElement:function(){var t=b.util.createCanvasElement();if(!t)throw o;if(t.style||(t.style={}),void 0===t.getContext)throw o;return t},_initOptions:function(t){this._setOptions(t),this.width=this.width||parseInt(this.lowerCanvasEl.width,10)||0,this.height=this.height||parseInt(this.lowerCanvasEl.height,10)||0,this.lowerCanvasEl.style&&(this.lowerCanvasEl.width=this.width,this.lowerCanvasEl.height=this.height,this.lowerCanvasEl.style.width=this.width+"px",this.lowerCanvasEl.style.height=this.height+"px",this.viewportTransform=this.viewportTransform.slice())},_createLowerCanvas:function(t){t&&t.getContext?this.lowerCanvasEl=t:this.lowerCanvasEl=b.util.getById(t)||this._createCanvasElement(),b.util.addClass(this.lowerCanvasEl,"lower-canvas"),this.interactive&&this._applyCanvasStyle(this.lowerCanvasEl),this.contextContainer=this.lowerCanvasEl.getContext("2d")},getWidth:function(){return this.width},getHeight:function(){return this.height},setWidth:function(t,e){return this.setDimensions({width:t},e)},setHeight:function(t,e){return this.setDimensions({height:t},e)},setDimensions:function(t,e){var i;for(var r in e=e||{},t)i=t[r],e.cssOnly||(this._setBackstoreDimension(r,t[r]),i+="px"),e.backstoreOnly||this._setCssDimension(r,i);return this._isCurrentlyDrawing&&this.freeDrawingBrush&&this.freeDrawingBrush._setBrushStyles(),this._initRetinaScaling(),this._setImageSmoothing(),this.calcOffset(),e.cssOnly||this.requestRenderAll(),this},_setBackstoreDimension:function(t,e){return this.lowerCanvasEl[t]=e,this.upperCanvasEl&&(this.upperCanvasEl[t]=e),this.cacheCanvasEl&&(this.cacheCanvasEl[t]=e),this[t]=e,this},_setCssDimension:function(t,e){return this.lowerCanvasEl.style[t]=e,this.upperCanvasEl&&(this.upperCanvasEl.style[t]=e),this.wrapperEl&&(this.wrapperEl.style[t]=e),this},getZoom:function(){return this.viewportTransform[0]},setViewportTransform:function(t){var e,i,r,n=this._activeObject;for(this.viewportTransform=t,i=0,r=this._objects.length;i<r;i++)(e=this._objects[i]).group||e.setCoords(!1,!0);return n&&"activeSelection"===n.type&&n.setCoords(!1,!0),this.calcViewportBoundaries(),this.renderOnAddRemove&&this.requestRenderAll(),this},zoomToPoint:function(t,e){var i=t,r=this.viewportTransform.slice(0);t=n(t,s(this.viewportTransform)),r[0]=e,r[3]=e;var o=n(t,r);return r[4]+=i.x-o.x,r[5]+=i.y-o.y,this.setViewportTransform(r)},setZoom:function(t){return this.zoomToPoint(new b.Point(0,0),t),this},absolutePan:function(t){var e=this.viewportTransform.slice(0);return e[4]=-t.x,e[5]=-t.y,this.setViewportTransform(e)},relativePan:function(t){return this.absolutePan(new b.Point(-t.x-this.viewportTransform[4],-t.y-this.viewportTransform[5]))},getElement:function(){return this.lowerCanvasEl},_onObjectAdded:function(t){this.stateful&&t.setupState(),t._set("canvas",this),t.setCoords(),this.fire("object:added",{target:t}),t.fire("added")},_onObjectRemoved:function(t){this.fire("object:removed",{target:t}),t.fire("removed"),delete t.canvas},clearContext:function(t){return t.clearRect(0,0,this.width,this.height),this},getContext:function(){return this.contextContainer},clear:function(){return this._objects.length=0,this.backgroundImage=null,this.overlayImage=null,this.backgroundColor="",this.overlayColor="",this._hasITextHandlers&&(this.off("mouse:up",this._mouseUpITextHandler),this._iTextInstances=null,this._hasITextHandlers=!1),this.clearContext(this.contextContainer),this.fire("canvas:cleared"),this.renderOnAddRemove&&this.requestRenderAll(),this},renderAll:function(){var t=this.contextContainer;return this.renderCanvas(t,this._objects),this},renderAndReset:function(){this.isRendering=0,this.renderAll()},requestRenderAll:function(){return this.isRendering||(this.isRendering=b.util.requestAnimFrame(this.renderAndResetBound)),this},calcViewportBoundaries:function(){var t={},e=this.width,i=this.height,r=s(this.viewportTransform);return t.tl=n({x:0,y:0},r),t.br=n({x:e,y:i},r),t.tr=new b.Point(t.br.x,t.tl.y),t.bl=new b.Point(t.tl.x,t.br.y),this.vptCoords=t,t},renderCanvas:function(t,e){var i=this.viewportTransform;this.isRendering&&(b.util.cancelAnimFrame(this.isRendering),this.isRendering=0),this.calcViewportBoundaries(),this.clearContext(t),this.fire("before:render"),this.clipTo&&b.util.clipContext(this,t),this._renderBackground(t),t.save(),t.transform(i[0],i[1],i[2],i[3],i[4],i[5]),this._renderObjects(t,e),t.restore(),!this.controlsAboveOverlay&&this.interactive&&this.drawControls(t),this.clipTo&&t.restore(),this._renderOverlay(t),this.controlsAboveOverlay&&this.interactive&&this.drawControls(t),this.fire("after:render")},_renderObjects:function(t,e){var i,r;for(i=0,r=e.length;i<r;++i)e[i]&&e[i].render(t)},_renderBackgroundOrOverlay:function(t,e){var i,r=this[e+"Color"];r&&(t.fillStyle=r.toLive?r.toLive(t,this):r,t.fillRect(r.offsetX||0,r.offsetY||0,this.width,this.height)),(r=this[e+"Image"])&&(this[e+"Vpt"]&&(i=this.viewportTransform,t.save(),t.transform(i[0],i[1],i[2],i[3],i[4],i[5])),r.render(t),this[e+"Vpt"]&&t.restore())},_renderBackground:function(t){this._renderBackgroundOrOverlay(t,"background")},_renderOverlay:function(t){this._renderBackgroundOrOverlay(t,"overlay")},getCenter:function(){return{top:this.height/2,left:this.width/2}},centerObjectH:function(t){return this._centerObject(t,new b.Point(this.getCenter().left,t.getCenterPoint().y))},centerObjectV:function(t){return this._centerObject(t,new b.Point(t.getCenterPoint().x,this.getCenter().top))},centerObject:function(t){var e=this.getCenter();return this._centerObject(t,new b.Point(e.left,e.top))},viewportCenterObject:function(t){var e=this.getVpCenter();return this._centerObject(t,e)},viewportCenterObjectH:function(t){var e=this.getVpCenter();return this._centerObject(t,new b.Point(e.x,t.getCenterPoint().y)),this},viewportCenterObjectV:function(t){var e=this.getVpCenter();return this._centerObject(t,new b.Point(t.getCenterPoint().x,e.y))},getVpCenter:function(){var t=this.getCenter(),e=s(this.viewportTransform);return n({x:t.left,y:t.top},e)},_centerObject:function(t,e){return t.setPositionByOrigin(e,"center","center"),t.setCoords(),this.renderOnAddRemove&&this.requestRenderAll(),this},toDatalessJSON:function(t){return this.toDatalessObject(t)},toObject:function(t){return this._toObjectMethod("toObject",t)},toDatalessObject:function(t){return this._toObjectMethod("toDatalessObject",t)},_toObjectMethod:function(e,i){var r={version:b.version,objects:this._toObjects(e,i)};return t(r,this.__serializeBgOverlay(e,i)),b.util.populateWithProperties(this,r,i),r},_toObjects:function(t,e){return this.getObjects().filter(function(t){return!t.excludeFromExport}).map(function(i){return this._toObject(i,t,e)},this)},_toObject:function(t,e,i){var r;this.includeDefaultValues||(r=t.includeDefaultValues,t.includeDefaultValues=!1);var n=t[e](i);return this.includeDefaultValues||(t.includeDefaultValues=r),n},__serializeBgOverlay:function(t,e){var i={},r=this.backgroundImage,n=this.overlayImage;return this.backgroundColor&&(i.background=this.backgroundColor.toObject?this.backgroundColor.toObject(e):this.backgroundColor),this.overlayColor&&(i.overlay=this.overlayColor.toObject?this.overlayColor.toObject(e):this.overlayColor),r&&!r.excludeFromExport&&(i.backgroundImage=this._toObject(r,t,e)),n&&!n.excludeFromExport&&(i.overlayImage=this._toObject(n,t,e)),i},svgViewportTransformation:!0,toSVG:function(t,e){t||(t={});var i=[];return this._setSVGPreamble(i,t),this._setSVGHeader(i,t),this._setSVGBgOverlayColor(i,"backgroundColor"),this._setSVGBgOverlayImage(i,"backgroundImage",e),this._setSVGObjects(i,e),this._setSVGBgOverlayColor(i,"overlayColor"),this._setSVGBgOverlayImage(i,"overlayImage",e),i.push("</svg>"),i.join("")},_setSVGPreamble:function(t,e){e.suppressPreamble||t.push('<?xml version="1.0" encoding="',e.encoding||"UTF-8",'" standalone="no" ?>\n','<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" ','"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\n')},_setSVGHeader:function(t,e){var i,n=e.width||this.width,s=e.height||this.height,o='viewBox="0 0 '+this.width+" "+this.height+'" ',a=b.Object.NUM_FRACTION_DIGITS;e.viewBox?o='viewBox="'+e.viewBox.x+" "+e.viewBox.y+" "+e.viewBox.width+" "+e.viewBox.height+'" ':this.svgViewportTransformation&&(i=this.viewportTransform,o='viewBox="'+r(-i[4]/i[0],a)+" "+r(-i[5]/i[3],a)+" "+r(this.width/i[0],a)+" "+r(this.height/i[3],a)+'" '),t.push("<svg ",'xmlns="http://www.w3.org/2000/svg" ','xmlns:xlink="http://www.w3.org/1999/xlink" ','version="1.1" ','width="',n,'" ','height="',s,'" ',o,'xml:space="preserve">\n',"<desc>Created with Fabric.js ",b.version,"</desc>\n","<defs>\n",this.createSVGFontFacesMarkup(),this.createSVGRefElementsMarkup(),"</defs>\n")},createSVGRefElementsMarkup:function(){var t=this;return["backgroundColor","overlayColor"].map(function(e){var i=t[e];if(i&&i.toLive)return i.toSVG(t,!1)}).join("")},createSVGFontFacesMarkup:function(){var t,e,i,r,n,s,o,a,h="",c={},l=b.fontPaths,u=this.getObjects();for(o=0,a=u.length;o<a;o++)if(e=(t=u[o]).fontFamily,-1!==t.type.indexOf("text")&&!c[e]&&l[e]&&(c[e]=!0,t.styles))for(n in i=t.styles)for(s in r=i[n])!c[e=r[s].fontFamily]&&l[e]&&(c[e]=!0);for(var f in c)h+=["\t\t@font-face {\n","\t\t\tfont-family: '",f,"';\n","\t\t\tsrc: url('",l[f],"');\n","\t\t}\n"].join("");return h&&(h=['\t<style type="text/css">',"<![CDATA[\n",h,"]]>","</style>\n"].join("")),h},_setSVGObjects:function(t,e){var i,r,n,s=this.getObjects();for(r=0,n=s.length;r<n;r++)(i=s[r]).excludeFromExport||this._setSVGObject(t,i,e)},_setSVGObject:function(t,e,i){t.push(e.toSVG(i))},_setSVGBgOverlayImage:function(t,e,i){this[e]&&this[e].toSVG&&t.push(this[e].toSVG(i))},_setSVGBgOverlayColor:function(t,e){var i=this[e];if(i)if(i.toLive){var r=i.repeat;t.push('<rect transform="translate(',this.width/2,",",this.height/2,')"',' x="',i.offsetX-this.width/2,'" y="',i.offsetY-this.height/2,'" ','width="',"repeat-y"===r||"no-repeat"===r?i.source.width:this.width,'" height="',"repeat-x"===r||"no-repeat"===r?i.source.height:this.height,'" fill="url(#SVGID_'+i.id+')"',"></rect>\n")}else t.push('<rect x="0" y="0" ','width="',this.width,'" height="',this.height,'" fill="',this[e],'"',"></rect>\n")},sendToBack:function(t){if(!t)return this;var e,r,n,s=this._activeObject;if(t===s&&"activeSelection"===t.type)for(e=(n=s._objects).length;e--;)r=n[e],i(this._objects,r),this._objects.unshift(r);else i(this._objects,t),this._objects.unshift(t);return this.renderOnAddRemove&&this.requestRenderAll(),this},bringToFront:function(t){if(!t)return this;var e,r,n,s=this._activeObject;if(t===s&&"activeSelection"===t.type)for(n=s._objects,e=0;e<n.length;e++)r=n[e],i(this._objects,r),this._objects.push(r);else i(this._objects,t),this._objects.push(t);return this.renderOnAddRemove&&this.requestRenderAll(),this},sendBackwards:function(t,e){if(!t)return this;var r,n,s,o,a,h=this._activeObject,c=0;if(t===h&&"activeSelection"===t.type)for(a=h._objects,r=0;r<a.length;r++)n=a[r],(s=this._objects.indexOf(n))>0+c&&(o=s-1,i(this._objects,n),this._objects.splice(o,0,n)),c++;else 0!==(s=this._objects.indexOf(t))&&(o=this._findNewLowerIndex(t,s,e),i(this._objects,t),this._objects.splice(o,0,t));return this.renderOnAddRemove&&this.requestRenderAll(),this},_findNewLowerIndex:function(t,e,i){var r,n;if(i)for(r=e,n=e-1;n>=0;--n){if(t.intersectsWithObject(this._objects[n])||t.isContainedWithinObject(this._objects[n])||this._objects[n].isContainedWithinObject(t)){r=n;break}}else r=e-1;return r},bringForward:function(t,e){if(!t)return this;var r,n,s,o,a,h=this._activeObject,c=0;if(t===h&&"activeSelection"===t.type)for(r=(a=h._objects).length;r--;)n=a[r],(s=this._objects.indexOf(n))<this._objects.length-1-c&&(o=s+1,i(this._objects,n),this._objects.splice(o,0,n)),c++;else(s=this._objects.indexOf(t))!==this._objects.length-1&&(o=this._findNewUpperIndex(t,s,e),i(this._objects,t),this._objects.splice(o,0,t));return this.renderOnAddRemove&&this.requestRenderAll(),this},_findNewUpperIndex:function(t,e,i){var r,n,s;if(i)for(r=e,n=e+1,s=this._objects.length;n<s;++n){if(t.intersectsWithObject(this._objects[n])||t.isContainedWithinObject(this._objects[n])||this._objects[n].isContainedWithinObject(t)){r=n;break}}else r=e+1;return r},moveTo:function(t,e){return i(this._objects,t),this._objects.splice(e,0,t),this.renderOnAddRemove&&this.requestRenderAll()},dispose:function(){return this.forEachObject(function(t){t.dispose&&t.dispose()}),this._objects=[],this.backgroundImage=null,this.overlayImage=null,this._iTextInstances=null,this.lowerCanvasEl=null,this.cacheCanvasEl=null,this},toString:function(){return"#<fabric.Canvas ("+this.complexity()+"): { objects: "+this.getObjects().length+" }>"}}),t(b.StaticCanvas.prototype,b.Observable),t(b.StaticCanvas.prototype,b.Collection),t(b.StaticCanvas.prototype,b.DataURLExporter),t(b.StaticCanvas,{EMPTY_JSON:'{"objects": [], "background": "white"}',supports:function(t){var e=b.util.createCanvasElement();if(!e||!e.getContext)return null;var i=e.getContext("2d");if(!i)return null;switch(t){case"getImageData":return void 0!==i.getImageData;case"setLineDash":return void 0!==i.setLineDash;case"toDataURL":return void 0!==e.toDataURL;case"toDataURLWithQuality":try{return e.toDataURL("image/jpeg",0),!0}catch(t){}return!1;default:return null}}}),b.StaticCanvas.prototype.toJSON=b.StaticCanvas.prototype.toObject,b.isLikelyNode&&(b.StaticCanvas.prototype.createPNGStream=function(){var t=b.util.getNodeCanvas(this.lowerCanvasEl);return t&&t.createPNGStream()},b.StaticCanvas.prototype.createJPEGStream=function(t){var e=b.util.getNodeCanvas(this.lowerCanvasEl);return e&&e.createJPEGStream(t)})}}(),b.BaseBrush=b.util.createClass({color:"rgb(0, 0, 0)",width:1,shadow:null,strokeLineCap:"round",strokeLineJoin:"round",strokeMiterLimit:10,strokeDashArray:null,setShadow:function(t){return this.shadow=new b.Shadow(t),this},_setBrushStyles:function(){var t=this.canvas.contextTop;t.strokeStyle=this.color,t.lineWidth=this.width,t.lineCap=this.strokeLineCap,t.miterLimit=this.strokeMiterLimit,t.lineJoin=this.strokeLineJoin,this.strokeDashArray&&b.StaticCanvas.supports("setLineDash")&&t.setLineDash(this.strokeDashArray)},_saveAndTransform:function(t){var e=this.canvas.viewportTransform;t.save(),t.transform(e[0],e[1],e[2],e[3],e[4],e[5])},_setShadow:function(){if(this.shadow){var t=this.canvas.contextTop,e=this.canvas.getZoom();t.shadowColor=this.shadow.color,t.shadowBlur=this.shadow.blur*e,t.shadowOffsetX=this.shadow.offsetX*e,t.shadowOffsetY=this.shadow.offsetY*e}},_resetShadow:function(){var t=this.canvas.contextTop;t.shadowColor="",t.shadowBlur=t.shadowOffsetX=t.shadowOffsetY=0}}),b.PencilBrush=b.util.createClass(b.BaseBrush,{initialize:function(t){this.canvas=t,this._points=[]},_drawSegment:function(t,e,i){var r=e.midPointFrom(i);return t.quadraticCurveTo(e.x,e.y,r.x,r.y),r},onMouseDown:function(t){this._prepareForDrawing(t),this._captureDrawingPath(t),this._render()},onMouseMove:function(t){if(this._captureDrawingPath(t)&&this._points.length>1){var e=this._points,i=e.length,r=this.canvas.contextTop;this._saveAndTransform(r),this.oldEnd&&(r.beginPath(),r.moveTo(this.oldEnd.x,this.oldEnd.y)),this.oldEnd=this._drawSegment(r,e[i-2],e[i-1],!0),r.stroke(),r.restore()}},onMouseUp:function(){this.oldEnd=void 0,this._finalizeAndAddPath()},_prepareForDrawing:function(t){var e=new b.Point(t.x,t.y);this._reset(),this._addPoint(e),this.canvas.contextTop.moveTo(e.x,e.y)},_addPoint:function(t){return!(this._points.length>1&&t.eq(this._points[this._points.length-1])||(this._points.push(t),0))},_reset:function(){this._points.length=0,this._setBrushStyles(),this._setShadow()},_captureDrawingPath:function(t){var e=new b.Point(t.x,t.y);return this._addPoint(e)},_render:function(){var t,e,i=this.canvas.contextTop,r=this._points[0],n=this._points[1];if(this._saveAndTransform(i),i.beginPath(),2===this._points.length&&r.x===n.x&&r.y===n.y){var s=this.width/1e3;r=new b.Point(r.x,r.y),n=new b.Point(n.x,n.y),r.x-=s,n.x+=s}for(i.moveTo(r.x,r.y),t=1,e=this._points.length;t<e;t++)this._drawSegment(i,r,n),r=this._points[t],n=this._points[t+1];i.lineTo(r.x,r.y),i.stroke(),i.restore()},convertPointsToSVGPath:function(t){var e,i=[],r=this.width/1e3,n=new b.Point(t[0].x,t[0].y),s=new b.Point(t[1].x,t[1].y),o=t.length,a=1,h=1,c=o>2;for(c&&(a=t[2].x<s.x?-1:t[2].x===s.x?0:1,h=t[2].y<s.y?-1:t[2].y===s.y?0:1),i.push("M ",n.x-a*r," ",n.y-h*r," "),e=1;e<o;e++){if(!n.eq(s)){var l=n.midPointFrom(s);i.push("Q ",n.x," ",n.y," ",l.x," ",l.y," ")}n=t[e],e+1<t.length&&(s=t[e+1])}return c&&(a=n.x>t[e-2].x?1:n.x===t[e-2].x?0:-1,h=n.y>t[e-2].y?1:n.y===t[e-2].y?0:-1),i.push("L ",n.x+a*r," ",n.y+h*r),i},createPath:function(t){var e=new b.Path(t,{fill:null,stroke:this.color,strokeWidth:this.width,strokeLineCap:this.strokeLineCap,strokeMiterLimit:this.strokeMiterLimit,strokeLineJoin:this.strokeLineJoin,strokeDashArray:this.strokeDashArray}),i=new b.Point(e.left+e.width/2,e.top+e.height/2);return i=e.translateToGivenOrigin(i,"center","center",e.originX,e.originY),e.top=i.y,e.left=i.x,this.shadow&&(this.shadow.affectStroke=!0,e.setShadow(this.shadow)),e},_finalizeAndAddPath:function(){this.canvas.contextTop.closePath();var t=this.convertPointsToSVGPath(this._points).join("");if("M 0 0 Q 0 0 0 0 L 0 0"!==t){var e=this.createPath(t);this.canvas.clearContext(this.canvas.contextTop),this.canvas.add(e),this.canvas.renderAll(),e.setCoords(),this._resetShadow(),this.canvas.fire("path:created",{path:e})}else this.canvas.requestRenderAll()}}),b.CircleBrush=b.util.createClass(b.BaseBrush,{width:10,initialize:function(t){this.canvas=t,this.points=[]},drawDot:function(t){var e=this.addPoint(t),i=this.canvas.contextTop;this._saveAndTransform(i),i.fillStyle=e.fill,i.beginPath(),i.arc(e.x,e.y,e.radius,0,2*Math.PI,!1),i.closePath(),i.fill(),i.restore()},onMouseDown:function(t){this.points.length=0,this.canvas.clearContext(this.canvas.contextTop),this._setShadow(),this.drawDot(t)},_render:function(){var t,e,i,r=this.canvas.contextTop,n=this.points;for(this._saveAndTransform(r),t=0,e=n.length;t<e;t++)i=n[t],r.fillStyle=i.fill,r.beginPath(),r.arc(i.x,i.y,i.radius,0,2*Math.PI,!1),r.closePath(),r.fill();r.restore()},onMouseMove:function(t){this.drawDot(t)},onMouseUp:function(){var t,e,i=this.canvas.renderOnAddRemove;this.canvas.renderOnAddRemove=!1;var r=[];for(t=0,e=this.points.length;t<e;t++){var n=this.points[t],s=new b.Circle({radius:n.radius,left:n.x,top:n.y,originX:"center",originY:"center",fill:n.fill});this.shadow&&s.setShadow(this.shadow),r.push(s)}var o=new b.Group(r,{originX:"center",originY:"center"});o.canvas=this.canvas,this.canvas.add(o),this.canvas.fire("path:created",{path:o}),this.canvas.clearContext(this.canvas.contextTop),this._resetShadow(),this.canvas.renderOnAddRemove=i,this.canvas.requestRenderAll()},addPoint:function(t){var e=new b.Point(t.x,t.y),i=b.util.getRandomInt(Math.max(0,this.width-20),this.width+20)/2,r=new b.Color(this.color).setAlpha(b.util.getRandomInt(0,100)/100).toRgba();return e.radius=i,e.fill=r,this.points.push(e),e}}),b.SprayBrush=b.util.createClass(b.BaseBrush,{width:10,density:20,dotWidth:1,dotWidthVariance:1,randomOpacity:!1,optimizeOverlapping:!0,initialize:function(t){this.canvas=t,this.sprayChunks=[]},onMouseDown:function(t){this.sprayChunks.length=0,this.canvas.clearContext(this.canvas.contextTop),this._setShadow(),this.addSprayChunk(t),this.render(this.sprayChunkPoints)},onMouseMove:function(t){this.addSprayChunk(t),this.render(this.sprayChunkPoints)},onMouseUp:function(){var t=this.canvas.renderOnAddRemove;this.canvas.renderOnAddRemove=!1;for(var e=[],i=0,r=this.sprayChunks.length;i<r;i++)for(var n=this.sprayChunks[i],s=0,o=n.length;s<o;s++){var a=new b.Rect({width:n[s].width,height:n[s].width,left:n[s].x+1,top:n[s].y+1,originX:"center",originY:"center",fill:this.color});e.push(a)}this.optimizeOverlapping&&(e=this._getOptimizedRects(e));var h=new b.Group(e,{originX:"center",originY:"center"});this.shadow&&h.setShadow(this.shadow),this.canvas.add(h),this.canvas.fire("path:created",{path:h}),this.canvas.clearContext(this.canvas.contextTop),this._resetShadow(),this.canvas.renderOnAddRemove=t,this.canvas.requestRenderAll()},_getOptimizedRects:function(t){var e,i,r,n={};for(i=0,r=t.length;i<r;i++)n[e=t[i].left+""+t[i].top]||(n[e]=t[i]);var s=[];for(e in n)s.push(n[e]);return s},render:function(t){var e,i,r=this.canvas.contextTop;for(r.fillStyle=this.color,this._saveAndTransform(r),e=0,i=t.length;e<i;e++){var n=t[e];void 0!==n.opacity&&(r.globalAlpha=n.opacity),r.fillRect(n.x,n.y,n.width,n.width)}r.restore()},_render:function(){var t,e,i=this.canvas.contextTop;for(i.fillStyle=this.color,this._saveAndTransform(i),t=0,e=this.sprayChunks.length;t<e;t++)this.render(this.sprayChunks[t]);i.restore()},addSprayChunk:function(t){this.sprayChunkPoints=[];var e,i,r,n,s=this.width/2;for(n=0;n<this.density;n++){e=b.util.getRandomInt(t.x-s,t.x+s),i=b.util.getRandomInt(t.y-s,t.y+s),r=this.dotWidthVariance?b.util.getRandomInt(Math.max(1,this.dotWidth-this.dotWidthVariance),this.dotWidth+this.dotWidthVariance):this.dotWidth;var o=new b.Point(e,i);o.width=r,this.randomOpacity&&(o.opacity=b.util.getRandomInt(0,100)/100),this.sprayChunkPoints.push(o)}this.sprayChunks.push(this.sprayChunkPoints)}}),b.PatternBrush=b.util.createClass(b.PencilBrush,{getPatternSrc:function(){var t=b.document.createElement("canvas"),e=t.getContext("2d");return t.width=t.height=25,e.fillStyle=this.color,e.beginPath(),e.arc(10,10,10,0,2*Math.PI,!1),e.closePath(),e.fill(),t},getPatternSrcFunction:function(){return String(this.getPatternSrc).replace("this.color",'"'+this.color+'"')},getPattern:function(){return this.canvas.contextTop.createPattern(this.source||this.getPatternSrc(),"repeat")},_setBrushStyles:function(){this.callSuper("_setBrushStyles"),this.canvas.contextTop.strokeStyle=this.getPattern()},createPath:function(t){var e=this.callSuper("createPath",t),i=e._getLeftTopCoords().scalarAdd(e.strokeWidth/2);return e.stroke=new b.Pattern({source:this.source||this.getPatternSrcFunction(),offsetX:-i.x,offsetY:-i.y}),e}}),function(){var t=b.util.getPointer,e=b.util.degreesToRadians,i=b.util.radiansToDegrees,r=Math.atan2,n=Math.abs,s=b.StaticCanvas.supports("setLineDash");for(var o in b.Canvas=b.util.createClass(b.StaticCanvas,{initialize:function(t,e){e||(e={}),this.renderAndResetBound=this.renderAndReset.bind(this),this._initStatic(t,e),this._initInteractive(),this._createCacheCanvas()},uniScaleTransform:!1,uniScaleKey:"shiftKey",centeredScaling:!1,centeredRotation:!1,centeredKey:"altKey",altActionKey:"shiftKey",interactive:!0,selection:!0,selectionKey:"shiftKey",altSelectionKey:null,selectionColor:"rgba(100, 100, 255, 0.3)",selectionDashArray:[],selectionBorderColor:"rgba(255, 255, 255, 0.3)",selectionLineWidth:1,selectionFullyContained:!1,hoverCursor:"move",moveCursor:"move",defaultCursor:"default",freeDrawingCursor:"crosshair",rotationCursor:"crosshair",notAllowedCursor:"not-allowed",containerClass:"canvas-container",perPixelTargetFind:!1,targetFindTolerance:0,skipTargetFind:!1,isDrawingMode:!1,preserveObjectStacking:!1,snapAngle:0,snapThreshold:null,stopContextMenu:!1,fireRightClick:!1,fireMiddleClick:!1,_initInteractive:function(){this._currentTransform=null,this._groupSelector=null,this._initWrapperElement(),this._createUpperCanvas(),this._initEventListeners(),this._initRetinaScaling(),this.freeDrawingBrush=b.PencilBrush&&new b.PencilBrush(this),this.calcOffset()},_chooseObjectsToRender:function(){var t,e,i,r=this.getActiveObjects();if(r.length>0&&!this.preserveObjectStacking){e=[],i=[];for(var n=0,s=this._objects.length;n<s;n++)t=this._objects[n],-1===r.indexOf(t)?e.push(t):i.push(t);r.length>1&&(this._activeObject._objects=i),e.push.apply(e,i)}else e=this._objects;return e},renderAll:function(){!this.contextTopDirty||this._groupSelector||this.isDrawingMode||(this.clearContext(this.contextTop),this.contextTopDirty=!1),this.isDrawingMode&&this._isCurrentlyDrawing&&this.freeDrawingBrush&&this.freeDrawingBrush._render();var t=this.contextContainer;return this.renderCanvas(t,this._chooseObjectsToRender()),this},renderTop:function(){var t=this.contextTop;return this.clearContext(t),this.selection&&this._groupSelector&&this._drawSelection(t),this.fire("after:render"),this.contextTopDirty=!0,this},_resetCurrentTransform:function(){var t=this._currentTransform;t.target.set({scaleX:t.original.scaleX,scaleY:t.original.scaleY,skewX:t.original.skewX,skewY:t.original.skewY,left:t.original.left,top:t.original.top}),this._shouldCenterTransform(t.target)?"rotate"===t.action?this._setOriginToCenter(t.target):("center"!==t.originX&&("right"===t.originX?t.mouseXSign=-1:t.mouseXSign=1),"center"!==t.originY&&("bottom"===t.originY?t.mouseYSign=-1:t.mouseYSign=1),t.originX="center",t.originY="center"):(t.originX=t.original.originX,t.originY=t.original.originY)},containsPoint:function(t,e,i){var r,n=i||this.getPointer(t,!0);return r=e.group&&e.group===this._activeObject&&"activeSelection"===e.group.type?this._normalizePointer(e.group,n):{x:n.x,y:n.y},e.containsPoint(r)||e._findTargetCorner(n)},_normalizePointer:function(t,e){var i=t.calcTransformMatrix(),r=b.util.invertTransform(i),n=this.restorePointerVpt(e);return b.util.transformPoint(n,r)},isTargetTransparent:function(t,e,i){var r=this.contextCache,n=t.selectionBackgroundColor,s=this.viewportTransform;return t.selectionBackgroundColor="",this.clearContext(r),r.save(),r.transform(s[0],s[1],s[2],s[3],s[4],s[5]),t.render(r),r.restore(),t===this._activeObject&&t._renderControls(r,{hasBorders:!1,transparentCorners:!1},{hasBorders:!1}),t.selectionBackgroundColor=n,b.util.isTransparent(r,e,i,this.targetFindTolerance)},_isSelectionKeyPressed:function(t){return"[object Array]"===Object.prototype.toString.call(this.selectionKey)?!!this.selectionKey.find(function(e){return!0===t[e]}):t[this.selectionKey]},_shouldClearSelection:function(t,e){var i=this.getActiveObjects(),r=this._activeObject;return!e||e&&r&&i.length>1&&-1===i.indexOf(e)&&r!==e&&!this._isSelectionKeyPressed(t)||e&&!e.evented||e&&!e.selectable&&r&&r!==e},_shouldCenterTransform:function(t){if(t){var e,i=this._currentTransform;return"scale"===i.action||"scaleX"===i.action||"scaleY"===i.action?e=this.centeredScaling||t.centeredScaling:"rotate"===i.action&&(e=this.centeredRotation||t.centeredRotation),e?!i.altKey:i.altKey}},_getOriginFromCorner:function(t,e){var i={x:t.originX,y:t.originY};return"ml"===e||"tl"===e||"bl"===e?i.x="right":"mr"!==e&&"tr"!==e&&"br"!==e||(i.x="left"),"tl"===e||"mt"===e||"tr"===e?i.y="bottom":"bl"!==e&&"mb"!==e&&"br"!==e||(i.y="top"),i},_getActionFromCorner:function(t,e,i){if(!e)return"drag";switch(e){case"mtr":return"rotate";case"ml":case"mr":return i[this.altActionKey]?"skewY":"scaleX";case"mt":case"mb":return i[this.altActionKey]?"skewX":"scaleY";default:return"scale"}},_setupCurrentTransform:function(t,i){if(i){var r=this.getPointer(t),n=i._findTargetCorner(this.getPointer(t,!0)),s=this._getActionFromCorner(i,n,t),o=this._getOriginFromCorner(i,n);this._currentTransform={target:i,action:s,corner:n,scaleX:i.scaleX,scaleY:i.scaleY,skewX:i.skewX,skewY:i.skewY,offsetX:r.x-i.left,offsetY:r.y-i.top,originX:o.x,originY:o.y,ex:r.x,ey:r.y,lastX:r.x,lastY:r.y,left:i.left,top:i.top,theta:e(i.angle),width:i.width*i.scaleX,mouseXSign:1,mouseYSign:1,shiftKey:t.shiftKey,altKey:t[this.centeredKey]},this._currentTransform.original={left:i.left,top:i.top,scaleX:i.scaleX,scaleY:i.scaleY,skewX:i.skewX,skewY:i.skewY,originX:o.x,originY:o.y},this._resetCurrentTransform()}},_translateObject:function(t,e){var i=this._currentTransform,r=i.target,n=t-i.offsetX,s=e-i.offsetY,o=!r.get("lockMovementX")&&r.left!==n,a=!r.get("lockMovementY")&&r.top!==s;return o&&r.set("left",n),a&&r.set("top",s),o||a},_changeSkewTransformOrigin:function(t,e,i){var r="originX",n={0:"center"},s=e.target.skewX,o="left",a="right",h="mt"===e.corner||"ml"===e.corner?1:-1,c=1;t=t>0?1:-1,"y"===i&&(s=e.target.skewY,o="top",a="bottom",r="originY"),n[-1]=o,n[1]=a,e.target.flipX&&(c*=-1),e.target.flipY&&(c*=-1),0===s?(e.skewSign=-h*t*c,e[r]=n[-t]):(s=s>0?1:-1,e.skewSign=s,e[r]=n[s*h*c])},_skewObject:function(t,e,i){var r,n=this._currentTransform,s=n.target,o=s.get("lockSkewingX"),a=s.get("lockSkewingY");if(o&&"x"===i||a&&"y"===i)return!1;var h,c,l=s.getCenterPoint(),u=s.toLocalPoint(new b.Point(t,e),"center","center")[i],f=s.toLocalPoint(new b.Point(n.lastX,n.lastY),"center","center")[i],d=s._getTransformedDimensions();return this._changeSkewTransformOrigin(u-f,n,i),h=s.toLocalPoint(new b.Point(t,e),n.originX,n.originY)[i],c=s.translateToOriginPoint(l,n.originX,n.originY),r=this._setObjectSkew(h,n,i,d),n.lastX=t,n.lastY=e,s.setPositionByOrigin(c,n.originX,n.originY),r},_setObjectSkew:function(t,e,i,r){var n,s,o,a,h,c,l,u,f,d,g=e.target,p=e.skewSign;return"x"===i?(h="y",c="Y",l="X",f=0,d=g.skewY):(h="x",c="X",l="Y",f=g.skewX,d=0),a=g._getTransformedDimensions(f,d),(u=2*Math.abs(t)-a[i])<=2?n=0:(n=p*Math.atan(u/g["scale"+l]/(a[h]/g["scale"+c])),n=b.util.radiansToDegrees(n)),s=g["skew"+l]!==n,g.set("skew"+l,n),0!==g["skew"+c]&&(o=g._getTransformedDimensions(),n=r[h]/o[h]*g["scale"+c],g.set("scale"+c,n)),s},_scaleObject:function(t,e,i){var r=this._currentTransform,n=r.target,s=n.get("lockScalingX"),o=n.get("lockScalingY"),a=n.get("lockScalingFlip");if(s&&o)return!1;var h,c=n.translateToOriginPoint(n.getCenterPoint(),r.originX,r.originY),l=n.toLocalPoint(new b.Point(t,e),r.originX,r.originY),u=n._getTransformedDimensions();return this._setLocalMouse(l,r),h=this._setObjectScale(l,r,s,o,i,a,u),n.setPositionByOrigin(c,r.originX,r.originY),h},_setObjectScale:function(t,e,i,r,n,s,o){var a,h,c,l,u=e.target,f=!1,d=!1,g=!1;return c=t.x*u.scaleX/o.x,l=t.y*u.scaleY/o.y,a=u.scaleX!==c,h=u.scaleY!==l,s&&c<=0&&c<u.scaleX&&(f=!0,t.x=0),s&&l<=0&&l<u.scaleY&&(d=!0,t.y=0),"equally"!==n||i||r?n?"x"!==n||u.get("lockUniScaling")?"y"!==n||u.get("lockUniScaling")||d||r||u.set("scaleY",l)&&(g=g||h):f||i||u.set("scaleX",c)&&(g=g||a):(f||i||u.set("scaleX",c)&&(g=g||a),d||r||u.set("scaleY",l)&&(g=g||h)):g=this._scaleObjectEqually(t,u,e,o),e.newScaleX=c,e.newScaleY=l,f||d||this._flipObject(e,n),g},_scaleObjectEqually:function(t,e,i,r){var n,s=t.y+t.x,o=r.y*i.original.scaleY/e.scaleY+r.x*i.original.scaleX/e.scaleX,a=t.x<0?-1:1,h=t.y<0?-1:1;return i.newScaleX=a*Math.abs(i.original.scaleX*s/o),i.newScaleY=h*Math.abs(i.original.scaleY*s/o),n=i.newScaleX!==e.scaleX||i.newScaleY!==e.scaleY,e.set("scaleX",i.newScaleX),e.set("scaleY",i.newScaleY),n},_flipObject:function(t,e){t.newScaleX<0&&"y"!==e&&("left"===t.originX?t.originX="right":"right"===t.originX&&(t.originX="left")),t.newScaleY<0&&"x"!==e&&("top"===t.originY?t.originY="bottom":"bottom"===t.originY&&(t.originY="top"))},_setLocalMouse:function(t,e){var i=e.target,r=this.getZoom(),s=i.padding/r;"right"===e.originX?t.x*=-1:"center"===e.originX&&(t.x*=2*e.mouseXSign,t.x<0&&(e.mouseXSign=-e.mouseXSign)),"bottom"===e.originY?t.y*=-1:"center"===e.originY&&(t.y*=2*e.mouseYSign,t.y<0&&(e.mouseYSign=-e.mouseYSign)),n(t.x)>s?t.x<0?t.x+=s:t.x-=s:t.x=0,n(t.y)>s?t.y<0?t.y+=s:t.y-=s:t.y=0},_rotateObject:function(t,e){var n=this._currentTransform;if(n.target.get("lockRotation"))return!1;var s=r(n.ey-n.top,n.ex-n.left),o=r(e-n.top,t-n.left),a=i(o-s+n.theta),h=!0;if(n.target.snapAngle>0){var c=n.target.snapAngle,l=n.target.snapThreshold||c,u=Math.ceil(a/c)*c,f=Math.floor(a/c)*c;Math.abs(a-f)<l?a=f:Math.abs(a-u)<l&&(a=u)}return a<0&&(a=360+a),a%=360,n.target.angle===a?h=!1:n.target.angle=a,h},setCursor:function(t){this.upperCanvasEl.style.cursor=t},_resetObjectTransform:function(t){t.scaleX=1,t.scaleY=1,t.skewX=0,t.skewY=0,t.rotate(0)},_drawSelection:function(t){var e=this._groupSelector,i=e.left,r=e.top,o=n(i),a=n(r);if(this.selectionColor&&(t.fillStyle=this.selectionColor,t.fillRect(e.ex-(i>0?0:-i),e.ey-(r>0?0:-r),o,a)),this.selectionLineWidth&&this.selectionBorderColor)if(t.lineWidth=this.selectionLineWidth,t.strokeStyle=this.selectionBorderColor,this.selectionDashArray.length>1&&!s){var h=e.ex+.5-(i>0?0:o),c=e.ey+.5-(r>0?0:a);t.beginPath(),b.util.drawDashedLine(t,h,c,h+o,c,this.selectionDashArray),b.util.drawDashedLine(t,h,c+a-1,h+o,c+a-1,this.selectionDashArray),b.util.drawDashedLine(t,h,c,h,c+a,this.selectionDashArray),b.util.drawDashedLine(t,h+o-1,c,h+o-1,c+a,this.selectionDashArray),t.closePath(),t.stroke()}else b.Object.prototype._setLineDash.call(this,t,this.selectionDashArray),t.strokeRect(e.ex+.5-(i>0?0:o),e.ey+.5-(r>0?0:a),o,a)},findTarget:function(t,e){if(!this.skipTargetFind){var i,r,n=this.getPointer(t,!0),s=this._activeObject,o=this.getActiveObjects();if(this.targets=[],o.length>1&&!e&&s===this._searchPossibleTargets([s],n))return s;if(1===o.length&&s._findTargetCorner(n))return s;if(1===o.length&&s===this._searchPossibleTargets([s],n)){if(!this.preserveObjectStacking)return s;i=s,r=this.targets,this.targets=[]}var a=this._searchPossibleTargets(this._objects,n);return t[this.altSelectionKey]&&a&&i&&a!==i&&(a=i,this.targets=r),a}},_checkTarget:function(t,e){if(e&&e.visible&&e.evented&&this.containsPoint(null,e,t)){if(!this.perPixelTargetFind&&!e.perPixelTargetFind||e.isEditing)return!0;if(!this.isTargetTransparent(e,t.x,t.y))return!0}},_searchPossibleTargets:function(t,e){for(var i,r,n,s=t.length;s--;)if(this._checkTarget(e,t[s])){(i=t[s]).subTargetCheck&&i instanceof b.Group&&(r=this._normalizePointer(i,e),(n=this._searchPossibleTargets(i._objects,r))&&this.targets.push(n));break}return i},restorePointerVpt:function(t){return b.util.transformPoint(t,b.util.invertTransform(this.viewportTransform))},getPointer:function(e,i,r){r||(r=this.upperCanvasEl);var n,s=t(e),o=r.getBoundingClientRect(),a=o.width||0,h=o.height||0;return a&&h||("top"in o&&"bottom"in o&&(h=Math.abs(o.top-o.bottom)),"right"in o&&"left"in o&&(a=Math.abs(o.right-o.left))),this.calcOffset(),s.x=s.x-this._offset.left,s.y=s.y-this._offset.top,i||(s=this.restorePointerVpt(s)),n=0===a||0===h?{width:1,height:1}:{width:r.width/a,height:r.height/h},{x:s.x*n.width,y:s.y*n.height}},_createUpperCanvas:function(){var t=this.lowerCanvasEl.className.replace(/\s*lower-canvas\s*/,"");this.upperCanvasEl?this.upperCanvasEl.className="":this.upperCanvasEl=this._createCanvasElement(),b.util.addClass(this.upperCanvasEl,"upper-canvas "+t),this.wrapperEl.appendChild(this.upperCanvasEl),this._copyCanvasStyle(this.lowerCanvasEl,this.upperCanvasEl),this._applyCanvasStyle(this.upperCanvasEl),this.contextTop=this.upperCanvasEl.getContext("2d")},_createCacheCanvas:function(){this.cacheCanvasEl=this._createCanvasElement(),this.cacheCanvasEl.setAttribute("width",this.width),this.cacheCanvasEl.setAttribute("height",this.height),this.contextCache=this.cacheCanvasEl.getContext("2d")},_initWrapperElement:function(){this.wrapperEl=b.util.wrapElement(this.lowerCanvasEl,"div",{class:this.containerClass}),b.util.setStyle(this.wrapperEl,{width:this.width+"px",height:this.height+"px",position:"relative"}),b.util.makeElementUnselectable(this.wrapperEl)},_applyCanvasStyle:function(t){var e=this.width||t.width,i=this.height||t.height;b.util.setStyle(t,{position:"absolute",width:e+"px",height:i+"px",left:0,top:0,"touch-action":"none"}),t.width=e,t.height=i,b.util.makeElementUnselectable(t)},_copyCanvasStyle:function(t,e){e.style.cssText=t.style.cssText},getSelectionContext:function(){return this.contextTop},getSelectionElement:function(){return this.upperCanvasEl},getActiveObject:function(){return this._activeObject},getActiveObjects:function(){var t=this._activeObject;return t?"activeSelection"===t.type&&t._objects?t._objects.slice(0):[t]:[]},_onObjectRemoved:function(t){t===this._activeObject&&(this.fire("before:selection:cleared",{target:t}),this._discardActiveObject(),this.fire("selection:cleared",{target:t}),t.fire("deselected")),this._hoveredTarget===t&&(this._hoveredTarget=null),this.callSuper("_onObjectRemoved",t)},_fireSelectionEvents:function(t,e){var i=!1,r=this.getActiveObjects(),n=[],s=[],o={e:e};t.forEach(function(t){-1===r.indexOf(t)&&(i=!0,t.fire("deselected",o),s.push(t))}),r.forEach(function(e){-1===t.indexOf(e)&&(i=!0,e.fire("selected",o),n.push(e))}),t.length>0&&r.length>0?(o.selected=n,o.deselected=s,o.updated=n[0]||s[0],o.target=this._activeObject,i&&this.fire("selection:updated",o)):r.length>0?(1===r.length&&(o.target=n[0],this.fire("object:selected",o)),o.selected=n,o.target=this._activeObject,this.fire("selection:created",o)):t.length>0&&(o.deselected=s,this.fire("selection:cleared",o))},setActiveObject:function(t,e){var i=this.getActiveObjects();return this._setActiveObject(t,e),this._fireSelectionEvents(i,e),this},_setActiveObject:function(t,e){return this._activeObject!==t&&(!!this._discardActiveObject(e,t)&&(!t.onSelect({e:e})&&(this._activeObject=t,!0)))},_discardActiveObject:function(t,e){var i=this._activeObject;if(i){if(i.onDeselect({e:t,object:e}))return!1;this._activeObject=null}return!0},discardActiveObject:function(t){var e=this.getActiveObjects();return e.length&&this.fire("before:selection:cleared",{target:e[0],e:t}),this._discardActiveObject(t),this._fireSelectionEvents(e,t),this},dispose:function(){var t=this.wrapperEl;return this.removeListeners(),t.removeChild(this.upperCanvasEl),t.removeChild(this.lowerCanvasEl),delete this.upperCanvasEl,t.parentNode&&t.parentNode.replaceChild(this.lowerCanvasEl,this.wrapperEl),delete this.wrapperEl,b.StaticCanvas.prototype.dispose.call(this),this},clear:function(){return this.discardActiveObject(),this.clearContext(this.contextTop),this.callSuper("clear")},drawControls:function(t){var e=this._activeObject;e&&e._renderControls(t)},_toObject:function(t,e,i){var r=this._realizeGroupTransformOnObject(t),n=this.callSuper("_toObject",t,e,i);return this._unwindGroupTransformOnObject(t,r),n},_realizeGroupTransformOnObject:function(t){if(t.group&&"activeSelection"===t.group.type&&this._activeObject===t.group){var e={};return["angle","flipX","flipY","left","scaleX","scaleY","skewX","skewY","top"].forEach(function(i){e[i]=t[i]}),this._activeObject.realizeTransform(t),e}return null},_unwindGroupTransformOnObject:function(t,e){e&&t.set(e)},_setSVGObject:function(t,e,i){var r=this._realizeGroupTransformOnObject(e);this.callSuper("_setSVGObject",t,e,i),this._unwindGroupTransformOnObject(e,r)}}),b.StaticCanvas)"prototype"!==o&&(b.Canvas[o]=b.StaticCanvas[o]);b.isTouchSupported&&(b.Canvas.prototype._setCursorFromEvent=function(){})}(),function(){var t={mt:0,tr:1,mr:2,br:3,mb:4,bl:5,ml:6,tl:7},e=b.util.addListener,i=b.util.removeListener;function r(t,e){return"which"in t?t.which===e:t.button===e-1}b.util.object.extend(b.Canvas.prototype,{cursorMap:["n-resize","ne-resize","e-resize","se-resize","s-resize","sw-resize","w-resize","nw-resize"],_initEventListeners:function(){this.removeListeners(),this._bindEvents(),e(b.window,"resize",this._onResize),e(this.upperCanvasEl,"mousedown",this._onMouseDown),e(this.upperCanvasEl,"dblclick",this._onDoubleClick),e(this.upperCanvasEl,"mousemove",this._onMouseMove),e(this.upperCanvasEl,"mouseout",this._onMouseOut),e(this.upperCanvasEl,"mouseenter",this._onMouseEnter),e(this.upperCanvasEl,"wheel",this._onMouseWheel),e(this.upperCanvasEl,"contextmenu",this._onContextMenu),e(this.upperCanvasEl,"dragover",this._onDragOver),e(this.upperCanvasEl,"dragenter",this._onDragEnter),e(this.upperCanvasEl,"dragleave",this._onDragLeave),e(this.upperCanvasEl,"drop",this._onDrop),e(this.upperCanvasEl,"touchstart",this._onMouseDown,{passive:!1}),e(this.upperCanvasEl,"touchmove",this._onMouseMove,{passive:!1}),"undefined"!=typeof eventjs&&"add"in eventjs&&(eventjs.add(this.upperCanvasEl,"gesture",this._onGesture),eventjs.add(this.upperCanvasEl,"drag",this._onDrag),eventjs.add(this.upperCanvasEl,"orientation",this._onOrientationChange),eventjs.add(this.upperCanvasEl,"shake",this._onShake),eventjs.add(this.upperCanvasEl,"longpress",this._onLongPress))},_bindEvents:function(){this.eventsBound||(this._onMouseDown=this._onMouseDown.bind(this),this._onMouseMove=this._onMouseMove.bind(this),this._onMouseUp=this._onMouseUp.bind(this),this._onResize=this._onResize.bind(this),this._onGesture=this._onGesture.bind(this),this._onDrag=this._onDrag.bind(this),this._onShake=this._onShake.bind(this),this._onLongPress=this._onLongPress.bind(this),this._onOrientationChange=this._onOrientationChange.bind(this),this._onMouseWheel=this._onMouseWheel.bind(this),this._onMouseOut=this._onMouseOut.bind(this),this._onMouseEnter=this._onMouseEnter.bind(this),this._onContextMenu=this._onContextMenu.bind(this),this._onDoubleClick=this._onDoubleClick.bind(this),this._onDragOver=this._onDragOver.bind(this),this._onDragEnter=this._simpleEventHandler.bind(this,"dragenter"),this._onDragLeave=this._simpleEventHandler.bind(this,"dragleave"),this._onDrop=this._simpleEventHandler.bind(this,"drop"),this.eventsBound=!0)},removeListeners:function(){i(b.window,"resize",this._onResize),i(this.upperCanvasEl,"mousedown",this._onMouseDown),i(this.upperCanvasEl,"mousemove",this._onMouseMove),i(this.upperCanvasEl,"mouseout",this._onMouseOut),i(this.upperCanvasEl,"mouseenter",this._onMouseEnter),i(this.upperCanvasEl,"wheel",this._onMouseWheel),i(this.upperCanvasEl,"contextmenu",this._onContextMenu),i(this.upperCanvasEl,"doubleclick",this._onDoubleClick),i(this.upperCanvasEl,"touchstart",this._onMouseDown),i(this.upperCanvasEl,"touchmove",this._onMouseMove),i(this.upperCanvasEl,"dragover",this._onDragOver),i(this.upperCanvasEl,"dragenter",this._onDragEnter),i(this.upperCanvasEl,"dragleave",this._onDragLeave),i(this.upperCanvasEl,"drop",this._onDrop),"undefined"!=typeof eventjs&&"remove"in eventjs&&(eventjs.remove(this.upperCanvasEl,"gesture",this._onGesture),eventjs.remove(this.upperCanvasEl,"drag",this._onDrag),eventjs.remove(this.upperCanvasEl,"orientation",this._onOrientationChange),eventjs.remove(this.upperCanvasEl,"shake",this._onShake),eventjs.remove(this.upperCanvasEl,"longpress",this._onLongPress))},_onGesture:function(t,e){this.__onTransformGesture&&this.__onTransformGesture(t,e)},_onDrag:function(t,e){this.__onDrag&&this.__onDrag(t,e)},_onMouseWheel:function(t){this.__onMouseWheel(t)},_onMouseOut:function(t){var e=this._hoveredTarget;this.fire("mouse:out",{target:e,e:t}),this._hoveredTarget=null,e&&e.fire("mouseout",{e:t}),this._iTextInstances&&this._iTextInstances.forEach(function(t){t.isEditing&&t.hiddenTextarea.focus()})},_onMouseEnter:function(t){this.findTarget(t)||(this.fire("mouse:over",{target:null,e:t}),this._hoveredTarget=null)},_onOrientationChange:function(t,e){this.__onOrientationChange&&this.__onOrientationChange(t,e)},_onShake:function(t,e){this.__onShake&&this.__onShake(t,e)},_onLongPress:function(t,e){this.__onLongPress&&this.__onLongPress(t,e)},_onDragOver:function(t){t.preventDefault();var e=this._simpleEventHandler("dragover",t);this._fireEnterLeaveEvents(e,t)},_onContextMenu:function(t){return this.stopContextMenu&&(t.stopPropagation(),t.preventDefault()),!1},_onDoubleClick:function(t){this._handleEvent(t,"dblclick")},_onMouseDown:function(t){this.__onMouseDown(t),e(b.document,"touchend",this._onMouseUp,{passive:!1}),e(b.document,"touchmove",this._onMouseMove,{passive:!1}),i(this.upperCanvasEl,"mousemove",this._onMouseMove),i(this.upperCanvasEl,"touchmove",this._onMouseMove),"touchstart"===t.type?i(this.upperCanvasEl,"mousedown",this._onMouseDown):(e(b.document,"mouseup",this._onMouseUp),e(b.document,"mousemove",this._onMouseMove))},_onMouseUp:function(t){if(this.__onMouseUp(t),i(b.document,"mouseup",this._onMouseUp),i(b.document,"touchend",this._onMouseUp),i(b.document,"mousemove",this._onMouseMove),i(b.document,"touchmove",this._onMouseMove),e(this.upperCanvasEl,"mousemove",this._onMouseMove),e(this.upperCanvasEl,"touchmove",this._onMouseMove,{passive:!1}),"touchend"===t.type){var r=this;setTimeout(function(){e(r.upperCanvasEl,"mousedown",r._onMouseDown)},400)}},_onMouseMove:function(t){!this.allowTouchScrolling&&t.preventDefault&&t.preventDefault(),this.__onMouseMove(t)},_onResize:function(){this.calcOffset()},_shouldRender:function(t,e){var i=this._activeObject;return(!i||!i.isEditing||t!==i)&&!!(t&&(t.isMoving||t!==i)||!t&&i||!t&&!i&&!this._groupSelector||e&&this._previousPointer&&this.selection&&(e.x!==this._previousPointer.x||e.y!==this._previousPointer.y))},__onMouseUp:function(t){var e,i=!0,n=this._currentTransform,s=this._groupSelector,o=!s||0===s.left&&0===s.top;if(r(t,3))this.fireRightClick&&this._handleEvent(t,"up",e,3,o);else if(r(t,2))this.fireMiddleClick&&this._handleEvent(t,"up",e,2,o);else if(this.isDrawingMode&&this._isCurrentlyDrawing)this._onMouseUpInDrawingMode(t);else{n&&(this._finalizeCurrentTransform(t),i=!n.actionPerformed),e=i?this.findTarget(t,!0):n.target;var a=this._shouldRender(e,this.getPointer(t));e||!o?this._maybeGroupObjects(t):(this._groupSelector=null,this._currentTransform=null),e&&(e.isMoving=!1),this._setCursorFromEvent(t,e),this._handleEvent(t,"up",e||null,1,o),e&&(e.__corner=0),a&&this.requestRenderAll()}},_simpleEventHandler:function(t,e){var i=this.findTarget(e),r=this.targets,n={e:e,target:i,subTargets:r};if(this.fire(t,n),i&&i.fire(t,n),!r)return i;for(var s=0;s<r.length;s++)r[s].fire(t,n);return i},_handleEvent:function(t,e,i,r,n){var s=void 0===i?this.findTarget(t):i,o=this.targets||[],a={e:t,target:s,subTargets:o,button:r||1,isClick:n||!1};this.fire("mouse:"+e,a),s&&s.fire("mouse"+e,a);for(var h=0;h<o.length;h++)o[h].fire("mouse"+e,a)},_finalizeCurrentTransform:function(t){var e=this._currentTransform,i=e.target;i._scaling&&(i._scaling=!1),i.setCoords(),this._restoreOriginXY(i),(e.actionPerformed||this.stateful&&i.hasStateChanged())&&(this.fire("object:modified",{target:i,e:t}),i.fire("modified",{e:t}))},_restoreOriginXY:function(t){if(this._previousOriginX&&this._previousOriginY){var e=t.translateToOriginPoint(t.getCenterPoint(),this._previousOriginX,this._previousOriginY);t.originX=this._previousOriginX,t.originY=this._previousOriginY,t.left=e.x,t.top=e.y,this._previousOriginX=null,this._previousOriginY=null}},_onMouseDownInDrawingMode:function(t){this._isCurrentlyDrawing=!0,this.getActiveObject()&&this.discardActiveObject(t).requestRenderAll(),this.clipTo&&b.util.clipContext(this,this.contextTop);var e=this.getPointer(t);this.freeDrawingBrush.onMouseDown(e),this._handleEvent(t,"down")},_onMouseMoveInDrawingMode:function(t){if(this._isCurrentlyDrawing){var e=this.getPointer(t);this.freeDrawingBrush.onMouseMove(e)}this.setCursor(this.freeDrawingCursor),this._handleEvent(t,"move")},_onMouseUpInDrawingMode:function(t){this._isCurrentlyDrawing=!1,this.clipTo&&this.contextTop.restore(),this.freeDrawingBrush.onMouseUp(),this._handleEvent(t,"up")},__onMouseDown:function(t){var e=this.findTarget(t)||null;if(r(t,3))this.fireRightClick&&this._handleEvent(t,"down",e,3);else if(r(t,2))this.fireMiddleClick&&this._handleEvent(t,"down",e,2);else if(this.isDrawingMode)this._onMouseDownInDrawingMode(t);else if(!this._currentTransform){var i=this.getPointer(t,!0);this._previousPointer=i;var n=this._shouldRender(e,i),s=this._shouldGroup(t,e);this._shouldClearSelection(t,e)?this.discardActiveObject(t):s&&(this._handleGrouping(t,e),e=this._activeObject),!this.selection||e&&(e.selectable||e.isEditing||e===this._activeObject)||(this._groupSelector={ex:i.x,ey:i.y,top:0,left:0}),e&&(e.selectable&&this.setActiveObject(e,t),e!==this._activeObject||!e.__corner&&s||(this._beforeTransform(t,e),this._setupCurrentTransform(t,e))),this._handleEvent(t,"down",e),n&&this.requestRenderAll()}},_beforeTransform:function(t,e){this.stateful&&e.saveState(),e._findTargetCorner(this.getPointer(t,!0))&&this.onBeforeScaleRotate(e)},_setOriginToCenter:function(t){this._previousOriginX=this._currentTransform.target.originX,this._previousOriginY=this._currentTransform.target.originY;var e=t.getCenterPoint();t.originX="center",t.originY="center",t.left=e.x,t.top=e.y,this._currentTransform.left=t.left,this._currentTransform.top=t.top},_setCenterToOrigin:function(t){var e=t.translateToOriginPoint(t.getCenterPoint(),this._previousOriginX,this._previousOriginY);t.originX=this._previousOriginX,t.originY=this._previousOriginY,t.left=e.x,t.top=e.y,this._previousOriginX=null,this._previousOriginY=null},__onMouseMove:function(t){var e,i;if(this.isDrawingMode)this._onMouseMoveInDrawingMode(t);else if(!(void 0!==t.touches&&t.touches.length>1)){var r=this._groupSelector;r?(i=this.getPointer(t,!0),r.left=i.x-r.ex,r.top=i.y-r.ey,this.renderTop()):this._currentTransform?this._transformObject(t):(e=this.findTarget(t)||null,this._setCursorFromEvent(t,e),this._fireOverOutEvents(e,t)),this._handleEvent(t,"move",this._currentTransform?null:e)}},_fireOverOutEvents:function(t,e){this.fireSynteticInOutEvents(t,e,{targetName:"_hoveredTarget",canvasEvtOut:"mouse:out",evtOut:"mouseout",canvasEvtIn:"mouse:over",evtIn:"mouseover"})},_fireEnterLeaveEvents:function(t,e){this.fireSynteticInOutEvents(t,e,{targetName:"_draggedoverTarget",evtOut:"dragleave",evtIn:"dragenter"})},fireSynteticInOutEvents:function(t,e,i){var r,n,s,o=this[i.targetName],a=o!==t,h=i.canvasEvtIn,c=i.canvasEvtOut;a&&(r={e:e,target:t,previousTarget:o},n={e:e,target:o,nextTarget:t},this[i.targetName]=t),s=t&&a,o&&a&&(c&&this.fire(c,n),o.fire(i.evtOut,n)),s&&(h&&this.fire(h,r),t.fire(i.evtIn,r))},__onMouseWheel:function(t){this._handleEvent(t,"wheel")},_transformObject:function(t){var e=this.getPointer(t),i=this._currentTransform;i.reset=!1,i.target.isMoving=!0,i.shiftKey=t.shiftKey,i.altKey=t[this.centeredKey],this._beforeScaleTransform(t,i),this._performTransformAction(t,i,e),i.actionPerformed&&this.requestRenderAll()},_performTransformAction:function(t,e,i){var r=i.x,n=i.y,s=e.target,o=e.action,a=!1;"rotate"===o?(a=this._rotateObject(r,n))&&this._fire("rotating",s,t):"scale"===o?(a=this._onScale(t,e,r,n))&&this._fire("scaling",s,t):"scaleX"===o?(a=this._scaleObject(r,n,"x"))&&this._fire("scaling",s,t):"scaleY"===o?(a=this._scaleObject(r,n,"y"))&&this._fire("scaling",s,t):"skewX"===o?(a=this._skewObject(r,n,"x"))&&this._fire("skewing",s,t):"skewY"===o?(a=this._skewObject(r,n,"y"))&&this._fire("skewing",s,t):(a=this._translateObject(r,n))&&(this._fire("moving",s,t),this.setCursor(s.moveCursor||this.moveCursor)),e.actionPerformed=e.actionPerformed||a},_fire:function(t,e,i){this.fire("object:"+t,{target:e,e:i}),e.fire(t,{e:i})},_beforeScaleTransform:function(t,e){if("scale"===e.action||"scaleX"===e.action||"scaleY"===e.action){var i=this._shouldCenterTransform(e.target);(i&&("center"!==e.originX||"center"!==e.originY)||!i&&"center"===e.originX&&"center"===e.originY)&&(this._resetCurrentTransform(),e.reset=!0)}},_onScale:function(t,e,i,r){return this._isUniscalePossible(t,e.target)?(e.currentAction="scale",this._scaleObject(i,r)):(e.reset||"scale"!==e.currentAction||this._resetCurrentTransform(),e.currentAction="scaleEqually",this._scaleObject(i,r,"equally"))},_isUniscalePossible:function(t,e){return(t[this.uniScaleKey]||this.uniScaleTransform)&&!e.get("lockUniScaling")},_setCursorFromEvent:function(t,e){if(!e)return this.setCursor(this.defaultCursor),!1;var i=e.hoverCursor||this.hoverCursor,r=this._activeObject&&"activeSelection"===this._activeObject.type?this._activeObject:null,n=(!r||!r.contains(e))&&e._findTargetCorner(this.getPointer(t,!0));n?this.setCursor(this.getCornerCursor(n,e,t)):this.setCursor(i)},getCornerCursor:function(e,i,r){return this.actionIsDisabled(e,i,r)?this.notAllowedCursor:e in t?this._getRotatedCornerCursor(e,i,r):"mtr"===e&&i.hasRotatingPoint?this.rotationCursor:this.defaultCursor},actionIsDisabled:function(t,e,i){return"mt"===t||"mb"===t?i[this.altActionKey]?e.lockSkewingX:e.lockScalingY:"ml"===t||"mr"===t?i[this.altActionKey]?e.lockSkewingY:e.lockScalingX:"mtr"===t?e.lockRotation:this._isUniscalePossible(i,e)?e.lockScalingX&&e.lockScalingY:e.lockScalingX||e.lockScalingY},_getRotatedCornerCursor:function(e,i,r){var n=Math.round(i.angle%360/45);return n<0&&(n+=8),n+=t[e],r[this.altActionKey]&&t[e]%2==0&&(n+=2),n%=8,this.cursorMap[n]}})}(),f=Math.min,d=Math.max,b.util.object.extend(b.Canvas.prototype,{_shouldGroup:function(t,e){var i=this._activeObject;return i&&this._isSelectionKeyPressed(t)&&e&&e.selectable&&this.selection&&(i!==e||"activeSelection"===i.type)},_handleGrouping:function(t,e){var i=this._activeObject;i.__corner||(e!==i||(e=this.findTarget(t,!0)))&&(i&&"activeSelection"===i.type?this._updateActiveSelection(e,t):this._createActiveSelection(e,t))},_updateActiveSelection:function(t,e){var i=this._activeObject,r=i._objects.slice(0);i.contains(t)?(i.removeWithUpdate(t),this._hoveredTarget=t,1===i.size()&&this._setActiveObject(i.item(0),e)):(i.addWithUpdate(t),this._hoveredTarget=i),this._fireSelectionEvents(r,e)},_createActiveSelection:function(t,e){var i=this.getActiveObjects(),r=this._createGroup(t);this._hoveredTarget=r,this._setActiveObject(r,e),this._fireSelectionEvents(i,e)},_createGroup:function(t){var e=this.getObjects(),i=e.indexOf(this._activeObject)<e.indexOf(t)?[this._activeObject,t]:[t,this._activeObject];return this._activeObject.isEditing&&this._activeObject.exitEditing(),new b.ActiveSelection(i,{canvas:this})},_groupSelectedObjects:function(t){var e,i=this._collectObjects();1===i.length?this.setActiveObject(i[0],t):i.length>1&&(e=new b.ActiveSelection(i.reverse(),{canvas:this}),this.setActiveObject(e,t))},_collectObjects:function(){for(var t,e=[],i=this._groupSelector.ex,r=this._groupSelector.ey,n=i+this._groupSelector.left,s=r+this._groupSelector.top,o=new b.Point(f(i,n),f(r,s)),a=new b.Point(d(i,n),d(r,s)),h=!this.selectionFullyContained,c=i===n&&r===s,l=this._objects.length;l--&&!((t=this._objects[l])&&t.selectable&&t.visible&&(h&&t.intersectsWithRect(o,a)||t.isContainedWithinRect(o,a)||h&&t.containsPoint(o)||h&&t.containsPoint(a))&&(e.push(t),c)););return e},_maybeGroupObjects:function(t){this.selection&&this._groupSelector&&this._groupSelectedObjects(t),this.setCursor(this.defaultCursor),this._groupSelector=null,this._currentTransform=null}}),g=b.StaticCanvas.supports("toDataURLWithQuality"),b.util.object.extend(b.StaticCanvas.prototype,{toDataURL:function(t){t||(t={});var e=t.format||"png",i=t.quality||1,r=(t.multiplier||1)*(t.enableRetinaScaling?1:1/this.getRetinaScaling()),n={left:t.left||0,top:t.top||0,width:t.width||0,height:t.height||0};return this.__toDataURLWithMultiplier(e,i,n,r)},__toDataURLWithMultiplier:function(t,e,i,r){var n=this.width,s=this.height,o=(i.width||this.width)*r,a=(i.height||this.height)*r,h=this.getZoom()*r,c=this.viewportTransform,l=[h,0,0,h,(c[4]-i.left)*r,(c[5]-i.top)*r],u=this.interactive,f=this.skipOffscreen,d=n!==o||s!==a;this.viewportTransform=l,this.skipOffscreen=!1,this.interactive=!1,d&&this.setDimensions({width:o,height:a},{backstoreOnly:!0}),this.renderAll();var g=this.__toDataURL(t,e,i);return this.interactive=u,this.skipOffscreen=f,this.viewportTransform=c,d&&this.setDimensions({width:n,height:s},{backstoreOnly:!0}),this.renderAll(),g},__toDataURL:function(t,e){var i=this.contextContainer.canvas;return"jpg"===t&&(t="jpeg"),g?i.toDataURL("image/"+t,e):i.toDataURL("image/"+t)}}),b.util.object.extend(b.StaticCanvas.prototype,{loadFromDatalessJSON:function(t,e,i){return this.loadFromJSON(t,e,i)},loadFromJSON:function(t,e,i){if(t){var r="string"==typeof t?JSON.parse(t):b.util.object.clone(t),n=this,s=this.renderOnAddRemove;return this.renderOnAddRemove=!1,this._enlivenObjects(r.objects,function(t){n.clear(),n._setBgOverlay(r,function(){t.forEach(function(t,e){n.insertAt(t,e)}),n.renderOnAddRemove=s,delete r.objects,delete r.backgroundImage,delete r.overlayImage,delete r.background,delete r.overlay,n._setOptions(r),n.renderAll(),e&&e()})},i),this}},_setBgOverlay:function(t,e){var i={backgroundColor:!1,overlayColor:!1,backgroundImage:!1,overlayImage:!1};if(t.backgroundImage||t.overlayImage||t.background||t.overlay){var r=function(){i.backgroundImage&&i.overlayImage&&i.backgroundColor&&i.overlayColor&&e&&e()};this.__setBgOverlay("backgroundImage",t.backgroundImage,i,r),this.__setBgOverlay("overlayImage",t.overlayImage,i,r),this.__setBgOverlay("backgroundColor",t.background,i,r),this.__setBgOverlay("overlayColor",t.overlay,i,r)}else e&&e()},__setBgOverlay:function(t,e,i,r){var n=this;if(!e)return i[t]=!0,void(r&&r());"backgroundImage"===t||"overlayImage"===t?b.util.enlivenObjects([e],function(e){n[t]=e[0],i[t]=!0,r&&r()}):this["set"+b.util.string.capitalize(t,!0)](e,function(){i[t]=!0,r&&r()})},_enlivenObjects:function(t,e,i){t&&0!==t.length?b.util.enlivenObjects(t,function(t){e&&e(t)},null,i):e&&e([])},_toDataURL:function(t,e){this.clone(function(i){e(i.toDataURL(t))})},_toDataURLWithMultiplier:function(t,e,i){this.clone(function(r){i(r.toDataURLWithMultiplier(t,e))})},clone:function(t,e){var i=JSON.stringify(this.toJSON(e));this.cloneWithoutData(function(e){e.loadFromJSON(i,function(){t&&t(e)})})},cloneWithoutData:function(t){var e=b.document.createElement("canvas");e.width=this.width,e.height=this.height;var i=new b.Canvas(e);i.clipTo=this.clipTo,this.backgroundImage?(i.setBackgroundImage(this.backgroundImage.src,function(){i.renderAll(),t&&t(i)}),i.backgroundImageOpacity=this.backgroundImageOpacity,i.backgroundImageStretch=this.backgroundImageStretch):t&&t(i)}}),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.util.object.extend,r=e.util.object.clone,n=e.util.toFixed,s=e.util.string.capitalize,o=e.util.degreesToRadians,a=e.StaticCanvas.supports("setLineDash"),h=!e.isLikelyNode;e.Object||(e.Object=e.util.createClass(e.CommonMethods,{type:"object",originX:"left",originY:"top",top:0,left:0,width:0,height:0,scaleX:1,scaleY:1,flipX:!1,flipY:!1,opacity:1,angle:0,skewX:0,skewY:0,cornerSize:13,transparentCorners:!0,hoverCursor:null,moveCursor:null,padding:0,borderColor:"rgba(102,153,255,0.75)",borderDashArray:null,cornerColor:"rgba(102,153,255,0.5)",cornerStrokeColor:null,cornerStyle:"rect",cornerDashArray:null,centeredScaling:!1,centeredRotation:!0,fill:"rgb(0,0,0)",fillRule:"nonzero",globalCompositeOperation:"source-over",backgroundColor:"",selectionBackgroundColor:"",stroke:null,strokeWidth:1,strokeDashArray:null,strokeLineCap:"butt",strokeLineJoin:"miter",strokeMiterLimit:10,shadow:null,borderOpacityWhenMoving:.4,borderScaleFactor:1,transformMatrix:null,minScaleLimit:0,selectable:!0,evented:!0,visible:!0,hasControls:!0,hasBorders:!0,hasRotatingPoint:!0,rotatingPointOffset:40,perPixelTargetFind:!1,includeDefaultValues:!0,clipTo:null,lockMovementX:!1,lockMovementY:!1,lockRotation:!1,lockScalingX:!1,lockScalingY:!1,lockUniScaling:!1,lockSkewingX:!1,lockSkewingY:!1,lockScalingFlip:!1,excludeFromExport:!1,objectCaching:h,statefullCache:!1,noScaleCache:!0,dirty:!0,__corner:0,paintFirst:"fill",stateProperties:"top left width height scaleX scaleY flipX flipY originX originY transformMatrix stroke strokeWidth strokeDashArray strokeLineCap strokeLineJoin strokeMiterLimit angle opacity fill globalCompositeOperation shadow clipTo visible backgroundColor skewX skewY fillRule paintFirst".split(" "),cacheProperties:"fill stroke strokeWidth strokeDashArray width height paintFirst strokeLineCap strokeLineJoin strokeMiterLimit backgroundColor".split(" "),initialize:function(t){t&&this.setOptions(t)},_createCacheCanvas:function(){this._cacheProperties={},this._cacheCanvas=e.document.createElement("canvas"),this._cacheContext=this._cacheCanvas.getContext("2d"),this._updateCacheCanvas()},_limitCacheSize:function(t){var i=e.perfLimitSizeTotal,r=t.width,n=t.height,s=e.maxCacheSideLimit,o=e.minCacheSideLimit;if(r<=s&&n<=s&&r*n<=i)return r<o&&(t.width=o),n<o&&(t.height=o),t;var a=r/n,h=e.util.limitDimsByArea(a,i),c=e.util.capValue,l=c(o,h.x,s),u=c(o,h.y,s);return r>l&&(t.zoomX/=r/l,t.width=l,t.capped=!0),n>u&&(t.zoomY/=n/u,t.height=u,t.capped=!0),t},_getCacheCanvasDimensions:function(){var t=this.canvas&&this.canvas.getZoom()||1,i=this.getObjectScaling(),r=this.canvas&&this.canvas._isRetinaScaling()?e.devicePixelRatio:1,n=this._getNonTransformedDimensions(),s=i.scaleX*t*r,o=i.scaleY*t*r;return{width:n.x*s+2,height:n.y*o+2,zoomX:s,zoomY:o,x:n.x,y:n.y}},_updateCacheCanvas:function(){if(this.noScaleCache&&this.canvas&&this.canvas._currentTransform){var t=this.canvas._currentTransform.target,i=this.canvas._currentTransform.action;if(this===t&&i.slice&&"scale"===i.slice(0,5))return!1}var r,n,s=this._cacheCanvas,o=this._limitCacheSize(this._getCacheCanvasDimensions()),a=e.minCacheSideLimit,h=o.width,c=o.height,l=o.zoomX,u=o.zoomY,f=h!==this.cacheWidth||c!==this.cacheHeight,d=this.zoomX!==l||this.zoomY!==u,g=f||d,p=0,v=0,m=!1;if(f){var y=this._cacheCanvas.width,_=this._cacheCanvas.height,x=h>y||c>_;m=x||(h<.9*y||c<.9*_)&&y>a&&_>a,x&&!o.capped&&(h>a||c>a)&&(p=.1*h,v=.1*c)}return!!g&&(m?(s.width=Math.ceil(h+p),s.height=Math.ceil(c+v)):(this._cacheContext.setTransform(1,0,0,1,0,0),this._cacheContext.clearRect(0,0,s.width,s.height)),r=o.x*l/2,n=o.y*u/2,this.cacheTranslationX=Math.round(s.width/2-r)+r,this.cacheTranslationY=Math.round(s.height/2-n)+n,this.cacheWidth=h,this.cacheHeight=c,this._cacheContext.translate(this.cacheTranslationX,this.cacheTranslationY),this._cacheContext.scale(l,u),this.zoomX=l,this.zoomY=u,!0)},setOptions:function(t){this._setOptions(t),this._initGradient(t.fill,"fill"),this._initGradient(t.stroke,"stroke"),this._initClipping(t),this._initPattern(t.fill,"fill"),this._initPattern(t.stroke,"stroke")},transform:function(t){var e;e=this.group&&!this.group._transformDone?this.calcTransformMatrix():this.calcOwnMatrix(),t.transform(e[0],e[1],e[2],e[3],e[4],e[5])},toObject:function(t){var i=e.Object.NUM_FRACTION_DIGITS,r={type:this.type,version:e.version,originX:this.originX,originY:this.originY,left:n(this.left,i),top:n(this.top,i),width:n(this.width,i),height:n(this.height,i),fill:this.fill&&this.fill.toObject?this.fill.toObject():this.fill,stroke:this.stroke&&this.stroke.toObject?this.stroke.toObject():this.stroke,strokeWidth:n(this.strokeWidth,i),strokeDashArray:this.strokeDashArray?this.strokeDashArray.concat():this.strokeDashArray,strokeLineCap:this.strokeLineCap,strokeLineJoin:this.strokeLineJoin,strokeMiterLimit:n(this.strokeMiterLimit,i),scaleX:n(this.scaleX,i),scaleY:n(this.scaleY,i),angle:n(this.angle,i),flipX:this.flipX,flipY:this.flipY,opacity:n(this.opacity,i),shadow:this.shadow&&this.shadow.toObject?this.shadow.toObject():this.shadow,visible:this.visible,clipTo:this.clipTo&&String(this.clipTo),backgroundColor:this.backgroundColor,fillRule:this.fillRule,paintFirst:this.paintFirst,globalCompositeOperation:this.globalCompositeOperation,transformMatrix:this.transformMatrix?this.transformMatrix.concat():null,skewX:n(this.skewX,i),skewY:n(this.skewY,i)};return e.util.populateWithProperties(this,r,t),this.includeDefaultValues||(r=this._removeDefaultValues(r)),r},toDatalessObject:function(t){return this.toObject(t)},_removeDefaultValues:function(t){var i=e.util.getKlass(t.type).prototype;return i.stateProperties.forEach(function(e){t[e]===i[e]&&delete t[e],"[object Array]"===Object.prototype.toString.call(t[e])&&"[object Array]"===Object.prototype.toString.call(i[e])&&0===t[e].length&&0===i[e].length&&delete t[e]}),t},toString:function(){return"#<fabric."+s(this.type)+">"},getObjectScaling:function(){var t=this.scaleX,e=this.scaleY;if(this.group){var i=this.group.getObjectScaling();t*=i.scaleX,e*=i.scaleY}return{scaleX:t,scaleY:e}},getObjectOpacity:function(){var t=this.opacity;return this.group&&(t*=this.group.getObjectOpacity()),t},_set:function(t,i){var r="scaleX"===t||"scaleY"===t,n=this[t]!==i,s=!1;return r&&(i=this._constrainScale(i)),"scaleX"===t&&i<0?(this.flipX=!this.flipX,i*=-1):"scaleY"===t&&i<0?(this.flipY=!this.flipY,i*=-1):"shadow"!==t||!i||i instanceof e.Shadow?"dirty"===t&&this.group&&this.group.set("dirty",i):i=new e.Shadow(i),this[t]=i,n&&(s=this.group&&this.group.isOnACache(),this.cacheProperties.indexOf(t)>-1?(this.dirty=!0,s&&this.group.set("dirty",!0)):s&&this.stateProperties.indexOf(t)>-1&&this.group.set("dirty",!0)),this},setOnGroup:function(){},getViewportTransform:function(){return this.canvas&&this.canvas.viewportTransform?this.canvas.viewportTransform:e.iMatrix.concat()},isNotVisible:function(){return 0===this.opacity||0===this.width&&0===this.height||!this.visible},render:function(t){this.isNotVisible()||this.canvas&&this.canvas.skipOffscreen&&!this.group&&!this.isOnScreen()||(t.save(),this._setupCompositeOperation(t),this.drawSelectionBackground(t),this.transform(t),this._setOpacity(t),this._setShadow(t,this),this.transformMatrix&&t.transform.apply(t,this.transformMatrix),this.clipTo&&e.util.clipContext(this,t),this.shouldCache()?(this._cacheCanvas||this._createCacheCanvas(),this.isCacheDirty()&&(this.statefullCache&&this.saveState({propertySet:"cacheProperties"}),this.drawObject(this._cacheContext),this.dirty=!1),this.drawCacheOnCanvas(t)):(this._removeCacheCanvas(),this.dirty=!1,this.drawObject(t),this.objectCaching&&this.statefullCache&&this.saveState({propertySet:"cacheProperties"})),this.clipTo&&t.restore(),t.restore())},_removeCacheCanvas:function(){this._cacheCanvas=null,this.cacheWidth=0,this.cacheHeight=0},needsItsOwnCache:function(){return"stroke"===this.paintFirst&&"object"==typeof this.shadow},shouldCache:function(){return this.ownCaching=this.objectCaching&&(!this.group||this.needsItsOwnCache()||!this.group.isOnACache()),this.ownCaching},willDrawShadow:function(){return!!this.shadow&&(0!==this.shadow.offsetX||0!==this.shadow.offsetY)},drawObject:function(t){this._renderBackground(t),this._setStrokeStyles(t,this),this._setFillStyles(t,this),this._render(t)},drawCacheOnCanvas:function(t){t.scale(1/this.zoomX,1/this.zoomY),t.drawImage(this._cacheCanvas,-this.cacheTranslationX,-this.cacheTranslationY)},isCacheDirty:function(t){if(this.isNotVisible())return!1;if(this._cacheCanvas&&!t&&this._updateCacheCanvas())return!0;if(this.dirty||this.statefullCache&&this.hasStateChanged("cacheProperties")){if(this._cacheCanvas&&!t){var e=this.cacheWidth/this.zoomX,i=this.cacheHeight/this.zoomY;this._cacheContext.clearRect(-e/2,-i/2,e,i)}return!0}return!1},_renderBackground:function(t){if(this.backgroundColor){var e=this._getNonTransformedDimensions();t.fillStyle=this.backgroundColor,t.fillRect(-e.x/2,-e.y/2,e.x,e.y),this._removeShadow(t)}},_setOpacity:function(t){this.group&&!this.group._transformDone?t.globalAlpha=this.getObjectOpacity():t.globalAlpha*=this.opacity},_setStrokeStyles:function(t,e){e.stroke&&(t.lineWidth=e.strokeWidth,t.lineCap=e.strokeLineCap,t.lineJoin=e.strokeLineJoin,t.miterLimit=e.strokeMiterLimit,t.strokeStyle=e.stroke.toLive?e.stroke.toLive(t,this):e.stroke)},_setFillStyles:function(t,e){e.fill&&(t.fillStyle=e.fill.toLive?e.fill.toLive(t,this):e.fill)},_setLineDash:function(t,e,i){e&&(1&e.length&&e.push.apply(e,e),a?t.setLineDash(e):i&&i(t))},_renderControls:function(t,i){var r,n,s,a=this.getViewportTransform(),h=this.calcTransformMatrix();n=void 0!==(i=i||{}).hasBorders?i.hasBorders:this.hasBorders,s=void 0!==i.hasControls?i.hasControls:this.hasControls,h=e.util.multiplyTransformMatrices(a,h),r=e.util.qrDecompose(h),t.save(),t.translate(r.translateX,r.translateY),t.lineWidth=1*this.borderScaleFactor,this.group||(t.globalAlpha=this.isMoving?this.borderOpacityWhenMoving:1),i.forActiveSelection?(t.rotate(o(r.angle)),n&&this.drawBordersInGroup(t,r,i)):(t.rotate(o(this.angle)),n&&this.drawBorders(t,i)),s&&this.drawControls(t,i),t.restore()},_setShadow:function(t){if(this.shadow){var i=this.canvas&&this.canvas.viewportTransform[0]||1,r=this.canvas&&this.canvas.viewportTransform[3]||1,n=this.getObjectScaling();this.canvas&&this.canvas._isRetinaScaling()&&(i*=e.devicePixelRatio,r*=e.devicePixelRatio),t.shadowColor=this.shadow.color,t.shadowBlur=this.shadow.blur*e.browserShadowBlurConstant*(i+r)*(n.scaleX+n.scaleY)/4,t.shadowOffsetX=this.shadow.offsetX*i*n.scaleX,t.shadowOffsetY=this.shadow.offsetY*r*n.scaleY}},_removeShadow:function(t){this.shadow&&(t.shadowColor="",t.shadowBlur=t.shadowOffsetX=t.shadowOffsetY=0)},_applyPatternGradientTransform:function(t,e){if(!e||!e.toLive)return{offsetX:0,offsetY:0};var i=e.gradientTransform||e.patternTransform,r=-this.width/2+e.offsetX||0,n=-this.height/2+e.offsetY||0;return t.translate(r,n),i&&t.transform(i[0],i[1],i[2],i[3],i[4],i[5]),{offsetX:r,offsetY:n}},_renderPaintInOrder:function(t){"stroke"===this.paintFirst?(this._renderStroke(t),this._renderFill(t)):(this._renderFill(t),this._renderStroke(t))},_renderFill:function(t){this.fill&&(t.save(),this._applyPatternGradientTransform(t,this.fill),"evenodd"===this.fillRule?t.fill("evenodd"):t.fill(),t.restore())},_renderStroke:function(t){this.stroke&&0!==this.strokeWidth&&(this.shadow&&!this.shadow.affectStroke&&this._removeShadow(t),t.save(),this._setLineDash(t,this.strokeDashArray,this._renderDashedStroke),this._applyPatternGradientTransform(t,this.stroke),t.stroke(),t.restore())},_findCenterFromElement:function(){return{x:this.left+this.width/2,y:this.top+this.height/2}},_assignTransformMatrixProps:function(){if(this.transformMatrix){var t=e.util.qrDecompose(this.transformMatrix);this.flipX=!1,this.flipY=!1,this.set("scaleX",t.scaleX),this.set("scaleY",t.scaleY),this.angle=t.angle,this.skewX=t.skewX,this.skewY=0}},_removeTransformMatrix:function(t){var i=this._findCenterFromElement();this.transformMatrix&&(this._assignTransformMatrixProps(),i=e.util.transformPoint(i,this.transformMatrix)),this.transformMatrix=null,t&&(this.scaleX*=t.scaleX,this.scaleY*=t.scaleY,this.cropX=t.cropX,this.cropY=t.cropY,i.x+=t.offsetLeft,i.y+=t.offsetTop,this.width=t.width,this.height=t.height),this.setPositionByOrigin(i,"center","center")},clone:function(t,i){var r=this.toObject(i);this.constructor.fromObject?this.constructor.fromObject(r,t):e.Object._fromObject("Object",r,t)},cloneAsImage:function(t,i){var r=this.toDataURL(i);return e.util.loadImage(r,function(i){t&&t(new e.Image(i))}),this},toDataURL:function(t){t||(t={});var i=e.util.createCanvasElement(),r=this.getBoundingRect();i.width=r.width,i.height=r.height,e.util.wrapElement(i,"div");var n=new e.StaticCanvas(i,{enableRetinaScaling:t.enableRetinaScaling,renderOnAddRemove:!1,skipOffscreen:!1});"jpg"===t.format&&(t.format="jpeg"),"jpeg"===t.format&&(n.backgroundColor="#fff");var s={left:this.left,top:this.top};this.setPositionByOrigin(new e.Point(n.width/2,n.height/2),"center","center");var o=this.canvas;n.add(this);var a=n.toDataURL(t);return this.set(s).setCoords(),this.canvas=o,n._objects=[],n.dispose(),n=null,a},isType:function(t){return this.type===t},complexity:function(){return 1},toJSON:function(t){return this.toObject(t)},setGradient:function(t,i){i||(i={});var r={colorStops:[]};return r.type=i.type||(i.r1||i.r2?"radial":"linear"),r.coords={x1:i.x1,y1:i.y1,x2:i.x2,y2:i.y2},(i.r1||i.r2)&&(r.coords.r1=i.r1,r.coords.r2=i.r2),r.gradientTransform=i.gradientTransform,e.Gradient.prototype.addColorStop.call(r,i.colorStops),this.set(t,e.Gradient.forObject(this,r))},setPatternFill:function(t){return this.set("fill",new e.Pattern(t))},setShadow:function(t){return this.set("shadow",t?new e.Shadow(t):null)},setColor:function(t){return this.set("fill",t),this},rotate:function(t){var e=("center"!==this.originX||"center"!==this.originY)&&this.centeredRotation;return e&&this._setOriginToCenter(),this.set("angle",t),e&&this._resetOrigin(),this},centerH:function(){return this.canvas&&this.canvas.centerObjectH(this),this},viewportCenterH:function(){return this.canvas&&this.canvas.viewportCenterObjectH(this),this},centerV:function(){return this.canvas&&this.canvas.centerObjectV(this),this},viewportCenterV:function(){return this.canvas&&this.canvas.viewportCenterObjectV(this),this},center:function(){return this.canvas&&this.canvas.centerObject(this),this},viewportCenter:function(){return this.canvas&&this.canvas.viewportCenterObject(this),this},getLocalPointer:function(t,i){i=i||this.canvas.getPointer(t);var r=new e.Point(i.x,i.y),n=this._getLeftTopCoords();return this.angle&&(r=e.util.rotatePoint(r,n,o(-this.angle))),{x:r.x-n.x,y:r.y-n.y}},_setupCompositeOperation:function(t){this.globalCompositeOperation&&(t.globalCompositeOperation=this.globalCompositeOperation)}}),e.util.createAccessors&&e.util.createAccessors(e.Object),i(e.Object.prototype,e.Observable),e.Object.NUM_FRACTION_DIGITS=2,e.Object._fromObject=function(t,i,n,s){var o=e[t];i=r(i,!0),e.util.enlivenPatterns([i.fill,i.stroke],function(t){void 0!==t[0]&&(i.fill=t[0]),void 0!==t[1]&&(i.stroke=t[1]);var e=s?new o(i[s],i):new o(i);n&&n(e)})},e.Object.__uid=0)}(e),p=b.util.degreesToRadians,v={left:-.5,center:0,right:.5},m={top:-.5,center:0,bottom:.5},b.util.object.extend(b.Object.prototype,{translateToGivenOrigin:function(t,e,i,r,n){var s,o,a,h=t.x,c=t.y;return"string"==typeof e?e=v[e]:e-=.5,"string"==typeof r?r=v[r]:r-=.5,s=r-e,"string"==typeof i?i=m[i]:i-=.5,"string"==typeof n?n=m[n]:n-=.5,o=n-i,(s||o)&&(a=this._getTransformedDimensions(),h=t.x+s*a.x,c=t.y+o*a.y),new b.Point(h,c)},translateToCenterPoint:function(t,e,i){var r=this.translateToGivenOrigin(t,e,i,"center","center");return this.angle?b.util.rotatePoint(r,t,p(this.angle)):r},translateToOriginPoint:function(t,e,i){var r=this.translateToGivenOrigin(t,"center","center",e,i);return this.angle?b.util.rotatePoint(r,t,p(this.angle)):r},getCenterPoint:function(){var t=new b.Point(this.left,this.top);return this.translateToCenterPoint(t,this.originX,this.originY)},getPointByOrigin:function(t,e){var i=this.getCenterPoint();return this.translateToOriginPoint(i,t,e)},toLocalPoint:function(t,e,i){var r,n,s=this.getCenterPoint();return r=void 0!==e&&void 0!==i?this.translateToGivenOrigin(s,"center","center",e,i):new b.Point(this.left,this.top),n=new b.Point(t.x,t.y),this.angle&&(n=b.util.rotatePoint(n,s,-p(this.angle))),n.subtractEquals(r)},setPositionByOrigin:function(t,e,i){var r=this.translateToCenterPoint(t,e,i),n=this.translateToOriginPoint(r,this.originX,this.originY);this.set("left",n.x),this.set("top",n.y)},adjustPosition:function(t){var e,i,r=p(this.angle),n=this.getScaledWidth(),s=b.util.cos(r)*n,o=b.util.sin(r)*n;e="string"==typeof this.originX?v[this.originX]:this.originX-.5,i="string"==typeof t?v[t]:t-.5,this.left+=s*(i-e),this.top+=o*(i-e),this.setCoords(),this.originX=t},_setOriginToCenter:function(){this._originalOriginX=this.originX,this._originalOriginY=this.originY;var t=this.getCenterPoint();this.originX="center",this.originY="center",this.left=t.x,this.top=t.y},_resetOrigin:function(){var t=this.translateToOriginPoint(this.getCenterPoint(),this._originalOriginX,this._originalOriginY);this.originX=this._originalOriginX,this.originY=this._originalOriginY,this.left=t.x,this.top=t.y,this._originalOriginX=null,this._originalOriginY=null},_getLeftTopCoords:function(){return this.translateToOriginPoint(this.getCenterPoint(),"left","top")},onDeselect:function(){}}),function(){var t=b.util.degreesToRadians,e=b.util.multiplyTransformMatrices,i=b.util.transformPoint;b.util.object.extend(b.Object.prototype,{oCoords:null,aCoords:null,ownMatrixCache:null,matrixCache:null,getCoords:function(t,e){this.oCoords||this.setCoords();var i=t?this.aCoords:this.oCoords;return function(t){return[new b.Point(t.tl.x,t.tl.y),new b.Point(t.tr.x,t.tr.y),new b.Point(t.br.x,t.br.y),new b.Point(t.bl.x,t.bl.y)]}(e?this.calcCoords(t):i)},intersectsWithRect:function(t,e,i,r){var n=this.getCoords(i,r);return"Intersection"===b.Intersection.intersectPolygonRectangle(n,t,e).status},intersectsWithObject:function(t,e,i){return"Intersection"===b.Intersection.intersectPolygonPolygon(this.getCoords(e,i),t.getCoords(e,i)).status||t.isContainedWithinObject(this,e,i)||this.isContainedWithinObject(t,e,i)},isContainedWithinObject:function(t,e,i){for(var r=this.getCoords(e,i),n=0,s=t._getImageLines(i?t.calcCoords(e):e?t.aCoords:t.oCoords);n<4;n++)if(!t.containsPoint(r[n],s))return!1;return!0},isContainedWithinRect:function(t,e,i,r){var n=this.getBoundingRect(i,r);return n.left>=t.x&&n.left+n.width<=e.x&&n.top>=t.y&&n.top+n.height<=e.y},containsPoint:function(t,e,i,r){e=e||this._getImageLines(r?this.calcCoords(i):i?this.aCoords:this.oCoords);var n=this._findCrossPoints(t,e);return 0!==n&&n%2==1},isOnScreen:function(t){if(!this.canvas)return!1;for(var e,i=this.canvas.vptCoords.tl,r=this.canvas.vptCoords.br,n=this.getCoords(!0,t),s=0;s<4;s++)if((e=n[s]).x<=r.x&&e.x>=i.x&&e.y<=r.y&&e.y>=i.y)return!0;if(this.intersectsWithRect(i,r,!0))return!0;var o={x:(i.x+r.x)/2,y:(i.y+r.y)/2};return!!this.containsPoint(o,null,!0)},_getImageLines:function(t){return{topline:{o:t.tl,d:t.tr},rightline:{o:t.tr,d:t.br},bottomline:{o:t.br,d:t.bl},leftline:{o:t.bl,d:t.tl}}},_findCrossPoints:function(t,e){var i,r,n,s,o=0;for(var a in e)if(!((s=e[a]).o.y<t.y&&s.d.y<t.y||s.o.y>=t.y&&s.d.y>=t.y||(s.o.x===s.d.x&&s.o.x>=t.x?n=s.o.x:(i=0,r=(s.d.y-s.o.y)/(s.d.x-s.o.x),n=-(t.y-i*t.x-(s.o.y-r*s.o.x))/(i-r)),n>=t.x&&(o+=1),2!==o)))break;return o},getBoundingRect:function(t,e){var i=this.getCoords(t,e);return b.util.makeBoundingBoxFromPoints(i)},getScaledWidth:function(){return this._getTransformedDimensions().x},getScaledHeight:function(){return this._getTransformedDimensions().y},_constrainScale:function(t){return Math.abs(t)<this.minScaleLimit?t<0?-this.minScaleLimit:this.minScaleLimit:0===t?1e-4:t},scale:function(t){return this._set("scaleX",t),this._set("scaleY",t),this.setCoords()},scaleToWidth:function(t,e){var i=this.getBoundingRect(e).width/this.getScaledWidth();return this.scale(t/this.width/i)},scaleToHeight:function(t,e){var i=this.getBoundingRect(e).height/this.getScaledHeight();return this.scale(t/this.height/i)},calcCoords:function(r){var n=this._calcRotateMatrix(),s=this._calcTranslateMatrix(),o=e(s,n),a=this.getViewportTransform(),h=r?o:e(a,o),c=this._getTransformedDimensions(),l=c.x/2,u=c.y/2,f=i({x:-l,y:-u},h),d=i({x:l,y:-u},h),g=i({x:-l,y:u},h),p=i({x:l,y:u},h);if(!r){var v=this.padding,m=t(this.angle),y=b.util.cos(m),_=b.util.sin(m),x=y*v,C=_*v,S=x+C,w=x-C;v&&(f.x-=w,f.y-=S,d.x+=S,d.y-=w,g.x-=S,g.y+=w,p.x+=w,p.y+=S);var T=new b.Point((f.x+g.x)/2,(f.y+g.y)/2),O=new b.Point((d.x+f.x)/2,(d.y+f.y)/2),E=new b.Point((p.x+d.x)/2,(p.y+d.y)/2),k=new b.Point((p.x+g.x)/2,(p.y+g.y)/2),D=new b.Point(O.x+_*this.rotatingPointOffset,O.y-y*this.rotatingPointOffset)}var A={tl:f,tr:d,br:p,bl:g};return r||(A.ml=T,A.mt=O,A.mr=E,A.mb=k,A.mtr=D),A},setCoords:function(t,e){return this.oCoords=this.calcCoords(t),e||(this.aCoords=this.calcCoords(!0)),t||this._setCornerCoords&&this._setCornerCoords(),this},_calcRotateMatrix:function(){if(this.angle){var e=t(this.angle),i=b.util.cos(e),r=b.util.sin(e);return[i,r,-r,i,0,0]}return b.iMatrix.concat()},_calcTranslateMatrix:function(){var t=this.getCenterPoint();return[1,0,0,1,t.x,t.y]},transformMatrixKey:function(t){var e="";return!t&&this.group&&(e=this.group.transformMatrixKey(t)+"_"),e+this.top+"_"+this.left+"_"+this.scaleX+"_"+this.scaleY+"_"+this.skewX+"_"+this.skewY+"_"+this.angle+"_"+this.originX+"_"+this.originY+"_"+this.width+"_"+this.height+"_"+this.strokeWidth+this.flipX+this.flipY},calcTransformMatrix:function(t){if(t)return this.calcOwnMatrix();var i=this.transformMatrixKey(),r=this.matrixCache||(this.matrixCache={});if(r.key===i)return r.value;var n=this.calcOwnMatrix();return this.group&&(n=e(this.group.calcTransformMatrix(),n)),r.key=i,r.value=n,n},calcOwnMatrix:function(){var t=this.transformMatrixKey(!0),i=this.ownMatrixCache||(this.ownMatrixCache={});if(i.key===t)return i.value;var r,n=this._calcTranslateMatrix(),s=this._calcDimensionsTransformMatrix(this.skewX,this.skewY,!0);return this.angle&&(r=this._calcRotateMatrix(),n=e(n,r)),n=e(n,s),i.key=t,i.value=n,n},_calcDimensionsTransformMatrix:function(i,r,n){var s,o=[this.scaleX*(n&&this.flipX?-1:1),0,0,this.scaleY*(n&&this.flipY?-1:1),0,0];return i&&(s=[1,0,Math.tan(t(i)),1],o=e(o,s,!0)),r&&(s=[1,Math.tan(t(r)),0,1],o=e(o,s,!0)),o},_getNonTransformedDimensions:function(){var t=this.strokeWidth;return{x:this.width+t,y:this.height+t}},_getTransformedDimensions:function(t,e){void 0===t&&(t=this.skewX),void 0===e&&(e=this.skewY);var i=this._getNonTransformedDimensions();if(0===t&&0===e)return{x:i.x*this.scaleX,y:i.y*this.scaleY};var r,n,s=i.x/2,o=i.y/2,a=[{x:-s,y:-o},{x:s,y:-o},{x:-s,y:o},{x:s,y:o}],h=this._calcDimensionsTransformMatrix(t,e,!1);for(r=0;r<a.length;r++)a[r]=b.util.transformPoint(a[r],h);return{x:(n=b.util.makeBoundingBoxFromPoints(a)).width,y:n.height}},_calculateCurrentDimensions:function(){var t=this.getViewportTransform(),e=this._getTransformedDimensions();return b.util.transformPoint(e,t,!0).scalarAdd(2*this.padding)}})}(),b.util.object.extend(b.Object.prototype,{sendToBack:function(){return this.group?b.StaticCanvas.prototype.sendToBack.call(this.group,this):this.canvas.sendToBack(this),this},bringToFront:function(){return this.group?b.StaticCanvas.prototype.bringToFront.call(this.group,this):this.canvas.bringToFront(this),this},sendBackwards:function(t){return this.group?b.StaticCanvas.prototype.sendBackwards.call(this.group,this,t):this.canvas.sendBackwards(this,t),this},bringForward:function(t){return this.group?b.StaticCanvas.prototype.bringForward.call(this.group,this,t):this.canvas.bringForward(this,t),this},moveTo:function(t){return this.group&&"activeSelection"!==this.group.type?b.StaticCanvas.prototype.moveTo.call(this.group,this,t):this.canvas.moveTo(this,t),this}}),function(){function t(t,e){if(e){if(e.toLive)return t+": url(#SVGID_"+e.id+"); ";var i=new b.Color(e),r=t+": "+i.toRgb()+"; ",n=i.getAlpha();return 1!==n&&(r+=t+"-opacity: "+n.toString()+"; "),r}return t+": none; "}var e=b.util.toFixed;b.util.object.extend(b.Object.prototype,{getSvgStyles:function(e){var i=this.fillRule,r=this.strokeWidth?this.strokeWidth:"0",n=this.strokeDashArray?this.strokeDashArray.join(" "):"none",s=this.strokeLineCap?this.strokeLineCap:"butt",o=this.strokeLineJoin?this.strokeLineJoin:"miter",a=this.strokeMiterLimit?this.strokeMiterLimit:"4",h=void 0!==this.opacity?this.opacity:"1",c=this.visible?"":" visibility: hidden;",l=e?"":this.getSvgFilter(),u=t("fill",this.fill);return[t("stroke",this.stroke),"stroke-width: ",r,"; ","stroke-dasharray: ",n,"; ","stroke-linecap: ",s,"; ","stroke-linejoin: ",o,"; ","stroke-miterlimit: ",a,"; ",u,"fill-rule: ",i,"; ","opacity: ",h,";",l,c].join("")},getSvgSpanStyles:function(e,i){var r=e.strokeWidth?"stroke-width: "+e.strokeWidth+"; ":"",n=e.fontFamily?"font-family: "+e.fontFamily.replace(/"/g,"'")+"; ":"",s=e.fontSize?"font-size: "+e.fontSize+"px; ":"",o=e.fontStyle?"font-style: "+e.fontStyle+"; ":"",a=e.fontWeight?"font-weight: "+e.fontWeight+"; ":"",h=e.fill?t("fill",e.fill):"",c=e.stroke?t("stroke",e.stroke):"",l=this.getSvgTextDecoration(e);return l&&(l="text-decoration: "+l+"; "),[c,r,n,s,o,a,l,h,i?"white-space: pre; ":""].join("")},getSvgTextDecoration:function(t){return"overline"in t||"underline"in t||"linethrough"in t?(t.overline?"overline ":"")+(t.underline?"underline ":"")+(t.linethrough?"line-through ":""):""},getSvgFilter:function(){return this.shadow?"filter: url(#SVGID_"+this.shadow.id+");":""},getSvgId:function(){return this.id?'id="'+this.id+'" ':""},getSvgTransform:function(){var t=this.angle,i=this.skewX%360,r=this.skewY%360,n=this.getCenterPoint(),s=b.Object.NUM_FRACTION_DIGITS,o="translate("+e(n.x,s)+" "+e(n.y,s)+")",a=0!==t?" rotate("+e(t,s)+")":"",h=1===this.scaleX&&1===this.scaleY?"":" scale("+e(this.scaleX,s)+" "+e(this.scaleY,s)+")",c=0!==i?" skewX("+e(i,s)+")":"",l=0!==r?" skewY("+e(r,s)+")":"";return[o,a,h,this.flipX?" matrix(-1 0 0 1 0 0) ":"",this.flipY?" matrix(1 0 0 -1 0 0)":"",c,l].join("")},getSvgTransformMatrix:function(){return this.transformMatrix?" matrix("+this.transformMatrix.join(" ")+") ":""},_setSVGBg:function(t){if(this.backgroundColor){var i=b.Object.NUM_FRACTION_DIGITS;t.push("\t\t<rect ",this._getFillAttributes(this.backgroundColor),' x="',e(-this.width/2,i),'" y="',e(-this.height/2,i),'" width="',e(this.width,i),'" height="',e(this.height,i),'"></rect>\n')}},_createBaseSVGMarkup:function(){var t=[];return this.fill&&this.fill.toLive&&t.push(this.fill.toSVG(this,!1)),this.stroke&&this.stroke.toLive&&t.push(this.stroke.toSVG(this,!1)),this.shadow&&t.push(this.shadow.toSVG(this)),t},addPaintOrder:function(){return"fill"!==this.paintFirst?' paint-order="'+this.paintFirst+'" ':""}})}(),function(){var t=b.util.object.extend;function e(e,i,r){var n={};r.forEach(function(t){n[t]=e[t]}),t(e[i],n,!0)}b.util.object.extend(b.Object.prototype,{hasStateChanged:function(t){var e="_"+(t=t||"stateProperties");return Object.keys(this[e]).length<this[t].length||!function t(e,i,r){if(e===i)return!0;if(Array.isArray(e)){if(e.length!==i.length)return!1;for(var n=0,s=e.length;n<s;n++)if(!t(e[n],i[n]))return!1;return!0}if(e&&"object"==typeof e){var o,a=Object.keys(e);if(!r&&a.length!==Object.keys(i).length)return!1;for(n=0,s=a.length;n<s;n++)if(!t(e[o=a[n]],i[o]))return!1;return!0}}(this[e],this,!0)},saveState:function(t){var i=t&&t.propertySet||"stateProperties",r="_"+i;return this[r]?(e(this,r,this[i]),t&&t.stateProperties&&e(this,r,t.stateProperties),this):this.setupState(t)},setupState:function(t){var e=(t=t||{}).propertySet||"stateProperties";return t.propertySet=e,this["_"+e]={},this.saveState(t),this}})}(),function(){var t=b.util.degreesToRadians;b.util.object.extend(b.Object.prototype,{_controlsVisibility:null,_findTargetCorner:function(t){if(!this.hasControls||this.group||!this.canvas||this.canvas._activeObject!==this)return!1;var e,i,r=t.x,n=t.y;for(var s in this.__corner=0,this.oCoords)if(this.isControlVisible(s)&&("mtr"!==s||this.hasRotatingPoint)&&(!this.get("lockUniScaling")||"mt"!==s&&"mr"!==s&&"mb"!==s&&"ml"!==s)&&(i=this._getImageLines(this.oCoords[s].corner),0!==(e=this._findCrossPoints({x:r,y:n},i))&&e%2==1))return this.__corner=s,s;return!1},_setCornerCoords:function(){var e,i,r=this.oCoords,n=t(45-this.angle),s=.707106*this.cornerSize,o=s*b.util.cos(n),a=s*b.util.sin(n);for(var h in r)e=r[h].x,i=r[h].y,r[h].corner={tl:{x:e-a,y:i-o},tr:{x:e+o,y:i-a},bl:{x:e-o,y:i+a},br:{x:e+a,y:i+o}}},drawSelectionBackground:function(e){if(!this.selectionBackgroundColor||this.canvas&&!this.canvas.interactive||this.canvas&&this.canvas._activeObject!==this)return this;e.save();var i=this.getCenterPoint(),r=this._calculateCurrentDimensions(),n=this.canvas.viewportTransform;return e.translate(i.x,i.y),e.scale(1/n[0],1/n[3]),e.rotate(t(this.angle)),e.fillStyle=this.selectionBackgroundColor,e.fillRect(-r.x/2,-r.y/2,r.x,r.y),e.restore(),this},drawBorders:function(t,e){e=e||{};var i=this._calculateCurrentDimensions(),r=1/this.borderScaleFactor,n=i.x+r,s=i.y+r,o=void 0!==e.hasRotatingPoint?e.hasRotatingPoint:this.hasRotatingPoint,a=void 0!==e.hasControls?e.hasControls:this.hasControls,h=void 0!==e.rotatingPointOffset?e.rotatingPointOffset:this.rotatingPointOffset;if(t.save(),t.strokeStyle=e.borderColor||this.borderColor,this._setLineDash(t,e.borderDashArray||this.borderDashArray,null),t.strokeRect(-n/2,-s/2,n,s),o&&this.isControlVisible("mtr")&&a){var c=-s/2;t.beginPath(),t.moveTo(0,c),t.lineTo(0,c-h),t.stroke()}return t.restore(),this},drawBordersInGroup:function(t,e,i){i=i||{};var r=this._getNonTransformedDimensions(),n=b.util.customTransformMatrix(e.scaleX,e.scaleY,e.skewX),s=b.util.transformPoint(r,n),o=1/this.borderScaleFactor,a=s.x+o,h=s.y+o;return t.save(),this._setLineDash(t,i.borderDashArray||this.borderDashArray,null),t.strokeStyle=i.borderColor||this.borderColor,t.strokeRect(-a/2,-h/2,a,h),t.restore(),this},drawControls:function(t,e){e=e||{};var i=this._calculateCurrentDimensions(),r=i.x,n=i.y,s=e.cornerSize||this.cornerSize,o=-(r+s)/2,a=-(n+s)/2,h=void 0!==e.transparentCorners?e.transparentCorners:this.transparentCorners,c=void 0!==e.hasRotatingPoint?e.hasRotatingPoint:this.hasRotatingPoint,l=h?"stroke":"fill";return t.save(),t.strokeStyle=t.fillStyle=e.cornerColor||this.cornerColor,this.transparentCorners||(t.strokeStyle=e.cornerStrokeColor||this.cornerStrokeColor),this._setLineDash(t,e.cornerDashArray||this.cornerDashArray,null),this._drawControl("tl",t,l,o,a,e),this._drawControl("tr",t,l,o+r,a,e),this._drawControl("bl",t,l,o,a+n,e),this._drawControl("br",t,l,o+r,a+n,e),this.get("lockUniScaling")||(this._drawControl("mt",t,l,o+r/2,a,e),this._drawControl("mb",t,l,o+r/2,a+n,e),this._drawControl("mr",t,l,o+r,a+n/2,e),this._drawControl("ml",t,l,o,a+n/2,e)),c&&this._drawControl("mtr",t,l,o+r/2,a-this.rotatingPointOffset,e),t.restore(),this},_drawControl:function(t,e,i,r,n,s){if(s=s||{},this.isControlVisible(t)){var o=this.cornerSize,a=!this.transparentCorners&&this.cornerStrokeColor;switch(s.cornerStyle||this.cornerStyle){case"circle":e.beginPath(),e.arc(r+o/2,n+o/2,o/2,0,2*Math.PI,!1),e[i](),a&&e.stroke();break;default:this.transparentCorners||e.clearRect(r,n,o,o),e[i+"Rect"](r,n,o,o),a&&e.strokeRect(r,n,o,o)}}},isControlVisible:function(t){return this._getControlsVisibility()[t]},setControlVisible:function(t,e){return this._getControlsVisibility()[t]=e,this},setControlsVisibility:function(t){for(var e in t||(t={}),t)this.setControlVisible(e,t[e]);return this},_getControlsVisibility:function(){return this._controlsVisibility||(this._controlsVisibility={tl:!0,tr:!0,br:!0,bl:!0,ml:!0,mt:!0,mr:!0,mb:!0,mtr:!0}),this._controlsVisibility},onDeselect:function(){},onSelect:function(){}})}(),b.util.object.extend(b.StaticCanvas.prototype,{FX_DURATION:500,fxCenterObjectH:function(t,e){var i=function(){},r=(e=e||{}).onComplete||i,n=e.onChange||i,s=this;return b.util.animate({startValue:t.left,endValue:this.getCenter().left,duration:this.FX_DURATION,onChange:function(e){t.set("left",e),s.requestRenderAll(),n()},onComplete:function(){t.setCoords(),r()}}),this},fxCenterObjectV:function(t,e){var i=function(){},r=(e=e||{}).onComplete||i,n=e.onChange||i,s=this;return b.util.animate({startValue:t.top,endValue:this.getCenter().top,duration:this.FX_DURATION,onChange:function(e){t.set("top",e),s.requestRenderAll(),n()},onComplete:function(){t.setCoords(),r()}}),this},fxRemove:function(t,e){var i=function(){},r=(e=e||{}).onComplete||i,n=e.onChange||i,s=this;return b.util.animate({startValue:t.opacity,endValue:0,duration:this.FX_DURATION,onChange:function(e){t.set("opacity",e),s.requestRenderAll(),n()},onComplete:function(){s.remove(t),r()}}),this}}),b.util.object.extend(b.Object.prototype,{animate:function(){if(arguments[0]&&"object"==typeof arguments[0]){var t,e,i=[];for(t in arguments[0])i.push(t);for(var r=0,n=i.length;r<n;r++)t=i[r],e=r!==n-1,this._animate(t,arguments[0][t],arguments[1],e)}else this._animate.apply(this,arguments);return this},_animate:function(t,e,i,r){var n,s=this;e=e.toString(),i=i?b.util.object.clone(i):{},~t.indexOf(".")&&(n=t.split("."));var o=n?this.get(n[0])[n[1]]:this.get(t);"from"in i||(i.from=o),e=~e.indexOf("=")?o+parseFloat(e.replace("=","")):parseFloat(e),b.util.animate({startValue:i.from,endValue:e,byValue:i.by,easing:i.easing,duration:i.duration,abort:i.abort&&function(){return i.abort.call(s)},onChange:function(e,o,a){n?s[n[0]][n[1]]=e:s.set(t,e),r||i.onChange&&i.onChange(e,o,a)},onComplete:function(t,e,n){r||(s.setCoords(),i.onComplete&&i.onComplete(t,e,n))}})}}),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.util.object.extend,r=e.util.object.clone,n={x1:1,x2:1,y1:1,y2:1},s=e.StaticCanvas.supports("setLineDash");function o(t,e){var i=t.origin,r=t.axis1,n=t.axis2,s=t.dimension,o=e.nearest,a=e.center,h=e.farthest;return function(){switch(this.get(i)){case o:return Math.min(this.get(r),this.get(n));case a:return Math.min(this.get(r),this.get(n))+.5*this.get(s);case h:return Math.max(this.get(r),this.get(n))}}}e.Line?e.warn("fabric.Line is already defined"):(e.Line=e.util.createClass(e.Object,{type:"line",x1:0,y1:0,x2:0,y2:0,cacheProperties:e.Object.prototype.cacheProperties.concat("x1","x2","y1","y2"),initialize:function(t,e){t||(t=[0,0,0,0]),this.callSuper("initialize",e),this.set("x1",t[0]),this.set("y1",t[1]),this.set("x2",t[2]),this.set("y2",t[3]),this._setWidthHeight(e)},_setWidthHeight:function(t){t||(t={}),this.width=Math.abs(this.x2-this.x1),this.height=Math.abs(this.y2-this.y1),this.left="left"in t?t.left:this._getLeftToOriginX(),this.top="top"in t?t.top:this._getTopToOriginY()},_set:function(t,e){return this.callSuper("_set",t,e),void 0!==n[t]&&this._setWidthHeight(),this},_getLeftToOriginX:o({origin:"originX",axis1:"x1",axis2:"x2",dimension:"width"},{nearest:"left",center:"center",farthest:"right"}),_getTopToOriginY:o({origin:"originY",axis1:"y1",axis2:"y2",dimension:"height"},{nearest:"top",center:"center",farthest:"bottom"}),_render:function(t){if(t.beginPath(),!this.strokeDashArray||this.strokeDashArray&&s){var e=this.calcLinePoints();t.moveTo(e.x1,e.y1),t.lineTo(e.x2,e.y2)}t.lineWidth=this.strokeWidth;var i=t.strokeStyle;t.strokeStyle=this.stroke||t.fillStyle,this.stroke&&this._renderStroke(t),t.strokeStyle=i},_renderDashedStroke:function(t){var i=this.calcLinePoints();t.beginPath(),e.util.drawDashedLine(t,i.x1,i.y1,i.x2,i.y2,this.strokeDashArray),t.closePath()},_findCenterFromElement:function(){return{x:(this.x1+this.x2)/2,y:(this.y1+this.y2)/2}},toObject:function(t){return i(this.callSuper("toObject",t),this.calcLinePoints())},_getNonTransformedDimensions:function(){var t=this.callSuper("_getNonTransformedDimensions");return"butt"===this.strokeLineCap&&(0===this.width&&(t.y-=this.strokeWidth),0===this.height&&(t.x-=this.strokeWidth)),t},calcLinePoints:function(){var t=this.x1<=this.x2?-1:1,e=this.y1<=this.y2?-1:1,i=t*this.width*.5,r=e*this.height*.5;return{x1:i,x2:t*this.width*-.5,y1:r,y2:e*this.height*-.5}},toSVG:function(t){var e=this._createBaseSVGMarkup(),i=this.calcLinePoints();return e.push("<line ",this.getSvgId(),'x1="',i.x1,'" y1="',i.y1,'" x2="',i.x2,'" y2="',i.y2,'" style="',this.getSvgStyles(),'" transform="',this.getSvgTransform(),this.getSvgTransformMatrix(),'"/>\n'),t?t(e.join("")):e.join("")}}),e.Line.ATTRIBUTE_NAMES=e.SHARED_ATTRIBUTES.concat("x1 y1 x2 y2".split(" ")),e.Line.fromElement=function(t,r,n){n=n||{};var s=e.parseAttributes(t,e.Line.ATTRIBUTE_NAMES),o=[s.x1||0,s.y1||0,s.x2||0,s.y2||0];r(new e.Line(o,i(s,n)))},e.Line.fromObject=function(t,i){var n=r(t,!0);n.points=[t.x1,t.y1,t.x2,t.y2],e.Object._fromObject("Line",n,function(t){delete t.points,i&&i(t)},"points")})}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=Math.PI;e.Circle?e.warn("fabric.Circle is already defined."):(e.Circle=e.util.createClass(e.Object,{type:"circle",radius:0,startAngle:0,endAngle:2*i,cacheProperties:e.Object.prototype.cacheProperties.concat("radius"),_set:function(t,e){return this.callSuper("_set",t,e),"radius"===t&&this.setRadius(e),this},toObject:function(t){return this.callSuper("toObject",["radius","startAngle","endAngle"].concat(t))},toSVG:function(t){var r=this._createBaseSVGMarkup(),n=(this.endAngle-this.startAngle)%(2*i);if(0===n)r.push("<circle ",this.getSvgId(),'cx="0" cy="0" ','r="',this.radius,'" style="',this.getSvgStyles(),'" transform="',this.getSvgTransform()," ",this.getSvgTransformMatrix(),'"',this.addPaintOrder(),"/>\n");else{var s=e.util.cos(this.startAngle)*this.radius,o=e.util.sin(this.startAngle)*this.radius,a=e.util.cos(this.endAngle)*this.radius,h=e.util.sin(this.endAngle)*this.radius,c=n>i?"1":"0";r.push('<path d="M '+s+" "+o," A "+this.radius+" "+this.radius," 0 ",+c+" 1"," "+a+" "+h,'" style="',this.getSvgStyles(),'" transform="',this.getSvgTransform()," ",this.getSvgTransformMatrix(),'"',this.addPaintOrder(),'"/>\n')}return t?t(r.join("")):r.join("")},_render:function(t){t.beginPath(),t.arc(0,0,this.radius,this.startAngle,this.endAngle,!1),this._renderPaintInOrder(t)},getRadiusX:function(){return this.get("radius")*this.get("scaleX")},getRadiusY:function(){return this.get("radius")*this.get("scaleY")},setRadius:function(t){return this.radius=t,this.set("width",2*t).set("height",2*t)}}),e.Circle.ATTRIBUTE_NAMES=e.SHARED_ATTRIBUTES.concat("cx cy r".split(" ")),e.Circle.fromElement=function(t,i){var r,n=e.parseAttributes(t,e.Circle.ATTRIBUTE_NAMES);if(!("radius"in(r=n)&&r.radius>=0))throw new Error("value of `r` attribute is required and can not be negative");n.left=(n.left||0)-n.radius,n.top=(n.top||0)-n.radius,i(new e.Circle(n))},e.Circle.fromObject=function(t,i){return e.Object._fromObject("Circle",t,i)})}(e),function(t){"use strict";var e=t.fabric||(t.fabric={});e.Triangle?e.warn("fabric.Triangle is already defined"):(e.Triangle=e.util.createClass(e.Object,{type:"triangle",width:100,height:100,_render:function(t){var e=this.width/2,i=this.height/2;t.beginPath(),t.moveTo(-e,i),t.lineTo(0,-i),t.lineTo(e,i),t.closePath(),this._renderPaintInOrder(t)},_renderDashedStroke:function(t){var i=this.width/2,r=this.height/2;t.beginPath(),e.util.drawDashedLine(t,-i,r,0,-r,this.strokeDashArray),e.util.drawDashedLine(t,0,-r,i,r,this.strokeDashArray),e.util.drawDashedLine(t,i,r,-i,r,this.strokeDashArray),t.closePath()},toSVG:function(t){var e=this._createBaseSVGMarkup(),i=this.width/2,r=this.height/2,n=[-i+" "+r,"0 "+-r,i+" "+r].join(",");return e.push("<polygon ",this.getSvgId(),'points="',n,'" style="',this.getSvgStyles(),'" transform="',this.getSvgTransform(),'"',this.addPaintOrder(),"/>"),t?t(e.join("")):e.join("")}}),e.Triangle.fromObject=function(t,i){return e.Object._fromObject("Triangle",t,i)})}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=2*Math.PI;e.Ellipse?e.warn("fabric.Ellipse is already defined."):(e.Ellipse=e.util.createClass(e.Object,{type:"ellipse",rx:0,ry:0,cacheProperties:e.Object.prototype.cacheProperties.concat("rx","ry"),initialize:function(t){this.callSuper("initialize",t),this.set("rx",t&&t.rx||0),this.set("ry",t&&t.ry||0)},_set:function(t,e){switch(this.callSuper("_set",t,e),t){case"rx":this.rx=e,this.set("width",2*e);break;case"ry":this.ry=e,this.set("height",2*e)}return this},getRx:function(){return this.get("rx")*this.get("scaleX")},getRy:function(){return this.get("ry")*this.get("scaleY")},toObject:function(t){return this.callSuper("toObject",["rx","ry"].concat(t))},toSVG:function(t){var e=this._createBaseSVGMarkup();return e.push("<ellipse ",this.getSvgId(),'cx="0" cy="0" ','rx="',this.rx,'" ry="',this.ry,'" style="',this.getSvgStyles(),'" transform="',this.getSvgTransform(),this.getSvgTransformMatrix(),'"',this.addPaintOrder(),"/>\n"),t?t(e.join("")):e.join("")},_render:function(t){t.beginPath(),t.save(),t.transform(1,0,0,this.ry/this.rx,0,0),t.arc(0,0,this.rx,0,i,!1),t.restore(),this._renderPaintInOrder(t)}}),e.Ellipse.ATTRIBUTE_NAMES=e.SHARED_ATTRIBUTES.concat("cx cy rx ry".split(" ")),e.Ellipse.fromElement=function(t,i){var r=e.parseAttributes(t,e.Ellipse.ATTRIBUTE_NAMES);r.left=(r.left||0)-r.rx,r.top=(r.top||0)-r.ry,i(new e.Ellipse(r))},e.Ellipse.fromObject=function(t,i){return e.Object._fromObject("Ellipse",t,i)})}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.util.object.extend;e.Rect?e.warn("fabric.Rect is already defined"):(e.Rect=e.util.createClass(e.Object,{stateProperties:e.Object.prototype.stateProperties.concat("rx","ry"),type:"rect",rx:0,ry:0,cacheProperties:e.Object.prototype.cacheProperties.concat("rx","ry"),initialize:function(t){this.callSuper("initialize",t),this._initRxRy()},_initRxRy:function(){this.rx&&!this.ry?this.ry=this.rx:this.ry&&!this.rx&&(this.rx=this.ry)},_render:function(t){if(1!==this.width||1!==this.height){var e=this.rx?Math.min(this.rx,this.width/2):0,i=this.ry?Math.min(this.ry,this.height/2):0,r=this.width,n=this.height,s=-this.width/2,o=-this.height/2,a=0!==e||0!==i,h=.4477152502;t.beginPath(),t.moveTo(s+e,o),t.lineTo(s+r-e,o),a&&t.bezierCurveTo(s+r-h*e,o,s+r,o+h*i,s+r,o+i),t.lineTo(s+r,o+n-i),a&&t.bezierCurveTo(s+r,o+n-h*i,s+r-h*e,o+n,s+r-e,o+n),t.lineTo(s+e,o+n),a&&t.bezierCurveTo(s+h*e,o+n,s,o+n-h*i,s,o+n-i),t.lineTo(s,o+i),a&&t.bezierCurveTo(s,o+h*i,s+h*e,o,s+e,o),t.closePath(),this._renderPaintInOrder(t)}else t.fillRect(-.5,-.5,1,1)},_renderDashedStroke:function(t){var i=-this.width/2,r=-this.height/2,n=this.width,s=this.height;t.beginPath(),e.util.drawDashedLine(t,i,r,i+n,r,this.strokeDashArray),e.util.drawDashedLine(t,i+n,r,i+n,r+s,this.strokeDashArray),e.util.drawDashedLine(t,i+n,r+s,i,r+s,this.strokeDashArray),e.util.drawDashedLine(t,i,r+s,i,r,this.strokeDashArray),t.closePath()},toObject:function(t){return this.callSuper("toObject",["rx","ry"].concat(t))},toSVG:function(t){var e=this._createBaseSVGMarkup(),i=-this.width/2,r=-this.height/2;return e.push("<rect ",this.getSvgId(),'x="',i,'" y="',r,'" rx="',this.get("rx"),'" ry="',this.get("ry"),'" width="',this.width,'" height="',this.height,'" style="',this.getSvgStyles(),'" transform="',this.getSvgTransform(),this.getSvgTransformMatrix(),'"',this.addPaintOrder(),"/>\n"),t?t(e.join("")):e.join("")}}),e.Rect.ATTRIBUTE_NAMES=e.SHARED_ATTRIBUTES.concat("x y rx ry width height".split(" ")),e.Rect.fromElement=function(t,r,n){if(!t)return r(null);n=n||{};var s=e.parseAttributes(t,e.Rect.ATTRIBUTE_NAMES);s.left=s.left||0,s.top=s.top||0;var o=new e.Rect(i(n?e.util.object.clone(n):{},s));o.visible=o.visible&&o.width>0&&o.height>0,r(o)},e.Rect.fromObject=function(t,i){return e.Object._fromObject("Rect",t,i)})}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.util.object.extend,r=e.util.array.min,n=e.util.array.max,s=e.util.toFixed;e.Polyline?e.warn("fabric.Polyline is already defined"):(e.Polyline=e.util.createClass(e.Object,{type:"polyline",points:null,cacheProperties:e.Object.prototype.cacheProperties.concat("points"),initialize:function(t,e){e=e||{},this.points=t||[],this.callSuper("initialize",e);var i=this._calcDimensions();void 0===e.left&&(this.left=i.left),void 0===e.top&&(this.top=i.top),this.width=i.width,this.height=i.height,this.pathOffset={x:i.left+this.width/2,y:i.top+this.height/2}},_calcDimensions:function(){var t=this.points,e=r(t,"x")||0,i=r(t,"y")||0;return{left:e,top:i,width:(n(t,"x")||0)-e,height:(n(t,"y")||0)-i}},toObject:function(t){return i(this.callSuper("toObject",t),{points:this.points.concat()})},toSVG:function(t){for(var i=[],r=this.pathOffset.x,n=this.pathOffset.y,o=this._createBaseSVGMarkup(),a=e.Object.NUM_FRACTION_DIGITS,h=0,c=this.points.length;h<c;h++)i.push(s(this.points[h].x-r,a),",",s(this.points[h].y-n,a)," ");return o.push("<",this.type," ",this.getSvgId(),'points="',i.join(""),'" style="',this.getSvgStyles(),'" transform="',this.getSvgTransform()," ",this.getSvgTransformMatrix(),'"',this.addPaintOrder(),"/>\n"),t?t(o.join("")):o.join("")},commonRender:function(t){var e,i=this.points.length,r=this.pathOffset.x,n=this.pathOffset.y;if(!i||isNaN(this.points[i-1].y))return!1;t.beginPath(),t.moveTo(this.points[0].x-r,this.points[0].y-n);for(var s=0;s<i;s++)e=this.points[s],t.lineTo(e.x-r,e.y-n);return!0},_render:function(t){this.commonRender(t)&&this._renderPaintInOrder(t)},_renderDashedStroke:function(t){var i,r;t.beginPath();for(var n=0,s=this.points.length;n<s;n++)i=this.points[n],r=this.points[n+1]||i,e.util.drawDashedLine(t,i.x,i.y,r.x,r.y,this.strokeDashArray)},complexity:function(){return this.get("points").length}}),e.Polyline.ATTRIBUTE_NAMES=e.SHARED_ATTRIBUTES.concat(),e.Polyline.fromElement=function(t,i,r){if(!t)return i(null);r||(r={});var n=e.parsePointsAttribute(t.getAttribute("points")),s=e.parseAttributes(t,e.Polyline.ATTRIBUTE_NAMES);i(new e.Polyline(n,e.util.object.extend(s,r)))},e.Polyline.fromObject=function(t,i){return e.Object._fromObject("Polyline",t,i,"points")})}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.util.object.extend;e.Polygon?e.warn("fabric.Polygon is already defined"):(e.Polygon=e.util.createClass(e.Polyline,{type:"polygon",_render:function(t){this.commonRender(t)&&(t.closePath(),this._renderPaintInOrder(t))},_renderDashedStroke:function(t){this.callSuper("_renderDashedStroke",t),t.closePath()}}),e.Polygon.ATTRIBUTE_NAMES=e.SHARED_ATTRIBUTES.concat(),e.Polygon.fromElement=function(t,r,n){if(!t)return r(null);n||(n={});var s=e.parsePointsAttribute(t.getAttribute("points")),o=e.parseAttributes(t,e.Polygon.ATTRIBUTE_NAMES);r(new e.Polygon(s,i(o,n)))},e.Polygon.fromObject=function(t,i){return e.Object._fromObject("Polygon",t,i,"points")})}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.util.array.min,r=e.util.array.max,n=e.util.object.extend,s=Object.prototype.toString,o=e.util.drawArc,a={m:2,l:2,h:1,v:1,c:6,s:4,q:4,t:2,a:7},h={m:"l",M:"L"};e.Path?e.warn("fabric.Path is already defined"):(e.Path=e.util.createClass(e.Object,{type:"path",path:null,cacheProperties:e.Object.prototype.cacheProperties.concat("path","fillRule"),stateProperties:e.Object.prototype.stateProperties.concat("path"),initialize:function(t,e){e=e||{},this.callSuper("initialize",e),t||(t=[]);var i="[object Array]"===s.call(t);this.path=i?t:t.match&&t.match(/[mzlhvcsqta][^mzlhvcsqta]*/gi),this.path&&(i||(this.path=this._parsePath()),this._setPositionDimensions(e))},_setPositionDimensions:function(t){var e=this._parseDimensions();this.width=e.width,this.height=e.height,void 0===t.left&&(this.left=e.left),void 0===t.top&&(this.top=e.top),this.pathOffset=this.pathOffset||{x:e.left+this.width/2,y:e.top+this.height/2}},_renderPathCommands:function(t){var e,i,r,n=null,s=0,a=0,h=0,c=0,l=0,u=0,f=-this.pathOffset.x,d=-this.pathOffset.y;t.beginPath();for(var g=0,p=this.path.length;g<p;++g){switch((e=this.path[g])[0]){case"l":h+=e[1],c+=e[2],t.lineTo(h+f,c+d);break;case"L":h=e[1],c=e[2],t.lineTo(h+f,c+d);break;case"h":h+=e[1],t.lineTo(h+f,c+d);break;case"H":h=e[1],t.lineTo(h+f,c+d);break;case"v":c+=e[1],t.lineTo(h+f,c+d);break;case"V":c=e[1],t.lineTo(h+f,c+d);break;case"m":s=h+=e[1],a=c+=e[2],t.moveTo(h+f,c+d);break;case"M":s=h=e[1],a=c=e[2],t.moveTo(h+f,c+d);break;case"c":i=h+e[5],r=c+e[6],l=h+e[3],u=c+e[4],t.bezierCurveTo(h+e[1]+f,c+e[2]+d,l+f,u+d,i+f,r+d),h=i,c=r;break;case"C":h=e[5],c=e[6],l=e[3],u=e[4],t.bezierCurveTo(e[1]+f,e[2]+d,l+f,u+d,h+f,c+d);break;case"s":i=h+e[3],r=c+e[4],null===n[0].match(/[CcSs]/)?(l=h,u=c):(l=2*h-l,u=2*c-u),t.bezierCurveTo(l+f,u+d,h+e[1]+f,c+e[2]+d,i+f,r+d),l=h+e[1],u=c+e[2],h=i,c=r;break;case"S":i=e[3],r=e[4],null===n[0].match(/[CcSs]/)?(l=h,u=c):(l=2*h-l,u=2*c-u),t.bezierCurveTo(l+f,u+d,e[1]+f,e[2]+d,i+f,r+d),h=i,c=r,l=e[1],u=e[2];break;case"q":i=h+e[3],r=c+e[4],l=h+e[1],u=c+e[2],t.quadraticCurveTo(l+f,u+d,i+f,r+d),h=i,c=r;break;case"Q":i=e[3],r=e[4],t.quadraticCurveTo(e[1]+f,e[2]+d,i+f,r+d),h=i,c=r,l=e[1],u=e[2];break;case"t":i=h+e[1],r=c+e[2],null===n[0].match(/[QqTt]/)?(l=h,u=c):(l=2*h-l,u=2*c-u),t.quadraticCurveTo(l+f,u+d,i+f,r+d),h=i,c=r;break;case"T":i=e[1],r=e[2],null===n[0].match(/[QqTt]/)?(l=h,u=c):(l=2*h-l,u=2*c-u),t.quadraticCurveTo(l+f,u+d,i+f,r+d),h=i,c=r;break;case"a":o(t,h+f,c+d,[e[1],e[2],e[3],e[4],e[5],e[6]+h+f,e[7]+c+d]),h+=e[6],c+=e[7];break;case"A":o(t,h+f,c+d,[e[1],e[2],e[3],e[4],e[5],e[6]+f,e[7]+d]),h=e[6],c=e[7];break;case"z":case"Z":h=s,c=a,t.closePath()}n=e}},_render:function(t){this._renderPathCommands(t),this._renderPaintInOrder(t)},toString:function(){return"#<fabric.Path ("+this.complexity()+'): { "top": '+this.top+', "left": '+this.left+" }>"},toObject:function(t){return n(this.callSuper("toObject",t),{path:this.path.map(function(t){return t.slice()}),top:this.top,left:this.left})},toDatalessObject:function(t){var e=this.toObject(["sourcePath"].concat(t));return e.sourcePath&&delete e.path,e},toSVG:function(t){for(var e,i=[],r=this._createBaseSVGMarkup(),n=0,s=this.path.length;n<s;n++)i.push(this.path[n].join(" "));var o=i.join(" ");return e=" translate("+-this.pathOffset.x+", "+-this.pathOffset.y+") ",r.push("<path ",this.getSvgId(),'d="',o,'" style="',this.getSvgStyles(),'" transform="',this.getSvgTransform(),e,this.getSvgTransformMatrix(),'" stroke-linecap="round" ',this.addPaintOrder(),"/>\n"),t?t(r.join("")):r.join("")},complexity:function(){return this.path.length},_parsePath:function(){for(var t,e,i,r,n,s=[],o=[],c=/([-+]?((\d+\.\d+)|((\d+)|(\.\d+)))(?:e[-+]?\d+)?)/gi,l=0,u=this.path.length;l<u;l++){for(r=(t=this.path[l]).slice(1).trim(),o.length=0;i=c.exec(r);)o.push(i[0]);n=[t.charAt(0)];for(var f=0,d=o.length;f<d;f++)e=parseFloat(o[f]),isNaN(e)||n.push(e);var g=n[0],p=a[g.toLowerCase()],v=h[g]||g;if(n.length-1>p)for(var m=1,y=n.length;m<y;m+=p)s.push([g].concat(n.slice(m,m+p))),g=v;else s.push(n)}return s},_parseDimensions:function(){for(var t,n,s,o,a=[],h=[],c=null,l=0,u=0,f=0,d=0,g=0,p=0,v=0,m=this.path.length;v<m;++v){switch((t=this.path[v])[0]){case"l":f+=t[1],d+=t[2],o=[];break;case"L":f=t[1],d=t[2],o=[];break;case"h":f+=t[1],o=[];break;case"H":f=t[1],o=[];break;case"v":d+=t[1],o=[];break;case"V":d=t[1],o=[];break;case"m":l=f+=t[1],u=d+=t[2],o=[];break;case"M":l=f=t[1],u=d=t[2],o=[];break;case"c":n=f+t[5],s=d+t[6],g=f+t[3],p=d+t[4],o=e.util.getBoundsOfCurve(f,d,f+t[1],d+t[2],g,p,n,s),f=n,d=s;break;case"C":g=t[3],p=t[4],o=e.util.getBoundsOfCurve(f,d,t[1],t[2],g,p,t[5],t[6]),f=t[5],d=t[6];break;case"s":n=f+t[3],s=d+t[4],null===c[0].match(/[CcSs]/)?(g=f,p=d):(g=2*f-g,p=2*d-p),o=e.util.getBoundsOfCurve(f,d,g,p,f+t[1],d+t[2],n,s),g=f+t[1],p=d+t[2],f=n,d=s;break;case"S":n=t[3],s=t[4],null===c[0].match(/[CcSs]/)?(g=f,p=d):(g=2*f-g,p=2*d-p),o=e.util.getBoundsOfCurve(f,d,g,p,t[1],t[2],n,s),f=n,d=s,g=t[1],p=t[2];break;case"q":n=f+t[3],s=d+t[4],g=f+t[1],p=d+t[2],o=e.util.getBoundsOfCurve(f,d,g,p,g,p,n,s),f=n,d=s;break;case"Q":g=t[1],p=t[2],o=e.util.getBoundsOfCurve(f,d,g,p,g,p,t[3],t[4]),f=t[3],d=t[4];break;case"t":n=f+t[1],s=d+t[2],null===c[0].match(/[QqTt]/)?(g=f,p=d):(g=2*f-g,p=2*d-p),o=e.util.getBoundsOfCurve(f,d,g,p,g,p,n,s),f=n,d=s;break;case"T":n=t[1],s=t[2],null===c[0].match(/[QqTt]/)?(g=f,p=d):(g=2*f-g,p=2*d-p),o=e.util.getBoundsOfCurve(f,d,g,p,g,p,n,s),f=n,d=s;break;case"a":o=e.util.getBoundsOfArc(f,d,t[1],t[2],t[3],t[4],t[5],t[6]+f,t[7]+d),f+=t[6],d+=t[7];break;case"A":o=e.util.getBoundsOfArc(f,d,t[1],t[2],t[3],t[4],t[5],t[6],t[7]),f=t[6],d=t[7];break;case"z":case"Z":f=l,d=u}c=t,o.forEach(function(t){a.push(t.x),h.push(t.y)}),a.push(f),h.push(d)}var y=i(a)||0,_=i(h)||0;return{left:y,top:_,width:(r(a)||0)-y,height:(r(h)||0)-_}}}),e.Path.fromObject=function(t,i){if("string"==typeof t.sourcePath){var r=t.sourcePath;e.loadSVGFromURL(r,function(e){var r=e[0];r.setOptions(t),i&&i(r)})}else e.Object._fromObject("Path",t,i,"path")},e.Path.ATTRIBUTE_NAMES=e.SHARED_ATTRIBUTES.concat(["d"]),e.Path.fromElement=function(t,i,r){var s=e.parseAttributes(t,e.Path.ATTRIBUTE_NAMES);i(new e.Path(s.d,n(s,r)))})}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.util.object.extend,r=e.util.array.min,n=e.util.array.max;e.Group||(e.Group=e.util.createClass(e.Object,e.Collection,{type:"group",strokeWidth:0,subTargetCheck:!1,cacheProperties:[],useSetOnGroup:!1,initialize:function(t,e,i){e=e||{},this._objects=[],i&&this.callSuper("initialize",e),this._objects=t||[];for(var r=this._objects.length;r--;)this._objects[r].group=this;if(e.originX&&(this.originX=e.originX),e.originY&&(this.originY=e.originY),i)this._updateObjectsACoords();else{var n=e&&e.centerPoint;n||this._calcBounds(),this._updateObjectsCoords(n),delete e.centerPoint,this.callSuper("initialize",e)}this.setCoords()},_updateObjectsACoords:function(){for(var t=this._objects.length;t--;)this._objects[t].setCoords(!0,!0)},_updateObjectsCoords:function(t){t=t||this.getCenterPoint();for(var e=this._objects.length;e--;)this._updateObjectCoords(this._objects[e],t)},_updateObjectCoords:function(t,e){var i=t.left,r=t.top;t.set({left:i-e.x,top:r-e.y}),t.group=this,t.setCoords(!0,!0)},toString:function(){return"#<fabric.Group: ("+this.complexity()+")>"},addWithUpdate:function(t){return this._restoreObjectsState(),e.util.resetObjectTransform(this),t&&(this._objects.push(t),t.group=this,t._set("canvas",this.canvas)),this._calcBounds(),this._updateObjectsCoords(),this.setCoords(),this.dirty=!0,this},removeWithUpdate:function(t){return this._restoreObjectsState(),e.util.resetObjectTransform(this),this.remove(t),this._calcBounds(),this._updateObjectsCoords(),this.setCoords(),this.dirty=!0,this},_onObjectAdded:function(t){this.dirty=!0,t.group=this,t._set("canvas",this.canvas)},_onObjectRemoved:function(t){this.dirty=!0,delete t.group},_set:function(t,e){var i=this._objects.length;if(this.useSetOnGroup)for(;i--;)this._objects[i].setOnGroup(t,e);if("canvas"===t)for(i=this._objects.length;i--;)this._objects[i]._set(t,e);this.callSuper("_set",t,e)},toObject:function(t){var e=this.getObjects().map(function(e){var i=e.includeDefaultValues;e.includeDefaultValues=e.group.includeDefaultValues;var r=e.toObject(t);return e.includeDefaultValues=i,r});return i(this.callSuper("toObject",t),{objects:e})},toDatalessObject:function(t){var e,r=this.sourcePath;return e=r||this.getObjects().map(function(e){var i=e.includeDefaultValues;e.includeDefaultValues=e.group.includeDefaultValues;var r=e.toDatalessObject(t);return e.includeDefaultValues=i,r}),i(this.callSuper("toDatalessObject",t),{objects:e})},render:function(t){this._transformDone=!0,this.callSuper("render",t),this._transformDone=!1},shouldCache:function(){var t=this.objectCaching&&(!this.group||this.needsItsOwnCache()||!this.group.isOnACache());if(this.ownCaching=t,t)for(var e=0,i=this._objects.length;e<i;e++)if(this._objects[e].willDrawShadow())return this.ownCaching=!1,!1;return t},willDrawShadow:function(){if(this.shadow)return this.callSuper("willDrawShadow");for(var t=0,e=this._objects.length;t<e;t++)if(this._objects[t].willDrawShadow())return!0;return!1},isOnACache:function(){return this.ownCaching||this.group&&this.group.isOnACache()},drawObject:function(t){for(var e=0,i=this._objects.length;e<i;e++)this._objects[e].render(t)},isCacheDirty:function(){if(this.callSuper("isCacheDirty"))return!0;if(!this.statefullCache)return!1;for(var t=0,e=this._objects.length;t<e;t++)if(this._objects[t].isCacheDirty(!0)){if(this._cacheCanvas){var i=this.cacheWidth/this.zoomX,r=this.cacheHeight/this.zoomY;this._cacheContext.clearRect(-i/2,-r/2,i,r)}return!0}return!1},_restoreObjectsState:function(){return this._objects.forEach(this._restoreObjectState,this),this},realizeTransform:function(t){var i=t.calcTransformMatrix(),r=e.util.qrDecompose(i),n=new e.Point(r.translateX,r.translateY);return t.flipX=!1,t.flipY=!1,t.set("scaleX",r.scaleX),t.set("scaleY",r.scaleY),t.skewX=r.skewX,t.skewY=r.skewY,t.angle=r.angle,t.setPositionByOrigin(n,"center","center"),t},_restoreObjectState:function(t){return this.realizeTransform(t),t.setCoords(),delete t.group,this},destroy:function(){return this._objects.forEach(function(t){t.set("dirty",!0)}),this._restoreObjectsState()},toActiveSelection:function(){if(this.canvas){var t=this._objects,i=this.canvas;this._objects=[];var r=this.toObject();delete r.objects;var n=new e.ActiveSelection([]);return n.set(r),n.type="activeSelection",i.remove(this),t.forEach(function(t){t.group=n,t.dirty=!0,i.add(t)}),n.canvas=i,n._objects=t,i._activeObject=n,n.setCoords(),n}},ungroupOnCanvas:function(){return this._restoreObjectsState()},setObjectsCoords:function(){return this.forEachObject(function(t){t.setCoords(!0,!0)}),this},_calcBounds:function(t){for(var e,i,r,n=[],s=[],o=["tr","br","bl","tl"],a=0,h=this._objects.length,c=o.length;a<h;++a)for((e=this._objects[a]).setCoords(!0),r=0;r<c;r++)i=o[r],n.push(e.oCoords[i].x),s.push(e.oCoords[i].y);this.set(this._getBounds(n,s,t))},_getBounds:function(t,i,s){var o=new e.Point(r(t),r(i)),a=new e.Point(n(t),n(i)),h={width:a.x-o.x||0,height:a.y-o.y||0};return s||(h.left=o.x||0,h.top=o.y||0,"center"===this.originX&&(h.left+=h.width/2),"right"===this.originX&&(h.left+=h.width),"center"===this.originY&&(h.top+=h.height/2),"bottom"===this.originY&&(h.top+=h.height)),h},toSVG:function(t){var e=this._createBaseSVGMarkup();e.push("<g ",this.getSvgId(),'transform="',this.getSvgTransform(),this.getSvgTransformMatrix(),'" style="',this.getSvgFilter(),'">\n');for(var i=0,r=this._objects.length;i<r;i++)e.push("\t",this._objects[i].toSVG(t));return e.push("</g>\n"),t?t(e.join("")):e.join("")}}),e.Group.fromObject=function(t,i){e.util.enlivenObjects(t.objects,function(r){var n=e.util.object.clone(t,!0);delete n.objects,i&&i(new e.Group(r,n,!0))})})}(e),function(t){"use strict";var e=t.fabric||(t.fabric={});e.ActiveSelection||(e.ActiveSelection=e.util.createClass(e.Group,{type:"activeSelection",initialize:function(t,i){i=i||{},this._objects=t||[];for(var r=this._objects.length;r--;)this._objects[r].group=this;i.originX&&(this.originX=i.originX),i.originY&&(this.originY=i.originY),this._calcBounds(),this._updateObjectsCoords(),e.Object.prototype.initialize.call(this,i),this.setCoords()},toGroup:function(){var t=this._objects;this._objects=[];var i=this.toObject(),r=new e.Group([]);if(delete i.objects,r.set(i),r.type="group",t.forEach(function(t){t.group=r,t.canvas.remove(t)}),r._objects=t,!this.canvas)return r;var n=this.canvas;return n.add(r),n._activeObject=r,r.setCoords(),r},onDeselect:function(){return this.destroy(),!1},toString:function(){return"#<fabric.ActiveSelection: ("+this.complexity()+")>"},_set:function(t,i){var r=this._objects.length;if("canvas"===t)for(;r--;)this._objects[r].set(t,i);if(this.useSetOnGroup)for(;r--;)this._objects[r].setOnGroup(t,i);e.Object.prototype._set.call(this,t,i)},shouldCache:function(){return!1},willDrawShadow:function(){if(this.shadow)return this.callSuper("willDrawShadow");for(var t=0,e=this._objects.length;t<e;t++)if(this._objects[t].willDrawShadow())return!0;return!1},isOnACache:function(){return!1},_renderControls:function(t,e,i){t.save(),t.globalAlpha=this.isMoving?this.borderOpacityWhenMoving:1,this.callSuper("_renderControls",t,e),void 0===(i=i||{}).hasControls&&(i.hasControls=!1),void 0===i.hasRotatingPoint&&(i.hasRotatingPoint=!1),i.forActiveSelection=!0;for(var r=0,n=this._objects.length;r<n;r++)this._objects[r]._renderControls(t,i);t.restore()}}),e.ActiveSelection.fromObject=function(t,i){e.util.enlivenObjects(t.objects,function(r){delete t.objects,i&&i(new e.ActiveSelection(r,t,!0))})})}(e),function(t){"use strict";var e=b.util.object.extend;t.fabric||(t.fabric={}),t.fabric.Image?b.warn("fabric.Image is already defined."):(b.Image=b.util.createClass(b.Object,{type:"image",crossOrigin:"",strokeWidth:0,_lastScaleX:1,_lastScaleY:1,_filterScalingX:1,_filterScalingY:1,minimumScaleTrigger:.5,stateProperties:b.Object.prototype.stateProperties.concat("cropX","cropY"),objectCaching:!1,cacheKey:"",cropX:0,cropY:0,initialize:function(t,e){e||(e={}),this.filters=[],this.cacheKey="texture"+b.Object.__uid++,this.callSuper("initialize",e),this._initElement(t,e)},getElement:function(){return this._element},setElement:function(t,e){var i=b.filterBackend;return i&&i.evictCachesForKey&&(i.evictCachesForKey(this.cacheKey),i.evictCachesForKey(this.cacheKey+"_filtered")),this._element=t,this._originalElement=t,this._initConfig(e),this.resizeFilter&&this.applyResizeFilters(),0!==this.filters.length&&this.applyFilters(),this},dispose:function(){var t=b.filterBackend;t&&t.evictCachesForKey&&(t.evictCachesForKey(this.cacheKey),t.evictCachesForKey(this.cacheKey+"_filtered")),this._originalElement=void 0,this._element=void 0,this._filteredEl=void 0},setCrossOrigin:function(t){return this.crossOrigin=t,this._element.crossOrigin=t,this},getOriginalSize:function(){var t=this.getElement();return{width:t.width,height:t.height}},_stroke:function(t){if(this.stroke&&0!==this.strokeWidth){var e=this.width/2,i=this.height/2;t.beginPath(),t.moveTo(-e,-i),t.lineTo(e,-i),t.lineTo(e,i),t.lineTo(-e,i),t.lineTo(-e,-i),t.closePath()}},_renderDashedStroke:function(t){var e=-this.width/2,i=-this.height/2,r=this.width,n=this.height;t.save(),this._setStrokeStyles(t,this),t.beginPath(),b.util.drawDashedLine(t,e,i,e+r,i,this.strokeDashArray),b.util.drawDashedLine(t,e+r,i,e+r,i+n,this.strokeDashArray),b.util.drawDashedLine(t,e+r,i+n,e,i+n,this.strokeDashArray),b.util.drawDashedLine(t,e,i+n,e,i,this.strokeDashArray),t.closePath(),t.restore()},toObject:function(t){var i=[];this.filters.forEach(function(t){t&&i.push(t.toObject())});var r=e(this.callSuper("toObject",["crossOrigin","cropX","cropY"].concat(t)),{src:this.getSrc(),filters:i});return this.resizeFilter&&(r.resizeFilter=this.resizeFilter.toObject()),r},hasCrop:function(){return this.cropX||this.cropY||this.width<this._element.width||this.height<this._element.height},toSVG:function(t){var e=this._createBaseSVGMarkup(),i=-this.width/2,r=-this.height/2,n="";if(this.hasCrop()){var s=b.Object.__uid++;e.push('<clipPath id="imageCrop_'+s+'">\n','\t<rect x="'+i+'" y="'+r+'" width="'+this.width+'" height="'+this.height+'" />\n',"</clipPath>\n"),n=' clip-path="url(#imageCrop_'+s+')" '}e.push('<g transform="',this.getSvgTransform(),this.getSvgTransformMatrix(),'">\n');var o=["\t<image ",this.getSvgId(),'xlink:href="',this.getSvgSrc(!0),'" x="',i-this.cropX,'" y="',r-this.cropY,'" style="',this.getSvgStyles(),'" width="',this._element.width||this._element.naturalWidth,'" height="',this._element.height||this._element.height,'"',n,"></image>\n"];if("fill"===this.paintFirst&&Array.prototype.push.apply(e,o),this.stroke||this.strokeDashArray){var a=this.fill;this.fill=null,e.push("\t<rect ",'x="',i,'" y="',r,'" width="',this.width,'" height="',this.height,'" style="',this.getSvgStyles(),'"/>\n'),this.fill=a}return"fill"!==this.paintFirst&&Array.prototype.push.apply(e,o),e.push("</g>\n"),t?t(e.join("")):e.join("")},getSrc:function(t){var e=t?this._element:this._originalElement;return e?e.toDataURL?e.toDataURL():e.src:this.src||""},setSrc:function(t,e,i){return b.util.loadImage(t,function(t){this.setElement(t,i),e(this)},this,i&&i.crossOrigin),this},toString:function(){return'#<fabric.Image: { src: "'+this.getSrc()+'" }>'},applyResizeFilters:function(){var t=this.resizeFilter,e=this.canvas?this.canvas.getRetinaScaling():1,i=this.minimumScaleTrigger,r=this.scaleX*e,n=this.scaleY*e,s=this._filteredEl||this._originalElement;if(!t||r>i&&n>i)return this._element=s,this._filterScalingX=1,void(this._filterScalingY=1);b.filterBackend||(b.filterBackend=b.initFilterBackend());var o=b.util.createCanvasElement(),a=this._filteredEl?this.cacheKey:this.cacheKey+"_filtered",h=s.width,c=s.height;o.width=h,o.height=c,this._element=o,t.scaleX=r,t.scaleY=n,b.filterBackend.applyFilters([t],s,h,c,this._element,a),this._filterScalingX=o.width/this._originalElement.width,this._filterScalingY=o.height/this._originalElement.height},applyFilters:function(t){if(0===(t=(t=t||this.filters||[]).filter(function(t){return t})).length)return this._element=this._originalElement,this._filteredEl=null,this._filterScalingX=1,this._filterScalingY=1,this;var e=this._originalElement,i=e.naturalWidth||e.width,r=e.naturalHeight||e.height;if(this._element===this._originalElement){var n=b.util.createCanvasElement();n.width=i,n.height=r,this._element=n,this._filteredEl=n}else this._element.getContext("2d").clearRect(0,0,i,r);return b.filterBackend||(b.filterBackend=b.initFilterBackend()),b.filterBackend.applyFilters(t,this._originalElement,i,r,this._element,this.cacheKey),this._originalElement.width===this._element.width&&this._originalElement.height===this._element.height||(this._filterScalingX=this._element.width/this._originalElement.width,this._filterScalingY=this._element.height/this._originalElement.height),this},_render:function(t){!1===this.isMoving&&this.resizeFilter&&this._needsResize()&&(this._lastScaleX=this.scaleX,this._lastScaleY=this.scaleY,this.applyResizeFilters()),this._stroke(t),this._renderPaintInOrder(t)},_renderFill:function(t){var e=this.width,i=this.height,r=e*this._filterScalingX,n=i*this._filterScalingY,s=-e/2,o=-i/2,a=this._element;a&&t.drawImage(a,this.cropX*this._filterScalingX,this.cropY*this._filterScalingY,r,n,s,o,e,i)},_needsResize:function(){return this.scaleX!==this._lastScaleX||this.scaleY!==this._lastScaleY},_resetWidthHeight:function(){var t=this.getElement();this.set("width",t.width),this.set("height",t.height)},_initElement:function(t,e){this.setElement(b.util.getById(t),e),b.util.addClass(this.getElement(),b.Image.CSS_CANVAS)},_initConfig:function(t){t||(t={}),this.setOptions(t),this._setWidthHeight(t),this._element&&this.crossOrigin&&(this._element.crossOrigin=this.crossOrigin)},_initFilters:function(t,e){t&&t.length?b.util.enlivenObjects(t,function(t){e&&e(t)},"fabric.Image.filters"):e&&e()},_setWidthHeight:function(t){this.width="width"in t?t.width:this.getElement()&&this.getElement().width||0,this.height="height"in t?t.height:this.getElement()&&this.getElement().height||0},parsePreserveAspectRatioAttribute:function(){var t,e=b.util.parsePreserveAspectRatioAttribute(this.preserveAspectRatio||""),i=this._element.width,r=this._element.height,n=1,s=1,o=0,a=0,h=0,c=0,l=this.width,u=this.height,f={width:l,height:u};return!e||"none"===e.alignX&&"none"===e.alignY?(n=l/i,s=u/r):("meet"===e.meetOrSlice&&(t=(l-i*(n=s=b.util.findScaleToFit(this._element,f)))/2,"Min"===e.alignX&&(o=-t),"Max"===e.alignX&&(o=t),t=(u-r*s)/2,"Min"===e.alignY&&(a=-t),"Max"===e.alignY&&(a=t)),"slice"===e.meetOrSlice&&(t=i-l/(n=s=b.util.findScaleToCover(this._element,f)),"Mid"===e.alignX&&(h=t/2),"Max"===e.alignX&&(h=t),t=r-u/s,"Mid"===e.alignY&&(c=t/2),"Max"===e.alignY&&(c=t),i=l/n,r=u/s)),{width:i,height:r,scaleX:n,scaleY:s,offsetLeft:o,offsetTop:a,cropX:h,cropY:c}}}),b.Image.CSS_CANVAS="canvas-img",b.Image.prototype.getSvgSrc=b.Image.prototype.getSrc,b.Image.fromObject=function(t,e){var i=b.util.object.clone(t);b.util.loadImage(i.src,function(t,r){r?e&&e(null,r):b.Image.prototype._initFilters.call(i,i.filters,function(r){i.filters=r||[],b.Image.prototype._initFilters.call(i,[i.resizeFilter],function(r){i.resizeFilter=r[0];var n=new b.Image(t,i);e(n)})})},null,i.crossOrigin)},b.Image.fromURL=function(t,e,i){b.util.loadImage(t,function(t){e&&e(new b.Image(t,i))},null,i&&i.crossOrigin)},b.Image.ATTRIBUTE_NAMES=b.SHARED_ATTRIBUTES.concat("x y width height preserveAspectRatio xlink:href crossOrigin".split(" ")),b.Image.fromElement=function(t,i,r){var n=b.parseAttributes(t,b.Image.ATTRIBUTE_NAMES);b.Image.fromURL(n["xlink:href"],i,e(r?b.util.object.clone(r):{},n))})}(e),b.util.object.extend(b.Object.prototype,{_getAngleValueForStraighten:function(){var t=this.angle%360;return t>0?90*Math.round((t-1)/90):90*Math.round(t/90)},straighten:function(){return this.rotate(this._getAngleValueForStraighten()),this},fxStraighten:function(t){var e=function(){},i=(t=t||{}).onComplete||e,r=t.onChange||e,n=this;return b.util.animate({startValue:this.get("angle"),endValue:this._getAngleValueForStraighten(),duration:this.FX_DURATION,onChange:function(t){n.rotate(t),r()},onComplete:function(){n.setCoords(),i()}}),this}}),b.util.object.extend(b.StaticCanvas.prototype,{straightenObject:function(t){return t.straighten(),this.requestRenderAll(),this},fxStraightenObject:function(t){return t.fxStraighten({onChange:this.requestRenderAllBound}),this}}),function(){"use strict";function t(t,e){var i="precision "+e+" float;\nvoid main(){}",r=t.createShader(t.FRAGMENT_SHADER);return t.shaderSource(r,i),t.compileShader(r),!!t.getShaderParameter(r,t.COMPILE_STATUS)}function e(t){t&&t.tileSize&&(this.tileSize=t.tileSize),this.setupGLContext(this.tileSize,this.tileSize),this.captureGPUInfo()}b.isWebglSupported=function(e){if(b.isLikelyNode)return!1;e=e||b.WebglFilterBackend.prototype.tileSize;var i=document.createElement("canvas"),r=i.getContext("webgl")||i.getContext("experimental-webgl"),n=!1;if(r){b.maxTextureSize=r.getParameter(r.MAX_TEXTURE_SIZE),n=b.maxTextureSize>=e;for(var s=["highp","mediump","lowp"],o=0;o<3;o++)if(t(r,s[o])){b.webGlPrecision=s[o];break}}return this.isSupported=n,n},b.WebglFilterBackend=e,e.prototype={tileSize:2048,resources:{},setupGLContext:function(t,e){this.dispose(),this.createWebGLCanvas(t,e),this.aPosition=new Float32Array([0,0,0,1,1,0,1,1]),this.chooseFastestCopyGLTo2DMethod(t,e)},chooseFastestCopyGLTo2DMethod:function(t,e){var i,r=void 0!==window.performance;try{new ImageData(1,1),i=!0}catch(t){i=!1}var n="undefined"!=typeof ArrayBuffer,s="undefined"!=typeof Uint8ClampedArray;if(r&&i&&n&&s){var o,a,h=b.util.createCanvasElement(),c=new ArrayBuffer(t*e*4),l={imageBuffer:c,destinationWidth:t,destinationHeight:e,targetCanvas:h};h.width=t,h.height=e,o=window.performance.now(),C.call(l,this.gl,l),a=window.performance.now()-o,o=window.performance.now(),S.call(l,this.gl,l),a>window.performance.now()-o?(this.imageBuffer=c,this.copyGLTo2D=S):this.copyGLTo2D=C}},createWebGLCanvas:function(t,e){var i=b.util.createCanvasElement();i.width=t,i.height=e;var r={premultipliedAlpha:!1},n=i.getContext("webgl",r);n||(n=i.getContext("experimental-webgl",r)),n&&(n.clearColor(0,0,0,0),this.canvas=i,this.gl=n)},applyFilters:function(t,e,i,r,n,s){var o,a=this.gl;s&&(o=this.getCachedTexture(s,e));var h={originalWidth:e.width||e.originalWidth,originalHeight:e.height||e.originalHeight,sourceWidth:i,sourceHeight:r,destinationWidth:i,destinationHeight:r,context:a,sourceTexture:this.createTexture(a,i,r,!o&&e),targetTexture:this.createTexture(a,i,r),originalTexture:o||this.createTexture(a,i,r,!o&&e),passes:t.length,webgl:!0,aPosition:this.aPosition,programCache:this.programCache,pass:0,filterBackend:this,targetCanvas:n},c=a.createFramebuffer();return a.bindFramebuffer(a.FRAMEBUFFER,c),t.forEach(function(t){t&&t.applyTo(h)}),function(t){var e=t.targetCanvas,i=e.width,r=e.height,n=t.destinationWidth,s=t.destinationHeight;i===n&&r===s||(e.width=n,e.height=s)}(h),this.copyGLTo2D(a,h),a.bindTexture(a.TEXTURE_2D,null),a.deleteTexture(h.sourceTexture),a.deleteTexture(h.targetTexture),a.deleteFramebuffer(c),n.getContext("2d").setTransform(1,0,0,1,0,0),h},applyFiltersDebug:function(t,e,i,r,n,s){var o=this.gl,a=this.applyFilters(t,e,i,r,n,s),h=o.getError();if(h!==o.NO_ERROR){var c=this.glErrorToString(o,h),l=new Error("WebGL Error "+c);throw l.glErrorCode=h,l}return a},glErrorToString:function(t,e){if(!t)return"Context undefined for error code: "+e;if("number"!=typeof e)return"Error code is not a number";switch(e){case t.NO_ERROR:return"NO_ERROR";case t.INVALID_ENUM:return"INVALID_ENUM";case t.INVALID_VALUE:return"INVALID_VALUE";case t.INVALID_OPERATION:return"INVALID_OPERATION";case t.INVALID_FRAMEBUFFER_OPERATION:return"INVALID_FRAMEBUFFER_OPERATION";case t.OUT_OF_MEMORY:return"OUT_OF_MEMORY";case t.CONTEXT_LOST_WEBGL:return"CONTEXT_LOST_WEBGL";default:return"UNKNOWN_ERROR"}},dispose:function(){this.canvas&&(this.canvas=null,this.gl=null),this.clearWebGLCaches()},clearWebGLCaches:function(){this.programCache={},this.textureCache={}},createTexture:function(t,e,i,r){var n=t.createTexture();return t.bindTexture(t.TEXTURE_2D,n),t.texParameteri(t.TEXTURE_2D,t.TEXTURE_MAG_FILTER,t.NEAREST),t.texParameteri(t.TEXTURE_2D,t.TEXTURE_MIN_FILTER,t.NEAREST),t.texParameteri(t.TEXTURE_2D,t.TEXTURE_WRAP_S,t.CLAMP_TO_EDGE),t.texParameteri(t.TEXTURE_2D,t.TEXTURE_WRAP_T,t.CLAMP_TO_EDGE),r?t.texImage2D(t.TEXTURE_2D,0,t.RGBA,t.RGBA,t.UNSIGNED_BYTE,r):t.texImage2D(t.TEXTURE_2D,0,t.RGBA,e,i,0,t.RGBA,t.UNSIGNED_BYTE,null),n},getCachedTexture:function(t,e){if(this.textureCache[t])return this.textureCache[t];var i=this.createTexture(this.gl,e.width,e.height,e);return this.textureCache[t]=i,i},evictCachesForKey:function(t){this.textureCache[t]&&(this.gl.deleteTexture(this.textureCache[t]),delete this.textureCache[t])},copyGLTo2D:C,captureGPUInfo:function(){if(this.gpuInfo)return this.gpuInfo;var t=this.gl,e=t.getExtension("WEBGL_debug_renderer_info"),i={renderer:"",vendor:""};if(e){var r=t.getParameter(e.UNMASKED_RENDERER_WEBGL),n=t.getParameter(e.UNMASKED_VENDOR_WEBGL);r&&(i.renderer=r.toLowerCase()),n&&(i.vendor=n.toLowerCase())}return this.gpuInfo=i,i}}}(),function(){"use strict";var t=function(){};function e(){}b.Canvas2dFilterBackend=e,e.prototype={evictCachesForKey:t,dispose:t,clearWebGLCaches:t,resources:{},applyFilters:function(t,e,i,r,n){var s=n.getContext("2d");s.drawImage(e,0,0,i,r);var o={sourceWidth:i,sourceHeight:r,imageData:s.getImageData(0,0,i,r),originalEl:e,originalImageData:s.getImageData(0,0,i,r),canvasEl:n,ctx:s,filterBackend:this};return t.forEach(function(t){t.applyTo(o)}),o.imageData.width===i&&o.imageData.height===r||(n.width=o.imageData.width,n.height=o.imageData.height),s.putImageData(o.imageData,0,0),o}}}(),b.Image.filters=b.Image.filters||{},b.Image.filters.BaseFilter=b.util.createClass({type:"BaseFilter",vertexSource:"attribute vec2 aPosition;\nvarying vec2 vTexCoord;\nvoid main() {\nvTexCoord = aPosition;\ngl_Position = vec4(aPosition * 2.0 - 1.0, 0.0, 1.0);\n}",fragmentSource:"precision highp float;\nvarying vec2 vTexCoord;\nuniform sampler2D uTexture;\nvoid main() {\ngl_FragColor = texture2D(uTexture, vTexCoord);\n}",initialize:function(t){t&&this.setOptions(t)},setOptions:function(t){for(var e in t)this[e]=t[e]},createProgram:function(t,e,i){e=e||this.fragmentSource,i=i||this.vertexSource,"highp"!==b.webGlPrecision&&(e=e.replace(/precision highp float/g,"precision "+b.webGlPrecision+" float"));var r=t.createShader(t.VERTEX_SHADER);if(t.shaderSource(r,i),t.compileShader(r),!t.getShaderParameter(r,t.COMPILE_STATUS))throw new Error("Vertex shader compile error for "+this.type+": "+t.getShaderInfoLog(r));var n=t.createShader(t.FRAGMENT_SHADER);if(t.shaderSource(n,e),t.compileShader(n),!t.getShaderParameter(n,t.COMPILE_STATUS))throw new Error("Fragment shader compile error for "+this.type+": "+t.getShaderInfoLog(n));var s=t.createProgram();if(t.attachShader(s,r),t.attachShader(s,n),t.linkProgram(s),!t.getProgramParameter(s,t.LINK_STATUS))throw new Error('Shader link error for "${this.type}" '+t.getProgramInfoLog(s));var o=this.getAttributeLocations(t,s),a=this.getUniformLocations(t,s)||{};return a.uStepW=t.getUniformLocation(s,"uStepW"),a.uStepH=t.getUniformLocation(s,"uStepH"),{program:s,attributeLocations:o,uniformLocations:a}},getAttributeLocations:function(t,e){return{aPosition:t.getAttribLocation(e,"aPosition")}},getUniformLocations:function(){return{}},sendAttributeData:function(t,e,i){var r=e.aPostion,n=t.createBuffer();t.bindBuffer(t.ARRAY_BUFFER,n),t.enableVertexAttribArray(r),t.vertexAttribPointer(r,2,t.FLOAT,!1,0,0),t.bufferData(t.ARRAY_BUFFER,i,t.STATIC_DRAW)},_setupFrameBuffer:function(t){var e,i,r=t.context;t.passes>1?(e=t.destinationWidth,i=t.destinationHeight,t.sourceWidth===e&&t.sourceHeight===i||(r.deleteTexture(t.targetTexture),t.targetTexture=t.filterBackend.createTexture(r,e,i)),r.framebufferTexture2D(r.FRAMEBUFFER,r.COLOR_ATTACHMENT0,r.TEXTURE_2D,t.targetTexture,0)):(r.bindFramebuffer(r.FRAMEBUFFER,null),r.finish())},_swapTextures:function(t){t.passes--,t.pass++;var e=t.targetTexture;t.targetTexture=t.sourceTexture,t.sourceTexture=e},isNeutralState:function(){return!1},applyTo:function(t){if(t.webgl){if(t.passes>1&&this.isNeutralState(t))return;this._setupFrameBuffer(t),this.applyToWebGL(t),this._swapTextures(t)}else this.isNeutralState()||this.applyTo2d(t)},retrieveShader:function(t){return t.programCache.hasOwnProperty(this.type)||(t.programCache[this.type]=this.createProgram(t.context)),t.programCache[this.type]},applyToWebGL:function(t){var e=t.context,i=this.retrieveShader(t);0===t.pass&&t.originalTexture?e.bindTexture(e.TEXTURE_2D,t.originalTexture):e.bindTexture(e.TEXTURE_2D,t.sourceTexture),e.useProgram(i.program),this.sendAttributeData(e,i.attributeLocations,t.aPosition),e.uniform1f(i.uniformLocations.uStepW,1/t.sourceWidth),e.uniform1f(i.uniformLocations.uStepH,1/t.sourceHeight),this.sendUniformData(e,i.uniformLocations),e.viewport(0,0,t.destinationWidth,t.destinationHeight),e.drawArrays(e.TRIANGLE_STRIP,0,4)},bindAdditionalTexture:function(t,e,i){t.activeTexture(i),t.bindTexture(t.TEXTURE_2D,e),t.activeTexture(t.TEXTURE0)},unbindAdditionalTexture:function(t,e){t.activeTexture(e),t.bindTexture(t.TEXTURE_2D,null),t.activeTexture(t.TEXTURE0)},getMainParameter:function(){return this[this.mainParameter]},setMainParameter:function(t){this[this.mainParameter]=t},sendUniformData:function(){},createHelpLayer:function(t){if(!t.helpLayer){var e=document.createElement("canvas");e.width=t.sourceWidth,e.height=t.sourceHeight,t.helpLayer=e}},toObject:function(){var t={type:this.type},e=this.mainParameter;return e&&(t[e]=this[e]),t},toJSON:function(){return this.toObject()}}),b.Image.filters.BaseFilter.fromObject=function(t,e){var i=new b.Image.filters[t.type](t);return e&&e(i),i},function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.Image.filters,r=e.util.createClass;i.ColorMatrix=r(i.BaseFilter,{type:"ColorMatrix",fragmentSource:"precision highp float;\nuniform sampler2D uTexture;\nvarying vec2 vTexCoord;\nuniform mat4 uColorMatrix;\nuniform vec4 uConstants;\nvoid main() {\nvec4 color = texture2D(uTexture, vTexCoord);\ncolor *= uColorMatrix;\ncolor += uConstants;\ngl_FragColor = color;\n}",matrix:[1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0],mainParameter:"matrix",colorsOnly:!0,initialize:function(t){this.callSuper("initialize",t),this.matrix=this.matrix.slice(0)},isNeutralState:function(){for(var t=i.ColorMatrix,e=20;e--;)if(this.matrix[e]!==t.prototype.matrix[e])return!1;return!0},applyTo2d:function(t){var e,i,r,n,s,o=t.imageData.data,a=o.length,h=this.matrix,c=this.colorsOnly;for(s=0;s<a;s+=4)e=o[s],i=o[s+1],r=o[s+2],c?(o[s]=e*h[0]+i*h[1]+r*h[2]+255*h[4],o[s+1]=e*h[5]+i*h[6]+r*h[7]+255*h[9],o[s+2]=e*h[10]+i*h[11]+r*h[12]+255*h[14]):(n=o[s+3],o[s]=e*h[0]+i*h[1]+r*h[2]+n*h[3]+255*h[4],o[s+1]=e*h[5]+i*h[6]+r*h[7]+n*h[8]+255*h[9],o[s+2]=e*h[10]+i*h[11]+r*h[12]+n*h[13]+255*h[14],o[s+3]=e*h[15]+i*h[16]+r*h[17]+n*h[18]+255*h[19])},getUniformLocations:function(t,e){return{uColorMatrix:t.getUniformLocation(e,"uColorMatrix"),uConstants:t.getUniformLocation(e,"uConstants")}},sendUniformData:function(t,e){var i=this.matrix,r=[i[0],i[1],i[2],i[3],i[5],i[6],i[7],i[8],i[10],i[11],i[12],i[13],i[15],i[16],i[17],i[18]],n=[i[4],i[9],i[14],i[19]];t.uniformMatrix4fv(e.uColorMatrix,!1,r),t.uniform4fv(e.uConstants,n)}}),e.Image.filters.ColorMatrix.fromObject=e.Image.filters.BaseFilter.fromObject}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.Image.filters,r=e.util.createClass;i.Brightness=r(i.BaseFilter,{type:"Brightness",fragmentSource:"precision highp float;\nuniform sampler2D uTexture;\nuniform float uBrightness;\nvarying vec2 vTexCoord;\nvoid main() {\nvec4 color = texture2D(uTexture, vTexCoord);\ncolor.rgb += uBrightness;\ngl_FragColor = color;\n}",brightness:0,mainParameter:"brightness",applyTo2d:function(t){if(0!==this.brightness){var e,i=t.imageData.data,r=i.length,n=Math.round(255*this.brightness);for(e=0;e<r;e+=4)i[e]=i[e]+n,i[e+1]=i[e+1]+n,i[e+2]=i[e+2]+n}},getUniformLocations:function(t,e){return{uBrightness:t.getUniformLocation(e,"uBrightness")}},sendUniformData:function(t,e){t.uniform1f(e.uBrightness,this.brightness)}}),e.Image.filters.Brightness.fromObject=e.Image.filters.BaseFilter.fromObject}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.util.object.extend,r=e.Image.filters,n=e.util.createClass;r.Convolute=n(r.BaseFilter,{type:"Convolute",opaque:!1,matrix:[0,0,0,0,1,0,0,0,0],fragmentSource:{Convolute_3_1:"precision highp float;\nuniform sampler2D uTexture;\nuniform float uMatrix[9];\nuniform float uStepW;\nuniform float uStepH;\nvarying vec2 vTexCoord;\nvoid main() {\nvec4 color = vec4(0, 0, 0, 0);\nfor (float h = 0.0; h < 3.0; h+=1.0) {\nfor (float w = 0.0; w < 3.0; w+=1.0) {\nvec2 matrixPos = vec2(uStepW * (w - 1), uStepH * (h - 1));\ncolor += texture2D(uTexture, vTexCoord + matrixPos) * uMatrix[int(h * 3.0 + w)];\n}\n}\ngl_FragColor = color;\n}",Convolute_3_0:"precision highp float;\nuniform sampler2D uTexture;\nuniform float uMatrix[9];\nuniform float uStepW;\nuniform float uStepH;\nvarying vec2 vTexCoord;\nvoid main() {\nvec4 color = vec4(0, 0, 0, 1);\nfor (float h = 0.0; h < 3.0; h+=1.0) {\nfor (float w = 0.0; w < 3.0; w+=1.0) {\nvec2 matrixPos = vec2(uStepW * (w - 1.0), uStepH * (h - 1.0));\ncolor.rgb += texture2D(uTexture, vTexCoord + matrixPos).rgb * uMatrix[int(h * 3.0 + w)];\n}\n}\nfloat alpha = texture2D(uTexture, vTexCoord).a;\ngl_FragColor = color;\ngl_FragColor.a = alpha;\n}",Convolute_5_1:"precision highp float;\nuniform sampler2D uTexture;\nuniform float uMatrix[25];\nuniform float uStepW;\nuniform float uStepH;\nvarying vec2 vTexCoord;\nvoid main() {\nvec4 color = vec4(0, 0, 0, 0);\nfor (float h = 0.0; h < 5.0; h+=1.0) {\nfor (float w = 0.0; w < 5.0; w+=1.0) {\nvec2 matrixPos = vec2(uStepW * (w - 2.0), uStepH * (h - 2.0));\ncolor += texture2D(uTexture, vTexCoord + matrixPos) * uMatrix[int(h * 5.0 + w)];\n}\n}\ngl_FragColor = color;\n}",Convolute_5_0:"precision highp float;\nuniform sampler2D uTexture;\nuniform float uMatrix[25];\nuniform float uStepW;\nuniform float uStepH;\nvarying vec2 vTexCoord;\nvoid main() {\nvec4 color = vec4(0, 0, 0, 1);\nfor (float h = 0.0; h < 5.0; h+=1.0) {\nfor (float w = 0.0; w < 5.0; w+=1.0) {\nvec2 matrixPos = vec2(uStepW * (w - 2.0), uStepH * (h - 2.0));\ncolor.rgb += texture2D(uTexture, vTexCoord + matrixPos).rgb * uMatrix[int(h * 5.0 + w)];\n}\n}\nfloat alpha = texture2D(uTexture, vTexCoord).a;\ngl_FragColor = color;\ngl_FragColor.a = alpha;\n}",Convolute_7_1:"precision highp float;\nuniform sampler2D uTexture;\nuniform float uMatrix[49];\nuniform float uStepW;\nuniform float uStepH;\nvarying vec2 vTexCoord;\nvoid main() {\nvec4 color = vec4(0, 0, 0, 0);\nfor (float h = 0.0; h < 7.0; h+=1.0) {\nfor (float w = 0.0; w < 7.0; w+=1.0) {\nvec2 matrixPos = vec2(uStepW * (w - 3.0), uStepH * (h - 3.0));\ncolor += texture2D(uTexture, vTexCoord + matrixPos) * uMatrix[int(h * 7.0 + w)];\n}\n}\ngl_FragColor = color;\n}",Convolute_7_0:"precision highp float;\nuniform sampler2D uTexture;\nuniform float uMatrix[49];\nuniform float uStepW;\nuniform float uStepH;\nvarying vec2 vTexCoord;\nvoid main() {\nvec4 color = vec4(0, 0, 0, 1);\nfor (float h = 0.0; h < 7.0; h+=1.0) {\nfor (float w = 0.0; w < 7.0; w+=1.0) {\nvec2 matrixPos = vec2(uStepW * (w - 3.0), uStepH * (h - 3.0));\ncolor.rgb += texture2D(uTexture, vTexCoord + matrixPos).rgb * uMatrix[int(h * 7.0 + w)];\n}\n}\nfloat alpha = texture2D(uTexture, vTexCoord).a;\ngl_FragColor = color;\ngl_FragColor.a = alpha;\n}",Convolute_9_1:"precision highp float;\nuniform sampler2D uTexture;\nuniform float uMatrix[81];\nuniform float uStepW;\nuniform float uStepH;\nvarying vec2 vTexCoord;\nvoid main() {\nvec4 color = vec4(0, 0, 0, 0);\nfor (float h = 0.0; h < 9.0; h+=1.0) {\nfor (float w = 0.0; w < 9.0; w+=1.0) {\nvec2 matrixPos = vec2(uStepW * (w - 4.0), uStepH * (h - 4.0));\ncolor += texture2D(uTexture, vTexCoord + matrixPos) * uMatrix[int(h * 9.0 + w)];\n}\n}\ngl_FragColor = color;\n}",Convolute_9_0:"precision highp float;\nuniform sampler2D uTexture;\nuniform float uMatrix[81];\nuniform float uStepW;\nuniform float uStepH;\nvarying vec2 vTexCoord;\nvoid main() {\nvec4 color = vec4(0, 0, 0, 1);\nfor (float h = 0.0; h < 9.0; h+=1.0) {\nfor (float w = 0.0; w < 9.0; w+=1.0) {\nvec2 matrixPos = vec2(uStepW * (w - 4.0), uStepH * (h - 4.0));\ncolor.rgb += texture2D(uTexture, vTexCoord + matrixPos).rgb * uMatrix[int(h * 9.0 + w)];\n}\n}\nfloat alpha = texture2D(uTexture, vTexCoord).a;\ngl_FragColor = color;\ngl_FragColor.a = alpha;\n}"},retrieveShader:function(t){var e=Math.sqrt(this.matrix.length),i=this.type+"_"+e+"_"+(this.opaque?1:0),r=this.fragmentSource[i];return t.programCache.hasOwnProperty(i)||(t.programCache[i]=this.createProgram(t.context,r)),t.programCache[i]},applyTo2d:function(t){var e,i,r,n,s,o,a,h,c,l,u,f,d,g=t.imageData,p=g.data,v=this.matrix,m=Math.round(Math.sqrt(v.length)),y=Math.floor(m/2),_=g.width,x=g.height,b=t.ctx.createImageData(_,x),C=b.data,S=this.opaque?1:0;for(u=0;u<x;u++)for(l=0;l<_;l++){for(s=4*(u*_+l),e=0,i=0,r=0,n=0,d=0;d<m;d++)for(f=0;f<m;f++)o=l+f-y,(a=u+d-y)<0||a>x||o<0||o>_||(h=4*(a*_+o),c=v[d*m+f],e+=p[h]*c,i+=p[h+1]*c,r+=p[h+2]*c,S||(n+=p[h+3]*c));C[s]=e,C[s+1]=i,C[s+2]=r,C[s+3]=S?p[s+3]:n}t.imageData=b},getUniformLocations:function(t,e){return{uMatrix:t.getUniformLocation(e,"uMatrix"),uOpaque:t.getUniformLocation(e,"uOpaque"),uHalfSize:t.getUniformLocation(e,"uHalfSize"),uSize:t.getUniformLocation(e,"uSize")}},sendUniformData:function(t,e){t.uniform1fv(e.uMatrix,this.matrix)},toObject:function(){return i(this.callSuper("toObject"),{opaque:this.opaque,matrix:this.matrix})}}),e.Image.filters.Convolute.fromObject=e.Image.filters.BaseFilter.fromObject}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.Image.filters,r=e.util.createClass;i.Grayscale=r(i.BaseFilter,{type:"Grayscale",fragmentSource:{average:"precision highp float;\nuniform sampler2D uTexture;\nvarying vec2 vTexCoord;\nvoid main() {\nvec4 color = texture2D(uTexture, vTexCoord);\nfloat average = (color.r + color.b + color.g) / 3.0;\ngl_FragColor = vec4(average, average, average, color.a);\n}",lightness:"precision highp float;\nuniform sampler2D uTexture;\nuniform int uMode;\nvarying vec2 vTexCoord;\nvoid main() {\nvec4 col = texture2D(uTexture, vTexCoord);\nfloat average = (max(max(col.r, col.g),col.b) + min(min(col.r, col.g),col.b)) / 2.0;\ngl_FragColor = vec4(average, average, average, col.a);\n}",luminosity:"precision highp float;\nuniform sampler2D uTexture;\nuniform int uMode;\nvarying vec2 vTexCoord;\nvoid main() {\nvec4 col = texture2D(uTexture, vTexCoord);\nfloat average = 0.21 * col.r + 0.72 * col.g + 0.07 * col.b;\ngl_FragColor = vec4(average, average, average, col.a);\n}"},mode:"average",mainParameter:"mode",applyTo2d:function(t){var e,i,r=t.imageData.data,n=r.length,s=this.mode;for(e=0;e<n;e+=4)"average"===s?i=(r[e]+r[e+1]+r[e+2])/3:"lightness"===s?i=(Math.min(r[e],r[e+1],r[e+2])+Math.max(r[e],r[e+1],r[e+2]))/2:"luminosity"===s&&(i=.21*r[e]+.72*r[e+1]+.07*r[e+2]),r[e]=i,r[e+1]=i,r[e+2]=i},retrieveShader:function(t){var e=this.type+"_"+this.mode;if(!t.programCache.hasOwnProperty(e)){var i=this.fragmentSource[this.mode];t.programCache[e]=this.createProgram(t.context,i)}return t.programCache[e]},getUniformLocations:function(t,e){return{uMode:t.getUniformLocation(e,"uMode")}},sendUniformData:function(t,e){t.uniform1i(e.uMode,1)}}),e.Image.filters.Grayscale.fromObject=e.Image.filters.BaseFilter.fromObject}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.Image.filters,r=e.util.createClass;i.Invert=r(i.BaseFilter,{type:"Invert",fragmentSource:"precision highp float;\nuniform sampler2D uTexture;\nuniform int uInvert;\nvarying vec2 vTexCoord;\nvoid main() {\nvec4 color = texture2D(uTexture, vTexCoord);\nif (uInvert == 1) {\ngl_FragColor = vec4(1.0 - color.r,1.0 -color.g,1.0 -color.b,color.a);\n} else {\ngl_FragColor = color;\n}\n}",invert:!0,mainParameter:"invert",applyTo2d:function(t){if(this.invert){var e,i=t.imageData.data,r=i.length;for(e=0;e<r;e+=4)i[e]=255-i[e],i[e+1]=255-i[e+1],i[e+2]=255-i[e+2]}},getUniformLocations:function(t,e){return{uInvert:t.getUniformLocation(e,"uInvert")}},sendUniformData:function(t,e){t.uniform1i(e.uInvert,this.invert)}}),e.Image.filters.Invert.fromObject=e.Image.filters.BaseFilter.fromObject}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.util.object.extend,r=e.Image.filters,n=e.util.createClass;r.Noise=n(r.BaseFilter,{type:"Noise",fragmentSource:"precision highp float;\nuniform sampler2D uTexture;\nuniform float uStepH;\nuniform float uNoise;\nuniform float uSeed;\nvarying vec2 vTexCoord;\nfloat rand(vec2 co, float seed, float vScale) {\nreturn fract(sin(dot(co.xy * vScale ,vec2(12.9898 , 78.233))) * 43758.5453 * (seed + 0.01) / 2.0);\n}\nvoid main() {\nvec4 color = texture2D(uTexture, vTexCoord);\ncolor.rgb += (0.5 - rand(vTexCoord, uSeed, 0.1 / uStepH)) * uNoise;\ngl_FragColor = color;\n}",mainParameter:"noise",noise:0,applyTo2d:function(t){if(0!==this.noise){var e,i,r=t.imageData.data,n=r.length,s=this.noise;for(e=0,n=r.length;e<n;e+=4)i=(.5-Math.random())*s,r[e]+=i,r[e+1]+=i,r[e+2]+=i}},getUniformLocations:function(t,e){return{uNoise:t.getUniformLocation(e,"uNoise"),uSeed:t.getUniformLocation(e,"uSeed")}},sendUniformData:function(t,e){t.uniform1f(e.uNoise,this.noise/255),t.uniform1f(e.uSeed,Math.random())},toObject:function(){return i(this.callSuper("toObject"),{noise:this.noise})}}),e.Image.filters.Noise.fromObject=e.Image.filters.BaseFilter.fromObject}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.Image.filters,r=e.util.createClass;i.Pixelate=r(i.BaseFilter,{type:"Pixelate",blocksize:4,mainParameter:"blocksize",fragmentSource:"precision highp float;\nuniform sampler2D uTexture;\nuniform float uBlocksize;\nuniform float uStepW;\nuniform float uStepH;\nvarying vec2 vTexCoord;\nvoid main() {\nfloat blockW = uBlocksize * uStepW;\nfloat blockH = uBlocksize * uStepW;\nint posX = int(vTexCoord.x / blockW);\nint posY = int(vTexCoord.y / blockH);\nfloat fposX = float(posX);\nfloat fposY = float(posY);\nvec2 squareCoords = vec2(fposX * blockW, fposY * blockH);\nvec4 color = texture2D(uTexture, squareCoords);\ngl_FragColor = color;\n}",applyTo2d:function(t){if(1!==this.blocksize){var e,i,r,n,s,o,a,h,c,l,u,f=t.imageData,d=f.data,g=f.height,p=f.width;for(i=0;i<g;i+=this.blocksize)for(r=0;r<p;r+=this.blocksize)for(n=d[e=4*i*p+4*r],s=d[e+1],o=d[e+2],a=d[e+3],l=Math.min(i+this.blocksize,g),u=Math.min(r+this.blocksize,p),h=i;h<l;h++)for(c=r;c<u;c++)d[e=4*h*p+4*c]=n,d[e+1]=s,d[e+2]=o,d[e+3]=a}},isNeutralState:function(){return 1===this.blocksize},getUniformLocations:function(t,e){return{uBlocksize:t.getUniformLocation(e,"uBlocksize"),uStepW:t.getUniformLocation(e,"uStepW"),uStepH:t.getUniformLocation(e,"uStepH")}},sendUniformData:function(t,e){t.uniform1f(e.uBlocksize,this.blocksize)}}),e.Image.filters.Pixelate.fromObject=e.Image.filters.BaseFilter.fromObject}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.util.object.extend,r=e.Image.filters,n=e.util.createClass;r.RemoveColor=n(r.BaseFilter,{type:"RemoveColor",color:"#FFFFFF",fragmentSource:"precision highp float;\nuniform sampler2D uTexture;\nuniform vec4 uLow;\nuniform vec4 uHigh;\nvarying vec2 vTexCoord;\nvoid main() {\ngl_FragColor = texture2D(uTexture, vTexCoord);\nif(all(greaterThan(gl_FragColor.rgb,uLow.rgb)) && all(greaterThan(uHigh.rgb,gl_FragColor.rgb))) {\ngl_FragColor.a = 0.0;\n}\n}",distance:.02,useAlpha:!1,applyTo2d:function(t){var i,r,n,s,o=t.imageData.data,a=255*this.distance,h=new e.Color(this.color).getSource(),c=[h[0]-a,h[1]-a,h[2]-a],l=[h[0]+a,h[1]+a,h[2]+a];for(i=0;i<o.length;i+=4)r=o[i],n=o[i+1],s=o[i+2],r>c[0]&&n>c[1]&&s>c[2]&&r<l[0]&&n<l[1]&&s<l[2]&&(o[i+3]=0)},getUniformLocations:function(t,e){return{uLow:t.getUniformLocation(e,"uLow"),uHigh:t.getUniformLocation(e,"uHigh")}},sendUniformData:function(t,i){var r=new e.Color(this.color).getSource(),n=parseFloat(this.distance),s=[0+r[0]/255-n,0+r[1]/255-n,0+r[2]/255-n,1],o=[r[0]/255+n,r[1]/255+n,r[2]/255+n,1];t.uniform4fv(i.uLow,s),t.uniform4fv(i.uHigh,o)},toObject:function(){return i(this.callSuper("toObject"),{color:this.color,distance:this.distance})}}),e.Image.filters.RemoveColor.fromObject=e.Image.filters.BaseFilter.fromObject}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.Image.filters,r=e.util.createClass,n={Brownie:[.5997,.34553,-.27082,0,.186,-.0377,.86095,.15059,0,-.1449,.24113,-.07441,.44972,0,-.02965,0,0,0,1,0],Vintage:[.62793,.32021,-.03965,0,.03784,.02578,.64411,.03259,0,.02926,.0466,-.08512,.52416,0,.02023,0,0,0,1,0],Kodachrome:[1.12855,-.39673,-.03992,0,.24991,-.16404,1.08352,-.05498,0,.09698,-.16786,-.56034,1.60148,0,.13972,0,0,0,1,0],Technicolor:[1.91252,-.85453,-.09155,0,.04624,-.30878,1.76589,-.10601,0,-.27589,-.2311,-.75018,1.84759,0,.12137,0,0,0,1,0],Polaroid:[1.438,-.062,-.062,0,0,-.122,1.378,-.122,0,0,-.016,-.016,1.483,0,0,0,0,0,1,0],Sepia:[.393,.769,.189,0,0,.349,.686,.168,0,0,.272,.534,.131,0,0,0,0,0,1,0],BlackWhite:[1.5,1.5,1.5,0,-1,1.5,1.5,1.5,0,-1,1.5,1.5,1.5,0,-1,0,0,0,1,0]};for(var s in n)i[s]=r(i.ColorMatrix,{type:s,matrix:n[s],mainParameter:!1,colorsOnly:!0}),e.Image.filters[s].fromObject=e.Image.filters.BaseFilter.fromObject}(e),function(t){"use strict";var e=t.fabric,i=e.Image.filters,r=e.util.createClass;i.BlendColor=r(i.BaseFilter,{type:"BlendColor",color:"#F95C63",mode:"multiply",alpha:1,fragmentSource:{multiply:"precision highp float;\nuniform sampler2D uTexture;\nuniform vec4 uColor;\nvarying vec2 vTexCoord;\nvoid main() {\nvec4 color = texture2D(uTexture, vTexCoord);\ncolor.rgb *= uColor.rgb;\ngl_FragColor = color;\n}",screen:"precision highp float;\nuniform sampler2D uTexture;\nuniform vec4 uColor;\nvarying vec2 vTexCoord;\nvoid main() {\nvec4 color = texture2D(uTexture, vTexCoord);\ncolor.rgb = 1.0 - (1.0 - color.rgb) * (1.0 - uColor.rgb);\ngl_FragColor = color;\n}",add:"precision highp float;\nuniform sampler2D uTexture;\nuniform vec4 uColor;\nvarying vec2 vTexCoord;\nvoid main() {\ngl_FragColor = texture2D(uTexture, vTexCoord);\ngl_FragColor.rgb += uColor.rgb;\n}",diff:"precision highp float;\nuniform sampler2D uTexture;\nuniform vec4 uColor;\nvarying vec2 vTexCoord;\nvoid main() {\ngl_FragColor = texture2D(uTexture, vTexCoord);\ngl_FragColor.rgb = abs(gl_FragColor.rgb - uColor.rgb);\n}",subtract:"precision highp float;\nuniform sampler2D uTexture;\nuniform vec4 uColor;\nvarying vec2 vTexCoord;\nvoid main() {\ngl_FragColor = texture2D(uTexture, vTexCoord);\ngl_FragColor.rgb -= uColor.rgb;\n}",lighten:"precision highp float;\nuniform sampler2D uTexture;\nuniform vec4 uColor;\nvarying vec2 vTexCoord;\nvoid main() {\ngl_FragColor = texture2D(uTexture, vTexCoord);\ngl_FragColor.rgb = max(gl_FragColor.rgb, uColor.rgb);\n}",darken:"precision highp float;\nuniform sampler2D uTexture;\nuniform vec4 uColor;\nvarying vec2 vTexCoord;\nvoid main() {\ngl_FragColor = texture2D(uTexture, vTexCoord);\ngl_FragColor.rgb = min(gl_FragColor.rgb, uColor.rgb);\n}",exclusion:"precision highp float;\nuniform sampler2D uTexture;\nuniform vec4 uColor;\nvarying vec2 vTexCoord;\nvoid main() {\ngl_FragColor = texture2D(uTexture, vTexCoord);\ngl_FragColor.rgb += uColor.rgb - 2.0 * (uColor.rgb * gl_FragColor.rgb);\n}",overlay:"precision highp float;\nuniform sampler2D uTexture;\nuniform vec4 uColor;\nvarying vec2 vTexCoord;\nvoid main() {\ngl_FragColor = texture2D(uTexture, vTexCoord);\nif (uColor.r < 0.5) {\ngl_FragColor.r *= 2.0 * uColor.r;\n} else {\ngl_FragColor.r = 1.0 - 2.0 * (1.0 - gl_FragColor.r) * (1.0 - uColor.r);\n}\nif (uColor.g < 0.5) {\ngl_FragColor.g *= 2.0 * uColor.g;\n} else {\ngl_FragColor.g = 1.0 - 2.0 * (1.0 - gl_FragColor.g) * (1.0 - uColor.g);\n}\nif (uColor.b < 0.5) {\ngl_FragColor.b *= 2.0 * uColor.b;\n} else {\ngl_FragColor.b = 1.0 - 2.0 * (1.0 - gl_FragColor.b) * (1.0 - uColor.b);\n}\n}",tint:"precision highp float;\nuniform sampler2D uTexture;\nuniform vec4 uColor;\nvarying vec2 vTexCoord;\nvoid main() {\ngl_FragColor = texture2D(uTexture, vTexCoord);\ngl_FragColor.rgb *= (1.0 - uColor.a);\ngl_FragColor.rgb += uColor.rgb;\n}"},retrieveShader:function(t){var e=this.type+"_"+this.mode,i=this.fragmentSource[this.mode];return t.programCache.hasOwnProperty(e)||(t.programCache[e]=this.createProgram(t.context,i)),t.programCache[e]},applyTo2d:function(t){var i,r,n,s,o,a,h,c=t.imageData.data,l=c.length,u=1-this.alpha;i=(h=new e.Color(this.color).getSource())[0]*this.alpha,r=h[1]*this.alpha,n=h[2]*this.alpha;for(var f=0;f<l;f+=4)switch(s=c[f],o=c[f+1],a=c[f+2],this.mode){case"multiply":c[f]=s*i/255,c[f+1]=o*r/255,c[f+2]=a*n/255;break;case"screen":c[f]=255-(255-s)*(255-i)/255,c[f+1]=255-(255-o)*(255-r)/255,c[f+2]=255-(255-a)*(255-n)/255;break;case"add":c[f]=s+i,c[f+1]=o+r,c[f+2]=a+n;break;case"diff":case"difference":c[f]=Math.abs(s-i),c[f+1]=Math.abs(o-r),c[f+2]=Math.abs(a-n);break;case"subtract":c[f]=s-i,c[f+1]=o-r,c[f+2]=a-n;break;case"darken":c[f]=Math.min(s,i),c[f+1]=Math.min(o,r),c[f+2]=Math.min(a,n);break;case"lighten":c[f]=Math.max(s,i),c[f+1]=Math.max(o,r),c[f+2]=Math.max(a,n);break;case"overlay":c[f]=i<128?2*s*i/255:255-2*(255-s)*(255-i)/255,c[f+1]=r<128?2*o*r/255:255-2*(255-o)*(255-r)/255,c[f+2]=n<128?2*a*n/255:255-2*(255-a)*(255-n)/255;break;case"exclusion":c[f]=i+s-2*i*s/255,c[f+1]=r+o-2*r*o/255,c[f+2]=n+a-2*n*a/255;break;case"tint":c[f]=i+s*u,c[f+1]=r+o*u,c[f+2]=n+a*u}},getUniformLocations:function(t,e){return{uColor:t.getUniformLocation(e,"uColor")}},sendUniformData:function(t,i){var r=new e.Color(this.color).getSource();r[0]=this.alpha*r[0]/255,r[1]=this.alpha*r[1]/255,r[2]=this.alpha*r[2]/255,r[3]=this.alpha,t.uniform4fv(i.uColor,r)},toObject:function(){return{type:this.type,color:this.color,mode:this.mode,alpha:this.alpha}}}),e.Image.filters.BlendColor.fromObject=e.Image.filters.BaseFilter.fromObject}(e),function(t){"use strict";var e=t.fabric,i=e.Image.filters,r=e.util.createClass;i.BlendImage=r(i.BaseFilter,{type:"BlendImage",image:null,mode:"multiply",alpha:1,vertexSource:"attribute vec2 aPosition;\nvarying vec2 vTexCoord;\nvarying vec2 vTexCoord2;\nuniform mat3 uTransformMatrix;\nvoid main() {\nvTexCoord = aPosition;\nvTexCoord2 = (uTransformMatrix * vec3(aPosition, 1.0)).xy;\ngl_Position = vec4(aPosition * 2.0 - 1.0, 0.0, 1.0);\n}",fragmentSource:{multiply:"precision highp float;\nuniform sampler2D uTexture;\nuniform sampler2D uImage;\nuniform vec4 uColor;\nvarying vec2 vTexCoord;\nvarying vec2 vTexCoord2;\nvoid main() {\nvec4 color = texture2D(uTexture, vTexCoord);\nvec4 color2 = texture2D(uImage, vTexCoord2);\ncolor.rgba *= color2.rgba;\ngl_FragColor = color;\n}",mask:"precision highp float;\nuniform sampler2D uTexture;\nuniform sampler2D uImage;\nuniform vec4 uColor;\nvarying vec2 vTexCoord;\nvarying vec2 vTexCoord2;\nvoid main() {\nvec4 color = texture2D(uTexture, vTexCoord);\nvec4 color2 = texture2D(uImage, vTexCoord2);\ncolor.a = color2.a;\ngl_FragColor = color;\n}"},retrieveShader:function(t){var e=this.type+"_"+this.mode,i=this.fragmentSource[this.mode];return t.programCache.hasOwnProperty(e)||(t.programCache[e]=this.createProgram(t.context,i)),t.programCache[e]},applyToWebGL:function(t){var e=t.context,i=this.createTexture(t.filterBackend,this.image);this.bindAdditionalTexture(e,i,e.TEXTURE1),this.callSuper("applyToWebGL",t),this.unbindAdditionalTexture(e,e.TEXTURE1)},createTexture:function(t,e){return t.getCachedTexture(e.cacheKey,e._element)},calculateMatrix:function(){var t=this.image,e=t._element.width,i=t._element.height;return[1/t.scaleX,0,0,0,1/t.scaleY,0,-t.left/e,-t.top/i,1]},applyTo2d:function(t){var e,i,r,n,s,o,a,h,c,l,u,f=t.imageData,d=t.filterBackend.resources,g=f.data,p=g.length,v=t.imageData.width,m=t.imageData.height,y=this.image;d.blendImage||(d.blendImage=document.createElement("canvas")),(c=d.blendImage).width===v&&c.height===m||(c.width=v,c.height=m),(l=c.getContext("2d")).setTransform(y.scaleX,0,0,y.scaleY,y.left,y.top),l.drawImage(y._element,0,0,v,m),u=l.getImageData(0,0,v,m).data;for(var _=0;_<p;_+=4)switch(s=g[_],o=g[_+1],a=g[_+2],h=g[_+3],e=u[_],i=u[_+1],r=u[_+2],n=u[_+3],this.mode){case"multiply":g[_]=s*e/255,g[_+1]=o*i/255,g[_+2]=a*r/255,g[_+3]=h*n/255;break;case"mask":g[_+3]=n}},getUniformLocations:function(t,e){return{uTransformMatrix:t.getUniformLocation(e,"uTransformMatrix"),uImage:t.getUniformLocation(e,"uImage")}},sendUniformData:function(t,e){var i=this.calculateMatrix();t.uniform1i(e.uImage,1),t.uniformMatrix3fv(e.uTransformMatrix,!1,i)},toObject:function(){return{type:this.type,image:this.image&&this.image.toObject(),mode:this.mode,alpha:this.alpha}}}),e.Image.filters.BlendImage.fromObject=function(t,i){e.Image.fromObject(t.image,function(r){var n=e.util.object.clone(t);n.image=r,i(new e.Image.filters.BlendImage(n))})}}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=Math.pow,r=Math.floor,n=Math.sqrt,s=Math.abs,o=Math.round,a=Math.sin,h=Math.ceil,c=e.Image.filters,l=e.util.createClass;c.Resize=l(c.BaseFilter,{type:"Resize",resizeType:"hermite",scaleX:0,scaleY:0,lanczosLobes:3,getUniformLocations:function(t,e){return{uDelta:t.getUniformLocation(e,"uDelta"),uTaps:t.getUniformLocation(e,"uTaps")}},sendUniformData:function(t,e){t.uniform2fv(e.uDelta,this.horizontal?[1/this.width,0]:[0,1/this.height]),t.uniform1fv(e.uTaps,this.taps)},retrieveShader:function(t){var e=this.getFilterWindow(),i=this.type+"_"+e;if(!t.programCache.hasOwnProperty(i)){var r=this.generateShader(e);t.programCache[i]=this.createProgram(t.context,r)}return t.programCache[i]},getFilterWindow:function(){var t=this.tempScale;return Math.ceil(this.lanczosLobes/t)},getTaps:function(){for(var t=this.lanczosCreate(this.lanczosLobes),e=this.tempScale,i=this.getFilterWindow(),r=new Array(i),n=1;n<=i;n++)r[n-1]=t(n*e);return r},generateShader:function(t){for(var e=new Array(t),i=this.fragmentSourceTOP,r=1;r<=t;r++)e[r-1]=r+".0 * uDelta";return i+="uniform float uTaps["+t+"];\n",i+="void main() {\n",i+="  vec4 color = texture2D(uTexture, vTexCoord);\n",i+="  float sum = 1.0;\n",e.forEach(function(t,e){i+="  color += texture2D(uTexture, vTexCoord + "+t+") * uTaps["+e+"];\n",i+="  color += texture2D(uTexture, vTexCoord - "+t+") * uTaps["+e+"];\n",i+="  sum += 2.0 * uTaps["+e+"];\n"}),i+="  gl_FragColor = color / sum;\n",i+="}"},fragmentSourceTOP:"precision highp float;\nuniform sampler2D uTexture;\nuniform vec2 uDelta;\nvarying vec2 vTexCoord;\n",applyTo:function(t){if(t.webgl){if(t.passes>1&&this.isNeutralState(t))return;t.passes++,this.width=t.sourceWidth,this.horizontal=!0,this.dW=Math.round(this.width*this.scaleX),this.dH=t.sourceHeight,this.tempScale=this.dW/this.width,this.taps=this.getTaps(),t.destinationWidth=this.dW,this._setupFrameBuffer(t),this.applyToWebGL(t),this._swapTextures(t),t.sourceWidth=t.destinationWidth,this.height=t.sourceHeight,this.horizontal=!1,this.dH=Math.round(this.height*this.scaleY),this.tempScale=this.dH/this.height,this.taps=this.getTaps(),t.destinationHeight=this.dH,this._setupFrameBuffer(t),this.applyToWebGL(t),this._swapTextures(t),t.sourceHeight=t.destinationHeight}else this.isNeutralState(t)||this.applyTo2d(t)},isNeutralState:function(t){var e=t.scaleX||this.scaleX,i=t.scaleY||this.scaleY;return 1===e&&1===i},lanczosCreate:function(t){return function(e){if(e>=t||e<=-t)return 0;if(e<1.1920929e-7&&e>-1.1920929e-7)return 1;var i=(e*=Math.PI)/t;return a(e)/e*a(i)/i}},applyTo2d:function(t){var e=t.imageData,i=this.scaleX,r=this.scaleY;this.rcpScaleX=1/i,this.rcpScaleY=1/r;var n,s=e.width,a=e.height,h=o(s*i),c=o(a*r);"sliceHack"===this.resizeType?n=this.sliceByTwo(t,s,a,h,c):"hermite"===this.resizeType?n=this.hermiteFastResize(t,s,a,h,c):"bilinear"===this.resizeType?n=this.bilinearFiltering(t,s,a,h,c):"lanczos"===this.resizeType&&(n=this.lanczosResize(t,s,a,h,c)),t.imageData=n},sliceByTwo:function(t,i,n,s,o){var a,h,c=t.imageData,l=!1,u=!1,f=.5*i,d=.5*n,g=e.filterBackend.resources,p=0,v=0,m=i,y=0;for(g.sliceByTwo||(g.sliceByTwo=document.createElement("canvas")),((a=g.sliceByTwo).width<1.5*i||a.height<n)&&(a.width=1.5*i,a.height=n),(h=a.getContext("2d")).clearRect(0,0,1.5*i,n),h.putImageData(c,0,0),s=r(s),o=r(o);!l||!u;)i=f,n=d,s<r(.5*f)?f=r(.5*f):(f=s,l=!0),o<r(.5*d)?d=r(.5*d):(d=o,u=!0),h.drawImage(a,p,v,i,n,m,y,f,d),p=m,v=y,y+=d;return h.getImageData(p,v,s,o)},lanczosResize:function(t,e,o,a,c){var l=t.imageData.data,u=t.ctx.createImageData(a,c),f=u.data,d=this.lanczosCreate(this.lanczosLobes),g=this.rcpScaleX,p=this.rcpScaleY,v=2/this.rcpScaleX,m=2/this.rcpScaleY,y=h(g*this.lanczosLobes/2),_=h(p*this.lanczosLobes/2),x={},b={},C={};return function t(h){var S,w,T,O,E,k,D,A,j,P,M;for(b.x=(h+.5)*g,C.x=r(b.x),S=0;S<c;S++){for(b.y=(S+.5)*p,C.y=r(b.y),E=0,k=0,D=0,A=0,j=0,w=C.x-y;w<=C.x+y;w++)if(!(w<0||w>=e)){P=r(1e3*s(w-b.x)),x[P]||(x[P]={});for(var F=C.y-_;F<=C.y+_;F++)F<0||F>=o||(M=r(1e3*s(F-b.y)),x[P][M]||(x[P][M]=d(n(i(P*v,2)+i(M*m,2))/1e3)),(T=x[P][M])>0&&(E+=T,k+=T*l[O=4*(F*e+w)],D+=T*l[O+1],A+=T*l[O+2],j+=T*l[O+3]))}f[O=4*(S*a+h)]=k/E,f[O+1]=D/E,f[O+2]=A/E,f[O+3]=j/E}return++h<a?t(h):u}(0)},bilinearFiltering:function(t,e,i,n,s){var o,a,h,c,l,u,f,d,g,p=0,v=this.rcpScaleX,m=this.rcpScaleY,y=4*(e-1),_=t.imageData.data,x=t.ctx.createImageData(n,s),b=x.data;for(h=0;h<s;h++)for(c=0;c<n;c++)for(l=v*c-(o=r(v*c)),u=m*h-(a=r(m*h)),g=4*(a*e+o),f=0;f<4;f++)d=_[g+f]*(1-l)*(1-u)+_[g+4+f]*l*(1-u)+_[g+y+f]*u*(1-l)+_[g+y+4+f]*l*u,b[p++]=d;return x},hermiteFastResize:function(t,e,i,o,a){for(var c=this.rcpScaleX,l=this.rcpScaleY,u=h(c/2),f=h(l/2),d=t.imageData.data,g=t.ctx.createImageData(o,a),p=g.data,v=0;v<a;v++)for(var m=0;m<o;m++){for(var y=4*(m+v*o),_=0,x=0,b=0,C=0,S=0,w=0,T=0,O=(v+.5)*l,E=r(v*l);E<(v+1)*l;E++)for(var k=s(O-(E+.5))/f,D=(m+.5)*c,A=k*k,j=r(m*c);j<(m+1)*c;j++){var P=s(D-(j+.5))/u,M=n(A+P*P);M>1&&M<-1||(_=2*M*M*M-3*M*M+1)>0&&(T+=_*d[(P=4*(j+E*e))+3],b+=_,d[P+3]<255&&(_=_*d[P+3]/250),C+=_*d[P],S+=_*d[P+1],w+=_*d[P+2],x+=_)}p[y]=C/x,p[y+1]=S/x,p[y+2]=w/x,p[y+3]=T/b}return g},toObject:function(){return{type:this.type,scaleX:this.scaleX,scaleY:this.scaleY,resizeType:this.resizeType,lanczosLobes:this.lanczosLobes}}}),e.Image.filters.Resize.fromObject=e.Image.filters.BaseFilter.fromObject}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.Image.filters,r=e.util.createClass;i.Contrast=r(i.BaseFilter,{type:"Contrast",fragmentSource:"precision highp float;\nuniform sampler2D uTexture;\nuniform float uContrast;\nvarying vec2 vTexCoord;\nvoid main() {\nvec4 color = texture2D(uTexture, vTexCoord);\nfloat contrastF = 1.015 * (uContrast + 1.0) / (1.0 * (1.015 - uContrast));\ncolor.rgb = contrastF * (color.rgb - 0.5) + 0.5;\ngl_FragColor = color;\n}",contrast:0,mainParameter:"contrast",applyTo2d:function(t){if(0!==this.contrast){var e,i=t.imageData.data,r=i.length,n=Math.floor(255*this.contrast),s=259*(n+255)/(255*(259-n));for(e=0;e<r;e+=4)i[e]=s*(i[e]-128)+128,i[e+1]=s*(i[e+1]-128)+128,i[e+2]=s*(i[e+2]-128)+128}},getUniformLocations:function(t,e){return{uContrast:t.getUniformLocation(e,"uContrast")}},sendUniformData:function(t,e){t.uniform1f(e.uContrast,this.contrast)}}),e.Image.filters.Contrast.fromObject=e.Image.filters.BaseFilter.fromObject}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.Image.filters,r=e.util.createClass;i.Saturation=r(i.BaseFilter,{type:"Saturation",fragmentSource:"precision highp float;\nuniform sampler2D uTexture;\nuniform float uSaturation;\nvarying vec2 vTexCoord;\nvoid main() {\nvec4 color = texture2D(uTexture, vTexCoord);\nfloat rgMax = max(color.r, color.g);\nfloat rgbMax = max(rgMax, color.b);\ncolor.r += rgbMax != color.r ? (rgbMax - color.r) * uSaturation : 0.00;\ncolor.g += rgbMax != color.g ? (rgbMax - color.g) * uSaturation : 0.00;\ncolor.b += rgbMax != color.b ? (rgbMax - color.b) * uSaturation : 0.00;\ngl_FragColor = color;\n}",saturation:0,mainParameter:"saturation",applyTo2d:function(t){if(0!==this.saturation){var e,i,r=t.imageData.data,n=r.length,s=-this.saturation;for(e=0;e<n;e+=4)i=Math.max(r[e],r[e+1],r[e+2]),r[e]+=i!==r[e]?(i-r[e])*s:0,r[e+1]+=i!==r[e+1]?(i-r[e+1])*s:0,r[e+2]+=i!==r[e+2]?(i-r[e+2])*s:0}},getUniformLocations:function(t,e){return{uSaturation:t.getUniformLocation(e,"uSaturation")}},sendUniformData:function(t,e){t.uniform1f(e.uSaturation,-this.saturation)}}),e.Image.filters.Saturation.fromObject=e.Image.filters.BaseFilter.fromObject}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.Image.filters,r=e.util.createClass;i.Blur=r(i.BaseFilter,{type:"Blur",fragmentSource:"precision highp float;\nuniform sampler2D uTexture;\nuniform vec2 uDelta;\nvarying vec2 vTexCoord;\nconst float nSamples = 15.0;\nvec3 v3offset = vec3(12.9898, 78.233, 151.7182);\nfloat random(vec3 scale) {\nreturn fract(sin(dot(gl_FragCoord.xyz, scale)) * 43758.5453);\n}\nvoid main() {\nvec4 color = vec4(0.0);\nfloat total = 0.0;\nfloat offset = random(v3offset);\nfor (float t = -nSamples; t <= nSamples; t++) {\nfloat percent = (t + offset - 0.5) / nSamples;\nfloat weight = 1.0 - abs(percent);\ncolor += texture2D(uTexture, vTexCoord + uDelta * percent) * weight;\ntotal += weight;\n}\ngl_FragColor = color / total;\n}",blur:0,mainParameter:"blur",applyTo:function(t){t.webgl?(this.aspectRatio=t.sourceWidth/t.sourceHeight,t.passes++,this._setupFrameBuffer(t),this.horizontal=!0,this.applyToWebGL(t),this._swapTextures(t),this._setupFrameBuffer(t),this.horizontal=!1,this.applyToWebGL(t),this._swapTextures(t)):this.applyTo2d(t)},applyTo2d:function(t){t.imageData=this.simpleBlur(t)},simpleBlur:function(t){var e,i,r=t.filterBackend.resources,n=t.imageData.width,s=t.imageData.height;r.blurLayer1||(r.blurLayer1=document.createElement("canvas"),r.blurLayer2=document.createElement("canvas")),e=r.blurLayer1,i=r.blurLayer2,e.width===n&&e.height===s||(i.width=e.width=n,i.height=e.height=s);var o,a,h,c,l=e.getContext("2d"),u=i.getContext("2d"),f=.06*this.blur*.5;for(l.putImageData(t.imageData,0,0),u.clearRect(0,0,n,s),c=-15;c<=15;c++)o=(Math.random()-.5)/4,h=f*(a=c/15)*n+o,u.globalAlpha=1-Math.abs(a),u.drawImage(e,h,o),l.drawImage(i,0,0),u.globalAlpha=1,u.clearRect(0,0,i.width,i.height);for(c=-15;c<=15;c++)o=(Math.random()-.5)/4,h=f*(a=c/15)*s+o,u.globalAlpha=1-Math.abs(a),u.drawImage(e,o,h),l.drawImage(i,0,0),u.globalAlpha=1,u.clearRect(0,0,i.width,i.height);t.ctx.drawImage(e,0,0);var d=t.ctx.getImageData(0,0,e.width,e.height);return l.globalAlpha=1,l.clearRect(0,0,e.width,e.height),d},getUniformLocations:function(t,e){return{delta:t.getUniformLocation(e,"uDelta")}},sendUniformData:function(t,e){var i=this.chooseRightDelta();t.uniform2fv(e.delta,i)},chooseRightDelta:function(){var t,e=1,i=[0,0];return this.horizontal?this.aspectRatio>1&&(e=1/this.aspectRatio):this.aspectRatio<1&&(e=this.aspectRatio),t=e*this.blur*.12,this.horizontal?i[0]=t:i[1]=t,i}}),i.Blur.fromObject=e.Image.filters.BaseFilter.fromObject}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.Image.filters,r=e.util.createClass;i.Gamma=r(i.BaseFilter,{type:"Gamma",fragmentSource:"precision highp float;\nuniform sampler2D uTexture;\nuniform vec3 uGamma;\nvarying vec2 vTexCoord;\nvoid main() {\nvec4 color = texture2D(uTexture, vTexCoord);\nvec3 correction = (1.0 / uGamma);\ncolor.r = pow(color.r, correction.r);\ncolor.g = pow(color.g, correction.g);\ncolor.b = pow(color.b, correction.b);\ngl_FragColor = color;\ngl_FragColor.rgb *= color.a;\n}",gamma:[1,1,1],mainParameter:"gamma",applyTo2d:function(t){var e,i=t.imageData.data,r=this.gamma,n=i.length,s=1/r[0],o=1/r[1],a=1/r[2];for(this.rVals||(this.rVals=new Uint8Array(256),this.gVals=new Uint8Array(256),this.bVals=new Uint8Array(256)),e=0,n=256;e<n;e++)this.rVals[e]=255*Math.pow(e/255,s),this.gVals[e]=255*Math.pow(e/255,o),this.bVals[e]=255*Math.pow(e/255,a);for(e=0,n=i.length;e<n;e+=4)i[e]=this.rVals[i[e]],i[e+1]=this.gVals[i[e+1]],i[e+2]=this.bVals[i[e+2]]},getUniformLocations:function(t,e){return{uGamma:t.getUniformLocation(e,"uGamma")}},sendUniformData:function(t,e){t.uniform3fv(e.uGamma,this.gamma)}}),e.Image.filters.Gamma.fromObject=e.Image.filters.BaseFilter.fromObject}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.Image.filters,r=e.util.createClass;i.Composed=r(i.BaseFilter,{type:"Composed",subFilters:[],initialize:function(t){this.callSuper("initialize",t),this.subFilters=this.subFilters.slice(0)},applyTo:function(t){t.passes+=this.subFilters.length-1,this.subFilters.forEach(function(e){e.applyTo(t)})},toObject:function(){return e.util.object.extend(this.callSuper("toObject"),{subFilters:this.subFilters.map(function(t){return t.toObject()})})}}),e.Image.filters.Composed.fromObject=function(t,i){var r=(t.subFilters||[]).map(function(t){return new e.Image.filters[t.type](t)}),n=new e.Image.filters.Composed({subFilters:r});return i&&i(n),n}}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.Image.filters,r=e.util.createClass;i.HueRotation=r(i.ColorMatrix,{type:"HueRotation",rotation:0,mainParameter:"rotation",calculateMatrix:function(){var t=this.rotation*Math.PI,i=e.util.cos(t),r=e.util.sin(t),n=Math.sqrt(1/3)*r,s=1-i;this.matrix=[1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0],this.matrix[0]=i+s/3,this.matrix[1]=1/3*s-n,this.matrix[2]=1/3*s+n,this.matrix[5]=1/3*s+n,this.matrix[6]=i+1/3*s,this.matrix[7]=1/3*s-n,this.matrix[10]=1/3*s-n,this.matrix[11]=1/3*s+n,this.matrix[12]=i+1/3*s},applyTo:function(t){this.calculateMatrix(),e.Image.filters.BaseFilter.prototype.applyTo.call(this,t)}}),e.Image.filters.HueRotation.fromObject=e.Image.filters.BaseFilter.fromObject}(e),function(t){"use strict";var e=t.fabric||(t.fabric={}),i=e.util.object.clone;e.Text?e.warn("fabric.Text is already defined"):(e.Text=e.util.createClass(e.Object,{_dimensionAffectingProps:["fontSize","fontWeight","fontFamily","fontStyle","lineHeight","text","charSpacing","textAlign","styles"],_reNewline:/\r?\n/,_reSpacesAndTabs:/[ \t\r]/g,_reSpaceAndTab:/[ \t\r]/,_reWords:/\S+/g,type:"text",fontSize:40,fontWeight:"normal",fontFamily:"Times New Roman",underline:!1,overline:!1,linethrough:!1,textAlign:"left",fontStyle:"normal",lineHeight:1.16,textBackgroundColor:"",stateProperties:e.Object.prototype.stateProperties.concat("fontFamily","fontWeight","fontSize","text","underline","overline","linethrough","textAlign","fontStyle","lineHeight","textBackgroundColor","charSpacing","styles"),cacheProperties:e.Object.prototype.cacheProperties.concat("fontFamily","fontWeight","fontSize","text","underline","overline","linethrough","textAlign","fontStyle","lineHeight","textBackgroundColor","charSpacing","styles"),stroke:null,shadow:null,_fontSizeFraction:.222,offsets:{underline:.1,linethrough:-.315,overline:-.88},_fontSizeMult:1.13,charSpacing:0,styles:null,_measuringContext:null,_styleProperties:["stroke","strokeWidth","fill","fontFamily","fontSize","fontWeight","fontStyle","underline","overline","linethrough","textBackgroundColor"],__charBounds:[],initialize:function(t,e){this.styles=e&&e.styles||{},this.text=t,this.__skipDimension=!0,this.callSuper("initialize",e),this.__skipDimension=!1,this.initDimensions(),this.setCoords(),this.setupState({propertySet:"_dimensionAffectingProps"})},getMeasuringContext:function(){return e._measuringContext||(e._measuringContext=this.canvas&&this.canvas.contextCache||e.util.createCanvasElement().getContext("2d")),e._measuringContext},_splitText:function(){var t=this._splitTextIntoLines(this.text);return this.textLines=t.lines,this._textLines=t.graphemeLines,this._unwrappedTextLines=t._unwrappedLines,this._text=t.graphemeText,t},initDimensions:function(){this.__skipDimension||(this._splitText(),this._clearCache(),this.width=this.calcTextWidth()||this.cursorWidth||2,-1!==this.textAlign.indexOf("justify")&&this.enlargeSpaces(),this.height=this.calcTextHeight(),this.saveState({propertySet:"_dimensionAffectingProps"}))},enlargeSpaces:function(){for(var t,e,i,r,n,s,o,a=0,h=this._textLines.length;a<h;a++)if(("justify"===this.textAlign||a!==h-1&&!this.isEndOfWrapping(a))&&(r=0,n=this._textLines[a],(e=this.getLineWidth(a))<this.width&&(o=this.textLines[a].match(this._reSpacesAndTabs)))){i=o.length,t=(this.width-e)/i;for(var c=0,l=n.length;c<=l;c++)s=this.__charBounds[a][c],this._reSpaceAndTab.test(n[c])?(s.width+=t,s.kernedWidth+=t,s.left+=r,r+=t):s.left+=r}},isEndOfWrapping:function(t){return t===this._textLines.length-1},toString:function(){return"#<fabric.Text ("+this.complexity()+'): { "text": "'+this.text+'", "fontFamily": "'+this.fontFamily+'" }>'},_getCacheCanvasDimensions:function(){var t=this.callSuper("_getCacheCanvasDimensions"),e=this.fontSize;return t.width+=e*t.zoomX,t.height+=e*t.zoomY,t},_render:function(t){this._setTextStyles(t),this._renderTextLinesBackground(t),this._renderTextDecoration(t,"underline"),this._renderText(t),this._renderTextDecoration(t,"overline"),this._renderTextDecoration(t,"linethrough")},_renderText:function(t){"stroke"===this.paintFirst?(this._renderTextStroke(t),this._renderTextFill(t)):(this._renderTextFill(t),this._renderTextStroke(t))},_setTextStyles:function(t,e,i){t.textBaseline="alphabetic",t.font=this._getFontDeclaration(e,i)},calcTextWidth:function(){for(var t=this.getLineWidth(0),e=1,i=this._textLines.length;e<i;e++){var r=this.getLineWidth(e);r>t&&(t=r)}return t},_renderTextLine:function(t,e,i,r,n,s){this._renderChars(t,e,i,r,n,s)},_renderTextLinesBackground:function(t){if(this.textBackgroundColor||this.styleHas("textBackgroundColor")){for(var e,i,r,n,s,o,a=0,h=t.fillStyle,c=this._getLeftOffset(),l=this._getTopOffset(),u=0,f=0,d=0,g=this._textLines.length;d<g;d++)if(e=this.getHeightOfLine(d),this.textBackgroundColor||this.styleHas("textBackgroundColor",d)){r=this._textLines[d],i=this._getLineLeftOffset(d),f=0,u=0,n=this.getValueOfPropertyAt(d,0,"textBackgroundColor");for(var p=0,v=r.length;p<v;p++)s=this.__charBounds[d][p],(o=this.getValueOfPropertyAt(d,p,"textBackgroundColor"))!==n?(t.fillStyle=n,n&&t.fillRect(c+i+u,l+a,f,e/this.lineHeight),u=s.left,f=s.width,n=o):f+=s.kernedWidth;o&&(t.fillStyle=o,t.fillRect(c+i+u,l+a,f,e/this.lineHeight)),a+=e}else a+=e;t.fillStyle=h,this._removeShadow(t)}},getFontCache:function(t){var i=t.fontFamily.toLowerCase();e.charWidthsCache[i]||(e.charWidthsCache[i]={});var r=e.charWidthsCache[i],n=t.fontStyle.toLowerCase()+"_"+(t.fontWeight+"").toLowerCase();return r[n]||(r[n]={}),r[n]},_applyCharStyles:function(t,e,i,r,n){this._setFillStyles(e,n),this._setStrokeStyles(e,n),e.font=this._getFontDeclaration(n)},_measureChar:function(t,e,i,r){var n,s,o,a,h=this.getFontCache(e),c=i+t,l=this._getFontDeclaration(e)===this._getFontDeclaration(r),u=e.fontSize/200;if(i&&h[i]&&(o=h[i]),h[t]&&(a=n=h[t]),l&&h[c]&&(a=(s=h[c])-o),!n||!o||!s){var f=this.getMeasuringContext();this._setTextStyles(f,e,!0)}if(n||(a=n=f.measureText(t).width,h[t]=n),!o&&l&&i&&(o=f.measureText(i).width,h[i]=o),l&&!s&&(s=f.measureText(c).width,h[c]=s,(a=s-o)>n)){var d=a-n;h[t]=a,h[c]+=d,n=a}return{width:n*u,kernedWidth:a*u}},getHeightOfChar:function(t,e){return this.getValueOfPropertyAt(t,e,"fontSize")},measureLine:function(t){var e=this._measureLine(t);return 0!==this.charSpacing&&(e.width-=this._getWidthOfCharSpacing()),e.width<0&&(e.width=0),e},_measureLine:function(t){var e,i,r,n,s=0,o=this._textLines[t],a=new Array(o.length);for(this.__charBounds[t]=a,e=0;e<o.length;e++)i=o[e],n=this._getGraphemeBox(i,t,e,r),a[e]=n,s+=n.kernedWidth,r=i;return a[e]={left:n?n.left+n.width:0,width:0,kernedWidth:0,height:this.fontSize},{width:s,numOfSpaces:0}},_getGraphemeBox:function(t,e,i,r,n){var s=this.getCompleteStyleDeclaration(e,i),o=r?this.getCompleteStyleDeclaration(e,i-1):{},a=this._measureChar(t,s,r,o),h=a.kernedWidth,c=a.width;0!==this.charSpacing&&(c+=this._getWidthOfCharSpacing(),h+=this._getWidthOfCharSpacing());var l={width:c,left:0,height:s.fontSize,kernedWidth:h};if(i>0&&!n){var u=this.__charBounds[e][i-1];l.left=u.left+u.width+a.kernedWidth-a.width}return l},getHeightOfLine:function(t){if(this.__lineHeights[t])return this.__lineHeights[t];for(var e=this._textLines[t],i=this.getHeightOfChar(t,0),r=1,n=e.length;r<n;r++){var s=this.getHeightOfChar(t,r);s>i&&(i=s)}return this.__lineHeights[t]=i*this.lineHeight*this._fontSizeMult,this.__lineHeights[t]},calcTextHeight:function(){for(var t,e=0,i=0,r=this._textLines.length;i<r;i++)t=this.getHeightOfLine(i),e+=i===r-1?t/this.lineHeight:t;return e},_getLeftOffset:function(){return-this.width/2},_getTopOffset:function(){return-this.height/2},_renderTextCommon:function(t,e){t.save();for(var i=0,r=this._getLeftOffset(),n=this._getTopOffset(),s=this._applyPatternGradientTransform(t,"fillText"===e?this.fill:this.stroke),o=0,a=this._textLines.length;o<a;o++){var h=this.getHeightOfLine(o),c=h/this.lineHeight,l=this._getLineLeftOffset(o);this._renderTextLine(e,t,this._textLines[o],r+l-s.offsetX,n+i+c-s.offsetY,o),i+=h}t.restore()},_renderTextFill:function(t){(this.fill||this.styleHas("fill"))&&this._renderTextCommon(t,"fillText")},_renderTextStroke:function(t){(this.stroke&&0!==this.strokeWidth||!this.isEmptyStyles())&&(this.shadow&&!this.shadow.affectStroke&&this._removeShadow(t),t.save(),this._setLineDash(t,this.strokeDashArray),t.beginPath(),this._renderTextCommon(t,"strokeText"),t.closePath(),t.restore())},_renderChars:function(t,e,i,r,n,s){var o,a,h,c,l=this.getHeightOfLine(s),u=-1!==this.textAlign.indexOf("justify"),f="",d=0,g=!u&&0===this.charSpacing&&this.isEmptyStyles(s);if(e.save(),n-=l*this._fontSizeFraction/this.lineHeight,g)return this._renderChar(t,e,s,0,this.textLines[s],r,n,l),void e.restore();for(var p=0,v=i.length-1;p<=v;p++)c=p===v||this.charSpacing,f+=i[p],h=this.__charBounds[s][p],0===d?(r+=h.kernedWidth-h.width,d+=h.width):d+=h.kernedWidth,u&&!c&&this._reSpaceAndTab.test(i[p])&&(c=!0),c||(o=o||this.getCompleteStyleDeclaration(s,p),a=this.getCompleteStyleDeclaration(s,p+1),c=this._hasStyleChanged(o,a)),c&&(this._renderChar(t,e,s,p,f,r,n,l),f="",o=a,r+=d,d=0);e.restore()},_renderChar:function(t,e,i,r,n,s,o){var a=this._getStyleDeclaration(i,r),h=this.getCompleteStyleDeclaration(i,r),c="fillText"===t&&h.fill,l="strokeText"===t&&h.stroke&&h.strokeWidth;(l||c)&&(a&&e.save(),this._applyCharStyles(t,e,i,r,h),a&&a.textBackgroundColor&&this._removeShadow(e),c&&e.fillText(n,s,o),l&&e.strokeText(n,s,o),a&&e.restore())},_hasStyleChanged:function(t,e){return t.fill!==e.fill||t.stroke!==e.stroke||t.strokeWidth!==e.strokeWidth||t.fontSize!==e.fontSize||t.fontFamily!==e.fontFamily||t.fontWeight!==e.fontWeight||t.fontStyle!==e.fontStyle},_hasStyleChangedForSvg:function(t,e){return this._hasStyleChanged(t,e)||t.overline!==e.overline||t.underline!==e.underline||t.linethrough!==e.linethrough},_getLineLeftOffset:function(t){var e=this.getLineWidth(t);return"center"===this.textAlign?(this.width-e)/2:"right"===this.textAlign?this.width-e:"justify-center"===this.textAlign&&this.isEndOfWrapping(t)?(this.width-e)/2:"justify-right"===this.textAlign&&this.isEndOfWrapping(t)?this.width-e:0},_clearCache:function(){this.__lineWidths=[],this.__lineHeights=[],this.__charBounds=[]},_shouldClearDimensionCache:function(){var t=this._forceClearCache;return t||(t=this.hasStateChanged("_dimensionAffectingProps")),t&&(this.dirty=!0,this._forceClearCache=!1),t},getLineWidth:function(t){return this.__lineWidths[t]?this.__lineWidths[t]:(e=""===this._textLines[t]?0:this.measureLine(t).width,this.__lineWidths[t]=e,e);var e},_getWidthOfCharSpacing:function(){return 0!==this.charSpacing?this.fontSize*this.charSpacing/1e3:0},getValueOfPropertyAt:function(t,e,i){var r=this._getStyleDeclaration(t,e);return r&&void 0!==r[i]?r[i]:this[i]},_renderTextDecoration:function(t,e){if(this[e]||this.styleHas(e)){for(var i,r,n,s,o,a,h,c,l,u,f,d=this._getLeftOffset(),g=this._getTopOffset(),p=0,v=this._textLines.length;p<v;p++)if(i=this.getHeightOfLine(p),this[e]||this.styleHas(e,p)){n=this._textLines[p],l=i/this.lineHeight,r=this._getLineLeftOffset(p),o=0,a=0,s=this.getValueOfPropertyAt(p,0,e),f=this.getValueOfPropertyAt(p,0,"fill");for(var m=0,y=n.length;m<y;m++)h=this.__charBounds[p][m],c=this.getValueOfPropertyAt(p,m,e),u=this.getValueOfPropertyAt(p,m,"fill"),(c!==s||u!==f)&&a>0?(t.fillStyle=f,s&&f&&t.fillRect(d+r+o,g+l*(1-this._fontSizeFraction)+this.offsets[e]*this.fontSize,a,this.fontSize/15),o=h.left,a=h.width,s=c,f=u):a+=h.kernedWidth;t.fillStyle=u,c&&u&&t.fillRect(d+r+o,g+l*(1-this._fontSizeFraction)+this.offsets[e]*this.fontSize,a,this.fontSize/15),g+=i}else g+=i;this._removeShadow(t)}},_getFontDeclaration:function(t,i){var r=t||this;return[e.isLikelyNode?r.fontWeight:r.fontStyle,e.isLikelyNode?r.fontStyle:r.fontWeight,i?"200px":r.fontSize+"px",e.isLikelyNode?'"'+r.fontFamily+'"':r.fontFamily].join(" ")},render:function(t){this.visible&&(this.canvas&&this.canvas.skipOffscreen&&!this.group&&!this.isOnScreen()||(this._shouldClearDimensionCache()&&this.initDimensions(),this.callSuper("render",t)))},_splitTextIntoLines:function(t){for(var i=t.split(this._reNewline),r=new Array(i.length),n=["\n"],s=[],o=0;o<i.length;o++)r[o]=e.util.string.graphemeSplit(i[o]),s=s.concat(r[o],n);return s.pop(),{_unwrappedLines:r,lines:i,graphemeText:s,graphemeLines:r}},toObject:function(t){var e=["text","fontSize","fontWeight","fontFamily","fontStyle","lineHeight","underline","overline","linethrough","textAlign","textBackgroundColor","charSpacing"].concat(t),r=this.callSuper("toObject",e);return r.styles=i(this.styles,!0),r},set:function(t,e){this.callSuper("set",t,e);var i=!1;if("object"==typeof t)for(var r in t)i=i||-1!==this._dimensionAffectingProps.indexOf(r);else i=-1!==this._dimensionAffectingProps.indexOf(t);return i&&(this.initDimensions(),this.setCoords()),this},complexity:function(){return 1}}),e.Text.ATTRIBUTE_NAMES=e.SHARED_ATTRIBUTES.concat("x y dx dy font-family font-style font-weight font-size text-decoration text-anchor".split(" ")),e.Text.DEFAULT_SVG_FONT_SIZE=16,e.Text.fromElement=function(t,r,n){if(!t)return r(null);var s=e.parseAttributes(t,e.Text.ATTRIBUTE_NAMES),o=s.textAnchor||"left";if((n=e.util.object.extend(n?i(n):{},s)).top=n.top||0,n.left=n.left||0,s.textDecoration){var a=s.textDecoration;-1!==a.indexOf("underline")&&(n.underline=!0),-1!==a.indexOf("overline")&&(n.overline=!0),-1!==a.indexOf("line-through")&&(n.linethrough=!0),delete n.textDecoration}"dx"in s&&(n.left+=s.dx),"dy"in s&&(n.top+=s.dy),"fontSize"in n||(n.fontSize=e.Text.DEFAULT_SVG_FONT_SIZE);var h="";"textContent"in t?h=t.textContent:"firstChild"in t&&null!==t.firstChild&&"data"in t.firstChild&&null!==t.firstChild.data&&(h=t.firstChild.data),h=h.replace(/^\s+|\s+$|\n+/g,"").replace(/\s+/g," ");var c=new e.Text(h,n),l=c.getScaledHeight()/c.height,u=((c.height+c.strokeWidth)*c.lineHeight-c.height)*l,f=c.getScaledHeight()+u,d=0;"center"===o&&(d=c.getScaledWidth()/2),"right"===o&&(d=c.getScaledWidth()),c.set({left:c.left-d,top:c.top-(f-c.fontSize*(.18+c._fontSizeFraction))/c.lineHeight}),r(c)},e.Text.fromObject=function(t,i){return e.Object._fromObject("Text",t,i,"text")},e.util.createAccessors&&e.util.createAccessors(e.Text))}(e),b.util.object.extend(b.Text.prototype,{isEmptyStyles:function(t){if(!this.styles)return!0;if(void 0!==t&&!this.styles[t])return!0;var e=void 0===t?this.styles:{line:this.styles[t]};for(var i in e)for(var r in e[i])for(var n in e[i][r])return!1;return!0},styleHas:function(t,e){if(!this.styles||!t||""===t)return!1;if(void 0!==e&&!this.styles[e])return!1;var i=void 0===e?this.styles:{line:this.styles[e]};for(var r in i)for(var n in i[r])if(void 0!==i[r][n][t])return!0;return!1},cleanStyle:function(t){if(!this.styles||!t||""===t)return!1;var e,i,r=this.styles,n=0,s=!0,o=0;for(var a in r){for(var h in e=0,r[a]){var c;n++,(c=r[a][h]).hasOwnProperty(t)?(i?c[t]!==i&&(s=!1):i=c[t],c[t]===this[t]&&delete c[t]):s=!1,0!==Object.keys(c).length?e++:delete r[a][h]}0===e&&delete r[a]}for(var l=0;l<this._textLines.length;l++)o+=this._textLines[l].length;s&&n===o&&(this[t]=i,this.removeStyle(t))},removeStyle:function(t){if(this.styles&&t&&""!==t){var e,i,r,n=this.styles;for(i in n){for(r in e=n[i])delete e[r][t],0===Object.keys(e[r]).length&&delete e[r];0===Object.keys(e).length&&delete n[i]}}},_extendStyles:function(t,e){var i=this.get2DCursorLocation(t);this._getLineStyle(i.lineIndex)||this._setLineStyle(i.lineIndex,{}),this._getStyleDeclaration(i.lineIndex,i.charIndex)||this._setStyleDeclaration(i.lineIndex,i.charIndex,{}),b.util.object.extend(this._getStyleDeclaration(i.lineIndex,i.charIndex),e)},get2DCursorLocation:function(t,e){void 0===t&&(t=this.selectionStart);for(var i=e?this._unwrappedTextLines:this._textLines,r=i.length,n=0;n<r;n++){if(t<=i[n].length)return{lineIndex:n,charIndex:t};t-=i[n].length+1}return{lineIndex:n-1,charIndex:i[n-1].length<t?i[n-1].length:t}},getSelectionStyles:function(t,e,i){void 0===t&&(t=this.selectionStart||0),void 0===e&&(e=this.selectionEnd||t);for(var r=[],n=t;n<e;n++)r.push(this.getStyleAtPosition(n,i));return r},getStyleAtPosition:function(t,e){var i=this.get2DCursorLocation(t);return(e?this.getCompleteStyleDeclaration(i.lineIndex,i.charIndex):this._getStyleDeclaration(i.lineIndex,i.charIndex))||{}},setSelectionStyles:function(t,e,i){void 0===e&&(e=this.selectionStart||0),void 0===i&&(i=this.selectionEnd||e);for(var r=e;r<i;r++)this._extendStyles(r,t);return this._forceClearCache=!0,this},_getStyleDeclaration:function(t,e){var i=this.styles&&this.styles[t];return i?i[e]:null},getCompleteStyleDeclaration:function(t,e){for(var i,r=this._getStyleDeclaration(t,e)||{},n={},s=0;s<this._styleProperties.length;s++)n[i=this._styleProperties[s]]=void 0===r[i]?this[i]:r[i];return n},_setStyleDeclaration:function(t,e,i){this.styles[t][e]=i},_deleteStyleDeclaration:function(t,e){delete this.styles[t][e]},_getLineStyle:function(t){return this.styles[t]},_setLineStyle:function(t,e){this.styles[t]=e},_deleteLineStyle:function(t){delete this.styles[t]}}),function(){function t(t){t.textDecoration&&(t.textDecoration.indexOf("underline")>-1&&(t.underline=!0),t.textDecoration.indexOf("line-through")>-1&&(t.linethrough=!0),t.textDecoration.indexOf("overline")>-1&&(t.overline=!0),delete t.textDecoration)}b.IText=b.util.createClass(b.Text,b.Observable,{type:"i-text",selectionStart:0,selectionEnd:0,selectionColor:"rgba(17,119,255,0.3)",isEditing:!1,editable:!0,editingBorderColor:"rgba(102,153,255,0.25)",cursorWidth:2,cursorColor:"#333",cursorDelay:1e3,cursorDuration:600,caching:!0,_reSpace:/\s|\n/,_currentCursorOpacity:0,_selectionDirection:null,_abortCursorAnimation:!1,__widthOfSpace:[],inCompositionMode:!1,initialize:function(t,e){this.callSuper("initialize",t,e),this.initBehavior()},setSelectionStart:function(t){t=Math.max(t,0),this._updateAndFire("selectionStart",t)},setSelectionEnd:function(t){t=Math.min(t,this.text.length),this._updateAndFire("selectionEnd",t)},_updateAndFire:function(t,e){this[t]!==e&&(this._fireSelectionChanged(),this[t]=e),this._updateTextarea()},_fireSelectionChanged:function(){this.fire("selection:changed"),this.canvas&&this.canvas.fire("text:selection:changed",{target:this})},initDimensions:function(){this.isEditing&&this.initDelayedCursor(),this.clearContextTop(),this.callSuper("initDimensions")},render:function(t){this.clearContextTop(),this.callSuper("render",t),this.cursorOffsetCache={},this.renderCursorOrSelection()},_render:function(t){this.callSuper("_render",t)},clearContextTop:function(t){if(this.isEditing&&this.canvas&&this.canvas.contextTop){var e=this.canvas.contextTop,i=this.canvas.viewportTransform;e.save(),e.transform(i[0],i[1],i[2],i[3],i[4],i[5]),this.transform(e),this.transformMatrix&&e.transform.apply(e,this.transformMatrix),this._clearTextArea(e),t||e.restore()}},renderCursorOrSelection:function(){if(this.isEditing&&this.canvas){var t,e=this._getCursorBoundaries();this.canvas&&this.canvas.contextTop?(t=this.canvas.contextTop,this.clearContextTop(!0)):(t=this.canvas.contextContainer).save(),this.selectionStart===this.selectionEnd?this.renderCursor(e,t):this.renderSelection(e,t),t.restore()}},_clearTextArea:function(t){var e=this.width+4,i=this.height+4;t.clearRect(-e/2,-i/2,e,i)},_getCursorBoundaries:function(t){void 0===t&&(t=this.selectionStart);var e=this._getLeftOffset(),i=this._getTopOffset(),r=this._getCursorBoundariesOffsets(t);return{left:e,top:i,leftOffset:r.left,topOffset:r.top}},_getCursorBoundariesOffsets:function(t){if(this.cursorOffsetCache&&"top"in this.cursorOffsetCache)return this.cursorOffsetCache;for(var e,i,r=0,n=0,s=this.get2DCursorLocation(t),o=0;o<s.lineIndex;o++)r+=this.getHeightOfLine(o);e=this._getLineLeftOffset(s.lineIndex);var a=this.__charBounds[s.lineIndex][s.charIndex];return a&&(n=a.left),0!==this.charSpacing&&0===this._textLines[0].length&&(n-=this._getWidthOfCharSpacing()),i={top:r,left:e+(n>0?n:0)},this.cursorOffsetCache=i,this.cursorOffsetCache},renderCursor:function(t,e){var i=this.get2DCursorLocation(),r=i.lineIndex,n=i.charIndex>0?i.charIndex-1:0,s=this.getValueOfPropertyAt(r,n,"fontSize"),o=this.scaleX*this.canvas.getZoom(),a=this.cursorWidth/o,h=t.topOffset;h+=(1-this._fontSizeFraction)*this.getHeightOfLine(r)/this.lineHeight-s*(1-this._fontSizeFraction),this.inCompositionMode&&this.renderSelection(t,e),e.fillStyle=this.getValueOfPropertyAt(r,n,"fill"),e.globalAlpha=this.__isMousedown?1:this._currentCursorOpacity,e.fillRect(t.left+t.leftOffset-a/2,h+t.top,a,s)},renderSelection:function(t,e){for(var i=this.inCompositionMode?this.hiddenTextarea.selectionStart:this.selectionStart,r=this.inCompositionMode?this.hiddenTextarea.selectionEnd:this.selectionEnd,n=-1!==this.textAlign.indexOf("justify"),s=this.get2DCursorLocation(i),o=this.get2DCursorLocation(r),a=s.lineIndex,h=o.lineIndex,c=s.charIndex<0?0:s.charIndex,l=o.charIndex<0?0:o.charIndex,u=a;u<=h;u++){var f,d=this._getLineLeftOffset(u)||0,g=this.getHeightOfLine(u),p=0,v=0;u===a&&(p=this.__charBounds[a][c].left),u>=a&&u<h?v=n&&!this.isEndOfWrapping(u)?this.width:this.getLineWidth(u)||5:u===h&&(v=0===l?this.__charBounds[h][l].left:this.__charBounds[h][l-1].left+this.__charBounds[h][l-1].width),f=g,(this.lineHeight<1||u===h&&this.lineHeight>1)&&(g/=this.lineHeight),this.inCompositionMode?(e.fillStyle=this.compositionColor||"black",e.fillRect(t.left+d+p,t.top+t.topOffset+g,v-p,1)):(e.fillStyle=this.selectionColor,e.fillRect(t.left+d+p,t.top+t.topOffset,v-p,g)),t.topOffset+=f}},getCurrentCharFontSize:function(){var t=this._getCurrentCharIndex();return this.getValueOfPropertyAt(t.l,t.c,"fontSize")},getCurrentCharColor:function(){var t=this._getCurrentCharIndex();return this.getValueOfPropertyAt(t.l,t.c,"fill")},_getCurrentCharIndex:function(){var t=this.get2DCursorLocation(this.selectionStart,!0),e=t.charIndex>0?t.charIndex-1:0;return{l:t.lineIndex,c:e}}}),b.IText.fromObject=function(e,i){if(t(e),e.styles)for(var r in e.styles)for(var n in e.styles[r])t(e.styles[r][n]);b.Object._fromObject("IText",e,i,"text")}}(),y=b.util.object.clone,b.util.object.extend(b.IText.prototype,{initBehavior:function(){this.initAddedHandler(),this.initRemovedHandler(),this.initCursorSelectionHandlers(),this.initDoubleClickSimulation(),this.mouseMoveHandler=this.mouseMoveHandler.bind(this)},onDeselect:function(t){this.isEditing&&this.exitEditing(),this.selected=!1,b.Object.prototype.onDeselect.call(this,t)},initAddedHandler:function(){var t=this;this.on("added",function(){var e=t.canvas;e&&(e._hasITextHandlers||(e._hasITextHandlers=!0,t._initCanvasHandlers(e)),e._iTextInstances=e._iTextInstances||[],e._iTextInstances.push(t))})},initRemovedHandler:function(){var t=this;this.on("removed",function(){var e=t.canvas;e&&(e._iTextInstances=e._iTextInstances||[],b.util.removeFromArray(e._iTextInstances,t),0===e._iTextInstances.length&&(e._hasITextHandlers=!1,t._removeCanvasHandlers(e)))})},_initCanvasHandlers:function(t){t._mouseUpITextHandler=function(){t._iTextInstances&&t._iTextInstances.forEach(function(t){t.__isMousedown=!1})}.bind(this),t.on("mouse:up",t._mouseUpITextHandler)},_removeCanvasHandlers:function(t){t.off("mouse:up",t._mouseUpITextHandler)},_tick:function(){this._currentTickState=this._animateCursor(this,1,this.cursorDuration,"_onTickComplete")},_animateCursor:function(t,e,i,r){var n;return n={isAborted:!1,abort:function(){this.isAborted=!0}},t.animate("_currentCursorOpacity",e,{duration:i,onComplete:function(){n.isAborted||t[r]()},onChange:function(){t.canvas&&t.selectionStart===t.selectionEnd&&t.renderCursorOrSelection()},abort:function(){return n.isAborted}}),n},_onTickComplete:function(){var t=this;this._cursorTimeout1&&clearTimeout(this._cursorTimeout1),this._cursorTimeout1=setTimeout(function(){t._currentTickCompleteState=t._animateCursor(t,0,this.cursorDuration/2,"_tick")},100)},initDelayedCursor:function(t){var e=this,i=t?0:this.cursorDelay;this.abortCursorAnimation(),this._currentCursorOpacity=1,this._cursorTimeout2=setTimeout(function(){e._tick()},i)},abortCursorAnimation:function(){var t=this._currentTickState||this._currentTickCompleteState,e=this.canvas;this._currentTickState&&this._currentTickState.abort(),this._currentTickCompleteState&&this._currentTickCompleteState.abort(),clearTimeout(this._cursorTimeout1),clearTimeout(this._cursorTimeout2),this._currentCursorOpacity=0,t&&e&&e.clearContext(e.contextTop||e.contextContainer)},selectAll:function(){return this.selectionStart=0,this.selectionEnd=this._text.length,this._fireSelectionChanged(),this._updateTextarea(),this},getSelectedText:function(){return this._text.slice(this.selectionStart,this.selectionEnd).join("")},findWordBoundaryLeft:function(t){var e=0,i=t-1;if(this._reSpace.test(this._text[i]))for(;this._reSpace.test(this._text[i]);)e++,i--;for(;/\S/.test(this._text[i])&&i>-1;)e++,i--;return t-e},findWordBoundaryRight:function(t){var e=0,i=t;if(this._reSpace.test(this._text[i]))for(;this._reSpace.test(this._text[i]);)e++,i++;for(;/\S/.test(this._text[i])&&i<this.text.length;)e++,i++;return t+e},findLineBoundaryLeft:function(t){for(var e=0,i=t-1;!/\n/.test(this._text[i])&&i>-1;)e++,i--;return t-e},findLineBoundaryRight:function(t){for(var e=0,i=t;!/\n/.test(this._text[i])&&i<this.text.length;)e++,i++;return t+e},searchWordBoundary:function(t,e){for(var i=this._reSpace.test(this.text.charAt(t))?t-1:t,r=this.text.charAt(i),n=/[ \n\.,;!\?\-]/;!n.test(r)&&i>0&&i<this.text.length;)i+=e,r=this.text.charAt(i);return n.test(r)&&"\n"!==r&&(i+=1===e?0:1),i},selectWord:function(t){t=t||this.selectionStart;var e=this.searchWordBoundary(t,-1),i=this.searchWordBoundary(t,1);this.selectionStart=e,this.selectionEnd=i,this._fireSelectionChanged(),this._updateTextarea(),this.renderCursorOrSelection()},selectLine:function(t){t=t||this.selectionStart;var e=this.findLineBoundaryLeft(t),i=this.findLineBoundaryRight(t);return this.selectionStart=e,this.selectionEnd=i,this._fireSelectionChanged(),this._updateTextarea(),this},enterEditing:function(t){if(!this.isEditing&&this.editable)return this.canvas&&(this.canvas.calcOffset(),this.exitEditingOnOthers(this.canvas)),this.isEditing=!0,this.initHiddenTextarea(t),this.hiddenTextarea.focus(),this.hiddenTextarea.value=this.text,this._updateTextarea(),this._saveEditingProps(),this._setEditingProps(),this._textBeforeEdit=this.text,this._tick(),this.fire("editing:entered"),this._fireSelectionChanged(),this.canvas?(this.canvas.fire("text:editing:entered",{target:this}),this.initMouseMoveHandler(),this.canvas.requestRenderAll(),this):this},exitEditingOnOthers:function(t){t._iTextInstances&&t._iTextInstances.forEach(function(t){t.selected=!1,t.isEditing&&t.exitEditing()})},initMouseMoveHandler:function(){this.canvas.on("mouse:move",this.mouseMoveHandler)},mouseMoveHandler:function(t){if(this.__isMousedown&&this.isEditing){var e=this.getSelectionStartFromPointer(t.e),i=this.selectionStart,r=this.selectionEnd;(e===this.__selectionStartOnMouseDown&&i!==r||i!==e&&r!==e)&&(e>this.__selectionStartOnMouseDown?(this.selectionStart=this.__selectionStartOnMouseDown,this.selectionEnd=e):(this.selectionStart=e,this.selectionEnd=this.__selectionStartOnMouseDown),this.selectionStart===i&&this.selectionEnd===r||(this.restartCursorIfNeeded(),this._fireSelectionChanged(),this._updateTextarea(),this.renderCursorOrSelection()))}},_setEditingProps:function(){this.hoverCursor="text",this.canvas&&(this.canvas.defaultCursor=this.canvas.moveCursor="text"),this.borderColor=this.editingBorderColor,this.hasControls=this.selectable=!1,this.lockMovementX=this.lockMovementY=!0},fromStringToGraphemeSelection:function(t,e,i){var r=i.slice(0,t),n=b.util.string.graphemeSplit(r).length;if(t===e)return{selectionStart:n,selectionEnd:n};var s=i.slice(t,e);return{selectionStart:n,selectionEnd:n+b.util.string.graphemeSplit(s).length}},fromGraphemeToStringSelection:function(t,e,i){var r=i.slice(0,t).join("").length;return t===e?{selectionStart:r,selectionEnd:r}:{selectionStart:r,selectionEnd:r+i.slice(t,e).join("").length}},_updateTextarea:function(){if(this.cursorOffsetCache={},this.hiddenTextarea){if(!this.inCompositionMode){var t=this.fromGraphemeToStringSelection(this.selectionStart,this.selectionEnd,this._text);this.hiddenTextarea.selectionStart=t.selectionStart,this.hiddenTextarea.selectionEnd=t.selectionEnd}this.updateTextareaPosition()}},updateFromTextArea:function(){if(this.hiddenTextarea){this.cursorOffsetCache={},this.text=this.hiddenTextarea.value,this._shouldClearDimensionCache()&&(this.initDimensions(),this.setCoords());var t=this.fromStringToGraphemeSelection(this.hiddenTextarea.selectionStart,this.hiddenTextarea.selectionEnd,this.hiddenTextarea.value);this.selectionEnd=this.selectionStart=t.selectionEnd,this.inCompositionMode||(this.selectionStart=t.selectionStart),this.updateTextareaPosition()}},updateTextareaPosition:function(){if(this.selectionStart===this.selectionEnd){var t=this._calcTextareaPosition();this.hiddenTextarea.style.left=t.left,this.hiddenTextarea.style.top=t.top}},_calcTextareaPosition:function(){if(!this.canvas)return{x:1,y:1};var t=this.inCompositionMode?this.compositionStart:this.selectionStart,e=this._getCursorBoundaries(t),i=this.get2DCursorLocation(t),r=i.lineIndex,n=i.charIndex,s=this.getValueOfPropertyAt(r,n,"fontSize")*this.lineHeight,o=e.leftOffset,a=this.calcTransformMatrix(),h={x:e.left+o,y:e.top+e.topOffset+s},c=this.canvas.upperCanvasEl,l=c.width-s,u=c.height-s;return h=b.util.transformPoint(h,a),(h=b.util.transformPoint(h,this.canvas.viewportTransform)).x<0&&(h.x=0),h.x>l&&(h.x=l),h.y<0&&(h.y=0),h.y>u&&(h.y=u),h.x+=this.canvas._offset.left,h.y+=this.canvas._offset.top,{left:h.x+"px",top:h.y+"px",fontSize:s+"px",charHeight:s}},_saveEditingProps:function(){this._savedProps={hasControls:this.hasControls,borderColor:this.borderColor,lockMovementX:this.lockMovementX,lockMovementY:this.lockMovementY,hoverCursor:this.hoverCursor,defaultCursor:this.canvas&&this.canvas.defaultCursor,moveCursor:this.canvas&&this.canvas.moveCursor}},_restoreEditingProps:function(){this._savedProps&&(this.hoverCursor=this._savedProps.hoverCursor,this.hasControls=this._savedProps.hasControls,this.borderColor=this._savedProps.borderColor,this.lockMovementX=this._savedProps.lockMovementX,this.lockMovementY=this._savedProps.lockMovementY,this.canvas&&(this.canvas.defaultCursor=this._savedProps.defaultCursor,this.canvas.moveCursor=this._savedProps.moveCursor))},exitEditing:function(){var t=this._textBeforeEdit!==this.text;return this.selected=!1,this.isEditing=!1,this.selectable=!0,this.selectionEnd=this.selectionStart,this.hiddenTextarea&&(this.hiddenTextarea.blur&&this.hiddenTextarea.blur(),this.canvas&&this.hiddenTextarea.parentNode.removeChild(this.hiddenTextarea),this.hiddenTextarea=null),this.abortCursorAnimation(),this._restoreEditingProps(),this._currentCursorOpacity=0,this._shouldClearDimensionCache()&&(this.initDimensions(),this.setCoords()),this.fire("editing:exited"),t&&this.fire("modified"),this.canvas&&(this.canvas.off("mouse:move",this.mouseMoveHandler),this.canvas.fire("text:editing:exited",{target:this}),t&&this.canvas.fire("object:modified",{target:this})),this},_removeExtraneousStyles:function(){for(var t in this.styles)this._textLines[t]||delete this.styles[t]},removeStyleFromTo:function(t,e){var i,r,n=this.get2DCursorLocation(t,!0),s=this.get2DCursorLocation(e,!0),o=n.lineIndex,a=n.charIndex,h=s.lineIndex,c=s.charIndex;if(o!==h){if(this.styles[o])for(i=a;i<this._unwrappedTextLines[o].length;i++)delete this.styles[o][i];if(this.styles[h])for(i=c;i<this._unwrappedTextLines[h].length;i++)(r=this.styles[h][i])&&(this.styles[o]||(this.styles[o]={}),this.styles[o][a+i-c]=r);for(i=o+1;i<=h;i++)delete this.styles[i];this.shiftLineStyles(h,o-h)}else if(this.styles[o]){r=this.styles[o];var l,u,f=c-a;for(i=a;i<c;i++)delete r[i];for(u in this.styles[o])(l=parseInt(u,10))>=c&&(r[l-f]=r[u],delete r[u])}},shiftLineStyles:function(t,e){var i=y(this.styles);for(var r in this.styles){var n=parseInt(r,10);n>t&&(this.styles[n+e]=i[n],i[n-e]||delete this.styles[n])}},restartCursorIfNeeded:function(){this._currentTickState&&!this._currentTickState.isAborted&&this._currentTickCompleteState&&!this._currentTickCompleteState.isAborted||this.initDelayedCursor()},insertNewlineStyleObject:function(t,e,i,r){var n,s={},o=!1;for(var a in i||(i=1),this.shiftLineStyles(t,i),this.styles[t]&&(n=this.styles[t][0===e?e:e-1]),this.styles[t]){var h=parseInt(a,10);h>=e&&(o=!0,s[h-e]=this.styles[t][a],delete this.styles[t][a])}for(o?this.styles[t+i]=s:delete this.styles[t+i];i>1;)i--,r&&r[i]?this.styles[t+i]={0:y(r[i])}:n?this.styles[t+i]={0:y(n)}:delete this.styles[t+i];this._forceClearCache=!0},insertCharStyleObject:function(t,e,i,r){this.styles||(this.styles={});var n=this.styles[t],s=n?y(n):{};for(var o in i||(i=1),s){var a=parseInt(o,10);a>=e&&(n[a+i]=s[a],s[a-i]||delete n[a])}if(this._forceClearCache=!0,r)for(;i--;)Object.keys(r[i]).length&&(this.styles[t]||(this.styles[t]={}),this.styles[t][e+i]=y(r[i]));else if(n)for(var h=n[e?e-1:1];h&&i--;)this.styles[t][e+i]=y(h)},insertNewStyleBlock:function(t,e,i){for(var r=this.get2DCursorLocation(e,!0),n=[0],s=0,o=0;o<t.length;o++)"\n"===t[o]?n[++s]=0:n[s]++;for(n[0]>0&&(this.insertCharStyleObject(r.lineIndex,r.charIndex,n[0],i),i=i&&i.slice(n[0]+1)),s&&this.insertNewlineStyleObject(r.lineIndex,r.charIndex+n[0],s),o=1;o<s;o++)n[o]>0?this.insertCharStyleObject(r.lineIndex+o,0,n[o],i):i&&(this.styles[r.lineIndex+o][0]=i[0]),i=i&&i.slice(n[o]+1);n[o]>0&&this.insertCharStyleObject(r.lineIndex+o,0,n[o],i)},setSelectionStartEndWithShift:function(t,e,i){i<=t?(e===t?this._selectionDirection="left":"right"===this._selectionDirection&&(this._selectionDirection="left",this.selectionEnd=t),this.selectionStart=i):i>t&&i<e?"right"===this._selectionDirection?this.selectionEnd=i:this.selectionStart=i:(e===t?this._selectionDirection="right":"left"===this._selectionDirection&&(this._selectionDirection="right",this.selectionStart=e),this.selectionEnd=i)},setSelectionInBoundaries:function(){var t=this.text.length;this.selectionStart>t?this.selectionStart=t:this.selectionStart<0&&(this.selectionStart=0),this.selectionEnd>t?this.selectionEnd=t:this.selectionEnd<0&&(this.selectionEnd=0)}}),b.util.object.extend(b.IText.prototype,{initDoubleClickSimulation:function(){this.__lastClickTime=+new Date,this.__lastLastClickTime=+new Date,this.__lastPointer={},this.on("mousedown",this.onMouseDown.bind(this))},onMouseDown:function(t){this.__newClickTime=+new Date;var e=this.canvas.getPointer(t.e);this.isTripleClick(e,t.e)&&(this.fire("tripleclick",t),this._stopEvent(t.e)),this.__lastLastClickTime=this.__lastClickTime,this.__lastClickTime=this.__newClickTime,this.__lastPointer=e,this.__lastIsEditing=this.isEditing,this.__lastSelected=this.selected},isTripleClick:function(t){return this.__newClickTime-this.__lastClickTime<500&&this.__lastClickTime-this.__lastLastClickTime<500&&this.__lastPointer.x===t.x&&this.__lastPointer.y===t.y},_stopEvent:function(t){t.preventDefault&&t.preventDefault(),t.stopPropagation&&t.stopPropagation()},initCursorSelectionHandlers:function(){this.initMousedownHandler(),this.initMouseupHandler(),this.initClicks()},initClicks:function(){this.on("mousedblclick",function(t){this.selectWord(this.getSelectionStartFromPointer(t.e))}),this.on("tripleclick",function(t){this.selectLine(this.getSelectionStartFromPointer(t.e))})},_mouseDownHandler:function(t){if(this.canvas&&this.editable&&(!t.e.button||1===t.e.button)){var e=this.canvas.getPointer(t.e);this.__mousedownX=e.x,this.__mousedownY=e.y,this.__isMousedown=!0,this.selected&&this.setCursorByClick(t.e),this.isEditing&&(this.__selectionStartOnMouseDown=this.selectionStart,this.selectionStart===this.selectionEnd&&this.abortCursorAnimation(),this.renderCursorOrSelection())}},initMousedownHandler:function(){this.on("mousedown",this._mouseDownHandler)},_isObjectMoved:function(t){var e=this.canvas.getPointer(t);return this.__mousedownX!==e.x||this.__mousedownY!==e.y},initMouseupHandler:function(){this.on("mouseup",function(t){this.__isMousedown=!1,!this.editable||this._isObjectMoved(t.e)||t.e.button&&1!==t.e.button||(this.__lastSelected&&!this.__corner&&(this.enterEditing(t.e),this.selectionStart===this.selectionEnd?this.initDelayedCursor(!0):this.renderCursorOrSelection()),this.selected=!0)})},setCursorByClick:function(t){var e=this.getSelectionStartFromPointer(t),i=this.selectionStart,r=this.selectionEnd;t.shiftKey?this.setSelectionStartEndWithShift(i,r,e):(this.selectionStart=e,this.selectionEnd=e),this.isEditing&&(this._fireSelectionChanged(),this._updateTextarea())},getSelectionStartFromPointer:function(t){for(var e=this.getLocalPointer(t),i=0,r=0,n=0,s=0,o=0,a=0,h=this._textLines.length;a<h&&n<=e.y;a++)n+=this.getHeightOfLine(a)*this.scaleY,o=a,a>0&&(s+=this._textLines[a-1].length+1);r=this._getLineLeftOffset(o)*this.scaleX;for(var c=0,l=this._textLines[o].length;c<l&&(i=r,(r+=this.__charBounds[o][c].kernedWidth*this.scaleX)<=e.x);c++)s++;return this._getNewSelectionStartFromOffset(e,i,r,s,l)},_getNewSelectionStartFromOffset:function(t,e,i,r,n){var s=t.x-e,o=i-t.x,a=r+(o>s||o<0?0:1);return this.flipX&&(a=n-a),a>this._text.length&&(a=this._text.length),a}}),b.util.object.extend(b.IText.prototype,{initHiddenTextarea:function(){this.hiddenTextarea=b.document.createElement("textarea"),this.hiddenTextarea.setAttribute("autocapitalize","off"),this.hiddenTextarea.setAttribute("autocorrect","off"),this.hiddenTextarea.setAttribute("autocomplete","off"),this.hiddenTextarea.setAttribute("spellcheck","false"),this.hiddenTextarea.setAttribute("data-fabric-hiddentextarea",""),this.hiddenTextarea.setAttribute("wrap","off");var t=this._calcTextareaPosition();this.hiddenTextarea.style.cssText="position: absolute; top: "+t.top+"; left: "+t.left+"; z-index: -999; opacity: 0; width: 1px; height: 1px; font-size: 1px; line-height: 1px; paddingｰtop: "+t.fontSize+";",b.document.body.appendChild(this.hiddenTextarea),b.util.addListener(this.hiddenTextarea,"keydown",this.onKeyDown.bind(this)),b.util.addListener(this.hiddenTextarea,"keyup",this.onKeyUp.bind(this)),b.util.addListener(this.hiddenTextarea,"input",this.onInput.bind(this)),b.util.addListener(this.hiddenTextarea,"copy",this.copy.bind(this)),b.util.addListener(this.hiddenTextarea,"cut",this.copy.bind(this)),b.util.addListener(this.hiddenTextarea,"paste",this.paste.bind(this)),b.util.addListener(this.hiddenTextarea,"compositionstart",this.onCompositionStart.bind(this)),b.util.addListener(this.hiddenTextarea,"compositionupdate",this.onCompositionUpdate.bind(this)),b.util.addListener(this.hiddenTextarea,"compositionend",this.onCompositionEnd.bind(this)),!this._clickHandlerInitialized&&this.canvas&&(b.util.addListener(this.canvas.upperCanvasEl,"click",this.onClick.bind(this)),this._clickHandlerInitialized=!0)},keysMap:{9:"exitEditing",27:"exitEditing",33:"moveCursorUp",34:"moveCursorDown",35:"moveCursorRight",36:"moveCursorLeft",37:"moveCursorLeft",38:"moveCursorUp",39:"moveCursorRight",40:"moveCursorDown"},ctrlKeysMapUp:{67:"copy",88:"cut"},ctrlKeysMapDown:{65:"selectAll"},onClick:function(){this.hiddenTextarea&&this.hiddenTextarea.focus()},onKeyDown:function(t){if(this.isEditing&&!this.inCompositionMode){if(t.keyCode in this.keysMap)this[this.keysMap[t.keyCode]](t);else{if(!(t.keyCode in this.ctrlKeysMapDown&&(t.ctrlKey||t.metaKey)))return;this[this.ctrlKeysMapDown[t.keyCode]](t)}t.stopImmediatePropagation(),t.preventDefault(),t.keyCode>=33&&t.keyCode<=40?(this.clearContextTop(),this.renderCursorOrSelection()):this.canvas&&this.canvas.requestRenderAll()}},onKeyUp:function(t){!this.isEditing||this._copyDone||this.inCompositionMode?this._copyDone=!1:t.keyCode in this.ctrlKeysMapUp&&(t.ctrlKey||t.metaKey)&&(this[this.ctrlKeysMapUp[t.keyCode]](t),t.stopImmediatePropagation(),t.preventDefault(),this.canvas&&this.canvas.requestRenderAll())},onInput:function(t){var e=this.fromPaste;if(this.fromPaste=!1,t&&t.stopPropagation(),this.isEditing){var i,r,n=this._splitTextIntoLines(this.hiddenTextarea.value).graphemeText,s=this._text.length,o=n.length,a=o-s;if(""===this.hiddenTextarea.value)return this.styles={},this.updateFromTextArea(),this.fire("changed"),void(this.canvas&&(this.canvas.fire("text:changed",{target:this}),this.canvas.requestRenderAll()));var h=this.fromStringToGraphemeSelection(this.hiddenTextarea.selectionStart,this.hiddenTextarea.selectionEnd,this.hiddenTextarea.value),c=this.selectionStart>h.selectionStart;this.selectionStart!==this.selectionEnd?(i=this._text.slice(this.selectionStart,this.selectionEnd),a+=this.selectionEnd-this.selectionStart):o<s&&(i=c?this._text.slice(this.selectionEnd+a,this.selectionEnd):this._text.slice(this.selectionStart,this.selectionStart-a)),r=n.slice(h.selectionEnd-a,h.selectionEnd),i&&i.length&&(this.selectionStart!==this.selectionEnd?this.removeStyleFromTo(this.selectionStart,this.selectionEnd):c?this.removeStyleFromTo(this.selectionEnd-i.length,this.selectionEnd):this.removeStyleFromTo(this.selectionEnd,this.selectionEnd+i.length)),r.length&&(e&&r.join("")===b.copiedText?this.insertNewStyleBlock(r,this.selectionStart,b.copiedTextStyle):this.insertNewStyleBlock(r,this.selectionStart)),this.updateFromTextArea(),this.fire("changed"),this.canvas&&(this.canvas.fire("text:changed",{target:this}),this.canvas.requestRenderAll())}},onCompositionStart:function(){this.inCompositionMode=!0},onCompositionEnd:function(){this.inCompositionMode=!1},onCompositionUpdate:function(t){this.compositionStart=t.target.selectionStart,this.compositionEnd=t.target.selectionEnd,this.updateTextareaPosition()},copy:function(){this.selectionStart!==this.selectionEnd&&(b.copiedText=this.getSelectedText(),b.copiedTextStyle=this.getSelectionStyles(this.selectionStart,this.selectionEnd,!0),this._copyDone=!0)},paste:function(){this.fromPaste=!0},_getClipboardData:function(t){return t&&t.clipboardData||b.window.clipboardData},_getWidthBeforeCursor:function(t,e){var i,r=this._getLineLeftOffset(t);return e>0&&(r+=(i=this.__charBounds[t][e-1]).left+i.width),r},getDownCursorOffset:function(t,e){var i=this._getSelectionForOffset(t,e),r=this.get2DCursorLocation(i),n=r.lineIndex;if(n===this._textLines.length-1||t.metaKey||34===t.keyCode)return this._text.length-i;var s=r.charIndex,o=this._getWidthBeforeCursor(n,s),a=this._getIndexOnLine(n+1,o);return this._textLines[n].slice(s).length+a+2},_getSelectionForOffset:function(t,e){return t.shiftKey&&this.selectionStart!==this.selectionEnd&&e?this.selectionEnd:this.selectionStart},getUpCursorOffset:function(t,e){var i=this._getSelectionForOffset(t,e),r=this.get2DCursorLocation(i),n=r.lineIndex;if(0===n||t.metaKey||33===t.keyCode)return-i;var s=r.charIndex,o=this._getWidthBeforeCursor(n,s),a=this._getIndexOnLine(n-1,o),h=this._textLines[n].slice(0,s);return-this._textLines[n-1].length+a-h.length},_getIndexOnLine:function(t,e){for(var i,r,n=this._textLines[t],s=this._getLineLeftOffset(t),o=0,a=0,h=n.length;a<h;a++)if((s+=i=this.__charBounds[t][a].width)>e){r=!0;var c=s-i,l=s,u=Math.abs(c-e);o=Math.abs(l-e)<u?a:a-1;break}return r||(o=n.length-1),o},moveCursorDown:function(t){this.selectionStart>=this._text.length&&this.selectionEnd>=this._text.length||this._moveCursorUpOrDown("Down",t)},moveCursorUp:function(t){0===this.selectionStart&&0===this.selectionEnd||this._moveCursorUpOrDown("Up",t)},_moveCursorUpOrDown:function(t,e){var i=this["get"+t+"CursorOffset"](e,"right"===this._selectionDirection);e.shiftKey?this.moveCursorWithShift(i):this.moveCursorWithoutShift(i),0!==i&&(this.setSelectionInBoundaries(),this.abortCursorAnimation(),this._currentCursorOpacity=1,this.initDelayedCursor(),this._fireSelectionChanged(),this._updateTextarea())},moveCursorWithShift:function(t){var e="left"===this._selectionDirection?this.selectionStart+t:this.selectionEnd+t;return this.setSelectionStartEndWithShift(this.selectionStart,this.selectionEnd,e),0!==t},moveCursorWithoutShift:function(t){return t<0?(this.selectionStart+=t,this.selectionEnd=this.selectionStart):(this.selectionEnd+=t,this.selectionStart=this.selectionEnd),0!==t},moveCursorLeft:function(t){0===this.selectionStart&&0===this.selectionEnd||this._moveCursorLeftOrRight("Left",t)},_move:function(t,e,i){var r;if(t.altKey)r=this["findWordBoundary"+i](this[e]);else{if(!t.metaKey&&35!==t.keyCode&&36!==t.keyCode)return this[e]+="Left"===i?-1:1,!0;r=this["findLineBoundary"+i](this[e])}if(void 0!==typeof r&&this[e]!==r)return this[e]=r,!0},_moveLeft:function(t,e){return this._move(t,e,"Left")},_moveRight:function(t,e){return this._move(t,e,"Right")},moveCursorLeftWithoutShift:function(t){var e=!0;return this._selectionDirection="left",this.selectionEnd===this.selectionStart&&0!==this.selectionStart&&(e=this._moveLeft(t,"selectionStart")),this.selectionEnd=this.selectionStart,e},moveCursorLeftWithShift:function(t){return"right"===this._selectionDirection&&this.selectionStart!==this.selectionEnd?this._moveLeft(t,"selectionEnd"):0!==this.selectionStart?(this._selectionDirection="left",this._moveLeft(t,"selectionStart")):void 0},moveCursorRight:function(t){this.selectionStart>=this._text.length&&this.selectionEnd>=this._text.length||this._moveCursorLeftOrRight("Right",t)},_moveCursorLeftOrRight:function(t,e){var i="moveCursor"+t+"With";this._currentCursorOpacity=1,e.shiftKey?i+="Shift":i+="outShift",this[i](e)&&(this.abortCursorAnimation(),this.initDelayedCursor(),this._fireSelectionChanged(),this._updateTextarea())},moveCursorRightWithShift:function(t){return"left"===this._selectionDirection&&this.selectionStart!==this.selectionEnd?this._moveRight(t,"selectionStart"):this.selectionEnd!==this._text.length?(this._selectionDirection="right",this._moveRight(t,"selectionEnd")):void 0},moveCursorRightWithoutShift:function(t){var e=!0;return this._selectionDirection="right",this.selectionStart===this.selectionEnd?(e=this._moveRight(t,"selectionStart"),this.selectionEnd=this.selectionStart):this.selectionStart=this.selectionEnd,e},removeChars:function(t,e){void 0===e&&(e=t+1),this.removeStyleFromTo(t,e),this._text.splice(t,e-t),this.text=this._text.join(""),this.set("dirty",!0),this._shouldClearDimensionCache()&&(this.initDimensions(),this.setCoords()),this._removeExtraneousStyles()},insertChars:function(t,e,i,r){void 0===r&&(r=i),r>i&&this.removeStyleFromTo(i,r);var n=b.util.string.graphemeSplit(t);this.insertNewStyleBlock(n,i,e),this._text=[].concat(this._text.slice(0,i),n,this._text.slice(r)),this.text=this._text.join(""),this.set("dirty",!0),this._shouldClearDimensionCache()&&(this.initDimensions(),this.setCoords()),this._removeExtraneousStyles()}}),_=b.util.toFixed,b.util.object.extend(b.Text.prototype,{toSVG:function(t){var e=this._createBaseSVGMarkup(),i=this._getSVGLeftTopOffsets(),r=this._getSVGTextAndBg(i.textTop,i.textLeft);return this._wrapSVGTextAndBg(e,r),t?t(e.join("")):e.join("")},_getSVGLeftTopOffsets:function(){return{textLeft:-this.width/2,textTop:-this.height/2,lineTop:this.getHeightOfLine(0)}},_wrapSVGTextAndBg:function(t,e){var i=this.getSvgFilter(),r=""===i?"":' style="'+i+'"',n=this.getSvgTextDecoration(this);t.push("\t<g ",this.getSvgId(),'transform="',this.getSvgTransform(),this.getSvgTransformMatrix(),'"',r,">\n",e.textBgRects.join(""),'\t\t<text xml:space="preserve" ',this.fontFamily?'font-family="'+this.fontFamily.replace(/"/g,"'")+'" ':"",this.fontSize?'font-size="'+this.fontSize+'" ':"",this.fontStyle?'font-style="'+this.fontStyle+'" ':"",this.fontWeight?'font-weight="'+this.fontWeight+'" ':"",n?'text-decoration="'+n+'" ':"",'style="',this.getSvgStyles(!0),'"',this.addPaintOrder()," >",e.textSpans.join(""),"</text>\n","\t</g>\n")},_getSVGTextAndBg:function(t,e){var i,r=[],n=[],s=t;this._setSVGBg(n);for(var o=0,a=this._textLines.length;o<a;o++)i=this._getLineLeftOffset(o),(this.textBackgroundColor||this.styleHas("textBackgroundColor",o))&&this._setSVGTextLineBg(n,o,e+i,s),this._setSVGTextLineText(r,o,e+i,s),s+=this.getHeightOfLine(o);return{textSpans:r,textBgRects:n}},_createTextCharSpan:function(t,e,i,r){var n=this.getSvgSpanStyles(e,t!==t.trim()),s=n?'style="'+n+'"':"",o=b.Object.NUM_FRACTION_DIGITS;return['<tspan x="',_(i,o),'" y="',_(r,o),'" ',s,">",b.util.string.escapeXml(t),"</tspan>"].join("")},_setSVGTextLineText:function(t,e,i,r){var n,s,o,a,h,c=this.getHeightOfLine(e),l=-1!==this.textAlign.indexOf("justify"),u="",f=0,d=this._textLines[e];r+=c*(1-this._fontSizeFraction)/this.lineHeight;for(var g=0,p=d.length-1;g<=p;g++)h=g===p||this.charSpacing,u+=d[g],o=this.__charBounds[e][g],0===f?(i+=o.kernedWidth-o.width,f+=o.width):f+=o.kernedWidth,l&&!h&&this._reSpaceAndTab.test(d[g])&&(h=!0),h||(n=n||this.getCompleteStyleDeclaration(e,g),s=this.getCompleteStyleDeclaration(e,g+1),h=this._hasStyleChangedForSvg(n,s)),h&&(a=this._getStyleDeclaration(e,g)||{},t.push(this._createTextCharSpan(u,a,i,r)),u="",n=s,i+=f,f=0)},_pushTextBgRect:function(t,e,i,r,n,s){var o=b.Object.NUM_FRACTION_DIGITS;t.push("\t\t<rect ",this._getFillAttributes(e),' x="',_(i,o),'" y="',_(r,o),'" width="',_(n,o),'" height="',_(s,o),'"></rect>\n')},_setSVGTextLineBg:function(t,e,i,r){for(var n,s,o=this._textLines[e],a=this.getHeightOfLine(e)/this.lineHeight,h=0,c=0,l=this.getValueOfPropertyAt(e,0,"textBackgroundColor"),u=0,f=o.length;u<f;u++)n=this.__charBounds[e][u],(s=this.getValueOfPropertyAt(e,u,"textBackgroundColor"))!==l?(l&&this._pushTextBgRect(t,l,i+c,r,h,a),c=n.left,h=n.width,l=s):h+=n.kernedWidth;s&&this._pushTextBgRect(t,s,i+c,r,h,a)},_getFillAttributes:function(t){var e=t&&"string"==typeof t?new b.Color(t):"";return e&&e.getSource()&&1!==e.getAlpha()?'opacity="'+e.getAlpha()+'" fill="'+e.setAlpha(1).toRgb()+'"':'fill="'+t+'"'},_getSVGLineTopOffset:function(t){for(var e,i=0,r=0;r<t;r++)i+=this.getHeightOfLine(r);return e=this.getHeightOfLine(r),{lineTop:i,offset:(this._fontSizeMult-this._fontSizeFraction)*e/(this.lineHeight*this._fontSizeMult)}},getSvgStyles:function(t){return b.Object.prototype.getSvgStyles.call(this,t)+" white-space: pre;"}}),function(t){"use strict";var e=t.fabric||(t.fabric={});e.Textbox=e.util.createClass(e.IText,e.Observable,{type:"textbox",minWidth:20,dynamicMinWidth:2,__cachedLines:null,lockScalingFlip:!0,noScaleCache:!1,_dimensionAffectingProps:e.Text.prototype._dimensionAffectingProps.concat("width"),initDimensions:function(){this.__skipDimension||(this.isEditing&&this.initDelayedCursor(),this.clearContextTop(),this._clearCache(),this.dynamicMinWidth=0,this._styleMap=this._generateStyleMap(this._splitText()),this.dynamicMinWidth>this.width&&this._set("width",this.dynamicMinWidth),-1!==this.textAlign.indexOf("justify")&&this.enlargeSpaces(),this.height=this.calcTextHeight(),this.saveState({propertySet:"_dimensionAffectingProps"}))},_generateStyleMap:function(t){for(var e=0,i=0,r=0,n={},s=0;s<t.graphemeLines.length;s++)"\n"===t.graphemeText[r]&&s>0?(i=0,r++,e++):this._reSpaceAndTab.test(t.graphemeText[r])&&s>0&&(i++,r++),n[s]={line:e,offset:i},r+=t.graphemeLines[s].length,i+=t.graphemeLines[s].length;return n},styleHas:function(t,i){if(this._styleMap&&!this.isWrapping){var r=this._styleMap[i];r&&(i=r.line)}return e.Text.prototype.styleHas.call(this,t,i)},isEmptyStyles:function(t){var e,i,r=0,n=!1,s=this._styleMap[t],o=this._styleMap[t+1];for(var a in s&&(t=s.line,r=s.offset),o&&(n=o.line===t,e=o.offset),i=void 0===t?this.styles:{line:this.styles[t]})for(var h in i[a])if(h>=r&&(!n||h<e))for(var c in i[a][h])return!1;return!0},_getStyleDeclaration:function(t,e){if(this._styleMap&&!this.isWrapping){var i=this._styleMap[t];if(!i)return null;t=i.line,e=i.offset+e}return this.callSuper("_getStyleDeclaration",t,e)},_setStyleDeclaration:function(t,e,i){var r=this._styleMap[t];t=r.line,e=r.offset+e,this.styles[t][e]=i},_deleteStyleDeclaration:function(t,e){var i=this._styleMap[t];t=i.line,e=i.offset+e,delete this.styles[t][e]},_getLineStyle:function(t){var e=this._styleMap[t];return this.styles[e.line]},_setLineStyle:function(t,e){var i=this._styleMap[t];this.styles[i.line]=e},_deleteLineStyle:function(t){var e=this._styleMap[t];delete this.styles[e.line]},_wrapText:function(t,e){var i,r=[];for(this.isWrapping=!0,i=0;i<t.length;i++)r=r.concat(this._wrapLine(t[i],i,e));return this.isWrapping=!1,r},_measureWord:function(t,e,i){var r,n=0;i=i||0;for(var s=0,o=t.length;s<o;s++){n+=this._getGraphemeBox(t[s],e,s+i,r,!0).kernedWidth,r=t[s]}return n},_wrapLine:function(t,i,r){for(var n=0,s=[],o=[],a=t.split(this._reSpaceAndTab),h="",c=0,l=0,u=0,f=0,d=!0,g=this._getWidthOfCharSpacing(),p=0;p<a.length;p++)h=e.util.string.graphemeSplit(a[p]),l=this._measureWord(h,i,c),c+=h.length,(n+=u+l-g)>=r&&!d&&(s.push(o),o=[],n=l,d=!0),d||o.push(" "),o=o.concat(h),u=this._measureWord([" "],i,c),c++,d=!1,l>f&&(f=l);return p&&s.push(o),f>this.dynamicMinWidth&&(this.dynamicMinWidth=f-g),s},isEndOfWrapping:function(t){return!this._styleMap[t+1]||this._styleMap[t+1].line!==this._styleMap[t].line},_splitTextIntoLines:function(t){for(var i=e.Text.prototype._splitTextIntoLines.call(this,t),r=this._wrapText(i.lines,this.width),n=new Array(r.length),s=0;s<r.length;s++)n[s]=r[s].join("");return i.lines=n,i.graphemeLines=r,i},getMinWidth:function(){return Math.max(this.minWidth,this.dynamicMinWidth)},toObject:function(t){return this.callSuper("toObject",["minWidth"].concat(t))}}),e.Textbox.fromObject=function(t,i){return e.Object._fromObject("Textbox",t,i,"text")}}(e),x=b.Canvas.prototype._setObjectScale,b.Canvas.prototype._setObjectScale=function(t,e,i,r,n,s,o){var a=e.target;if(!("x"===n&&a instanceof b.Textbox))return x.call(b.Canvas.prototype,t,e,i,r,n,s,o);var h=a._getTransformedDimensions().x,c=a.width*(t.x/h);return c>=a.getMinWidth()?(a.set("width",c),!0):void 0},b.util.object.extend(b.Textbox.prototype,{_removeExtraneousStyles:function(){for(var t in this._styleMap)this._textLines[t]||delete this.styles[this._styleMap[t].line]}}),void 0===(n=function(){return b}.apply(e,[]))||(t.exports=n)}).call(e,i(629).Buffer)},629:function(t,e,i){"use strict";(function(t){
-/*!
+ 
+webpackJsonp([2],{
+
+/***/ 585:
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(Buffer) {var fabric = fabric || {
+    version: "2.2.3"
+};
+
+if (true) {
+    exports.fabric = fabric;
+} else if (typeof define === "function" && define.amd) {
+    define([], function() {
+        return fabric;
+    });
+}
+
+if (typeof document !== "undefined" && typeof window !== "undefined") {
+    fabric.document = document;
+    fabric.window = window;
+} else {
+    fabric.document = __webpack_require__(596).jsdom(decodeURIComponent("%3C!DOCTYPE%20html%3E%3Chtml%3E%3Chead%3E%3C%2Fhead%3E%3Cbody%3E%3C%2Fbody%3E%3C%2Fhtml%3E"), {
+        features: {
+            FetchExternalResources: [ "img" ]
+        }
+    });
+    fabric.jsdomImplForWrapper = __webpack_require__(597).implForWrapper;
+    fabric.nodeCanvas = __webpack_require__(598).Canvas;
+    fabric.window = fabric.document.defaultView;
+    DOMParser = __webpack_require__(599).DOMParser;
+}
+
+fabric.isTouchSupported = "ontouchstart" in fabric.window;
+
+fabric.isLikelyNode = typeof Buffer !== "undefined" && typeof window === "undefined";
+
+fabric.SHARED_ATTRIBUTES = [ "display", "transform", "fill", "fill-opacity", "fill-rule", "opacity", "stroke", "stroke-dasharray", "stroke-linecap", "stroke-linejoin", "stroke-miterlimit", "stroke-opacity", "stroke-width", "id", "paint-order", "instantiated_by_use" ];
+
+fabric.DPI = 96;
+
+fabric.reNum = "(?:[-+]?(?:\\d+|\\d*\\.\\d+)(?:e[-+]?\\d+)?)";
+
+fabric.fontPaths = {};
+
+fabric.iMatrix = [ 1, 0, 0, 1, 0, 0 ];
+
+fabric.canvasModule = "canvas";
+
+fabric.perfLimitSizeTotal = 2097152;
+
+fabric.maxCacheSideLimit = 4096;
+
+fabric.minCacheSideLimit = 256;
+
+fabric.charWidthsCache = {};
+
+fabric.textureSize = 2048;
+
+fabric.enableGLFiltering = true;
+
+fabric.devicePixelRatio = fabric.window.devicePixelRatio || fabric.window.webkitDevicePixelRatio || fabric.window.mozDevicePixelRatio || 1;
+
+fabric.browserShadowBlurConstant = 1;
+
+fabric.initFilterBackend = function() {
+    if (fabric.enableGLFiltering && fabric.isWebglSupported && fabric.isWebglSupported(fabric.textureSize)) {
+        console.log("max texture size: " + fabric.maxTextureSize);
+        return new fabric.WebglFilterBackend({
+            tileSize: fabric.textureSize
+        });
+    } else if (fabric.Canvas2dFilterBackend) {
+        return new fabric.Canvas2dFilterBackend();
+    }
+};
+
+if (typeof document !== "undefined" && typeof window !== "undefined") {
+    window.fabric = fabric;
+}
+
+(function() {
+    function _removeEventListener(eventName, handler) {
+        if (!this.__eventListeners[eventName]) {
+            return;
+        }
+        var eventListener = this.__eventListeners[eventName];
+        if (handler) {
+            eventListener[eventListener.indexOf(handler)] = false;
+        } else {
+            fabric.util.array.fill(eventListener, false);
+        }
+    }
+    function observe(eventName, handler) {
+        if (!this.__eventListeners) {
+            this.__eventListeners = {};
+        }
+        if (arguments.length === 1) {
+            for (var prop in eventName) {
+                this.on(prop, eventName[prop]);
+            }
+        } else {
+            if (!this.__eventListeners[eventName]) {
+                this.__eventListeners[eventName] = [];
+            }
+            this.__eventListeners[eventName].push(handler);
+        }
+        return this;
+    }
+    function stopObserving(eventName, handler) {
+        if (!this.__eventListeners) {
+            return;
+        }
+        if (arguments.length === 0) {
+            for (eventName in this.__eventListeners) {
+                _removeEventListener.call(this, eventName);
+            }
+        } else if (arguments.length === 1 && typeof arguments[0] === "object") {
+            for (var prop in eventName) {
+                _removeEventListener.call(this, prop, eventName[prop]);
+            }
+        } else {
+            _removeEventListener.call(this, eventName, handler);
+        }
+        return this;
+    }
+    function fire(eventName, options) {
+        if (!this.__eventListeners) {
+            return;
+        }
+        var listenersForEvent = this.__eventListeners[eventName];
+        if (!listenersForEvent) {
+            return;
+        }
+        for (var i = 0, len = listenersForEvent.length; i < len; i++) {
+            listenersForEvent[i] && listenersForEvent[i].call(this, options || {});
+        }
+        this.__eventListeners[eventName] = listenersForEvent.filter(function(value) {
+            return value !== false;
+        });
+        return this;
+    }
+    fabric.Observable = {
+        observe: observe,
+        stopObserving: stopObserving,
+        fire: fire,
+        on: observe,
+        off: stopObserving,
+        trigger: fire
+    };
+})();
+
+fabric.Collection = {
+    _objects: [],
+    add: function() {
+        this._objects.push.apply(this._objects, arguments);
+        if (this._onObjectAdded) {
+            for (var i = 0, length = arguments.length; i < length; i++) {
+                this._onObjectAdded(arguments[i]);
+            }
+        }
+        this.renderOnAddRemove && this.requestRenderAll();
+        return this;
+    },
+    insertAt: function(object, index, nonSplicing) {
+        var objects = this.getObjects();
+        if (nonSplicing) {
+            objects[index] = object;
+        } else {
+            objects.splice(index, 0, object);
+        }
+        this._onObjectAdded && this._onObjectAdded(object);
+        this.renderOnAddRemove && this.requestRenderAll();
+        return this;
+    },
+    remove: function() {
+        var objects = this.getObjects(), index, somethingRemoved = false;
+        for (var i = 0, length = arguments.length; i < length; i++) {
+            index = objects.indexOf(arguments[i]);
+            if (index !== -1) {
+                somethingRemoved = true;
+                objects.splice(index, 1);
+                this._onObjectRemoved && this._onObjectRemoved(arguments[i]);
+            }
+        }
+        this.renderOnAddRemove && somethingRemoved && this.requestRenderAll();
+        return this;
+    },
+    forEachObject: function(callback, context) {
+        var objects = this.getObjects();
+        for (var i = 0, len = objects.length; i < len; i++) {
+            callback.call(context, objects[i], i, objects);
+        }
+        return this;
+    },
+    getObjects: function(type) {
+        if (typeof type === "undefined") {
+            return this._objects;
+        }
+        return this._objects.filter(function(o) {
+            return o.type === type;
+        });
+    },
+    item: function(index) {
+        return this.getObjects()[index];
+    },
+    isEmpty: function() {
+        return this.getObjects().length === 0;
+    },
+    size: function() {
+        return this.getObjects().length;
+    },
+    contains: function(object) {
+        return this.getObjects().indexOf(object) > -1;
+    },
+    complexity: function() {
+        return this.getObjects().reduce(function(memo, current) {
+            memo += current.complexity ? current.complexity() : 0;
+            return memo;
+        }, 0);
+    }
+};
+
+fabric.CommonMethods = {
+    _setOptions: function(options) {
+        for (var prop in options) {
+            this.set(prop, options[prop]);
+        }
+    },
+    _initGradient: function(filler, property) {
+        if (filler && filler.colorStops && !(filler instanceof fabric.Gradient)) {
+            this.set(property, new fabric.Gradient(filler));
+        }
+    },
+    _initPattern: function(filler, property, callback) {
+        if (filler && filler.source && !(filler instanceof fabric.Pattern)) {
+            this.set(property, new fabric.Pattern(filler, callback));
+        } else {
+            callback && callback();
+        }
+    },
+    _initClipping: function(options) {
+        if (!options.clipTo || typeof options.clipTo !== "string") {
+            return;
+        }
+        var functionBody = fabric.util.getFunctionBody(options.clipTo);
+        if (typeof functionBody !== "undefined") {
+            this.clipTo = new Function("ctx", functionBody);
+        }
+    },
+    _setObject: function(obj) {
+        for (var prop in obj) {
+            this._set(prop, obj[prop]);
+        }
+    },
+    set: function(key, value) {
+        if (typeof key === "object") {
+            this._setObject(key);
+        } else {
+            if (typeof value === "function" && key !== "clipTo") {
+                this._set(key, value(this.get(key)));
+            } else {
+                this._set(key, value);
+            }
+        }
+        return this;
+    },
+    _set: function(key, value) {
+        this[key] = value;
+    },
+    toggle: function(property) {
+        var value = this.get(property);
+        if (typeof value === "boolean") {
+            this.set(property, !value);
+        }
+        return this;
+    },
+    get: function(property) {
+        return this[property];
+    }
+};
+
+(function(global) {
+    var sqrt = Math.sqrt, atan2 = Math.atan2, pow = Math.pow, abs = Math.abs, PiBy180 = Math.PI / 180, PiBy2 = Math.PI / 2;
+    fabric.util = {
+        cos: function(angle) {
+            if (angle === 0) {
+                return 1;
+            }
+            if (angle < 0) {
+                angle = -angle;
+            }
+            var angleSlice = angle / PiBy2;
+            switch (angleSlice) {
+              case 1:
+              case 3:
+                return 0;
+
+              case 2:
+                return -1;
+            }
+            return Math.cos(angle);
+        },
+        sin: function(angle) {
+            if (angle === 0) {
+                return 0;
+            }
+            var angleSlice = angle / PiBy2, sign = 1;
+            if (angle < 0) {
+                sign = -1;
+            }
+            switch (angleSlice) {
+              case 1:
+                return sign;
+
+              case 2:
+                return 0;
+
+              case 3:
+                return -sign;
+            }
+            return Math.sin(angle);
+        },
+        removeFromArray: function(array, value) {
+            var idx = array.indexOf(value);
+            if (idx !== -1) {
+                array.splice(idx, 1);
+            }
+            return array;
+        },
+        getRandomInt: function(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        },
+        degreesToRadians: function(degrees) {
+            return degrees * PiBy180;
+        },
+        radiansToDegrees: function(radians) {
+            return radians / PiBy180;
+        },
+        rotatePoint: function(point, origin, radians) {
+            point.subtractEquals(origin);
+            var v = fabric.util.rotateVector(point, radians);
+            return new fabric.Point(v.x, v.y).addEquals(origin);
+        },
+        rotateVector: function(vector, radians) {
+            var sin = fabric.util.sin(radians), cos = fabric.util.cos(radians), rx = vector.x * cos - vector.y * sin, ry = vector.x * sin + vector.y * cos;
+            return {
+                x: rx,
+                y: ry
+            };
+        },
+        transformPoint: function(p, t, ignoreOffset) {
+            if (ignoreOffset) {
+                return new fabric.Point(t[0] * p.x + t[2] * p.y, t[1] * p.x + t[3] * p.y);
+            }
+            return new fabric.Point(t[0] * p.x + t[2] * p.y + t[4], t[1] * p.x + t[3] * p.y + t[5]);
+        },
+        makeBoundingBoxFromPoints: function(points) {
+            var xPoints = [ points[0].x, points[1].x, points[2].x, points[3].x ], minX = fabric.util.array.min(xPoints), maxX = fabric.util.array.max(xPoints), width = maxX - minX, yPoints = [ points[0].y, points[1].y, points[2].y, points[3].y ], minY = fabric.util.array.min(yPoints), maxY = fabric.util.array.max(yPoints), height = maxY - minY;
+            return {
+                left: minX,
+                top: minY,
+                width: width,
+                height: height
+            };
+        },
+        invertTransform: function(t) {
+            var a = 1 / (t[0] * t[3] - t[1] * t[2]), r = [ a * t[3], -a * t[1], -a * t[2], a * t[0] ], o = fabric.util.transformPoint({
+                x: t[4],
+                y: t[5]
+            }, r, true);
+            r[4] = -o.x;
+            r[5] = -o.y;
+            return r;
+        },
+        toFixed: function(number, fractionDigits) {
+            return parseFloat(Number(number).toFixed(fractionDigits));
+        },
+        parseUnit: function(value, fontSize) {
+            var unit = /\D{0,2}$/.exec(value), number = parseFloat(value);
+            if (!fontSize) {
+                fontSize = fabric.Text.DEFAULT_SVG_FONT_SIZE;
+            }
+            switch (unit[0]) {
+              case "mm":
+                return number * fabric.DPI / 25.4;
+
+              case "cm":
+                return number * fabric.DPI / 2.54;
+
+              case "in":
+                return number * fabric.DPI;
+
+              case "pt":
+                return number * fabric.DPI / 72;
+
+              case "pc":
+                return number * fabric.DPI / 72 * 12;
+
+              case "em":
+                return number * fontSize;
+
+              default:
+                return number;
+            }
+        },
+        falseFunction: function() {
+            return false;
+        },
+        getKlass: function(type, namespace) {
+            type = fabric.util.string.camelize(type.charAt(0).toUpperCase() + type.slice(1));
+            return fabric.util.resolveNamespace(namespace)[type];
+        },
+        getSvgAttributes: function(type) {
+            var attributes = [ "instantiated_by_use", "style", "id", "class" ];
+            switch (type) {
+              case "linearGradient":
+                attributes = attributes.concat([ "x1", "y1", "x2", "y2", "gradientUnits", "gradientTransform" ]);
+                break;
+
+              case "radialGradient":
+                attributes = attributes.concat([ "gradientUnits", "gradientTransform", "cx", "cy", "r", "fx", "fy", "fr" ]);
+                break;
+
+              case "stop":
+                attributes = attributes.concat([ "offset", "stop-color", "stop-opacity" ]);
+                break;
+            }
+            return attributes;
+        },
+        resolveNamespace: function(namespace) {
+            if (!namespace) {
+                return fabric;
+            }
+            var parts = namespace.split("."), len = parts.length, i, obj = global || fabric.window;
+            for (i = 0; i < len; ++i) {
+                obj = obj[parts[i]];
+            }
+            return obj;
+        },
+        loadImage: function(url, callback, context, crossOrigin) {
+            if (!url) {
+                callback && callback.call(context, url);
+                return;
+            }
+            var img = fabric.util.createImage();
+            var onLoadCallback = function() {
+                callback && callback.call(context, img);
+                img = img.onload = img.onerror = null;
+            };
+            img.onload = onLoadCallback;
+            img.onerror = function() {
+                fabric.log("Error loading " + img.src);
+                callback && callback.call(context, null, true);
+                img = img.onload = img.onerror = null;
+            };
+            if (url.indexOf("data") !== 0 && crossOrigin) {
+                img.crossOrigin = crossOrigin;
+            }
+            if (url.substring(0, 14) === "data:image/svg") {
+                img.onload = null;
+                fabric.util.loadImageInDom(img, onLoadCallback);
+            }
+            img.src = url;
+        },
+        loadImageInDom: function(img, onLoadCallback) {
+            var div = fabric.document.createElement("div");
+            div.style.width = div.style.height = "1px";
+            div.style.left = div.style.top = "-100%";
+            div.style.position = "absolute";
+            div.appendChild(img);
+            fabric.document.querySelector("body").appendChild(div);
+            img.onload = function() {
+                onLoadCallback();
+                div.parentNode.removeChild(div);
+                div = null;
+            };
+        },
+        enlivenObjects: function(objects, callback, namespace, reviver) {
+            objects = objects || [];
+            function onLoaded() {
+                if (++numLoadedObjects === numTotalObjects) {
+                    callback && callback(enlivenedObjects);
+                }
+            }
+            var enlivenedObjects = [], numLoadedObjects = 0, numTotalObjects = objects.length;
+            if (!numTotalObjects) {
+                callback && callback(enlivenedObjects);
+                return;
+            }
+            objects.forEach(function(o, index) {
+                if (!o || !o.type) {
+                    onLoaded();
+                    return;
+                }
+                var klass = fabric.util.getKlass(o.type, namespace);
+                klass.fromObject(o, function(obj, error) {
+                    error || (enlivenedObjects[index] = obj);
+                    reviver && reviver(o, obj, error);
+                    onLoaded();
+                });
+            });
+        },
+        enlivenPatterns: function(patterns, callback) {
+            patterns = patterns || [];
+            function onLoaded() {
+                if (++numLoadedPatterns === numPatterns) {
+                    callback && callback(enlivenedPatterns);
+                }
+            }
+            var enlivenedPatterns = [], numLoadedPatterns = 0, numPatterns = patterns.length;
+            if (!numPatterns) {
+                callback && callback(enlivenedPatterns);
+                return;
+            }
+            patterns.forEach(function(p, index) {
+                if (p && p.source) {
+                    new fabric.Pattern(p, function(pattern) {
+                        enlivenedPatterns[index] = pattern;
+                        onLoaded();
+                    });
+                } else {
+                    enlivenedPatterns[index] = p;
+                    onLoaded();
+                }
+            });
+        },
+        groupSVGElements: function(elements, options, path) {
+            var object;
+            if (elements.length === 1) {
+                return elements[0];
+            }
+            if (options) {
+                if (options.width && options.height) {
+                    options.centerPoint = {
+                        x: options.width / 2,
+                        y: options.height / 2
+                    };
+                } else {
+                    delete options.width;
+                    delete options.height;
+                }
+            }
+            object = new fabric.Group(elements, options);
+            if (typeof path !== "undefined") {
+                object.sourcePath = path;
+            }
+            return object;
+        },
+        populateWithProperties: function(source, destination, properties) {
+            if (properties && Object.prototype.toString.call(properties) === "[object Array]") {
+                for (var i = 0, len = properties.length; i < len; i++) {
+                    if (properties[i] in source) {
+                        destination[properties[i]] = source[properties[i]];
+                    }
+                }
+            }
+        },
+        drawDashedLine: function(ctx, x, y, x2, y2, da) {
+            var dx = x2 - x, dy = y2 - y, len = sqrt(dx * dx + dy * dy), rot = atan2(dy, dx), dc = da.length, di = 0, draw = true;
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.moveTo(0, 0);
+            ctx.rotate(rot);
+            x = 0;
+            while (len > x) {
+                x += da[di++ % dc];
+                if (x > len) {
+                    x = len;
+                }
+                ctx[draw ? "lineTo" : "moveTo"](x, 0);
+                draw = !draw;
+            }
+            ctx.restore();
+        },
+        createCanvasElement: function() {
+            return fabric.document.createElement("canvas");
+        },
+        createImage: function() {
+            return fabric.document.createElement("img");
+        },
+        clipContext: function(receiver, ctx) {
+            ctx.save();
+            ctx.beginPath();
+            receiver.clipTo(ctx);
+            ctx.clip();
+        },
+        multiplyTransformMatrices: function(a, b, is2x2) {
+            return [ a[0] * b[0] + a[2] * b[1], a[1] * b[0] + a[3] * b[1], a[0] * b[2] + a[2] * b[3], a[1] * b[2] + a[3] * b[3], is2x2 ? 0 : a[0] * b[4] + a[2] * b[5] + a[4], is2x2 ? 0 : a[1] * b[4] + a[3] * b[5] + a[5] ];
+        },
+        qrDecompose: function(a) {
+            var angle = atan2(a[1], a[0]), denom = pow(a[0], 2) + pow(a[1], 2), scaleX = sqrt(denom), scaleY = (a[0] * a[3] - a[2] * a[1]) / scaleX, skewX = atan2(a[0] * a[2] + a[1] * a[3], denom);
+            return {
+                angle: angle / PiBy180,
+                scaleX: scaleX,
+                scaleY: scaleY,
+                skewX: skewX / PiBy180,
+                skewY: 0,
+                translateX: a[4],
+                translateY: a[5]
+            };
+        },
+        customTransformMatrix: function(scaleX, scaleY, skewX) {
+            var skewMatrixX = [ 1, 0, abs(Math.tan(skewX * PiBy180)), 1 ], scaleMatrix = [ abs(scaleX), 0, 0, abs(scaleY) ];
+            return fabric.util.multiplyTransformMatrices(scaleMatrix, skewMatrixX, true);
+        },
+        resetObjectTransform: function(target) {
+            target.scaleX = 1;
+            target.scaleY = 1;
+            target.skewX = 0;
+            target.skewY = 0;
+            target.flipX = false;
+            target.flipY = false;
+            target.rotate(0);
+        },
+        getFunctionBody: function(fn) {
+            return (String(fn).match(/function[^{]*\{([\s\S]*)\}/) || {})[1];
+        },
+        isTransparent: function(ctx, x, y, tolerance) {
+            if (tolerance > 0) {
+                if (x > tolerance) {
+                    x -= tolerance;
+                } else {
+                    x = 0;
+                }
+                if (y > tolerance) {
+                    y -= tolerance;
+                } else {
+                    y = 0;
+                }
+            }
+            var _isTransparent = true, i, temp, imageData = ctx.getImageData(x, y, tolerance * 2 || 1, tolerance * 2 || 1), l = imageData.data.length;
+            for (i = 3; i < l; i += 4) {
+                temp = imageData.data[i];
+                _isTransparent = temp <= 0;
+                if (_isTransparent === false) {
+                    break;
+                }
+            }
+            imageData = null;
+            return _isTransparent;
+        },
+        parsePreserveAspectRatioAttribute: function(attribute) {
+            var meetOrSlice = "meet", alignX = "Mid", alignY = "Mid", aspectRatioAttrs = attribute.split(" "), align;
+            if (aspectRatioAttrs && aspectRatioAttrs.length) {
+                meetOrSlice = aspectRatioAttrs.pop();
+                if (meetOrSlice !== "meet" && meetOrSlice !== "slice") {
+                    align = meetOrSlice;
+                    meetOrSlice = "meet";
+                } else if (aspectRatioAttrs.length) {
+                    align = aspectRatioAttrs.pop();
+                }
+            }
+            alignX = align !== "none" ? align.slice(1, 4) : "none";
+            alignY = align !== "none" ? align.slice(5, 8) : "none";
+            return {
+                meetOrSlice: meetOrSlice,
+                alignX: alignX,
+                alignY: alignY
+            };
+        },
+        clearFabricFontCache: function(fontFamily) {
+            if (!fontFamily) {
+                fabric.charWidthsCache = {};
+            } else if (fabric.charWidthsCache[fontFamily]) {
+                delete fabric.charWidthsCache[fontFamily];
+            }
+        },
+        limitDimsByArea: function(ar, maximumArea) {
+            var roughWidth = Math.sqrt(maximumArea * ar), perfLimitSizeY = Math.floor(maximumArea / roughWidth);
+            return {
+                x: Math.floor(roughWidth),
+                y: perfLimitSizeY
+            };
+        },
+        capValue: function(min, value, max) {
+            return Math.max(min, Math.min(value, max));
+        },
+        findScaleToFit: function(source, destination) {
+            return Math.min(destination.width / source.width, destination.height / source.height);
+        },
+        findScaleToCover: function(source, destination) {
+            return Math.max(destination.width / source.width, destination.height / source.height);
+        }
+    };
+})( true ? exports : this);
+
+(function() {
+    var arcToSegmentsCache = {}, segmentToBezierCache = {}, boundsOfCurveCache = {}, _join = Array.prototype.join;
+    function arcToSegments(toX, toY, rx, ry, large, sweep, rotateX) {
+        var argsString = _join.call(arguments);
+        if (arcToSegmentsCache[argsString]) {
+            return arcToSegmentsCache[argsString];
+        }
+        var PI = Math.PI, th = rotateX * PI / 180, sinTh = fabric.util.sin(th), cosTh = fabric.util.cos(th), fromX = 0, fromY = 0;
+        rx = Math.abs(rx);
+        ry = Math.abs(ry);
+        var px = -cosTh * toX * .5 - sinTh * toY * .5, py = -cosTh * toY * .5 + sinTh * toX * .5, rx2 = rx * rx, ry2 = ry * ry, py2 = py * py, px2 = px * px, pl = rx2 * ry2 - rx2 * py2 - ry2 * px2, root = 0;
+        if (pl < 0) {
+            var s = Math.sqrt(1 - pl / (rx2 * ry2));
+            rx *= s;
+            ry *= s;
+        } else {
+            root = (large === sweep ? -1 : 1) * Math.sqrt(pl / (rx2 * py2 + ry2 * px2));
+        }
+        var cx = root * rx * py / ry, cy = -root * ry * px / rx, cx1 = cosTh * cx - sinTh * cy + toX * .5, cy1 = sinTh * cx + cosTh * cy + toY * .5, mTheta = calcVectorAngle(1, 0, (px - cx) / rx, (py - cy) / ry), dtheta = calcVectorAngle((px - cx) / rx, (py - cy) / ry, (-px - cx) / rx, (-py - cy) / ry);
+        if (sweep === 0 && dtheta > 0) {
+            dtheta -= 2 * PI;
+        } else if (sweep === 1 && dtheta < 0) {
+            dtheta += 2 * PI;
+        }
+        var segments = Math.ceil(Math.abs(dtheta / PI * 2)), result = [], mDelta = dtheta / segments, mT = 8 / 3 * Math.sin(mDelta / 4) * Math.sin(mDelta / 4) / Math.sin(mDelta / 2), th3 = mTheta + mDelta;
+        for (var i = 0; i < segments; i++) {
+            result[i] = segmentToBezier(mTheta, th3, cosTh, sinTh, rx, ry, cx1, cy1, mT, fromX, fromY);
+            fromX = result[i][4];
+            fromY = result[i][5];
+            mTheta = th3;
+            th3 += mDelta;
+        }
+        arcToSegmentsCache[argsString] = result;
+        return result;
+    }
+    function segmentToBezier(th2, th3, cosTh, sinTh, rx, ry, cx1, cy1, mT, fromX, fromY) {
+        var argsString2 = _join.call(arguments);
+        if (segmentToBezierCache[argsString2]) {
+            return segmentToBezierCache[argsString2];
+        }
+        var costh2 = fabric.util.cos(th2), sinth2 = fabric.util.sin(th2), costh3 = fabric.util.cos(th3), sinth3 = fabric.util.sin(th3), toX = cosTh * rx * costh3 - sinTh * ry * sinth3 + cx1, toY = sinTh * rx * costh3 + cosTh * ry * sinth3 + cy1, cp1X = fromX + mT * (-cosTh * rx * sinth2 - sinTh * ry * costh2), cp1Y = fromY + mT * (-sinTh * rx * sinth2 + cosTh * ry * costh2), cp2X = toX + mT * (cosTh * rx * sinth3 + sinTh * ry * costh3), cp2Y = toY + mT * (sinTh * rx * sinth3 - cosTh * ry * costh3);
+        segmentToBezierCache[argsString2] = [ cp1X, cp1Y, cp2X, cp2Y, toX, toY ];
+        return segmentToBezierCache[argsString2];
+    }
+    function calcVectorAngle(ux, uy, vx, vy) {
+        var ta = Math.atan2(uy, ux), tb = Math.atan2(vy, vx);
+        if (tb >= ta) {
+            return tb - ta;
+        } else {
+            return 2 * Math.PI - (ta - tb);
+        }
+    }
+    fabric.util.drawArc = function(ctx, fx, fy, coords) {
+        var rx = coords[0], ry = coords[1], rot = coords[2], large = coords[3], sweep = coords[4], tx = coords[5], ty = coords[6], segs = [ [], [], [], [] ], segsNorm = arcToSegments(tx - fx, ty - fy, rx, ry, large, sweep, rot);
+        for (var i = 0, len = segsNorm.length; i < len; i++) {
+            segs[i][0] = segsNorm[i][0] + fx;
+            segs[i][1] = segsNorm[i][1] + fy;
+            segs[i][2] = segsNorm[i][2] + fx;
+            segs[i][3] = segsNorm[i][3] + fy;
+            segs[i][4] = segsNorm[i][4] + fx;
+            segs[i][5] = segsNorm[i][5] + fy;
+            ctx.bezierCurveTo.apply(ctx, segs[i]);
+        }
+    };
+    fabric.util.getBoundsOfArc = function(fx, fy, rx, ry, rot, large, sweep, tx, ty) {
+        var fromX = 0, fromY = 0, bound, bounds = [], segs = arcToSegments(tx - fx, ty - fy, rx, ry, large, sweep, rot);
+        for (var i = 0, len = segs.length; i < len; i++) {
+            bound = getBoundsOfCurve(fromX, fromY, segs[i][0], segs[i][1], segs[i][2], segs[i][3], segs[i][4], segs[i][5]);
+            bounds.push({
+                x: bound[0].x + fx,
+                y: bound[0].y + fy
+            });
+            bounds.push({
+                x: bound[1].x + fx,
+                y: bound[1].y + fy
+            });
+            fromX = segs[i][4];
+            fromY = segs[i][5];
+        }
+        return bounds;
+    };
+    function getBoundsOfCurve(x0, y0, x1, y1, x2, y2, x3, y3) {
+        var argsString = _join.call(arguments);
+        if (boundsOfCurveCache[argsString]) {
+            return boundsOfCurveCache[argsString];
+        }
+        var sqrt = Math.sqrt, min = Math.min, max = Math.max, abs = Math.abs, tvalues = [], bounds = [ [], [] ], a, b, c, t, t1, t2, b2ac, sqrtb2ac;
+        b = 6 * x0 - 12 * x1 + 6 * x2;
+        a = -3 * x0 + 9 * x1 - 9 * x2 + 3 * x3;
+        c = 3 * x1 - 3 * x0;
+        for (var i = 0; i < 2; ++i) {
+            if (i > 0) {
+                b = 6 * y0 - 12 * y1 + 6 * y2;
+                a = -3 * y0 + 9 * y1 - 9 * y2 + 3 * y3;
+                c = 3 * y1 - 3 * y0;
+            }
+            if (abs(a) < 1e-12) {
+                if (abs(b) < 1e-12) {
+                    continue;
+                }
+                t = -c / b;
+                if (0 < t && t < 1) {
+                    tvalues.push(t);
+                }
+                continue;
+            }
+            b2ac = b * b - 4 * c * a;
+            if (b2ac < 0) {
+                continue;
+            }
+            sqrtb2ac = sqrt(b2ac);
+            t1 = (-b + sqrtb2ac) / (2 * a);
+            if (0 < t1 && t1 < 1) {
+                tvalues.push(t1);
+            }
+            t2 = (-b - sqrtb2ac) / (2 * a);
+            if (0 < t2 && t2 < 1) {
+                tvalues.push(t2);
+            }
+        }
+        var x, y, j = tvalues.length, jlen = j, mt;
+        while (j--) {
+            t = tvalues[j];
+            mt = 1 - t;
+            x = mt * mt * mt * x0 + 3 * mt * mt * t * x1 + 3 * mt * t * t * x2 + t * t * t * x3;
+            bounds[0][j] = x;
+            y = mt * mt * mt * y0 + 3 * mt * mt * t * y1 + 3 * mt * t * t * y2 + t * t * t * y3;
+            bounds[1][j] = y;
+        }
+        bounds[0][jlen] = x0;
+        bounds[1][jlen] = y0;
+        bounds[0][jlen + 1] = x3;
+        bounds[1][jlen + 1] = y3;
+        var result = [ {
+            x: min.apply(null, bounds[0]),
+            y: min.apply(null, bounds[1])
+        }, {
+            x: max.apply(null, bounds[0]),
+            y: max.apply(null, bounds[1])
+        } ];
+        boundsOfCurveCache[argsString] = result;
+        return result;
+    }
+    fabric.util.getBoundsOfCurve = getBoundsOfCurve;
+})();
+
+(function() {
+    var slice = Array.prototype.slice;
+    function invoke(array, method) {
+        var args = slice.call(arguments, 2), result = [];
+        for (var i = 0, len = array.length; i < len; i++) {
+            result[i] = args.length ? array[i][method].apply(array[i], args) : array[i][method].call(array[i]);
+        }
+        return result;
+    }
+    function max(array, byProperty) {
+        return find(array, byProperty, function(value1, value2) {
+            return value1 >= value2;
+        });
+    }
+    function min(array, byProperty) {
+        return find(array, byProperty, function(value1, value2) {
+            return value1 < value2;
+        });
+    }
+    function fill(array, value) {
+        var k = array.length;
+        while (k--) {
+            array[k] = value;
+        }
+        return array;
+    }
+    function find(array, byProperty, condition) {
+        if (!array || array.length === 0) {
+            return;
+        }
+        var i = array.length - 1, result = byProperty ? array[i][byProperty] : array[i];
+        if (byProperty) {
+            while (i--) {
+                if (condition(array[i][byProperty], result)) {
+                    result = array[i][byProperty];
+                }
+            }
+        } else {
+            while (i--) {
+                if (condition(array[i], result)) {
+                    result = array[i];
+                }
+            }
+        }
+        return result;
+    }
+    fabric.util.array = {
+        fill: fill,
+        invoke: invoke,
+        min: min,
+        max: max
+    };
+})();
+
+(function() {
+    function extend(destination, source, deep) {
+        if (deep) {
+            if (!fabric.isLikelyNode && source instanceof Element) {
+                destination = source;
+            } else if (source instanceof Array) {
+                destination = [];
+                for (var i = 0, len = source.length; i < len; i++) {
+                    destination[i] = extend({}, source[i], deep);
+                }
+            } else if (source && typeof source === "object") {
+                for (var property in source) {
+                    if (source.hasOwnProperty(property)) {
+                        destination[property] = extend({}, source[property], deep);
+                    }
+                }
+            } else {
+                destination = source;
+            }
+        } else {
+            for (var property in source) {
+                destination[property] = source[property];
+            }
+        }
+        return destination;
+    }
+    function clone(object, deep) {
+        return extend({}, object, deep);
+    }
+    fabric.util.object = {
+        extend: extend,
+        clone: clone
+    };
+    fabric.util.object.extend(fabric.util, fabric.Observable);
+})();
+
+(function() {
+    function camelize(string) {
+        return string.replace(/-+(.)?/g, function(match, character) {
+            return character ? character.toUpperCase() : "";
+        });
+    }
+    function capitalize(string, firstLetterOnly) {
+        return string.charAt(0).toUpperCase() + (firstLetterOnly ? string.slice(1) : string.slice(1).toLowerCase());
+    }
+    function escapeXml(string) {
+        return string.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/'/g, "&apos;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+    function graphemeSplit(textstring) {
+        var i = 0, chr, graphemes = [];
+        for (i = 0, chr; i < textstring.length; i++) {
+            if ((chr = getWholeChar(textstring, i)) === false) {
+                continue;
+            }
+            graphemes.push(chr);
+        }
+        return graphemes;
+    }
+    function getWholeChar(str, i) {
+        var code = str.charCodeAt(i);
+        if (isNaN(code)) {
+            return "";
+        }
+        if (code < 55296 || code > 57343) {
+            return str.charAt(i);
+        }
+        if (55296 <= code && code <= 56319) {
+            if (str.length <= i + 1) {
+                throw "High surrogate without following low surrogate";
+            }
+            var next = str.charCodeAt(i + 1);
+            if (56320 > next || next > 57343) {
+                throw "High surrogate without following low surrogate";
+            }
+            return str.charAt(i) + str.charAt(i + 1);
+        }
+        if (i === 0) {
+            throw "Low surrogate without preceding high surrogate";
+        }
+        var prev = str.charCodeAt(i - 1);
+        if (55296 > prev || prev > 56319) {
+            throw "Low surrogate without preceding high surrogate";
+        }
+        return false;
+    }
+    fabric.util.string = {
+        camelize: camelize,
+        capitalize: capitalize,
+        escapeXml: escapeXml,
+        graphemeSplit: graphemeSplit
+    };
+})();
+
+(function() {
+    var slice = Array.prototype.slice, emptyFunction = function() {}, IS_DONTENUM_BUGGY = function() {
+        for (var p in {
+            toString: 1
+        }) {
+            if (p === "toString") {
+                return false;
+            }
+        }
+        return true;
+    }(), addMethods = function(klass, source, parent) {
+        for (var property in source) {
+            if (property in klass.prototype && typeof klass.prototype[property] === "function" && (source[property] + "").indexOf("callSuper") > -1) {
+                klass.prototype[property] = function(property) {
+                    return function() {
+                        var superclass = this.constructor.superclass;
+                        this.constructor.superclass = parent;
+                        var returnValue = source[property].apply(this, arguments);
+                        this.constructor.superclass = superclass;
+                        if (property !== "initialize") {
+                            return returnValue;
+                        }
+                    };
+                }(property);
+            } else {
+                klass.prototype[property] = source[property];
+            }
+            if (IS_DONTENUM_BUGGY) {
+                if (source.toString !== Object.prototype.toString) {
+                    klass.prototype.toString = source.toString;
+                }
+                if (source.valueOf !== Object.prototype.valueOf) {
+                    klass.prototype.valueOf = source.valueOf;
+                }
+            }
+        }
+    };
+    function Subclass() {}
+    function callSuper(methodName) {
+        var parentMethod = null, _this = this;
+        while (_this.constructor.superclass) {
+            var superClassMethod = _this.constructor.superclass.prototype[methodName];
+            if (_this[methodName] !== superClassMethod) {
+                parentMethod = superClassMethod;
+                break;
+            }
+            _this = _this.constructor.superclass.prototype;
+        }
+        if (!parentMethod) {
+            return console.log("tried to callSuper " + methodName + ", method not found in prototype chain", this);
+        }
+        return arguments.length > 1 ? parentMethod.apply(this, slice.call(arguments, 1)) : parentMethod.call(this);
+    }
+    function createClass() {
+        var parent = null, properties = slice.call(arguments, 0);
+        if (typeof properties[0] === "function") {
+            parent = properties.shift();
+        }
+        function klass() {
+            this.initialize.apply(this, arguments);
+        }
+        klass.superclass = parent;
+        klass.subclasses = [];
+        if (parent) {
+            Subclass.prototype = parent.prototype;
+            klass.prototype = new Subclass();
+            parent.subclasses.push(klass);
+        }
+        for (var i = 0, length = properties.length; i < length; i++) {
+            addMethods(klass, properties[i], parent);
+        }
+        if (!klass.prototype.initialize) {
+            klass.prototype.initialize = emptyFunction;
+        }
+        klass.prototype.constructor = klass;
+        klass.prototype.callSuper = callSuper;
+        return klass;
+    }
+    fabric.util.createClass = createClass;
+})();
+
+(function() {
+    var unknown = "unknown";
+    function areHostMethods(object) {
+        var methodNames = Array.prototype.slice.call(arguments, 1), t, i, len = methodNames.length;
+        for (i = 0; i < len; i++) {
+            t = typeof object[methodNames[i]];
+            if (!/^(?:function|object|unknown)$/.test(t)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    var getElement, setElement, getUniqueId = function() {
+        var uid = 0;
+        return function(element) {
+            return element.__uniqueID || (element.__uniqueID = "uniqueID__" + uid++);
+        };
+    }();
+    (function() {
+        var elements = {};
+        getElement = function(uid) {
+            return elements[uid];
+        };
+        setElement = function(uid, element) {
+            elements[uid] = element;
+        };
+    })();
+    function createListener(uid, handler) {
+        return {
+            handler: handler,
+            wrappedHandler: createWrappedHandler(uid, handler)
+        };
+    }
+    function createWrappedHandler(uid, handler) {
+        return function(e) {
+            handler.call(getElement(uid), e || fabric.window.event);
+        };
+    }
+    function createDispatcher(uid, eventName) {
+        return function(e) {
+            if (handlers[uid] && handlers[uid][eventName]) {
+                var handlersForEvent = handlers[uid][eventName];
+                for (var i = 0, len = handlersForEvent.length; i < len; i++) {
+                    handlersForEvent[i].call(this, e || fabric.window.event);
+                }
+            }
+        };
+    }
+    var shouldUseAddListenerRemoveListener = areHostMethods(fabric.document.documentElement, "addEventListener", "removeEventListener") && areHostMethods(fabric.window, "addEventListener", "removeEventListener"), shouldUseAttachEventDetachEvent = areHostMethods(fabric.document.documentElement, "attachEvent", "detachEvent") && areHostMethods(fabric.window, "attachEvent", "detachEvent"), listeners = {}, handlers = {}, addListener, removeListener;
+    if (shouldUseAddListenerRemoveListener) {
+        addListener = function(element, eventName, handler, options) {
+            element && element.addEventListener(eventName, handler, shouldUseAttachEventDetachEvent ? false : options);
+        };
+        removeListener = function(element, eventName, handler, options) {
+            element && element.removeEventListener(eventName, handler, shouldUseAttachEventDetachEvent ? false : options);
+        };
+    } else if (shouldUseAttachEventDetachEvent) {
+        addListener = function(element, eventName, handler) {
+            if (!element) {
+                return;
+            }
+            var uid = getUniqueId(element);
+            setElement(uid, element);
+            if (!listeners[uid]) {
+                listeners[uid] = {};
+            }
+            if (!listeners[uid][eventName]) {
+                listeners[uid][eventName] = [];
+            }
+            var listener = createListener(uid, handler);
+            listeners[uid][eventName].push(listener);
+            element.attachEvent("on" + eventName, listener.wrappedHandler);
+        };
+        removeListener = function(element, eventName, handler) {
+            if (!element) {
+                return;
+            }
+            var uid = getUniqueId(element), listener;
+            if (listeners[uid] && listeners[uid][eventName]) {
+                for (var i = 0, len = listeners[uid][eventName].length; i < len; i++) {
+                    listener = listeners[uid][eventName][i];
+                    if (listener && listener.handler === handler) {
+                        element.detachEvent("on" + eventName, listener.wrappedHandler);
+                        listeners[uid][eventName][i] = null;
+                    }
+                }
+            }
+        };
+    } else {
+        addListener = function(element, eventName, handler) {
+            if (!element) {
+                return;
+            }
+            var uid = getUniqueId(element);
+            if (!handlers[uid]) {
+                handlers[uid] = {};
+            }
+            if (!handlers[uid][eventName]) {
+                handlers[uid][eventName] = [];
+                var existingHandler = element["on" + eventName];
+                if (existingHandler) {
+                    handlers[uid][eventName].push(existingHandler);
+                }
+                element["on" + eventName] = createDispatcher(uid, eventName);
+            }
+            handlers[uid][eventName].push(handler);
+        };
+        removeListener = function(element, eventName, handler) {
+            if (!element) {
+                return;
+            }
+            var uid = getUniqueId(element);
+            if (handlers[uid] && handlers[uid][eventName]) {
+                var handlersForEvent = handlers[uid][eventName];
+                for (var i = 0, len = handlersForEvent.length; i < len; i++) {
+                    if (handlersForEvent[i] === handler) {
+                        handlersForEvent.splice(i, 1);
+                    }
+                }
+            }
+        };
+    }
+    fabric.util.addListener = addListener;
+    fabric.util.removeListener = removeListener;
+    function getPointer(event) {
+        event || (event = fabric.window.event);
+        var element = event.target || (typeof event.srcElement !== unknown ? event.srcElement : null), scroll = fabric.util.getScrollLeftTop(element);
+        return {
+            x: pointerX(event) + scroll.left,
+            y: pointerY(event) + scroll.top
+        };
+    }
+    var pointerX = function(event) {
+        return event.clientX;
+    }, pointerY = function(event) {
+        return event.clientY;
+    };
+    function _getPointer(event, pageProp, clientProp) {
+        var touchProp = event.type === "touchend" ? "changedTouches" : "touches";
+        return event[touchProp] && event[touchProp][0] ? event[touchProp][0][pageProp] - (event[touchProp][0][pageProp] - event[touchProp][0][clientProp]) || event[clientProp] : event[clientProp];
+    }
+    if (fabric.isTouchSupported) {
+        pointerX = function(event) {
+            return _getPointer(event, "pageX", "clientX");
+        };
+        pointerY = function(event) {
+            return _getPointer(event, "pageY", "clientY");
+        };
+    }
+    fabric.util.getPointer = getPointer;
+})();
+
+(function() {
+    function setStyle(element, styles) {
+        var elementStyle = element.style;
+        if (!elementStyle) {
+            return element;
+        }
+        if (typeof styles === "string") {
+            element.style.cssText += ";" + styles;
+            return styles.indexOf("opacity") > -1 ? setOpacity(element, styles.match(/opacity:\s*(\d?\.?\d*)/)[1]) : element;
+        }
+        for (var property in styles) {
+            if (property === "opacity") {
+                setOpacity(element, styles[property]);
+            } else {
+                var normalizedProperty = property === "float" || property === "cssFloat" ? typeof elementStyle.styleFloat === "undefined" ? "cssFloat" : "styleFloat" : property;
+                elementStyle[normalizedProperty] = styles[property];
+            }
+        }
+        return element;
+    }
+    var parseEl = fabric.document.createElement("div"), supportsOpacity = typeof parseEl.style.opacity === "string", supportsFilters = typeof parseEl.style.filter === "string", reOpacity = /alpha\s*\(\s*opacity\s*=\s*([^\)]+)\)/, setOpacity = function(element) {
+        return element;
+    };
+    if (supportsOpacity) {
+        setOpacity = function(element, value) {
+            element.style.opacity = value;
+            return element;
+        };
+    } else if (supportsFilters) {
+        setOpacity = function(element, value) {
+            var es = element.style;
+            if (element.currentStyle && !element.currentStyle.hasLayout) {
+                es.zoom = 1;
+            }
+            if (reOpacity.test(es.filter)) {
+                value = value >= .9999 ? "" : "alpha(opacity=" + value * 100 + ")";
+                es.filter = es.filter.replace(reOpacity, value);
+            } else {
+                es.filter += " alpha(opacity=" + value * 100 + ")";
+            }
+            return element;
+        };
+    }
+    fabric.util.setStyle = setStyle;
+})();
+
+(function() {
+    var _slice = Array.prototype.slice;
+    function getById(id) {
+        return typeof id === "string" ? fabric.document.getElementById(id) : id;
+    }
+    var sliceCanConvertNodelists, toArray = function(arrayLike) {
+        return _slice.call(arrayLike, 0);
+    };
+    try {
+        sliceCanConvertNodelists = toArray(fabric.document.childNodes) instanceof Array;
+    } catch (err) {}
+    if (!sliceCanConvertNodelists) {
+        toArray = function(arrayLike) {
+            var arr = new Array(arrayLike.length), i = arrayLike.length;
+            while (i--) {
+                arr[i] = arrayLike[i];
+            }
+            return arr;
+        };
+    }
+    function makeElement(tagName, attributes) {
+        var el = fabric.document.createElement(tagName);
+        for (var prop in attributes) {
+            if (prop === "class") {
+                el.className = attributes[prop];
+            } else if (prop === "for") {
+                el.htmlFor = attributes[prop];
+            } else {
+                el.setAttribute(prop, attributes[prop]);
+            }
+        }
+        return el;
+    }
+    function addClass(element, className) {
+        if (element && (" " + element.className + " ").indexOf(" " + className + " ") === -1) {
+            element.className += (element.className ? " " : "") + className;
+        }
+    }
+    function wrapElement(element, wrapper, attributes) {
+        if (typeof wrapper === "string") {
+            wrapper = makeElement(wrapper, attributes);
+        }
+        if (element.parentNode) {
+            element.parentNode.replaceChild(wrapper, element);
+        }
+        wrapper.appendChild(element);
+        return wrapper;
+    }
+    function getScrollLeftTop(element) {
+        var left = 0, top = 0, docElement = fabric.document.documentElement, body = fabric.document.body || {
+            scrollLeft: 0,
+            scrollTop: 0
+        };
+        while (element && (element.parentNode || element.host)) {
+            element = element.parentNode || element.host;
+            if (element === fabric.document) {
+                left = body.scrollLeft || docElement.scrollLeft || 0;
+                top = body.scrollTop || docElement.scrollTop || 0;
+            } else {
+                left += element.scrollLeft || 0;
+                top += element.scrollTop || 0;
+            }
+            if (element.nodeType === 1 && element.style.position === "fixed") {
+                break;
+            }
+        }
+        return {
+            left: left,
+            top: top
+        };
+    }
+    function getElementOffset(element) {
+        var docElem, doc = element && element.ownerDocument, box = {
+            left: 0,
+            top: 0
+        }, offset = {
+            left: 0,
+            top: 0
+        }, scrollLeftTop, offsetAttributes = {
+            borderLeftWidth: "left",
+            borderTopWidth: "top",
+            paddingLeft: "left",
+            paddingTop: "top"
+        };
+        if (!doc) {
+            return offset;
+        }
+        for (var attr in offsetAttributes) {
+            offset[offsetAttributes[attr]] += parseInt(getElementStyle(element, attr), 10) || 0;
+        }
+        docElem = doc.documentElement;
+        if (typeof element.getBoundingClientRect !== "undefined") {
+            box = element.getBoundingClientRect();
+        }
+        scrollLeftTop = getScrollLeftTop(element);
+        return {
+            left: box.left + scrollLeftTop.left - (docElem.clientLeft || 0) + offset.left,
+            top: box.top + scrollLeftTop.top - (docElem.clientTop || 0) + offset.top
+        };
+    }
+    var getElementStyle;
+    if (fabric.document.defaultView && fabric.document.defaultView.getComputedStyle) {
+        getElementStyle = function(element, attr) {
+            var style = fabric.document.defaultView.getComputedStyle(element, null);
+            return style ? style[attr] : undefined;
+        };
+    } else {
+        getElementStyle = function(element, attr) {
+            var value = element.style[attr];
+            if (!value && element.currentStyle) {
+                value = element.currentStyle[attr];
+            }
+            return value;
+        };
+    }
+    (function() {
+        var style = fabric.document.documentElement.style, selectProp = "userSelect" in style ? "userSelect" : "MozUserSelect" in style ? "MozUserSelect" : "WebkitUserSelect" in style ? "WebkitUserSelect" : "KhtmlUserSelect" in style ? "KhtmlUserSelect" : "";
+        function makeElementUnselectable(element) {
+            if (typeof element.onselectstart !== "undefined") {
+                element.onselectstart = fabric.util.falseFunction;
+            }
+            if (selectProp) {
+                element.style[selectProp] = "none";
+            } else if (typeof element.unselectable === "string") {
+                element.unselectable = "on";
+            }
+            return element;
+        }
+        function makeElementSelectable(element) {
+            if (typeof element.onselectstart !== "undefined") {
+                element.onselectstart = null;
+            }
+            if (selectProp) {
+                element.style[selectProp] = "";
+            } else if (typeof element.unselectable === "string") {
+                element.unselectable = "";
+            }
+            return element;
+        }
+        fabric.util.makeElementUnselectable = makeElementUnselectable;
+        fabric.util.makeElementSelectable = makeElementSelectable;
+    })();
+    (function() {
+        function getScript(url, callback) {
+            var headEl = fabric.document.getElementsByTagName("head")[0], scriptEl = fabric.document.createElement("script"), loading = true;
+            scriptEl.onload = scriptEl.onreadystatechange = function(e) {
+                if (loading) {
+                    if (typeof this.readyState === "string" && this.readyState !== "loaded" && this.readyState !== "complete") {
+                        return;
+                    }
+                    loading = false;
+                    callback(e || fabric.window.event);
+                    scriptEl = scriptEl.onload = scriptEl.onreadystatechange = null;
+                }
+            };
+            scriptEl.src = url;
+            headEl.appendChild(scriptEl);
+        }
+        fabric.util.getScript = getScript;
+    })();
+    function getNodeCanvas(element) {
+        var impl = fabric.jsdomImplForWrapper(element);
+        return impl._canvas || impl._image;
+    }
+    fabric.util.getById = getById;
+    fabric.util.toArray = toArray;
+    fabric.util.makeElement = makeElement;
+    fabric.util.addClass = addClass;
+    fabric.util.wrapElement = wrapElement;
+    fabric.util.getScrollLeftTop = getScrollLeftTop;
+    fabric.util.getElementOffset = getElementOffset;
+    fabric.util.getElementStyle = getElementStyle;
+    fabric.util.getNodeCanvas = getNodeCanvas;
+})();
+
+(function() {
+    function addParamToUrl(url, param) {
+        return url + (/\?/.test(url) ? "&" : "?") + param;
+    }
+    var makeXHR = function() {
+        var factories = [ function() {
+            return new ActiveXObject("Microsoft.XMLHTTP");
+        }, function() {
+            return new ActiveXObject("Msxml2.XMLHTTP");
+        }, function() {
+            return new ActiveXObject("Msxml2.XMLHTTP.3.0");
+        }, function() {
+            return new XMLHttpRequest();
+        } ];
+        for (var i = factories.length; i--; ) {
+            try {
+                var req = factories[i]();
+                if (req) {
+                    return factories[i];
+                }
+            } catch (err) {}
+        }
+    }();
+    function emptyFn() {}
+    function request(url, options) {
+        options || (options = {});
+        var method = options.method ? options.method.toUpperCase() : "GET", onComplete = options.onComplete || function() {}, xhr = makeXHR(), body = options.body || options.parameters;
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                onComplete(xhr);
+                xhr.onreadystatechange = emptyFn;
+            }
+        };
+        if (method === "GET") {
+            body = null;
+            if (typeof options.parameters === "string") {
+                url = addParamToUrl(url, options.parameters);
+            }
+        }
+        xhr.open(method, url, true);
+        if (method === "POST" || method === "PUT") {
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        }
+        xhr.send(body);
+        return xhr;
+    }
+    fabric.util.request = request;
+})();
+
+fabric.log = function() {};
+
+fabric.warn = function() {};
+
+if (typeof console !== "undefined") {
+    [ "log", "warn" ].forEach(function(methodName) {
+        if (typeof console[methodName] !== "undefined" && typeof console[methodName].apply === "function") {
+            fabric[methodName] = function() {
+                return console[methodName].apply(console, arguments);
+            };
+        }
+    });
+}
+
+(function() {
+    function noop() {
+        return false;
+    }
+    function animate(options) {
+        requestAnimFrame(function(timestamp) {
+            options || (options = {});
+            var start = timestamp || +new Date(), duration = options.duration || 500, finish = start + duration, time, onChange = options.onChange || noop, abort = options.abort || noop, onComplete = options.onComplete || noop, easing = options.easing || function(t, b, c, d) {
+                return -c * Math.cos(t / d * (Math.PI / 2)) + c + b;
+            }, startValue = "startValue" in options ? options.startValue : 0, endValue = "endValue" in options ? options.endValue : 100, byValue = options.byValue || endValue - startValue;
+            options.onStart && options.onStart();
+            (function tick(ticktime) {
+                if (abort()) {
+                    onComplete(endValue, 1, 1);
+                    return;
+                }
+                time = ticktime || +new Date();
+                var currentTime = time > finish ? duration : time - start, timePerc = currentTime / duration, current = easing(currentTime, startValue, byValue, duration), valuePerc = Math.abs((current - startValue) / byValue);
+                onChange(current, valuePerc, timePerc);
+                if (time > finish) {
+                    options.onComplete && options.onComplete();
+                    return;
+                }
+                requestAnimFrame(tick);
+            })(start);
+        });
+    }
+    var _requestAnimFrame = fabric.window.requestAnimationFrame || fabric.window.webkitRequestAnimationFrame || fabric.window.mozRequestAnimationFrame || fabric.window.oRequestAnimationFrame || fabric.window.msRequestAnimationFrame || function(callback) {
+        return fabric.window.setTimeout(callback, 1e3 / 60);
+    };
+    var _cancelAnimFrame = fabric.window.cancelAnimationFrame || fabric.window.clearTimeout;
+    function requestAnimFrame() {
+        return _requestAnimFrame.apply(fabric.window, arguments);
+    }
+    function cancelAnimFrame() {
+        return _cancelAnimFrame.apply(fabric.window, arguments);
+    }
+    fabric.util.animate = animate;
+    fabric.util.requestAnimFrame = requestAnimFrame;
+    fabric.util.cancelAnimFrame = cancelAnimFrame;
+})();
+
+(function() {
+    function calculateColor(begin, end, pos) {
+        var color = "rgba(" + parseInt(begin[0] + pos * (end[0] - begin[0]), 10) + "," + parseInt(begin[1] + pos * (end[1] - begin[1]), 10) + "," + parseInt(begin[2] + pos * (end[2] - begin[2]), 10);
+        color += "," + (begin && end ? parseFloat(begin[3] + pos * (end[3] - begin[3])) : 1);
+        color += ")";
+        return color;
+    }
+    function animateColor(fromColor, toColor, duration, options) {
+        var startColor = new fabric.Color(fromColor).getSource(), endColor = new fabric.Color(toColor).getSource();
+        options = options || {};
+        fabric.util.animate(fabric.util.object.extend(options, {
+            duration: duration || 500,
+            startValue: startColor,
+            endValue: endColor,
+            byValue: endColor,
+            easing: function(currentTime, startValue, byValue, duration) {
+                var posValue = options.colorEasing ? options.colorEasing(currentTime, duration) : 1 - Math.cos(currentTime / duration * (Math.PI / 2));
+                return calculateColor(startValue, byValue, posValue);
+            }
+        }));
+    }
+    fabric.util.animateColor = animateColor;
+})();
+
+(function() {
+    function normalize(a, c, p, s) {
+        if (a < Math.abs(c)) {
+            a = c;
+            s = p / 4;
+        } else {
+            if (c === 0 && a === 0) {
+                s = p / (2 * Math.PI) * Math.asin(1);
+            } else {
+                s = p / (2 * Math.PI) * Math.asin(c / a);
+            }
+        }
+        return {
+            a: a,
+            c: c,
+            p: p,
+            s: s
+        };
+    }
+    function elastic(opts, t, d) {
+        return opts.a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - opts.s) * (2 * Math.PI) / opts.p);
+    }
+    function easeOutCubic(t, b, c, d) {
+        return c * ((t = t / d - 1) * t * t + 1) + b;
+    }
+    function easeInOutCubic(t, b, c, d) {
+        t /= d / 2;
+        if (t < 1) {
+            return c / 2 * t * t * t + b;
+        }
+        return c / 2 * ((t -= 2) * t * t + 2) + b;
+    }
+    function easeInQuart(t, b, c, d) {
+        return c * (t /= d) * t * t * t + b;
+    }
+    function easeOutQuart(t, b, c, d) {
+        return -c * ((t = t / d - 1) * t * t * t - 1) + b;
+    }
+    function easeInOutQuart(t, b, c, d) {
+        t /= d / 2;
+        if (t < 1) {
+            return c / 2 * t * t * t * t + b;
+        }
+        return -c / 2 * ((t -= 2) * t * t * t - 2) + b;
+    }
+    function easeInQuint(t, b, c, d) {
+        return c * (t /= d) * t * t * t * t + b;
+    }
+    function easeOutQuint(t, b, c, d) {
+        return c * ((t = t / d - 1) * t * t * t * t + 1) + b;
+    }
+    function easeInOutQuint(t, b, c, d) {
+        t /= d / 2;
+        if (t < 1) {
+            return c / 2 * t * t * t * t * t + b;
+        }
+        return c / 2 * ((t -= 2) * t * t * t * t + 2) + b;
+    }
+    function easeInSine(t, b, c, d) {
+        return -c * Math.cos(t / d * (Math.PI / 2)) + c + b;
+    }
+    function easeOutSine(t, b, c, d) {
+        return c * Math.sin(t / d * (Math.PI / 2)) + b;
+    }
+    function easeInOutSine(t, b, c, d) {
+        return -c / 2 * (Math.cos(Math.PI * t / d) - 1) + b;
+    }
+    function easeInExpo(t, b, c, d) {
+        return t === 0 ? b : c * Math.pow(2, 10 * (t / d - 1)) + b;
+    }
+    function easeOutExpo(t, b, c, d) {
+        return t === d ? b + c : c * (-Math.pow(2, -10 * t / d) + 1) + b;
+    }
+    function easeInOutExpo(t, b, c, d) {
+        if (t === 0) {
+            return b;
+        }
+        if (t === d) {
+            return b + c;
+        }
+        t /= d / 2;
+        if (t < 1) {
+            return c / 2 * Math.pow(2, 10 * (t - 1)) + b;
+        }
+        return c / 2 * (-Math.pow(2, -10 * --t) + 2) + b;
+    }
+    function easeInCirc(t, b, c, d) {
+        return -c * (Math.sqrt(1 - (t /= d) * t) - 1) + b;
+    }
+    function easeOutCirc(t, b, c, d) {
+        return c * Math.sqrt(1 - (t = t / d - 1) * t) + b;
+    }
+    function easeInOutCirc(t, b, c, d) {
+        t /= d / 2;
+        if (t < 1) {
+            return -c / 2 * (Math.sqrt(1 - t * t) - 1) + b;
+        }
+        return c / 2 * (Math.sqrt(1 - (t -= 2) * t) + 1) + b;
+    }
+    function easeInElastic(t, b, c, d) {
+        var s = 1.70158, p = 0, a = c;
+        if (t === 0) {
+            return b;
+        }
+        t /= d;
+        if (t === 1) {
+            return b + c;
+        }
+        if (!p) {
+            p = d * .3;
+        }
+        var opts = normalize(a, c, p, s);
+        return -elastic(opts, t, d) + b;
+    }
+    function easeOutElastic(t, b, c, d) {
+        var s = 1.70158, p = 0, a = c;
+        if (t === 0) {
+            return b;
+        }
+        t /= d;
+        if (t === 1) {
+            return b + c;
+        }
+        if (!p) {
+            p = d * .3;
+        }
+        var opts = normalize(a, c, p, s);
+        return opts.a * Math.pow(2, -10 * t) * Math.sin((t * d - opts.s) * (2 * Math.PI) / opts.p) + opts.c + b;
+    }
+    function easeInOutElastic(t, b, c, d) {
+        var s = 1.70158, p = 0, a = c;
+        if (t === 0) {
+            return b;
+        }
+        t /= d / 2;
+        if (t === 2) {
+            return b + c;
+        }
+        if (!p) {
+            p = d * (.3 * 1.5);
+        }
+        var opts = normalize(a, c, p, s);
+        if (t < 1) {
+            return -.5 * elastic(opts, t, d) + b;
+        }
+        return opts.a * Math.pow(2, -10 * (t -= 1)) * Math.sin((t * d - opts.s) * (2 * Math.PI) / opts.p) * .5 + opts.c + b;
+    }
+    function easeInBack(t, b, c, d, s) {
+        if (s === undefined) {
+            s = 1.70158;
+        }
+        return c * (t /= d) * t * ((s + 1) * t - s) + b;
+    }
+    function easeOutBack(t, b, c, d, s) {
+        if (s === undefined) {
+            s = 1.70158;
+        }
+        return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
+    }
+    function easeInOutBack(t, b, c, d, s) {
+        if (s === undefined) {
+            s = 1.70158;
+        }
+        t /= d / 2;
+        if (t < 1) {
+            return c / 2 * (t * t * (((s *= 1.525) + 1) * t - s)) + b;
+        }
+        return c / 2 * ((t -= 2) * t * (((s *= 1.525) + 1) * t + s) + 2) + b;
+    }
+    function easeInBounce(t, b, c, d) {
+        return c - easeOutBounce(d - t, 0, c, d) + b;
+    }
+    function easeOutBounce(t, b, c, d) {
+        if ((t /= d) < 1 / 2.75) {
+            return c * (7.5625 * t * t) + b;
+        } else if (t < 2 / 2.75) {
+            return c * (7.5625 * (t -= 1.5 / 2.75) * t + .75) + b;
+        } else if (t < 2.5 / 2.75) {
+            return c * (7.5625 * (t -= 2.25 / 2.75) * t + .9375) + b;
+        } else {
+            return c * (7.5625 * (t -= 2.625 / 2.75) * t + .984375) + b;
+        }
+    }
+    function easeInOutBounce(t, b, c, d) {
+        if (t < d / 2) {
+            return easeInBounce(t * 2, 0, c, d) * .5 + b;
+        }
+        return easeOutBounce(t * 2 - d, 0, c, d) * .5 + c * .5 + b;
+    }
+    fabric.util.ease = {
+        easeInQuad: function(t, b, c, d) {
+            return c * (t /= d) * t + b;
+        },
+        easeOutQuad: function(t, b, c, d) {
+            return -c * (t /= d) * (t - 2) + b;
+        },
+        easeInOutQuad: function(t, b, c, d) {
+            t /= d / 2;
+            if (t < 1) {
+                return c / 2 * t * t + b;
+            }
+            return -c / 2 * (--t * (t - 2) - 1) + b;
+        },
+        easeInCubic: function(t, b, c, d) {
+            return c * (t /= d) * t * t + b;
+        },
+        easeOutCubic: easeOutCubic,
+        easeInOutCubic: easeInOutCubic,
+        easeInQuart: easeInQuart,
+        easeOutQuart: easeOutQuart,
+        easeInOutQuart: easeInOutQuart,
+        easeInQuint: easeInQuint,
+        easeOutQuint: easeOutQuint,
+        easeInOutQuint: easeInOutQuint,
+        easeInSine: easeInSine,
+        easeOutSine: easeOutSine,
+        easeInOutSine: easeInOutSine,
+        easeInExpo: easeInExpo,
+        easeOutExpo: easeOutExpo,
+        easeInOutExpo: easeInOutExpo,
+        easeInCirc: easeInCirc,
+        easeOutCirc: easeOutCirc,
+        easeInOutCirc: easeInOutCirc,
+        easeInElastic: easeInElastic,
+        easeOutElastic: easeOutElastic,
+        easeInOutElastic: easeInOutElastic,
+        easeInBack: easeInBack,
+        easeOutBack: easeOutBack,
+        easeInOutBack: easeInOutBack,
+        easeInBounce: easeInBounce,
+        easeOutBounce: easeOutBounce,
+        easeInOutBounce: easeInOutBounce
+    };
+})();
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), extend = fabric.util.object.extend, clone = fabric.util.object.clone, toFixed = fabric.util.toFixed, parseUnit = fabric.util.parseUnit, multiplyTransformMatrices = fabric.util.multiplyTransformMatrices, svgValidTagNames = [ "path", "circle", "polygon", "polyline", "ellipse", "rect", "line", "image", "text", "linearGradient", "radialGradient", "stop" ], svgViewBoxElements = [ "symbol", "image", "marker", "pattern", "view", "svg" ], svgInvalidAncestors = [ "pattern", "defs", "symbol", "metadata", "clipPath", "mask", "desc" ], svgValidParents = [ "symbol", "g", "a", "svg" ], attributesMap = {
+        cx: "left",
+        x: "left",
+        r: "radius",
+        cy: "top",
+        y: "top",
+        display: "visible",
+        visibility: "visible",
+        transform: "transformMatrix",
+        "fill-opacity": "fillOpacity",
+        "fill-rule": "fillRule",
+        "font-family": "fontFamily",
+        "font-size": "fontSize",
+        "font-style": "fontStyle",
+        "font-weight": "fontWeight",
+        "letter-spacing": "charSpacing",
+        "paint-order": "paintFirst",
+        "stroke-dasharray": "strokeDashArray",
+        "stroke-linecap": "strokeLineCap",
+        "stroke-linejoin": "strokeLineJoin",
+        "stroke-miterlimit": "strokeMiterLimit",
+        "stroke-opacity": "strokeOpacity",
+        "stroke-width": "strokeWidth",
+        "text-decoration": "textDecoration",
+        "text-anchor": "textAnchor",
+        opacity: "opacity"
+    }, colorAttributes = {
+        stroke: "strokeOpacity",
+        fill: "fillOpacity"
+    };
+    fabric.svgValidTagNamesRegEx = getSvgRegex(svgValidTagNames);
+    fabric.svgViewBoxElementsRegEx = getSvgRegex(svgViewBoxElements);
+    fabric.svgInvalidAncestorsRegEx = getSvgRegex(svgInvalidAncestors);
+    fabric.svgValidParentsRegEx = getSvgRegex(svgValidParents);
+    fabric.cssRules = {};
+    fabric.gradientDefs = {};
+    function normalizeAttr(attr) {
+        if (attr in attributesMap) {
+            return attributesMap[attr];
+        }
+        return attr;
+    }
+    function normalizeValue(attr, value, parentAttributes, fontSize) {
+        var isArray = Object.prototype.toString.call(value) === "[object Array]", parsed;
+        if ((attr === "fill" || attr === "stroke") && value === "none") {
+            value = "";
+        } else if (attr === "strokeDashArray") {
+            if (value === "none") {
+                value = null;
+            } else {
+                value = value.replace(/,/g, " ").split(/\s+/).map(function(n) {
+                    return parseFloat(n);
+                });
+            }
+        } else if (attr === "transformMatrix") {
+            if (parentAttributes && parentAttributes.transformMatrix) {
+                value = multiplyTransformMatrices(parentAttributes.transformMatrix, fabric.parseTransformAttribute(value));
+            } else {
+                value = fabric.parseTransformAttribute(value);
+            }
+        } else if (attr === "visible") {
+            value = value !== "none" && value !== "hidden";
+            if (parentAttributes && parentAttributes.visible === false) {
+                value = false;
+            }
+        } else if (attr === "opacity") {
+            value = parseFloat(value);
+            if (parentAttributes && typeof parentAttributes.opacity !== "undefined") {
+                value *= parentAttributes.opacity;
+            }
+        } else if (attr === "textAnchor") {
+            value = value === "start" ? "left" : value === "end" ? "right" : "center";
+        } else if (attr === "charSpacing") {
+            parsed = parseUnit(value, fontSize) / fontSize * 1e3;
+        } else if (attr === "paintFirst") {
+            var fillIndex = value.indexOf("fill");
+            var strokeIndex = value.indexOf("stroke");
+            var value = "fill";
+            if (fillIndex > -1 && strokeIndex > -1 && strokeIndex < fillIndex) {
+                value = "stroke";
+            } else if (fillIndex === -1 && strokeIndex > -1) {
+                value = "stroke";
+            }
+        } else {
+            parsed = isArray ? value.map(parseUnit) : parseUnit(value, fontSize);
+        }
+        return !isArray && isNaN(parsed) ? value : parsed;
+    }
+    function getSvgRegex(arr) {
+        return new RegExp("^(" + arr.join("|") + ")\\b", "i");
+    }
+    function _setStrokeFillOpacity(attributes) {
+        for (var attr in colorAttributes) {
+            if (typeof attributes[colorAttributes[attr]] === "undefined" || attributes[attr] === "") {
+                continue;
+            }
+            if (typeof attributes[attr] === "undefined") {
+                if (!fabric.Object.prototype[attr]) {
+                    continue;
+                }
+                attributes[attr] = fabric.Object.prototype[attr];
+            }
+            if (attributes[attr].indexOf("url(") === 0) {
+                continue;
+            }
+            var color = new fabric.Color(attributes[attr]);
+            attributes[attr] = color.setAlpha(toFixed(color.getAlpha() * attributes[colorAttributes[attr]], 2)).toRgba();
+        }
+        return attributes;
+    }
+    function _getMultipleNodes(doc, nodeNames) {
+        var nodeName, nodeArray = [], nodeList, i, len;
+        for (i = 0, len = nodeNames.length; i < len; i++) {
+            nodeName = nodeNames[i];
+            nodeList = doc.getElementsByTagName(nodeName);
+            nodeArray = nodeArray.concat(Array.prototype.slice.call(nodeList));
+        }
+        return nodeArray;
+    }
+    fabric.parseTransformAttribute = function() {
+        function rotateMatrix(matrix, args) {
+            var cos = fabric.util.cos(args[0]), sin = fabric.util.sin(args[0]), x = 0, y = 0;
+            if (args.length === 3) {
+                x = args[1];
+                y = args[2];
+            }
+            matrix[0] = cos;
+            matrix[1] = sin;
+            matrix[2] = -sin;
+            matrix[3] = cos;
+            matrix[4] = x - (cos * x - sin * y);
+            matrix[5] = y - (sin * x + cos * y);
+        }
+        function scaleMatrix(matrix, args) {
+            var multiplierX = args[0], multiplierY = args.length === 2 ? args[1] : args[0];
+            matrix[0] = multiplierX;
+            matrix[3] = multiplierY;
+        }
+        function skewMatrix(matrix, args, pos) {
+            matrix[pos] = Math.tan(fabric.util.degreesToRadians(args[0]));
+        }
+        function translateMatrix(matrix, args) {
+            matrix[4] = args[0];
+            if (args.length === 2) {
+                matrix[5] = args[1];
+            }
+        }
+        var iMatrix = [ 1, 0, 0, 1, 0, 0 ], number = fabric.reNum, commaWsp = "(?:\\s+,?\\s*|,\\s*)", skewX = "(?:(skewX)\\s*\\(\\s*(" + number + ")\\s*\\))", skewY = "(?:(skewY)\\s*\\(\\s*(" + number + ")\\s*\\))", rotate = "(?:(rotate)\\s*\\(\\s*(" + number + ")(?:" + commaWsp + "(" + number + ")" + commaWsp + "(" + number + "))?\\s*\\))", scale = "(?:(scale)\\s*\\(\\s*(" + number + ")(?:" + commaWsp + "(" + number + "))?\\s*\\))", translate = "(?:(translate)\\s*\\(\\s*(" + number + ")(?:" + commaWsp + "(" + number + "))?\\s*\\))", matrix = "(?:(matrix)\\s*\\(\\s*" + "(" + number + ")" + commaWsp + "(" + number + ")" + commaWsp + "(" + number + ")" + commaWsp + "(" + number + ")" + commaWsp + "(" + number + ")" + commaWsp + "(" + number + ")" + "\\s*\\))", transform = "(?:" + matrix + "|" + translate + "|" + scale + "|" + rotate + "|" + skewX + "|" + skewY + ")", transforms = "(?:" + transform + "(?:" + commaWsp + "*" + transform + ")*" + ")", transformList = "^\\s*(?:" + transforms + "?)\\s*$", reTransformList = new RegExp(transformList), reTransform = new RegExp(transform, "g");
+        return function(attributeValue) {
+            var matrix = iMatrix.concat(), matrices = [];
+            if (!attributeValue || attributeValue && !reTransformList.test(attributeValue)) {
+                return matrix;
+            }
+            attributeValue.replace(reTransform, function(match) {
+                var m = new RegExp(transform).exec(match).filter(function(match) {
+                    return !!match;
+                }), operation = m[1], args = m.slice(2).map(parseFloat);
+                switch (operation) {
+                  case "translate":
+                    translateMatrix(matrix, args);
+                    break;
+
+                  case "rotate":
+                    args[0] = fabric.util.degreesToRadians(args[0]);
+                    rotateMatrix(matrix, args);
+                    break;
+
+                  case "scale":
+                    scaleMatrix(matrix, args);
+                    break;
+
+                  case "skewX":
+                    skewMatrix(matrix, args, 2);
+                    break;
+
+                  case "skewY":
+                    skewMatrix(matrix, args, 1);
+                    break;
+
+                  case "matrix":
+                    matrix = args;
+                    break;
+                }
+                matrices.push(matrix.concat());
+                matrix = iMatrix.concat();
+            });
+            var combinedMatrix = matrices[0];
+            while (matrices.length > 1) {
+                matrices.shift();
+                combinedMatrix = fabric.util.multiplyTransformMatrices(combinedMatrix, matrices[0]);
+            }
+            return combinedMatrix;
+        };
+    }();
+    function parseStyleString(style, oStyle) {
+        var attr, value;
+        style.replace(/;\s*$/, "").split(";").forEach(function(chunk) {
+            var pair = chunk.split(":");
+            attr = pair[0].trim().toLowerCase();
+            value = pair[1].trim();
+            oStyle[attr] = value;
+        });
+    }
+    function parseStyleObject(style, oStyle) {
+        var attr, value;
+        for (var prop in style) {
+            if (typeof style[prop] === "undefined") {
+                continue;
+            }
+            attr = prop.toLowerCase();
+            value = style[prop];
+            oStyle[attr] = value;
+        }
+    }
+    function getGlobalStylesForElement(element, svgUid) {
+        var styles = {};
+        for (var rule in fabric.cssRules[svgUid]) {
+            if (elementMatchesRule(element, rule.split(" "))) {
+                for (var property in fabric.cssRules[svgUid][rule]) {
+                    styles[property] = fabric.cssRules[svgUid][rule][property];
+                }
+            }
+        }
+        return styles;
+    }
+    function elementMatchesRule(element, selectors) {
+        var firstMatching, parentMatching = true;
+        firstMatching = selectorMatches(element, selectors.pop());
+        if (firstMatching && selectors.length) {
+            parentMatching = doesSomeParentMatch(element, selectors);
+        }
+        return firstMatching && parentMatching && selectors.length === 0;
+    }
+    function doesSomeParentMatch(element, selectors) {
+        var selector, parentMatching = true;
+        while (element.parentNode && element.parentNode.nodeType === 1 && selectors.length) {
+            if (parentMatching) {
+                selector = selectors.pop();
+            }
+            element = element.parentNode;
+            parentMatching = selectorMatches(element, selector);
+        }
+        return selectors.length === 0;
+    }
+    function selectorMatches(element, selector) {
+        var nodeName = element.nodeName, classNames = element.getAttribute("class"), id = element.getAttribute("id"), matcher, i;
+        matcher = new RegExp("^" + nodeName, "i");
+        selector = selector.replace(matcher, "");
+        if (id && selector.length) {
+            matcher = new RegExp("#" + id + "(?![a-zA-Z\\-]+)", "i");
+            selector = selector.replace(matcher, "");
+        }
+        if (classNames && selector.length) {
+            classNames = classNames.split(" ");
+            for (i = classNames.length; i--; ) {
+                matcher = new RegExp("\\." + classNames[i] + "(?![a-zA-Z\\-]+)", "i");
+                selector = selector.replace(matcher, "");
+            }
+        }
+        return selector.length === 0;
+    }
+    function elementById(doc, id) {
+        var el;
+        doc.getElementById && (el = doc.getElementById(id));
+        if (el) {
+            return el;
+        }
+        var node, i, len, nodelist = doc.getElementsByTagName("*");
+        for (i = 0, len = nodelist.length; i < len; i++) {
+            node = nodelist[i];
+            if (id === node.getAttribute("id")) {
+                return node;
+            }
+        }
+    }
+    function parseUseDirectives(doc) {
+        var nodelist = _getMultipleNodes(doc, [ "use", "svg:use" ]), i = 0;
+        while (nodelist.length && i < nodelist.length) {
+            var el = nodelist[i], xlink = el.getAttribute("xlink:href").substr(1), x = el.getAttribute("x") || 0, y = el.getAttribute("y") || 0, el2 = elementById(doc, xlink).cloneNode(true), currentTrans = (el2.getAttribute("transform") || "") + " translate(" + x + ", " + y + ")", parentNode, oldLength = nodelist.length, attr, j, attrs, len;
+            applyViewboxTransform(el2);
+            if (/^svg$/i.test(el2.nodeName)) {
+                var el3 = el2.ownerDocument.createElement("g");
+                for (j = 0, attrs = el2.attributes, len = attrs.length; j < len; j++) {
+                    attr = attrs.item(j);
+                    el3.setAttribute(attr.nodeName, attr.nodeValue);
+                }
+                while (el2.firstChild) {
+                    el3.appendChild(el2.firstChild);
+                }
+                el2 = el3;
+            }
+            for (j = 0, attrs = el.attributes, len = attrs.length; j < len; j++) {
+                attr = attrs.item(j);
+                if (attr.nodeName === "x" || attr.nodeName === "y" || attr.nodeName === "xlink:href") {
+                    continue;
+                }
+                if (attr.nodeName === "transform") {
+                    currentTrans = attr.nodeValue + " " + currentTrans;
+                } else {
+                    el2.setAttribute(attr.nodeName, attr.nodeValue);
+                }
+            }
+            el2.setAttribute("transform", currentTrans);
+            el2.setAttribute("instantiated_by_use", "1");
+            el2.removeAttribute("id");
+            parentNode = el.parentNode;
+            parentNode.replaceChild(el2, el);
+            if (nodelist.length === oldLength) {
+                i++;
+            }
+        }
+    }
+    var reViewBoxAttrValue = new RegExp("^" + "\\s*(" + fabric.reNum + "+)\\s*,?" + "\\s*(" + fabric.reNum + "+)\\s*,?" + "\\s*(" + fabric.reNum + "+)\\s*,?" + "\\s*(" + fabric.reNum + "+)\\s*" + "$");
+    function applyViewboxTransform(element) {
+        var viewBoxAttr = element.getAttribute("viewBox"), scaleX = 1, scaleY = 1, minX = 0, minY = 0, viewBoxWidth, viewBoxHeight, matrix, el, widthAttr = element.getAttribute("width"), heightAttr = element.getAttribute("height"), x = element.getAttribute("x") || 0, y = element.getAttribute("y") || 0, preserveAspectRatio = element.getAttribute("preserveAspectRatio") || "", missingViewBox = !viewBoxAttr || !fabric.svgViewBoxElementsRegEx.test(element.nodeName) || !(viewBoxAttr = viewBoxAttr.match(reViewBoxAttrValue)), missingDimAttr = !widthAttr || !heightAttr || widthAttr === "100%" || heightAttr === "100%", toBeParsed = missingViewBox && missingDimAttr, parsedDim = {}, translateMatrix = "";
+        parsedDim.width = 0;
+        parsedDim.height = 0;
+        parsedDim.toBeParsed = toBeParsed;
+        if (toBeParsed) {
+            return parsedDim;
+        }
+        if (missingViewBox) {
+            parsedDim.width = parseUnit(widthAttr);
+            parsedDim.height = parseUnit(heightAttr);
+            return parsedDim;
+        }
+        minX = -parseFloat(viewBoxAttr[1]);
+        minY = -parseFloat(viewBoxAttr[2]);
+        viewBoxWidth = parseFloat(viewBoxAttr[3]);
+        viewBoxHeight = parseFloat(viewBoxAttr[4]);
+        if (!missingDimAttr) {
+            parsedDim.width = parseUnit(widthAttr);
+            parsedDim.height = parseUnit(heightAttr);
+            scaleX = parsedDim.width / viewBoxWidth;
+            scaleY = parsedDim.height / viewBoxHeight;
+        } else {
+            parsedDim.width = viewBoxWidth;
+            parsedDim.height = viewBoxHeight;
+        }
+        preserveAspectRatio = fabric.util.parsePreserveAspectRatioAttribute(preserveAspectRatio);
+        if (preserveAspectRatio.alignX !== "none") {
+            scaleY = scaleX = scaleX > scaleY ? scaleY : scaleX;
+        }
+        if (scaleX === 1 && scaleY === 1 && minX === 0 && minY === 0 && x === 0 && y === 0) {
+            return parsedDim;
+        }
+        if (x || y) {
+            translateMatrix = " translate(" + parseUnit(x) + " " + parseUnit(y) + ") ";
+        }
+        matrix = translateMatrix + " matrix(" + scaleX + " 0" + " 0 " + scaleY + " " + minX * scaleX + " " + minY * scaleY + ") ";
+        if (element.nodeName === "svg") {
+            el = element.ownerDocument.createElement("g");
+            while (element.firstChild) {
+                el.appendChild(element.firstChild);
+            }
+            element.appendChild(el);
+        } else {
+            el = element;
+            matrix = el.getAttribute("transform") + matrix;
+        }
+        el.setAttribute("transform", matrix);
+        return parsedDim;
+    }
+    function hasAncestorWithNodeName(element, nodeName) {
+        while (element && (element = element.parentNode)) {
+            if (element.nodeName && nodeName.test(element.nodeName.replace("svg:", "")) && !element.getAttribute("instantiated_by_use")) {
+                return true;
+            }
+        }
+        return false;
+    }
+    fabric.parseSVGDocument = function(doc, callback, reviver, parsingOptions) {
+        if (!doc) {
+            return;
+        }
+        parseUseDirectives(doc);
+        var svgUid = fabric.Object.__uid++, i, len, options = applyViewboxTransform(doc), descendants = fabric.util.toArray(doc.getElementsByTagName("*"));
+        options.crossOrigin = parsingOptions && parsingOptions.crossOrigin;
+        options.svgUid = svgUid;
+        if (descendants.length === 0 && fabric.isLikelyNode) {
+            descendants = doc.selectNodes('//*[name(.)!="svg"]');
+            var arr = [];
+            for (i = 0, len = descendants.length; i < len; i++) {
+                arr[i] = descendants[i];
+            }
+            descendants = arr;
+        }
+        var elements = descendants.filter(function(el) {
+            applyViewboxTransform(el);
+            return fabric.svgValidTagNamesRegEx.test(el.nodeName.replace("svg:", "")) && !hasAncestorWithNodeName(el, fabric.svgInvalidAncestorsRegEx);
+        });
+        if (!elements || elements && !elements.length) {
+            callback && callback([], {});
+            return;
+        }
+        fabric.gradientDefs[svgUid] = fabric.getGradientDefs(doc);
+        fabric.cssRules[svgUid] = fabric.getCSSRules(doc);
+        fabric.parseElements(elements, function(instances, elements) {
+            if (callback) {
+                callback(instances, options, elements, descendants);
+            }
+        }, clone(options), reviver, parsingOptions);
+    };
+    var reFontDeclaration = new RegExp("(normal|italic)?\\s*(normal|small-caps)?\\s*" + "(normal|bold|bolder|lighter|100|200|300|400|500|600|700|800|900)?\\s*(" + fabric.reNum + "(?:px|cm|mm|em|pt|pc|in)*)(?:\\/(normal|" + fabric.reNum + "))?\\s+(.*)");
+    extend(fabric, {
+        parseFontDeclaration: function(value, oStyle) {
+            var match = value.match(reFontDeclaration);
+            if (!match) {
+                return;
+            }
+            var fontStyle = match[1], fontWeight = match[3], fontSize = match[4], lineHeight = match[5], fontFamily = match[6];
+            if (fontStyle) {
+                oStyle.fontStyle = fontStyle;
+            }
+            if (fontWeight) {
+                oStyle.fontWeight = isNaN(parseFloat(fontWeight)) ? fontWeight : parseFloat(fontWeight);
+            }
+            if (fontSize) {
+                oStyle.fontSize = parseUnit(fontSize);
+            }
+            if (fontFamily) {
+                oStyle.fontFamily = fontFamily;
+            }
+            if (lineHeight) {
+                oStyle.lineHeight = lineHeight === "normal" ? 1 : lineHeight;
+            }
+        },
+        getGradientDefs: function(doc) {
+            var tagArray = [ "linearGradient", "radialGradient", "svg:linearGradient", "svg:radialGradient" ], elList = _getMultipleNodes(doc, tagArray), el, j = 0, id, xlink, gradientDefs = {}, idsToXlinkMap = {};
+            j = elList.length;
+            while (j--) {
+                el = elList[j];
+                xlink = el.getAttribute("xlink:href");
+                id = el.getAttribute("id");
+                if (xlink) {
+                    idsToXlinkMap[id] = xlink.substr(1);
+                }
+                gradientDefs[id] = el;
+            }
+            for (id in idsToXlinkMap) {
+                var el2 = gradientDefs[idsToXlinkMap[id]].cloneNode(true);
+                el = gradientDefs[id];
+                while (el2.firstChild) {
+                    el.appendChild(el2.firstChild);
+                }
+            }
+            return gradientDefs;
+        },
+        parseAttributes: function(element, attributes, svgUid) {
+            if (!element) {
+                return;
+            }
+            var value, parentAttributes = {}, fontSize;
+            if (typeof svgUid === "undefined") {
+                svgUid = element.getAttribute("svgUid");
+            }
+            if (element.parentNode && fabric.svgValidParentsRegEx.test(element.parentNode.nodeName)) {
+                parentAttributes = fabric.parseAttributes(element.parentNode, attributes, svgUid);
+            }
+            fontSize = parentAttributes && parentAttributes.fontSize || element.getAttribute("font-size") || fabric.Text.DEFAULT_SVG_FONT_SIZE;
+            var ownAttributes = attributes.reduce(function(memo, attr) {
+                value = element.getAttribute(attr);
+                if (value) {
+                    memo[attr] = value;
+                }
+                return memo;
+            }, {});
+            ownAttributes = extend(ownAttributes, extend(getGlobalStylesForElement(element, svgUid), fabric.parseStyleAttribute(element)));
+            var normalizedAttr, normalizedValue, normalizedStyle = {};
+            for (var attr in ownAttributes) {
+                normalizedAttr = normalizeAttr(attr);
+                normalizedValue = normalizeValue(normalizedAttr, ownAttributes[attr], parentAttributes, fontSize);
+                normalizedStyle[normalizedAttr] = normalizedValue;
+            }
+            if (normalizedStyle && normalizedStyle.font) {
+                fabric.parseFontDeclaration(normalizedStyle.font, normalizedStyle);
+            }
+            var mergedAttrs = extend(parentAttributes, normalizedStyle);
+            return fabric.svgValidParentsRegEx.test(element.nodeName) ? mergedAttrs : _setStrokeFillOpacity(mergedAttrs);
+        },
+        parseElements: function(elements, callback, options, reviver, parsingOptions) {
+            new fabric.ElementsParser(elements, callback, options, reviver, parsingOptions).parse();
+        },
+        parseStyleAttribute: function(element) {
+            var oStyle = {}, style = element.getAttribute("style");
+            if (!style) {
+                return oStyle;
+            }
+            if (typeof style === "string") {
+                parseStyleString(style, oStyle);
+            } else {
+                parseStyleObject(style, oStyle);
+            }
+            return oStyle;
+        },
+        parsePointsAttribute: function(points) {
+            if (!points) {
+                return null;
+            }
+            points = points.replace(/,/g, " ").trim();
+            points = points.split(/\s+/);
+            var parsedPoints = [], i, len;
+            for (i = 0, len = points.length; i < len; i += 2) {
+                parsedPoints.push({
+                    x: parseFloat(points[i]),
+                    y: parseFloat(points[i + 1])
+                });
+            }
+            return parsedPoints;
+        },
+        getCSSRules: function(doc) {
+            var styles = doc.getElementsByTagName("style"), i, len, allRules = {}, rules;
+            for (i = 0, len = styles.length; i < len; i++) {
+                var styleContents = styles[i].textContent || styles[i].text;
+                styleContents = styleContents.replace(/\/\*[\s\S]*?\*\//g, "");
+                if (styleContents.trim() === "") {
+                    continue;
+                }
+                rules = styleContents.match(/[^{]*\{[\s\S]*?\}/g);
+                rules = rules.map(function(rule) {
+                    return rule.trim();
+                });
+                rules.forEach(function(rule) {
+                    var match = rule.match(/([\s\S]*?)\s*\{([^}]*)\}/), ruleObj = {}, declaration = match[2].trim(), propertyValuePairs = declaration.replace(/;$/, "").split(/\s*;\s*/);
+                    for (i = 0, len = propertyValuePairs.length; i < len; i++) {
+                        var pair = propertyValuePairs[i].split(/\s*:\s*/), property = pair[0], value = pair[1];
+                        ruleObj[property] = value;
+                    }
+                    rule = match[1];
+                    rule.split(",").forEach(function(_rule) {
+                        _rule = _rule.replace(/^svg/i, "").trim();
+                        if (_rule === "") {
+                            return;
+                        }
+                        if (allRules[_rule]) {
+                            fabric.util.object.extend(allRules[_rule], ruleObj);
+                        } else {
+                            allRules[_rule] = fabric.util.object.clone(ruleObj);
+                        }
+                    });
+                });
+            }
+            return allRules;
+        },
+        loadSVGFromURL: function(url, callback, reviver, options) {
+            url = url.replace(/^\n\s*/, "").trim();
+            new fabric.util.request(url, {
+                method: "get",
+                onComplete: onComplete
+            });
+            function onComplete(r) {
+                var xml = r.responseXML;
+                if (xml && !xml.documentElement && fabric.window.ActiveXObject && r.responseText) {
+                    xml = new ActiveXObject("Microsoft.XMLDOM");
+                    xml.async = "false";
+                    xml.loadXML(r.responseText.replace(/<!DOCTYPE[\s\S]*?(\[[\s\S]*\])*?>/i, ""));
+                }
+                if (!xml || !xml.documentElement) {
+                    callback && callback(null);
+                }
+                fabric.parseSVGDocument(xml.documentElement, function(results, _options, elements, allElements) {
+                    callback && callback(results, _options, elements, allElements);
+                }, reviver, options);
+            }
+        },
+        loadSVGFromString: function(string, callback, reviver, options) {
+            string = string.trim();
+            var doc;
+            if (typeof DOMParser !== "undefined") {
+                var parser = new DOMParser();
+                if (parser && parser.parseFromString) {
+                    doc = parser.parseFromString(string, "text/xml");
+                }
+            } else if (fabric.window.ActiveXObject) {
+                doc = new ActiveXObject("Microsoft.XMLDOM");
+                doc.async = "false";
+                doc.loadXML(string.replace(/<!DOCTYPE[\s\S]*?(\[[\s\S]*\])*?>/i, ""));
+            }
+            fabric.parseSVGDocument(doc.documentElement, function(results, _options, elements, allElements) {
+                callback(results, _options, elements, allElements);
+            }, reviver, options);
+        }
+    });
+})( true ? exports : this);
+
+fabric.ElementsParser = function(elements, callback, options, reviver, parsingOptions) {
+    this.elements = elements;
+    this.callback = callback;
+    this.options = options;
+    this.reviver = reviver;
+    this.svgUid = options && options.svgUid || 0;
+    this.parsingOptions = parsingOptions;
+    this.regexUrl = /^url\(['"]?#([^'"]+)['"]?\)/g;
+};
+
+fabric.ElementsParser.prototype.parse = function() {
+    this.instances = new Array(this.elements.length);
+    this.numElements = this.elements.length;
+    this.createObjects();
+};
+
+fabric.ElementsParser.prototype.createObjects = function() {
+    for (var i = 0, len = this.elements.length; i < len; i++) {
+        this.elements[i].setAttribute("svgUid", this.svgUid);
+        (function(_obj, i) {
+            setTimeout(function() {
+                _obj.createObject(_obj.elements[i], i);
+            }, 0);
+        })(this, i);
+    }
+};
+
+fabric.ElementsParser.prototype.createObject = function(el, index) {
+    var klass = fabric[fabric.util.string.capitalize(el.tagName.replace("svg:", ""))];
+    if (klass && klass.fromElement) {
+        try {
+            this._createObject(klass, el, index);
+        } catch (err) {
+            fabric.log(err);
+        }
+    } else {
+        this.checkIfDone();
+    }
+};
+
+fabric.ElementsParser.prototype._createObject = function(klass, el, index) {
+    klass.fromElement(el, this.createCallback(index, el), this.options);
+};
+
+fabric.ElementsParser.prototype.createCallback = function(index, el) {
+    var _this = this;
+    return function(obj) {
+        var _options;
+        _this.resolveGradient(obj, "fill");
+        _this.resolveGradient(obj, "stroke");
+        if (obj instanceof fabric.Image) {
+            _options = obj.parsePreserveAspectRatioAttribute(el);
+        }
+        obj._removeTransformMatrix(_options);
+        _this.reviver && _this.reviver(el, obj);
+        _this.instances[index] = obj;
+        _this.checkIfDone();
+    };
+};
+
+fabric.ElementsParser.prototype.resolveGradient = function(obj, property) {
+    var instanceFillValue = obj[property];
+    if (!/^url\(/.test(instanceFillValue)) {
+        return;
+    }
+    var gradientId = this.regexUrl.exec(instanceFillValue)[1];
+    this.regexUrl.lastIndex = 0;
+    if (fabric.gradientDefs[this.svgUid][gradientId]) {
+        obj.set(property, fabric.Gradient.fromElement(fabric.gradientDefs[this.svgUid][gradientId], obj));
+    }
+};
+
+fabric.ElementsParser.prototype.checkIfDone = function() {
+    if (--this.numElements === 0) {
+        this.instances = this.instances.filter(function(el) {
+            return el != null;
+        });
+        this.callback(this.instances, this.elements);
+    }
+};
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {});
+    if (fabric.Point) {
+        fabric.warn("fabric.Point is already defined");
+        return;
+    }
+    fabric.Point = Point;
+    function Point(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+    Point.prototype = {
+        type: "point",
+        constructor: Point,
+        add: function(that) {
+            return new Point(this.x + that.x, this.y + that.y);
+        },
+        addEquals: function(that) {
+            this.x += that.x;
+            this.y += that.y;
+            return this;
+        },
+        scalarAdd: function(scalar) {
+            return new Point(this.x + scalar, this.y + scalar);
+        },
+        scalarAddEquals: function(scalar) {
+            this.x += scalar;
+            this.y += scalar;
+            return this;
+        },
+        subtract: function(that) {
+            return new Point(this.x - that.x, this.y - that.y);
+        },
+        subtractEquals: function(that) {
+            this.x -= that.x;
+            this.y -= that.y;
+            return this;
+        },
+        scalarSubtract: function(scalar) {
+            return new Point(this.x - scalar, this.y - scalar);
+        },
+        scalarSubtractEquals: function(scalar) {
+            this.x -= scalar;
+            this.y -= scalar;
+            return this;
+        },
+        multiply: function(scalar) {
+            return new Point(this.x * scalar, this.y * scalar);
+        },
+        multiplyEquals: function(scalar) {
+            this.x *= scalar;
+            this.y *= scalar;
+            return this;
+        },
+        divide: function(scalar) {
+            return new Point(this.x / scalar, this.y / scalar);
+        },
+        divideEquals: function(scalar) {
+            this.x /= scalar;
+            this.y /= scalar;
+            return this;
+        },
+        eq: function(that) {
+            return this.x === that.x && this.y === that.y;
+        },
+        lt: function(that) {
+            return this.x < that.x && this.y < that.y;
+        },
+        lte: function(that) {
+            return this.x <= that.x && this.y <= that.y;
+        },
+        gt: function(that) {
+            return this.x > that.x && this.y > that.y;
+        },
+        gte: function(that) {
+            return this.x >= that.x && this.y >= that.y;
+        },
+        lerp: function(that, t) {
+            if (typeof t === "undefined") {
+                t = .5;
+            }
+            t = Math.max(Math.min(1, t), 0);
+            return new Point(this.x + (that.x - this.x) * t, this.y + (that.y - this.y) * t);
+        },
+        distanceFrom: function(that) {
+            var dx = this.x - that.x, dy = this.y - that.y;
+            return Math.sqrt(dx * dx + dy * dy);
+        },
+        midPointFrom: function(that) {
+            return this.lerp(that);
+        },
+        min: function(that) {
+            return new Point(Math.min(this.x, that.x), Math.min(this.y, that.y));
+        },
+        max: function(that) {
+            return new Point(Math.max(this.x, that.x), Math.max(this.y, that.y));
+        },
+        toString: function() {
+            return this.x + "," + this.y;
+        },
+        setXY: function(x, y) {
+            this.x = x;
+            this.y = y;
+            return this;
+        },
+        setX: function(x) {
+            this.x = x;
+            return this;
+        },
+        setY: function(y) {
+            this.y = y;
+            return this;
+        },
+        setFromPoint: function(that) {
+            this.x = that.x;
+            this.y = that.y;
+            return this;
+        },
+        swap: function(that) {
+            var x = this.x, y = this.y;
+            this.x = that.x;
+            this.y = that.y;
+            that.x = x;
+            that.y = y;
+        },
+        clone: function() {
+            return new Point(this.x, this.y);
+        }
+    };
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {});
+    if (fabric.Intersection) {
+        fabric.warn("fabric.Intersection is already defined");
+        return;
+    }
+    function Intersection(status) {
+        this.status = status;
+        this.points = [];
+    }
+    fabric.Intersection = Intersection;
+    fabric.Intersection.prototype = {
+        constructor: Intersection,
+        appendPoint: function(point) {
+            this.points.push(point);
+            return this;
+        },
+        appendPoints: function(points) {
+            this.points = this.points.concat(points);
+            return this;
+        }
+    };
+    fabric.Intersection.intersectLineLine = function(a1, a2, b1, b2) {
+        var result, uaT = (b2.x - b1.x) * (a1.y - b1.y) - (b2.y - b1.y) * (a1.x - b1.x), ubT = (a2.x - a1.x) * (a1.y - b1.y) - (a2.y - a1.y) * (a1.x - b1.x), uB = (b2.y - b1.y) * (a2.x - a1.x) - (b2.x - b1.x) * (a2.y - a1.y);
+        if (uB !== 0) {
+            var ua = uaT / uB, ub = ubT / uB;
+            if (0 <= ua && ua <= 1 && 0 <= ub && ub <= 1) {
+                result = new Intersection("Intersection");
+                result.appendPoint(new fabric.Point(a1.x + ua * (a2.x - a1.x), a1.y + ua * (a2.y - a1.y)));
+            } else {
+                result = new Intersection();
+            }
+        } else {
+            if (uaT === 0 || ubT === 0) {
+                result = new Intersection("Coincident");
+            } else {
+                result = new Intersection("Parallel");
+            }
+        }
+        return result;
+    };
+    fabric.Intersection.intersectLinePolygon = function(a1, a2, points) {
+        var result = new Intersection(), length = points.length, b1, b2, inter, i;
+        for (i = 0; i < length; i++) {
+            b1 = points[i];
+            b2 = points[(i + 1) % length];
+            inter = Intersection.intersectLineLine(a1, a2, b1, b2);
+            result.appendPoints(inter.points);
+        }
+        if (result.points.length > 0) {
+            result.status = "Intersection";
+        }
+        return result;
+    };
+    fabric.Intersection.intersectPolygonPolygon = function(points1, points2) {
+        var result = new Intersection(), length = points1.length, i;
+        for (i = 0; i < length; i++) {
+            var a1 = points1[i], a2 = points1[(i + 1) % length], inter = Intersection.intersectLinePolygon(a1, a2, points2);
+            result.appendPoints(inter.points);
+        }
+        if (result.points.length > 0) {
+            result.status = "Intersection";
+        }
+        return result;
+    };
+    fabric.Intersection.intersectPolygonRectangle = function(points, r1, r2) {
+        var min = r1.min(r2), max = r1.max(r2), topRight = new fabric.Point(max.x, min.y), bottomLeft = new fabric.Point(min.x, max.y), inter1 = Intersection.intersectLinePolygon(min, topRight, points), inter2 = Intersection.intersectLinePolygon(topRight, max, points), inter3 = Intersection.intersectLinePolygon(max, bottomLeft, points), inter4 = Intersection.intersectLinePolygon(bottomLeft, min, points), result = new Intersection();
+        result.appendPoints(inter1.points);
+        result.appendPoints(inter2.points);
+        result.appendPoints(inter3.points);
+        result.appendPoints(inter4.points);
+        if (result.points.length > 0) {
+            result.status = "Intersection";
+        }
+        return result;
+    };
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {});
+    if (fabric.Color) {
+        fabric.warn("fabric.Color is already defined.");
+        return;
+    }
+    function Color(color) {
+        if (!color) {
+            this.setSource([ 0, 0, 0, 1 ]);
+        } else {
+            this._tryParsingColor(color);
+        }
+    }
+    fabric.Color = Color;
+    fabric.Color.prototype = {
+        _tryParsingColor: function(color) {
+            var source;
+            if (color in Color.colorNameMap) {
+                color = Color.colorNameMap[color];
+            }
+            if (color === "transparent") {
+                source = [ 255, 255, 255, 0 ];
+            }
+            if (!source) {
+                source = Color.sourceFromHex(color);
+            }
+            if (!source) {
+                source = Color.sourceFromRgb(color);
+            }
+            if (!source) {
+                source = Color.sourceFromHsl(color);
+            }
+            if (!source) {
+                source = [ 0, 0, 0, 1 ];
+            }
+            if (source) {
+                this.setSource(source);
+            }
+        },
+        _rgbToHsl: function(r, g, b) {
+            r /= 255;
+            g /= 255;
+            b /= 255;
+            var h, s, l, max = fabric.util.array.max([ r, g, b ]), min = fabric.util.array.min([ r, g, b ]);
+            l = (max + min) / 2;
+            if (max === min) {
+                h = s = 0;
+            } else {
+                var d = max - min;
+                s = l > .5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                  case r:
+                    h = (g - b) / d + (g < b ? 6 : 0);
+                    break;
+
+                  case g:
+                    h = (b - r) / d + 2;
+                    break;
+
+                  case b:
+                    h = (r - g) / d + 4;
+                    break;
+                }
+                h /= 6;
+            }
+            return [ Math.round(h * 360), Math.round(s * 100), Math.round(l * 100) ];
+        },
+        getSource: function() {
+            return this._source;
+        },
+        setSource: function(source) {
+            this._source = source;
+        },
+        toRgb: function() {
+            var source = this.getSource();
+            return "rgb(" + source[0] + "," + source[1] + "," + source[2] + ")";
+        },
+        toRgba: function() {
+            var source = this.getSource();
+            return "rgba(" + source[0] + "," + source[1] + "," + source[2] + "," + source[3] + ")";
+        },
+        toHsl: function() {
+            var source = this.getSource(), hsl = this._rgbToHsl(source[0], source[1], source[2]);
+            return "hsl(" + hsl[0] + "," + hsl[1] + "%," + hsl[2] + "%)";
+        },
+        toHsla: function() {
+            var source = this.getSource(), hsl = this._rgbToHsl(source[0], source[1], source[2]);
+            return "hsla(" + hsl[0] + "," + hsl[1] + "%," + hsl[2] + "%," + source[3] + ")";
+        },
+        toHex: function() {
+            var source = this.getSource(), r, g, b;
+            r = source[0].toString(16);
+            r = r.length === 1 ? "0" + r : r;
+            g = source[1].toString(16);
+            g = g.length === 1 ? "0" + g : g;
+            b = source[2].toString(16);
+            b = b.length === 1 ? "0" + b : b;
+            return r.toUpperCase() + g.toUpperCase() + b.toUpperCase();
+        },
+        toHexa: function() {
+            var source = this.getSource(), a;
+            a = Math.round(source[3] * 255);
+            a = a.toString(16);
+            a = a.length === 1 ? "0" + a : a;
+            return this.toHex() + a.toUpperCase();
+        },
+        getAlpha: function() {
+            return this.getSource()[3];
+        },
+        setAlpha: function(alpha) {
+            var source = this.getSource();
+            source[3] = alpha;
+            this.setSource(source);
+            return this;
+        },
+        toGrayscale: function() {
+            var source = this.getSource(), average = parseInt((source[0] * .3 + source[1] * .59 + source[2] * .11).toFixed(0), 10), currentAlpha = source[3];
+            this.setSource([ average, average, average, currentAlpha ]);
+            return this;
+        },
+        toBlackWhite: function(threshold) {
+            var source = this.getSource(), average = (source[0] * .3 + source[1] * .59 + source[2] * .11).toFixed(0), currentAlpha = source[3];
+            threshold = threshold || 127;
+            average = Number(average) < Number(threshold) ? 0 : 255;
+            this.setSource([ average, average, average, currentAlpha ]);
+            return this;
+        },
+        overlayWith: function(otherColor) {
+            if (!(otherColor instanceof Color)) {
+                otherColor = new Color(otherColor);
+            }
+            var result = [], alpha = this.getAlpha(), otherAlpha = .5, source = this.getSource(), otherSource = otherColor.getSource(), i;
+            for (i = 0; i < 3; i++) {
+                result.push(Math.round(source[i] * (1 - otherAlpha) + otherSource[i] * otherAlpha));
+            }
+            result[3] = alpha;
+            this.setSource(result);
+            return this;
+        }
+    };
+    fabric.Color.reRGBa = /^rgba?\(\s*(\d{1,3}(?:\.\d+)?\%?)\s*,\s*(\d{1,3}(?:\.\d+)?\%?)\s*,\s*(\d{1,3}(?:\.\d+)?\%?)\s*(?:\s*,\s*((?:\d*\.?\d+)?)\s*)?\)$/;
+    fabric.Color.reHSLa = /^hsla?\(\s*(\d{1,3})\s*,\s*(\d{1,3}\%)\s*,\s*(\d{1,3}\%)\s*(?:\s*,\s*(\d+(?:\.\d+)?)\s*)?\)$/;
+    fabric.Color.reHex = /^#?([0-9a-f]{8}|[0-9a-f]{6}|[0-9a-f]{4}|[0-9a-f]{3})$/i;
+    fabric.Color.colorNameMap = {
+        aliceblue: "#F0F8FF",
+        antiquewhite: "#FAEBD7",
+        aqua: "#00FFFF",
+        aquamarine: "#7FFFD4",
+        azure: "#F0FFFF",
+        beige: "#F5F5DC",
+        bisque: "#FFE4C4",
+        black: "#000000",
+        blanchedalmond: "#FFEBCD",
+        blue: "#0000FF",
+        blueviolet: "#8A2BE2",
+        brown: "#A52A2A",
+        burlywood: "#DEB887",
+        cadetblue: "#5F9EA0",
+        chartreuse: "#7FFF00",
+        chocolate: "#D2691E",
+        coral: "#FF7F50",
+        cornflowerblue: "#6495ED",
+        cornsilk: "#FFF8DC",
+        crimson: "#DC143C",
+        cyan: "#00FFFF",
+        darkblue: "#00008B",
+        darkcyan: "#008B8B",
+        darkgoldenrod: "#B8860B",
+        darkgray: "#A9A9A9",
+        darkgrey: "#A9A9A9",
+        darkgreen: "#006400",
+        darkkhaki: "#BDB76B",
+        darkmagenta: "#8B008B",
+        darkolivegreen: "#556B2F",
+        darkorange: "#FF8C00",
+        darkorchid: "#9932CC",
+        darkred: "#8B0000",
+        darksalmon: "#E9967A",
+        darkseagreen: "#8FBC8F",
+        darkslateblue: "#483D8B",
+        darkslategray: "#2F4F4F",
+        darkslategrey: "#2F4F4F",
+        darkturquoise: "#00CED1",
+        darkviolet: "#9400D3",
+        deeppink: "#FF1493",
+        deepskyblue: "#00BFFF",
+        dimgray: "#696969",
+        dimgrey: "#696969",
+        dodgerblue: "#1E90FF",
+        firebrick: "#B22222",
+        floralwhite: "#FFFAF0",
+        forestgreen: "#228B22",
+        fuchsia: "#FF00FF",
+        gainsboro: "#DCDCDC",
+        ghostwhite: "#F8F8FF",
+        gold: "#FFD700",
+        goldenrod: "#DAA520",
+        gray: "#808080",
+        grey: "#808080",
+        green: "#008000",
+        greenyellow: "#ADFF2F",
+        honeydew: "#F0FFF0",
+        hotpink: "#FF69B4",
+        indianred: "#CD5C5C",
+        indigo: "#4B0082",
+        ivory: "#FFFFF0",
+        khaki: "#F0E68C",
+        lavender: "#E6E6FA",
+        lavenderblush: "#FFF0F5",
+        lawngreen: "#7CFC00",
+        lemonchiffon: "#FFFACD",
+        lightblue: "#ADD8E6",
+        lightcoral: "#F08080",
+        lightcyan: "#E0FFFF",
+        lightgoldenrodyellow: "#FAFAD2",
+        lightgray: "#D3D3D3",
+        lightgrey: "#D3D3D3",
+        lightgreen: "#90EE90",
+        lightpink: "#FFB6C1",
+        lightsalmon: "#FFA07A",
+        lightseagreen: "#20B2AA",
+        lightskyblue: "#87CEFA",
+        lightslategray: "#778899",
+        lightslategrey: "#778899",
+        lightsteelblue: "#B0C4DE",
+        lightyellow: "#FFFFE0",
+        lime: "#00FF00",
+        limegreen: "#32CD32",
+        linen: "#FAF0E6",
+        magenta: "#FF00FF",
+        maroon: "#800000",
+        mediumaquamarine: "#66CDAA",
+        mediumblue: "#0000CD",
+        mediumorchid: "#BA55D3",
+        mediumpurple: "#9370DB",
+        mediumseagreen: "#3CB371",
+        mediumslateblue: "#7B68EE",
+        mediumspringgreen: "#00FA9A",
+        mediumturquoise: "#48D1CC",
+        mediumvioletred: "#C71585",
+        midnightblue: "#191970",
+        mintcream: "#F5FFFA",
+        mistyrose: "#FFE4E1",
+        moccasin: "#FFE4B5",
+        navajowhite: "#FFDEAD",
+        navy: "#000080",
+        oldlace: "#FDF5E6",
+        olive: "#808000",
+        olivedrab: "#6B8E23",
+        orange: "#FFA500",
+        orangered: "#FF4500",
+        orchid: "#DA70D6",
+        palegoldenrod: "#EEE8AA",
+        palegreen: "#98FB98",
+        paleturquoise: "#AFEEEE",
+        palevioletred: "#DB7093",
+        papayawhip: "#FFEFD5",
+        peachpuff: "#FFDAB9",
+        peru: "#CD853F",
+        pink: "#FFC0CB",
+        plum: "#DDA0DD",
+        powderblue: "#B0E0E6",
+        purple: "#800080",
+        rebeccapurple: "#663399",
+        red: "#FF0000",
+        rosybrown: "#BC8F8F",
+        royalblue: "#4169E1",
+        saddlebrown: "#8B4513",
+        salmon: "#FA8072",
+        sandybrown: "#F4A460",
+        seagreen: "#2E8B57",
+        seashell: "#FFF5EE",
+        sienna: "#A0522D",
+        silver: "#C0C0C0",
+        skyblue: "#87CEEB",
+        slateblue: "#6A5ACD",
+        slategray: "#708090",
+        slategrey: "#708090",
+        snow: "#FFFAFA",
+        springgreen: "#00FF7F",
+        steelblue: "#4682B4",
+        tan: "#D2B48C",
+        teal: "#008080",
+        thistle: "#D8BFD8",
+        tomato: "#FF6347",
+        turquoise: "#40E0D0",
+        violet: "#EE82EE",
+        wheat: "#F5DEB3",
+        white: "#FFFFFF",
+        whitesmoke: "#F5F5F5",
+        yellow: "#FFFF00",
+        yellowgreen: "#9ACD32"
+    };
+    function hue2rgb(p, q, t) {
+        if (t < 0) {
+            t += 1;
+        }
+        if (t > 1) {
+            t -= 1;
+        }
+        if (t < 1 / 6) {
+            return p + (q - p) * 6 * t;
+        }
+        if (t < 1 / 2) {
+            return q;
+        }
+        if (t < 2 / 3) {
+            return p + (q - p) * (2 / 3 - t) * 6;
+        }
+        return p;
+    }
+    fabric.Color.fromRgb = function(color) {
+        return Color.fromSource(Color.sourceFromRgb(color));
+    };
+    fabric.Color.sourceFromRgb = function(color) {
+        var match = color.match(Color.reRGBa);
+        if (match) {
+            var r = parseInt(match[1], 10) / (/%$/.test(match[1]) ? 100 : 1) * (/%$/.test(match[1]) ? 255 : 1), g = parseInt(match[2], 10) / (/%$/.test(match[2]) ? 100 : 1) * (/%$/.test(match[2]) ? 255 : 1), b = parseInt(match[3], 10) / (/%$/.test(match[3]) ? 100 : 1) * (/%$/.test(match[3]) ? 255 : 1);
+            return [ parseInt(r, 10), parseInt(g, 10), parseInt(b, 10), match[4] ? parseFloat(match[4]) : 1 ];
+        }
+    };
+    fabric.Color.fromRgba = Color.fromRgb;
+    fabric.Color.fromHsl = function(color) {
+        return Color.fromSource(Color.sourceFromHsl(color));
+    };
+    fabric.Color.sourceFromHsl = function(color) {
+        var match = color.match(Color.reHSLa);
+        if (!match) {
+            return;
+        }
+        var h = (parseFloat(match[1]) % 360 + 360) % 360 / 360, s = parseFloat(match[2]) / (/%$/.test(match[2]) ? 100 : 1), l = parseFloat(match[3]) / (/%$/.test(match[3]) ? 100 : 1), r, g, b;
+        if (s === 0) {
+            r = g = b = l;
+        } else {
+            var q = l <= .5 ? l * (s + 1) : l + s - l * s, p = l * 2 - q;
+            r = hue2rgb(p, q, h + 1 / 3);
+            g = hue2rgb(p, q, h);
+            b = hue2rgb(p, q, h - 1 / 3);
+        }
+        return [ Math.round(r * 255), Math.round(g * 255), Math.round(b * 255), match[4] ? parseFloat(match[4]) : 1 ];
+    };
+    fabric.Color.fromHsla = Color.fromHsl;
+    fabric.Color.fromHex = function(color) {
+        return Color.fromSource(Color.sourceFromHex(color));
+    };
+    fabric.Color.sourceFromHex = function(color) {
+        if (color.match(Color.reHex)) {
+            var value = color.slice(color.indexOf("#") + 1), isShortNotation = value.length === 3 || value.length === 4, isRGBa = value.length === 8 || value.length === 4, r = isShortNotation ? value.charAt(0) + value.charAt(0) : value.substring(0, 2), g = isShortNotation ? value.charAt(1) + value.charAt(1) : value.substring(2, 4), b = isShortNotation ? value.charAt(2) + value.charAt(2) : value.substring(4, 6), a = isRGBa ? isShortNotation ? value.charAt(3) + value.charAt(3) : value.substring(6, 8) : "FF";
+            return [ parseInt(r, 16), parseInt(g, 16), parseInt(b, 16), parseFloat((parseInt(a, 16) / 255).toFixed(2)) ];
+        }
+    };
+    fabric.Color.fromSource = function(source) {
+        var oColor = new Color();
+        oColor.setSource(source);
+        return oColor;
+    };
+})( true ? exports : this);
+
+(function() {
+    function getColorStop(el) {
+        var style = el.getAttribute("style"), offset = el.getAttribute("offset") || 0, color, colorAlpha, opacity, i;
+        offset = parseFloat(offset) / (/%$/.test(offset) ? 100 : 1);
+        offset = offset < 0 ? 0 : offset > 1 ? 1 : offset;
+        if (style) {
+            var keyValuePairs = style.split(/\s*;\s*/);
+            if (keyValuePairs[keyValuePairs.length - 1] === "") {
+                keyValuePairs.pop();
+            }
+            for (i = keyValuePairs.length; i--; ) {
+                var split = keyValuePairs[i].split(/\s*:\s*/), key = split[0].trim(), value = split[1].trim();
+                if (key === "stop-color") {
+                    color = value;
+                } else if (key === "stop-opacity") {
+                    opacity = value;
+                }
+            }
+        }
+        if (!color) {
+            color = el.getAttribute("stop-color") || "rgb(0,0,0)";
+        }
+        if (!opacity) {
+            opacity = el.getAttribute("stop-opacity");
+        }
+        color = new fabric.Color(color);
+        colorAlpha = color.getAlpha();
+        opacity = isNaN(parseFloat(opacity)) ? 1 : parseFloat(opacity);
+        opacity *= colorAlpha;
+        return {
+            offset: offset,
+            color: color.toRgb(),
+            opacity: opacity
+        };
+    }
+    function getLinearCoords(el) {
+        return {
+            x1: el.getAttribute("x1") || 0,
+            y1: el.getAttribute("y1") || 0,
+            x2: el.getAttribute("x2") || "100%",
+            y2: el.getAttribute("y2") || 0
+        };
+    }
+    function getRadialCoords(el) {
+        return {
+            x1: el.getAttribute("fx") || el.getAttribute("cx") || "50%",
+            y1: el.getAttribute("fy") || el.getAttribute("cy") || "50%",
+            r1: 0,
+            x2: el.getAttribute("cx") || "50%",
+            y2: el.getAttribute("cy") || "50%",
+            r2: el.getAttribute("r") || "50%"
+        };
+    }
+    var clone = fabric.util.object.clone;
+    fabric.Gradient = fabric.util.createClass({
+        offsetX: 0,
+        offsetY: 0,
+        initialize: function(options) {
+            options || (options = {});
+            var coords = {};
+            this.id = fabric.Object.__uid++;
+            this.type = options.type || "linear";
+            coords = {
+                x1: options.coords.x1 || 0,
+                y1: options.coords.y1 || 0,
+                x2: options.coords.x2 || 0,
+                y2: options.coords.y2 || 0
+            };
+            if (this.type === "radial") {
+                coords.r1 = options.coords.r1 || 0;
+                coords.r2 = options.coords.r2 || 0;
+            }
+            this.coords = coords;
+            this.colorStops = options.colorStops.slice();
+            if (options.gradientTransform) {
+                this.gradientTransform = options.gradientTransform;
+            }
+            this.offsetX = options.offsetX || this.offsetX;
+            this.offsetY = options.offsetY || this.offsetY;
+        },
+        addColorStop: function(colorStops) {
+            for (var position in colorStops) {
+                var color = new fabric.Color(colorStops[position]);
+                this.colorStops.push({
+                    offset: parseFloat(position),
+                    color: color.toRgb(),
+                    opacity: color.getAlpha()
+                });
+            }
+            return this;
+        },
+        toObject: function(propertiesToInclude) {
+            var object = {
+                type: this.type,
+                coords: this.coords,
+                colorStops: this.colorStops,
+                offsetX: this.offsetX,
+                offsetY: this.offsetY,
+                gradientTransform: this.gradientTransform ? this.gradientTransform.concat() : this.gradientTransform
+            };
+            fabric.util.populateWithProperties(this, object, propertiesToInclude);
+            return object;
+        },
+        toSVG: function(object) {
+            var coords = clone(this.coords, true), i, len, markup, commonAttributes, colorStops = clone(this.colorStops, true), needsSwap = coords.r1 > coords.r2, offsetX = object.width / 2, offsetY = object.height / 2;
+            colorStops.sort(function(a, b) {
+                return a.offset - b.offset;
+            });
+            if (object.type === "path") {
+                offsetX -= object.pathOffset.x;
+                offsetY -= object.pathOffset.y;
+            }
+            for (var prop in coords) {
+                if (prop === "x1" || prop === "x2") {
+                    coords[prop] += this.offsetX - offsetX;
+                } else if (prop === "y1" || prop === "y2") {
+                    coords[prop] += this.offsetY - offsetY;
+                }
+            }
+            commonAttributes = 'id="SVGID_' + this.id + '" gradientUnits="userSpaceOnUse"';
+            if (this.gradientTransform) {
+                commonAttributes += ' gradientTransform="matrix(' + this.gradientTransform.join(" ") + ')" ';
+            }
+            if (this.type === "linear") {
+                markup = [ "<linearGradient ", commonAttributes, ' x1="', coords.x1, '" y1="', coords.y1, '" x2="', coords.x2, '" y2="', coords.y2, '">\n' ];
+            } else if (this.type === "radial") {
+                markup = [ "<radialGradient ", commonAttributes, ' cx="', needsSwap ? coords.x1 : coords.x2, '" cy="', needsSwap ? coords.y1 : coords.y2, '" r="', needsSwap ? coords.r1 : coords.r2, '" fx="', needsSwap ? coords.x2 : coords.x1, '" fy="', needsSwap ? coords.y2 : coords.y1, '">\n' ];
+            }
+            if (this.type === "radial") {
+                if (needsSwap) {
+                    colorStops = colorStops.concat();
+                    colorStops.reverse();
+                    for (i = 0, len = colorStops.length; i < len; i++) {
+                        colorStops[i].offset = 1 - colorStops[i].offset;
+                    }
+                }
+                var minRadius = Math.min(coords.r1, coords.r2);
+                if (minRadius > 0) {
+                    var maxRadius = Math.max(coords.r1, coords.r2), percentageShift = minRadius / maxRadius;
+                    for (i = 0, len = colorStops.length; i < len; i++) {
+                        colorStops[i].offset += percentageShift * (1 - colorStops[i].offset);
+                    }
+                }
+            }
+            for (i = 0, len = colorStops.length; i < len; i++) {
+                var colorStop = colorStops[i];
+                markup.push("<stop ", 'offset="', colorStop.offset * 100 + "%", '" style="stop-color:', colorStop.color, typeof colorStop.opacity !== "undefined" ? ";stop-opacity: " + colorStop.opacity : ";", '"/>\n');
+            }
+            markup.push(this.type === "linear" ? "</linearGradient>\n" : "</radialGradient>\n");
+            return markup.join("");
+        },
+        toLive: function(ctx) {
+            var gradient, coords = fabric.util.object.clone(this.coords), i, len;
+            if (!this.type) {
+                return;
+            }
+            if (this.type === "linear") {
+                gradient = ctx.createLinearGradient(coords.x1, coords.y1, coords.x2, coords.y2);
+            } else if (this.type === "radial") {
+                gradient = ctx.createRadialGradient(coords.x1, coords.y1, coords.r1, coords.x2, coords.y2, coords.r2);
+            }
+            for (i = 0, len = this.colorStops.length; i < len; i++) {
+                var color = this.colorStops[i].color, opacity = this.colorStops[i].opacity, offset = this.colorStops[i].offset;
+                if (typeof opacity !== "undefined") {
+                    color = new fabric.Color(color).setAlpha(opacity).toRgba();
+                }
+                gradient.addColorStop(offset, color);
+            }
+            return gradient;
+        }
+    });
+    fabric.util.object.extend(fabric.Gradient, {
+        fromElement: function(el, instance) {
+            var colorStopEls = el.getElementsByTagName("stop"), type, gradientUnits = el.getAttribute("gradientUnits") || "objectBoundingBox", gradientTransform = el.getAttribute("gradientTransform"), colorStops = [], coords, ellipseMatrix, i;
+            if (el.nodeName === "linearGradient" || el.nodeName === "LINEARGRADIENT") {
+                type = "linear";
+            } else {
+                type = "radial";
+            }
+            if (type === "linear") {
+                coords = getLinearCoords(el);
+            } else if (type === "radial") {
+                coords = getRadialCoords(el);
+            }
+            for (i = colorStopEls.length; i--; ) {
+                colorStops.push(getColorStop(colorStopEls[i]));
+            }
+            ellipseMatrix = _convertPercentUnitsToValues(instance, coords, gradientUnits);
+            var gradient = new fabric.Gradient({
+                type: type,
+                coords: coords,
+                colorStops: colorStops,
+                offsetX: -instance.left,
+                offsetY: -instance.top
+            });
+            if (gradientTransform || ellipseMatrix !== "") {
+                gradient.gradientTransform = fabric.parseTransformAttribute((gradientTransform || "") + ellipseMatrix);
+            }
+            return gradient;
+        },
+        forObject: function(obj, options) {
+            options || (options = {});
+            _convertPercentUnitsToValues(obj, options.coords, "userSpaceOnUse");
+            return new fabric.Gradient(options);
+        }
+    });
+    function _convertPercentUnitsToValues(object, options, gradientUnits) {
+        var propValue, addFactor = 0, multFactor = 1, ellipseMatrix = "";
+        for (var prop in options) {
+            if (options[prop] === "Infinity") {
+                options[prop] = 1;
+            } else if (options[prop] === "-Infinity") {
+                options[prop] = 0;
+            }
+            propValue = parseFloat(options[prop], 10);
+            if (typeof options[prop] === "string" && /^(\d+\.\d+)%|(\d+)%$/.test(options[prop])) {
+                multFactor = .01;
+            } else {
+                multFactor = 1;
+            }
+            if (prop === "x1" || prop === "x2" || prop === "r2") {
+                multFactor *= gradientUnits === "objectBoundingBox" ? object.width : 1;
+                addFactor = gradientUnits === "objectBoundingBox" ? object.left || 0 : 0;
+            } else if (prop === "y1" || prop === "y2") {
+                multFactor *= gradientUnits === "objectBoundingBox" ? object.height : 1;
+                addFactor = gradientUnits === "objectBoundingBox" ? object.top || 0 : 0;
+            }
+            options[prop] = propValue * multFactor + addFactor;
+        }
+        if (object.type === "ellipse" && options.r2 !== null && gradientUnits === "objectBoundingBox" && object.rx !== object.ry) {
+            var scaleFactor = object.ry / object.rx;
+            ellipseMatrix = " scale(1, " + scaleFactor + ")";
+            if (options.y1) {
+                options.y1 /= scaleFactor;
+            }
+            if (options.y2) {
+                options.y2 /= scaleFactor;
+            }
+        }
+        return ellipseMatrix;
+    }
+})();
+
+(function() {
+    "use strict";
+    var toFixed = fabric.util.toFixed;
+    fabric.Pattern = fabric.util.createClass({
+        repeat: "repeat",
+        offsetX: 0,
+        offsetY: 0,
+        crossOrigin: "",
+        patternTransform: null,
+        initialize: function(options, callback) {
+            options || (options = {});
+            this.id = fabric.Object.__uid++;
+            this.setOptions(options);
+            if (!options.source || options.source && typeof options.source !== "string") {
+                callback && callback(this);
+                return;
+            }
+            if (typeof fabric.util.getFunctionBody(options.source) !== "undefined") {
+                this.source = new Function(fabric.util.getFunctionBody(options.source));
+                callback && callback(this);
+            } else {
+                var _this = this;
+                this.source = fabric.util.createImage();
+                fabric.util.loadImage(options.source, function(img) {
+                    _this.source = img;
+                    callback && callback(_this);
+                }, null, this.crossOrigin);
+            }
+        },
+        toObject: function(propertiesToInclude) {
+            var NUM_FRACTION_DIGITS = fabric.Object.NUM_FRACTION_DIGITS, source, object;
+            if (typeof this.source === "function") {
+                source = String(this.source);
+            } else if (typeof this.source.src === "string") {
+                source = this.source.src;
+            } else if (typeof this.source === "object" && this.source.toDataURL) {
+                source = this.source.toDataURL();
+            }
+            object = {
+                type: "pattern",
+                source: source,
+                repeat: this.repeat,
+                crossOrigin: this.crossOrigin,
+                offsetX: toFixed(this.offsetX, NUM_FRACTION_DIGITS),
+                offsetY: toFixed(this.offsetY, NUM_FRACTION_DIGITS),
+                patternTransform: this.patternTransform ? this.patternTransform.concat() : null
+            };
+            fabric.util.populateWithProperties(this, object, propertiesToInclude);
+            return object;
+        },
+        toSVG: function(object) {
+            var patternSource = typeof this.source === "function" ? this.source() : this.source, patternWidth = patternSource.width / object.width, patternHeight = patternSource.height / object.height, patternOffsetX = this.offsetX / object.width, patternOffsetY = this.offsetY / object.height, patternImgSrc = "";
+            if (this.repeat === "repeat-x" || this.repeat === "no-repeat") {
+                patternHeight = 1;
+            }
+            if (this.repeat === "repeat-y" || this.repeat === "no-repeat") {
+                patternWidth = 1;
+            }
+            if (patternSource.src) {
+                patternImgSrc = patternSource.src;
+            } else if (patternSource.toDataURL) {
+                patternImgSrc = patternSource.toDataURL();
+            }
+            return '<pattern id="SVGID_' + this.id + '" x="' + patternOffsetX + '" y="' + patternOffsetY + '" width="' + patternWidth + '" height="' + patternHeight + '">\n' + '<image x="0" y="0"' + ' width="' + patternSource.width + '" height="' + patternSource.height + '" xlink:href="' + patternImgSrc + '"></image>\n' + "</pattern>\n";
+        },
+        setOptions: function(options) {
+            for (var prop in options) {
+                this[prop] = options[prop];
+            }
+        },
+        toLive: function(ctx) {
+            var source = typeof this.source === "function" ? this.source() : this.source;
+            if (!source) {
+                return "";
+            }
+            if (typeof source.src !== "undefined") {
+                if (!source.complete) {
+                    return "";
+                }
+                if (source.naturalWidth === 0 || source.naturalHeight === 0) {
+                    return "";
+                }
+            }
+            return ctx.createPattern(source, this.repeat);
+        }
+    });
+})();
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), toFixed = fabric.util.toFixed;
+    if (fabric.Shadow) {
+        fabric.warn("fabric.Shadow is already defined.");
+        return;
+    }
+    fabric.Shadow = fabric.util.createClass({
+        color: "rgb(0,0,0)",
+        blur: 0,
+        offsetX: 0,
+        offsetY: 0,
+        affectStroke: false,
+        includeDefaultValues: true,
+        initialize: function(options) {
+            if (typeof options === "string") {
+                options = this._parseShadow(options);
+            }
+            for (var prop in options) {
+                this[prop] = options[prop];
+            }
+            this.id = fabric.Object.__uid++;
+        },
+        _parseShadow: function(shadow) {
+            var shadowStr = shadow.trim(), offsetsAndBlur = fabric.Shadow.reOffsetsAndBlur.exec(shadowStr) || [], color = shadowStr.replace(fabric.Shadow.reOffsetsAndBlur, "") || "rgb(0,0,0)";
+            return {
+                color: color.trim(),
+                offsetX: parseInt(offsetsAndBlur[1], 10) || 0,
+                offsetY: parseInt(offsetsAndBlur[2], 10) || 0,
+                blur: parseInt(offsetsAndBlur[3], 10) || 0
+            };
+        },
+        toString: function() {
+            return [ this.offsetX, this.offsetY, this.blur, this.color ].join("px ");
+        },
+        toSVG: function(object) {
+            var fBoxX = 40, fBoxY = 40, NUM_FRACTION_DIGITS = fabric.Object.NUM_FRACTION_DIGITS, offset = fabric.util.rotateVector({
+                x: this.offsetX,
+                y: this.offsetY
+            }, fabric.util.degreesToRadians(-object.angle)), BLUR_BOX = 20;
+            if (object.width && object.height) {
+                fBoxX = toFixed((Math.abs(offset.x) + this.blur) / object.width, NUM_FRACTION_DIGITS) * 100 + BLUR_BOX;
+                fBoxY = toFixed((Math.abs(offset.y) + this.blur) / object.height, NUM_FRACTION_DIGITS) * 100 + BLUR_BOX;
+            }
+            if (object.flipX) {
+                offset.x *= -1;
+            }
+            if (object.flipY) {
+                offset.y *= -1;
+            }
+            return '<filter id="SVGID_' + this.id + '" y="-' + fBoxY + '%" height="' + (100 + 2 * fBoxY) + '%" ' + 'x="-' + fBoxX + '%" width="' + (100 + 2 * fBoxX) + '%" ' + ">\n" + '\t<feGaussianBlur in="SourceAlpha" stdDeviation="' + toFixed(this.blur ? this.blur / 2 : 0, NUM_FRACTION_DIGITS) + '"></feGaussianBlur>\n' + '\t<feOffset dx="' + toFixed(offset.x, NUM_FRACTION_DIGITS) + '" dy="' + toFixed(offset.y, NUM_FRACTION_DIGITS) + '" result="oBlur" ></feOffset>\n' + '\t<feFlood flood-color="' + this.color + '"/>\n' + '\t<feComposite in2="oBlur" operator="in" />\n' + "\t<feMerge>\n" + "\t\t<feMergeNode></feMergeNode>\n" + '\t\t<feMergeNode in="SourceGraphic"></feMergeNode>\n' + "\t</feMerge>\n" + "</filter>\n";
+        },
+        toObject: function() {
+            if (this.includeDefaultValues) {
+                return {
+                    color: this.color,
+                    blur: this.blur,
+                    offsetX: this.offsetX,
+                    offsetY: this.offsetY,
+                    affectStroke: this.affectStroke
+                };
+            }
+            var obj = {}, proto = fabric.Shadow.prototype;
+            [ "color", "blur", "offsetX", "offsetY", "affectStroke" ].forEach(function(prop) {
+                if (this[prop] !== proto[prop]) {
+                    obj[prop] = this[prop];
+                }
+            }, this);
+            return obj;
+        }
+    });
+    fabric.Shadow.reOffsetsAndBlur = /(?:\s|^)(-?\d+(?:px)?(?:\s?|$))?(-?\d+(?:px)?(?:\s?|$))?(\d+(?:px)?)?(?:\s?|$)(?:$|\s)/;
+})( true ? exports : this);
+
+(function() {
+    "use strict";
+    if (fabric.StaticCanvas) {
+        fabric.warn("fabric.StaticCanvas is already defined.");
+        return;
+    }
+    var extend = fabric.util.object.extend, getElementOffset = fabric.util.getElementOffset, removeFromArray = fabric.util.removeFromArray, toFixed = fabric.util.toFixed, transformPoint = fabric.util.transformPoint, invertTransform = fabric.util.invertTransform, CANVAS_INIT_ERROR = new Error("Could not initialize `canvas` element");
+    fabric.StaticCanvas = fabric.util.createClass(fabric.CommonMethods, {
+        initialize: function(el, options) {
+            options || (options = {});
+            this.renderAndResetBound = this.renderAndReset.bind(this);
+            this.requestRenderAllBound = this.requestRenderAll.bind(this);
+            this._initStatic(el, options);
+        },
+        backgroundColor: "",
+        backgroundImage: null,
+        overlayColor: "",
+        overlayImage: null,
+        includeDefaultValues: true,
+        stateful: false,
+        renderOnAddRemove: true,
+        clipTo: null,
+        controlsAboveOverlay: false,
+        allowTouchScrolling: false,
+        imageSmoothingEnabled: true,
+        viewportTransform: fabric.iMatrix.concat(),
+        backgroundVpt: true,
+        overlayVpt: true,
+        onBeforeScaleRotate: function() {},
+        enableRetinaScaling: true,
+        vptCoords: {},
+        skipOffscreen: true,
+        _initStatic: function(el, options) {
+            var cb = this.requestRenderAllBound;
+            this._objects = [];
+            this._createLowerCanvas(el);
+            this._initOptions(options);
+            this._setImageSmoothing();
+            if (!this.interactive) {
+                this._initRetinaScaling();
+            }
+            if (options.overlayImage) {
+                this.setOverlayImage(options.overlayImage, cb);
+            }
+            if (options.backgroundImage) {
+                this.setBackgroundImage(options.backgroundImage, cb);
+            }
+            if (options.backgroundColor) {
+                this.setBackgroundColor(options.backgroundColor, cb);
+            }
+            if (options.overlayColor) {
+                this.setOverlayColor(options.overlayColor, cb);
+            }
+            this.calcOffset();
+        },
+        _isRetinaScaling: function() {
+            return fabric.devicePixelRatio !== 1 && this.enableRetinaScaling;
+        },
+        getRetinaScaling: function() {
+            return this._isRetinaScaling() ? fabric.devicePixelRatio : 1;
+        },
+        _initRetinaScaling: function() {
+            if (!this._isRetinaScaling()) {
+                return;
+            }
+            this.lowerCanvasEl.setAttribute("width", this.width * fabric.devicePixelRatio);
+            this.lowerCanvasEl.setAttribute("height", this.height * fabric.devicePixelRatio);
+            this.contextContainer.scale(fabric.devicePixelRatio, fabric.devicePixelRatio);
+        },
+        calcOffset: function() {
+            this._offset = getElementOffset(this.lowerCanvasEl);
+            return this;
+        },
+        setOverlayImage: function(image, callback, options) {
+            return this.__setBgOverlayImage("overlayImage", image, callback, options);
+        },
+        setBackgroundImage: function(image, callback, options) {
+            return this.__setBgOverlayImage("backgroundImage", image, callback, options);
+        },
+        setOverlayColor: function(overlayColor, callback) {
+            return this.__setBgOverlayColor("overlayColor", overlayColor, callback);
+        },
+        setBackgroundColor: function(backgroundColor, callback) {
+            return this.__setBgOverlayColor("backgroundColor", backgroundColor, callback);
+        },
+        _setImageSmoothing: function() {
+            var ctx = this.getContext();
+            ctx.imageSmoothingEnabled = ctx.imageSmoothingEnabled || ctx.webkitImageSmoothingEnabled || ctx.mozImageSmoothingEnabled || ctx.msImageSmoothingEnabled || ctx.oImageSmoothingEnabled;
+            ctx.imageSmoothingEnabled = this.imageSmoothingEnabled;
+        },
+        __setBgOverlayImage: function(property, image, callback, options) {
+            if (typeof image === "string") {
+                fabric.util.loadImage(image, function(img) {
+                    img && (this[property] = new fabric.Image(img, options));
+                    callback && callback(img);
+                }, this, options && options.crossOrigin);
+            } else {
+                options && image.setOptions(options);
+                this[property] = image;
+                callback && callback(image);
+            }
+            return this;
+        },
+        __setBgOverlayColor: function(property, color, callback) {
+            this[property] = color;
+            this._initGradient(color, property);
+            this._initPattern(color, property, callback);
+            return this;
+        },
+        _createCanvasElement: function() {
+            var element = fabric.util.createCanvasElement();
+            if (!element) {
+                throw CANVAS_INIT_ERROR;
+            }
+            if (!element.style) {
+                element.style = {};
+            }
+            if (typeof element.getContext === "undefined") {
+                throw CANVAS_INIT_ERROR;
+            }
+            return element;
+        },
+        _initOptions: function(options) {
+            this._setOptions(options);
+            this.width = this.width || parseInt(this.lowerCanvasEl.width, 10) || 0;
+            this.height = this.height || parseInt(this.lowerCanvasEl.height, 10) || 0;
+            if (!this.lowerCanvasEl.style) {
+                return;
+            }
+            this.lowerCanvasEl.width = this.width;
+            this.lowerCanvasEl.height = this.height;
+            this.lowerCanvasEl.style.width = this.width + "px";
+            this.lowerCanvasEl.style.height = this.height + "px";
+            this.viewportTransform = this.viewportTransform.slice();
+        },
+        _createLowerCanvas: function(canvasEl) {
+            if (canvasEl && canvasEl.getContext) {
+                this.lowerCanvasEl = canvasEl;
+            } else {
+                this.lowerCanvasEl = fabric.util.getById(canvasEl) || this._createCanvasElement();
+            }
+            fabric.util.addClass(this.lowerCanvasEl, "lower-canvas");
+            if (this.interactive) {
+                this._applyCanvasStyle(this.lowerCanvasEl);
+            }
+            this.contextContainer = this.lowerCanvasEl.getContext("2d");
+        },
+        getWidth: function() {
+            return this.width;
+        },
+        getHeight: function() {
+            return this.height;
+        },
+        setWidth: function(value, options) {
+            return this.setDimensions({
+                width: value
+            }, options);
+        },
+        setHeight: function(value, options) {
+            return this.setDimensions({
+                height: value
+            }, options);
+        },
+        setDimensions: function(dimensions, options) {
+            var cssValue;
+            options = options || {};
+            for (var prop in dimensions) {
+                cssValue = dimensions[prop];
+                if (!options.cssOnly) {
+                    this._setBackstoreDimension(prop, dimensions[prop]);
+                    cssValue += "px";
+                }
+                if (!options.backstoreOnly) {
+                    this._setCssDimension(prop, cssValue);
+                }
+            }
+            if (this._isCurrentlyDrawing) {
+                this.freeDrawingBrush && this.freeDrawingBrush._setBrushStyles();
+            }
+            this._initRetinaScaling();
+            this._setImageSmoothing();
+            this.calcOffset();
+            if (!options.cssOnly) {
+                this.requestRenderAll();
+            }
+            return this;
+        },
+        _setBackstoreDimension: function(prop, value) {
+            this.lowerCanvasEl[prop] = value;
+            if (this.upperCanvasEl) {
+                this.upperCanvasEl[prop] = value;
+            }
+            if (this.cacheCanvasEl) {
+                this.cacheCanvasEl[prop] = value;
+            }
+            this[prop] = value;
+            return this;
+        },
+        _setCssDimension: function(prop, value) {
+            this.lowerCanvasEl.style[prop] = value;
+            if (this.upperCanvasEl) {
+                this.upperCanvasEl.style[prop] = value;
+            }
+            if (this.wrapperEl) {
+                this.wrapperEl.style[prop] = value;
+            }
+            return this;
+        },
+        getZoom: function() {
+            return this.viewportTransform[0];
+        },
+        setViewportTransform: function(vpt) {
+            var activeObject = this._activeObject, object, ignoreVpt = false, skipAbsolute = true, i, len;
+            this.viewportTransform = vpt;
+            for (i = 0, len = this._objects.length; i < len; i++) {
+                object = this._objects[i];
+                object.group || object.setCoords(ignoreVpt, skipAbsolute);
+            }
+            if (activeObject && activeObject.type === "activeSelection") {
+                activeObject.setCoords(ignoreVpt, skipAbsolute);
+            }
+            this.calcViewportBoundaries();
+            this.renderOnAddRemove && this.requestRenderAll();
+            return this;
+        },
+        zoomToPoint: function(point, value) {
+            var before = point, vpt = this.viewportTransform.slice(0);
+            point = transformPoint(point, invertTransform(this.viewportTransform));
+            vpt[0] = value;
+            vpt[3] = value;
+            var after = transformPoint(point, vpt);
+            vpt[4] += before.x - after.x;
+            vpt[5] += before.y - after.y;
+            return this.setViewportTransform(vpt);
+        },
+        setZoom: function(value) {
+            this.zoomToPoint(new fabric.Point(0, 0), value);
+            return this;
+        },
+        absolutePan: function(point) {
+            var vpt = this.viewportTransform.slice(0);
+            vpt[4] = -point.x;
+            vpt[5] = -point.y;
+            return this.setViewportTransform(vpt);
+        },
+        relativePan: function(point) {
+            return this.absolutePan(new fabric.Point(-point.x - this.viewportTransform[4], -point.y - this.viewportTransform[5]));
+        },
+        getElement: function() {
+            return this.lowerCanvasEl;
+        },
+        _onObjectAdded: function(obj) {
+            this.stateful && obj.setupState();
+            obj._set("canvas", this);
+            obj.setCoords();
+            this.fire("object:added", {
+                target: obj
+            });
+            obj.fire("added");
+        },
+        _onObjectRemoved: function(obj) {
+            this.fire("object:removed", {
+                target: obj
+            });
+            obj.fire("removed");
+            delete obj.canvas;
+        },
+        clearContext: function(ctx) {
+            ctx.clearRect(0, 0, this.width, this.height);
+            return this;
+        },
+        getContext: function() {
+            return this.contextContainer;
+        },
+        clear: function() {
+            this._objects.length = 0;
+            this.backgroundImage = null;
+            this.overlayImage = null;
+            this.backgroundColor = "";
+            this.overlayColor = "";
+            if (this._hasITextHandlers) {
+                this.off("mouse:up", this._mouseUpITextHandler);
+                this._iTextInstances = null;
+                this._hasITextHandlers = false;
+            }
+            this.clearContext(this.contextContainer);
+            this.fire("canvas:cleared");
+            this.renderOnAddRemove && this.requestRenderAll();
+            return this;
+        },
+        renderAll: function() {
+            var canvasToDrawOn = this.contextContainer;
+            this.renderCanvas(canvasToDrawOn, this._objects);
+            return this;
+        },
+        renderAndReset: function() {
+            this.isRendering = 0;
+            this.renderAll();
+        },
+        requestRenderAll: function() {
+            if (!this.isRendering) {
+                this.isRendering = fabric.util.requestAnimFrame(this.renderAndResetBound);
+            }
+            return this;
+        },
+        calcViewportBoundaries: function() {
+            var points = {}, width = this.width, height = this.height, iVpt = invertTransform(this.viewportTransform);
+            points.tl = transformPoint({
+                x: 0,
+                y: 0
+            }, iVpt);
+            points.br = transformPoint({
+                x: width,
+                y: height
+            }, iVpt);
+            points.tr = new fabric.Point(points.br.x, points.tl.y);
+            points.bl = new fabric.Point(points.tl.x, points.br.y);
+            this.vptCoords = points;
+            return points;
+        },
+        renderCanvas: function(ctx, objects) {
+            var v = this.viewportTransform;
+            if (this.isRendering) {
+                fabric.util.cancelAnimFrame(this.isRendering);
+                this.isRendering = 0;
+            }
+            this.calcViewportBoundaries();
+            this.clearContext(ctx);
+            this.fire("before:render");
+            if (this.clipTo) {
+                fabric.util.clipContext(this, ctx);
+            }
+            this._renderBackground(ctx);
+            ctx.save();
+            ctx.transform(v[0], v[1], v[2], v[3], v[4], v[5]);
+            this._renderObjects(ctx, objects);
+            ctx.restore();
+            if (!this.controlsAboveOverlay && this.interactive) {
+                this.drawControls(ctx);
+            }
+            if (this.clipTo) {
+                ctx.restore();
+            }
+            this._renderOverlay(ctx);
+            if (this.controlsAboveOverlay && this.interactive) {
+                this.drawControls(ctx);
+            }
+            this.fire("after:render");
+        },
+        _renderObjects: function(ctx, objects) {
+            var i, len;
+            for (i = 0, len = objects.length; i < len; ++i) {
+                objects[i] && objects[i].render(ctx);
+            }
+        },
+        _renderBackgroundOrOverlay: function(ctx, property) {
+            var object = this[property + "Color"], v;
+            if (object) {
+                ctx.fillStyle = object.toLive ? object.toLive(ctx, this) : object;
+                ctx.fillRect(object.offsetX || 0, object.offsetY || 0, this.width, this.height);
+            }
+            object = this[property + "Image"];
+            if (object) {
+                if (this[property + "Vpt"]) {
+                    v = this.viewportTransform;
+                    ctx.save();
+                    ctx.transform(v[0], v[1], v[2], v[3], v[4], v[5]);
+                }
+                object.render(ctx);
+                this[property + "Vpt"] && ctx.restore();
+            }
+        },
+        _renderBackground: function(ctx) {
+            this._renderBackgroundOrOverlay(ctx, "background");
+        },
+        _renderOverlay: function(ctx) {
+            this._renderBackgroundOrOverlay(ctx, "overlay");
+        },
+        getCenter: function() {
+            return {
+                top: this.height / 2,
+                left: this.width / 2
+            };
+        },
+        centerObjectH: function(object) {
+            return this._centerObject(object, new fabric.Point(this.getCenter().left, object.getCenterPoint().y));
+        },
+        centerObjectV: function(object) {
+            return this._centerObject(object, new fabric.Point(object.getCenterPoint().x, this.getCenter().top));
+        },
+        centerObject: function(object) {
+            var center = this.getCenter();
+            return this._centerObject(object, new fabric.Point(center.left, center.top));
+        },
+        viewportCenterObject: function(object) {
+            var vpCenter = this.getVpCenter();
+            return this._centerObject(object, vpCenter);
+        },
+        viewportCenterObjectH: function(object) {
+            var vpCenter = this.getVpCenter();
+            this._centerObject(object, new fabric.Point(vpCenter.x, object.getCenterPoint().y));
+            return this;
+        },
+        viewportCenterObjectV: function(object) {
+            var vpCenter = this.getVpCenter();
+            return this._centerObject(object, new fabric.Point(object.getCenterPoint().x, vpCenter.y));
+        },
+        getVpCenter: function() {
+            var center = this.getCenter(), iVpt = invertTransform(this.viewportTransform);
+            return transformPoint({
+                x: center.left,
+                y: center.top
+            }, iVpt);
+        },
+        _centerObject: function(object, center) {
+            object.setPositionByOrigin(center, "center", "center");
+            object.setCoords();
+            this.renderOnAddRemove && this.requestRenderAll();
+            return this;
+        },
+        toDatalessJSON: function(propertiesToInclude) {
+            return this.toDatalessObject(propertiesToInclude);
+        },
+        toObject: function(propertiesToInclude) {
+            return this._toObjectMethod("toObject", propertiesToInclude);
+        },
+        toDatalessObject: function(propertiesToInclude) {
+            return this._toObjectMethod("toDatalessObject", propertiesToInclude);
+        },
+        _toObjectMethod: function(methodName, propertiesToInclude) {
+            var data = {
+                version: fabric.version,
+                objects: this._toObjects(methodName, propertiesToInclude)
+            };
+            extend(data, this.__serializeBgOverlay(methodName, propertiesToInclude));
+            fabric.util.populateWithProperties(this, data, propertiesToInclude);
+            return data;
+        },
+        _toObjects: function(methodName, propertiesToInclude) {
+            return this.getObjects().filter(function(object) {
+                return !object.excludeFromExport;
+            }).map(function(instance) {
+                return this._toObject(instance, methodName, propertiesToInclude);
+            }, this);
+        },
+        _toObject: function(instance, methodName, propertiesToInclude) {
+            var originalValue;
+            if (!this.includeDefaultValues) {
+                originalValue = instance.includeDefaultValues;
+                instance.includeDefaultValues = false;
+            }
+            var object = instance[methodName](propertiesToInclude);
+            if (!this.includeDefaultValues) {
+                instance.includeDefaultValues = originalValue;
+            }
+            return object;
+        },
+        __serializeBgOverlay: function(methodName, propertiesToInclude) {
+            var data = {}, bgImage = this.backgroundImage, overlay = this.overlayImage;
+            if (this.backgroundColor) {
+                data.background = this.backgroundColor.toObject ? this.backgroundColor.toObject(propertiesToInclude) : this.backgroundColor;
+            }
+            if (this.overlayColor) {
+                data.overlay = this.overlayColor.toObject ? this.overlayColor.toObject(propertiesToInclude) : this.overlayColor;
+            }
+            if (bgImage && !bgImage.excludeFromExport) {
+                data.backgroundImage = this._toObject(bgImage, methodName, propertiesToInclude);
+            }
+            if (overlay && !overlay.excludeFromExport) {
+                data.overlayImage = this._toObject(overlay, methodName, propertiesToInclude);
+            }
+            return data;
+        },
+        svgViewportTransformation: true,
+        toSVG: function(options, reviver) {
+            options || (options = {});
+            var markup = [];
+            this._setSVGPreamble(markup, options);
+            this._setSVGHeader(markup, options);
+            this._setSVGBgOverlayColor(markup, "backgroundColor");
+            this._setSVGBgOverlayImage(markup, "backgroundImage", reviver);
+            this._setSVGObjects(markup, reviver);
+            this._setSVGBgOverlayColor(markup, "overlayColor");
+            this._setSVGBgOverlayImage(markup, "overlayImage", reviver);
+            markup.push("</svg>");
+            return markup.join("");
+        },
+        _setSVGPreamble: function(markup, options) {
+            if (options.suppressPreamble) {
+                return;
+            }
+            markup.push('<?xml version="1.0" encoding="', options.encoding || "UTF-8", '" standalone="no" ?>\n', '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" ', '"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\n');
+        },
+        _setSVGHeader: function(markup, options) {
+            var width = options.width || this.width, height = options.height || this.height, vpt, viewBox = 'viewBox="0 0 ' + this.width + " " + this.height + '" ', NUM_FRACTION_DIGITS = fabric.Object.NUM_FRACTION_DIGITS;
+            if (options.viewBox) {
+                viewBox = 'viewBox="' + options.viewBox.x + " " + options.viewBox.y + " " + options.viewBox.width + " " + options.viewBox.height + '" ';
+            } else {
+                if (this.svgViewportTransformation) {
+                    vpt = this.viewportTransform;
+                    viewBox = 'viewBox="' + toFixed(-vpt[4] / vpt[0], NUM_FRACTION_DIGITS) + " " + toFixed(-vpt[5] / vpt[3], NUM_FRACTION_DIGITS) + " " + toFixed(this.width / vpt[0], NUM_FRACTION_DIGITS) + " " + toFixed(this.height / vpt[3], NUM_FRACTION_DIGITS) + '" ';
+                }
+            }
+            markup.push("<svg ", 'xmlns="http://www.w3.org/2000/svg" ', 'xmlns:xlink="http://www.w3.org/1999/xlink" ', 'version="1.1" ', 'width="', width, '" ', 'height="', height, '" ', viewBox, 'xml:space="preserve">\n', "<desc>Created with Fabric.js ", fabric.version, "</desc>\n", "<defs>\n", this.createSVGFontFacesMarkup(), this.createSVGRefElementsMarkup(), "</defs>\n");
+        },
+        createSVGRefElementsMarkup: function() {
+            var _this = this, markup = [ "backgroundColor", "overlayColor" ].map(function(prop) {
+                var fill = _this[prop];
+                if (fill && fill.toLive) {
+                    return fill.toSVG(_this, false);
+                }
+            });
+            return markup.join("");
+        },
+        createSVGFontFacesMarkup: function() {
+            var markup = "", fontList = {}, obj, fontFamily, style, row, rowIndex, _char, charIndex, i, len, fontPaths = fabric.fontPaths, objects = this.getObjects();
+            for (i = 0, len = objects.length; i < len; i++) {
+                obj = objects[i];
+                fontFamily = obj.fontFamily;
+                if (obj.type.indexOf("text") === -1 || fontList[fontFamily] || !fontPaths[fontFamily]) {
+                    continue;
+                }
+                fontList[fontFamily] = true;
+                if (!obj.styles) {
+                    continue;
+                }
+                style = obj.styles;
+                for (rowIndex in style) {
+                    row = style[rowIndex];
+                    for (charIndex in row) {
+                        _char = row[charIndex];
+                        fontFamily = _char.fontFamily;
+                        if (!fontList[fontFamily] && fontPaths[fontFamily]) {
+                            fontList[fontFamily] = true;
+                        }
+                    }
+                }
+            }
+            for (var j in fontList) {
+                markup += [ "\t\t@font-face {\n", "\t\t\tfont-family: '", j, "';\n", "\t\t\tsrc: url('", fontPaths[j], "');\n", "\t\t}\n" ].join("");
+            }
+            if (markup) {
+                markup = [ '\t<style type="text/css">', "<![CDATA[\n", markup, "]]>", "</style>\n" ].join("");
+            }
+            return markup;
+        },
+        _setSVGObjects: function(markup, reviver) {
+            var instance, i, len, objects = this.getObjects();
+            for (i = 0, len = objects.length; i < len; i++) {
+                instance = objects[i];
+                if (instance.excludeFromExport) {
+                    continue;
+                }
+                this._setSVGObject(markup, instance, reviver);
+            }
+        },
+        _setSVGObject: function(markup, instance, reviver) {
+            markup.push(instance.toSVG(reviver));
+        },
+        _setSVGBgOverlayImage: function(markup, property, reviver) {
+            if (this[property] && this[property].toSVG) {
+                markup.push(this[property].toSVG(reviver));
+            }
+        },
+        _setSVGBgOverlayColor: function(markup, property) {
+            var filler = this[property], vpt = this.viewportTransform, finalWidth = this.width / vpt[0], finalHeight = this.height / vpt[3];
+            if (!filler) {
+                return;
+            }
+            if (filler.toLive) {
+                var repeat = filler.repeat;
+                markup.push('<rect transform="translate(', finalWidth / 2, ",", finalHeight / 2, ')"', ' x="', filler.offsetX - finalWidth / 2, '" y="', filler.offsetY - finalHeight / 2, '" ', 'width="', repeat === "repeat-y" || repeat === "no-repeat" ? filler.source.width : finalWidth, '" height="', repeat === "repeat-x" || repeat === "no-repeat" ? filler.source.height : finalHeight, '" fill="url(#SVGID_' + filler.id + ')"', "></rect>\n");
+            } else {
+                markup.push('<rect x="0" y="0" width="100%" height="100%" ', 'fill="', this[property], '"', "></rect>\n");
+            }
+        },
+        sendToBack: function(object) {
+            if (!object) {
+                return this;
+            }
+            var activeSelection = this._activeObject, i, obj, objs;
+            if (object === activeSelection && object.type === "activeSelection") {
+                objs = activeSelection._objects;
+                for (i = objs.length; i--; ) {
+                    obj = objs[i];
+                    removeFromArray(this._objects, obj);
+                    this._objects.unshift(obj);
+                }
+            } else {
+                removeFromArray(this._objects, object);
+                this._objects.unshift(object);
+            }
+            this.renderOnAddRemove && this.requestRenderAll();
+            return this;
+        },
+        bringToFront: function(object) {
+            if (!object) {
+                return this;
+            }
+            var activeSelection = this._activeObject, i, obj, objs;
+            if (object === activeSelection && object.type === "activeSelection") {
+                objs = activeSelection._objects;
+                for (i = 0; i < objs.length; i++) {
+                    obj = objs[i];
+                    removeFromArray(this._objects, obj);
+                    this._objects.push(obj);
+                }
+            } else {
+                removeFromArray(this._objects, object);
+                this._objects.push(object);
+            }
+            this.renderOnAddRemove && this.requestRenderAll();
+            return this;
+        },
+        sendBackwards: function(object, intersecting) {
+            if (!object) {
+                return this;
+            }
+            var activeSelection = this._activeObject, i, obj, idx, newIdx, objs, objsMoved = 0;
+            if (object === activeSelection && object.type === "activeSelection") {
+                objs = activeSelection._objects;
+                for (i = 0; i < objs.length; i++) {
+                    obj = objs[i];
+                    idx = this._objects.indexOf(obj);
+                    if (idx > 0 + objsMoved) {
+                        newIdx = idx - 1;
+                        removeFromArray(this._objects, obj);
+                        this._objects.splice(newIdx, 0, obj);
+                    }
+                    objsMoved++;
+                }
+            } else {
+                idx = this._objects.indexOf(object);
+                if (idx !== 0) {
+                    newIdx = this._findNewLowerIndex(object, idx, intersecting);
+                    removeFromArray(this._objects, object);
+                    this._objects.splice(newIdx, 0, object);
+                }
+            }
+            this.renderOnAddRemove && this.requestRenderAll();
+            return this;
+        },
+        _findNewLowerIndex: function(object, idx, intersecting) {
+            var newIdx, i;
+            if (intersecting) {
+                newIdx = idx;
+                for (i = idx - 1; i >= 0; --i) {
+                    var isIntersecting = object.intersectsWithObject(this._objects[i]) || object.isContainedWithinObject(this._objects[i]) || this._objects[i].isContainedWithinObject(object);
+                    if (isIntersecting) {
+                        newIdx = i;
+                        break;
+                    }
+                }
+            } else {
+                newIdx = idx - 1;
+            }
+            return newIdx;
+        },
+        bringForward: function(object, intersecting) {
+            if (!object) {
+                return this;
+            }
+            var activeSelection = this._activeObject, i, obj, idx, newIdx, objs, objsMoved = 0;
+            if (object === activeSelection && object.type === "activeSelection") {
+                objs = activeSelection._objects;
+                for (i = objs.length; i--; ) {
+                    obj = objs[i];
+                    idx = this._objects.indexOf(obj);
+                    if (idx < this._objects.length - 1 - objsMoved) {
+                        newIdx = idx + 1;
+                        removeFromArray(this._objects, obj);
+                        this._objects.splice(newIdx, 0, obj);
+                    }
+                    objsMoved++;
+                }
+            } else {
+                idx = this._objects.indexOf(object);
+                if (idx !== this._objects.length - 1) {
+                    newIdx = this._findNewUpperIndex(object, idx, intersecting);
+                    removeFromArray(this._objects, object);
+                    this._objects.splice(newIdx, 0, object);
+                }
+            }
+            this.renderOnAddRemove && this.requestRenderAll();
+            return this;
+        },
+        _findNewUpperIndex: function(object, idx, intersecting) {
+            var newIdx, i, len;
+            if (intersecting) {
+                newIdx = idx;
+                for (i = idx + 1, len = this._objects.length; i < len; ++i) {
+                    var isIntersecting = object.intersectsWithObject(this._objects[i]) || object.isContainedWithinObject(this._objects[i]) || this._objects[i].isContainedWithinObject(object);
+                    if (isIntersecting) {
+                        newIdx = i;
+                        break;
+                    }
+                }
+            } else {
+                newIdx = idx + 1;
+            }
+            return newIdx;
+        },
+        moveTo: function(object, index) {
+            removeFromArray(this._objects, object);
+            this._objects.splice(index, 0, object);
+            return this.renderOnAddRemove && this.requestRenderAll();
+        },
+        dispose: function() {
+            if (this.isRendering) {
+                fabric.util.cancelAnimFrame(this.isRendering);
+                this.isRendering = 0;
+            }
+            this.forEachObject(function(object) {
+                object.dispose && object.dispose();
+            });
+            this._objects = [];
+            this.backgroundImage = null;
+            this.overlayImage = null;
+            this._iTextInstances = null;
+            this.lowerCanvasEl = null;
+            this.contextContainer = null;
+            return this;
+        },
+        toString: function() {
+            return "#<fabric.Canvas (" + this.complexity() + "): " + "{ objects: " + this.getObjects().length + " }>";
+        }
+    });
+    extend(fabric.StaticCanvas.prototype, fabric.Observable);
+    extend(fabric.StaticCanvas.prototype, fabric.Collection);
+    extend(fabric.StaticCanvas.prototype, fabric.DataURLExporter);
+    extend(fabric.StaticCanvas, {
+        EMPTY_JSON: '{"objects": [], "background": "white"}',
+        supports: function(methodName) {
+            var el = fabric.util.createCanvasElement();
+            if (!el || !el.getContext) {
+                return null;
+            }
+            var ctx = el.getContext("2d");
+            if (!ctx) {
+                return null;
+            }
+            switch (methodName) {
+              case "getImageData":
+                return typeof ctx.getImageData !== "undefined";
+
+              case "setLineDash":
+                return typeof ctx.setLineDash !== "undefined";
+
+              case "toDataURL":
+                return typeof el.toDataURL !== "undefined";
+
+              case "toDataURLWithQuality":
+                try {
+                    el.toDataURL("image/jpeg", 0);
+                    return true;
+                } catch (e) {}
+                return false;
+
+              default:
+                return null;
+            }
+        }
+    });
+    fabric.StaticCanvas.prototype.toJSON = fabric.StaticCanvas.prototype.toObject;
+    if (fabric.isLikelyNode) {
+        fabric.StaticCanvas.prototype.createPNGStream = function() {
+            var impl = fabric.util.getNodeCanvas(this.lowerCanvasEl);
+            return impl && impl.createPNGStream();
+        };
+        fabric.StaticCanvas.prototype.createJPEGStream = function(opts) {
+            var impl = fabric.util.getNodeCanvas(this.lowerCanvasEl);
+            return impl && impl.createJPEGStream(opts);
+        };
+    }
+})();
+
+fabric.BaseBrush = fabric.util.createClass({
+    color: "rgb(0, 0, 0)",
+    width: 1,
+    shadow: null,
+    strokeLineCap: "round",
+    strokeLineJoin: "round",
+    strokeMiterLimit: 10,
+    strokeDashArray: null,
+    setShadow: function(options) {
+        this.shadow = new fabric.Shadow(options);
+        return this;
+    },
+    _setBrushStyles: function() {
+        var ctx = this.canvas.contextTop;
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = this.width;
+        ctx.lineCap = this.strokeLineCap;
+        ctx.miterLimit = this.strokeMiterLimit;
+        ctx.lineJoin = this.strokeLineJoin;
+        if (this.strokeDashArray && fabric.StaticCanvas.supports("setLineDash")) {
+            ctx.setLineDash(this.strokeDashArray);
+        }
+    },
+    _saveAndTransform: function(ctx) {
+        var v = this.canvas.viewportTransform;
+        ctx.save();
+        ctx.transform(v[0], v[1], v[2], v[3], v[4], v[5]);
+    },
+    _setShadow: function() {
+        if (!this.shadow) {
+            return;
+        }
+        var ctx = this.canvas.contextTop, zoom = this.canvas.getZoom();
+        ctx.shadowColor = this.shadow.color;
+        ctx.shadowBlur = this.shadow.blur * zoom;
+        ctx.shadowOffsetX = this.shadow.offsetX * zoom;
+        ctx.shadowOffsetY = this.shadow.offsetY * zoom;
+    },
+    _resetShadow: function() {
+        var ctx = this.canvas.contextTop;
+        ctx.shadowColor = "";
+        ctx.shadowBlur = ctx.shadowOffsetX = ctx.shadowOffsetY = 0;
+    }
+});
+
+(function() {
+    fabric.PencilBrush = fabric.util.createClass(fabric.BaseBrush, {
+        initialize: function(canvas) {
+            this.canvas = canvas;
+            this._points = [];
+        },
+        _drawSegment: function(ctx, p1, p2) {
+            var midPoint = p1.midPointFrom(p2);
+            ctx.quadraticCurveTo(p1.x, p1.y, midPoint.x, midPoint.y);
+            return midPoint;
+        },
+        onMouseDown: function(pointer) {
+            this._prepareForDrawing(pointer);
+            this._captureDrawingPath(pointer);
+            this._render();
+        },
+        onMouseMove: function(pointer) {
+            if (this._captureDrawingPath(pointer) && this._points.length > 1) {
+                var points = this._points, length = points.length, ctx = this.canvas.contextTop;
+                this._saveAndTransform(ctx);
+                if (this.oldEnd) {
+                    ctx.beginPath();
+                    ctx.moveTo(this.oldEnd.x, this.oldEnd.y);
+                }
+                this.oldEnd = this._drawSegment(ctx, points[length - 2], points[length - 1], true);
+                ctx.stroke();
+                ctx.restore();
+            }
+        },
+        onMouseUp: function() {
+            this.oldEnd = undefined;
+            this._finalizeAndAddPath();
+        },
+        _prepareForDrawing: function(pointer) {
+            var p = new fabric.Point(pointer.x, pointer.y);
+            this._reset();
+            this._addPoint(p);
+            this.canvas.contextTop.moveTo(p.x, p.y);
+        },
+        _addPoint: function(point) {
+            if (this._points.length > 1 && point.eq(this._points[this._points.length - 1])) {
+                return false;
+            }
+            this._points.push(point);
+            return true;
+        },
+        _reset: function() {
+            this._points.length = 0;
+            this._setBrushStyles();
+            this._setShadow();
+        },
+        _captureDrawingPath: function(pointer) {
+            var pointerPoint = new fabric.Point(pointer.x, pointer.y);
+            return this._addPoint(pointerPoint);
+        },
+        _render: function() {
+            var ctx = this.canvas.contextTop, i, len, p1 = this._points[0], p2 = this._points[1];
+            this._saveAndTransform(ctx);
+            ctx.beginPath();
+            if (this._points.length === 2 && p1.x === p2.x && p1.y === p2.y) {
+                var width = this.width / 1e3;
+                p1 = new fabric.Point(p1.x, p1.y);
+                p2 = new fabric.Point(p2.x, p2.y);
+                p1.x -= width;
+                p2.x += width;
+            }
+            ctx.moveTo(p1.x, p1.y);
+            for (i = 1, len = this._points.length; i < len; i++) {
+                this._drawSegment(ctx, p1, p2);
+                p1 = this._points[i];
+                p2 = this._points[i + 1];
+            }
+            ctx.lineTo(p1.x, p1.y);
+            ctx.stroke();
+            ctx.restore();
+        },
+        convertPointsToSVGPath: function(points) {
+            var path = [], i, width = this.width / 1e3, p1 = new fabric.Point(points[0].x, points[0].y), p2 = new fabric.Point(points[1].x, points[1].y), len = points.length, multSignX = 1, multSignY = 1, manyPoints = len > 2;
+            if (manyPoints) {
+                multSignX = points[2].x < p2.x ? -1 : points[2].x === p2.x ? 0 : 1;
+                multSignY = points[2].y < p2.y ? -1 : points[2].y === p2.y ? 0 : 1;
+            }
+            path.push("M ", p1.x - multSignX * width, " ", p1.y - multSignY * width, " ");
+            for (i = 1; i < len; i++) {
+                if (!p1.eq(p2)) {
+                    var midPoint = p1.midPointFrom(p2);
+                    path.push("Q ", p1.x, " ", p1.y, " ", midPoint.x, " ", midPoint.y, " ");
+                }
+                p1 = points[i];
+                if (i + 1 < points.length) {
+                    p2 = points[i + 1];
+                }
+            }
+            if (manyPoints) {
+                multSignX = p1.x > points[i - 2].x ? 1 : p1.x === points[i - 2].x ? 0 : -1;
+                multSignY = p1.y > points[i - 2].y ? 1 : p1.y === points[i - 2].y ? 0 : -1;
+            }
+            path.push("L ", p1.x + multSignX * width, " ", p1.y + multSignY * width);
+            return path;
+        },
+        createPath: function(pathData) {
+            var path = new fabric.Path(pathData, {
+                fill: null,
+                stroke: this.color,
+                strokeWidth: this.width,
+                strokeLineCap: this.strokeLineCap,
+                strokeMiterLimit: this.strokeMiterLimit,
+                strokeLineJoin: this.strokeLineJoin,
+                strokeDashArray: this.strokeDashArray
+            });
+            var position = new fabric.Point(path.left + path.width / 2, path.top + path.height / 2);
+            position = path.translateToGivenOrigin(position, "center", "center", path.originX, path.originY);
+            path.top = position.y;
+            path.left = position.x;
+            if (this.shadow) {
+                this.shadow.affectStroke = true;
+                path.setShadow(this.shadow);
+            }
+            return path;
+        },
+        _finalizeAndAddPath: function() {
+            var ctx = this.canvas.contextTop;
+            ctx.closePath();
+            var pathData = this.convertPointsToSVGPath(this._points).join("");
+            if (pathData === "M 0 0 Q 0 0 0 0 L 0 0") {
+                this.canvas.requestRenderAll();
+                return;
+            }
+            var path = this.createPath(pathData);
+            this.canvas.clearContext(this.canvas.contextTop);
+            this.canvas.add(path);
+            this.canvas.renderAll();
+            path.setCoords();
+            this._resetShadow();
+            this.canvas.fire("path:created", {
+                path: path
+            });
+        }
+    });
+})();
+
+fabric.CircleBrush = fabric.util.createClass(fabric.BaseBrush, {
+    width: 10,
+    initialize: function(canvas) {
+        this.canvas = canvas;
+        this.points = [];
+    },
+    drawDot: function(pointer) {
+        var point = this.addPoint(pointer), ctx = this.canvas.contextTop;
+        this._saveAndTransform(ctx);
+        ctx.fillStyle = point.fill;
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, point.radius, 0, Math.PI * 2, false);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+    },
+    onMouseDown: function(pointer) {
+        this.points.length = 0;
+        this.canvas.clearContext(this.canvas.contextTop);
+        this._setShadow();
+        this.drawDot(pointer);
+    },
+    _render: function() {
+        var ctx = this.canvas.contextTop, i, len, points = this.points, point;
+        this._saveAndTransform(ctx);
+        for (i = 0, len = points.length; i < len; i++) {
+            point = points[i];
+            ctx.fillStyle = point.fill;
+            ctx.beginPath();
+            ctx.arc(point.x, point.y, point.radius, 0, Math.PI * 2, false);
+            ctx.closePath();
+            ctx.fill();
+        }
+        ctx.restore();
+    },
+    onMouseMove: function(pointer) {
+        this.drawDot(pointer);
+    },
+    onMouseUp: function() {
+        var originalRenderOnAddRemove = this.canvas.renderOnAddRemove, i, len;
+        this.canvas.renderOnAddRemove = false;
+        var circles = [];
+        for (i = 0, len = this.points.length; i < len; i++) {
+            var point = this.points[i], circle = new fabric.Circle({
+                radius: point.radius,
+                left: point.x,
+                top: point.y,
+                originX: "center",
+                originY: "center",
+                fill: point.fill
+            });
+            this.shadow && circle.setShadow(this.shadow);
+            circles.push(circle);
+        }
+        var group = new fabric.Group(circles, {
+            originX: "center",
+            originY: "center"
+        });
+        group.canvas = this.canvas;
+        this.canvas.add(group);
+        this.canvas.fire("path:created", {
+            path: group
+        });
+        this.canvas.clearContext(this.canvas.contextTop);
+        this._resetShadow();
+        this.canvas.renderOnAddRemove = originalRenderOnAddRemove;
+        this.canvas.requestRenderAll();
+    },
+    addPoint: function(pointer) {
+        var pointerPoint = new fabric.Point(pointer.x, pointer.y), circleRadius = fabric.util.getRandomInt(Math.max(0, this.width - 20), this.width + 20) / 2, circleColor = new fabric.Color(this.color).setAlpha(fabric.util.getRandomInt(0, 100) / 100).toRgba();
+        pointerPoint.radius = circleRadius;
+        pointerPoint.fill = circleColor;
+        this.points.push(pointerPoint);
+        return pointerPoint;
+    }
+});
+
+fabric.SprayBrush = fabric.util.createClass(fabric.BaseBrush, {
+    width: 10,
+    density: 20,
+    dotWidth: 1,
+    dotWidthVariance: 1,
+    randomOpacity: false,
+    optimizeOverlapping: true,
+    initialize: function(canvas) {
+        this.canvas = canvas;
+        this.sprayChunks = [];
+    },
+    onMouseDown: function(pointer) {
+        this.sprayChunks.length = 0;
+        this.canvas.clearContext(this.canvas.contextTop);
+        this._setShadow();
+        this.addSprayChunk(pointer);
+        this.render(this.sprayChunkPoints);
+    },
+    onMouseMove: function(pointer) {
+        this.addSprayChunk(pointer);
+        this.render(this.sprayChunkPoints);
+    },
+    onMouseUp: function() {
+        var originalRenderOnAddRemove = this.canvas.renderOnAddRemove;
+        this.canvas.renderOnAddRemove = false;
+        var rects = [];
+        for (var i = 0, ilen = this.sprayChunks.length; i < ilen; i++) {
+            var sprayChunk = this.sprayChunks[i];
+            for (var j = 0, jlen = sprayChunk.length; j < jlen; j++) {
+                var rect = new fabric.Rect({
+                    width: sprayChunk[j].width,
+                    height: sprayChunk[j].width,
+                    left: sprayChunk[j].x + 1,
+                    top: sprayChunk[j].y + 1,
+                    originX: "center",
+                    originY: "center",
+                    fill: this.color
+                });
+                rects.push(rect);
+            }
+        }
+        if (this.optimizeOverlapping) {
+            rects = this._getOptimizedRects(rects);
+        }
+        var group = new fabric.Group(rects, {
+            originX: "center",
+            originY: "center"
+        });
+        this.shadow && group.setShadow(this.shadow);
+        this.canvas.add(group);
+        this.canvas.fire("path:created", {
+            path: group
+        });
+        this.canvas.clearContext(this.canvas.contextTop);
+        this._resetShadow();
+        this.canvas.renderOnAddRemove = originalRenderOnAddRemove;
+        this.canvas.requestRenderAll();
+    },
+    _getOptimizedRects: function(rects) {
+        var uniqueRects = {}, key, i, len;
+        for (i = 0, len = rects.length; i < len; i++) {
+            key = rects[i].left + "" + rects[i].top;
+            if (!uniqueRects[key]) {
+                uniqueRects[key] = rects[i];
+            }
+        }
+        var uniqueRectsArray = [];
+        for (key in uniqueRects) {
+            uniqueRectsArray.push(uniqueRects[key]);
+        }
+        return uniqueRectsArray;
+    },
+    render: function(sprayChunk) {
+        var ctx = this.canvas.contextTop, i, len;
+        ctx.fillStyle = this.color;
+        this._saveAndTransform(ctx);
+        for (i = 0, len = sprayChunk.length; i < len; i++) {
+            var point = sprayChunk[i];
+            if (typeof point.opacity !== "undefined") {
+                ctx.globalAlpha = point.opacity;
+            }
+            ctx.fillRect(point.x, point.y, point.width, point.width);
+        }
+        ctx.restore();
+    },
+    _render: function() {
+        var ctx = this.canvas.contextTop, i, ilen;
+        ctx.fillStyle = this.color;
+        this._saveAndTransform(ctx);
+        for (i = 0, ilen = this.sprayChunks.length; i < ilen; i++) {
+            this.render(this.sprayChunks[i]);
+        }
+        ctx.restore();
+    },
+    addSprayChunk: function(pointer) {
+        this.sprayChunkPoints = [];
+        var x, y, width, radius = this.width / 2, i;
+        for (i = 0; i < this.density; i++) {
+            x = fabric.util.getRandomInt(pointer.x - radius, pointer.x + radius);
+            y = fabric.util.getRandomInt(pointer.y - radius, pointer.y + radius);
+            if (this.dotWidthVariance) {
+                width = fabric.util.getRandomInt(Math.max(1, this.dotWidth - this.dotWidthVariance), this.dotWidth + this.dotWidthVariance);
+            } else {
+                width = this.dotWidth;
+            }
+            var point = new fabric.Point(x, y);
+            point.width = width;
+            if (this.randomOpacity) {
+                point.opacity = fabric.util.getRandomInt(0, 100) / 100;
+            }
+            this.sprayChunkPoints.push(point);
+        }
+        this.sprayChunks.push(this.sprayChunkPoints);
+    }
+});
+
+fabric.PatternBrush = fabric.util.createClass(fabric.PencilBrush, {
+    getPatternSrc: function() {
+        var dotWidth = 20, dotDistance = 5, patternCanvas = fabric.document.createElement("canvas"), patternCtx = patternCanvas.getContext("2d");
+        patternCanvas.width = patternCanvas.height = dotWidth + dotDistance;
+        patternCtx.fillStyle = this.color;
+        patternCtx.beginPath();
+        patternCtx.arc(dotWidth / 2, dotWidth / 2, dotWidth / 2, 0, Math.PI * 2, false);
+        patternCtx.closePath();
+        patternCtx.fill();
+        return patternCanvas;
+    },
+    getPatternSrcFunction: function() {
+        return String(this.getPatternSrc).replace("this.color", '"' + this.color + '"');
+    },
+    getPattern: function() {
+        return this.canvas.contextTop.createPattern(this.source || this.getPatternSrc(), "repeat");
+    },
+    _setBrushStyles: function() {
+        this.callSuper("_setBrushStyles");
+        this.canvas.contextTop.strokeStyle = this.getPattern();
+    },
+    createPath: function(pathData) {
+        var path = this.callSuper("createPath", pathData), topLeft = path._getLeftTopCoords().scalarAdd(path.strokeWidth / 2);
+        path.stroke = new fabric.Pattern({
+            source: this.source || this.getPatternSrcFunction(),
+            offsetX: -topLeft.x,
+            offsetY: -topLeft.y
+        });
+        return path;
+    }
+});
+
+(function() {
+    var getPointer = fabric.util.getPointer, degreesToRadians = fabric.util.degreesToRadians, radiansToDegrees = fabric.util.radiansToDegrees, atan2 = Math.atan2, abs = Math.abs, supportLineDash = fabric.StaticCanvas.supports("setLineDash"), STROKE_OFFSET = .5;
+    fabric.Canvas = fabric.util.createClass(fabric.StaticCanvas, {
+        initialize: function(el, options) {
+            options || (options = {});
+            this.renderAndResetBound = this.renderAndReset.bind(this);
+            this._initStatic(el, options);
+            this._initInteractive();
+            this._createCacheCanvas();
+        },
+        uniScaleTransform: false,
+        uniScaleKey: "shiftKey",
+        centeredScaling: false,
+        centeredRotation: false,
+        centeredKey: "altKey",
+        altActionKey: "shiftKey",
+        interactive: true,
+        selection: true,
+        selectionKey: "shiftKey",
+        altSelectionKey: null,
+        selectionColor: "rgba(100, 100, 255, 0.3)",
+        selectionDashArray: [],
+        selectionBorderColor: "rgba(255, 255, 255, 0.3)",
+        selectionLineWidth: 1,
+        selectionFullyContained: false,
+        hoverCursor: "move",
+        moveCursor: "move",
+        defaultCursor: "default",
+        freeDrawingCursor: "crosshair",
+        rotationCursor: "crosshair",
+        notAllowedCursor: "not-allowed",
+        containerClass: "canvas-container",
+        perPixelTargetFind: false,
+        targetFindTolerance: 0,
+        skipTargetFind: false,
+        isDrawingMode: false,
+        preserveObjectStacking: false,
+        snapAngle: 0,
+        snapThreshold: null,
+        stopContextMenu: false,
+        fireRightClick: false,
+        fireMiddleClick: false,
+        _initInteractive: function() {
+            this._currentTransform = null;
+            this._groupSelector = null;
+            this._initWrapperElement();
+            this._createUpperCanvas();
+            this._initEventListeners();
+            this._initRetinaScaling();
+            this.freeDrawingBrush = fabric.PencilBrush && new fabric.PencilBrush(this);
+            this.calcOffset();
+        },
+        _chooseObjectsToRender: function() {
+            var activeObjects = this.getActiveObjects(), object, objsToRender, activeGroupObjects;
+            if (activeObjects.length > 0 && !this.preserveObjectStacking) {
+                objsToRender = [];
+                activeGroupObjects = [];
+                for (var i = 0, length = this._objects.length; i < length; i++) {
+                    object = this._objects[i];
+                    if (activeObjects.indexOf(object) === -1) {
+                        objsToRender.push(object);
+                    } else {
+                        activeGroupObjects.push(object);
+                    }
+                }
+                if (activeObjects.length > 1) {
+                    this._activeObject._objects = activeGroupObjects;
+                }
+                objsToRender.push.apply(objsToRender, activeGroupObjects);
+            } else {
+                objsToRender = this._objects;
+            }
+            return objsToRender;
+        },
+        renderAll: function() {
+            if (this.contextTopDirty && !this._groupSelector && !this.isDrawingMode) {
+                this.clearContext(this.contextTop);
+                this.contextTopDirty = false;
+            }
+            this.renderTopLayer(this.contextTop);
+            var canvasToDrawOn = this.contextContainer;
+            this.renderCanvas(canvasToDrawOn, this._chooseObjectsToRender());
+            return this;
+        },
+        renderTopLayer: function(ctx) {
+            if (this.isDrawingMode && this._isCurrentlyDrawing) {
+                this.freeDrawingBrush && this.freeDrawingBrush._render();
+            }
+            if (this.selection && this._groupSelector) {
+                this._drawSelection(ctx);
+            }
+        },
+        renderTop: function() {
+            var ctx = this.contextTop;
+            this.clearContext(ctx);
+            this.renderTopLayer(ctx);
+            this.fire("after:render");
+            this.contextTopDirty = true;
+            return this;
+        },
+        _resetCurrentTransform: function() {
+            var t = this._currentTransform;
+            t.target.set({
+                scaleX: t.original.scaleX,
+                scaleY: t.original.scaleY,
+                skewX: t.original.skewX,
+                skewY: t.original.skewY,
+                left: t.original.left,
+                top: t.original.top
+            });
+            if (this._shouldCenterTransform(t.target)) {
+                if (t.originX !== "center") {
+                    if (t.originX === "right") {
+                        t.mouseXSign = -1;
+                    } else {
+                        t.mouseXSign = 1;
+                    }
+                }
+                if (t.originY !== "center") {
+                    if (t.originY === "bottom") {
+                        t.mouseYSign = -1;
+                    } else {
+                        t.mouseYSign = 1;
+                    }
+                }
+                t.originX = "center";
+                t.originY = "center";
+            } else {
+                t.originX = t.original.originX;
+                t.originY = t.original.originY;
+            }
+        },
+        containsPoint: function(e, target, point) {
+            var ignoreZoom = true, pointer = point || this.getPointer(e, ignoreZoom), xy;
+            if (target.group && target.group === this._activeObject && target.group.type === "activeSelection") {
+                xy = this._normalizePointer(target.group, pointer);
+            } else {
+                xy = {
+                    x: pointer.x,
+                    y: pointer.y
+                };
+            }
+            return target.containsPoint(xy) || target._findTargetCorner(pointer);
+        },
+        _normalizePointer: function(object, pointer) {
+            var m = object.calcTransformMatrix(), invertedM = fabric.util.invertTransform(m), vptPointer = this.restorePointerVpt(pointer);
+            return fabric.util.transformPoint(vptPointer, invertedM);
+        },
+        isTargetTransparent: function(target, x, y) {
+            var ctx = this.contextCache, originalColor = target.selectionBackgroundColor, v = this.viewportTransform;
+            target.selectionBackgroundColor = "";
+            this.clearContext(ctx);
+            ctx.save();
+            ctx.transform(v[0], v[1], v[2], v[3], v[4], v[5]);
+            target.render(ctx);
+            ctx.restore();
+            target === this._activeObject && target._renderControls(ctx, {
+                hasBorders: false,
+                transparentCorners: false
+            }, {
+                hasBorders: false
+            });
+            target.selectionBackgroundColor = originalColor;
+            var isTransparent = fabric.util.isTransparent(ctx, x, y, this.targetFindTolerance);
+            return isTransparent;
+        },
+        _isSelectionKeyPressed: function(e) {
+            var selectionKeyPressed = false;
+            if (Object.prototype.toString.call(this.selectionKey) === "[object Array]") {
+                selectionKeyPressed = !!this.selectionKey.find(function(key) {
+                    return e[key] === true;
+                });
+            } else {
+                selectionKeyPressed = e[this.selectionKey];
+            }
+            return selectionKeyPressed;
+        },
+        _shouldClearSelection: function(e, target) {
+            var activeObjects = this.getActiveObjects(), activeObject = this._activeObject;
+            return !target || target && activeObject && activeObjects.length > 1 && activeObjects.indexOf(target) === -1 && activeObject !== target && !this._isSelectionKeyPressed(e) || target && !target.evented || target && !target.selectable && activeObject && activeObject !== target;
+        },
+        _shouldCenterTransform: function(target) {
+            if (!target) {
+                return;
+            }
+            var t = this._currentTransform, centerTransform;
+            if (t.action === "scale" || t.action === "scaleX" || t.action === "scaleY") {
+                centerTransform = this.centeredScaling || target.centeredScaling;
+            } else if (t.action === "rotate") {
+                centerTransform = this.centeredRotation || target.centeredRotation;
+            }
+            return centerTransform ? !t.altKey : t.altKey;
+        },
+        _getOriginFromCorner: function(target, corner) {
+            var origin = {
+                x: target.originX,
+                y: target.originY
+            };
+            if (corner === "ml" || corner === "tl" || corner === "bl") {
+                origin.x = "right";
+            } else if (corner === "mr" || corner === "tr" || corner === "br") {
+                origin.x = "left";
+            }
+            if (corner === "tl" || corner === "mt" || corner === "tr") {
+                origin.y = "bottom";
+            } else if (corner === "bl" || corner === "mb" || corner === "br") {
+                origin.y = "top";
+            }
+            return origin;
+        },
+        _getActionFromCorner: function(target, corner, e) {
+            if (!corner) {
+                return "drag";
+            }
+            switch (corner) {
+              case "mtr":
+                return "rotate";
+
+              case "ml":
+              case "mr":
+                return e[this.altActionKey] ? "skewY" : "scaleX";
+
+              case "mt":
+              case "mb":
+                return e[this.altActionKey] ? "skewX" : "scaleY";
+
+              default:
+                return "scale";
+            }
+        },
+        _setupCurrentTransform: function(e, target) {
+            if (!target) {
+                return;
+            }
+            var pointer = this.getPointer(e), corner = target._findTargetCorner(this.getPointer(e, true)), action = this._getActionFromCorner(target, corner, e), origin = this._getOriginFromCorner(target, corner);
+            this._currentTransform = {
+                target: target,
+                action: action,
+                corner: corner,
+                scaleX: target.scaleX,
+                scaleY: target.scaleY,
+                skewX: target.skewX,
+                skewY: target.skewY,
+                offsetX: pointer.x - target.left,
+                offsetY: pointer.y - target.top,
+                originX: origin.x,
+                originY: origin.y,
+                ex: pointer.x,
+                ey: pointer.y,
+                lastX: pointer.x,
+                lastY: pointer.y,
+                theta: degreesToRadians(target.angle),
+                width: target.width * target.scaleX,
+                mouseXSign: 1,
+                mouseYSign: 1,
+                shiftKey: e.shiftKey,
+                altKey: e[this.centeredKey]
+            };
+            this._currentTransform.original = {
+                left: target.left,
+                top: target.top,
+                scaleX: target.scaleX,
+                scaleY: target.scaleY,
+                skewX: target.skewX,
+                skewY: target.skewY,
+                originX: origin.x,
+                originY: origin.y
+            };
+            this._resetCurrentTransform();
+        },
+        _translateObject: function(x, y) {
+            var transform = this._currentTransform, target = transform.target, newLeft = x - transform.offsetX, newTop = y - transform.offsetY, moveX = !target.get("lockMovementX") && target.left !== newLeft, moveY = !target.get("lockMovementY") && target.top !== newTop;
+            moveX && target.set("left", newLeft);
+            moveY && target.set("top", newTop);
+            return moveX || moveY;
+        },
+        _changeSkewTransformOrigin: function(mouseMove, t, by) {
+            var property = "originX", origins = {
+                0: "center"
+            }, skew = t.target.skewX, originA = "left", originB = "right", corner = t.corner === "mt" || t.corner === "ml" ? 1 : -1, flipSign = 1;
+            mouseMove = mouseMove > 0 ? 1 : -1;
+            if (by === "y") {
+                skew = t.target.skewY;
+                originA = "top";
+                originB = "bottom";
+                property = "originY";
+            }
+            origins[-1] = originA;
+            origins[1] = originB;
+            t.target.flipX && (flipSign *= -1);
+            t.target.flipY && (flipSign *= -1);
+            if (skew === 0) {
+                t.skewSign = -corner * mouseMove * flipSign;
+                t[property] = origins[-mouseMove];
+            } else {
+                skew = skew > 0 ? 1 : -1;
+                t.skewSign = skew;
+                t[property] = origins[skew * corner * flipSign];
+            }
+        },
+        _skewObject: function(x, y, by) {
+            var t = this._currentTransform, target = t.target, skewed = false, lockSkewingX = target.get("lockSkewingX"), lockSkewingY = target.get("lockSkewingY");
+            if (lockSkewingX && by === "x" || lockSkewingY && by === "y") {
+                return false;
+            }
+            var center = target.getCenterPoint(), actualMouseByCenter = target.toLocalPoint(new fabric.Point(x, y), "center", "center")[by], lastMouseByCenter = target.toLocalPoint(new fabric.Point(t.lastX, t.lastY), "center", "center")[by], actualMouseByOrigin, constraintPosition, dim = target._getTransformedDimensions();
+            this._changeSkewTransformOrigin(actualMouseByCenter - lastMouseByCenter, t, by);
+            actualMouseByOrigin = target.toLocalPoint(new fabric.Point(x, y), t.originX, t.originY)[by];
+            constraintPosition = target.translateToOriginPoint(center, t.originX, t.originY);
+            skewed = this._setObjectSkew(actualMouseByOrigin, t, by, dim);
+            t.lastX = x;
+            t.lastY = y;
+            target.setPositionByOrigin(constraintPosition, t.originX, t.originY);
+            return skewed;
+        },
+        _setObjectSkew: function(localMouse, transform, by, _dim) {
+            var target = transform.target, newValue, skewed = false, skewSign = transform.skewSign, newDim, dimNoSkew, otherBy, _otherBy, _by, newDimMouse, skewX, skewY;
+            if (by === "x") {
+                otherBy = "y";
+                _otherBy = "Y";
+                _by = "X";
+                skewX = 0;
+                skewY = target.skewY;
+            } else {
+                otherBy = "x";
+                _otherBy = "X";
+                _by = "Y";
+                skewX = target.skewX;
+                skewY = 0;
+            }
+            dimNoSkew = target._getTransformedDimensions(skewX, skewY);
+            newDimMouse = 2 * Math.abs(localMouse) - dimNoSkew[by];
+            if (newDimMouse <= 2) {
+                newValue = 0;
+            } else {
+                newValue = skewSign * Math.atan(newDimMouse / target["scale" + _by] / (dimNoSkew[otherBy] / target["scale" + _otherBy]));
+                newValue = fabric.util.radiansToDegrees(newValue);
+            }
+            skewed = target["skew" + _by] !== newValue;
+            target.set("skew" + _by, newValue);
+            if (target["skew" + _otherBy] !== 0) {
+                newDim = target._getTransformedDimensions();
+                newValue = _dim[otherBy] / newDim[otherBy] * target["scale" + _otherBy];
+                target.set("scale" + _otherBy, newValue);
+            }
+            return skewed;
+        },
+        _scaleObject: function(x, y, by) {
+            var t = this._currentTransform, target = t.target, lockScalingX = target.lockScalingX, lockScalingY = target.lockScalingY, lockScalingFlip = target.lockScalingFlip;
+            if (lockScalingX && lockScalingY) {
+                return false;
+            }
+            var constraintPosition = target.translateToOriginPoint(target.getCenterPoint(), t.originX, t.originY), localMouse = target.toLocalPoint(new fabric.Point(x, y), t.originX, t.originY), dim = target._getTransformedDimensions(), scaled = false;
+            this._setLocalMouse(localMouse, t);
+            scaled = this._setObjectScale(localMouse, t, lockScalingX, lockScalingY, by, lockScalingFlip, dim);
+            target.setPositionByOrigin(constraintPosition, t.originX, t.originY);
+            return scaled;
+        },
+        _setObjectScale: function(localMouse, transform, lockScalingX, lockScalingY, by, lockScalingFlip, _dim) {
+            var target = transform.target, forbidScalingX = false, forbidScalingY = false, scaled = false, changeX, changeY, scaleX, scaleY;
+            scaleX = localMouse.x * target.scaleX / _dim.x;
+            scaleY = localMouse.y * target.scaleY / _dim.y;
+            changeX = target.scaleX !== scaleX;
+            changeY = target.scaleY !== scaleY;
+            if (lockScalingFlip && scaleX <= 0 && scaleX < target.scaleX) {
+                forbidScalingX = true;
+                localMouse.x = 0;
+            }
+            if (lockScalingFlip && scaleY <= 0 && scaleY < target.scaleY) {
+                forbidScalingY = true;
+                localMouse.y = 0;
+            }
+            if (by === "equally" && !lockScalingX && !lockScalingY) {
+                scaled = this._scaleObjectEqually(localMouse, target, transform, _dim);
+            } else if (!by) {
+                forbidScalingX || lockScalingX || target.set("scaleX", scaleX) && (scaled = scaled || changeX);
+                forbidScalingY || lockScalingY || target.set("scaleY", scaleY) && (scaled = scaled || changeY);
+            } else if (by === "x" && !target.get("lockUniScaling")) {
+                forbidScalingX || lockScalingX || target.set("scaleX", scaleX) && (scaled = scaled || changeX);
+            } else if (by === "y" && !target.get("lockUniScaling")) {
+                forbidScalingY || lockScalingY || target.set("scaleY", scaleY) && (scaled = scaled || changeY);
+            }
+            transform.newScaleX = scaleX;
+            transform.newScaleY = scaleY;
+            forbidScalingX || forbidScalingY || this._flipObject(transform, by);
+            return scaled;
+        },
+        _scaleObjectEqually: function(localMouse, target, transform, _dim) {
+            var dist = localMouse.y + localMouse.x, lastDist = _dim.y * transform.original.scaleY / target.scaleY + _dim.x * transform.original.scaleX / target.scaleX, scaled, signX = localMouse.x < 0 ? -1 : 1, signY = localMouse.y < 0 ? -1 : 1;
+            transform.newScaleX = signX * Math.abs(transform.original.scaleX * dist / lastDist);
+            transform.newScaleY = signY * Math.abs(transform.original.scaleY * dist / lastDist);
+            scaled = transform.newScaleX !== target.scaleX || transform.newScaleY !== target.scaleY;
+            target.set("scaleX", transform.newScaleX);
+            target.set("scaleY", transform.newScaleY);
+            return scaled;
+        },
+        _flipObject: function(transform, by) {
+            if (transform.newScaleX < 0 && by !== "y") {
+                if (transform.originX === "left") {
+                    transform.originX = "right";
+                } else if (transform.originX === "right") {
+                    transform.originX = "left";
+                }
+            }
+            if (transform.newScaleY < 0 && by !== "x") {
+                if (transform.originY === "top") {
+                    transform.originY = "bottom";
+                } else if (transform.originY === "bottom") {
+                    transform.originY = "top";
+                }
+            }
+        },
+        _setLocalMouse: function(localMouse, t) {
+            var target = t.target, zoom = this.getZoom(), padding = target.padding / zoom;
+            if (t.originX === "right") {
+                localMouse.x *= -1;
+            } else if (t.originX === "center") {
+                localMouse.x *= t.mouseXSign * 2;
+                if (localMouse.x < 0) {
+                    t.mouseXSign = -t.mouseXSign;
+                }
+            }
+            if (t.originY === "bottom") {
+                localMouse.y *= -1;
+            } else if (t.originY === "center") {
+                localMouse.y *= t.mouseYSign * 2;
+                if (localMouse.y < 0) {
+                    t.mouseYSign = -t.mouseYSign;
+                }
+            }
+            if (abs(localMouse.x) > padding) {
+                if (localMouse.x < 0) {
+                    localMouse.x += padding;
+                } else {
+                    localMouse.x -= padding;
+                }
+            } else {
+                localMouse.x = 0;
+            }
+            if (abs(localMouse.y) > padding) {
+                if (localMouse.y < 0) {
+                    localMouse.y += padding;
+                } else {
+                    localMouse.y -= padding;
+                }
+            } else {
+                localMouse.y = 0;
+            }
+        },
+        _rotateObject: function(x, y) {
+            var t = this._currentTransform, target = t.target, constraintPosition, constraintPosition = target.translateToOriginPoint(target.getCenterPoint(), t.originX, t.originY);
+            if (target.lockRotation) {
+                return false;
+            }
+            var lastAngle = atan2(t.ey - constraintPosition.y, t.ex - constraintPosition.x), curAngle = atan2(y - constraintPosition.y, x - constraintPosition.x), angle = radiansToDegrees(curAngle - lastAngle + t.theta), hasRotated = true;
+            if (target.snapAngle > 0) {
+                var snapAngle = target.snapAngle, snapThreshold = target.snapThreshold || snapAngle, rightAngleLocked = Math.ceil(angle / snapAngle) * snapAngle, leftAngleLocked = Math.floor(angle / snapAngle) * snapAngle;
+                if (Math.abs(angle - leftAngleLocked) < snapThreshold) {
+                    angle = leftAngleLocked;
+                } else if (Math.abs(angle - rightAngleLocked) < snapThreshold) {
+                    angle = rightAngleLocked;
+                }
+            }
+            if (angle < 0) {
+                angle = 360 + angle;
+            }
+            angle %= 360;
+            if (target.angle === angle) {
+                hasRotated = false;
+            } else {
+                target.angle = angle;
+                target.setPositionByOrigin(constraintPosition, t.originX, t.originY);
+            }
+            return hasRotated;
+        },
+        setCursor: function(value) {
+            this.upperCanvasEl.style.cursor = value;
+        },
+        _resetObjectTransform: function(target) {
+            target.scaleX = 1;
+            target.scaleY = 1;
+            target.skewX = 0;
+            target.skewY = 0;
+            target.rotate(0);
+        },
+        _drawSelection: function(ctx) {
+            var groupSelector = this._groupSelector, left = groupSelector.left, top = groupSelector.top, aleft = abs(left), atop = abs(top);
+            if (this.selectionColor) {
+                ctx.fillStyle = this.selectionColor;
+                ctx.fillRect(groupSelector.ex - (left > 0 ? 0 : -left), groupSelector.ey - (top > 0 ? 0 : -top), aleft, atop);
+            }
+            if (!this.selectionLineWidth || !this.selectionBorderColor) {
+                return;
+            }
+            ctx.lineWidth = this.selectionLineWidth;
+            ctx.strokeStyle = this.selectionBorderColor;
+            if (this.selectionDashArray.length > 1 && !supportLineDash) {
+                var px = groupSelector.ex + STROKE_OFFSET - (left > 0 ? 0 : aleft), py = groupSelector.ey + STROKE_OFFSET - (top > 0 ? 0 : atop);
+                ctx.beginPath();
+                fabric.util.drawDashedLine(ctx, px, py, px + aleft, py, this.selectionDashArray);
+                fabric.util.drawDashedLine(ctx, px, py + atop - 1, px + aleft, py + atop - 1, this.selectionDashArray);
+                fabric.util.drawDashedLine(ctx, px, py, px, py + atop, this.selectionDashArray);
+                fabric.util.drawDashedLine(ctx, px + aleft - 1, py, px + aleft - 1, py + atop, this.selectionDashArray);
+                ctx.closePath();
+                ctx.stroke();
+            } else {
+                fabric.Object.prototype._setLineDash.call(this, ctx, this.selectionDashArray);
+                ctx.strokeRect(groupSelector.ex + STROKE_OFFSET - (left > 0 ? 0 : aleft), groupSelector.ey + STROKE_OFFSET - (top > 0 ? 0 : atop), aleft, atop);
+            }
+        },
+        findTarget: function(e, skipGroup) {
+            if (this.skipTargetFind) {
+                return;
+            }
+            var ignoreZoom = true, pointer = this.getPointer(e, ignoreZoom), activeObject = this._activeObject, aObjects = this.getActiveObjects(), activeTarget, activeTargetSubs;
+            this.targets = [];
+            if (aObjects.length > 1 && !skipGroup && activeObject === this._searchPossibleTargets([ activeObject ], pointer)) {
+                return activeObject;
+            }
+            if (aObjects.length === 1 && activeObject._findTargetCorner(pointer)) {
+                return activeObject;
+            }
+            if (aObjects.length === 1 && activeObject === this._searchPossibleTargets([ activeObject ], pointer)) {
+                if (!this.preserveObjectStacking) {
+                    return activeObject;
+                } else {
+                    activeTarget = activeObject;
+                    activeTargetSubs = this.targets;
+                    this.targets = [];
+                }
+            }
+            var target = this._searchPossibleTargets(this._objects, pointer);
+            if (e[this.altSelectionKey] && target && activeTarget && target !== activeTarget) {
+                target = activeTarget;
+                this.targets = activeTargetSubs;
+            }
+            return target;
+        },
+        _checkTarget: function(pointer, obj) {
+            if (obj && obj.visible && obj.evented && this.containsPoint(null, obj, pointer)) {
+                if ((this.perPixelTargetFind || obj.perPixelTargetFind) && !obj.isEditing) {
+                    var isTransparent = this.isTargetTransparent(obj, pointer.x, pointer.y);
+                    if (!isTransparent) {
+                        return true;
+                    }
+                } else {
+                    return true;
+                }
+            }
+        },
+        _searchPossibleTargets: function(objects, pointer) {
+            var target, i = objects.length, normalizedPointer, subTarget;
+            while (i--) {
+                if (this._checkTarget(pointer, objects[i])) {
+                    target = objects[i];
+                    if (target.subTargetCheck && target instanceof fabric.Group) {
+                        normalizedPointer = this._normalizePointer(target, pointer);
+                        subTarget = this._searchPossibleTargets(target._objects, normalizedPointer);
+                        subTarget && this.targets.push(subTarget);
+                    }
+                    break;
+                }
+            }
+            return target;
+        },
+        restorePointerVpt: function(pointer) {
+            return fabric.util.transformPoint(pointer, fabric.util.invertTransform(this.viewportTransform));
+        },
+        getPointer: function(e, ignoreZoom, upperCanvasEl) {
+            if (!upperCanvasEl) {
+                upperCanvasEl = this.upperCanvasEl;
+            }
+            var pointer = getPointer(e), bounds = upperCanvasEl.getBoundingClientRect(), boundsWidth = bounds.width || 0, boundsHeight = bounds.height || 0, cssScale;
+            if (!boundsWidth || !boundsHeight) {
+                if ("top" in bounds && "bottom" in bounds) {
+                    boundsHeight = Math.abs(bounds.top - bounds.bottom);
+                }
+                if ("right" in bounds && "left" in bounds) {
+                    boundsWidth = Math.abs(bounds.right - bounds.left);
+                }
+            }
+            this.calcOffset();
+            pointer.x = pointer.x - this._offset.left;
+            pointer.y = pointer.y - this._offset.top;
+            if (!ignoreZoom) {
+                pointer = this.restorePointerVpt(pointer);
+            }
+            if (boundsWidth === 0 || boundsHeight === 0) {
+                cssScale = {
+                    width: 1,
+                    height: 1
+                };
+            } else {
+                cssScale = {
+                    width: upperCanvasEl.width / boundsWidth,
+                    height: upperCanvasEl.height / boundsHeight
+                };
+            }
+            return {
+                x: pointer.x * cssScale.width,
+                y: pointer.y * cssScale.height
+            };
+        },
+        _createUpperCanvas: function() {
+            var lowerCanvasClass = this.lowerCanvasEl.className.replace(/\s*lower-canvas\s*/, "");
+            if (this.upperCanvasEl) {
+                this.upperCanvasEl.className = "";
+            } else {
+                this.upperCanvasEl = this._createCanvasElement();
+            }
+            fabric.util.addClass(this.upperCanvasEl, "upper-canvas " + lowerCanvasClass);
+            this.wrapperEl.appendChild(this.upperCanvasEl);
+            this._copyCanvasStyle(this.lowerCanvasEl, this.upperCanvasEl);
+            this._applyCanvasStyle(this.upperCanvasEl);
+            this.contextTop = this.upperCanvasEl.getContext("2d");
+        },
+        _createCacheCanvas: function() {
+            this.cacheCanvasEl = this._createCanvasElement();
+            this.cacheCanvasEl.setAttribute("width", this.width);
+            this.cacheCanvasEl.setAttribute("height", this.height);
+            this.contextCache = this.cacheCanvasEl.getContext("2d");
+        },
+        _initWrapperElement: function() {
+            this.wrapperEl = fabric.util.wrapElement(this.lowerCanvasEl, "div", {
+                class: this.containerClass
+            });
+            fabric.util.setStyle(this.wrapperEl, {
+                width: this.width + "px",
+                height: this.height + "px",
+                position: "relative"
+            });
+            fabric.util.makeElementUnselectable(this.wrapperEl);
+        },
+        _applyCanvasStyle: function(element) {
+            var width = this.width || element.width, height = this.height || element.height;
+            fabric.util.setStyle(element, {
+                position: "absolute",
+                width: width + "px",
+                height: height + "px",
+                left: 0,
+                top: 0,
+                "touch-action": "none"
+            });
+            element.width = width;
+            element.height = height;
+            fabric.util.makeElementUnselectable(element);
+        },
+        _copyCanvasStyle: function(fromEl, toEl) {
+            toEl.style.cssText = fromEl.style.cssText;
+        },
+        getSelectionContext: function() {
+            return this.contextTop;
+        },
+        getSelectionElement: function() {
+            return this.upperCanvasEl;
+        },
+        getActiveObject: function() {
+            return this._activeObject;
+        },
+        getActiveObjects: function() {
+            var active = this._activeObject;
+            if (active) {
+                if (active.type === "activeSelection" && active._objects) {
+                    return active._objects.slice(0);
+                } else {
+                    return [ active ];
+                }
+            }
+            return [];
+        },
+        _onObjectRemoved: function(obj) {
+            if (obj === this._activeObject) {
+                this.fire("before:selection:cleared", {
+                    target: obj
+                });
+                this._discardActiveObject();
+                this.fire("selection:cleared", {
+                    target: obj
+                });
+                obj.fire("deselected");
+            }
+            if (this._hoveredTarget === obj) {
+                this._hoveredTarget = null;
+            }
+            this.callSuper("_onObjectRemoved", obj);
+        },
+        _fireSelectionEvents: function(oldObjects, e) {
+            var somethingChanged = false, objects = this.getActiveObjects(), added = [], removed = [], opt = {
+                e: e
+            };
+            oldObjects.forEach(function(oldObject) {
+                if (objects.indexOf(oldObject) === -1) {
+                    somethingChanged = true;
+                    oldObject.fire("deselected", opt);
+                    removed.push(oldObject);
+                }
+            });
+            objects.forEach(function(object) {
+                if (oldObjects.indexOf(object) === -1) {
+                    somethingChanged = true;
+                    object.fire("selected", opt);
+                    added.push(object);
+                }
+            });
+            if (oldObjects.length > 0 && objects.length > 0) {
+                opt.selected = added;
+                opt.deselected = removed;
+                opt.updated = added[0] || removed[0];
+                opt.target = this._activeObject;
+                somethingChanged && this.fire("selection:updated", opt);
+            } else if (objects.length > 0) {
+                if (objects.length === 1) {
+                    opt.target = added[0];
+                    this.fire("object:selected", opt);
+                }
+                opt.selected = added;
+                opt.target = this._activeObject;
+                this.fire("selection:created", opt);
+            } else if (oldObjects.length > 0) {
+                opt.deselected = removed;
+                this.fire("selection:cleared", opt);
+            }
+        },
+        setActiveObject: function(object, e) {
+            var currentActives = this.getActiveObjects();
+            this._setActiveObject(object, e);
+            this._fireSelectionEvents(currentActives, e);
+            return this;
+        },
+        _setActiveObject: function(object, e) {
+            if (this._activeObject === object) {
+                return false;
+            }
+            if (!this._discardActiveObject(e, object)) {
+                return false;
+            }
+            if (object.onSelect({
+                e: e
+            })) {
+                return false;
+            }
+            this._activeObject = object;
+            return true;
+        },
+        _discardActiveObject: function(e, object) {
+            var obj = this._activeObject;
+            if (obj) {
+                if (obj.onDeselect({
+                    e: e,
+                    object: object
+                })) {
+                    return false;
+                }
+                this._activeObject = null;
+            }
+            return true;
+        },
+        discardActiveObject: function(e) {
+            var currentActives = this.getActiveObjects();
+            if (currentActives.length) {
+                this.fire("before:selection:cleared", {
+                    target: currentActives[0],
+                    e: e
+                });
+            }
+            this._discardActiveObject(e);
+            this._fireSelectionEvents(currentActives, e);
+            return this;
+        },
+        dispose: function() {
+            var wrapper = this.wrapperEl;
+            this.removeListeners();
+            wrapper.removeChild(this.upperCanvasEl);
+            wrapper.removeChild(this.lowerCanvasEl);
+            this.upperCanvasEl = null;
+            this.cacheCanvasEl = null;
+            this.contextCache = null;
+            this.contextTop = null;
+            if (wrapper.parentNode) {
+                wrapper.parentNode.replaceChild(this.lowerCanvasEl, this.wrapperEl);
+            }
+            delete this.wrapperEl;
+            fabric.StaticCanvas.prototype.dispose.call(this);
+            return this;
+        },
+        clear: function() {
+            this.discardActiveObject();
+            this.clearContext(this.contextTop);
+            return this.callSuper("clear");
+        },
+        drawControls: function(ctx) {
+            var activeObject = this._activeObject;
+            if (activeObject) {
+                activeObject._renderControls(ctx);
+            }
+        },
+        _toObject: function(instance, methodName, propertiesToInclude) {
+            var originalProperties = this._realizeGroupTransformOnObject(instance), object = this.callSuper("_toObject", instance, methodName, propertiesToInclude);
+            this._unwindGroupTransformOnObject(instance, originalProperties);
+            return object;
+        },
+        _realizeGroupTransformOnObject: function(instance) {
+            if (instance.group && instance.group.type === "activeSelection" && this._activeObject === instance.group) {
+                var layoutProps = [ "angle", "flipX", "flipY", "left", "scaleX", "scaleY", "skewX", "skewY", "top" ];
+                var originalValues = {};
+                layoutProps.forEach(function(prop) {
+                    originalValues[prop] = instance[prop];
+                });
+                this._activeObject.realizeTransform(instance);
+                return originalValues;
+            } else {
+                return null;
+            }
+        },
+        _unwindGroupTransformOnObject: function(instance, originalValues) {
+            if (originalValues) {
+                instance.set(originalValues);
+            }
+        },
+        _setSVGObject: function(markup, instance, reviver) {
+            var originalProperties = this._realizeGroupTransformOnObject(instance);
+            this.callSuper("_setSVGObject", markup, instance, reviver);
+            this._unwindGroupTransformOnObject(instance, originalProperties);
+        }
+    });
+    for (var prop in fabric.StaticCanvas) {
+        if (prop !== "prototype") {
+            fabric.Canvas[prop] = fabric.StaticCanvas[prop];
+        }
+    }
+    if (fabric.isTouchSupported) {
+        fabric.Canvas.prototype._setCursorFromEvent = function() {};
+    }
+})();
+
+(function() {
+    var cursorOffset = {
+        mt: 0,
+        tr: 1,
+        mr: 2,
+        br: 3,
+        mb: 4,
+        bl: 5,
+        ml: 6,
+        tl: 7
+    }, addListener = fabric.util.addListener, removeListener = fabric.util.removeListener, RIGHT_CLICK = 3, MIDDLE_CLICK = 2, LEFT_CLICK = 1, addEventOptions = {
+        passive: false
+    };
+    function checkClick(e, value) {
+        return "which" in e ? e.which === value : e.button === value - 1;
+    }
+    fabric.util.object.extend(fabric.Canvas.prototype, {
+        cursorMap: [ "n-resize", "ne-resize", "e-resize", "se-resize", "s-resize", "sw-resize", "w-resize", "nw-resize" ],
+        _initEventListeners: function() {
+            this.removeListeners();
+            this._bindEvents();
+            addListener(fabric.window, "resize", this._onResize);
+            addListener(this.upperCanvasEl, "mousedown", this._onMouseDown);
+            addListener(this.upperCanvasEl, "dblclick", this._onDoubleClick);
+            addListener(this.upperCanvasEl, "mousemove", this._onMouseMove);
+            addListener(this.upperCanvasEl, "mouseout", this._onMouseOut);
+            addListener(this.upperCanvasEl, "mouseenter", this._onMouseEnter);
+            addListener(this.upperCanvasEl, "wheel", this._onMouseWheel);
+            addListener(this.upperCanvasEl, "contextmenu", this._onContextMenu);
+            addListener(this.upperCanvasEl, "dragover", this._onDragOver);
+            addListener(this.upperCanvasEl, "dragenter", this._onDragEnter);
+            addListener(this.upperCanvasEl, "dragleave", this._onDragLeave);
+            addListener(this.upperCanvasEl, "drop", this._onDrop);
+            addListener(this.upperCanvasEl, "touchstart", this._onMouseDown, addEventOptions);
+            addListener(this.upperCanvasEl, "touchmove", this._onMouseMove, addEventOptions);
+            if (typeof eventjs !== "undefined" && "add" in eventjs) {
+                eventjs.add(this.upperCanvasEl, "gesture", this._onGesture);
+                eventjs.add(this.upperCanvasEl, "drag", this._onDrag);
+                eventjs.add(this.upperCanvasEl, "orientation", this._onOrientationChange);
+                eventjs.add(this.upperCanvasEl, "shake", this._onShake);
+                eventjs.add(this.upperCanvasEl, "longpress", this._onLongPress);
+            }
+        },
+        _bindEvents: function() {
+            if (this.eventsBound) {
+                return;
+            }
+            this._onMouseDown = this._onMouseDown.bind(this);
+            this._onMouseMove = this._onMouseMove.bind(this);
+            this._onMouseUp = this._onMouseUp.bind(this);
+            this._onResize = this._onResize.bind(this);
+            this._onGesture = this._onGesture.bind(this);
+            this._onDrag = this._onDrag.bind(this);
+            this._onShake = this._onShake.bind(this);
+            this._onLongPress = this._onLongPress.bind(this);
+            this._onOrientationChange = this._onOrientationChange.bind(this);
+            this._onMouseWheel = this._onMouseWheel.bind(this);
+            this._onMouseOut = this._onMouseOut.bind(this);
+            this._onMouseEnter = this._onMouseEnter.bind(this);
+            this._onContextMenu = this._onContextMenu.bind(this);
+            this._onDoubleClick = this._onDoubleClick.bind(this);
+            this._onDragOver = this._onDragOver.bind(this);
+            this._onDragEnter = this._simpleEventHandler.bind(this, "dragenter");
+            this._onDragLeave = this._simpleEventHandler.bind(this, "dragleave");
+            this._onDrop = this._simpleEventHandler.bind(this, "drop");
+            this.eventsBound = true;
+        },
+        removeListeners: function() {
+            removeListener(fabric.window, "resize", this._onResize);
+            removeListener(this.upperCanvasEl, "mousedown", this._onMouseDown);
+            removeListener(this.upperCanvasEl, "mousemove", this._onMouseMove);
+            removeListener(this.upperCanvasEl, "mouseout", this._onMouseOut);
+            removeListener(this.upperCanvasEl, "mouseenter", this._onMouseEnter);
+            removeListener(this.upperCanvasEl, "wheel", this._onMouseWheel);
+            removeListener(this.upperCanvasEl, "contextmenu", this._onContextMenu);
+            removeListener(this.upperCanvasEl, "doubleclick", this._onDoubleClick);
+            removeListener(this.upperCanvasEl, "touchstart", this._onMouseDown);
+            removeListener(this.upperCanvasEl, "touchmove", this._onMouseMove);
+            removeListener(this.upperCanvasEl, "dragover", this._onDragOver);
+            removeListener(this.upperCanvasEl, "dragenter", this._onDragEnter);
+            removeListener(this.upperCanvasEl, "dragleave", this._onDragLeave);
+            removeListener(this.upperCanvasEl, "drop", this._onDrop);
+            if (typeof eventjs !== "undefined" && "remove" in eventjs) {
+                eventjs.remove(this.upperCanvasEl, "gesture", this._onGesture);
+                eventjs.remove(this.upperCanvasEl, "drag", this._onDrag);
+                eventjs.remove(this.upperCanvasEl, "orientation", this._onOrientationChange);
+                eventjs.remove(this.upperCanvasEl, "shake", this._onShake);
+                eventjs.remove(this.upperCanvasEl, "longpress", this._onLongPress);
+            }
+        },
+        _onGesture: function(e, self) {
+            this.__onTransformGesture && this.__onTransformGesture(e, self);
+        },
+        _onDrag: function(e, self) {
+            this.__onDrag && this.__onDrag(e, self);
+        },
+        _onMouseWheel: function(e) {
+            this.__onMouseWheel(e);
+        },
+        _onMouseOut: function(e) {
+            var target = this._hoveredTarget;
+            this.fire("mouse:out", {
+                target: target,
+                e: e
+            });
+            this._hoveredTarget = null;
+            target && target.fire("mouseout", {
+                e: e
+            });
+            if (this._iTextInstances) {
+                this._iTextInstances.forEach(function(obj) {
+                    if (obj.isEditing) {
+                        obj.hiddenTextarea.focus();
+                    }
+                });
+            }
+        },
+        _onMouseEnter: function(e) {
+            if (!this.findTarget(e)) {
+                this.fire("mouse:over", {
+                    target: null,
+                    e: e
+                });
+                this._hoveredTarget = null;
+            }
+        },
+        _onOrientationChange: function(e, self) {
+            this.__onOrientationChange && this.__onOrientationChange(e, self);
+        },
+        _onShake: function(e, self) {
+            this.__onShake && this.__onShake(e, self);
+        },
+        _onLongPress: function(e, self) {
+            this.__onLongPress && this.__onLongPress(e, self);
+        },
+        _onDragOver: function(e) {
+            e.preventDefault();
+            var target = this._simpleEventHandler("dragover", e);
+            this._fireEnterLeaveEvents(target, e);
+        },
+        _onContextMenu: function(e) {
+            if (this.stopContextMenu) {
+                e.stopPropagation();
+                e.preventDefault();
+            }
+            return false;
+        },
+        _onDoubleClick: function(e) {
+            this._handleEvent(e, "dblclick");
+        },
+        _onMouseDown: function(e) {
+            this.__onMouseDown(e);
+            addListener(fabric.document, "touchend", this._onMouseUp, addEventOptions);
+            addListener(fabric.document, "touchmove", this._onMouseMove, addEventOptions);
+            removeListener(this.upperCanvasEl, "mousemove", this._onMouseMove);
+            removeListener(this.upperCanvasEl, "touchmove", this._onMouseMove, addEventOptions);
+            if (e.type === "touchstart") {
+                removeListener(this.upperCanvasEl, "mousedown", this._onMouseDown);
+            } else {
+                addListener(fabric.document, "mouseup", this._onMouseUp);
+                addListener(fabric.document, "mousemove", this._onMouseMove);
+            }
+        },
+        _onMouseUp: function(e) {
+            this.__onMouseUp(e);
+            removeListener(fabric.document, "mouseup", this._onMouseUp);
+            removeListener(fabric.document, "touchend", this._onMouseUp, addEventOptions);
+            removeListener(fabric.document, "mousemove", this._onMouseMove);
+            removeListener(fabric.document, "touchmove", this._onMouseMove, addEventOptions);
+            addListener(this.upperCanvasEl, "mousemove", this._onMouseMove);
+            addListener(this.upperCanvasEl, "touchmove", this._onMouseMove, addEventOptions);
+            if (e.type === "touchend") {
+                var _this = this;
+                setTimeout(function() {
+                    addListener(_this.upperCanvasEl, "mousedown", _this._onMouseDown);
+                }, 400);
+            }
+        },
+        _onMouseMove: function(e) {
+            !this.allowTouchScrolling && e.preventDefault && e.preventDefault();
+            this.__onMouseMove(e);
+        },
+        _onResize: function() {
+            this.calcOffset();
+        },
+        _shouldRender: function(target, pointer) {
+            var activeObject = this._activeObject;
+            if (activeObject && activeObject.isEditing && target === activeObject) {
+                return false;
+            }
+            return !!(target && (target.isMoving || target !== activeObject) || !target && !!activeObject || !target && !activeObject && !this._groupSelector || pointer && this._previousPointer && this.selection && (pointer.x !== this._previousPointer.x || pointer.y !== this._previousPointer.y));
+        },
+        __onMouseUp: function(e) {
+            var target, searchTarget = true, transform = this._currentTransform, groupSelector = this._groupSelector, isClick = !groupSelector || groupSelector.left === 0 && groupSelector.top === 0;
+            if (checkClick(e, RIGHT_CLICK)) {
+                if (this.fireRightClick) {
+                    this._handleEvent(e, "up", target, RIGHT_CLICK, isClick);
+                }
+                return;
+            }
+            if (checkClick(e, MIDDLE_CLICK)) {
+                if (this.fireMiddleClick) {
+                    this._handleEvent(e, "up", target, MIDDLE_CLICK, isClick);
+                }
+                return;
+            }
+            if (this.isDrawingMode && this._isCurrentlyDrawing) {
+                this._onMouseUpInDrawingMode(e);
+                return;
+            }
+            if (transform) {
+                this._finalizeCurrentTransform(e);
+                searchTarget = !transform.actionPerformed;
+            }
+            target = searchTarget ? this.findTarget(e, true) : transform.target;
+            var shouldRender = this._shouldRender(target, this.getPointer(e));
+            if (target || !isClick) {
+                this._maybeGroupObjects(e);
+            } else {
+                this._groupSelector = null;
+                this._currentTransform = null;
+            }
+            if (target) {
+                target.isMoving = false;
+            }
+            this._setCursorFromEvent(e, target);
+            this._handleEvent(e, "up", target ? target : null, LEFT_CLICK, isClick);
+            target && (target.__corner = 0);
+            shouldRender && this.requestRenderAll();
+        },
+        _simpleEventHandler: function(eventType, e) {
+            var target = this.findTarget(e), targets = this.targets, options = {
+                e: e,
+                target: target,
+                subTargets: targets
+            };
+            this.fire(eventType, options);
+            target && target.fire(eventType, options);
+            if (!targets) {
+                return target;
+            }
+            for (var i = 0; i < targets.length; i++) {
+                targets[i].fire(eventType, options);
+            }
+            return target;
+        },
+        _handleEvent: function(e, eventType, targetObj, button, isClick) {
+            var target = typeof targetObj === "undefined" ? this.findTarget(e) : targetObj, targets = this.targets || [], options = {
+                e: e,
+                target: target,
+                subTargets: targets,
+                button: button || LEFT_CLICK,
+                isClick: isClick || false
+            };
+            this.fire("mouse:" + eventType, options);
+            target && target.fire("mouse" + eventType, options);
+            for (var i = 0; i < targets.length; i++) {
+                targets[i].fire("mouse" + eventType, options);
+            }
+        },
+        _finalizeCurrentTransform: function(e) {
+            var transform = this._currentTransform, target = transform.target;
+            if (target._scaling) {
+                target._scaling = false;
+            }
+            target.setCoords();
+            if (transform.actionPerformed || this.stateful && target.hasStateChanged()) {
+                this.fire("object:modified", {
+                    target: target,
+                    e: e
+                });
+                target.fire("modified", {
+                    e: e
+                });
+            }
+        },
+        _onMouseDownInDrawingMode: function(e) {
+            this._isCurrentlyDrawing = true;
+            if (this.getActiveObject()) {
+                this.discardActiveObject(e).requestRenderAll();
+            }
+            if (this.clipTo) {
+                fabric.util.clipContext(this, this.contextTop);
+            }
+            var pointer = this.getPointer(e);
+            this.freeDrawingBrush.onMouseDown(pointer);
+            this._handleEvent(e, "down");
+        },
+        _onMouseMoveInDrawingMode: function(e) {
+            if (this._isCurrentlyDrawing) {
+                var pointer = this.getPointer(e);
+                this.freeDrawingBrush.onMouseMove(pointer);
+            }
+            this.setCursor(this.freeDrawingCursor);
+            this._handleEvent(e, "move");
+        },
+        _onMouseUpInDrawingMode: function(e) {
+            this._isCurrentlyDrawing = false;
+            if (this.clipTo) {
+                this.contextTop.restore();
+            }
+            this.freeDrawingBrush.onMouseUp();
+            this._handleEvent(e, "up");
+        },
+        __onMouseDown: function(e) {
+            var target = this.findTarget(e) || null;
+            if (checkClick(e, RIGHT_CLICK)) {
+                if (this.fireRightClick) {
+                    this._handleEvent(e, "down", target, RIGHT_CLICK);
+                }
+                return;
+            }
+            if (checkClick(e, MIDDLE_CLICK)) {
+                if (this.fireMiddleClick) {
+                    this._handleEvent(e, "down", target, MIDDLE_CLICK);
+                }
+                return;
+            }
+            if (this.isDrawingMode) {
+                this._onMouseDownInDrawingMode(e);
+                return;
+            }
+            if (this._currentTransform) {
+                return;
+            }
+            var pointer = this.getPointer(e, true);
+            this._previousPointer = pointer;
+            var shouldRender = this._shouldRender(target, pointer), shouldGroup = this._shouldGroup(e, target);
+            if (this._shouldClearSelection(e, target)) {
+                this.discardActiveObject(e);
+            } else if (shouldGroup) {
+                this._handleGrouping(e, target);
+                target = this._activeObject;
+            }
+            if (this.selection && (!target || !target.selectable && !target.isEditing && target !== this._activeObject)) {
+                this._groupSelector = {
+                    ex: pointer.x,
+                    ey: pointer.y,
+                    top: 0,
+                    left: 0
+                };
+            }
+            if (target) {
+                if (target.selectable) {
+                    this.setActiveObject(target, e);
+                }
+                if (target === this._activeObject && (target.__corner || !shouldGroup)) {
+                    this._beforeTransform(e, target);
+                    this._setupCurrentTransform(e, target);
+                }
+            }
+            this._handleEvent(e, "down", target);
+            shouldRender && this.requestRenderAll();
+        },
+        _beforeTransform: function(e, target) {
+            this.stateful && target.saveState();
+            if (target._findTargetCorner(this.getPointer(e, true))) {
+                this.onBeforeScaleRotate(target);
+            }
+        },
+        __onMouseMove: function(e) {
+            var target, pointer;
+            if (this.isDrawingMode) {
+                this._onMouseMoveInDrawingMode(e);
+                return;
+            }
+            if (typeof e.touches !== "undefined" && e.touches.length > 1) {
+                return;
+            }
+            var groupSelector = this._groupSelector;
+            if (groupSelector) {
+                pointer = this.getPointer(e, true);
+                groupSelector.left = pointer.x - groupSelector.ex;
+                groupSelector.top = pointer.y - groupSelector.ey;
+                this.renderTop();
+            } else if (!this._currentTransform) {
+                target = this.findTarget(e) || null;
+                this._setCursorFromEvent(e, target);
+                this._fireOverOutEvents(target, e);
+            } else {
+                this._transformObject(e);
+            }
+            this._handleEvent(e, "move", this._currentTransform ? null : target);
+        },
+        _fireOverOutEvents: function(target, e) {
+            this.fireSynteticInOutEvents(target, e, {
+                targetName: "_hoveredTarget",
+                canvasEvtOut: "mouse:out",
+                evtOut: "mouseout",
+                canvasEvtIn: "mouse:over",
+                evtIn: "mouseover"
+            });
+        },
+        _fireEnterLeaveEvents: function(target, e) {
+            this.fireSynteticInOutEvents(target, e, {
+                targetName: "_draggedoverTarget",
+                evtOut: "dragleave",
+                evtIn: "dragenter"
+            });
+        },
+        fireSynteticInOutEvents: function(target, e, config) {
+            var inOpt, outOpt, oldTarget = this[config.targetName], outFires, inFires, targetChanged = oldTarget !== target, canvasEvtIn = config.canvasEvtIn, canvasEvtOut = config.canvasEvtOut;
+            if (targetChanged) {
+                inOpt = {
+                    e: e,
+                    target: target,
+                    previousTarget: oldTarget
+                };
+                outOpt = {
+                    e: e,
+                    target: oldTarget,
+                    nextTarget: target
+                };
+                this[config.targetName] = target;
+            }
+            inFires = target && targetChanged;
+            outFires = oldTarget && targetChanged;
+            if (outFires) {
+                canvasEvtOut && this.fire(canvasEvtOut, outOpt);
+                oldTarget.fire(config.evtOut, outOpt);
+            }
+            if (inFires) {
+                canvasEvtIn && this.fire(canvasEvtIn, inOpt);
+                target.fire(config.evtIn, inOpt);
+            }
+        },
+        __onMouseWheel: function(e) {
+            this._handleEvent(e, "wheel");
+        },
+        _transformObject: function(e) {
+            var pointer = this.getPointer(e), transform = this._currentTransform;
+            transform.reset = false;
+            transform.target.isMoving = true;
+            transform.shiftKey = e.shiftKey;
+            transform.altKey = e[this.centeredKey];
+            this._beforeScaleTransform(e, transform);
+            this._performTransformAction(e, transform, pointer);
+            transform.actionPerformed && this.requestRenderAll();
+        },
+        _performTransformAction: function(e, transform, pointer) {
+            var x = pointer.x, y = pointer.y, target = transform.target, action = transform.action, actionPerformed = false;
+            if (action === "rotate") {
+                (actionPerformed = this._rotateObject(x, y)) && this._fire("rotating", target, e);
+            } else if (action === "scale") {
+                (actionPerformed = this._onScale(e, transform, x, y)) && this._fire("scaling", target, e);
+            } else if (action === "scaleX") {
+                (actionPerformed = this._scaleObject(x, y, "x")) && this._fire("scaling", target, e);
+            } else if (action === "scaleY") {
+                (actionPerformed = this._scaleObject(x, y, "y")) && this._fire("scaling", target, e);
+            } else if (action === "skewX") {
+                (actionPerformed = this._skewObject(x, y, "x")) && this._fire("skewing", target, e);
+            } else if (action === "skewY") {
+                (actionPerformed = this._skewObject(x, y, "y")) && this._fire("skewing", target, e);
+            } else {
+                actionPerformed = this._translateObject(x, y);
+                if (actionPerformed) {
+                    this._fire("moving", target, e);
+                    this.setCursor(target.moveCursor || this.moveCursor);
+                }
+            }
+            transform.actionPerformed = transform.actionPerformed || actionPerformed;
+        },
+        _fire: function(eventName, target, e) {
+            this.fire("object:" + eventName, {
+                target: target,
+                e: e
+            });
+            target.fire(eventName, {
+                e: e
+            });
+        },
+        _beforeScaleTransform: function(e, transform) {
+            if (transform.action === "scale" || transform.action === "scaleX" || transform.action === "scaleY") {
+                var centerTransform = this._shouldCenterTransform(transform.target);
+                if (centerTransform && (transform.originX !== "center" || transform.originY !== "center") || !centerTransform && transform.originX === "center" && transform.originY === "center") {
+                    this._resetCurrentTransform();
+                    transform.reset = true;
+                }
+            }
+        },
+        _onScale: function(e, transform, x, y) {
+            if (this._isUniscalePossible(e, transform.target)) {
+                transform.currentAction = "scale";
+                return this._scaleObject(x, y);
+            } else {
+                if (!transform.reset && transform.currentAction === "scale") {
+                    this._resetCurrentTransform();
+                }
+                transform.currentAction = "scaleEqually";
+                return this._scaleObject(x, y, "equally");
+            }
+        },
+        _isUniscalePossible: function(e, target) {
+            return (e[this.uniScaleKey] || this.uniScaleTransform) && !target.get("lockUniScaling");
+        },
+        _setCursorFromEvent: function(e, target) {
+            if (!target) {
+                this.setCursor(this.defaultCursor);
+                return false;
+            }
+            var hoverCursor = target.hoverCursor || this.hoverCursor, activeSelection = this._activeObject && this._activeObject.type === "activeSelection" ? this._activeObject : null, corner = (!activeSelection || !activeSelection.contains(target)) && target._findTargetCorner(this.getPointer(e, true));
+            if (!corner) {
+                this.setCursor(hoverCursor);
+            } else {
+                this.setCursor(this.getCornerCursor(corner, target, e));
+            }
+        },
+        getCornerCursor: function(corner, target, e) {
+            if (this.actionIsDisabled(corner, target, e)) {
+                return this.notAllowedCursor;
+            } else if (corner in cursorOffset) {
+                return this._getRotatedCornerCursor(corner, target, e);
+            } else if (corner === "mtr" && target.hasRotatingPoint) {
+                return this.rotationCursor;
+            } else {
+                return this.defaultCursor;
+            }
+        },
+        actionIsDisabled: function(corner, target, e) {
+            if (corner === "mt" || corner === "mb") {
+                return e[this.altActionKey] ? target.lockSkewingX : target.lockScalingY;
+            } else if (corner === "ml" || corner === "mr") {
+                return e[this.altActionKey] ? target.lockSkewingY : target.lockScalingX;
+            } else if (corner === "mtr") {
+                return target.lockRotation;
+            } else {
+                return this._isUniscalePossible(e, target) ? target.lockScalingX && target.lockScalingY : target.lockScalingX || target.lockScalingY;
+            }
+        },
+        _getRotatedCornerCursor: function(corner, target, e) {
+            var n = Math.round(target.angle % 360 / 45);
+            if (n < 0) {
+                n += 8;
+            }
+            n += cursorOffset[corner];
+            if (e[this.altActionKey] && cursorOffset[corner] % 2 === 0) {
+                n += 2;
+            }
+            n %= 8;
+            return this.cursorMap[n];
+        }
+    });
+})();
+
+(function() {
+    var min = Math.min, max = Math.max;
+    fabric.util.object.extend(fabric.Canvas.prototype, {
+        _shouldGroup: function(e, target) {
+            var activeObject = this._activeObject;
+            return activeObject && this._isSelectionKeyPressed(e) && target && target.selectable && this.selection && (activeObject !== target || activeObject.type === "activeSelection");
+        },
+        _handleGrouping: function(e, target) {
+            var activeObject = this._activeObject;
+            if (activeObject.__corner) {
+                return;
+            }
+            if (target === activeObject) {
+                target = this.findTarget(e, true);
+                if (!target) {
+                    return;
+                }
+            }
+            if (activeObject && activeObject.type === "activeSelection") {
+                this._updateActiveSelection(target, e);
+            } else {
+                this._createActiveSelection(target, e);
+            }
+        },
+        _updateActiveSelection: function(target, e) {
+            var activeSelection = this._activeObject, currentActiveObjects = activeSelection._objects.slice(0);
+            if (activeSelection.contains(target)) {
+                activeSelection.removeWithUpdate(target);
+                this._hoveredTarget = target;
+                if (activeSelection.size() === 1) {
+                    this._setActiveObject(activeSelection.item(0), e);
+                }
+            } else {
+                activeSelection.addWithUpdate(target);
+                this._hoveredTarget = activeSelection;
+            }
+            this._fireSelectionEvents(currentActiveObjects, e);
+        },
+        _createActiveSelection: function(target, e) {
+            var currentActives = this.getActiveObjects(), group = this._createGroup(target);
+            this._hoveredTarget = group;
+            this._setActiveObject(group, e);
+            this._fireSelectionEvents(currentActives, e);
+        },
+        _createGroup: function(target) {
+            var objects = this.getObjects(), isActiveLower = objects.indexOf(this._activeObject) < objects.indexOf(target), groupObjects = isActiveLower ? [ this._activeObject, target ] : [ target, this._activeObject ];
+            this._activeObject.isEditing && this._activeObject.exitEditing();
+            return new fabric.ActiveSelection(groupObjects, {
+                canvas: this
+            });
+        },
+        _groupSelectedObjects: function(e) {
+            var group = this._collectObjects(), aGroup;
+            if (group.length === 1) {
+                this.setActiveObject(group[0], e);
+            } else if (group.length > 1) {
+                aGroup = new fabric.ActiveSelection(group.reverse(), {
+                    canvas: this
+                });
+                this.setActiveObject(aGroup, e);
+            }
+        },
+        _collectObjects: function() {
+            var group = [], currentObject, x1 = this._groupSelector.ex, y1 = this._groupSelector.ey, x2 = x1 + this._groupSelector.left, y2 = y1 + this._groupSelector.top, selectionX1Y1 = new fabric.Point(min(x1, x2), min(y1, y2)), selectionX2Y2 = new fabric.Point(max(x1, x2), max(y1, y2)), allowIntersect = !this.selectionFullyContained, isClick = x1 === x2 && y1 === y2;
+            for (var i = this._objects.length; i--; ) {
+                currentObject = this._objects[i];
+                if (!currentObject || !currentObject.selectable || !currentObject.visible) {
+                    continue;
+                }
+                if (allowIntersect && currentObject.intersectsWithRect(selectionX1Y1, selectionX2Y2) || currentObject.isContainedWithinRect(selectionX1Y1, selectionX2Y2) || allowIntersect && currentObject.containsPoint(selectionX1Y1) || allowIntersect && currentObject.containsPoint(selectionX2Y2)) {
+                    group.push(currentObject);
+                    if (isClick) {
+                        break;
+                    }
+                }
+            }
+            return group;
+        },
+        _maybeGroupObjects: function(e) {
+            if (this.selection && this._groupSelector) {
+                this._groupSelectedObjects(e);
+            }
+            this.setCursor(this.defaultCursor);
+            this._groupSelector = null;
+            this._currentTransform = null;
+        }
+    });
+})();
+
+(function() {
+    var supportQuality = fabric.StaticCanvas.supports("toDataURLWithQuality");
+    fabric.util.object.extend(fabric.StaticCanvas.prototype, {
+        toDataURL: function(options) {
+            options || (options = {});
+            var format = options.format || "png", quality = options.quality || 1, multiplier = (options.multiplier || 1) * (options.enableRetinaScaling ? 1 : 1 / this.getRetinaScaling()), cropping = {
+                left: options.left || 0,
+                top: options.top || 0,
+                width: options.width || 0,
+                height: options.height || 0
+            };
+            return this.__toDataURLWithMultiplier(format, quality, cropping, multiplier);
+        },
+        __toDataURLWithMultiplier: function(format, quality, cropping, multiplier) {
+            var origWidth = this.width, origHeight = this.height, scaledWidth = (cropping.width || this.width) * multiplier, scaledHeight = (cropping.height || this.height) * multiplier, zoom = this.getZoom(), newZoom = zoom * multiplier, vp = this.viewportTransform, translateX = (vp[4] - cropping.left) * multiplier, translateY = (vp[5] - cropping.top) * multiplier, newVp = [ newZoom, 0, 0, newZoom, translateX, translateY ], originalInteractive = this.interactive, originalSkipOffScreen = this.skipOffscreen, needsResize = origWidth !== scaledWidth || origHeight !== scaledHeight;
+            this.viewportTransform = newVp;
+            this.skipOffscreen = false;
+            this.interactive = false;
+            if (needsResize) {
+                this.setDimensions({
+                    width: scaledWidth,
+                    height: scaledHeight
+                }, {
+                    backstoreOnly: true
+                });
+            }
+            this.renderAll();
+            var data = this.__toDataURL(format, quality, cropping);
+            this.interactive = originalInteractive;
+            this.skipOffscreen = originalSkipOffScreen;
+            this.viewportTransform = vp;
+            if (needsResize) {
+                this.setDimensions({
+                    width: origWidth,
+                    height: origHeight
+                }, {
+                    backstoreOnly: true
+                });
+            }
+            this.renderAll();
+            return data;
+        },
+        __toDataURL: function(format, quality) {
+            var canvasEl = this.contextContainer.canvas;
+            if (format === "jpg") {
+                format = "jpeg";
+            }
+            var data = supportQuality ? canvasEl.toDataURL("image/" + format, quality) : canvasEl.toDataURL("image/" + format);
+            return data;
+        }
+    });
+})();
+
+fabric.util.object.extend(fabric.StaticCanvas.prototype, {
+    loadFromDatalessJSON: function(json, callback, reviver) {
+        return this.loadFromJSON(json, callback, reviver);
+    },
+    loadFromJSON: function(json, callback, reviver) {
+        if (!json) {
+            return;
+        }
+        var serialized = typeof json === "string" ? JSON.parse(json) : fabric.util.object.clone(json);
+        var _this = this, renderOnAddRemove = this.renderOnAddRemove;
+        this.renderOnAddRemove = false;
+        this._enlivenObjects(serialized.objects, function(enlivenedObjects) {
+            _this.clear();
+            _this._setBgOverlay(serialized, function() {
+                enlivenedObjects.forEach(function(obj, index) {
+                    _this.insertAt(obj, index);
+                });
+                _this.renderOnAddRemove = renderOnAddRemove;
+                delete serialized.objects;
+                delete serialized.backgroundImage;
+                delete serialized.overlayImage;
+                delete serialized.background;
+                delete serialized.overlay;
+                _this._setOptions(serialized);
+                _this.renderAll();
+                callback && callback();
+            });
+        }, reviver);
+        return this;
+    },
+    _setBgOverlay: function(serialized, callback) {
+        var loaded = {
+            backgroundColor: false,
+            overlayColor: false,
+            backgroundImage: false,
+            overlayImage: false
+        };
+        if (!serialized.backgroundImage && !serialized.overlayImage && !serialized.background && !serialized.overlay) {
+            callback && callback();
+            return;
+        }
+        var cbIfLoaded = function() {
+            if (loaded.backgroundImage && loaded.overlayImage && loaded.backgroundColor && loaded.overlayColor) {
+                callback && callback();
+            }
+        };
+        this.__setBgOverlay("backgroundImage", serialized.backgroundImage, loaded, cbIfLoaded);
+        this.__setBgOverlay("overlayImage", serialized.overlayImage, loaded, cbIfLoaded);
+        this.__setBgOverlay("backgroundColor", serialized.background, loaded, cbIfLoaded);
+        this.__setBgOverlay("overlayColor", serialized.overlay, loaded, cbIfLoaded);
+    },
+    __setBgOverlay: function(property, value, loaded, callback) {
+        var _this = this;
+        if (!value) {
+            loaded[property] = true;
+            callback && callback();
+            return;
+        }
+        if (property === "backgroundImage" || property === "overlayImage") {
+            fabric.util.enlivenObjects([ value ], function(enlivedObject) {
+                _this[property] = enlivedObject[0];
+                loaded[property] = true;
+                callback && callback();
+            });
+        } else {
+            this["set" + fabric.util.string.capitalize(property, true)](value, function() {
+                loaded[property] = true;
+                callback && callback();
+            });
+        }
+    },
+    _enlivenObjects: function(objects, callback, reviver) {
+        if (!objects || objects.length === 0) {
+            callback && callback([]);
+            return;
+        }
+        fabric.util.enlivenObjects(objects, function(enlivenedObjects) {
+            callback && callback(enlivenedObjects);
+        }, null, reviver);
+    },
+    _toDataURL: function(format, callback) {
+        this.clone(function(clone) {
+            callback(clone.toDataURL(format));
+        });
+    },
+    _toDataURLWithMultiplier: function(format, multiplier, callback) {
+        this.clone(function(clone) {
+            callback(clone.toDataURLWithMultiplier(format, multiplier));
+        });
+    },
+    clone: function(callback, properties) {
+        var data = JSON.stringify(this.toJSON(properties));
+        this.cloneWithoutData(function(clone) {
+            clone.loadFromJSON(data, function() {
+                callback && callback(clone);
+            });
+        });
+    },
+    cloneWithoutData: function(callback) {
+        var el = fabric.document.createElement("canvas");
+        el.width = this.width;
+        el.height = this.height;
+        var clone = new fabric.Canvas(el);
+        clone.clipTo = this.clipTo;
+        if (this.backgroundImage) {
+            clone.setBackgroundImage(this.backgroundImage.src, function() {
+                clone.renderAll();
+                callback && callback(clone);
+            });
+            clone.backgroundImageOpacity = this.backgroundImageOpacity;
+            clone.backgroundImageStretch = this.backgroundImageStretch;
+        } else {
+            callback && callback(clone);
+        }
+    }
+});
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), extend = fabric.util.object.extend, clone = fabric.util.object.clone, toFixed = fabric.util.toFixed, capitalize = fabric.util.string.capitalize, degreesToRadians = fabric.util.degreesToRadians, supportsLineDash = fabric.StaticCanvas.supports("setLineDash"), objectCaching = !fabric.isLikelyNode, ALIASING_LIMIT = 2;
+    if (fabric.Object) {
+        return;
+    }
+    fabric.Object = fabric.util.createClass(fabric.CommonMethods, {
+        type: "object",
+        originX: "left",
+        originY: "top",
+        top: 0,
+        left: 0,
+        width: 0,
+        height: 0,
+        scaleX: 1,
+        scaleY: 1,
+        flipX: false,
+        flipY: false,
+        opacity: 1,
+        angle: 0,
+        skewX: 0,
+        skewY: 0,
+        cornerSize: 13,
+        transparentCorners: true,
+        hoverCursor: null,
+        moveCursor: null,
+        padding: 0,
+        borderColor: "rgba(102,153,255,0.75)",
+        borderDashArray: null,
+        cornerColor: "rgba(102,153,255,0.5)",
+        cornerStrokeColor: null,
+        cornerStyle: "rect",
+        cornerDashArray: null,
+        centeredScaling: false,
+        centeredRotation: true,
+        fill: "rgb(0,0,0)",
+        fillRule: "nonzero",
+        globalCompositeOperation: "source-over",
+        backgroundColor: "",
+        selectionBackgroundColor: "",
+        stroke: null,
+        strokeWidth: 1,
+        strokeDashArray: null,
+        strokeLineCap: "butt",
+        strokeLineJoin: "miter",
+        strokeMiterLimit: 10,
+        shadow: null,
+        borderOpacityWhenMoving: .4,
+        borderScaleFactor: 1,
+        transformMatrix: null,
+        minScaleLimit: 0,
+        selectable: true,
+        evented: true,
+        visible: true,
+        hasControls: true,
+        hasBorders: true,
+        hasRotatingPoint: true,
+        rotatingPointOffset: 40,
+        perPixelTargetFind: false,
+        includeDefaultValues: true,
+        clipTo: null,
+        lockMovementX: false,
+        lockMovementY: false,
+        lockRotation: false,
+        lockScalingX: false,
+        lockScalingY: false,
+        lockUniScaling: false,
+        lockSkewingX: false,
+        lockSkewingY: false,
+        lockScalingFlip: false,
+        excludeFromExport: false,
+        objectCaching: objectCaching,
+        statefullCache: false,
+        noScaleCache: true,
+        dirty: true,
+        __corner: 0,
+        paintFirst: "fill",
+        stateProperties: ("top left width height scaleX scaleY flipX flipY originX originY transformMatrix " + "stroke strokeWidth strokeDashArray strokeLineCap strokeLineJoin strokeMiterLimit " + "angle opacity fill globalCompositeOperation shadow clipTo visible backgroundColor " + "skewX skewY fillRule paintFirst").split(" "),
+        cacheProperties: ("fill stroke strokeWidth strokeDashArray width height paintFirst" + " strokeLineCap strokeLineJoin strokeMiterLimit backgroundColor").split(" "),
+        initialize: function(options) {
+            if (options) {
+                this.setOptions(options);
+            }
+        },
+        _createCacheCanvas: function() {
+            this._cacheProperties = {};
+            this._cacheCanvas = fabric.document.createElement("canvas");
+            this._cacheContext = this._cacheCanvas.getContext("2d");
+            this._updateCacheCanvas();
+        },
+        _limitCacheSize: function(dims) {
+            var perfLimitSizeTotal = fabric.perfLimitSizeTotal, width = dims.width, height = dims.height, max = fabric.maxCacheSideLimit, min = fabric.minCacheSideLimit;
+            if (width <= max && height <= max && width * height <= perfLimitSizeTotal) {
+                if (width < min) {
+                    dims.width = min;
+                }
+                if (height < min) {
+                    dims.height = min;
+                }
+                return dims;
+            }
+            var ar = width / height, limitedDims = fabric.util.limitDimsByArea(ar, perfLimitSizeTotal), capValue = fabric.util.capValue, x = capValue(min, limitedDims.x, max), y = capValue(min, limitedDims.y, max);
+            if (width > x) {
+                dims.zoomX /= width / x;
+                dims.width = x;
+                dims.capped = true;
+            }
+            if (height > y) {
+                dims.zoomY /= height / y;
+                dims.height = y;
+                dims.capped = true;
+            }
+            return dims;
+        },
+        _getCacheCanvasDimensions: function() {
+            var zoom = this.canvas && this.canvas.getZoom() || 1, objectScale = this.getObjectScaling(), retina = this.canvas && this.canvas._isRetinaScaling() ? fabric.devicePixelRatio : 1, dim = this._getNonTransformedDimensions(), zoomX = objectScale.scaleX * zoom * retina, zoomY = objectScale.scaleY * zoom * retina, width = dim.x * zoomX, height = dim.y * zoomY;
+            return {
+                width: width + ALIASING_LIMIT,
+                height: height + ALIASING_LIMIT,
+                zoomX: zoomX,
+                zoomY: zoomY,
+                x: dim.x,
+                y: dim.y
+            };
+        },
+        _updateCacheCanvas: function() {
+            if (this.noScaleCache && this.canvas && this.canvas._currentTransform) {
+                var target = this.canvas._currentTransform.target, action = this.canvas._currentTransform.action;
+                if (this === target && action.slice && action.slice(0, 5) === "scale") {
+                    return false;
+                }
+            }
+            var canvas = this._cacheCanvas, dims = this._limitCacheSize(this._getCacheCanvasDimensions()), minCacheSize = fabric.minCacheSideLimit, width = dims.width, height = dims.height, drawingWidth, drawingHeight, zoomX = dims.zoomX, zoomY = dims.zoomY, dimensionsChanged = width !== this.cacheWidth || height !== this.cacheHeight, zoomChanged = this.zoomX !== zoomX || this.zoomY !== zoomY, shouldRedraw = dimensionsChanged || zoomChanged, additionalWidth = 0, additionalHeight = 0, shouldResizeCanvas = false;
+            if (dimensionsChanged) {
+                var canvasWidth = this._cacheCanvas.width, canvasHeight = this._cacheCanvas.height, sizeGrowing = width > canvasWidth || height > canvasHeight, sizeShrinking = (width < canvasWidth * .9 || height < canvasHeight * .9) && canvasWidth > minCacheSize && canvasHeight > minCacheSize;
+                shouldResizeCanvas = sizeGrowing || sizeShrinking;
+                if (sizeGrowing && !dims.capped && (width > minCacheSize || height > minCacheSize)) {
+                    additionalWidth = width * .1;
+                    additionalHeight = height * .1;
+                }
+            }
+            if (shouldRedraw) {
+                if (shouldResizeCanvas) {
+                    canvas.width = Math.ceil(width + additionalWidth);
+                    canvas.height = Math.ceil(height + additionalHeight);
+                } else {
+                    this._cacheContext.setTransform(1, 0, 0, 1, 0, 0);
+                    this._cacheContext.clearRect(0, 0, canvas.width, canvas.height);
+                }
+                drawingWidth = dims.x * zoomX / 2;
+                drawingHeight = dims.y * zoomY / 2;
+                this.cacheTranslationX = Math.round(canvas.width / 2 - drawingWidth) + drawingWidth;
+                this.cacheTranslationY = Math.round(canvas.height / 2 - drawingHeight) + drawingHeight;
+                this.cacheWidth = width;
+                this.cacheHeight = height;
+                this._cacheContext.translate(this.cacheTranslationX, this.cacheTranslationY);
+                this._cacheContext.scale(zoomX, zoomY);
+                this.zoomX = zoomX;
+                this.zoomY = zoomY;
+                return true;
+            }
+            return false;
+        },
+        setOptions: function(options) {
+            this._setOptions(options);
+            this._initGradient(options.fill, "fill");
+            this._initGradient(options.stroke, "stroke");
+            this._initClipping(options);
+            this._initPattern(options.fill, "fill");
+            this._initPattern(options.stroke, "stroke");
+        },
+        transform: function(ctx) {
+            var m;
+            if (this.group && !this.group._transformDone) {
+                m = this.calcTransformMatrix();
+            } else {
+                m = this.calcOwnMatrix();
+            }
+            ctx.transform(m[0], m[1], m[2], m[3], m[4], m[5]);
+        },
+        toObject: function(propertiesToInclude) {
+            var NUM_FRACTION_DIGITS = fabric.Object.NUM_FRACTION_DIGITS, object = {
+                type: this.type,
+                version: fabric.version,
+                originX: this.originX,
+                originY: this.originY,
+                left: toFixed(this.left, NUM_FRACTION_DIGITS),
+                top: toFixed(this.top, NUM_FRACTION_DIGITS),
+                width: toFixed(this.width, NUM_FRACTION_DIGITS),
+                height: toFixed(this.height, NUM_FRACTION_DIGITS),
+                fill: this.fill && this.fill.toObject ? this.fill.toObject() : this.fill,
+                stroke: this.stroke && this.stroke.toObject ? this.stroke.toObject() : this.stroke,
+                strokeWidth: toFixed(this.strokeWidth, NUM_FRACTION_DIGITS),
+                strokeDashArray: this.strokeDashArray ? this.strokeDashArray.concat() : this.strokeDashArray,
+                strokeLineCap: this.strokeLineCap,
+                strokeLineJoin: this.strokeLineJoin,
+                strokeMiterLimit: toFixed(this.strokeMiterLimit, NUM_FRACTION_DIGITS),
+                scaleX: toFixed(this.scaleX, NUM_FRACTION_DIGITS),
+                scaleY: toFixed(this.scaleY, NUM_FRACTION_DIGITS),
+                angle: toFixed(this.angle, NUM_FRACTION_DIGITS),
+                flipX: this.flipX,
+                flipY: this.flipY,
+                opacity: toFixed(this.opacity, NUM_FRACTION_DIGITS),
+                shadow: this.shadow && this.shadow.toObject ? this.shadow.toObject() : this.shadow,
+                visible: this.visible,
+                clipTo: this.clipTo && String(this.clipTo),
+                backgroundColor: this.backgroundColor,
+                fillRule: this.fillRule,
+                paintFirst: this.paintFirst,
+                globalCompositeOperation: this.globalCompositeOperation,
+                transformMatrix: this.transformMatrix ? this.transformMatrix.concat() : null,
+                skewX: toFixed(this.skewX, NUM_FRACTION_DIGITS),
+                skewY: toFixed(this.skewY, NUM_FRACTION_DIGITS)
+            };
+            fabric.util.populateWithProperties(this, object, propertiesToInclude);
+            if (!this.includeDefaultValues) {
+                object = this._removeDefaultValues(object);
+            }
+            return object;
+        },
+        toDatalessObject: function(propertiesToInclude) {
+            return this.toObject(propertiesToInclude);
+        },
+        _removeDefaultValues: function(object) {
+            var prototype = fabric.util.getKlass(object.type).prototype, stateProperties = prototype.stateProperties;
+            stateProperties.forEach(function(prop) {
+                if (object[prop] === prototype[prop]) {
+                    delete object[prop];
+                }
+                var isArray = Object.prototype.toString.call(object[prop]) === "[object Array]" && Object.prototype.toString.call(prototype[prop]) === "[object Array]";
+                if (isArray && object[prop].length === 0 && prototype[prop].length === 0) {
+                    delete object[prop];
+                }
+            });
+            return object;
+        },
+        toString: function() {
+            return "#<fabric." + capitalize(this.type) + ">";
+        },
+        getObjectScaling: function() {
+            var scaleX = this.scaleX, scaleY = this.scaleY;
+            if (this.group) {
+                var scaling = this.group.getObjectScaling();
+                scaleX *= scaling.scaleX;
+                scaleY *= scaling.scaleY;
+            }
+            return {
+                scaleX: scaleX,
+                scaleY: scaleY
+            };
+        },
+        getObjectOpacity: function() {
+            var opacity = this.opacity;
+            if (this.group) {
+                opacity *= this.group.getObjectOpacity();
+            }
+            return opacity;
+        },
+        _set: function(key, value) {
+            var shouldConstrainValue = key === "scaleX" || key === "scaleY", isChanged = this[key] !== value, groupNeedsUpdate = false;
+            if (shouldConstrainValue) {
+                value = this._constrainScale(value);
+            }
+            if (key === "scaleX" && value < 0) {
+                this.flipX = !this.flipX;
+                value *= -1;
+            } else if (key === "scaleY" && value < 0) {
+                this.flipY = !this.flipY;
+                value *= -1;
+            } else if (key === "shadow" && value && !(value instanceof fabric.Shadow)) {
+                value = new fabric.Shadow(value);
+            } else if (key === "dirty" && this.group) {
+                this.group.set("dirty", value);
+            }
+            this[key] = value;
+            if (isChanged) {
+                groupNeedsUpdate = this.group && this.group.isOnACache();
+                if (this.cacheProperties.indexOf(key) > -1) {
+                    this.dirty = true;
+                    groupNeedsUpdate && this.group.set("dirty", true);
+                } else if (groupNeedsUpdate && this.stateProperties.indexOf(key) > -1) {
+                    this.group.set("dirty", true);
+                }
+            }
+            return this;
+        },
+        setOnGroup: function() {},
+        getViewportTransform: function() {
+            if (this.canvas && this.canvas.viewportTransform) {
+                return this.canvas.viewportTransform;
+            }
+            return fabric.iMatrix.concat();
+        },
+        isNotVisible: function() {
+            return this.opacity === 0 || this.width === 0 && this.height === 0 || !this.visible;
+        },
+        render: function(ctx) {
+            if (this.isNotVisible()) {
+                return;
+            }
+            if (this.canvas && this.canvas.skipOffscreen && !this.group && !this.isOnScreen()) {
+                return;
+            }
+            ctx.save();
+            this._setupCompositeOperation(ctx);
+            this.drawSelectionBackground(ctx);
+            this.transform(ctx);
+            this._setOpacity(ctx);
+            this._setShadow(ctx, this);
+            if (this.transformMatrix) {
+                ctx.transform.apply(ctx, this.transformMatrix);
+            }
+            this.clipTo && fabric.util.clipContext(this, ctx);
+            if (this.shouldCache()) {
+                if (!this._cacheCanvas) {
+                    this._createCacheCanvas();
+                }
+                if (this.isCacheDirty()) {
+                    this.statefullCache && this.saveState({
+                        propertySet: "cacheProperties"
+                    });
+                    this.drawObject(this._cacheContext);
+                    this.dirty = false;
+                }
+                this.drawCacheOnCanvas(ctx);
+            } else {
+                this._removeCacheCanvas();
+                this.dirty = false;
+                this.drawObject(ctx);
+                if (this.objectCaching && this.statefullCache) {
+                    this.saveState({
+                        propertySet: "cacheProperties"
+                    });
+                }
+            }
+            this.clipTo && ctx.restore();
+            ctx.restore();
+        },
+        _removeCacheCanvas: function() {
+            this._cacheCanvas = null;
+            this.cacheWidth = 0;
+            this.cacheHeight = 0;
+        },
+        needsItsOwnCache: function() {
+            if (this.paintFirst === "stroke" && typeof this.shadow === "object") {
+                return true;
+            }
+            return false;
+        },
+        shouldCache: function() {
+            this.ownCaching = this.objectCaching && (!this.group || this.needsItsOwnCache() || !this.group.isOnACache());
+            return this.ownCaching;
+        },
+        willDrawShadow: function() {
+            return !!this.shadow && (this.shadow.offsetX !== 0 || this.shadow.offsetY !== 0);
+        },
+        drawObject: function(ctx) {
+            this._renderBackground(ctx);
+            this._setStrokeStyles(ctx, this);
+            this._setFillStyles(ctx, this);
+            this._render(ctx);
+        },
+        drawCacheOnCanvas: function(ctx) {
+            ctx.scale(1 / this.zoomX, 1 / this.zoomY);
+            ctx.drawImage(this._cacheCanvas, -this.cacheTranslationX, -this.cacheTranslationY);
+        },
+        isCacheDirty: function(skipCanvas) {
+            if (this.isNotVisible()) {
+                return false;
+            }
+            if (this._cacheCanvas && !skipCanvas && this._updateCacheCanvas()) {
+                return true;
+            } else {
+                if (this.dirty || this.statefullCache && this.hasStateChanged("cacheProperties")) {
+                    if (this._cacheCanvas && !skipCanvas) {
+                        var width = this.cacheWidth / this.zoomX;
+                        var height = this.cacheHeight / this.zoomY;
+                        this._cacheContext.clearRect(-width / 2, -height / 2, width, height);
+                    }
+                    return true;
+                }
+            }
+            return false;
+        },
+        _renderBackground: function(ctx) {
+            if (!this.backgroundColor) {
+                return;
+            }
+            var dim = this._getNonTransformedDimensions();
+            ctx.fillStyle = this.backgroundColor;
+            ctx.fillRect(-dim.x / 2, -dim.y / 2, dim.x, dim.y);
+            this._removeShadow(ctx);
+        },
+        _setOpacity: function(ctx) {
+            if (this.group && !this.group._transformDone) {
+                ctx.globalAlpha = this.getObjectOpacity();
+            } else {
+                ctx.globalAlpha *= this.opacity;
+            }
+        },
+        _setStrokeStyles: function(ctx, decl) {
+            if (decl.stroke) {
+                ctx.lineWidth = decl.strokeWidth;
+                ctx.lineCap = decl.strokeLineCap;
+                ctx.lineJoin = decl.strokeLineJoin;
+                ctx.miterLimit = decl.strokeMiterLimit;
+                ctx.strokeStyle = decl.stroke.toLive ? decl.stroke.toLive(ctx, this) : decl.stroke;
+            }
+        },
+        _setFillStyles: function(ctx, decl) {
+            if (decl.fill) {
+                ctx.fillStyle = decl.fill.toLive ? decl.fill.toLive(ctx, this) : decl.fill;
+            }
+        },
+        _setLineDash: function(ctx, dashArray, alternative) {
+            if (!dashArray) {
+                return;
+            }
+            if (1 & dashArray.length) {
+                dashArray.push.apply(dashArray, dashArray);
+            }
+            if (supportsLineDash) {
+                ctx.setLineDash(dashArray);
+            } else {
+                alternative && alternative(ctx);
+            }
+        },
+        _renderControls: function(ctx, styleOverride) {
+            var vpt = this.getViewportTransform(), matrix = this.calcTransformMatrix(), options, drawBorders, drawControls;
+            styleOverride = styleOverride || {};
+            drawBorders = typeof styleOverride.hasBorders !== "undefined" ? styleOverride.hasBorders : this.hasBorders;
+            drawControls = typeof styleOverride.hasControls !== "undefined" ? styleOverride.hasControls : this.hasControls;
+            matrix = fabric.util.multiplyTransformMatrices(vpt, matrix);
+            options = fabric.util.qrDecompose(matrix);
+            ctx.save();
+            ctx.translate(options.translateX, options.translateY);
+            ctx.lineWidth = 1 * this.borderScaleFactor;
+            if (!this.group) {
+                ctx.globalAlpha = this.isMoving ? this.borderOpacityWhenMoving : 1;
+            }
+            if (styleOverride.forActiveSelection) {
+                ctx.rotate(degreesToRadians(options.angle));
+                drawBorders && this.drawBordersInGroup(ctx, options, styleOverride);
+            } else {
+                ctx.rotate(degreesToRadians(this.angle));
+                drawBorders && this.drawBorders(ctx, styleOverride);
+            }
+            drawControls && this.drawControls(ctx, styleOverride);
+            ctx.restore();
+        },
+        _setShadow: function(ctx) {
+            if (!this.shadow) {
+                return;
+            }
+            var multX = this.canvas && this.canvas.viewportTransform[0] || 1, multY = this.canvas && this.canvas.viewportTransform[3] || 1, scaling = this.getObjectScaling();
+            if (this.canvas && this.canvas._isRetinaScaling()) {
+                multX *= fabric.devicePixelRatio;
+                multY *= fabric.devicePixelRatio;
+            }
+            ctx.shadowColor = this.shadow.color;
+            ctx.shadowBlur = this.shadow.blur * fabric.browserShadowBlurConstant * (multX + multY) * (scaling.scaleX + scaling.scaleY) / 4;
+            ctx.shadowOffsetX = this.shadow.offsetX * multX * scaling.scaleX;
+            ctx.shadowOffsetY = this.shadow.offsetY * multY * scaling.scaleY;
+        },
+        _removeShadow: function(ctx) {
+            if (!this.shadow) {
+                return;
+            }
+            ctx.shadowColor = "";
+            ctx.shadowBlur = ctx.shadowOffsetX = ctx.shadowOffsetY = 0;
+        },
+        _applyPatternGradientTransform: function(ctx, filler) {
+            if (!filler || !filler.toLive) {
+                return {
+                    offsetX: 0,
+                    offsetY: 0
+                };
+            }
+            var t = filler.gradientTransform || filler.patternTransform;
+            var offsetX = -this.width / 2 + filler.offsetX || 0, offsetY = -this.height / 2 + filler.offsetY || 0;
+            ctx.translate(offsetX, offsetY);
+            if (t) {
+                ctx.transform(t[0], t[1], t[2], t[3], t[4], t[5]);
+            }
+            return {
+                offsetX: offsetX,
+                offsetY: offsetY
+            };
+        },
+        _renderPaintInOrder: function(ctx) {
+            if (this.paintFirst === "stroke") {
+                this._renderStroke(ctx);
+                this._renderFill(ctx);
+            } else {
+                this._renderFill(ctx);
+                this._renderStroke(ctx);
+            }
+        },
+        _renderFill: function(ctx) {
+            if (!this.fill) {
+                return;
+            }
+            ctx.save();
+            this._applyPatternGradientTransform(ctx, this.fill);
+            if (this.fillRule === "evenodd") {
+                ctx.fill("evenodd");
+            } else {
+                ctx.fill();
+            }
+            ctx.restore();
+        },
+        _renderStroke: function(ctx) {
+            if (!this.stroke || this.strokeWidth === 0) {
+                return;
+            }
+            if (this.shadow && !this.shadow.affectStroke) {
+                this._removeShadow(ctx);
+            }
+            ctx.save();
+            this._setLineDash(ctx, this.strokeDashArray, this._renderDashedStroke);
+            this._applyPatternGradientTransform(ctx, this.stroke);
+            ctx.stroke();
+            ctx.restore();
+        },
+        _findCenterFromElement: function() {
+            return {
+                x: this.left + this.width / 2,
+                y: this.top + this.height / 2
+            };
+        },
+        _assignTransformMatrixProps: function() {
+            if (this.transformMatrix) {
+                var options = fabric.util.qrDecompose(this.transformMatrix);
+                this.flipX = false;
+                this.flipY = false;
+                this.set("scaleX", options.scaleX);
+                this.set("scaleY", options.scaleY);
+                this.angle = options.angle;
+                this.skewX = options.skewX;
+                this.skewY = 0;
+            }
+        },
+        _removeTransformMatrix: function(preserveAspectRatioOptions) {
+            var center = this._findCenterFromElement();
+            if (this.transformMatrix) {
+                this._assignTransformMatrixProps();
+                center = fabric.util.transformPoint(center, this.transformMatrix);
+            }
+            this.transformMatrix = null;
+            if (preserveAspectRatioOptions) {
+                this.scaleX *= preserveAspectRatioOptions.scaleX;
+                this.scaleY *= preserveAspectRatioOptions.scaleY;
+                this.cropX = preserveAspectRatioOptions.cropX;
+                this.cropY = preserveAspectRatioOptions.cropY;
+                center.x += preserveAspectRatioOptions.offsetLeft;
+                center.y += preserveAspectRatioOptions.offsetTop;
+                this.width = preserveAspectRatioOptions.width;
+                this.height = preserveAspectRatioOptions.height;
+            }
+            this.setPositionByOrigin(center, "center", "center");
+        },
+        clone: function(callback, propertiesToInclude) {
+            var objectForm = this.toObject(propertiesToInclude);
+            if (this.constructor.fromObject) {
+                this.constructor.fromObject(objectForm, callback);
+            } else {
+                fabric.Object._fromObject("Object", objectForm, callback);
+            }
+        },
+        cloneAsImage: function(callback, options) {
+            var dataUrl = this.toDataURL(options);
+            fabric.util.loadImage(dataUrl, function(img) {
+                if (callback) {
+                    callback(new fabric.Image(img));
+                }
+            });
+            return this;
+        },
+        toDataURL: function(options) {
+            options || (options = {});
+            var el = fabric.util.createCanvasElement(), boundingRect = this.getBoundingRect();
+            el.width = boundingRect.width;
+            el.height = boundingRect.height;
+            fabric.util.wrapElement(el, "div");
+            var canvas = new fabric.StaticCanvas(el, {
+                enableRetinaScaling: options.enableRetinaScaling,
+                renderOnAddRemove: false,
+                skipOffscreen: false
+            });
+            if (options.format === "jpg") {
+                options.format = "jpeg";
+            }
+            if (options.format === "jpeg") {
+                canvas.backgroundColor = "#fff";
+            }
+            var origParams = {
+                left: this.left,
+                top: this.top
+            };
+            this.setPositionByOrigin(new fabric.Point(canvas.width / 2, canvas.height / 2), "center", "center");
+            var originalCanvas = this.canvas;
+            canvas.add(this);
+            var data = canvas.toDataURL(options);
+            this.set(origParams).setCoords();
+            this.canvas = originalCanvas;
+            canvas._objects = [];
+            canvas.dispose();
+            canvas = null;
+            return data;
+        },
+        isType: function(type) {
+            return this.type === type;
+        },
+        complexity: function() {
+            return 1;
+        },
+        toJSON: function(propertiesToInclude) {
+            return this.toObject(propertiesToInclude);
+        },
+        setGradient: function(property, options) {
+            options || (options = {});
+            var gradient = {
+                colorStops: []
+            };
+            gradient.type = options.type || (options.r1 || options.r2 ? "radial" : "linear");
+            gradient.coords = {
+                x1: options.x1,
+                y1: options.y1,
+                x2: options.x2,
+                y2: options.y2
+            };
+            if (options.r1 || options.r2) {
+                gradient.coords.r1 = options.r1;
+                gradient.coords.r2 = options.r2;
+            }
+            gradient.gradientTransform = options.gradientTransform;
+            fabric.Gradient.prototype.addColorStop.call(gradient, options.colorStops);
+            return this.set(property, fabric.Gradient.forObject(this, gradient));
+        },
+        setPatternFill: function(options) {
+            return this.set("fill", new fabric.Pattern(options));
+        },
+        setShadow: function(options) {
+            return this.set("shadow", options ? new fabric.Shadow(options) : null);
+        },
+        setColor: function(color) {
+            this.set("fill", color);
+            return this;
+        },
+        rotate: function(angle) {
+            var shouldCenterOrigin = (this.originX !== "center" || this.originY !== "center") && this.centeredRotation;
+            if (shouldCenterOrigin) {
+                this._setOriginToCenter();
+            }
+            this.set("angle", angle);
+            if (shouldCenterOrigin) {
+                this._resetOrigin();
+            }
+            return this;
+        },
+        centerH: function() {
+            this.canvas && this.canvas.centerObjectH(this);
+            return this;
+        },
+        viewportCenterH: function() {
+            this.canvas && this.canvas.viewportCenterObjectH(this);
+            return this;
+        },
+        centerV: function() {
+            this.canvas && this.canvas.centerObjectV(this);
+            return this;
+        },
+        viewportCenterV: function() {
+            this.canvas && this.canvas.viewportCenterObjectV(this);
+            return this;
+        },
+        center: function() {
+            this.canvas && this.canvas.centerObject(this);
+            return this;
+        },
+        viewportCenter: function() {
+            this.canvas && this.canvas.viewportCenterObject(this);
+            return this;
+        },
+        getLocalPointer: function(e, pointer) {
+            pointer = pointer || this.canvas.getPointer(e);
+            var pClicked = new fabric.Point(pointer.x, pointer.y), objectLeftTop = this._getLeftTopCoords();
+            if (this.angle) {
+                pClicked = fabric.util.rotatePoint(pClicked, objectLeftTop, degreesToRadians(-this.angle));
+            }
+            return {
+                x: pClicked.x - objectLeftTop.x,
+                y: pClicked.y - objectLeftTop.y
+            };
+        },
+        _setupCompositeOperation: function(ctx) {
+            if (this.globalCompositeOperation) {
+                ctx.globalCompositeOperation = this.globalCompositeOperation;
+            }
+        }
+    });
+    fabric.util.createAccessors && fabric.util.createAccessors(fabric.Object);
+    extend(fabric.Object.prototype, fabric.Observable);
+    fabric.Object.NUM_FRACTION_DIGITS = 2;
+    fabric.Object._fromObject = function(className, object, callback, extraParam) {
+        var klass = fabric[className];
+        object = clone(object, true);
+        fabric.util.enlivenPatterns([ object.fill, object.stroke ], function(patterns) {
+            if (typeof patterns[0] !== "undefined") {
+                object.fill = patterns[0];
+            }
+            if (typeof patterns[1] !== "undefined") {
+                object.stroke = patterns[1];
+            }
+            var instance = extraParam ? new klass(object[extraParam], object) : new klass(object);
+            callback && callback(instance);
+        });
+    };
+    fabric.Object.__uid = 0;
+})( true ? exports : this);
+
+(function() {
+    var degreesToRadians = fabric.util.degreesToRadians, originXOffset = {
+        left: -.5,
+        center: 0,
+        right: .5
+    }, originYOffset = {
+        top: -.5,
+        center: 0,
+        bottom: .5
+    };
+    fabric.util.object.extend(fabric.Object.prototype, {
+        translateToGivenOrigin: function(point, fromOriginX, fromOriginY, toOriginX, toOriginY) {
+            var x = point.x, y = point.y, offsetX, offsetY, dim;
+            if (typeof fromOriginX === "string") {
+                fromOriginX = originXOffset[fromOriginX];
+            } else {
+                fromOriginX -= .5;
+            }
+            if (typeof toOriginX === "string") {
+                toOriginX = originXOffset[toOriginX];
+            } else {
+                toOriginX -= .5;
+            }
+            offsetX = toOriginX - fromOriginX;
+            if (typeof fromOriginY === "string") {
+                fromOriginY = originYOffset[fromOriginY];
+            } else {
+                fromOriginY -= .5;
+            }
+            if (typeof toOriginY === "string") {
+                toOriginY = originYOffset[toOriginY];
+            } else {
+                toOriginY -= .5;
+            }
+            offsetY = toOriginY - fromOriginY;
+            if (offsetX || offsetY) {
+                dim = this._getTransformedDimensions();
+                x = point.x + offsetX * dim.x;
+                y = point.y + offsetY * dim.y;
+            }
+            return new fabric.Point(x, y);
+        },
+        translateToCenterPoint: function(point, originX, originY) {
+            var p = this.translateToGivenOrigin(point, originX, originY, "center", "center");
+            if (this.angle) {
+                return fabric.util.rotatePoint(p, point, degreesToRadians(this.angle));
+            }
+            return p;
+        },
+        translateToOriginPoint: function(center, originX, originY) {
+            var p = this.translateToGivenOrigin(center, "center", "center", originX, originY);
+            if (this.angle) {
+                return fabric.util.rotatePoint(p, center, degreesToRadians(this.angle));
+            }
+            return p;
+        },
+        getCenterPoint: function() {
+            var leftTop = new fabric.Point(this.left, this.top);
+            return this.translateToCenterPoint(leftTop, this.originX, this.originY);
+        },
+        getPointByOrigin: function(originX, originY) {
+            var center = this.getCenterPoint();
+            return this.translateToOriginPoint(center, originX, originY);
+        },
+        toLocalPoint: function(point, originX, originY) {
+            var center = this.getCenterPoint(), p, p2;
+            if (typeof originX !== "undefined" && typeof originY !== "undefined") {
+                p = this.translateToGivenOrigin(center, "center", "center", originX, originY);
+            } else {
+                p = new fabric.Point(this.left, this.top);
+            }
+            p2 = new fabric.Point(point.x, point.y);
+            if (this.angle) {
+                p2 = fabric.util.rotatePoint(p2, center, -degreesToRadians(this.angle));
+            }
+            return p2.subtractEquals(p);
+        },
+        setPositionByOrigin: function(pos, originX, originY) {
+            var center = this.translateToCenterPoint(pos, originX, originY), position = this.translateToOriginPoint(center, this.originX, this.originY);
+            this.set("left", position.x);
+            this.set("top", position.y);
+        },
+        adjustPosition: function(to) {
+            var angle = degreesToRadians(this.angle), hypotFull = this.getScaledWidth(), xFull = fabric.util.cos(angle) * hypotFull, yFull = fabric.util.sin(angle) * hypotFull, offsetFrom, offsetTo;
+            if (typeof this.originX === "string") {
+                offsetFrom = originXOffset[this.originX];
+            } else {
+                offsetFrom = this.originX - .5;
+            }
+            if (typeof to === "string") {
+                offsetTo = originXOffset[to];
+            } else {
+                offsetTo = to - .5;
+            }
+            this.left += xFull * (offsetTo - offsetFrom);
+            this.top += yFull * (offsetTo - offsetFrom);
+            this.setCoords();
+            this.originX = to;
+        },
+        _setOriginToCenter: function() {
+            this._originalOriginX = this.originX;
+            this._originalOriginY = this.originY;
+            var center = this.getCenterPoint();
+            this.originX = "center";
+            this.originY = "center";
+            this.left = center.x;
+            this.top = center.y;
+        },
+        _resetOrigin: function() {
+            var originPoint = this.translateToOriginPoint(this.getCenterPoint(), this._originalOriginX, this._originalOriginY);
+            this.originX = this._originalOriginX;
+            this.originY = this._originalOriginY;
+            this.left = originPoint.x;
+            this.top = originPoint.y;
+            this._originalOriginX = null;
+            this._originalOriginY = null;
+        },
+        _getLeftTopCoords: function() {
+            return this.translateToOriginPoint(this.getCenterPoint(), "left", "top");
+        },
+        onDeselect: function() {}
+    });
+})();
+
+(function() {
+    function getCoords(coords) {
+        return [ new fabric.Point(coords.tl.x, coords.tl.y), new fabric.Point(coords.tr.x, coords.tr.y), new fabric.Point(coords.br.x, coords.br.y), new fabric.Point(coords.bl.x, coords.bl.y) ];
+    }
+    var degreesToRadians = fabric.util.degreesToRadians, multiplyMatrices = fabric.util.multiplyTransformMatrices, transformPoint = fabric.util.transformPoint;
+    fabric.util.object.extend(fabric.Object.prototype, {
+        oCoords: null,
+        aCoords: null,
+        ownMatrixCache: null,
+        matrixCache: null,
+        getCoords: function(absolute, calculate) {
+            if (!this.oCoords) {
+                this.setCoords();
+            }
+            var coords = absolute ? this.aCoords : this.oCoords;
+            return getCoords(calculate ? this.calcCoords(absolute) : coords);
+        },
+        intersectsWithRect: function(pointTL, pointBR, absolute, calculate) {
+            var coords = this.getCoords(absolute, calculate), intersection = fabric.Intersection.intersectPolygonRectangle(coords, pointTL, pointBR);
+            return intersection.status === "Intersection";
+        },
+        intersectsWithObject: function(other, absolute, calculate) {
+            var intersection = fabric.Intersection.intersectPolygonPolygon(this.getCoords(absolute, calculate), other.getCoords(absolute, calculate));
+            return intersection.status === "Intersection" || other.isContainedWithinObject(this, absolute, calculate) || this.isContainedWithinObject(other, absolute, calculate);
+        },
+        isContainedWithinObject: function(other, absolute, calculate) {
+            var points = this.getCoords(absolute, calculate), i = 0, lines = other._getImageLines(calculate ? other.calcCoords(absolute) : absolute ? other.aCoords : other.oCoords);
+            for (;i < 4; i++) {
+                if (!other.containsPoint(points[i], lines)) {
+                    return false;
+                }
+            }
+            return true;
+        },
+        isContainedWithinRect: function(pointTL, pointBR, absolute, calculate) {
+            var boundingRect = this.getBoundingRect(absolute, calculate);
+            return boundingRect.left >= pointTL.x && boundingRect.left + boundingRect.width <= pointBR.x && boundingRect.top >= pointTL.y && boundingRect.top + boundingRect.height <= pointBR.y;
+        },
+        containsPoint: function(point, lines, absolute, calculate) {
+            var lines = lines || this._getImageLines(calculate ? this.calcCoords(absolute) : absolute ? this.aCoords : this.oCoords), xPoints = this._findCrossPoints(point, lines);
+            return xPoints !== 0 && xPoints % 2 === 1;
+        },
+        isOnScreen: function(calculate) {
+            if (!this.canvas) {
+                return false;
+            }
+            var pointTL = this.canvas.vptCoords.tl, pointBR = this.canvas.vptCoords.br;
+            var points = this.getCoords(true, calculate), point;
+            for (var i = 0; i < 4; i++) {
+                point = points[i];
+                if (point.x <= pointBR.x && point.x >= pointTL.x && point.y <= pointBR.y && point.y >= pointTL.y) {
+                    return true;
+                }
+            }
+            if (this.intersectsWithRect(pointTL, pointBR, true, calculate)) {
+                return true;
+            }
+            var centerPoint = {
+                x: (pointTL.x + pointBR.x) / 2,
+                y: (pointTL.y + pointBR.y) / 2
+            };
+            if (this.containsPoint(centerPoint, null, true, calculate)) {
+                return true;
+            }
+            return false;
+        },
+        _getImageLines: function(oCoords) {
+            return {
+                topline: {
+                    o: oCoords.tl,
+                    d: oCoords.tr
+                },
+                rightline: {
+                    o: oCoords.tr,
+                    d: oCoords.br
+                },
+                bottomline: {
+                    o: oCoords.br,
+                    d: oCoords.bl
+                },
+                leftline: {
+                    o: oCoords.bl,
+                    d: oCoords.tl
+                }
+            };
+        },
+        _findCrossPoints: function(point, lines) {
+            var b1, b2, a1, a2, xi, xcount = 0, iLine;
+            for (var lineKey in lines) {
+                iLine = lines[lineKey];
+                if (iLine.o.y < point.y && iLine.d.y < point.y) {
+                    continue;
+                }
+                if (iLine.o.y >= point.y && iLine.d.y >= point.y) {
+                    continue;
+                }
+                if (iLine.o.x === iLine.d.x && iLine.o.x >= point.x) {
+                    xi = iLine.o.x;
+                } else {
+                    b1 = 0;
+                    b2 = (iLine.d.y - iLine.o.y) / (iLine.d.x - iLine.o.x);
+                    a1 = point.y - b1 * point.x;
+                    a2 = iLine.o.y - b2 * iLine.o.x;
+                    xi = -(a1 - a2) / (b1 - b2);
+                }
+                if (xi >= point.x) {
+                    xcount += 1;
+                }
+                if (xcount === 2) {
+                    break;
+                }
+            }
+            return xcount;
+        },
+        getBoundingRect: function(absolute, calculate) {
+            var coords = this.getCoords(absolute, calculate);
+            return fabric.util.makeBoundingBoxFromPoints(coords);
+        },
+        getScaledWidth: function() {
+            return this._getTransformedDimensions().x;
+        },
+        getScaledHeight: function() {
+            return this._getTransformedDimensions().y;
+        },
+        _constrainScale: function(value) {
+            if (Math.abs(value) < this.minScaleLimit) {
+                if (value < 0) {
+                    return -this.minScaleLimit;
+                } else {
+                    return this.minScaleLimit;
+                }
+            } else if (value === 0) {
+                return 1e-4;
+            }
+            return value;
+        },
+        scale: function(value) {
+            this._set("scaleX", value);
+            this._set("scaleY", value);
+            return this.setCoords();
+        },
+        scaleToWidth: function(value, absolute) {
+            var boundingRectFactor = this.getBoundingRect(absolute).width / this.getScaledWidth();
+            return this.scale(value / this.width / boundingRectFactor);
+        },
+        scaleToHeight: function(value, absolute) {
+            var boundingRectFactor = this.getBoundingRect(absolute).height / this.getScaledHeight();
+            return this.scale(value / this.height / boundingRectFactor);
+        },
+        calcCoords: function(absolute) {
+            var rotateMatrix = this._calcRotateMatrix(), translateMatrix = this._calcTranslateMatrix(), startMatrix = multiplyMatrices(translateMatrix, rotateMatrix), vpt = this.getViewportTransform(), finalMatrix = absolute ? startMatrix : multiplyMatrices(vpt, startMatrix), dim = this._getTransformedDimensions(), w = dim.x / 2, h = dim.y / 2, tl = transformPoint({
+                x: -w,
+                y: -h
+            }, finalMatrix), tr = transformPoint({
+                x: w,
+                y: -h
+            }, finalMatrix), bl = transformPoint({
+                x: -w,
+                y: h
+            }, finalMatrix), br = transformPoint({
+                x: w,
+                y: h
+            }, finalMatrix);
+            if (!absolute) {
+                var padding = this.padding, angle = degreesToRadians(this.angle), cos = fabric.util.cos(angle), sin = fabric.util.sin(angle), cosP = cos * padding, sinP = sin * padding, cosPSinP = cosP + sinP, cosPMinusSinP = cosP - sinP;
+                if (padding) {
+                    tl.x -= cosPMinusSinP;
+                    tl.y -= cosPSinP;
+                    tr.x += cosPSinP;
+                    tr.y -= cosPMinusSinP;
+                    bl.x -= cosPSinP;
+                    bl.y += cosPMinusSinP;
+                    br.x += cosPMinusSinP;
+                    br.y += cosPSinP;
+                }
+                var ml = new fabric.Point((tl.x + bl.x) / 2, (tl.y + bl.y) / 2), mt = new fabric.Point((tr.x + tl.x) / 2, (tr.y + tl.y) / 2), mr = new fabric.Point((br.x + tr.x) / 2, (br.y + tr.y) / 2), mb = new fabric.Point((br.x + bl.x) / 2, (br.y + bl.y) / 2), mtr = new fabric.Point(mt.x + sin * this.rotatingPointOffset, mt.y - cos * this.rotatingPointOffset);
+            }
+            var coords = {
+                tl: tl,
+                tr: tr,
+                br: br,
+                bl: bl
+            };
+            if (!absolute) {
+                coords.ml = ml;
+                coords.mt = mt;
+                coords.mr = mr;
+                coords.mb = mb;
+                coords.mtr = mtr;
+            }
+            return coords;
+        },
+        setCoords: function(ignoreZoom, skipAbsolute) {
+            this.oCoords = this.calcCoords(ignoreZoom);
+            if (!skipAbsolute) {
+                this.aCoords = this.calcCoords(true);
+            }
+            ignoreZoom || this._setCornerCoords && this._setCornerCoords();
+            return this;
+        },
+        _calcRotateMatrix: function() {
+            if (this.angle) {
+                var theta = degreesToRadians(this.angle), cos = fabric.util.cos(theta), sin = fabric.util.sin(theta);
+                return [ cos, sin, -sin, cos, 0, 0 ];
+            }
+            return fabric.iMatrix.concat();
+        },
+        _calcTranslateMatrix: function() {
+            var center = this.getCenterPoint();
+            return [ 1, 0, 0, 1, center.x, center.y ];
+        },
+        transformMatrixKey: function(skipGroup) {
+            var sep = "_", prefix = "";
+            if (!skipGroup && this.group) {
+                prefix = this.group.transformMatrixKey(skipGroup) + sep;
+            }
+            return prefix + this.top + sep + this.left + sep + this.scaleX + sep + this.scaleY + sep + this.skewX + sep + this.skewY + sep + this.angle + sep + this.originX + sep + this.originY + sep + this.width + sep + this.height + sep + this.strokeWidth + this.flipX + this.flipY;
+        },
+        calcTransformMatrix: function(skipGroup) {
+            if (skipGroup) {
+                return this.calcOwnMatrix();
+            }
+            var key = this.transformMatrixKey(), cache = this.matrixCache || (this.matrixCache = {});
+            if (cache.key === key) {
+                return cache.value;
+            }
+            var matrix = this.calcOwnMatrix();
+            if (this.group) {
+                matrix = multiplyMatrices(this.group.calcTransformMatrix(), matrix);
+            }
+            cache.key = key;
+            cache.value = matrix;
+            return matrix;
+        },
+        calcOwnMatrix: function() {
+            var key = this.transformMatrixKey(true), cache = this.ownMatrixCache || (this.ownMatrixCache = {});
+            if (cache.key === key) {
+                return cache.value;
+            }
+            var matrix = this._calcTranslateMatrix(), rotateMatrix, dimensionMatrix = this._calcDimensionsTransformMatrix(this.skewX, this.skewY, true);
+            if (this.angle) {
+                rotateMatrix = this._calcRotateMatrix();
+                matrix = multiplyMatrices(matrix, rotateMatrix);
+            }
+            matrix = multiplyMatrices(matrix, dimensionMatrix);
+            cache.key = key;
+            cache.value = matrix;
+            return matrix;
+        },
+        _calcDimensionsTransformMatrix: function(skewX, skewY, flipping) {
+            var skewMatrix, scaleX = this.scaleX * (flipping && this.flipX ? -1 : 1), scaleY = this.scaleY * (flipping && this.flipY ? -1 : 1), scaleMatrix = [ scaleX, 0, 0, scaleY, 0, 0 ];
+            if (skewX) {
+                skewMatrix = [ 1, 0, Math.tan(degreesToRadians(skewX)), 1 ];
+                scaleMatrix = multiplyMatrices(scaleMatrix, skewMatrix, true);
+            }
+            if (skewY) {
+                skewMatrix = [ 1, Math.tan(degreesToRadians(skewY)), 0, 1 ];
+                scaleMatrix = multiplyMatrices(scaleMatrix, skewMatrix, true);
+            }
+            return scaleMatrix;
+        },
+        _getNonTransformedDimensions: function() {
+            var strokeWidth = this.strokeWidth, w = this.width + strokeWidth, h = this.height + strokeWidth;
+            return {
+                x: w,
+                y: h
+            };
+        },
+        _getTransformedDimensions: function(skewX, skewY) {
+            if (typeof skewX === "undefined") {
+                skewX = this.skewX;
+            }
+            if (typeof skewY === "undefined") {
+                skewY = this.skewY;
+            }
+            var dimensions = this._getNonTransformedDimensions();
+            if (skewX === 0 && skewY === 0) {
+                return {
+                    x: dimensions.x * this.scaleX,
+                    y: dimensions.y * this.scaleY
+                };
+            }
+            var dimX = dimensions.x / 2, dimY = dimensions.y / 2, points = [ {
+                x: -dimX,
+                y: -dimY
+            }, {
+                x: dimX,
+                y: -dimY
+            }, {
+                x: -dimX,
+                y: dimY
+            }, {
+                x: dimX,
+                y: dimY
+            } ], i, transformMatrix = this._calcDimensionsTransformMatrix(skewX, skewY, false), bbox;
+            for (i = 0; i < points.length; i++) {
+                points[i] = fabric.util.transformPoint(points[i], transformMatrix);
+            }
+            bbox = fabric.util.makeBoundingBoxFromPoints(points);
+            return {
+                x: bbox.width,
+                y: bbox.height
+            };
+        },
+        _calculateCurrentDimensions: function() {
+            var vpt = this.getViewportTransform(), dim = this._getTransformedDimensions(), p = fabric.util.transformPoint(dim, vpt, true);
+            return p.scalarAdd(2 * this.padding);
+        }
+    });
+})();
+
+fabric.util.object.extend(fabric.Object.prototype, {
+    sendToBack: function() {
+        if (this.group) {
+            fabric.StaticCanvas.prototype.sendToBack.call(this.group, this);
+        } else {
+            this.canvas.sendToBack(this);
+        }
+        return this;
+    },
+    bringToFront: function() {
+        if (this.group) {
+            fabric.StaticCanvas.prototype.bringToFront.call(this.group, this);
+        } else {
+            this.canvas.bringToFront(this);
+        }
+        return this;
+    },
+    sendBackwards: function(intersecting) {
+        if (this.group) {
+            fabric.StaticCanvas.prototype.sendBackwards.call(this.group, this, intersecting);
+        } else {
+            this.canvas.sendBackwards(this, intersecting);
+        }
+        return this;
+    },
+    bringForward: function(intersecting) {
+        if (this.group) {
+            fabric.StaticCanvas.prototype.bringForward.call(this.group, this, intersecting);
+        } else {
+            this.canvas.bringForward(this, intersecting);
+        }
+        return this;
+    },
+    moveTo: function(index) {
+        if (this.group && this.group.type !== "activeSelection") {
+            fabric.StaticCanvas.prototype.moveTo.call(this.group, this, index);
+        } else {
+            this.canvas.moveTo(this, index);
+        }
+        return this;
+    }
+});
+
+(function() {
+    function getSvgColorString(prop, value) {
+        if (!value) {
+            return prop + ": none; ";
+        } else if (value.toLive) {
+            return prop + ": url(#SVGID_" + value.id + "); ";
+        } else {
+            var color = new fabric.Color(value), str = prop + ": " + color.toRgb() + "; ", opacity = color.getAlpha();
+            if (opacity !== 1) {
+                str += prop + "-opacity: " + opacity.toString() + "; ";
+            }
+            return str;
+        }
+    }
+    var toFixed = fabric.util.toFixed;
+    fabric.util.object.extend(fabric.Object.prototype, {
+        getSvgStyles: function(skipShadow) {
+            var fillRule = this.fillRule, strokeWidth = this.strokeWidth ? this.strokeWidth : "0", strokeDashArray = this.strokeDashArray ? this.strokeDashArray.join(" ") : "none", strokeLineCap = this.strokeLineCap ? this.strokeLineCap : "butt", strokeLineJoin = this.strokeLineJoin ? this.strokeLineJoin : "miter", strokeMiterLimit = this.strokeMiterLimit ? this.strokeMiterLimit : "4", opacity = typeof this.opacity !== "undefined" ? this.opacity : "1", visibility = this.visible ? "" : " visibility: hidden;", filter = skipShadow ? "" : this.getSvgFilter(), fill = getSvgColorString("fill", this.fill), stroke = getSvgColorString("stroke", this.stroke);
+            return [ stroke, "stroke-width: ", strokeWidth, "; ", "stroke-dasharray: ", strokeDashArray, "; ", "stroke-linecap: ", strokeLineCap, "; ", "stroke-linejoin: ", strokeLineJoin, "; ", "stroke-miterlimit: ", strokeMiterLimit, "; ", fill, "fill-rule: ", fillRule, "; ", "opacity: ", opacity, ";", filter, visibility ].join("");
+        },
+        getSvgSpanStyles: function(style, useWhiteSpace) {
+            var term = "; ";
+            var fontFamily = style.fontFamily ? "font-family: " + (style.fontFamily.indexOf("'") === -1 && style.fontFamily.indexOf('"') === -1 ? "'" + style.fontFamily + "'" : style.fontFamily) + term : "";
+            var strokeWidth = style.strokeWidth ? "stroke-width: " + style.strokeWidth + term : "", fontFamily = fontFamily, fontSize = style.fontSize ? "font-size: " + style.fontSize + "px" + term : "", fontStyle = style.fontStyle ? "font-style: " + style.fontStyle + term : "", fontWeight = style.fontWeight ? "font-weight: " + style.fontWeight + term : "", fill = style.fill ? getSvgColorString("fill", style.fill) : "", stroke = style.stroke ? getSvgColorString("stroke", style.stroke) : "", textDecoration = this.getSvgTextDecoration(style), deltaY = style.deltaY ? "baseline-shift: " + -style.deltaY + "; " : "";
+            if (textDecoration) {
+                textDecoration = "text-decoration: " + textDecoration + term;
+            }
+            return [ stroke, strokeWidth, fontFamily, fontSize, fontStyle, fontWeight, textDecoration, fill, deltaY, useWhiteSpace ? "white-space: pre; " : "" ].join("");
+        },
+        getSvgTextDecoration: function(style) {
+            if ("overline" in style || "underline" in style || "linethrough" in style) {
+                return (style.overline ? "overline " : "") + (style.underline ? "underline " : "") + (style.linethrough ? "line-through " : "");
+            }
+            return "";
+        },
+        getSvgFilter: function() {
+            return this.shadow ? "filter: url(#SVGID_" + this.shadow.id + ");" : "";
+        },
+        getSvgId: function() {
+            return this.id ? 'id="' + this.id + '" ' : "";
+        },
+        getSvgTransform: function() {
+            var angle = this.angle, skewX = this.skewX % 360, skewY = this.skewY % 360, center = this.getCenterPoint(), NUM_FRACTION_DIGITS = fabric.Object.NUM_FRACTION_DIGITS, translatePart = "translate(" + toFixed(center.x, NUM_FRACTION_DIGITS) + " " + toFixed(center.y, NUM_FRACTION_DIGITS) + ")", anglePart = angle !== 0 ? " rotate(" + toFixed(angle, NUM_FRACTION_DIGITS) + ")" : "", scalePart = this.scaleX === 1 && this.scaleY === 1 ? "" : " scale(" + toFixed(this.scaleX, NUM_FRACTION_DIGITS) + " " + toFixed(this.scaleY, NUM_FRACTION_DIGITS) + ")", skewXPart = skewX !== 0 ? " skewX(" + toFixed(skewX, NUM_FRACTION_DIGITS) + ")" : "", skewYPart = skewY !== 0 ? " skewY(" + toFixed(skewY, NUM_FRACTION_DIGITS) + ")" : "", flipXPart = this.flipX ? " matrix(-1 0 0 1 0 0) " : "", flipYPart = this.flipY ? " matrix(1 0 0 -1 0 0)" : "";
+            return [ translatePart, anglePart, scalePart, flipXPart, flipYPart, skewXPart, skewYPart ].join("");
+        },
+        getSvgTransformMatrix: function() {
+            return this.transformMatrix ? " matrix(" + this.transformMatrix.join(" ") + ") " : "";
+        },
+        _setSVGBg: function(textBgRects) {
+            if (this.backgroundColor) {
+                var NUM_FRACTION_DIGITS = fabric.Object.NUM_FRACTION_DIGITS;
+                textBgRects.push("\t\t<rect ", this._getFillAttributes(this.backgroundColor), ' x="', toFixed(-this.width / 2, NUM_FRACTION_DIGITS), '" y="', toFixed(-this.height / 2, NUM_FRACTION_DIGITS), '" width="', toFixed(this.width, NUM_FRACTION_DIGITS), '" height="', toFixed(this.height, NUM_FRACTION_DIGITS), '"></rect>\n');
+            }
+        },
+        _createBaseSVGMarkup: function() {
+            var markup = [];
+            if (this.fill && this.fill.toLive) {
+                markup.push(this.fill.toSVG(this, false));
+            }
+            if (this.stroke && this.stroke.toLive) {
+                markup.push(this.stroke.toSVG(this, false));
+            }
+            if (this.shadow) {
+                markup.push(this.shadow.toSVG(this));
+            }
+            return markup;
+        },
+        addPaintOrder: function() {
+            return this.paintFirst !== "fill" ? ' paint-order="' + this.paintFirst + '" ' : "";
+        }
+    });
+})();
+
+(function() {
+    var extend = fabric.util.object.extend, originalSet = "stateProperties";
+    function saveProps(origin, destination, props) {
+        var tmpObj = {}, deep = true;
+        props.forEach(function(prop) {
+            tmpObj[prop] = origin[prop];
+        });
+        extend(origin[destination], tmpObj, deep);
+    }
+    function _isEqual(origValue, currentValue, firstPass) {
+        if (origValue === currentValue) {
+            return true;
+        } else if (Array.isArray(origValue)) {
+            if (origValue.length !== currentValue.length) {
+                return false;
+            }
+            for (var i = 0, len = origValue.length; i < len; i++) {
+                if (!_isEqual(origValue[i], currentValue[i])) {
+                    return false;
+                }
+            }
+            return true;
+        } else if (origValue && typeof origValue === "object") {
+            var keys = Object.keys(origValue), key;
+            if (!firstPass && keys.length !== Object.keys(currentValue).length) {
+                return false;
+            }
+            for (var i = 0, len = keys.length; i < len; i++) {
+                key = keys[i];
+                if (!_isEqual(origValue[key], currentValue[key])) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+    fabric.util.object.extend(fabric.Object.prototype, {
+        hasStateChanged: function(propertySet) {
+            propertySet = propertySet || originalSet;
+            var dashedPropertySet = "_" + propertySet;
+            if (Object.keys(this[dashedPropertySet]).length < this[propertySet].length) {
+                return true;
+            }
+            return !_isEqual(this[dashedPropertySet], this, true);
+        },
+        saveState: function(options) {
+            var propertySet = options && options.propertySet || originalSet, destination = "_" + propertySet;
+            if (!this[destination]) {
+                return this.setupState(options);
+            }
+            saveProps(this, destination, this[propertySet]);
+            if (options && options.stateProperties) {
+                saveProps(this, destination, options.stateProperties);
+            }
+            return this;
+        },
+        setupState: function(options) {
+            options = options || {};
+            var propertySet = options.propertySet || originalSet;
+            options.propertySet = propertySet;
+            this["_" + propertySet] = {};
+            this.saveState(options);
+            return this;
+        }
+    });
+})();
+
+(function() {
+    var degreesToRadians = fabric.util.degreesToRadians;
+    fabric.util.object.extend(fabric.Object.prototype, {
+        _controlsVisibility: null,
+        _findTargetCorner: function(pointer) {
+            if (!this.hasControls || this.group || (!this.canvas || this.canvas._activeObject !== this)) {
+                return false;
+            }
+            var ex = pointer.x, ey = pointer.y, xPoints, lines;
+            this.__corner = 0;
+            for (var i in this.oCoords) {
+                if (!this.isControlVisible(i)) {
+                    continue;
+                }
+                if (i === "mtr" && !this.hasRotatingPoint) {
+                    continue;
+                }
+                if (this.get("lockUniScaling") && (i === "mt" || i === "mr" || i === "mb" || i === "ml")) {
+                    continue;
+                }
+                lines = this._getImageLines(this.oCoords[i].corner);
+                xPoints = this._findCrossPoints({
+                    x: ex,
+                    y: ey
+                }, lines);
+                if (xPoints !== 0 && xPoints % 2 === 1) {
+                    this.__corner = i;
+                    return i;
+                }
+            }
+            return false;
+        },
+        _setCornerCoords: function() {
+            var coords = this.oCoords, newTheta = degreesToRadians(45 - this.angle), cornerHypotenuse = this.cornerSize * .707106, cosHalfOffset = cornerHypotenuse * fabric.util.cos(newTheta), sinHalfOffset = cornerHypotenuse * fabric.util.sin(newTheta), x, y;
+            for (var point in coords) {
+                x = coords[point].x;
+                y = coords[point].y;
+                coords[point].corner = {
+                    tl: {
+                        x: x - sinHalfOffset,
+                        y: y - cosHalfOffset
+                    },
+                    tr: {
+                        x: x + cosHalfOffset,
+                        y: y - sinHalfOffset
+                    },
+                    bl: {
+                        x: x - cosHalfOffset,
+                        y: y + sinHalfOffset
+                    },
+                    br: {
+                        x: x + sinHalfOffset,
+                        y: y + cosHalfOffset
+                    }
+                };
+            }
+        },
+        drawSelectionBackground: function(ctx) {
+            if (!this.selectionBackgroundColor || this.canvas && !this.canvas.interactive || this.canvas && this.canvas._activeObject !== this) {
+                return this;
+            }
+            ctx.save();
+            var center = this.getCenterPoint(), wh = this._calculateCurrentDimensions(), vpt = this.canvas.viewportTransform;
+            ctx.translate(center.x, center.y);
+            ctx.scale(1 / vpt[0], 1 / vpt[3]);
+            ctx.rotate(degreesToRadians(this.angle));
+            ctx.fillStyle = this.selectionBackgroundColor;
+            ctx.fillRect(-wh.x / 2, -wh.y / 2, wh.x, wh.y);
+            ctx.restore();
+            return this;
+        },
+        drawBorders: function(ctx, styleOverride) {
+            styleOverride = styleOverride || {};
+            var wh = this._calculateCurrentDimensions(), strokeWidth = 1 / this.borderScaleFactor, width = wh.x + strokeWidth, height = wh.y + strokeWidth, drawRotatingPoint = typeof styleOverride.hasRotatingPoint !== "undefined" ? styleOverride.hasRotatingPoint : this.hasRotatingPoint, hasControls = typeof styleOverride.hasControls !== "undefined" ? styleOverride.hasControls : this.hasControls, rotatingPointOffset = typeof styleOverride.rotatingPointOffset !== "undefined" ? styleOverride.rotatingPointOffset : this.rotatingPointOffset;
+            ctx.save();
+            ctx.strokeStyle = styleOverride.borderColor || this.borderColor;
+            this._setLineDash(ctx, styleOverride.borderDashArray || this.borderDashArray, null);
+            ctx.strokeRect(-width / 2, -height / 2, width, height);
+            if (drawRotatingPoint && this.isControlVisible("mtr") && hasControls) {
+                var rotateHeight = -height / 2;
+                ctx.beginPath();
+                ctx.moveTo(0, rotateHeight);
+                ctx.lineTo(0, rotateHeight - rotatingPointOffset);
+                ctx.stroke();
+            }
+            ctx.restore();
+            return this;
+        },
+        drawBordersInGroup: function(ctx, options, styleOverride) {
+            styleOverride = styleOverride || {};
+            var p = this._getNonTransformedDimensions(), matrix = fabric.util.customTransformMatrix(options.scaleX, options.scaleY, options.skewX), wh = fabric.util.transformPoint(p, matrix), strokeWidth = 1 / this.borderScaleFactor, width = wh.x + strokeWidth, height = wh.y + strokeWidth;
+            ctx.save();
+            this._setLineDash(ctx, styleOverride.borderDashArray || this.borderDashArray, null);
+            ctx.strokeStyle = styleOverride.borderColor || this.borderColor;
+            ctx.strokeRect(-width / 2, -height / 2, width, height);
+            ctx.restore();
+            return this;
+        },
+        drawControls: function(ctx, styleOverride) {
+            styleOverride = styleOverride || {};
+            var wh = this._calculateCurrentDimensions(), width = wh.x, height = wh.y, scaleOffset = styleOverride.cornerSize || this.cornerSize, left = -(width + scaleOffset) / 2, top = -(height + scaleOffset) / 2, transparentCorners = typeof styleOverride.transparentCorners !== "undefined" ? styleOverride.transparentCorners : this.transparentCorners, hasRotatingPoint = typeof styleOverride.hasRotatingPoint !== "undefined" ? styleOverride.hasRotatingPoint : this.hasRotatingPoint, methodName = transparentCorners ? "stroke" : "fill";
+            ctx.save();
+            ctx.strokeStyle = ctx.fillStyle = styleOverride.cornerColor || this.cornerColor;
+            if (!this.transparentCorners) {
+                ctx.strokeStyle = styleOverride.cornerStrokeColor || this.cornerStrokeColor;
+            }
+            this._setLineDash(ctx, styleOverride.cornerDashArray || this.cornerDashArray, null);
+            this._drawControl("tl", ctx, methodName, left, top, styleOverride);
+            this._drawControl("tr", ctx, methodName, left + width, top, styleOverride);
+            this._drawControl("bl", ctx, methodName, left, top + height, styleOverride);
+            this._drawControl("br", ctx, methodName, left + width, top + height, styleOverride);
+            if (!this.get("lockUniScaling")) {
+                this._drawControl("mt", ctx, methodName, left + width / 2, top, styleOverride);
+                this._drawControl("mb", ctx, methodName, left + width / 2, top + height, styleOverride);
+                this._drawControl("mr", ctx, methodName, left + width, top + height / 2, styleOverride);
+                this._drawControl("ml", ctx, methodName, left, top + height / 2, styleOverride);
+            }
+            if (hasRotatingPoint) {
+                this._drawControl("mtr", ctx, methodName, left + width / 2, top - this.rotatingPointOffset, styleOverride);
+            }
+            ctx.restore();
+            return this;
+        },
+        _drawControl: function(control, ctx, methodName, left, top, styleOverride) {
+            styleOverride = styleOverride || {};
+            if (!this.isControlVisible(control)) {
+                return;
+            }
+            var size = this.cornerSize, stroke = !this.transparentCorners && this.cornerStrokeColor;
+            switch (styleOverride.cornerStyle || this.cornerStyle) {
+              case "circle":
+                ctx.beginPath();
+                ctx.arc(left + size / 2, top + size / 2, size / 2, 0, 2 * Math.PI, false);
+                ctx[methodName]();
+                if (stroke) {
+                    ctx.stroke();
+                }
+                break;
+
+              default:
+                this.transparentCorners || ctx.clearRect(left, top, size, size);
+                ctx[methodName + "Rect"](left, top, size, size);
+                if (stroke) {
+                    ctx.strokeRect(left, top, size, size);
+                }
+            }
+        },
+        isControlVisible: function(controlName) {
+            return this._getControlsVisibility()[controlName];
+        },
+        setControlVisible: function(controlName, visible) {
+            this._getControlsVisibility()[controlName] = visible;
+            return this;
+        },
+        setControlsVisibility: function(options) {
+            options || (options = {});
+            for (var p in options) {
+                this.setControlVisible(p, options[p]);
+            }
+            return this;
+        },
+        _getControlsVisibility: function() {
+            if (!this._controlsVisibility) {
+                this._controlsVisibility = {
+                    tl: true,
+                    tr: true,
+                    br: true,
+                    bl: true,
+                    ml: true,
+                    mt: true,
+                    mr: true,
+                    mb: true,
+                    mtr: true
+                };
+            }
+            return this._controlsVisibility;
+        },
+        onDeselect: function() {},
+        onSelect: function() {}
+    });
+})();
+
+fabric.util.object.extend(fabric.StaticCanvas.prototype, {
+    FX_DURATION: 500,
+    fxCenterObjectH: function(object, callbacks) {
+        callbacks = callbacks || {};
+        var empty = function() {}, onComplete = callbacks.onComplete || empty, onChange = callbacks.onChange || empty, _this = this;
+        fabric.util.animate({
+            startValue: object.left,
+            endValue: this.getCenter().left,
+            duration: this.FX_DURATION,
+            onChange: function(value) {
+                object.set("left", value);
+                _this.requestRenderAll();
+                onChange();
+            },
+            onComplete: function() {
+                object.setCoords();
+                onComplete();
+            }
+        });
+        return this;
+    },
+    fxCenterObjectV: function(object, callbacks) {
+        callbacks = callbacks || {};
+        var empty = function() {}, onComplete = callbacks.onComplete || empty, onChange = callbacks.onChange || empty, _this = this;
+        fabric.util.animate({
+            startValue: object.top,
+            endValue: this.getCenter().top,
+            duration: this.FX_DURATION,
+            onChange: function(value) {
+                object.set("top", value);
+                _this.requestRenderAll();
+                onChange();
+            },
+            onComplete: function() {
+                object.setCoords();
+                onComplete();
+            }
+        });
+        return this;
+    },
+    fxRemove: function(object, callbacks) {
+        callbacks = callbacks || {};
+        var empty = function() {}, onComplete = callbacks.onComplete || empty, onChange = callbacks.onChange || empty, _this = this;
+        fabric.util.animate({
+            startValue: object.opacity,
+            endValue: 0,
+            duration: this.FX_DURATION,
+            onChange: function(value) {
+                object.set("opacity", value);
+                _this.requestRenderAll();
+                onChange();
+            },
+            onComplete: function() {
+                _this.remove(object);
+                onComplete();
+            }
+        });
+        return this;
+    }
+});
+
+fabric.util.object.extend(fabric.Object.prototype, {
+    animate: function() {
+        if (arguments[0] && typeof arguments[0] === "object") {
+            var propsToAnimate = [], prop, skipCallbacks;
+            for (prop in arguments[0]) {
+                propsToAnimate.push(prop);
+            }
+            for (var i = 0, len = propsToAnimate.length; i < len; i++) {
+                prop = propsToAnimate[i];
+                skipCallbacks = i !== len - 1;
+                this._animate(prop, arguments[0][prop], arguments[1], skipCallbacks);
+            }
+        } else {
+            this._animate.apply(this, arguments);
+        }
+        return this;
+    },
+    _animate: function(property, to, options, skipCallbacks) {
+        var _this = this, propPair;
+        to = to.toString();
+        if (!options) {
+            options = {};
+        } else {
+            options = fabric.util.object.clone(options);
+        }
+        if (~property.indexOf(".")) {
+            propPair = property.split(".");
+        }
+        var currentValue = propPair ? this.get(propPair[0])[propPair[1]] : this.get(property);
+        if (!("from" in options)) {
+            options.from = currentValue;
+        }
+        if (~to.indexOf("=")) {
+            to = currentValue + parseFloat(to.replace("=", ""));
+        } else {
+            to = parseFloat(to);
+        }
+        fabric.util.animate({
+            startValue: options.from,
+            endValue: to,
+            byValue: options.by,
+            easing: options.easing,
+            duration: options.duration,
+            abort: options.abort && function() {
+                return options.abort.call(_this);
+            },
+            onChange: function(value, valueProgress, timeProgress) {
+                if (propPair) {
+                    _this[propPair[0]][propPair[1]] = value;
+                } else {
+                    _this.set(property, value);
+                }
+                if (skipCallbacks) {
+                    return;
+                }
+                options.onChange && options.onChange(value, valueProgress, timeProgress);
+            },
+            onComplete: function(value, valueProgress, timeProgress) {
+                if (skipCallbacks) {
+                    return;
+                }
+                _this.setCoords();
+                options.onComplete && options.onComplete(value, valueProgress, timeProgress);
+            }
+        });
+    }
+});
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), extend = fabric.util.object.extend, clone = fabric.util.object.clone, coordProps = {
+        x1: 1,
+        x2: 1,
+        y1: 1,
+        y2: 1
+    }, supportsLineDash = fabric.StaticCanvas.supports("setLineDash");
+    if (fabric.Line) {
+        fabric.warn("fabric.Line is already defined");
+        return;
+    }
+    fabric.Line = fabric.util.createClass(fabric.Object, {
+        type: "line",
+        x1: 0,
+        y1: 0,
+        x2: 0,
+        y2: 0,
+        cacheProperties: fabric.Object.prototype.cacheProperties.concat("x1", "x2", "y1", "y2"),
+        initialize: function(points, options) {
+            if (!points) {
+                points = [ 0, 0, 0, 0 ];
+            }
+            this.callSuper("initialize", options);
+            this.set("x1", points[0]);
+            this.set("y1", points[1]);
+            this.set("x2", points[2]);
+            this.set("y2", points[3]);
+            this._setWidthHeight(options);
+        },
+        _setWidthHeight: function(options) {
+            options || (options = {});
+            this.width = Math.abs(this.x2 - this.x1);
+            this.height = Math.abs(this.y2 - this.y1);
+            this.left = "left" in options ? options.left : this._getLeftToOriginX();
+            this.top = "top" in options ? options.top : this._getTopToOriginY();
+        },
+        _set: function(key, value) {
+            this.callSuper("_set", key, value);
+            if (typeof coordProps[key] !== "undefined") {
+                this._setWidthHeight();
+            }
+            return this;
+        },
+        _getLeftToOriginX: makeEdgeToOriginGetter({
+            origin: "originX",
+            axis1: "x1",
+            axis2: "x2",
+            dimension: "width"
+        }, {
+            nearest: "left",
+            center: "center",
+            farthest: "right"
+        }),
+        _getTopToOriginY: makeEdgeToOriginGetter({
+            origin: "originY",
+            axis1: "y1",
+            axis2: "y2",
+            dimension: "height"
+        }, {
+            nearest: "top",
+            center: "center",
+            farthest: "bottom"
+        }),
+        _render: function(ctx) {
+            ctx.beginPath();
+            if (!this.strokeDashArray || this.strokeDashArray && supportsLineDash) {
+                var p = this.calcLinePoints();
+                ctx.moveTo(p.x1, p.y1);
+                ctx.lineTo(p.x2, p.y2);
+            }
+            ctx.lineWidth = this.strokeWidth;
+            var origStrokeStyle = ctx.strokeStyle;
+            ctx.strokeStyle = this.stroke || ctx.fillStyle;
+            this.stroke && this._renderStroke(ctx);
+            ctx.strokeStyle = origStrokeStyle;
+        },
+        _renderDashedStroke: function(ctx) {
+            var p = this.calcLinePoints();
+            ctx.beginPath();
+            fabric.util.drawDashedLine(ctx, p.x1, p.y1, p.x2, p.y2, this.strokeDashArray);
+            ctx.closePath();
+        },
+        _findCenterFromElement: function() {
+            return {
+                x: (this.x1 + this.x2) / 2,
+                y: (this.y1 + this.y2) / 2
+            };
+        },
+        toObject: function(propertiesToInclude) {
+            return extend(this.callSuper("toObject", propertiesToInclude), this.calcLinePoints());
+        },
+        _getNonTransformedDimensions: function() {
+            var dim = this.callSuper("_getNonTransformedDimensions");
+            if (this.strokeLineCap === "butt") {
+                if (this.width === 0) {
+                    dim.y -= this.strokeWidth;
+                }
+                if (this.height === 0) {
+                    dim.x -= this.strokeWidth;
+                }
+            }
+            return dim;
+        },
+        calcLinePoints: function() {
+            var xMult = this.x1 <= this.x2 ? -1 : 1, yMult = this.y1 <= this.y2 ? -1 : 1, x1 = xMult * this.width * .5, y1 = yMult * this.height * .5, x2 = xMult * this.width * -.5, y2 = yMult * this.height * -.5;
+            return {
+                x1: x1,
+                x2: x2,
+                y1: y1,
+                y2: y2
+            };
+        },
+        toSVG: function(reviver) {
+            var markup = this._createBaseSVGMarkup(), p = this.calcLinePoints();
+            markup.push("<line ", this.getSvgId(), 'x1="', p.x1, '" y1="', p.y1, '" x2="', p.x2, '" y2="', p.y2, '" style="', this.getSvgStyles(), '" transform="', this.getSvgTransform(), this.getSvgTransformMatrix(), '"/>\n');
+            return reviver ? reviver(markup.join("")) : markup.join("");
+        }
+    });
+    fabric.Line.ATTRIBUTE_NAMES = fabric.SHARED_ATTRIBUTES.concat("x1 y1 x2 y2".split(" "));
+    fabric.Line.fromElement = function(element, callback, options) {
+        options = options || {};
+        var parsedAttributes = fabric.parseAttributes(element, fabric.Line.ATTRIBUTE_NAMES), points = [ parsedAttributes.x1 || 0, parsedAttributes.y1 || 0, parsedAttributes.x2 || 0, parsedAttributes.y2 || 0 ];
+        callback(new fabric.Line(points, extend(parsedAttributes, options)));
+    };
+    fabric.Line.fromObject = function(object, callback) {
+        function _callback(instance) {
+            delete instance.points;
+            callback && callback(instance);
+        }
+        var options = clone(object, true);
+        options.points = [ object.x1, object.y1, object.x2, object.y2 ];
+        fabric.Object._fromObject("Line", options, _callback, "points");
+    };
+    function makeEdgeToOriginGetter(propertyNames, originValues) {
+        var origin = propertyNames.origin, axis1 = propertyNames.axis1, axis2 = propertyNames.axis2, dimension = propertyNames.dimension, nearest = originValues.nearest, center = originValues.center, farthest = originValues.farthest;
+        return function() {
+            switch (this.get(origin)) {
+              case nearest:
+                return Math.min(this.get(axis1), this.get(axis2));
+
+              case center:
+                return Math.min(this.get(axis1), this.get(axis2)) + .5 * this.get(dimension);
+
+              case farthest:
+                return Math.max(this.get(axis1), this.get(axis2));
+            }
+        };
+    }
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), pi = Math.PI;
+    if (fabric.Circle) {
+        fabric.warn("fabric.Circle is already defined.");
+        return;
+    }
+    fabric.Circle = fabric.util.createClass(fabric.Object, {
+        type: "circle",
+        radius: 0,
+        startAngle: 0,
+        endAngle: pi * 2,
+        cacheProperties: fabric.Object.prototype.cacheProperties.concat("radius", "startAngle", "endAngle"),
+        _set: function(key, value) {
+            this.callSuper("_set", key, value);
+            if (key === "radius") {
+                this.setRadius(value);
+            }
+            return this;
+        },
+        toObject: function(propertiesToInclude) {
+            return this.callSuper("toObject", [ "radius", "startAngle", "endAngle" ].concat(propertiesToInclude));
+        },
+        toSVG: function(reviver) {
+            var markup = this._createBaseSVGMarkup(), x = 0, y = 0, angle = (this.endAngle - this.startAngle) % (2 * pi);
+            if (angle === 0) {
+                markup.push("<circle ", this.getSvgId(), 'cx="' + x + '" cy="' + y + '" ', 'r="', this.radius, '" style="', this.getSvgStyles(), '" transform="', this.getSvgTransform(), " ", this.getSvgTransformMatrix(), '"', this.addPaintOrder(), "/>\n");
+            } else {
+                var startX = fabric.util.cos(this.startAngle) * this.radius, startY = fabric.util.sin(this.startAngle) * this.radius, endX = fabric.util.cos(this.endAngle) * this.radius, endY = fabric.util.sin(this.endAngle) * this.radius, largeFlag = angle > pi ? "1" : "0";
+                markup.push('<path d="M ' + startX + " " + startY, " A " + this.radius + " " + this.radius, " 0 ", +largeFlag + " 1", " " + endX + " " + endY, '" style="', this.getSvgStyles(), '" transform="', this.getSvgTransform(), " ", this.getSvgTransformMatrix(), '"', this.addPaintOrder(), '"/>\n');
+            }
+            return reviver ? reviver(markup.join("")) : markup.join("");
+        },
+        _render: function(ctx) {
+            ctx.beginPath();
+            ctx.arc(0, 0, this.radius, this.startAngle, this.endAngle, false);
+            this._renderPaintInOrder(ctx);
+        },
+        getRadiusX: function() {
+            return this.get("radius") * this.get("scaleX");
+        },
+        getRadiusY: function() {
+            return this.get("radius") * this.get("scaleY");
+        },
+        setRadius: function(value) {
+            this.radius = value;
+            return this.set("width", value * 2).set("height", value * 2);
+        }
+    });
+    fabric.Circle.ATTRIBUTE_NAMES = fabric.SHARED_ATTRIBUTES.concat("cx cy r".split(" "));
+    fabric.Circle.fromElement = function(element, callback) {
+        var parsedAttributes = fabric.parseAttributes(element, fabric.Circle.ATTRIBUTE_NAMES);
+        if (!isValidRadius(parsedAttributes)) {
+            throw new Error("value of `r` attribute is required and can not be negative");
+        }
+        parsedAttributes.left = (parsedAttributes.left || 0) - parsedAttributes.radius;
+        parsedAttributes.top = (parsedAttributes.top || 0) - parsedAttributes.radius;
+        callback(new fabric.Circle(parsedAttributes));
+    };
+    function isValidRadius(attributes) {
+        return "radius" in attributes && attributes.radius >= 0;
+    }
+    fabric.Circle.fromObject = function(object, callback) {
+        return fabric.Object._fromObject("Circle", object, callback);
+    };
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {});
+    if (fabric.Triangle) {
+        fabric.warn("fabric.Triangle is already defined");
+        return;
+    }
+    fabric.Triangle = fabric.util.createClass(fabric.Object, {
+        type: "triangle",
+        width: 100,
+        height: 100,
+        _render: function(ctx) {
+            var widthBy2 = this.width / 2, heightBy2 = this.height / 2;
+            ctx.beginPath();
+            ctx.moveTo(-widthBy2, heightBy2);
+            ctx.lineTo(0, -heightBy2);
+            ctx.lineTo(widthBy2, heightBy2);
+            ctx.closePath();
+            this._renderPaintInOrder(ctx);
+        },
+        _renderDashedStroke: function(ctx) {
+            var widthBy2 = this.width / 2, heightBy2 = this.height / 2;
+            ctx.beginPath();
+            fabric.util.drawDashedLine(ctx, -widthBy2, heightBy2, 0, -heightBy2, this.strokeDashArray);
+            fabric.util.drawDashedLine(ctx, 0, -heightBy2, widthBy2, heightBy2, this.strokeDashArray);
+            fabric.util.drawDashedLine(ctx, widthBy2, heightBy2, -widthBy2, heightBy2, this.strokeDashArray);
+            ctx.closePath();
+        },
+        toSVG: function(reviver) {
+            var markup = this._createBaseSVGMarkup(), widthBy2 = this.width / 2, heightBy2 = this.height / 2, points = [ -widthBy2 + " " + heightBy2, "0 " + -heightBy2, widthBy2 + " " + heightBy2 ].join(",");
+            markup.push("<polygon ", this.getSvgId(), 'points="', points, '" style="', this.getSvgStyles(), '" transform="', this.getSvgTransform(), '"', this.addPaintOrder(), "/>");
+            return reviver ? reviver(markup.join("")) : markup.join("");
+        }
+    });
+    fabric.Triangle.fromObject = function(object, callback) {
+        return fabric.Object._fromObject("Triangle", object, callback);
+    };
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), piBy2 = Math.PI * 2;
+    if (fabric.Ellipse) {
+        fabric.warn("fabric.Ellipse is already defined.");
+        return;
+    }
+    fabric.Ellipse = fabric.util.createClass(fabric.Object, {
+        type: "ellipse",
+        rx: 0,
+        ry: 0,
+        cacheProperties: fabric.Object.prototype.cacheProperties.concat("rx", "ry"),
+        initialize: function(options) {
+            this.callSuper("initialize", options);
+            this.set("rx", options && options.rx || 0);
+            this.set("ry", options && options.ry || 0);
+        },
+        _set: function(key, value) {
+            this.callSuper("_set", key, value);
+            switch (key) {
+              case "rx":
+                this.rx = value;
+                this.set("width", value * 2);
+                break;
+
+              case "ry":
+                this.ry = value;
+                this.set("height", value * 2);
+                break;
+            }
+            return this;
+        },
+        getRx: function() {
+            return this.get("rx") * this.get("scaleX");
+        },
+        getRy: function() {
+            return this.get("ry") * this.get("scaleY");
+        },
+        toObject: function(propertiesToInclude) {
+            return this.callSuper("toObject", [ "rx", "ry" ].concat(propertiesToInclude));
+        },
+        toSVG: function(reviver) {
+            var markup = this._createBaseSVGMarkup();
+            markup.push("<ellipse ", this.getSvgId(), 'cx="0" cy="0" ', 'rx="', this.rx, '" ry="', this.ry, '" style="', this.getSvgStyles(), '" transform="', this.getSvgTransform(), this.getSvgTransformMatrix(), '"', this.addPaintOrder(), "/>\n");
+            return reviver ? reviver(markup.join("")) : markup.join("");
+        },
+        _render: function(ctx) {
+            ctx.beginPath();
+            ctx.save();
+            ctx.transform(1, 0, 0, this.ry / this.rx, 0, 0);
+            ctx.arc(0, 0, this.rx, 0, piBy2, false);
+            ctx.restore();
+            this._renderPaintInOrder(ctx);
+        }
+    });
+    fabric.Ellipse.ATTRIBUTE_NAMES = fabric.SHARED_ATTRIBUTES.concat("cx cy rx ry".split(" "));
+    fabric.Ellipse.fromElement = function(element, callback) {
+        var parsedAttributes = fabric.parseAttributes(element, fabric.Ellipse.ATTRIBUTE_NAMES);
+        parsedAttributes.left = (parsedAttributes.left || 0) - parsedAttributes.rx;
+        parsedAttributes.top = (parsedAttributes.top || 0) - parsedAttributes.ry;
+        callback(new fabric.Ellipse(parsedAttributes));
+    };
+    fabric.Ellipse.fromObject = function(object, callback) {
+        return fabric.Object._fromObject("Ellipse", object, callback);
+    };
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), extend = fabric.util.object.extend;
+    if (fabric.Rect) {
+        fabric.warn("fabric.Rect is already defined");
+        return;
+    }
+    fabric.Rect = fabric.util.createClass(fabric.Object, {
+        stateProperties: fabric.Object.prototype.stateProperties.concat("rx", "ry"),
+        type: "rect",
+        rx: 0,
+        ry: 0,
+        cacheProperties: fabric.Object.prototype.cacheProperties.concat("rx", "ry"),
+        initialize: function(options) {
+            this.callSuper("initialize", options);
+            this._initRxRy();
+        },
+        _initRxRy: function() {
+            if (this.rx && !this.ry) {
+                this.ry = this.rx;
+            } else if (this.ry && !this.rx) {
+                this.rx = this.ry;
+            }
+        },
+        _render: function(ctx) {
+            if (this.width === 1 && this.height === 1) {
+                ctx.fillRect(-.5, -.5, 1, 1);
+                return;
+            }
+            var rx = this.rx ? Math.min(this.rx, this.width / 2) : 0, ry = this.ry ? Math.min(this.ry, this.height / 2) : 0, w = this.width, h = this.height, x = -this.width / 2, y = -this.height / 2, isRounded = rx !== 0 || ry !== 0, k = 1 - .5522847498;
+            ctx.beginPath();
+            ctx.moveTo(x + rx, y);
+            ctx.lineTo(x + w - rx, y);
+            isRounded && ctx.bezierCurveTo(x + w - k * rx, y, x + w, y + k * ry, x + w, y + ry);
+            ctx.lineTo(x + w, y + h - ry);
+            isRounded && ctx.bezierCurveTo(x + w, y + h - k * ry, x + w - k * rx, y + h, x + w - rx, y + h);
+            ctx.lineTo(x + rx, y + h);
+            isRounded && ctx.bezierCurveTo(x + k * rx, y + h, x, y + h - k * ry, x, y + h - ry);
+            ctx.lineTo(x, y + ry);
+            isRounded && ctx.bezierCurveTo(x, y + k * ry, x + k * rx, y, x + rx, y);
+            ctx.closePath();
+            this._renderPaintInOrder(ctx);
+        },
+        _renderDashedStroke: function(ctx) {
+            var x = -this.width / 2, y = -this.height / 2, w = this.width, h = this.height;
+            ctx.beginPath();
+            fabric.util.drawDashedLine(ctx, x, y, x + w, y, this.strokeDashArray);
+            fabric.util.drawDashedLine(ctx, x + w, y, x + w, y + h, this.strokeDashArray);
+            fabric.util.drawDashedLine(ctx, x + w, y + h, x, y + h, this.strokeDashArray);
+            fabric.util.drawDashedLine(ctx, x, y + h, x, y, this.strokeDashArray);
+            ctx.closePath();
+        },
+        toObject: function(propertiesToInclude) {
+            return this.callSuper("toObject", [ "rx", "ry" ].concat(propertiesToInclude));
+        },
+        toSVG: function(reviver) {
+            var markup = this._createBaseSVGMarkup(), x = -this.width / 2, y = -this.height / 2;
+            markup.push("<rect ", this.getSvgId(), 'x="', x, '" y="', y, '" rx="', this.get("rx"), '" ry="', this.get("ry"), '" width="', this.width, '" height="', this.height, '" style="', this.getSvgStyles(), '" transform="', this.getSvgTransform(), this.getSvgTransformMatrix(), '"', this.addPaintOrder(), "/>\n");
+            return reviver ? reviver(markup.join("")) : markup.join("");
+        }
+    });
+    fabric.Rect.ATTRIBUTE_NAMES = fabric.SHARED_ATTRIBUTES.concat("x y rx ry width height".split(" "));
+    fabric.Rect.fromElement = function(element, callback, options) {
+        if (!element) {
+            return callback(null);
+        }
+        options = options || {};
+        var parsedAttributes = fabric.parseAttributes(element, fabric.Rect.ATTRIBUTE_NAMES);
+        parsedAttributes.left = parsedAttributes.left || 0;
+        parsedAttributes.top = parsedAttributes.top || 0;
+        var rect = new fabric.Rect(extend(options ? fabric.util.object.clone(options) : {}, parsedAttributes));
+        rect.visible = rect.visible && rect.width > 0 && rect.height > 0;
+        callback(rect);
+    };
+    fabric.Rect.fromObject = function(object, callback) {
+        return fabric.Object._fromObject("Rect", object, callback);
+    };
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), extend = fabric.util.object.extend, min = fabric.util.array.min, max = fabric.util.array.max, toFixed = fabric.util.toFixed;
+    if (fabric.Polyline) {
+        fabric.warn("fabric.Polyline is already defined");
+        return;
+    }
+    fabric.Polyline = fabric.util.createClass(fabric.Object, {
+        type: "polyline",
+        points: null,
+        cacheProperties: fabric.Object.prototype.cacheProperties.concat("points"),
+        initialize: function(points, options) {
+            options = options || {};
+            this.points = points || [];
+            this.callSuper("initialize", options);
+            var calcDim = this._calcDimensions();
+            if (typeof options.left === "undefined") {
+                this.left = calcDim.left;
+            }
+            if (typeof options.top === "undefined") {
+                this.top = calcDim.top;
+            }
+            this.width = calcDim.width;
+            this.height = calcDim.height;
+            this.pathOffset = {
+                x: calcDim.left + this.width / 2,
+                y: calcDim.top + this.height / 2
+            };
+        },
+        _calcDimensions: function() {
+            var points = this.points, minX = min(points, "x") || 0, minY = min(points, "y") || 0, maxX = max(points, "x") || 0, maxY = max(points, "y") || 0, width = maxX - minX, height = maxY - minY;
+            return {
+                left: minX,
+                top: minY,
+                width: width,
+                height: height
+            };
+        },
+        toObject: function(propertiesToInclude) {
+            return extend(this.callSuper("toObject", propertiesToInclude), {
+                points: this.points.concat()
+            });
+        },
+        toSVG: function(reviver) {
+            var points = [], diffX = this.pathOffset.x, diffY = this.pathOffset.y, markup = this._createBaseSVGMarkup(), NUM_FRACTION_DIGITS = fabric.Object.NUM_FRACTION_DIGITS;
+            for (var i = 0, len = this.points.length; i < len; i++) {
+                points.push(toFixed(this.points[i].x - diffX, NUM_FRACTION_DIGITS), ",", toFixed(this.points[i].y - diffY, NUM_FRACTION_DIGITS), " ");
+            }
+            markup.push("<", this.type, " ", this.getSvgId(), 'points="', points.join(""), '" style="', this.getSvgStyles(), '" transform="', this.getSvgTransform(), " ", this.getSvgTransformMatrix(), '"', this.addPaintOrder(), "/>\n");
+            return reviver ? reviver(markup.join("")) : markup.join("");
+        },
+        commonRender: function(ctx) {
+            var point, len = this.points.length, x = this.pathOffset.x, y = this.pathOffset.y;
+            if (!len || isNaN(this.points[len - 1].y)) {
+                return false;
+            }
+            ctx.beginPath();
+            ctx.moveTo(this.points[0].x - x, this.points[0].y - y);
+            for (var i = 0; i < len; i++) {
+                point = this.points[i];
+                ctx.lineTo(point.x - x, point.y - y);
+            }
+            return true;
+        },
+        _render: function(ctx) {
+            if (!this.commonRender(ctx)) {
+                return;
+            }
+            this._renderPaintInOrder(ctx);
+        },
+        _renderDashedStroke: function(ctx) {
+            var p1, p2;
+            ctx.beginPath();
+            for (var i = 0, len = this.points.length; i < len; i++) {
+                p1 = this.points[i];
+                p2 = this.points[i + 1] || p1;
+                fabric.util.drawDashedLine(ctx, p1.x, p1.y, p2.x, p2.y, this.strokeDashArray);
+            }
+        },
+        complexity: function() {
+            return this.get("points").length;
+        }
+    });
+    fabric.Polyline.ATTRIBUTE_NAMES = fabric.SHARED_ATTRIBUTES.concat();
+    fabric.Polyline.fromElement = function(element, callback, options) {
+        if (!element) {
+            return callback(null);
+        }
+        options || (options = {});
+        var points = fabric.parsePointsAttribute(element.getAttribute("points")), parsedAttributes = fabric.parseAttributes(element, fabric.Polyline.ATTRIBUTE_NAMES);
+        callback(new fabric.Polyline(points, fabric.util.object.extend(parsedAttributes, options)));
+    };
+    fabric.Polyline.fromObject = function(object, callback) {
+        return fabric.Object._fromObject("Polyline", object, callback, "points");
+    };
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), extend = fabric.util.object.extend;
+    if (fabric.Polygon) {
+        fabric.warn("fabric.Polygon is already defined");
+        return;
+    }
+    fabric.Polygon = fabric.util.createClass(fabric.Polyline, {
+        type: "polygon",
+        _render: function(ctx) {
+            if (!this.commonRender(ctx)) {
+                return;
+            }
+            ctx.closePath();
+            this._renderPaintInOrder(ctx);
+        },
+        _renderDashedStroke: function(ctx) {
+            this.callSuper("_renderDashedStroke", ctx);
+            ctx.closePath();
+        }
+    });
+    fabric.Polygon.ATTRIBUTE_NAMES = fabric.SHARED_ATTRIBUTES.concat();
+    fabric.Polygon.fromElement = function(element, callback, options) {
+        if (!element) {
+            return callback(null);
+        }
+        options || (options = {});
+        var points = fabric.parsePointsAttribute(element.getAttribute("points")), parsedAttributes = fabric.parseAttributes(element, fabric.Polygon.ATTRIBUTE_NAMES);
+        callback(new fabric.Polygon(points, extend(parsedAttributes, options)));
+    };
+    fabric.Polygon.fromObject = function(object, callback) {
+        return fabric.Object._fromObject("Polygon", object, callback, "points");
+    };
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), min = fabric.util.array.min, max = fabric.util.array.max, extend = fabric.util.object.extend, _toString = Object.prototype.toString, drawArc = fabric.util.drawArc, commandLengths = {
+        m: 2,
+        l: 2,
+        h: 1,
+        v: 1,
+        c: 6,
+        s: 4,
+        q: 4,
+        t: 2,
+        a: 7
+    }, repeatedCommands = {
+        m: "l",
+        M: "L"
+    };
+    if (fabric.Path) {
+        fabric.warn("fabric.Path is already defined");
+        return;
+    }
+    fabric.Path = fabric.util.createClass(fabric.Object, {
+        type: "path",
+        path: null,
+        cacheProperties: fabric.Object.prototype.cacheProperties.concat("path", "fillRule"),
+        stateProperties: fabric.Object.prototype.stateProperties.concat("path"),
+        initialize: function(path, options) {
+            options = options || {};
+            this.callSuper("initialize", options);
+            if (!path) {
+                path = [];
+            }
+            var fromArray = _toString.call(path) === "[object Array]";
+            this.path = fromArray ? path : path.match && path.match(/[mzlhvcsqta][^mzlhvcsqta]*/gi);
+            if (!this.path) {
+                return;
+            }
+            if (!fromArray) {
+                this.path = this._parsePath();
+            }
+            this._setPositionDimensions(options);
+        },
+        _setPositionDimensions: function(options) {
+            var calcDim = this._parseDimensions();
+            this.width = calcDim.width;
+            this.height = calcDim.height;
+            if (typeof options.left === "undefined") {
+                this.left = calcDim.left;
+            }
+            if (typeof options.top === "undefined") {
+                this.top = calcDim.top;
+            }
+            this.pathOffset = this.pathOffset || {
+                x: calcDim.left + this.width / 2,
+                y: calcDim.top + this.height / 2
+            };
+        },
+        _renderPathCommands: function(ctx) {
+            var current, previous = null, subpathStartX = 0, subpathStartY = 0, x = 0, y = 0, controlX = 0, controlY = 0, tempX, tempY, l = -this.pathOffset.x, t = -this.pathOffset.y;
+            ctx.beginPath();
+            for (var i = 0, len = this.path.length; i < len; ++i) {
+                current = this.path[i];
+                switch (current[0]) {
+                  case "l":
+                    x += current[1];
+                    y += current[2];
+                    ctx.lineTo(x + l, y + t);
+                    break;
+
+                  case "L":
+                    x = current[1];
+                    y = current[2];
+                    ctx.lineTo(x + l, y + t);
+                    break;
+
+                  case "h":
+                    x += current[1];
+                    ctx.lineTo(x + l, y + t);
+                    break;
+
+                  case "H":
+                    x = current[1];
+                    ctx.lineTo(x + l, y + t);
+                    break;
+
+                  case "v":
+                    y += current[1];
+                    ctx.lineTo(x + l, y + t);
+                    break;
+
+                  case "V":
+                    y = current[1];
+                    ctx.lineTo(x + l, y + t);
+                    break;
+
+                  case "m":
+                    x += current[1];
+                    y += current[2];
+                    subpathStartX = x;
+                    subpathStartY = y;
+                    ctx.moveTo(x + l, y + t);
+                    break;
+
+                  case "M":
+                    x = current[1];
+                    y = current[2];
+                    subpathStartX = x;
+                    subpathStartY = y;
+                    ctx.moveTo(x + l, y + t);
+                    break;
+
+                  case "c":
+                    tempX = x + current[5];
+                    tempY = y + current[6];
+                    controlX = x + current[3];
+                    controlY = y + current[4];
+                    ctx.bezierCurveTo(x + current[1] + l, y + current[2] + t, controlX + l, controlY + t, tempX + l, tempY + t);
+                    x = tempX;
+                    y = tempY;
+                    break;
+
+                  case "C":
+                    x = current[5];
+                    y = current[6];
+                    controlX = current[3];
+                    controlY = current[4];
+                    ctx.bezierCurveTo(current[1] + l, current[2] + t, controlX + l, controlY + t, x + l, y + t);
+                    break;
+
+                  case "s":
+                    tempX = x + current[3];
+                    tempY = y + current[4];
+                    if (previous[0].match(/[CcSs]/) === null) {
+                        controlX = x;
+                        controlY = y;
+                    } else {
+                        controlX = 2 * x - controlX;
+                        controlY = 2 * y - controlY;
+                    }
+                    ctx.bezierCurveTo(controlX + l, controlY + t, x + current[1] + l, y + current[2] + t, tempX + l, tempY + t);
+                    controlX = x + current[1];
+                    controlY = y + current[2];
+                    x = tempX;
+                    y = tempY;
+                    break;
+
+                  case "S":
+                    tempX = current[3];
+                    tempY = current[4];
+                    if (previous[0].match(/[CcSs]/) === null) {
+                        controlX = x;
+                        controlY = y;
+                    } else {
+                        controlX = 2 * x - controlX;
+                        controlY = 2 * y - controlY;
+                    }
+                    ctx.bezierCurveTo(controlX + l, controlY + t, current[1] + l, current[2] + t, tempX + l, tempY + t);
+                    x = tempX;
+                    y = tempY;
+                    controlX = current[1];
+                    controlY = current[2];
+                    break;
+
+                  case "q":
+                    tempX = x + current[3];
+                    tempY = y + current[4];
+                    controlX = x + current[1];
+                    controlY = y + current[2];
+                    ctx.quadraticCurveTo(controlX + l, controlY + t, tempX + l, tempY + t);
+                    x = tempX;
+                    y = tempY;
+                    break;
+
+                  case "Q":
+                    tempX = current[3];
+                    tempY = current[4];
+                    ctx.quadraticCurveTo(current[1] + l, current[2] + t, tempX + l, tempY + t);
+                    x = tempX;
+                    y = tempY;
+                    controlX = current[1];
+                    controlY = current[2];
+                    break;
+
+                  case "t":
+                    tempX = x + current[1];
+                    tempY = y + current[2];
+                    if (previous[0].match(/[QqTt]/) === null) {
+                        controlX = x;
+                        controlY = y;
+                    } else {
+                        controlX = 2 * x - controlX;
+                        controlY = 2 * y - controlY;
+                    }
+                    ctx.quadraticCurveTo(controlX + l, controlY + t, tempX + l, tempY + t);
+                    x = tempX;
+                    y = tempY;
+                    break;
+
+                  case "T":
+                    tempX = current[1];
+                    tempY = current[2];
+                    if (previous[0].match(/[QqTt]/) === null) {
+                        controlX = x;
+                        controlY = y;
+                    } else {
+                        controlX = 2 * x - controlX;
+                        controlY = 2 * y - controlY;
+                    }
+                    ctx.quadraticCurveTo(controlX + l, controlY + t, tempX + l, tempY + t);
+                    x = tempX;
+                    y = tempY;
+                    break;
+
+                  case "a":
+                    drawArc(ctx, x + l, y + t, [ current[1], current[2], current[3], current[4], current[5], current[6] + x + l, current[7] + y + t ]);
+                    x += current[6];
+                    y += current[7];
+                    break;
+
+                  case "A":
+                    drawArc(ctx, x + l, y + t, [ current[1], current[2], current[3], current[4], current[5], current[6] + l, current[7] + t ]);
+                    x = current[6];
+                    y = current[7];
+                    break;
+
+                  case "z":
+                  case "Z":
+                    x = subpathStartX;
+                    y = subpathStartY;
+                    ctx.closePath();
+                    break;
+                }
+                previous = current;
+            }
+        },
+        _render: function(ctx) {
+            this._renderPathCommands(ctx);
+            this._renderPaintInOrder(ctx);
+        },
+        toString: function() {
+            return "#<fabric.Path (" + this.complexity() + '): { "top": ' + this.top + ', "left": ' + this.left + " }>";
+        },
+        toObject: function(propertiesToInclude) {
+            var o = extend(this.callSuper("toObject", propertiesToInclude), {
+                path: this.path.map(function(item) {
+                    return item.slice();
+                }),
+                top: this.top,
+                left: this.left
+            });
+            return o;
+        },
+        toDatalessObject: function(propertiesToInclude) {
+            var o = this.toObject([ "sourcePath" ].concat(propertiesToInclude));
+            if (o.sourcePath) {
+                delete o.path;
+            }
+            return o;
+        },
+        toSVG: function(reviver) {
+            var chunks = [], markup = this._createBaseSVGMarkup(), addTransform = "";
+            for (var i = 0, len = this.path.length; i < len; i++) {
+                chunks.push(this.path[i].join(" "));
+            }
+            var path = chunks.join(" ");
+            addTransform = " translate(" + -this.pathOffset.x + ", " + -this.pathOffset.y + ") ";
+            markup.push("<path ", this.getSvgId(), 'd="', path, '" style="', this.getSvgStyles(), '" transform="', this.getSvgTransform(), addTransform, this.getSvgTransformMatrix(), '" stroke-linecap="round" ', this.addPaintOrder(), "/>\n");
+            return reviver ? reviver(markup.join("")) : markup.join("");
+        },
+        complexity: function() {
+            return this.path.length;
+        },
+        _parsePath: function() {
+            var result = [], coords = [], currentPath, parsed, re = /([-+]?((\d+\.\d+)|((\d+)|(\.\d+)))(?:e[-+]?\d+)?)/gi, match, coordsStr;
+            for (var i = 0, coordsParsed, len = this.path.length; i < len; i++) {
+                currentPath = this.path[i];
+                coordsStr = currentPath.slice(1).trim();
+                coords.length = 0;
+                while (match = re.exec(coordsStr)) {
+                    coords.push(match[0]);
+                }
+                coordsParsed = [ currentPath.charAt(0) ];
+                for (var j = 0, jlen = coords.length; j < jlen; j++) {
+                    parsed = parseFloat(coords[j]);
+                    if (!isNaN(parsed)) {
+                        coordsParsed.push(parsed);
+                    }
+                }
+                var command = coordsParsed[0], commandLength = commandLengths[command.toLowerCase()], repeatedCommand = repeatedCommands[command] || command;
+                if (coordsParsed.length - 1 > commandLength) {
+                    for (var k = 1, klen = coordsParsed.length; k < klen; k += commandLength) {
+                        result.push([ command ].concat(coordsParsed.slice(k, k + commandLength)));
+                        command = repeatedCommand;
+                    }
+                } else {
+                    result.push(coordsParsed);
+                }
+            }
+            return result;
+        },
+        _parseDimensions: function() {
+            var aX = [], aY = [], current, previous = null, subpathStartX = 0, subpathStartY = 0, x = 0, y = 0, controlX = 0, controlY = 0, tempX, tempY, bounds;
+            for (var i = 0, len = this.path.length; i < len; ++i) {
+                current = this.path[i];
+                switch (current[0]) {
+                  case "l":
+                    x += current[1];
+                    y += current[2];
+                    bounds = [];
+                    break;
+
+                  case "L":
+                    x = current[1];
+                    y = current[2];
+                    bounds = [];
+                    break;
+
+                  case "h":
+                    x += current[1];
+                    bounds = [];
+                    break;
+
+                  case "H":
+                    x = current[1];
+                    bounds = [];
+                    break;
+
+                  case "v":
+                    y += current[1];
+                    bounds = [];
+                    break;
+
+                  case "V":
+                    y = current[1];
+                    bounds = [];
+                    break;
+
+                  case "m":
+                    x += current[1];
+                    y += current[2];
+                    subpathStartX = x;
+                    subpathStartY = y;
+                    bounds = [];
+                    break;
+
+                  case "M":
+                    x = current[1];
+                    y = current[2];
+                    subpathStartX = x;
+                    subpathStartY = y;
+                    bounds = [];
+                    break;
+
+                  case "c":
+                    tempX = x + current[5];
+                    tempY = y + current[6];
+                    controlX = x + current[3];
+                    controlY = y + current[4];
+                    bounds = fabric.util.getBoundsOfCurve(x, y, x + current[1], y + current[2], controlX, controlY, tempX, tempY);
+                    x = tempX;
+                    y = tempY;
+                    break;
+
+                  case "C":
+                    controlX = current[3];
+                    controlY = current[4];
+                    bounds = fabric.util.getBoundsOfCurve(x, y, current[1], current[2], controlX, controlY, current[5], current[6]);
+                    x = current[5];
+                    y = current[6];
+                    break;
+
+                  case "s":
+                    tempX = x + current[3];
+                    tempY = y + current[4];
+                    if (previous[0].match(/[CcSs]/) === null) {
+                        controlX = x;
+                        controlY = y;
+                    } else {
+                        controlX = 2 * x - controlX;
+                        controlY = 2 * y - controlY;
+                    }
+                    bounds = fabric.util.getBoundsOfCurve(x, y, controlX, controlY, x + current[1], y + current[2], tempX, tempY);
+                    controlX = x + current[1];
+                    controlY = y + current[2];
+                    x = tempX;
+                    y = tempY;
+                    break;
+
+                  case "S":
+                    tempX = current[3];
+                    tempY = current[4];
+                    if (previous[0].match(/[CcSs]/) === null) {
+                        controlX = x;
+                        controlY = y;
+                    } else {
+                        controlX = 2 * x - controlX;
+                        controlY = 2 * y - controlY;
+                    }
+                    bounds = fabric.util.getBoundsOfCurve(x, y, controlX, controlY, current[1], current[2], tempX, tempY);
+                    x = tempX;
+                    y = tempY;
+                    controlX = current[1];
+                    controlY = current[2];
+                    break;
+
+                  case "q":
+                    tempX = x + current[3];
+                    tempY = y + current[4];
+                    controlX = x + current[1];
+                    controlY = y + current[2];
+                    bounds = fabric.util.getBoundsOfCurve(x, y, controlX, controlY, controlX, controlY, tempX, tempY);
+                    x = tempX;
+                    y = tempY;
+                    break;
+
+                  case "Q":
+                    controlX = current[1];
+                    controlY = current[2];
+                    bounds = fabric.util.getBoundsOfCurve(x, y, controlX, controlY, controlX, controlY, current[3], current[4]);
+                    x = current[3];
+                    y = current[4];
+                    break;
+
+                  case "t":
+                    tempX = x + current[1];
+                    tempY = y + current[2];
+                    if (previous[0].match(/[QqTt]/) === null) {
+                        controlX = x;
+                        controlY = y;
+                    } else {
+                        controlX = 2 * x - controlX;
+                        controlY = 2 * y - controlY;
+                    }
+                    bounds = fabric.util.getBoundsOfCurve(x, y, controlX, controlY, controlX, controlY, tempX, tempY);
+                    x = tempX;
+                    y = tempY;
+                    break;
+
+                  case "T":
+                    tempX = current[1];
+                    tempY = current[2];
+                    if (previous[0].match(/[QqTt]/) === null) {
+                        controlX = x;
+                        controlY = y;
+                    } else {
+                        controlX = 2 * x - controlX;
+                        controlY = 2 * y - controlY;
+                    }
+                    bounds = fabric.util.getBoundsOfCurve(x, y, controlX, controlY, controlX, controlY, tempX, tempY);
+                    x = tempX;
+                    y = tempY;
+                    break;
+
+                  case "a":
+                    bounds = fabric.util.getBoundsOfArc(x, y, current[1], current[2], current[3], current[4], current[5], current[6] + x, current[7] + y);
+                    x += current[6];
+                    y += current[7];
+                    break;
+
+                  case "A":
+                    bounds = fabric.util.getBoundsOfArc(x, y, current[1], current[2], current[3], current[4], current[5], current[6], current[7]);
+                    x = current[6];
+                    y = current[7];
+                    break;
+
+                  case "z":
+                  case "Z":
+                    x = subpathStartX;
+                    y = subpathStartY;
+                    break;
+                }
+                previous = current;
+                bounds.forEach(function(point) {
+                    aX.push(point.x);
+                    aY.push(point.y);
+                });
+                aX.push(x);
+                aY.push(y);
+            }
+            var minX = min(aX) || 0, minY = min(aY) || 0, maxX = max(aX) || 0, maxY = max(aY) || 0, deltaX = maxX - minX, deltaY = maxY - minY, o = {
+                left: minX,
+                top: minY,
+                width: deltaX,
+                height: deltaY
+            };
+            return o;
+        }
+    });
+    fabric.Path.fromObject = function(object, callback) {
+        if (typeof object.sourcePath === "string") {
+            var pathUrl = object.sourcePath;
+            fabric.loadSVGFromURL(pathUrl, function(elements) {
+                var path = elements[0];
+                path.setOptions(object);
+                callback && callback(path);
+            });
+        } else {
+            fabric.Object._fromObject("Path", object, callback, "path");
+        }
+    };
+    fabric.Path.ATTRIBUTE_NAMES = fabric.SHARED_ATTRIBUTES.concat([ "d" ]);
+    fabric.Path.fromElement = function(element, callback, options) {
+        var parsedAttributes = fabric.parseAttributes(element, fabric.Path.ATTRIBUTE_NAMES);
+        callback(new fabric.Path(parsedAttributes.d, extend(parsedAttributes, options)));
+    };
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), extend = fabric.util.object.extend, min = fabric.util.array.min, max = fabric.util.array.max;
+    if (fabric.Group) {
+        return;
+    }
+    fabric.Group = fabric.util.createClass(fabric.Object, fabric.Collection, {
+        type: "group",
+        strokeWidth: 0,
+        subTargetCheck: false,
+        cacheProperties: [],
+        useSetOnGroup: false,
+        initialize: function(objects, options, isAlreadyGrouped) {
+            options = options || {};
+            this._objects = [];
+            isAlreadyGrouped && this.callSuper("initialize", options);
+            this._objects = objects || [];
+            for (var i = this._objects.length; i--; ) {
+                this._objects[i].group = this;
+            }
+            if (options.originX) {
+                this.originX = options.originX;
+            }
+            if (options.originY) {
+                this.originY = options.originY;
+            }
+            if (!isAlreadyGrouped) {
+                var center = options && options.centerPoint;
+                center || this._calcBounds();
+                this._updateObjectsCoords(center);
+                delete options.centerPoint;
+                this.callSuper("initialize", options);
+            } else {
+                this._updateObjectsACoords();
+            }
+            this.setCoords();
+        },
+        _updateObjectsACoords: function() {
+            var ignoreZoom = true, skipAbsolute = true;
+            for (var i = this._objects.length; i--; ) {
+                this._objects[i].setCoords(ignoreZoom, skipAbsolute);
+            }
+        },
+        _updateObjectsCoords: function(center) {
+            var center = center || this.getCenterPoint();
+            for (var i = this._objects.length; i--; ) {
+                this._updateObjectCoords(this._objects[i], center);
+            }
+        },
+        _updateObjectCoords: function(object, center) {
+            var objectLeft = object.left, objectTop = object.top, ignoreZoom = true, skipAbsolute = true;
+            object.set({
+                left: objectLeft - center.x,
+                top: objectTop - center.y
+            });
+            object.group = this;
+            object.setCoords(ignoreZoom, skipAbsolute);
+        },
+        toString: function() {
+            return "#<fabric.Group: (" + this.complexity() + ")>";
+        },
+        addWithUpdate: function(object) {
+            this._restoreObjectsState();
+            fabric.util.resetObjectTransform(this);
+            if (object) {
+                this._objects.push(object);
+                object.group = this;
+                object._set("canvas", this.canvas);
+            }
+            this._calcBounds();
+            this._updateObjectsCoords();
+            this.setCoords();
+            this.dirty = true;
+            return this;
+        },
+        removeWithUpdate: function(object) {
+            this._restoreObjectsState();
+            fabric.util.resetObjectTransform(this);
+            this.remove(object);
+            this._calcBounds();
+            this._updateObjectsCoords();
+            this.setCoords();
+            this.dirty = true;
+            return this;
+        },
+        _onObjectAdded: function(object) {
+            this.dirty = true;
+            object.group = this;
+            object._set("canvas", this.canvas);
+        },
+        _onObjectRemoved: function(object) {
+            this.dirty = true;
+            delete object.group;
+        },
+        _set: function(key, value) {
+            var i = this._objects.length;
+            if (this.useSetOnGroup) {
+                while (i--) {
+                    this._objects[i].setOnGroup(key, value);
+                }
+            }
+            if (key === "canvas") {
+                i = this._objects.length;
+                while (i--) {
+                    this._objects[i]._set(key, value);
+                }
+            }
+            this.callSuper("_set", key, value);
+        },
+        toObject: function(propertiesToInclude) {
+            var objsToObject = this.getObjects().map(function(obj) {
+                var originalDefaults = obj.includeDefaultValues;
+                obj.includeDefaultValues = obj.group.includeDefaultValues;
+                var _obj = obj.toObject(propertiesToInclude);
+                obj.includeDefaultValues = originalDefaults;
+                return _obj;
+            });
+            return extend(this.callSuper("toObject", propertiesToInclude), {
+                objects: objsToObject
+            });
+        },
+        toDatalessObject: function(propertiesToInclude) {
+            var objsToObject, sourcePath = this.sourcePath;
+            if (sourcePath) {
+                objsToObject = sourcePath;
+            } else {
+                objsToObject = this.getObjects().map(function(obj) {
+                    var originalDefaults = obj.includeDefaultValues;
+                    obj.includeDefaultValues = obj.group.includeDefaultValues;
+                    var _obj = obj.toDatalessObject(propertiesToInclude);
+                    obj.includeDefaultValues = originalDefaults;
+                    return _obj;
+                });
+            }
+            return extend(this.callSuper("toDatalessObject", propertiesToInclude), {
+                objects: objsToObject
+            });
+        },
+        render: function(ctx) {
+            this._transformDone = true;
+            this.callSuper("render", ctx);
+            this._transformDone = false;
+        },
+        shouldCache: function() {
+            var ownCache = this.objectCaching && (!this.group || this.needsItsOwnCache() || !this.group.isOnACache());
+            this.ownCaching = ownCache;
+            if (ownCache) {
+                for (var i = 0, len = this._objects.length; i < len; i++) {
+                    if (this._objects[i].willDrawShadow()) {
+                        this.ownCaching = false;
+                        return false;
+                    }
+                }
+            }
+            return ownCache;
+        },
+        willDrawShadow: function() {
+            if (this.shadow) {
+                return this.callSuper("willDrawShadow");
+            }
+            for (var i = 0, len = this._objects.length; i < len; i++) {
+                if (this._objects[i].willDrawShadow()) {
+                    return true;
+                }
+            }
+            return false;
+        },
+        isOnACache: function() {
+            return this.ownCaching || this.group && this.group.isOnACache();
+        },
+        drawObject: function(ctx) {
+            for (var i = 0, len = this._objects.length; i < len; i++) {
+                this._objects[i].render(ctx);
+            }
+        },
+        isCacheDirty: function() {
+            if (this.callSuper("isCacheDirty")) {
+                return true;
+            }
+            if (!this.statefullCache) {
+                return false;
+            }
+            for (var i = 0, len = this._objects.length; i < len; i++) {
+                if (this._objects[i].isCacheDirty(true)) {
+                    if (this._cacheCanvas) {
+                        var x = this.cacheWidth / this.zoomX, y = this.cacheHeight / this.zoomY;
+                        this._cacheContext.clearRect(-x / 2, -y / 2, x, y);
+                    }
+                    return true;
+                }
+            }
+            return false;
+        },
+        _restoreObjectsState: function() {
+            this._objects.forEach(this._restoreObjectState, this);
+            return this;
+        },
+        realizeTransform: function(object) {
+            var matrix = object.calcTransformMatrix(), options = fabric.util.qrDecompose(matrix), center = new fabric.Point(options.translateX, options.translateY);
+            object.flipX = false;
+            object.flipY = false;
+            object.set("scaleX", options.scaleX);
+            object.set("scaleY", options.scaleY);
+            object.skewX = options.skewX;
+            object.skewY = options.skewY;
+            object.angle = options.angle;
+            object.setPositionByOrigin(center, "center", "center");
+            return object;
+        },
+        _restoreObjectState: function(object) {
+            this.realizeTransform(object);
+            object.setCoords();
+            delete object.group;
+            return this;
+        },
+        destroy: function() {
+            this._objects.forEach(function(object) {
+                object.set("dirty", true);
+            });
+            return this._restoreObjectsState();
+        },
+        toActiveSelection: function() {
+            if (!this.canvas) {
+                return;
+            }
+            var objects = this._objects, canvas = this.canvas;
+            this._objects = [];
+            var options = this.toObject();
+            delete options.objects;
+            var activeSelection = new fabric.ActiveSelection([]);
+            activeSelection.set(options);
+            activeSelection.type = "activeSelection";
+            canvas.remove(this);
+            objects.forEach(function(object) {
+                object.group = activeSelection;
+                object.dirty = true;
+                canvas.add(object);
+            });
+            activeSelection.canvas = canvas;
+            activeSelection._objects = objects;
+            canvas._activeObject = activeSelection;
+            activeSelection.setCoords();
+            return activeSelection;
+        },
+        ungroupOnCanvas: function() {
+            return this._restoreObjectsState();
+        },
+        setObjectsCoords: function() {
+            var ignoreZoom = true, skipAbsolute = true;
+            this.forEachObject(function(object) {
+                object.setCoords(ignoreZoom, skipAbsolute);
+            });
+            return this;
+        },
+        _calcBounds: function(onlyWidthHeight) {
+            var aX = [], aY = [], o, prop, props = [ "tr", "br", "bl", "tl" ], i = 0, iLen = this._objects.length, j, jLen = props.length, ignoreZoom = true;
+            for (;i < iLen; ++i) {
+                o = this._objects[i];
+                o.setCoords(ignoreZoom);
+                for (j = 0; j < jLen; j++) {
+                    prop = props[j];
+                    aX.push(o.oCoords[prop].x);
+                    aY.push(o.oCoords[prop].y);
+                }
+            }
+            this.set(this._getBounds(aX, aY, onlyWidthHeight));
+        },
+        _getBounds: function(aX, aY, onlyWidthHeight) {
+            var minXY = new fabric.Point(min(aX), min(aY)), maxXY = new fabric.Point(max(aX), max(aY)), obj = {
+                width: maxXY.x - minXY.x || 0,
+                height: maxXY.y - minXY.y || 0
+            };
+            if (!onlyWidthHeight) {
+                obj.left = minXY.x || 0;
+                obj.top = minXY.y || 0;
+                if (this.originX === "center") {
+                    obj.left += obj.width / 2;
+                }
+                if (this.originX === "right") {
+                    obj.left += obj.width;
+                }
+                if (this.originY === "center") {
+                    obj.top += obj.height / 2;
+                }
+                if (this.originY === "bottom") {
+                    obj.top += obj.height;
+                }
+            }
+            return obj;
+        },
+        toSVG: function(reviver) {
+            var markup = this._createBaseSVGMarkup();
+            markup.push("<g ", this.getSvgId(), 'transform="', this.getSvgTransform(), this.getSvgTransformMatrix(), '" style="', this.getSvgFilter(), '">\n');
+            for (var i = 0, len = this._objects.length; i < len; i++) {
+                markup.push("\t", this._objects[i].toSVG(reviver));
+            }
+            markup.push("</g>\n");
+            return reviver ? reviver(markup.join("")) : markup.join("");
+        }
+    });
+    fabric.Group.fromObject = function(object, callback) {
+        fabric.util.enlivenObjects(object.objects, function(enlivenedObjects) {
+            var options = fabric.util.object.clone(object, true);
+            delete options.objects;
+            callback && callback(new fabric.Group(enlivenedObjects, options, true));
+        });
+    };
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {});
+    if (fabric.ActiveSelection) {
+        return;
+    }
+    fabric.ActiveSelection = fabric.util.createClass(fabric.Group, {
+        type: "activeSelection",
+        initialize: function(objects, options) {
+            options = options || {};
+            this._objects = objects || [];
+            for (var i = this._objects.length; i--; ) {
+                this._objects[i].group = this;
+            }
+            if (options.originX) {
+                this.originX = options.originX;
+            }
+            if (options.originY) {
+                this.originY = options.originY;
+            }
+            this._calcBounds();
+            this._updateObjectsCoords();
+            fabric.Object.prototype.initialize.call(this, options);
+            this.setCoords();
+        },
+        toGroup: function() {
+            var objects = this._objects;
+            this._objects = [];
+            var options = this.toObject();
+            var newGroup = new fabric.Group([]);
+            delete options.objects;
+            newGroup.set(options);
+            newGroup.type = "group";
+            objects.forEach(function(object) {
+                object.group = newGroup;
+                object.canvas.remove(object);
+            });
+            newGroup._objects = objects;
+            if (!this.canvas) {
+                return newGroup;
+            }
+            var canvas = this.canvas;
+            canvas.add(newGroup);
+            canvas._activeObject = newGroup;
+            newGroup.setCoords();
+            return newGroup;
+        },
+        onDeselect: function() {
+            this.destroy();
+            return false;
+        },
+        toString: function() {
+            return "#<fabric.ActiveSelection: (" + this.complexity() + ")>";
+        },
+        _set: function(key, value) {
+            var i = this._objects.length;
+            if (key === "canvas") {
+                while (i--) {
+                    this._objects[i].set(key, value);
+                }
+            }
+            if (this.useSetOnGroup) {
+                while (i--) {
+                    this._objects[i].setOnGroup(key, value);
+                }
+            }
+            fabric.Object.prototype._set.call(this, key, value);
+        },
+        shouldCache: function() {
+            return false;
+        },
+        willDrawShadow: function() {
+            if (this.shadow) {
+                return this.callSuper("willDrawShadow");
+            }
+            for (var i = 0, len = this._objects.length; i < len; i++) {
+                if (this._objects[i].willDrawShadow()) {
+                    return true;
+                }
+            }
+            return false;
+        },
+        isOnACache: function() {
+            return false;
+        },
+        _renderControls: function(ctx, styleOverride, childrenOverride) {
+            ctx.save();
+            ctx.globalAlpha = this.isMoving ? this.borderOpacityWhenMoving : 1;
+            this.callSuper("_renderControls", ctx, styleOverride);
+            childrenOverride = childrenOverride || {};
+            if (typeof childrenOverride.hasControls === "undefined") {
+                childrenOverride.hasControls = false;
+            }
+            if (typeof childrenOverride.hasRotatingPoint === "undefined") {
+                childrenOverride.hasRotatingPoint = false;
+            }
+            childrenOverride.forActiveSelection = true;
+            for (var i = 0, len = this._objects.length; i < len; i++) {
+                this._objects[i]._renderControls(ctx, childrenOverride);
+            }
+            ctx.restore();
+        }
+    });
+    fabric.ActiveSelection.fromObject = function(object, callback) {
+        fabric.util.enlivenObjects(object.objects, function(enlivenedObjects) {
+            delete object.objects;
+            callback && callback(new fabric.ActiveSelection(enlivenedObjects, object, true));
+        });
+    };
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var extend = fabric.util.object.extend;
+    if (!global.fabric) {
+        global.fabric = {};
+    }
+    if (global.fabric.Image) {
+        fabric.warn("fabric.Image is already defined.");
+        return;
+    }
+    fabric.Image = fabric.util.createClass(fabric.Object, {
+        type: "image",
+        crossOrigin: "",
+        strokeWidth: 0,
+        _lastScaleX: 1,
+        _lastScaleY: 1,
+        _filterScalingX: 1,
+        _filterScalingY: 1,
+        minimumScaleTrigger: .5,
+        stateProperties: fabric.Object.prototype.stateProperties.concat("cropX", "cropY"),
+        objectCaching: false,
+        cacheKey: "",
+        cropX: 0,
+        cropY: 0,
+        initialize: function(element, options) {
+            options || (options = {});
+            this.filters = [];
+            this.cacheKey = "texture" + fabric.Object.__uid++;
+            this.callSuper("initialize", options);
+            this._initElement(element, options);
+        },
+        getElement: function() {
+            return this._element;
+        },
+        setElement: function(element, options) {
+            var backend = fabric.filterBackend;
+            if (backend && backend.evictCachesForKey) {
+                backend.evictCachesForKey(this.cacheKey);
+                backend.evictCachesForKey(this.cacheKey + "_filtered");
+            }
+            this._element = element;
+            this._originalElement = element;
+            this._initConfig(options);
+            if (this.resizeFilter) {
+                this.applyResizeFilters();
+            }
+            if (this.filters.length !== 0) {
+                this.applyFilters();
+            }
+            return this;
+        },
+        dispose: function() {
+            var backend = fabric.filterBackend;
+            if (backend && backend.evictCachesForKey) {
+                backend.evictCachesForKey(this.cacheKey);
+                backend.evictCachesForKey(this.cacheKey + "_filtered");
+            }
+            this._originalElement = undefined;
+            this._element = undefined;
+            this._filteredEl = undefined;
+        },
+        setCrossOrigin: function(value) {
+            this.crossOrigin = value;
+            this._element.crossOrigin = value;
+            return this;
+        },
+        getOriginalSize: function() {
+            var element = this.getElement();
+            return {
+                width: element.width,
+                height: element.height
+            };
+        },
+        _stroke: function(ctx) {
+            if (!this.stroke || this.strokeWidth === 0) {
+                return;
+            }
+            var w = this.width / 2, h = this.height / 2;
+            ctx.beginPath();
+            ctx.moveTo(-w, -h);
+            ctx.lineTo(w, -h);
+            ctx.lineTo(w, h);
+            ctx.lineTo(-w, h);
+            ctx.lineTo(-w, -h);
+            ctx.closePath();
+        },
+        _renderDashedStroke: function(ctx) {
+            var x = -this.width / 2, y = -this.height / 2, w = this.width, h = this.height;
+            ctx.save();
+            this._setStrokeStyles(ctx, this);
+            ctx.beginPath();
+            fabric.util.drawDashedLine(ctx, x, y, x + w, y, this.strokeDashArray);
+            fabric.util.drawDashedLine(ctx, x + w, y, x + w, y + h, this.strokeDashArray);
+            fabric.util.drawDashedLine(ctx, x + w, y + h, x, y + h, this.strokeDashArray);
+            fabric.util.drawDashedLine(ctx, x, y + h, x, y, this.strokeDashArray);
+            ctx.closePath();
+            ctx.restore();
+        },
+        toObject: function(propertiesToInclude) {
+            var filters = [];
+            this.filters.forEach(function(filterObj) {
+                if (filterObj) {
+                    filters.push(filterObj.toObject());
+                }
+            });
+            var object = extend(this.callSuper("toObject", [ "crossOrigin", "cropX", "cropY" ].concat(propertiesToInclude)), {
+                src: this.getSrc(),
+                filters: filters
+            });
+            if (this.resizeFilter) {
+                object.resizeFilter = this.resizeFilter.toObject();
+            }
+            return object;
+        },
+        hasCrop: function() {
+            return this.cropX || this.cropY || this.width < this._element.width || this.height < this._element.height;
+        },
+        toSVG: function(reviver) {
+            var markup = this._createBaseSVGMarkup(), x = -this.width / 2, y = -this.height / 2, clipPath = "";
+            if (this.hasCrop()) {
+                var clipPathId = fabric.Object.__uid++;
+                markup.push('<clipPath id="imageCrop_' + clipPathId + '">\n', '\t<rect x="' + x + '" y="' + y + '" width="' + this.width + '" height="' + this.height + '" />\n', "</clipPath>\n");
+                clipPath = ' clip-path="url(#imageCrop_' + clipPathId + ')" ';
+            }
+            markup.push('<g transform="', this.getSvgTransform(), this.getSvgTransformMatrix(), '">\n');
+            var imageMarkup = [ "\t<image ", this.getSvgId(), 'xlink:href="', this.getSvgSrc(true), '" x="', x - this.cropX, '" y="', y - this.cropY, '" style="', this.getSvgStyles(), '" width="', this._element.width || this._element.naturalWidth, '" height="', this._element.height || this._element.height, '"', clipPath, "></image>\n" ];
+            if (this.paintFirst === "fill") {
+                Array.prototype.push.apply(markup, imageMarkup);
+            }
+            if (this.stroke || this.strokeDashArray) {
+                var origFill = this.fill;
+                this.fill = null;
+                markup.push("\t<rect ", 'x="', x, '" y="', y, '" width="', this.width, '" height="', this.height, '" style="', this.getSvgStyles(), '"/>\n');
+                this.fill = origFill;
+            }
+            if (this.paintFirst !== "fill") {
+                Array.prototype.push.apply(markup, imageMarkup);
+            }
+            markup.push("</g>\n");
+            return reviver ? reviver(markup.join("")) : markup.join("");
+        },
+        getSrc: function(filtered) {
+            var element = filtered ? this._element : this._originalElement;
+            if (element) {
+                if (element.toDataURL) {
+                    return element.toDataURL();
+                }
+                return element.src;
+            } else {
+                return this.src || "";
+            }
+        },
+        setSrc: function(src, callback, options) {
+            fabric.util.loadImage(src, function(img) {
+                this.setElement(img, options);
+                this._setWidthHeight();
+                callback(this);
+            }, this, options && options.crossOrigin);
+            return this;
+        },
+        toString: function() {
+            return '#<fabric.Image: { src: "' + this.getSrc() + '" }>';
+        },
+        applyResizeFilters: function() {
+            var filter = this.resizeFilter, retinaScaling = this.canvas ? this.canvas.getRetinaScaling() : 1, minimumScale = this.minimumScaleTrigger, scaleX = this.scaleX * retinaScaling, scaleY = this.scaleY * retinaScaling, elementToFilter = this._filteredEl || this._originalElement;
+            if (this.group) {
+                this.set("dirty", true);
+            }
+            if (!filter || scaleX > minimumScale && scaleY > minimumScale) {
+                this._element = elementToFilter;
+                this._filterScalingX = 1;
+                this._filterScalingY = 1;
+                return;
+            }
+            if (!fabric.filterBackend) {
+                fabric.filterBackend = fabric.initFilterBackend();
+            }
+            var canvasEl = fabric.util.createCanvasElement(), cacheKey = this._filteredEl ? this.cacheKey : this.cacheKey + "_filtered", sourceWidth = elementToFilter.width, sourceHeight = elementToFilter.height;
+            canvasEl.width = sourceWidth;
+            canvasEl.height = sourceHeight;
+            this._element = canvasEl;
+            filter.scaleX = scaleX;
+            filter.scaleY = scaleY;
+            fabric.filterBackend.applyFilters([ filter ], elementToFilter, sourceWidth, sourceHeight, this._element, cacheKey);
+            this._filterScalingX = canvasEl.width / this._originalElement.width;
+            this._filterScalingY = canvasEl.height / this._originalElement.height;
+        },
+        applyFilters: function(filters) {
+            filters = filters || this.filters || [];
+            filters = filters.filter(function(filter) {
+                return filter;
+            });
+            if (this.group) {
+                this.set("dirty", true);
+            }
+            if (filters.length === 0) {
+                this._element = this._originalElement;
+                this._filteredEl = null;
+                this._filterScalingX = 1;
+                this._filterScalingY = 1;
+                return this;
+            }
+            var imgElement = this._originalElement, sourceWidth = imgElement.naturalWidth || imgElement.width, sourceHeight = imgElement.naturalHeight || imgElement.height;
+            if (this._element === this._originalElement) {
+                var canvasEl = fabric.util.createCanvasElement();
+                canvasEl.width = sourceWidth;
+                canvasEl.height = sourceHeight;
+                this._element = canvasEl;
+                this._filteredEl = canvasEl;
+            } else {
+                this._element.getContext("2d").clearRect(0, 0, sourceWidth, sourceHeight);
+            }
+            if (!fabric.filterBackend) {
+                fabric.filterBackend = fabric.initFilterBackend();
+            }
+            fabric.filterBackend.applyFilters(filters, this._originalElement, sourceWidth, sourceHeight, this._element, this.cacheKey);
+            if (this._originalElement.width !== this._element.width || this._originalElement.height !== this._element.height) {
+                this._filterScalingX = this._element.width / this._originalElement.width;
+                this._filterScalingY = this._element.height / this._originalElement.height;
+            }
+            return this;
+        },
+        _render: function(ctx) {
+            if (this.isMoving === false && this.resizeFilter && this._needsResize()) {
+                this._lastScaleX = this.scaleX;
+                this._lastScaleY = this.scaleY;
+                this.applyResizeFilters();
+            }
+            this._stroke(ctx);
+            this._renderPaintInOrder(ctx);
+        },
+        _renderFill: function(ctx) {
+            var w = this.width, h = this.height, sW = w * this._filterScalingX, sH = h * this._filterScalingY, x = -w / 2, y = -h / 2, elementToDraw = this._element;
+            elementToDraw && ctx.drawImage(elementToDraw, this.cropX * this._filterScalingX, this.cropY * this._filterScalingY, sW, sH, x, y, w, h);
+        },
+        _needsResize: function() {
+            return this.scaleX !== this._lastScaleX || this.scaleY !== this._lastScaleY;
+        },
+        _resetWidthHeight: function() {
+            var element = this.getElement();
+            this.set("width", element.width);
+            this.set("height", element.height);
+        },
+        _initElement: function(element, options) {
+            this.setElement(fabric.util.getById(element), options);
+            fabric.util.addClass(this.getElement(), fabric.Image.CSS_CANVAS);
+        },
+        _initConfig: function(options) {
+            options || (options = {});
+            this.setOptions(options);
+            this._setWidthHeight(options);
+            if (this._element && this.crossOrigin) {
+                this._element.crossOrigin = this.crossOrigin;
+            }
+        },
+        _initFilters: function(filters, callback) {
+            if (filters && filters.length) {
+                fabric.util.enlivenObjects(filters, function(enlivenedObjects) {
+                    callback && callback(enlivenedObjects);
+                }, "fabric.Image.filters");
+            } else {
+                callback && callback();
+            }
+        },
+        _setWidthHeight: function(options) {
+            this.width = options && "width" in options ? options.width : this.getElement() ? this.getElement().width || 0 : 0;
+            this.height = options && "height" in options ? options.height : this.getElement() ? this.getElement().height || 0 : 0;
+        },
+        parsePreserveAspectRatioAttribute: function() {
+            var pAR = fabric.util.parsePreserveAspectRatioAttribute(this.preserveAspectRatio || ""), rWidth = this._element.width, rHeight = this._element.height, scaleX = 1, scaleY = 1, offsetLeft = 0, offsetTop = 0, cropX = 0, cropY = 0, offset, pWidth = this.width, pHeight = this.height, parsedAttributes = {
+                width: pWidth,
+                height: pHeight
+            };
+            if (pAR && (pAR.alignX !== "none" || pAR.alignY !== "none")) {
+                if (pAR.meetOrSlice === "meet") {
+                    scaleX = scaleY = fabric.util.findScaleToFit(this._element, parsedAttributes);
+                    offset = (pWidth - rWidth * scaleX) / 2;
+                    if (pAR.alignX === "Min") {
+                        offsetLeft = -offset;
+                    }
+                    if (pAR.alignX === "Max") {
+                        offsetLeft = offset;
+                    }
+                    offset = (pHeight - rHeight * scaleY) / 2;
+                    if (pAR.alignY === "Min") {
+                        offsetTop = -offset;
+                    }
+                    if (pAR.alignY === "Max") {
+                        offsetTop = offset;
+                    }
+                }
+                if (pAR.meetOrSlice === "slice") {
+                    scaleX = scaleY = fabric.util.findScaleToCover(this._element, parsedAttributes);
+                    offset = rWidth - pWidth / scaleX;
+                    if (pAR.alignX === "Mid") {
+                        cropX = offset / 2;
+                    }
+                    if (pAR.alignX === "Max") {
+                        cropX = offset;
+                    }
+                    offset = rHeight - pHeight / scaleY;
+                    if (pAR.alignY === "Mid") {
+                        cropY = offset / 2;
+                    }
+                    if (pAR.alignY === "Max") {
+                        cropY = offset;
+                    }
+                    rWidth = pWidth / scaleX;
+                    rHeight = pHeight / scaleY;
+                }
+            } else {
+                scaleX = pWidth / rWidth;
+                scaleY = pHeight / rHeight;
+            }
+            return {
+                width: rWidth,
+                height: rHeight,
+                scaleX: scaleX,
+                scaleY: scaleY,
+                offsetLeft: offsetLeft,
+                offsetTop: offsetTop,
+                cropX: cropX,
+                cropY: cropY
+            };
+        }
+    });
+    fabric.Image.CSS_CANVAS = "canvas-img";
+    fabric.Image.prototype.getSvgSrc = fabric.Image.prototype.getSrc;
+    fabric.Image.fromObject = function(_object, callback) {
+        var object = fabric.util.object.clone(_object);
+        fabric.util.loadImage(object.src, function(img, error) {
+            if (error) {
+                callback && callback(null, error);
+                return;
+            }
+            fabric.Image.prototype._initFilters.call(object, object.filters, function(filters) {
+                object.filters = filters || [];
+                fabric.Image.prototype._initFilters.call(object, [ object.resizeFilter ], function(resizeFilters) {
+                    object.resizeFilter = resizeFilters[0];
+                    var image = new fabric.Image(img, object);
+                    callback(image);
+                });
+            });
+        }, null, object.crossOrigin);
+    };
+    fabric.Image.fromURL = function(url, callback, imgOptions) {
+        fabric.util.loadImage(url, function(img) {
+            callback && callback(new fabric.Image(img, imgOptions));
+        }, null, imgOptions && imgOptions.crossOrigin);
+    };
+    fabric.Image.ATTRIBUTE_NAMES = fabric.SHARED_ATTRIBUTES.concat("x y width height preserveAspectRatio xlink:href crossOrigin".split(" "));
+    fabric.Image.fromElement = function(element, callback, options) {
+        var parsedAttributes = fabric.parseAttributes(element, fabric.Image.ATTRIBUTE_NAMES);
+        fabric.Image.fromURL(parsedAttributes["xlink:href"], callback, extend(options ? fabric.util.object.clone(options) : {}, parsedAttributes));
+    };
+})( true ? exports : this);
+
+fabric.util.object.extend(fabric.Object.prototype, {
+    _getAngleValueForStraighten: function() {
+        var angle = this.angle % 360;
+        if (angle > 0) {
+            return Math.round((angle - 1) / 90) * 90;
+        }
+        return Math.round(angle / 90) * 90;
+    },
+    straighten: function() {
+        this.rotate(this._getAngleValueForStraighten());
+        return this;
+    },
+    fxStraighten: function(callbacks) {
+        callbacks = callbacks || {};
+        var empty = function() {}, onComplete = callbacks.onComplete || empty, onChange = callbacks.onChange || empty, _this = this;
+        fabric.util.animate({
+            startValue: this.get("angle"),
+            endValue: this._getAngleValueForStraighten(),
+            duration: this.FX_DURATION,
+            onChange: function(value) {
+                _this.rotate(value);
+                onChange();
+            },
+            onComplete: function() {
+                _this.setCoords();
+                onComplete();
+            }
+        });
+        return this;
+    }
+});
+
+fabric.util.object.extend(fabric.StaticCanvas.prototype, {
+    straightenObject: function(object) {
+        object.straighten();
+        this.requestRenderAll();
+        return this;
+    },
+    fxStraightenObject: function(object) {
+        object.fxStraighten({
+            onChange: this.requestRenderAllBound
+        });
+        return this;
+    }
+});
+
+(function() {
+    "use strict";
+    function testPrecision(gl, precision) {
+        var fragmentSource = "precision " + precision + " float;\nvoid main(){}";
+        var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+        gl.shaderSource(fragmentShader, fragmentSource);
+        gl.compileShader(fragmentShader);
+        if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
+            return false;
+        }
+        return true;
+    }
+    fabric.isWebglSupported = function(tileSize) {
+        if (fabric.isLikelyNode) {
+            return false;
+        }
+        tileSize = tileSize || fabric.WebglFilterBackend.prototype.tileSize;
+        var canvas = document.createElement("canvas");
+        var gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+        var isSupported = false;
+        if (gl) {
+            fabric.maxTextureSize = gl.getParameter(gl.MAX_TEXTURE_SIZE);
+            isSupported = fabric.maxTextureSize >= tileSize;
+            var precisions = [ "highp", "mediump", "lowp" ];
+            for (var i = 0; i < 3; i++) {
+                if (testPrecision(gl, precisions[i])) {
+                    fabric.webGlPrecision = precisions[i];
+                    break;
+                }
+            }
+        }
+        this.isSupported = isSupported;
+        return isSupported;
+    };
+    fabric.WebglFilterBackend = WebglFilterBackend;
+    function WebglFilterBackend(options) {
+        if (options && options.tileSize) {
+            this.tileSize = options.tileSize;
+        }
+        this.setupGLContext(this.tileSize, this.tileSize);
+        this.captureGPUInfo();
+    }
+    WebglFilterBackend.prototype = {
+        tileSize: 2048,
+        resources: {},
+        setupGLContext: function(width, height) {
+            this.dispose();
+            this.createWebGLCanvas(width, height);
+            this.aPosition = new Float32Array([ 0, 0, 0, 1, 1, 0, 1, 1 ]);
+            this.chooseFastestCopyGLTo2DMethod(width, height);
+        },
+        chooseFastestCopyGLTo2DMethod: function(width, height) {
+            var canMeasurePerf = typeof window.performance !== "undefined";
+            var canUseImageData;
+            try {
+                new ImageData(1, 1);
+                canUseImageData = true;
+            } catch (e) {
+                canUseImageData = false;
+            }
+            var canUseArrayBuffer = typeof ArrayBuffer !== "undefined";
+            var canUseUint8Clamped = typeof Uint8ClampedArray !== "undefined";
+            if (!(canMeasurePerf && canUseImageData && canUseArrayBuffer && canUseUint8Clamped)) {
+                return;
+            }
+            var targetCanvas = fabric.util.createCanvasElement();
+            var imageBuffer = new ArrayBuffer(width * height * 4);
+            var testContext = {
+                imageBuffer: imageBuffer,
+                destinationWidth: width,
+                destinationHeight: height,
+                targetCanvas: targetCanvas
+            };
+            var startTime, drawImageTime, putImageDataTime;
+            targetCanvas.width = width;
+            targetCanvas.height = height;
+            startTime = window.performance.now();
+            copyGLTo2DDrawImage.call(testContext, this.gl, testContext);
+            drawImageTime = window.performance.now() - startTime;
+            startTime = window.performance.now();
+            copyGLTo2DPutImageData.call(testContext, this.gl, testContext);
+            putImageDataTime = window.performance.now() - startTime;
+            if (drawImageTime > putImageDataTime) {
+                this.imageBuffer = imageBuffer;
+                this.copyGLTo2D = copyGLTo2DPutImageData;
+            } else {
+                this.copyGLTo2D = copyGLTo2DDrawImage;
+            }
+        },
+        createWebGLCanvas: function(width, height) {
+            var canvas = fabric.util.createCanvasElement();
+            canvas.width = width;
+            canvas.height = height;
+            var glOptions = {
+                premultipliedAlpha: false
+            }, gl = canvas.getContext("webgl", glOptions);
+            if (!gl) {
+                gl = canvas.getContext("experimental-webgl", glOptions);
+            }
+            if (!gl) {
+                return;
+            }
+            gl.clearColor(0, 0, 0, 0);
+            this.canvas = canvas;
+            this.gl = gl;
+        },
+        applyFilters: function(filters, source, width, height, targetCanvas, cacheKey) {
+            var gl = this.gl;
+            var cachedTexture;
+            if (cacheKey) {
+                cachedTexture = this.getCachedTexture(cacheKey, source);
+            }
+            var pipelineState = {
+                originalWidth: source.width || source.originalWidth,
+                originalHeight: source.height || source.originalHeight,
+                sourceWidth: width,
+                sourceHeight: height,
+                destinationWidth: width,
+                destinationHeight: height,
+                context: gl,
+                sourceTexture: this.createTexture(gl, width, height, !cachedTexture && source),
+                targetTexture: this.createTexture(gl, width, height),
+                originalTexture: cachedTexture || this.createTexture(gl, width, height, !cachedTexture && source),
+                passes: filters.length,
+                webgl: true,
+                aPosition: this.aPosition,
+                programCache: this.programCache,
+                pass: 0,
+                filterBackend: this,
+                targetCanvas: targetCanvas
+            };
+            var tempFbo = gl.createFramebuffer();
+            gl.bindFramebuffer(gl.FRAMEBUFFER, tempFbo);
+            filters.forEach(function(filter) {
+                filter && filter.applyTo(pipelineState);
+            });
+            resizeCanvasIfNeeded(pipelineState);
+            this.copyGLTo2D(gl, pipelineState);
+            gl.bindTexture(gl.TEXTURE_2D, null);
+            gl.deleteTexture(pipelineState.sourceTexture);
+            gl.deleteTexture(pipelineState.targetTexture);
+            gl.deleteFramebuffer(tempFbo);
+            targetCanvas.getContext("2d").setTransform(1, 0, 0, 1, 0, 0);
+            return pipelineState;
+        },
+        applyFiltersDebug: function(filters, source, width, height, targetCanvas, cacheKey) {
+            var gl = this.gl;
+            var ret = this.applyFilters(filters, source, width, height, targetCanvas, cacheKey);
+            var glError = gl.getError();
+            if (glError !== gl.NO_ERROR) {
+                var errorString = this.glErrorToString(gl, glError);
+                var error = new Error("WebGL Error " + errorString);
+                error.glErrorCode = glError;
+                throw error;
+            }
+            return ret;
+        },
+        glErrorToString: function(context, errorCode) {
+            if (!context) {
+                return "Context undefined for error code: " + errorCode;
+            } else if (typeof errorCode !== "number") {
+                return "Error code is not a number";
+            }
+            switch (errorCode) {
+              case context.NO_ERROR:
+                return "NO_ERROR";
+
+              case context.INVALID_ENUM:
+                return "INVALID_ENUM";
+
+              case context.INVALID_VALUE:
+                return "INVALID_VALUE";
+
+              case context.INVALID_OPERATION:
+                return "INVALID_OPERATION";
+
+              case context.INVALID_FRAMEBUFFER_OPERATION:
+                return "INVALID_FRAMEBUFFER_OPERATION";
+
+              case context.OUT_OF_MEMORY:
+                return "OUT_OF_MEMORY";
+
+              case context.CONTEXT_LOST_WEBGL:
+                return "CONTEXT_LOST_WEBGL";
+
+              default:
+                return "UNKNOWN_ERROR";
+            }
+        },
+        dispose: function() {
+            if (this.canvas) {
+                this.canvas = null;
+                this.gl = null;
+            }
+            this.clearWebGLCaches();
+        },
+        clearWebGLCaches: function() {
+            this.programCache = {};
+            this.textureCache = {};
+        },
+        createTexture: function(gl, width, height, textureImageSource) {
+            var texture = gl.createTexture();
+            gl.bindTexture(gl.TEXTURE_2D, texture);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+            if (textureImageSource) {
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, textureImageSource);
+            } else {
+                gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+            }
+            return texture;
+        },
+        getCachedTexture: function(uniqueId, textureImageSource) {
+            if (this.textureCache[uniqueId]) {
+                return this.textureCache[uniqueId];
+            } else {
+                var texture = this.createTexture(this.gl, textureImageSource.width, textureImageSource.height, textureImageSource);
+                this.textureCache[uniqueId] = texture;
+                return texture;
+            }
+        },
+        evictCachesForKey: function(cacheKey) {
+            if (this.textureCache[cacheKey]) {
+                this.gl.deleteTexture(this.textureCache[cacheKey]);
+                delete this.textureCache[cacheKey];
+            }
+        },
+        copyGLTo2D: copyGLTo2DDrawImage,
+        captureGPUInfo: function() {
+            if (this.gpuInfo) {
+                return this.gpuInfo;
+            }
+            var gl = this.gl;
+            var ext = gl.getExtension("WEBGL_debug_renderer_info");
+            var gpuInfo = {
+                renderer: "",
+                vendor: ""
+            };
+            if (ext) {
+                var renderer = gl.getParameter(ext.UNMASKED_RENDERER_WEBGL);
+                var vendor = gl.getParameter(ext.UNMASKED_VENDOR_WEBGL);
+                if (renderer) {
+                    gpuInfo.renderer = renderer.toLowerCase();
+                }
+                if (vendor) {
+                    gpuInfo.vendor = vendor.toLowerCase();
+                }
+            }
+            this.gpuInfo = gpuInfo;
+            return gpuInfo;
+        }
+    };
+})();
+
+function resizeCanvasIfNeeded(pipelineState) {
+    var targetCanvas = pipelineState.targetCanvas, width = targetCanvas.width, height = targetCanvas.height, dWidth = pipelineState.destinationWidth, dHeight = pipelineState.destinationHeight;
+    if (width !== dWidth || height !== dHeight) {
+        targetCanvas.width = dWidth;
+        targetCanvas.height = dHeight;
+    }
+}
+
+function copyGLTo2DDrawImage(gl, pipelineState) {
+    var glCanvas = gl.canvas, targetCanvas = pipelineState.targetCanvas, ctx = targetCanvas.getContext("2d");
+    ctx.translate(0, targetCanvas.height);
+    ctx.scale(1, -1);
+    var sourceY = glCanvas.height - targetCanvas.height;
+    ctx.drawImage(glCanvas, 0, sourceY, targetCanvas.width, targetCanvas.height, 0, 0, targetCanvas.width, targetCanvas.height);
+}
+
+function copyGLTo2DPutImageData(gl, pipelineState) {
+    var targetCanvas = pipelineState.targetCanvas, ctx = targetCanvas.getContext("2d"), dWidth = pipelineState.destinationWidth, dHeight = pipelineState.destinationHeight, numBytes = dWidth * dHeight * 4;
+    var u8 = new Uint8Array(this.imageBuffer, 0, numBytes);
+    var u8Clamped = new Uint8ClampedArray(this.imageBuffer, 0, numBytes);
+    gl.readPixels(0, 0, dWidth, dHeight, gl.RGBA, gl.UNSIGNED_BYTE, u8);
+    var imgData = new ImageData(u8Clamped, dWidth, dHeight);
+    ctx.putImageData(imgData, 0, 0);
+}
+
+(function() {
+    "use strict";
+    var noop = function() {};
+    fabric.Canvas2dFilterBackend = Canvas2dFilterBackend;
+    function Canvas2dFilterBackend() {}
+    Canvas2dFilterBackend.prototype = {
+        evictCachesForKey: noop,
+        dispose: noop,
+        clearWebGLCaches: noop,
+        resources: {},
+        applyFilters: function(filters, sourceElement, sourceWidth, sourceHeight, targetCanvas) {
+            var ctx = targetCanvas.getContext("2d");
+            ctx.drawImage(sourceElement, 0, 0, sourceWidth, sourceHeight);
+            var imageData = ctx.getImageData(0, 0, sourceWidth, sourceHeight);
+            var originalImageData = ctx.getImageData(0, 0, sourceWidth, sourceHeight);
+            var pipelineState = {
+                sourceWidth: sourceWidth,
+                sourceHeight: sourceHeight,
+                imageData: imageData,
+                originalEl: sourceElement,
+                originalImageData: originalImageData,
+                canvasEl: targetCanvas,
+                ctx: ctx,
+                filterBackend: this
+            };
+            filters.forEach(function(filter) {
+                filter.applyTo(pipelineState);
+            });
+            if (pipelineState.imageData.width !== sourceWidth || pipelineState.imageData.height !== sourceHeight) {
+                targetCanvas.width = pipelineState.imageData.width;
+                targetCanvas.height = pipelineState.imageData.height;
+            }
+            ctx.putImageData(pipelineState.imageData, 0, 0);
+            return pipelineState;
+        }
+    };
+})();
+
+fabric.Image.filters = fabric.Image.filters || {};
+
+fabric.Image.filters.BaseFilter = fabric.util.createClass({
+    type: "BaseFilter",
+    vertexSource: "attribute vec2 aPosition;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "vTexCoord = aPosition;\n" + "gl_Position = vec4(aPosition * 2.0 - 1.0, 0.0, 1.0);\n" + "}",
+    fragmentSource: "precision highp float;\n" + "varying vec2 vTexCoord;\n" + "uniform sampler2D uTexture;\n" + "void main() {\n" + "gl_FragColor = texture2D(uTexture, vTexCoord);\n" + "}",
+    initialize: function(options) {
+        if (options) {
+            this.setOptions(options);
+        }
+    },
+    setOptions: function(options) {
+        for (var prop in options) {
+            this[prop] = options[prop];
+        }
+    },
+    createProgram: function(gl, fragmentSource, vertexSource) {
+        fragmentSource = fragmentSource || this.fragmentSource;
+        vertexSource = vertexSource || this.vertexSource;
+        if (fabric.webGlPrecision !== "highp") {
+            fragmentSource = fragmentSource.replace(/precision highp float/g, "precision " + fabric.webGlPrecision + " float");
+        }
+        var vertexShader = gl.createShader(gl.VERTEX_SHADER);
+        gl.shaderSource(vertexShader, vertexSource);
+        gl.compileShader(vertexShader);
+        if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
+            throw new Error("Vertex shader compile error for " + this.type + ": " + gl.getShaderInfoLog(vertexShader));
+        }
+        var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+        gl.shaderSource(fragmentShader, fragmentSource);
+        gl.compileShader(fragmentShader);
+        if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
+            throw new Error("Fragment shader compile error for " + this.type + ": " + gl.getShaderInfoLog(fragmentShader));
+        }
+        var program = gl.createProgram();
+        gl.attachShader(program, vertexShader);
+        gl.attachShader(program, fragmentShader);
+        gl.linkProgram(program);
+        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+            throw new Error('Shader link error for "${this.type}" ' + gl.getProgramInfoLog(program));
+        }
+        var attributeLocations = this.getAttributeLocations(gl, program);
+        var uniformLocations = this.getUniformLocations(gl, program) || {};
+        uniformLocations.uStepW = gl.getUniformLocation(program, "uStepW");
+        uniformLocations.uStepH = gl.getUniformLocation(program, "uStepH");
+        return {
+            program: program,
+            attributeLocations: attributeLocations,
+            uniformLocations: uniformLocations
+        };
+    },
+    getAttributeLocations: function(gl, program) {
+        return {
+            aPosition: gl.getAttribLocation(program, "aPosition")
+        };
+    },
+    getUniformLocations: function() {
+        return {};
+    },
+    sendAttributeData: function(gl, attributeLocations, aPositionData) {
+        var attributeLocation = attributeLocations.aPostion;
+        var buffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+        gl.enableVertexAttribArray(attributeLocation);
+        gl.vertexAttribPointer(attributeLocation, 2, gl.FLOAT, false, 0, 0);
+        gl.bufferData(gl.ARRAY_BUFFER, aPositionData, gl.STATIC_DRAW);
+    },
+    _setupFrameBuffer: function(options) {
+        var gl = options.context, width, height;
+        if (options.passes > 1) {
+            width = options.destinationWidth;
+            height = options.destinationHeight;
+            if (options.sourceWidth !== width || options.sourceHeight !== height) {
+                gl.deleteTexture(options.targetTexture);
+                options.targetTexture = options.filterBackend.createTexture(gl, width, height);
+            }
+            gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, options.targetTexture, 0);
+        } else {
+            gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+            gl.finish();
+        }
+    },
+    _swapTextures: function(options) {
+        options.passes--;
+        options.pass++;
+        var temp = options.targetTexture;
+        options.targetTexture = options.sourceTexture;
+        options.sourceTexture = temp;
+    },
+    isNeutralState: function() {
+        return false;
+    },
+    applyTo: function(options) {
+        if (options.webgl) {
+            if (options.passes > 1 && this.isNeutralState(options)) {
+                return;
+            }
+            this._setupFrameBuffer(options);
+            this.applyToWebGL(options);
+            this._swapTextures(options);
+        } else if (!this.isNeutralState()) {
+            this.applyTo2d(options);
+        }
+    },
+    retrieveShader: function(options) {
+        if (!options.programCache.hasOwnProperty(this.type)) {
+            options.programCache[this.type] = this.createProgram(options.context);
+        }
+        return options.programCache[this.type];
+    },
+    applyToWebGL: function(options) {
+        var gl = options.context;
+        var shader = this.retrieveShader(options);
+        if (options.pass === 0 && options.originalTexture) {
+            gl.bindTexture(gl.TEXTURE_2D, options.originalTexture);
+        } else {
+            gl.bindTexture(gl.TEXTURE_2D, options.sourceTexture);
+        }
+        gl.useProgram(shader.program);
+        this.sendAttributeData(gl, shader.attributeLocations, options.aPosition);
+        gl.uniform1f(shader.uniformLocations.uStepW, 1 / options.sourceWidth);
+        gl.uniform1f(shader.uniformLocations.uStepH, 1 / options.sourceHeight);
+        this.sendUniformData(gl, shader.uniformLocations);
+        gl.viewport(0, 0, options.destinationWidth, options.destinationHeight);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    },
+    bindAdditionalTexture: function(gl, texture, textureUnit) {
+        gl.activeTexture(textureUnit);
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.activeTexture(gl.TEXTURE0);
+    },
+    unbindAdditionalTexture: function(gl, textureUnit) {
+        gl.activeTexture(textureUnit);
+        gl.bindTexture(gl.TEXTURE_2D, null);
+        gl.activeTexture(gl.TEXTURE0);
+    },
+    getMainParameter: function() {
+        return this[this.mainParameter];
+    },
+    setMainParameter: function(value) {
+        this[this.mainParameter] = value;
+    },
+    sendUniformData: function() {},
+    createHelpLayer: function(options) {
+        if (!options.helpLayer) {
+            var helpLayer = document.createElement("canvas");
+            helpLayer.width = options.sourceWidth;
+            helpLayer.height = options.sourceHeight;
+            options.helpLayer = helpLayer;
+        }
+    },
+    toObject: function() {
+        var object = {
+            type: this.type
+        }, mainP = this.mainParameter;
+        if (mainP) {
+            object[mainP] = this[mainP];
+        }
+        return object;
+    },
+    toJSON: function() {
+        return this.toObject();
+    }
+});
+
+fabric.Image.filters.BaseFilter.fromObject = function(object, callback) {
+    var filter = new fabric.Image.filters[object.type](object);
+    callback && callback(filter);
+    return filter;
+};
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), filters = fabric.Image.filters, createClass = fabric.util.createClass;
+    filters.ColorMatrix = createClass(filters.BaseFilter, {
+        type: "ColorMatrix",
+        fragmentSource: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "varying vec2 vTexCoord;\n" + "uniform mat4 uColorMatrix;\n" + "uniform vec4 uConstants;\n" + "void main() {\n" + "vec4 color = texture2D(uTexture, vTexCoord);\n" + "color *= uColorMatrix;\n" + "color += uConstants;\n" + "gl_FragColor = color;\n" + "}",
+        matrix: [ 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0 ],
+        mainParameter: "matrix",
+        colorsOnly: true,
+        initialize: function(options) {
+            this.callSuper("initialize", options);
+            this.matrix = this.matrix.slice(0);
+        },
+        isNeutralState: function() {
+            var _class = filters.ColorMatrix;
+            for (var i = 20; i--; ) {
+                if (this.matrix[i] !== _class.prototype.matrix[i]) {
+                    return false;
+                }
+            }
+            return true;
+        },
+        applyTo2d: function(options) {
+            var imageData = options.imageData, data = imageData.data, iLen = data.length, m = this.matrix, r, g, b, a, i, colorsOnly = this.colorsOnly;
+            for (i = 0; i < iLen; i += 4) {
+                r = data[i];
+                g = data[i + 1];
+                b = data[i + 2];
+                if (colorsOnly) {
+                    data[i] = r * m[0] + g * m[1] + b * m[2] + m[4] * 255;
+                    data[i + 1] = r * m[5] + g * m[6] + b * m[7] + m[9] * 255;
+                    data[i + 2] = r * m[10] + g * m[11] + b * m[12] + m[14] * 255;
+                } else {
+                    a = data[i + 3];
+                    data[i] = r * m[0] + g * m[1] + b * m[2] + a * m[3] + m[4] * 255;
+                    data[i + 1] = r * m[5] + g * m[6] + b * m[7] + a * m[8] + m[9] * 255;
+                    data[i + 2] = r * m[10] + g * m[11] + b * m[12] + a * m[13] + m[14] * 255;
+                    data[i + 3] = r * m[15] + g * m[16] + b * m[17] + a * m[18] + m[19] * 255;
+                }
+            }
+        },
+        getUniformLocations: function(gl, program) {
+            return {
+                uColorMatrix: gl.getUniformLocation(program, "uColorMatrix"),
+                uConstants: gl.getUniformLocation(program, "uConstants")
+            };
+        },
+        sendUniformData: function(gl, uniformLocations) {
+            var m = this.matrix, matrix = [ m[0], m[1], m[2], m[3], m[5], m[6], m[7], m[8], m[10], m[11], m[12], m[13], m[15], m[16], m[17], m[18] ], constants = [ m[4], m[9], m[14], m[19] ];
+            gl.uniformMatrix4fv(uniformLocations.uColorMatrix, false, matrix);
+            gl.uniform4fv(uniformLocations.uConstants, constants);
+        }
+    });
+    fabric.Image.filters.ColorMatrix.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), filters = fabric.Image.filters, createClass = fabric.util.createClass;
+    filters.Brightness = createClass(filters.BaseFilter, {
+        type: "Brightness",
+        fragmentSource: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform float uBrightness;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "vec4 color = texture2D(uTexture, vTexCoord);\n" + "color.rgb += uBrightness;\n" + "gl_FragColor = color;\n" + "}",
+        brightness: 0,
+        mainParameter: "brightness",
+        applyTo2d: function(options) {
+            if (this.brightness === 0) {
+                return;
+            }
+            var imageData = options.imageData, data = imageData.data, i, len = data.length, brightness = Math.round(this.brightness * 255);
+            for (i = 0; i < len; i += 4) {
+                data[i] = data[i] + brightness;
+                data[i + 1] = data[i + 1] + brightness;
+                data[i + 2] = data[i + 2] + brightness;
+            }
+        },
+        getUniformLocations: function(gl, program) {
+            return {
+                uBrightness: gl.getUniformLocation(program, "uBrightness")
+            };
+        },
+        sendUniformData: function(gl, uniformLocations) {
+            gl.uniform1f(uniformLocations.uBrightness, this.brightness);
+        }
+    });
+    fabric.Image.filters.Brightness.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), extend = fabric.util.object.extend, filters = fabric.Image.filters, createClass = fabric.util.createClass;
+    filters.Convolute = createClass(filters.BaseFilter, {
+        type: "Convolute",
+        opaque: false,
+        matrix: [ 0, 0, 0, 0, 1, 0, 0, 0, 0 ],
+        fragmentSource: {
+            Convolute_3_1: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform float uMatrix[9];\n" + "uniform float uStepW;\n" + "uniform float uStepH;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "vec4 color = vec4(0, 0, 0, 0);\n" + "for (float h = 0.0; h < 3.0; h+=1.0) {\n" + "for (float w = 0.0; w < 3.0; w+=1.0) {\n" + "vec2 matrixPos = vec2(uStepW * (w - 1), uStepH * (h - 1));\n" + "color += texture2D(uTexture, vTexCoord + matrixPos) * uMatrix[int(h * 3.0 + w)];\n" + "}\n" + "}\n" + "gl_FragColor = color;\n" + "}",
+            Convolute_3_0: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform float uMatrix[9];\n" + "uniform float uStepW;\n" + "uniform float uStepH;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "vec4 color = vec4(0, 0, 0, 1);\n" + "for (float h = 0.0; h < 3.0; h+=1.0) {\n" + "for (float w = 0.0; w < 3.0; w+=1.0) {\n" + "vec2 matrixPos = vec2(uStepW * (w - 1.0), uStepH * (h - 1.0));\n" + "color.rgb += texture2D(uTexture, vTexCoord + matrixPos).rgb * uMatrix[int(h * 3.0 + w)];\n" + "}\n" + "}\n" + "float alpha = texture2D(uTexture, vTexCoord).a;\n" + "gl_FragColor = color;\n" + "gl_FragColor.a = alpha;\n" + "}",
+            Convolute_5_1: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform float uMatrix[25];\n" + "uniform float uStepW;\n" + "uniform float uStepH;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "vec4 color = vec4(0, 0, 0, 0);\n" + "for (float h = 0.0; h < 5.0; h+=1.0) {\n" + "for (float w = 0.0; w < 5.0; w+=1.0) {\n" + "vec2 matrixPos = vec2(uStepW * (w - 2.0), uStepH * (h - 2.0));\n" + "color += texture2D(uTexture, vTexCoord + matrixPos) * uMatrix[int(h * 5.0 + w)];\n" + "}\n" + "}\n" + "gl_FragColor = color;\n" + "}",
+            Convolute_5_0: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform float uMatrix[25];\n" + "uniform float uStepW;\n" + "uniform float uStepH;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "vec4 color = vec4(0, 0, 0, 1);\n" + "for (float h = 0.0; h < 5.0; h+=1.0) {\n" + "for (float w = 0.0; w < 5.0; w+=1.0) {\n" + "vec2 matrixPos = vec2(uStepW * (w - 2.0), uStepH * (h - 2.0));\n" + "color.rgb += texture2D(uTexture, vTexCoord + matrixPos).rgb * uMatrix[int(h * 5.0 + w)];\n" + "}\n" + "}\n" + "float alpha = texture2D(uTexture, vTexCoord).a;\n" + "gl_FragColor = color;\n" + "gl_FragColor.a = alpha;\n" + "}",
+            Convolute_7_1: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform float uMatrix[49];\n" + "uniform float uStepW;\n" + "uniform float uStepH;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "vec4 color = vec4(0, 0, 0, 0);\n" + "for (float h = 0.0; h < 7.0; h+=1.0) {\n" + "for (float w = 0.0; w < 7.0; w+=1.0) {\n" + "vec2 matrixPos = vec2(uStepW * (w - 3.0), uStepH * (h - 3.0));\n" + "color += texture2D(uTexture, vTexCoord + matrixPos) * uMatrix[int(h * 7.0 + w)];\n" + "}\n" + "}\n" + "gl_FragColor = color;\n" + "}",
+            Convolute_7_0: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform float uMatrix[49];\n" + "uniform float uStepW;\n" + "uniform float uStepH;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "vec4 color = vec4(0, 0, 0, 1);\n" + "for (float h = 0.0; h < 7.0; h+=1.0) {\n" + "for (float w = 0.0; w < 7.0; w+=1.0) {\n" + "vec2 matrixPos = vec2(uStepW * (w - 3.0), uStepH * (h - 3.0));\n" + "color.rgb += texture2D(uTexture, vTexCoord + matrixPos).rgb * uMatrix[int(h * 7.0 + w)];\n" + "}\n" + "}\n" + "float alpha = texture2D(uTexture, vTexCoord).a;\n" + "gl_FragColor = color;\n" + "gl_FragColor.a = alpha;\n" + "}",
+            Convolute_9_1: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform float uMatrix[81];\n" + "uniform float uStepW;\n" + "uniform float uStepH;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "vec4 color = vec4(0, 0, 0, 0);\n" + "for (float h = 0.0; h < 9.0; h+=1.0) {\n" + "for (float w = 0.0; w < 9.0; w+=1.0) {\n" + "vec2 matrixPos = vec2(uStepW * (w - 4.0), uStepH * (h - 4.0));\n" + "color += texture2D(uTexture, vTexCoord + matrixPos) * uMatrix[int(h * 9.0 + w)];\n" + "}\n" + "}\n" + "gl_FragColor = color;\n" + "}",
+            Convolute_9_0: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform float uMatrix[81];\n" + "uniform float uStepW;\n" + "uniform float uStepH;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "vec4 color = vec4(0, 0, 0, 1);\n" + "for (float h = 0.0; h < 9.0; h+=1.0) {\n" + "for (float w = 0.0; w < 9.0; w+=1.0) {\n" + "vec2 matrixPos = vec2(uStepW * (w - 4.0), uStepH * (h - 4.0));\n" + "color.rgb += texture2D(uTexture, vTexCoord + matrixPos).rgb * uMatrix[int(h * 9.0 + w)];\n" + "}\n" + "}\n" + "float alpha = texture2D(uTexture, vTexCoord).a;\n" + "gl_FragColor = color;\n" + "gl_FragColor.a = alpha;\n" + "}"
+        },
+        retrieveShader: function(options) {
+            var size = Math.sqrt(this.matrix.length);
+            var cacheKey = this.type + "_" + size + "_" + (this.opaque ? 1 : 0);
+            var shaderSource = this.fragmentSource[cacheKey];
+            if (!options.programCache.hasOwnProperty(cacheKey)) {
+                options.programCache[cacheKey] = this.createProgram(options.context, shaderSource);
+            }
+            return options.programCache[cacheKey];
+        },
+        applyTo2d: function(options) {
+            var imageData = options.imageData, data = imageData.data, weights = this.matrix, side = Math.round(Math.sqrt(weights.length)), halfSide = Math.floor(side / 2), sw = imageData.width, sh = imageData.height, output = options.ctx.createImageData(sw, sh), dst = output.data, alphaFac = this.opaque ? 1 : 0, r, g, b, a, dstOff, scx, scy, srcOff, wt, x, y, cx, cy;
+            for (y = 0; y < sh; y++) {
+                for (x = 0; x < sw; x++) {
+                    dstOff = (y * sw + x) * 4;
+                    r = 0;
+                    g = 0;
+                    b = 0;
+                    a = 0;
+                    for (cy = 0; cy < side; cy++) {
+                        for (cx = 0; cx < side; cx++) {
+                            scy = y + cy - halfSide;
+                            scx = x + cx - halfSide;
+                            if (scy < 0 || scy > sh || scx < 0 || scx > sw) {
+                                continue;
+                            }
+                            srcOff = (scy * sw + scx) * 4;
+                            wt = weights[cy * side + cx];
+                            r += data[srcOff] * wt;
+                            g += data[srcOff + 1] * wt;
+                            b += data[srcOff + 2] * wt;
+                            if (!alphaFac) {
+                                a += data[srcOff + 3] * wt;
+                            }
+                        }
+                    }
+                    dst[dstOff] = r;
+                    dst[dstOff + 1] = g;
+                    dst[dstOff + 2] = b;
+                    if (!alphaFac) {
+                        dst[dstOff + 3] = a;
+                    } else {
+                        dst[dstOff + 3] = data[dstOff + 3];
+                    }
+                }
+            }
+            options.imageData = output;
+        },
+        getUniformLocations: function(gl, program) {
+            return {
+                uMatrix: gl.getUniformLocation(program, "uMatrix"),
+                uOpaque: gl.getUniformLocation(program, "uOpaque"),
+                uHalfSize: gl.getUniformLocation(program, "uHalfSize"),
+                uSize: gl.getUniformLocation(program, "uSize")
+            };
+        },
+        sendUniformData: function(gl, uniformLocations) {
+            gl.uniform1fv(uniformLocations.uMatrix, this.matrix);
+        },
+        toObject: function() {
+            return extend(this.callSuper("toObject"), {
+                opaque: this.opaque,
+                matrix: this.matrix
+            });
+        }
+    });
+    fabric.Image.filters.Convolute.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), filters = fabric.Image.filters, createClass = fabric.util.createClass;
+    filters.Grayscale = createClass(filters.BaseFilter, {
+        type: "Grayscale",
+        fragmentSource: {
+            average: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "vec4 color = texture2D(uTexture, vTexCoord);\n" + "float average = (color.r + color.b + color.g) / 3.0;\n" + "gl_FragColor = vec4(average, average, average, color.a);\n" + "}",
+            lightness: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform int uMode;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "vec4 col = texture2D(uTexture, vTexCoord);\n" + "float average = (max(max(col.r, col.g),col.b) + min(min(col.r, col.g),col.b)) / 2.0;\n" + "gl_FragColor = vec4(average, average, average, col.a);\n" + "}",
+            luminosity: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform int uMode;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "vec4 col = texture2D(uTexture, vTexCoord);\n" + "float average = 0.21 * col.r + 0.72 * col.g + 0.07 * col.b;\n" + "gl_FragColor = vec4(average, average, average, col.a);\n" + "}"
+        },
+        mode: "average",
+        mainParameter: "mode",
+        applyTo2d: function(options) {
+            var imageData = options.imageData, data = imageData.data, i, len = data.length, value, mode = this.mode;
+            for (i = 0; i < len; i += 4) {
+                if (mode === "average") {
+                    value = (data[i] + data[i + 1] + data[i + 2]) / 3;
+                } else if (mode === "lightness") {
+                    value = (Math.min(data[i], data[i + 1], data[i + 2]) + Math.max(data[i], data[i + 1], data[i + 2])) / 2;
+                } else if (mode === "luminosity") {
+                    value = .21 * data[i] + .72 * data[i + 1] + .07 * data[i + 2];
+                }
+                data[i] = value;
+                data[i + 1] = value;
+                data[i + 2] = value;
+            }
+        },
+        retrieveShader: function(options) {
+            var cacheKey = this.type + "_" + this.mode;
+            if (!options.programCache.hasOwnProperty(cacheKey)) {
+                var shaderSource = this.fragmentSource[this.mode];
+                options.programCache[cacheKey] = this.createProgram(options.context, shaderSource);
+            }
+            return options.programCache[cacheKey];
+        },
+        getUniformLocations: function(gl, program) {
+            return {
+                uMode: gl.getUniformLocation(program, "uMode")
+            };
+        },
+        sendUniformData: function(gl, uniformLocations) {
+            var mode = 1;
+            gl.uniform1i(uniformLocations.uMode, mode);
+        }
+    });
+    fabric.Image.filters.Grayscale.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), filters = fabric.Image.filters, createClass = fabric.util.createClass;
+    filters.Invert = createClass(filters.BaseFilter, {
+        type: "Invert",
+        fragmentSource: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform int uInvert;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "vec4 color = texture2D(uTexture, vTexCoord);\n" + "if (uInvert == 1) {\n" + "gl_FragColor = vec4(1.0 - color.r,1.0 -color.g,1.0 -color.b,color.a);\n" + "} else {\n" + "gl_FragColor = color;\n" + "}\n" + "}",
+        invert: true,
+        mainParameter: "invert",
+        applyTo2d: function(options) {
+            if (!this.invert) {
+                return;
+            }
+            var imageData = options.imageData, data = imageData.data, i, len = data.length;
+            for (i = 0; i < len; i += 4) {
+                data[i] = 255 - data[i];
+                data[i + 1] = 255 - data[i + 1];
+                data[i + 2] = 255 - data[i + 2];
+            }
+        },
+        getUniformLocations: function(gl, program) {
+            return {
+                uInvert: gl.getUniformLocation(program, "uInvert")
+            };
+        },
+        sendUniformData: function(gl, uniformLocations) {
+            gl.uniform1i(uniformLocations.uInvert, this.invert);
+        }
+    });
+    fabric.Image.filters.Invert.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), extend = fabric.util.object.extend, filters = fabric.Image.filters, createClass = fabric.util.createClass;
+    filters.Noise = createClass(filters.BaseFilter, {
+        type: "Noise",
+        fragmentSource: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform float uStepH;\n" + "uniform float uNoise;\n" + "uniform float uSeed;\n" + "varying vec2 vTexCoord;\n" + "float rand(vec2 co, float seed, float vScale) {\n" + "return fract(sin(dot(co.xy * vScale ,vec2(12.9898 , 78.233))) * 43758.5453 * (seed + 0.01) / 2.0);\n" + "}\n" + "void main() {\n" + "vec4 color = texture2D(uTexture, vTexCoord);\n" + "color.rgb += (0.5 - rand(vTexCoord, uSeed, 0.1 / uStepH)) * uNoise;\n" + "gl_FragColor = color;\n" + "}",
+        mainParameter: "noise",
+        noise: 0,
+        applyTo2d: function(options) {
+            if (this.noise === 0) {
+                return;
+            }
+            var imageData = options.imageData, data = imageData.data, i, len = data.length, noise = this.noise, rand;
+            for (i = 0, len = data.length; i < len; i += 4) {
+                rand = (.5 - Math.random()) * noise;
+                data[i] += rand;
+                data[i + 1] += rand;
+                data[i + 2] += rand;
+            }
+        },
+        getUniformLocations: function(gl, program) {
+            return {
+                uNoise: gl.getUniformLocation(program, "uNoise"),
+                uSeed: gl.getUniformLocation(program, "uSeed")
+            };
+        },
+        sendUniformData: function(gl, uniformLocations) {
+            gl.uniform1f(uniformLocations.uNoise, this.noise / 255);
+            gl.uniform1f(uniformLocations.uSeed, Math.random());
+        },
+        toObject: function() {
+            return extend(this.callSuper("toObject"), {
+                noise: this.noise
+            });
+        }
+    });
+    fabric.Image.filters.Noise.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), filters = fabric.Image.filters, createClass = fabric.util.createClass;
+    filters.Pixelate = createClass(filters.BaseFilter, {
+        type: "Pixelate",
+        blocksize: 4,
+        mainParameter: "blocksize",
+        fragmentSource: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform float uBlocksize;\n" + "uniform float uStepW;\n" + "uniform float uStepH;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "float blockW = uBlocksize * uStepW;\n" + "float blockH = uBlocksize * uStepW;\n" + "int posX = int(vTexCoord.x / blockW);\n" + "int posY = int(vTexCoord.y / blockH);\n" + "float fposX = float(posX);\n" + "float fposY = float(posY);\n" + "vec2 squareCoords = vec2(fposX * blockW, fposY * blockH);\n" + "vec4 color = texture2D(uTexture, squareCoords);\n" + "gl_FragColor = color;\n" + "}",
+        applyTo2d: function(options) {
+            if (this.blocksize === 1) {
+                return;
+            }
+            var imageData = options.imageData, data = imageData.data, iLen = imageData.height, jLen = imageData.width, index, i, j, r, g, b, a, _i, _j, _iLen, _jLen;
+            for (i = 0; i < iLen; i += this.blocksize) {
+                for (j = 0; j < jLen; j += this.blocksize) {
+                    index = i * 4 * jLen + j * 4;
+                    r = data[index];
+                    g = data[index + 1];
+                    b = data[index + 2];
+                    a = data[index + 3];
+                    _iLen = Math.min(i + this.blocksize, iLen);
+                    _jLen = Math.min(j + this.blocksize, jLen);
+                    for (_i = i; _i < _iLen; _i++) {
+                        for (_j = j; _j < _jLen; _j++) {
+                            index = _i * 4 * jLen + _j * 4;
+                            data[index] = r;
+                            data[index + 1] = g;
+                            data[index + 2] = b;
+                            data[index + 3] = a;
+                        }
+                    }
+                }
+            }
+        },
+        isNeutralState: function() {
+            return this.blocksize === 1;
+        },
+        getUniformLocations: function(gl, program) {
+            return {
+                uBlocksize: gl.getUniformLocation(program, "uBlocksize"),
+                uStepW: gl.getUniformLocation(program, "uStepW"),
+                uStepH: gl.getUniformLocation(program, "uStepH")
+            };
+        },
+        sendUniformData: function(gl, uniformLocations) {
+            gl.uniform1f(uniformLocations.uBlocksize, this.blocksize);
+        }
+    });
+    fabric.Image.filters.Pixelate.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), extend = fabric.util.object.extend, filters = fabric.Image.filters, createClass = fabric.util.createClass;
+    filters.RemoveColor = createClass(filters.BaseFilter, {
+        type: "RemoveColor",
+        color: "#FFFFFF",
+        fragmentSource: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform vec4 uLow;\n" + "uniform vec4 uHigh;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "gl_FragColor = texture2D(uTexture, vTexCoord);\n" + "if(all(greaterThan(gl_FragColor.rgb,uLow.rgb)) && all(greaterThan(uHigh.rgb,gl_FragColor.rgb))) {\n" + "gl_FragColor.a = 0.0;\n" + "}\n" + "}",
+        distance: .02,
+        useAlpha: false,
+        applyTo2d: function(options) {
+            var imageData = options.imageData, data = imageData.data, i, distance = this.distance * 255, r, g, b, source = new fabric.Color(this.color).getSource(), lowC = [ source[0] - distance, source[1] - distance, source[2] - distance ], highC = [ source[0] + distance, source[1] + distance, source[2] + distance ];
+            for (i = 0; i < data.length; i += 4) {
+                r = data[i];
+                g = data[i + 1];
+                b = data[i + 2];
+                if (r > lowC[0] && g > lowC[1] && b > lowC[2] && r < highC[0] && g < highC[1] && b < highC[2]) {
+                    data[i + 3] = 0;
+                }
+            }
+        },
+        getUniformLocations: function(gl, program) {
+            return {
+                uLow: gl.getUniformLocation(program, "uLow"),
+                uHigh: gl.getUniformLocation(program, "uHigh")
+            };
+        },
+        sendUniformData: function(gl, uniformLocations) {
+            var source = new fabric.Color(this.color).getSource(), distance = parseFloat(this.distance), lowC = [ 0 + source[0] / 255 - distance, 0 + source[1] / 255 - distance, 0 + source[2] / 255 - distance, 1 ], highC = [ source[0] / 255 + distance, source[1] / 255 + distance, source[2] / 255 + distance, 1 ];
+            gl.uniform4fv(uniformLocations.uLow, lowC);
+            gl.uniform4fv(uniformLocations.uHigh, highC);
+        },
+        toObject: function() {
+            return extend(this.callSuper("toObject"), {
+                color: this.color,
+                distance: this.distance
+            });
+        }
+    });
+    fabric.Image.filters.RemoveColor.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), filters = fabric.Image.filters, createClass = fabric.util.createClass;
+    var matrices = {
+        Brownie: [ .5997, .34553, -.27082, 0, .186, -.0377, .86095, .15059, 0, -.1449, .24113, -.07441, .44972, 0, -.02965, 0, 0, 0, 1, 0 ],
+        Vintage: [ .62793, .32021, -.03965, 0, .03784, .02578, .64411, .03259, 0, .02926, .0466, -.08512, .52416, 0, .02023, 0, 0, 0, 1, 0 ],
+        Kodachrome: [ 1.12855, -.39673, -.03992, 0, .24991, -.16404, 1.08352, -.05498, 0, .09698, -.16786, -.56034, 1.60148, 0, .13972, 0, 0, 0, 1, 0 ],
+        Technicolor: [ 1.91252, -.85453, -.09155, 0, .04624, -.30878, 1.76589, -.10601, 0, -.27589, -.2311, -.75018, 1.84759, 0, .12137, 0, 0, 0, 1, 0 ],
+        Polaroid: [ 1.438, -.062, -.062, 0, 0, -.122, 1.378, -.122, 0, 0, -.016, -.016, 1.483, 0, 0, 0, 0, 0, 1, 0 ],
+        Sepia: [ .393, .769, .189, 0, 0, .349, .686, .168, 0, 0, .272, .534, .131, 0, 0, 0, 0, 0, 1, 0 ],
+        BlackWhite: [ 1.5, 1.5, 1.5, 0, -1, 1.5, 1.5, 1.5, 0, -1, 1.5, 1.5, 1.5, 0, -1, 0, 0, 0, 1, 0 ]
+    };
+    for (var key in matrices) {
+        filters[key] = createClass(filters.ColorMatrix, {
+            type: key,
+            matrix: matrices[key],
+            mainParameter: false,
+            colorsOnly: true
+        });
+        fabric.Image.filters[key].fromObject = fabric.Image.filters.BaseFilter.fromObject;
+    }
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric, filters = fabric.Image.filters, createClass = fabric.util.createClass;
+    filters.BlendColor = createClass(filters.BaseFilter, {
+        type: "BlendColor",
+        color: "#F95C63",
+        mode: "multiply",
+        alpha: 1,
+        fragmentSource: {
+            multiply: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform vec4 uColor;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "vec4 color = texture2D(uTexture, vTexCoord);\n" + "color.rgb *= uColor.rgb;\n" + "gl_FragColor = color;\n" + "}",
+            screen: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform vec4 uColor;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "vec4 color = texture2D(uTexture, vTexCoord);\n" + "color.rgb = 1.0 - (1.0 - color.rgb) * (1.0 - uColor.rgb);\n" + "gl_FragColor = color;\n" + "}",
+            add: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform vec4 uColor;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "gl_FragColor = texture2D(uTexture, vTexCoord);\n" + "gl_FragColor.rgb += uColor.rgb;\n" + "}",
+            diff: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform vec4 uColor;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "gl_FragColor = texture2D(uTexture, vTexCoord);\n" + "gl_FragColor.rgb = abs(gl_FragColor.rgb - uColor.rgb);\n" + "}",
+            subtract: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform vec4 uColor;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "gl_FragColor = texture2D(uTexture, vTexCoord);\n" + "gl_FragColor.rgb -= uColor.rgb;\n" + "}",
+            lighten: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform vec4 uColor;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "gl_FragColor = texture2D(uTexture, vTexCoord);\n" + "gl_FragColor.rgb = max(gl_FragColor.rgb, uColor.rgb);\n" + "}",
+            darken: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform vec4 uColor;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "gl_FragColor = texture2D(uTexture, vTexCoord);\n" + "gl_FragColor.rgb = min(gl_FragColor.rgb, uColor.rgb);\n" + "}",
+            exclusion: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform vec4 uColor;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "gl_FragColor = texture2D(uTexture, vTexCoord);\n" + "gl_FragColor.rgb += uColor.rgb - 2.0 * (uColor.rgb * gl_FragColor.rgb);\n" + "}",
+            overlay: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform vec4 uColor;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "gl_FragColor = texture2D(uTexture, vTexCoord);\n" + "if (uColor.r < 0.5) {\n" + "gl_FragColor.r *= 2.0 * uColor.r;\n" + "} else {\n" + "gl_FragColor.r = 1.0 - 2.0 * (1.0 - gl_FragColor.r) * (1.0 - uColor.r);\n" + "}\n" + "if (uColor.g < 0.5) {\n" + "gl_FragColor.g *= 2.0 * uColor.g;\n" + "} else {\n" + "gl_FragColor.g = 1.0 - 2.0 * (1.0 - gl_FragColor.g) * (1.0 - uColor.g);\n" + "}\n" + "if (uColor.b < 0.5) {\n" + "gl_FragColor.b *= 2.0 * uColor.b;\n" + "} else {\n" + "gl_FragColor.b = 1.0 - 2.0 * (1.0 - gl_FragColor.b) * (1.0 - uColor.b);\n" + "}\n" + "}",
+            tint: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform vec4 uColor;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "gl_FragColor = texture2D(uTexture, vTexCoord);\n" + "gl_FragColor.rgb *= (1.0 - uColor.a);\n" + "gl_FragColor.rgb += uColor.rgb;\n" + "}"
+        },
+        retrieveShader: function(options) {
+            var cacheKey = this.type + "_" + this.mode;
+            var shaderSource = this.fragmentSource[this.mode];
+            if (!options.programCache.hasOwnProperty(cacheKey)) {
+                options.programCache[cacheKey] = this.createProgram(options.context, shaderSource);
+            }
+            return options.programCache[cacheKey];
+        },
+        applyTo2d: function(options) {
+            var imageData = options.imageData, data = imageData.data, iLen = data.length, tr, tg, tb, r, g, b, source, alpha1 = 1 - this.alpha;
+            source = new fabric.Color(this.color).getSource();
+            tr = source[0] * this.alpha;
+            tg = source[1] * this.alpha;
+            tb = source[2] * this.alpha;
+            for (var i = 0; i < iLen; i += 4) {
+                r = data[i];
+                g = data[i + 1];
+                b = data[i + 2];
+                switch (this.mode) {
+                  case "multiply":
+                    data[i] = r * tr / 255;
+                    data[i + 1] = g * tg / 255;
+                    data[i + 2] = b * tb / 255;
+                    break;
+
+                  case "screen":
+                    data[i] = 255 - (255 - r) * (255 - tr) / 255;
+                    data[i + 1] = 255 - (255 - g) * (255 - tg) / 255;
+                    data[i + 2] = 255 - (255 - b) * (255 - tb) / 255;
+                    break;
+
+                  case "add":
+                    data[i] = r + tr;
+                    data[i + 1] = g + tg;
+                    data[i + 2] = b + tb;
+                    break;
+
+                  case "diff":
+                  case "difference":
+                    data[i] = Math.abs(r - tr);
+                    data[i + 1] = Math.abs(g - tg);
+                    data[i + 2] = Math.abs(b - tb);
+                    break;
+
+                  case "subtract":
+                    data[i] = r - tr;
+                    data[i + 1] = g - tg;
+                    data[i + 2] = b - tb;
+                    break;
+
+                  case "darken":
+                    data[i] = Math.min(r, tr);
+                    data[i + 1] = Math.min(g, tg);
+                    data[i + 2] = Math.min(b, tb);
+                    break;
+
+                  case "lighten":
+                    data[i] = Math.max(r, tr);
+                    data[i + 1] = Math.max(g, tg);
+                    data[i + 2] = Math.max(b, tb);
+                    break;
+
+                  case "overlay":
+                    data[i] = tr < 128 ? 2 * r * tr / 255 : 255 - 2 * (255 - r) * (255 - tr) / 255;
+                    data[i + 1] = tg < 128 ? 2 * g * tg / 255 : 255 - 2 * (255 - g) * (255 - tg) / 255;
+                    data[i + 2] = tb < 128 ? 2 * b * tb / 255 : 255 - 2 * (255 - b) * (255 - tb) / 255;
+                    break;
+
+                  case "exclusion":
+                    data[i] = tr + r - 2 * tr * r / 255;
+                    data[i + 1] = tg + g - 2 * tg * g / 255;
+                    data[i + 2] = tb + b - 2 * tb * b / 255;
+                    break;
+
+                  case "tint":
+                    data[i] = tr + r * alpha1;
+                    data[i + 1] = tg + g * alpha1;
+                    data[i + 2] = tb + b * alpha1;
+                }
+            }
+        },
+        getUniformLocations: function(gl, program) {
+            return {
+                uColor: gl.getUniformLocation(program, "uColor")
+            };
+        },
+        sendUniformData: function(gl, uniformLocations) {
+            var source = new fabric.Color(this.color).getSource();
+            source[0] = this.alpha * source[0] / 255;
+            source[1] = this.alpha * source[1] / 255;
+            source[2] = this.alpha * source[2] / 255;
+            source[3] = this.alpha;
+            gl.uniform4fv(uniformLocations.uColor, source);
+        },
+        toObject: function() {
+            return {
+                type: this.type,
+                color: this.color,
+                mode: this.mode,
+                alpha: this.alpha
+            };
+        }
+    });
+    fabric.Image.filters.BlendColor.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric, filters = fabric.Image.filters, createClass = fabric.util.createClass;
+    filters.BlendImage = createClass(filters.BaseFilter, {
+        type: "BlendImage",
+        image: null,
+        mode: "multiply",
+        alpha: 1,
+        vertexSource: "attribute vec2 aPosition;\n" + "varying vec2 vTexCoord;\n" + "varying vec2 vTexCoord2;\n" + "uniform mat3 uTransformMatrix;\n" + "void main() {\n" + "vTexCoord = aPosition;\n" + "vTexCoord2 = (uTransformMatrix * vec3(aPosition, 1.0)).xy;\n" + "gl_Position = vec4(aPosition * 2.0 - 1.0, 0.0, 1.0);\n" + "}",
+        fragmentSource: {
+            multiply: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform sampler2D uImage;\n" + "uniform vec4 uColor;\n" + "varying vec2 vTexCoord;\n" + "varying vec2 vTexCoord2;\n" + "void main() {\n" + "vec4 color = texture2D(uTexture, vTexCoord);\n" + "vec4 color2 = texture2D(uImage, vTexCoord2);\n" + "color.rgba *= color2.rgba;\n" + "gl_FragColor = color;\n" + "}",
+            mask: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform sampler2D uImage;\n" + "uniform vec4 uColor;\n" + "varying vec2 vTexCoord;\n" + "varying vec2 vTexCoord2;\n" + "void main() {\n" + "vec4 color = texture2D(uTexture, vTexCoord);\n" + "vec4 color2 = texture2D(uImage, vTexCoord2);\n" + "color.a = color2.a;\n" + "gl_FragColor = color;\n" + "}"
+        },
+        retrieveShader: function(options) {
+            var cacheKey = this.type + "_" + this.mode;
+            var shaderSource = this.fragmentSource[this.mode];
+            if (!options.programCache.hasOwnProperty(cacheKey)) {
+                options.programCache[cacheKey] = this.createProgram(options.context, shaderSource);
+            }
+            return options.programCache[cacheKey];
+        },
+        applyToWebGL: function(options) {
+            var gl = options.context, texture = this.createTexture(options.filterBackend, this.image);
+            this.bindAdditionalTexture(gl, texture, gl.TEXTURE1);
+            this.callSuper("applyToWebGL", options);
+            this.unbindAdditionalTexture(gl, gl.TEXTURE1);
+        },
+        createTexture: function(backend, image) {
+            return backend.getCachedTexture(image.cacheKey, image._element);
+        },
+        calculateMatrix: function() {
+            var image = this.image, width = image._element.width, height = image._element.height;
+            return [ 1 / image.scaleX, 0, 0, 0, 1 / image.scaleY, 0, -image.left / width, -image.top / height, 1 ];
+        },
+        applyTo2d: function(options) {
+            var imageData = options.imageData, resources = options.filterBackend.resources, data = imageData.data, iLen = data.length, width = options.imageData.width, height = options.imageData.height, tr, tg, tb, ta, r, g, b, a, canvas1, context, image = this.image, blendData;
+            if (!resources.blendImage) {
+                resources.blendImage = document.createElement("canvas");
+            }
+            canvas1 = resources.blendImage;
+            if (canvas1.width !== width || canvas1.height !== height) {
+                canvas1.width = width;
+                canvas1.height = height;
+            }
+            context = canvas1.getContext("2d");
+            context.setTransform(image.scaleX, 0, 0, image.scaleY, image.left, image.top);
+            context.drawImage(image._element, 0, 0, width, height);
+            blendData = context.getImageData(0, 0, width, height).data;
+            for (var i = 0; i < iLen; i += 4) {
+                r = data[i];
+                g = data[i + 1];
+                b = data[i + 2];
+                a = data[i + 3];
+                tr = blendData[i];
+                tg = blendData[i + 1];
+                tb = blendData[i + 2];
+                ta = blendData[i + 3];
+                switch (this.mode) {
+                  case "multiply":
+                    data[i] = r * tr / 255;
+                    data[i + 1] = g * tg / 255;
+                    data[i + 2] = b * tb / 255;
+                    data[i + 3] = a * ta / 255;
+                    break;
+
+                  case "mask":
+                    data[i + 3] = ta;
+                    break;
+                }
+            }
+        },
+        getUniformLocations: function(gl, program) {
+            return {
+                uTransformMatrix: gl.getUniformLocation(program, "uTransformMatrix"),
+                uImage: gl.getUniformLocation(program, "uImage")
+            };
+        },
+        sendUniformData: function(gl, uniformLocations) {
+            var matrix = this.calculateMatrix();
+            gl.uniform1i(uniformLocations.uImage, 1);
+            gl.uniformMatrix3fv(uniformLocations.uTransformMatrix, false, matrix);
+        },
+        toObject: function() {
+            return {
+                type: this.type,
+                image: this.image && this.image.toObject(),
+                mode: this.mode,
+                alpha: this.alpha
+            };
+        }
+    });
+    fabric.Image.filters.BlendImage.fromObject = function(object, callback) {
+        fabric.Image.fromObject(object.image, function(image) {
+            var options = fabric.util.object.clone(object);
+            options.image = image;
+            callback(new fabric.Image.filters.BlendImage(options));
+        });
+    };
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), pow = Math.pow, floor = Math.floor, sqrt = Math.sqrt, abs = Math.abs, round = Math.round, sin = Math.sin, ceil = Math.ceil, filters = fabric.Image.filters, createClass = fabric.util.createClass;
+    filters.Resize = createClass(filters.BaseFilter, {
+        type: "Resize",
+        resizeType: "hermite",
+        scaleX: 0,
+        scaleY: 0,
+        lanczosLobes: 3,
+        getUniformLocations: function(gl, program) {
+            return {
+                uDelta: gl.getUniformLocation(program, "uDelta"),
+                uTaps: gl.getUniformLocation(program, "uTaps")
+            };
+        },
+        sendUniformData: function(gl, uniformLocations) {
+            gl.uniform2fv(uniformLocations.uDelta, this.horizontal ? [ 1 / this.width, 0 ] : [ 0, 1 / this.height ]);
+            gl.uniform1fv(uniformLocations.uTaps, this.taps);
+        },
+        retrieveShader: function(options) {
+            var filterWindow = this.getFilterWindow(), cacheKey = this.type + "_" + filterWindow;
+            if (!options.programCache.hasOwnProperty(cacheKey)) {
+                var fragmentShader = this.generateShader(filterWindow);
+                options.programCache[cacheKey] = this.createProgram(options.context, fragmentShader);
+            }
+            return options.programCache[cacheKey];
+        },
+        getFilterWindow: function() {
+            var scale = this.tempScale;
+            return Math.ceil(this.lanczosLobes / scale);
+        },
+        getTaps: function() {
+            var lobeFunction = this.lanczosCreate(this.lanczosLobes), scale = this.tempScale, filterWindow = this.getFilterWindow(), taps = new Array(filterWindow);
+            for (var i = 1; i <= filterWindow; i++) {
+                taps[i - 1] = lobeFunction(i * scale);
+            }
+            return taps;
+        },
+        generateShader: function(filterWindow) {
+            var offsets = new Array(filterWindow), fragmentShader = this.fragmentSourceTOP, filterWindow;
+            for (var i = 1; i <= filterWindow; i++) {
+                offsets[i - 1] = i + ".0 * uDelta";
+            }
+            fragmentShader += "uniform float uTaps[" + filterWindow + "];\n";
+            fragmentShader += "void main() {\n";
+            fragmentShader += "  vec4 color = texture2D(uTexture, vTexCoord);\n";
+            fragmentShader += "  float sum = 1.0;\n";
+            offsets.forEach(function(offset, i) {
+                fragmentShader += "  color += texture2D(uTexture, vTexCoord + " + offset + ") * uTaps[" + i + "];\n";
+                fragmentShader += "  color += texture2D(uTexture, vTexCoord - " + offset + ") * uTaps[" + i + "];\n";
+                fragmentShader += "  sum += 2.0 * uTaps[" + i + "];\n";
+            });
+            fragmentShader += "  gl_FragColor = color / sum;\n";
+            fragmentShader += "}";
+            return fragmentShader;
+        },
+        fragmentSourceTOP: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform vec2 uDelta;\n" + "varying vec2 vTexCoord;\n",
+        applyTo: function(options) {
+            if (options.webgl) {
+                if (options.passes > 1 && this.isNeutralState(options)) {
+                    return;
+                }
+                options.passes++;
+                this.width = options.sourceWidth;
+                this.horizontal = true;
+                this.dW = Math.round(this.width * this.scaleX);
+                this.dH = options.sourceHeight;
+                this.tempScale = this.dW / this.width;
+                this.taps = this.getTaps();
+                options.destinationWidth = this.dW;
+                this._setupFrameBuffer(options);
+                this.applyToWebGL(options);
+                this._swapTextures(options);
+                options.sourceWidth = options.destinationWidth;
+                this.height = options.sourceHeight;
+                this.horizontal = false;
+                this.dH = Math.round(this.height * this.scaleY);
+                this.tempScale = this.dH / this.height;
+                this.taps = this.getTaps();
+                options.destinationHeight = this.dH;
+                this._setupFrameBuffer(options);
+                this.applyToWebGL(options);
+                this._swapTextures(options);
+                options.sourceHeight = options.destinationHeight;
+            } else if (!this.isNeutralState(options)) {
+                this.applyTo2d(options);
+            }
+        },
+        isNeutralState: function(options) {
+            var scaleX = options.scaleX || this.scaleX, scaleY = options.scaleY || this.scaleY;
+            return scaleX === 1 && scaleY === 1;
+        },
+        lanczosCreate: function(lobes) {
+            return function(x) {
+                if (x >= lobes || x <= -lobes) {
+                    return 0;
+                }
+                if (x < 1.1920929e-7 && x > -1.1920929e-7) {
+                    return 1;
+                }
+                x *= Math.PI;
+                var xx = x / lobes;
+                return sin(x) / x * sin(xx) / xx;
+            };
+        },
+        applyTo2d: function(options) {
+            var imageData = options.imageData, scaleX = this.scaleX, scaleY = this.scaleY;
+            this.rcpScaleX = 1 / scaleX;
+            this.rcpScaleY = 1 / scaleY;
+            var oW = imageData.width, oH = imageData.height, dW = round(oW * scaleX), dH = round(oH * scaleY), newData;
+            if (this.resizeType === "sliceHack") {
+                newData = this.sliceByTwo(options, oW, oH, dW, dH);
+            } else if (this.resizeType === "hermite") {
+                newData = this.hermiteFastResize(options, oW, oH, dW, dH);
+            } else if (this.resizeType === "bilinear") {
+                newData = this.bilinearFiltering(options, oW, oH, dW, dH);
+            } else if (this.resizeType === "lanczos") {
+                newData = this.lanczosResize(options, oW, oH, dW, dH);
+            }
+            options.imageData = newData;
+        },
+        sliceByTwo: function(options, oW, oH, dW, dH) {
+            var imageData = options.imageData, mult = .5, doneW = false, doneH = false, stepW = oW * mult, stepH = oH * mult, resources = fabric.filterBackend.resources, tmpCanvas, ctx, sX = 0, sY = 0, dX = oW, dY = 0;
+            if (!resources.sliceByTwo) {
+                resources.sliceByTwo = document.createElement("canvas");
+            }
+            tmpCanvas = resources.sliceByTwo;
+            if (tmpCanvas.width < oW * 1.5 || tmpCanvas.height < oH) {
+                tmpCanvas.width = oW * 1.5;
+                tmpCanvas.height = oH;
+            }
+            ctx = tmpCanvas.getContext("2d");
+            ctx.clearRect(0, 0, oW * 1.5, oH);
+            ctx.putImageData(imageData, 0, 0);
+            dW = floor(dW);
+            dH = floor(dH);
+            while (!doneW || !doneH) {
+                oW = stepW;
+                oH = stepH;
+                if (dW < floor(stepW * mult)) {
+                    stepW = floor(stepW * mult);
+                } else {
+                    stepW = dW;
+                    doneW = true;
+                }
+                if (dH < floor(stepH * mult)) {
+                    stepH = floor(stepH * mult);
+                } else {
+                    stepH = dH;
+                    doneH = true;
+                }
+                ctx.drawImage(tmpCanvas, sX, sY, oW, oH, dX, dY, stepW, stepH);
+                sX = dX;
+                sY = dY;
+                dY += stepH;
+            }
+            return ctx.getImageData(sX, sY, dW, dH);
+        },
+        lanczosResize: function(options, oW, oH, dW, dH) {
+            function process(u) {
+                var v, i, weight, idx, a, red, green, blue, alpha, fX, fY;
+                center.x = (u + .5) * ratioX;
+                icenter.x = floor(center.x);
+                for (v = 0; v < dH; v++) {
+                    center.y = (v + .5) * ratioY;
+                    icenter.y = floor(center.y);
+                    a = 0;
+                    red = 0;
+                    green = 0;
+                    blue = 0;
+                    alpha = 0;
+                    for (i = icenter.x - range2X; i <= icenter.x + range2X; i++) {
+                        if (i < 0 || i >= oW) {
+                            continue;
+                        }
+                        fX = floor(1e3 * abs(i - center.x));
+                        if (!cacheLanc[fX]) {
+                            cacheLanc[fX] = {};
+                        }
+                        for (var j = icenter.y - range2Y; j <= icenter.y + range2Y; j++) {
+                            if (j < 0 || j >= oH) {
+                                continue;
+                            }
+                            fY = floor(1e3 * abs(j - center.y));
+                            if (!cacheLanc[fX][fY]) {
+                                cacheLanc[fX][fY] = lanczos(sqrt(pow(fX * rcpRatioX, 2) + pow(fY * rcpRatioY, 2)) / 1e3);
+                            }
+                            weight = cacheLanc[fX][fY];
+                            if (weight > 0) {
+                                idx = (j * oW + i) * 4;
+                                a += weight;
+                                red += weight * srcData[idx];
+                                green += weight * srcData[idx + 1];
+                                blue += weight * srcData[idx + 2];
+                                alpha += weight * srcData[idx + 3];
+                            }
+                        }
+                    }
+                    idx = (v * dW + u) * 4;
+                    destData[idx] = red / a;
+                    destData[idx + 1] = green / a;
+                    destData[idx + 2] = blue / a;
+                    destData[idx + 3] = alpha / a;
+                }
+                if (++u < dW) {
+                    return process(u);
+                } else {
+                    return destImg;
+                }
+            }
+            var srcData = options.imageData.data, destImg = options.ctx.createImageData(dW, dH), destData = destImg.data, lanczos = this.lanczosCreate(this.lanczosLobes), ratioX = this.rcpScaleX, ratioY = this.rcpScaleY, rcpRatioX = 2 / this.rcpScaleX, rcpRatioY = 2 / this.rcpScaleY, range2X = ceil(ratioX * this.lanczosLobes / 2), range2Y = ceil(ratioY * this.lanczosLobes / 2), cacheLanc = {}, center = {}, icenter = {};
+            return process(0);
+        },
+        bilinearFiltering: function(options, oW, oH, dW, dH) {
+            var a, b, c, d, x, y, i, j, xDiff, yDiff, chnl, color, offset = 0, origPix, ratioX = this.rcpScaleX, ratioY = this.rcpScaleY, w4 = 4 * (oW - 1), img = options.imageData, pixels = img.data, destImage = options.ctx.createImageData(dW, dH), destPixels = destImage.data;
+            for (i = 0; i < dH; i++) {
+                for (j = 0; j < dW; j++) {
+                    x = floor(ratioX * j);
+                    y = floor(ratioY * i);
+                    xDiff = ratioX * j - x;
+                    yDiff = ratioY * i - y;
+                    origPix = 4 * (y * oW + x);
+                    for (chnl = 0; chnl < 4; chnl++) {
+                        a = pixels[origPix + chnl];
+                        b = pixels[origPix + 4 + chnl];
+                        c = pixels[origPix + w4 + chnl];
+                        d = pixels[origPix + w4 + 4 + chnl];
+                        color = a * (1 - xDiff) * (1 - yDiff) + b * xDiff * (1 - yDiff) + c * yDiff * (1 - xDiff) + d * xDiff * yDiff;
+                        destPixels[offset++] = color;
+                    }
+                }
+            }
+            return destImage;
+        },
+        hermiteFastResize: function(options, oW, oH, dW, dH) {
+            var ratioW = this.rcpScaleX, ratioH = this.rcpScaleY, ratioWHalf = ceil(ratioW / 2), ratioHHalf = ceil(ratioH / 2), img = options.imageData, data = img.data, img2 = options.ctx.createImageData(dW, dH), data2 = img2.data;
+            for (var j = 0; j < dH; j++) {
+                for (var i = 0; i < dW; i++) {
+                    var x2 = (i + j * dW) * 4, weight = 0, weights = 0, weightsAlpha = 0, gxR = 0, gxG = 0, gxB = 0, gxA = 0, centerY = (j + .5) * ratioH;
+                    for (var yy = floor(j * ratioH); yy < (j + 1) * ratioH; yy++) {
+                        var dy = abs(centerY - (yy + .5)) / ratioHHalf, centerX = (i + .5) * ratioW, w0 = dy * dy;
+                        for (var xx = floor(i * ratioW); xx < (i + 1) * ratioW; xx++) {
+                            var dx = abs(centerX - (xx + .5)) / ratioWHalf, w = sqrt(w0 + dx * dx);
+                            if (w > 1 && w < -1) {
+                                continue;
+                            }
+                            weight = 2 * w * w * w - 3 * w * w + 1;
+                            if (weight > 0) {
+                                dx = 4 * (xx + yy * oW);
+                                gxA += weight * data[dx + 3];
+                                weightsAlpha += weight;
+                                if (data[dx + 3] < 255) {
+                                    weight = weight * data[dx + 3] / 250;
+                                }
+                                gxR += weight * data[dx];
+                                gxG += weight * data[dx + 1];
+                                gxB += weight * data[dx + 2];
+                                weights += weight;
+                            }
+                        }
+                    }
+                    data2[x2] = gxR / weights;
+                    data2[x2 + 1] = gxG / weights;
+                    data2[x2 + 2] = gxB / weights;
+                    data2[x2 + 3] = gxA / weightsAlpha;
+                }
+            }
+            return img2;
+        },
+        toObject: function() {
+            return {
+                type: this.type,
+                scaleX: this.scaleX,
+                scaleY: this.scaleY,
+                resizeType: this.resizeType,
+                lanczosLobes: this.lanczosLobes
+            };
+        }
+    });
+    fabric.Image.filters.Resize.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), filters = fabric.Image.filters, createClass = fabric.util.createClass;
+    filters.Contrast = createClass(filters.BaseFilter, {
+        type: "Contrast",
+        fragmentSource: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform float uContrast;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "vec4 color = texture2D(uTexture, vTexCoord);\n" + "float contrastF = 1.015 * (uContrast + 1.0) / (1.0 * (1.015 - uContrast));\n" + "color.rgb = contrastF * (color.rgb - 0.5) + 0.5;\n" + "gl_FragColor = color;\n" + "}",
+        contrast: 0,
+        mainParameter: "contrast",
+        applyTo2d: function(options) {
+            if (this.contrast === 0) {
+                return;
+            }
+            var imageData = options.imageData, i, len, data = imageData.data, len = data.length, contrast = Math.floor(this.contrast * 255), contrastF = 259 * (contrast + 255) / (255 * (259 - contrast));
+            for (i = 0; i < len; i += 4) {
+                data[i] = contrastF * (data[i] - 128) + 128;
+                data[i + 1] = contrastF * (data[i + 1] - 128) + 128;
+                data[i + 2] = contrastF * (data[i + 2] - 128) + 128;
+            }
+        },
+        getUniformLocations: function(gl, program) {
+            return {
+                uContrast: gl.getUniformLocation(program, "uContrast")
+            };
+        },
+        sendUniformData: function(gl, uniformLocations) {
+            gl.uniform1f(uniformLocations.uContrast, this.contrast);
+        }
+    });
+    fabric.Image.filters.Contrast.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), filters = fabric.Image.filters, createClass = fabric.util.createClass;
+    filters.Saturation = createClass(filters.BaseFilter, {
+        type: "Saturation",
+        fragmentSource: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform float uSaturation;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "vec4 color = texture2D(uTexture, vTexCoord);\n" + "float rgMax = max(color.r, color.g);\n" + "float rgbMax = max(rgMax, color.b);\n" + "color.r += rgbMax != color.r ? (rgbMax - color.r) * uSaturation : 0.00;\n" + "color.g += rgbMax != color.g ? (rgbMax - color.g) * uSaturation : 0.00;\n" + "color.b += rgbMax != color.b ? (rgbMax - color.b) * uSaturation : 0.00;\n" + "gl_FragColor = color;\n" + "}",
+        saturation: 0,
+        mainParameter: "saturation",
+        applyTo2d: function(options) {
+            if (this.saturation === 0) {
+                return;
+            }
+            var imageData = options.imageData, data = imageData.data, len = data.length, adjust = -this.saturation, i, max;
+            for (i = 0; i < len; i += 4) {
+                max = Math.max(data[i], data[i + 1], data[i + 2]);
+                data[i] += max !== data[i] ? (max - data[i]) * adjust : 0;
+                data[i + 1] += max !== data[i + 1] ? (max - data[i + 1]) * adjust : 0;
+                data[i + 2] += max !== data[i + 2] ? (max - data[i + 2]) * adjust : 0;
+            }
+        },
+        getUniformLocations: function(gl, program) {
+            return {
+                uSaturation: gl.getUniformLocation(program, "uSaturation")
+            };
+        },
+        sendUniformData: function(gl, uniformLocations) {
+            gl.uniform1f(uniformLocations.uSaturation, -this.saturation);
+        }
+    });
+    fabric.Image.filters.Saturation.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), filters = fabric.Image.filters, createClass = fabric.util.createClass;
+    filters.Blur = createClass(filters.BaseFilter, {
+        type: "Blur",
+        fragmentSource: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform vec2 uDelta;\n" + "varying vec2 vTexCoord;\n" + "const float nSamples = 15.0;\n" + "vec3 v3offset = vec3(12.9898, 78.233, 151.7182);\n" + "float random(vec3 scale) {\n" + "return fract(sin(dot(gl_FragCoord.xyz, scale)) * 43758.5453);\n" + "}\n" + "void main() {\n" + "vec4 color = vec4(0.0);\n" + "float total = 0.0;\n" + "float offset = random(v3offset);\n" + "for (float t = -nSamples; t <= nSamples; t++) {\n" + "float percent = (t + offset - 0.5) / nSamples;\n" + "float weight = 1.0 - abs(percent);\n" + "color += texture2D(uTexture, vTexCoord + uDelta * percent) * weight;\n" + "total += weight;\n" + "}\n" + "gl_FragColor = color / total;\n" + "}",
+        blur: 0,
+        mainParameter: "blur",
+        applyTo: function(options) {
+            if (options.webgl) {
+                this.aspectRatio = options.sourceWidth / options.sourceHeight;
+                options.passes++;
+                this._setupFrameBuffer(options);
+                this.horizontal = true;
+                this.applyToWebGL(options);
+                this._swapTextures(options);
+                this._setupFrameBuffer(options);
+                this.horizontal = false;
+                this.applyToWebGL(options);
+                this._swapTextures(options);
+            } else {
+                this.applyTo2d(options);
+            }
+        },
+        applyTo2d: function(options) {
+            options.imageData = this.simpleBlur(options);
+        },
+        simpleBlur: function(options) {
+            var resources = options.filterBackend.resources, canvas1, canvas2, width = options.imageData.width, height = options.imageData.height;
+            if (!resources.blurLayer1) {
+                resources.blurLayer1 = document.createElement("canvas");
+                resources.blurLayer2 = document.createElement("canvas");
+            }
+            canvas1 = resources.blurLayer1;
+            canvas2 = resources.blurLayer2;
+            if (canvas1.width !== width || canvas1.height !== height) {
+                canvas2.width = canvas1.width = width;
+                canvas2.height = canvas1.height = height;
+            }
+            var ctx1 = canvas1.getContext("2d"), ctx2 = canvas2.getContext("2d"), nSamples = 15, random, percent, j, i, blur = this.blur * .06 * .5;
+            ctx1.putImageData(options.imageData, 0, 0);
+            ctx2.clearRect(0, 0, width, height);
+            for (i = -nSamples; i <= nSamples; i++) {
+                random = (Math.random() - .5) / 4;
+                percent = i / nSamples;
+                j = blur * percent * width + random;
+                ctx2.globalAlpha = 1 - Math.abs(percent);
+                ctx2.drawImage(canvas1, j, random);
+                ctx1.drawImage(canvas2, 0, 0);
+                ctx2.globalAlpha = 1;
+                ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+            }
+            for (i = -nSamples; i <= nSamples; i++) {
+                random = (Math.random() - .5) / 4;
+                percent = i / nSamples;
+                j = blur * percent * height + random;
+                ctx2.globalAlpha = 1 - Math.abs(percent);
+                ctx2.drawImage(canvas1, random, j);
+                ctx1.drawImage(canvas2, 0, 0);
+                ctx2.globalAlpha = 1;
+                ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
+            }
+            options.ctx.drawImage(canvas1, 0, 0);
+            var newImageData = options.ctx.getImageData(0, 0, canvas1.width, canvas1.height);
+            ctx1.globalAlpha = 1;
+            ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
+            return newImageData;
+        },
+        getUniformLocations: function(gl, program) {
+            return {
+                delta: gl.getUniformLocation(program, "uDelta")
+            };
+        },
+        sendUniformData: function(gl, uniformLocations) {
+            var delta = this.chooseRightDelta();
+            gl.uniform2fv(uniformLocations.delta, delta);
+        },
+        chooseRightDelta: function() {
+            var blurScale = 1, delta = [ 0, 0 ], blur;
+            if (this.horizontal) {
+                if (this.aspectRatio > 1) {
+                    blurScale = 1 / this.aspectRatio;
+                }
+            } else {
+                if (this.aspectRatio < 1) {
+                    blurScale = this.aspectRatio;
+                }
+            }
+            blur = blurScale * this.blur * .12;
+            if (this.horizontal) {
+                delta[0] = blur;
+            } else {
+                delta[1] = blur;
+            }
+            return delta;
+        }
+    });
+    filters.Blur.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), filters = fabric.Image.filters, createClass = fabric.util.createClass;
+    filters.Gamma = createClass(filters.BaseFilter, {
+        type: "Gamma",
+        fragmentSource: "precision highp float;\n" + "uniform sampler2D uTexture;\n" + "uniform vec3 uGamma;\n" + "varying vec2 vTexCoord;\n" + "void main() {\n" + "vec4 color = texture2D(uTexture, vTexCoord);\n" + "vec3 correction = (1.0 / uGamma);\n" + "color.r = pow(color.r, correction.r);\n" + "color.g = pow(color.g, correction.g);\n" + "color.b = pow(color.b, correction.b);\n" + "gl_FragColor = color;\n" + "gl_FragColor.rgb *= color.a;\n" + "}",
+        gamma: [ 1, 1, 1 ],
+        mainParameter: "gamma",
+        applyTo2d: function(options) {
+            var imageData = options.imageData, data = imageData.data, gamma = this.gamma, len = data.length, rInv = 1 / gamma[0], gInv = 1 / gamma[1], bInv = 1 / gamma[2], i;
+            if (!this.rVals) {
+                this.rVals = new Uint8Array(256);
+                this.gVals = new Uint8Array(256);
+                this.bVals = new Uint8Array(256);
+            }
+            for (i = 0, len = 256; i < len; i++) {
+                this.rVals[i] = Math.pow(i / 255, rInv) * 255;
+                this.gVals[i] = Math.pow(i / 255, gInv) * 255;
+                this.bVals[i] = Math.pow(i / 255, bInv) * 255;
+            }
+            for (i = 0, len = data.length; i < len; i += 4) {
+                data[i] = this.rVals[data[i]];
+                data[i + 1] = this.gVals[data[i + 1]];
+                data[i + 2] = this.bVals[data[i + 2]];
+            }
+        },
+        getUniformLocations: function(gl, program) {
+            return {
+                uGamma: gl.getUniformLocation(program, "uGamma")
+            };
+        },
+        sendUniformData: function(gl, uniformLocations) {
+            gl.uniform3fv(uniformLocations.uGamma, this.gamma);
+        }
+    });
+    fabric.Image.filters.Gamma.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), filters = fabric.Image.filters, createClass = fabric.util.createClass;
+    filters.Composed = createClass(filters.BaseFilter, {
+        type: "Composed",
+        subFilters: [],
+        initialize: function(options) {
+            this.callSuper("initialize", options);
+            this.subFilters = this.subFilters.slice(0);
+        },
+        applyTo: function(options) {
+            options.passes += this.subFilters.length - 1;
+            this.subFilters.forEach(function(filter) {
+                filter.applyTo(options);
+            });
+        },
+        toObject: function() {
+            return fabric.util.object.extend(this.callSuper("toObject"), {
+                subFilters: this.subFilters.map(function(filter) {
+                    return filter.toObject();
+                })
+            });
+        }
+    });
+    fabric.Image.filters.Composed.fromObject = function(object, callback) {
+        var filters = object.subFilters || [], subFilters = filters.map(function(filter) {
+            return new fabric.Image.filters[filter.type](filter);
+        }), instance = new fabric.Image.filters.Composed({
+            subFilters: subFilters
+        });
+        callback && callback(instance);
+        return instance;
+    };
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), filters = fabric.Image.filters, createClass = fabric.util.createClass;
+    filters.HueRotation = createClass(filters.ColorMatrix, {
+        type: "HueRotation",
+        rotation: 0,
+        mainParameter: "rotation",
+        calculateMatrix: function() {
+            var rad = this.rotation * Math.PI, cos = fabric.util.cos(rad), sin = fabric.util.sin(rad), aThird = 1 / 3, aThirdSqtSin = Math.sqrt(aThird) * sin, OneMinusCos = 1 - cos;
+            this.matrix = [ 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0 ];
+            this.matrix[0] = cos + OneMinusCos / 3;
+            this.matrix[1] = aThird * OneMinusCos - aThirdSqtSin;
+            this.matrix[2] = aThird * OneMinusCos + aThirdSqtSin;
+            this.matrix[5] = aThird * OneMinusCos + aThirdSqtSin;
+            this.matrix[6] = cos + aThird * OneMinusCos;
+            this.matrix[7] = aThird * OneMinusCos - aThirdSqtSin;
+            this.matrix[10] = aThird * OneMinusCos - aThirdSqtSin;
+            this.matrix[11] = aThird * OneMinusCos + aThirdSqtSin;
+            this.matrix[12] = cos + aThird * OneMinusCos;
+        },
+        applyTo: function(options) {
+            this.calculateMatrix();
+            fabric.Image.filters.BaseFilter.prototype.applyTo.call(this, options);
+        }
+    });
+    fabric.Image.filters.HueRotation.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+})( true ? exports : this);
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {}), clone = fabric.util.object.clone;
+    if (fabric.Text) {
+        fabric.warn("fabric.Text is already defined");
+        return;
+    }
+    fabric.Text = fabric.util.createClass(fabric.Object, {
+        _dimensionAffectingProps: [ "fontSize", "fontWeight", "fontFamily", "fontStyle", "lineHeight", "text", "charSpacing", "textAlign", "styles" ],
+        _reNewline: /\r?\n/,
+        _reSpacesAndTabs: /[ \t\r]/g,
+        _reSpaceAndTab: /[ \t\r]/,
+        _reWords: /\S+/g,
+        type: "text",
+        fontSize: 40,
+        fontWeight: "normal",
+        fontFamily: "Times New Roman",
+        underline: false,
+        overline: false,
+        linethrough: false,
+        textAlign: "left",
+        fontStyle: "normal",
+        lineHeight: 1.16,
+        superscript: {
+            size: .6,
+            baseline: -.35
+        },
+        subscript: {
+            size: .6,
+            baseline: .11
+        },
+        textBackgroundColor: "",
+        stateProperties: fabric.Object.prototype.stateProperties.concat("fontFamily", "fontWeight", "fontSize", "text", "underline", "overline", "linethrough", "textAlign", "fontStyle", "lineHeight", "textBackgroundColor", "charSpacing", "styles"),
+        cacheProperties: fabric.Object.prototype.cacheProperties.concat("fontFamily", "fontWeight", "fontSize", "text", "underline", "overline", "linethrough", "textAlign", "fontStyle", "lineHeight", "textBackgroundColor", "charSpacing", "styles"),
+        stroke: null,
+        shadow: null,
+        _fontSizeFraction: .222,
+        offsets: {
+            underline: .1,
+            linethrough: -.315,
+            overline: -.88
+        },
+        _fontSizeMult: 1.13,
+        charSpacing: 0,
+        styles: null,
+        _measuringContext: null,
+        deltaY: 0,
+        _styleProperties: [ "stroke", "strokeWidth", "fill", "fontFamily", "fontSize", "fontWeight", "fontStyle", "underline", "overline", "linethrough", "deltaY", "textBackgroundColor" ],
+        __charBounds: [],
+        CACHE_FONT_SIZE: 400,
+        MIN_TEXT_WIDTH: 2,
+        initialize: function(text, options) {
+            this.styles = options ? options.styles || {} : {};
+            this.text = text;
+            this.__skipDimension = true;
+            this.callSuper("initialize", options);
+            this.__skipDimension = false;
+            this.initDimensions();
+            this.setCoords();
+            this.setupState({
+                propertySet: "_dimensionAffectingProps"
+            });
+        },
+        getMeasuringContext: function() {
+            if (!fabric._measuringContext) {
+                fabric._measuringContext = this.canvas && this.canvas.contextCache || fabric.util.createCanvasElement().getContext("2d");
+            }
+            return fabric._measuringContext;
+        },
+        _splitText: function() {
+            var newLines = this._splitTextIntoLines(this.text);
+            this.textLines = newLines.lines;
+            this._textLines = newLines.graphemeLines;
+            this._unwrappedTextLines = newLines._unwrappedLines;
+            this._text = newLines.graphemeText;
+            return newLines;
+        },
+        initDimensions: function() {
+            if (this.__skipDimension) {
+                return;
+            }
+            this._splitText();
+            this._clearCache();
+            this.width = this.calcTextWidth() || this.cursorWidth || this.MIN_TEXT_WIDTH;
+            if (this.textAlign.indexOf("justify") !== -1) {
+                this.enlargeSpaces();
+            }
+            this.height = this.calcTextHeight();
+            this.saveState({
+                propertySet: "_dimensionAffectingProps"
+            });
+        },
+        enlargeSpaces: function() {
+            var diffSpace, currentLineWidth, numberOfSpaces, accumulatedSpace, line, charBound, spaces;
+            for (var i = 0, len = this._textLines.length; i < len; i++) {
+                if (this.textAlign !== "justify" && (i === len - 1 || this.isEndOfWrapping(i))) {
+                    continue;
+                }
+                accumulatedSpace = 0;
+                line = this._textLines[i];
+                currentLineWidth = this.getLineWidth(i);
+                if (currentLineWidth < this.width && (spaces = this.textLines[i].match(this._reSpacesAndTabs))) {
+                    numberOfSpaces = spaces.length;
+                    diffSpace = (this.width - currentLineWidth) / numberOfSpaces;
+                    for (var j = 0, jlen = line.length; j <= jlen; j++) {
+                        charBound = this.__charBounds[i][j];
+                        if (this._reSpaceAndTab.test(line[j])) {
+                            charBound.width += diffSpace;
+                            charBound.kernedWidth += diffSpace;
+                            charBound.left += accumulatedSpace;
+                            accumulatedSpace += diffSpace;
+                        } else {
+                            charBound.left += accumulatedSpace;
+                        }
+                    }
+                }
+            }
+        },
+        isEndOfWrapping: function(lineIndex) {
+            return lineIndex === this._textLines.length - 1;
+        },
+        toString: function() {
+            return "#<fabric.Text (" + this.complexity() + '): { "text": "' + this.text + '", "fontFamily": "' + this.fontFamily + '" }>';
+        },
+        _getCacheCanvasDimensions: function() {
+            var dims = this.callSuper("_getCacheCanvasDimensions");
+            var fontSize = this.fontSize;
+            dims.width += fontSize * dims.zoomX;
+            dims.height += fontSize * dims.zoomY;
+            return dims;
+        },
+        _render: function(ctx) {
+            this._setTextStyles(ctx);
+            this._renderTextLinesBackground(ctx);
+            this._renderTextDecoration(ctx, "underline");
+            this._renderText(ctx);
+            this._renderTextDecoration(ctx, "overline");
+            this._renderTextDecoration(ctx, "linethrough");
+        },
+        _renderText: function(ctx) {
+            if (this.paintFirst === "stroke") {
+                this._renderTextStroke(ctx);
+                this._renderTextFill(ctx);
+            } else {
+                this._renderTextFill(ctx);
+                this._renderTextStroke(ctx);
+            }
+        },
+        _setTextStyles: function(ctx, charStyle, forMeasuring) {
+            ctx.textBaseline = "alphabetic";
+            ctx.font = this._getFontDeclaration(charStyle, forMeasuring);
+        },
+        calcTextWidth: function() {
+            var maxWidth = this.getLineWidth(0);
+            for (var i = 1, len = this._textLines.length; i < len; i++) {
+                var currentLineWidth = this.getLineWidth(i);
+                if (currentLineWidth > maxWidth) {
+                    maxWidth = currentLineWidth;
+                }
+            }
+            return maxWidth;
+        },
+        _renderTextLine: function(method, ctx, line, left, top, lineIndex) {
+            this._renderChars(method, ctx, line, left, top, lineIndex);
+        },
+        _renderTextLinesBackground: function(ctx) {
+            if (!this.textBackgroundColor && !this.styleHas("textBackgroundColor")) {
+                return;
+            }
+            var lineTopOffset = 0, heightOfLine, lineLeftOffset, originalFill = ctx.fillStyle, line, lastColor, leftOffset = this._getLeftOffset(), topOffset = this._getTopOffset(), boxStart = 0, boxWidth = 0, charBox, currentColor;
+            for (var i = 0, len = this._textLines.length; i < len; i++) {
+                heightOfLine = this.getHeightOfLine(i);
+                if (!this.textBackgroundColor && !this.styleHas("textBackgroundColor", i)) {
+                    lineTopOffset += heightOfLine;
+                    continue;
+                }
+                line = this._textLines[i];
+                lineLeftOffset = this._getLineLeftOffset(i);
+                boxWidth = 0;
+                boxStart = 0;
+                lastColor = this.getValueOfPropertyAt(i, 0, "textBackgroundColor");
+                for (var j = 0, jlen = line.length; j < jlen; j++) {
+                    charBox = this.__charBounds[i][j];
+                    currentColor = this.getValueOfPropertyAt(i, j, "textBackgroundColor");
+                    if (currentColor !== lastColor) {
+                        ctx.fillStyle = lastColor;
+                        lastColor && ctx.fillRect(leftOffset + lineLeftOffset + boxStart, topOffset + lineTopOffset, boxWidth, heightOfLine / this.lineHeight);
+                        boxStart = charBox.left;
+                        boxWidth = charBox.width;
+                        lastColor = currentColor;
+                    } else {
+                        boxWidth += charBox.kernedWidth;
+                    }
+                }
+                if (currentColor) {
+                    ctx.fillStyle = currentColor;
+                    ctx.fillRect(leftOffset + lineLeftOffset + boxStart, topOffset + lineTopOffset, boxWidth, heightOfLine / this.lineHeight);
+                }
+                lineTopOffset += heightOfLine;
+            }
+            ctx.fillStyle = originalFill;
+            this._removeShadow(ctx);
+        },
+        getFontCache: function(decl) {
+            var fontFamily = decl.fontFamily.toLowerCase();
+            if (!fabric.charWidthsCache[fontFamily]) {
+                fabric.charWidthsCache[fontFamily] = {};
+            }
+            var cache = fabric.charWidthsCache[fontFamily], cacheProp = decl.fontStyle.toLowerCase() + "_" + (decl.fontWeight + "").toLowerCase();
+            if (!cache[cacheProp]) {
+                cache[cacheProp] = {};
+            }
+            return cache[cacheProp];
+        },
+        _applyCharStyles: function(method, ctx, lineIndex, charIndex, styleDeclaration) {
+            this._setFillStyles(ctx, styleDeclaration);
+            this._setStrokeStyles(ctx, styleDeclaration);
+            ctx.font = this._getFontDeclaration(styleDeclaration);
+        },
+        _measureChar: function(_char, charStyle, previousChar, prevCharStyle) {
+            var fontCache = this.getFontCache(charStyle), fontDeclaration = this._getFontDeclaration(charStyle), previousFontDeclaration = this._getFontDeclaration(prevCharStyle), couple = previousChar + _char, stylesAreEqual = fontDeclaration === previousFontDeclaration, width, coupleWidth, previousWidth, fontMultiplier = charStyle.fontSize / this.CACHE_FONT_SIZE, kernedWidth;
+            if (previousChar && fontCache[previousChar]) {
+                previousWidth = fontCache[previousChar];
+            }
+            if (fontCache[_char]) {
+                kernedWidth = width = fontCache[_char];
+            }
+            if (stylesAreEqual && fontCache[couple]) {
+                coupleWidth = fontCache[couple];
+                kernedWidth = coupleWidth - previousWidth;
+            }
+            if (!width || !previousWidth || !coupleWidth) {
+                var ctx = this.getMeasuringContext();
+                this._setTextStyles(ctx, charStyle, true);
+            }
+            if (!width) {
+                kernedWidth = width = ctx.measureText(_char).width;
+                fontCache[_char] = width;
+            }
+            if (!previousWidth && stylesAreEqual && previousChar) {
+                previousWidth = ctx.measureText(previousChar).width;
+                fontCache[previousChar] = previousWidth;
+            }
+            if (stylesAreEqual && !coupleWidth) {
+                coupleWidth = ctx.measureText(couple).width;
+                fontCache[couple] = coupleWidth;
+                kernedWidth = coupleWidth - previousWidth;
+            }
+            return {
+                width: width * fontMultiplier,
+                kernedWidth: kernedWidth * fontMultiplier
+            };
+        },
+        getHeightOfChar: function(line, char) {
+            return this.getValueOfPropertyAt(line, char, "fontSize");
+        },
+        measureLine: function(lineIndex) {
+            var lineInfo = this._measureLine(lineIndex);
+            if (this.charSpacing !== 0) {
+                lineInfo.width -= this._getWidthOfCharSpacing();
+            }
+            if (lineInfo.width < 0) {
+                lineInfo.width = 0;
+            }
+            return lineInfo;
+        },
+        _measureLine: function(lineIndex) {
+            var width = 0, i, grapheme, line = this._textLines[lineIndex], prevGrapheme, graphemeInfo, numOfSpaces = 0, lineBounds = new Array(line.length);
+            this.__charBounds[lineIndex] = lineBounds;
+            for (i = 0; i < line.length; i++) {
+                grapheme = line[i];
+                graphemeInfo = this._getGraphemeBox(grapheme, lineIndex, i, prevGrapheme);
+                lineBounds[i] = graphemeInfo;
+                width += graphemeInfo.kernedWidth;
+                prevGrapheme = grapheme;
+            }
+            lineBounds[i] = {
+                left: graphemeInfo ? graphemeInfo.left + graphemeInfo.width : 0,
+                width: 0,
+                kernedWidth: 0,
+                height: this.fontSize
+            };
+            return {
+                width: width,
+                numOfSpaces: numOfSpaces
+            };
+        },
+        _getGraphemeBox: function(grapheme, lineIndex, charIndex, prevGrapheme, skipLeft) {
+            var style = this.getCompleteStyleDeclaration(lineIndex, charIndex), prevStyle = prevGrapheme ? this.getCompleteStyleDeclaration(lineIndex, charIndex - 1) : {}, info = this._measureChar(grapheme, style, prevGrapheme, prevStyle), kernedWidth = info.kernedWidth, width = info.width, charSpacing;
+            if (this.charSpacing !== 0) {
+                charSpacing = this._getWidthOfCharSpacing();
+                width += charSpacing;
+                kernedWidth += charSpacing;
+            }
+            var box = {
+                width: width,
+                left: 0,
+                height: style.fontSize,
+                kernedWidth: kernedWidth,
+                deltaY: style.deltaY
+            };
+            if (charIndex > 0 && !skipLeft) {
+                var previousBox = this.__charBounds[lineIndex][charIndex - 1];
+                box.left = previousBox.left + previousBox.width + info.kernedWidth - info.width;
+            }
+            return box;
+        },
+        getHeightOfLine: function(lineIndex) {
+            if (this.__lineHeights[lineIndex]) {
+                return this.__lineHeights[lineIndex];
+            }
+            var line = this._textLines[lineIndex], maxHeight = this.getHeightOfChar(lineIndex, 0);
+            for (var i = 1, len = line.length; i < len; i++) {
+                maxHeight = Math.max(this.getHeightOfChar(lineIndex, i), maxHeight);
+            }
+            return this.__lineHeights[lineIndex] = maxHeight * this.lineHeight * this._fontSizeMult;
+        },
+        calcTextHeight: function() {
+            var lineHeight, height = 0;
+            for (var i = 0, len = this._textLines.length; i < len; i++) {
+                lineHeight = this.getHeightOfLine(i);
+                height += i === len - 1 ? lineHeight / this.lineHeight : lineHeight;
+            }
+            return height;
+        },
+        _getLeftOffset: function() {
+            return -this.width / 2;
+        },
+        _getTopOffset: function() {
+            return -this.height / 2;
+        },
+        _renderTextCommon: function(ctx, method) {
+            ctx.save();
+            var lineHeights = 0, left = this._getLeftOffset(), top = this._getTopOffset(), offsets = this._applyPatternGradientTransform(ctx, method === "fillText" ? this.fill : this.stroke);
+            for (var i = 0, len = this._textLines.length; i < len; i++) {
+                var heightOfLine = this.getHeightOfLine(i), maxHeight = heightOfLine / this.lineHeight, leftOffset = this._getLineLeftOffset(i);
+                this._renderTextLine(method, ctx, this._textLines[i], left + leftOffset - offsets.offsetX, top + lineHeights + maxHeight - offsets.offsetY, i);
+                lineHeights += heightOfLine;
+            }
+            ctx.restore();
+        },
+        _renderTextFill: function(ctx) {
+            if (!this.fill && !this.styleHas("fill")) {
+                return;
+            }
+            this._renderTextCommon(ctx, "fillText");
+        },
+        _renderTextStroke: function(ctx) {
+            if ((!this.stroke || this.strokeWidth === 0) && this.isEmptyStyles()) {
+                return;
+            }
+            if (this.shadow && !this.shadow.affectStroke) {
+                this._removeShadow(ctx);
+            }
+            ctx.save();
+            this._setLineDash(ctx, this.strokeDashArray);
+            ctx.beginPath();
+            this._renderTextCommon(ctx, "strokeText");
+            ctx.closePath();
+            ctx.restore();
+        },
+        _renderChars: function(method, ctx, line, left, top, lineIndex) {
+            var lineHeight = this.getHeightOfLine(lineIndex), isJustify = this.textAlign.indexOf("justify") !== -1, actualStyle, nextStyle, charsToRender = "", charBox, boxWidth = 0, timeToRender, shortCut = !isJustify && this.charSpacing === 0 && this.isEmptyStyles(lineIndex);
+            ctx.save();
+            top -= lineHeight * this._fontSizeFraction / this.lineHeight;
+            if (shortCut) {
+                this._renderChar(method, ctx, lineIndex, 0, this.textLines[lineIndex], left, top, lineHeight);
+                ctx.restore();
+                return;
+            }
+            for (var i = 0, len = line.length - 1; i <= len; i++) {
+                timeToRender = i === len || this.charSpacing;
+                charsToRender += line[i];
+                charBox = this.__charBounds[lineIndex][i];
+                if (boxWidth === 0) {
+                    left += charBox.kernedWidth - charBox.width;
+                    boxWidth += charBox.width;
+                } else {
+                    boxWidth += charBox.kernedWidth;
+                }
+                if (isJustify && !timeToRender) {
+                    if (this._reSpaceAndTab.test(line[i])) {
+                        timeToRender = true;
+                    }
+                }
+                if (!timeToRender) {
+                    actualStyle = actualStyle || this.getCompleteStyleDeclaration(lineIndex, i);
+                    nextStyle = this.getCompleteStyleDeclaration(lineIndex, i + 1);
+                    timeToRender = this._hasStyleChanged(actualStyle, nextStyle);
+                }
+                if (timeToRender) {
+                    this._renderChar(method, ctx, lineIndex, i, charsToRender, left, top, lineHeight);
+                    charsToRender = "";
+                    actualStyle = nextStyle;
+                    left += boxWidth;
+                    boxWidth = 0;
+                }
+            }
+            ctx.restore();
+        },
+        _renderChar: function(method, ctx, lineIndex, charIndex, _char, left, top) {
+            var decl = this._getStyleDeclaration(lineIndex, charIndex), fullDecl = this.getCompleteStyleDeclaration(lineIndex, charIndex), shouldFill = method === "fillText" && fullDecl.fill, shouldStroke = method === "strokeText" && fullDecl.stroke && fullDecl.strokeWidth;
+            if (!shouldStroke && !shouldFill) {
+                return;
+            }
+            decl && ctx.save();
+            this._applyCharStyles(method, ctx, lineIndex, charIndex, fullDecl);
+            if (decl && decl.textBackgroundColor) {
+                this._removeShadow(ctx);
+            }
+            if (decl && decl.deltaY) {
+                top += decl.deltaY;
+            }
+            shouldFill && ctx.fillText(_char, left, top);
+            shouldStroke && ctx.strokeText(_char, left, top);
+            decl && ctx.restore();
+        },
+        setSuperscript: function(start, end) {
+            return this._setScript(start, end, this.superscript);
+        },
+        setSubscript: function(start, end) {
+            return this._setScript(start, end, this.subscript);
+        },
+        _setScript: function(start, end, schema) {
+            var loc = this.get2DCursorLocation(start, true), fontSize = this.getValueOfPropertyAt(loc.lineIndex, loc.charIndex, "fontSize"), dy = this.getValueOfPropertyAt(loc.lineIndex, loc.charIndex, "deltaY"), style = {
+                fontSize: fontSize * schema.size,
+                deltaY: dy + fontSize * schema.baseline
+            };
+            this.setSelectionStyles(style, start, end);
+            return this;
+        },
+        _hasStyleChanged: function(prevStyle, thisStyle) {
+            return prevStyle.fill !== thisStyle.fill || prevStyle.stroke !== thisStyle.stroke || prevStyle.strokeWidth !== thisStyle.strokeWidth || prevStyle.fontSize !== thisStyle.fontSize || prevStyle.fontFamily !== thisStyle.fontFamily || prevStyle.fontWeight !== thisStyle.fontWeight || prevStyle.fontStyle !== thisStyle.fontStyle || prevStyle.deltaY !== thisStyle.deltaY;
+        },
+        _hasStyleChangedForSvg: function(prevStyle, thisStyle) {
+            return this._hasStyleChanged(prevStyle, thisStyle) || prevStyle.overline !== thisStyle.overline || prevStyle.underline !== thisStyle.underline || prevStyle.linethrough !== thisStyle.linethrough;
+        },
+        _getLineLeftOffset: function(lineIndex) {
+            var lineWidth = this.getLineWidth(lineIndex);
+            if (this.textAlign === "center") {
+                return (this.width - lineWidth) / 2;
+            }
+            if (this.textAlign === "right") {
+                return this.width - lineWidth;
+            }
+            if (this.textAlign === "justify-center" && this.isEndOfWrapping(lineIndex)) {
+                return (this.width - lineWidth) / 2;
+            }
+            if (this.textAlign === "justify-right" && this.isEndOfWrapping(lineIndex)) {
+                return this.width - lineWidth;
+            }
+            return 0;
+        },
+        _clearCache: function() {
+            this.__lineWidths = [];
+            this.__lineHeights = [];
+            this.__charBounds = [];
+        },
+        _shouldClearDimensionCache: function() {
+            var shouldClear = this._forceClearCache;
+            shouldClear || (shouldClear = this.hasStateChanged("_dimensionAffectingProps"));
+            if (shouldClear) {
+                this.dirty = true;
+                this._forceClearCache = false;
+            }
+            return shouldClear;
+        },
+        getLineWidth: function(lineIndex) {
+            if (this.__lineWidths[lineIndex]) {
+                return this.__lineWidths[lineIndex];
+            }
+            var width, line = this._textLines[lineIndex], lineInfo;
+            if (line === "") {
+                width = 0;
+            } else {
+                lineInfo = this.measureLine(lineIndex);
+                width = lineInfo.width;
+            }
+            this.__lineWidths[lineIndex] = width;
+            return width;
+        },
+        _getWidthOfCharSpacing: function() {
+            if (this.charSpacing !== 0) {
+                return this.fontSize * this.charSpacing / 1e3;
+            }
+            return 0;
+        },
+        getValueOfPropertyAt: function(lineIndex, charIndex, property) {
+            var charStyle = this._getStyleDeclaration(lineIndex, charIndex);
+            if (charStyle && typeof charStyle[property] !== "undefined") {
+                return charStyle[property];
+            }
+            return this[property];
+        },
+        _renderTextDecoration: function(ctx, type) {
+            if (!this[type] && !this.styleHas(type)) {
+                return;
+            }
+            var heightOfLine, size, _size, lineLeftOffset, dy, _dy, line, lastDecoration, leftOffset = this._getLeftOffset(), topOffset = this._getTopOffset(), top, boxStart, boxWidth, charBox, currentDecoration, maxHeight, currentFill, lastFill;
+            for (var i = 0, len = this._textLines.length; i < len; i++) {
+                heightOfLine = this.getHeightOfLine(i);
+                if (!this[type] && !this.styleHas(type, i)) {
+                    topOffset += heightOfLine;
+                    continue;
+                }
+                line = this._textLines[i];
+                maxHeight = heightOfLine / this.lineHeight;
+                lineLeftOffset = this._getLineLeftOffset(i);
+                boxStart = 0;
+                boxWidth = 0;
+                lastDecoration = this.getValueOfPropertyAt(i, 0, type);
+                lastFill = this.getValueOfPropertyAt(i, 0, "fill");
+                top = topOffset + maxHeight * (1 - this._fontSizeFraction);
+                size = this.getHeightOfChar(i, 0);
+                dy = this.getValueOfPropertyAt(i, 0, "deltaY");
+                for (var j = 0, jlen = line.length; j < jlen; j++) {
+                    charBox = this.__charBounds[i][j];
+                    currentDecoration = this.getValueOfPropertyAt(i, j, type);
+                    currentFill = this.getValueOfPropertyAt(i, j, "fill");
+                    _size = this.getHeightOfChar(i, j);
+                    _dy = this.getValueOfPropertyAt(i, j, "deltaY");
+                    if ((currentDecoration !== lastDecoration || currentFill !== lastFill || _size !== size || _dy !== dy) && boxWidth > 0) {
+                        ctx.fillStyle = lastFill;
+                        lastDecoration && lastFill && ctx.fillRect(leftOffset + lineLeftOffset + boxStart, top + this.offsets[type] * size + dy, boxWidth, this.fontSize / 15);
+                        boxStart = charBox.left;
+                        boxWidth = charBox.width;
+                        lastDecoration = currentDecoration;
+                        lastFill = currentFill;
+                        size = _size;
+                        dy = _dy;
+                    } else {
+                        boxWidth += charBox.kernedWidth;
+                    }
+                }
+                ctx.fillStyle = currentFill;
+                currentDecoration && currentFill && ctx.fillRect(leftOffset + lineLeftOffset + boxStart, top + this.offsets[type] * size + dy, boxWidth, this.fontSize / 15);
+                topOffset += heightOfLine;
+            }
+            this._removeShadow(ctx);
+        },
+        _getFontDeclaration: function(styleObject, forMeasuring) {
+            var style = styleObject || this;
+            var fontFamily = style.fontFamily === undefined || style.fontFamily.indexOf("'") > -1 || style.fontFamily.indexOf('"') > -1 ? style.fontFamily : '"' + style.fontFamily + '"';
+            return [ fabric.isLikelyNode ? style.fontWeight : style.fontStyle, fabric.isLikelyNode ? style.fontStyle : style.fontWeight, forMeasuring ? this.CACHE_FONT_SIZE + "px" : style.fontSize + "px", fontFamily ].join(" ");
+        },
+        render: function(ctx) {
+            if (!this.visible) {
+                return;
+            }
+            if (this.canvas && this.canvas.skipOffscreen && !this.group && !this.isOnScreen()) {
+                return;
+            }
+            if (this._shouldClearDimensionCache()) {
+                this.initDimensions();
+            }
+            this.callSuper("render", ctx);
+        },
+        _splitTextIntoLines: function(text) {
+            var lines = text.split(this._reNewline), newLines = new Array(lines.length), newLine = [ "\n" ], newText = [];
+            for (var i = 0; i < lines.length; i++) {
+                newLines[i] = fabric.util.string.graphemeSplit(lines[i]);
+                newText = newText.concat(newLines[i], newLine);
+            }
+            newText.pop();
+            return {
+                _unwrappedLines: newLines,
+                lines: lines,
+                graphemeText: newText,
+                graphemeLines: newLines
+            };
+        },
+        toObject: function(propertiesToInclude) {
+            var additionalProperties = [ "text", "fontSize", "fontWeight", "fontFamily", "fontStyle", "lineHeight", "underline", "overline", "linethrough", "textAlign", "textBackgroundColor", "charSpacing" ].concat(propertiesToInclude);
+            var obj = this.callSuper("toObject", additionalProperties);
+            obj.styles = clone(this.styles, true);
+            return obj;
+        },
+        set: function(key, value) {
+            this.callSuper("set", key, value);
+            var needsDims = false;
+            if (typeof key === "object") {
+                for (var _key in key) {
+                    needsDims = needsDims || this._dimensionAffectingProps.indexOf(_key) !== -1;
+                }
+            } else {
+                needsDims = this._dimensionAffectingProps.indexOf(key) !== -1;
+            }
+            if (needsDims) {
+                this.initDimensions();
+                this.setCoords();
+            }
+            return this;
+        },
+        complexity: function() {
+            return 1;
+        }
+    });
+    fabric.Text.ATTRIBUTE_NAMES = fabric.SHARED_ATTRIBUTES.concat("x y dx dy font-family font-style font-weight font-size letter-spacing text-decoration text-anchor".split(" "));
+    fabric.Text.DEFAULT_SVG_FONT_SIZE = 16;
+    fabric.Text.fromElement = function(element, callback, options) {
+        if (!element) {
+            return callback(null);
+        }
+        var parsedAttributes = fabric.parseAttributes(element, fabric.Text.ATTRIBUTE_NAMES), parsedAnchor = parsedAttributes.textAnchor || "left";
+        options = fabric.util.object.extend(options ? clone(options) : {}, parsedAttributes);
+        options.top = options.top || 0;
+        options.left = options.left || 0;
+        if (parsedAttributes.textDecoration) {
+            var textDecoration = parsedAttributes.textDecoration;
+            if (textDecoration.indexOf("underline") !== -1) {
+                options.underline = true;
+            }
+            if (textDecoration.indexOf("overline") !== -1) {
+                options.overline = true;
+            }
+            if (textDecoration.indexOf("line-through") !== -1) {
+                options.linethrough = true;
+            }
+            delete options.textDecoration;
+        }
+        if ("dx" in parsedAttributes) {
+            options.left += parsedAttributes.dx;
+        }
+        if ("dy" in parsedAttributes) {
+            options.top += parsedAttributes.dy;
+        }
+        if (!("fontSize" in options)) {
+            options.fontSize = fabric.Text.DEFAULT_SVG_FONT_SIZE;
+        }
+        var textContent = "";
+        if (!("textContent" in element)) {
+            if ("firstChild" in element && element.firstChild !== null) {
+                if ("data" in element.firstChild && element.firstChild.data !== null) {
+                    textContent = element.firstChild.data;
+                }
+            }
+        } else {
+            textContent = element.textContent;
+        }
+        textContent = textContent.replace(/^\s+|\s+$|\n+/g, "").replace(/\s+/g, " ");
+        var text = new fabric.Text(textContent, options), textHeightScaleFactor = text.getScaledHeight() / text.height, lineHeightDiff = (text.height + text.strokeWidth) * text.lineHeight - text.height, scaledDiff = lineHeightDiff * textHeightScaleFactor, textHeight = text.getScaledHeight() + scaledDiff, offX = 0;
+        if (parsedAnchor === "center") {
+            offX = text.getScaledWidth() / 2;
+        }
+        if (parsedAnchor === "right") {
+            offX = text.getScaledWidth();
+        }
+        text.set({
+            left: text.left - offX,
+            top: text.top - (textHeight - text.fontSize * (.18 + text._fontSizeFraction)) / text.lineHeight
+        });
+        callback(text);
+    };
+    fabric.Text.fromObject = function(object, callback) {
+        return fabric.Object._fromObject("Text", object, callback, "text");
+    };
+    fabric.util.createAccessors && fabric.util.createAccessors(fabric.Text);
+})( true ? exports : this);
+
+(function() {
+    fabric.util.object.extend(fabric.Text.prototype, {
+        isEmptyStyles: function(lineIndex) {
+            if (!this.styles) {
+                return true;
+            }
+            if (typeof lineIndex !== "undefined" && !this.styles[lineIndex]) {
+                return true;
+            }
+            var obj = typeof lineIndex === "undefined" ? this.styles : {
+                line: this.styles[lineIndex]
+            };
+            for (var p1 in obj) {
+                for (var p2 in obj[p1]) {
+                    for (var p3 in obj[p1][p2]) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        },
+        styleHas: function(property, lineIndex) {
+            if (!this.styles || !property || property === "") {
+                return false;
+            }
+            if (typeof lineIndex !== "undefined" && !this.styles[lineIndex]) {
+                return false;
+            }
+            var obj = typeof lineIndex === "undefined" ? this.styles : {
+                line: this.styles[lineIndex]
+            };
+            for (var p1 in obj) {
+                for (var p2 in obj[p1]) {
+                    if (typeof obj[p1][p2][property] !== "undefined") {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        },
+        cleanStyle: function(property) {
+            if (!this.styles || !property || property === "") {
+                return false;
+            }
+            var obj = this.styles, stylesCount = 0, letterCount, stylePropertyValue, allStyleObjectPropertiesMatch = true, graphemeCount = 0, styleObject;
+            for (var p1 in obj) {
+                letterCount = 0;
+                for (var p2 in obj[p1]) {
+                    var styleObject = obj[p1][p2], stylePropertyHasBeenSet = styleObject.hasOwnProperty(property);
+                    stylesCount++;
+                    if (stylePropertyHasBeenSet) {
+                        if (!stylePropertyValue) {
+                            stylePropertyValue = styleObject[property];
+                        } else if (styleObject[property] !== stylePropertyValue) {
+                            allStyleObjectPropertiesMatch = false;
+                        }
+                        if (styleObject[property] === this[property]) {
+                            delete styleObject[property];
+                        }
+                    } else {
+                        allStyleObjectPropertiesMatch = false;
+                    }
+                    if (Object.keys(styleObject).length !== 0) {
+                        letterCount++;
+                    } else {
+                        delete obj[p1][p2];
+                    }
+                }
+                if (letterCount === 0) {
+                    delete obj[p1];
+                }
+            }
+            for (var i = 0; i < this._textLines.length; i++) {
+                graphemeCount += this._textLines[i].length;
+            }
+            if (allStyleObjectPropertiesMatch && stylesCount === graphemeCount) {
+                this[property] = stylePropertyValue;
+                this.removeStyle(property);
+            }
+        },
+        removeStyle: function(property) {
+            if (!this.styles || !property || property === "") {
+                return;
+            }
+            var obj = this.styles, line, lineNum, charNum;
+            for (lineNum in obj) {
+                line = obj[lineNum];
+                for (charNum in line) {
+                    delete line[charNum][property];
+                    if (Object.keys(line[charNum]).length === 0) {
+                        delete line[charNum];
+                    }
+                }
+                if (Object.keys(line).length === 0) {
+                    delete obj[lineNum];
+                }
+            }
+        },
+        _extendStyles: function(index, styles) {
+            var loc = this.get2DCursorLocation(index);
+            if (!this._getLineStyle(loc.lineIndex)) {
+                this._setLineStyle(loc.lineIndex, {});
+            }
+            if (!this._getStyleDeclaration(loc.lineIndex, loc.charIndex)) {
+                this._setStyleDeclaration(loc.lineIndex, loc.charIndex, {});
+            }
+            fabric.util.object.extend(this._getStyleDeclaration(loc.lineIndex, loc.charIndex), styles);
+        },
+        get2DCursorLocation: function(selectionStart, skipWrapping) {
+            if (typeof selectionStart === "undefined") {
+                selectionStart = this.selectionStart;
+            }
+            var lines = skipWrapping ? this._unwrappedTextLines : this._textLines;
+            var len = lines.length;
+            for (var i = 0; i < len; i++) {
+                if (selectionStart <= lines[i].length) {
+                    return {
+                        lineIndex: i,
+                        charIndex: selectionStart
+                    };
+                }
+                selectionStart -= lines[i].length + 1;
+            }
+            return {
+                lineIndex: i - 1,
+                charIndex: lines[i - 1].length < selectionStart ? lines[i - 1].length : selectionStart
+            };
+        },
+        getSelectionStyles: function(startIndex, endIndex, complete) {
+            if (typeof startIndex === "undefined") {
+                startIndex = this.selectionStart || 0;
+            }
+            if (typeof endIndex === "undefined") {
+                endIndex = this.selectionEnd || startIndex;
+            }
+            var styles = [];
+            for (var i = startIndex; i < endIndex; i++) {
+                styles.push(this.getStyleAtPosition(i, complete));
+            }
+            return styles;
+        },
+        getStyleAtPosition: function(position, complete) {
+            var loc = this.get2DCursorLocation(position), style = complete ? this.getCompleteStyleDeclaration(loc.lineIndex, loc.charIndex) : this._getStyleDeclaration(loc.lineIndex, loc.charIndex);
+            return style || {};
+        },
+        setSelectionStyles: function(styles, startIndex, endIndex) {
+            if (typeof startIndex === "undefined") {
+                startIndex = this.selectionStart || 0;
+            }
+            if (typeof endIndex === "undefined") {
+                endIndex = this.selectionEnd || startIndex;
+            }
+            for (var i = startIndex; i < endIndex; i++) {
+                this._extendStyles(i, styles);
+            }
+            this._forceClearCache = true;
+            return this;
+        },
+        _getStyleDeclaration: function(lineIndex, charIndex) {
+            var lineStyle = this.styles && this.styles[lineIndex];
+            if (!lineStyle) {
+                return null;
+            }
+            return lineStyle[charIndex];
+        },
+        getCompleteStyleDeclaration: function(lineIndex, charIndex) {
+            var style = this._getStyleDeclaration(lineIndex, charIndex) || {}, styleObject = {}, prop;
+            for (var i = 0; i < this._styleProperties.length; i++) {
+                prop = this._styleProperties[i];
+                styleObject[prop] = typeof style[prop] === "undefined" ? this[prop] : style[prop];
+            }
+            return styleObject;
+        },
+        _setStyleDeclaration: function(lineIndex, charIndex, style) {
+            this.styles[lineIndex][charIndex] = style;
+        },
+        _deleteStyleDeclaration: function(lineIndex, charIndex) {
+            delete this.styles[lineIndex][charIndex];
+        },
+        _getLineStyle: function(lineIndex) {
+            return this.styles[lineIndex];
+        },
+        _setLineStyle: function(lineIndex, style) {
+            this.styles[lineIndex] = style;
+        },
+        _deleteLineStyle: function(lineIndex) {
+            delete this.styles[lineIndex];
+        }
+    });
+})();
+
+(function() {
+    function parseDecoration(object) {
+        if (object.textDecoration) {
+            object.textDecoration.indexOf("underline") > -1 && (object.underline = true);
+            object.textDecoration.indexOf("line-through") > -1 && (object.linethrough = true);
+            object.textDecoration.indexOf("overline") > -1 && (object.overline = true);
+            delete object.textDecoration;
+        }
+    }
+    fabric.IText = fabric.util.createClass(fabric.Text, fabric.Observable, {
+        type: "i-text",
+        selectionStart: 0,
+        selectionEnd: 0,
+        selectionColor: "rgba(17,119,255,0.3)",
+        isEditing: false,
+        editable: true,
+        editingBorderColor: "rgba(102,153,255,0.25)",
+        cursorWidth: 2,
+        cursorColor: "#333",
+        cursorDelay: 1e3,
+        cursorDuration: 600,
+        caching: true,
+        _reSpace: /\s|\n/,
+        _currentCursorOpacity: 0,
+        _selectionDirection: null,
+        _abortCursorAnimation: false,
+        __widthOfSpace: [],
+        inCompositionMode: false,
+        initialize: function(text, options) {
+            this.callSuper("initialize", text, options);
+            this.initBehavior();
+        },
+        setSelectionStart: function(index) {
+            index = Math.max(index, 0);
+            this._updateAndFire("selectionStart", index);
+        },
+        setSelectionEnd: function(index) {
+            index = Math.min(index, this.text.length);
+            this._updateAndFire("selectionEnd", index);
+        },
+        _updateAndFire: function(property, index) {
+            if (this[property] !== index) {
+                this._fireSelectionChanged();
+                this[property] = index;
+            }
+            this._updateTextarea();
+        },
+        _fireSelectionChanged: function() {
+            this.fire("selection:changed");
+            this.canvas && this.canvas.fire("text:selection:changed", {
+                target: this
+            });
+        },
+        initDimensions: function() {
+            this.isEditing && this.initDelayedCursor();
+            this.clearContextTop();
+            this.callSuper("initDimensions");
+        },
+        render: function(ctx) {
+            this.clearContextTop();
+            this.callSuper("render", ctx);
+            this.cursorOffsetCache = {};
+            this.renderCursorOrSelection();
+        },
+        _render: function(ctx) {
+            this.callSuper("_render", ctx);
+        },
+        clearContextTop: function(skipRestore) {
+            if (!this.isEditing) {
+                return;
+            }
+            if (this.canvas && this.canvas.contextTop) {
+                var ctx = this.canvas.contextTop, v = this.canvas.viewportTransform;
+                ctx.save();
+                ctx.transform(v[0], v[1], v[2], v[3], v[4], v[5]);
+                this.transform(ctx);
+                this.transformMatrix && ctx.transform.apply(ctx, this.transformMatrix);
+                this._clearTextArea(ctx);
+                skipRestore || ctx.restore();
+            }
+        },
+        renderCursorOrSelection: function() {
+            if (!this.isEditing || !this.canvas) {
+                return;
+            }
+            var boundaries = this._getCursorBoundaries(), ctx;
+            if (this.canvas && this.canvas.contextTop) {
+                ctx = this.canvas.contextTop;
+                this.clearContextTop(true);
+            } else {
+                ctx = this.canvas.contextContainer;
+                ctx.save();
+            }
+            if (this.selectionStart === this.selectionEnd) {
+                this.renderCursor(boundaries, ctx);
+            } else {
+                this.renderSelection(boundaries, ctx);
+            }
+            ctx.restore();
+        },
+        _clearTextArea: function(ctx) {
+            var width = this.width + 4, height = this.height + 4;
+            ctx.clearRect(-width / 2, -height / 2, width, height);
+        },
+        _getCursorBoundaries: function(position) {
+            if (typeof position === "undefined") {
+                position = this.selectionStart;
+            }
+            var left = this._getLeftOffset(), top = this._getTopOffset(), offsets = this._getCursorBoundariesOffsets(position);
+            return {
+                left: left,
+                top: top,
+                leftOffset: offsets.left,
+                topOffset: offsets.top
+            };
+        },
+        _getCursorBoundariesOffsets: function(position) {
+            if (this.cursorOffsetCache && "top" in this.cursorOffsetCache) {
+                return this.cursorOffsetCache;
+            }
+            var lineLeftOffset, lineIndex = 0, charIndex = 0, topOffset = 0, leftOffset = 0, boundaries, cursorPosition = this.get2DCursorLocation(position);
+            for (var i = 0; i < cursorPosition.lineIndex; i++) {
+                topOffset += this.getHeightOfLine(i);
+            }
+            lineLeftOffset = this._getLineLeftOffset(cursorPosition.lineIndex);
+            var bound = this.__charBounds[cursorPosition.lineIndex][cursorPosition.charIndex];
+            bound && (leftOffset = bound.left);
+            if (this.charSpacing !== 0 && charIndex === this._textLines[lineIndex].length) {
+                leftOffset -= this._getWidthOfCharSpacing();
+            }
+            boundaries = {
+                top: topOffset,
+                left: lineLeftOffset + (leftOffset > 0 ? leftOffset : 0)
+            };
+            this.cursorOffsetCache = boundaries;
+            return this.cursorOffsetCache;
+        },
+        renderCursor: function(boundaries, ctx) {
+            var cursorLocation = this.get2DCursorLocation(), lineIndex = cursorLocation.lineIndex, charIndex = cursorLocation.charIndex > 0 ? cursorLocation.charIndex - 1 : 0, charHeight = this.getValueOfPropertyAt(lineIndex, charIndex, "fontSize"), multiplier = this.scaleX * this.canvas.getZoom(), cursorWidth = this.cursorWidth / multiplier, topOffset = boundaries.topOffset, dy = this.getValueOfPropertyAt(lineIndex, charIndex, "deltaY");
+            topOffset += (1 - this._fontSizeFraction) * this.getHeightOfLine(lineIndex) / this.lineHeight - charHeight * (1 - this._fontSizeFraction);
+            if (this.inCompositionMode) {
+                this.renderSelection(boundaries, ctx);
+            }
+            ctx.fillStyle = this.getValueOfPropertyAt(lineIndex, charIndex, "fill");
+            ctx.globalAlpha = this.__isMousedown ? 1 : this._currentCursorOpacity;
+            ctx.fillRect(boundaries.left + boundaries.leftOffset - cursorWidth / 2, topOffset + boundaries.top + dy, cursorWidth, charHeight);
+        },
+        renderSelection: function(boundaries, ctx) {
+            var selectionStart = this.inCompositionMode ? this.hiddenTextarea.selectionStart : this.selectionStart, selectionEnd = this.inCompositionMode ? this.hiddenTextarea.selectionEnd : this.selectionEnd, isJustify = this.textAlign.indexOf("justify") !== -1, start = this.get2DCursorLocation(selectionStart), end = this.get2DCursorLocation(selectionEnd), startLine = start.lineIndex, endLine = end.lineIndex, startChar = start.charIndex < 0 ? 0 : start.charIndex, endChar = end.charIndex < 0 ? 0 : end.charIndex;
+            for (var i = startLine; i <= endLine; i++) {
+                var lineOffset = this._getLineLeftOffset(i) || 0, lineHeight = this.getHeightOfLine(i), realLineHeight = 0, boxStart = 0, boxEnd = 0;
+                if (i === startLine) {
+                    boxStart = this.__charBounds[startLine][startChar].left;
+                }
+                if (i >= startLine && i < endLine) {
+                    boxEnd = isJustify && !this.isEndOfWrapping(i) ? this.width : this.getLineWidth(i) || 5;
+                } else if (i === endLine) {
+                    if (endChar === 0) {
+                        boxEnd = this.__charBounds[endLine][endChar].left;
+                    } else {
+                        boxEnd = this.__charBounds[endLine][endChar - 1].left + this.__charBounds[endLine][endChar - 1].width;
+                    }
+                }
+                realLineHeight = lineHeight;
+                if (this.lineHeight < 1 || i === endLine && this.lineHeight > 1) {
+                    lineHeight /= this.lineHeight;
+                }
+                if (this.inCompositionMode) {
+                    ctx.fillStyle = this.compositionColor || "black";
+                    ctx.fillRect(boundaries.left + lineOffset + boxStart, boundaries.top + boundaries.topOffset + lineHeight, boxEnd - boxStart, 1);
+                } else {
+                    ctx.fillStyle = this.selectionColor;
+                    ctx.fillRect(boundaries.left + lineOffset + boxStart, boundaries.top + boundaries.topOffset, boxEnd - boxStart, lineHeight);
+                }
+                boundaries.topOffset += realLineHeight;
+            }
+        },
+        getCurrentCharFontSize: function() {
+            var cp = this._getCurrentCharIndex();
+            return this.getValueOfPropertyAt(cp.l, cp.c, "fontSize");
+        },
+        getCurrentCharColor: function() {
+            var cp = this._getCurrentCharIndex();
+            return this.getValueOfPropertyAt(cp.l, cp.c, "fill");
+        },
+        _getCurrentCharIndex: function() {
+            var cursorPosition = this.get2DCursorLocation(this.selectionStart, true), charIndex = cursorPosition.charIndex > 0 ? cursorPosition.charIndex - 1 : 0;
+            return {
+                l: cursorPosition.lineIndex,
+                c: charIndex
+            };
+        }
+    });
+    fabric.IText.fromObject = function(object, callback) {
+        parseDecoration(object);
+        if (object.styles) {
+            for (var i in object.styles) {
+                for (var j in object.styles[i]) {
+                    parseDecoration(object.styles[i][j]);
+                }
+            }
+        }
+        fabric.Object._fromObject("IText", object, callback, "text");
+    };
+})();
+
+(function() {
+    var clone = fabric.util.object.clone;
+    fabric.util.object.extend(fabric.IText.prototype, {
+        initBehavior: function() {
+            this.initAddedHandler();
+            this.initRemovedHandler();
+            this.initCursorSelectionHandlers();
+            this.initDoubleClickSimulation();
+            this.mouseMoveHandler = this.mouseMoveHandler.bind(this);
+        },
+        onDeselect: function(options) {
+            this.isEditing && this.exitEditing();
+            this.selected = false;
+            fabric.Object.prototype.onDeselect.call(this, options);
+        },
+        initAddedHandler: function() {
+            var _this = this;
+            this.on("added", function() {
+                var canvas = _this.canvas;
+                if (canvas) {
+                    if (!canvas._hasITextHandlers) {
+                        canvas._hasITextHandlers = true;
+                        _this._initCanvasHandlers(canvas);
+                    }
+                    canvas._iTextInstances = canvas._iTextInstances || [];
+                    canvas._iTextInstances.push(_this);
+                }
+            });
+        },
+        initRemovedHandler: function() {
+            var _this = this;
+            this.on("removed", function() {
+                var canvas = _this.canvas;
+                if (canvas) {
+                    canvas._iTextInstances = canvas._iTextInstances || [];
+                    fabric.util.removeFromArray(canvas._iTextInstances, _this);
+                    if (canvas._iTextInstances.length === 0) {
+                        canvas._hasITextHandlers = false;
+                        _this._removeCanvasHandlers(canvas);
+                    }
+                }
+            });
+        },
+        _initCanvasHandlers: function(canvas) {
+            canvas._mouseUpITextHandler = function() {
+                if (canvas._iTextInstances) {
+                    canvas._iTextInstances.forEach(function(obj) {
+                        obj.__isMousedown = false;
+                    });
+                }
+            }.bind(this);
+            canvas.on("mouse:up", canvas._mouseUpITextHandler);
+        },
+        _removeCanvasHandlers: function(canvas) {
+            canvas.off("mouse:up", canvas._mouseUpITextHandler);
+        },
+        _tick: function() {
+            this._currentTickState = this._animateCursor(this, 1, this.cursorDuration, "_onTickComplete");
+        },
+        _animateCursor: function(obj, targetOpacity, duration, completeMethod) {
+            var tickState;
+            tickState = {
+                isAborted: false,
+                abort: function() {
+                    this.isAborted = true;
+                }
+            };
+            obj.animate("_currentCursorOpacity", targetOpacity, {
+                duration: duration,
+                onComplete: function() {
+                    if (!tickState.isAborted) {
+                        obj[completeMethod]();
+                    }
+                },
+                onChange: function() {
+                    if (obj.canvas && obj.selectionStart === obj.selectionEnd) {
+                        obj.renderCursorOrSelection();
+                    }
+                },
+                abort: function() {
+                    return tickState.isAborted;
+                }
+            });
+            return tickState;
+        },
+        _onTickComplete: function() {
+            var _this = this;
+            if (this._cursorTimeout1) {
+                clearTimeout(this._cursorTimeout1);
+            }
+            this._cursorTimeout1 = setTimeout(function() {
+                _this._currentTickCompleteState = _this._animateCursor(_this, 0, this.cursorDuration / 2, "_tick");
+            }, 100);
+        },
+        initDelayedCursor: function(restart) {
+            var _this = this, delay = restart ? 0 : this.cursorDelay;
+            this.abortCursorAnimation();
+            this._currentCursorOpacity = 1;
+            this._cursorTimeout2 = setTimeout(function() {
+                _this._tick();
+            }, delay);
+        },
+        abortCursorAnimation: function() {
+            var shouldClear = this._currentTickState || this._currentTickCompleteState, canvas = this.canvas;
+            this._currentTickState && this._currentTickState.abort();
+            this._currentTickCompleteState && this._currentTickCompleteState.abort();
+            clearTimeout(this._cursorTimeout1);
+            clearTimeout(this._cursorTimeout2);
+            this._currentCursorOpacity = 0;
+            if (shouldClear && canvas) {
+                canvas.clearContext(canvas.contextTop || canvas.contextContainer);
+            }
+        },
+        selectAll: function() {
+            this.selectionStart = 0;
+            this.selectionEnd = this._text.length;
+            this._fireSelectionChanged();
+            this._updateTextarea();
+            return this;
+        },
+        getSelectedText: function() {
+            return this._text.slice(this.selectionStart, this.selectionEnd).join("");
+        },
+        findWordBoundaryLeft: function(startFrom) {
+            var offset = 0, index = startFrom - 1;
+            if (this._reSpace.test(this._text[index])) {
+                while (this._reSpace.test(this._text[index])) {
+                    offset++;
+                    index--;
+                }
+            }
+            while (/\S/.test(this._text[index]) && index > -1) {
+                offset++;
+                index--;
+            }
+            return startFrom - offset;
+        },
+        findWordBoundaryRight: function(startFrom) {
+            var offset = 0, index = startFrom;
+            if (this._reSpace.test(this._text[index])) {
+                while (this._reSpace.test(this._text[index])) {
+                    offset++;
+                    index++;
+                }
+            }
+            while (/\S/.test(this._text[index]) && index < this.text.length) {
+                offset++;
+                index++;
+            }
+            return startFrom + offset;
+        },
+        findLineBoundaryLeft: function(startFrom) {
+            var offset = 0, index = startFrom - 1;
+            while (!/\n/.test(this._text[index]) && index > -1) {
+                offset++;
+                index--;
+            }
+            return startFrom - offset;
+        },
+        findLineBoundaryRight: function(startFrom) {
+            var offset = 0, index = startFrom;
+            while (!/\n/.test(this._text[index]) && index < this.text.length) {
+                offset++;
+                index++;
+            }
+            return startFrom + offset;
+        },
+        searchWordBoundary: function(selectionStart, direction) {
+            var index = this._reSpace.test(this.text.charAt(selectionStart)) ? selectionStart - 1 : selectionStart, _char = this.text.charAt(index), reNonWord = /[ \n\.,;!\?\-]/;
+            while (!reNonWord.test(_char) && index > 0 && index < this.text.length) {
+                index += direction;
+                _char = this.text.charAt(index);
+            }
+            if (reNonWord.test(_char) && _char !== "\n") {
+                index += direction === 1 ? 0 : 1;
+            }
+            return index;
+        },
+        selectWord: function(selectionStart) {
+            selectionStart = selectionStart || this.selectionStart;
+            var newSelectionStart = this.searchWordBoundary(selectionStart, -1), newSelectionEnd = this.searchWordBoundary(selectionStart, 1);
+            this.selectionStart = newSelectionStart;
+            this.selectionEnd = newSelectionEnd;
+            this._fireSelectionChanged();
+            this._updateTextarea();
+            this.renderCursorOrSelection();
+        },
+        selectLine: function(selectionStart) {
+            selectionStart = selectionStart || this.selectionStart;
+            var newSelectionStart = this.findLineBoundaryLeft(selectionStart), newSelectionEnd = this.findLineBoundaryRight(selectionStart);
+            this.selectionStart = newSelectionStart;
+            this.selectionEnd = newSelectionEnd;
+            this._fireSelectionChanged();
+            this._updateTextarea();
+            return this;
+        },
+        enterEditing: function(e) {
+            if (this.isEditing || !this.editable) {
+                return;
+            }
+            if (this.canvas) {
+                this.canvas.calcOffset();
+                this.exitEditingOnOthers(this.canvas);
+            }
+            this.isEditing = true;
+            this.initHiddenTextarea(e);
+            this.hiddenTextarea.focus();
+            this.hiddenTextarea.value = this.text;
+            this._updateTextarea();
+            this._saveEditingProps();
+            this._setEditingProps();
+            this._textBeforeEdit = this.text;
+            this._tick();
+            this.fire("editing:entered");
+            this._fireSelectionChanged();
+            if (!this.canvas) {
+                return this;
+            }
+            this.canvas.fire("text:editing:entered", {
+                target: this
+            });
+            this.initMouseMoveHandler();
+            this.canvas.requestRenderAll();
+            return this;
+        },
+        exitEditingOnOthers: function(canvas) {
+            if (canvas._iTextInstances) {
+                canvas._iTextInstances.forEach(function(obj) {
+                    obj.selected = false;
+                    if (obj.isEditing) {
+                        obj.exitEditing();
+                    }
+                });
+            }
+        },
+        initMouseMoveHandler: function() {
+            this.canvas.on("mouse:move", this.mouseMoveHandler);
+        },
+        mouseMoveHandler: function(options) {
+            if (!this.__isMousedown || !this.isEditing) {
+                return;
+            }
+            var newSelectionStart = this.getSelectionStartFromPointer(options.e), currentStart = this.selectionStart, currentEnd = this.selectionEnd;
+            if ((newSelectionStart !== this.__selectionStartOnMouseDown || currentStart === currentEnd) && (currentStart === newSelectionStart || currentEnd === newSelectionStart)) {
+                return;
+            }
+            if (newSelectionStart > this.__selectionStartOnMouseDown) {
+                this.selectionStart = this.__selectionStartOnMouseDown;
+                this.selectionEnd = newSelectionStart;
+            } else {
+                this.selectionStart = newSelectionStart;
+                this.selectionEnd = this.__selectionStartOnMouseDown;
+            }
+            if (this.selectionStart !== currentStart || this.selectionEnd !== currentEnd) {
+                this.restartCursorIfNeeded();
+                this._fireSelectionChanged();
+                this._updateTextarea();
+                this.renderCursorOrSelection();
+            }
+        },
+        _setEditingProps: function() {
+            this.hoverCursor = "text";
+            if (this.canvas) {
+                this.canvas.defaultCursor = this.canvas.moveCursor = "text";
+            }
+            this.borderColor = this.editingBorderColor;
+            this.hasControls = this.selectable = false;
+            this.lockMovementX = this.lockMovementY = true;
+        },
+        fromStringToGraphemeSelection: function(start, end, text) {
+            var smallerTextStart = text.slice(0, start), graphemeStart = fabric.util.string.graphemeSplit(smallerTextStart).length;
+            if (start === end) {
+                return {
+                    selectionStart: graphemeStart,
+                    selectionEnd: graphemeStart
+                };
+            }
+            var smallerTextEnd = text.slice(start, end), graphemeEnd = fabric.util.string.graphemeSplit(smallerTextEnd).length;
+            return {
+                selectionStart: graphemeStart,
+                selectionEnd: graphemeStart + graphemeEnd
+            };
+        },
+        fromGraphemeToStringSelection: function(start, end, _text) {
+            var smallerTextStart = _text.slice(0, start), graphemeStart = smallerTextStart.join("").length;
+            if (start === end) {
+                return {
+                    selectionStart: graphemeStart,
+                    selectionEnd: graphemeStart
+                };
+            }
+            var smallerTextEnd = _text.slice(start, end), graphemeEnd = smallerTextEnd.join("").length;
+            return {
+                selectionStart: graphemeStart,
+                selectionEnd: graphemeStart + graphemeEnd
+            };
+        },
+        _updateTextarea: function() {
+            this.cursorOffsetCache = {};
+            if (!this.hiddenTextarea) {
+                return;
+            }
+            if (!this.inCompositionMode) {
+                var newSelection = this.fromGraphemeToStringSelection(this.selectionStart, this.selectionEnd, this._text);
+                this.hiddenTextarea.selectionStart = newSelection.selectionStart;
+                this.hiddenTextarea.selectionEnd = newSelection.selectionEnd;
+            }
+            this.updateTextareaPosition();
+        },
+        updateFromTextArea: function() {
+            if (!this.hiddenTextarea) {
+                return;
+            }
+            this.cursorOffsetCache = {};
+            this.text = this.hiddenTextarea.value;
+            if (this._shouldClearDimensionCache()) {
+                this.initDimensions();
+                this.setCoords();
+            }
+            var newSelection = this.fromStringToGraphemeSelection(this.hiddenTextarea.selectionStart, this.hiddenTextarea.selectionEnd, this.hiddenTextarea.value);
+            this.selectionEnd = this.selectionStart = newSelection.selectionEnd;
+            if (!this.inCompositionMode) {
+                this.selectionStart = newSelection.selectionStart;
+            }
+            this.updateTextareaPosition();
+        },
+        updateTextareaPosition: function() {
+            if (this.selectionStart === this.selectionEnd) {
+                var style = this._calcTextareaPosition();
+                this.hiddenTextarea.style.left = style.left;
+                this.hiddenTextarea.style.top = style.top;
+            }
+        },
+        _calcTextareaPosition: function() {
+            if (!this.canvas) {
+                return {
+                    x: 1,
+                    y: 1
+                };
+            }
+            var desiredPostion = this.inCompositionMode ? this.compositionStart : this.selectionStart, boundaries = this._getCursorBoundaries(desiredPostion), cursorLocation = this.get2DCursorLocation(desiredPostion), lineIndex = cursorLocation.lineIndex, charIndex = cursorLocation.charIndex, charHeight = this.getValueOfPropertyAt(lineIndex, charIndex, "fontSize") * this.lineHeight, leftOffset = boundaries.leftOffset, m = this.calcTransformMatrix(), p = {
+                x: boundaries.left + leftOffset,
+                y: boundaries.top + boundaries.topOffset + charHeight
+            }, upperCanvas = this.canvas.upperCanvasEl, upperCanvasWidth = upperCanvas.width, upperCanvasHeight = upperCanvas.height, maxWidth = upperCanvasWidth - charHeight, maxHeight = upperCanvasHeight - charHeight, scaleX = upperCanvas.clientWidth / upperCanvasWidth, scaleY = upperCanvas.clientHeight / upperCanvasHeight;
+            p = fabric.util.transformPoint(p, m);
+            p = fabric.util.transformPoint(p, this.canvas.viewportTransform);
+            p.x *= scaleX;
+            p.y *= scaleY;
+            if (p.x < 0) {
+                p.x = 0;
+            }
+            if (p.x > maxWidth) {
+                p.x = maxWidth;
+            }
+            if (p.y < 0) {
+                p.y = 0;
+            }
+            if (p.y > maxHeight) {
+                p.y = maxHeight;
+            }
+            p.x += this.canvas._offset.left;
+            p.y += this.canvas._offset.top;
+            return {
+                left: p.x + "px",
+                top: p.y + "px",
+                fontSize: charHeight + "px",
+                charHeight: charHeight
+            };
+        },
+        _saveEditingProps: function() {
+            this._savedProps = {
+                hasControls: this.hasControls,
+                borderColor: this.borderColor,
+                lockMovementX: this.lockMovementX,
+                lockMovementY: this.lockMovementY,
+                hoverCursor: this.hoverCursor,
+                defaultCursor: this.canvas && this.canvas.defaultCursor,
+                moveCursor: this.canvas && this.canvas.moveCursor
+            };
+        },
+        _restoreEditingProps: function() {
+            if (!this._savedProps) {
+                return;
+            }
+            this.hoverCursor = this._savedProps.hoverCursor;
+            this.hasControls = this._savedProps.hasControls;
+            this.borderColor = this._savedProps.borderColor;
+            this.lockMovementX = this._savedProps.lockMovementX;
+            this.lockMovementY = this._savedProps.lockMovementY;
+            if (this.canvas) {
+                this.canvas.defaultCursor = this._savedProps.defaultCursor;
+                this.canvas.moveCursor = this._savedProps.moveCursor;
+            }
+        },
+        exitEditing: function() {
+            var isTextChanged = this._textBeforeEdit !== this.text;
+            this.selected = false;
+            this.isEditing = false;
+            this.selectable = true;
+            this.selectionEnd = this.selectionStart;
+            if (this.hiddenTextarea) {
+                this.hiddenTextarea.blur && this.hiddenTextarea.blur();
+                this.canvas && this.hiddenTextarea.parentNode.removeChild(this.hiddenTextarea);
+                this.hiddenTextarea = null;
+            }
+            this.abortCursorAnimation();
+            this._restoreEditingProps();
+            this._currentCursorOpacity = 0;
+            if (this._shouldClearDimensionCache()) {
+                this.initDimensions();
+                this.setCoords();
+            }
+            this.fire("editing:exited");
+            isTextChanged && this.fire("modified");
+            if (this.canvas) {
+                this.canvas.off("mouse:move", this.mouseMoveHandler);
+                this.canvas.fire("text:editing:exited", {
+                    target: this
+                });
+                isTextChanged && this.canvas.fire("object:modified", {
+                    target: this
+                });
+            }
+            return this;
+        },
+        _removeExtraneousStyles: function() {
+            for (var prop in this.styles) {
+                if (!this._textLines[prop]) {
+                    delete this.styles[prop];
+                }
+            }
+        },
+        removeStyleFromTo: function(start, end) {
+            var cursorStart = this.get2DCursorLocation(start, true), cursorEnd = this.get2DCursorLocation(end, true), lineStart = cursorStart.lineIndex, charStart = cursorStart.charIndex, lineEnd = cursorEnd.lineIndex, charEnd = cursorEnd.charIndex, i, styleObj;
+            if (lineStart !== lineEnd) {
+                if (this.styles[lineStart]) {
+                    for (i = charStart; i < this._unwrappedTextLines[lineStart].length; i++) {
+                        delete this.styles[lineStart][i];
+                    }
+                }
+                if (this.styles[lineEnd]) {
+                    for (i = charEnd; i < this._unwrappedTextLines[lineEnd].length; i++) {
+                        styleObj = this.styles[lineEnd][i];
+                        if (styleObj) {
+                            this.styles[lineStart] || (this.styles[lineStart] = {});
+                            this.styles[lineStart][charStart + i - charEnd] = styleObj;
+                        }
+                    }
+                }
+                for (i = lineStart + 1; i <= lineEnd; i++) {
+                    delete this.styles[i];
+                }
+                this.shiftLineStyles(lineEnd, lineStart - lineEnd);
+            } else {
+                if (this.styles[lineStart]) {
+                    styleObj = this.styles[lineStart];
+                    var diff = charEnd - charStart, numericChar, _char;
+                    for (i = charStart; i < charEnd; i++) {
+                        delete styleObj[i];
+                    }
+                    for (_char in this.styles[lineStart]) {
+                        numericChar = parseInt(_char, 10);
+                        if (numericChar >= charEnd) {
+                            styleObj[numericChar - diff] = styleObj[_char];
+                            delete styleObj[_char];
+                        }
+                    }
+                }
+            }
+        },
+        shiftLineStyles: function(lineIndex, offset) {
+            var clonedStyles = clone(this.styles);
+            for (var line in this.styles) {
+                var numericLine = parseInt(line, 10);
+                if (numericLine > lineIndex) {
+                    this.styles[numericLine + offset] = clonedStyles[numericLine];
+                    if (!clonedStyles[numericLine - offset]) {
+                        delete this.styles[numericLine];
+                    }
+                }
+            }
+        },
+        restartCursorIfNeeded: function() {
+            if (!this._currentTickState || this._currentTickState.isAborted || !this._currentTickCompleteState || this._currentTickCompleteState.isAborted) {
+                this.initDelayedCursor();
+            }
+        },
+        insertNewlineStyleObject: function(lineIndex, charIndex, qty, copiedStyle) {
+            var currentCharStyle, newLineStyles = {}, somethingAdded = false;
+            qty || (qty = 1);
+            this.shiftLineStyles(lineIndex, qty);
+            if (this.styles[lineIndex]) {
+                currentCharStyle = this.styles[lineIndex][charIndex === 0 ? charIndex : charIndex - 1];
+            }
+            for (var index in this.styles[lineIndex]) {
+                var numIndex = parseInt(index, 10);
+                if (numIndex >= charIndex) {
+                    somethingAdded = true;
+                    newLineStyles[numIndex - charIndex] = this.styles[lineIndex][index];
+                    delete this.styles[lineIndex][index];
+                }
+            }
+            if (somethingAdded) {
+                this.styles[lineIndex + qty] = newLineStyles;
+            } else {
+                delete this.styles[lineIndex + qty];
+            }
+            while (qty > 1) {
+                qty--;
+                if (copiedStyle && copiedStyle[qty]) {
+                    this.styles[lineIndex + qty] = {
+                        0: clone(copiedStyle[qty])
+                    };
+                } else if (currentCharStyle) {
+                    this.styles[lineIndex + qty] = {
+                        0: clone(currentCharStyle)
+                    };
+                } else {
+                    delete this.styles[lineIndex + qty];
+                }
+            }
+            this._forceClearCache = true;
+        },
+        insertCharStyleObject: function(lineIndex, charIndex, quantity, copiedStyle) {
+            if (!this.styles) {
+                this.styles = {};
+            }
+            var currentLineStyles = this.styles[lineIndex], currentLineStylesCloned = currentLineStyles ? clone(currentLineStyles) : {};
+            quantity || (quantity = 1);
+            for (var index in currentLineStylesCloned) {
+                var numericIndex = parseInt(index, 10);
+                if (numericIndex >= charIndex) {
+                    currentLineStyles[numericIndex + quantity] = currentLineStylesCloned[numericIndex];
+                    if (!currentLineStylesCloned[numericIndex - quantity]) {
+                        delete currentLineStyles[numericIndex];
+                    }
+                }
+            }
+            this._forceClearCache = true;
+            if (copiedStyle) {
+                while (quantity--) {
+                    if (!Object.keys(copiedStyle[quantity]).length) {
+                        continue;
+                    }
+                    if (!this.styles[lineIndex]) {
+                        this.styles[lineIndex] = {};
+                    }
+                    this.styles[lineIndex][charIndex + quantity] = clone(copiedStyle[quantity]);
+                }
+                return;
+            }
+            if (!currentLineStyles) {
+                return;
+            }
+            var newStyle = currentLineStyles[charIndex ? charIndex - 1 : 1];
+            while (newStyle && quantity--) {
+                this.styles[lineIndex][charIndex + quantity] = clone(newStyle);
+            }
+        },
+        insertNewStyleBlock: function(insertedText, start, copiedStyle) {
+            var cursorLoc = this.get2DCursorLocation(start, true), addedLines = [ 0 ], linesLenght = 0;
+            for (var i = 0; i < insertedText.length; i++) {
+                if (insertedText[i] === "\n") {
+                    linesLenght++;
+                    addedLines[linesLenght] = 0;
+                } else {
+                    addedLines[linesLenght]++;
+                }
+            }
+            if (addedLines[0] > 0) {
+                this.insertCharStyleObject(cursorLoc.lineIndex, cursorLoc.charIndex, addedLines[0], copiedStyle);
+                copiedStyle = copiedStyle && copiedStyle.slice(addedLines[0] + 1);
+            }
+            linesLenght && this.insertNewlineStyleObject(cursorLoc.lineIndex, cursorLoc.charIndex + addedLines[0], linesLenght);
+            for (var i = 1; i < linesLenght; i++) {
+                if (addedLines[i] > 0) {
+                    this.insertCharStyleObject(cursorLoc.lineIndex + i, 0, addedLines[i], copiedStyle);
+                } else if (copiedStyle) {
+                    this.styles[cursorLoc.lineIndex + i][0] = copiedStyle[0];
+                }
+                copiedStyle = copiedStyle && copiedStyle.slice(addedLines[i] + 1);
+            }
+            if (addedLines[i] > 0) {
+                this.insertCharStyleObject(cursorLoc.lineIndex + i, 0, addedLines[i], copiedStyle);
+            }
+        },
+        setSelectionStartEndWithShift: function(start, end, newSelection) {
+            if (newSelection <= start) {
+                if (end === start) {
+                    this._selectionDirection = "left";
+                } else if (this._selectionDirection === "right") {
+                    this._selectionDirection = "left";
+                    this.selectionEnd = start;
+                }
+                this.selectionStart = newSelection;
+            } else if (newSelection > start && newSelection < end) {
+                if (this._selectionDirection === "right") {
+                    this.selectionEnd = newSelection;
+                } else {
+                    this.selectionStart = newSelection;
+                }
+            } else {
+                if (end === start) {
+                    this._selectionDirection = "right";
+                } else if (this._selectionDirection === "left") {
+                    this._selectionDirection = "right";
+                    this.selectionStart = end;
+                }
+                this.selectionEnd = newSelection;
+            }
+        },
+        setSelectionInBoundaries: function() {
+            var length = this.text.length;
+            if (this.selectionStart > length) {
+                this.selectionStart = length;
+            } else if (this.selectionStart < 0) {
+                this.selectionStart = 0;
+            }
+            if (this.selectionEnd > length) {
+                this.selectionEnd = length;
+            } else if (this.selectionEnd < 0) {
+                this.selectionEnd = 0;
+            }
+        }
+    });
+})();
+
+fabric.util.object.extend(fabric.IText.prototype, {
+    initDoubleClickSimulation: function() {
+        this.__lastClickTime = +new Date();
+        this.__lastLastClickTime = +new Date();
+        this.__lastPointer = {};
+        this.on("mousedown", this.onMouseDown.bind(this));
+    },
+    onMouseDown: function(options) {
+        if (!this.canvas) {
+            return;
+        }
+        this.__newClickTime = +new Date();
+        var newPointer = this.canvas.getPointer(options.e);
+        if (this.isTripleClick(newPointer)) {
+            this.fire("tripleclick", options);
+            this._stopEvent(options.e);
+        }
+        this.__lastLastClickTime = this.__lastClickTime;
+        this.__lastClickTime = this.__newClickTime;
+        this.__lastPointer = newPointer;
+        this.__lastIsEditing = this.isEditing;
+        this.__lastSelected = this.selected;
+    },
+    isTripleClick: function(newPointer) {
+        return this.__newClickTime - this.__lastClickTime < 500 && this.__lastClickTime - this.__lastLastClickTime < 500 && this.__lastPointer.x === newPointer.x && this.__lastPointer.y === newPointer.y;
+    },
+    _stopEvent: function(e) {
+        e.preventDefault && e.preventDefault();
+        e.stopPropagation && e.stopPropagation();
+    },
+    initCursorSelectionHandlers: function() {
+        this.initMousedownHandler();
+        this.initMouseupHandler();
+        this.initClicks();
+    },
+    initClicks: function() {
+        this.on("mousedblclick", function(options) {
+            this.selectWord(this.getSelectionStartFromPointer(options.e));
+        });
+        this.on("tripleclick", function(options) {
+            this.selectLine(this.getSelectionStartFromPointer(options.e));
+        });
+    },
+    _mouseDownHandler: function(options) {
+        if (!this.canvas || !this.editable || options.e.button && options.e.button !== 1) {
+            return;
+        }
+        var pointer = this.canvas.getPointer(options.e);
+        this.__mousedownX = pointer.x;
+        this.__mousedownY = pointer.y;
+        this.__isMousedown = true;
+        if (this.selected) {
+            this.setCursorByClick(options.e);
+        }
+        if (this.isEditing) {
+            this.__selectionStartOnMouseDown = this.selectionStart;
+            if (this.selectionStart === this.selectionEnd) {
+                this.abortCursorAnimation();
+            }
+            this.renderCursorOrSelection();
+        }
+    },
+    initMousedownHandler: function() {
+        this.on("mousedown", this._mouseDownHandler);
+    },
+    _isObjectMoved: function(e) {
+        var pointer = this.canvas.getPointer(e);
+        return this.__mousedownX !== pointer.x || this.__mousedownY !== pointer.y;
+    },
+    initMouseupHandler: function() {
+        this.on("mouseup", this.mouseUpHandler);
+    },
+    mouseUpHandler: function(options) {
+        this.__isMousedown = false;
+        if (!this.editable || this._isObjectMoved(options.e) || options.e.button && options.e.button !== 1) {
+            return;
+        }
+        if (this.__lastSelected && !this.__corner) {
+            this.enterEditing(options.e);
+            if (this.selectionStart === this.selectionEnd) {
+                this.initDelayedCursor(true);
+            } else {
+                this.renderCursorOrSelection();
+            }
+        }
+        this.selected = true;
+    },
+    setCursorByClick: function(e) {
+        var newSelection = this.getSelectionStartFromPointer(e), start = this.selectionStart, end = this.selectionEnd;
+        if (e.shiftKey) {
+            this.setSelectionStartEndWithShift(start, end, newSelection);
+        } else {
+            this.selectionStart = newSelection;
+            this.selectionEnd = newSelection;
+        }
+        if (this.isEditing) {
+            this._fireSelectionChanged();
+            this._updateTextarea();
+        }
+    },
+    getSelectionStartFromPointer: function(e) {
+        var mouseOffset = this.getLocalPointer(e), prevWidth = 0, width = 0, height = 0, charIndex = 0, lineIndex = 0, lineLeftOffset, line;
+        for (var i = 0, len = this._textLines.length; i < len; i++) {
+            if (height <= mouseOffset.y) {
+                height += this.getHeightOfLine(i) * this.scaleY;
+                lineIndex = i;
+                if (i > 0) {
+                    charIndex += this._textLines[i - 1].length + 1;
+                }
+            } else {
+                break;
+            }
+        }
+        lineLeftOffset = this._getLineLeftOffset(lineIndex);
+        width = lineLeftOffset * this.scaleX;
+        line = this._textLines[lineIndex];
+        for (var j = 0, jlen = line.length; j < jlen; j++) {
+            prevWidth = width;
+            width += this.__charBounds[lineIndex][j].kernedWidth * this.scaleX;
+            if (width <= mouseOffset.x) {
+                charIndex++;
+            } else {
+                break;
+            }
+        }
+        return this._getNewSelectionStartFromOffset(mouseOffset, prevWidth, width, charIndex, jlen);
+    },
+    _getNewSelectionStartFromOffset: function(mouseOffset, prevWidth, width, index, jlen) {
+        var distanceBtwLastCharAndCursor = mouseOffset.x - prevWidth, distanceBtwNextCharAndCursor = width - mouseOffset.x, offset = distanceBtwNextCharAndCursor > distanceBtwLastCharAndCursor || distanceBtwNextCharAndCursor < 0 ? 0 : 1, newSelectionStart = index + offset;
+        if (this.flipX) {
+            newSelectionStart = jlen - newSelectionStart;
+        }
+        if (newSelectionStart > this._text.length) {
+            newSelectionStart = this._text.length;
+        }
+        return newSelectionStart;
+    }
+});
+
+fabric.util.object.extend(fabric.IText.prototype, {
+    initHiddenTextarea: function() {
+        this.hiddenTextarea = fabric.document.createElement("textarea");
+        this.hiddenTextarea.setAttribute("autocapitalize", "off");
+        this.hiddenTextarea.setAttribute("autocorrect", "off");
+        this.hiddenTextarea.setAttribute("autocomplete", "off");
+        this.hiddenTextarea.setAttribute("spellcheck", "false");
+        this.hiddenTextarea.setAttribute("data-fabric-hiddentextarea", "");
+        this.hiddenTextarea.setAttribute("wrap", "off");
+        var style = this._calcTextareaPosition();
+        this.hiddenTextarea.style.cssText = "position: absolute; top: " + style.top + "; left: " + style.left + "; z-index: -999; opacity: 0; width: 1px; height: 1px; font-size: 1px;" + " line-height: 1px; paddingｰtop: " + style.fontSize + ";";
+        fabric.document.body.appendChild(this.hiddenTextarea);
+        fabric.util.addListener(this.hiddenTextarea, "keydown", this.onKeyDown.bind(this));
+        fabric.util.addListener(this.hiddenTextarea, "keyup", this.onKeyUp.bind(this));
+        fabric.util.addListener(this.hiddenTextarea, "input", this.onInput.bind(this));
+        fabric.util.addListener(this.hiddenTextarea, "copy", this.copy.bind(this));
+        fabric.util.addListener(this.hiddenTextarea, "cut", this.copy.bind(this));
+        fabric.util.addListener(this.hiddenTextarea, "paste", this.paste.bind(this));
+        fabric.util.addListener(this.hiddenTextarea, "compositionstart", this.onCompositionStart.bind(this));
+        fabric.util.addListener(this.hiddenTextarea, "compositionupdate", this.onCompositionUpdate.bind(this));
+        fabric.util.addListener(this.hiddenTextarea, "compositionend", this.onCompositionEnd.bind(this));
+        if (!this._clickHandlerInitialized && this.canvas) {
+            fabric.util.addListener(this.canvas.upperCanvasEl, "click", this.onClick.bind(this));
+            this._clickHandlerInitialized = true;
+        }
+    },
+    keysMap: {
+        9: "exitEditing",
+        27: "exitEditing",
+        33: "moveCursorUp",
+        34: "moveCursorDown",
+        35: "moveCursorRight",
+        36: "moveCursorLeft",
+        37: "moveCursorLeft",
+        38: "moveCursorUp",
+        39: "moveCursorRight",
+        40: "moveCursorDown"
+    },
+    ctrlKeysMapUp: {
+        67: "copy",
+        88: "cut"
+    },
+    ctrlKeysMapDown: {
+        65: "selectAll"
+    },
+    onClick: function() {
+        this.hiddenTextarea && this.hiddenTextarea.focus();
+    },
+    onKeyDown: function(e) {
+        if (!this.isEditing || this.inCompositionMode) {
+            return;
+        }
+        if (e.keyCode in this.keysMap) {
+            this[this.keysMap[e.keyCode]](e);
+        } else if (e.keyCode in this.ctrlKeysMapDown && (e.ctrlKey || e.metaKey)) {
+            this[this.ctrlKeysMapDown[e.keyCode]](e);
+        } else {
+            return;
+        }
+        e.stopImmediatePropagation();
+        e.preventDefault();
+        if (e.keyCode >= 33 && e.keyCode <= 40) {
+            this.clearContextTop();
+            this.renderCursorOrSelection();
+        } else {
+            this.canvas && this.canvas.requestRenderAll();
+        }
+    },
+    onKeyUp: function(e) {
+        if (!this.isEditing || this._copyDone || this.inCompositionMode) {
+            this._copyDone = false;
+            return;
+        }
+        if (e.keyCode in this.ctrlKeysMapUp && (e.ctrlKey || e.metaKey)) {
+            this[this.ctrlKeysMapUp[e.keyCode]](e);
+        } else {
+            return;
+        }
+        e.stopImmediatePropagation();
+        e.preventDefault();
+        this.canvas && this.canvas.requestRenderAll();
+    },
+    onInput: function(e) {
+        var fromPaste = this.fromPaste;
+        this.fromPaste = false;
+        e && e.stopPropagation();
+        if (!this.isEditing) {
+            return;
+        }
+        var nextText = this._splitTextIntoLines(this.hiddenTextarea.value).graphemeText, charCount = this._text.length, nextCharCount = nextText.length, removedText, insertedText, charDiff = nextCharCount - charCount;
+        if (this.hiddenTextarea.value === "") {
+            this.styles = {};
+            this.updateFromTextArea();
+            this.fire("changed");
+            if (this.canvas) {
+                this.canvas.fire("text:changed", {
+                    target: this
+                });
+                this.canvas.requestRenderAll();
+            }
+            return;
+        }
+        var textareaSelection = this.fromStringToGraphemeSelection(this.hiddenTextarea.selectionStart, this.hiddenTextarea.selectionEnd, this.hiddenTextarea.value);
+        var backDelete = this.selectionStart > textareaSelection.selectionStart;
+        if (this.selectionStart !== this.selectionEnd) {
+            removedText = this._text.slice(this.selectionStart, this.selectionEnd);
+            charDiff += this.selectionEnd - this.selectionStart;
+        } else if (nextCharCount < charCount) {
+            if (backDelete) {
+                removedText = this._text.slice(this.selectionEnd + charDiff, this.selectionEnd);
+            } else {
+                removedText = this._text.slice(this.selectionStart, this.selectionStart - charDiff);
+            }
+        }
+        insertedText = nextText.slice(textareaSelection.selectionEnd - charDiff, textareaSelection.selectionEnd);
+        if (removedText && removedText.length) {
+            if (this.selectionStart !== this.selectionEnd) {
+                this.removeStyleFromTo(this.selectionStart, this.selectionEnd);
+            } else if (backDelete) {
+                this.removeStyleFromTo(this.selectionEnd - removedText.length, this.selectionEnd);
+            } else {
+                this.removeStyleFromTo(this.selectionEnd, this.selectionEnd + removedText.length);
+            }
+        }
+        if (insertedText.length) {
+            if (fromPaste && insertedText.join("") === fabric.copiedText) {
+                this.insertNewStyleBlock(insertedText, this.selectionStart, fabric.copiedTextStyle);
+            } else {
+                this.insertNewStyleBlock(insertedText, this.selectionStart);
+            }
+        }
+        this.updateFromTextArea();
+        this.fire("changed");
+        if (this.canvas) {
+            this.canvas.fire("text:changed", {
+                target: this
+            });
+            this.canvas.requestRenderAll();
+        }
+    },
+    onCompositionStart: function() {
+        this.inCompositionMode = true;
+    },
+    onCompositionEnd: function() {
+        this.inCompositionMode = false;
+    },
+    onCompositionUpdate: function(e) {
+        this.compositionStart = e.target.selectionStart;
+        this.compositionEnd = e.target.selectionEnd;
+        this.updateTextareaPosition();
+    },
+    copy: function() {
+        if (this.selectionStart === this.selectionEnd) {
+            return;
+        }
+        fabric.copiedText = this.getSelectedText();
+        fabric.copiedTextStyle = this.getSelectionStyles(this.selectionStart, this.selectionEnd, true);
+        this._copyDone = true;
+    },
+    paste: function() {
+        this.fromPaste = true;
+    },
+    _getClipboardData: function(e) {
+        return e && e.clipboardData || fabric.window.clipboardData;
+    },
+    _getWidthBeforeCursor: function(lineIndex, charIndex) {
+        var widthBeforeCursor = this._getLineLeftOffset(lineIndex), bound;
+        if (charIndex > 0) {
+            bound = this.__charBounds[lineIndex][charIndex - 1];
+            widthBeforeCursor += bound.left + bound.width;
+        }
+        return widthBeforeCursor;
+    },
+    getDownCursorOffset: function(e, isRight) {
+        var selectionProp = this._getSelectionForOffset(e, isRight), cursorLocation = this.get2DCursorLocation(selectionProp), lineIndex = cursorLocation.lineIndex;
+        if (lineIndex === this._textLines.length - 1 || e.metaKey || e.keyCode === 34) {
+            return this._text.length - selectionProp;
+        }
+        var charIndex = cursorLocation.charIndex, widthBeforeCursor = this._getWidthBeforeCursor(lineIndex, charIndex), indexOnOtherLine = this._getIndexOnLine(lineIndex + 1, widthBeforeCursor), textAfterCursor = this._textLines[lineIndex].slice(charIndex);
+        return textAfterCursor.length + indexOnOtherLine + 2;
+    },
+    _getSelectionForOffset: function(e, isRight) {
+        if (e.shiftKey && this.selectionStart !== this.selectionEnd && isRight) {
+            return this.selectionEnd;
+        } else {
+            return this.selectionStart;
+        }
+    },
+    getUpCursorOffset: function(e, isRight) {
+        var selectionProp = this._getSelectionForOffset(e, isRight), cursorLocation = this.get2DCursorLocation(selectionProp), lineIndex = cursorLocation.lineIndex;
+        if (lineIndex === 0 || e.metaKey || e.keyCode === 33) {
+            return -selectionProp;
+        }
+        var charIndex = cursorLocation.charIndex, widthBeforeCursor = this._getWidthBeforeCursor(lineIndex, charIndex), indexOnOtherLine = this._getIndexOnLine(lineIndex - 1, widthBeforeCursor), textBeforeCursor = this._textLines[lineIndex].slice(0, charIndex);
+        return -this._textLines[lineIndex - 1].length + indexOnOtherLine - textBeforeCursor.length;
+    },
+    _getIndexOnLine: function(lineIndex, width) {
+        var line = this._textLines[lineIndex], lineLeftOffset = this._getLineLeftOffset(lineIndex), widthOfCharsOnLine = lineLeftOffset, indexOnLine = 0, charWidth, foundMatch;
+        for (var j = 0, jlen = line.length; j < jlen; j++) {
+            charWidth = this.__charBounds[lineIndex][j].width;
+            widthOfCharsOnLine += charWidth;
+            if (widthOfCharsOnLine > width) {
+                foundMatch = true;
+                var leftEdge = widthOfCharsOnLine - charWidth, rightEdge = widthOfCharsOnLine, offsetFromLeftEdge = Math.abs(leftEdge - width), offsetFromRightEdge = Math.abs(rightEdge - width);
+                indexOnLine = offsetFromRightEdge < offsetFromLeftEdge ? j : j - 1;
+                break;
+            }
+        }
+        if (!foundMatch) {
+            indexOnLine = line.length - 1;
+        }
+        return indexOnLine;
+    },
+    moveCursorDown: function(e) {
+        if (this.selectionStart >= this._text.length && this.selectionEnd >= this._text.length) {
+            return;
+        }
+        this._moveCursorUpOrDown("Down", e);
+    },
+    moveCursorUp: function(e) {
+        if (this.selectionStart === 0 && this.selectionEnd === 0) {
+            return;
+        }
+        this._moveCursorUpOrDown("Up", e);
+    },
+    _moveCursorUpOrDown: function(direction, e) {
+        var action = "get" + direction + "CursorOffset", offset = this[action](e, this._selectionDirection === "right");
+        if (e.shiftKey) {
+            this.moveCursorWithShift(offset);
+        } else {
+            this.moveCursorWithoutShift(offset);
+        }
+        if (offset !== 0) {
+            this.setSelectionInBoundaries();
+            this.abortCursorAnimation();
+            this._currentCursorOpacity = 1;
+            this.initDelayedCursor();
+            this._fireSelectionChanged();
+            this._updateTextarea();
+        }
+    },
+    moveCursorWithShift: function(offset) {
+        var newSelection = this._selectionDirection === "left" ? this.selectionStart + offset : this.selectionEnd + offset;
+        this.setSelectionStartEndWithShift(this.selectionStart, this.selectionEnd, newSelection);
+        return offset !== 0;
+    },
+    moveCursorWithoutShift: function(offset) {
+        if (offset < 0) {
+            this.selectionStart += offset;
+            this.selectionEnd = this.selectionStart;
+        } else {
+            this.selectionEnd += offset;
+            this.selectionStart = this.selectionEnd;
+        }
+        return offset !== 0;
+    },
+    moveCursorLeft: function(e) {
+        if (this.selectionStart === 0 && this.selectionEnd === 0) {
+            return;
+        }
+        this._moveCursorLeftOrRight("Left", e);
+    },
+    _move: function(e, prop, direction) {
+        var newValue;
+        if (e.altKey) {
+            newValue = this["findWordBoundary" + direction](this[prop]);
+        } else if (e.metaKey || e.keyCode === 35 || e.keyCode === 36) {
+            newValue = this["findLineBoundary" + direction](this[prop]);
+        } else {
+            this[prop] += direction === "Left" ? -1 : 1;
+            return true;
+        }
+        if (typeof newValue !== undefined && this[prop] !== newValue) {
+            this[prop] = newValue;
+            return true;
+        }
+    },
+    _moveLeft: function(e, prop) {
+        return this._move(e, prop, "Left");
+    },
+    _moveRight: function(e, prop) {
+        return this._move(e, prop, "Right");
+    },
+    moveCursorLeftWithoutShift: function(e) {
+        var change = true;
+        this._selectionDirection = "left";
+        if (this.selectionEnd === this.selectionStart && this.selectionStart !== 0) {
+            change = this._moveLeft(e, "selectionStart");
+        }
+        this.selectionEnd = this.selectionStart;
+        return change;
+    },
+    moveCursorLeftWithShift: function(e) {
+        if (this._selectionDirection === "right" && this.selectionStart !== this.selectionEnd) {
+            return this._moveLeft(e, "selectionEnd");
+        } else if (this.selectionStart !== 0) {
+            this._selectionDirection = "left";
+            return this._moveLeft(e, "selectionStart");
+        }
+    },
+    moveCursorRight: function(e) {
+        if (this.selectionStart >= this._text.length && this.selectionEnd >= this._text.length) {
+            return;
+        }
+        this._moveCursorLeftOrRight("Right", e);
+    },
+    _moveCursorLeftOrRight: function(direction, e) {
+        var actionName = "moveCursor" + direction + "With";
+        this._currentCursorOpacity = 1;
+        if (e.shiftKey) {
+            actionName += "Shift";
+        } else {
+            actionName += "outShift";
+        }
+        if (this[actionName](e)) {
+            this.abortCursorAnimation();
+            this.initDelayedCursor();
+            this._fireSelectionChanged();
+            this._updateTextarea();
+        }
+    },
+    moveCursorRightWithShift: function(e) {
+        if (this._selectionDirection === "left" && this.selectionStart !== this.selectionEnd) {
+            return this._moveRight(e, "selectionStart");
+        } else if (this.selectionEnd !== this._text.length) {
+            this._selectionDirection = "right";
+            return this._moveRight(e, "selectionEnd");
+        }
+    },
+    moveCursorRightWithoutShift: function(e) {
+        var changed = true;
+        this._selectionDirection = "right";
+        if (this.selectionStart === this.selectionEnd) {
+            changed = this._moveRight(e, "selectionStart");
+            this.selectionEnd = this.selectionStart;
+        } else {
+            this.selectionStart = this.selectionEnd;
+        }
+        return changed;
+    },
+    removeChars: function(start, end) {
+        if (typeof end === "undefined") {
+            end = start + 1;
+        }
+        this.removeStyleFromTo(start, end);
+        this._text.splice(start, end - start);
+        this.text = this._text.join("");
+        this.set("dirty", true);
+        if (this._shouldClearDimensionCache()) {
+            this.initDimensions();
+            this.setCoords();
+        }
+        this._removeExtraneousStyles();
+    },
+    insertChars: function(text, style, start, end) {
+        if (typeof end === "undefined") {
+            end = start;
+        }
+        if (end > start) {
+            this.removeStyleFromTo(start, end);
+        }
+        var graphemes = fabric.util.string.graphemeSplit(text);
+        this.insertNewStyleBlock(graphemes, start, style);
+        this._text = [].concat(this._text.slice(0, start), graphemes, this._text.slice(end));
+        this.text = this._text.join("");
+        this.set("dirty", true);
+        if (this._shouldClearDimensionCache()) {
+            this.initDimensions();
+            this.setCoords();
+        }
+        this._removeExtraneousStyles();
+    }
+});
+
+(function() {
+    var toFixed = fabric.util.toFixed, multipleSpacesRegex = /  +/g;
+    fabric.util.object.extend(fabric.Text.prototype, {
+        toSVG: function(reviver) {
+            var markup = this._createBaseSVGMarkup(), offsets = this._getSVGLeftTopOffsets(), textAndBg = this._getSVGTextAndBg(offsets.textTop, offsets.textLeft);
+            this._wrapSVGTextAndBg(markup, textAndBg);
+            return reviver ? reviver(markup.join("")) : markup.join("");
+        },
+        _getSVGLeftTopOffsets: function() {
+            return {
+                textLeft: -this.width / 2,
+                textTop: -this.height / 2,
+                lineTop: this.getHeightOfLine(0)
+            };
+        },
+        _wrapSVGTextAndBg: function(markup, textAndBg) {
+            var noShadow = true, filter = this.getSvgFilter(), style = filter === "" ? "" : ' style="' + filter + '"', textDecoration = this.getSvgTextDecoration(this);
+            markup.push("\t<g ", this.getSvgId(), 'transform="', this.getSvgTransform(), this.getSvgTransformMatrix(), '"', style, ">\n", textAndBg.textBgRects.join(""), '\t\t<text xml:space="preserve" ', this.fontFamily ? 'font-family="' + this.fontFamily.replace(/"/g, "'") + '" ' : "", this.fontSize ? 'font-size="' + this.fontSize + '" ' : "", this.fontStyle ? 'font-style="' + this.fontStyle + '" ' : "", this.fontWeight ? 'font-weight="' + this.fontWeight + '" ' : "", textDecoration ? 'text-decoration="' + textDecoration + '" ' : "", 'style="', this.getSvgStyles(noShadow), '"', this.addPaintOrder(), " >", textAndBg.textSpans.join(""), "</text>\n", "\t</g>\n");
+        },
+        _getSVGTextAndBg: function(textTopOffset, textLeftOffset) {
+            var textSpans = [], textBgRects = [], height = textTopOffset, lineOffset;
+            this._setSVGBg(textBgRects);
+            for (var i = 0, len = this._textLines.length; i < len; i++) {
+                lineOffset = this._getLineLeftOffset(i);
+                if (this.textBackgroundColor || this.styleHas("textBackgroundColor", i)) {
+                    this._setSVGTextLineBg(textBgRects, i, textLeftOffset + lineOffset, height);
+                }
+                this._setSVGTextLineText(textSpans, i, textLeftOffset + lineOffset, height);
+                height += this.getHeightOfLine(i);
+            }
+            return {
+                textSpans: textSpans,
+                textBgRects: textBgRects
+            };
+        },
+        _createTextCharSpan: function(_char, styleDecl, left, top) {
+            var shouldUseWhitespace = _char !== _char.trim() || _char.match(multipleSpacesRegex), styleProps = this.getSvgSpanStyles(styleDecl, shouldUseWhitespace), fillStyles = styleProps ? 'style="' + styleProps + '"' : "", dy = styleDecl.deltaY, dySpan = "", NUM_FRACTION_DIGITS = fabric.Object.NUM_FRACTION_DIGITS;
+            if (dy) {
+                dySpan = ' dy="' + toFixed(dy, NUM_FRACTION_DIGITS) + '" ';
+            }
+            return [ '<tspan x="', toFixed(left, NUM_FRACTION_DIGITS), '" y="', toFixed(top, NUM_FRACTION_DIGITS), '" ', dySpan, fillStyles, ">", fabric.util.string.escapeXml(_char), "</tspan>" ].join("");
+        },
+        _setSVGTextLineText: function(textSpans, lineIndex, textLeftOffset, textTopOffset) {
+            var lineHeight = this.getHeightOfLine(lineIndex), isJustify = this.textAlign.indexOf("justify") !== -1, actualStyle, nextStyle, charsToRender = "", charBox, style, boxWidth = 0, line = this._textLines[lineIndex], timeToRender;
+            textTopOffset += lineHeight * (1 - this._fontSizeFraction) / this.lineHeight;
+            for (var i = 0, len = line.length - 1; i <= len; i++) {
+                timeToRender = i === len || this.charSpacing;
+                charsToRender += line[i];
+                charBox = this.__charBounds[lineIndex][i];
+                if (boxWidth === 0) {
+                    textLeftOffset += charBox.kernedWidth - charBox.width;
+                    boxWidth += charBox.width;
+                } else {
+                    boxWidth += charBox.kernedWidth;
+                }
+                if (isJustify && !timeToRender) {
+                    if (this._reSpaceAndTab.test(line[i])) {
+                        timeToRender = true;
+                    }
+                }
+                if (!timeToRender) {
+                    actualStyle = actualStyle || this.getCompleteStyleDeclaration(lineIndex, i);
+                    nextStyle = this.getCompleteStyleDeclaration(lineIndex, i + 1);
+                    timeToRender = this._hasStyleChangedForSvg(actualStyle, nextStyle);
+                }
+                if (timeToRender) {
+                    style = this._getStyleDeclaration(lineIndex, i) || {};
+                    textSpans.push(this._createTextCharSpan(charsToRender, style, textLeftOffset, textTopOffset));
+                    charsToRender = "";
+                    actualStyle = nextStyle;
+                    textLeftOffset += boxWidth;
+                    boxWidth = 0;
+                }
+            }
+        },
+        _pushTextBgRect: function(textBgRects, color, left, top, width, height) {
+            var NUM_FRACTION_DIGITS = fabric.Object.NUM_FRACTION_DIGITS;
+            textBgRects.push("\t\t<rect ", this._getFillAttributes(color), ' x="', toFixed(left, NUM_FRACTION_DIGITS), '" y="', toFixed(top, NUM_FRACTION_DIGITS), '" width="', toFixed(width, NUM_FRACTION_DIGITS), '" height="', toFixed(height, NUM_FRACTION_DIGITS), '"></rect>\n');
+        },
+        _setSVGTextLineBg: function(textBgRects, i, leftOffset, textTopOffset) {
+            var line = this._textLines[i], heightOfLine = this.getHeightOfLine(i) / this.lineHeight, boxWidth = 0, boxStart = 0, charBox, currentColor, lastColor = this.getValueOfPropertyAt(i, 0, "textBackgroundColor");
+            for (var j = 0, jlen = line.length; j < jlen; j++) {
+                charBox = this.__charBounds[i][j];
+                currentColor = this.getValueOfPropertyAt(i, j, "textBackgroundColor");
+                if (currentColor !== lastColor) {
+                    lastColor && this._pushTextBgRect(textBgRects, lastColor, leftOffset + boxStart, textTopOffset, boxWidth, heightOfLine);
+                    boxStart = charBox.left;
+                    boxWidth = charBox.width;
+                    lastColor = currentColor;
+                } else {
+                    boxWidth += charBox.kernedWidth;
+                }
+            }
+            currentColor && this._pushTextBgRect(textBgRects, currentColor, leftOffset + boxStart, textTopOffset, boxWidth, heightOfLine);
+        },
+        _getFillAttributes: function(value) {
+            var fillColor = value && typeof value === "string" ? new fabric.Color(value) : "";
+            if (!fillColor || !fillColor.getSource() || fillColor.getAlpha() === 1) {
+                return 'fill="' + value + '"';
+            }
+            return 'opacity="' + fillColor.getAlpha() + '" fill="' + fillColor.setAlpha(1).toRgb() + '"';
+        },
+        _getSVGLineTopOffset: function(lineIndex) {
+            var lineTopOffset = 0, lastHeight = 0;
+            for (var j = 0; j < lineIndex; j++) {
+                lineTopOffset += this.getHeightOfLine(j);
+            }
+            lastHeight = this.getHeightOfLine(j);
+            return {
+                lineTop: lineTopOffset,
+                offset: (this._fontSizeMult - this._fontSizeFraction) * lastHeight / (this.lineHeight * this._fontSizeMult)
+            };
+        },
+        getSvgStyles: function(skipShadow) {
+            var svgStyle = fabric.Object.prototype.getSvgStyles.call(this, skipShadow);
+            return svgStyle + " white-space: pre;";
+        }
+    });
+})();
+
+(function(global) {
+    "use strict";
+    var fabric = global.fabric || (global.fabric = {});
+    fabric.Textbox = fabric.util.createClass(fabric.IText, fabric.Observable, {
+        type: "textbox",
+        minWidth: 20,
+        dynamicMinWidth: 2,
+        __cachedLines: null,
+        lockScalingFlip: true,
+        noScaleCache: false,
+        _dimensionAffectingProps: fabric.Text.prototype._dimensionAffectingProps.concat("width"),
+        initDimensions: function() {
+            if (this.__skipDimension) {
+                return;
+            }
+            this.isEditing && this.initDelayedCursor();
+            this.clearContextTop();
+            this._clearCache();
+            this.dynamicMinWidth = 0;
+            this._styleMap = this._generateStyleMap(this._splitText());
+            if (this.dynamicMinWidth > this.width) {
+                this._set("width", this.dynamicMinWidth);
+            }
+            if (this.textAlign.indexOf("justify") !== -1) {
+                this.enlargeSpaces();
+            }
+            this.height = this.calcTextHeight();
+            this.saveState({
+                propertySet: "_dimensionAffectingProps"
+            });
+        },
+        _generateStyleMap: function(textInfo) {
+            var realLineCount = 0, realLineCharCount = 0, charCount = 0, map = {};
+            for (var i = 0; i < textInfo.graphemeLines.length; i++) {
+                if (textInfo.graphemeText[charCount] === "\n" && i > 0) {
+                    realLineCharCount = 0;
+                    charCount++;
+                    realLineCount++;
+                } else if (this._reSpaceAndTab.test(textInfo.graphemeText[charCount]) && i > 0) {
+                    realLineCharCount++;
+                    charCount++;
+                }
+                map[i] = {
+                    line: realLineCount,
+                    offset: realLineCharCount
+                };
+                charCount += textInfo.graphemeLines[i].length;
+                realLineCharCount += textInfo.graphemeLines[i].length;
+            }
+            return map;
+        },
+        styleHas: function(property, lineIndex) {
+            if (this._styleMap && !this.isWrapping) {
+                var map = this._styleMap[lineIndex];
+                if (map) {
+                    lineIndex = map.line;
+                }
+            }
+            return fabric.Text.prototype.styleHas.call(this, property, lineIndex);
+        },
+        isEmptyStyles: function(lineIndex) {
+            var offset = 0, nextLineIndex = lineIndex + 1, nextOffset, obj, shouldLimit = false;
+            var map = this._styleMap[lineIndex];
+            var mapNextLine = this._styleMap[lineIndex + 1];
+            if (map) {
+                lineIndex = map.line;
+                offset = map.offset;
+            }
+            if (mapNextLine) {
+                nextLineIndex = mapNextLine.line;
+                shouldLimit = nextLineIndex === lineIndex;
+                nextOffset = mapNextLine.offset;
+            }
+            obj = typeof lineIndex === "undefined" ? this.styles : {
+                line: this.styles[lineIndex]
+            };
+            for (var p1 in obj) {
+                for (var p2 in obj[p1]) {
+                    if (p2 >= offset && (!shouldLimit || p2 < nextOffset)) {
+                        for (var p3 in obj[p1][p2]) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        },
+        _getStyleDeclaration: function(lineIndex, charIndex) {
+            if (this._styleMap && !this.isWrapping) {
+                var map = this._styleMap[lineIndex];
+                if (!map) {
+                    return null;
+                }
+                lineIndex = map.line;
+                charIndex = map.offset + charIndex;
+            }
+            return this.callSuper("_getStyleDeclaration", lineIndex, charIndex);
+        },
+        _setStyleDeclaration: function(lineIndex, charIndex, style) {
+            var map = this._styleMap[lineIndex];
+            lineIndex = map.line;
+            charIndex = map.offset + charIndex;
+            this.styles[lineIndex][charIndex] = style;
+        },
+        _deleteStyleDeclaration: function(lineIndex, charIndex) {
+            var map = this._styleMap[lineIndex];
+            lineIndex = map.line;
+            charIndex = map.offset + charIndex;
+            delete this.styles[lineIndex][charIndex];
+        },
+        _getLineStyle: function(lineIndex) {
+            var map = this._styleMap[lineIndex];
+            return this.styles[map.line];
+        },
+        _setLineStyle: function(lineIndex, style) {
+            var map = this._styleMap[lineIndex];
+            this.styles[map.line] = style;
+        },
+        _deleteLineStyle: function(lineIndex) {
+            var map = this._styleMap[lineIndex];
+            delete this.styles[map.line];
+        },
+        _wrapText: function(lines, desiredWidth) {
+            var wrapped = [], i;
+            this.isWrapping = true;
+            for (i = 0; i < lines.length; i++) {
+                wrapped = wrapped.concat(this._wrapLine(lines[i], i, desiredWidth));
+            }
+            this.isWrapping = false;
+            return wrapped;
+        },
+        _measureWord: function(word, lineIndex, charOffset) {
+            var width = 0, prevGrapheme, skipLeft = true;
+            charOffset = charOffset || 0;
+            for (var i = 0, len = word.length; i < len; i++) {
+                var box = this._getGraphemeBox(word[i], lineIndex, i + charOffset, prevGrapheme, skipLeft);
+                width += box.kernedWidth;
+                prevGrapheme = word[i];
+            }
+            return width;
+        },
+        _wrapLine: function(_line, lineIndex, desiredWidth, reservedSpace) {
+            var lineWidth = 0, graphemeLines = [], line = [], words = _line.split(this._reSpaceAndTab), word = "", offset = 0, infix = " ", wordWidth = 0, infixWidth = 0, largestWordWidth = 0, lineJustStarted = true, additionalSpace = this._getWidthOfCharSpacing(), reservedSpace = reservedSpace || 0;
+            desiredWidth -= reservedSpace;
+            for (var i = 0; i < words.length; i++) {
+                word = fabric.util.string.graphemeSplit(words[i]);
+                wordWidth = this._measureWord(word, lineIndex, offset);
+                offset += word.length;
+                lineWidth += infixWidth + wordWidth - additionalSpace;
+                if (lineWidth >= desiredWidth && !lineJustStarted) {
+                    graphemeLines.push(line);
+                    line = [];
+                    lineWidth = wordWidth;
+                    lineJustStarted = true;
+                } else {
+                    lineWidth += additionalSpace;
+                }
+                if (!lineJustStarted) {
+                    line.push(infix);
+                }
+                line = line.concat(word);
+                infixWidth = this._measureWord([ infix ], lineIndex, offset);
+                offset++;
+                lineJustStarted = false;
+                if (wordWidth > largestWordWidth) {
+                    largestWordWidth = wordWidth;
+                }
+            }
+            i && graphemeLines.push(line);
+            if (largestWordWidth + reservedSpace > this.dynamicMinWidth) {
+                this.dynamicMinWidth = largestWordWidth - additionalSpace + reservedSpace;
+            }
+            return graphemeLines;
+        },
+        isEndOfWrapping: function(lineIndex) {
+            if (!this._styleMap[lineIndex + 1]) {
+                return true;
+            }
+            if (this._styleMap[lineIndex + 1].line !== this._styleMap[lineIndex].line) {
+                return true;
+            }
+            return false;
+        },
+        _splitTextIntoLines: function(text) {
+            var newText = fabric.Text.prototype._splitTextIntoLines.call(this, text), graphemeLines = this._wrapText(newText.lines, this.width), lines = new Array(graphemeLines.length);
+            for (var i = 0; i < graphemeLines.length; i++) {
+                lines[i] = graphemeLines[i].join("");
+            }
+            newText.lines = lines;
+            newText.graphemeLines = graphemeLines;
+            return newText;
+        },
+        getMinWidth: function() {
+            return Math.max(this.minWidth, this.dynamicMinWidth);
+        },
+        toObject: function(propertiesToInclude) {
+            return this.callSuper("toObject", [ "minWidth" ].concat(propertiesToInclude));
+        }
+    });
+    fabric.Textbox.fromObject = function(object, callback) {
+        return fabric.Object._fromObject("Textbox", object, callback, "text");
+    };
+})( true ? exports : this);
+
+(function() {
+    var setObjectScaleOverridden = fabric.Canvas.prototype._setObjectScale;
+    fabric.Canvas.prototype._setObjectScale = function(localMouse, transform, lockScalingX, lockScalingY, by, lockScalingFlip, _dim) {
+        var t = transform.target;
+        if (by === "x" && t instanceof fabric.Textbox) {
+            var tw = t._getTransformedDimensions().x;
+            var w = t.width * (localMouse.x / tw);
+            if (w >= t.getMinWidth()) {
+                t.set("width", w);
+                return true;
+            }
+        } else {
+            return setObjectScaleOverridden.call(fabric.Canvas.prototype, localMouse, transform, lockScalingX, lockScalingY, by, lockScalingFlip, _dim);
+        }
+    };
+    fabric.util.object.extend(fabric.Textbox.prototype, {
+        _removeExtraneousStyles: function() {
+            for (var prop in this._styleMap) {
+                if (!this._textLines[prop]) {
+                    delete this.styles[this._styleMap[prop].line];
+                }
+            }
+        }
+    });
+})();
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(590).Buffer))
+
+/***/ }),
+
+/***/ 590:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(global) {/*!
  * The buffer module from node.js, for the browser.
  *
  * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
  * @license  MIT
  */
-var r=i(631),n=i(632),s=i(633);function o(){return h.TYPED_ARRAY_SUPPORT?2147483647:1073741823}function a(t,e){if(o()<e)throw new RangeError("Invalid typed array length");return h.TYPED_ARRAY_SUPPORT?(t=new Uint8Array(e)).__proto__=h.prototype:(null===t&&(t=new h(e)),t.length=e),t}function h(t,e,i){if(!(h.TYPED_ARRAY_SUPPORT||this instanceof h))return new h(t,e,i);if("number"==typeof t){if("string"==typeof e)throw new Error("If encoding is specified then the first argument must be a string");return u(this,t)}return c(this,t,e,i)}function c(t,e,i,r){if("number"==typeof e)throw new TypeError('"value" argument must not be a number');return"undefined"!=typeof ArrayBuffer&&e instanceof ArrayBuffer?function(t,e,i,r){if(e.byteLength,i<0||e.byteLength<i)throw new RangeError("'offset' is out of bounds");if(e.byteLength<i+(r||0))throw new RangeError("'length' is out of bounds");e=void 0===i&&void 0===r?new Uint8Array(e):void 0===r?new Uint8Array(e,i):new Uint8Array(e,i,r);h.TYPED_ARRAY_SUPPORT?(t=e).__proto__=h.prototype:t=f(t,e);return t}(t,e,i,r):"string"==typeof e?function(t,e,i){"string"==typeof i&&""!==i||(i="utf8");if(!h.isEncoding(i))throw new TypeError('"encoding" must be a valid string encoding');var r=0|g(e,i),n=(t=a(t,r)).write(e,i);n!==r&&(t=t.slice(0,n));return t}(t,e,i):function(t,e){if(h.isBuffer(e)){var i=0|d(e.length);return 0===(t=a(t,i)).length?t:(e.copy(t,0,0,i),t)}if(e){if("undefined"!=typeof ArrayBuffer&&e.buffer instanceof ArrayBuffer||"length"in e)return"number"!=typeof e.length||(r=e.length)!=r?a(t,0):f(t,e);if("Buffer"===e.type&&s(e.data))return f(t,e.data)}var r;throw new TypeError("First argument must be a string, Buffer, ArrayBuffer, Array, or array-like object.")}(t,e)}function l(t){if("number"!=typeof t)throw new TypeError('"size" argument must be a number');if(t<0)throw new RangeError('"size" argument must not be negative')}function u(t,e){if(l(e),t=a(t,e<0?0:0|d(e)),!h.TYPED_ARRAY_SUPPORT)for(var i=0;i<e;++i)t[i]=0;return t}function f(t,e){var i=e.length<0?0:0|d(e.length);t=a(t,i);for(var r=0;r<i;r+=1)t[r]=255&e[r];return t}function d(t){if(t>=o())throw new RangeError("Attempt to allocate Buffer larger than maximum size: 0x"+o().toString(16)+" bytes");return 0|t}function g(t,e){if(h.isBuffer(t))return t.length;if("undefined"!=typeof ArrayBuffer&&"function"==typeof ArrayBuffer.isView&&(ArrayBuffer.isView(t)||t instanceof ArrayBuffer))return t.byteLength;"string"!=typeof t&&(t=""+t);var i=t.length;if(0===i)return 0;for(var r=!1;;)switch(e){case"ascii":case"latin1":case"binary":return i;case"utf8":case"utf-8":case void 0:return Y(t).length;case"ucs2":case"ucs-2":case"utf16le":case"utf-16le":return 2*i;case"hex":return i>>>1;case"base64":return U(t).length;default:if(r)return Y(t).length;e=(""+e).toLowerCase(),r=!0}}function p(t,e,i){var r=t[e];t[e]=t[i],t[i]=r}function v(t,e,i,r,n){if(0===t.length)return-1;if("string"==typeof i?(r=i,i=0):i>2147483647?i=2147483647:i<-2147483648&&(i=-2147483648),i=+i,isNaN(i)&&(i=n?0:t.length-1),i<0&&(i=t.length+i),i>=t.length){if(n)return-1;i=t.length-1}else if(i<0){if(!n)return-1;i=0}if("string"==typeof e&&(e=h.from(e,r)),h.isBuffer(e))return 0===e.length?-1:m(t,e,i,r,n);if("number"==typeof e)return e&=255,h.TYPED_ARRAY_SUPPORT&&"function"==typeof Uint8Array.prototype.indexOf?n?Uint8Array.prototype.indexOf.call(t,e,i):Uint8Array.prototype.lastIndexOf.call(t,e,i):m(t,[e],i,r,n);throw new TypeError("val must be string, number or Buffer")}function m(t,e,i,r,n){var s,o=1,a=t.length,h=e.length;if(void 0!==r&&("ucs2"===(r=String(r).toLowerCase())||"ucs-2"===r||"utf16le"===r||"utf-16le"===r)){if(t.length<2||e.length<2)return-1;o=2,a/=2,h/=2,i/=2}function c(t,e){return 1===o?t[e]:t.readUInt16BE(e*o)}if(n){var l=-1;for(s=i;s<a;s++)if(c(t,s)===c(e,-1===l?0:s-l)){if(-1===l&&(l=s),s-l+1===h)return l*o}else-1!==l&&(s-=s-l),l=-1}else for(i+h>a&&(i=a-h),s=i;s>=0;s--){for(var u=!0,f=0;f<h;f++)if(c(t,s+f)!==c(e,f)){u=!1;break}if(u)return s}return-1}function y(t,e,i,r){i=Number(i)||0;var n=t.length-i;r?(r=Number(r))>n&&(r=n):r=n;var s=e.length;if(s%2!=0)throw new TypeError("Invalid hex string");r>s/2&&(r=s/2);for(var o=0;o<r;++o){var a=parseInt(e.substr(2*o,2),16);if(isNaN(a))return o;t[i+o]=a}return o}function _(t,e,i,r){return W(Y(e,t.length-i),t,i,r)}function x(t,e,i,r){return W(function(t){for(var e=[],i=0;i<t.length;++i)e.push(255&t.charCodeAt(i));return e}(e),t,i,r)}function b(t,e,i,r){return x(t,e,i,r)}function C(t,e,i,r){return W(U(e),t,i,r)}function S(t,e,i,r){return W(function(t,e){for(var i,r,n,s=[],o=0;o<t.length&&!((e-=2)<0);++o)i=t.charCodeAt(o),r=i>>8,n=i%256,s.push(n),s.push(r);return s}(e,t.length-i),t,i,r)}function w(t,e,i){return 0===e&&i===t.length?r.fromByteArray(t):r.fromByteArray(t.slice(e,i))}function T(t,e,i){i=Math.min(t.length,i);for(var r=[],n=e;n<i;){var s,o,a,h,c=t[n],l=null,u=c>239?4:c>223?3:c>191?2:1;if(n+u<=i)switch(u){case 1:c<128&&(l=c);break;case 2:128==(192&(s=t[n+1]))&&(h=(31&c)<<6|63&s)>127&&(l=h);break;case 3:s=t[n+1],o=t[n+2],128==(192&s)&&128==(192&o)&&(h=(15&c)<<12|(63&s)<<6|63&o)>2047&&(h<55296||h>57343)&&(l=h);break;case 4:s=t[n+1],o=t[n+2],a=t[n+3],128==(192&s)&&128==(192&o)&&128==(192&a)&&(h=(15&c)<<18|(63&s)<<12|(63&o)<<6|63&a)>65535&&h<1114112&&(l=h)}null===l?(l=65533,u=1):l>65535&&(l-=65536,r.push(l>>>10&1023|55296),l=56320|1023&l),r.push(l),n+=u}return function(t){var e=t.length;if(e<=O)return String.fromCharCode.apply(String,t);var i="",r=0;for(;r<e;)i+=String.fromCharCode.apply(String,t.slice(r,r+=O));return i}(r)}e.Buffer=h,e.SlowBuffer=function(t){+t!=t&&(t=0);return h.alloc(+t)},e.INSPECT_MAX_BYTES=50,h.TYPED_ARRAY_SUPPORT=void 0!==t.TYPED_ARRAY_SUPPORT?t.TYPED_ARRAY_SUPPORT:function(){try{var t=new Uint8Array(1);return t.__proto__={__proto__:Uint8Array.prototype,foo:function(){return 42}},42===t.foo()&&"function"==typeof t.subarray&&0===t.subarray(1,1).byteLength}catch(t){return!1}}(),e.kMaxLength=o(),h.poolSize=8192,h._augment=function(t){return t.__proto__=h.prototype,t},h.from=function(t,e,i){return c(null,t,e,i)},h.TYPED_ARRAY_SUPPORT&&(h.prototype.__proto__=Uint8Array.prototype,h.__proto__=Uint8Array,"undefined"!=typeof Symbol&&Symbol.species&&h[Symbol.species]===h&&Object.defineProperty(h,Symbol.species,{value:null,configurable:!0})),h.alloc=function(t,e,i){return function(t,e,i,r){return l(e),e<=0?a(t,e):void 0!==i?"string"==typeof r?a(t,e).fill(i,r):a(t,e).fill(i):a(t,e)}(null,t,e,i)},h.allocUnsafe=function(t){return u(null,t)},h.allocUnsafeSlow=function(t){return u(null,t)},h.isBuffer=function(t){return!(null==t||!t._isBuffer)},h.compare=function(t,e){if(!h.isBuffer(t)||!h.isBuffer(e))throw new TypeError("Arguments must be Buffers");if(t===e)return 0;for(var i=t.length,r=e.length,n=0,s=Math.min(i,r);n<s;++n)if(t[n]!==e[n]){i=t[n],r=e[n];break}return i<r?-1:r<i?1:0},h.isEncoding=function(t){switch(String(t).toLowerCase()){case"hex":case"utf8":case"utf-8":case"ascii":case"latin1":case"binary":case"base64":case"ucs2":case"ucs-2":case"utf16le":case"utf-16le":return!0;default:return!1}},h.concat=function(t,e){if(!s(t))throw new TypeError('"list" argument must be an Array of Buffers');if(0===t.length)return h.alloc(0);var i;if(void 0===e)for(e=0,i=0;i<t.length;++i)e+=t[i].length;var r=h.allocUnsafe(e),n=0;for(i=0;i<t.length;++i){var o=t[i];if(!h.isBuffer(o))throw new TypeError('"list" argument must be an Array of Buffers');o.copy(r,n),n+=o.length}return r},h.byteLength=g,h.prototype._isBuffer=!0,h.prototype.swap16=function(){var t=this.length;if(t%2!=0)throw new RangeError("Buffer size must be a multiple of 16-bits");for(var e=0;e<t;e+=2)p(this,e,e+1);return this},h.prototype.swap32=function(){var t=this.length;if(t%4!=0)throw new RangeError("Buffer size must be a multiple of 32-bits");for(var e=0;e<t;e+=4)p(this,e,e+3),p(this,e+1,e+2);return this},h.prototype.swap64=function(){var t=this.length;if(t%8!=0)throw new RangeError("Buffer size must be a multiple of 64-bits");for(var e=0;e<t;e+=8)p(this,e,e+7),p(this,e+1,e+6),p(this,e+2,e+5),p(this,e+3,e+4);return this},h.prototype.toString=function(){var t=0|this.length;return 0===t?"":0===arguments.length?T(this,0,t):function(t,e,i){var r=!1;if((void 0===e||e<0)&&(e=0),e>this.length)return"";if((void 0===i||i>this.length)&&(i=this.length),i<=0)return"";if((i>>>=0)<=(e>>>=0))return"";for(t||(t="utf8");;)switch(t){case"hex":return D(this,e,i);case"utf8":case"utf-8":return T(this,e,i);case"ascii":return E(this,e,i);case"latin1":case"binary":return k(this,e,i);case"base64":return w(this,e,i);case"ucs2":case"ucs-2":case"utf16le":case"utf-16le":return A(this,e,i);default:if(r)throw new TypeError("Unknown encoding: "+t);t=(t+"").toLowerCase(),r=!0}}.apply(this,arguments)},h.prototype.equals=function(t){if(!h.isBuffer(t))throw new TypeError("Argument must be a Buffer");return this===t||0===h.compare(this,t)},h.prototype.inspect=function(){var t="",i=e.INSPECT_MAX_BYTES;return this.length>0&&(t=this.toString("hex",0,i).match(/.{2}/g).join(" "),this.length>i&&(t+=" ... ")),"<Buffer "+t+">"},h.prototype.compare=function(t,e,i,r,n){if(!h.isBuffer(t))throw new TypeError("Argument must be a Buffer");if(void 0===e&&(e=0),void 0===i&&(i=t?t.length:0),void 0===r&&(r=0),void 0===n&&(n=this.length),e<0||i>t.length||r<0||n>this.length)throw new RangeError("out of range index");if(r>=n&&e>=i)return 0;if(r>=n)return-1;if(e>=i)return 1;if(e>>>=0,i>>>=0,r>>>=0,n>>>=0,this===t)return 0;for(var s=n-r,o=i-e,a=Math.min(s,o),c=this.slice(r,n),l=t.slice(e,i),u=0;u<a;++u)if(c[u]!==l[u]){s=c[u],o=l[u];break}return s<o?-1:o<s?1:0},h.prototype.includes=function(t,e,i){return-1!==this.indexOf(t,e,i)},h.prototype.indexOf=function(t,e,i){return v(this,t,e,i,!0)},h.prototype.lastIndexOf=function(t,e,i){return v(this,t,e,i,!1)},h.prototype.write=function(t,e,i,r){if(void 0===e)r="utf8",i=this.length,e=0;else if(void 0===i&&"string"==typeof e)r=e,i=this.length,e=0;else{if(!isFinite(e))throw new Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");e|=0,isFinite(i)?(i|=0,void 0===r&&(r="utf8")):(r=i,i=void 0)}var n=this.length-e;if((void 0===i||i>n)&&(i=n),t.length>0&&(i<0||e<0)||e>this.length)throw new RangeError("Attempt to write outside buffer bounds");r||(r="utf8");for(var s=!1;;)switch(r){case"hex":return y(this,t,e,i);case"utf8":case"utf-8":return _(this,t,e,i);case"ascii":return x(this,t,e,i);case"latin1":case"binary":return b(this,t,e,i);case"base64":return C(this,t,e,i);case"ucs2":case"ucs-2":case"utf16le":case"utf-16le":return S(this,t,e,i);default:if(s)throw new TypeError("Unknown encoding: "+r);r=(""+r).toLowerCase(),s=!0}},h.prototype.toJSON=function(){return{type:"Buffer",data:Array.prototype.slice.call(this._arr||this,0)}};var O=4096;function E(t,e,i){var r="";i=Math.min(t.length,i);for(var n=e;n<i;++n)r+=String.fromCharCode(127&t[n]);return r}function k(t,e,i){var r="";i=Math.min(t.length,i);for(var n=e;n<i;++n)r+=String.fromCharCode(t[n]);return r}function D(t,e,i){var r=t.length;(!e||e<0)&&(e=0),(!i||i<0||i>r)&&(i=r);for(var n="",s=e;s<i;++s)n+=X(t[s]);return n}function A(t,e,i){for(var r=t.slice(e,i),n="",s=0;s<r.length;s+=2)n+=String.fromCharCode(r[s]+256*r[s+1]);return n}function j(t,e,i){if(t%1!=0||t<0)throw new RangeError("offset is not uint");if(t+e>i)throw new RangeError("Trying to access beyond buffer length")}function P(t,e,i,r,n,s){if(!h.isBuffer(t))throw new TypeError('"buffer" argument must be a Buffer instance');if(e>n||e<s)throw new RangeError('"value" argument is out of bounds');if(i+r>t.length)throw new RangeError("Index out of range")}function M(t,e,i,r){e<0&&(e=65535+e+1);for(var n=0,s=Math.min(t.length-i,2);n<s;++n)t[i+n]=(e&255<<8*(r?n:1-n))>>>8*(r?n:1-n)}function F(t,e,i,r){e<0&&(e=4294967295+e+1);for(var n=0,s=Math.min(t.length-i,4);n<s;++n)t[i+n]=e>>>8*(r?n:3-n)&255}function I(t,e,i,r,n,s){if(i+r>t.length)throw new RangeError("Index out of range");if(i<0)throw new RangeError("Index out of range")}function L(t,e,i,r,s){return s||I(t,0,i,4),n.write(t,e,i,r,23,4),i+4}function R(t,e,i,r,s){return s||I(t,0,i,8),n.write(t,e,i,r,52,8),i+8}h.prototype.slice=function(t,e){var i,r=this.length;if(t=~~t,e=void 0===e?r:~~e,t<0?(t+=r)<0&&(t=0):t>r&&(t=r),e<0?(e+=r)<0&&(e=0):e>r&&(e=r),e<t&&(e=t),h.TYPED_ARRAY_SUPPORT)(i=this.subarray(t,e)).__proto__=h.prototype;else{var n=e-t;i=new h(n,void 0);for(var s=0;s<n;++s)i[s]=this[s+t]}return i},h.prototype.readUIntLE=function(t,e,i){t|=0,e|=0,i||j(t,e,this.length);for(var r=this[t],n=1,s=0;++s<e&&(n*=256);)r+=this[t+s]*n;return r},h.prototype.readUIntBE=function(t,e,i){t|=0,e|=0,i||j(t,e,this.length);for(var r=this[t+--e],n=1;e>0&&(n*=256);)r+=this[t+--e]*n;return r},h.prototype.readUInt8=function(t,e){return e||j(t,1,this.length),this[t]},h.prototype.readUInt16LE=function(t,e){return e||j(t,2,this.length),this[t]|this[t+1]<<8},h.prototype.readUInt16BE=function(t,e){return e||j(t,2,this.length),this[t]<<8|this[t+1]},h.prototype.readUInt32LE=function(t,e){return e||j(t,4,this.length),(this[t]|this[t+1]<<8|this[t+2]<<16)+16777216*this[t+3]},h.prototype.readUInt32BE=function(t,e){return e||j(t,4,this.length),16777216*this[t]+(this[t+1]<<16|this[t+2]<<8|this[t+3])},h.prototype.readIntLE=function(t,e,i){t|=0,e|=0,i||j(t,e,this.length);for(var r=this[t],n=1,s=0;++s<e&&(n*=256);)r+=this[t+s]*n;return r>=(n*=128)&&(r-=Math.pow(2,8*e)),r},h.prototype.readIntBE=function(t,e,i){t|=0,e|=0,i||j(t,e,this.length);for(var r=e,n=1,s=this[t+--r];r>0&&(n*=256);)s+=this[t+--r]*n;return s>=(n*=128)&&(s-=Math.pow(2,8*e)),s},h.prototype.readInt8=function(t,e){return e||j(t,1,this.length),128&this[t]?-1*(255-this[t]+1):this[t]},h.prototype.readInt16LE=function(t,e){e||j(t,2,this.length);var i=this[t]|this[t+1]<<8;return 32768&i?4294901760|i:i},h.prototype.readInt16BE=function(t,e){e||j(t,2,this.length);var i=this[t+1]|this[t]<<8;return 32768&i?4294901760|i:i},h.prototype.readInt32LE=function(t,e){return e||j(t,4,this.length),this[t]|this[t+1]<<8|this[t+2]<<16|this[t+3]<<24},h.prototype.readInt32BE=function(t,e){return e||j(t,4,this.length),this[t]<<24|this[t+1]<<16|this[t+2]<<8|this[t+3]},h.prototype.readFloatLE=function(t,e){return e||j(t,4,this.length),n.read(this,t,!0,23,4)},h.prototype.readFloatBE=function(t,e){return e||j(t,4,this.length),n.read(this,t,!1,23,4)},h.prototype.readDoubleLE=function(t,e){return e||j(t,8,this.length),n.read(this,t,!0,52,8)},h.prototype.readDoubleBE=function(t,e){return e||j(t,8,this.length),n.read(this,t,!1,52,8)},h.prototype.writeUIntLE=function(t,e,i,r){(t=+t,e|=0,i|=0,r)||P(this,t,e,i,Math.pow(2,8*i)-1,0);var n=1,s=0;for(this[e]=255&t;++s<i&&(n*=256);)this[e+s]=t/n&255;return e+i},h.prototype.writeUIntBE=function(t,e,i,r){(t=+t,e|=0,i|=0,r)||P(this,t,e,i,Math.pow(2,8*i)-1,0);var n=i-1,s=1;for(this[e+n]=255&t;--n>=0&&(s*=256);)this[e+n]=t/s&255;return e+i},h.prototype.writeUInt8=function(t,e,i){return t=+t,e|=0,i||P(this,t,e,1,255,0),h.TYPED_ARRAY_SUPPORT||(t=Math.floor(t)),this[e]=255&t,e+1},h.prototype.writeUInt16LE=function(t,e,i){return t=+t,e|=0,i||P(this,t,e,2,65535,0),h.TYPED_ARRAY_SUPPORT?(this[e]=255&t,this[e+1]=t>>>8):M(this,t,e,!0),e+2},h.prototype.writeUInt16BE=function(t,e,i){return t=+t,e|=0,i||P(this,t,e,2,65535,0),h.TYPED_ARRAY_SUPPORT?(this[e]=t>>>8,this[e+1]=255&t):M(this,t,e,!1),e+2},h.prototype.writeUInt32LE=function(t,e,i){return t=+t,e|=0,i||P(this,t,e,4,4294967295,0),h.TYPED_ARRAY_SUPPORT?(this[e+3]=t>>>24,this[e+2]=t>>>16,this[e+1]=t>>>8,this[e]=255&t):F(this,t,e,!0),e+4},h.prototype.writeUInt32BE=function(t,e,i){return t=+t,e|=0,i||P(this,t,e,4,4294967295,0),h.TYPED_ARRAY_SUPPORT?(this[e]=t>>>24,this[e+1]=t>>>16,this[e+2]=t>>>8,this[e+3]=255&t):F(this,t,e,!1),e+4},h.prototype.writeIntLE=function(t,e,i,r){if(t=+t,e|=0,!r){var n=Math.pow(2,8*i-1);P(this,t,e,i,n-1,-n)}var s=0,o=1,a=0;for(this[e]=255&t;++s<i&&(o*=256);)t<0&&0===a&&0!==this[e+s-1]&&(a=1),this[e+s]=(t/o>>0)-a&255;return e+i},h.prototype.writeIntBE=function(t,e,i,r){if(t=+t,e|=0,!r){var n=Math.pow(2,8*i-1);P(this,t,e,i,n-1,-n)}var s=i-1,o=1,a=0;for(this[e+s]=255&t;--s>=0&&(o*=256);)t<0&&0===a&&0!==this[e+s+1]&&(a=1),this[e+s]=(t/o>>0)-a&255;return e+i},h.prototype.writeInt8=function(t,e,i){return t=+t,e|=0,i||P(this,t,e,1,127,-128),h.TYPED_ARRAY_SUPPORT||(t=Math.floor(t)),t<0&&(t=255+t+1),this[e]=255&t,e+1},h.prototype.writeInt16LE=function(t,e,i){return t=+t,e|=0,i||P(this,t,e,2,32767,-32768),h.TYPED_ARRAY_SUPPORT?(this[e]=255&t,this[e+1]=t>>>8):M(this,t,e,!0),e+2},h.prototype.writeInt16BE=function(t,e,i){return t=+t,e|=0,i||P(this,t,e,2,32767,-32768),h.TYPED_ARRAY_SUPPORT?(this[e]=t>>>8,this[e+1]=255&t):M(this,t,e,!1),e+2},h.prototype.writeInt32LE=function(t,e,i){return t=+t,e|=0,i||P(this,t,e,4,2147483647,-2147483648),h.TYPED_ARRAY_SUPPORT?(this[e]=255&t,this[e+1]=t>>>8,this[e+2]=t>>>16,this[e+3]=t>>>24):F(this,t,e,!0),e+4},h.prototype.writeInt32BE=function(t,e,i){return t=+t,e|=0,i||P(this,t,e,4,2147483647,-2147483648),t<0&&(t=4294967295+t+1),h.TYPED_ARRAY_SUPPORT?(this[e]=t>>>24,this[e+1]=t>>>16,this[e+2]=t>>>8,this[e+3]=255&t):F(this,t,e,!1),e+4},h.prototype.writeFloatLE=function(t,e,i){return L(this,t,e,!0,i)},h.prototype.writeFloatBE=function(t,e,i){return L(this,t,e,!1,i)},h.prototype.writeDoubleLE=function(t,e,i){return R(this,t,e,!0,i)},h.prototype.writeDoubleBE=function(t,e,i){return R(this,t,e,!1,i)},h.prototype.copy=function(t,e,i,r){if(i||(i=0),r||0===r||(r=this.length),e>=t.length&&(e=t.length),e||(e=0),r>0&&r<i&&(r=i),r===i)return 0;if(0===t.length||0===this.length)return 0;if(e<0)throw new RangeError("targetStart out of bounds");if(i<0||i>=this.length)throw new RangeError("sourceStart out of bounds");if(r<0)throw new RangeError("sourceEnd out of bounds");r>this.length&&(r=this.length),t.length-e<r-i&&(r=t.length-e+i);var n,s=r-i;if(this===t&&i<e&&e<r)for(n=s-1;n>=0;--n)t[n+e]=this[n+i];else if(s<1e3||!h.TYPED_ARRAY_SUPPORT)for(n=0;n<s;++n)t[n+e]=this[n+i];else Uint8Array.prototype.set.call(t,this.subarray(i,i+s),e);return s},h.prototype.fill=function(t,e,i,r){if("string"==typeof t){if("string"==typeof e?(r=e,e=0,i=this.length):"string"==typeof i&&(r=i,i=this.length),1===t.length){var n=t.charCodeAt(0);n<256&&(t=n)}if(void 0!==r&&"string"!=typeof r)throw new TypeError("encoding must be a string");if("string"==typeof r&&!h.isEncoding(r))throw new TypeError("Unknown encoding: "+r)}else"number"==typeof t&&(t&=255);if(e<0||this.length<e||this.length<i)throw new RangeError("Out of range index");if(i<=e)return this;var s;if(e>>>=0,i=void 0===i?this.length:i>>>0,t||(t=0),"number"==typeof t)for(s=e;s<i;++s)this[s]=t;else{var o=h.isBuffer(t)?t:Y(new h(t,r).toString()),a=o.length;for(s=0;s<i-e;++s)this[s+e]=o[s%a]}return this};var B=/[^+\/0-9A-Za-z-_]/g;function X(t){return t<16?"0"+t.toString(16):t.toString(16)}function Y(t,e){var i;e=e||1/0;for(var r=t.length,n=null,s=[],o=0;o<r;++o){if((i=t.charCodeAt(o))>55295&&i<57344){if(!n){if(i>56319){(e-=3)>-1&&s.push(239,191,189);continue}if(o+1===r){(e-=3)>-1&&s.push(239,191,189);continue}n=i;continue}if(i<56320){(e-=3)>-1&&s.push(239,191,189),n=i;continue}i=65536+(n-55296<<10|i-56320)}else n&&(e-=3)>-1&&s.push(239,191,189);if(n=null,i<128){if((e-=1)<0)break;s.push(i)}else if(i<2048){if((e-=2)<0)break;s.push(i>>6|192,63&i|128)}else if(i<65536){if((e-=3)<0)break;s.push(i>>12|224,i>>6&63|128,63&i|128)}else{if(!(i<1114112))throw new Error("Invalid code point");if((e-=4)<0)break;s.push(i>>18|240,i>>12&63|128,i>>6&63|128,63&i|128)}}return s}function U(t){return r.toByteArray(function(t){if((t=function(t){return t.trim?t.trim():t.replace(/^\s+|\s+$/g,"")}(t).replace(B,"")).length<2)return"";for(;t.length%4!=0;)t+="=";return t}(t))}function W(t,e,i,r){for(var n=0;n<r&&!(n+i>=e.length||n>=t.length);++n)e[n+i]=t[n];return n}}).call(e,i(630))},630:function(t,e){var i;i=function(){return this}();try{i=i||Function("return this")()||(0,eval)("this")}catch(t){"object"==typeof window&&(i=window)}t.exports=i},631:function(t,e,i){"use strict";e.byteLength=function(t){return 3*t.length/4-c(t)},e.toByteArray=function(t){var e,i,r,o,a,h=t.length;o=c(t),a=new s(3*h/4-o),i=o>0?h-4:h;var l=0;for(e=0;e<i;e+=4)r=n[t.charCodeAt(e)]<<18|n[t.charCodeAt(e+1)]<<12|n[t.charCodeAt(e+2)]<<6|n[t.charCodeAt(e+3)],a[l++]=r>>16&255,a[l++]=r>>8&255,a[l++]=255&r;2===o?(r=n[t.charCodeAt(e)]<<2|n[t.charCodeAt(e+1)]>>4,a[l++]=255&r):1===o&&(r=n[t.charCodeAt(e)]<<10|n[t.charCodeAt(e+1)]<<4|n[t.charCodeAt(e+2)]>>2,a[l++]=r>>8&255,a[l++]=255&r);return a},e.fromByteArray=function(t){for(var e,i=t.length,n=i%3,s="",o=[],a=0,h=i-n;a<h;a+=16383)o.push(l(t,a,a+16383>h?h:a+16383));1===n?(e=t[i-1],s+=r[e>>2],s+=r[e<<4&63],s+="=="):2===n&&(e=(t[i-2]<<8)+t[i-1],s+=r[e>>10],s+=r[e>>4&63],s+=r[e<<2&63],s+="=");return o.push(s),o.join("")};for(var r=[],n=[],s="undefined"!=typeof Uint8Array?Uint8Array:Array,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",a=0,h=o.length;a<h;++a)r[a]=o[a],n[o.charCodeAt(a)]=a;function c(t){var e=t.length;if(e%4>0)throw new Error("Invalid string. Length must be a multiple of 4");return"="===t[e-2]?2:"="===t[e-1]?1:0}function l(t,e,i){for(var n,s,o=[],a=e;a<i;a+=3)n=(t[a]<<16&16711680)+(t[a+1]<<8&65280)+(255&t[a+2]),o.push(r[(s=n)>>18&63]+r[s>>12&63]+r[s>>6&63]+r[63&s]);return o.join("")}n["-".charCodeAt(0)]=62,n["_".charCodeAt(0)]=63},632:function(t,e){e.read=function(t,e,i,r,n){var s,o,a=8*n-r-1,h=(1<<a)-1,c=h>>1,l=-7,u=i?n-1:0,f=i?-1:1,d=t[e+u];for(u+=f,s=d&(1<<-l)-1,d>>=-l,l+=a;l>0;s=256*s+t[e+u],u+=f,l-=8);for(o=s&(1<<-l)-1,s>>=-l,l+=r;l>0;o=256*o+t[e+u],u+=f,l-=8);if(0===s)s=1-c;else{if(s===h)return o?NaN:1/0*(d?-1:1);o+=Math.pow(2,r),s-=c}return(d?-1:1)*o*Math.pow(2,s-r)},e.write=function(t,e,i,r,n,s){var o,a,h,c=8*s-n-1,l=(1<<c)-1,u=l>>1,f=23===n?Math.pow(2,-24)-Math.pow(2,-77):0,d=r?0:s-1,g=r?1:-1,p=e<0||0===e&&1/e<0?1:0;for(e=Math.abs(e),isNaN(e)||e===1/0?(a=isNaN(e)?1:0,o=l):(o=Math.floor(Math.log(e)/Math.LN2),e*(h=Math.pow(2,-o))<1&&(o--,h*=2),(e+=o+u>=1?f/h:f*Math.pow(2,1-u))*h>=2&&(o++,h/=2),o+u>=l?(a=0,o=l):o+u>=1?(a=(e*h-1)*Math.pow(2,n),o+=u):(a=e*Math.pow(2,u-1)*Math.pow(2,n),o=0));n>=8;t[i+d]=255&a,d+=g,a/=256,n-=8);for(o=o<<n|a,c+=n;c>0;t[i+d]=255&o,d+=g,o/=256,c-=8);t[i+d-g]|=128*p}},633:function(t,e){var i={}.toString;t.exports=Array.isArray||function(t){return"[object Array]"==i.call(t)}},635:function(t,e){},636:function(t,e){},637:function(t,e){},638:function(t,e){}});
-//# sourceMappingURL=fabric.js.map
+/* eslint-disable no-proto */
+
+
+
+var base64 = __webpack_require__(592)
+var ieee754 = __webpack_require__(593)
+var isArray = __webpack_require__(594)
+
+exports.Buffer = Buffer
+exports.SlowBuffer = SlowBuffer
+exports.INSPECT_MAX_BYTES = 50
+
+/**
+ * If `Buffer.TYPED_ARRAY_SUPPORT`:
+ *   === true    Use Uint8Array implementation (fastest)
+ *   === false   Use Object implementation (most compatible, even IE6)
+ *
+ * Browsers that support typed arrays are IE 10+, Firefox 4+, Chrome 7+, Safari 5.1+,
+ * Opera 11.6+, iOS 4.2+.
+ *
+ * Due to various browser bugs, sometimes the Object implementation will be used even
+ * when the browser supports typed arrays.
+ *
+ * Note:
+ *
+ *   - Firefox 4-29 lacks support for adding new properties to `Uint8Array` instances,
+ *     See: https://bugzilla.mozilla.org/show_bug.cgi?id=695438.
+ *
+ *   - Chrome 9-10 is missing the `TypedArray.prototype.subarray` function.
+ *
+ *   - IE10 has a broken `TypedArray.prototype.subarray` function which returns arrays of
+ *     incorrect length in some situations.
+
+ * We detect these buggy browsers and set `Buffer.TYPED_ARRAY_SUPPORT` to `false` so they
+ * get the Object implementation, which is slower but behaves correctly.
+ */
+Buffer.TYPED_ARRAY_SUPPORT = global.TYPED_ARRAY_SUPPORT !== undefined
+  ? global.TYPED_ARRAY_SUPPORT
+  : typedArraySupport()
+
+/*
+ * Export kMaxLength after typed array support is determined.
+ */
+exports.kMaxLength = kMaxLength()
+
+function typedArraySupport () {
+  try {
+    var arr = new Uint8Array(1)
+    arr.__proto__ = {__proto__: Uint8Array.prototype, foo: function () { return 42 }}
+    return arr.foo() === 42 && // typed array instances can be augmented
+        typeof arr.subarray === 'function' && // chrome 9-10 lack `subarray`
+        arr.subarray(1, 1).byteLength === 0 // ie10 has broken `subarray`
+  } catch (e) {
+    return false
+  }
+}
+
+function kMaxLength () {
+  return Buffer.TYPED_ARRAY_SUPPORT
+    ? 0x7fffffff
+    : 0x3fffffff
+}
+
+function createBuffer (that, length) {
+  if (kMaxLength() < length) {
+    throw new RangeError('Invalid typed array length')
+  }
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    // Return an augmented `Uint8Array` instance, for best performance
+    that = new Uint8Array(length)
+    that.__proto__ = Buffer.prototype
+  } else {
+    // Fallback: Return an object instance of the Buffer class
+    if (that === null) {
+      that = new Buffer(length)
+    }
+    that.length = length
+  }
+
+  return that
+}
+
+/**
+ * The Buffer constructor returns instances of `Uint8Array` that have their
+ * prototype changed to `Buffer.prototype`. Furthermore, `Buffer` is a subclass of
+ * `Uint8Array`, so the returned instances will have all the node `Buffer` methods
+ * and the `Uint8Array` methods. Square bracket notation works as expected -- it
+ * returns a single octet.
+ *
+ * The `Uint8Array` prototype remains unmodified.
+ */
+
+function Buffer (arg, encodingOrOffset, length) {
+  if (!Buffer.TYPED_ARRAY_SUPPORT && !(this instanceof Buffer)) {
+    return new Buffer(arg, encodingOrOffset, length)
+  }
+
+  // Common case.
+  if (typeof arg === 'number') {
+    if (typeof encodingOrOffset === 'string') {
+      throw new Error(
+        'If encoding is specified then the first argument must be a string'
+      )
+    }
+    return allocUnsafe(this, arg)
+  }
+  return from(this, arg, encodingOrOffset, length)
+}
+
+Buffer.poolSize = 8192 // not used by this implementation
+
+// TODO: Legacy, not needed anymore. Remove in next major version.
+Buffer._augment = function (arr) {
+  arr.__proto__ = Buffer.prototype
+  return arr
+}
+
+function from (that, value, encodingOrOffset, length) {
+  if (typeof value === 'number') {
+    throw new TypeError('"value" argument must not be a number')
+  }
+
+  if (typeof ArrayBuffer !== 'undefined' && value instanceof ArrayBuffer) {
+    return fromArrayBuffer(that, value, encodingOrOffset, length)
+  }
+
+  if (typeof value === 'string') {
+    return fromString(that, value, encodingOrOffset)
+  }
+
+  return fromObject(that, value)
+}
+
+/**
+ * Functionally equivalent to Buffer(arg, encoding) but throws a TypeError
+ * if value is a number.
+ * Buffer.from(str[, encoding])
+ * Buffer.from(array)
+ * Buffer.from(buffer)
+ * Buffer.from(arrayBuffer[, byteOffset[, length]])
+ **/
+Buffer.from = function (value, encodingOrOffset, length) {
+  return from(null, value, encodingOrOffset, length)
+}
+
+if (Buffer.TYPED_ARRAY_SUPPORT) {
+  Buffer.prototype.__proto__ = Uint8Array.prototype
+  Buffer.__proto__ = Uint8Array
+  if (typeof Symbol !== 'undefined' && Symbol.species &&
+      Buffer[Symbol.species] === Buffer) {
+    // Fix subarray() in ES2016. See: https://github.com/feross/buffer/pull/97
+    Object.defineProperty(Buffer, Symbol.species, {
+      value: null,
+      configurable: true
+    })
+  }
+}
+
+function assertSize (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('"size" argument must be a number')
+  } else if (size < 0) {
+    throw new RangeError('"size" argument must not be negative')
+  }
+}
+
+function alloc (that, size, fill, encoding) {
+  assertSize(size)
+  if (size <= 0) {
+    return createBuffer(that, size)
+  }
+  if (fill !== undefined) {
+    // Only pay attention to encoding if it's a string. This
+    // prevents accidentally sending in a number that would
+    // be interpretted as a start offset.
+    return typeof encoding === 'string'
+      ? createBuffer(that, size).fill(fill, encoding)
+      : createBuffer(that, size).fill(fill)
+  }
+  return createBuffer(that, size)
+}
+
+/**
+ * Creates a new filled Buffer instance.
+ * alloc(size[, fill[, encoding]])
+ **/
+Buffer.alloc = function (size, fill, encoding) {
+  return alloc(null, size, fill, encoding)
+}
+
+function allocUnsafe (that, size) {
+  assertSize(size)
+  that = createBuffer(that, size < 0 ? 0 : checked(size) | 0)
+  if (!Buffer.TYPED_ARRAY_SUPPORT) {
+    for (var i = 0; i < size; ++i) {
+      that[i] = 0
+    }
+  }
+  return that
+}
+
+/**
+ * Equivalent to Buffer(num), by default creates a non-zero-filled Buffer instance.
+ * */
+Buffer.allocUnsafe = function (size) {
+  return allocUnsafe(null, size)
+}
+/**
+ * Equivalent to SlowBuffer(num), by default creates a non-zero-filled Buffer instance.
+ */
+Buffer.allocUnsafeSlow = function (size) {
+  return allocUnsafe(null, size)
+}
+
+function fromString (that, string, encoding) {
+  if (typeof encoding !== 'string' || encoding === '') {
+    encoding = 'utf8'
+  }
+
+  if (!Buffer.isEncoding(encoding)) {
+    throw new TypeError('"encoding" must be a valid string encoding')
+  }
+
+  var length = byteLength(string, encoding) | 0
+  that = createBuffer(that, length)
+
+  var actual = that.write(string, encoding)
+
+  if (actual !== length) {
+    // Writing a hex string, for example, that contains invalid characters will
+    // cause everything after the first invalid character to be ignored. (e.g.
+    // 'abxxcd' will be treated as 'ab')
+    that = that.slice(0, actual)
+  }
+
+  return that
+}
+
+function fromArrayLike (that, array) {
+  var length = array.length < 0 ? 0 : checked(array.length) | 0
+  that = createBuffer(that, length)
+  for (var i = 0; i < length; i += 1) {
+    that[i] = array[i] & 255
+  }
+  return that
+}
+
+function fromArrayBuffer (that, array, byteOffset, length) {
+  array.byteLength // this throws if `array` is not a valid ArrayBuffer
+
+  if (byteOffset < 0 || array.byteLength < byteOffset) {
+    throw new RangeError('\'offset\' is out of bounds')
+  }
+
+  if (array.byteLength < byteOffset + (length || 0)) {
+    throw new RangeError('\'length\' is out of bounds')
+  }
+
+  if (byteOffset === undefined && length === undefined) {
+    array = new Uint8Array(array)
+  } else if (length === undefined) {
+    array = new Uint8Array(array, byteOffset)
+  } else {
+    array = new Uint8Array(array, byteOffset, length)
+  }
+
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    // Return an augmented `Uint8Array` instance, for best performance
+    that = array
+    that.__proto__ = Buffer.prototype
+  } else {
+    // Fallback: Return an object instance of the Buffer class
+    that = fromArrayLike(that, array)
+  }
+  return that
+}
+
+function fromObject (that, obj) {
+  if (Buffer.isBuffer(obj)) {
+    var len = checked(obj.length) | 0
+    that = createBuffer(that, len)
+
+    if (that.length === 0) {
+      return that
+    }
+
+    obj.copy(that, 0, 0, len)
+    return that
+  }
+
+  if (obj) {
+    if ((typeof ArrayBuffer !== 'undefined' &&
+        obj.buffer instanceof ArrayBuffer) || 'length' in obj) {
+      if (typeof obj.length !== 'number' || isnan(obj.length)) {
+        return createBuffer(that, 0)
+      }
+      return fromArrayLike(that, obj)
+    }
+
+    if (obj.type === 'Buffer' && isArray(obj.data)) {
+      return fromArrayLike(that, obj.data)
+    }
+  }
+
+  throw new TypeError('First argument must be a string, Buffer, ArrayBuffer, Array, or array-like object.')
+}
+
+function checked (length) {
+  // Note: cannot use `length < kMaxLength()` here because that fails when
+  // length is NaN (which is otherwise coerced to zero.)
+  if (length >= kMaxLength()) {
+    throw new RangeError('Attempt to allocate Buffer larger than maximum ' +
+                         'size: 0x' + kMaxLength().toString(16) + ' bytes')
+  }
+  return length | 0
+}
+
+function SlowBuffer (length) {
+  if (+length != length) { // eslint-disable-line eqeqeq
+    length = 0
+  }
+  return Buffer.alloc(+length)
+}
+
+Buffer.isBuffer = function isBuffer (b) {
+  return !!(b != null && b._isBuffer)
+}
+
+Buffer.compare = function compare (a, b) {
+  if (!Buffer.isBuffer(a) || !Buffer.isBuffer(b)) {
+    throw new TypeError('Arguments must be Buffers')
+  }
+
+  if (a === b) return 0
+
+  var x = a.length
+  var y = b.length
+
+  for (var i = 0, len = Math.min(x, y); i < len; ++i) {
+    if (a[i] !== b[i]) {
+      x = a[i]
+      y = b[i]
+      break
+    }
+  }
+
+  if (x < y) return -1
+  if (y < x) return 1
+  return 0
+}
+
+Buffer.isEncoding = function isEncoding (encoding) {
+  switch (String(encoding).toLowerCase()) {
+    case 'hex':
+    case 'utf8':
+    case 'utf-8':
+    case 'ascii':
+    case 'latin1':
+    case 'binary':
+    case 'base64':
+    case 'ucs2':
+    case 'ucs-2':
+    case 'utf16le':
+    case 'utf-16le':
+      return true
+    default:
+      return false
+  }
+}
+
+Buffer.concat = function concat (list, length) {
+  if (!isArray(list)) {
+    throw new TypeError('"list" argument must be an Array of Buffers')
+  }
+
+  if (list.length === 0) {
+    return Buffer.alloc(0)
+  }
+
+  var i
+  if (length === undefined) {
+    length = 0
+    for (i = 0; i < list.length; ++i) {
+      length += list[i].length
+    }
+  }
+
+  var buffer = Buffer.allocUnsafe(length)
+  var pos = 0
+  for (i = 0; i < list.length; ++i) {
+    var buf = list[i]
+    if (!Buffer.isBuffer(buf)) {
+      throw new TypeError('"list" argument must be an Array of Buffers')
+    }
+    buf.copy(buffer, pos)
+    pos += buf.length
+  }
+  return buffer
+}
+
+function byteLength (string, encoding) {
+  if (Buffer.isBuffer(string)) {
+    return string.length
+  }
+  if (typeof ArrayBuffer !== 'undefined' && typeof ArrayBuffer.isView === 'function' &&
+      (ArrayBuffer.isView(string) || string instanceof ArrayBuffer)) {
+    return string.byteLength
+  }
+  if (typeof string !== 'string') {
+    string = '' + string
+  }
+
+  var len = string.length
+  if (len === 0) return 0
+
+  // Use a for loop to avoid recursion
+  var loweredCase = false
+  for (;;) {
+    switch (encoding) {
+      case 'ascii':
+      case 'latin1':
+      case 'binary':
+        return len
+      case 'utf8':
+      case 'utf-8':
+      case undefined:
+        return utf8ToBytes(string).length
+      case 'ucs2':
+      case 'ucs-2':
+      case 'utf16le':
+      case 'utf-16le':
+        return len * 2
+      case 'hex':
+        return len >>> 1
+      case 'base64':
+        return base64ToBytes(string).length
+      default:
+        if (loweredCase) return utf8ToBytes(string).length // assume utf8
+        encoding = ('' + encoding).toLowerCase()
+        loweredCase = true
+    }
+  }
+}
+Buffer.byteLength = byteLength
+
+function slowToString (encoding, start, end) {
+  var loweredCase = false
+
+  // No need to verify that "this.length <= MAX_UINT32" since it's a read-only
+  // property of a typed array.
+
+  // This behaves neither like String nor Uint8Array in that we set start/end
+  // to their upper/lower bounds if the value passed is out of range.
+  // undefined is handled specially as per ECMA-262 6th Edition,
+  // Section 13.3.3.7 Runtime Semantics: KeyedBindingInitialization.
+  if (start === undefined || start < 0) {
+    start = 0
+  }
+  // Return early if start > this.length. Done here to prevent potential uint32
+  // coercion fail below.
+  if (start > this.length) {
+    return ''
+  }
+
+  if (end === undefined || end > this.length) {
+    end = this.length
+  }
+
+  if (end <= 0) {
+    return ''
+  }
+
+  // Force coersion to uint32. This will also coerce falsey/NaN values to 0.
+  end >>>= 0
+  start >>>= 0
+
+  if (end <= start) {
+    return ''
+  }
+
+  if (!encoding) encoding = 'utf8'
+
+  while (true) {
+    switch (encoding) {
+      case 'hex':
+        return hexSlice(this, start, end)
+
+      case 'utf8':
+      case 'utf-8':
+        return utf8Slice(this, start, end)
+
+      case 'ascii':
+        return asciiSlice(this, start, end)
+
+      case 'latin1':
+      case 'binary':
+        return latin1Slice(this, start, end)
+
+      case 'base64':
+        return base64Slice(this, start, end)
+
+      case 'ucs2':
+      case 'ucs-2':
+      case 'utf16le':
+      case 'utf-16le':
+        return utf16leSlice(this, start, end)
+
+      default:
+        if (loweredCase) throw new TypeError('Unknown encoding: ' + encoding)
+        encoding = (encoding + '').toLowerCase()
+        loweredCase = true
+    }
+  }
+}
+
+// The property is used by `Buffer.isBuffer` and `is-buffer` (in Safari 5-7) to detect
+// Buffer instances.
+Buffer.prototype._isBuffer = true
+
+function swap (b, n, m) {
+  var i = b[n]
+  b[n] = b[m]
+  b[m] = i
+}
+
+Buffer.prototype.swap16 = function swap16 () {
+  var len = this.length
+  if (len % 2 !== 0) {
+    throw new RangeError('Buffer size must be a multiple of 16-bits')
+  }
+  for (var i = 0; i < len; i += 2) {
+    swap(this, i, i + 1)
+  }
+  return this
+}
+
+Buffer.prototype.swap32 = function swap32 () {
+  var len = this.length
+  if (len % 4 !== 0) {
+    throw new RangeError('Buffer size must be a multiple of 32-bits')
+  }
+  for (var i = 0; i < len; i += 4) {
+    swap(this, i, i + 3)
+    swap(this, i + 1, i + 2)
+  }
+  return this
+}
+
+Buffer.prototype.swap64 = function swap64 () {
+  var len = this.length
+  if (len % 8 !== 0) {
+    throw new RangeError('Buffer size must be a multiple of 64-bits')
+  }
+  for (var i = 0; i < len; i += 8) {
+    swap(this, i, i + 7)
+    swap(this, i + 1, i + 6)
+    swap(this, i + 2, i + 5)
+    swap(this, i + 3, i + 4)
+  }
+  return this
+}
+
+Buffer.prototype.toString = function toString () {
+  var length = this.length | 0
+  if (length === 0) return ''
+  if (arguments.length === 0) return utf8Slice(this, 0, length)
+  return slowToString.apply(this, arguments)
+}
+
+Buffer.prototype.equals = function equals (b) {
+  if (!Buffer.isBuffer(b)) throw new TypeError('Argument must be a Buffer')
+  if (this === b) return true
+  return Buffer.compare(this, b) === 0
+}
+
+Buffer.prototype.inspect = function inspect () {
+  var str = ''
+  var max = exports.INSPECT_MAX_BYTES
+  if (this.length > 0) {
+    str = this.toString('hex', 0, max).match(/.{2}/g).join(' ')
+    if (this.length > max) str += ' ... '
+  }
+  return '<Buffer ' + str + '>'
+}
+
+Buffer.prototype.compare = function compare (target, start, end, thisStart, thisEnd) {
+  if (!Buffer.isBuffer(target)) {
+    throw new TypeError('Argument must be a Buffer')
+  }
+
+  if (start === undefined) {
+    start = 0
+  }
+  if (end === undefined) {
+    end = target ? target.length : 0
+  }
+  if (thisStart === undefined) {
+    thisStart = 0
+  }
+  if (thisEnd === undefined) {
+    thisEnd = this.length
+  }
+
+  if (start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) {
+    throw new RangeError('out of range index')
+  }
+
+  if (thisStart >= thisEnd && start >= end) {
+    return 0
+  }
+  if (thisStart >= thisEnd) {
+    return -1
+  }
+  if (start >= end) {
+    return 1
+  }
+
+  start >>>= 0
+  end >>>= 0
+  thisStart >>>= 0
+  thisEnd >>>= 0
+
+  if (this === target) return 0
+
+  var x = thisEnd - thisStart
+  var y = end - start
+  var len = Math.min(x, y)
+
+  var thisCopy = this.slice(thisStart, thisEnd)
+  var targetCopy = target.slice(start, end)
+
+  for (var i = 0; i < len; ++i) {
+    if (thisCopy[i] !== targetCopy[i]) {
+      x = thisCopy[i]
+      y = targetCopy[i]
+      break
+    }
+  }
+
+  if (x < y) return -1
+  if (y < x) return 1
+  return 0
+}
+
+// Finds either the first index of `val` in `buffer` at offset >= `byteOffset`,
+// OR the last index of `val` in `buffer` at offset <= `byteOffset`.
+//
+// Arguments:
+// - buffer - a Buffer to search
+// - val - a string, Buffer, or number
+// - byteOffset - an index into `buffer`; will be clamped to an int32
+// - encoding - an optional encoding, relevant is val is a string
+// - dir - true for indexOf, false for lastIndexOf
+function bidirectionalIndexOf (buffer, val, byteOffset, encoding, dir) {
+  // Empty buffer means no match
+  if (buffer.length === 0) return -1
+
+  // Normalize byteOffset
+  if (typeof byteOffset === 'string') {
+    encoding = byteOffset
+    byteOffset = 0
+  } else if (byteOffset > 0x7fffffff) {
+    byteOffset = 0x7fffffff
+  } else if (byteOffset < -0x80000000) {
+    byteOffset = -0x80000000
+  }
+  byteOffset = +byteOffset  // Coerce to Number.
+  if (isNaN(byteOffset)) {
+    // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
+    byteOffset = dir ? 0 : (buffer.length - 1)
+  }
+
+  // Normalize byteOffset: negative offsets start from the end of the buffer
+  if (byteOffset < 0) byteOffset = buffer.length + byteOffset
+  if (byteOffset >= buffer.length) {
+    if (dir) return -1
+    else byteOffset = buffer.length - 1
+  } else if (byteOffset < 0) {
+    if (dir) byteOffset = 0
+    else return -1
+  }
+
+  // Normalize val
+  if (typeof val === 'string') {
+    val = Buffer.from(val, encoding)
+  }
+
+  // Finally, search either indexOf (if dir is true) or lastIndexOf
+  if (Buffer.isBuffer(val)) {
+    // Special case: looking for empty string/buffer always fails
+    if (val.length === 0) {
+      return -1
+    }
+    return arrayIndexOf(buffer, val, byteOffset, encoding, dir)
+  } else if (typeof val === 'number') {
+    val = val & 0xFF // Search for a byte value [0-255]
+    if (Buffer.TYPED_ARRAY_SUPPORT &&
+        typeof Uint8Array.prototype.indexOf === 'function') {
+      if (dir) {
+        return Uint8Array.prototype.indexOf.call(buffer, val, byteOffset)
+      } else {
+        return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset)
+      }
+    }
+    return arrayIndexOf(buffer, [ val ], byteOffset, encoding, dir)
+  }
+
+  throw new TypeError('val must be string, number or Buffer')
+}
+
+function arrayIndexOf (arr, val, byteOffset, encoding, dir) {
+  var indexSize = 1
+  var arrLength = arr.length
+  var valLength = val.length
+
+  if (encoding !== undefined) {
+    encoding = String(encoding).toLowerCase()
+    if (encoding === 'ucs2' || encoding === 'ucs-2' ||
+        encoding === 'utf16le' || encoding === 'utf-16le') {
+      if (arr.length < 2 || val.length < 2) {
+        return -1
+      }
+      indexSize = 2
+      arrLength /= 2
+      valLength /= 2
+      byteOffset /= 2
+    }
+  }
+
+  function read (buf, i) {
+    if (indexSize === 1) {
+      return buf[i]
+    } else {
+      return buf.readUInt16BE(i * indexSize)
+    }
+  }
+
+  var i
+  if (dir) {
+    var foundIndex = -1
+    for (i = byteOffset; i < arrLength; i++) {
+      if (read(arr, i) === read(val, foundIndex === -1 ? 0 : i - foundIndex)) {
+        if (foundIndex === -1) foundIndex = i
+        if (i - foundIndex + 1 === valLength) return foundIndex * indexSize
+      } else {
+        if (foundIndex !== -1) i -= i - foundIndex
+        foundIndex = -1
+      }
+    }
+  } else {
+    if (byteOffset + valLength > arrLength) byteOffset = arrLength - valLength
+    for (i = byteOffset; i >= 0; i--) {
+      var found = true
+      for (var j = 0; j < valLength; j++) {
+        if (read(arr, i + j) !== read(val, j)) {
+          found = false
+          break
+        }
+      }
+      if (found) return i
+    }
+  }
+
+  return -1
+}
+
+Buffer.prototype.includes = function includes (val, byteOffset, encoding) {
+  return this.indexOf(val, byteOffset, encoding) !== -1
+}
+
+Buffer.prototype.indexOf = function indexOf (val, byteOffset, encoding) {
+  return bidirectionalIndexOf(this, val, byteOffset, encoding, true)
+}
+
+Buffer.prototype.lastIndexOf = function lastIndexOf (val, byteOffset, encoding) {
+  return bidirectionalIndexOf(this, val, byteOffset, encoding, false)
+}
+
+function hexWrite (buf, string, offset, length) {
+  offset = Number(offset) || 0
+  var remaining = buf.length - offset
+  if (!length) {
+    length = remaining
+  } else {
+    length = Number(length)
+    if (length > remaining) {
+      length = remaining
+    }
+  }
+
+  // must be an even number of digits
+  var strLen = string.length
+  if (strLen % 2 !== 0) throw new TypeError('Invalid hex string')
+
+  if (length > strLen / 2) {
+    length = strLen / 2
+  }
+  for (var i = 0; i < length; ++i) {
+    var parsed = parseInt(string.substr(i * 2, 2), 16)
+    if (isNaN(parsed)) return i
+    buf[offset + i] = parsed
+  }
+  return i
+}
+
+function utf8Write (buf, string, offset, length) {
+  return blitBuffer(utf8ToBytes(string, buf.length - offset), buf, offset, length)
+}
+
+function asciiWrite (buf, string, offset, length) {
+  return blitBuffer(asciiToBytes(string), buf, offset, length)
+}
+
+function latin1Write (buf, string, offset, length) {
+  return asciiWrite(buf, string, offset, length)
+}
+
+function base64Write (buf, string, offset, length) {
+  return blitBuffer(base64ToBytes(string), buf, offset, length)
+}
+
+function ucs2Write (buf, string, offset, length) {
+  return blitBuffer(utf16leToBytes(string, buf.length - offset), buf, offset, length)
+}
+
+Buffer.prototype.write = function write (string, offset, length, encoding) {
+  // Buffer#write(string)
+  if (offset === undefined) {
+    encoding = 'utf8'
+    length = this.length
+    offset = 0
+  // Buffer#write(string, encoding)
+  } else if (length === undefined && typeof offset === 'string') {
+    encoding = offset
+    length = this.length
+    offset = 0
+  // Buffer#write(string, offset[, length][, encoding])
+  } else if (isFinite(offset)) {
+    offset = offset | 0
+    if (isFinite(length)) {
+      length = length | 0
+      if (encoding === undefined) encoding = 'utf8'
+    } else {
+      encoding = length
+      length = undefined
+    }
+  // legacy write(string, encoding, offset, length) - remove in v0.13
+  } else {
+    throw new Error(
+      'Buffer.write(string, encoding, offset[, length]) is no longer supported'
+    )
+  }
+
+  var remaining = this.length - offset
+  if (length === undefined || length > remaining) length = remaining
+
+  if ((string.length > 0 && (length < 0 || offset < 0)) || offset > this.length) {
+    throw new RangeError('Attempt to write outside buffer bounds')
+  }
+
+  if (!encoding) encoding = 'utf8'
+
+  var loweredCase = false
+  for (;;) {
+    switch (encoding) {
+      case 'hex':
+        return hexWrite(this, string, offset, length)
+
+      case 'utf8':
+      case 'utf-8':
+        return utf8Write(this, string, offset, length)
+
+      case 'ascii':
+        return asciiWrite(this, string, offset, length)
+
+      case 'latin1':
+      case 'binary':
+        return latin1Write(this, string, offset, length)
+
+      case 'base64':
+        // Warning: maxLength not taken into account in base64Write
+        return base64Write(this, string, offset, length)
+
+      case 'ucs2':
+      case 'ucs-2':
+      case 'utf16le':
+      case 'utf-16le':
+        return ucs2Write(this, string, offset, length)
+
+      default:
+        if (loweredCase) throw new TypeError('Unknown encoding: ' + encoding)
+        encoding = ('' + encoding).toLowerCase()
+        loweredCase = true
+    }
+  }
+}
+
+Buffer.prototype.toJSON = function toJSON () {
+  return {
+    type: 'Buffer',
+    data: Array.prototype.slice.call(this._arr || this, 0)
+  }
+}
+
+function base64Slice (buf, start, end) {
+  if (start === 0 && end === buf.length) {
+    return base64.fromByteArray(buf)
+  } else {
+    return base64.fromByteArray(buf.slice(start, end))
+  }
+}
+
+function utf8Slice (buf, start, end) {
+  end = Math.min(buf.length, end)
+  var res = []
+
+  var i = start
+  while (i < end) {
+    var firstByte = buf[i]
+    var codePoint = null
+    var bytesPerSequence = (firstByte > 0xEF) ? 4
+      : (firstByte > 0xDF) ? 3
+      : (firstByte > 0xBF) ? 2
+      : 1
+
+    if (i + bytesPerSequence <= end) {
+      var secondByte, thirdByte, fourthByte, tempCodePoint
+
+      switch (bytesPerSequence) {
+        case 1:
+          if (firstByte < 0x80) {
+            codePoint = firstByte
+          }
+          break
+        case 2:
+          secondByte = buf[i + 1]
+          if ((secondByte & 0xC0) === 0x80) {
+            tempCodePoint = (firstByte & 0x1F) << 0x6 | (secondByte & 0x3F)
+            if (tempCodePoint > 0x7F) {
+              codePoint = tempCodePoint
+            }
+          }
+          break
+        case 3:
+          secondByte = buf[i + 1]
+          thirdByte = buf[i + 2]
+          if ((secondByte & 0xC0) === 0x80 && (thirdByte & 0xC0) === 0x80) {
+            tempCodePoint = (firstByte & 0xF) << 0xC | (secondByte & 0x3F) << 0x6 | (thirdByte & 0x3F)
+            if (tempCodePoint > 0x7FF && (tempCodePoint < 0xD800 || tempCodePoint > 0xDFFF)) {
+              codePoint = tempCodePoint
+            }
+          }
+          break
+        case 4:
+          secondByte = buf[i + 1]
+          thirdByte = buf[i + 2]
+          fourthByte = buf[i + 3]
+          if ((secondByte & 0xC0) === 0x80 && (thirdByte & 0xC0) === 0x80 && (fourthByte & 0xC0) === 0x80) {
+            tempCodePoint = (firstByte & 0xF) << 0x12 | (secondByte & 0x3F) << 0xC | (thirdByte & 0x3F) << 0x6 | (fourthByte & 0x3F)
+            if (tempCodePoint > 0xFFFF && tempCodePoint < 0x110000) {
+              codePoint = tempCodePoint
+            }
+          }
+      }
+    }
+
+    if (codePoint === null) {
+      // we did not generate a valid codePoint so insert a
+      // replacement char (U+FFFD) and advance only 1 byte
+      codePoint = 0xFFFD
+      bytesPerSequence = 1
+    } else if (codePoint > 0xFFFF) {
+      // encode to utf16 (surrogate pair dance)
+      codePoint -= 0x10000
+      res.push(codePoint >>> 10 & 0x3FF | 0xD800)
+      codePoint = 0xDC00 | codePoint & 0x3FF
+    }
+
+    res.push(codePoint)
+    i += bytesPerSequence
+  }
+
+  return decodeCodePointsArray(res)
+}
+
+// Based on http://stackoverflow.com/a/22747272/680742, the browser with
+// the lowest limit is Chrome, with 0x10000 args.
+// We go 1 magnitude less, for safety
+var MAX_ARGUMENTS_LENGTH = 0x1000
+
+function decodeCodePointsArray (codePoints) {
+  var len = codePoints.length
+  if (len <= MAX_ARGUMENTS_LENGTH) {
+    return String.fromCharCode.apply(String, codePoints) // avoid extra slice()
+  }
+
+  // Decode in chunks to avoid "call stack size exceeded".
+  var res = ''
+  var i = 0
+  while (i < len) {
+    res += String.fromCharCode.apply(
+      String,
+      codePoints.slice(i, i += MAX_ARGUMENTS_LENGTH)
+    )
+  }
+  return res
+}
+
+function asciiSlice (buf, start, end) {
+  var ret = ''
+  end = Math.min(buf.length, end)
+
+  for (var i = start; i < end; ++i) {
+    ret += String.fromCharCode(buf[i] & 0x7F)
+  }
+  return ret
+}
+
+function latin1Slice (buf, start, end) {
+  var ret = ''
+  end = Math.min(buf.length, end)
+
+  for (var i = start; i < end; ++i) {
+    ret += String.fromCharCode(buf[i])
+  }
+  return ret
+}
+
+function hexSlice (buf, start, end) {
+  var len = buf.length
+
+  if (!start || start < 0) start = 0
+  if (!end || end < 0 || end > len) end = len
+
+  var out = ''
+  for (var i = start; i < end; ++i) {
+    out += toHex(buf[i])
+  }
+  return out
+}
+
+function utf16leSlice (buf, start, end) {
+  var bytes = buf.slice(start, end)
+  var res = ''
+  for (var i = 0; i < bytes.length; i += 2) {
+    res += String.fromCharCode(bytes[i] + bytes[i + 1] * 256)
+  }
+  return res
+}
+
+Buffer.prototype.slice = function slice (start, end) {
+  var len = this.length
+  start = ~~start
+  end = end === undefined ? len : ~~end
+
+  if (start < 0) {
+    start += len
+    if (start < 0) start = 0
+  } else if (start > len) {
+    start = len
+  }
+
+  if (end < 0) {
+    end += len
+    if (end < 0) end = 0
+  } else if (end > len) {
+    end = len
+  }
+
+  if (end < start) end = start
+
+  var newBuf
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    newBuf = this.subarray(start, end)
+    newBuf.__proto__ = Buffer.prototype
+  } else {
+    var sliceLen = end - start
+    newBuf = new Buffer(sliceLen, undefined)
+    for (var i = 0; i < sliceLen; ++i) {
+      newBuf[i] = this[i + start]
+    }
+  }
+
+  return newBuf
+}
+
+/*
+ * Need to make sure that buffer isn't trying to write out of bounds.
+ */
+function checkOffset (offset, ext, length) {
+  if ((offset % 1) !== 0 || offset < 0) throw new RangeError('offset is not uint')
+  if (offset + ext > length) throw new RangeError('Trying to access beyond buffer length')
+}
+
+Buffer.prototype.readUIntLE = function readUIntLE (offset, byteLength, noAssert) {
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) checkOffset(offset, byteLength, this.length)
+
+  var val = this[offset]
+  var mul = 1
+  var i = 0
+  while (++i < byteLength && (mul *= 0x100)) {
+    val += this[offset + i] * mul
+  }
+
+  return val
+}
+
+Buffer.prototype.readUIntBE = function readUIntBE (offset, byteLength, noAssert) {
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) {
+    checkOffset(offset, byteLength, this.length)
+  }
+
+  var val = this[offset + --byteLength]
+  var mul = 1
+  while (byteLength > 0 && (mul *= 0x100)) {
+    val += this[offset + --byteLength] * mul
+  }
+
+  return val
+}
+
+Buffer.prototype.readUInt8 = function readUInt8 (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 1, this.length)
+  return this[offset]
+}
+
+Buffer.prototype.readUInt16LE = function readUInt16LE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 2, this.length)
+  return this[offset] | (this[offset + 1] << 8)
+}
+
+Buffer.prototype.readUInt16BE = function readUInt16BE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 2, this.length)
+  return (this[offset] << 8) | this[offset + 1]
+}
+
+Buffer.prototype.readUInt32LE = function readUInt32LE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+
+  return ((this[offset]) |
+      (this[offset + 1] << 8) |
+      (this[offset + 2] << 16)) +
+      (this[offset + 3] * 0x1000000)
+}
+
+Buffer.prototype.readUInt32BE = function readUInt32BE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+
+  return (this[offset] * 0x1000000) +
+    ((this[offset + 1] << 16) |
+    (this[offset + 2] << 8) |
+    this[offset + 3])
+}
+
+Buffer.prototype.readIntLE = function readIntLE (offset, byteLength, noAssert) {
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) checkOffset(offset, byteLength, this.length)
+
+  var val = this[offset]
+  var mul = 1
+  var i = 0
+  while (++i < byteLength && (mul *= 0x100)) {
+    val += this[offset + i] * mul
+  }
+  mul *= 0x80
+
+  if (val >= mul) val -= Math.pow(2, 8 * byteLength)
+
+  return val
+}
+
+Buffer.prototype.readIntBE = function readIntBE (offset, byteLength, noAssert) {
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) checkOffset(offset, byteLength, this.length)
+
+  var i = byteLength
+  var mul = 1
+  var val = this[offset + --i]
+  while (i > 0 && (mul *= 0x100)) {
+    val += this[offset + --i] * mul
+  }
+  mul *= 0x80
+
+  if (val >= mul) val -= Math.pow(2, 8 * byteLength)
+
+  return val
+}
+
+Buffer.prototype.readInt8 = function readInt8 (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 1, this.length)
+  if (!(this[offset] & 0x80)) return (this[offset])
+  return ((0xff - this[offset] + 1) * -1)
+}
+
+Buffer.prototype.readInt16LE = function readInt16LE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 2, this.length)
+  var val = this[offset] | (this[offset + 1] << 8)
+  return (val & 0x8000) ? val | 0xFFFF0000 : val
+}
+
+Buffer.prototype.readInt16BE = function readInt16BE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 2, this.length)
+  var val = this[offset + 1] | (this[offset] << 8)
+  return (val & 0x8000) ? val | 0xFFFF0000 : val
+}
+
+Buffer.prototype.readInt32LE = function readInt32LE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+
+  return (this[offset]) |
+    (this[offset + 1] << 8) |
+    (this[offset + 2] << 16) |
+    (this[offset + 3] << 24)
+}
+
+Buffer.prototype.readInt32BE = function readInt32BE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+
+  return (this[offset] << 24) |
+    (this[offset + 1] << 16) |
+    (this[offset + 2] << 8) |
+    (this[offset + 3])
+}
+
+Buffer.prototype.readFloatLE = function readFloatLE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+  return ieee754.read(this, offset, true, 23, 4)
+}
+
+Buffer.prototype.readFloatBE = function readFloatBE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 4, this.length)
+  return ieee754.read(this, offset, false, 23, 4)
+}
+
+Buffer.prototype.readDoubleLE = function readDoubleLE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 8, this.length)
+  return ieee754.read(this, offset, true, 52, 8)
+}
+
+Buffer.prototype.readDoubleBE = function readDoubleBE (offset, noAssert) {
+  if (!noAssert) checkOffset(offset, 8, this.length)
+  return ieee754.read(this, offset, false, 52, 8)
+}
+
+function checkInt (buf, value, offset, ext, max, min) {
+  if (!Buffer.isBuffer(buf)) throw new TypeError('"buffer" argument must be a Buffer instance')
+  if (value > max || value < min) throw new RangeError('"value" argument is out of bounds')
+  if (offset + ext > buf.length) throw new RangeError('Index out of range')
+}
+
+Buffer.prototype.writeUIntLE = function writeUIntLE (value, offset, byteLength, noAssert) {
+  value = +value
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) {
+    var maxBytes = Math.pow(2, 8 * byteLength) - 1
+    checkInt(this, value, offset, byteLength, maxBytes, 0)
+  }
+
+  var mul = 1
+  var i = 0
+  this[offset] = value & 0xFF
+  while (++i < byteLength && (mul *= 0x100)) {
+    this[offset + i] = (value / mul) & 0xFF
+  }
+
+  return offset + byteLength
+}
+
+Buffer.prototype.writeUIntBE = function writeUIntBE (value, offset, byteLength, noAssert) {
+  value = +value
+  offset = offset | 0
+  byteLength = byteLength | 0
+  if (!noAssert) {
+    var maxBytes = Math.pow(2, 8 * byteLength) - 1
+    checkInt(this, value, offset, byteLength, maxBytes, 0)
+  }
+
+  var i = byteLength - 1
+  var mul = 1
+  this[offset + i] = value & 0xFF
+  while (--i >= 0 && (mul *= 0x100)) {
+    this[offset + i] = (value / mul) & 0xFF
+  }
+
+  return offset + byteLength
+}
+
+Buffer.prototype.writeUInt8 = function writeUInt8 (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 1, 0xff, 0)
+  if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value)
+  this[offset] = (value & 0xff)
+  return offset + 1
+}
+
+function objectWriteUInt16 (buf, value, offset, littleEndian) {
+  if (value < 0) value = 0xffff + value + 1
+  for (var i = 0, j = Math.min(buf.length - offset, 2); i < j; ++i) {
+    buf[offset + i] = (value & (0xff << (8 * (littleEndian ? i : 1 - i)))) >>>
+      (littleEndian ? i : 1 - i) * 8
+  }
+}
+
+Buffer.prototype.writeUInt16LE = function writeUInt16LE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 2, 0xffff, 0)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value & 0xff)
+    this[offset + 1] = (value >>> 8)
+  } else {
+    objectWriteUInt16(this, value, offset, true)
+  }
+  return offset + 2
+}
+
+Buffer.prototype.writeUInt16BE = function writeUInt16BE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 2, 0xffff, 0)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value >>> 8)
+    this[offset + 1] = (value & 0xff)
+  } else {
+    objectWriteUInt16(this, value, offset, false)
+  }
+  return offset + 2
+}
+
+function objectWriteUInt32 (buf, value, offset, littleEndian) {
+  if (value < 0) value = 0xffffffff + value + 1
+  for (var i = 0, j = Math.min(buf.length - offset, 4); i < j; ++i) {
+    buf[offset + i] = (value >>> (littleEndian ? i : 3 - i) * 8) & 0xff
+  }
+}
+
+Buffer.prototype.writeUInt32LE = function writeUInt32LE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 4, 0xffffffff, 0)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset + 3] = (value >>> 24)
+    this[offset + 2] = (value >>> 16)
+    this[offset + 1] = (value >>> 8)
+    this[offset] = (value & 0xff)
+  } else {
+    objectWriteUInt32(this, value, offset, true)
+  }
+  return offset + 4
+}
+
+Buffer.prototype.writeUInt32BE = function writeUInt32BE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 4, 0xffffffff, 0)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value >>> 24)
+    this[offset + 1] = (value >>> 16)
+    this[offset + 2] = (value >>> 8)
+    this[offset + 3] = (value & 0xff)
+  } else {
+    objectWriteUInt32(this, value, offset, false)
+  }
+  return offset + 4
+}
+
+Buffer.prototype.writeIntLE = function writeIntLE (value, offset, byteLength, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) {
+    var limit = Math.pow(2, 8 * byteLength - 1)
+
+    checkInt(this, value, offset, byteLength, limit - 1, -limit)
+  }
+
+  var i = 0
+  var mul = 1
+  var sub = 0
+  this[offset] = value & 0xFF
+  while (++i < byteLength && (mul *= 0x100)) {
+    if (value < 0 && sub === 0 && this[offset + i - 1] !== 0) {
+      sub = 1
+    }
+    this[offset + i] = ((value / mul) >> 0) - sub & 0xFF
+  }
+
+  return offset + byteLength
+}
+
+Buffer.prototype.writeIntBE = function writeIntBE (value, offset, byteLength, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) {
+    var limit = Math.pow(2, 8 * byteLength - 1)
+
+    checkInt(this, value, offset, byteLength, limit - 1, -limit)
+  }
+
+  var i = byteLength - 1
+  var mul = 1
+  var sub = 0
+  this[offset + i] = value & 0xFF
+  while (--i >= 0 && (mul *= 0x100)) {
+    if (value < 0 && sub === 0 && this[offset + i + 1] !== 0) {
+      sub = 1
+    }
+    this[offset + i] = ((value / mul) >> 0) - sub & 0xFF
+  }
+
+  return offset + byteLength
+}
+
+Buffer.prototype.writeInt8 = function writeInt8 (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 1, 0x7f, -0x80)
+  if (!Buffer.TYPED_ARRAY_SUPPORT) value = Math.floor(value)
+  if (value < 0) value = 0xff + value + 1
+  this[offset] = (value & 0xff)
+  return offset + 1
+}
+
+Buffer.prototype.writeInt16LE = function writeInt16LE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value & 0xff)
+    this[offset + 1] = (value >>> 8)
+  } else {
+    objectWriteUInt16(this, value, offset, true)
+  }
+  return offset + 2
+}
+
+Buffer.prototype.writeInt16BE = function writeInt16BE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 2, 0x7fff, -0x8000)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value >>> 8)
+    this[offset + 1] = (value & 0xff)
+  } else {
+    objectWriteUInt16(this, value, offset, false)
+  }
+  return offset + 2
+}
+
+Buffer.prototype.writeInt32LE = function writeInt32LE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000)
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value & 0xff)
+    this[offset + 1] = (value >>> 8)
+    this[offset + 2] = (value >>> 16)
+    this[offset + 3] = (value >>> 24)
+  } else {
+    objectWriteUInt32(this, value, offset, true)
+  }
+  return offset + 4
+}
+
+Buffer.prototype.writeInt32BE = function writeInt32BE (value, offset, noAssert) {
+  value = +value
+  offset = offset | 0
+  if (!noAssert) checkInt(this, value, offset, 4, 0x7fffffff, -0x80000000)
+  if (value < 0) value = 0xffffffff + value + 1
+  if (Buffer.TYPED_ARRAY_SUPPORT) {
+    this[offset] = (value >>> 24)
+    this[offset + 1] = (value >>> 16)
+    this[offset + 2] = (value >>> 8)
+    this[offset + 3] = (value & 0xff)
+  } else {
+    objectWriteUInt32(this, value, offset, false)
+  }
+  return offset + 4
+}
+
+function checkIEEE754 (buf, value, offset, ext, max, min) {
+  if (offset + ext > buf.length) throw new RangeError('Index out of range')
+  if (offset < 0) throw new RangeError('Index out of range')
+}
+
+function writeFloat (buf, value, offset, littleEndian, noAssert) {
+  if (!noAssert) {
+    checkIEEE754(buf, value, offset, 4, 3.4028234663852886e+38, -3.4028234663852886e+38)
+  }
+  ieee754.write(buf, value, offset, littleEndian, 23, 4)
+  return offset + 4
+}
+
+Buffer.prototype.writeFloatLE = function writeFloatLE (value, offset, noAssert) {
+  return writeFloat(this, value, offset, true, noAssert)
+}
+
+Buffer.prototype.writeFloatBE = function writeFloatBE (value, offset, noAssert) {
+  return writeFloat(this, value, offset, false, noAssert)
+}
+
+function writeDouble (buf, value, offset, littleEndian, noAssert) {
+  if (!noAssert) {
+    checkIEEE754(buf, value, offset, 8, 1.7976931348623157E+308, -1.7976931348623157E+308)
+  }
+  ieee754.write(buf, value, offset, littleEndian, 52, 8)
+  return offset + 8
+}
+
+Buffer.prototype.writeDoubleLE = function writeDoubleLE (value, offset, noAssert) {
+  return writeDouble(this, value, offset, true, noAssert)
+}
+
+Buffer.prototype.writeDoubleBE = function writeDoubleBE (value, offset, noAssert) {
+  return writeDouble(this, value, offset, false, noAssert)
+}
+
+// copy(targetBuffer, targetStart=0, sourceStart=0, sourceEnd=buffer.length)
+Buffer.prototype.copy = function copy (target, targetStart, start, end) {
+  if (!start) start = 0
+  if (!end && end !== 0) end = this.length
+  if (targetStart >= target.length) targetStart = target.length
+  if (!targetStart) targetStart = 0
+  if (end > 0 && end < start) end = start
+
+  // Copy 0 bytes; we're done
+  if (end === start) return 0
+  if (target.length === 0 || this.length === 0) return 0
+
+  // Fatal error conditions
+  if (targetStart < 0) {
+    throw new RangeError('targetStart out of bounds')
+  }
+  if (start < 0 || start >= this.length) throw new RangeError('sourceStart out of bounds')
+  if (end < 0) throw new RangeError('sourceEnd out of bounds')
+
+  // Are we oob?
+  if (end > this.length) end = this.length
+  if (target.length - targetStart < end - start) {
+    end = target.length - targetStart + start
+  }
+
+  var len = end - start
+  var i
+
+  if (this === target && start < targetStart && targetStart < end) {
+    // descending copy from end
+    for (i = len - 1; i >= 0; --i) {
+      target[i + targetStart] = this[i + start]
+    }
+  } else if (len < 1000 || !Buffer.TYPED_ARRAY_SUPPORT) {
+    // ascending copy from start
+    for (i = 0; i < len; ++i) {
+      target[i + targetStart] = this[i + start]
+    }
+  } else {
+    Uint8Array.prototype.set.call(
+      target,
+      this.subarray(start, start + len),
+      targetStart
+    )
+  }
+
+  return len
+}
+
+// Usage:
+//    buffer.fill(number[, offset[, end]])
+//    buffer.fill(buffer[, offset[, end]])
+//    buffer.fill(string[, offset[, end]][, encoding])
+Buffer.prototype.fill = function fill (val, start, end, encoding) {
+  // Handle string cases:
+  if (typeof val === 'string') {
+    if (typeof start === 'string') {
+      encoding = start
+      start = 0
+      end = this.length
+    } else if (typeof end === 'string') {
+      encoding = end
+      end = this.length
+    }
+    if (val.length === 1) {
+      var code = val.charCodeAt(0)
+      if (code < 256) {
+        val = code
+      }
+    }
+    if (encoding !== undefined && typeof encoding !== 'string') {
+      throw new TypeError('encoding must be a string')
+    }
+    if (typeof encoding === 'string' && !Buffer.isEncoding(encoding)) {
+      throw new TypeError('Unknown encoding: ' + encoding)
+    }
+  } else if (typeof val === 'number') {
+    val = val & 255
+  }
+
+  // Invalid ranges are not set to a default, so can range check early.
+  if (start < 0 || this.length < start || this.length < end) {
+    throw new RangeError('Out of range index')
+  }
+
+  if (end <= start) {
+    return this
+  }
+
+  start = start >>> 0
+  end = end === undefined ? this.length : end >>> 0
+
+  if (!val) val = 0
+
+  var i
+  if (typeof val === 'number') {
+    for (i = start; i < end; ++i) {
+      this[i] = val
+    }
+  } else {
+    var bytes = Buffer.isBuffer(val)
+      ? val
+      : utf8ToBytes(new Buffer(val, encoding).toString())
+    var len = bytes.length
+    for (i = 0; i < end - start; ++i) {
+      this[i + start] = bytes[i % len]
+    }
+  }
+
+  return this
+}
+
+// HELPER FUNCTIONS
+// ================
+
+var INVALID_BASE64_RE = /[^+\/0-9A-Za-z-_]/g
+
+function base64clean (str) {
+  // Node strips out invalid characters like \n and \t from the string, base64-js does not
+  str = stringtrim(str).replace(INVALID_BASE64_RE, '')
+  // Node converts strings with length < 2 to ''
+  if (str.length < 2) return ''
+  // Node allows for non-padded base64 strings (missing trailing ===), base64-js does not
+  while (str.length % 4 !== 0) {
+    str = str + '='
+  }
+  return str
+}
+
+function stringtrim (str) {
+  if (str.trim) return str.trim()
+  return str.replace(/^\s+|\s+$/g, '')
+}
+
+function toHex (n) {
+  if (n < 16) return '0' + n.toString(16)
+  return n.toString(16)
+}
+
+function utf8ToBytes (string, units) {
+  units = units || Infinity
+  var codePoint
+  var length = string.length
+  var leadSurrogate = null
+  var bytes = []
+
+  for (var i = 0; i < length; ++i) {
+    codePoint = string.charCodeAt(i)
+
+    // is surrogate component
+    if (codePoint > 0xD7FF && codePoint < 0xE000) {
+      // last char was a lead
+      if (!leadSurrogate) {
+        // no lead yet
+        if (codePoint > 0xDBFF) {
+          // unexpected trail
+          if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
+          continue
+        } else if (i + 1 === length) {
+          // unpaired lead
+          if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
+          continue
+        }
+
+        // valid lead
+        leadSurrogate = codePoint
+
+        continue
+      }
+
+      // 2 leads in a row
+      if (codePoint < 0xDC00) {
+        if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
+        leadSurrogate = codePoint
+        continue
+      }
+
+      // valid surrogate pair
+      codePoint = (leadSurrogate - 0xD800 << 10 | codePoint - 0xDC00) + 0x10000
+    } else if (leadSurrogate) {
+      // valid bmp char, but last char was a lead
+      if ((units -= 3) > -1) bytes.push(0xEF, 0xBF, 0xBD)
+    }
+
+    leadSurrogate = null
+
+    // encode utf8
+    if (codePoint < 0x80) {
+      if ((units -= 1) < 0) break
+      bytes.push(codePoint)
+    } else if (codePoint < 0x800) {
+      if ((units -= 2) < 0) break
+      bytes.push(
+        codePoint >> 0x6 | 0xC0,
+        codePoint & 0x3F | 0x80
+      )
+    } else if (codePoint < 0x10000) {
+      if ((units -= 3) < 0) break
+      bytes.push(
+        codePoint >> 0xC | 0xE0,
+        codePoint >> 0x6 & 0x3F | 0x80,
+        codePoint & 0x3F | 0x80
+      )
+    } else if (codePoint < 0x110000) {
+      if ((units -= 4) < 0) break
+      bytes.push(
+        codePoint >> 0x12 | 0xF0,
+        codePoint >> 0xC & 0x3F | 0x80,
+        codePoint >> 0x6 & 0x3F | 0x80,
+        codePoint & 0x3F | 0x80
+      )
+    } else {
+      throw new Error('Invalid code point')
+    }
+  }
+
+  return bytes
+}
+
+function asciiToBytes (str) {
+  var byteArray = []
+  for (var i = 0; i < str.length; ++i) {
+    // Node's code seems to be doing this and not & 0x7F..
+    byteArray.push(str.charCodeAt(i) & 0xFF)
+  }
+  return byteArray
+}
+
+function utf16leToBytes (str, units) {
+  var c, hi, lo
+  var byteArray = []
+  for (var i = 0; i < str.length; ++i) {
+    if ((units -= 2) < 0) break
+
+    c = str.charCodeAt(i)
+    hi = c >> 8
+    lo = c % 256
+    byteArray.push(lo)
+    byteArray.push(hi)
+  }
+
+  return byteArray
+}
+
+function base64ToBytes (str) {
+  return base64.toByteArray(base64clean(str))
+}
+
+function blitBuffer (src, dst, offset, length) {
+  for (var i = 0; i < length; ++i) {
+    if ((i + offset >= dst.length) || (i >= src.length)) break
+    dst[i + offset] = src[i]
+  }
+  return i
+}
+
+function isnan (val) {
+  return val !== val // eslint-disable-line no-self-compare
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(591)))
+
+/***/ }),
+
+/***/ 591:
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
+/***/ 592:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.byteLength = byteLength
+exports.toByteArray = toByteArray
+exports.fromByteArray = fromByteArray
+
+var lookup = []
+var revLookup = []
+var Arr = typeof Uint8Array !== 'undefined' ? Uint8Array : Array
+
+var code = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+for (var i = 0, len = code.length; i < len; ++i) {
+  lookup[i] = code[i]
+  revLookup[code.charCodeAt(i)] = i
+}
+
+// Support decoding URL-safe base64 strings, as Node.js does.
+// See: https://en.wikipedia.org/wiki/Base64#URL_applications
+revLookup['-'.charCodeAt(0)] = 62
+revLookup['_'.charCodeAt(0)] = 63
+
+function placeHoldersCount (b64) {
+  var len = b64.length
+  if (len % 4 > 0) {
+    throw new Error('Invalid string. Length must be a multiple of 4')
+  }
+
+  // the number of equal signs (place holders)
+  // if there are two placeholders, than the two characters before it
+  // represent one byte
+  // if there is only one, then the three characters before it represent 2 bytes
+  // this is just a cheap hack to not do indexOf twice
+  return b64[len - 2] === '=' ? 2 : b64[len - 1] === '=' ? 1 : 0
+}
+
+function byteLength (b64) {
+  // base64 is 4/3 + up to two characters of the original data
+  return (b64.length * 3 / 4) - placeHoldersCount(b64)
+}
+
+function toByteArray (b64) {
+  var i, l, tmp, placeHolders, arr
+  var len = b64.length
+  placeHolders = placeHoldersCount(b64)
+
+  arr = new Arr((len * 3 / 4) - placeHolders)
+
+  // if there are placeholders, only get up to the last complete 4 chars
+  l = placeHolders > 0 ? len - 4 : len
+
+  var L = 0
+
+  for (i = 0; i < l; i += 4) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
+    arr[L++] = (tmp >> 16) & 0xFF
+    arr[L++] = (tmp >> 8) & 0xFF
+    arr[L++] = tmp & 0xFF
+  }
+
+  if (placeHolders === 2) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 2) | (revLookup[b64.charCodeAt(i + 1)] >> 4)
+    arr[L++] = tmp & 0xFF
+  } else if (placeHolders === 1) {
+    tmp = (revLookup[b64.charCodeAt(i)] << 10) | (revLookup[b64.charCodeAt(i + 1)] << 4) | (revLookup[b64.charCodeAt(i + 2)] >> 2)
+    arr[L++] = (tmp >> 8) & 0xFF
+    arr[L++] = tmp & 0xFF
+  }
+
+  return arr
+}
+
+function tripletToBase64 (num) {
+  return lookup[num >> 18 & 0x3F] + lookup[num >> 12 & 0x3F] + lookup[num >> 6 & 0x3F] + lookup[num & 0x3F]
+}
+
+function encodeChunk (uint8, start, end) {
+  var tmp
+  var output = []
+  for (var i = start; i < end; i += 3) {
+    tmp = ((uint8[i] << 16) & 0xFF0000) + ((uint8[i + 1] << 8) & 0xFF00) + (uint8[i + 2] & 0xFF)
+    output.push(tripletToBase64(tmp))
+  }
+  return output.join('')
+}
+
+function fromByteArray (uint8) {
+  var tmp
+  var len = uint8.length
+  var extraBytes = len % 3 // if we have 1 byte left, pad 2 bytes
+  var output = ''
+  var parts = []
+  var maxChunkLength = 16383 // must be multiple of 3
+
+  // go through the array every three bytes, we'll deal with trailing stuff later
+  for (var i = 0, len2 = len - extraBytes; i < len2; i += maxChunkLength) {
+    parts.push(encodeChunk(uint8, i, (i + maxChunkLength) > len2 ? len2 : (i + maxChunkLength)))
+  }
+
+  // pad the end with zeros, but make sure to not forget the extra bytes
+  if (extraBytes === 1) {
+    tmp = uint8[len - 1]
+    output += lookup[tmp >> 2]
+    output += lookup[(tmp << 4) & 0x3F]
+    output += '=='
+  } else if (extraBytes === 2) {
+    tmp = (uint8[len - 2] << 8) + (uint8[len - 1])
+    output += lookup[tmp >> 10]
+    output += lookup[(tmp >> 4) & 0x3F]
+    output += lookup[(tmp << 2) & 0x3F]
+    output += '='
+  }
+
+  parts.push(output)
+
+  return parts.join('')
+}
+
+
+/***/ }),
+
+/***/ 593:
+/***/ (function(module, exports) {
+
+exports.read = function (buffer, offset, isLE, mLen, nBytes) {
+  var e, m
+  var eLen = (nBytes * 8) - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var nBits = -7
+  var i = isLE ? (nBytes - 1) : 0
+  var d = isLE ? -1 : 1
+  var s = buffer[offset + i]
+
+  i += d
+
+  e = s & ((1 << (-nBits)) - 1)
+  s >>= (-nBits)
+  nBits += eLen
+  for (; nBits > 0; e = (e * 256) + buffer[offset + i], i += d, nBits -= 8) {}
+
+  m = e & ((1 << (-nBits)) - 1)
+  e >>= (-nBits)
+  nBits += mLen
+  for (; nBits > 0; m = (m * 256) + buffer[offset + i], i += d, nBits -= 8) {}
+
+  if (e === 0) {
+    e = 1 - eBias
+  } else if (e === eMax) {
+    return m ? NaN : ((s ? -1 : 1) * Infinity)
+  } else {
+    m = m + Math.pow(2, mLen)
+    e = e - eBias
+  }
+  return (s ? -1 : 1) * m * Math.pow(2, e - mLen)
+}
+
+exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
+  var e, m, c
+  var eLen = (nBytes * 8) - mLen - 1
+  var eMax = (1 << eLen) - 1
+  var eBias = eMax >> 1
+  var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
+  var i = isLE ? 0 : (nBytes - 1)
+  var d = isLE ? 1 : -1
+  var s = value < 0 || (value === 0 && 1 / value < 0) ? 1 : 0
+
+  value = Math.abs(value)
+
+  if (isNaN(value) || value === Infinity) {
+    m = isNaN(value) ? 1 : 0
+    e = eMax
+  } else {
+    e = Math.floor(Math.log(value) / Math.LN2)
+    if (value * (c = Math.pow(2, -e)) < 1) {
+      e--
+      c *= 2
+    }
+    if (e + eBias >= 1) {
+      value += rt / c
+    } else {
+      value += rt * Math.pow(2, 1 - eBias)
+    }
+    if (value * c >= 2) {
+      e++
+      c /= 2
+    }
+
+    if (e + eBias >= eMax) {
+      m = 0
+      e = eMax
+    } else if (e + eBias >= 1) {
+      m = ((value * c) - 1) * Math.pow(2, mLen)
+      e = e + eBias
+    } else {
+      m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
+      e = 0
+    }
+  }
+
+  for (; mLen >= 8; buffer[offset + i] = m & 0xff, i += d, m /= 256, mLen -= 8) {}
+
+  e = (e << mLen) | m
+  eLen += mLen
+  for (; eLen > 0; buffer[offset + i] = e & 0xff, i += d, e /= 256, eLen -= 8) {}
+
+  buffer[offset + i - d] |= s * 128
+}
+
+
+/***/ }),
+
+/***/ 594:
+/***/ (function(module, exports) {
+
+var toString = {}.toString;
+
+module.exports = Array.isArray || function (arr) {
+  return toString.call(arr) == '[object Array]';
+};
+
+
+/***/ }),
+
+/***/ 596:
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ 597:
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ 598:
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ 599:
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ })
+
+});

@@ -41,6 +41,8 @@ var Image = /** @class */ (function (_super) {
         _this.className = "Image";
         _this.element = _this.paper.add("image");
         _this.applyTheme();
+        _this.width = 50;
+        _this.height = 50;
         return _this;
     }
     /**

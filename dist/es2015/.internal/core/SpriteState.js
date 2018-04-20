@@ -21,6 +21,7 @@ import { BaseObject } from "./Base";
 import { Adapter } from "./utils/Adapter";
 import { ListTemplate, ListDisposer } from "./utils/List";
 import { Filter } from "./rendering/filters/Filter";
+import { toColor } from "./utils/Color";
 import * as $utils from "./utils/Utils";
 import * as $ease from "./utils/Ease";
 import * as $object from "./utils/Object";
@@ -256,7 +257,7 @@ var SpriteState = /** @class */ (function (_super) {
                         config["properties"][key] = $type.percent($type.toNumber(value));
                     }
                     else if (value.match(/^\#[0-9abcdef]{3,}$/i)) {
-                        config["properties"][key] = $type.toColor(value);
+                        config["properties"][key] = toColor(value);
                     }
                 }
             });

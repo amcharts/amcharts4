@@ -1,5 +1,5 @@
-import * as amcharts4 from "@amcharts/amcharts4";
-import * as treemap from "@amcharts/amcharts4/treemap";
+import * as amcharts4 from "@amcharts/amcharts4/core";
+import * as charts from "@amcharts/amcharts4/charts";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 
 
@@ -77,8 +77,8 @@ function processData(data): any[] {
 }
 
 // create chart
-let chart = amcharts4.create("chartdiv", treemap.TreeMap);
-chart.data = processData(data);
+let chart = amcharts4.create("chartdiv", charts.TreeMap);
+
 // only one level visible initially
 chart.maxLevels = 1;
 // define data fields
@@ -86,10 +86,10 @@ chart.dataFields.value = "count";
 chart.dataFields.name = "name";
 chart.dataFields.children = "children";
 chart.homeText = "US Car Sales 2017";
-chart.padding(0,0,0,0);
+chart.padding(0, 0, 0, 0);
 
 // enable navigation
-chart.navigationBar = new treemap.NavigationBar();
+chart.navigationBar = new charts.NavigationBar();
 
 // level 0 series template
 let level0SeriesTemplate = chart.seriesTemplates.create("0");
@@ -99,54 +99,38 @@ level0SeriesTemplate.strokeWidth = 2;
 level0SeriesTemplate.bulletsContainer.hiddenState.properties.opacity = 1;
 level0SeriesTemplate.bulletsContainer.hiddenState.properties.visible = true;
 // create hover state
-let hoverState = level0SeriesTemplate.columns.template.states.create("hover");
+let columnTemplate = level0SeriesTemplate.columns.template;
+let hoverState = columnTemplate.states.create("hover");
 
 // darken
 hoverState.adapter.add("fill", (fill, target) => {
-	return amcharts4.colors.brighten(fill, -0.2);
+	if (fill instanceof amcharts4.Color) {
+		return amcharts4.colors.brighten(fill, -0.2);
+	}
+	return fill;
 })
 
-// add bullet
-let bullet0 = level0SeriesTemplate.bullets.push(new treemap.Bullet());
-bullet0.locationX = 0.5;
-bullet0.locationY = 0.5;
-bullet0.mouseEnabled = false;
-// add image to the bullet
-let image = bullet0.createChild(amcharts4.Image);
+// add logo
+let image = columnTemplate.createChild(amcharts4.Image);
 image.opacity = 0.15;
-image.verticalCenter = "middle";
-image.horizontalCenter = "middle";
+image.align = "center";
+image.valign = "middle";
+image.width = amcharts4.percent(80);
+image.height = amcharts4.percent(80);
 
-// add adapter fro href to load correct image
+// add adapter for href to load correct image
 image.adapter.add("href", (href, target) => {
-	let dataItem = <treemap.TreeMapSeriesDataItem>target.parent.dataItem;
+	let dataItem = <charts.TreeMapSeriesDataItem>target.parent.dataItem;
 	if (dataItem) {
 		return "logos/" + dataItem.treeMapDataItem.name.toLowerCase() + ".png";
 	}
 });
-// size adapters
-image.adapter.add("pixelWidth", (width, target) => {
-	return (target.parent.maxWidth * 0.7) || 0;
-});
-image.adapter.add("pixelHeight", (height, target) => {
-	return (target.parent.maxHeight * 0.7) || 0;
-});
-
-// we need to resize image when size of column changes
-level0SeriesTemplate.columns.template.events.on("validated", (event) => {
-	let dataItem = <treemap.TreeMapSeriesDataItem>event.target.dataItem;
-	amcharts4.iter.each(dataItem.bullets.iterator(), (a) => {
-		let bullet = a[1];
-		let image = bullet.children.getIndex(0);
-
-		image.width = image.pixelWidth;
-		image.height = image.pixelHeight;
-	});
-});
 
 // level1 series template
 let level1SeriesTemplate = chart.seriesTemplates.create("1");
-let bullet1 = level1SeriesTemplate.bullets.push(new treemap.LabelBullet());
+level1SeriesTemplate.columns.template.fillOpacity = 0;
+
+let bullet1 = level1SeriesTemplate.bullets.push(new charts.LabelBullet());
 bullet1.locationX = 0.5;
 bullet1.locationY = 0.5;
 bullet1.label.text = "{name}";
@@ -154,8 +138,12 @@ bullet1.label.fill = amcharts4.color("#ffffff");
 
 // level2 series template
 let level2SeriesTemplate = chart.seriesTemplates.create("2");
-let bullet2 = level2SeriesTemplate.bullets.push(new treemap.LabelBullet());
+level2SeriesTemplate.columns.template.fillOpacity = 0;
+
+let bullet2 = level2SeriesTemplate.bullets.push(new charts.LabelBullet());
 bullet2.locationX = 0.5;
 bullet2.locationY = 0.5;
 bullet2.label.text = "{name}";
 bullet2.label.fill = amcharts4.color("#ffffff");
+
+chart.data = processData(data);

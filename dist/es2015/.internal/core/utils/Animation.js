@@ -62,83 +62,6 @@ export function animate(duration, callback) {
     });
 }
 /**
- * Tween class.
- *
- * @todo Needed?
- * @deprecated Not used anywhere
- * @ignore Exclude from docs
- */
-var Tween = /** @class */ (function (_super) {
-    __extends(Tween, _super);
-    function Tween(duration, callback) {
-        var _this = _super.call(this, function () {
-            _this._stop();
-        }) || this;
-        _this._from = 0;
-        _this._to = 0;
-        _this._playing = true;
-        _this._disposer = null;
-        _this._duration = duration;
-        _this._callback = callback;
-        return _this;
-    }
-    Tween.prototype._stop = function () {
-        var f = this._disposer;
-        if ($type.hasValue(f)) {
-            this._disposer = null;
-            f.dispose();
-        }
-    };
-    Tween.prototype._start = function () {
-        var _this = this;
-        if (!this.isDisposed()) {
-            var start_1 = this._from;
-            var end_1 = this._to;
-            if (start_1 !== end_1) {
-                if (this._duration === 0) {
-                    this._from = end_1;
-                    this._callback(end_1);
-                }
-                else {
-                    this._callback(start_1);
-                    this._disposer = animate(Math.abs(end_1 - start_1) * this._duration, function (t) {
-                        _this._callback((_this._from = $math.stretch(t, start_1, end_1)));
-                    });
-                }
-            }
-        }
-    };
-    Tween.prototype.pause = function () {
-        if (this._playing) {
-            this._playing = false;
-            this._stop();
-        }
-    };
-    Tween.prototype.play = function () {
-        if (!this._playing) {
-            this._playing = true;
-            this._start();
-        }
-    };
-    Tween.prototype.jumpTo = function (to) {
-        this._stop();
-        this._from = to;
-        this._to = to;
-        if (!this.isDisposed()) {
-            // TODO don't call the callback if it's paused ?
-            this._callback(to);
-        }
-    };
-    Tween.prototype.tweenTo = function (to) {
-        this._stop();
-        this._to = to;
-        if (this._playing) {
-            this._start();
-        }
-    };
-    return Tween;
-}(Disposer));
-/**
  * Holds the list of currently playing animations.
  *
  * @ignore Exclude from docs
@@ -297,7 +220,7 @@ var Animation = /** @class */ (function (_super) {
                     throw Error("Could not get initial transition value.");
                 }*/
             }
-            if (options.from == options.to) {
+            if (options.from == options.to) { // || options.to == (<any>this.object)[options.property]){ this is not good, as dataItem.value is set to final at once, and we animate workingValue
                 $array.remove(this.animationOptions, options);
             }
             else {
@@ -500,7 +423,7 @@ var Animation = /** @class */ (function (_super) {
      * @return {string}                       Color according to progress
      */
     Animation.prototype.getProgressColor = function (options, progress) {
-        return $colors.interpolate($type.getValue(options.from), options.to, progress);
+        return new Color($colors.interpolate($type.getValue(options.from).rgb, options.to.rgb, progress));
     };
     /**
      * Sets current progress and updates object's numeric and color values.

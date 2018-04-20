@@ -30,7 +30,7 @@ import { AxisItemLocation } from "./Axis";
 import { List } from "../../core/utils/List";
 import { Dictionary } from "../../core/utils/Dictionary";
 import { DateAxisBreak } from "./DateAxisBreak";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import * as $time from "../../core/utils/Time";
 import * as $type from "../../core/utils/Type";
 import * as $iter from "../../core/utils/Iterator";
@@ -132,14 +132,14 @@ export { DateAxisDataItem };
  *
  * ```TypeScript
  * // Create the axis
- * let xAxis = chart.xAxes.push(new xy.DateAxis());
+ * let xAxis = chart.xAxes.push(new charts.DateAxis());
  *
  * // Set settings
  * xAxis.title.text = "Time";
  * ```
  * ```JavaScript
  * // Create the axis
- * var valueAxis = chart.xAxes.push(new amcharts4.xy.DateAxis());
+ * var valueAxis = chart.xAxes.push(new amcharts4.charts.DateAxis());
  *
  * // Set settings
  * valueAxis.title.text = "Time";
@@ -497,7 +497,7 @@ var DateAxis = /** @class */ (function (_super) {
             //for (let key in dataItem.dates) {
             var date = dataItem.getDate(key);
             var startDate = $time.round($time.copy(date), baseInterval.timeUnit, baseInterval.count);
-            var endDate = $time.add($time.copy(date), baseInterval.timeUnit, baseInterval.count);
+            var endDate = $time.add($time.copy(startDate), baseInterval.timeUnit, baseInterval.count);
             dataItem.setCalculatedValue(key, startDate.getTime(), "open");
             dataItem.setCalculatedValue(key, endDate.getTime(), "close");
             var series = dataItem.component;
@@ -921,7 +921,7 @@ var DateAxis = /** @class */ (function (_super) {
      */
     DateAxis.prototype.getX = function (dataItem, key, location) {
         var value = this.getTimeByLocation(dataItem, key, location);
-        var stack = dataItem.getValue("valueX", "stack");
+        //let stack: number = dataItem.getValue("valueX", "stack");
         if (!$type.isNumber(value)) {
             value = this.baseValue;
         }
@@ -999,7 +999,7 @@ var DateAxis = /** @class */ (function (_super) {
         // this is used to automatically define baseInterval
         var sameItemTime;
         // actually here we should only get dates of this axis. But it's not likely that the chart will have more than one date axis with different baseInterval.
-        // So using this approach would means we'll have the same baseInterval for all date axes. In case user wants different timeIntervals for different date axes, he can manually set baseInterval
+        // So using this approach would mean we'll have the same baseInterval for all date axes. In case user wants different timeIntervals for different date axes, he can manually set baseInterval
         $object.each(dataItem.dates, function (key, date) {
             //for (let key in dataItem.dates) {
             //let date: Date = dataItem.dates[key];
@@ -1313,6 +1313,6 @@ export { DateAxis };
  *
  * @ignore
  */
-system.registeredClasses["DateAxis"] = DateAxis;
-system.registeredClasses["DateAxisDataItem"] = DateAxisDataItem;
+registry.registeredClasses["DateAxis"] = DateAxis;
+registry.registeredClasses["DateAxisDataItem"] = DateAxisDataItem;
 //# sourceMappingURL=DateAxis.js.map

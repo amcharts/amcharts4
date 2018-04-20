@@ -422,11 +422,11 @@ export declare function spritePointToDocument(point: IPoint, sprite: Sprite): IP
  * JavaScript users this can also be a string indicating chart type)
  *
  * ```TypeScript
- * let chart = amcharts4.create("chartdiv", pie.PieChart);
+ * let chart = amcharts4.create("chartdiv", charts.PieChart);
  * ```
  * ```JavaScript
  * // Can pass in chart type reference like this:
- * var chart = amcharts4.create("chartdiv", amcharts4.pie.PieChart);
+ * var chart = amcharts4.create("chartdiv", amcharts4.charts.PieChart);
  *
  * // ... or chart class type as a string:
  * var chart = amcharts4.create("chartdiv", "PieChart");
@@ -445,7 +445,7 @@ export declare function create<T extends Sprite>(htmlElement: $type.Optional<HTM
  * Example:
  *
  * ```TypeScript
- * let chart amcharts4.createFromConfig({ ... }, "chartdiv", xy.XYChart );
+ * let chart amcharts4.createFromConfig({ ... }, "chartdiv", charts.XYChart );
  * ```
  * ```JavaScript
  * var chart amcharts4.createFromConfig({ ... }, "chartdiv", "XYChart" );
@@ -456,13 +456,13 @@ export declare function create<T extends Sprite>(htmlElement: $type.Optional<HTM
  *
  * ```TypeScript
  * {
- *   "type": xy.XYChart,
+ *   "type": charts.XYChart,
  *   // ...
  * }
  * ```
  * ```JavaScript
  * {
- *   "type": amcharts4.xy.XYChart,
+ *   "type": amcharts4.charts.XYChart,
  *   // ...
  * }
  * ```

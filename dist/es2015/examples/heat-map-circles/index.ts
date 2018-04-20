@@ -1,18 +1,16 @@
-import * as amcharts4 from "@amcharts/amcharts4";
-import * as xy from "@amcharts/amcharts4/xy";
+import * as amcharts4 from "@amcharts/amcharts4/core";
+import * as charts from "@amcharts/amcharts4/charts";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 import DarkTheme from "@amcharts/amcharts4/themes/dark";
-
-
 
 amcharts4.useTheme(AnimatedTheme);
 amcharts4.useTheme(DarkTheme);
 
-let chart = amcharts4.create("chartdiv", xy.XYChart);
+let chart = amcharts4.create("chartdiv", charts.XYChart);
 chart.maskBullets = false;
 
-let xAxis = chart.xAxes.push(new xy.CategoryAxis());
-let yAxis = chart.yAxes.push(new xy.CategoryAxis());
+let xAxis = chart.xAxes.push(new charts.CategoryAxis());
+let yAxis = chart.yAxes.push(new charts.CategoryAxis());
 
 xAxis.dataFields.category = "weekday";
 xAxis.renderer.minGridDistance = 40;
@@ -27,7 +25,7 @@ xAxis.renderer.ticks.template.disabled = true;
 
 yAxis.renderer.inversed = true;
 
-let series = chart.series.push(new xy.HeatMapSeries());
+var series = chart.series.push(new charts.ColumnSeries());
 series.dataFields.categoryX = "weekday";
 series.dataFields.categoryY = "hour";
 series.dataFields.value = "value";
@@ -35,28 +33,22 @@ series.columns.template.disabled = true;
 series.sequencedInterpolation = true;
 series.defaultState.transitionDuration = 3000;
 
-let bullet = series.bullets.push(new xy.CircleBullet());
+var bullet = series.bullets.push(new charts.CircleBullet());
 bullet.tooltipText = "{weekday}, {hour}: {value.workingValue.formatNumber('#.')}";
 bullet.strokeWidth = 3;
 bullet.stroke = amcharts4.color("#ffffff");
 bullet.strokeOpacity = 0;
 
-bullet.hiddenState.properties.scale = 0.01;
-bullet.hiddenState.properties.opacity = 1;
-
-bullet.circle.adapter.add("radius", (radius, target) => {
-	let dataItem = target.dataItem;
-	if (dataItem) {
-		return 30 * (dataItem.values.value.workingValue - series.minValue) / (series.maxValue - series.minValue) + 1;
-	}
-});
-
 bullet.adapter.add("tooltipY", (tooltipY, target) => {
 	return -target.circle.radius + 1;
 })
 
+series.heatRules.push({property:"radius", target:bullet.circle, min:2, max:22});
 
-let hoverState = bullet.states.create("hover");
+bullet.hiddenState.properties.scale = 0.01;
+bullet.hiddenState.properties.opacity = 1;
+
+var hoverState = bullet.states.create("hover");
 hoverState.properties.strokeOpacity = 1;
 
 chart.data = [

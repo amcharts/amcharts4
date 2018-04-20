@@ -11,6 +11,13 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
+import exportCSS from "./ExportCSS";
 import { Adapter } from "../utils/Adapter";
 import { List } from "../utils/List";
 import { interaction } from "../interaction/Interaction";
@@ -249,10 +256,7 @@ var ExportMenu = /** @class */ (function (_super) {
             }
         });
         if (this.defaultStyles) {
-            this.loadDefaultCSS().then(function (css) {
-                _this._disposers.push(css.default(_this.classPrefix));
-                _this._element.style.display = "initial";
-            });
+            this.loadDefaultCSS();
         }
     };
     /**
@@ -736,10 +740,10 @@ var ExportMenu = /** @class */ (function (_super) {
      * Loads the default CSS.
      *
      * @ignore Exclude from docs
-     * @return {Promise<any>} Promise
      */
     ExportMenu.prototype.loadDefaultCSS = function () {
-        return import(/* webpackChunkName: "exportcss" */ "./ExportCSS");
+        this._disposers.push(exportCSS(this.classPrefix));
+        this._element.style.display = "initial";
     };
     Object.defineProperty(ExportMenu.prototype, "tabindex", {
         /**

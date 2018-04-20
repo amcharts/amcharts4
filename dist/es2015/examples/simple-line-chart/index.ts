@@ -1,11 +1,10 @@
-import * as amcharts4 from "@amcharts/amcharts4";
-import * as xy from "@amcharts/amcharts4/xy";
+import * as amcharts4 from "@amcharts/amcharts4/core";
+import * as charts from "@amcharts/amcharts4/charts";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
-
 
 amcharts4.useTheme(AnimatedTheme);
 
-let chart = amcharts4.create("chartdiv", xy.XYChart);
+let chart = amcharts4.create("chartdiv", charts.XYChart);
 chart.paddingRight = 20;
 
 let data = [];
@@ -17,20 +16,20 @@ for (let i = 1; i < 366; i++) {
 
 chart.data = data;
 
-let dateAxis = chart.xAxes.push(new xy.DateAxis());
+let dateAxis = chart.xAxes.push(new charts.DateAxis());
 dateAxis.renderer.grid.template.location = 0;
 
-let valueAxis = chart.yAxes.push(new xy.ValueAxis());
+let valueAxis = chart.yAxes.push(new charts.ValueAxis());
 valueAxis.tooltip.disabled = true;
 valueAxis.renderer.minWidth = 35;
 
-let series = chart.series.push(new xy.LineSeries());
+let series = chart.series.push(new charts.LineSeries());
 series.dataFields.dateX = "date";
 series.dataFields.valueY = "value";
 
 series.tooltipText = "{valueY.value}";
-chart.cursor = new xy.XYCursor();
+chart.cursor = new charts.XYCursor();
 
-let scrollbarX = new xy.XYChartScrollbar();
+let scrollbarX = new charts.XYChartScrollbar();
 scrollbarX.series.push(series);
 chart.scrollbarX = scrollbarX;

@@ -15,6 +15,21 @@ export var HALFPI = PI / 2;
 export var RADIANS = PI / 180;
 export var DEGREES = 180 / PI;
 /**
+ * Converts any value and fits it into a specific value range.
+ *
+ * @param  {any}     value  Source value
+ * @param  {number}  min    Minimum allowable value
+ * @param  {number}  max    Maximum allowable value
+ * @return {number}         Number
+ */
+export function toNumberRange(value, min, max) {
+    if ($type.hasValue(value)) {
+        value = $type.toNumber(value);
+        return fitToRange(value, min, max);
+    }
+    return value;
+}
+/**
  * Rounds the numeric value to whole number or specific precision of set.
  *
  * @param  {number} value      Value
@@ -180,10 +195,8 @@ export function intersection(range1, range2) {
     var start2 = $type.getValue(range2.start);
     var end1 = $type.getValue(range1.end);
     var end2 = $type.getValue(range2.end);
-    var startMin = Math.min(start1, start2);
     var startMax = Math.max(start1, start2);
     var endMin = Math.min(end1, end2);
-    var endMax = Math.max(end1, end2);
     if (endMin < startMax) {
         return undefined;
     }
@@ -297,14 +310,8 @@ export function getCenterShift(center, point1, startPoint1, point2, startPoint2)
     // Get distance between new position
     var distance = getDistance(point1, point2);
     // Calculate new X
-    var l = 1;
-    if ((angle > 90) && (angle < 270)) {
-        l = -1;
-    }
-    //console.log(angle, l);
     var x = Math.cos(angle) / distance + point1.x;
     var y = Math.cos(angle) / distance + point1.y;
-    //console.log(x, y)
     var shift = {
         "x": x - center.x,
         "y": y - center.y

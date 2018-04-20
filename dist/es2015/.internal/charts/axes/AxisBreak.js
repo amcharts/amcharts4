@@ -21,7 +21,7 @@ import { Container } from "../../core/Container";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
 import { WavedLine } from "../../core/elements/WavedLine";
 import { List } from "../../core/utils/List";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { color } from "../../core/utils/Color";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 /**
@@ -357,5 +357,5 @@ export { AxisBreak };
  *
  * @ignore
  */
-system.registeredClasses["AxisBreak"] = AxisBreak;
+registry.registeredClasses["AxisBreak"] = AxisBreak;
 //# sourceMappingURL=AxisBreak.js.map

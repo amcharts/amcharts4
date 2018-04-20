@@ -14,8 +14,8 @@ import { Container } from "../../core/Container";
 import { ListTemplate } from "../../core/utils/List";
 import { Dictionary } from "../../core/utils/Dictionary";
 import { Bullet } from "../elements/Bullet";
+import { Column } from "../elements/Column";
 import { IDataItemEvents } from "../../core/DataItem";
-import * as $iter from "../../core/utils/Iterator";
 /**
  * ============================================================================
  * DATA ITEM
@@ -29,11 +29,11 @@ import * as $iter from "../../core/utils/Iterator";
  */
 export declare class ColumnSeriesDataItem extends XYSeriesDataItem {
     /**
-     * A sprite used to draw the column.
-     *
-     * @type {Sprite}
+     * A Column Element
+     * @ignore
+     * @type {Column}
      */
-    protected _column: Sprite;
+    _column: Column;
     /**
      * Indicates if this data items close value is lower than its open value.
      *
@@ -57,29 +57,27 @@ export declare class ColumnSeriesDataItem extends XYSeriesDataItem {
      * @type {Dictionary<string, Sprite>}
      * @ignore
      */
-    protected _rangesColumns: Dictionary<string, Sprite>;
+    protected _rangesColumns: Dictionary<string, this["_column"]>;
     /**
      * Constructor
      */
     constructor();
     /**
-     * @return {Sprite} Column sprite
+     * @return {Column} Column
      */
     /**
-     * A column sprite used to draw a column for this data item.
+     * A column used to draw a column for this data item.
      *
-     * For performance sake, column sprites are reused, hence the necessity
-     * of this property.
-     *
-     * @param {Sprite}  column  Column sprite
+     * @param {Column}  column
      */
-    column: Sprite;
+    column: this["_column"];
+    protected setColumn(column: this["_column"]): void;
     /**
      * A dictionary storing axes ranges columns by axis uid
      *
-     * @type {Dictionary<string, Sprite>}
+     * @type {Dictionary<string, this["_column"]>}
      */
-    readonly rangesColumns: Dictionary<string, Sprite>;
+    readonly rangesColumns: Dictionary<string, this["_column"]>;
 }
 /**
  * ============================================================================
@@ -134,6 +132,10 @@ export interface IColumnSeriesAdapters extends IXYSeriesAdapters, IColumnSeriesP
  */
 export declare class ColumnSeries extends XYSeries {
     /**
+     * @ignore
+     */
+    _column: Column;
+    /**
      * Defines available data fields.
      *
      * @ignore Exclude from docs
@@ -172,19 +174,13 @@ export declare class ColumnSeries extends XYSeries {
      *
      * @type {ListTemplate<Sprite>}
      */
-    protected _columns: ListTemplate<Sprite>;
+    protected _columns: ListTemplate<this["_column"]>;
     /**
      * Container to put column elements in.
      *
      * @type {Container}
      */
     protected _columnsContainer: Container;
-    /**
-     * Iterator for columns.
-     *
-     * @type {ListIterator<Sprite>}
-     */
-    protected _columnsIterator: $iter.ListIterator<Sprite>;
     /**
      * Start location within cell for columns.
      *
@@ -281,6 +277,7 @@ export declare class ColumnSeries extends XYSeries {
      * @param {this["_dataItem"]}  dataItem  Data item
      */
     validateDataElementReal(dataItem: this["_dataItem"]): void;
+    disableUnusedColumns(dataItem: ColumnSeriesDataItem): void;
     /**
      * Apply different state/coloring to columns based on the change value.
      *
@@ -292,15 +289,15 @@ export declare class ColumnSeries extends XYSeries {
      * A list of column elements.
      *
      * @ignore Exclude from docs
-     * @return {ListTemplate<Sprite>} Columns
+     * @return {ListTemplate<this["_column"]>} Columns
      */
-    readonly columns: ListTemplate<Sprite>;
+    readonly columns: ListTemplate<this["_column"]>;
     /**
      * Creates and returns a column element to use as a template.
      *
-     * @return {Sprite} Column template
+     * @return {this["_column"]} Column template
      */
-    protected getColumnTemplate(): Sprite;
+    protected createColumnTemplate(): this["_column"];
     /**
      * @return {boolean} Clustered?
      */
@@ -387,4 +384,12 @@ export declare class ColumnSeries extends XYSeries {
     * @ignore
     */
     protected getBulletLocationY(bullet: Bullet, field: string): number;
+    /**
+     * @ignore Exclude from docs
+     */
+    protected fixVerticalCoordinate(coordinate: number): number;
+    /**
+     * @ignore Exclude from docs
+     */
+    protected fixHorizontalCoordinate(coordinate: number): number;
 }

@@ -20,7 +20,7 @@ var __extends = (this && this.__extends) || (function () {
 import { MapSeries, MapSeriesDataItem } from "./MapSeries";
 import { MapLine } from "./MapLine";
 import { ListTemplate } from "../../core/utils/List";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import * as $mapUtils from "./MapUtils";
 import * as $array from "../../core/utils/Array";
 import * as $utils from "../../core/utils/Utils";
@@ -257,8 +257,8 @@ var MapLineSeries = /** @class */ (function (_super) {
             this.mapLines.clear();
         }
         // process geoJSON and created map objects
-        if (this.getDataFromJSON) {
-            var geoJSON = this.chart.geoJSON;
+        if (this.useGeodata) {
+            var geoJSON = this.chart.geodata;
             if (geoJSON) {
                 var features = void 0;
                 if (geoJSON.type == "FeatureCollection") {
@@ -358,6 +358,15 @@ var MapLineSeries = /** @class */ (function (_super) {
             mapLine.validate();
         });
     };
+    /**
+     * Copies all properties from another instance of [[Series]].
+     *
+     * @param {Series}  source  Source series
+     */
+    MapLineSeries.prototype.copyFrom = function (source) {
+        this.mapLines.template.copyFrom(source.mapLines.template);
+        _super.prototype.copyFrom.call(this, source);
+    };
     return MapLineSeries;
 }(MapSeries));
 export { MapLineSeries };
@@ -367,6 +376,6 @@ export { MapLineSeries };
  *
  * @ignore
  */
-system.registeredClasses["MapLineSeries"] = MapLineSeries;
-system.registeredClasses["MapLineSeriesDataItem"] = MapLineSeriesDataItem;
+registry.registeredClasses["MapLineSeries"] = MapLineSeries;
+registry.registeredClasses["MapLineSeriesDataItem"] = MapLineSeriesDataItem;
 //# sourceMappingURL=MapLineSeries.js.map

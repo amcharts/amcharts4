@@ -74,6 +74,7 @@ var InteractionKeyboardObject = /** @class */ (function () {
             speed *= 0.5;
             accelleration = 1;
         }
+        // If CTRL is pressed we increase speed by x2
         else if (this.keyboardEvent.ctrlKey) {
             speed *= 2;
         }

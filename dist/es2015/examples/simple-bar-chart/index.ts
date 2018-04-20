@@ -1,10 +1,10 @@
-import * as amcharts4 from "@amcharts/amcharts4";
-import * as xy from "@amcharts/amcharts4/xy";
+import * as amcharts4 from "@amcharts/amcharts4/core";
+import * as charts from "@amcharts/amcharts4/charts";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 
 amcharts4.useTheme(AnimatedTheme);
 
-let chart = amcharts4.create("chartdiv", xy.XYChart);
+let chart = amcharts4.create("chartdiv", charts.XYChart);
 chart.colors.saturation = 0.4;
 
 chart.data = [{
@@ -46,23 +46,24 @@ chart.data = [{
 }];
 
 
-let categoryAxis = chart.yAxes.push(new xy.CategoryAxis());
+let categoryAxis = chart.yAxes.push(new charts.CategoryAxis());
 categoryAxis.renderer.grid.template.location = 0;
 categoryAxis.dataFields.category = "country";
 categoryAxis.renderer.minGridDistance = 20;
 
-let valueAxis = chart.xAxes.push(new xy.ValueAxis());
+let valueAxis = chart.xAxes.push(new charts.ValueAxis());
 valueAxis.renderer.maxLabelPosition = 0.98;
 
-let series = chart.series.push(new xy.ColumnSeries());
+let series = chart.series.push(new charts.ColumnSeries());
 series.dataFields.categoryY = "country";
 series.dataFields.valueX = "visits";
 series.tooltipText = "{valueX.value}";
 series.sequencedInterpolation = true;
 series.defaultState.transitionDuration = 1000;
 series.sequencedInterpolationDelay = 100;
+series.columns.template.strokeOpacity = 0;
 
-chart.cursor = new xy.XYCursor();
+chart.cursor = new charts.XYCursor();
 chart.cursor.behavior = "zoomY";
 
 

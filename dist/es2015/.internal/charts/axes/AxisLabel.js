@@ -18,7 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Label } from "../../core/elements/Label";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -97,5 +97,5 @@ export { AxisLabel };
  *
  * @ignore
  */
-system.registeredClasses["AxisLabel"] = AxisLabel;
+registry.registeredClasses["AxisLabel"] = AxisLabel;
 //# sourceMappingURL=AxisLabel.js.map

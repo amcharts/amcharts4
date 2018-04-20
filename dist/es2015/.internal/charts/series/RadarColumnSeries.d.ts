@@ -8,8 +8,9 @@
  * @hidden
  */
 import { ColumnSeries, IColumnSeriesProperties, IColumnSeriesDataFields, IColumnSeriesAdapters, IColumnSeriesEvents, ColumnSeriesDataItem } from "../series/ColumnSeries";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { RadarChart } from "../types/RadarChart";
+import { RadarColumn } from "../elements/RadarColumn";
 /**
  * ============================================================================
  * DATA ITEM
@@ -22,6 +23,12 @@ import { RadarChart } from "../types/RadarChart";
  * @see {@link DataItem}
  */
 export declare class RadarColumnSeriesDataItem extends ColumnSeriesDataItem {
+    /**
+     * A sprite used to draw the column.
+     * @ignore
+     * @type {Slice}
+     */
+    _column: RadarColumn;
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
@@ -77,6 +84,14 @@ export interface IRadarColumnSeriesAdapters extends IColumnSeriesAdapters, IRada
  */
 export declare class RadarColumnSeries extends ColumnSeries {
     /**
+     * @ignore
+     */
+    _dataItem: RadarColumnSeriesDataItem;
+    /**
+     * @ignore
+     */
+    _column: RadarColumn;
+    /**
      * Defines the type of data fields used for the series.
      *
      * @ignore Exclude from docs
@@ -115,11 +130,11 @@ export declare class RadarColumnSeries extends ColumnSeries {
      */
     constructor();
     /**
-     * Creates and returns a Slice element to use as column in radar chart.
+     * Creates and returns a RadarColumn element to use as column in radar chart.
      *
-     * @return {Sprite} Clice/column.
+     * @return {this["_column"]} RadarColumn.
      */
-    protected getColumnTemplate(): Sprite;
+    protected createColumnTemplate(): this["_column"];
     /**
      * (Re)validates the whole series, effectively causing it to redraw.
      *

@@ -24,7 +24,7 @@ import { PieTick } from "./PieTick";
 import { ListTemplate } from "../../core/utils/List";
 import { Container } from "../../core/Container";
 import { ColorSet } from "../../core/utils/ColorSet";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import * as $math from "../../core/utils/Math";
 import * as $iter from "../../core/utils/Iterator";
 import * as $ease from "../../core/utils/Ease";
@@ -49,7 +49,6 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
     function PieSeriesDataItem() {
         var _this = _super.call(this) || this;
         _this.className = "PieSeriesDataItem";
-        _this.values.radiusValue = {};
         _this.values.radiusValue = {};
         _this.applyTheme();
         return _this;
@@ -220,6 +219,24 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(PieSeriesDataItem.prototype, "hiddenInLegend", {
+        /**
+         * @return {boolean} Disabled in legend?
+         */
+        get: function () {
+            return this.properties.hiddenInLegend;
+        },
+        /**
+         * Should dataItem (slice) be hidden in legend?
+         *
+         * @param {boolean} value Visible in legend?
+         */
+        set: function (value) {
+            this.setProperty("hiddenInLegend", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
     return PieSeriesDataItem;
 }(SeriesDataItem));
 export { PieSeriesDataItem };
@@ -250,15 +267,21 @@ var PieSeries = /** @class */ (function (_super) {
         _this.endAngle = 270;
         _this.colors = new ColorSet();
         _this.colors.step = 1;
-        _this.slicesContainer = _this.createChild(Container);
-        _this.slicesContainer.isMeasured = false;
-        _this.slicesContainer.layout = "none";
-        _this.ticksContainer = _this.createChild(Container);
-        _this.ticksContainer.isMeasured = false;
-        _this.ticksContainer.layout = "none";
-        _this.labelsContainer = _this.createChild(Container);
-        _this.labelsContainer.isMeasured = false;
-        _this.labelsContainer.layout = "none";
+        var slicesContainer = _this.createChild(Container);
+        slicesContainer.shouldClone = false;
+        slicesContainer.isMeasured = false;
+        slicesContainer.layout = "none";
+        _this.slicesContainer = slicesContainer;
+        var ticksContainer = _this.createChild(Container);
+        ticksContainer.shouldClone = false;
+        ticksContainer.isMeasured = false;
+        ticksContainer.layout = "none";
+        _this.ticksContainer = ticksContainer;
+        var labelsContainer = _this.createChild(Container);
+        labelsContainer.shouldClone = false;
+        labelsContainer.isMeasured = false;
+        labelsContainer.layout = "none";
+        _this.labelsContainer = labelsContainer;
         _this.bulletsContainer.toFront();
         _this.initSlice(Slice);
         // Create tick list
@@ -277,10 +300,10 @@ var PieSeries = /** @class */ (function (_super) {
         _this.labels = new ListTemplate(label);
         // Make all slices focusable
         _this.skipFocusThreshold = 50;
-        var hiddenState = _this.hiddenState;
-        hiddenState.properties.opacity = 1;
-        hiddenState.properties.endAngle = -90;
-        hiddenState.properties.startAngle = -90;
+        //let hiddenState = this.hiddenState;
+        //hiddenState.properties.opacity = 1;
+        //hiddenState.properties.endAngle = -90;
+        //hiddenState.properties.startAngle = -90;
         var defaultState = _this.defaultState;
         defaultState.easing = $ease.sinOut;
         var hoverState = _this.slices.template.states.create("hover");
@@ -322,7 +345,7 @@ var PieSeries = /** @class */ (function (_super) {
         slice.observe(["dx", "dy", "x", "y", "shiftRadius"], this.handleSliceMove, this);
         slice.tooltipText = "{category}: {value.percent.formatNumber('#.#')}% ({value.value})";
         // Create slice hover state
-        var hoverState = slice.states.create("hover");
+        slice.states.create("hover");
         var defaultState = slice.defaultState;
         defaultState.properties.shiftRadius = 0;
         slice.togglable = true;
@@ -415,11 +438,12 @@ var PieSeries = /** @class */ (function (_super) {
                     label.verticalCenter = "middle";
                     var arcRect = this._arcRect;
                     // right half
-                    if (normalizedMiddleAngle >= 270 || normalizedMiddleAngle <= 91) {
+                    if (normalizedMiddleAngle >= 270 || normalizedMiddleAngle <= 91) { // 91 makes less chances for flickering
                         x += (arcRect.width + arcRect.x) * this.radius;
                         label.horizontalCenter = "left";
                         this._rightItems.push(dataItem);
                     }
+                    // left half
                     else {
                         x -= arcRect.x * this.radius;
                         label.horizontalCenter = "right";
@@ -716,6 +740,17 @@ var PieSeries = /** @class */ (function (_super) {
             dataItem.label.dy = slice.dy + slice.pixelY;
         }
     };
+    /**
+     * Copies all properties from another instance of [[PieSeries]].
+     *
+     * @param {ColumnSeries}  source  Source series
+     */
+    PieSeries.prototype.copyFrom = function (source) {
+        _super.prototype.copyFrom.call(this, source);
+        this.slices.template.copyFrom(source.slices.template);
+        this.labels.template.copyFrom(source.labels.template);
+        this.ticks.template.copyFrom(source.ticks.template);
+    };
     return PieSeries;
 }(Series));
 export { PieSeries };
@@ -725,6 +760,6 @@ export { PieSeries };
  *
  * @ignore
  */
-system.registeredClasses["PieSeries"] = PieSeries;
-system.registeredClasses["PieSeriesDataItem"] = PieSeriesDataItem;
+registry.registeredClasses["PieSeries"] = PieSeries;
+registry.registeredClasses["PieSeriesDataItem"] = PieSeriesDataItem;
 //# sourceMappingURL=PieSeries.js.map

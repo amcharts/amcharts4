@@ -10,7 +10,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import { XYCursor } from "./XYCursor";
 import { Percent, percent } from "../../core/utils/Percent";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import * as $path from "../../core/rendering/Path";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
@@ -52,7 +52,7 @@ var RadarCursor = /** @class */ (function (_super) {
      */
     RadarCursor.prototype.fitsToBounds = function (point) {
         var radius = $math.getDistance(point);
-        if (radius < this.truePixelRadius + 1 && radius > this.pixelInnerRadius - 1) {
+        if (radius < this.truePixelRadius + 1 && radius > this.pixelInnerRadius - 1) { // ok to add/remove some
             return true;
         }
         return false;
@@ -99,6 +99,7 @@ var RadarCursor = /** @class */ (function (_super) {
      * @param {ISpriteEvents["track"]} event Event
      */
     RadarCursor.prototype.handleCursorMove = function (event) {
+        var local = $utils.documentPointToSprite(event.pointer.point, this);
         _super.prototype.handleCursorMove.call(this, event);
         if (!this.xAxis || (this.xAxis && !this.xAxis.cursorTooltipEnabled)) {
             this.updateLineX(this.point);
@@ -107,6 +108,7 @@ var RadarCursor = /** @class */ (function (_super) {
             this.updateLineY(this.point);
         }
         this.updateSelection();
+        return local;
     };
     /**
      * (Re)draws the horizontal (circular) cursor's line.
@@ -138,6 +140,7 @@ var RadarCursor = /** @class */ (function (_super) {
                                 arc += 360;
                             }
                         }
+                        // ccw
                         else {
                             if (arc > 0) {
                                 arc -= 360;
@@ -431,5 +434,5 @@ export { RadarCursor };
  *
  * @ignore
  */
-system.registeredClasses["RadarCursor"] = RadarCursor;
+registry.registeredClasses["RadarCursor"] = RadarCursor;
 //# sourceMappingURL=RadarCursor.js.map

@@ -21,10 +21,10 @@ import { Chart, ChartDataItem } from "../Chart";
 import { ListTemplate } from "../../core/utils/List";
 import { Container } from "../../core/Container";
 import { Series } from "../series/Series";
-import * as $iter from "../../core/utils/Iterator";
 import { percent } from "../../core/utils/Percent";
 import { ColorSet } from "../../core/utils/ColorSet";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
+import * as $iter from "../../core/utils/Iterator";
 /**
  * ============================================================================
  * DATA ITEM
@@ -77,6 +77,7 @@ var SerialChart = /** @class */ (function (_super) {
         _this.colors = new ColorSet();
         // Create a container for series
         var seriesContainer = _this.chartContainer.createChild(Container);
+        seriesContainer.shouldClone = false;
         seriesContainer.width = percent(100);
         seriesContainer.height = percent(100);
         seriesContainer.isMeasured = false;
@@ -84,6 +85,7 @@ var SerialChart = /** @class */ (function (_super) {
         _this.seriesContainer = seriesContainer;
         // Create a container for bullets
         var bulletsContainer = _this.chartContainer.createChild(Container);
+        bulletsContainer.shouldClone = false;
         bulletsContainer.width = percent(100);
         bulletsContainer.height = percent(100);
         bulletsContainer.isMeasured = false;
@@ -145,7 +147,7 @@ var SerialChart = /** @class */ (function (_super) {
                 legendData_1.push(series);
             });
             legend.dataFields.name = "name";
-            legend.dataFields.visible = "visible";
+            legend.itemContainers.template.propertyFields.disabled = "hiddenInLegend";
             legend.data = legendData_1;
         }
     };
@@ -184,6 +186,15 @@ var SerialChart = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Copies all parameters from another [[SerialChart]].
+     *
+     * @param {SerialChart} source Source SerialChart
+     */
+    SerialChart.prototype.copyFrom = function (source) {
+        _super.prototype.copyFrom.call(this, source);
+        this.series.copyFrom(source.series);
+    };
     return SerialChart;
 }(Chart));
 export { SerialChart };
@@ -193,5 +204,5 @@ export { SerialChart };
  *
  * @ignore
  */
-system.registeredClasses["SerialChart"] = SerialChart;
+registry.registeredClasses["SerialChart"] = SerialChart;
 //# sourceMappingURL=SerialChart.js.map

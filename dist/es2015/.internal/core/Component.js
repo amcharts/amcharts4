@@ -303,7 +303,8 @@ var Component = /** @class */ (function (_super) {
                             childDataItem.parent = dataItem;
                             _this.processDataItem(childDataItem, rawDataItem, i);
                         }
-                        dataItem[fieldName] = children;
+                        var anyDataItem = dataItem;
+                        anyDataItem[fieldName] = children;
                     }
                 }
                 else {
@@ -348,7 +349,8 @@ var Component = /** @class */ (function (_super) {
                 }).value;
                 if (dataItem.hasChildren[fieldName]) {
                     if (value) {
-                        var children = (dataItem[fieldName]);
+                        var anyDataItem = dataItem;
+                        var children = (anyDataItem[fieldName]);
                         $iter.each(children.iterator(), function (child) {
                             _this.updateDataItem(child);
                         });
@@ -563,11 +565,9 @@ var Component = /** @class */ (function (_super) {
     Component.prototype.validateRawData = function () {
         var _this = this;
         $array.remove(system.invalidRawDatas, this);
-        var i = 0;
         $iter.each(this.dataItems.iterator(), function (dataItem) {
             if (dataItem) {
                 _this.updateDataItem(dataItem);
-                i++;
             }
         });
     };
@@ -587,6 +587,10 @@ var Component = /** @class */ (function (_super) {
         // todo: this needs some overthinking, maybe some extra settings like zoomOotonDataupdate like in v3 or so. some charts like pie chart probably should act like this always
         this._startIndex = undefined;
         this._endIndex = undefined;
+        if (this.dataFields.data && this.dataItem) {
+            var dataContext = this.dataItem.dataContext;
+            this._data = dataContext[this.dataFields.data];
+        }
         if (this.data.length > 0) {
             var preloader = this.preloader;
             // data items array is reset only if all data is validated, if _parseDataFrom is not 0, we append new data only
@@ -621,7 +625,7 @@ var Component = /** @class */ (function (_super) {
                 });
                 counter++;
                 // show preloader if this takes too many time
-                if (counter == 100) {
+                if (counter == 100) { // no need to check it on each data item
                     counter = 0;
                     var elapsed = Date.now() - startTime;
                     if (elapsed > this_1.parsingStepDuration) {
@@ -894,18 +898,19 @@ var Component = /** @class */ (function (_super) {
                     end = start + 1 / maxZoomFactor;
                 }
                 //unless end is > 0
-                if (end > 1) {
-                    end = 1;
+                if (end > 1 && end - start < 1 / maxZoomFactor) {
+                    //end = 1;
                     start = end - 1 / maxZoomFactor;
                 }
             }
+            // most likely we are draggin right, so we modify left
             else {
                 // remove from start
                 if (1 / (end - start) > maxZoomFactor) {
                     start = end - 1 / maxZoomFactor;
                 }
-                if (start < 0) {
-                    start = 0;
+                if (start < 0 && end - start < 1 / maxZoomFactor) {
+                    //start = 0;
                     end = start + 1 / maxZoomFactor;
                 }
             }
@@ -1051,12 +1056,12 @@ var Component = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = $math.round(value, 5);
-            if (1 / (this.end - value) > this.maxZoomFactor) {
-                //	value = this.end - 1 / this.maxZoomFactor;
-            }
+            //if (1 / (this.end - value) > this.maxZoomFactor) {
+            //	value = this.end - 1 / this.maxZoomFactor;
+            //}
             if (this._start != value) {
                 this._start = value;
-                this._startIndex = Math.floor(this.dataItems.length * value) || 0;
+                this._startIndex = Math.max(0, Math.floor(this.dataItems.length * value) || 0);
                 this.invalidateDataRange();
             }
         },
@@ -1080,12 +1085,12 @@ var Component = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = $math.round(value, 5);
-            if (1 / (value - this.start) > this.maxZoomFactor) {
-                //	value = 1 / this.maxZoomFactor + this.start;
-            }
+            //if (1 / (value - this.start) > this.maxZoomFactor) {
+            //	value = 1 / this.maxZoomFactor + this.start;
+            //}
             if (this._end != value) {
                 this._end = value;
-                this._endIndex = Math.ceil(this.dataItems.length * value) || 0;
+                this._endIndex = Math.min(this.dataItems.length, Math.ceil(this.dataItems.length * value) || 0);
                 this.invalidateDataRange();
             }
         },
@@ -1239,6 +1244,15 @@ var Component = /** @class */ (function (_super) {
         var component = _super.prototype.clone.call(this);
         component.dataFields = $utils.copyProperties(this.dataFields, {});
         return component;
+    };
+    /**
+     * Copies all parameters from another [[Component]].
+     *
+     * @param {Component} source Source Component
+     */
+    Component.prototype.copyFrom = function (source) {
+        _super.prototype.copyFrom.call(this, source);
+        this.data = source.data;
     };
     /**
      * Invalidates the whole element, including all its children, causing

@@ -81,12 +81,14 @@ var Chart = /** @class */ (function (_super) {
         _this.layout = "vertical";
         // Chart and legend
         var chartAndLegendContainer = _this.createChild(Container);
+        chartAndLegendContainer.shouldClone = false;
         chartAndLegendContainer.layout = "vertical";
         chartAndLegendContainer.width = percent(100);
         chartAndLegendContainer.height = percent(100);
         _this.chartAndLegendContainer = chartAndLegendContainer;
         // Chart container holds all the elements of a chart, extept titles and legend
         var chartContainer = chartAndLegendContainer.createChild(Container);
+        chartContainer.shouldClone = false;
         chartContainer.width = percent(100);
         chartContainer.height = percent(100);
         _this.chartContainer = chartContainer;

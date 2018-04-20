@@ -1,3 +1,12 @@
+/**
+ * A collection of Map-related utility functions.
+ */
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
 import { IGeoPoint } from "../../core/defs/IGeoPoint";
 /**
  * Converts a multi-part polygon in X/Y coordinates to a geo-multipolygon in

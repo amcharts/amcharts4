@@ -20,6 +20,24 @@ import { DataItem } from "./DataItem";
 import { Optional } from "./utils/Type";
 /**
  * ============================================================================
+ * REQUISITES
+ * ============================================================================
+ * @hidden
+ */
+/**
+ * Defines available font weights.
+ *
+ * @type {string}
+ */
+export declare type FontWeight = "normal" | "bold" | "bolder" | "lighter" | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900";
+/**
+ * Defines available text decorations.
+ *
+ * @type {string}
+ */
+export declare type TextDecoration = "none" | "underline" | "overline" | "line-through" | "blink";
+/**
+ * ============================================================================
  * DATA ITEM
  * ============================================================================
  * @hidden
@@ -48,6 +66,26 @@ export interface IContainerProperties extends ISpriteProperties {
      * @type {ContainerLayout}
      */
     layout?: ContainerLayout;
+    /**
+     * Default font weight.
+     *
+     * @default "normal"
+     * @type {FontWeight}
+     */
+    fontWeigth?: FontWeight;
+    /**
+     * Font size for the text.
+     *
+     * @type {number}
+     */
+    fontSize?: number;
+    /**
+     * Default font decoration.
+     *
+     * @default "none"
+     * @type {TextDecoration}
+     */
+    textDecoration?: TextDecoration;
 }
 /**
  * Defines events for the [[Container]]
@@ -187,13 +225,6 @@ export declare class Container extends Sprite {
      * @type {boolean}
      */
     hasFocused: boolean;
-    /**
-     * Whether children of the container should be cloned when cloning this
-     * Container.
-     *
-     * @type {boolean}
-     */
-    cloneChildren: boolean;
     /**
      * Specifies if, when state is applied on this container, the same state should be applied to container's children
      * @type {boolean}
@@ -489,12 +520,6 @@ export declare class Container extends Sprite {
      */
     copyFrom(source: this): void;
     /**
-     * Clones the Container, including all of its children, if cloneChildren is set to true.
-     *
-     * @return {this} New Container clone
-     */
-    clone(): this;
-    /**
      * Creates (if necessary) and returns an instance of the [[Preloader]] to
      * show when Container is busy loading.
      *
@@ -539,6 +564,46 @@ export declare class Container extends Sprite {
      * @return {number} Y (px)
      */
     protected getTooltipY(): number;
+    /**
+     * Returns current font size for text element.
+     *
+     * @return {any} Font size
+     */
+    /**
+     * Sets font size to be used for the text. The size can either be numeric, in
+     * pxels, or other measurements.
+     *
+     * Parts of the text may override this setting using in-line formatting.
+     *
+     * @param {any} value Font size value
+     */
+    fontSize: any;
+    /**
+     * Returns currently set font weight.
+     *
+     * @return {FontWeight} Font weight
+     */
+    /**
+     * Sets font weight to use for text.
+     *
+     * Parts of the text may override this setting using in-line formatting.
+     *
+     * @param {FontWeight} value Font weight
+     */
+    fontWeigth: FontWeight;
+    /**
+     * Returns current text decoration setting.
+     *
+     * @return {TextDecoration} Decoration
+     */
+    /**
+     * Sets a text decoration to use for text.
+     *
+     * Parts of the text may override this setting using in-line formatting.
+     *
+     * @param {TextDecoration} value Decoration
+     */
+    textDecoration: TextDecoration;
     dispose(): void;
     /**
      * Applies a [[SpriteState]] on this element.

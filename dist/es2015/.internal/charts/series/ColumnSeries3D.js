@@ -18,10 +18,9 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { ColumnSeries, ColumnSeriesDataItem } from "../series/ColumnSeries";
-import { Rectangle3D } from "../../core/elements/3d/Rectangle3D";
-import { system } from "../../core/System";
+import { Column3D } from "../elements/Column3D";
+import { registry } from "../../core/Registry";
 import * as $path from "../../core/rendering/Path";
-import { percent } from "../../core/utils/Percent";
 /**
  * ============================================================================
  * DATA ITEM
@@ -69,7 +68,7 @@ var ColumnSeries3D = /** @class */ (function (_super) {
     }
     Object.defineProperty(ColumnSeries3D.prototype, "columnsContainer", {
         get: function () {
-            if (this.chart) {
+            if (this.chart && this.chart.columnsContainer) {
                 // @martynas: need to check aria-things here.
                 return this.chart.columnsContainer;
             }
@@ -82,14 +81,11 @@ var ColumnSeries3D = /** @class */ (function (_super) {
     });
     /**
      * Returns an element to use for 3D bar.
-     *
-     * @return {Sprite} Element.
+     * @ignore
+     * @return {this["_column"]} Element.
      */
-    ColumnSeries3D.prototype.getColumnTemplate = function () {
-        var columnTemplate = new Rectangle3D();
-        columnTemplate.width = percent(80);
-        columnTemplate.height = percent(80);
-        return columnTemplate;
+    ColumnSeries3D.prototype.createColumnTemplate = function () {
+        return new Column3D();
     };
     /**
      * Returns SVG path to use as a mask for the series.
@@ -99,8 +95,8 @@ var ColumnSeries3D = /** @class */ (function (_super) {
     ColumnSeries3D.prototype.getMaskPath = function () {
         var w = this.xAxis.axisLength;
         var h = this.yAxis.axisLength;
-        var dx = this.chart.dx3D;
-        var dy = this.chart.dy3D;
+        var dx = this.chart.dx3D || 0;
+        var dy = this.chart.dy3D || 0;
         return $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: dx, y: dy }) + $path.lineTo({ x: w + dx, y: dy }) + $path.lineTo({ x: w + dx, y: h + dy }) + $path.lineTo({ x: w, y: h }) + $path.lineTo({ x: w, y: h }) + $path.lineTo({ x: 0, y: h }) + $path.closePath();
     };
     Object.defineProperty(ColumnSeries3D.prototype, "depth", {
@@ -120,7 +116,7 @@ var ColumnSeries3D = /** @class */ (function (_super) {
         set: function (value) {
             this.setPropertyValue("depth", value, true);
             var template = this.columns.template; // todo: Cone is not Rectangle3D, maybe we should do some I3DShape?
-            template.depth = value;
+            template.column3D.depth = value;
         },
         enumerable: true,
         configurable: true
@@ -141,8 +137,8 @@ var ColumnSeries3D = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("angle", value);
-            var template = this.columns.template; // todo: Cone is not Rectangle3D, maybe we should do some I3DShape?
-            template.angle = value;
+            var template = this.columns.template;
+            template.column3D.angle = value;
         },
         enumerable: true,
         configurable: true
@@ -156,6 +152,6 @@ export { ColumnSeries3D };
  *
  * @ignore
  */
-system.registeredClasses["ColumnSeries3D"] = ColumnSeries3D;
-system.registeredClasses["ColumnSeries3DDataItem"] = ColumnSeries3DDataItem;
+registry.registeredClasses["ColumnSeries3D"] = ColumnSeries3D;
+registry.registeredClasses["ColumnSeries3DDataItem"] = ColumnSeries3DDataItem;
 //# sourceMappingURL=ColumnSeries3D.js.map

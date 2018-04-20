@@ -22,9 +22,10 @@ import { List, ListDisposer } from "../../utils/List";
 import { MultiDisposer } from "../../utils/Disposer";
 import { Animation } from "../../utils/Animation";
 import { system } from "../../System";
+import { registry } from "../../Registry";
+import { InterfaceColorSet } from "../../utils/InterfaceColorSet";
 import * as $iter from "../../utils/Iterator";
 import * as $object from "../../utils/Object";
-import { InterfaceColorSet } from "../../utils/InterfaceColorSet";
 ;
 /**
  * ============================================================================
@@ -78,7 +79,7 @@ var Pattern = /** @class */ (function (_super) {
         _this.rotation = 0;
         // Create main group to store pattern elements inelements
         _this.element = _this.paper.addGroup("pattern");
-        _this.id = "pattern-" + system.getUniqueId();
+        _this.id = "pattern-" + registry.getUniqueId();
         _this.element.attr({ "id": _this.id });
         _this._disposers.push(_this.element);
         // Make elements disposable

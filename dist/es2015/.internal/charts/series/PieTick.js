@@ -19,7 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Tick } from "../elements/Tick";
 import { MutableValueDisposer, MultiDisposer } from "../../core/utils/Disposer";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -140,5 +140,5 @@ export { PieTick };
  *
  * @ignore
  */
-system.registeredClasses["PieTick"] = PieTick;
+registry.registeredClasses["PieTick"] = PieTick;
 //# sourceMappingURL=PieTick.js.map

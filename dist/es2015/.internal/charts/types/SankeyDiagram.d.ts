@@ -12,12 +12,12 @@ import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { ListTemplate } from "../../core/utils/List";
 import { DictionaryTemplate } from "../../core/utils/Dictionary";
 import { Container } from "../../core/Container";
-import * as $iter from "../../core/utils/Iterator";
 import { SankeyNode } from "../elements/SankeyNode";
 import { SankeyLink } from "../elements/SankeyLink";
 import { ColorSet } from "../../core/utils/ColorSet";
 import { Color } from "../../core/utils/Color";
 import { Orientation } from "../../core/defs/Orientation";
+import * as $iter from "../../core/utils/Iterator";
 /**
  * ============================================================================
  * DATA ITEM

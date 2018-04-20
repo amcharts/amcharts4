@@ -67,7 +67,9 @@ var InterfaceColorSet = /** @class */ (function (_super) {
             alternativeBackground: color("#000000"),
             text: color("#000000"),
             alternativeText: color("#FFFFFF"),
-            disabledBackground: color("#999999")
+            disabledBackground: color("#999999"),
+            positive: color("#67dc75"),
+            negative: color("#dc6788")
         };
         _this.className = "InterfaceColorSet";
         _this.applyTheme();

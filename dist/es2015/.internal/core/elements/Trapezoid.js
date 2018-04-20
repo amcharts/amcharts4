@@ -18,10 +18,10 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Sprite } from "../Sprite";
+import { percent } from "../../core/utils/Percent";
 import * as $utils from "../utils/Utils";
 import * as $type from "../utils/Type";
 import * as $path from "../rendering/Path";
-import { percent } from "../../core/utils/Percent";
 /**
  * ============================================================================
  * MAIN CLASS

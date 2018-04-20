@@ -1,42 +1,42 @@
-import * as amcharts4 from "@amcharts/amcharts4";
-import * as xy from "@amcharts/amcharts4/xy";
+import * as amcharts4 from "@amcharts/amcharts4/core";
+import * as charts from "@amcharts/amcharts4/charts";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 
 amcharts4.useTheme(AnimatedTheme);
 
-let chart = amcharts4.create("chartdiv", xy.XYChart);
+let chart = amcharts4.create("chartdiv", charts.XYChart);
 
 let data = [];
 
 chart.data = [{
-	"year": "2014",
-	"income": 23.5,
-	"expenses": 21.1
+    "year": "2014",
+    "income": 23.5,
+    "expenses": 21.1
 }, {
-	"year": "2015",
-	"income": 26.2,
-	"expenses": 30.5
+    "year": "2015",
+    "income": 26.2,
+    "expenses": 30.5
 }, {
-	"year": "2016",
-	"income": 30.1,
-	"expenses": 34.9
+    "year": "2016",
+    "income": 30.1,
+    "expenses": 34.9
 }, {
-	"year": "2017",
-	"income": 20.5,
-	"expenses": 23.1
+    "year": "2017",
+    "income": 20.5,
+    "expenses": 23.1
 }, {
-	"year": "2018",
-	"income": 30.6,
-	"expenses": 28.2
+    "year": "2018",
+    "income": 30.6,
+    "expenses": 28.2
 }, {
-	"year": "2019",
-	"income": 34.1,
-	"expenses": 31.9,
-	"stroke": "3,3",
-	"opacity": 0.5
+    "year": "2019",
+    "income": 34.1,
+    "expenses": 31.9,
+    "stroke": "3,3",
+    "opacity": 0.5
 }];
 
-let categoryAxis = chart.xAxes.push(new xy.CategoryAxis());
+let categoryAxis = chart.xAxes.push(new charts.CategoryAxis());
 categoryAxis.renderer.grid.template.location = 0;
 categoryAxis.renderer.ticks.template.disabled = true;
 categoryAxis.renderer.line.opacity = 0;
@@ -45,13 +45,13 @@ categoryAxis.renderer.minGridDistance = 40;
 categoryAxis.dataFields.category = "year";
 
 
-let valueAxis = chart.yAxes.push(new xy.ValueAxis());
+let valueAxis = chart.yAxes.push(new charts.ValueAxis());
 valueAxis.tooltip.disabled = true;
 valueAxis.renderer.line.opacity = 0;
 valueAxis.renderer.ticks.template.disabled = true;
 valueAxis.min = 0;
 
-let columnSeries = chart.series.push(new xy.ColumnSeries());
+let columnSeries = chart.series.push(new charts.ColumnSeries());
 columnSeries.dataFields.categoryX = "year";
 columnSeries.dataFields.valueY = "expenses";
 columnSeries.tooltipText = "expenses: {valueY.value}";
@@ -59,9 +59,9 @@ columnSeries.sequencedInterpolation = true;
 columnSeries.defaultState.transitionDuration = 1500;
 columnSeries.fill = chart.colors.getIndex(4);
 
-let columnTemplate = <amcharts4.RoundedRectangle>columnSeries.columns.template;
-columnTemplate.cornerRadiusTopLeft = 10;
-columnTemplate.cornerRadiusTopRight = 10;
+let columnTemplate = columnSeries.columns.template;
+columnTemplate.column.cornerRadiusTopLeft = 10;
+columnTemplate.column.cornerRadiusTopRight = 10;
 columnTemplate.strokeWidth = 1;
 columnTemplate.strokeOpacity = 1;
 columnTemplate.stroke = columnSeries.fill;
@@ -71,7 +71,7 @@ desaturateFilter.saturation = 0.5;
 
 columnTemplate.filters.push(desaturateFilter);
 
-// first way - get properties from data. but can only be done with columns, as they are separate objects.	
+// first way - get properties from data. but can only be done with columns, as they are separate objects.    
 columnTemplate.propertyFields.strokeDasharray = "stroke";
 columnTemplate.propertyFields.fillOpacity = "opacity";
 
@@ -83,7 +83,7 @@ let hoverState = columnTemplate.states.create("hover");
 hoverState.transitionDuration = 2000;
 hoverState.filters.push(desaturateFilterHover);
 
-let lineSeries = chart.series.push(new xy.LineSeries());
+let lineSeries = chart.series.push(new charts.LineSeries());
 lineSeries.dataFields.categoryX = "year";
 lineSeries.dataFields.valueY = "income";
 lineSeries.tooltipText = "income: {valueY.value}";
@@ -104,13 +104,11 @@ let dropShadow = new amcharts4.DropShadowFilter();
 dropShadow.opacity = 0.25;
 lineSeries.filters.push(dropShadow);
 
-let bullet = lineSeries.bullets.create();
+let bullet = lineSeries.bullets.push(new charts.CircleBullet());
 bullet.fill = lineSeries.stroke;
+bullet.circle.radius = 4;
 
-let circle = bullet.createChild(amcharts4.Circle);
-circle.radius = 4;
-
-chart.cursor = new xy.XYCursor();
+chart.cursor = new charts.XYCursor();
 chart.cursor.behavior = "none";
 chart.cursor.lineX.opacity = 0;
 chart.cursor.lineY.opacity = 0;

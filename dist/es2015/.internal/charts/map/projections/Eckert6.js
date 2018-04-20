@@ -50,7 +50,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Projection } from "./Projection";
-import { system } from "../../../core/System";
+import { registry } from "../../../core/Registry";
 /**
  * Eckert6 projection.
  */
@@ -100,5 +100,5 @@ export { Eckert6 };
  *
  * @ignore
  */
-system.registeredClasses["Eckert6"] = Eckert6;
+registry.registeredClasses["Eckert6"] = Eckert6;
 //# sourceMappingURL=Eckert6.js.map

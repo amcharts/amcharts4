@@ -24,6 +24,15 @@ export declare const HALFPI: number;
 export declare const RADIANS: number;
 export declare const DEGREES: number;
 /**
+ * Converts any value and fits it into a specific value range.
+ *
+ * @param  {any}     value  Source value
+ * @param  {number}  min    Minimum allowable value
+ * @param  {number}  max    Maximum allowable value
+ * @return {number}         Number
+ */
+export declare function toNumberRange(value: any, min: number, max: number): number;
+/**
  * Rounds the numeric value to whole number or specific precision of set.
  *
  * @param  {number} value      Value

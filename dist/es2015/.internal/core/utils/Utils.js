@@ -8,6 +8,7 @@
  * @hidden
  */
 import { system } from "../System";
+import { registry } from "../Registry";
 import { Percent } from "./Percent";
 import { Container } from "../Container";
 import * as $array from "../utils/Array";
@@ -32,7 +33,7 @@ import * as $object from "./Object";
  */
 export function copyProperties(source, target) {
     $object.each(source, function (key, value) {
-        // only if value is set
+        // only if value is set		
         if ($type.hasValue(value)) {
             target[key] = value;
         }
@@ -698,7 +699,6 @@ export function fitNumber(value, min, max) {
  */
 export function fitNumberRelative(value, min, max) {
     var gap = max - min;
-    var step = gap / 100;
     if (value > max) {
         value = min + (value - gap * Math.floor(value / gap));
     }
@@ -877,11 +877,11 @@ export function spritePointToDocument(point, sprite) {
  * JavaScript users this can also be a string indicating chart type)
  *
  * ```TypeScript
- * let chart = amcharts4.create("chartdiv", pie.PieChart);
+ * let chart = amcharts4.create("chartdiv", charts.PieChart);
  * ```
  * ```JavaScript
  * // Can pass in chart type reference like this:
- * var chart = amcharts4.create("chartdiv", amcharts4.pie.PieChart);
+ * var chart = amcharts4.create("chartdiv", amcharts4.charts.PieChart);
  *
  * // ... or chart class type as a string:
  * var chart = amcharts4.create("chartdiv", "PieChart");
@@ -898,11 +898,11 @@ export function create(htmlElement, classType) {
     // itself.
     var classError;
     if ($type.isString(classType)) {
-        if ($type.hasValue(system.registeredClasses[classType])) {
-            classType = system.registeredClasses[classType];
+        if ($type.hasValue(registry.registeredClasses[classType])) {
+            classType = registry.registeredClasses[classType];
         }
         else {
-            classType = system.registeredClasses["Container"];
+            classType = registry.registeredClasses["Container"];
             classError = new Error("Class [" + classType + "] is not loaded.");
             return;
         }
@@ -921,7 +921,7 @@ export function create(htmlElement, classType) {
  * Example:
  *
  * ```TypeScript
- * let chart amcharts4.createFromConfig({ ... }, "chartdiv", xy.XYChart );
+ * let chart amcharts4.createFromConfig({ ... }, "chartdiv", charts.XYChart );
  * ```
  * ```JavaScript
  * var chart amcharts4.createFromConfig({ ... }, "chartdiv", "XYChart" );
@@ -932,13 +932,13 @@ export function create(htmlElement, classType) {
  *
  * ```TypeScript
  * {
- *   "type": xy.XYChart,
+ *   "type": charts.XYChart,
  *   // ...
  * }
  * ```
  * ```JavaScript
  * {
- *   "type": amcharts4.xy.XYChart,
+ *   "type": amcharts4.charts.XYChart,
  *   // ...
  * }
  * ```
@@ -998,8 +998,8 @@ export function createFromConfig(config, htmlElement, classType) {
     // Check if we need to extract actual type reference
     var finalType;
     var classError;
-    if ($type.isString(classType) && $type.hasValue(system.registeredClasses[classType])) {
-        finalType = system.registeredClasses[classType];
+    if ($type.isString(classType) && $type.hasValue(registry.registeredClasses[classType])) {
+        finalType = registry.registeredClasses[classType];
     }
     else {
         finalType = Container;
@@ -1042,7 +1042,7 @@ export function createFromConfig(config, htmlElement, classType) {
  * @param {ITheme}  value  A reference to a theme
  */
 export function useTheme(value) {
-    system.themes.push(value);
+    registry.themes.push(value);
 }
 /**
  * Removes a theme from "active themes" list, so it won't get applied to any
@@ -1051,7 +1051,7 @@ export function useTheme(value) {
  * @param {ITheme}  value  A reference to a theme
  */
 export function unuseTheme(value) {
-    $array.remove(system.themes, value);
+    $array.remove(registry.themes, value);
 }
 /**
  * ============================================================================

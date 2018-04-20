@@ -25,13 +25,13 @@ import { AxisRendererY } from "../axes/AxisRendererY";
 import { CategoryAxis } from "../axes/CategoryAxis";
 import { XYSeries } from "../series/XYSeries";
 import { XYCursor } from "../cursors/XYCursor";
+import { ZoomOutButton } from "../../core/elements/ZoomOutButton";
+import { percent } from "../../core/utils/Percent";
+import { registry } from "../../core/Registry";
 import * as $math from "../../core/utils/Math";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import * as $utils from "../../core/utils/Utils";
-import { percent } from "../../core/utils/Percent";
-import { system } from "../../core/System";
-import { ZoomOutButton } from "../../core/elements/ZoomOutButton";
 /**
  * ============================================================================
  * DATA ITEM
@@ -75,11 +75,11 @@ export { XYChartDataItem };
  *
  * ```TypeScript
  * // Includes
- * import * as amcharts4 from "@amcharts/amcharts4";
- * import * as xy from "@amcharts/amcharts4/xy";
+ * import * as amcharts4 from "@amcharts/amcharts4/core";
+ * import * as charts from "@amcharts/amcharts4/charts";
  *
  * // Create chart
- * let chart = amcharts4.create("chartdiv", xy.XYChart);
+ * let chart = amcharts4.create("chartdiv", charts.XYChart);
  *
  * // Add Data
  * chart.data = [{
@@ -94,21 +94,21 @@ export { XYChartDataItem };
  * }];
  *
  * // Add category axis
- * let categoryAxis = chart.xAxes.push(new xy.CategoryAxis());
+ * let categoryAxis = chart.xAxes.push(new charts.CategoryAxis());
  * categoryAxis.dataFields.category = "country";
  *
  * // Add value axis
- * let valueAxis = chart.yAxes.push(new xy.ValueAxis());
+ * let valueAxis = chart.yAxes.push(new charts.ValueAxis());
  *
  * // Add series
- * let series = chart.series.push(new xy.ColumnSeries());
+ * let series = chart.series.push(new charts.ColumnSeries());
  * series.name = "Web Traffic";
  * series.dataFields.categoryX = "country";
  * series.dataFields.valueY = "visits";
  * ```
  * ```JavaScript
  * // Create chart
- * var chart = amcharts4.create("chartdiv", amcharts4.xy.XYChart);
+ * var chart = amcharts4.create("chartdiv", amcharts4.charts.XYChart);
  *
  * // The following would work as well:
  * // var chart = amcharts4.create("chartdiv", "XYChart");
@@ -126,14 +126,14 @@ export { XYChartDataItem };
  * }];
  *
  * // Add category axis
- * var categoryAxis = chart.xAxes.push(new amcharts4.xy.CategoryAxis());
+ * var categoryAxis = chart.xAxes.push(new amcharts4.charts.CategoryAxis());
  * categoryAxis.dataFields.category = "country";
  *
  * // Add value axis
- * var valueAxis = chart.yAxes.push(new amcharts4.xy.ValueAxis());
+ * var valueAxis = chart.yAxes.push(new amcharts4.charts.ValueAxis());
  *
  * // Add series
- * var series = chart.series.push(new amcharts4.xy.ColumnSeries());
+ * var series = chart.series.push(new amcharts4.charts.ColumnSeries());
  * series.name = "Web Traffic";
  * series.dataFields.categoryX = "country";
  * series.dataFields.valueY = "visits";
@@ -169,7 +169,7 @@ export { XYChartDataItem };
  *
  * 	// Data
  * 	"data": [{
- * 		"country": "USAx",
+ * 		"country": "USA",
  * 		"visits": 3025
  * 	}, {
  * 		"country": "China",
@@ -218,6 +218,7 @@ var XYChart = /** @class */ (function (_super) {
         _this.padding(15, 15, 15, 15);
         // Create top axes container
         var topAxesCont = chartCont.createChild(Container);
+        topAxesCont.shouldClone = false;
         topAxesCont.layout = "vertical";
         topAxesCont.width = percent(100);
         topAxesCont.zIndex = 1;
@@ -227,6 +228,7 @@ var XYChart = /** @class */ (function (_super) {
         // so we need to put then into a separate container so that layouting
         // engine takes care of the positioning
         var yAxesAndPlotCont = chartCont.createChild(Container);
+        yAxesAndPlotCont.shouldClone = false;
         yAxesAndPlotCont.layout = "horizontal";
         yAxesAndPlotCont.width = percent(100);
         yAxesAndPlotCont.height = percent(100);
@@ -234,12 +236,14 @@ var XYChart = /** @class */ (function (_super) {
         _this.yAxesAndPlotCont = yAxesAndPlotCont;
         // Create a container for bottom axes
         var bottomAxesCont = chartCont.createChild(Container);
+        bottomAxesCont.shouldClone = false;
         bottomAxesCont.width = percent(100);
         bottomAxesCont.layout = "vertical";
         bottomAxesCont.zIndex = 1;
         _this.bottomAxesContainer = bottomAxesCont;
         // Create a container for left-side axes
         var leftAxesCont = yAxesAndPlotCont.createChild(Container);
+        leftAxesCont.shouldClone = false;
         leftAxesCont.layout = "horizontal";
         leftAxesCont.height = percent(100);
         leftAxesCont.contentAlign = "right";
@@ -247,12 +251,14 @@ var XYChart = /** @class */ (function (_super) {
         _this.leftAxesContainer = leftAxesCont;
         // Create a container for plot area
         var plotCont = yAxesAndPlotCont.createChild(Container);
+        plotCont.shouldClone = false;
         plotCont.height = percent(100);
         plotCont.width = percent(100);
         _this.plotContainer = plotCont;
         _this._cursorContainer = plotCont;
         // Create a container for right-side axes
         var rightAxesCont = yAxesAndPlotCont.createChild(Container);
+        rightAxesCont.shouldClone = false;
         rightAxesCont.layout = "horizontal";
         rightAxesCont.height = percent(100);
         rightAxesCont.events.on("transformed", _this.updateXAxesMargins, _this);
@@ -260,6 +266,7 @@ var XYChart = /** @class */ (function (_super) {
         _this.seriesContainer.parent = plotCont;
         _this.bulletsContainer.parent = plotCont;
         var zoomOutButton = plotCont.createChild(ZoomOutButton);
+        zoomOutButton.shouldClone = false;
         zoomOutButton.align = "right";
         zoomOutButton.valign = "top";
         zoomOutButton.zIndex = Number.MAX_SAFE_INTEGER;
@@ -313,12 +320,14 @@ var XYChart = /** @class */ (function (_super) {
      */
     XYChart.prototype.validateData = function () {
         // tell axes that data changed
-        $iter.each(this.xAxes.iterator(), function (axis) {
-            axis.dataChangeUpdate();
-        });
-        $iter.each(this.yAxes.iterator(), function (axis) {
-            axis.dataChangeUpdate();
-        });
+        if (this._parseDataFrom == 0) {
+            $iter.each(this.xAxes.iterator(), function (axis) {
+                axis.dataChangeUpdate();
+            });
+            $iter.each(this.yAxes.iterator(), function (axis) {
+                axis.dataChangeUpdate();
+            });
+        }
         _super.prototype.validateData.call(this);
         if (this.cursor) {
             if (this.data.length > 0) {
@@ -435,7 +444,6 @@ var XYChart = /** @class */ (function (_super) {
      * @param {AMEvent<Axis, IComponentEvents>["datarangechanged"]} event Range change event
      */
     XYChart.prototype.handleXAxisRangeChange = function (event) {
-        var axis = event.target;
         var range = this.getCommonAxisRange(this.xAxes);
         if (this.scrollbarX) {
             this.zoomAxes(this.xAxes, range, true);
@@ -496,7 +504,6 @@ var XYChart = /** @class */ (function (_super) {
      * @param {AMEvent<Axis, IComponentEvents>["datarangechanged"]} event Range change event
      */
     XYChart.prototype.handleYAxisRangeChange = function (event) {
-        var axis = event.target;
         var range = this.getCommonAxisRange(this.yAxes);
         if (this.scrollbarY) {
             this.zoomAxes(this.yAxes, range, true);
@@ -686,6 +693,9 @@ var XYChart = /** @class */ (function (_super) {
                     cursor.events.on("cursorpositionchanged", this.handleCursorPositionChange, this);
                     cursor.events.on("zoomstarted", this.handleCursorZoomStart, this);
                     cursor.events.on("zoomended", this.handleCursorZoomEnd, this);
+                    cursor.events.on("panstarted", this.handleCursorPanStart, this);
+                    cursor.events.on("panning", this.handleCursorPanning, this);
+                    cursor.events.on("panended", this.handleCursorPanEnd, this);
                     cursor.events.on("hide", this.handleHideCursor, this);
                     cursor.zIndex = Number.MAX_SAFE_INTEGER;
                     if (this.data.length == 0) {
@@ -843,9 +853,9 @@ var XYChart = /** @class */ (function (_super) {
     XYChart.prototype.showAxisTooltip = function (axes, position) {
         var _this = this;
         $iter.each(axes.iterator(), function (axis) {
-            position = axis.toAxisPosition(position);
+            var axisPosition = axis.toAxisPosition(position);
             if (_this.dataItems.length > 0) {
-                axis.showTooltipAtPosition(position);
+                axis.showTooltipAtPosition(axisPosition);
             }
         });
     };
@@ -898,6 +908,107 @@ var XYChart = /** @class */ (function (_super) {
             yRange = this.getUpdatedRange(this.yAxes.getIndex(0), yRange);
             yRange.priority = "start";
             this.zoomAxes(this.yAxes, yRange);
+        }
+        this.handleHideCursor();
+    };
+    /**
+     * Performs zoom and other operations when user is panning chart plot using chart cursor.
+     *
+     * @param {IXYCursorEvents["panning"]} event Cursor's event
+     */
+    XYChart.prototype.handleCursorPanStart = function (event) {
+        var xAxis = this.xAxes.getIndex(0);
+        if (xAxis) {
+            this._panStartXRange = { start: xAxis.start, end: xAxis.end };
+        }
+        var yAxis = this.yAxes.getIndex(0);
+        if (yAxis) {
+            this._panStartYRange = { start: yAxis.start, end: yAxis.end };
+        }
+    };
+    /**
+     * Performs zoom and other operations when user ends panning
+     *
+     * @param {IXYCursorEvents["panning"]} event Cursor's event
+     */
+    XYChart.prototype.handleCursorPanEnd = function (event) {
+        var cursor = this.cursor;
+        var behavior = cursor.behavior;
+        if (this._panEndXRange && (behavior == "panX" || behavior == "panXY")) {
+            var panEndRange = this._panEndXRange;
+            var delta = 0;
+            if (panEndRange.start < 0) {
+                delta = panEndRange.start;
+            }
+            if (panEndRange.end > 1) {
+                delta = panEndRange.end - 1;
+            }
+            this.zoomAxes(this.xAxes, { start: panEndRange.start - delta, end: panEndRange.end - delta });
+            this._panEndXRange = undefined;
+            this._panStartXRange = undefined;
+        }
+        if (this._panEndYRange && (behavior == "panY" || behavior == "panXY")) {
+            var panEndRange = this._panEndYRange;
+            var delta = 0;
+            if (panEndRange.start < 0) {
+                delta = panEndRange.start;
+            }
+            if (panEndRange.end > 1) {
+                delta = panEndRange.end - 1;
+            }
+            this.zoomAxes(this.yAxes, { start: panEndRange.start - delta, end: panEndRange.end - delta });
+            this._panEndYRange = undefined;
+            this._panStartYRange = undefined;
+        }
+    };
+    /**
+     * Performs zoom and other operations when user is panning chart plot using chart cursor.
+     *
+     * @param {IXYCursorEvents["panning"]} event Cursor's event
+     */
+    XYChart.prototype.handleCursorPanning = function (event) {
+        var cursor = this.cursor;
+        var behavior = cursor.behavior;
+        var maxPanOut = cursor.maxPanOut;
+        if (this._panStartXRange && (behavior == "panX" || behavior == "panXY")) {
+            var panStartRange = this._panStartXRange;
+            var range = cursor.xRange;
+            var difference = panStartRange.end - panStartRange.start;
+            var delta = range.start;
+            var newStart = Math.max(-maxPanOut, delta + panStartRange.start);
+            var newEnd = Math.min(range.start + panStartRange.end, 1 + maxPanOut);
+            if (newStart <= 0) {
+                newEnd = newStart + difference;
+            }
+            if (newEnd >= 1) {
+                newStart = newEnd - difference;
+            }
+            var newRange = {
+                start: newStart,
+                end: newEnd
+            };
+            this._panEndXRange = newRange;
+            this.zoomAxes(this.xAxes, newRange);
+        }
+        if (this._panStartYRange && (behavior == "panY" || behavior == "panXY")) {
+            var panStartRange = this._panStartYRange;
+            var range = cursor.yRange;
+            var difference = panStartRange.end - panStartRange.start;
+            var delta = range.start;
+            var newStart = Math.max(-maxPanOut, delta + panStartRange.start);
+            var newEnd = Math.min(range.start + panStartRange.end, 1 + maxPanOut);
+            if (newStart <= 0) {
+                newEnd = newStart + difference;
+            }
+            if (newEnd >= 1) {
+                newStart = newEnd - difference;
+            }
+            var newRange = {
+                start: newStart,
+                end: newEnd
+            };
+            this._panEndYRange = newRange;
+            this.zoomAxes(this.yAxes, newRange);
         }
         this.handleHideCursor();
     };
@@ -1027,7 +1138,7 @@ var XYChart = /** @class */ (function (_super) {
                 if (axis.renderer.inversed) {
                     axisRange = $math.invertRange(axisRange);
                 }
-                realRange = $math.intersection(realRange, axisRange);
+                realRange = axisRange;
             });
         }
         return realRange;
@@ -1148,6 +1259,7 @@ var XYChart = /** @class */ (function (_super) {
         if (a == b) {
             return 0;
         }
+        // Must come last
         else if (a == "scrollbarX") {
             return 1;
         }
@@ -1206,6 +1318,18 @@ var XYChart = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Copies all parameters from another [[XYChart]].
+     *
+     * @param {XYChart} source Source XYChart
+     */
+    XYChart.prototype.copyFrom = function (source) {
+        _super.prototype.copyFrom.call(this, source);
+        this.xAxes.copyFrom(source.xAxes);
+        this.yAxes.copyFrom(source.yAxes);
+        this.zoomOutButton.copyFrom(source.zoomOutButton);
+        //@todo copy all container properties
+    };
     return XYChart;
 }(SerialChart));
 export { XYChart };
@@ -1215,5 +1339,5 @@ export { XYChart };
  *
  * @ignore
  */
-system.registeredClasses["XYChart"] = XYChart;
+registry.registeredClasses["XYChart"] = XYChart;
 //# sourceMappingURL=XYChart.js.map

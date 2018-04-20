@@ -9,7 +9,6 @@
  */
 import * as $array from "./Array";
 var pendingFrame = false;
-var pendingIdle = false;
 var nextQueue = [];
 var readQueue = [];
 var writeQueue = [];
@@ -102,57 +101,6 @@ export function writeFrame(fn) {
     writeQueue.push(fn);
     pendFrame();
 }
-// Polyfill
-// https://developer.mozilla.org/en-US/docs/Web/API/Background_Tasks_API#Falling_back_to_setTimeout
-var requestIdle = (typeof requestIdleCallback === "function"
-    ? requestIdleCallback
-    : function (fn) {
-        // TODO is this a good polyfill ?
-        readFrame(function () {
-            var startTime = Date.now();
-            fn({
-                didTimeout: false,
-                timeRemaining: function () {
-                    return Math.max(0, 50.0 - (Date.now() - startTime));
-                }
-            });
-        });
-    });
-/**
- * [idleLoop description]
- *
- * @ignore Exclude from docs
- * @todo Description
- * @param {IdleInfo} info [description]
- */
-function idleLoop(info) {
-    var now = Date.now();
-    var i = 0;
-    // TODO maybe new callbacks should be pushed to the next update tick ?
-    while (i < idleQueue.length) {
-        if (info.didTimeout || info.timeRemaining() > 0) {
-            idleQueue[i](now);
-            ++i;
-        }
-        else {
-            $array.shiftLeft(idleQueue, i);
-            // TODO is his a good timeout ?
-            requestIdle(idleLoop, { timeout: 50 });
-            return;
-        }
-    }
-    idleQueue.length = 0;
-    pendingIdle = false;
-}
-/*export function whenIdle(fn: Listener): void {
-    idleQueue.push(fn);
-
-    if (!pendingIdle) {
-        pendingIdle = true;
-        // TODO is his a good timeout ?
-        requestIdle(idleLoop, { timeout: 50 });
-    }
-}*/
 /**
  * [whenIdle description]
  *

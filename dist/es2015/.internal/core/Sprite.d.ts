@@ -33,6 +33,7 @@ import { Align } from "./defs/Align";
 import { Roles, AriaLive } from "./defs/Accessibility";
 import { Modal } from "./elements/Modal";
 import { Color } from "./utils/Color";
+import { Ordering } from "./utils/Order";
 import { HorizontalCenter } from "./defs/HorizontalCenter";
 import { VerticalCenter } from "./defs/VerticalCenter";
 import { VerticalAlign } from "./defs/VerticalAlign";
@@ -78,9 +79,9 @@ export interface ISpriteProperties {
     marginTop?: number;
     marginBottom?: number;
     fillOpacity?: number;
-    fill?: Color;
+    fill?: Color | LinearGradient | RadialGradient | Pattern;
     opacity?: number;
-    stroke?: Color;
+    stroke?: Color | LinearGradient | RadialGradient | Pattern;
     strokeOpacity?: number;
     strokeWidth?: number;
     strokeDasharray?: number[];
@@ -136,6 +137,8 @@ export interface ISpriteProperties {
     maxWidth?: number;
     minHeight?: number;
     maxHeight?: number;
+    fillModifier?: ColorModifier;
+    strokeModifier?: ColorModifier;
 }
 /**
  * Defines animation options
@@ -288,6 +291,14 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @type {DataItem}
      */
     protected _tooltipDataItem: DataItem;
+    /**
+     * A reference to another sprite or sprite template from which tooltip should take colors if getFillFromObject or getStrokeFromObject are set to true.
+     * Mostly used when we need to adjust tooltip color for a series, depending on column or bullet color.
+     *
+     * @ignore Exclude from docs
+     * @type {Sprite}
+     */
+    protected _tooltipColorSource: Sprite;
     /**
      * If `sprite.hide()` is called and we have "hidden" state and
      * `transitionDuration > 0`, we set `isHiding` flag to `true` in order to
@@ -569,26 +580,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     protected _focusFilter: Filter;
     /**
-     * A reference to [[ColorModifier]] that can be used to modify fill colors
-     * and patterns.
-     *
-     * Use accessor `fillModifier` to set and retrieve.
-     *
-     * @ignore Exclude from docs
-     * @type {ColorModifier}
-     */
-    protected _fillModifier: ColorModifier;
-    /**
-     * A reference to [[ColorModifier]] that can be used to modify stroke
-     * (outline) colors and patterns.
-     *
-     * Use accessor `strokeModifier` to set and retrieve.
-     *
-     * @ignore Exclude from docs
-     * @type {ColorModifier}
-     */
-    protected _strokeModifier: ColorModifier;
-    /**
      * Indicates if this element is invalid and should be re-validated (redrawn).
      *
      * @ignore Exclude from docs
@@ -743,6 +734,13 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * this flag is set to true for the initial sprite you create and place to the div so that we could clear all additional sprites/containers when this sprite is disposed
      */
     isBaseSprite: boolean;
+    /**
+     * Whether this sprite should be cloned when clonning it's parent container. We set this to falsse in those cases when a sprite is created by the class, so that when clonning
+     * a duplicate sprite would not appear.
+     *
+     * @type {boolean}
+     */
+    shouldClone: boolean;
     /**
      * Constructor:
      * * Creates initial node
@@ -3385,6 +3383,18 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     tooltipDataItem: DataItem;
     /**
+     * @return {Sprite} Tooltip color source
+     */
+    /**
+     * A [[Sprite]] or sprite template to use when getting colors for tooltip. If a template is set,
+     * tooltip will look for a clone in tooltipDataItem.sprites. If no clone is found, then template colors will be used.
+     *
+     * @see {@link Tooltip}
+     * @see {@link Sprite}
+     * @param {Sprite}  sprite Sprite
+     */
+    tooltipColorSource: Sprite;
+    /**
      * Shows the element's [[Tooltip]].
      *
      * A tooltip will be populated using text templates in either `tooltipHTML`
@@ -3506,4 +3516,24 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @todo Implement from applying further actions to this item
      */
     raiseCriticalError(e: Error): void;
+    /**
+ * Processes JSON-based config before it is applied to the object.
+ *
+ * @ignore Exclude from docs
+ * @param {object}  config  Config
+ */
+    processConfig(config?: {
+        [index: string]: any;
+    }): void;
+    /**
+     * This function is used to sort element's JSON config properties, so that
+     * some properties that absolutely need to be processed last, can be put at
+     * the end.
+     *
+     * @ignore Exclude from docs
+     * @param  {string}  a  Element 1
+     * @param  {string}  b  Element 2
+     * @return {Ordering}   Sorting number
+     */
+    protected configOrder(a: string, b: string): Ordering;
 }

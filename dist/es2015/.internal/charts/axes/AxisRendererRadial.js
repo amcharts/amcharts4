@@ -22,7 +22,7 @@ import { CategoryAxis } from "./CategoryAxis";
 import { WavedCircle } from "../../core/elements/WavedCircle";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
 import { percent } from "../../core/utils/Percent";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
@@ -559,5 +559,5 @@ export { AxisRendererRadial };
  *
  * @ignore
  */
-system.registeredClasses["AxisRendererRadial"] = AxisRendererRadial;
+registry.registeredClasses["AxisRendererRadial"] = AxisRendererRadial;
 //# sourceMappingURL=AxisRendererRadial.js.map

@@ -24,7 +24,7 @@ import { Dictionary } from "../../core/utils/Dictionary";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
 import { CategoryAxis } from "../axes/CategoryAxis";
 import { DateAxis } from "../axes/DateAxis";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
@@ -114,9 +114,6 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
          * @param {Date}  date  Date
          */
         set: function (date) {
-            if (!$type.isDate(date)) {
-                date = $type.castDate(date, this.component.dateFormatter);
-            }
             this.setDate("dateX", date);
         },
         enumerable: true,
@@ -135,9 +132,6 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
          * @param {Date}  date  Date
          */
         set: function (date) {
-            if (!$type.isDate(date)) {
-                date = $type.castDate(date, this.component.dateFormatter);
-            }
             this.setDate("dateY", date);
         },
         enumerable: true,
@@ -156,9 +150,6 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
          * @param {string}  category  Category
          */
         set: function (category) {
-            if (!$type.isString(category)) {
-                category = $type.castString(category);
-            }
             this.setCategory("categoryX", category);
         },
         enumerable: true,
@@ -177,9 +168,6 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
          * @param {string}  category  Category
          */
         set: function (category) {
-            if (!$type.isString(category)) {
-                category = $type.castString(category);
-            }
             this.setCategory("categoryY", category);
         },
         enumerable: true,
@@ -234,9 +222,6 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
          * @param {Date}  date  Date
          */
         set: function (date) {
-            if (!$type.isDate(date)) {
-                date = $type.castDate(date, this.component.dateFormatter);
-            }
             this.setDate("openDateX", date);
         },
         enumerable: true,
@@ -255,9 +240,6 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
          * @param {Date}  date  Date
          */
         set: function (date) {
-            if (!$type.isDate(date)) {
-                date = $type.castDate(date, this.component.dateFormatter);
-            }
             this.setDate("openDateY", date);
         },
         enumerable: true,
@@ -276,9 +258,6 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
          * @param {string}  category  Category
          */
         set: function (category) {
-            if (!$type.isString(category)) {
-                category = $type.castString(category);
-            }
             this.setProperty("openCategoryX", category);
         },
         enumerable: true,
@@ -297,9 +276,6 @@ var XYSeriesDataItem = /** @class */ (function (_super) {
          * @param {string}  category  Category
          */
         set: function (category) {
-            if (!$type.isString(category)) {
-                category = $type.castString(category);
-            }
             this.setProperty("openCategoryY", category);
         },
         enumerable: true,
@@ -670,9 +646,18 @@ var XYSeries = /** @class */ (function (_super) {
          * @param {Axis}  axis  Axis
          */
         set: function (axis) {
-            this._xAxis.set(axis, axis.registerSeries(this));
-            this.dataItemsByAxis.setKey(axis.uid, new Dictionary());
-            this.invalidateData();
+            var oldAxis = this._xAxis.get();
+            if (oldAxis != axis) {
+                if (oldAxis) {
+                    this.dataItemsByAxis.removeKey(oldAxis.uid);
+                    this._xAxis.dispose();
+                    // temp @todo: why it is not disposed?
+                    oldAxis.series.removeValue(this);
+                }
+                this._xAxis.set(axis, axis.registerSeries(this));
+                this.dataItemsByAxis.setKey(axis.uid, new Dictionary());
+                this.invalidateData();
+            }
         },
         enumerable: true,
         configurable: true
@@ -697,9 +682,18 @@ var XYSeries = /** @class */ (function (_super) {
          * @param {Axis}  axis  Axis
          */
         set: function (axis) {
-            this._yAxis.set(axis, axis.registerSeries(this));
-            this.dataItemsByAxis.setKey(axis.uid, new Dictionary());
-            this.invalidateData();
+            var oldAxis = this._yAxis.get();
+            if (oldAxis != axis) {
+                if (oldAxis) {
+                    this.dataItemsByAxis.removeKey(oldAxis.uid);
+                    this._yAxis.dispose();
+                    // temp @todo: why it is not disposed?
+                    oldAxis.series.removeValue(this);
+                }
+                this._yAxis.set(axis, axis.registerSeries(this));
+                this.dataItemsByAxis.setKey(axis.uid, new Dictionary());
+                this.invalidateData();
+            }
         },
         enumerable: true,
         configurable: true
@@ -970,11 +964,11 @@ var XYSeries = /** @class */ (function (_super) {
             if (_this.sequencedInterpolation) {
                 delay = _this.sequencedInterpolationDelay * i + duration * (i - startIndex) / (endIndex - startIndex);
             }
-            var realDuration = duration;
+            /*let realDuration: number = duration;
             // to avoid animation of non visible items
             if (i < startIndex || i > endIndex) {
                 realDuration = 0;
-            }
+            }*/
             animation = dataItem.show(duration, delay, fields);
         });
         return animation;
@@ -1073,7 +1067,6 @@ var XYSeries = /** @class */ (function (_super) {
             if (this.yAxis != this.baseAxis && this.yAxis instanceof ValueAxis) {
                 field_1 = this.yField;
             }
-            var stackValue = 0;
             $iter.eachContinue(chart.series.range(0, index).backwards().iterator(), function (prevSeries) {
                 // stacking is only possible if both axes are the same
                 if (prevSeries.xAxis == _this.xAxis && prevSeries.yAxis == _this.yAxis) {
@@ -1319,6 +1312,6 @@ export { XYSeries };
  *
  * @ignore
  */
-system.registeredClasses["XYSeries"] = XYSeries;
-system.registeredClasses["XYSeriesDataItem"] = XYSeriesDataItem;
+registry.registeredClasses["XYSeries"] = XYSeries;
+registry.registeredClasses["XYSeriesDataItem"] = XYSeriesDataItem;
 //# sourceMappingURL=XYSeries.js.map

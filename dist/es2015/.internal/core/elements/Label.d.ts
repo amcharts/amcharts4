@@ -16,24 +16,6 @@ import { AMElement } from "../rendering/AMElement";
 import { Group } from "../rendering/Group";
 import { MultiDisposer } from "../utils/Disposer";
 /**
- * ============================================================================
- * REQUISITES
- * ============================================================================
- * @hidden
- */
-/**
- * Defines available font weights.
- *
- * @type {string}
- */
-export declare type FontWeight = "normal" | "bold" | "bolder" | "lighter" | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900";
-/**
- * Defines available text decorations.
- *
- * @type {string}
- */
-export declare type TextDecoration = "none" | "underline" | "overline" | "line-through" | "blink";
-/**
  * Defines properties for [[Text]].
  */
 export interface ILabelProperties extends IContainerProperties {
@@ -78,12 +60,6 @@ export interface ILabelProperties extends IContainerProperties {
      */
     html?: string;
     /**
-     * Font size for the text.
-     *
-     * @type {number}
-     */
-    fontSize?: number;
-    /**
      * Should the lines be truncated (optionally with ellipsis) if they do not
      * fit into max width?
      *
@@ -105,20 +81,6 @@ export interface ILabelProperties extends IContainerProperties {
      * @type {boolean}
      */
     hideOversized?: boolean;
-    /**
-     * Default font weight.
-     *
-     * @default "normal"
-     * @type {FontWeight}
-     */
-    fontWeigth?: FontWeight;
-    /**
-     * Default font decoration.
-     *
-     * @default "none"
-     * @type {TextDecoration}
-     */
-    textDecoration?: TextDecoration;
 }
 /**
  * Text line information.
@@ -187,9 +149,10 @@ export interface ILabelAdapters extends IContainerAdapters, ILabelProperties {
  * label.text = "The title is: {title}";
  * ```
  *
- * The above will atuomatically replace "{title}" in the string with the
+ * The above will automatically replace "{title}" in the string with the
  * actual data value from `myDataItem`.
  *
+ * Note, that most often dataItem is set by the Component.
  *
  *
  * @see {@link ILabelEvents} for a list of available events
@@ -414,46 +377,6 @@ export declare class Label extends Container {
      * @deprecated
      */
     textValign: TextValign;
-    /**
-     * Returns current font size for text element.
-     *
-     * @return {any} Font size
-     */
-    /**
-     * Sets font size to be used for the text. The size can either be numeric, in
-     * pxels, or other measurements.
-     *
-     * Parts of the text may override this setting using in-line formatting.
-     *
-     * @param {any} value Font size value
-     */
-    fontSize: any;
-    /**
-     * Returns currently set font weight.
-     *
-     * @return {FontWeight} Font weight
-     */
-    /**
-     * Sets font weight to use for text.
-     *
-     * Parts of the text may override this setting using in-line formatting.
-     *
-     * @param {FontWeight} value Font weight
-     */
-    fontWeigth: FontWeight;
-    /**
-     * Returns current text decoration setting.
-     *
-     * @return {TextDecoration} Decoration
-     */
-    /**
-     * Sets a text decoration to use for text.
-     *
-     * Parts of the text may override this setting using in-line formatting.
-     *
-     * @param {TextDecoration} value Decoration
-     */
-    textDecoration: TextDecoration;
     /**
      * Returns current HTML content of the label.
      *

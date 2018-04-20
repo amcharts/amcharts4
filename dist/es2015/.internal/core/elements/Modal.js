@@ -17,6 +17,7 @@ var __extends = (this && this.__extends) || (function () {
  * ============================================================================
  * @hidden
  */
+import modalCSS from "./ModalCSS";
 import { Adapter } from "../utils/Adapter";
 import { BaseObject } from "../Base";
 import { interaction } from "../interaction/Interaction";
@@ -103,7 +104,6 @@ var Modal = /** @class */ (function (_super) {
          * @return {HTMLElement} Modal holder element
          */
         get: function () {
-            var _this = this;
             if (!this._element) {
                 // Get class names for modal elements
                 var classNames = this.adapter.apply("classNames", {
@@ -160,10 +160,7 @@ var Modal = /** @class */ (function (_super) {
                 this._applyEvents();
                 // Load CSS
                 if (this.defaultStyles) {
-                    this.loadDefaultCSS().then(function (css) {
-                        _this._disposers.push(css.default(_this.classPrefix));
-                        _this._element.style.display = "initial";
-                    });
+                    this.loadDefaultCSS();
                 }
             }
             return this._element;
@@ -285,10 +282,10 @@ var Modal = /** @class */ (function (_super) {
      * Loads modal CSS.
      *
      * @ignore Exclude from docs
-     * @return {Promise<any>} Promise
      */
     Modal.prototype.loadDefaultCSS = function () {
-        return import(/* webpackChunkName: "exportcss" */ "./ModalCSS");
+        this._disposers.push(modalCSS(this.classPrefix));
+        this._element.style.display = "initial";
     };
     /**
      * If modal is closable, this method adds various events to modal elements.

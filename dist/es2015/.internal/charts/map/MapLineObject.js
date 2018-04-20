@@ -18,7 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Container } from "../../core/Container";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -42,7 +42,6 @@ var MapLineObject = /** @class */ (function (_super) {
         _this.className = "MapLineObject";
         _this.isMeasured = false;
         _this.layout = "none";
-        _this.cloneChildren = true;
         _this.applyTheme();
         return _this;
     }
@@ -114,5 +113,5 @@ export { MapLineObject };
  *
  * @ignore
  */
-system.registeredClasses["MapLineObject"] = MapLineObject;
+registry.registeredClasses["MapLineObject"] = MapLineObject;
 //# sourceMappingURL=MapLineObject.js.map

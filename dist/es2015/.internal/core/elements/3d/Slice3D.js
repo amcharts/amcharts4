@@ -46,36 +46,43 @@ var Slice3D = /** @class */ (function (_super) {
         // Init
         _super.call(this) || this;
         _this.className = "Slice3D";
+        _this.layout = "none";
         // Create edge container
-        _this.edge = _this.createChild(Container);
-        _this.edge.isMeasured = false;
+        var edge = _this.createChild(Container);
+        _this.edge = edge;
+        edge.shouldClone = false;
+        edge.isMeasured = false;
         var lightenFilter = new LightenFilter();
         lightenFilter.lightness = -0.25;
-        _this.edge.filters.push(lightenFilter);
-        _this.edge.toBack();
-        _this.edge.strokeOpacity = 0;
-        _this._disposers.push(_this.edge);
+        edge.filters.push(lightenFilter);
+        edge.toBack();
+        edge.strokeOpacity = 0;
+        _this._disposers.push(edge);
         // Set defaults
         _this.angle = 30;
         _this.depth = 20;
         // Create side A element
-        _this.sideA = _this.createChild(Sprite);
-        _this.sideA.isMeasured = false;
-        _this.sideA.element = _this.paper.add("path");
+        var sideA = _this.createChild(Sprite);
+        _this.sideA = sideA;
+        sideA.shouldClone = false;
+        sideA.isMeasured = false;
+        sideA.element = _this.paper.add("path");
         var lightenFilterA = new LightenFilter();
         lightenFilterA.lightness = -0.25;
-        _this.sideA.filters.push(lightenFilterA);
-        _this.sideA.strokeOpacity = 0;
-        _this._disposers.push(_this.sideA);
+        sideA.filters.push(lightenFilterA);
+        sideA.strokeOpacity = 0;
+        _this._disposers.push(sideA);
         // Crate side B element
-        _this.sideB = _this.createChild(Sprite);
-        _this.sideB.isMeasured = false;
-        _this.sideB.element = _this.paper.add("path");
+        var sideB = _this.createChild(Sprite);
+        _this.sideB = sideB;
+        sideB.shouldClone = false;
+        sideB.isMeasured = false;
+        sideB.element = _this.paper.add("path");
         var lightenFilterB = new LightenFilter();
         lightenFilterB.lightness = -0.25;
-        _this.sideB.filters.push(lightenFilterB);
-        _this._disposers.push(_this.sideB);
-        _this.sideB.strokeOpacity = 0;
+        sideB.filters.push(lightenFilterB);
+        _this._disposers.push(sideB);
+        sideB.strokeOpacity = 0;
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -130,8 +137,8 @@ var Slice3D = /** @class */ (function (_super) {
             cornerRadiusY = $math.fitToRange(cornerRadiusY, 0, radiusY * crSin);
             innerCornerRadius = $math.fitToRange(innerCornerRadius, 0, innerRadius * crSin);
             innerCornerRadiusY = $math.fitToRange(innerCornerRadiusY, 0, innerRadiusY * crSin);
-            var crAngle = Math.asin(cornerRadius / radius / 2) * $math.DEGREES * 2;
-            var crAngleY = Math.asin(cornerRadiusY / radiusY / 2) * $math.DEGREES * 2;
+            //let crAngle: number = Math.asin(cornerRadius / radius / 2) * $math.DEGREES * 2;
+            //let crAngleY: number = Math.asin(cornerRadiusY / radiusY / 2) * $math.DEGREES * 2;
             if (innerRadius < innerCornerRadius) {
                 innerRadius = innerCornerRadius;
             }
@@ -146,8 +153,8 @@ var Slice3D = /** @class */ (function (_super) {
             if (!$type.isNumber(crInnerAngleY)) {
                 crInnerAngleY = 0;
             }
-            var middleAngle = startAngle + arc / 2;
-            var mPoint = { x: $math.round($math.cos(middleAngle) * innerRadius, 4), y: $math.round($math.sin(middleAngle) * innerRadiusY, 4) };
+            //let middleAngle = startAngle + arc / 2;
+            //let mPoint = { x: $math.round($math.cos(middleAngle) * innerRadius, 4), y: $math.round($math.sin(middleAngle) * innerRadiusY, 4) };
             var a0 = { x: $math.round($math.cos(startAngle) * (innerRadius + innerCornerRadius), 4), y: $math.round($math.sin(startAngle) * (innerRadiusY + innerCornerRadiusY), 4) };
             var b0 = { x: $math.round($math.cos(startAngle) * (radius - cornerRadius), 4), y: $math.round($math.sin(startAngle) * (radiusY - cornerRadiusY), 4) };
             var c0 = { x: $math.round($math.cos(endAngle) * (radius - cornerRadius), 4), y: $math.round($math.sin(endAngle) * (radiusY - cornerRadiusY), 4) };

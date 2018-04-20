@@ -32,7 +32,7 @@ import { MapLineObject } from "./MapLineObject";
 import { Triangle } from "../../core/elements/Triangle";
 import { ListTemplate } from "../../core/utils/List";
 import { Polyline } from "../../core/elements/Polyline";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { color } from "../../core/utils/Color";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import { percent } from "../../core/utils/Percent";
@@ -150,7 +150,7 @@ var MapLine = /** @class */ (function (_super) {
      */
     MapLine.prototype.validate = function () {
         var chart = this.series.chart;
-        var multiPoints = [];
+        //let multiPoints: IPoint[][] = [];
         var multiGeoLine = this.multiGeoLine;
         if (this.imagesToConnect) {
             var segment = [];
@@ -178,8 +178,8 @@ var MapLine = /** @class */ (function (_super) {
                     var geoPointA = geoLine[p - 1];
                     var geoPointB = geoLine[p];
                     var stepCount = Math.max(Math.abs(geoPointA.latitude - geoPointB.latitude), Math.abs(geoPointA.longitude - geoPointB.longitude));
-                    var latitudeStep = (geoPointB.latitude - geoPointA.latitude) / stepCount;
-                    var longitudeStep = (geoPointB.longitude - geoPointA.longitude) / stepCount;
+                    //let latitudeStep: number = (geoPointB.latitude - geoPointA.latitude) / stepCount;
+                    //let longitudeStep: number = (geoPointB.longitude - geoPointA.longitude) / stepCount;
                     for (var d = 0; d < stepCount; d++) {
                         var intermediatePoint = chart.projection.intermediatePoint(geoPointA, geoPointB, d / stepCount);
                         if (newGeoLine.length > 0) {
@@ -221,10 +221,11 @@ var MapLine = /** @class */ (function (_super) {
             return this.getPropertyValue("shortestDistance");
         },
         /**
-         * The line should take the shortest path over the globe
+         * The line should take the shortest path over the globe.
          *
          * Enabling this will make the line look differently in different
-         * projections. Only MapLine supports this setting, MapArc and MapSplice doesn't
+         * projections. Only `MapLine` supports this setting, `MapArc` and
+         * `MapSplice` don't.
          *
          * @default false
          * @param {boolean}  value  Real path?
@@ -270,11 +271,13 @@ var MapLine = /** @class */ (function (_super) {
         get: function () {
             if (!this._arrow) {
                 var arrow = this.createChild(MapLineObject);
+                arrow.shouldClone = false;
                 arrow.width = 8;
                 arrow.height = 10;
                 arrow.mapLine = this;
                 arrow.position = 0.5;
                 var triangle = arrow.createChild(Triangle);
+                triangle.shouldClone = false;
                 triangle.fillOpacity = 1;
                 triangle.width = percent(100);
                 triangle.height = percent(100);
@@ -351,5 +354,5 @@ export { MapLine };
  *
  * @ignore
  */
-system.registeredClasses["MapLine"] = MapLine;
+registry.registeredClasses["MapLine"] = MapLine;
 //# sourceMappingURL=MapLine.js.map

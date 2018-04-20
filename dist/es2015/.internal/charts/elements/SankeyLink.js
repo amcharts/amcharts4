@@ -20,7 +20,7 @@ var __extends = (this && this.__extends) || (function () {
 import { Sprite } from "../../core/Sprite";
 import { Container } from "../../core/Container";
 import { LinearGradient } from "../../core/rendering/fills/LinearGradient";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { Bullet } from "../elements/Bullet";
 import { Color } from "../../core/utils/Color";
 import { ListTemplate } from "../../core/utils/List";
@@ -79,14 +79,18 @@ var SankeyLink = /** @class */ (function (_super) {
         _this.horizontalCenter = "none";
         _this.tooltipText = "{fromName}→{toName}:{value.value}";
         _this.link = _this.createChild(Sprite);
+        _this.link.shouldClone = false;
         _this.link.element = _this.paper.add("path");
         _this.fillOpacity = 0.2;
         _this.fill = interfaceColors.getFor("alternativeBackground");
         _this.bulletsContainer = _this.createChild(Container);
+        _this.bulletsContainer.shouldClone = false;
         _this.bulletsContainer.layout = "none";
         _this.bulletsMask = _this.createChild(Sprite);
+        _this.bulletsMask.shouldClone = false;
         _this.bulletsMask.element = _this.paper.add("path");
         _this.middleSpline = _this.createChild(Polyspline);
+        _this.middleSpline.shouldClone = false;
         _this.middleSpline.strokeOpacity = 0;
         _this.applyTheme();
         return _this;
@@ -518,5 +522,5 @@ export { SankeyLink };
  *
  * @ignore
  */
-system.registeredClasses["SankeyLink"] = SankeyLink;
+registry.registeredClasses["SankeyLink"] = SankeyLink;
 //# sourceMappingURL=SankeyLink.js.map

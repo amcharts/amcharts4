@@ -76,9 +76,6 @@ var JSONParser = /** @class */ (function (_super) {
             if ($type.hasValue(JSON)) {
                 res = JSON.parse(data);
             }
-            else {
-                res = eval(data);
-            }
         }
         catch (e) {
             return undefined;

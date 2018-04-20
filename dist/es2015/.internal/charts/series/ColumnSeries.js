@@ -24,14 +24,15 @@ import { ListTemplate } from "../../core/utils/List";
 import { Dictionary } from "../../core/utils/Dictionary";
 import { ValueAxis } from "../axes/ValueAxis";
 import { CategoryAxis } from "../axes/CategoryAxis";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
+import { Column } from "../elements/Column";
 import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
+import { percent } from "../../core/utils/Percent";
 import * as $math from "../../core/utils/Math";
 import * as $object from "../../core/utils/Object";
 import * as $iter from "../../core/utils/Iterator";
 import * as $array from "../../core/utils/Array";
 import * as $type from "../../core/utils/Type";
-import { percent } from "../../core/utils/Percent";
 /**
  * ============================================================================
  * DATA ITEM
@@ -60,40 +61,40 @@ var ColumnSeriesDataItem = /** @class */ (function (_super) {
     }
     Object.defineProperty(ColumnSeriesDataItem.prototype, "column", {
         /**
-         * @return {Sprite} Column sprite
+         * @return {Column} Column
          */
         get: function () {
             return this._column;
         },
         /**
-         * A column sprite used to draw a column for this data item.
+         * A column used to draw a column for this data item.
          *
-         * For performance sake, column sprites are reused, hence the necessity
-         * of this property.
-         *
-         * @param {Sprite}  column  Column sprite
+         * @param {Column}  column
          */
         set: function (column) {
-            if (this._column) {
-                $array.remove(this.sprites, this._column);
-            }
-            this._column = column;
-            if (column) {
-                var prevDataItem = column.dataItem;
-                if (prevDataItem && prevDataItem != this) {
-                    prevDataItem.column = undefined;
-                }
-                this.addSprite(column);
-            }
+            this.setColumn(column);
         },
         enumerable: true,
         configurable: true
     });
+    ColumnSeriesDataItem.prototype.setColumn = function (column) {
+        if (this._column && column != this._column) {
+            $array.remove(this.sprites, this._column);
+        }
+        this._column = column;
+        if (column) {
+            var prevDataItem = column.dataItem;
+            if (prevDataItem && prevDataItem != this) {
+                prevDataItem.column = undefined;
+            }
+            this.addSprite(column);
+        }
+    };
     Object.defineProperty(ColumnSeriesDataItem.prototype, "rangesColumns", {
         /**
          * A dictionary storing axes ranges columns by axis uid
          *
-         * @type {Dictionary<string, Sprite>}
+         * @type {Dictionary<string, this["_column"]>}
          */
         get: function () {
             if (!this._rangesColumns) {
@@ -154,11 +155,14 @@ var ColumnSeries = /** @class */ (function (_super) {
         _this.strokeOpacity = 0;
         _this.fillOpacity = 1;
         _this.clustered = true;
-        _this._columnsContainer = _this.mainContainer.createChild(Container);
-        _this._columnsContainer.isMeasured = false;
-        _this._columnsContainer.layout = "none";
+        var columnsContainer = _this.mainContainer.createChild(Container);
+        columnsContainer.shouldClone = false;
+        columnsContainer.isMeasured = false;
+        columnsContainer.layout = "none";
+        _this._columnsContainer = columnsContainer;
         _this.columns;
         _this.columns.template.pixelPerfect = false;
+        _this.tooltipColorSource = _this.columns.template;
         _this.applyTheme();
         return _this;
     }
@@ -225,7 +229,6 @@ var ColumnSeries = /** @class */ (function (_super) {
         $iter.each(this.columns.iterator(), function (column) {
             column.__disabled = true;
         });
-        this._columnsIterator.reset();
         _super.prototype.validate.call(this);
     };
     /**
@@ -335,6 +338,10 @@ var ColumnSeries = /** @class */ (function (_super) {
                 b += offset;
                 t -= offset;
             }
+            r = this.fixHorizontalCoordinate(r);
+            l = this.fixHorizontalCoordinate(l);
+            t = this.fixVerticalCoordinate(t);
+            b = this.fixVerticalCoordinate(b);
         }
         else if (this.baseAxis == this.xAxis) {
             // in case width is set in percent
@@ -362,7 +369,10 @@ var ColumnSeries = /** @class */ (function (_super) {
             t = this.yAxis.getY(dataItem, yField, topLocation);
             // used to save location for bullets, but it's not a good approach
             // dataItem.locations[xField] = startLocation + (endLocation - startLocation) / 2;
+            t = this.fixVerticalCoordinate(t);
+            b = this.fixVerticalCoordinate(b);
         }
+        // horizontal bars
         else {
             if (!$type.isNaN(percentHeight)) {
                 var offset = $math.round((1 - percentHeight / 100) / 2, 5);
@@ -388,19 +398,13 @@ var ColumnSeries = /** @class */ (function (_super) {
             l = this.xAxis.getX(dataItem, xOpenField, leftLocation);
             // used to save location for bullets, but it's not a good approach
             // dataItem.locations[yField] = startLocation + (endLocation - startLocation) / 2;
+            r = this.fixHorizontalCoordinate(r);
+            l = this.fixHorizontalCoordinate(l);
         }
         var paddingLeft = template.pixelPaddingLeft;
         var paddingRight = template.pixelPaddingRight;
         var paddingTop = template.pixelPaddingTop;
         var paddingBottom = template.pixelPaddingBottom;
-        var minY = -paddingTop;
-        var maxY = this.yAxis.axisLength + paddingBottom;
-        var minX = -paddingLeft;
-        var maxX = this.xAxis.axisLength + paddingRight;
-        b = $math.fitToRange(b, minY, maxY);
-        t = $math.fitToRange(t, minY, maxY);
-        l = $math.fitToRange(l, minX, maxX);
-        r = $math.fitToRange(r, minX, maxX);
         var w = Math.abs(r - l);
         var h = Math.abs(b - t);
         var x = Math.min(l, r);
@@ -408,14 +412,11 @@ var ColumnSeries = /** @class */ (function (_super) {
         if (w - paddingLeft - paddingRight > 0 && h - paddingTop - paddingBottom > 0) {
             var column = void 0;
             if (!dataItem.column) {
-                column = this._columnsIterator.getFirst();
-                if (column.dataItem != dataItem) {
-                    $object.forceCopyProperties(this.columns.template, column, visualProperties);
-                    $object.copyProperties(this, column, visualProperties); // need this because 3d columns are not in the same container
-                    $object.copyProperties(this.columns.template, column, visualProperties); // second time, no force, so that columns.template would override series properties
-                    column.dataItem = dataItem;
-                    this.setColumnStates(column);
-                }
+                column = this.columns.create();
+                $object.forceCopyProperties(this.columns.template, column, visualProperties);
+                $object.copyProperties(this, column, visualProperties); // need this because 3d columns are not in the same container
+                $object.copyProperties(this.columns.template, column, visualProperties); // second time, no force, so that columns.template would override series properties
+                dataItem.addSprite(column);
                 dataItem.column = column;
             }
             else {
@@ -426,6 +427,7 @@ var ColumnSeries = /** @class */ (function (_super) {
             column.x = x;
             column.y = y;
             column.parent = this.columnsContainer;
+            this.setColumnStates(column);
             if (column.invalid) {
                 column.validate(); // validate as if it was used previously, it will flicker with previous dimensions
             }
@@ -433,16 +435,10 @@ var ColumnSeries = /** @class */ (function (_super) {
             $iter.each(this.axisRanges.iterator(), function (axisRange) {
                 var rangeColumn = dataItem.rangesColumns.getKey(axisRange.uid);
                 if (!rangeColumn) {
-                    rangeColumn = _this._columnsIterator.getFirst();
-                    if (rangeColumn.dataItem != dataItem) {
-                        $object.forceCopyProperties(_this.columns.template, rangeColumn, visualProperties);
-                        $object.copyProperties(axisRange.contents, rangeColumn, visualProperties); // need this because 3d columns are not in the same container
-                        if (rangeColumn.dataItem) {
-                            $array.remove(rangeColumn.dataItem.sprites, rangeColumn);
-                        }
-                        dataItem.addSprite(rangeColumn);
-                        _this.setColumnStates(rangeColumn);
-                    }
+                    rangeColumn = _this.columns.create();
+                    $object.forceCopyProperties(_this.columns.template, rangeColumn, visualProperties);
+                    $object.copyProperties(axisRange.contents, rangeColumn, visualProperties); // need this because 3d columns are not in the same container
+                    dataItem.addSprite(rangeColumn);
                     dataItem.rangesColumns.setKey(axisRange.uid, rangeColumn);
                 }
                 rangeColumn.parent = axisRange.contents;
@@ -450,6 +446,7 @@ var ColumnSeries = /** @class */ (function (_super) {
                 rangeColumn.height = h;
                 rangeColumn.x = x;
                 rangeColumn.y = y;
+                _this.setColumnStates(rangeColumn);
                 if (rangeColumn.invalid) {
                     rangeColumn.validate(); // validate as if it was used previously, it will flicker with previous dimensions
                 }
@@ -457,18 +454,21 @@ var ColumnSeries = /** @class */ (function (_super) {
             });
         }
         else {
-            if (dataItem.column) {
-                dataItem.column.__disabled = true;
-            }
-            $iter.each(this.axisRanges.iterator(), function (axisRange) {
-                var rangeColumn = dataItem.rangesColumns.getKey(axisRange.uid);
-                if (rangeColumn) {
-                    rangeColumn.__disabled = true;
-                }
-            });
+            this.disableUnusedColumns(dataItem);
         }
         dataItem.itemWidth = w;
         dataItem.itemHeight = h;
+    };
+    ColumnSeries.prototype.disableUnusedColumns = function (dataItem) {
+        if (dataItem.column) {
+            dataItem.column.__disabled = true;
+        }
+        $iter.each(this.axisRanges.iterator(), function (axisRange) {
+            var rangeColumn = dataItem.rangesColumns.getKey(axisRange.uid);
+            if (rangeColumn) {
+                rangeColumn.__disabled = true;
+            }
+        });
     };
     /**
      * Apply different state/coloring to columns based on the change value.
@@ -546,16 +546,11 @@ var ColumnSeries = /** @class */ (function (_super) {
          * A list of column elements.
          *
          * @ignore Exclude from docs
-         * @return {ListTemplate<Sprite>} Columns
+         * @return {ListTemplate<this["_column"]>} Columns
          */
         get: function () {
-            var _this = this;
             if (!this._columns) {
-                var columnTemplate = this.getColumnTemplate();
-                columnTemplate.isMeasured = false;
-                this._columns = new ListTemplate(columnTemplate);
-                this._columnsIterator = new $iter.ListIterator(this._columns, function () { return _this._columns.create(); });
-                this._columnsIterator.createNewItems = true;
+                this._columns = new ListTemplate(this.createColumnTemplate());
             }
             return this._columns;
         },
@@ -565,14 +560,10 @@ var ColumnSeries = /** @class */ (function (_super) {
     /**
      * Creates and returns a column element to use as a template.
      *
-     * @return {Sprite} Column template
+     * @return {this["_column"]} Column template
      */
-    ColumnSeries.prototype.getColumnTemplate = function () {
-        var columnTemplate = new RoundedRectangle();
-        columnTemplate.cornerRadius(0, 0, 0, 0);
-        columnTemplate.width = percent(80);
-        columnTemplate.height = percent(80);
-        return columnTemplate;
+    ColumnSeries.prototype.createColumnTemplate = function () {
+        return new Column();
     };
     Object.defineProperty(ColumnSeries.prototype, "clustered", {
         /**
@@ -703,12 +694,12 @@ var ColumnSeries = /** @class */ (function (_super) {
             }
             $iter.each(marker.children.iterator(), function (child) {
                 if (dataItem) {
-                    child.setState(fromPreviousState_1, 0); // can not animate to two states at once, so animating to one only
+                    child.setState(fromPreviousState_1);
                     child.setState(fromOpenState_1);
                 }
                 else {
                     // todo: think what to do here, maybe apply above states based on totals?
-                    child.setState(_this._riseFromPreviousState, 0);
+                    child.setState(_this._riseFromPreviousState);
                     child.setState(_this._riseFromOpenState);
                 }
             });
@@ -726,6 +717,7 @@ var ColumnSeries = /** @class */ (function (_super) {
         var h = marker.pixelHeight;
         marker.removeChildren();
         var column = marker.createChild(RoundedRectangle);
+        column.shouldClone = false;
         $object.copyProperties(this, column, visualProperties);
         column.copyFrom(this.columns.template);
         column.padding(0, 0, 0, 0); // if columns will have padding (which is often), legend marker will be very narrow
@@ -765,6 +757,26 @@ var ColumnSeries = /** @class */ (function (_super) {
             return _super.prototype.getBulletLocationY.call(this, bullet, field);
         }
     };
+    /**
+     * @ignore Exclude from docs
+     */
+    ColumnSeries.prototype.fixVerticalCoordinate = function (coordinate) {
+        var paddingBottom = this.columns.template.pixelPaddingBottom;
+        var paddingTop = this.columns.template.pixelPaddingTop;
+        var minY = -paddingTop;
+        var maxY = this.yAxis.axisLength + paddingBottom;
+        return $math.fitToRange(coordinate, minY, maxY);
+    };
+    /**
+     * @ignore Exclude from docs
+     */
+    ColumnSeries.prototype.fixHorizontalCoordinate = function (coordinate) {
+        var paddingLeft = this.columns.template.pixelPaddingLeft;
+        var paddingRight = this.columns.template.pixelPaddingRight;
+        var minX = -paddingLeft;
+        var maxX = this.xAxis.axisLength + paddingRight;
+        return $math.fitToRange(coordinate, minX, maxX);
+    };
     return ColumnSeries;
 }(XYSeries));
 export { ColumnSeries };
@@ -774,6 +786,6 @@ export { ColumnSeries };
  *
  * @ignore
  */
-system.registeredClasses["ColumnSeries"] = ColumnSeries;
-system.registeredClasses["ColumnSeriesDataItem"] = ColumnSeriesDataItem;
+registry.registeredClasses["ColumnSeries"] = ColumnSeries;
+registry.registeredClasses["ColumnSeriesDataItem"] = ColumnSeriesDataItem;
 //# sourceMappingURL=ColumnSeries.js.map

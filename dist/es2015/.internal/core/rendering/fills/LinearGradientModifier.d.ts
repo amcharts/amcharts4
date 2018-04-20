@@ -132,4 +132,5 @@ export declare class LinearGradientModifier extends ColorModifier {
      * @return {Color}         A gradient that matches set modification rules
      */
     modify(value: Color): Color | LinearGradient | RadialGradient;
+    copyFrom(source: this): void;
 }

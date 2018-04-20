@@ -1,12 +1,3 @@
-/**
- * ExportMenu provides functionality for building Export menu
- */
-/**
- * ============================================================================
- * IMPORTS
- * ============================================================================
- * @hidden
- */
 import { IExportOptions } from "./Export";
 import { Adapter } from "../utils/Adapter";
 import { List } from "../utils/List";
@@ -543,9 +534,8 @@ export declare class ExportMenu extends Validatable {
      * Loads the default CSS.
      *
      * @ignore Exclude from docs
-     * @return {Promise<any>} Promise
      */
-    loadDefaultCSS(): Promise<any>;
+    loadDefaultCSS(): void;
     /**
      * Returns current tab index setting.
      *

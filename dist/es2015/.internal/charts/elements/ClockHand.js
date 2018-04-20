@@ -22,7 +22,7 @@ import { Circle } from "../../core/elements/Circle";
 import { Trapezoid } from "../../core/elements/Trapezoid";
 import { MutableValueDisposer, MultiDisposer } from "../../core/utils/Disposer";
 import { percent } from "../../core/utils/Percent";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
@@ -375,5 +375,5 @@ export { ClockHand };
  *
  * @ignore
  */
-system.registeredClasses["ClockHand"] = ClockHand;
+registry.registeredClasses["ClockHand"] = ClockHand;
 //# sourceMappingURL=ClockHand.js.map

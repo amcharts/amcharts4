@@ -20,7 +20,7 @@ var __extends = (this && this.__extends) || (function () {
 import { MapSeries, MapSeriesDataItem } from "./MapSeries";
 import { MapImage } from "./MapImage";
 import { ListTemplate } from "../../core/utils/List";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import * as $array from "../../core/utils/Array";
 import * as $mapUtils from "./MapUtils";
 import * as $utils from "../../core/utils/Utils";
@@ -159,8 +159,8 @@ var MapImageSeries = /** @class */ (function (_super) {
             this.mapImages.clear();
         }
         // process geoJSON and created map objects
-        if (this.getDataFromJSON) {
-            var geoJSON = this.chart.geoJSON;
+        if (this.useGeodata) {
+            var geoJSON = this.chart.geodata;
             if (geoJSON) {
                 var features = void 0;
                 if (geoJSON.type == "FeatureCollection") {
@@ -182,7 +182,7 @@ var MapImageSeries = /** @class */ (function (_super) {
                         if (geometry) {
                             var type = geometry.type;
                             var id_1 = feature.id;
-                            if (type == "Point" || type == "MultiPoint") {
+                            if (type == "Point" || type == "MultiPoint") { // todo: we don't support multipoints at the moment actually
                                 if (!this_1.checkInclude(this_1.include, this_1.exclude, id_1)) {
                                     return "continue";
                                 }
@@ -263,6 +263,15 @@ var MapImageSeries = /** @class */ (function (_super) {
             mapImage.validatePosition();
         });
     };
+    /**
+     * Copies all properties from another instance of [[Series]].
+     *
+     * @param {Series}  source  Source series
+     */
+    MapImageSeries.prototype.copyFrom = function (source) {
+        this.mapImages.template.copyFrom(source.mapImages.template);
+        _super.prototype.copyFrom.call(this, source);
+    };
     return MapImageSeries;
 }(MapSeries));
 export { MapImageSeries };
@@ -272,6 +281,6 @@ export { MapImageSeries };
  *
  * @ignore
  */
-system.registeredClasses["MapImageSeries"] = MapImageSeries;
-system.registeredClasses["MapImageSeriesDataItem"] = MapImageSeriesDataItem;
+registry.registeredClasses["MapImageSeries"] = MapImageSeries;
+registry.registeredClasses["MapImageSeriesDataItem"] = MapImageSeriesDataItem;
 //# sourceMappingURL=MapImageSeries.js.map

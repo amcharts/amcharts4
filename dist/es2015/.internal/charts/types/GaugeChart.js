@@ -19,8 +19,8 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { RadarChart, RadarChartDataItem } from "./RadarChart";
 import { ListTemplate } from "../../core/utils/List";
-import { system } from "../../core/System";
 import { ClockHand } from "../elements/ClockHand";
+import { registry } from "../../core/Registry";
 /**
  * ============================================================================
  * DATA ITEM
@@ -108,5 +108,5 @@ export { GaugeChart };
  *
  * @ignore
  */
-system.registeredClasses["GaugeChart"] = GaugeChart;
+registry.registeredClasses["GaugeChart"] = GaugeChart;
 //# sourceMappingURL=GaugeChart.js.map

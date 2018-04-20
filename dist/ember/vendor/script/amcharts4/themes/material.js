@@ -17,5 +17,94 @@
  * PLEASE DO NOT REMOVE THIS COPYRIGHT NOTICE.
  * @hidden
  */
-webpackJsonp([9],{594:function(c,t,e){c.exports=e(595)},595:function(c,t,e){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var n=e(596),o=window.amcharts4;o.themes=o.themes||{},o.themes.material=n.a},596:function(c,t,e){"use strict";var n=e(597);e.d(t,"a",function(){return n.a})},597:function(c,t,e){"use strict";var n=e(18),o=e(81),a=e(108),i=e(181);t.a=function(c){c instanceof o.a&&(c.list=[Object(n.c)("#F44336"),Object(n.c)("#E91E63"),Object(n.c)("#9C27B0"),Object(n.c)("#673AB7"),Object(n.c)("#3F51B5"),Object(n.c)("#2196F3"),Object(n.c)("#03A9F4"),Object(n.c)("#00BCD4"),Object(n.c)("#009688"),Object(n.c)("#4CAF50"),Object(n.c)("#8BC34A"),Object(n.c)("#CDDC39"),Object(n.c)("#FFEB3B"),Object(n.c)("#FFC107"),Object(n.c)("#FF9800"),Object(n.c)("#FF5722"),Object(n.c)("#795548"),Object(n.c)("#9E9E9E"),Object(n.c)("#607D8B")],c.minLightness=.2,c.maxLightness=.7,c.reuse=!0),c instanceof i.d&&(c.background.cornerRadiusTopLeft=20,c.background.cornerRadiusTopRight=20,c.background.cornerRadiusBottomLeft=20,c.background.cornerRadiusBottomRight=20),c instanceof a.e&&(c.animationDuration=800)}}},[594]);
+ 
+webpackJsonp([6],{
+
+/***/ 557:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(558);
+
+
+/***/ }),
+
+/***/ 558:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__es2015_themes_material__ = __webpack_require__(559);
+
+
+var amcharts4 = window.amcharts4;
+amcharts4.themes = amcharts4.themes || {};
+amcharts4.themes.material = __WEBPACK_IMPORTED_MODULE_0__es2015_themes_material__["a" /* default */];
+
+/***/ }),
+
+/***/ 559:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__internal_themes_material__ = __webpack_require__(560);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__internal_themes_material__["a"]; });
+
 //# sourceMappingURL=material.js.map
+
+/***/ }),
+
+/***/ 560:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_utils_Color__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils_ColorSet__ = __webpack_require__(63);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_elements_Tooltip__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core_elements_ResizeButton__ = __webpack_require__(163);
+
+
+
+
+var theme = function (object) {
+    if (object instanceof __WEBPACK_IMPORTED_MODULE_1__core_utils_ColorSet__["a" /* ColorSet */]) {
+        object.list = [
+            Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#F44336"),
+            Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#E91E63"),
+            Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#9C27B0"),
+            Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#673AB7"),
+            Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#3F51B5"),
+            Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#2196F3"),
+            Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#03A9F4"),
+            Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#00BCD4"),
+            Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#009688"),
+            Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#4CAF50"),
+            Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#8BC34A"),
+            Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#CDDC39"),
+            Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#FFEB3B"),
+            Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#FFC107"),
+            Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#FF9800"),
+            Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#FF5722"),
+            Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#795548"),
+            Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#9E9E9E"),
+            Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#607D8B")
+        ];
+        object.minLightness = 0.2;
+        object.maxLightness = 0.7;
+        object.reuse = true;
+    }
+    if (object instanceof __WEBPACK_IMPORTED_MODULE_3__core_elements_ResizeButton__["a" /* ResizeButton */]) {
+        object.background.cornerRadiusTopLeft = 20;
+        object.background.cornerRadiusTopRight = 20;
+        object.background.cornerRadiusBottomLeft = 20;
+        object.background.cornerRadiusBottomRight = 20;
+    }
+    if (object instanceof __WEBPACK_IMPORTED_MODULE_2__core_elements_Tooltip__["a" /* Tooltip */]) {
+        object.animationDuration = 800;
+    }
+};
+/* harmony default export */ __webpack_exports__["a"] = (theme);
+//# sourceMappingURL=material.js.map
+
+/***/ })
+
+},[557]);

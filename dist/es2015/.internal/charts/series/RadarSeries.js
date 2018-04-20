@@ -18,7 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { LineSeries, LineSeriesDataItem } from "./LineSeries";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
 /**
@@ -209,6 +209,6 @@ export { RadarSeries };
  *
  * @ignore
  */
-system.registeredClasses["RadarSeries"] = RadarSeries;
-system.registeredClasses["RadarSeriesDataItem"] = RadarSeriesDataItem;
+registry.registeredClasses["RadarSeries"] = RadarSeries;
+registry.registeredClasses["RadarSeriesDataItem"] = RadarSeriesDataItem;
 //# sourceMappingURL=RadarSeries.js.map

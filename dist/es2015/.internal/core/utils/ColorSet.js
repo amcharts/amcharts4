@@ -346,7 +346,6 @@ var ColorSet = /** @class */ (function (_super) {
      * @param {number}                pass  Current pass
      */
     ColorSet.prototype.applyStepOptions = function (hsl, base, step, pass) {
-        var passStep = step * (pass + 1);
         // Process lightness
         hsl.l = base.lightness + (this.stepOptions.lightness || 0) * step + (this.passOptions.lightness || 0) * pass;
         if (this.wrap) {

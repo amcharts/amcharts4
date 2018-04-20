@@ -50,7 +50,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Projection } from "./Projection";
-import { system } from "../../../core/System";
+import { registry } from "../../../core/Registry";
 /**
  * Mercator projection.
  */
@@ -93,5 +93,5 @@ export { Mercator };
  *
  * @ignore
  */
-system.registeredClasses["Mercator"] = Mercator;
+registry.registeredClasses["Mercator"] = Mercator;
 //# sourceMappingURL=Mercator.js.map

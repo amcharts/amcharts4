@@ -42,16 +42,17 @@ import { percent } from "../../core/utils/Percent";
 import { ListTemplate } from "../../core/utils/List";
 import { DictionaryTemplate } from "../../core/utils/Dictionary";
 import { Container } from "../../core/Container";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
+import { SankeyNode } from "../elements/SankeyNode";
+import { SankeyLink } from "../elements/SankeyLink";
+import { LinearGradientModifier } from "../../core/rendering/fills/LinearGradientModifier";
+import { ColorSet } from "../../core/utils/ColorSet";
+import { toColor } from "../../core/utils/Color";
 import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
 import * as $number from "../../core/utils/Number";
 import * as $order from "../../core/utils/Order";
-import { SankeyNode } from "../elements/SankeyNode";
-import { SankeyLink } from "../elements/SankeyLink";
-import { LinearGradientModifier } from "../../core/rendering/fills/LinearGradientModifier";
-import { ColorSet } from "../../core/utils/ColorSet";
 /**
  * ============================================================================
  * DATA ITEM
@@ -125,7 +126,7 @@ var SankeyDiagramDataItem = /** @class */ (function (_super) {
          * @param {string}  value  Name
          */
         set: function (value) {
-            this.setProperty("color", $type.toColor(value));
+            this.setProperty("color", toColor(value));
         },
         enumerable: true,
         configurable: true
@@ -161,7 +162,7 @@ var SankeyDiagramDataItem = /** @class */ (function (_super) {
         get: function () {
             if (!this._link) {
                 this._link = this.component.links.create();
-                this._link.dataItem = this;
+                this.addSprite(this._link);
             }
             return this._link;
         },
@@ -227,6 +228,7 @@ var SankeyDiagram = /** @class */ (function (_super) {
         _this.nodeAlign = "middle";
         _this.colors.step = 2;
         var linksContainer = _this.chartContainer.createChild(Container);
+        linksContainer.shouldClone = false;
         linksContainer.width = percent(100);
         linksContainer.height = percent(100);
         linksContainer.layout = "none";
@@ -234,6 +236,7 @@ var SankeyDiagram = /** @class */ (function (_super) {
         _this.linksContainer = linksContainer;
         _this.linksContainer.id = "linksContainer";
         var nodesContainer = _this.chartContainer.createChild(Container);
+        nodesContainer.shouldClone = false;
         nodesContainer.width = percent(100);
         nodesContainer.height = percent(100);
         nodesContainer.layout = "none";
@@ -437,7 +440,6 @@ var SankeyDiagram = /** @class */ (function (_super) {
                 nodesInLevel[level]++;
             }
         });
-        var i = 0;
         $iter.each(this._sorted, function (strNode) {
             var node = strNode[1];
             var level = node.level;
@@ -490,10 +492,11 @@ var SankeyDiagram = /** @class */ (function (_super) {
         var _this = this;
         var container = this.nodesContainer;
         var i = 0;
+        $iter.each(this.links.iterator(), function (link) {
+            link.hide(0);
+        });
         $iter.each(this._sorted, function (strNode) {
             var node = strNode[1];
-            var level = node.level;
-            var delta;
             var property;
             if (_this.orientation == "horizontal") {
                 node.dx = -(container.pixelWidth - node.pixelWidth) / _this._levelCount;
@@ -511,6 +514,9 @@ var SankeyDiagram = /** @class */ (function (_super) {
             node.opacity = 0;
             node.invalidateLinks();
             node.animate([{ property: "opacity", from: 0, to: 1 }, { property: property, to: 0 }], _this.interpolationDuration, _this.interpolationEasing).delay(delay);
+            $iter.each(node.outgoingDataItems.iterator(), function (dataItem) {
+                dataItem.link.show(_this.interpolationDuration).delay(delay);
+            });
             i++;
         });
     };
@@ -645,5 +651,5 @@ export { SankeyDiagram };
  *
  * @ignore
  */
-system.registeredClasses["SankeyDiagram"] = SankeyDiagram;
+registry.registeredClasses["SankeyDiagram"] = SankeyDiagram;
 //# sourceMappingURL=SankeyDiagram.js.map

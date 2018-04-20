@@ -18,9 +18,9 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { ColumnSeries, ColumnSeriesDataItem } from "./ColumnSeries";
-import { system } from "../../core/System";
-import * as $type from "../../core/utils/Type";
+import { registry } from "../../core/Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
+import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
  * DATA ITEM
@@ -215,6 +215,6 @@ export { TreeMapSeries };
  *
  * @ignore
  */
-system.registeredClasses["TreeMapSeries"] = TreeMapSeries;
-system.registeredClasses["TreeMapSeriesDataItem"] = TreeMapSeriesDataItem;
+registry.registeredClasses["TreeMapSeries"] = TreeMapSeries;
+registry.registeredClasses["TreeMapSeriesDataItem"] = TreeMapSeriesDataItem;
 //# sourceMappingURL=TreeMapSeries.js.map

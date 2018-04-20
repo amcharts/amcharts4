@@ -20,10 +20,11 @@ var __extends = (this && this.__extends) || (function () {
 import { AxisRenderer } from "./AxisRenderer";
 import { WavedLine } from "../../core/elements/WavedLine";
 import { WavedRectangle } from "../../core/elements/WavedRectangle";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { percent } from "../../core/utils/Percent";
 import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
+import * as $utils from "../../core/utils/Utils";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -73,7 +74,8 @@ var AxisRendererX = /** @class */ (function (_super) {
         var axis = this.axis;
         if (axis) {
             axis.width = percent(100);
-            var line = this.line;
+            // @todo Is thi sneeded?
+            this.line;
             var title = axis.title;
             title.rotation = 0;
             title.align = "center";
@@ -109,6 +111,7 @@ var AxisRendererX = /** @class */ (function (_super) {
                     bbh = bigNum;
                 }
             }
+            // bottom
             else {
                 if (this.inside) {
                     bby = -bigNum;
@@ -284,10 +287,7 @@ var AxisRendererX = /** @class */ (function (_super) {
             baseGrid.hide(0);
         }
         else {
-            var y = -h;
-            if (this.opposite) {
-                y = this.line.pixelY;
-            }
+            var y = $utils.spritePointToSprite({ x: 0, y: 0 }, this.gridContainer, this).y;
             baseGrid.element.attr({ "d": $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: 0, y: h }) });
             baseGrid.moveTo({ x: x, y: y });
             baseGrid.show(0);
@@ -336,5 +336,5 @@ export { AxisRendererX };
  *
  * @ignore
  */
-system.registeredClasses["AxisRendererX"] = AxisRendererX;
+registry.registeredClasses["AxisRendererX"] = AxisRendererX;
 //# sourceMappingURL=AxisRendererX.js.map

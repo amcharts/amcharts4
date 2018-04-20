@@ -12,10 +12,10 @@ amcharts4.useTheme(AnimatedTheme);
   template: `<div id="chartdiv" style="width: 100%; height: 500px;"></div>`
 })
 export class AppComponent {
-  private chart: xy.XYChart;
+  private chart: charts.XYChart;
 
   ngAfterViewInit() {
-    let chart = amcharts4.create("chartdiv", xy.XYChart);
+    let chart = amcharts4.create("chartdiv", charts.XYChart);
     chart.paddingRight = 20;
 
     let data = [];
@@ -27,21 +27,21 @@ export class AppComponent {
 
     chart.data = data;
 
-    let dateAxis = chart.xAxes.push(new xy.DateAxis());
+    let dateAxis = chart.xAxes.push(new charts.DateAxis());
     dateAxis.renderer.grid.template.location = 0;
 
-    let valueAxis = chart.yAxes.push(new xy.ValueAxis());
+    let valueAxis = chart.yAxes.push(new charts.ValueAxis());
     valueAxis.tooltip.disabled = true;
     valueAxis.renderer.minWidth = 35;
 
-    let series = chart.series.push(new xy.LineSeries());
+    let series = chart.series.push(new charts.LineSeries());
     series.dataFields.dateX = "date";
     series.dataFields.valueY = "value";
 
     series.tooltipText = "{valueY.value}";
-    chart.cursor = new xy.XYCursor();
+    chart.cursor = new charts.XYCursor();
 
-    let scrollbarX = new xy.XYChartScrollbar();
+    let scrollbarX = new charts.XYChartScrollbar();
     scrollbarX.series.push(series);
     chart.scrollbarX = scrollbarX;
 

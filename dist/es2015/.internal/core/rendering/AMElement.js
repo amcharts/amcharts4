@@ -102,7 +102,6 @@ var AMElement = /** @class */ (function () {
         if (this._scale != 1) {
             transfromString += ((transfromString ? " " : "") + "scale(" + this._scale + ")");
         }
-        var rotationString = "";
         if (this._rotation != 0) {
             transfromString += ((transfromString ? " " : "") + "rotate(" + this._rotation + ")");
         }
@@ -126,7 +125,7 @@ var AMElement = /** @class */ (function () {
         if (this.node) {
             // FF would fail if getBBox() is called without node added to parent
             if (this.node.parentNode) {
-                try {
+                try { // again for ff. TODO: check if this doesn't slow down
                     var svgbbox = this.node.getBBox();
                     bbox.x = svgbbox.x;
                     bbox.y = svgbbox.y;

@@ -12,7 +12,7 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import { Grid } from "./Grid";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -83,5 +83,5 @@ export { GridCircular };
  *
  * @ignore
  */
-system.registeredClasses["GridCircular"] = GridCircular;
+registry.registeredClasses["GridCircular"] = GridCircular;
 //# sourceMappingURL=GridCircular.js.map

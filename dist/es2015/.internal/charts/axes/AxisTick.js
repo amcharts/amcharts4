@@ -18,7 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Tick } from "../elements/Tick";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -72,5 +72,5 @@ export { AxisTick };
  *
  * @ignore
  */
-system.registeredClasses["AxisTick"] = AxisTick;
+registry.registeredClasses["AxisTick"] = AxisTick;
 //# sourceMappingURL=AxisTick.js.map

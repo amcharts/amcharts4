@@ -21,7 +21,7 @@ import { BaseObjectEvents } from "../Base";
 import { List } from "../utils/List";
 import { EventDispatcher } from "../utils/EventDispatcher";
 import { Adapter } from "../utils/Adapter";
-import { system } from "../System";
+import { registry } from "../Registry";
 import * as $iter from "../utils/Iterator";
 import * as $array from "../utils/Array";
 import * as $type from "../utils/Type";
@@ -305,7 +305,7 @@ var Responsive = /** @class */ (function (_super) {
         $iter.each(rules.iterator(), function (rule) {
             // Check if rule has an id
             if (!rule.id) {
-                rule.id = system.getUniqueId();
+                rule.id = registry.getUniqueId();
             }
             // Init indicator if this rule should be applied
             var apply = rule.relevant(_this.component);

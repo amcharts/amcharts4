@@ -18,7 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { AxisLabel } from "./AxisLabel";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
 /**
@@ -151,5 +151,5 @@ export { AxisLabelCircular };
  *
  * @ignore
  */
-system.registeredClasses["AxisLabelCircular"] = AxisLabelCircular;
+registry.registeredClasses["AxisLabelCircular"] = AxisLabelCircular;
 //# sourceMappingURL=AxisLabelCircular.js.map

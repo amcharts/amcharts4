@@ -20,6 +20,7 @@ var __extends = (this && this.__extends) || (function () {
 import { BaseObject } from "../../Base";
 import { List } from "../../utils/List";
 import { system } from "../../System";
+import { registry } from "../../Registry";
 import * as $iter from "../../utils/Iterator";
 import * as $math from "../../utils/Math";
 import * as $type from "../../utils/Type";
@@ -58,7 +59,7 @@ var LinearGradient = /** @class */ (function (_super) {
         _this._stops.events.on("insert", _this.validate, _this);
         // Create element
         _this.element = _this.paper.addGroup("linearGradient");
-        _this.id = "gradient-" + system.getUniqueId();
+        _this.id = "gradient-" + registry.getUniqueId();
         _this.element.attr({ "id": _this.id });
         _this._disposers.push(_this.element);
         // Apply theme
@@ -175,6 +176,11 @@ var LinearGradient = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    LinearGradient.prototype.copyFrom = function (source) {
+        _super.prototype.copyFrom.call(this, source);
+        this._stops = source.stops;
+        this._rotation = source.rotation;
+    };
     return LinearGradient;
 }(BaseObject));
 export { LinearGradient };

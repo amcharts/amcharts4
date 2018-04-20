@@ -19,7 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Container } from "../../core/Container";
 import { interaction } from "../../core/interaction/Interaction";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { percent } from "../../core/utils/Percent";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
@@ -57,21 +57,21 @@ var Cursor = /** @class */ (function (_super) {
         _this.point = { x: 0, y: 0 };
         _this.className = "Cursor";
         // Set defaults
-        _this.background.opacity = 0;
+        //this.background.fillOpacity = 0.5;
+        //this.background.fill = color("#dadada");
         _this.width = percent(100);
         _this.height = percent(100);
+        _this.shouldClone = false;
         _this.hide(0);
         _this.trackable = true;
         _this.clickable = true;
         _this.isMeasured = false;
         _this.mouseEnabled = false;
-        // Add "track" event so that we can track movement of pointers over cursor 
-        // area and update cursor line position
-        _this.events.on("track", _this.handleCursorMove, _this);
         // Add events on body to trigger down and up events (to start zooming or 
         // selection)
         interaction.body.events.on("down", _this.handleCursorDown, _this);
         interaction.body.events.on("up", _this.handleCursorUp, _this);
+        interaction.body.events.on("track", _this.handleCursorMove, _this);
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -80,10 +80,10 @@ var Cursor = /** @class */ (function (_super) {
      * Handle pointer movement in document and update cursor position as needed.
      *
      * @ignore Exclude from docs
-     * @param {ISpriteEvents["track"]} event Event
+     * @param {IInteractionEvents["track"]} event Event
      */
     Cursor.prototype.handleCursorMove = function (event) {
-        var local = $utils.svgPointToSprite(event.svgPoint, this);
+        var local = $utils.documentPointToSprite(event.pointer.point, this);
         // hide cursor if it's out of bounds
         if (this.fitsToBounds(local)) {
             this.show(0);
@@ -97,6 +97,7 @@ var Cursor = /** @class */ (function (_super) {
         this.point = local;
         this.getPositions();
         this.dispatch("cursorpositionchanged");
+        return local;
     };
     /**
      * Updates cursors current positions.
@@ -120,6 +121,9 @@ var Cursor = /** @class */ (function (_super) {
             case "select":
                 this.dispatchImmediately("selectstarted");
                 break;
+            case "pan":
+                this.dispatchImmediately("panstarted");
+                break;
         }
     };
     /**
@@ -137,6 +141,9 @@ var Cursor = /** @class */ (function (_super) {
                     break;
                 case "select":
                     this.dispatchImmediately("selectended");
+                    break;
+                case "pan":
+                    this.dispatchImmediately("panended");
                     break;
             }
         }
@@ -169,5 +176,5 @@ export { Cursor };
  *
  * @ignore
  */
-system.registeredClasses["Cursor"] = Cursor;
+registry.registeredClasses["Cursor"] = Cursor;
 //# sourceMappingURL=Cursor.js.map

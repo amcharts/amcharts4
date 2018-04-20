@@ -28,11 +28,15 @@ import { Tooltip } from "../../core/elements/Tooltip";
 import { Bullet } from "../elements/Bullet";
 import { LegendSettings } from "../Legend";
 import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
+import { Color } from "../../core/utils/Color";
 import * as $iter from "../../core/utils/Iterator";
 import * as $ease from "../../core/utils/Ease";
 import * as $utils from "../../core/utils/Utils";
 import * as $object from "../../core/utils/Object";
 import * as $type from "../../core/utils/Type";
+import * as $array from "../../core/utils/Array";
+import * as $colors from "../../core/utils/Colors";
 /**
  * ============================================================================
  * DATA ITEM
@@ -59,12 +63,6 @@ var SeriesDataItem = /** @class */ (function (_super) {
          * @type {Dictionary}
          */
         _this.bullets = new Dictionary();
-        /**
-         * Should this series be shown in the legend?
-         *
-         * @type {boolean}
-         */
-        _this._visibleInLegend = true;
         _this.className = "SeriesDataItem";
         //@todo Should we make `bullets` list disposable?
         //this._disposers.push(new DictionaryDisposer(this.bullets));
@@ -73,24 +71,6 @@ var SeriesDataItem = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
-    Object.defineProperty(SeriesDataItem.prototype, "visibleInLegend", {
-        /**
-         * @return {boolean} Visible in legend?
-         */
-        get: function () {
-            return this.properties.getKey("visibleInLegend");
-        },
-        /**
-         * Should the series be visible in legend?
-         *
-         * @param {boolean} value Visible in legend?
-         */
-        set: function (value) {
-            this.setProperty("visibleInLegend", value);
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(SeriesDataItem.prototype, "value", {
         /**
          * @return {number} Value
@@ -201,18 +181,22 @@ var Series = /** @class */ (function (_super) {
         _this.skipFocusThreshold = 20;
         /**
          * flag which is set to true when initial animation is finished
+         * @ignore
          */
         _this.appeared = false;
         _this.className = "Series";
         _this.isMeasured = false;
         _this.layout = "none";
+        _this.shouldClone = false;
         _this.axisRanges = new List();
         _this.axisRanges.events.on("insert", _this.processAxisRange, _this);
         _this.minBulletDistance = 0; // otherwise we'll have a lot of cases when people won't see bullets and think it's a bug
         _this.mainContainer = _this.createChild(Container);
+        _this.mainContainer.shouldClone = false;
         _this.mainContainer.mask = _this.createChild(Sprite);
         // all bullets should go on top of lines/fills. So we add a separate container for bullets and later set it's parent to chart.bulletsContainer
         _this.bulletsContainer = _this.mainContainer.createChild(Container);
+        _this.bulletsContainer.shouldClone = false;
         _this.bulletsContainer.layout = "none";
         _this.tooltip = new Tooltip();
         _this.hiddenState.easing = $ease.cubicIn;
@@ -386,7 +370,7 @@ var Series = /** @class */ (function (_super) {
         var close = {};
         var previous = {};
         var first = {};
-        var duration = 0; // todo: check if series uses selection.change or selection.change.percent and set duration to interpolationduration
+        //let duration: number = 0; // todo: check if series uses selection.change or selection.change.percent and set duration to interpolationduration
         var startIndex = this._workingStartIndex;
         var endIndex = this._workingEndIndex;
         // it's ok, we loop trough all the data and check if i is within start/end index later
@@ -395,7 +379,7 @@ var Series = /** @class */ (function (_super) {
             var dataItem = a[1];
             for (var key in dataItem.values) {
                 var value = dataItem.values[key].workingValue;
-                if (i >= startIndex && i <= endIndex) {
+                if (i >= startIndex && i <= endIndex) { // do not add to count, sum etc if it is not within start/end index
                     if ($type.isNumber(value)) {
                         // count values
                         if (!$type.isNumber(count[key])) {
@@ -523,6 +507,9 @@ var Series = /** @class */ (function (_super) {
         this.hideUnusedBullets();
         this.bulletsContainer.fill = this.fill;
         this.bulletsContainer.stroke = this.stroke;
+        if (this.topParent) {
+            this.tooltip.setBounds({ x: 0, y: 0, width: this.topParent.maxWidth, height: this.topParent.maxHeight });
+        }
     };
     /**
      * Validates data item's element, effectively redrawing it.
@@ -533,7 +520,7 @@ var Series = /** @class */ (function (_super) {
     Series.prototype.validateDataElement = function (dataItem) {
         var _this = this;
         _super.prototype.validateDataElement.call(this, dataItem);
-        if (this._showBullets && !this.bulletsDisabled) {
+        if (this._showBullets) {
             $iter.each(this.bullets.iterator(), function (bulletTemplate) {
                 var iterator = _this.bulletsIterators.getKey(bulletTemplate.uid);
                 // always better to use the same, this helps to avoid redrawing
@@ -550,7 +537,7 @@ var Series = /** @class */ (function (_super) {
                     if (currentDataItem) {
                         currentDataItem.bullets.setKey(bulletTemplate.uid, undefined);
                     }
-                    bullet.dataItem = dataItem;
+                    dataItem.addSprite(bullet);
                     if (bullet.isDynamic) {
                         dataItem.events.on("workingvaluechanged", bullet.deepInvalidate, bullet);
                         //dataItem.events.on("calculatedvaluechanged", bullet.deepInvalidate, bullet);
@@ -561,7 +548,6 @@ var Series = /** @class */ (function (_super) {
                 bullet.parent = _this.bulletsContainer;
                 bullet.visible = true;
                 dataItem.bullets.setKey(bulletTemplate.uid, bullet);
-                dataItem.addSprite(bullet);
                 // Add accessibility to bullet
                 var readerText = _this.itemReaderText || ("{" + bullet.xField + "}: {" + bullet.yField + "}");
                 if (bullet.focusable) {
@@ -632,6 +618,7 @@ var Series = /** @class */ (function (_super) {
         // create container if not existing
         if (!this.rangesContainer) {
             this.rangesContainer = this.createChild(Container);
+            this.rangesContainer.shouldClone = false;
             this.rangesContainer.isMeasured = false;
         }
         var axisRange = event.newValue;
@@ -741,6 +728,24 @@ var Series = /** @class */ (function (_super) {
     Series.prototype.createLegendMarker = function (marker) {
         // This is a placeholder method for extending classes to override.
     };
+    Object.defineProperty(Series.prototype, "hiddenInLegend", {
+        /**
+         * @return {boolean} Hidden in legend?
+         */
+        get: function () {
+            return this.getPropertyValue("hiddenInLegend");
+        },
+        /**
+         * Should the series be hidden in legend?
+         *
+         * @param {boolean} value Hidden in legend?
+         */
+        set: function (value) {
+            this.setPropertyValue("hiddenInLegend", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Series.prototype, "name", {
         /**
          * @return {string} Name
@@ -841,35 +846,24 @@ var Series = /** @class */ (function (_super) {
             // update legend
             if (dataItem) {
                 if (legendSettings.itemValueText) {
-                    if (valueLabel) {
-                        valueLabel.text = legendSettings.itemValueText;
-                        valueLabel.dataItem = dataItem;
-                        valueLabel.deepInvalidate();
-                    }
+                    valueLabel.text = legendSettings.itemValueText;
                 }
                 if (legendSettings.itemLabelText) {
-                    if (label) {
-                        label.text = legendSettings.itemLabelText;
-                        label.dataItem = dataItem;
-                        label.deepInvalidate();
-                    }
+                    label.text = legendSettings.itemLabelText;
                 }
-                // todo: we might change color of bullets/etc here
+                valueLabel.dataItem = dataItem;
+                label.dataItem = this.dataItem;
             }
             else {
-                if (valueLabel) {
-                    valueLabel.text = legendSettings.valueText;
-                    valueLabel.dataItem = this.dataItem;
-                    valueLabel.deepInvalidate();
-                }
                 // if itemLabelText is set, means we have to reset label even if labelText is not set
-                if (legendSettings.labelText || legendSettings.itemLabelText) {
-                    if (label) {
-                        label.dataItem = this.dataItem;
-                        label.text = legendSettings.labelText;
-                        label.deepInvalidate();
-                    }
+                if (legendSettings.labelText || legendSettings.itemLabelText != undefined) {
+                    label.text = legendSettings.labelText;
                 }
+                if (legendSettings.valueText || legendSettings.itemValueText != undefined) {
+                    valueLabel.text = legendSettings.valueText;
+                }
+                label.dataItem = this.dataItem;
+                valueLabel.dataItem = this.dataItem;
             }
         }
     };
@@ -883,25 +877,6 @@ var Series = /** @class */ (function (_super) {
         this.bulletsContainer.copyFrom(source.bulletsContainer);
         _super.prototype.copyFrom.call(this, source);
     };
-    Object.defineProperty(Series.prototype, "bulletsDisabled", {
-        /**
-         * @return {boolean} Bullets disabled?
-         */
-        get: function () {
-            return this.getPropertyValue("bulletsDisabled");
-        },
-        /**
-         * Are bullets completely disabled in the series?
-         *
-         * @default false
-         * @param {boolean}  value  Bullets disabled?
-         */
-        set: function (value) {
-            this.setPropertyValue("bulletsDisabled", value, true);
-        },
-        enumerable: true,
-        configurable: true
-    });
     /**
      * Displays a modal or console message with error, and halts any further
      * processing of this element.
@@ -927,6 +902,121 @@ var Series = /** @class */ (function (_super) {
         this.bulletsContainer.filters.clear();
         this.bulletsContainer.filters.copyFrom(this.filters);
     };
+    Object.defineProperty(Series.prototype, "heatRules", {
+        /**
+         * @todo Description
+         */
+        get: function () {
+            var _this = this;
+            if (!this._heatRules) {
+                this._heatRules = new List();
+                this._heatRules.events.on("insert", function (event) {
+                    var heatRule = event.newValue;
+                    var target = heatRule.target;
+                    if (target) {
+                        var dataField_1 = heatRule.dataField;
+                        if (!$type.hasValue(dataField_1)) {
+                            dataField_1 = "value";
+                        }
+                        var min_1 = heatRule.min;
+                        var max_1 = heatRule.max;
+                        var seriesDataItem_1 = _this.dataItem;
+                        var property_1 = heatRule.property;
+                        var minValue = $type.toNumber(heatRule.minValue);
+                        var maxValue = $type.toNumber(heatRule.maxValue);
+                        if (!$type.isNumber(minValue) && !$type.isNumber(maxValue)) {
+                            _this.dataItem.events.on("calculatedvaluechanged", function (event) {
+                                if (event.property == dataField_1) {
+                                    $iter.each(_this.dataItems.iterator(), function (dataItem) {
+                                        var foundSprite = false;
+                                        $array.each(dataItem.sprites, function (sprite) {
+                                            if (sprite.clonedFrom == target) {
+                                                var anySprite = sprite;
+                                                anySprite[property_1] = anySprite[property_1];
+                                                foundSprite = true;
+                                            }
+                                        });
+                                        if (!foundSprite) {
+                                            $array.each(dataItem.sprites, function (sprite) {
+                                                if (sprite instanceof Container) {
+                                                    $iter.each(sprite.children.iterator(), function (child) {
+                                                        if (child.className == target.className) {
+                                                            var anyChild = child;
+                                                            anyChild[property_1] = anyChild[property_1];
+                                                        }
+                                                        // givup here
+                                                        else if (child instanceof Container) {
+                                                            child.deepInvalidate();
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                        _this.dataItems.template.events.on("workingvaluechanged", function (event) {
+                            if (event.property == dataField_1) {
+                                var dataItem = event.target;
+                                var foundSprite_1 = false;
+                                $array.each(dataItem.sprites, function (sprite) {
+                                    if (sprite.clonedFrom == target) {
+                                        var anySprite = sprite;
+                                        anySprite[property_1] = anySprite[property_1];
+                                        foundSprite_1 = true;
+                                    }
+                                });
+                                if (!foundSprite_1) {
+                                    $array.each(dataItem.sprites, function (sprite) {
+                                        if (sprite instanceof Container) {
+                                            $iter.each(sprite.children.iterator(), function (child) {
+                                                if (child.className == target.className) {
+                                                    var anyChild = child;
+                                                    anyChild[property_1] = anyChild[property_1];
+                                                }
+                                                // givup here
+                                                else if (child instanceof Container) {
+                                                    child.deepInvalidate();
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                        target.adapter.add(property_1, function (value, ruleTarget) {
+                            var minValue = $type.toNumber(heatRule.minValue);
+                            var maxValue = $type.toNumber(heatRule.maxValue);
+                            var dataItem = ruleTarget.dataItem;
+                            if (!$type.isNumber(minValue)) {
+                                minValue = seriesDataItem_1.values[dataField_1].low;
+                            }
+                            if (!$type.isNumber(maxValue)) {
+                                maxValue = seriesDataItem_1.values[dataField_1].high;
+                            }
+                            if (dataItem) {
+                                var workingValue = dataItem.values[dataField_1].workingValue;
+                                if ($type.hasValue(min_1) && $type.hasValue(max_1) && $type.isNumber(minValue) && $type.isNumber(maxValue) && $type.isNumber(workingValue)) {
+                                    var percent = (workingValue - minValue) / (maxValue - minValue);
+                                    if ($type.isNumber(min_1)) {
+                                        return min_1 + (max_1 - min_1) * percent;
+                                    }
+                                    else if (min_1 instanceof Color) {
+                                        return new Color($colors.interpolate(min_1.rgb, max_1.rgb, percent));
+                                    }
+                                }
+                            }
+                            return value;
+                        });
+                    }
+                });
+            }
+            return this._heatRules;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Series;
 }(Component));
 export { Series };
@@ -936,6 +1026,6 @@ export { Series };
  *
  * @ignore
  */
-system.registeredClasses["Series"] = Series;
-system.registeredClasses["SeriesDataItem"] = SeriesDataItem;
+registry.registeredClasses["Series"] = Series;
+registry.registeredClasses["SeriesDataItem"] = SeriesDataItem;
 //# sourceMappingURL=Series.js.map

@@ -17,5 +17,83 @@
  * PLEASE DO NOT REMOVE THIS COPYRIGHT NOTICE.
  * @hidden
  */
-webpackJsonp([11],{586:function(t,e,c){t.exports=c(587)},587:function(t,e,c){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var b=c(588),r=window.amcharts4;r.themes=r.themes||{},r.themes.dark=b.a},588:function(t,e,c){"use strict";var b=c(589);c.d(e,"a",function(){return b.a})},589:function(t,e,c){"use strict";var b=c(18),r=c(8),o=c(130);e.a=function(t){t instanceof r.b&&(t.setFor("stroke",Object(b.c)("#000000")),t.setFor("fill",Object(b.c)("#2b2b2b")),t.setFor("primaryButton",Object(b.c)("#6794dc").lighten(-.2)),t.setFor("primaryButtonHover",Object(b.c)("#6771dc").lighten(-.2)),t.setFor("primaryButtonDown",Object(b.c)("#68dc75").lighten(-.2)),t.setFor("primaryButtonActive",Object(b.c)("#68dc75").lighten(-.2)),t.setFor("primaryButtonText",Object(b.c)("#FFFFFF")),t.setFor("primaryButtonStroke",Object(b.c)("#6794dc")),t.setFor("secondaryButton",Object(b.c)("#3b3b3b")),t.setFor("secondaryButtonHover",Object(b.c)("#3b3b3b").lighten(.1)),t.setFor("secondaryButtonDown",Object(b.c)("#3b3b3b").lighten(.15)),t.setFor("secondaryButtonActive",Object(b.c)("#3b3b3b").lighten(.15)),t.setFor("secondaryButtonText",Object(b.c)("#bbbbbb")),t.setFor("secondaryButtonStroke",Object(b.c)("#3b3b3b").lighten(-.2)),t.setFor("grid",Object(b.c)("#bbbbbb")),t.setFor("background",Object(b.c)("#000000")),t.setFor("alternativeBackground",Object(b.c)("#ffffff")),t.setFor("text",Object(b.c)("#ffffff")),t.setFor("alternativeText",Object(b.c)("#000000")),t.setFor("disabledBackground",Object(b.c)("#bbbbbb"))),t instanceof o.d&&(t.background.fillOpacity=.4,t.thumb.background.fillOpacity=.5)}}},[586]);
+ 
+webpackJsonp([8],{
+
+/***/ 549:
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(550);
+
+
+/***/ }),
+
+/***/ 550:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__es2015_themes_dark__ = __webpack_require__(551);
+
+
+var amcharts4 = window.amcharts4;
+amcharts4.themes = amcharts4.themes || {};
+amcharts4.themes.dark = __WEBPACK_IMPORTED_MODULE_0__es2015_themes_dark__["a" /* default */];
+
+/***/ }),
+
+/***/ 551:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__internal_themes_dark__ = __webpack_require__(552);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__internal_themes_dark__["a"]; });
+
 //# sourceMappingURL=dark.js.map
+
+/***/ }),
+
+/***/ 552:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_utils_Color__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils_InterfaceColorSet__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_elements_Scrollbar__ = __webpack_require__(100);
+
+
+
+var theme = function (object) {
+    if (object instanceof __WEBPACK_IMPORTED_MODULE_1__core_utils_InterfaceColorSet__["a" /* InterfaceColorSet */]) {
+        object.setFor("stroke", Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#000000"));
+        object.setFor("fill", Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#2b2b2b"));
+        object.setFor("primaryButton", Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#6794dc").lighten(-0.2));
+        object.setFor("primaryButtonHover", Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#6771dc").lighten(-0.2));
+        object.setFor("primaryButtonDown", Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#68dc75").lighten(-0.2));
+        object.setFor("primaryButtonActive", Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#68dc75").lighten(-0.2));
+        object.setFor("primaryButtonText", Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#FFFFFF"));
+        object.setFor("primaryButtonStroke", Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#6794dc"));
+        object.setFor("secondaryButton", Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#3b3b3b"));
+        object.setFor("secondaryButtonHover", Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#3b3b3b").lighten(0.1));
+        object.setFor("secondaryButtonDown", Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#3b3b3b").lighten(0.15));
+        object.setFor("secondaryButtonActive", Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#3b3b3b").lighten(0.15));
+        object.setFor("secondaryButtonText", Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#bbbbbb"));
+        object.setFor("secondaryButtonStroke", Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#3b3b3b").lighten(-0.2));
+        object.setFor("grid", Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#bbbbbb"));
+        object.setFor("background", Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#000000"));
+        object.setFor("alternativeBackground", Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#ffffff"));
+        object.setFor("text", Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#ffffff"));
+        object.setFor("alternativeText", Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#000000"));
+        object.setFor("disabledBackground", Object(__WEBPACK_IMPORTED_MODULE_0__core_utils_Color__["c" /* color */])("#bbbbbb"));
+    }
+    if (object instanceof __WEBPACK_IMPORTED_MODULE_2__core_elements_Scrollbar__["a" /* Scrollbar */]) {
+        object.background.fillOpacity = 0.4;
+        object.thumb.background.fillOpacity = 0.5;
+    }
+};
+/* harmony default export */ __webpack_exports__["a"] = (theme);
+//# sourceMappingURL=dark.js.map
+
+/***/ })
+
+},[549]);

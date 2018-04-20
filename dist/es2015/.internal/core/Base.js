@@ -18,7 +18,7 @@ import { EventDispatcher } from "./utils/EventDispatcher";
 import { Adapter } from "./utils/Adapter";
 import { Color, color } from "./utils/Color";
 import { Percent, percent } from "./utils/Percent";
-import { system } from "./System";
+import { registry } from "./Registry";
 import { cache } from "./utils/Cache";
 import * as $array from "./utils/Array";
 import * as $object from "./utils/Object";
@@ -60,8 +60,8 @@ var BaseObject = /** @class */ (function () {
          */
         get: function () {
             if (!this._uid) {
-                this._uid = system.getUniqueId();
-                system.map.setKey(this._uid, this);
+                this._uid = registry.getUniqueId();
+                registry.map.setKey(this._uid, this);
             }
             return this._uid;
         },
@@ -81,7 +81,7 @@ var BaseObject = /** @class */ (function () {
          * @param {string} value Id
          */
         set: function (value) {
-            system.map.setKey(value, this);
+            //registry.map.setKey(value, this); // registry.map only stores by uid
             this._id = value;
         },
         enumerable: true,
@@ -111,7 +111,7 @@ var BaseObject = /** @class */ (function () {
     BaseObject.prototype.applyTheme = function () {
         var _this = this;
         // TODO is this needed ?
-        if (system) {
+        if (registry) {
             var themes = this.getCurrentThemes();
             // TODO is this needed ?
             if (themes) {
@@ -148,7 +148,7 @@ var BaseObject = /** @class */ (function () {
      * @return {ITheme[]} List of themes
      */
     BaseObject.prototype.getCurrentThemes = function () {
-        return this.themes || system.themes;
+        return this.themes || registry.themes;
     };
     /**
      * Returns if this object has been already been disposed.
@@ -175,7 +175,7 @@ var BaseObject = /** @class */ (function () {
             if (this.clonedFrom) {
                 this.clonedFrom.clones.removeValue(this);
             }
-            system.map.removeKey(this._uid);
+            registry.map.removeKey(this._uid);
         }
     };
     /**
@@ -196,14 +196,14 @@ var BaseObject = /** @class */ (function () {
         //}
     };
     /**
-     * Makes a copy of this object and returns the clone.
+     * Makes a copy of this object and returns the clone. Try to avoid clonning complex objects like chart, create new instances if you need them.
      *
      * @param   {string}  cloneId  An id to use for clone (if not set a unique id will be generated)
      * @returns {Object}           Clone
      */
     BaseObject.prototype.clone = function (cloneId) {
         if (!cloneId) {
-            cloneId = "clone-" + system.getUniqueId();
+            cloneId = "clone-" + registry.getUniqueId();
         }
         var newObject = new this.constructor();
         newObject.cloneId = cloneId;
@@ -252,8 +252,8 @@ var BaseObject = /** @class */ (function () {
          */
         set: function (value) {
             this._className = value;
-            /*if (system) {
-                system.registeredClasses[value] = typeof this;
+            /*if (registry) {
+                registry.registeredClasses[value] = typeof this;
             }*/
         },
         enumerable: true,
@@ -626,6 +626,8 @@ var BaseObject = /** @class */ (function () {
         if (a == b) {
             return 0;
         }
+        // Language must come first, so it's all set up when the rest of the
+        // elements are being instantiated
         else if (a == "language") {
             return -1;
         }
@@ -656,8 +658,8 @@ var BaseObject = /** @class */ (function () {
      * @return {Object}             Instance
      */
     BaseObject.prototype.createClassInstance = function (className) {
-        if ($type.hasValue(system.registeredClasses[className])) {
-            return new system.registeredClasses[className]();
+        if ($type.hasValue(registry.registeredClasses[className])) {
+            return new registry.registeredClasses[className]();
         }
         return;
     };
@@ -688,8 +690,8 @@ var BaseObject = /** @class */ (function () {
      */
     BaseObject.prototype.getConfigEntryType = function (config) {
         if ($type.hasValue(config["type"])) {
-            if ($type.hasValue(system.registeredClasses[config["type"]])) {
-                return system.registeredClasses[config["type"]];
+            if ($type.hasValue(registry.registeredClasses[config["type"]])) {
+                return registry.registeredClasses[config["type"]];
             }
             else {
                 throw Error("Invalid type: \"" + config["type"] + "\".");

@@ -15,8 +15,6 @@ export default function (prefix) {
         prefix = "amexport";
     }
     var colorSet = new InterfaceColorSet();
-    var fill = colorSet.getFor("fill");
-    var border = colorSet.getFor("stroke");
     var counter = rules.insertKeyIfEmpty(prefix, function () {
         var disposer = new MultiDisposer([
             /*new StyleRule(`.${prefix}-menu`, {

@@ -30,11 +30,11 @@ var __extends = (this && this.__extends) || (function () {
 import { BaseObjectEvents } from "./Base";
 import { Adapter } from "./utils/Adapter";
 import { Animation } from "./utils/Animation";
+import { MultiDisposer } from "./utils/Disposer";
 import * as $utils from "./utils/Utils";
 import * as $array from "./utils/Array";
 import * as $object from "./utils/Object";
 import * as $type from "./utils/Type";
-import { MultiDisposer } from "./utils/Disposer";
 /**
  * ============================================================================
  * DATA ITEM
@@ -442,6 +442,7 @@ var DataItem = /** @class */ (function (_super) {
     DataItem.prototype.setValue = function (name, value, duration, delay) {
         var currentValue = this.values[name].value;
         duration = this.getDuration(duration);
+        value = $type.toNumber(value);
         if (currentValue !== value) {
             this.values[name].value = value;
             if (this.events.isEnabled("valuechanged")) {
@@ -481,9 +482,9 @@ var DataItem = /** @class */ (function (_super) {
         if ($type.isNumber(this.values[name].value)) {
             duration = this.getDuration(duration);
             var workingValue = this.values[name].workingValue;
-            if ((duration > 0) && $type.isNumber(workingValue) && this.component) {
+            if ((duration > 0) && $type.isNumber(workingValue) && this.component) { // sometimes NaN is passed, so only change this to != null if all cases of NaN are handled, otherwise animation won't stop
                 if (workingValue != value) {
-                    var animation = this.animate({ childObject: this.values[name], property: "workingValue", from: workingValue, to: value }, duration, this.component.interpolationEasing).delay(delay);
+                    var animation = this.animate({ childObject: this.values[name], property: "workingValue", from: workingValue, to: value, dummyData: name }, duration, this.component.interpolationEasing).delay(delay);
                     animation.events.on("animationstart", this.handleInterpolationProgress, this);
                     animation.events.on("animationprogress", this.handleInterpolationProgress, this);
                     animation.events.on("animationend", this.handleInterpolationProgress, this);
@@ -552,9 +553,9 @@ var DataItem = /** @class */ (function (_super) {
     DataItem.prototype.setWorkingLocation = function (name, value, duration, delay) {
         duration = this.getDuration(duration);
         var workingLocation = this.workingLocations[name];
-        if ((duration > 0) && $type.isNumber(workingLocation) && this.component) {
+        if ((duration > 0) && $type.isNumber(workingLocation) && this.component) { // sometimes NaN is passed, so only change this to != null if all cases of NaN are handled, otherwise animation won't stop
             if (workingLocation != value) {
-                var animation = this.animate({ childObject: this.workingLocations, property: name, from: workingLocation, to: value }, duration, this.component.interpolationEasing);
+                var animation = this.animate({ childObject: this.workingLocations, property: name, from: workingLocation, to: value, dummyData: name }, duration, this.component.interpolationEasing);
                 animation.delay(delay);
                 animation.events.on("animationstart", this.handleInterpolationProgress, this);
                 animation.events.on("animationprogress", this.handleInterpolationProgress, this);
@@ -593,6 +594,9 @@ var DataItem = /** @class */ (function (_super) {
      * @param {number}  duration  Duration (ms) to animate to new value to
      */
     DataItem.prototype.setDate = function (name, date, duration) {
+        if (!$type.isDate(date)) {
+            date = this.component.dateFormatter.parse(date);
+        }
         var currentDate = this.dates[name];
         if (currentDate !== date) {
             this.dates[name] = date;
@@ -639,6 +643,9 @@ var DataItem = /** @class */ (function (_super) {
      * @param {string}  value  Category
      */
     DataItem.prototype.setCategory = function (name, value) {
+        if (!$type.isString(value)) {
+            value = $type.castString(value);
+        }
         if (this.categories[name] !== value) {
             this.categories[name] = value;
         }
@@ -662,6 +669,7 @@ var DataItem = /** @class */ (function (_super) {
             //for (let name in this.values) {
             dataItem.values[name] = $object.copy(value);
         });
+        dataItem.events.copyFrom(this.events);
         dataItem.component = this.component;
         return dataItem;
     };
@@ -735,12 +743,11 @@ var DataItem = /** @class */ (function (_super) {
         // it's always only one options, no need cycle
         var animationOptions = animation.animationOptions[0];
         if (animationOptions) {
-            var property = animationOptions.property;
             if (this.events.isEnabled("workingvaluechanged")) {
                 this.events.dispatchImmediately("workingvaluechanged", {
                     type: "workingvaluechanged",
                     target: this,
-                    property: property
+                    property: animationOptions.dummyData
                 });
             }
         }

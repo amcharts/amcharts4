@@ -14,11 +14,11 @@ var __extends = (this && this.__extends) || (function () {
 import { Container } from "../Container";
 import { system } from "../System";
 import { MultiDisposer } from "../utils/Disposer";
+import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $math from "../utils/Math";
 import * as $utils from "../utils/Utils";
 import * as $iter from "../utils/Iterator";
 import * as $type from "../utils/Type";
-import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 ;
 /**
  * ============================================================================
@@ -47,9 +47,10 @@ import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
  * label.text = "The title is: {title}";
  * ```
  *
- * The above will atuomatically replace "{title}" in the string with the
+ * The above will automatically replace "{title}" in the string with the
  * actual data value from `myDataItem`.
  *
+ * Note, that most often dataItem is set by the Component.
  *
  *
  * @see {@link ILabelEvents} for a list of available events
@@ -77,8 +78,9 @@ var Label = /** @class */ (function (_super) {
         // Set this class name
         _this.className = "Label";
         _this.fill = new InterfaceColorSet().getFor("text");
-        _this.textDecoration = "none";
-        _this.fontWeigth = "normal";
+        // not good to set this, as then these will appear on each label and values set on container won't be applied. 
+        //this.textDecoration = "none";
+        //this.fontWeigth = "normal";
         // Set defaults
         _this.wrap = false;
         _this.truncate = false;
@@ -145,27 +147,12 @@ var Label = /** @class */ (function (_super) {
             output = "html";
             text = this.html;
         }
-        else if (!$utils.empty(this.text)) {
-            // HTML not set or not supported, use SVG text
+        else {
             output = "svg";
             text = this.text;
         }
-        else if (!$utils.empty(this.html)) {
-            // SVG is not set, let's strip the tags out of HTML and display as SVG
-            output = "svg";
-            text = $utils.stripTags(this.html);
-        }
-        else {
-            // Empty, noting to do here
-            text = "";
-            return;
-        }
-        // Empty string
-        if (!$type.hasValue(text)) {
-            return;
-        }
         // Need to format text all the time
-        if (text !== "") {
+        if ($type.hasValue(text) && text !== "") {
             text = this.populateString(text, this.dataItem);
         }
         // Update the text
@@ -189,7 +176,6 @@ var Label = /** @class */ (function (_super) {
         var status = maxHeight + "," + maxWidth + this.wrap + this.truncate + this.rtl + this.ellipsis;
         // Update text
         if (!this.updateCurrentText() && this.inited && this._prevStatus == status) {
-            //	this.updateBackground(this._measuredWidth, this._measuredHeight);
             return;
         }
         this._measuredWidth = 0;
@@ -200,14 +186,15 @@ var Label = /** @class */ (function (_super) {
         var output = this._currentFormat;
         var text = this._currentText;
         // Empty string
-        if (!$type.hasValue(text)) {
+        if (!$type.hasValue(text) || text == "") {
+            this.element.attr({ display: "none" });
             return;
         }
         // Chop up text into lines
         // We're still processing SVG and HTML in the same way for now
         var lines = text.split("\n");
         // Do we need to go through the trouble of measuring lines
-        var measure = true; // (lines.length > 1) || this.wrap;
+        //let measure: boolean = true;// (lines.length > 1) || this.wrap;
         this._prevStatus = status;
         this.textAlign = this.textAlign;
         var display = this.group.getAttr("display");
@@ -248,7 +235,7 @@ var Label = /** @class */ (function (_super) {
                 }
                 // Chunk up the line and process each chunk
                 var chunks = system.textFormatter.chunk(line);
-                var currentLineHeight = 0, currentLineWidth = 0;
+                var currentLineHeight = 0;
                 var firstChunk = true;
                 var skipTextChunks = false;
                 // Create line element or grab it from cache
@@ -874,76 +861,6 @@ var Label = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("textValign", value, true);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Label.prototype, "fontSize", {
-        /**
-         * Returns current font size for text element.
-         *
-         * @return {any} Font size
-         */
-        get: function () {
-            return this.getPropertyValue("fontSize");
-        },
-        /**
-         * Sets font size to be used for the text. The size can either be numeric, in
-         * pxels, or other measurements.
-         *
-         * Parts of the text may override this setting using in-line formatting.
-         *
-         * @param {any} value Font size value
-         */
-        set: function (value) {
-            this.setPropertyValue("fontSize", value, true);
-            this.setSVGAttribute({ "font-size": value });
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Label.prototype, "fontWeigth", {
-        /**
-         * Returns currently set font weight.
-         *
-         * @return {FontWeight} Font weight
-         */
-        get: function () {
-            return this.getPropertyValue("fontWeigth");
-        },
-        /**
-         * Sets font weight to use for text.
-         *
-         * Parts of the text may override this setting using in-line formatting.
-         *
-         * @param {FontWeight} value Font weight
-         */
-        set: function (value) {
-            this.setPropertyValue("fontWeigth", value);
-            this.setSVGAttribute({ "font-weight": value });
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Label.prototype, "textDecoration", {
-        /**
-         * Returns current text decoration setting.
-         *
-         * @return {TextDecoration} Decoration
-         */
-        get: function () {
-            return this.getPropertyValue("textDecoration");
-        },
-        /**
-         * Sets a text decoration to use for text.
-         *
-         * Parts of the text may override this setting using in-line formatting.
-         *
-         * @param {TextDecoration} value Decoration
-         */
-        set: function (value) {
-            this.setPropertyValue("textDecoration", value);
-            this.setSVGAttribute({ "text-decoration": value });
         },
         enumerable: true,
         configurable: true

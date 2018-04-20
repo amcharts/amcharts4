@@ -1,12 +1,3 @@
-/**
- * Modal class is used to display information over chart area.
- */
-/**
- * ============================================================================
- * IMPORTS
- * ============================================================================
- * @hidden
- */
 import { Adapter } from "../utils/Adapter";
 import { BaseObject } from "../Base";
 import { InteractionObject } from "../interaction/InteractionObject";
@@ -203,9 +194,8 @@ export declare class Modal extends BaseObject {
      * Loads modal CSS.
      *
      * @ignore Exclude from docs
-     * @return {Promise<any>} Promise
      */
-    loadDefaultCSS(): Promise<any>;
+    loadDefaultCSS(): void;
     /**
      * If modal is closable, this method adds various events to modal elements.
      */

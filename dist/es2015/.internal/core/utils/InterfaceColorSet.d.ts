@@ -41,6 +41,8 @@ export interface ColorPurpose {
     text: Color;
     alternativeText: Color;
     disabledBackground: Color;
+    positive: Color;
+    negative: Color;
 }
 /**
  * ============================================================================

@@ -23,7 +23,7 @@ import { Button } from "../elements/Button";
 import { interaction } from "../interaction/Interaction";
 import { MouseCursorStyle } from "../interaction/Mouse";
 import { RoundedRectangle } from "../elements/RoundedRectangle";
-import { system } from "../System";
+import { registry } from "../Registry";
 import { keyboard } from "../utils/Keyboard";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import { percent } from "../utils/Percent";
@@ -897,5 +897,5 @@ export { Scrollbar };
  *
  * @ignore
  */
-system.registeredClasses["Scrollbar"] = Scrollbar;
+registry.registeredClasses["Scrollbar"] = Scrollbar;
 //# sourceMappingURL=Scrollbar.js.map

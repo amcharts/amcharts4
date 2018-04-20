@@ -13,14 +13,16 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import { Container } from "../../core/Container";
 import { LinearGradient } from "../../core/rendering/fills/LinearGradient";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
+import { toColor, Color } from "../../core/utils/Color";
 import { ListTemplate } from "../../core/utils/List";
-import * as $type from "../../core/utils/Type";
-import * as $colors from "../../core/utils/Colors";
 import { percent } from "../../core/utils/Percent";
 import { ValueAxis } from "../../charts/axes/ValueAxis";
 import { AxisRendererX } from "../../charts/axes/AxisRendererX";
 import { AxisRendererY } from "../../charts/axes/AxisRendererY";
+import * as $iter from "../../core/utils/Iterator";
+import * as $type from "../../core/utils/Type";
+import * as $colors from "../../core/utils/Colors";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -44,11 +46,11 @@ var HeatLegend = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.className = "HeatLegend";
         _this.markerContainer = _this.createChild(Container);
+        _this.markerContainer.shouldClone = false;
         _this.orientation = "horizontal";
         _this.markerCount = 1;
         // Create a template container and list for the a marker
         var marker = new Container();
-        marker.cloneChildren = true;
         marker.minHeight = 20;
         marker.minWidth = 20;
         marker.mouseEnabled = false;
@@ -59,45 +61,129 @@ var HeatLegend = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    HeatLegend.prototype.getMinFromRules = function (property) {
+        var series = this.series;
+        if (series) {
+            var minValue_1;
+            $iter.eachContinue(series.heatRules.iterator(), function (heatRule) {
+                if (heatRule.property == property) {
+                    minValue_1 = heatRule.min;
+                    return false;
+                }
+                return true;
+            });
+            return minValue_1;
+        }
+    };
+    HeatLegend.prototype.getMaxFromRules = function (property) {
+        var series = this.series;
+        if (series) {
+            var maxValue_1;
+            $iter.each(series.heatRules.iterator(), function (heatRule) {
+                if (heatRule.property == property) {
+                    maxValue_1 = heatRule.max;
+                    return false;
+                }
+                return true;
+            });
+            return maxValue_1;
+        }
+    };
     /**
      *
      * @ignore Exclude from docs
      */
     HeatLegend.prototype.validate = function () {
         _super.prototype.validate.call(this);
-        for (var i = 0; i < this.markerCount; i++) {
-            var marker = this.markers.getIndex(i);
-            if (!marker) {
-                marker = this.markers.create();
-                marker.parent = this.markerContainer;
-                marker.height = percent(100);
-                marker.width = percent(100);
-            }
-            if (this.markerCount == 1) {
-                var gradient = new LinearGradient();
-                gradient.addColor(this.minColor);
-                gradient.addColor(this.maxColor);
-                if (this.orientation == "vertical") {
-                    gradient.rotation = -90;
+        var series = this.series;
+        var minColor = this.minColor;
+        var maxColor = this.maxColor;
+        if (!$type.hasValue(minColor)) {
+            minColor = toColor(this.getMinFromRules("fill"));
+        }
+        if (!$type.hasValue(maxColor)) {
+            maxColor = toColor(this.getMaxFromRules("fill"));
+        }
+        var seriesFill = series.fill;
+        if (!$type.hasValue(minColor) && seriesFill instanceof Color) {
+            minColor = seriesFill;
+        }
+        if (!$type.hasValue(maxColor) && seriesFill instanceof Color) {
+            maxColor = seriesFill;
+        }
+        if (!$type.hasValue(maxColor)) {
+            maxColor = toColor(this.getMaxFromRules("fill"));
+        }
+        var minOpacity = $type.toNumber(this.getMinFromRules("fillOpacity"));
+        if (!$type.isNumber(minOpacity)) {
+            minOpacity = 1;
+        }
+        var maxOpacity = $type.toNumber(this.getMaxFromRules("fillOpacity"));
+        if (!$type.isNumber(maxOpacity)) {
+            maxOpacity = 1;
+        }
+        var minStrokeOpacity = $type.toNumber(this.getMinFromRules("strokeOpacity"));
+        if (!$type.isNumber(minStrokeOpacity)) {
+            minStrokeOpacity = 1;
+        }
+        var maxStrokeOpacity = $type.toNumber(this.getMaxFromRules("strokeOpacity"));
+        if (!$type.isNumber(maxStrokeOpacity)) {
+            maxStrokeOpacity = 1;
+        }
+        var minStroke = toColor(this.getMinFromRules("stroke"));
+        var maxStroke = toColor(this.getMaxFromRules("stroke"));
+        if (series) {
+            for (var i = 0; i < this.markerCount; i++) {
+                var marker = this.markers.getIndex(i);
+                if (!marker) {
+                    marker = this.markers.create();
+                    marker.parent = this.markerContainer;
+                    marker.height = percent(100);
+                    marker.width = percent(100);
                 }
-                marker.background.fill = gradient;
+                if (this.markerCount == 1) {
+                    var gradient = new LinearGradient();
+                    gradient.addColor(minColor, minOpacity);
+                    gradient.addColor(maxColor, maxOpacity);
+                    if (this.orientation == "vertical") {
+                        gradient.rotation = -90;
+                    }
+                    marker.background.fill = gradient;
+                    if ($type.hasValue(minStroke) && $type.hasValue(maxStroke)) {
+                        var strokeGradient = new LinearGradient();
+                        strokeGradient.addColor(minStroke, minStrokeOpacity);
+                        strokeGradient.addColor(maxStroke, maxStrokeOpacity);
+                        if (this.orientation == "vertical") {
+                            strokeGradient.rotation = -90;
+                        }
+                        marker.background.stroke = strokeGradient;
+                    }
+                }
+                else {
+                    var color = new Color($colors.interpolate(minColor.rgb, maxColor.rgb, i / this.markerCount));
+                    marker.background.fill = color;
+                    var opacity = minOpacity + (maxOpacity - minOpacity) * i / this.markerCount;
+                    marker.background.fillOpacity = opacity;
+                    if ($type.hasValue(minStroke) && $type.hasValue(maxStroke)) {
+                        var color_1 = new Color($colors.interpolate(minStroke.rgb, maxStroke.rgb, i / this.markerCount));
+                        marker.background.stroke = color_1;
+                        var opacity_1 = minStrokeOpacity + (maxStrokeOpacity - minStrokeOpacity) * i / this.markerCount;
+                        marker.background.strokeOpacity = opacity_1;
+                    }
+                }
             }
-            else {
-                var color_1 = $colors.interpolate(this.minColor, this.maxColor, i / this.markerCount);
-                marker.background.fill = color_1;
+            var renderer = this.valueAxis.renderer;
+            if (this.markerCount > 1) {
+                if (this.orientation == "horizontal") {
+                    renderer.minGridDistance = this.pixelWidth / this.markerCount;
+                }
+                else {
+                    renderer.minGridDistance = this.pixelHeight / this.markerCount;
+                }
             }
-        }
-        var renderer = this.valueAxis.renderer;
-        if (this.markerCount > 1) {
-            if (this.orientation == "horizontal") {
-                renderer.minGridDistance = this.pixelWidth / this.markerCount;
+            for (var i = this.markerCount; i < this.markers.length; i++) {
+                this.markers.getIndex(i).parent = undefined;
             }
-            else {
-                renderer.minGridDistance = this.pixelHeight / this.markerCount;
-            }
-        }
-        for (var i = this.markerCount; i < this.markers.length; i++) {
-            this.markers.getIndex(i).parent = undefined;
         }
     };
     Object.defineProperty(HeatLegend.prototype, "minColor", {
@@ -115,7 +201,7 @@ var HeatLegend = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (!$type.isObject(value)) {
-                value = $type.toColor(value);
+                value = toColor(value);
             }
             this.setPropertyValue("minColor", value, true);
         },
@@ -137,7 +223,7 @@ var HeatLegend = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (!$type.isObject(value)) {
-                value = $type.toColor(value);
+                value = toColor(value);
             }
             this.setPropertyValue("maxColor", value, true);
         },
@@ -238,6 +324,7 @@ var HeatLegend = /** @class */ (function (_super) {
                     valueAxis.renderer = new AxisRendererX(valueAxis);
                 }
             }
+            // VERTICAL
             else {
                 if (!$type.hasValue(this.height)) {
                     this.height = 200;
@@ -274,6 +361,7 @@ var HeatLegend = /** @class */ (function (_super) {
         get: function () {
             if (!this._valueAxis) {
                 this.valueAxis = this.createChild(ValueAxis);
+                this.valueAxis.shouldClone = false;
             }
             return this._valueAxis;
         },
@@ -293,30 +381,24 @@ var HeatLegend = /** @class */ (function (_super) {
     Object.defineProperty(HeatLegend.prototype, "series", {
         /**
          * Returns series value.
-         * @return {IHeatLegendSeries}
+         * @return {Series}
          */
         get: function () {
             return this._series;
         },
         /**
          * You can set series for heat legend. It will take min, max, minColor and maxColor values from this series.
-         * @param {IHeatLegendSeries} series
+         * @param {Series} series
          */
         set: function (series) {
             var _this = this;
             this._series = series;
-            this.minColor = series.minColor;
-            this.maxColor = series.maxColor;
-            this.updateMinMax(series.minValue, series.maxValue);
-            series.events.on("propertychanged", function (event) {
-                if (event.property == "minColor" || event.property == "maxColor") {
-                    _this.minColor = series.minColor;
-                    _this.maxColor = series.maxColor;
-                }
-            });
+            this.updateMinMax(series.dataItem.values.value.low, series.dataItem.values.value.high);
             series.dataItem.events.on("calculatedvaluechanged", function (event) {
                 _this.updateMinMax(series.dataItem.values.value.low, series.dataItem.values.value.high);
             });
+            series.heatRules.events.on("insert", this.invalidate, this);
+            series.heatRules.events.on("remove", this.invalidate, this);
         },
         enumerable: true,
         configurable: true
@@ -336,6 +418,26 @@ var HeatLegend = /** @class */ (function (_super) {
             valueAxis.invalidateDataRange();
         }
     };
+    /**
+     * Processes JSON-based config before it is applied to the object.
+     *
+     * @ignore Exclude from docs
+     * @param {object}  config  Config
+     */
+    HeatLegend.prototype.processConfig = function (config) {
+        if (config) {
+            // Set up series
+            if ($type.hasValue(config.series) && $type.isArray(config.series)) {
+                for (var i = 0, len = config.series.length; i < len; i++) {
+                    var series = config.series[i];
+                    if ($type.hasValue(series) && $type.isString(series) && this.map.hasKey(series)) {
+                        config.series[i] = this.map.getKey(series);
+                    }
+                }
+            }
+        }
+        _super.prototype.processConfig.call(this, config);
+    };
     return HeatLegend;
 }(Container));
 export { HeatLegend };
@@ -345,5 +447,5 @@ export { HeatLegend };
  *
  * @ignore
  */
-system.registeredClasses["HeatLegend"] = HeatLegend;
+registry.registeredClasses["HeatLegend"] = HeatLegend;
 //# sourceMappingURL=HeatLegend.js.map

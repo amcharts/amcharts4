@@ -339,7 +339,7 @@ export declare class MapChart extends SerialChart {
      * @see {@link http://geojson.org/} GeoJSON official specification
      * @type {Object}
      */
-    protected _geoJSON: Object;
+    protected _geodata: Object;
     /**
      * A reference to a [[ZoomControl]] instance.
      *
@@ -460,10 +460,10 @@ export declare class MapChart extends SerialChart {
      * * Orthographic
      *
      * ```TypeScript
-     * map.projection = new map.projections.Mercator();
+     * map.projection = new maps.projections.Mercator();
      * ```
      * ```JavaScript
-     * map1.projection = new amcharts4.map.projections.Mercator();
+     * map.projection = new amcharts4.maps.projections.Mercator();
      * ```
      * ```JSON
      * {
@@ -537,7 +537,7 @@ export declare class MapChart extends SerialChart {
      * @see {@link http://geojson.org/} Official GeoJSON format specification
      * @param {Object} geoJSON GeoJSON data
      */
-    geoJSON: Object;
+    geodata: Object;
     /**
      * Zooms the map to particular zoom level and centers on a latitude/longitude
      * coordinate.
@@ -670,11 +670,11 @@ export declare class MapChart extends SerialChart {
      *
      * ```TypeScript
      * // Create a zoom control
-     * map.zoomControl = new map.ZoomControl();
+     * map.zoomControl = new maps.ZoomControl();
      * ```
      * ```JavaScript
      * // Create a zoom control
-     * map.zoomControl = new amcharts4.map.ZoomControl();
+     * map.zoomControl = new amcharts4.maps.ZoomControl();
      * ```
      * ```JSON
      * {

@@ -19,7 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Button } from "./Button";
 import { Sprite } from "../Sprite";
-import { system } from "../System";
+import { registry } from "../Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $path from "../rendering/Path";
 /**
@@ -94,5 +94,5 @@ export { ZoomOutButton };
  *
  * @ignore
  */
-system.registeredClasses["ZoomOutButton"] = ZoomOutButton;
+registry.registeredClasses["ZoomOutButton"] = ZoomOutButton;
 //# sourceMappingURL=ZoomOutButton.js.map

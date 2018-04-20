@@ -10,7 +10,7 @@
  */
 import { Component, IComponentProperties, IComponentDataFields, IComponentAdapters, IComponentEvents } from "../../core/Component";
 import { AxisDataItem } from "../axes/Axis";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { List, ListTemplate, IListEvents } from "../../core/utils/List";
 import { Dictionary } from "../../core/utils/Dictionary";
 import { DataItem, IDataItemEvents } from "../../core/DataItem";
@@ -21,6 +21,15 @@ import { Bullet } from "../elements/Bullet";
 import { ILegendItem, LegendDataItem, LegendSettings } from "../Legend";
 import { Animation } from "../../core/utils/Animation";
 import * as $iter from "../../core/utils/Iterator";
+export interface IHeatRule {
+    target: Sprite;
+    property: string;
+    min: any;
+    max: any;
+    dataField?: string;
+    minValue?: number;
+    maxValue?: number;
+}
 /**
  * ============================================================================
  * DATA ITEM
@@ -66,12 +75,6 @@ export declare class SeriesDataItem extends DataItem {
      */
     bullets: Dictionary<string, Bullet>;
     /**
-     * Should this series be shown in the legend?
-     *
-     * @type {boolean}
-     */
-    protected _visibleInLegend: boolean;
-    /**
      * Defines a type of [[Component]] this data item is used for.
      *
      * @ignore Exclude from docs
@@ -82,15 +85,6 @@ export declare class SeriesDataItem extends DataItem {
      * Constructor
      */
     constructor();
-    /**
-     * @return {boolean} Visible in legend?
-     */
-    /**
-     * Should the series be visible in legend?
-     *
-     * @param {boolean} value Visible in legend?
-     */
-    visibleInLegend: boolean;
     /**
      * @return {number} Value
      */
@@ -134,12 +128,10 @@ export interface ISeriesProperties extends IComponentProperties {
      */
     minBulletDistance?: number;
     /**
-     * Are bullets completely disabled in the series?
-     *
-     * @default false
+     * Should series be hidden in chart's legend?
      * @type {boolean}
      */
-    bulletsDisabled?: boolean;
+    hiddenInLegend?: boolean;
 }
 /**
  * Defines events for [[Series]].
@@ -372,8 +364,10 @@ export declare class Series extends Component implements ILegendItem<Series, ISe
     protected _itemReaderText: string;
     /**
      * flag which is set to true when initial animation is finished
+     * @ignore
      */
     appeared: boolean;
+    protected _heatRules: List<IHeatRule>;
     /**
      * Constructor
      */
@@ -559,6 +553,15 @@ export declare class Series extends Component implements ILegendItem<Series, ISe
      */
     createLegendMarker(marker: Container): void;
     /**
+     * @return {boolean} Hidden in legend?
+     */
+    /**
+     * Should the series be hidden in legend?
+     *
+     * @param {boolean} value Hidden in legend?
+     */
+    hiddenInLegend: boolean;
+    /**
      * @return {string} Name
      */
     /**
@@ -613,16 +616,6 @@ export declare class Series extends Component implements ILegendItem<Series, ISe
      */
     copyFrom(source: this): void;
     /**
-     * @return {boolean} Bullets disabled?
-     */
-    /**
-     * Are bullets completely disabled in the series?
-     *
-     * @default false
-     * @param {boolean}  value  Bullets disabled?
-     */
-    bulletsDisabled: boolean;
-    /**
      * Displays a modal or console message with error, and halts any further
      * processing of this element.
      *
@@ -635,4 +628,8 @@ export declare class Series extends Component implements ILegendItem<Series, ISe
      * @ignore Exclude from docs
      */
     protected applyFilters(): void;
+    /**
+     * @todo Description
+     */
+    readonly heatRules: List<IHeatRule>;
 }

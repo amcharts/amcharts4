@@ -527,7 +527,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * Returns a [[Disposer]] for all events, added to Series for watching
      * changes in Axis, and vice versa.
-     *
+     * @ignore
      * @param  {XYSeries}     series  Series
      * @return {IDisposer}          Event disposer
      */

@@ -1,11 +1,10 @@
-import * as amcharts4 from "@amcharts/amcharts4";
-import * as sankey from "@amcharts/amcharts4/sankey";
+import * as amcharts4 from "@amcharts/amcharts4/core";
+import * as charts from "@amcharts/amcharts4/charts";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
-
 
 amcharts4.useTheme(AnimatedTheme);
 
-let chart = amcharts4.create("chartdiv", sankey.SankeyDiagram);
+let chart = amcharts4.create("chartdiv", charts.SankeyDiagram);
 chart.data = [
     { from: "A", to: "D", value: 10 },
     { from: "B", to: "D", value: 8 },

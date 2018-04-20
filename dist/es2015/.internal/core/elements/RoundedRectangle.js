@@ -61,19 +61,6 @@ var RoundedRectangle = /** @class */ (function (_super) {
             var crtr = $math.fitToRange(this.cornerRadiusTopRight, 0, maxcr);
             var crbr = $math.fitToRange(this.cornerRadiusBottomRight, 0, maxcr);
             var crbl = $math.fitToRange(this.cornerRadiusBottomLeft, 0, maxcr);
-            // corner coordinates
-            // top left
-            var xtl = 0;
-            var ytl = 0;
-            // top right
-            var xtr = w;
-            var ytr = 0;
-            // bottom right
-            var xbr = w;
-            var ybr = h;
-            // bottom left
-            var xbl = 0;
-            var ybl = h;
             var lineT = "M" + crtl + ",0 L" + (w - crtr) + ",0";
             var lineB = " L" + crbl + "," + h;
             var lineL = " L0," + crtl;

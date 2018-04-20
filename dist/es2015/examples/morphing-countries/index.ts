@@ -1,33 +1,33 @@
-import * as amcharts4 from "@amcharts/amcharts4";
-import * as map from "@amcharts/amcharts4/map";
+import * as amcharts4 from "@amcharts/amcharts4/core";
+import * as charts from "@amcharts/amcharts4/charts";
+import * as maps from "@amcharts/amcharts4/maps";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 import DarkTheme from "@amcharts/amcharts4/themes/dark";
-import worldMap from "@amcharts/amcharts4/maps/worldHigh";
-
+import worldHigh from "@amcharts/amcharts4/geodata/worldHigh";
 
 amcharts4.useTheme(AnimatedTheme);
 amcharts4.useTheme(DarkTheme);
 
 var countryCodes = ["AF", "AO", "AR", "AM", "AU", "AT", "AZ", "BD", "BY", "BE", "BO", "BA", "BW", "BR", "BG", "KH", "CM", "CA", "CF", "TD", "CL", "CN", "CO", "CG", "CD", "CR", "CI", "HR", "CU", "CY", "CZ", "DK", "EC", "EG", "ER", "EE", "ET", "FI", "FR", "GE", "DE", "GR", "GL", "GP", "GT", "GN", "GW", "GY", "HT", "HN", "HU", "IS", "IN", "ID", "IR", "IQ", "IE", "IL", "IT", "JM", "JP", "JO", "KZ", "KE", "KP", "KR", "KG", "LA", "LV", "LB", "LS", "LR", "LY", "LT", "LU", "MK", "MG", "MY", "ML", "MT", "MR", "MX", "MD", "MN", "ME", "MA", "MZ", "MM", "NA", "NP", "NL", "NZ", "NI", "NE", "NG", "NO", "OM", "PK", "PA", "PG", "PY", "PE", "PH", "PL", "PT", "RO", "RU", "SA", "SN", "RS", "SK", "SI", "SO", "ZA", "SS", "ES", "SD", "SE", "CH", "SY", "TW", "TJ", "TZ", "TH", "TN", "TR", "TM", "UA", "AE", "GB", "US", "UY", "UZ", "VE", "VN", "YE", "ZM", "ZW"];
 
-var chart1 = amcharts4.create("hiddenchartdiv", map.MapChart);
-chart1.geoJSON = worldMap;
-chart1.projection = new map.projections.Mercator();
+var chart1 = amcharts4.create("hiddenchartdiv", maps.MapChart);
+chart1.geodata = worldHigh;
+chart1.projection = new maps.projections.Mercator();
 
-var polygonSeries1 = chart1.series.push(new map.MapPolygonSeries());
-polygonSeries1.getDataFromJSON = true;
+var polygonSeries1 = chart1.series.push(new maps.MapPolygonSeries());
+polygonSeries1.useGeodata = true;
 polygonSeries1.include = ["AF"];
 
-var chart = amcharts4.create("chartdiv", map.MapChart);
-chart.geoJSON = worldMap;
-chart.projection = new map.projections.Mercator();
+var chart = amcharts4.create("chartdiv", maps.MapChart);
+chart.geodata = worldHigh;
+chart.projection = new maps.projections.Mercator();
 chart.padding(0, 20, 0, 20);
 chart.minZoomLevel = 0.9;
 chart.zoomLevel = 0.9;
 chart.maxZoomLevel = 1;
 
-var polygonSeries = chart.series.push(new map.MapPolygonSeries());
-polygonSeries.getDataFromJSON = true;
+var polygonSeries = chart.series.push(new maps.MapPolygonSeries());
+polygonSeries.useGeodata = true;
 polygonSeries.include = ["AF"];
 
 var label = chart.chartContainer.createChild(amcharts4.Label);
@@ -62,7 +62,7 @@ function changeCountry() {
 	var totalCountries = countryCodes.length - 1;
 	var countryIndex = Math.round(totalCountries * slider.start);
 
-	var morphToPolygon: map.MapPolygon;
+	var morphToPolygon: maps.MapPolygon;
 
 	if (currentIndex != countryIndex) {
 		polygonSeries1.data = [];

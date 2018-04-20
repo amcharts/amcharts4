@@ -19,7 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { MapLineSeries, MapLineSeriesDataItem } from "./MapLineSeries";
 import { MapArc } from "./MapArc";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 /**
  * ============================================================================
  * DATA ITEM
@@ -111,6 +111,6 @@ export { MapArcSeries };
  *
  * @ignore
  */
-system.registeredClasses["MapArcSeries"] = MapArcSeries;
-system.registeredClasses["MapArcSeriesDataItem"] = MapArcSeriesDataItem;
+registry.registeredClasses["MapArcSeries"] = MapArcSeries;
+registry.registeredClasses["MapArcSeriesDataItem"] = MapArcSeriesDataItem;
 //# sourceMappingURL=MapArcSeries.js.map

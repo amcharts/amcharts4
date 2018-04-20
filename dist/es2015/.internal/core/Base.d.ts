@@ -81,11 +81,9 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      * keep this so we can disassociate it from source object when this object
      * is disposed.
      *
-     * @type {BaseObject}
-     * @deprecated
-     * @ignore Exclude from docs
+     * @type {this}
      */
-    clonedFrom: BaseObject;
+    clonedFrom: this;
     /**
      * A class name for the object.
      *
@@ -182,7 +180,7 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      */
     removeDispose(target: IDisposer): void;
     /**
-     * Makes a copy of this object and returns the clone.
+     * Makes a copy of this object and returns the clone. Try to avoid clonning complex objects like chart, create new instances if you need them.
      *
      * @param   {string}  cloneId  An id to use for clone (if not set a unique id will be generated)
      * @returns {Object}           Clone

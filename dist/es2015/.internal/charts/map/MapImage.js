@@ -18,7 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { MapObject } from "./MapObject";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
@@ -99,5 +99,5 @@ export { MapImage };
  *
  * @ignore
  */
-system.registeredClasses["MapImage"] = MapImage;
+registry.registeredClasses["MapImage"] = MapImage;
 //# sourceMappingURL=MapImage.js.map

@@ -1,11 +1,10 @@
-import * as amcharts4 from "@amcharts/amcharts4";
-import * as xy from "@amcharts/amcharts4/xy";
+import * as amcharts4 from "@amcharts/amcharts4/core";
+import * as charts from "@amcharts/amcharts4/charts";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
-
 
 amcharts4.useTheme(AnimatedTheme);
 
-let chart = amcharts4.create("chartdiv", xy.XYChart);
+let chart = amcharts4.create("chartdiv", charts.XYChart);
 
 chart.data = [{
 	"country": "USA",
@@ -47,13 +46,13 @@ chart.data = [{
 
 chart.padding(40, 40, 40, 40);
 
-let categoryAxis = chart.xAxes.push(new xy.CategoryAxis());
+let categoryAxis = chart.xAxes.push(new charts.CategoryAxis());
 categoryAxis.renderer.grid.template.location = 0;
 categoryAxis.dataFields.category = "country";
 categoryAxis.renderer.minGridDistance = 60;
 
 
-let valueAxis = chart.yAxes.push(new xy.ValueAxis());
+let valueAxis = chart.yAxes.push(new charts.ValueAxis());
 valueAxis.min = 0;
 valueAxis.max = 24000;
 valueAxis.strictMinMax = true;
@@ -77,11 +76,12 @@ axisBreak.events.on("out", () => {
 })
 
 
-let series = chart.series.push(new xy.ColumnSeries());
+let series = chart.series.push(new charts.ColumnSeries());
 series.dataFields.categoryX = "country";
 series.dataFields.valueY = "visits";
 series.columns.template.tooltipText = "{valueY.value}";
 series.columns.template.tooltipY = 0;
+series.columns.template.strokeOpacity = 0;
 
 // as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
 series.columns.template.adapter.add("fill", (fill, target) => {

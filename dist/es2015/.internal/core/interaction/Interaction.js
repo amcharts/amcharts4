@@ -530,7 +530,6 @@ var Interaction = /** @class */ (function (_super) {
                 // Get focused object
                 var io = this.focusedObject;
                 // Get particular key
-                var key = keyboard.getEventKey(ev);
                 var disposerKey = "interactionKeyboardObject";
                 // If such disposer already exists we know the event is going on so we
                 // just move on
@@ -594,7 +593,8 @@ var Interaction = /** @class */ (function (_super) {
             var imev = {
                 type: "track",
                 target: this,
-                event: ev
+                event: ev,
+                pointer: pointer
             };
             this.events.dispatchImmediately("track", imev);
         }
@@ -683,7 +683,8 @@ var Interaction = /** @class */ (function (_super) {
                 var imev = {
                     type: "track",
                     target: this,
-                    event: ev
+                    event: ev,
+                    pointer: pointer
                 };
                 this.events.dispatchImmediately("track", imev);
             }
@@ -896,7 +897,6 @@ var Interaction = /** @class */ (function (_super) {
             // Clear last hit
             io.lastHit = undefined;
             io.lastHitPointer = undefined;
-            var globalPoint = pointer.point;
             // Dispatch event
             if (io.events.isEnabled("doublehit")) {
                 var imev = {
@@ -1132,7 +1132,6 @@ var Interaction = /** @class */ (function (_super) {
                 // Is this pointer relevant to element?
                 if (io.overPointers.contains(pointer) && io.hoverable) {
                     // Check if the element is still hovered
-                    var element = io.element;
                     var reset = false;
                     if (io.element) {
                         if (!io.element.contains(pointer.lastEvent.target)) {
@@ -1192,7 +1191,8 @@ var Interaction = /** @class */ (function (_super) {
                 type: "track",
                 target: io,
                 event: ev,
-                point: pointer.point
+                point: pointer.point,
+                pointer: pointer
             };
             io.events.dispatchImmediately("track", imev);
         }

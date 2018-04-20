@@ -190,9 +190,11 @@ export function add(array, element, index) {
     if (!$type.isNumber(index)) {
         array.push(element);
     }
+    // Add to the beginning of array if index is 0
     else if (index === 0) {
         array.unshift(element);
     }
+    // Add to indicated place if index is set
     else {
         array.splice(index, 0, element);
     }
@@ -218,6 +220,7 @@ export function replace(array, element, index) {
     if (!$type.isNumber(index)) {
         array.push(element);
     }
+    // add to indicated place if index is set
     else {
         array.splice(index, 0, element);
     }

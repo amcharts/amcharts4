@@ -21,8 +21,8 @@ import { Group } from "../Group";
 import { AMElement } from "../AMElement";
 import { Animation, IAnimatable, IAnimationOptions } from "../../utils/Animation";
 import { List } from "../../utils/List";
-import * as $type from "../../utils/Type";
 import { Sprite } from "../../Sprite";
+import * as $type from "../../utils/Type";
 /**
  * ============================================================================
  * REQUISITES

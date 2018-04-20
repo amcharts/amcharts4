@@ -9,8 +9,8 @@
  */
 import { Circle, ICircleProperties, ICircleAdapters, ICircleEvents } from "./Circle";
 import { SpriteEventDispatcher, AMEvent } from "../Sprite";
-import { IPoint } from "../defs/IPoint";
 import { IWavedShape } from "../defs/IWavedShape";
+import { IPoint } from "../defs/IPoint";
 import { Percent } from "../utils/Percent";
 /**
  * ============================================================================

@@ -1,14 +1,13 @@
-import * as amcharts4 from "@amcharts/amcharts4";
-import * as map from "@amcharts/amcharts4/map";
+import * as amcharts4 from "@amcharts/amcharts4/core";
+import * as maps from "@amcharts/amcharts4/maps";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
-import worldMap from "@amcharts/amcharts4/maps/worldLow";
-
+import worldLow from "@amcharts/amcharts4/geodata/worldLow";
 
 amcharts4.useTheme(AnimatedTheme);
 
-let chart = amcharts4.create("chartdiv", map.MapChart);
-chart.geoJSON = worldMap;
-chart.projection = new map.projections.Miller();
+let chart = amcharts4.create("chartdiv", maps.MapChart);
+chart.geodata = worldLow;
+chart.projection = new maps.projections.Miller();
 
 let title = chart.chartContainer.createChild(amcharts4.Label);
 title.text = "Life expectancy in the World";
@@ -16,46 +15,42 @@ title.fontSize = 20;
 title.paddingTop = 30;
 title.align = "center";
 
-let polygonSeries = chart.series.push(new map.MapPolygonSeries());
+let polygonSeries = chart.series.push(new maps.MapPolygonSeries());
 let polygonTemplate = polygonSeries.mapPolygons.template;
 polygonTemplate.tooltipText = "{name}: {value.value}";
-
-polygonSeries.getDataFromJSON = true;
-polygonSeries.minColor = amcharts4.color("#FFFFFF");
-
-let colorSet = new amcharts4.ColorSet();
-polygonSeries.maxColor = colorSet.getIndex(3);
+polygonSeries.useGeodata = true;
+polygonSeries.heatRules.push({ property: "fill", target: polygonSeries.mapPolygons.template, min: amcharts4.color("#ffffff"), max: amcharts4.color("#AAAA00") });
 
 
 // add heat legend
-let heatLegend = chart.chartContainer.createChild(map.HeatLegend);
+let heatLegend = chart.chartContainer.createChild(maps.HeatLegend);
 heatLegend.valign = "bottom";
 heatLegend.series = polygonSeries;
 heatLegend.width = amcharts4.percent(100);
 heatLegend.orientation = "horizontal";
-heatLegend.margin(20,20,20,20);
+heatLegend.margin(20, 20, 20, 20);
 heatLegend.valueAxis.renderer.labels.template.fontSize = 10;
 heatLegend.valueAxis.renderer.minGridDistance = 40;
 
-polygonSeries.mapPolygons.template.events.on("over", (event)=>{
-	handleHover(event.target);
+polygonSeries.mapPolygons.template.events.on("over", (event) => {
+  handleHover(event.target);
 })
 
-polygonSeries.mapPolygons.template.events.on("hit", (event)=>{
-	handleHover(event.target);
+polygonSeries.mapPolygons.template.events.on("hit", (event) => {
+  handleHover(event.target);
 })
 
-function handleHover(mapPolygon){
-	if(!isNaN(mapPolygon.dataItem.value)){
-		heatLegend.valueAxis.showTooltipAt(mapPolygon.dataItem.value)
-	}
-	else{
-		heatLegend.valueAxis.hideTooltip();
-	}
+function handleHover(mapPolygon) {
+  if (!isNaN(mapPolygon.dataItem.value)) {
+    heatLegend.valueAxis.showTooltipAt(mapPolygon.dataItem.value)
+  }
+  else {
+    heatLegend.valueAxis.hideTooltip();
+  }
 }
 
-polygonSeries.mapPolygons.template.events.on("out", (event)=>{
-	heatLegend.valueAxis.hideTooltip();
+polygonSeries.mapPolygons.template.events.on("out", (event) => {
+  heatLegend.valueAxis.hideTooltip();
 })
 
 

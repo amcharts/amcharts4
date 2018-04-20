@@ -19,7 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { AxisRendererX } from "../axes/AxisRendererX";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import * as $path from "../../core/rendering/Path";
 /**
  * ============================================================================
@@ -103,7 +103,7 @@ var AxisRendererX3D = /** @class */ (function (_super) {
          */
         set: function (chart) {
             if (chart) {
-                this._chart.set(chart, chart.events.on("propertychanged", this.handle3DChanged));
+                this._chart.set(chart, chart.events.on("propertychanged", this.handle3DChanged, this));
             }
         },
         enumerable: true,
@@ -128,5 +128,5 @@ export { AxisRendererX3D };
  *
  * @ignore
  */
-system.registeredClasses["AxisRendererX3D"] = AxisRendererX3D;
+registry.registeredClasses["AxisRendererX3D"] = AxisRendererX3D;
 //# sourceMappingURL=AxisRendererX3D.js.map

@@ -255,12 +255,6 @@ export declare class System extends BaseObjectEvents {
      */
     init(): void;
     /**
-     * Generates a unique chart system-wide ID.
-     *
-     * @return {string} Generated ID
-     */
-    getUniqueId(): string;
-    /**
      * Creates all HTML and SVG containers needed for the chart instance, as well
      * as the new [[Sprite]] (as specified in `classType` parameter).
      *

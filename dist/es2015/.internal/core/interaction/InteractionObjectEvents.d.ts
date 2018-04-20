@@ -183,7 +183,7 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
      * Invoked when pointer (mouse cursor or touch point) moves over `trackable`
      * object.
      */
-    track: PointEvent & MouseTouchEvent;
+    track: PointEvent & PointerEvent & MouseTouchEvent;
     /**
      * Invoked when `rotatable` object is being rotated either by mouse or touch
      * gesture.

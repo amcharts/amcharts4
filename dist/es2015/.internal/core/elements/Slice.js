@@ -74,7 +74,6 @@ var Slice = /** @class */ (function (_super) {
      */
     Slice.prototype.draw = function () {
         _super.prototype.draw.call(this);
-        var arc = this.arc;
         this.slice.element.attr({ "d": $path.arc(this.startAngle, this.arc, this.radius, this.innerRadius, this.radiusY, this.cornerRadius, this.innerCornerRadius) });
         this.shiftRadius = this.shiftRadius;
     };

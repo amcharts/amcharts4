@@ -18,8 +18,8 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Line } from "./Line";
-import * as $path from "../rendering/Path";
 import { color } from "../utils/Color";
+import * as $path from "../rendering/Path";
 /**
  * ============================================================================
  * MAIN CLASS

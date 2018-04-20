@@ -19,7 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { MapLine } from "./MapLine";
 import { Polyspline } from "../../core/elements/Polyspline";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -74,5 +74,5 @@ export { MapSpline };
  *
  * @ignore
  */
-system.registeredClasses["MapSpline"] = MapSpline;
+registry.registeredClasses["MapSpline"] = MapSpline;
 //# sourceMappingURL=MapSpline.js.map

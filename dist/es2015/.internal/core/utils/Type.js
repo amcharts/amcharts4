@@ -9,8 +9,6 @@
  * ============================================================================
  * @hidden
  */
-import * as $math from "./Math";
-import { isColor, castColor } from "./Color";
 import { Percent } from "./Percent";
 /**
  * ============================================================================
@@ -216,27 +214,30 @@ export function castNumber(value) {
  * @return {Date}                            Date object
  * @deprecated Not used anywhere
  * @throws {Error}
+ * @hidden
+ * @deprecated
  */
-export function castDate(value, formatter) {
+/*export function castDate(value: string | number | Date, formatter?: DateFormatter): Date {
     if (typeof value === "string") {
         if (formatter) {
             return formatter.parse(value);
         }
         return new Date(value);
-    }
-    else if (typeof value === "number") {
+
+    } else if (typeof value === "number") {
         return new Date(value);
-    }
-    else {
-        var t = getType(value);
+
+    } else {
+        const t = getType(value);
+
         if (t === "[object Date]") {
             return value;
-        }
-        else {
+
+        } else {
             throw new Error("Expected a string, number, or date but got " + t);
         }
     }
-}
+}*/
 /**
  * ============================================================================
  * QUICK CONVERSION
@@ -269,34 +270,6 @@ export function toNumber(value) {
     return value;
 }
 /**
- * Converts any value and fits it into a specific value range.
- *
- * @param  {any}     value  Source value
- * @param  {number}  min    Minimum allowable value
- * @param  {number}  max    Maximum allowable value
- * @return {number}         Number
- */
-export function toNumberRange(value, min, max) {
-    if (hasValue(value)) {
-        value = toNumber(value);
-        return $math.fitToRange(value, min, max);
-    }
-    return value;
-}
-/*export function toNumberRange(value: any, min?: number, max?: number): number {
-    value = toNumber(value);
-    if (!isNaN(min) && !isNaN(max)) {
-        return $math.fitToRange(value, min, max);
-    }
-    else if (!isNaN(min)) {
-        return $math.min(value, min);
-    }
-    else if (!isNaN(max)) {
-        return $math.max(value, max);
-    }
-    return value;
-}*/
-/**
  * Converts any value into a string (text).
  *
  * @param  {any}     value  Source value
@@ -309,18 +282,6 @@ export function toText(value) {
     return value;
 }
 /**
- * Converts any value into a [[Color]].
- *
- * @param  {any}    value  Source value
- * @return {Color}         Color object
- */
-export function toColor(value) {
-    if (hasValue(value) && !isColor(value)) {
-        return castColor(value);
-    }
-    return value;
-}
-/**
  * Converts any value to a number or [[Percent]].
  *
  * If the parameter is a string and contains "%", it will
@@ -329,7 +290,7 @@ export function toColor(value) {
  * Otherwise, it will convert into a number.
  *
  * @param {number | Percent}   value  Number or percent
- * @return {number | Percent}         Color object
+ * @return {number | Percent}         Percent object
  */
 export function toNumberOrPercent(value) {
     if (!hasValue(value) || isNumber(value) || isPercent(value)) {

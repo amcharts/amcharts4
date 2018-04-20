@@ -41,13 +41,13 @@ export declare class PieSeriesDataItem extends SeriesDataItem implements ILegend
     _slice: Slice;
     /**
      * A reference to a slice label element.
-     *
+     * @ignore Exclude from docs
      * @type {AxisLabelCircular}
      */
     protected _label: AxisLabelCircular;
     /**
      * A reference to a slice tick element.
-     *
+     * @ignore Exclude from docs
      * @type {PieTick}
      */
     protected _tick: PieTick;
@@ -162,6 +162,15 @@ export declare class PieSeriesDataItem extends SeriesDataItem implements ILegend
      * @return {Slice} Slice element
      */
     readonly slice: this["_slice"];
+    /**
+     * @return {boolean} Disabled in legend?
+     */
+    /**
+     * Should dataItem (slice) be hidden in legend?
+     *
+     * @param {boolean} value Visible in legend?
+     */
+    hiddenInLegend: boolean;
 }
 /**
  * ============================================================================
@@ -181,11 +190,11 @@ export interface IPieSeriesDataFields extends ISeriesDataFields {
     category?: string;
     /**
      * Name of the field in data that holds boolean flag if item should be
-     * visible in legend.
+     * hidden in legend.
      *
      * @type {string}
      */
-    visibleInLegend?: string;
+    hiddenInLegend?: string;
     /**
      * Name of the field in data that holds item's radius value.
      *
@@ -533,4 +542,10 @@ export declare class PieSeries extends Series {
      * @param {AMEvent<Slice, ISpriteEvents>["propertychanged"]}  event  Event
      */
     protected handleSliceMove(event: AMEvent<Slice, ISpriteEvents>["propertychanged"]): void;
+    /**
+     * Copies all properties from another instance of [[PieSeries]].
+     *
+     * @param {ColumnSeries}  source  Source series
+     */
+    copyFrom(source: this): void;
 }

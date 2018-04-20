@@ -16,7 +16,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import { PieSeries, PieSeriesDataItem } from "../series/PieSeries";
 import { Slice3D } from "../../core/elements/3d/Slice3D";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
@@ -145,6 +145,7 @@ var PieSeries3D = /** @class */ (function (_super) {
             if ((startAngle >= -90 && startAngle < 90)) {
                 slice.toFront();
             }
+            //q2 || q3
             else if ((startAngle >= 90)) {
                 slice.toBack();
             }
@@ -195,6 +196,6 @@ export { PieSeries3D };
  *
  * @ignore
  */
-system.registeredClasses["PieSeries3D"] = PieSeries3D;
-system.registeredClasses["PieSeries3DDataItem"] = PieSeries3DDataItem;
+registry.registeredClasses["PieSeries3D"] = PieSeries3D;
+registry.registeredClasses["PieSeries3DDataItem"] = PieSeries3DDataItem;
 //# sourceMappingURL=PieSeries3D.js.map

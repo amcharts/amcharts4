@@ -34,11 +34,12 @@ import { Pattern } from "./rendering/fills/Pattern";
 import { LinearGradient } from "./rendering/fills/LinearGradient";
 import { RadialGradient } from "./rendering/fills/RadialGradient";
 import { Modal } from "./elements/Modal";
-import { Color, color } from "./utils/Color";
+import { Color, color, toColor } from "./utils/Color";
 import { Filter } from "./rendering/filters/Filter";
 import { interaction } from "./interaction/Interaction";
 import { MouseCursorStyle } from "./interaction/Mouse";
 import { system } from "./System";
+import { registry } from "./Registry";
 import { NumberFormatter } from "./formatters/NumberFormatter";
 import { DateFormatter } from "./formatters/DateFormatter";
 import { DurationFormatter } from "./formatters/DurationFormatter";
@@ -284,6 +285,13 @@ var Sprite = /** @class */ (function (_super) {
          * this flag is set to true for the initial sprite you create and place to the div so that we could clear all additional sprites/containers when this sprite is disposed
          */
         _this.isBaseSprite = false;
+        /**
+         * Whether this sprite should be cloned when clonning it's parent container. We set this to falsse in those cases when a sprite is created by the class, so that when clonning
+         * a duplicate sprite would not appear.
+         *
+         * @type {boolean}
+         */
+        _this.shouldClone = true;
         _this.className = "Sprite";
         // Generate a unique ID
         _this.uid;
@@ -370,7 +378,7 @@ var Sprite = /** @class */ (function (_super) {
             return this.parent.getCurrentThemes();
         }
         else {
-            return system.themes;
+            return registry.themes;
         }
     };
     /**
@@ -653,6 +661,12 @@ var Sprite = /** @class */ (function (_super) {
         this._showSystemTooltip = source.showSystemTooltip;
         $utils.copyProperties(source.propertyFields, this.propertyFields);
         $utils.copyProperties(source.properties, this);
+        if (source.fillModifier) {
+            this.fillModifier = source.fillModifier.clone();
+        }
+        if (source.strokeModifier) {
+            this.strokeModifier = source.strokeModifier.clone();
+        }
     };
     Sprite.prototype.dispose = function () {
         if (this.isBaseSprite) {
@@ -674,6 +688,10 @@ var Sprite = /** @class */ (function (_super) {
             var filter = this.filters.getIndex(0);
             filter.dispose();
             this.filters.removeValue(filter);
+        }
+        // remove from map
+        if ($type.hasValue(this.id)) {
+            this.map.removeKey(this.id);
         }
     };
     Object.defineProperty(Sprite.prototype, "isTemplate", {
@@ -808,6 +826,9 @@ var Sprite = /** @class */ (function (_super) {
                     var parentEvent = parent.events.on("globalscalechanged", this.handleGlobalScale, this);
                     this._disposers.push(parentEvent);
                     this._parent.set(parent, parentEvent);
+                    if (!this._dataItem) {
+                        this.dataItem = parent.dataItem;
+                    }
                 }
                 else {
                     this._parent.reset();
@@ -837,12 +858,24 @@ var Sprite = /** @class */ (function (_super) {
             this.paper.appendDef(this.filterElement);
         }
         var fill = this.fill;
-        if (fill instanceof Pattern || fill instanceof LinearGradient || fill instanceof RadialGradient) {
+        if (fill && fill.element) {
             this.paper.appendDef(fill.element);
         }
         var stroke = this.stroke;
-        if (stroke instanceof Pattern || stroke instanceof LinearGradient || stroke instanceof RadialGradient) {
+        if (stroke && stroke.element) {
             this.paper.appendDef(stroke.element);
+        }
+        if (this.fillModifier && this.fill instanceof Color) {
+            var fill_1 = this.fillModifier.modify(this.fill);
+            if (fill_1 && fill_1.element) {
+                this.paper.appendDef(fill_1.element);
+            }
+        }
+        if (this.strokeModifier && this.stroke instanceof Color) {
+            var stroke_1 = this.fillModifier.modify(this.stroke);
+            if (stroke_1 && stroke_1.element) {
+                this.paper.appendDef(stroke_1.element);
+            }
         }
         if (this._clipPath) {
             this.paper.appendDef(this._clipPath);
@@ -1209,6 +1242,7 @@ var Sprite = /** @class */ (function (_super) {
                     this._clipElement = this.paper.add("rect");
                     this._clipElement.attr({ "width": mask.pixelWidth, "height": mask.pixelHeight });
                 }
+                // Sprite
                 else {
                     if (mask.element) {
                         this._clipElement = mask.element;
@@ -1218,7 +1252,7 @@ var Sprite = /** @class */ (function (_super) {
             if (this._clipElement) {
                 this._clipPath.add(this._clipElement);
             }
-            var id = system.getUniqueId();
+            var id = registry.getUniqueId();
             this._clipPath.attr({ "id": id });
             this.group.attr({ "clip-path": "url(#" + id + ")" });
             this.paper.appendDef(this._clipPath);
@@ -1294,7 +1328,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {Optional<AMElement>}  element  Element
          */
         set: function (element) {
-            // Destroy previous element if there was one before		
+            // Destroy previous element if there was one before
             this.removeElement();
             // Set new element
             this._element = element;
@@ -1549,9 +1583,6 @@ var Sprite = /** @class */ (function (_super) {
      * @param {number}  scale     New Scale
      */
     Sprite.prototype.moveTo = function (point, rotation, scale, isDragged) {
-        if (this.className == "SankeyLink") {
-            debugger;
-        }
         if (this.isDragged && !isDragged) {
             return;
         }
@@ -2545,7 +2576,7 @@ var Sprite = /** @class */ (function (_super) {
             // Check values
             value = this.getTagValueFromObject(parts, dataItem.values);
             // Check properties
-            if (!$type.hasValue(value) || $type.isObject(value)) {
+            if (!$type.hasValue(value) || $type.isObject(value)) { // isObject helps to solve problem with date axis, as for example dateX will get dateX from values object and wont't get to the dateX date.
                 value = this.getTagValueFromObject(parts, dataItem);
             }
             // Check data context
@@ -2701,6 +2732,16 @@ var Sprite = /** @class */ (function (_super) {
                     this.config = dataItem.dataContext[this.configField];
                 }
             }
+            var dataContext = dataItem.dataContext;
+            if (dataContext) {
+                for (var propertyName in this.propertyFields) {
+                    var fieldValue = this.propertyFields[propertyName];
+                    if ($type.hasValue(dataContext[fieldValue])) {
+                        var anyThis = this;
+                        anyThis[propertyName] = dataContext[fieldValue];
+                    }
+                }
+            }
             this.invalidate();
         }
     };
@@ -2721,16 +2762,7 @@ var Sprite = /** @class */ (function (_super) {
      * @return {any}                              Property value
      */
     Sprite.prototype.getPropertyValue = function (propertyName) {
-        var propValue;
-        var fieldName = this.propertyFields[propertyName];
-        if ($type.hasValue(fieldName)) {
-            if (this.dataItem && this.dataItem.dataContext) {
-                propValue = this.dataItem.dataContext[fieldName];
-            }
-        }
-        if (!$type.hasValue(propValue)) {
-            propValue = this.properties[propertyName];
-        }
+        var propValue = this.properties[propertyName];
         // Apply adapter
         // @todo get rid of <any>
         if (!this.isTemplate) {
@@ -2762,6 +2794,7 @@ var Sprite = /** @class */ (function (_super) {
             if (invalidate) {
                 this.invalidate();
             }
+            // else, as both applySVGAttr and transform is done after invalidation.
             else {
                 if (transform) {
                     this.invalidatePosition();
@@ -2773,7 +2806,8 @@ var Sprite = /** @class */ (function (_super) {
                 for (var i = 0; i < length_1; ++i) {
                     var clone = clones[i];
                     if (!clone.isDisposed()) {
-                        clone.setPropertyValue(property, value, invalidate, transform);
+                        //(<Sprite>clone).setPropertyValue(<any>property, value, invalidate, transform);
+                        clone[property] = value;
                     }
                 }
             }
@@ -5621,7 +5655,7 @@ var Sprite = /** @class */ (function (_super) {
          * @return {ColorModifier} Fill color modifier
          */
         get: function () {
-            return this._fillModifier;
+            return this.getPropertyValue("fillModifier");
         },
         /**
          * ==========================================================================
@@ -5636,7 +5670,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {ColorModifier}  value  Fill color modifiier
          */
         set: function (value) {
-            this._fillModifier = value;
+            this.setPropertyValue("fillModifier", value);
         },
         enumerable: true,
         configurable: true
@@ -5646,7 +5680,7 @@ var Sprite = /** @class */ (function (_super) {
          * @return {ColorModifier} Stroke color modifier
          */
         get: function () {
-            return this._strokeModifier;
+            return this.getPropertyValue("strokeModifier");
         },
         /**
          * [[ColorModifier]] that can be used to modify color and pattern of the
@@ -5655,7 +5689,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {ColorModifier}  value  Stroke color modifier
          */
         set: function (value) {
-            this._strokeModifier = value;
+            this.setPropertyValue("strokeModifier", value, true);
         },
         enumerable: true,
         configurable: true
@@ -5675,7 +5709,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number}  value  Opacity (0-1)
          */
         set: function (value) {
-            value = $type.toNumberRange(value, 0, 1);
+            value = $math.toNumberRange(value, 0, 1);
             if (this.setPropertyValue("fillOpacity", value)) {
                 this.setSVGAttribute({ "fill-opacity": value });
             }
@@ -5710,9 +5744,9 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.setFill = function (value) {
         if (!$type.isObject(value)) {
-            value = $type.toColor(value);
+            value = toColor(value);
         }
-        if (this.setPropertyValue("fill", value)) {
+        if (this.setPropertyValue("fill", value) || this.fillModifier) {
             // this can not go into next if, as value is turned to Gradient
             if (value instanceof Color) {
                 if (this.fillModifier) {
@@ -5758,7 +5792,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number} value Opacity (0-1)
          */
         set: function (value) {
-            value = $type.toNumberRange(value, 0, 1);
+            value = $math.toNumberRange(value, 0, 1);
             if (this.setPropertyValue("opacity", value)) {
                 this.setSVGAttribute({ "opacity": value });
             }
@@ -5793,9 +5827,9 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.setStroke = function (value) {
         if (!$type.isObject(value)) {
-            value = $type.toColor(value);
+            value = toColor(value);
         }
-        if (this.setPropertyValue("stroke", value)) {
+        if (this.setPropertyValue("stroke", value) || this.strokeModifier) {
             // this can not go into next if, as value is turned to Gradient
             if (value instanceof Color) {
                 if (this.strokeModifier) {
@@ -5835,7 +5869,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number}  value  Opacity (0-1)
          */
         set: function (value) {
-            value = $type.toNumberRange(value, 0, 1);
+            value = $math.toNumberRange(value, 0, 1);
             if (this.setPropertyValue("strokeOpacity", value)) {
                 this.setSVGAttribute({ "stroke-opacity": value });
             }
@@ -6073,7 +6107,11 @@ var Sprite = /** @class */ (function (_super) {
                 this._disposers.push(this._showHideDisposer);
             }
             // Make it visible
-            this.visible = true;
+            var visible = this.defaultState.properties.visible;
+            if (!$type.hasValue(visible)) {
+                visible = true;
+            }
+            this.visible = visible;
             // Dispatch "show" event
             this.dispatchImmediately("show");
         }
@@ -6318,6 +6356,27 @@ var Sprite = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Sprite.prototype, "tooltipColorSource", {
+        /**
+         * @return {Sprite} Tooltip color source
+         */
+        get: function () {
+            return this._tooltipColorSource;
+        },
+        /**
+         * A [[Sprite]] or sprite template to use when getting colors for tooltip. If a template is set,
+         * tooltip will look for a clone in tooltipDataItem.sprites. If no clone is found, then template colors will be used.
+         *
+         * @see {@link Tooltip}
+         * @see {@link Sprite}
+         * @param {Sprite}  sprite Sprite
+         */
+        set: function (sprite) {
+            this._tooltipColorSource = sprite;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Shows the element's [[Tooltip]].
      *
@@ -6331,10 +6390,29 @@ var Sprite = /** @class */ (function (_super) {
         var _this = this;
         if ($type.hasValue(this.tooltipText) || $type.hasValue(this.tooltipHTML)) {
             var tooltip = this.tooltip;
+            var tooltipDataItem = this.tooltipDataItem;
             if (tooltip) {
+                var colorSource_1 = this;
+                var tooltipColorSource_1 = this.tooltipColorSource;
+                if ((tooltip.getStrokeFromObject || tooltip.getFillFromObject) && this.tooltipColorSource) {
+                    if (tooltipColorSource_1.isTemplate) {
+                        if (tooltipDataItem) {
+                            $array.eachContinue(tooltipDataItem.sprites, function (sprite) {
+                                if (sprite.clonedFrom == tooltipColorSource_1) {
+                                    colorSource_1 = sprite;
+                                    return false;
+                                }
+                                return true;
+                            });
+                        }
+                    }
+                    else {
+                        colorSource_1 = tooltipColorSource_1;
+                    }
+                }
                 if (tooltip.getStrokeFromObject) {
                     var stroke = this.stroke;
-                    var source = this;
+                    var source = colorSource_1;
                     while (source.parent != undefined) {
                         stroke = source.stroke;
                         if (stroke == undefined) {
@@ -6344,11 +6422,16 @@ var Sprite = /** @class */ (function (_super) {
                             break;
                         }
                     }
-                    tooltip.background.stroke = stroke;
+                    if (stroke instanceof Color) {
+                        tooltip.background.animate({ property: "stroke", to: stroke }, tooltip.animationDuration);
+                    }
+                    else {
+                        tooltip.background.stroke = stroke;
+                    }
                 }
                 if (tooltip.getFillFromObject) {
                     var fill = this.fill;
-                    var source = this;
+                    var source = colorSource_1;
                     while (source.parent != undefined) {
                         fill = source.fill;
                         if (fill == undefined || (fill instanceof Color && fill.rgb == undefined)) {
@@ -6361,7 +6444,12 @@ var Sprite = /** @class */ (function (_super) {
                     if (fill == undefined) {
                         fill = color("#000000");
                     }
-                    tooltip.background.fill = fill;
+                    if (fill instanceof Color) {
+                        tooltip.background.animate({ property: "fill", to: fill }, tooltip.animationDuration);
+                    }
+                    else {
+                        tooltip.background.fill = fill;
+                    }
                     if (tooltip.autoTextColor && fill instanceof Color) {
                         tooltip.label.fill = fill.alternative;
                     }
@@ -6373,7 +6461,7 @@ var Sprite = /** @class */ (function (_super) {
                 if (this.tooltipText) {
                     tooltip.text = this.tooltipText;
                 }
-                tooltip.dataItem = this.tooltipDataItem;
+                tooltip.dataItem = tooltipDataItem;
                 if (this.tooltipPosition == "mouse") {
                     this._interactionDisposer = interaction.body.events.on("track", function (ev) {
                         _this.pointTooltipTo($utils.documentPointToSvg(ev.point, _this.svgContainer), true);
@@ -6390,6 +6478,10 @@ var Sprite = /** @class */ (function (_super) {
                 // Set accessibility option
                 tooltip.readerDescribedBy = this.uidAttr();
                 if (tooltip.text != undefined && tooltip.text != "") {
+                    //@todo: think of how to solve this better
+                    if (tooltip && !tooltip.parent) {
+                        tooltip.parent = this.tooltipContainer;
+                    }
                     // Reveal tooltip
                     tooltip.show();
                     return true;
@@ -6610,6 +6702,45 @@ var Sprite = /** @class */ (function (_super) {
         this.disabled = true;
         if (system.verbose) {
             console.log(e);
+        }
+    };
+    /**
+ * Processes JSON-based config before it is applied to the object.
+ *
+ * @ignore Exclude from docs
+ * @param {object}  config  Config
+ */
+    Sprite.prototype.processConfig = function (config) {
+        if (config) {
+            if ($type.hasValue(config.tooltipColorSource) && $type.isString(config.tooltipColorSource) && this.map.hasKey(config.tooltipColorSource)) {
+                config.tooltipColorSource = this.map.getKey(config.tooltipColorSource);
+            }
+        }
+        _super.prototype.processConfig.call(this, config);
+    };
+    /**
+     * This function is used to sort element's JSON config properties, so that
+     * some properties that absolutely need to be processed last, can be put at
+     * the end.
+     *
+     * @ignore Exclude from docs
+     * @param  {string}  a  Element 1
+     * @param  {string}  b  Element 2
+     * @return {Ordering}   Sorting number
+     */
+    Sprite.prototype.configOrder = function (a, b) {
+        if (a == b) {
+            return 0;
+        }
+        // Must come last
+        else if (a == "tooltipColorSource") {
+            return 1;
+        }
+        else if (b == "tooltipColorSource") {
+            return -1;
+        }
+        else {
+            return _super.prototype.configOrder.call(this, a, b);
         }
     };
     return Sprite;

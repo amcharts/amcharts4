@@ -14,16 +14,6 @@ import { Color } from "../../core/utils/Color";
 import { ListTemplate } from "../../core/utils/List";
 import { ValueAxis } from "../../charts/axes/ValueAxis";
 /**
- * Defines an interface for a series which can be used by Heat legend. Such a series must have min, max, minColor and maxColor properties.
- *
- */
-export interface IHeatLegendSeries extends Series {
-    minValue?: number;
-    maxValue?: number;
-    minColor?: Color;
-    maxColor?: Color;
-}
-/**
  * ============================================================================
  * REQUISITES
  * ============================================================================
@@ -144,13 +134,15 @@ export declare class HeatLegend extends Container {
     /**
      * Series of a heat legend
      * @ignore
-     * @type {IHeatLegendSeries}
+     * @type {Series}
      */
-    protected _series: IHeatLegendSeries;
+    protected _series: Series;
     /**
      * Constructor
      */
     constructor();
+    protected getMinFromRules(property: string): undefined;
+    protected getMaxFromRules(property: string): undefined;
     /**
      *
      * @ignore Exclude from docs
@@ -228,16 +220,25 @@ export declare class HeatLegend extends Container {
     valueAxis: ValueAxis;
     /**
      * Returns series value.
-     * @return {IHeatLegendSeries}
+     * @return {Series}
      */
     /**
      * You can set series for heat legend. It will take min, max, minColor and maxColor values from this series.
-     * @param {IHeatLegendSeries} series
+     * @param {Series} series
      */
-    series: IHeatLegendSeries;
+    series: Series;
     /**
      * Updates min/max of value axis.
      * @ignore
      */
     protected updateMinMax(min: number, max: number): void;
+    /**
+     * Processes JSON-based config before it is applied to the object.
+     *
+     * @ignore Exclude from docs
+     * @param {object}  config  Config
+     */
+    processConfig(config?: {
+        [index: string]: any;
+    }): void;
 }

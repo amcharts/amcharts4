@@ -46,11 +46,15 @@ var Cone = /** @class */ (function (_super) {
         _this.className = "Cone";
         _this.angle = 30;
         _this.radius = percent(100);
-        _this.topRadius = percent(0);
+        _this.topRadius = percent(100);
         _this.top = _this.createChild(Ellipse);
+        _this.top.shouldClone = false;
         _this.bottom = _this.createChild(Ellipse);
+        _this.bottom.shouldClone = false;
         _this.body = _this.createChild(Sprite);
+        _this.body.shouldClone = false;
         _this.body.element = _this.paper.add("path");
+        _this.layout = "none";
         _this.bodyFillModifier = new LinearGradientModifier();
         _this.bodyFillModifier.lightnesses = [0, -0.25, 0];
         _this.body.fillModifier = _this.bodyFillModifier;
@@ -71,7 +75,6 @@ var Cone = /** @class */ (function (_super) {
         var h = this.innerHeight;
         var bottom = this.bottom;
         var top = this.top;
-        var body = this.body;
         var angle = this.angle;
         var radiusBase;
         var dx;
@@ -81,18 +84,18 @@ var Cone = /** @class */ (function (_super) {
             bottom.y = h / 2;
             top.y = h / 2;
             top.x = w;
-            dx = this.angle / 90;
+            dx = (90 - angle) / 90;
             dy = 0;
-            this.bodyFillModifier.gradient.rotation = 0;
+            this.bodyFillModifier.gradient.rotation = 90;
         }
         else {
+            dx = 0;
+            dy = (90 - angle) / 90;
             radiusBase = w / 2;
             bottom.y = h;
             bottom.x = w / 2;
             top.x = w / 2;
-            dx = 0;
-            dy = this.angle / 90;
-            this.bodyFillModifier.gradient.rotation = 90;
+            this.bodyFillModifier.gradient.rotation = 0;
         }
         var radius = this.radius.value * radiusBase;
         var topRadius = this.topRadius.value * radiusBase;

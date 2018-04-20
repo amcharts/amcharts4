@@ -18,7 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Sprite } from "../../core/Sprite";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 /**
  * ============================================================================
@@ -84,5 +84,5 @@ export { Tick };
  *
  * @ignore
  */
-system.registeredClasses["Tick"] = Tick;
+registry.registeredClasses["Tick"] = Tick;
 //# sourceMappingURL=Tick.js.map

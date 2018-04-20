@@ -227,4 +227,10 @@ export declare class MapImageSeries extends MapSeries {
      * @ignore Exclude from docs
      */
     validate(): void;
+    /**
+     * Copies all properties from another instance of [[Series]].
+     *
+     * @param {Series}  source  Source series
+     */
+    copyFrom(source: this): void;
 }

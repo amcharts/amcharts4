@@ -1,16 +1,8 @@
 /**
  * This module contains Color object definition
  */
-/**
- * ============================================================================
- * IMPORTS
- * ============================================================================
- * @hidden
- */
-import { color, isColor, castColor } from "./Colors";
 import * as $colors from "./Colors";
-// Re-export
-export { color, isColor, castColor };
+import * as $type from "./Type";
 /**
  * Represents a color.
  *
@@ -174,7 +166,7 @@ var Color = /** @class */ (function () {
      * @return {Color}            New Color
      */
     Color.prototype.lighten = function (percent) {
-        return $colors.lighten(this, percent);
+        return new Color($colors.lighten(this.rgb, percent));
     };
     /**
      * Retruns a new [[Color]] which is percent brighter (positivive value),
@@ -186,7 +178,7 @@ var Color = /** @class */ (function () {
      * @return {Color}            New Color
      */
     Color.prototype.brighten = function (percent) {
-        return $colors.brighten(this, percent);
+        return new Color($colors.brighten(this.rgb, percent));
     };
     /**
      * Returns a new [[Color]] based on current color with specific saturation
@@ -199,7 +191,7 @@ var Color = /** @class */ (function () {
      * @return {Color}               New (saturated) color
      */
     Color.prototype.saturate = function (saturation) {
-        return $colors.saturate(this, saturation);
+        return new Color($colors.saturate(this.rgb, saturation));
     };
     Object.defineProperty(Color.prototype, "alternative", {
         /**
@@ -228,4 +220,59 @@ var Color = /** @class */ (function () {
     return Color;
 }());
 export { Color };
+/**
+ * Resolves an input variable to a normal [[iRGB]] color and creates [[Color]]
+ * object for it.
+ *
+ * @param  {string | iRGB | Color}  value  Input value
+ * @param  {number}                 alpha  Alpha (0-1)
+ * @return {Color}                         Color object
+ */
+export function color(value, alpha) {
+    if (!$type.hasValue(value)) {
+        return new Color();
+    }
+    if (typeof value == "string") {
+        return new Color($colors.rgb(value, alpha));
+    }
+    // Check if it's already a Color object
+    if (value instanceof Color) {
+        if ($type.hasValue(alpha)) {
+            value.alpha = alpha;
+        }
+        return value;
+    }
+    // Not a string or Color instance, it's the iRGB object then
+    return new Color(value);
+}
+/**
+ * Checks if supplied argument is instance of [[Color]].
+ *
+ * @param  {any}      value  Input value
+ * @return {boolean}         Is Color?
+ */
+export function isColor(value) {
+    return value instanceof Color;
+}
+/**
+ * Converts any value to [[Color]].
+ *
+ * @param  {any}    value  Input value
+ * @return {Color}         Color
+ */
+export function castColor(value) {
+    return color(value);
+}
+/**
+ * Converts any value into a [[Color]].
+ *
+ * @param  {any}    value  Source value
+ * @return {Color}         Color object
+ */
+export function toColor(value) {
+    if ($type.hasValue(value) && !isColor(value)) {
+        return castColor(value);
+    }
+    return value;
+}
 //# sourceMappingURL=Color.js.map

@@ -18,7 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Sprite } from "../../core/Sprite";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { color } from "../../core/utils/Color";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 /**
@@ -61,5 +61,5 @@ export { AxisLine };
  *
  * @ignore
  */
-system.registeredClasses["AxisLine"] = AxisLine;
+registry.registeredClasses["AxisLine"] = AxisLine;
 //# sourceMappingURL=AxisLine.js.map

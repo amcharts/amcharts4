@@ -96,4 +96,11 @@ export declare class RadialGradient extends BaseObject {
      * @param {IPoint}  point  Focal point
      */
     focalPoint: IPoint;
+    copyFrom(source: this): void;
+    /**
+     * A list of color stops in the gradient.
+     *
+     * @return {List<IGradientStop>} Stops
+     */
+    readonly stops: List<IGradientStop>;
 }

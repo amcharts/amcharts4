@@ -67,6 +67,11 @@ export interface IAnimationOptions {
      * @type {function}
      */
     updateMethod?: (options: IAnimationOptions | IPercentAnimationOptions | IColorAnimationOptions, progress: number) => string | number | Color | Percent;
+    /**
+     * sometimes we need to pass some dummy data in animationOptions
+     * @type {any}
+     */
+    dummyData?: any;
 }
 /**
  * An interface for an object defining [[Percent]] animation.

@@ -8,7 +8,7 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { IInteractionEvents } from "../../core/interaction/Interaction";
 import { IPoint } from "../../core/defs/IPoint";
 import { Chart } from "../Chart";
@@ -52,6 +52,24 @@ export interface ICursorEvents extends IContainerEvents {
      * @todo Description (check)
      */
     zoomended: {};
+    /**
+     * Invoked when user starts panning using cursor.
+     *
+     * @todo Description (check)
+     */
+    panstarted: {};
+    /**
+     * Invoked when user is done panning using cursor.
+     *
+     * @todo Description (check)
+     */
+    panended: {};
+    /**
+     * Invoked when user is panning using cursor.
+     *
+     * @todo Description (check)
+     */
+    panning: {};
 }
 /**
  * Defines adapters for [[Cursor]].
@@ -142,7 +160,7 @@ export declare class Cursor extends Container {
      *
      * @type {"zoom" | "select"}
      */
-    protected _generalBehavior: "zoom" | "select";
+    protected _generalBehavior: "zoom" | "select" | "pan";
     /**
      * A reference to chart cursor belongs to.
      *
@@ -158,9 +176,9 @@ export declare class Cursor extends Container {
      * Handle pointer movement in document and update cursor position as needed.
      *
      * @ignore Exclude from docs
-     * @param {ISpriteEvents["track"]} event Event
+     * @param {IInteractionEvents["track"]} event Event
      */
-    handleCursorMove(event: ISpriteEvents["track"]): void;
+    handleCursorMove(event: IInteractionEvents["track"]): IPoint;
     /**
      * Updates cursors current positions.
      */

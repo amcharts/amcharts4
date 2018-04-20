@@ -127,4 +127,5 @@ export declare class LinearGradient extends BaseObject {
      * @param {number}  value  Rotation
      */
     rotation: number;
+    copyFrom(source: this): void;
 }

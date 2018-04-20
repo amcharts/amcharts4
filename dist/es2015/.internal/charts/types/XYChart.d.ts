@@ -21,8 +21,8 @@ import { Scrollbar, IScrollbarEvents } from "../../core/elements/Scrollbar";
 import { IRange } from "../../core/defs/IRange";
 import { XYCursor, IXYCursorEvents } from "../cursors/XYCursor";
 import { IPoint } from "../../core/defs/IPoint";
-import { Ordering } from "../../core/utils/Order";
 import { Button } from "../../core/elements/Button";
+import { Ordering } from "../../core/utils/Order";
 /**
  * ============================================================================
  * DATA ITEM
@@ -99,11 +99,11 @@ export interface IXYChartAdapters extends ISerialChartAdapters, IXYChartProperti
  *
  * ```TypeScript
  * // Includes
- * import * as amcharts4 from "@amcharts/amcharts4";
- * import * as xy from "@amcharts/amcharts4/xy";
+ * import * as amcharts4 from "@amcharts/amcharts4/core";
+ * import * as charts from "@amcharts/amcharts4/charts";
  *
  * // Create chart
- * let chart = amcharts4.create("chartdiv", xy.XYChart);
+ * let chart = amcharts4.create("chartdiv", charts.XYChart);
  *
  * // Add Data
  * chart.data = [{
@@ -118,21 +118,21 @@ export interface IXYChartAdapters extends ISerialChartAdapters, IXYChartProperti
  * }];
  *
  * // Add category axis
- * let categoryAxis = chart.xAxes.push(new xy.CategoryAxis());
+ * let categoryAxis = chart.xAxes.push(new charts.CategoryAxis());
  * categoryAxis.dataFields.category = "country";
  *
  * // Add value axis
- * let valueAxis = chart.yAxes.push(new xy.ValueAxis());
+ * let valueAxis = chart.yAxes.push(new charts.ValueAxis());
  *
  * // Add series
- * let series = chart.series.push(new xy.ColumnSeries());
+ * let series = chart.series.push(new charts.ColumnSeries());
  * series.name = "Web Traffic";
  * series.dataFields.categoryX = "country";
  * series.dataFields.valueY = "visits";
  * ```
  * ```JavaScript
  * // Create chart
- * var chart = amcharts4.create("chartdiv", amcharts4.xy.XYChart);
+ * var chart = amcharts4.create("chartdiv", amcharts4.charts.XYChart);
  *
  * // The following would work as well:
  * // var chart = amcharts4.create("chartdiv", "XYChart");
@@ -150,14 +150,14 @@ export interface IXYChartAdapters extends ISerialChartAdapters, IXYChartProperti
  * }];
  *
  * // Add category axis
- * var categoryAxis = chart.xAxes.push(new amcharts4.xy.CategoryAxis());
+ * var categoryAxis = chart.xAxes.push(new amcharts4.charts.CategoryAxis());
  * categoryAxis.dataFields.category = "country";
  *
  * // Add value axis
- * var valueAxis = chart.yAxes.push(new amcharts4.xy.ValueAxis());
+ * var valueAxis = chart.yAxes.push(new amcharts4.charts.ValueAxis());
  *
  * // Add series
- * var series = chart.series.push(new amcharts4.xy.ColumnSeries());
+ * var series = chart.series.push(new amcharts4.charts.ColumnSeries());
  * series.name = "Web Traffic";
  * series.dataFields.categoryX = "country";
  * series.dataFields.valueY = "visits";
@@ -193,7 +193,7 @@ export interface IXYChartAdapters extends ISerialChartAdapters, IXYChartProperti
  *
  * 	// Data
  * 	"data": [{
- * 		"country": "USAx",
+ * 		"country": "USA",
  * 		"visits": 3025
  * 	}, {
  * 		"country": "China",
@@ -369,6 +369,10 @@ export declare class XYChart extends SerialChart {
      * @type {Sprite}
      */
     protected _bulletMask: Sprite;
+    protected _panStartXRange: IRange;
+    protected _panStartYRange: IRange;
+    protected _panEndXRange: IRange;
+    protected _panEndYRange: IRange;
     /**
      * Constructor
      */
@@ -608,6 +612,24 @@ export declare class XYChart extends SerialChart {
      */
     protected handleCursorZoomEnd(event: IXYCursorEvents["zoomended"]): void;
     /**
+     * Performs zoom and other operations when user is panning chart plot using chart cursor.
+     *
+     * @param {IXYCursorEvents["panning"]} event Cursor's event
+     */
+    protected handleCursorPanStart(event: IXYCursorEvents["panning"]): void;
+    /**
+     * Performs zoom and other operations when user ends panning
+     *
+     * @param {IXYCursorEvents["panning"]} event Cursor's event
+     */
+    protected handleCursorPanEnd(event: IXYCursorEvents["panning"]): void;
+    /**
+     * Performs zoom and other operations when user is panning chart plot using chart cursor.
+     *
+     * @param {IXYCursorEvents["panning"]} event Cursor's event
+     */
+    protected handleCursorPanning(event: IXYCursorEvents["panning"]): void;
+    /**
      * Performs zoom and other operations when user starts zooming using chart
      * cursor, e.g. zooms axes.
      *
@@ -724,4 +746,10 @@ export declare class XYChart extends SerialChart {
      * @param {Button}  button  Zoom out button
      */
     zoomOutButton: Button;
+    /**
+     * Copies all parameters from another [[XYChart]].
+     *
+     * @param {XYChart} source Source XYChart
+     */
+    copyFrom(source: this): void;
 }

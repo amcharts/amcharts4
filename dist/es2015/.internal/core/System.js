@@ -176,16 +176,6 @@ var System = /** @class */ (function (_super) {
         this.uid;
     };
     /**
-     * Generates a unique chart system-wide ID.
-     *
-     * @return {string} Generated ID
-     */
-    System.prototype.getUniqueId = function () {
-        var uid = system._uidCount;
-        system._uidCount += 1;
-        return "id-" + uid;
-    };
-    /**
      * Creates all HTML and SVG containers needed for the chart instance, as well
      * as the new [[Sprite]] (as specified in `classType` parameter).
      *
@@ -229,25 +219,28 @@ var System = /** @class */ (function (_super) {
             // content mask
             contentContainer.mask = contentContainer.background;
             // creating classType instance
-            var sprite = contentContainer.createChild(classType);
-            sprite.isBaseSprite = true;
-            sprite.focusFilter = new FocusFilter();
+            var sprite_1 = contentContainer.createChild(classType);
+            sprite_1.isBaseSprite = true;
+            sprite_1.focusFilter = new FocusFilter();
             // tooltip container
-            var tooltipContainer = container.createChild(Container);
-            tooltipContainer.width = percent(100);
-            tooltipContainer.height = percent(100);
-            tooltipContainer.isMeasured = false;
-            contentContainer.tooltipContainer = tooltipContainer;
-            sprite.tooltip = new Tooltip();
-            sprite.tooltip.hide(0);
+            var tooltipContainer_1 = container.createChild(Container);
+            tooltipContainer_1.width = percent(100);
+            tooltipContainer_1.height = percent(100);
+            tooltipContainer_1.isMeasured = false;
+            contentContainer.tooltipContainer = tooltipContainer_1;
+            sprite_1.tooltip = new Tooltip();
+            sprite_1.tooltip.hide(0);
+            sprite_1.tooltip.setBounds({ x: 0, y: 0, width: tooltipContainer_1.maxWidth, height: tooltipContainer_1.maxHeight });
+            tooltipContainer_1.events.on("maxsizechanged", function () {
+                sprite_1.tooltip.setBounds({ x: 0, y: 0, width: tooltipContainer_1.maxWidth, height: tooltipContainer_1.maxHeight });
+            });
             //@todo: maybe we don't need to create one by default but only on request?
             contentContainer.preloader = new Preloader();
             if (!this.commercialLicense) {
-                var logo = tooltipContainer.createChild(AmChartsLogo);
-                logo.scale = 0.3;
+                tooltipContainer_1.createChild(AmChartsLogo);
             }
-            sprite.numberFormatter; // need to create one.
-            return sprite;
+            sprite_1.numberFormatter; // need to create one.
+            return sprite_1;
         }
         else {
             system.log("html container not found");
@@ -513,7 +506,7 @@ var System = /** @class */ (function (_super) {
      * @see {@link https://docs.npmjs.com/misc/semver}
      * @type {string}
      */
-    System.VERSION = "4.0.0-beta.7";
+    System.VERSION = "4.0.0-beta.8";
     return System;
 }(BaseObjectEvents));
 export { System };

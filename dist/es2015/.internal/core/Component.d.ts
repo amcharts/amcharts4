@@ -40,6 +40,7 @@ export interface IComponentProperties extends IContainerProperties {
  * Defines data fields for [[Component]].
  */
 export interface IComponentDataFields {
+    data?: string;
 }
 /**
  * Defines events for [[Component]].
@@ -843,6 +844,12 @@ export declare class Component extends Container {
      * @return {this} Clone
      */
     clone(): this;
+    /**
+     * Copies all parameters from another [[Component]].
+     *
+     * @param {Component} source Source Component
+     */
+    copyFrom(source: this): void;
     /**
      * Invalidates the whole element, including all its children, causing
      * complete re-parsing of data and redraw.

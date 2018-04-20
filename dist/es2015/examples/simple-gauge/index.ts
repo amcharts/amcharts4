@@ -1,14 +1,14 @@
-import * as amcharts4 from "@amcharts/amcharts4";
-import * as gauge from "@amcharts/amcharts4/gauge";
+import * as amcharts4 from "@amcharts/amcharts4/core";
+import * as charts from "@amcharts/amcharts4/charts";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 
 amcharts4.useTheme(AnimatedTheme);
 
 // create chart
-let chart = amcharts4.create("chartdiv", gauge.GaugeChart);
+let chart = amcharts4.create("chartdiv", charts.GaugeChart);
 chart.innerRadius = -15;
 
-let axis = chart.xAxes.push(new gauge.ValueAxis<gauge.AxisRendererCircular>());
+let axis = chart.xAxes.push(new charts.ValueAxis<charts.AxisRendererCircular>());
 axis.min = 0;
 axis.max = 100;
 axis.strictMinMax = true;
@@ -33,7 +33,7 @@ range2.endValue = 100;
 range2.axisFill.fillOpacity = 1;
 range2.axisFill.fill = colorSet.getIndex(4);
 
-let hand = chart.hands.push(new gauge.ClockHand());
+let hand = chart.hands.push(new charts.ClockHand());
 
 setInterval(() => {
   hand.showValue(Math.random() * 100, 1000, amcharts4.ease.cubicOut);

@@ -21,16 +21,16 @@ import { XYChart, XYChartDataItem } from "./XYChart";
 import { percent, Percent } from "../../core/utils/Percent";
 import { RadarSeries } from "../series/RadarSeries";
 import { Container } from "../../core/Container";
+import { Circle } from "../../core/elements/Circle";
+import { registry } from "../../core/Registry";
+import { RadarCursor } from "../cursors/RadarCursor";
+import { AxisRendererCircular } from "../axes/AxisRendererCircular";
+import { AxisRendererRadial } from "../axes/AxisRendererRadial";
 import * as $utils from "../../core/utils/Utils";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
-import { Circle } from "../../core/elements/Circle";
-import { system } from "../../core/System";
-import { RadarCursor } from "../cursors/RadarCursor";
-import { AxisRendererCircular } from "../axes/AxisRendererCircular";
-import { AxisRendererRadial } from "../axes/AxisRendererRadial";
 /**
  * ============================================================================
  * DATA ITEM
@@ -102,6 +102,7 @@ var RadarChart = /** @class */ (function (_super) {
         _this.radius = percent(80);
         _this.innerRadius = 0;
         var radarContainer = _this.plotContainer.createChild(Container);
+        radarContainer.shouldClone = false;
         radarContainer.width = percent(100);
         radarContainer.height = percent(100);
         radarContainer.layout = "none";
@@ -113,6 +114,7 @@ var RadarChart = /** @class */ (function (_super) {
         _this.bulletsContainer.parent = radarContainer;
         _this._cursorContainer = radarContainer;
         _this._bulletMask = radarContainer.createChild(Circle);
+        _this._bulletMask.shouldClone = false;
         _this._bulletMask.element = _this.paper.add("path");
         _this._bulletMask.opacity = 0;
         // Apply theme
@@ -424,5 +426,5 @@ export { RadarChart };
  *
  * @ignore
  */
-system.registeredClasses["RadarChart"] = RadarChart;
+registry.registeredClasses["RadarChart"] = RadarChart;
 //# sourceMappingURL=RadarChart.js.map

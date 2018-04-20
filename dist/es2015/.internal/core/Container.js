@@ -59,13 +59,6 @@ var Container = /** @class */ (function (_super) {
          */
         _this.hasFocused = false;
         /**
-         * Whether children of the container should be cloned when cloning this
-         * Container.
-         *
-         * @type {boolean}
-         */
-        _this.cloneChildren = false;
-        /**
          * Specifies if, when state is applied on this container, the same state should be applied to container's children
          * @type {boolean}
          */
@@ -626,7 +619,7 @@ var Container = /** @class */ (function (_super) {
                 var maxHeight;
                 if ($type.isNumber(child.relativeWidth)) {
                     maxWidth = $math.round(_this._availableWidth * child.relativeWidth);
-                    if (_this.layout == "horizontal") {
+                    if (_this.layout == "horizontal") { // || this.layout == "absolute") { // not sure about absolute, but works well in cases like small map
                         maxWidth -= child.pixelMarginRight + child.pixelMarginLeft;
                     }
                 }
@@ -639,7 +632,7 @@ var Container = /** @class */ (function (_super) {
                 }
                 if ($type.isNumber(child.relativeHeight)) {
                     maxHeight = $math.round(_this._availableHeight * child.relativeHeight);
-                    if (_this.layout == "vertical") {
+                    if (_this.layout == "vertical") { //  || this.layout == "absolute") { // not sure about absolute, but works well in cases like small map
                         maxHeight -= child.pixelMarginTop + child.pixelMarginBottom;
                     }
                 }
@@ -685,17 +678,18 @@ var Container = /** @class */ (function (_super) {
                         measuredHeight = Math.max(measuredHeight, child.measuredHeight);
                     }
                 }
+                // if child is not valid
                 else {
                     // tell child what maximum width/ height it can occupy
                     if (child.isMeasured) {
                         if ($type.isNumber(child.relativeWidth)) {
-                            if (child.maxWidth != maxWidth) {
+                            if (child.maxWidth != maxWidth) { // need to check this because of allValid
                                 child.maxWidth = maxWidth;
                                 allValid = false;
                             }
                         }
                         if ($type.isNumber(child.relativeHeight)) {
-                            if (child.maxHeight != maxHeight) {
+                            if (child.maxHeight != maxHeight) { // need to check this because of allValid
                                 child.maxHeight = maxHeight;
                                 allValid = false;
                             }
@@ -1217,27 +1211,19 @@ var Container = /** @class */ (function (_super) {
      * @param {this}  source  Source Container to copy from
      */
     Container.prototype.copyFrom = function (source) {
+        var _this = this;
         _super.prototype.copyFrom.call(this, source);
         this.layout = source.layout;
         this.setStateOnChildren = source.setStateOnChildren;
         if (source._background) {
             this.background = source._background.clone();
         }
-    };
-    /**
-     * Clones the Container, including all of its children, if cloneChildren is set to true.
-     *
-     * @return {this} New Container clone
-     */
-    Container.prototype.clone = function () {
-        var clone = _super.prototype.clone.call(this);
-        if (this.cloneChildren) {
-            $iter.each(this.children.iterator(), function (child) {
+        $iter.each(source.children.iterator(), function (child) {
+            if (child.shouldClone) {
                 var clonedChild = child.clone();
-                clonedChild.parent = clone;
-            });
-        }
-        return clone;
+                clonedChild.parent = _this;
+            }
+        });
     };
     Object.defineProperty(Container.prototype, "preloader", {
         /**
@@ -1290,12 +1276,12 @@ var Container = /** @class */ (function (_super) {
      * @param {DataItem} dataItem DataItem
      */
     Container.prototype.setDataItem = function (dataItem) {
-        var _this = this;
+        // this place is potentially dangerous, as if we set datItem for some dummy container, all children dataItems will be overriden
+        // the main reason for doing this is that we need a setDataItem code to be called for each sprite, otherwise property fields won't be
+        // applied. Also, getting dataItem from parent all the time is more expensive than saving value.
         if (this._dataItem != dataItem) {
             $iter.each(this.children.iterator(), function (child) {
-                if (child.dataItem == _this.dataItem) {
-                    child.invalidate();
-                }
+                child.dataItem = dataItem;
             });
         }
         _super.prototype.setDataItem.call(this, dataItem);
@@ -1325,6 +1311,76 @@ var Container = /** @class */ (function (_super) {
     Container.prototype.getTooltipY = function () {
         return _super.prototype.getTooltipY.call(this) + this._containerOverflowY;
     };
+    Object.defineProperty(Container.prototype, "fontSize", {
+        /**
+         * Returns current font size for text element.
+         *
+         * @return {any} Font size
+         */
+        get: function () {
+            return this.getPropertyValue("fontSize");
+        },
+        /**
+         * Sets font size to be used for the text. The size can either be numeric, in
+         * pxels, or other measurements.
+         *
+         * Parts of the text may override this setting using in-line formatting.
+         *
+         * @param {any} value Font size value
+         */
+        set: function (value) {
+            this.setPropertyValue("fontSize", value, true);
+            this.setSVGAttribute({ "font-size": value });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Container.prototype, "fontWeigth", {
+        /**
+         * Returns currently set font weight.
+         *
+         * @return {FontWeight} Font weight
+         */
+        get: function () {
+            return this.getPropertyValue("fontWeigth");
+        },
+        /**
+         * Sets font weight to use for text.
+         *
+         * Parts of the text may override this setting using in-line formatting.
+         *
+         * @param {FontWeight} value Font weight
+         */
+        set: function (value) {
+            this.setPropertyValue("fontWeigth", value);
+            this.setSVGAttribute({ "font-weight": value });
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Container.prototype, "textDecoration", {
+        /**
+         * Returns current text decoration setting.
+         *
+         * @return {TextDecoration} Decoration
+         */
+        get: function () {
+            return this.getPropertyValue("textDecoration");
+        },
+        /**
+         * Sets a text decoration to use for text.
+         *
+         * Parts of the text may override this setting using in-line formatting.
+         *
+         * @param {TextDecoration} value Decoration
+         */
+        set: function (value) {
+            this.setPropertyValue("textDecoration", value);
+            this.setSVGAttribute({ "text-decoration": value });
+        },
+        enumerable: true,
+        configurable: true
+    });
     Container.prototype.dispose = function () {
         this.disposeChildren();
         _super.prototype.dispose.call(this);

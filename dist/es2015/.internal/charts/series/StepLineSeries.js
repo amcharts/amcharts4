@@ -18,7 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { LineSeries, LineSeriesDataItem } from "./LineSeries";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import * as $math from "../../core/utils/Math";
 /**
  * ============================================================================
@@ -138,6 +138,6 @@ export { StepLineSeries };
  *
  * @ignore
  */
-system.registeredClasses["StepLineSeries"] = StepLineSeries;
-system.registeredClasses["StepLineSeriesDataItem"] = StepLineSeriesDataItem;
+registry.registeredClasses["StepLineSeries"] = StepLineSeries;
+registry.registeredClasses["StepLineSeriesDataItem"] = StepLineSeriesDataItem;
 //# sourceMappingURL=StepLineSeries.js.map

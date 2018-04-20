@@ -19,8 +19,8 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Button } from "./Button";
 import { Sprite } from "../Sprite";
-import * as $path from "../rendering/Path";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
+import * as $path from "../rendering/Path";
 /**
  * ============================================================================
  * MAIN CLASS

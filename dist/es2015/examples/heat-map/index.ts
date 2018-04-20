@@ -1,14 +1,14 @@
-import * as amcharts4 from "@amcharts/amcharts4";
-import * as xy from "@amcharts/amcharts4/xy";
+import * as amcharts4 from "@amcharts/amcharts4/core";
+import * as charts from "@amcharts/amcharts4/charts";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 
 amcharts4.useTheme(AnimatedTheme);
 
-let chart = amcharts4.create("chartdiv", xy.XYChart);
+let chart = amcharts4.create("chartdiv", charts.XYChart);
 chart.maskBullets = false;
 
-let xAxis = chart.xAxes.push(new xy.CategoryAxis());
-let yAxis = chart.yAxes.push(new xy.CategoryAxis());
+let xAxis = chart.xAxes.push(new charts.CategoryAxis());
+let yAxis = chart.yAxes.push(new charts.CategoryAxis());
 
 xAxis.dataFields.category = "weekday";
 yAxis.dataFields.category = "hour";
@@ -20,7 +20,7 @@ yAxis.renderer.grid.template.disabled = true;
 yAxis.renderer.inversed = true;
 yAxis.renderer.minGridDistance = 30;
 
-let series = chart.series.push(new xy.HeatMapSeries());
+let series = chart.series.push(new charts.ColumnSeries());
 series.dataFields.categoryX = "weekday";
 series.dataFields.categoryY = "hour";
 series.dataFields.value = "value";
@@ -32,9 +32,14 @@ columnTemplate.strokeWidth = 2;
 columnTemplate.strokeOpacity = 1;
 columnTemplate.stroke = amcharts4.color("#ffffff");
 columnTemplate.tooltipText = "{weekday}, {hour}: {value.workingValue.formatNumber('#.')}";
+columnTemplate.width = amcharts4.percent(100);
+columnTemplate.height = amcharts4.percent(100);
+
+// heat rule, this makes columns to change color depending on value
+series.heatRules.push({ target: columnTemplate, property: "fill", min: amcharts4.color("#ffffff"), max: amcharts4.color("#692155") });
 
 // heat legend
-let heatLegend = chart.bottomAxesContainer.createChild(xy.HeatLegend);
+let heatLegend = chart.bottomAxesContainer.createChild(charts.HeatLegend);
 heatLegend.width = amcharts4.percent(100);
 heatLegend.series = series;
 heatLegend.valueAxis.renderer.labels.template.fontSize = 9;

@@ -262,6 +262,7 @@ export function arc(startAngle, arc, radius, innerRadius, radiusY, cornerRadius,
     if (arc == 360) {
         path = moveTo(b0);
     }
+    // otherwise start from a
     else {
         path = moveTo(a0);
         path += lineTo(b0);
@@ -275,6 +276,7 @@ export function arc(startAngle, arc, radius, innerRadius, radiusY, cornerRadius,
         if (arc == 360 && cornerRadius == 0) {
             path += moveTo(d0);
         }
+        // draw line otherwise
         else {
             path += arcToPoint(c0, cornerRadius, cornerRadiusY, true);
             path += lineTo(d0);

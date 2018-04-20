@@ -12,7 +12,7 @@ import { Sprite, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../cor
 import { Rectangle } from "../../core/elements/Rectangle";
 import { MapChart } from "../types/MapChart";
 import { MapSeries } from "./MapSeries";
-import { ListTemplate, IListEvents } from "../../core/utils/List";
+import { List, IListEvents } from "../../core/utils/List";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
 /**
  * ============================================================================
@@ -81,12 +81,6 @@ export declare class SmallMap extends Container {
      */
     protected _chart: MutableValueDisposer<MapChart>;
     /**
-     * A list of map series used to draw the mini-map.
-     *
-     * @type {ListTemplate<MapSeries>}
-     */
-    series: ListTemplate<MapSeries>;
-    /**
      * A container that holds the visual elements for the mini-map.
      *
      * @ignore Exclude from docs
@@ -100,9 +94,34 @@ export declare class SmallMap extends Container {
      */
     rectangle: Rectangle;
     /**
+     * A list of map series used to draw the mini-map.
+     *
+     * @type {List<MapSeries>}
+     */
+    protected _series: List<MapSeries>;
+    /**
      * Constructor
      */
     constructor();
+    /**
+     * A list of map series used to draw the mini-map.
+     *
+     * @readonly
+     * @return {List<MapSeries>} Series
+     */
+    readonly series: List<MapSeries>;
+    /**
+     * Decorates a new series when they are pushed into a `series` list.
+     *
+     * @param {IListEvents<MapSeries>["insert"]} event Event
+     */
+    protected handleSeriesAdded(event: IListEvents<MapSeries>["insert"]): void;
+    /**
+     * Cleans up after series are removed from Scrollbar.
+     *
+     * @param {IListEvents<XYSeries>["remove"]}  event  Event
+     */
+    protected handleSeriesRemoved(event: IListEvents<MapSeries>["remove"]): void;
     /**
      * Moves main map pan position after click on the small map.
      *
@@ -110,13 +129,6 @@ export declare class SmallMap extends Container {
      * @param {AMEvent<Sprite, ISpriteEvents>["hit"]}  event  Event
      */
     moveToPosition(event: AMEvent<Sprite, ISpriteEvents>["hit"]): void;
-    /**
-     * Decorates a new [[MapSeries]] object with required parameters when it is
-     * added to the chart.
-     *
-     * @param {IListEvents<MapSeries>["insert"]} event [description]
-     */
-    processSeries(event: IListEvents<MapSeries>["insert"]): void;
     /**
      * @return {MapChart} Chart/map
      */
@@ -143,4 +155,13 @@ export declare class SmallMap extends Container {
      * Update elements after drawing the small map.
      */
     protected afterDraw(): void;
+    /**
+     * Processes JSON-based config before it is applied to the object.
+     *
+     * @ignore Exclude from docs
+     * @param {object}  config  Config
+     */
+    processConfig(config?: {
+        [index: string]: any;
+    }): void;
 }

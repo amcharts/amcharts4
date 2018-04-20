@@ -11,7 +11,7 @@ import { ColumnSeries, ColumnSeriesDataItem, IColumnSeriesDataFields, IColumnSer
 import { Line } from "../../core/elements/Line";
 import { ListTemplate } from "../../core/utils/List";
 import { Container } from "../../core/Container";
-import * as $iter from "../../core/utils/Iterator";
+import { Candlestick } from "../elements/Candlestick";
 /**
  * ============================================================================
  * DATA ITEM
@@ -24,6 +24,12 @@ import * as $iter from "../../core/utils/Iterator";
  * @see {@link DataItem}
  */
 export declare class CandlestickSeriesDataItem extends ColumnSeriesDataItem {
+    /**
+     * A sprite used to draw the column.
+     * @ignore
+     * @type {Candlestick}
+     */
+    _column: Candlestick;
     /**
      * Defines a type of [[Component]] this data item is used for
      * @type {CandlestickSeries}
@@ -184,6 +190,17 @@ export interface ICandlestickSeriesAdapters extends IColumnSeriesAdapters, ICand
  */
 export declare class CandlestickSeries extends ColumnSeries {
     /**
+     * Defines the type of data item.
+     *
+     * @ignore Exclude from docs
+     * @type {CandlestickSeriesDataItem}
+     */
+    _dataItem: CandlestickSeriesDataItem;
+    /**
+     * @ignore
+     */
+    _column: Candlestick;
+    /**
      * Defines available data fields.
      *
      * @ignore Exclude from docs
@@ -211,13 +228,6 @@ export declare class CandlestickSeries extends ColumnSeries {
      * @todo Disabled to work around TS bug (see if we can re-enable it again)
      */
     /**
-     * Defines the type of data item.
-     *
-     * @ignore Exclude from docs
-     * @type {CandlestickSeriesDataItem}
-     */
-    _dataItem: CandlestickSeriesDataItem;
-    /**
      * A data field to look for "low" value for horizontal axis.
      */
     protected _xLowField: keyof this["_dataFields"];
@@ -233,14 +243,6 @@ export declare class CandlestickSeries extends ColumnSeries {
      * A data field to look for "high" value for vertical axis.
      */
     protected _yHighField: keyof this["_dataFields"];
-    /**
-     * Internal iterator.
-     */
-    protected _highLinesIterator: $iter.ListIterator<Line>;
-    /**
-     * Internal iterator.
-     */
-    protected _lowLinesIterator: $iter.ListIterator<Line>;
     /**
      * List of "low" line elements.
      *
@@ -275,13 +277,7 @@ export declare class CandlestickSeries extends ColumnSeries {
      * @ignore Exclude from docs
      * @param {CandlestickSeriesDataItem}  dataItem  Data item
      */
-    validateDataElement(dataItem: this["_dataItem"]): void;
-    /**
-     * (Re)validates the whole series, effectively causing it to redraw.
-     *
-     * @ignore Exclude from docs
-     */
-    validate(): void;
+    validateDataElementReal(dataItem: this["_dataItem"]): void;
     /**
      * A data field to look for "low" value for horizontal axis.
      *
@@ -315,20 +311,6 @@ export declare class CandlestickSeries extends ColumnSeries {
      */
     protected defineFields(): void;
     /**
-     * List of "low" line elements.
-     *
-     * @ignore Exclude from docs
-     * @return {ListTemplate<Line>} Element list
-     */
-    readonly lowLines: ListTemplate<Line>;
-    /**
-     * List of "high" line elements.
-     *
-     * @ignore Exclude from docs
-     * @return {ListTemplate<Line>} Element list
-     */
-    readonly highLines: ListTemplate<Line>;
-    /**
      * Creates elements in related legend container, that mimics the look of this
      * Series.
      *
@@ -336,4 +318,10 @@ export declare class CandlestickSeries extends ColumnSeries {
      * @param {Container}  marker  Legend item container
      */
     createLegendMarker(marker: Container): void;
+    /**
+     * Returns an element to use for Candlestick
+     * @ignore
+     * @return {this["_column"]} Element.
+     */
+    protected createColumnTemplate(): this["_column"];
 }

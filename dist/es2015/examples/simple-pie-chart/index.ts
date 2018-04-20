@@ -1,42 +1,46 @@
-import * as amcharts4 from "@amcharts/amcharts4";
-import * as pie from "@amcharts/amcharts4/pie";
+import * as amcharts4 from "@amcharts/amcharts4/core";
+import * as charts from "@amcharts/amcharts4/charts";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
-
 
 amcharts4.useTheme(AnimatedTheme);
 
-let chart = amcharts4.create("chartdiv", pie.PieChart);
+let chart = amcharts4.create("chartdiv", charts.PieChart);
 chart.data = [{
-	"country": "Lithuania",
-	"litres": 501.9
+    "country": "Lithuania",
+    "litres": 501.9
 }, {
-	"country": "Czech Republic",
-	"litres": 301.9
+    "country": "Czech Republic",
+    "litres": 301.9
 }, {
-	"country": "Ireland",
-	"litres": 201.1
+    "country": "Ireland",
+    "litres": 201.1
 }, {
-	"country": "Germany",
-	"litres": 165.8
+    "country": "Germany",
+    "litres": 165.8
 }, {
-	"country": "Australia",
-	"litres": 139.9
+    "country": "Australia",
+    "litres": 139.9
 }, {
-	"country": "Austria",
-	"litres": 128.3
+    "country": "Austria",
+    "litres": 128.3
 }, {
-	"country": "UK",
-	"litres": 99
+    "country": "UK",
+    "litres": 99
 }, {
-	"country": "Belgium",
-	"litres": 60
+    "country": "Belgium",
+    "litres": 60
 }, {
-	"country": "The Netherlands",
-	"litres": 50
+    "country": "The Netherlands",
+    "litres": 50
 }];
 
-let series = chart.series.push(new pie.PieSeries());
+let series = chart.series.push(new charts.PieSeries());
 series.dataFields.value = "litres";
 series.dataFields.category = "country";
 
-chart.legend = new pie.Legend();
+// this creates initial animation
+series.hiddenState.properties.opacity = 1;
+series.hiddenState.properties.endAngle = -90;
+series.hiddenState.properties.startAngle = -90;
+
+chart.legend = new charts.Legend();

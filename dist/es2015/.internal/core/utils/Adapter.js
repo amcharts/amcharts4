@@ -56,6 +56,12 @@
  * Temperature now is 90F (32C); the time now is 12/11/2012, 7:00:00 PM
  * ```
  */
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
 import { SortedList } from "./SortedList";
 import * as $number from "./Number";
 import * as $order from "./Order";
@@ -157,12 +163,12 @@ export { GlobalAdapter };
  * Global adapter is a system-wide instance, accessible via `globalAdapter`.
  *
  * ```TypeScript
- * amcharts4.globalAdapter.addAll<pie.IPieSeriesAdapters, pie.PieSeries, "fill">(pie.PieSeries. "fill", (value, target) => {
+ * amcharts4.globalAdapter.addAll<charts.IPieSeriesAdapters, charts.PieSeries, "fill">(charts.PieSeries. "fill", (value, target) => {
  *   return amcharts4.color("#005500");
  * });
  * ```
  * ```JavaScript
- * amcharts4.globalAdapter.addAll(amcharts4.pie.PieSeries. "fill", (value, target) => {
+ * amcharts4.globalAdapter.addAll(amcharts4.charts.PieSeries. "fill", (value, target) => {
  *   return amcharts4.color("#005500");
  * });
  * ```
@@ -200,12 +206,12 @@ export var globalAdapter = new GlobalAdapter();
  * Global adapter is a system-wide instance, accessible via `globalAdapter`.
  *
  * ```TypeScript
- * amcharts4.globalAdapter.addAll<pie.IPieSeriesAdapters, pie.PieSeries, "fill">(pie.PieSeries. "fill", (value, target) => {
+ * amcharts4.globalAdapter.addAll<charts.IPieSeriesAdapters, charts.PieSeries, "fill">(charts.PieSeries. "fill", (value, target) => {
  *   return amcharts4.color("#005500");
  * });
  * ```
  * ```JavaScript
- * amcharts4.globalAdapter.addAll(amcharts4.pie.PieSeries. "fill", (value, target) => {
+ * amcharts4.globalAdapter.addAll(amcharts4.charts.PieSeries. "fill", (value, target) => {
  *   return amcharts4.color("#005500");
  * });
  * ```

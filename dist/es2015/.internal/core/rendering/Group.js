@@ -159,6 +159,9 @@ var Group = /** @class */ (function (_super) {
     Group.prototype.removeChildren = function () {
         while (this.children.length > 0) {
             var child = this.children.getIndex(0);
+            if (child.node && child.node.parentNode) {
+                child.node.parentNode.removeChild(child.node);
+            }
             this.children.removeValue(child);
         }
     };

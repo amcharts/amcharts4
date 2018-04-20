@@ -13,7 +13,6 @@ import { MapChart } from "../types/MapChart";
 import { MapObject } from "./MapObject";
 import { IListEvents } from "../../core/utils/List";
 import { IGeoPoint } from "../../core/defs/IGeoPoint";
-import { Color } from "../../core/utils/Color";
 /**
  * ============================================================================
  * DATA ITEM
@@ -111,23 +110,11 @@ export interface IMapSeriesDataFields extends ISeriesDataFields {
  */
 export interface IMapSeriesProperties extends ISeriesProperties {
     /**
-     * A color to apply to map objects with the lowest value.
-     *
-     * @type {Color}
-     */
-    minColor?: Color;
-    /**
-     * A color to apply to map objects with the highest value.
-     *
-     * @type {Color}
-     */
-    maxColor?: Color;
-    /**
-     * A flag telling if the series should get data from geoJSON or not
+     * A flag telling if the series should get data from `geodata` or not
      *
      * @type {boolean}
      */
-    getDataFromJSON?: boolean;
+    useGeodata?: boolean;
     /**
      * A list of object ids to include from the series.
      *
@@ -145,10 +132,6 @@ export interface IMapSeriesProperties extends ISeriesProperties {
  * Defines events for [[MapSeries]].
  */
 export interface IMapSeriesEvents extends ISeriesEvents {
-    /**
-     * Invoked when minValue or maxValue changes
-     */
-    valueextremeschanged: {};
 }
 /**
  * Defines adapters for [[MapSeries]].
@@ -236,30 +219,6 @@ export declare class MapSeries extends Series {
      */
     chart: MapChart;
     /**
-     * User-defined lowest value in the series.
-     * @ignore
-     * @type {number}
-     */
-    protected _minValue: number;
-    /**
-     * User-defined heighest value in the series.
-     * @ignore
-     * @type {number}
-     */
-    protected _maxValue: number;
-    /**
-     * previous min value
-     * @ignore
-     * @type {number}
-     */
-    protected _prevMin: number;
-    /**
-     * previous max value
-     * @ignore
-     * @type {number}
-     */
-    protected _prevMax: number;
-    /**
      * Constructor
      */
     constructor();
@@ -277,12 +236,6 @@ export declare class MapSeries extends Series {
      * @ignore Exclude from docs
      */
     validateData(): void;
-    /**
-     * (Re)validates the series
-     *
-     * @ignore Exclude from docs
-     */
-    validate(): void;
     /**
      * Checks whether object should be included in series.
      *
@@ -302,61 +255,7 @@ export declare class MapSeries extends Series {
      *
      * @param {boolean}  value  Use GeoJSON data?
      */
-    getDataFromJSON: boolean;
-    /**
-     * @return {Color} Lowest color
-     */
-    /**
-     * Color for the lowest value in a heat map.
-     *
-     * In heat map, each object will be colored with an intermediate color
-     * between `minColor` and `maxColor` based on their `value` position between
-     * `min` and `max`.
-     *
-     * @param {Color}  value  Lowest color
-     */
-    minColor: Color;
-    /**
-     * @return {Color} Highest color
-     */
-    /**
-     * Color for the highest value in a heat map.
-     *
-     * In heat map, each object will be colored with an intermediate color
-     * between `minColor` and `maxColor` based on their `value` position between
-     * `min` and `max`.
-     *
-     * @param {Color}  value  Highest color
-     */
-    maxColor: Color;
-    /**
-     * @return {number} Highest value
-     */
-    /**
-     * User-defined highest value in the series.
-     *
-     * If not set, the map will use the highest `value` out of actual items in
-     * the series.
-     *
-     * This is used to determine object's color in a heat map.
-     *
-     * @param {number}  value  Highest value
-     */
-    maxValue: number;
-    /**
-     * @return {number} Lowest value
-     */
-    /**
-     * User-defined lowest value in the series.
-     *
-     * If not set, the map will use the lowest `value` out of actual items in
-     * the series.
-     *
-     * This is used to determine object's color in a heat map.
-     *
-     * @param {number}  value  Lowest value
-     */
-    minValue: number;
+    useGeodata: boolean;
     /**
      * @return {string[]} Included objects
      */

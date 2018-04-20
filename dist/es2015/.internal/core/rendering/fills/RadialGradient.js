@@ -20,6 +20,7 @@ var __extends = (this && this.__extends) || (function () {
 import { BaseObject } from "../../Base";
 import { List } from "../../utils/List";
 import { system } from "../../System";
+import { registry } from "../../Registry";
 import * as $iter from "../../utils/Iterator";
 /**
  * ============================================================================
@@ -44,7 +45,7 @@ var RadialGradient = /** @class */ (function (_super) {
          */
         _this._stops = new List();
         _this.element = _this.paper.addGroup("radialGradient");
-        _this.id = "gradient-" + system.getUniqueId();
+        _this.id = "gradient-" + registry.getUniqueId();
         _this.element.attr({ "id": _this.id });
         _this._disposers.push(_this.element);
         _this.applyTheme();
@@ -142,6 +143,24 @@ var RadialGradient = /** @class */ (function (_super) {
         set: function (point) {
             this._focalPoint = point;
             this.draw();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    RadialGradient.prototype.copyFrom = function (source) {
+        _super.prototype.copyFrom.call(this, source);
+        this._stops = source.stops;
+        this._focalPoint = source.focalPoint;
+        this._center = source.center;
+    };
+    Object.defineProperty(RadialGradient.prototype, "stops", {
+        /**
+         * A list of color stops in the gradient.
+         *
+         * @return {List<IGradientStop>} Stops
+         */
+        get: function () {
+            return this._stops;
         },
         enumerable: true,
         configurable: true

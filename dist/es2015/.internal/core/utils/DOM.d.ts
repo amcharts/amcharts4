@@ -77,10 +77,10 @@ export declare function isElement(el: HTMLElement): boolean;
  * Copies attributes from one element to another.
  *
  * @ignore Exclude from docs
- * @param {Node | HTMLElement |  SVGSVGElement}  source  Element to copy attributes from
+ * @param {Element | HTMLElement |  SVGSVGElement}  source  Element to copy attributes from
  * @param {HTMLElement | SVGSVGElement}          target  Element to copy attributes to
  */
-export declare function copyAttributes(source: Node | HTMLElement | SVGSVGElement, target: HTMLElement | SVGSVGElement): void;
+export declare function copyAttributes(source: Element | HTMLElement | SVGSVGElement, target: HTMLElement | SVGSVGElement): void;
 /**
  * [fixPixelPerfect description]
  *

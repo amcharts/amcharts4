@@ -1,5 +1,6 @@
 /**
  * ConeSeries module
+ * Not recommended using if you use scrollbars or your chart is zoomable in some other way.
  */
 /**
  * ============================================================================
@@ -7,8 +8,9 @@
  * ============================================================================
  * @hidden
  */
-import { ColumnSeries3D, IColumnSeries3DDataFields, IColumnSeries3DProperties, IColumnSeries3DAdapters, IColumnSeries3DEvents, ColumnSeries3DDataItem } from "./ColumnSeries3D";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { ColumnSeries, IColumnSeriesDataFields, IColumnSeriesProperties, IColumnSeriesAdapters, IColumnSeriesEvents, ColumnSeriesDataItem } from "./ColumnSeries";
+import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { ConeColumn } from "../elements/ConeColumn";
 /**
  * ============================================================================
  * DATA ITEM
@@ -20,7 +22,13 @@ import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
  *
  * @see {@link DataItem}
  */
-export declare class ConeSeriesDataItem extends ColumnSeries3DDataItem {
+export declare class ConeSeriesDataItem extends ColumnSeriesDataItem {
+    /**
+     * A sprite used to draw the column.
+     * @ignore
+     * @type {ConeColumn}
+     */
+    _column: ConeColumn;
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
@@ -42,24 +50,24 @@ export declare class ConeSeriesDataItem extends ColumnSeries3DDataItem {
 /**
  * Defines data fields for [[ConeSeries]].
  */
-export interface IConeSeriesDataFields extends IColumnSeries3DDataFields {
+export interface IConeSeriesDataFields extends IColumnSeriesDataFields {
 }
 /**
  * Defines properties for [[ConeSeries]].
  */
-export interface IConeSeriesProperties extends IColumnSeries3DProperties {
+export interface IConeSeriesProperties extends IColumnSeriesProperties {
 }
 /**
  * Defines events for [[ConeSeries]].
  */
-export interface IConeSeriesEvents extends IColumnSeries3DEvents {
+export interface IConeSeriesEvents extends IColumnSeriesEvents {
 }
 /**
  * Defines adapters for [[ConeSeries]].
  *
  * @see {@link Adapter}
  */
-export interface IConeSeriesAdapters extends IColumnSeries3DAdapters, IConeSeriesProperties {
+export interface IConeSeriesAdapters extends IColumnSeriesAdapters, IConeSeriesProperties {
 }
 /**
  * ============================================================================
@@ -75,7 +83,12 @@ export interface IConeSeriesAdapters extends IColumnSeries3DAdapters, IConeSerie
  * @todo Example
  * @important
  */
-export declare class ConeSeries extends ColumnSeries3D {
+export declare class ConeSeries extends ColumnSeries {
+    _column: ConeColumn;
+    /**
+     * @ignore
+     */
+    _dataItem: ConeSeriesDataItem;
     /**
      * Defines the type of data fields used for the series.
      *
@@ -108,9 +121,28 @@ export declare class ConeSeries extends ColumnSeries3D {
      */
     constructor();
     /**
-     * Returns a new element to use as a template for the series.
-     *
-     * @return {Sprite} Element
+     * Returns an element to use for Candlestick
+     * @ignore
+     * @return {this["_column"]} Element.
      */
-    protected getColumnTemplate(): Sprite;
+    protected createColumnTemplate(): this["_column"];
+    /**
+     * (Re)validates the whole series, effectively causing it to redraw.
+     *
+     * @ignore Exclude from docs
+     */
+    validate(): void;
+    /**
+     * Returns an SVG path to use as series mask.
+     *
+     * @return {string} SVG path
+     */
+    protected getMaskPath(): string;
+    /**
+     * Validates data item's elements.
+     *
+     * @ignore Exclude from docs
+     * @param {this["_dataItem"]}  dataItem  Data item
+     */
+    validateDataElementReal(dataItem: this["_dataItem"]): void;
 }

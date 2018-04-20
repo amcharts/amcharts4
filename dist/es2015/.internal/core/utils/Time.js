@@ -143,7 +143,7 @@ export function add(date, unit, count) {
     var minutes = date.getMinutes();
     var seconds = date.getSeconds();
     var milliseconds = date.getMilliseconds();
-    var weekDay = date.getDay();
+    //let weekDay: number = date.getDay();
     switch (unit) {
         case "year":
             date.setFullYear(year + count);

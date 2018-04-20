@@ -22,12 +22,12 @@ import { Sprite } from "../../core/Sprite";
 import { List } from "../../core/utils/List";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
 import { XYChart } from "../types/XYChart";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
+import { DesaturateFilter } from "../../core/rendering/filters/DesaturateFilter";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import * as $path from "../../core/rendering/Path";
-import { DesaturateFilter } from "../../core/rendering/filters/DesaturateFilter";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -62,6 +62,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         var interfaceColors = new InterfaceColorSet();
         _this.padding(0, 0, 0, 0);
         var scrollbarChart = _this.createChild(XYChart);
+        scrollbarChart.shouldClone = false;
         scrollbarChart.margin(0, 0, 0, 0);
         scrollbarChart.padding(0, 0, 0, 0);
         scrollbarChart.mouseEnabled = false;
@@ -70,10 +71,12 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         _this.minHeight = 60;
         _this.minWidth = 60;
         var unselectedOverlay = _this.createChild(Sprite);
+        unselectedOverlay.shouldClone = false;
         unselectedOverlay.element = _this.paper.add("path");
         unselectedOverlay.fill = interfaceColors.getFor("background");
         unselectedOverlay.fillOpacity = 0.8;
         unselectedOverlay.mouseEnabled = false;
+        unselectedOverlay.isMeasured = false;
         unselectedOverlay.toBack();
         _this._unselectedOverlay = unselectedOverlay;
         _this._disposers.push(_this._unselectedOverlay);
@@ -143,6 +146,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             xAxis.title.disabled = true;
             xAxis.rangeChangeDuration = 0;
             xAxis.id = sourceSeries.uid;
+            xAxis.title.disabled = true;
             var renderer = xAxis.renderer;
             renderer.ticks.template.disabled = true;
             renderer.inside = true;
@@ -187,6 +191,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         series.interpolationDuration = 0;
         series.defaultState.transitionDuration = 0;
         series.events.on("validated", this.zoomOutAxes, this);
+        series.defaultState.properties.visible = true;
         series.filters.push(new DesaturateFilter());
         scrollbarChart.series.push(series);
     };
@@ -293,18 +298,35 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             var y = thumb.pixelY;
             var w = thumb.pixelWidth;
             var h = thumb.pixelHeight;
-            var path = $path.rectToPath({
-                x: 0,
-                y: 0,
-                width: x,
-                height: h
-            });
-            path += $path.rectToPath({
-                x: x + w,
-                y: 0,
-                width: this.pixelWidth - x - w,
-                height: h
-            });
+            var path = void 0;
+            if (this.orientation == "horizontal") {
+                path = $path.rectToPath({
+                    x: 0,
+                    y: 0,
+                    width: x,
+                    height: h
+                });
+                path += $path.rectToPath({
+                    x: x + w,
+                    y: 0,
+                    width: this.pixelWidth - x - w,
+                    height: h
+                });
+            }
+            else {
+                path = $path.rectToPath({
+                    x: 0,
+                    y: 0,
+                    width: w,
+                    height: y
+                });
+                path += $path.rectToPath({
+                    x: 0,
+                    y: y + h,
+                    width: w,
+                    height: this.pixelHeight - y - h
+                });
+            }
             this._unselectedOverlay.element.attr({ "d": path });
         }
     };
@@ -336,5 +358,5 @@ export { XYChartScrollbar };
  *
  * @ignore
  */
-system.registeredClasses["XYChartScrollbar"] = XYChartScrollbar;
+registry.registeredClasses["XYChartScrollbar"] = XYChartScrollbar;
 //# sourceMappingURL=XYChartScrollbar.js.map

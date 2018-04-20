@@ -18,7 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Container } from "../../core/Container";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -67,5 +67,5 @@ export { MapObject };
  *
  * @ignore
  */
-system.registeredClasses["MapObject"] = MapObject;
+registry.registeredClasses["MapObject"] = MapObject;
 //# sourceMappingURL=MapObject.js.map

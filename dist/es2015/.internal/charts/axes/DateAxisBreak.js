@@ -21,7 +21,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { ValueAxisBreak } from "./ValueAxisBreak";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -104,5 +104,5 @@ export { DateAxisBreak };
  *
  * @ignore
  */
-system.registeredClasses["DateAxisBreak"] = DateAxisBreak;
+registry.registeredClasses["DateAxisBreak"] = DateAxisBreak;
 //# sourceMappingURL=DateAxisBreak.js.map

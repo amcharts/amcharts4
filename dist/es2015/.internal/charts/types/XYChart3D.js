@@ -22,7 +22,7 @@ import { Container } from "../../core/Container";
 import { AxisRendererX3D } from "../axes/AxisRendererX3D";
 import { AxisRendererY3D } from "../axes/AxisRendererY3D";
 import { ColumnSeries3D } from "../series/ColumnSeries3D";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
@@ -86,9 +86,11 @@ var XYChart3D = /** @class */ (function (_super) {
         _this.depth = 30;
         _this.angle = 30;
         // Creeate container for columns
-        _this.columnsContainer = _this.seriesContainer.createChild(Container);
-        _this.columnsContainer.isMeasured = false;
-        _this.columnsContainer.layout = "none";
+        var columnsContainer = _this.seriesContainer.createChild(Container);
+        columnsContainer.shouldClone = false;
+        columnsContainer.isMeasured = false;
+        columnsContainer.layout = "none";
+        _this.columnsContainer = columnsContainer;
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -243,5 +245,5 @@ export { XYChart3D };
  *
  * @ignore
  */
-system.registeredClasses["XYChart3D"] = XYChart3D;
+registry.registeredClasses["XYChart3D"] = XYChart3D;
 //# sourceMappingURL=XYChart3D.js.map

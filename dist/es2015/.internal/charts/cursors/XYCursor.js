@@ -20,7 +20,7 @@ var __extends = (this && this.__extends) || (function () {
 import { Cursor } from "./Cursor";
 import { Sprite } from "../../core/Sprite";
 import { MutableValueDisposer, MultiDisposer } from "../../core/utils/Disposer";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { color } from "../../core/utils/Color";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $math from "../../core/utils/Math";
@@ -77,9 +77,11 @@ var XYCursor = /** @class */ (function (_super) {
         _this.className = "XYCursor";
         // Defaults
         _this.behavior = "zoomX";
+        _this.maxPanOut = 0.1;
         var interfaceColors = new InterfaceColorSet();
         // Create selection element
         var selection = _this.createChild(Sprite);
+        selection.shouldClone = false;
         selection.fillOpacity = 0.2;
         selection.fill = interfaceColors.getFor("alternativeBackground");
         selection.isMeasured = false;
@@ -87,6 +89,7 @@ var XYCursor = /** @class */ (function (_super) {
         _this._disposers.push(_this.selection);
         // Create cursor's vertical line
         var lineX = _this.createChild(Sprite);
+        lineX.shouldClone = false;
         lineX.stroke = interfaceColors.getFor("grid");
         lineX.fill = color();
         lineX.strokeDasharray = "3,3";
@@ -96,6 +99,7 @@ var XYCursor = /** @class */ (function (_super) {
         _this._disposers.push(_this.lineX);
         // Create cursor's horizontal line
         var lineY = _this.createChild(Sprite);
+        lineY.shouldClone = false;
         lineY.stroke = interfaceColors.getFor("grid");
         lineY.fill = color();
         lineY.strokeDasharray = "3,3";
@@ -183,11 +187,25 @@ var XYCursor = /** @class */ (function (_super) {
      * Updates position of Cursor's line(s) as pointer moves.
      *
      * @ignore Exclude from docs
-     * @param {ISpriteEvents["track"]} event Original event
+     * @param {IInteractionEvents["track"]} event Original event
      */
     XYCursor.prototype.handleCursorMove = function (event) {
-        _super.prototype.handleCursorMove.call(this, event);
-        var point = this.fixPoint(this.point);
+        var point = _super.prototype.handleCursorMove.call(this, event);
+        this.updateLinePositions(point);
+        if (this.downPoint) {
+            if (this._generalBehavior == "pan") {
+                this.getPanningRanges();
+                this.dispatch("panning");
+            }
+        }
+        return point;
+    };
+    /**
+     *
+     * @ignore Exclude from docs
+     */
+    XYCursor.prototype.updateLinePositions = function (point) {
+        point = this.fixPoint(this.point);
         if (this.lineX && this.lineX.visible && !this.xAxis) {
             this.lineX.x = point.x;
         }
@@ -205,12 +223,14 @@ var XYCursor = /** @class */ (function (_super) {
     XYCursor.prototype.handleCursorDown = function (event) {
         if (this.visible && !this.isHiding) {
             this.downPoint = $utils.documentPointToSprite(event.pointer.point, this);
+            this.point.x = this.downPoint.x;
+            this.point.y = this.downPoint.y;
+            this.updateLinePositions(this.downPoint); // otherwise lines won't be in correct position and touch won't work fine
             if (this.fitsToBounds(this.downPoint)) {
                 this.updateDownPoint();
                 var selection = this.selection;
                 var selectionX = this.downPoint.x;
                 var selectionY = this.downPoint.y;
-                var showSelection = false;
                 if (this._usesSelection) {
                     selection.x = selectionX;
                     selection.y = selectionY;
@@ -260,6 +280,29 @@ var XYCursor = /** @class */ (function (_super) {
      *
      * @todo Description
      */
+    XYCursor.prototype.getPanningRanges = function () {
+        var startX = $math.round(this.downPoint.x / this.innerWidth, 5);
+        var startY = $math.round(this.downPoint.y / this.innerHeight, 5);
+        var currentX = $math.round(this.point.x / this.innerWidth, 5);
+        var currentY = $math.round(this.point.y / this.innerHeight, 5);
+        var deltaX = startX - currentX;
+        var deltaY = startY - currentY;
+        this.xRange = { start: deltaX, end: 1 + deltaX };
+        this.yRange = { start: deltaY, end: 1 + deltaY };
+        if (this.behavior == "panX") {
+            this.yRange.start = 0;
+            this.yRange.end = 1;
+        }
+        if (this.behavior == "panY") {
+            this.xRange.start = 0;
+            this.xRange.end = 1;
+        }
+    };
+    /**
+     * [getRanges description]
+     *
+     * @todo Description
+     */
     XYCursor.prototype.getRanges = function () {
         if (this.lineX) {
             this.upPoint.x = this.lineX.pixelX;
@@ -267,7 +310,8 @@ var XYCursor = /** @class */ (function (_super) {
         if (this.lineY) {
             this.upPoint.y = this.lineY.pixelY;
         }
-        var selection = this.selection;
+        // @todo Is this needed?
+        this.selection;
         var startX = $math.round(this.downPoint.x / this.innerWidth, 5);
         var endX = $math.round((this.upPoint.x) / this.innerWidth, 5);
         var startY = $math.round(this.downPoint.y / this.innerHeight, 5);
@@ -311,6 +355,10 @@ var XYCursor = /** @class */ (function (_super) {
             if (value.indexOf("select") != -1) {
                 this._generalBehavior = "select";
                 this._usesSelection = true;
+            }
+            if (value.indexOf("pan") != -1) {
+                this._generalBehavior = "pan";
+                this._usesSelection = false;
             }
         },
         enumerable: true,
@@ -356,6 +404,25 @@ var XYCursor = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("fullWidthLineY", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(XYCursor.prototype, "maxPanOut", {
+        /**
+         * @return {number} Full width?
+         */
+        get: function () {
+            return this.getPropertyValue("maxPanOut");
+        },
+        /**
+         * If cursor behavior is panX or panY, we allow to pan plot out of it's max bounds for a better user experience.
+         * This setting specifies relative value by how much we can pan out the plot
+         *
+         * @param {number} value
+         */
+        set: function (value) {
+            this.setPropertyValue("maxPanOut", value);
         },
         enumerable: true,
         configurable: true
@@ -578,5 +645,5 @@ export { XYCursor };
  *
  * @ignore
  */
-system.registeredClasses["XYCursor"] = XYCursor;
+registry.registeredClasses["XYCursor"] = XYCursor;
 //# sourceMappingURL=XYCursor.js.map

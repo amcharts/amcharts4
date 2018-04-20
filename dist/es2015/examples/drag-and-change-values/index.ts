@@ -1,47 +1,47 @@
-import * as amcharts4 from "@amcharts/amcharts4";
-import * as xy from "@amcharts/amcharts4/xy";
+import * as amcharts4 from "@amcharts/amcharts4/core";
+import * as charts from "@amcharts/amcharts4/charts";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 
 amcharts4.useTheme(AnimatedTheme);
 
-let chart = amcharts4.create("chartdiv", xy.XYChart);
+let chart = amcharts4.create("chartdiv", charts.XYChart);
 
 chart.data = [{
-	"country": "USA",
-	"visits": 3025
+    "country": "USA",
+    "visits": 3025
 }, {
-	"country": "China",
-	"visits": 1882
+    "country": "China",
+    "visits": 1882
 }, {
-	"country": "Japan",
-	"visits": 1809
+    "country": "Japan",
+    "visits": 1809
 }, {
-	"country": "Germany",
-	"visits": 1322
+    "country": "Germany",
+    "visits": 1322
 }, {
-	"country": "UK",
-	"visits": 1122
+    "country": "UK",
+    "visits": 1122
 }, {
-	"country": "France",
-	"visits": 1114
+    "country": "France",
+    "visits": 1114
 }, {
-	"country": "India",
-	"visits": 984
+    "country": "India",
+    "visits": 984
 }, {
-	"country": "Spain",
-	"visits": 711
+    "country": "Spain",
+    "visits": 711
 }, {
-	"country": "Netherlands",
-	"visits": 665
+    "country": "Netherlands",
+    "visits": 665
 }, {
-	"country": "Russia",
-	"visits": 580
+    "country": "Russia",
+    "visits": 580
 }, {
-	"country": "South Korea",
-	"visits": 443
+    "country": "South Korea",
+    "visits": 443
 }, {
-	"country": "Canada",
-	"visits": 441
+    "country": "Canada",
+    "visits": 441
 }];
 
 chart.padding(40, 40, 40, 40);
@@ -56,7 +56,7 @@ label.zIndex = 100;
 label.fillOpacity = 0.7;
 
 // category axis
-let categoryAxis = chart.xAxes.push(new xy.CategoryAxis());
+let categoryAxis = chart.xAxes.push(new charts.CategoryAxis());
 categoryAxis.renderer.grid.template.location = 0;
 categoryAxis.dataFields.category = "country";
 categoryAxis.renderer.minGridDistance = 60;
@@ -64,7 +64,7 @@ categoryAxis.renderer.grid.template.disabled = true;
 categoryAxis.renderer.line.disabled = true;
 
 // value axis
-let valueAxis = chart.yAxes.push(new xy.ValueAxis());
+let valueAxis = chart.yAxes.push(new charts.ValueAxis());
 // we set fixed min/max and strictMinMax to true, as otherwise value axis will adjust min/max while dragging and it won't look smooth
 valueAxis.min = 0;
 valueAxis.max = 3500;
@@ -73,14 +73,14 @@ valueAxis.renderer.line.disabled = true;
 valueAxis.renderer.minWidth = 40;
 
 // series
-let series = chart.series.push(new xy.ColumnSeries());
+let series = chart.series.push(new charts.ColumnSeries());
 series.dataFields.categoryX = "country";
 series.dataFields.valueY = "visits";
 series.tooltip.pointerOrientation = "vertical";
 series.tooltip.dy = -8;
 
 // label bullet
-let labelBullet = new xy.LabelBullet();
+let labelBullet = new charts.LabelBullet();
 series.bullets.push(labelBullet);
 labelBullet.label.text = "{valueY.value.formatNumber('#.')}";
 labelBullet.strokeOpacity = 0;
@@ -88,59 +88,56 @@ labelBullet.stroke = amcharts4.color("#dadada");
 labelBullet.dy = - 20;
 
 // series bullet
-let bullet = series.bullets.create();
+let bullet = series.bullets.push(new charts.CircleBullet());
 bullet.stroke = amcharts4.color("#ffffff");
 bullet.strokeWidth = 3;
-bullet.opacity = 0; // initially invisible
 bullet.defaultState.properties.opacity = 0;
 // resize cursor when over
 bullet.cursorOverStyle = amcharts4.MouseCursorStyle.verticalResize;
 bullet.draggable = true;
+bullet.circle.radius = 8;
 
 // create hover state
 let hoverState = bullet.states.create("hover");
 hoverState.properties.opacity = 1; // visible when hovered
 
-// add circle sprite to bullet
-let circle = bullet.createChild(amcharts4.Circle);
-circle.radius = 8;
-
 // while dragging
 bullet.events.on("drag", (event) => {
-	handleDrag(event);
+    handleDrag(event);
 });
 
 bullet.events.on("dragstop", (event) => {
-	handleDrag(event);
-	let dataItem = <xy.ColumnSeriesDataItem>event.target.dataItem;
-	dataItem.column.isHover = false;
-	event.target.isHover = false;
+    handleDrag(event);
+    let dataItem = <charts.ColumnSeriesDataItem>event.target.dataItem;
+    dataItem.column.isHover = false;
+    event.target.isHover = false;
 });
 
 function handleDrag(event) {
-	let dataItem = <xy.ColumnSeriesDataItem>event.target.dataItem;
-	// convert coordinate to value
-	let value = valueAxis.yToValue(event.target.pixelY);
-	// set new value
-	dataItem.valueY = value;
-	// make column hover
-	dataItem.column.isHover = true;
-	// hide tooltip not to interrupt
-	dataItem.column.hideTooltip(0);
-	// make bullet hovered (as it might hide if mouse moves away)
-	event.target.isHover = true;
+    let dataItem = <charts.ColumnSeriesDataItem>event.target.dataItem;
+    // convert coordinate to value
+    let value = valueAxis.yToValue(event.target.pixelY);
+    // set new value
+    dataItem.valueY = value;
+    // make column hover
+    dataItem.column.isHover = true;
+    // hide tooltip not to interrupt
+    dataItem.column.hideTooltip(0);
+    // make bullet hovered (as it might hide if mouse moves away)
+    event.target.isHover = true;
 }
 
-// column template	
-let columnTemplate = <amcharts4.RoundedRectangle>series.columns.template;
-columnTemplate.cornerRadiusTopLeft = 8;
-columnTemplate.cornerRadiusTopRight = 8;
+// column template    
+let columnTemplate = series.columns.template;
+columnTemplate.column.cornerRadiusTopLeft = 8;
+columnTemplate.column.cornerRadiusTopRight = 8;
 columnTemplate.fillOpacity = 0.8;
 columnTemplate.tooltipText = "drag me";
 columnTemplate.tooltipY = 0; // otherwise will point to middle of the column
+columnTemplate.strokeOpacity = 0;
 
 // hover state
-let columnHoverState = columnTemplate.states.create("hover");
+let columnHoverState = columnTemplate.column.states.create("hover");
 columnHoverState.properties.fillOpacity = 1;
 // you can change any property on hover state and it will be animated
 columnHoverState.properties.cornerRadiusTopLeft = 35;
@@ -148,44 +145,44 @@ columnHoverState.properties.cornerRadiusTopRight = 35;
 
 // show bullet when hovered
 columnTemplate.events.on("over", (event) => {
-	let dataItem = <xy.ColumnSeriesDataItem>event.target.dataItem;
-	let itemBullet = dataItem.bullets.getKey(bullet.uid);
-	itemBullet.isHover = true;
+    let dataItem = <charts.ColumnSeriesDataItem>event.target.dataItem;
+    let itemBullet = dataItem.bullets.getKey(bullet.uid);
+    itemBullet.isHover = true;
 })
 
 // hide bullet when mouse is out
 columnTemplate.events.on("out", (event) => {
-	let dataItem = <xy.ColumnSeriesDataItem>event.target.dataItem;
-	let itemBullet = dataItem.bullets.getKey(bullet.uid);
-	// hide it later for touch devices to see it longer
-	setTimeout(() => { itemBullet.isHover = false }, 1000);
+    let dataItem = <charts.ColumnSeriesDataItem>event.target.dataItem;
+    let itemBullet = dataItem.bullets.getKey(bullet.uid);
+    // hide it later for touch devices to see it longer
+    setTimeout(() => { itemBullet.isHover = false }, 1000);
 })
 
 
 // start dragging bullet even if we hit on column not just a bullet, this will make it more friendly for touch devices
 columnTemplate.events.on("down", (event) => {
-	let dataItem = <xy.ColumnSeriesDataItem>event.target.dataItem;
-	let itemBullet = dataItem.bullets.getKey(bullet.uid);
-	itemBullet.dragStart(event.pointer);
+    let dataItem = <charts.ColumnSeriesDataItem>event.target.dataItem;
+    let itemBullet = dataItem.bullets.getKey(bullet.uid);
+    itemBullet.dragStart(event.pointer);
 })
 
 // when columns position changes, adjust minX/maxX of bullets so that we could only dragg vertically
 columnTemplate.events.on("positionchanged", (event) => {
-	let dataItem = <xy.ColumnSeriesDataItem>event.target.dataItem;
-	let itemBullet = dataItem.bullets.getKey(bullet.uid);
+    let dataItem = <charts.ColumnSeriesDataItem>event.target.dataItem;
+    let itemBullet = dataItem.bullets.getKey(bullet.uid);
 
-	let column = dataItem.column;
-	itemBullet.minX = column.pixelX + column.pixelWidth / 2;
-	itemBullet.maxX = itemBullet.minX;
-	itemBullet.minY = 0;
-	itemBullet.maxY = chart.seriesContainer.pixelHeight;
+    let column = dataItem.column;
+    itemBullet.minX = column.pixelX + column.pixelWidth / 2;
+    itemBullet.maxX = itemBullet.minX;
+    itemBullet.minY = 0;
+    itemBullet.maxY = chart.seriesContainer.pixelHeight;
 })
 
 // as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
 columnTemplate.adapter.add("fill", (fill, target) => {
-	return chart.colors.getIndex(target.dataItem.index).saturate(0.3);
+    return chart.colors.getIndex(target.dataItem.index).saturate(0.3);
 });
 
 bullet.adapter.add("fill", (fill, target) => {
-	return chart.colors.getIndex(target.dataItem.index).saturate(0.3);
+    return chart.colors.getIndex(target.dataItem.index).saturate(0.3);
 });

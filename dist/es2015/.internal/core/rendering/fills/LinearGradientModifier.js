@@ -16,7 +16,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { ColorModifier } from "./ColorModifier";
 import { LinearGradient } from "./LinearGradient";
-import { system } from "../../System";
+import { registry } from "../../Registry";
 import * as $math from "../../utils/Math";
 import * as $type from "../../utils/Type";
 /**
@@ -210,6 +210,14 @@ var LinearGradientModifier = /** @class */ (function (_super) {
         }
         return this.gradient;
     };
+    LinearGradientModifier.prototype.copyFrom = function (source) {
+        _super.prototype.copyFrom.call(this, source);
+        this.gradient = source.gradient.clone();
+        this._offsets = source.offsets;
+        this._brightnesses = source.brightnesses;
+        this._lightnesses = source.brightnesses;
+        this._opacities = source.opacities;
+    };
     return LinearGradientModifier;
 }(ColorModifier));
 export { LinearGradientModifier };
@@ -219,5 +227,5 @@ export { LinearGradientModifier };
  *
  * @ignore
  */
-system.registeredClasses["LinearGradientModifier"] = LinearGradientModifier;
+registry.registeredClasses["LinearGradientModifier"] = LinearGradientModifier;
 //# sourceMappingURL=LinearGradientModifier.js.map

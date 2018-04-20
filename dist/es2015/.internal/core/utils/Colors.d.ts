@@ -1,13 +1,3 @@
-/**
- * A collection of color-related functions
- */
-/**
- * ============================================================================
- * IMPORTS
- * ============================================================================
- * @hidden
- */
-import { Color } from "./Color";
 import * as $type from "./Type";
 /**
  * Tries to resolve a named color into a hex color representation.
@@ -15,8 +5,8 @@ import * as $type from "./Type";
  * @ignore Exclude from docs
  * @param  {string}  value  Color name
  * @return {string}         Color
+ * @deprecated
  */
-export declare function resolveNamedColor(value: string): Color;
 /**
  * Converts a proper color hex code (i.e. "#FF5500") or named color (i.e. "red")
  * into an {iRGB} object. If the code is not correctly formatted, an RGB of
@@ -74,21 +64,21 @@ export declare function pad2(c: string): string;
  * resulting color will be closest to the first reference color.
  *
  * @ignore Exclude from docs
- * @param  {Color}   color1   First reference color
- * @param  {Color}   color2   Second reference color
+ * @param  {iRGB}    color1   First reference color
+ * @param  {iRGB}    color2   Second reference color
  * @param  {number}  percent  Relative position (0-1)
- * @return {Color}            Interpolated color
+ * @return {iRGB}             Interpolated color
  */
-export declare function interpolate(color1: Color, color2: Color, percent: number): Color;
+export declare function interpolate(rgb1: iRGB, rgb2: iRGB, percent: number): iRGB;
 /**
  * Returns a color that is `percent` brighter than the reference color.
  *
  * @ignore Exclude from docs
- * @param  {Color}   color    Reference color
+ * @param  {iRGB}    color    Reference color
  * @param  {number}  percent  Brightness percent
- * @return {Color}            Hex code of the new color
+ * @return {iRGB}             Hex code of the new color
  */
-export declare function lighten(color: Color, percent: number): Color;
+export declare function lighten(rgb: iRGB, percent: number): iRGB;
 /**
  * Gets lightness step.
  *
@@ -102,11 +92,11 @@ export declare function getLightnessStep(value: number, percent: number): number
  * Returns a color that is `percent` brighter than the source `color`.
  *
  * @ignore Exclude from docs
- * @param  {Color}   color    Source color
+ * @param  {iRGB}    color    Source color
  * @param  {number}  percent  Brightness percent
- * @return {Color}           New color
+ * @return {iRGB}             New color
  */
-export declare function brighten(color: Color, percent: number): Color;
+export declare function brighten(rgb: iRGB, percent: number): iRGB;
 /**
  * Returns brightness step.
  *
@@ -117,18 +107,18 @@ export declare function brighten(color: Color, percent: number): Color;
  */
 export declare function getBrightnessStep(value: number, percent: number): number;
 /**
- * Returns a new [[Color]] based on `color` parameter with specific saturation
- * applied.
+ * Returns a new [[iRGB]] object based on `rgb` parameter with specific
+ * saturation applied.
  *
  * `saturation` can be in the range of 0 (fully desaturated) to 1 (fully
  * saturated).
  *
  * @ignore Exclude from docs
- * @param  {Color}   color       Base color
+ * @param  {iRGB}    color       Base color
  * @param  {number}  saturation  Saturation (0-1)
- * @return {Color}               New color
+ * @return {iRGB}                New color
  */
-export declare function saturate(color: Color, saturation: number): Color;
+export declare function saturate(rgb: iRGB, saturation: number): iRGB;
 /**
  * The functions below are taken and adapted from Garry Tan's blog post:
  * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
@@ -236,26 +226,3 @@ export interface iHSV {
     v: number;
     a?: number;
 }
-/**
- * Resolves an input variable to a normal [[iRGB]] color and creates [[Color]]
- * object for it.
- *
- * @param  {string | iRGB | Color}  value  Input value
- * @param  {number}                 alpha  Alpha (0-1)
- * @return {Color}                         Color object
- */
-export declare function color(value?: string | iRGB | Color, alpha?: number): Color;
-/**
- * Checks if supplied argument is instance of [[Color]].
- *
- * @param  {any}      value  Input value
- * @return {boolean}         Is Color?
- */
-export declare function isColor(value: any): boolean;
-/**
- * Converts any value to [[Color]].
- *
- * @param  {any}    value  Input value
- * @return {Color}         Color
- */
-export declare function castColor(value: any): Color;

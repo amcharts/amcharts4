@@ -118,14 +118,14 @@ export interface IDateAxisAdapters extends IValueAxisAdapters, IDateAxisProperti
  *
  * ```TypeScript
  * // Create the axis
- * let xAxis = chart.xAxes.push(new xy.DateAxis());
+ * let xAxis = chart.xAxes.push(new charts.DateAxis());
  *
  * // Set settings
  * xAxis.title.text = "Time";
  * ```
  * ```JavaScript
  * // Create the axis
- * var valueAxis = chart.xAxes.push(new amcharts4.xy.DateAxis());
+ * var valueAxis = chart.xAxes.push(new amcharts4.charts.DateAxis());
  *
  * // Set settings
  * valueAxis.title.text = "Time";

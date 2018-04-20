@@ -24,7 +24,7 @@ import { ListTemplate } from "../../core/utils/List";
 import { LineSeriesSegment } from "./LineSeriesSegment";
 import { ValueAxis } from "../axes/ValueAxis";
 import { DateAxis } from "../axes/DateAxis";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { Line } from "../../core/elements/Line";
 import { Label } from "../../core/elements/Label";
 import { Rectangle } from "../../core/elements/Rectangle";
@@ -302,7 +302,7 @@ var LineSeries = /** @class */ (function (_super) {
             this.stacked) {
             for (var i = closeIndex; i >= openIndex; i--) {
                 var dataItem = this.dataItems.getIndex(i);
-                if (dataItem.hasValue(this._xValueFields) && dataItem.hasValue(this._yValueFields)) {
+                if (dataItem.hasValue(this._xValueFields) && dataItem.hasValue(this._yValueFields)) { // not sure, this means that open point will only be added if value is also set for this point, but maybe it's ok.
                     this.addPoints(closePoints, dataItem, this.xOpenField, this.yOpenField, true);
                 }
             }
@@ -442,6 +442,7 @@ var LineSeries = /** @class */ (function (_super) {
         var h = marker.pixelHeight;
         marker.disposeChildren();
         var line = marker.createChild(Line);
+        line.shouldClone = false;
         line.copyFrom(this);
         line.x2 = w;
         line.y = h / 2;
@@ -489,6 +490,6 @@ export { LineSeries };
  *
  * @ignore
  */
-system.registeredClasses["LineSeries"] = LineSeries;
-system.registeredClasses["LineSeriesDataItem"] = LineSeriesDataItem;
+registry.registeredClasses["LineSeries"] = LineSeries;
+registry.registeredClasses["LineSeriesDataItem"] = LineSeriesDataItem;
 //# sourceMappingURL=LineSeries.js.map

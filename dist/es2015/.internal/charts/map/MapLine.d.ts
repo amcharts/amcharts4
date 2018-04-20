@@ -179,10 +179,11 @@ export declare class MapLine extends MapObject {
      * @return {boolean} Real path?
      */
     /**
-     * The line should take the shortest path over the globe
+     * The line should take the shortest path over the globe.
      *
      * Enabling this will make the line look differently in different
-     * projections. Only MapLine supports this setting, MapArc and MapSplice doesn't
+     * projections. Only `MapLine` supports this setting, `MapArc` and
+     * `MapSplice` don't.
      *
      * @default false
      * @param {boolean}  value  Real path?

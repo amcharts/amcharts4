@@ -100,11 +100,11 @@ export interface IPieChartAdapters extends ISerialChartAdapters, IPieChartProper
  *
  * ```TypeScript
  * // Includes
- * import * as amcharts4 from "@amcharts/amcharts4";
- * import * as pie from "@amcharts/amcharts4/pie";
+ * import * as amcharts4 from "@amcharts/amcharts4/core";
+ * import * as charts from "@amcharts/amcharts4/charts";
  *
  * // Create chart
- * let chart = amcharts4.create("chartdiv", pie.PieChart);
+ * let chart = amcharts4.create("chartdiv", charts.PieChart);
  *
  * // Set data
  * chart.data = [{
@@ -119,13 +119,13 @@ export interface IPieChartAdapters extends ISerialChartAdapters, IPieChartProper
  * }];
  *
  * // Create series
- * let series = chart.series.push(new pie.PieSeries());
+ * let series = chart.series.push(new charts.PieSeries());
  * series.dataFields.value = "litres";
  * series.dataFields.category = "country";
  * ```
  * ```JavaScript
  * // Create chart
- * var chart = amcharts4.create("chartdiv", amcharts4.pie.PieChart);
+ * var chart = amcharts4.create("chartdiv", amcharts4.charts.PieChart);
  *
  * // The following would work as well:
  * // var chart = amcharts4.create("chartdiv", "PieChart");
@@ -143,7 +143,7 @@ export interface IPieChartAdapters extends ISerialChartAdapters, IPieChartProper
  * }];
  *
  * // Create series
- * var series = chart.series.push(new amcharts4.pie.PieSeries());
+ * var series = chart.series.push(new amcharts4.charts.PieSeries());
  * series.dataFields.value = "litres";
  * series.dataFields.category = "country";
  * ```

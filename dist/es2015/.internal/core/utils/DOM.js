@@ -18,11 +18,11 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Disposer } from "./Disposer";
+import { system } from "../System";
+import { readFrame, writeFrame } from "./AsyncPending";
 import * as $object from "./Object";
 import * as $array from "./Array";
 import * as $type from "./Type";
-import { system } from "../System";
-import { readFrame, writeFrame } from "./AsyncPending";
 /**
  * Function that adds a disposable event listener directly to a DOM element.
  *
@@ -161,7 +161,7 @@ export function isElement(el) {
  * Copies attributes from one element to another.
  *
  * @ignore Exclude from docs
- * @param {Node | HTMLElement |  SVGSVGElement}  source  Element to copy attributes from
+ * @param {Element | HTMLElement |  SVGSVGElement}  source  Element to copy attributes from
  * @param {HTMLElement | SVGSVGElement}          target  Element to copy attributes to
  */
 export function copyAttributes(source, target) {

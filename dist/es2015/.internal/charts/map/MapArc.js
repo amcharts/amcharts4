@@ -19,7 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { MapLine } from "./MapLine";
 import { Polyarc } from "../../core/elements/Polyarc";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -72,5 +72,5 @@ export { MapArc };
  *
  * @ignore
  */
-system.registeredClasses["MapArc"] = MapArc;
+registry.registeredClasses["MapArc"] = MapArc;
 //# sourceMappingURL=MapArc.js.map

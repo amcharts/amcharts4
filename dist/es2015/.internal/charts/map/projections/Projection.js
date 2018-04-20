@@ -11,7 +11,7 @@ var __values = (this && this.__values) || function (o) {
         }
     };
 };
-import { system } from "../../../core/System";
+import { registry } from "../../../core/Registry";
 import * as $math from "../../../core/utils/Math";
 import * as $geo from "../Geo";
 /**
@@ -47,7 +47,7 @@ var Projection = /** @class */ (function () {
     };
     Projection.prototype.getClipRectangle2 = function () {
         var longitude = $geo.wrapAngleTo180(180 - this.deltaLongitude);
-        var latitude = $geo.wrapAngleTo180(this.deltaLatitude);
+        //let latitude = $geo.wrapAngleTo180(this.deltaLatitude);
         var smallNum = 0.00001;
         return [{ longitude: longitude + smallNum, latitude: -90 }, { longitude: 180, latitude: -90 }, { longitude: 180, latitude: 90 }, { longitude: longitude + smallNum, latitude: 90 }];
     };
@@ -276,7 +276,6 @@ var Projection = /** @class */ (function () {
             var n3 = 1.0 / (dc.longitude * dp.latitude - dc.latitude * dp.longitude);
             return { longitude: (n1 * dp.longitude - n2 * dc.longitude) * n3, latitude: (n1 * dp.latitude - n2 * dc.latitude) * n3 };
         };
-        var segments = [];
         var segment = subjectPolyline;
         cp1 = clipPolygon[clipPolygon.length - 1];
         for (var j in clipPolygon) {
@@ -424,5 +423,5 @@ export { Projection };
  *
  * @ignore
  */
-system.registeredClasses["Projection"] = Projection;
+registry.registeredClasses["Projection"] = Projection;
 //# sourceMappingURL=Projection.js.map

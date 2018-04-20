@@ -89,12 +89,14 @@ var Tooltip = /** @class */ (function (_super) {
         background.pointerBaseWidth = 10;
         _this.autoTextColor = true;
         // Create text element
-        _this.label = _this.createChild(Label);
-        _this.label.padding(7, 12, 6, 12);
-        _this.label.mouseEnabled = false;
-        _this.label.horizontalCenter = "middle";
-        _this.label.fill = color("#ffffff");
-        _this._disposers.push(_this.label);
+        var label = _this.createChild(Label);
+        label.shouldClone = false;
+        _this.label = label;
+        label.padding(7, 12, 6, 12);
+        label.mouseEnabled = false;
+        label.horizontalCenter = "middle";
+        label.fill = color("#ffffff");
+        _this._disposers.push(label);
         _this.label.events.on("sizechanged", function () {
             _this.drawBackground();
         });
@@ -278,19 +280,6 @@ var Tooltip = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    /**
-     * Sets data item for the tooltip.
-     *
-     * This wil be used in resolving field references in text and replacing them
-     * with real values.
-     *
-     * @ignore Exclude from docs
-     * @param {DataItem}  dataItem  Data item
-     */
-    Tooltip.prototype.setDataItem = function (dataItem) {
-        this.label.dataItem = dataItem;
-        _super.prototype.setDataItem.call(this, dataItem);
-    };
     Object.defineProperty(Tooltip.prototype, "text", {
         /**
          * @return {string} SVG text
@@ -344,6 +333,7 @@ var Tooltip = /** @class */ (function (_super) {
                 textX = textW / 2 + pointerLength;
             }
         }
+        // vertical pointer
         else {
             textX = $math.fitToRange(0, boundingRect.x - x + textW / 2, boundingRect.x - x + boundingRect.width - textW / 2);
             if (y > boundingRect.y + textH + pointerLength) {

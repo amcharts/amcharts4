@@ -302,13 +302,6 @@ export declare class MapPolygonSeries extends MapSeries {
      */
     protected _mapPolygons: ListTemplate<MapPolygon>;
     /**
-     * A function which fills polygons with intermediate color between minColor and maxColor if dataItem has value
-     *
-     * @todo Description
-     * @type {function}
-     */
-    fillRule: (polygon: MapPolygon) => any;
-    /**
      * Constructor
      */
     constructor();
@@ -352,4 +345,10 @@ export declare class MapPolygonSeries extends MapSeries {
      * @return {MapPolygon}
      */
     getPolygonById(id: string): MapPolygon;
+    /**
+     * Copies all properties from another instance of [[Series]].
+     *
+     * @param {Series}  source  Source series
+     */
+    copyFrom(source: this): void;
 }

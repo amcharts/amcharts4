@@ -261,6 +261,13 @@ export declare class EventDispatcher<T> implements IDisposer {
      * @param   {B}           context   Callback context
      */
     off<C, Key extends keyof T>(type: Key, callback: (this: C, event: T[Key]) => void, context?: C): void;
+    /**
+     * Copies all dispatcher parameters, including listeners, from another event
+     * dispatcher.
+     *
+     * @param {this} source Source event dispatcher
+     */
+    copyFrom(source: this): void;
 }
 /**
  * A version of the [[EventDispatcher]] that dispatches events for a specific

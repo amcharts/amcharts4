@@ -20,13 +20,11 @@ var __extends = (this && this.__extends) || (function () {
 import { MapSeries, MapSeriesDataItem } from "./MapSeries";
 import { MapPolygon } from "./MapPolygon";
 import { ListTemplate } from "../../core/utils/List";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import * as $mapUtils from "./MapUtils";
 import * as $array from "../../core/utils/Array";
 import * as $utils from "../../core/utils/Utils";
 import * as $iter from "../../core/utils/Iterator";
-import * as $type from "../../core/utils/Type";
-import * as $colors from "../../core/utils/Colors";
 /**
  * ============================================================================
  * DATA ITEM
@@ -255,22 +253,6 @@ var MapPolygonSeries = /** @class */ (function (_super) {
         var _this = 
         // Init
         _super.call(this) || this;
-        /**
-         * A function which fills polygons with intermediate color between minColor and maxColor if dataItem has value
-         *
-         * @todo Description
-         * @type {function}
-         */
-        _this.fillRule = function (polygon) {
-            var dataItem = polygon.dataItem;
-            if (dataItem && dataItem.value) {
-                var series = dataItem.component;
-                if ($type.hasValue(series.minColor) && $type.hasValue(series.maxColor) && $type.isNumber(series.minValue) && $type.isNumber(series.maxValue)) {
-                    var percent = (dataItem.value - series.minValue) / (series.maxValue - series.minValue);
-                    polygon.fill = $colors.interpolate(series.minColor, series.maxColor, percent);
-                }
-            }
-        };
         _this.parsingStepDuration = 5000; // to avoid some extra redrawing
         _this.className = "MapPolygonSeries";
         // Set data fields
@@ -324,8 +306,8 @@ var MapPolygonSeries = /** @class */ (function (_super) {
         this.north = null;
         this.south = null;
         // process geoJSON and created map objects
-        if (this.getDataFromJSON) {
-            var geoJSON = this.chart.geoJSON;
+        if (this.useGeodata) {
+            var geoJSON = this.chart.geodata;
             if (geoJSON) {
                 var features = void 0;
                 if (geoJSON.type == "FeatureCollection") {
@@ -367,6 +349,7 @@ var MapPolygonSeries = /** @class */ (function (_super) {
                                     dataObject = { multiPolygon: coordinates, id: id_1 };
                                     this_1.data.push(dataObject);
                                 }
+                                // in case found
                                 else {
                                     // if user-provided object doesn't have points data provided in any way:
                                     if (!dataObject.multiPolygon) {
@@ -433,6 +416,15 @@ var MapPolygonSeries = /** @class */ (function (_super) {
             return dataContext.id == id;
         });
     };
+    /**
+     * Copies all properties from another instance of [[Series]].
+     *
+     * @param {Series}  source  Source series
+     */
+    MapPolygonSeries.prototype.copyFrom = function (source) {
+        this.mapPolygons.template.copyFrom(source.mapPolygons.template);
+        _super.prototype.copyFrom.call(this, source);
+    };
     return MapPolygonSeries;
 }(MapSeries));
 export { MapPolygonSeries };
@@ -442,6 +434,6 @@ export { MapPolygonSeries };
  *
  * @ignore
  */
-system.registeredClasses["MapPolygonSeries"] = MapPolygonSeries;
-system.registeredClasses["MapPolygonSeriesDataItem"] = MapPolygonSeriesDataItem;
+registry.registeredClasses["MapPolygonSeries"] = MapPolygonSeries;
+registry.registeredClasses["MapPolygonSeriesDataItem"] = MapPolygonSeriesDataItem;
 //# sourceMappingURL=MapPolygonSeries.js.map

@@ -34,6 +34,7 @@ import { IPoint } from "../defs/IPoint";
  */
 export interface IInteractionEvents extends IBaseObjectEvents {
     track: {
+        pointer: IPointer;
         event: MouseEvent | TouchEvent;
     };
     down: {

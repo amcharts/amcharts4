@@ -19,13 +19,14 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { ColumnSeries, ColumnSeriesDataItem } from "../series/ColumnSeries";
 import { visualProperties } from "../../core/Sprite";
-import { Slice } from "../../core/elements/Slice";
-import { system } from "../../core/System";
+import { RadarColumn } from "../elements/RadarColumn";
+import { registry } from "../../core/Registry";
 import * as $path from "../../core/rendering/Path";
 import * as $math from "../../core/utils/Math";
 import * as $object from "../../core/utils/Object";
 import * as $type from "../../core/utils/Type";
 import * as $iter from "../../core/utils/Iterator";
+import * as $array from "../../core/utils/Array";
 /**
  * ============================================================================
  * DATA ITEM
@@ -77,12 +78,12 @@ var RadarColumnSeries = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     * Creates and returns a Slice element to use as column in radar chart.
+     * Creates and returns a RadarColumn element to use as column in radar chart.
      *
-     * @return {Sprite} Clice/column.
+     * @return {this["_column"]} RadarColumn.
      */
-    RadarColumnSeries.prototype.getColumnTemplate = function () {
-        return new Slice();
+    RadarColumnSeries.prototype.createColumnTemplate = function () {
+        return new RadarColumn();
     };
     /**
      * (Re)validates the whole series, effectively causing it to redraw.
@@ -147,33 +148,51 @@ var RadarColumnSeries = /** @class */ (function (_super) {
         }
         lAngle = $math.fitToRange(lAngle, startAngle, endAngle);
         rAngle = $math.fitToRange(rAngle, startAngle, endAngle);
-        var slice = dataItem.column;
-        if (!slice) {
-            slice = this._columnsIterator.getFirst();
-            if (slice.dataItem != dataItem) {
-                $object.forceCopyProperties(this.columns.template, slice, visualProperties);
-                slice.dataItem = dataItem;
-                dataItem.column = slice;
-                this.setColumnStates(slice);
-            }
+        var radarColumn = dataItem.column;
+        if (!radarColumn) {
+            radarColumn = this.columns.create();
+            dataItem.column = radarColumn;
+            $object.forceCopyProperties(this.columns.template, radarColumn, visualProperties);
+            dataItem.addSprite(radarColumn);
+            this.setColumnStates(radarColumn);
         }
+        var slice = radarColumn.radarColumn;
         slice.startAngle = lAngle;
-        slice.arc = rAngle - lAngle;
-        slice.radius = tRadius;
-        slice.innerRadius = bRadius;
-        slice.__disabled = false;
-        slice.parent = this.columnsContainer;
-        $iter.each(this.axisRanges.iterator(), function (axisRange) {
-            var rangeColumn = slice.clone();
-            rangeColumn.parent = axisRange.contents;
-            $object.copyProperties(axisRange, rangeColumn, visualProperties);
-            if (rangeColumn.dataItem != dataItem) {
-                $object.forceCopyProperties(_this.columns.template, rangeColumn, visualProperties);
-            }
-            rangeColumn.dataItem = dataItem;
-            rangeColumn.__disabled = false;
-            _this.setColumnStates(rangeColumn);
-        });
+        var arc = rAngle - lAngle;
+        if (arc > 0) {
+            slice.arc = arc;
+            slice.radius = tRadius;
+            slice.innerRadius = bRadius;
+            radarColumn.__disabled = false;
+            radarColumn.parent = this.columnsContainer;
+            $iter.each(this.axisRanges.iterator(), function (axisRange) {
+                var rangeColumn = dataItem.rangesColumns.getKey(axisRange.uid);
+                if (!rangeColumn) {
+                    rangeColumn = _this.columns.create();
+                    $object.forceCopyProperties(_this.columns.template, rangeColumn, visualProperties);
+                    $object.copyProperties(axisRange.contents, rangeColumn, visualProperties); // need this because 3d columns are not in the same container
+                    if (rangeColumn.dataItem) {
+                        $array.remove(rangeColumn.dataItem.sprites, rangeColumn);
+                    }
+                    dataItem.addSprite(rangeColumn);
+                    _this.setColumnStates(rangeColumn);
+                    dataItem.rangesColumns.setKey(axisRange.uid, rangeColumn);
+                }
+                var slice = radarColumn.radarColumn;
+                slice.startAngle = lAngle;
+                slice.arc = arc;
+                slice.radius = tRadius;
+                slice.innerRadius = bRadius;
+                if (slice.invalid) {
+                    slice.validate(); // validate as if it was used previously, it will flicker with previous dimensions
+                }
+                rangeColumn.__disabled = false;
+                rangeColumn.parent = _this.columnsContainer;
+            });
+        }
+        else {
+            this.disableUnusedColumns(dataItem);
+        }
     };
     /**
      * Returnsan SVG path that is used as mask for the series.
@@ -218,6 +237,6 @@ export { RadarColumnSeries };
  *
  * @ignore
  */
-system.registeredClasses["RadarColumnSeries"] = RadarColumnSeries;
-system.registeredClasses["RadarColumnSeriesDataItem"] = RadarColumnSeriesDataItem;
+registry.registeredClasses["RadarColumnSeries"] = RadarColumnSeries;
+registry.registeredClasses["RadarColumnSeriesDataItem"] = RadarColumnSeriesDataItem;
 //# sourceMappingURL=RadarColumnSeries.js.map

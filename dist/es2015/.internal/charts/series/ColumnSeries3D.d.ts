@@ -8,9 +8,10 @@
  * @hidden
  */
 import { ColumnSeries, IColumnSeriesProperties, IColumnSeriesDataFields, IColumnSeriesAdapters, IColumnSeriesEvents, ColumnSeriesDataItem } from "../series/ColumnSeries";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Container } from "../../core/Container";
 import { XYChart3D } from "../types/XYChart3D";
+import { Column3D } from "../elements/Column3D";
 /**
  * ============================================================================
  * DATA ITEM
@@ -18,6 +19,12 @@ import { XYChart3D } from "../types/XYChart3D";
  * @hidden
  */
 export declare class ColumnSeries3DDataItem extends ColumnSeriesDataItem {
+    /**
+     * A sprite used to draw the column.
+     * @ignore
+     * @type {Column3D}
+     */
+    _column: Column3D;
     /**
      * Constructor
      */
@@ -81,6 +88,14 @@ export interface IColumnSeries3DAdapters extends IColumnSeriesAdapters, IColumnS
  */
 export declare class ColumnSeries3D extends ColumnSeries {
     /**
+     * @ignore
+     */
+    _dataItem: ColumnSeries3DDataItem;
+    /**
+     * @ignore
+     */
+    _column: Column3D;
+    /**
      * Defines the type for data fields.
      *
      * @ignore Exclude from docs
@@ -130,10 +145,10 @@ export declare class ColumnSeries3D extends ColumnSeries {
     readonly columnsContainer: Container;
     /**
      * Returns an element to use for 3D bar.
-     *
-     * @return {Sprite} Element.
+     * @ignore
+     * @return {this["_column"]} Element.
      */
-    protected getColumnTemplate(): Sprite;
+    protected createColumnTemplate(): this["_column"];
     /**
      * Returns SVG path to use as a mask for the series.
      *

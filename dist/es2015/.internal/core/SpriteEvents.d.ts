@@ -7,6 +7,7 @@
 import { Sprite } from "./Sprite";
 import { EventListener, TargetedEventDispatcher, AMEvent } from "./utils/EventDispatcher";
 import { IInteractionObjectEvents } from "./interaction/InteractionObject";
+import { IPointer } from "./interaction/Pointer";
 import { IPoint } from "./defs/IPoint";
 /**
  * ============================================================================
@@ -82,6 +83,17 @@ export declare type SpritePointEvent = {
      * @type {IPoint}
      */
     svgPoint: IPoint;
+};
+/**
+ * Defines a type of event that has a related Pointer.
+ */
+export declare type SpritePointerEvent = {
+    /**
+     * Coordinates of the primary cursor position.
+     *
+     * @type {Pointer}
+     */
+    pointer: IPointer;
 };
 /**
  * Defines property set for a [[Sprite]] event that contains mouse or touch
@@ -200,7 +212,7 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
      * Invoked when pointer (mouse cursor or touch point) moves over `trackable`
      * [[Sprite]].
      */
-    track: SpritePointEvent & SpriteMouseTouchEvent;
+    track: SpritePointEvent & SpritePointerEvent & SpriteMouseTouchEvent;
     /**
      * Invoked when user turns mouse wheel while over the [[Sprite]].
      */

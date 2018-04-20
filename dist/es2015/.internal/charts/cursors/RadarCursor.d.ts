@@ -6,6 +6,7 @@
  */
 import { RadarChart } from "../types/RadarChart";
 import { XYCursor, IXYCursorAdapters, IXYCursorEvents, IXYCursorProperties } from "./XYCursor";
+import { IInteractionEvents } from "../../core/interaction/Interaction";
 import { IPoint } from "../../core/defs/IPoint";
 import { ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Percent } from "../../core/utils/Percent";
@@ -131,7 +132,7 @@ export declare class RadarCursor extends XYCursor {
      *
      * @param {ISpriteEvents["track"]} event Event
      */
-    handleCursorMove(event: ISpriteEvents["track"]): void;
+    handleCursorMove(event: IInteractionEvents["track"]): IPoint;
     /**
      * (Re)draws the horizontal (circular) cursor's line.
      *

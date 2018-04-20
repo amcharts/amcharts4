@@ -80,7 +80,7 @@ var __spread = (this && this.__spread) || function () {
  * @hidden
  */
 import { Projection } from "./Projection";
-import { system } from "../../../core/System";
+import { registry } from "../../../core/Registry";
 import * as $math from "../../../core/utils/Math";
 /**
  * Orthographic projection.
@@ -184,7 +184,7 @@ var Orthographic = /** @class */ (function (_super) {
         }
         for (var i = 0; i < clippedArea.length; i++) {
             var surface = clippedArea[i][0];
-            var hole = clippedArea[i][1];
+            //let hole: IGeoPoint[] = clippedArea[i][1];
             if (surface) {
                 var prevPoint = surface[surface.length - 1];
                 for (var i_1 = 0; i_1 < surface.length; i_1++) {
@@ -216,5 +216,5 @@ export { Orthographic };
  *
  * @ignore
  */
-system.registeredClasses["Orthographic"] = Orthographic;
+registry.registeredClasses["Orthographic"] = Orthographic;
 //# sourceMappingURL=Orthographic.js.map

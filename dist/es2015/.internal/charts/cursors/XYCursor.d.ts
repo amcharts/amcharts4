@@ -15,6 +15,7 @@ import { IRange } from "../../core/defs/IRange";
 import { Axis } from "../axes/Axis";
 import { AxisRenderer } from "../axes/AxisRenderer";
 import { XYChart } from "../types/XYChart";
+import { IInteractionEvents } from "../../core/interaction/Interaction";
 /**
  * ============================================================================
  * REQUISITES
@@ -54,6 +55,13 @@ export interface IXYCursorProperties extends ICursorProperties {
      * @type {boolean}
      */
     fullWidthLineY?: boolean;
+    /**
+     * If cursor behavior is panX or panY, we allow to pan plot out of it's max bounds for a better user experience.
+     * This setting specifies relative value by how much we can pan out the plot
+     *
+     * @type {number}
+     */
+    maxPanOut?: number;
 }
 /**
  * Defines events for [[XYCursor]].
@@ -176,16 +184,21 @@ export declare class XYCursor extends Cursor {
      * Updates position of Cursor's line(s) as pointer moves.
      *
      * @ignore Exclude from docs
-     * @param {ISpriteEvents["track"]} event Original event
+     * @param {IInteractionEvents["track"]} event Original event
      */
-    handleCursorMove(event: ISpriteEvents["track"]): void;
+    handleCursorMove(event: IInteractionEvents["track"]): IPoint;
+    /**
+     *
+     * @ignore Exclude from docs
+     */
+    protected updateLinePositions(point: IPoint): void;
     /**
      * Starts pointer down action, according to `behavior`.
      *
      * @ignore Exclude from docs
      * @param {ISpriteEvents["down"]} event Original event
      */
-    handleCursorDown(event: ISpriteEvents["down"]): void;
+    handleCursorDown(event: IInteractionEvents["down"]): void;
     /**
      * Updates the coordinates of where pointer down event occurred
      * (was pressed).
@@ -197,7 +210,13 @@ export declare class XYCursor extends Cursor {
      * @ignore Exclude from docs
      * @param {ISpriteEvents["up"]} event Original event
      */
-    handleCursorUp(event: ISpriteEvents["up"]): void;
+    handleCursorUp(event: IInteractionEvents["up"]): void;
+    /**
+     * [getRanges description]
+     *
+     * @todo Description
+     */
+    protected getPanningRanges(): void;
     /**
      * [getRanges description]
      *
@@ -253,6 +272,16 @@ export declare class XYCursor extends Cursor {
      * @param {boolean} value Full width?
      */
     fullWidthLineY: boolean;
+    /**
+     * @return {number} Full width?
+     */
+    /**
+     * If cursor behavior is panX or panY, we allow to pan plot out of it's max bounds for a better user experience.
+     * This setting specifies relative value by how much we can pan out the plot
+     *
+     * @param {number} value
+     */
+    maxPanOut: number;
     /**
      * @return {Axis} X axis
      */

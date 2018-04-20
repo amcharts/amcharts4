@@ -19,13 +19,13 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Container } from "../../core/Container";
 import { Rectangle } from "../../core/elements/Rectangle";
-import { MapSeries } from "./MapSeries";
-import { ListTemplate } from "../../core/utils/List";
+import { List } from "../../core/utils/List";
 import { MutableValueDisposer, MultiDisposer } from "../../core/utils/Disposer";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { color } from "../../core/utils/Color";
-import * as $utils from "../../core/utils/Utils";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
+import * as $utils from "../../core/utils/Utils";
+import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -71,13 +71,12 @@ var SmallMap = /** @class */ (function (_super) {
         // Set up events
         _this.events.on("hit", _this.moveToPosition, _this);
         _this.events.on("maxsizechanged", _this.updateMapSize, _this);
-        // Create series
-        _this.series = new ListTemplate(new MapSeries());
-        _this.series.events.on("insert", _this.processSeries, _this);
         // Create a container
         _this.seriesContainer = _this.createChild(Container);
+        _this.seriesContainer.shouldClone = false;
         // Create an outline rectangle
         var rectangle = _this.createChild(Rectangle);
+        rectangle.shouldClone = false;
         rectangle.stroke = interfaceColors.getFor("alternativeBackground");
         rectangle.strokeWidth = 1;
         rectangle.strokeOpacity = 0.5;
@@ -90,6 +89,50 @@ var SmallMap = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    Object.defineProperty(SmallMap.prototype, "series", {
+        /**
+         * A list of map series used to draw the mini-map.
+         *
+         * @readonly
+         * @return {List<MapSeries>} Series
+         */
+        get: function () {
+            if (!this._series) {
+                this._series = new List();
+                this._series.events.on("insert", this.handleSeriesAdded, this);
+                this._series.events.on("remove", this.handleSeriesRemoved, this);
+            }
+            return this._series;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Decorates a new series when they are pushed into a `series` list.
+     *
+     * @param {IListEvents<MapSeries>["insert"]} event Event
+     */
+    SmallMap.prototype.handleSeriesAdded = function (event) {
+        var series = event.newValue;
+        if (this.chart.series.contains(series)) {
+            var newSeries = series.clone();
+            this._series.removeValue(series);
+            this._series.push(newSeries);
+            series = newSeries;
+        }
+        series.chart = this.chart;
+        series.parent = this.seriesContainer;
+        series.mouseEnabled = false;
+    };
+    /**
+     * Cleans up after series are removed from Scrollbar.
+     *
+     * @param {IListEvents<XYSeries>["remove"]}  event  Event
+     */
+    SmallMap.prototype.handleSeriesRemoved = function (event) {
+        //let sourceSeries: MapSeries = event.oldValue;
+        this.invalidate();
+    };
     /**
      * Moves main map pan position after click on the small map.
      *
@@ -105,17 +148,6 @@ var SmallMap = /** @class */ (function (_super) {
         var y = (rectPoint.y + this.rectangle.pixelHeight / 2) / scale * zoomLevel;
         var geoPoint = this.chart.svgPointToGeo({ x: x, y: y });
         this.chart.zoomToGeoPoint(geoPoint, this.chart.zoomLevel, true);
-    };
-    /**
-     * Decorates a new [[MapSeries]] object with required parameters when it is
-     * added to the chart.
-     *
-     * @param {IListEvents<MapSeries>["insert"]} event [description]
-     */
-    SmallMap.prototype.processSeries = function (event) {
-        var series = event.newValue;
-        series.chart = this.chart;
-        series.parent = this.seriesContainer;
     };
     Object.defineProperty(SmallMap.prototype, "chart", {
         /**
@@ -179,6 +211,26 @@ var SmallMap = /** @class */ (function (_super) {
         this.seriesContainer.moveTo({ x: this.pixelWidth / 2, y: this.pixelHeight / 2 });
         this.rectangle.maskRectangle = { x: -1, y: -1, width: Math.ceil(this.pixelWidth + 2), height: Math.ceil(this.pixelHeight + 2) };
     };
+    /**
+     * Processes JSON-based config before it is applied to the object.
+     *
+     * @ignore Exclude from docs
+     * @param {object}  config  Config
+     */
+    SmallMap.prototype.processConfig = function (config) {
+        if (config) {
+            // Set up series
+            if ($type.hasValue(config.series) && $type.isArray(config.series)) {
+                for (var i = 0, len = config.series.length; i < len; i++) {
+                    var series = config.series[i];
+                    if ($type.hasValue(series) && $type.isString(series) && this.map.hasKey(series)) {
+                        config.series[i] = this.map.getKey(series);
+                    }
+                }
+            }
+        }
+        _super.prototype.processConfig.call(this, config);
+    };
     return SmallMap;
 }(Container));
 export { SmallMap };
@@ -188,5 +240,5 @@ export { SmallMap };
  *
  * @ignore
  */
-system.registeredClasses["SmallMap"] = SmallMap;
+registry.registeredClasses["SmallMap"] = SmallMap;
 //# sourceMappingURL=SmallMap.js.map

@@ -1,7 +1,7 @@
 /**
  * AmChartsLogo module.
  *
- * AmChartsLogo is a progress indicator.
+ * AmChartsLogo shows amCharts logo for non-commercial users of a library.
  */
 /**
  * ============================================================================

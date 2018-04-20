@@ -20,7 +20,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Container } from "../../core/Container";
 import { Sprite, visualProperties } from "../../core/Sprite";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import * as $path from "../../core/rendering/Path";
 import * as $object from "../../core/utils/Object";
 import * as $smoothing from "../../core/rendering/Smoothing";
@@ -54,15 +54,19 @@ var LineSeriesSegment = /** @class */ (function (_super) {
         _this.isMeasured = false;
         _this.mouseEnabled = false;
         // Create fill element
-        _this.fillSprite = _this.createChild(Sprite);
-        _this.fillSprite.element = _this.paper.add("path");
-        _this.fillSprite.isMeasured = false;
-        _this._disposers.push(_this.fillSprite);
+        var fillSprite = _this.createChild(Sprite);
+        _this.fillSprite = fillSprite;
+        fillSprite.shouldClone = false;
+        fillSprite.element = _this.paper.add("path");
+        fillSprite.isMeasured = false;
+        _this._disposers.push(fillSprite);
         // Create line element
-        _this.strokeSprite = _this.createChild(Sprite);
-        _this.strokeSprite.element = _this.paper.add("path");
-        _this.strokeSprite.isMeasured = false;
-        _this._disposers.push(_this.strokeSprite);
+        var strokeSprite = _this.createChild(Sprite);
+        _this.strokeSprite = strokeSprite;
+        strokeSprite.shouldClone = false;
+        strokeSprite.element = _this.paper.add("path");
+        strokeSprite.isMeasured = false;
+        _this._disposers.push(strokeSprite);
         return _this;
     }
     /**
@@ -80,7 +84,7 @@ var LineSeriesSegment = /** @class */ (function (_super) {
             //if(this.strokeOpacity > 0 || this.strokeSprite.strokeOpacity > 0){ // not good, range stroke is not drawn then
             this.strokeSprite.element.attr({ "d": path });
             //}
-            if (this.fillOpacity > 0 || this.fillSprite.fillOpacity > 0) {
+            if (this.fillOpacity > 0 || this.fillSprite.fillOpacity > 0) { // helps to avoid drawing fill object if fill is not visible
                 path += $path.lineTo(closePoints[0]) + new $smoothing.Tension(smoothnessX, smoothnessY).smooth(closePoints);
                 path += $path.lineTo(points[0]);
                 path += $path.closePath();
@@ -118,5 +122,5 @@ export { LineSeriesSegment };
  *
  * @ignore
  */
-system.registeredClasses["LineSeriesSegment"] = LineSeriesSegment;
+registry.registeredClasses["LineSeriesSegment"] = LineSeriesSegment;
 //# sourceMappingURL=LineSeriesSegment.js.map

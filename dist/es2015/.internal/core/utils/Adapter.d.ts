@@ -57,12 +57,12 @@ export declare class GlobalAdapter {
  * Global adapter is a system-wide instance, accessible via `globalAdapter`.
  *
  * ```TypeScript
- * amcharts4.globalAdapter.addAll<pie.IPieSeriesAdapters, pie.PieSeries, "fill">(pie.PieSeries. "fill", (value, target) => {
+ * amcharts4.globalAdapter.addAll<charts.IPieSeriesAdapters, charts.PieSeries, "fill">(charts.PieSeries. "fill", (value, target) => {
  *   return amcharts4.color("#005500");
  * });
  * ```
  * ```JavaScript
- * amcharts4.globalAdapter.addAll(amcharts4.pie.PieSeries. "fill", (value, target) => {
+ * amcharts4.globalAdapter.addAll(amcharts4.charts.PieSeries. "fill", (value, target) => {
  *   return amcharts4.color("#005500");
  * });
  * ```
@@ -100,12 +100,12 @@ export declare let globalAdapter: GlobalAdapter;
  * Global adapter is a system-wide instance, accessible via `globalAdapter`.
  *
  * ```TypeScript
- * amcharts4.globalAdapter.addAll<pie.IPieSeriesAdapters, pie.PieSeries, "fill">(pie.PieSeries. "fill", (value, target) => {
+ * amcharts4.globalAdapter.addAll<charts.IPieSeriesAdapters, charts.PieSeries, "fill">(charts.PieSeries. "fill", (value, target) => {
  *   return amcharts4.color("#005500");
  * });
  * ```
  * ```JavaScript
- * amcharts4.globalAdapter.addAll(amcharts4.pie.PieSeries. "fill", (value, target) => {
+ * amcharts4.globalAdapter.addAll(amcharts4.charts.PieSeries. "fill", (value, target) => {
  *   return amcharts4.color("#005500");
  * });
  * ```

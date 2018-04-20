@@ -24,7 +24,7 @@ import { MutableValueDisposer, MultiDisposer } from "../../core/utils/Disposer";
 import { keyboard } from "../../core/utils/Keyboard";
 import { interaction } from "../../core/interaction/Interaction";
 import { percent } from "../../core/utils/Percent";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 /**
  * ============================================================================
@@ -59,11 +59,13 @@ var ZoomControl = /** @class */ (function (_super) {
         _this.padding(5, 5, 5, 5);
         var interfaceColors = new InterfaceColorSet();
         var plusButton = _this.createChild(Button);
+        plusButton.shouldClone = false;
         plusButton.label.text = "+";
         plusButton.width = percent(100);
         plusButton.padding(5, 5, 5, 5);
         _this.plusButton = plusButton;
         var slider = _this.createChild(Container);
+        slider.shouldClone = false;
         slider.width = percent(100);
         slider.background.fill = interfaceColors.getFor("alternativeBackground");
         slider.background.fillOpacity = 0.05;
@@ -71,11 +73,13 @@ var ZoomControl = /** @class */ (function (_super) {
         slider.events.on("sizechanged", _this.updateThumbSize, _this);
         _this.slider = slider;
         var thumb = slider.createChild(Button);
+        thumb.shouldClone = false;
         thumb.padding(0, 0, 0, 0);
         thumb.draggable = true;
         thumb.events.on("drag", _this.handleThumbDrag, _this);
         _this.thumb = thumb;
         var minusButton = _this.createChild(Button);
+        minusButton.shouldClone = false;
         minusButton.label.text = "-";
         minusButton.padding(5, 5, 5, 5);
         _this.minusButton = minusButton;
@@ -294,5 +298,5 @@ export { ZoomControl };
  *
  * @ignore
  */
-system.registeredClasses["ZoomControl"] = ZoomControl;
+registry.registeredClasses["ZoomControl"] = ZoomControl;
 //# sourceMappingURL=ZoomControl.js.map

@@ -25,7 +25,7 @@ import { Grid } from "./Grid";
 import { AxisLabel } from "./AxisLabel";
 import { AxisTick } from "./AxisTick";
 import { ListTemplate, ListDisposer } from "../../core/utils/List";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { percent } from "../../core/utils/Percent";
 import * as $math from "../../core/utils/Math";
 /**
@@ -69,26 +69,31 @@ var AxisRenderer = /** @class */ (function (_super) {
         _this.cellEndLocation = 1;
         _this.minLabelPosition = 0;
         _this.maxLabelPosition = 1;
+        _this.shouldClone = false;
         // Set axis
         _this.axis = axis;
         var gridContainer = _this.createChild(Container);
+        gridContainer.shouldClone = false;
         gridContainer.layout = "none";
         gridContainer.isMeasured = false;
         gridContainer.width = percent(100);
         gridContainer.height = percent(100);
         _this.gridContainer = gridContainer;
         var breakContainer = _this.createChild(Container);
+        breakContainer.shouldClone = false;
         breakContainer.isMeasured = false;
         breakContainer.layout = "none";
         breakContainer.width = percent(100);
         breakContainer.height = percent(100);
         _this.breakContainer = breakContainer;
         _this.line = axis.createChild(AxisLine); // yes, to axis, not to renderer
+        _this.line.shouldClone = false;
         _this.line.strokeOpacity = 0;
         _this.ticks.template.strokeOpacity = 0;
         //this.ticks.template.disabled = true;
         //this.axisFills.template.disabled = true;
         var baseGrid = axis.createChild(Grid);
+        baseGrid.shouldClone = false;
         _this.baseGrid = baseGrid;
         _this.gridContainer.events.on("maxsizechanged", _this.invalidateAxisItems, _this);
         // Make elements disposable
@@ -761,5 +766,5 @@ export { AxisRenderer };
  *
  * @ignore
  */
-system.registeredClasses["AxisRenderer"] = AxisRenderer;
+registry.registeredClasses["AxisRenderer"] = AxisRenderer;
 //# sourceMappingURL=AxisRenderer.js.map

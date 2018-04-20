@@ -50,7 +50,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Projection } from "./Projection";
-import { system } from "../../../core/System";
+import { registry } from "../../../core/Registry";
 /**
  * Miller projection.
  */
@@ -94,5 +94,5 @@ export { Miller };
  *
  * @ignore
  */
-system.registeredClasses["Miller"] = Miller;
+registry.registeredClasses["Miller"] = Miller;
 //# sourceMappingURL=Miller.js.map

@@ -53,8 +53,10 @@ var Preloader = /** @class */ (function (_super) {
         var interfaceColors = new InterfaceColorSet();
         // Create main container
         var sliceContainer = _this.createChild(Container);
+        sliceContainer.shouldClone = false;
         // Add background (100%) slice
         var backgroundSlice = sliceContainer.createChild(Slice);
+        backgroundSlice.shouldClone = false;
         backgroundSlice.radius = 53;
         backgroundSlice.arc = 360;
         backgroundSlice.fill = interfaceColors.getFor("fill");
@@ -64,6 +66,7 @@ var Preloader = /** @class */ (function (_super) {
         _this.backgroundSlice = backgroundSlice;
         // Add progress slice
         var progressSlice = sliceContainer.createChild(Slice);
+        progressSlice.shouldClone = false;
         progressSlice.radius = 50;
         progressSlice.innerRadius = 45;
         progressSlice.fill = interfaceColors.getFor("alternativeBackground");
@@ -72,6 +75,7 @@ var Preloader = /** @class */ (function (_super) {
         _this.progressSlice = progressSlice;
         // Add text label element
         var label = sliceContainer.createChild(Label);
+        label.shouldClone = false;
         label.horizontalCenter = "middle";
         label.verticalCenter = "middle";
         label.isMeasured = false;

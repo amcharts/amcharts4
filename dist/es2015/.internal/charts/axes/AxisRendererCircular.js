@@ -21,7 +21,7 @@ import { AxisRenderer } from "./AxisRenderer";
 import { AxisFillCircular } from "./AxisFillCircular";
 import { GridCircular } from "./GridCircular";
 import { AxisLabelCircular } from "./AxisLabelCircular";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 import { percent } from "../../core/utils/Percent";
 import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
@@ -209,7 +209,8 @@ var AxisRendererCircular = /** @class */ (function (_super) {
      */
     AxisRendererCircular.prototype.updateAxisLine = function () {
         var element = this.line.element;
-        var chart = this.chart;
+        // @todo Is this needed?
+        this.chart;
         var radius = this.pixelRadius;
         var startAngle = this.startAngle;
         var endAngle = this.endAngle;
@@ -394,5 +395,5 @@ export { AxisRendererCircular };
  *
  * @ignore
  */
-system.registeredClasses["AxisRendererCircular"] = AxisRendererCircular;
+registry.registeredClasses["AxisRendererCircular"] = AxisRendererCircular;
 //# sourceMappingURL=AxisRendererCircular.js.map

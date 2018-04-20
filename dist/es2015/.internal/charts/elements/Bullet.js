@@ -18,7 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Container } from "../../core/Container";
-import { system } from "../../core/System";
+import { registry } from "../../core/Registry";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -41,7 +41,6 @@ var Bullet = /** @class */ (function (_super) {
     function Bullet() {
         var _this = _super.call(this) || this;
         _this.className = "Bullet";
-        _this.cloneChildren = true;
         _this.isMeasured = false;
         _this.tooltipX = 0;
         _this.tooltipY = 0;
@@ -179,5 +178,5 @@ export { Bullet };
  *
  * @ignore
  */
-system.registeredClasses["Bullet"] = Bullet;
+registry.registeredClasses["Bullet"] = Bullet;
 //# sourceMappingURL=Bullet.js.map
