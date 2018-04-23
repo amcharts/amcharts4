@@ -18,9 +18,9 @@
  * @hidden
  */
  
-webpackJsonp([3],{
+webpackJsonp([2],{
 
-/***/ 155:
+/***/ 586:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {var fabric = fabric || {
