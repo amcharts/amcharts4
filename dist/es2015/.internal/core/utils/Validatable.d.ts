@@ -1,6 +1,6 @@
 /**
  * This module defines a [[Validatable]] class which can be used by all
- * non-[[Sprite]] classes to use system beats to revalite themselves.
+ * non-[[Sprite]] classes to use system beats to revalidate themselves.
  */
 /**
  * ============================================================================

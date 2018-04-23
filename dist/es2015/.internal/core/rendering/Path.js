@@ -7,7 +7,7 @@
  * ============================================================================
  * @hidden
  */
-import { system } from "../System";
+import { registry } from "../Registry";
 import * as $math from "../utils/Math";
 import * as $utils from "../utils/Utils";
 import * as $type from "../utils/Type";
@@ -52,7 +52,7 @@ export function wavedLine(point1, point2, waveLength, waveHeight, tension, adjus
     if (adjustWaveLength) {
         waveLength = distance / Math.round(distance / waveLength);
     }
-    var d = system.getCache($utils.stringify(["wavedLine", point1.x, point2.x, point1.y, point2.y, waveLength, waveHeight]));
+    var d = registry.getCache($utils.stringify(["wavedLine", point1.x, point2.x, point1.y, point2.y, waveLength, waveHeight]));
     if (!d) {
         if (distance > 0) {
             var angle = Math.atan2(y2 - y1, x2 - x1);
@@ -85,7 +85,7 @@ export function wavedLine(point1, point2, waveLength, waveHeight, tension, adjus
         else {
             d = "";
         }
-        system.setCache($utils.stringify(["wavedLine", point1.x, point2.x, point1.y, point2.y, waveLength, waveHeight]), d);
+        registry.setCache($utils.stringify(["wavedLine", point1.x, point2.x, point1.y, point2.y, waveLength, waveHeight]), d);
     }
     return d;
 }

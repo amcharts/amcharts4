@@ -2,7 +2,7 @@ import * as amcharts4 from "@amcharts/amcharts4/core";
 import * as maps from "@amcharts/amcharts4/maps";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 import DarkTheme from "@amcharts/amcharts4/themes/dark";
-import continentsLow from "@amcharts/amcharts4/geodata/continentsLow";
+import continentsLow from "@amcharts/amcharts4-geodata/continentsLow";
 
 
 amcharts4.useTheme(DarkTheme);

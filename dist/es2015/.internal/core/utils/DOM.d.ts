@@ -48,6 +48,13 @@ export declare function addClass(element: HTMLElement | SVGSVGElement, className
  */
 export declare function removeClass(element: HTMLElement | SVGSVGElement, className: string): void;
 /**
+ * Sets style property on DOM element.
+ *
+ * @ignore Exclude from docs
+ * @todo Still needed?
+ */
+export declare function setStyle(element: HTMLElement | SVGSVGElement, property: string, value: string): void;
+/**
  * Removes focus from any element by shifting focus to body.
  *
  * @ignore Exclude from docs

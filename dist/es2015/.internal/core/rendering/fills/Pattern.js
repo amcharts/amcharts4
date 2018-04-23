@@ -21,7 +21,6 @@ import { BaseObject } from "../../Base";
 import { List, ListDisposer } from "../../utils/List";
 import { MultiDisposer } from "../../utils/Disposer";
 import { Animation } from "../../utils/Animation";
-import { system } from "../../System";
 import { registry } from "../../Registry";
 import { InterfaceColorSet } from "../../utils/InterfaceColorSet";
 import * as $iter from "../../utils/Iterator";
@@ -413,7 +412,7 @@ var Pattern = /** @class */ (function (_super) {
             if (this._paper) {
                 return this._paper;
             }
-            return system.ghostPaper;
+            return registry.ghostPaper;
         },
         /**
          * [[Paper]] instance to draw pattern in.

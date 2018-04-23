@@ -34,7 +34,6 @@ import { InteractionKeyboardObject } from "./InteractionKeyboardObject";
 import { Dictionary } from "../utils/Dictionary";
 import { Inertia } from "./Inertia";
 import { addEventListener } from "../utils/DOM";
-import { system } from "../System";
 import { keyboard } from "../utils/Keyboard";
 import * as $ease from "../utils/Ease";
 import * as $math from "../utils/Math";
@@ -2081,7 +2080,7 @@ var Interaction = /** @class */ (function (_super) {
         }
         // Apply cursor down styles
         for (var i = 0; i < options.overStyle.length; i++) {
-            system.setStyle(io.element, options.overStyle[i].property, options.overStyle[i].value);
+            $dom.setStyle(io.element, options.overStyle[i].property, options.overStyle[i].value);
         }
     };
     /**
@@ -2204,7 +2203,7 @@ var Interaction = /** @class */ (function (_super) {
             io.replacedStyles.setKey(property, el.style[property]);
         }
         // Replace with the new one
-        system.setStyle(el, property, value);
+        $dom.setStyle(el, property, value);
     };
     /**
      * Restores specific style on an element.

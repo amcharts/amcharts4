@@ -18,7 +18,6 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Disposer } from "./Disposer";
-import { system } from "../System";
 import { readFrame, writeFrame } from "./AsyncPending";
 import * as $object from "./Object";
 import * as $array from "./Array";
@@ -62,7 +61,6 @@ export function getElement(el) {
     else if (el instanceof HTMLElement) {
         return el;
     }
-    system.log(el + " not found");
 }
 /**
  * Adds a class name to an HTML or SVG element.
@@ -108,6 +106,15 @@ export function removeClass(element, className) {
         }
         //element.className = element.className.replace(new RegExp("^" + className + "| " + className), "");
     }
+}
+/**
+ * Sets style property on DOM element.
+ *
+ * @ignore Exclude from docs
+ * @todo Still needed?
+ */
+export function setStyle(element, property, value) {
+    element.style[property] = value;
 }
 /**
  * Removes focus from any element by shifting focus to body.

@@ -1,8 +1,8 @@
 {
-  "name": "@amcharts/amcharts4",
-  "version": "4.0.0-beta.9",
+  "name": "@amcharts/amcharts4-geodata",
+  "version": "4.0.0",
   "author": "amCharts <contact@amcharts.com> (https://www.amcharts.com/)",
-  "description": "AmCharts v4",
+  "description": "AmCharts v4 Geo Data",
   "homepage": "https://www.amcharts.com/",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
@@ -17,13 +17,7 @@
     "amcharts",
     "javascript",
     "charts",
-    "typescript"
-  ],
-  "main": "./index.js",
-  "types": "./index.d.ts",
-  "dependencies": {
-    "fabric": "^2.1.0",
-    "pdfmake": "^0.1.36",
-    "xlsx": "^0.12.2"
-  }
+    "typescript",
+    "geodata"
+  ]
 }

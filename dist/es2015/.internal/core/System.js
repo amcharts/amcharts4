@@ -1,36 +1,20 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 /**
  * ============================================================================
  * IMPORTS
  * ============================================================================
  * @hidden
  */
-import { BaseObjectEvents } from "./Base";
+import { registry } from "./Registry";
 import { EventDispatcher } from "./utils/EventDispatcher";
-import { Container } from "./Container";
 import { SVGContainer } from "./rendering/SVGContainer";
 import { Component } from "./Component";
 import { Paper } from "./rendering/Paper";
 import { raf } from "./utils/AsyncPending";
 import { TextFormatter } from "./formatters/TextFormatter";
 import { animations } from "./utils/Animation";
-import { Tooltip } from "./elements/Tooltip";
-import { Preloader } from "./elements/Preloader";
 import { triggerIdle } from "./utils/AsyncPending";
 import * as $dom from "./utils/DOM";
 import * as $array from "./utils/Array";
-import { percent } from "./utils/Percent";
-import { FocusFilter } from "./rendering/filters/FocusFilter";
-import { AmChartsLogo } from "./elements/AmChartsLogo";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -41,40 +25,17 @@ import { AmChartsLogo } from "./elements/AmChartsLogo";
  * The main class that handles system-wide tasks, like caching, heartbeats, etc.
  * @important
  */
-var System = /** @class */ (function (_super) {
-    __extends(System, _super);
+var System = /** @class */ (function () {
     /**
      * Constructor
      */
     function System() {
-        var _this = _super.call(this) || this;
-        /**
-         * All currently applied themes. All new chart instances created will
-         * automatically inherit and retain System's themes.
-         *
-         * @type {ITheme}
-         */
-        _this.themes = [];
-        /**
-         * List of all loaded available themes.
-         *
-         * Whenever a theme loads, it registers itself in System's `loadedThemes`
-         * collection.
-         */
-        _this.loadedThemes = {};
-        /**
-         * An indeternal counter used to generate unique IDs.
-         *
-         * @ignore Exclude from docs
-         * @type {number}
-         */
-        _this._uidCount = 0;
         /**
          * Console output enabled.
          *
          * @type {boolean}
          */
-        _this.verbose = true;
+        this.verbose = true;
         /**
          * Invalid sizes
          * @rodo Remove commented code
@@ -92,8 +53,9 @@ var System = /** @class */ (function (_super) {
          * reduce smoothness of the animations.
          *
          * @type {number}
+         * @deprecated Moved to [[Registry]]
          */
-        _this.frameRate = 60;
+        //public frameRate: number = 60;
         /**
          * Number of times per second component container is measured.
          *
@@ -102,41 +64,33 @@ var System = /** @class */ (function (_super) {
          *
          * @type {number}
          */
-        _this.measureRate = 10;
+        this.measureRate = 10;
         /**
          * @todo Description
          * @ignore Exclude from docs
          * @private
          * @type {number}
          */
-        _this.measureCounter = 0;
+        this.measureCounter = 0;
         /**
          * amCharts will add `class` property to some elements. All those class names
          * will be prefixed by `classNamePrefix`.
          *
          * @type {string}
          */
-        _this.classNamePrefix = "amcharts-";
+        this.classNamePrefix = "amcharts-";
         /**
          * @todo Description
          * @todo Needed?
          * @ignore Exclude from docs
          * @type {number}
          */
-        _this.dummyCounter = 0;
-        /**
-         * Keeps register of class references so that they can be instnatiated using
-         * string key.
-         *
-         * @ignore Exclude from docs
-         */
-        _this.registeredClasses = {};
+        this.dummyCounter = 0;
         /**
          * @ignore
          */
-        _this.commercialLicense = false;
-        _this.events = new EventDispatcher();
-        return _this;
+        this.commercialLicense = false;
+        this.events = new EventDispatcher();
     }
     /**
      * Performs initialization of the System object.
@@ -148,13 +102,6 @@ var System = /** @class */ (function (_super) {
     System.prototype.init = function () {
         var _this = this;
         this.svgContainers = [];
-        this.invalidPositions = [];
-        this.invalidSprites = [];
-        this.invalidDatas = [];
-        this.invalidRawDatas = [];
-        this.invalidDataRange = [];
-        this.invalidDataItems = [];
-        this.invalidLayouts = [];
         this.textFormatter = new TextFormatter();
         // frame at which we should measure
         this.measureAt = Math.round(this.frameRate / this.measureRate);
@@ -163,8 +110,8 @@ var System = /** @class */ (function (_super) {
         ghostDiv.hidden = true;
         document.body.appendChild(ghostDiv);
         var ghostSvgContainer = new SVGContainer(ghostDiv);
-        this.ghostPaper = new Paper(ghostSvgContainer.SVGContainer);
-        this.ghostPaper.id = "ghost";
+        registry.ghostPaper = new Paper(ghostSvgContainer.SVGContainer);
+        registry.ghostPaper.id = "ghost";
         $dom.ready(function () {
             _this.update();
             raf(function () {
@@ -173,78 +120,7 @@ var System = /** @class */ (function (_super) {
         });
         system.time = Date.now();
         // Create an id for system
-        this.uid;
-    };
-    /**
-     * Creates all HTML and SVG containers needed for the chart instance, as well
-     * as the new [[Sprite]] (as specified in `classType` parameter).
-     *
-     * @param  {Optional<HTMLElement | string>}  htmlElement  A container to creat elements in
-     * @param  {T}                               classType    A class definition of the new element to create
-     * @return {T}                                            Newly-created Sprite object
-     */
-    System.prototype.createChild = function (htmlElement, classType) {
-        var htmlContainer = $dom.getElement(htmlElement);
-        if (htmlContainer) {
-            // we need to create another div with position:absolute in order div elements added inside could be positioned relatively
-            /*
-            let innerContainer = document.createElement("div");
-            let style = innerContainer.style;
-            style.width = "100%";
-            style.height = "100%";
-            style.position = "relative";
-*/
-            //	htmlContainer.appendChild(innerContainer);
-            var svgDiv = new SVGContainer(htmlContainer);
-            var paper = new Paper(svgDiv.SVGContainer);
-            paper.id = "svg-" + (system.svgContainers.length - 1);
-            // the approach with masks is chosen because overflow:visible is set on SVG element in order tooltips could go outside
-            // svg area - this is often needed when working with small charts.
-            // main container which holds content container and tooltips container
-            var container = new Container();
-            container.htmlContainer = htmlContainer;
-            container.svgContainer = svgDiv.SVGContainer;
-            container.width = percent(100);
-            container.height = percent(100);
-            container.paper = paper;
-            // this is set from parent container, but this one doesn't have, so do it manually.
-            container.relativeWidth = 1;
-            container.relativeHeight = 1;
-            svgDiv.container = container;
-            // content container
-            // setting mask directly on classType object would result mask to shift together with object transformations
-            var contentContainer = container.createChild(Container);
-            contentContainer.width = percent(100);
-            contentContainer.height = percent(100);
-            // content mask
-            contentContainer.mask = contentContainer.background;
-            // creating classType instance
-            var sprite_1 = contentContainer.createChild(classType);
-            sprite_1.isBaseSprite = true;
-            sprite_1.focusFilter = new FocusFilter();
-            // tooltip container
-            var tooltipContainer_1 = container.createChild(Container);
-            tooltipContainer_1.width = percent(100);
-            tooltipContainer_1.height = percent(100);
-            tooltipContainer_1.isMeasured = false;
-            contentContainer.tooltipContainer = tooltipContainer_1;
-            sprite_1.tooltip = new Tooltip();
-            sprite_1.tooltip.hide(0);
-            sprite_1.tooltip.setBounds({ x: 0, y: 0, width: tooltipContainer_1.maxWidth, height: tooltipContainer_1.maxHeight });
-            tooltipContainer_1.events.on("maxsizechanged", function () {
-                sprite_1.tooltip.setBounds({ x: 0, y: 0, width: tooltipContainer_1.maxWidth, height: tooltipContainer_1.maxHeight });
-            });
-            //@todo: maybe we don't need to create one by default but only on request?
-            contentContainer.preloader = new Preloader();
-            if (!this.commercialLicense) {
-                tooltipContainer_1.createChild(AmChartsLogo);
-            }
-            sprite_1.numberFormatter; // need to create one.
-            return sprite_1;
-        }
-        else {
-            system.log("html container not found");
-        }
+        this.uid = registry.getUniqueId();
     };
     /**
      * Reports time elapsed since timer was reset.
@@ -286,8 +162,8 @@ var System = /** @class */ (function (_super) {
         // only data is parsed in chunks, thats why we do for loop instead of a while like with other invalid items.
         // important to go backwards, as items are removed!
         // TODO use iterator instead
-        while (this.invalidDatas.length > 0) {
-            var component = this.invalidDatas[0];
+        while (registry.invalidDatas.length > 0) {
+            var component = registry.invalidDatas[0];
             var dataProvider = component.dataProvider;
             if (dataProvider && dataProvider.dataInvalid) {
                 try {
@@ -297,7 +173,7 @@ var System = /** @class */ (function (_super) {
                     }
                 }
                 catch (e) {
-                    $array.remove(this.invalidDatas, dataProvider);
+                    $array.remove(registry.invalidDatas, dataProvider);
                     dataProvider.raiseCriticalError(e);
                 }
             }
@@ -309,24 +185,24 @@ var System = /** @class */ (function (_super) {
                     }
                 }
                 catch (e) {
-                    $array.remove(this.invalidDatas, component);
+                    $array.remove(registry.invalidDatas, component);
                     component.raiseCriticalError(e);
                 }
             }
         }
-        while (this.invalidRawDatas.length > 0) {
-            var component = this.invalidRawDatas[0];
+        while (registry.invalidRawDatas.length > 0) {
+            var component = registry.invalidRawDatas[0];
             try {
                 component.validateRawData();
             }
             catch (e) {
-                $array.remove(this.invalidRawDatas, component);
+                $array.remove(registry.invalidRawDatas, component);
                 component.raiseCriticalError(e);
             }
         }
         // TODO use iterator instead
-        while (this.invalidDataItems.length > 0) {
-            var component = this.invalidDataItems[0];
+        while (registry.invalidDataItems.length > 0) {
+            var component = registry.invalidDataItems[0];
             var dataProvider = component.dataProvider;
             // this is needed to avoid partial value validation when data is parsed in chunks
             if (component.dataInvalid || (dataProvider && dataProvider.dataInvalid)) {
@@ -337,16 +213,16 @@ var System = /** @class */ (function (_super) {
                     component.validateDataItems();
                 }
                 catch (e) {
-                    $array.remove(this.invalidDataItems, component);
+                    $array.remove(registry.invalidDataItems, component);
                     component.raiseCriticalError(e);
                 }
             }
             // this might seem too much, as validateValues removes from invalidDataItems aswell, but just to be sure (in case validateData is overriden and no super is called)
-            $array.remove(system.invalidDataItems, component);
+            $array.remove(registry.invalidDataItems, component);
         }
         // TODO use iterator instead
-        while (this.invalidDataRange.length > 0) {
-            var component = this.invalidDataRange[0];
+        while (registry.invalidDataRange.length > 0) {
+            var component = registry.invalidDataRange[0];
             var dataProvider = component.dataProvider;
             if (component.dataInvalid || (dataProvider && dataProvider.dataInvalid)) {
                 // void
@@ -360,20 +236,20 @@ var System = /** @class */ (function (_super) {
                     component.skipRangeEvent = false;
                 }
                 catch (e) {
-                    $array.remove(this.invalidDataRange, component);
+                    $array.remove(registry.invalidDataRange, component);
                     component.raiseCriticalError(e);
                 }
             }
             // this might seem too much, as validateDataRange removes from invalidDataRange aswell, but just to be sure (in case validateData is overriden and no super is called)
-            $array.remove(system.invalidDataRange, component);
+            $array.remove(registry.invalidDataRange, component);
         }
         var skippedSprites = [];
         // display objects later
         // TODO use iterator instead
-        while (this.invalidSprites.length > 0) {
+        while (registry.invalidSprites.length > 0) {
             this.validateLayouts();
             this.validatePositions();
-            var sprite = this.invalidSprites[this.invalidSprites.length - 1];
+            var sprite = registry.invalidSprites[registry.invalidSprites.length - 1];
             // we need to check this, as validateLayout might validate sprite
             if (sprite && !sprite.isDisposed()) {
                 if (sprite instanceof Component && (sprite.dataInvalid || (sprite.dataProvider && sprite.dataProvider.dataInvalid))) {
@@ -394,16 +270,16 @@ var System = /** @class */ (function (_super) {
                             sprite.validate();
                         }
                         catch (e) {
-                            $array.remove(this.invalidSprites, sprite);
+                            $array.remove(registry.invalidSprites, sprite);
                             sprite.raiseCriticalError(e);
                         }
                     }
                 }
             }
             // this might seem too much, but it's ok
-            $array.remove(system.invalidSprites, sprite);
+            $array.remove(registry.invalidSprites, sprite);
         }
-        system.invalidSprites = skippedSprites;
+        registry.invalidSprites = skippedSprites;
         // TODO make this more efficient
         // TODO don't copy the array
         $array.each($array.copy(animations), function (x) {
@@ -432,13 +308,13 @@ var System = /** @class */ (function (_super) {
     System.prototype.validatePositions = function () {
         // invalid positions
         // TODO use iterator instead
-        while (this.invalidPositions.length > 0) {
-            var sprite = this.invalidPositions[this.invalidPositions.length - 1];
+        while (registry.invalidPositions.length > 0) {
+            var sprite = registry.invalidPositions[registry.invalidPositions.length - 1];
             try {
                 sprite.validatePosition();
             }
             catch (e) {
-                $array.remove(this.invalidPositions, sprite);
+                $array.remove(registry.invalidPositions, sprite);
                 sprite.raiseCriticalError(e);
             }
         }
@@ -453,13 +329,13 @@ var System = /** @class */ (function (_super) {
     System.prototype.validateLayouts = function () {
         // invalid positions
         // TODO use iterator instead
-        while (this.invalidLayouts.length > 0) {
-            var container = this.invalidLayouts[this.invalidLayouts.length - 1];
+        while (registry.invalidLayouts.length > 0) {
+            var container = registry.invalidLayouts[registry.invalidLayouts.length - 1];
             try {
                 container.validateLayout();
             }
             catch (e) {
-                $array.remove(this.invalidLayouts, container);
+                $array.remove(registry.invalidLayouts, container);
                 container.raiseCriticalError(e);
             }
         }
@@ -478,15 +354,6 @@ var System = /** @class */ (function (_super) {
         });
     };
     /**
-     * Sets style property on DOM element.
-     *
-     * @ignore Exclude from docs
-     * @todo Still needed?
-     */
-    System.prototype.setStyle = function (element, property, value) {
-        element.style[property] = value;
-    };
-    /**
      * Outputs string to console if `verbose` is `true`.
      *
      * @param {any} value Message to output to console
@@ -498,6 +365,90 @@ var System = /** @class */ (function (_super) {
             }
         }
     };
+    Object.defineProperty(System.prototype, "frameRate", {
+        /**
+         * @return {number} Frame rate
+         */
+        get: function () {
+            return registry.frameRate;
+        },
+        /**
+         * Get current theme
+         * @return {ITheme} [description]
+         */
+        /*public get theme(): ITheme {
+            return $array.last(this.themes);
+        }*/
+        /**
+         * Number of times per second charts will be updated.
+         *
+         * This means that each time an element is invalidated it will wait for the
+         * next cycle to be re-validated, and possibly redrawn.
+         *
+         * This happens every `1000 / frameRate` milliseconds.
+         *
+         * Reducing this number may reduce the load on the CPU, but might slightly
+         * reduce smoothness of the animations.
+         *
+         * @type {number} Frame rate
+         */
+        set: function (value) {
+            registry.frameRate = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Dispatches an event using own event dispatcher. Will automatically
+     * populate event data object with event type and target (this element).
+     * It also checks if there are any handlers registered for this sepecific
+     * event.
+     *
+     * @param {string} eventType Event type (name)
+     * @param {any}    data      Data to pass into event handler(s)
+     */
+    System.prototype.dispatch = function (eventType, data) {
+        // @todo Implement proper type check
+        if (this.events.isEnabled(eventType)) {
+            if (data) {
+                data.type = eventType;
+                data.target = data.target || this;
+                this.events.dispatch(eventType, {
+                    type: eventType,
+                    target: this
+                });
+            }
+            else {
+                this.events.dispatch(eventType, {
+                    type: eventType,
+                    target: this
+                });
+            }
+        }
+    };
+    /**
+     * Works like `dispatch`, except event is triggered immediately, without
+     * waiting for the next frame cycle.
+     *
+     * @param {string} eventType Event type (name)
+     * @param {any}    data      Data to pass into event handler(s)
+     */
+    System.prototype.dispatchImmediately = function (eventType, data) {
+        // @todo Implement proper type check
+        if (this.events.isEnabled(eventType)) {
+            if (data) {
+                data.type = eventType;
+                data.target = data.target || this;
+                this.events.dispatchImmediately(eventType, data);
+            }
+            else {
+                this.events.dispatchImmediately(eventType, {
+                    type: eventType,
+                    target: this
+                });
+            }
+        }
+    };
     /**
      * amCharts Version.
      *
@@ -506,9 +457,9 @@ var System = /** @class */ (function (_super) {
      * @see {@link https://docs.npmjs.com/misc/semver}
      * @type {string}
      */
-    System.VERSION = "4.0.0-beta.8";
+    System.VERSION = "4.0.0-beta.9";
     return System;
-}(BaseObjectEvents));
+}());
 export { System };
 /**
  * A singleton global instance of [[System]].

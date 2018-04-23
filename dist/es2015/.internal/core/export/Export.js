@@ -78,7 +78,6 @@ import { Dictionary } from "../utils/Dictionary";
 import { DateFormatter } from "../formatters/DateFormatter";
 import { Language } from "../utils/Language";
 import { Validatable } from "../utils/Validatable";
-import { system } from "../System";
 import { registry } from "../Registry";
 import * as $object from "../utils/Object";
 import * as $net from "../utils/Net";
@@ -916,7 +915,7 @@ var Export = /** @class */ (function (_super) {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        cache = system.getCache("simplifiedImageExport");
+                        cache = registry.getCache("simplifiedImageExport");
                         if (cache === false || cache === true) {
                             return [2 /*return*/, cache];
                         }
@@ -937,17 +936,17 @@ var Export = /** @class */ (function (_super) {
                         DOMURL.revokeObjectURL(url);
                         try {
                             //let uri = canvas.toDataURL("image/png");
-                            system.setCache("simplifiedImageExport", true);
+                            registry.setCache("simplifiedImageExport", true);
                             return [2 /*return*/, true];
                         }
                         catch (e) {
-                            system.setCache("simplifiedImageExport", false);
+                            registry.setCache("simplifiedImageExport", false);
                             return [2 /*return*/, false];
                         }
                         return [3 /*break*/, 4];
                     case 3:
                         e_4 = _a.sent();
-                        system.setCache("simplifiedImageExport", false);
+                        registry.setCache("simplifiedImageExport", false);
                         return [2 /*return*/, false];
                     case 4: return [2 /*return*/];
                 }
@@ -1575,13 +1574,13 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.linkDownloadSupport = function () {
         // Do we have this cached?
-        var cache = system.getCache("linkDownloadSupport");
+        var cache = registry.getCache("linkDownloadSupport");
         if (cache === false || cache === true) {
             return cache;
         }
         var a = document.createElement("a");
         var res = typeof a.download !== "undefined";
-        system.setCache("linkDownloadSupport", res);
+        registry.setCache("linkDownloadSupport", res);
         return res;
     };
     /**

@@ -26,7 +26,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { BaseObject } from "../../Base";
-import { system } from "../../System";
+import { registry } from "../../Registry";
 import { Animation } from "../../utils/Animation";
 import { List } from "../../utils/List";
 import { MultiDisposer } from "../../utils/Disposer";
@@ -184,7 +184,7 @@ var Filter = /** @class */ (function (_super) {
             if (this._paper) {
                 return this._paper;
             }
-            return system.ghostPaper;
+            return registry.ghostPaper;
         },
         /**
          * Sets [[Paper]] instance to create filter's elements in.

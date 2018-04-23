@@ -1,4 +1,5 @@
 import { Dictionary } from "./utils/Dictionary";
+import { cache } from "./utils/Cache";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -8,6 +9,8 @@ import { Dictionary } from "./utils/Dictionary";
 /**
  * Registry is used to store miscellaneous system-wide information, like ids,
  * maps, themes, and registered classes.
+ *
+ * @ignore Exclude from docs
  */
 var Registry = /** @class */ (function () {
     function Registry() {
@@ -39,6 +42,76 @@ var Registry = /** @class */ (function () {
          * @ignore Exclude from docs
          */
         this.registeredClasses = {};
+        /**
+         * Number of times per second charts will be updated.
+         *
+         * This means that each time an element is invalidated it will wait for the
+         * next cycle to be re-validated, and possibly redrawn.
+         *
+         * This happens every `1000 / frameRate` milliseconds.
+         *
+         * Reducing this number may reduce the load on the CPU, but might slightly
+         * reduce smoothness of the animations.
+         *
+         * @type {number}
+         */
+        this.frameRate = 60;
+        /**
+     * A list of invalid(ated) [[Sprite]] objects that need to be re-validated
+     * during next cycle.
+     *
+     * @ignore Exclude from docs
+     * @type {Array<Sprite>}
+     */
+        this.invalidSprites = [];
+        /**
+         * Components are added to this list when their data provider changes to
+         * a new one or data is added/removed from their data provider.
+         *
+         * @ignore Exclude from docs
+         * @type {Array<Component>}
+         */
+        this.invalidDatas = [];
+        /**
+         * Components are added to this list when values of their raw data change.
+         * Used when we want a smooth animation from one set of values to another.
+         *
+         * @ignore Exclude from docs
+         * @type {Array<Component>}
+         */
+        this.invalidRawDatas = [];
+        /**
+         * Components are added to this list when values of their data changes
+         * (but not data provider itself).
+         *
+         * @ignore Exclude from docs
+         * @type {Array<Component>}
+         */
+        this.invalidDataItems = [];
+        /**
+         * Components are added to this list when their data range (selection) is
+         * changed, e.g. zoomed.
+         *
+         * @ignore Exclude from docs
+         * @type {Array<Component>}
+         */
+        this.invalidDataRange = [];
+        /**
+         * A list of [[Sprite]] objects that have invalid(ated) positions, that need
+         * to be recalculated.
+         *
+         * @ignore Exclude from docs
+         * @type {Array<Sprite>}
+         */
+        this.invalidPositions = [];
+        /**
+         * A list of [[Container]] objects with invalid(ated) layouts.
+         *
+         * @ignore Exclude from docs
+         * @type {Array<Container>}
+         */
+        this.invalidLayouts = [];
+        this.uid = this.getUniqueId();
     }
     /**
      * Generates a unique chart system-wide ID.
@@ -66,11 +139,33 @@ var Registry = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Caches value in object's cache.
+     *
+     * @ignore Exclude from docs
+     * @param {string}  key    Key
+     * @param {any}     value  Value
+     */
+    Registry.prototype.setCache = function (key, value) {
+        cache.set(this.uid, key, value);
+    };
+    /**
+     * Retrieves cached value.
+     *
+     * @ignore Exclude from docs
+     * @param  {string}  key  Key
+     * @return {any}          Value
+     */
+    Registry.prototype.getCache = function (key) {
+        return cache.get(this.uid, key);
+    };
     return Registry;
 }());
 export { Registry };
 /**
  * A singleton global instance of [[Registry]].
+ *
+ * @ignore Exclude from docs
  */
 export var registry = new Registry();
 //# sourceMappingURL=Registry.js.map

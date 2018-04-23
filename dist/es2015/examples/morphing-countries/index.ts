@@ -3,7 +3,7 @@ import * as charts from "@amcharts/amcharts4/charts";
 import * as maps from "@amcharts/amcharts4/maps";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 import DarkTheme from "@amcharts/amcharts4/themes/dark";
-import worldHigh from "@amcharts/amcharts4/geodata/worldHigh";
+import worldHigh from "@amcharts/amcharts4-geodata/worldHigh";
 
 amcharts4.useTheme(AnimatedTheme);
 amcharts4.useTheme(DarkTheme);

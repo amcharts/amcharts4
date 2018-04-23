@@ -19,11 +19,13 @@ import { SpriteEventDispatcher, AMEvent } from "../Sprite";
  */
 /**
  * Defines properties for [[AmChartsLogo]].
+ * @ignore Exclude from docs
  */
 export interface IAmChartsLogoProperties extends IContainerProperties {
 }
 /**
  * Defines events for [[AmChartsLogo]].
+ * @ignore Exclude from docs
  */
 export interface IAmChartsLogoEvents extends IContainerEvents {
 }
@@ -31,6 +33,7 @@ export interface IAmChartsLogoEvents extends IContainerEvents {
  * Defines adapters for [[AmChartsLogo]].
  *
  * @see {@link Adapter}
+ * @ignore Exclude from docs
  */
 export interface IAmChartsLogoAdapters extends IContainerAdapters, IAmChartsLogoProperties {
 }
@@ -45,6 +48,7 @@ export interface IAmChartsLogoAdapters extends IContainerAdapters, IAmChartsLogo
  *
  * @see {@link IAmChartsLogoEvents} for a list of available events
  * @see {@link IAmChartsLogoAdapters} for a list of available Adapters
+ * @ignore Exclude from docs
  */
 export declare class AmChartsLogo extends Container {
     /**

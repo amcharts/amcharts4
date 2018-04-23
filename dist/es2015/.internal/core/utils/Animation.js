@@ -21,7 +21,7 @@ import { BaseObjectEvents } from "../Base";
 import { EventDispatcher } from "../utils/EventDispatcher";
 import { SVGDefaults } from "../defs/SVGDefaults";
 import { Disposer } from "../utils/Disposer";
-import { system } from "../System";
+import { registry } from "../Registry";
 import { Color } from "../utils/Color";
 import { Percent, percent } from "../utils/Percent";
 import * as $async from "../utils/AsyncPending";
@@ -199,7 +199,7 @@ var Animation = /** @class */ (function (_super) {
         // Reset counters
         this._pause = false;
         this._frame = 1;
-        this._frames = system.frameRate * this.duration / 1000;
+        this._frames = registry.frameRate * this.duration / 1000;
         this._startTime = Date.now();
         this._time = 0;
         this.staticOptions = [];

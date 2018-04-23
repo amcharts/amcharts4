@@ -22,7 +22,7 @@ import { Export } from "./export/Export";
 import { DataSource } from "./data/DataSource";
 import { Responsive } from "./responsive/Responsive";
 import { DataItem } from "./DataItem";
-import { system } from "./System";
+import { registry } from "./Registry";
 import * as $math from "./utils/Math";
 import * as $array from "./utils/Array";
 import * as $ease from "./utils/Ease";
@@ -423,7 +423,7 @@ var Component = /** @class */ (function (_super) {
         if (this.disabled || this.isTemplate) {
             return;
         }
-        $array.move(system.invalidDatas, this);
+        $array.move(registry.invalidDatas, this);
         this.dataInvalid = true;
         $iter.each(this._dataUsers.iterator(), function (x) {
             x.invalidateDataItems();
@@ -450,7 +450,7 @@ var Component = /** @class */ (function (_super) {
         if (this.disabled || this.isTemplate) {
             return;
         }
-        $array.move(system.invalidDataItems, this);
+        $array.move(registry.invalidDataItems, this);
         this.dataItemsInvalid = true;
         $iter.each(this._dataUsers.iterator(), function (x) {
             x.invalidateDataItems();
@@ -467,7 +467,7 @@ var Component = /** @class */ (function (_super) {
             return;
         }
         this.dataRangeInvalid = true;
-        $array.move(system.invalidDataRange, this);
+        $array.move(registry.invalidDataRange, this);
     };
     /**
      * Processes data range.
@@ -476,7 +476,7 @@ var Component = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Component.prototype.validateDataRange = function () {
-        $array.remove(system.invalidDataRange, this);
+        $array.remove(registry.invalidDataRange, this);
         this.dataRangeInvalid = false;
         if (this.startIndex != this._prevStartIndex || this.endIndex != this._prevEndIndex) {
             this.rangeChangeUpdate();
@@ -553,7 +553,7 @@ var Component = /** @class */ (function (_super) {
         if (this.disabled || this.isTemplate) {
             return;
         }
-        $array.move(system.invalidRawDatas, this);
+        $array.move(registry.invalidRawDatas, this);
         this.rawDataInvalid = true;
         $iter.each(this._dataUsers.iterator(), function (x) {
             x.invalidateRawData();
@@ -564,7 +564,7 @@ var Component = /** @class */ (function (_super) {
      */
     Component.prototype.validateRawData = function () {
         var _this = this;
-        $array.remove(system.invalidRawDatas, this);
+        $array.remove(registry.invalidRawDatas, this);
         $iter.each(this.dataItems.iterator(), function (dataItem) {
             if (dataItem) {
                 _this.updateDataItem(dataItem);
@@ -579,7 +579,7 @@ var Component = /** @class */ (function (_super) {
     Component.prototype.validateData = function () {
         this.dispatchImmediately("predatavalidate");
         this.dataInvalid = false;
-        $array.remove(system.invalidDatas, this);
+        $array.remove(registry.invalidDatas, this);
         this.dataValidationProgress = 0;
         // need this to slice new data
         this._prevStartIndex = undefined;
@@ -669,7 +669,7 @@ var Component = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Component.prototype.validateDataItems = function () {
-        $array.remove(system.invalidDataItems, this);
+        $array.remove(registry.invalidDataItems, this);
         this.dataItemsInvalid = false;
         this.invalidateDataRange();
         this.dispatch("valueschanged");
@@ -1122,10 +1122,10 @@ var Component = /** @class */ (function (_super) {
      */
     Component.prototype.removeFromInvalids = function () {
         _super.prototype.removeFromInvalids.call(this);
-        $array.remove(system.invalidDatas, this);
-        $array.remove(system.invalidSprites, this);
-        $array.remove(system.invalidDataItems, this);
-        $array.remove(system.invalidDataRange, this);
+        $array.remove(registry.invalidDatas, this);
+        $array.remove(registry.invalidSprites, this);
+        $array.remove(registry.invalidDataItems, this);
+        $array.remove(registry.invalidDataRange, this);
     };
     Object.defineProperty(Component.prototype, "dataItems", {
         /**

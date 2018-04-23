@@ -22,7 +22,7 @@ import { Sprite } from "./Sprite";
 import { SpriteState } from "./SpriteState";
 import { List } from "./utils/List";
 import { Rectangle } from "./elements/Rectangle";
-import { system } from "./System";
+import { registry } from "./Registry";
 import { InterfaceColorSet } from "../core/utils/InterfaceColorSet";
 import * as $iter from "./utils/Iterator";
 import * as $array from "./utils/Array";
@@ -161,7 +161,7 @@ var Container = /** @class */ (function (_super) {
             return;
         }
         //this.validateLayout();
-        $array.move(system.invalidLayouts, this);
+        $array.move(registry.invalidLayouts, this);
     };
     /**
      * Invalidates the whole element, including layout.
@@ -605,7 +605,7 @@ var Container = /** @class */ (function (_super) {
      */
     Container.prototype.validateLayout = function () {
         var _this = this;
-        $array.remove(system.invalidLayouts, this);
+        $array.remove(registry.invalidLayouts, this);
         this._availableWidth = this.innerWidth;
         this._availableHeight = this.innerHeight;
         var measuredWidth = 0;
@@ -1267,7 +1267,7 @@ var Container = /** @class */ (function (_super) {
      */
     Container.prototype.removeFromInvalids = function () {
         _super.prototype.removeFromInvalids.call(this);
-        $array.remove(system.invalidLayouts, this);
+        $array.remove(registry.invalidLayouts, this);
     };
     /**
      * Sets a [[DataItem]] to be used as data for the Container.

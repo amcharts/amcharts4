@@ -36,6 +36,7 @@ import { DesaturateFilter } from "../rendering/filters/DesaturateFilter";
  *
  * @see {@link IAmChartsLogoEvents} for a list of available events
  * @see {@link IAmChartsLogoAdapters} for a list of available Adapters
+ * @ignore Exclude from docs
  */
 var AmChartsLogo = /** @class */ (function (_super) {
     __extends(AmChartsLogo, _super);

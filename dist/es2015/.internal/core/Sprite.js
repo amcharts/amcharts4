@@ -407,7 +407,7 @@ var Sprite = /** @class */ (function (_super) {
         this.invalid = true;
         // you could think it would be faster to check if sprite is already invalid and not to add it to array,
         // but in fact when we call invalidate() we move the sprite to the end of invalidSprites list and this is important to have optimized order of invalid sprites.
-        $array.move(system.invalidSprites, this);
+        $array.move(registry.invalidSprites, this);
     };
     /**
      * Validates element:
@@ -426,7 +426,7 @@ var Sprite = /** @class */ (function (_super) {
         this.beforeDraw();
         this.draw();
         this.invalid = false;
-        $array.remove(system.invalidSprites, this);
+        $array.remove(registry.invalidSprites, this);
         this.afterDraw();
     };
     /**
@@ -438,7 +438,7 @@ var Sprite = /** @class */ (function (_super) {
         if (this.disabled || this.isTemplate) {
             return;
         }
-        $array.move(system.invalidPositions, this);
+        $array.move(registry.invalidPositions, this);
     };
     /**
      * Positions element according its center settings.
@@ -545,7 +545,7 @@ var Sprite = /** @class */ (function (_super) {
         }
         // it might happen that x and y changed again, so we only remove if they didn't
         if (this.pixelX + this.dx == x && this.pixelY + this.dy == y) {
-            $array.remove(system.invalidPositions, this);
+            $array.remove(registry.invalidPositions, this);
         }
         var maskRectangle = this._maskRectangle;
         // todo: verify this
@@ -632,8 +632,8 @@ var Sprite = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Sprite.prototype.removeFromInvalids = function () {
-        $array.remove(system.invalidSprites, this);
-        $array.remove(system.invalidPositions, this);
+        $array.remove(registry.invalidSprites, this);
+        $array.remove(registry.invalidPositions, this);
     };
     /**
      * Copies all parameters from another [[Sprite]].
@@ -978,7 +978,7 @@ var Sprite = /** @class */ (function (_super) {
                     return this.parent.paper;
                 }
             }
-            return system.ghostPaper;
+            return registry.ghostPaper;
         },
         /**
          * A [[Paper]] instance to place elements on.

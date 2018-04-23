@@ -1,19 +1,6 @@
-/**
- * ============================================================================
- * IMPORTS
- * ============================================================================
- * @hidden
- */
-import { BaseObjectEvents, IBaseObjectEvents } from "./Base";
 import { EventDispatcher, AMEvent } from "./utils/EventDispatcher";
-import { Sprite } from "./Sprite";
-import { Container } from "./Container";
 import { SVGContainer } from "./rendering/SVGContainer";
-import { Component } from "./Component";
-import { Paper } from "./rendering/Paper";
-import { ITheme } from "../themes/ITheme";
 import { TextFormatter } from "./formatters/TextFormatter";
-import * as $type from "./utils/Type";
 /**
  * ============================================================================
  * REQUISITES
@@ -23,7 +10,7 @@ import * as $type from "./utils/Type";
 /**
  * Define events available for [[System]]
  */
-export interface ISystemEvents extends IBaseObjectEvents {
+export interface ISystemEvents {
     /**
      * Invoked when update cycle starts. Before invalid elements are re-validated.
      */
@@ -44,44 +31,19 @@ export interface ISystemEvents extends IBaseObjectEvents {
  * The main class that handles system-wide tasks, like caching, heartbeats, etc.
  * @important
  */
-export declare class System extends BaseObjectEvents {
+export declare class System {
+    /**
+     * Unique ID of the object.
+     *
+     * @type {string}
+     */
+    uid: string;
     /**
      * Event dispacther.
      *
      * @type {EventDispatcher}
      */
     events: EventDispatcher<AMEvent<System, ISystemEvents>>;
-    /**
-     * A [[Paper]] instance to create elements, that are not yet ready to be
-     * placed in visible DOM.
-     *
-     * @ignore Exclude from docs
-     * @type {Paper}
-     */
-    ghostPaper: Paper;
-    /**
-     * All currently applied themes. All new chart instances created will
-     * automatically inherit and retain System's themes.
-     *
-     * @type {ITheme}
-     */
-    themes: ITheme[];
-    /**
-     * List of all loaded available themes.
-     *
-     * Whenever a theme loads, it registers itself in System's `loadedThemes`
-     * collection.
-     */
-    loadedThemes: {
-        [index: string]: ITheme;
-    };
-    /**
-     * An indeternal counter used to generate unique IDs.
-     *
-     * @ignore Exclude from docs
-     * @type {number}
-     */
-    protected _uidCount: number;
     /**
      * amCharts Version.
      *
@@ -105,61 +67,6 @@ export declare class System extends BaseObjectEvents {
      */
     svgContainers: Array<SVGContainer>;
     /**
-     * A list of invalid(ated) [[Sprite]] objects that need to be re-validated
-     * during next cycle.
-     *
-     * @ignore Exclude from docs
-     * @type {Array<Sprite>}
-     */
-    invalidSprites: Array<Sprite>;
-    /**
-     * Components are added to this list when their data provider changes to
-     * a new one or data is added/removed from their data provider.
-     *
-     * @ignore Exclude from docs
-     * @type {Array<Component>}
-     */
-    invalidDatas: Array<Component>;
-    /**
-     * Components are added to this list when values of their raw data change.
-     * Used when we want a smooth animation from one set of values to another.
-     *
-     * @ignore Exclude from docs
-     * @type {Array<Component>}
-     */
-    invalidRawDatas: Array<Component>;
-    /**
-     * Components are added to this list when values of their data changes
-     * (but not data provider itself).
-     *
-     * @ignore Exclude from docs
-     * @type {Array<Component>}
-     */
-    invalidDataItems: Array<Component>;
-    /**
-     * Components are added to this list when their data range (selection) is
-     * changed, e.g. zoomed.
-     *
-     * @ignore Exclude from docs
-     * @type {Array<Component>}
-     */
-    invalidDataRange: Array<Component>;
-    /**
-     * A list of [[Sprite]] objects that have invalid(ated) positions, that need
-     * to be recalculated.
-     *
-     * @ignore Exclude from docs
-     * @type {Array<Sprite>}
-     */
-    invalidPositions: Array<Sprite>;
-    /**
-     * A list of [[Container]] objects with invalid(ated) layouts.
-     *
-     * @ignore Exclude from docs
-     * @type {Array<Container>}
-     */
-    invalidLayouts: Array<Container>;
-    /**
      * Invalid sizes
      * @rodo Remove commented code
      */
@@ -175,8 +82,8 @@ export declare class System extends BaseObjectEvents {
      * reduce smoothness of the animations.
      *
      * @type {number}
+     * @deprecated Moved to [[Registry]]
      */
-    frameRate: number;
     /**
      * Number of times per second component container is measured.
      *
@@ -230,15 +137,6 @@ export declare class System extends BaseObjectEvents {
      */
     time: number;
     /**
-     * Keeps register of class references so that they can be instnatiated using
-     * string key.
-     *
-     * @ignore Exclude from docs
-     */
-    registeredClasses: {
-        [index: string]: any;
-    };
-    /**
      * @ignore
      */
     commercialLicense: boolean;
@@ -254,17 +152,6 @@ export declare class System extends BaseObjectEvents {
      * @ignore Exclude from docs
      */
     init(): void;
-    /**
-     * Creates all HTML and SVG containers needed for the chart instance, as well
-     * as the new [[Sprite]] (as specified in `classType` parameter).
-     *
-     * @param  {Optional<HTMLElement | string>}  htmlElement  A container to creat elements in
-     * @param  {T}                               classType    A class definition of the new element to create
-     * @return {T}                                            Newly-created Sprite object
-     */
-    createChild<T extends Sprite>(htmlElement: $type.Optional<HTMLElement | string>, classType: {
-        new (): T;
-    }): T;
     /**
      * Reports time elapsed since timer was reset.
      *
@@ -309,18 +196,50 @@ export declare class System extends BaseObjectEvents {
      */
     measure(): void;
     /**
-     * Sets style property on DOM element.
-     *
-     * @ignore Exclude from docs
-     * @todo Still needed?
-     */
-    setStyle(element: HTMLElement | SVGSVGElement, property: string, value: string): void;
-    /**
      * Outputs string to console if `verbose` is `true`.
      *
      * @param {any} value Message to output to console
      */
     log(value: any): void;
+    /**
+     * @return {number} Frame rate
+     */
+    /**
+     * Get current theme
+     * @return {ITheme} [description]
+     */
+    /**
+     * Number of times per second charts will be updated.
+     *
+     * This means that each time an element is invalidated it will wait for the
+     * next cycle to be re-validated, and possibly redrawn.
+     *
+     * This happens every `1000 / frameRate` milliseconds.
+     *
+     * Reducing this number may reduce the load on the CPU, but might slightly
+     * reduce smoothness of the animations.
+     *
+     * @type {number} Frame rate
+     */
+    frameRate: number;
+    /**
+     * Dispatches an event using own event dispatcher. Will automatically
+     * populate event data object with event type and target (this element).
+     * It also checks if there are any handlers registered for this sepecific
+     * event.
+     *
+     * @param {string} eventType Event type (name)
+     * @param {any}    data      Data to pass into event handler(s)
+     */
+    dispatch(eventType: string, data?: any): void;
+    /**
+     * Works like `dispatch`, except event is triggered immediately, without
+     * waiting for the next frame cycle.
+     *
+     * @param {string} eventType Event type (name)
+     * @param {any}    data      Data to pass into event handler(s)
+     */
+    dispatchImmediately(eventType: string, data?: any): void;
 }
 /**
  * A singleton global instance of [[System]].

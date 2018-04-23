@@ -1,0 +1,283 @@
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
+import { system } from "../System";
+import { registry } from "../Registry";
+import { Container } from "../Container";
+import { Paper } from "../rendering/Paper";
+import { SVGContainer } from "../rendering/SVGContainer";
+import { FocusFilter } from "../rendering/filters/FocusFilter";
+import { Preloader } from "../elements/Preloader";
+import { AmChartsLogo } from "../elements/AmChartsLogo";
+import { Tooltip } from "../elements/Tooltip";
+import { percent } from "./Percent";
+import * as $array from "./Array";
+import * as $type from "./Type";
+import * as $dom from "./DOM";
+/**
+ * ============================================================================
+ * INSTANTIATION FUNCTIONS
+ * ============================================================================
+ * @hidden
+ */
+/**
+ * Creates all HTML and SVG containers needed for the chart instance, as well
+ * as the new [[Sprite]] (as specified in `classType` parameter).
+ *
+ * @param  {Optional<HTMLElement | string>}  htmlElement  A container to creat elements in
+ * @param  {T}                               classType    A class definition of the new element to create
+ * @return {T}                                            Newly-created Sprite object
+ */
+function createChild(htmlElement, classType) {
+    var htmlContainer = $dom.getElement(htmlElement);
+    if (htmlContainer) {
+        // we need to create another div with position:absolute in order div elements added inside could be positioned relatively
+        /*
+        let innerContainer = document.createElement("div");
+        let style = innerContainer.style;
+        style.width = "100%";
+        style.height = "100%";
+        style.position = "relative";
+*/
+        //	htmlContainer.appendChild(innerContainer);
+        var svgDiv = new SVGContainer(htmlContainer);
+        var paper = new Paper(svgDiv.SVGContainer);
+        paper.id = "svg-" + (system.svgContainers.length - 1);
+        // the approach with masks is chosen because overflow:visible is set on SVG element in order tooltips could go outside
+        // svg area - this is often needed when working with small charts.
+        // main container which holds content container and tooltips container
+        var container = new Container();
+        container.htmlContainer = htmlContainer;
+        container.svgContainer = svgDiv.SVGContainer;
+        container.width = percent(100);
+        container.height = percent(100);
+        container.paper = paper;
+        // this is set from parent container, but this one doesn't have, so do it manually.
+        container.relativeWidth = 1;
+        container.relativeHeight = 1;
+        svgDiv.container = container;
+        // content container
+        // setting mask directly on classType object would result mask to shift together with object transformations
+        var contentContainer = container.createChild(Container);
+        contentContainer.width = percent(100);
+        contentContainer.height = percent(100);
+        // content mask
+        contentContainer.mask = contentContainer.background;
+        // creating classType instance
+        var sprite_1 = contentContainer.createChild(classType);
+        sprite_1.isBaseSprite = true;
+        sprite_1.focusFilter = new FocusFilter();
+        // tooltip container
+        var tooltipContainer_1 = container.createChild(Container);
+        tooltipContainer_1.width = percent(100);
+        tooltipContainer_1.height = percent(100);
+        tooltipContainer_1.isMeasured = false;
+        contentContainer.tooltipContainer = tooltipContainer_1;
+        sprite_1.tooltip = new Tooltip();
+        sprite_1.tooltip.hide(0);
+        sprite_1.tooltip.setBounds({ x: 0, y: 0, width: tooltipContainer_1.maxWidth, height: tooltipContainer_1.maxHeight });
+        tooltipContainer_1.events.on("maxsizechanged", function () {
+            sprite_1.tooltip.setBounds({ x: 0, y: 0, width: tooltipContainer_1.maxWidth, height: tooltipContainer_1.maxHeight });
+        });
+        //@todo: maybe we don't need to create one by default but only on request?
+        contentContainer.preloader = new Preloader();
+        if (!system.commercialLicense) {
+            tooltipContainer_1.createChild(AmChartsLogo);
+        }
+        sprite_1.numberFormatter; // need to create one.
+        return sprite_1;
+    }
+    else {
+        system.log("html container not found");
+    }
+}
+/**
+ * A shortcut to creating a chart instance.
+ *
+ * The first argument is either a reference to or an id of a DOM element to be
+ * used as a container for the chart.
+ *
+ * The second argument is the type reference of the chart type. (for plain
+ * JavaScript users this can also be a string indicating chart type)
+ *
+ * ```TypeScript
+ * let chart = amcharts4.create("chartdiv", charts.PieChart);
+ * ```
+ * ```JavaScript
+ * // Can pass in chart type reference like this:
+ * var chart = amcharts4.create("chartdiv", amcharts4.charts.PieChart);
+ *
+ * // ... or chart class type as a string:
+ * var chart = amcharts4.create("chartdiv", "PieChart");
+ * ```
+ *
+ * @param  {HTMLElement | string}  htmlElement  Reference or id of the target container element
+ * @param  {T}                     classType    Class type of the target chart type
+ * @return {T}                                  Chart instance
+ */
+export function create(htmlElement, classType) {
+    // This is a nasty hack for the benefit of vanilla JS users, who do not
+    // enjoy benefits of type-check anyway.
+    // We're allowing passing in a name of the class rather than type reference
+    // itself.
+    var classError;
+    if ($type.isString(classType)) {
+        if ($type.hasValue(registry.registeredClasses[classType])) {
+            classType = registry.registeredClasses[classType];
+        }
+        else {
+            classType = registry.registeredClasses["Container"];
+            classError = new Error("Class [" + classType + "] is not loaded.");
+            return;
+        }
+    }
+    // Create the chart
+    var chart = createChild(htmlElement, classType);
+    // Error?
+    if (classError) {
+        chart.raiseCriticalError(classError);
+    }
+    return chart;
+}
+/**
+ * A shortcut to creating a chart from a config object.
+ *
+ * Example:
+ *
+ * ```TypeScript
+ * let chart amcharts4.createFromConfig({ ... }, "chartdiv", charts.XYChart );
+ * ```
+ * ```JavaScript
+ * var chart amcharts4.createFromConfig({ ... }, "chartdiv", "XYChart" );
+ * ```
+ *
+ * If `chartType` parameter is not supplied it must be set in a config object,
+ * via reference to chart type, e.g.:
+ *
+ * ```TypeScript
+ * {
+ *   "type": charts.XYChart,
+ *   // ...
+ * }
+ * ```
+ * ```JavaScript
+ * {
+ *   "type": amcharts4.charts.XYChart,
+ *   // ...
+ * }
+ * ```
+ *
+ * Or via string: (if you are using JavaScript)
+ *
+ * ```TypeScript
+ * {
+ *   "type": "XYChart",
+ *   // ...
+ * }
+ * ```
+ * ```JavaScript
+ * {
+ *   "type": "XYChart",
+ *   // ...
+ * }
+ * ```
+ *
+ * A `container` can either be a reference to an HTML container to put chart
+ * in, or it's unique id.
+ *
+ * If `container` is not specified, it must be included in the config object:
+ *
+ * ```TypeScript
+ * {
+ *   "type": "XYChart",
+ *   "container": "chartdiv",
+ *   // ...
+ * }
+ * ```
+ * ```JavaScript
+ * {
+ *   "type": "XYChart",
+ *   "container": "chartdiv",
+ *   // ...
+ * }
+ * ```
+ *
+ * @param  {any}                   config       Config object in property/value pairs
+ * @param  {string | HTMLElement}  htmlElement  Container reference or ID
+ * @param  {typeof Chart}          objectType   Chart type
+ * @return {Chart}                              A newly created chart instance
+ * @todo Throw exception if type is not correct
+ */
+export function createFromConfig(config, htmlElement, classType) {
+    // Extract chart type from config if necessary
+    if (!$type.hasValue(classType)) {
+        classType = config.type;
+        delete config.type;
+    }
+    // Extract element from config if necessary
+    if (!$type.hasValue(htmlElement)) {
+        htmlElement = config.container;
+        delete config.container;
+    }
+    // Check if we need to extract actual type reference
+    var finalType;
+    var classError;
+    if ($type.isString(classType) && $type.hasValue(registry.registeredClasses[classType])) {
+        finalType = registry.registeredClasses[classType];
+    }
+    else {
+        finalType = Container;
+        classError = new Error("Class [" + classType + "] is not loaded.");
+    }
+    // Create the chart
+    var chart = createChild(htmlElement, finalType);
+    // Set config
+    if (classError) {
+        chart.raiseCriticalError(classError);
+    }
+    else {
+        chart.config = config;
+    }
+    return chart;
+}
+/**
+ * Applies a theme to System, and subsequently all chart instances created
+ * from that point forward.
+ *
+ * amCharts supports multiple themes. Calling `useTheme` multiple times will
+ * make the System apply multiple themes, rather than overwrite previously
+ * set one.
+ *
+ * This enables combining features from multiple themes on the same chart.
+ * E.g.:
+ *
+ * ```TypeScript
+ * amcharts4.useTheme(amcharts4.themes.material);
+ * amcharts4.useTheme(amcharts4.themes.animated);
+ * ```
+ * ```JavaScript
+ * amcharts4.useTheme(amcharts4.themes.material);
+ * amcharts4.useTheme(amcharts4.themes.animated);
+ * ```
+ *
+ * The above will apply both the Material color and animation options to all
+ * charts created.
+ *
+ * @param {ITheme}  value  A reference to a theme
+ */
+export function useTheme(value) {
+    registry.themes.push(value);
+}
+/**
+ * Removes a theme from "active themes" list, so it won't get applied to any
+ * charts created subsequently.
+ *
+ * @param {ITheme}  value  A reference to a theme
+ */
+export function unuseTheme(value) {
+    $array.remove(registry.themes, value);
+}
+//# sourceMappingURL=Instance.js.map
