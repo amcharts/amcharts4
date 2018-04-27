@@ -397,7 +397,9 @@ var XYSeries = /** @class */ (function (_super) {
      */
     XYSeries.prototype.applyInternalDefaults = function () {
         _super.prototype.applyInternalDefaults.call(this);
-        this.readerTitle = this.language.translate("X/Y Series");
+        if (!$type.hasValue(this.readerTitle)) {
+            this.readerTitle = this.language.translate("X/Y Series");
+        }
     };
     /**
      * Returns a new/empty DataItem of the type appropriate for this object.

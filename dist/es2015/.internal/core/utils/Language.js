@@ -255,9 +255,9 @@ var Language = /** @class */ (function (_super) {
         set: function (value) {
             if (this._locale != value) {
                 this._locale = value;
-                if (this.events.isEnabled("localeChanged")) {
-                    this.events.dispatchImmediately("localeChanged", {
-                        type: "localeChanged",
+                if (this.events.isEnabled("localechanged")) {
+                    this.events.dispatchImmediately("localechanged", {
+                        type: "localechanged",
                         locale: value,
                         target: this
                     });

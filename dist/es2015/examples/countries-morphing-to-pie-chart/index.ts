@@ -216,7 +216,11 @@ function showPieChart(polygon: maps.MapPolygon) {
     for (let i = 0; i < pieSeries.dataItems.length; i++) {
         let dataItem = pieSeries.dataItems.getIndex(i);
         dataItem.value = Math.round(Math.random() * 100);
-        dataItem.slice.fill = amcharts4.colors.interpolate(fill, amcharts4.color("#ffffff"), 0.2 * i);
+        dataItem.slice.fill = amcharts4.color(amcharts4.colors.interpolate(
+          fill.rgb,
+          amcharts4.color("#ffffff").rgb,
+          0.2 * i
+        ));
 
         dataItem.label.background.fill = desaturated;
         dataItem.tick.stroke = fill;

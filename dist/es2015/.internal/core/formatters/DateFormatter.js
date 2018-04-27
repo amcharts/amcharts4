@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import { Language } from "../utils/Language";
 import { BaseObject } from "../Base";
-import { system } from "../System";
+import { getTextFormatter } from "../formatters/TextFormatter";
 import * as $strings from "../utils/Strings";
 import * as $utils from "../utils/Utils";
 import * as $type from "../utils/Type";
@@ -155,7 +155,7 @@ var DateFormatter = /** @class */ (function (_super) {
             "parts": []
         };
         // Let TextFormatter split into chunks
-        var chunks = system.textFormatter.chunk(format, true);
+        var chunks = getTextFormatter().chunk(format, true);
         for (var i = 0; i < chunks.length; i++) {
             var chunk = chunks[i];
             if (chunk.type === "value") {
@@ -178,7 +178,7 @@ var DateFormatter = /** @class */ (function (_super) {
             info.template += chunk.text;
         }
         // Apply style formatting
-        //info.template = system.textFormatter.format(info.template, this.outputFormat);
+        //info.template = getTextFormatter().format(info.template, this.outputFormat);
         // Save cache
         this.setCache(format, info);
         return info;
@@ -477,7 +477,7 @@ var DateFormatter = /** @class */ (function (_super) {
             }
         }
         // Init return value
-        var res = new Date(0);
+        var res = new Date(1970, 0, 1, 0, 0, 0);
         // Init RegEx for parsing
         var reg = "";
         // Clean format

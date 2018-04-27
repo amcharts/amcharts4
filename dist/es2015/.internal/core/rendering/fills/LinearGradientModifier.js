@@ -36,13 +36,13 @@ import * as $type from "../../utils/Type";
  * gradient modifier as a `fillModifier`:
  *
  * ```TypeScript
- * let fillModifier = new amcharts4.LinearGradientModifier();
+ * let fillModifier = new am4core.LinearGradientModifier();
  * fillModifier.opacities = [1, 1, 0];
  * fillModifier.offsets = [0, 0.8, 1];
  * columnSeries.columns.template.fillModifier = fillModifier;
  * ```
  * ```JavaScript
- * var fillModifier = new amcharts4.LinearGradientModifier();
+ * var fillModifier = new am4core.LinearGradientModifier();
  * fillModifier.opacities = [1, 1, 0];
  * fillModifier.offsets = [0, 0.8, 1];
  * columnSeries.columns.template.fillModifier = fillModifier;

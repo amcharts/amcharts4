@@ -14,7 +14,7 @@ module.exports = {
       throw new Error("You must add an amcharts4.files array to your EmberApp");
     }
 
-    app.import('vendor/script/amcharts4/amcharts.js');
+    app.import('vendor/script/amcharts4/core.js');
 
     app.options.amcharts4.files.forEach(function (name) {
       app.import('vendor/script/amcharts4/' + name + '.js');

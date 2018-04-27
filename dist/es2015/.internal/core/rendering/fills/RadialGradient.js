@@ -18,6 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { BaseObject } from "../../Base";
+import { getSystem } from "../../System";
 import { List } from "../../utils/List";
 import { registry } from "../../Registry";
 import * as $iter from "../../utils/Iterator";
@@ -100,7 +101,7 @@ var RadialGradient = /** @class */ (function (_super) {
             if (this._paper) {
                 return this._paper;
             }
-            return registry.ghostPaper;
+            return getSystem().ghostPaper;
         },
         /**
          * A [[Paper]] instace to use for the gradient.

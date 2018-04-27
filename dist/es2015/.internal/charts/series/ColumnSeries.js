@@ -184,7 +184,9 @@ var ColumnSeries = /** @class */ (function (_super) {
      */
     ColumnSeries.prototype.applyInternalDefaults = function () {
         _super.prototype.applyInternalDefaults.call(this);
-        this.readerTitle = this.language.translate("Column Series");
+        if (!$type.hasValue(this.readerTitle)) {
+            this.readerTitle = this.language.translate("Column Series");
+        }
     };
     /**
      * Returns a new/empty DataItem of the type appropriate for this object.

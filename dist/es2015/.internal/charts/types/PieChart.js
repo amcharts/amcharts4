@@ -24,6 +24,7 @@ import { registry } from "../../core/Registry";
 import * as $iter from "../../core/utils/Iterator";
 import * as $utils from "../../core/utils/Utils";
 import * as $math from "../../core/utils/Math";
+import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
  * DATA ITEM
@@ -60,11 +61,11 @@ export { PieChartDataItem };
  *
  * ```TypeScript
  * // Includes
- * import * as amcharts4 from "@amcharts/amcharts4/core";
- * import * as charts from "@amcharts/amcharts4/charts";
+ * import * as am4core from "@amcharts/amcharts4/core";
+ * import * as am4charts from "@amcharts/amcharts4/charts";
  *
  * // Create chart
- * let chart = amcharts4.create("chartdiv", charts.PieChart);
+ * let chart = am4core.create("chartdiv", am4charts.PieChart);
  *
  * // Set data
  * chart.data = [{
@@ -79,16 +80,16 @@ export { PieChartDataItem };
  * }];
  *
  * // Create series
- * let series = chart.series.push(new charts.PieSeries());
+ * let series = chart.series.push(new am4charts.PieSeries());
  * series.dataFields.value = "litres";
  * series.dataFields.category = "country";
  * ```
  * ```JavaScript
  * // Create chart
- * var chart = amcharts4.create("chartdiv", amcharts4.charts.PieChart);
+ * var chart = am4core.create("chartdiv", am4charts.PieChart);
  *
  * // The following would work as well:
- * // var chart = amcharts4.create("chartdiv", "PieChart");
+ * // var chart = am4core.create("chartdiv", "PieChart");
  *
  * // Set data
  * chart.data = [{
@@ -103,12 +104,12 @@ export { PieChartDataItem };
  * }];
  *
  * // Create series
- * var series = chart.series.push(new amcharts4.charts.PieSeries());
+ * var series = chart.series.push(new am4charts.PieSeries());
  * series.dataFields.value = "litres";
  * series.dataFields.category = "country";
  * ```
  * ```JSON
- * var chart = amcharts4.createFromConfig({
+ * var chart = am4core.createFromConfig({
  *
  * 	// Series
  * 	"series": [{
@@ -167,7 +168,9 @@ var PieChart = /** @class */ (function (_super) {
         _super.prototype.applyInternalDefaults.call(this);
         // Add a default screen reader title for accessibility
         // This will be overridden in screen reader if there are any `titles` set
-        this.readerTitle = this.language.translate("Pie chart");
+        if (!$type.hasValue(this.readerTitle)) {
+            this.readerTitle = this.language.translate("Pie chart");
+        }
     };
     /**
      * (Re)validates the chart, causing it to redraw.
@@ -254,11 +257,11 @@ var PieChart = /** @class */ (function (_super) {
          *
          * ```TypeScript
          * // Set pie chart to be at 50% of the available space
-         * pieChart.radius = amcharts4.percent.percent(50);
+         * pieChart.radius = am4core.percent.percent(50);
          * ```
          * ```JavaScript
          * // Set pie chart to be at 50% of the available space
-         * pieChart.radius = amcharts4.percent.percent(50);
+         * pieChart.radius = am4core.percent.percent(50);
          * ```
          * ```JSON
          * {

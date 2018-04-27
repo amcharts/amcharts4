@@ -215,17 +215,6 @@ series.tooltipYField = "openValueY";
 
 // this makes columns to be of a different color, depending on value
 series.heatRules.push({ target: series.columns.template, property: "fill", minValue: -3, maxValue: 6, min: amcharts4.color("#673AB7"), max: amcharts4.color("#F44336"), dataField: "valueY" });
-// alternative way - using adapter
-/*
-series.columns.template.adapter.add("fill", (color, column): amcharts4.Color => {
-  let dataItem = column.dataItem;
-  // todo: template shouldn't call adapter!
-  if (dataItem) {
-    let value: number = column.dataItem["valueY"];
-    return amcharts4.colors.interpolate(amcharts4.color("#673AB7"), amcharts4.color("#F44336"), value / (valueAxis.max - valueAxis.min));
-  }
-})*/
-
 
 // cursor
 let cursor = new charts.RadarCursor();

@@ -577,7 +577,7 @@ var Component = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Component.prototype.validateData = function () {
-        this.dispatchImmediately("predatavalidate");
+        this.dispatchImmediately("beforedatavalidated");
         this.dataInvalid = false;
         $array.remove(registry.invalidDatas, this);
         this.dataValidationProgress = 0;
@@ -814,20 +814,20 @@ var Component = /** @class */ (function (_super) {
      */
     Component.prototype.setDataSourceEvents = function (ds, property) {
         var _this = this;
-        ds.events.on("start", function (ev) {
+        ds.events.on("started", function (ev) {
             _this.preloader.progress = 0;
             //this.preloader.label.text = this.language.translate("Loading");
         });
-        ds.events.on("loadstart", function (ev) {
+        ds.events.on("loadstarted", function (ev) {
             _this.preloader.progress = 0.25;
         });
-        ds.events.on("loadstop", function (ev) {
+        ds.events.on("loadended", function (ev) {
             _this.preloader.progress = 0.5;
         });
-        ds.events.on("parsestop", function (ev) {
+        ds.events.on("parseended", function (ev) {
             _this.preloader.progress = 0.75;
         });
-        ds.events.on("stop", function (ev) {
+        ds.events.on("ended", function (ev) {
             _this.preloader.progress = 1;
         });
         ds.events.on("error", function (ev) {
@@ -880,9 +880,10 @@ var Component = /** @class */ (function (_super) {
      * @param  {IRange}  range          Range
      * @param  {boolean} skipRangeEvent Should rangechanged event not be triggered?
      * @param  {boolean} instantly      Do not animate?
-     * @return {IRange}                 Actual mofidied range (taking `maxZoomFactor` into account)
+     * @return {IRange}                 Actual modidied range (taking `maxZoomFactor` into account)
      */
     Component.prototype.zoom = function (range, skipRangeEvent, instantly) {
+        var _this = this;
         var start = range.start;
         var end = range.end;
         var priority = range.priority;
@@ -903,7 +904,7 @@ var Component = /** @class */ (function (_super) {
                     start = end - 1 / maxZoomFactor;
                 }
             }
-            // most likely we are draggin right, so we modify left
+            // most likely we are dragging right, so we modify left
             else {
                 // remove from start
                 if (1 / (end - start) > maxZoomFactor) {
@@ -928,7 +929,19 @@ var Component = /** @class */ (function (_super) {
                         }
                     }
                 }
+                this.dispatchImmediately("rangechangestarted");
+                if (this.rangeChangeAnimation) {
+                    this.rangeChangeAnimation.dispose();
+                }
                 this.rangeChangeAnimation = this.animate([{ property: "start", to: start }, { property: "end", to: end }], this.rangeChangeDuration, this.rangeChangeEasing);
+                if (this.rangeChangeAnimation && !this.rangeChangeAnimation.isDisposed()) {
+                    this.rangeChangeAnimation.events.on("animationended", function () {
+                        _this.dispatchImmediately("rangechangeended");
+                    });
+                }
+                else {
+                    this.dispatchImmediately("rangechangeended");
+                }
             }
             else {
                 this.start = start;
@@ -997,7 +1010,7 @@ var Component = /** @class */ (function (_super) {
          */
         get: function () {
             if (!$type.isNumber(this._startIndex)) {
-                this.startIndex = 0;
+                this._startIndex = 0;
             }
             return this._startIndex;
         },
@@ -1009,11 +1022,20 @@ var Component = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._startIndex = $math.fitToRange(Math.round(value), 0, this.dataItems.length);
-            this.start = this._startIndex / this.dataItems.length;
+            this.start = this.indexToPosition(this._startIndex);
         },
         enumerable: true,
         configurable: true
     });
+    /**
+     * @ignore
+     * @todo:review description
+     * returns item's relative position by the index of the item
+     * @param {number} index
+     */
+    Component.prototype.indexToPosition = function (index) {
+        return index / this.dataItems.length;
+    };
     Object.defineProperty(Component.prototype, "endIndex", {
         /**
          * Current ending index.
@@ -1022,7 +1044,7 @@ var Component = /** @class */ (function (_super) {
          */
         get: function () {
             if (!$type.isNumber(this._endIndex)) {
-                this.endIndex = this.dataItems.length;
+                this._endIndex = this.dataItems.length;
             }
             return this._endIndex;
         },
@@ -1034,7 +1056,7 @@ var Component = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._endIndex = $math.fitToRange(Math.round(value), 0, this.dataItems.length);
-            this.end = this._endIndex / this.dataItems.length;
+            this.end = this.indexToPosition(this._endIndex);
         },
         enumerable: true,
         configurable: true

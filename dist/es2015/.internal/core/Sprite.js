@@ -36,9 +36,10 @@ import { RadialGradient } from "./rendering/fills/RadialGradient";
 import { Modal } from "./elements/Modal";
 import { Color, color, toColor } from "./utils/Color";
 import { Filter } from "./rendering/filters/Filter";
-import { interaction } from "./interaction/Interaction";
+import { getInteraction } from "./interaction/Interaction";
 import { MouseCursorStyle } from "./interaction/Mouse";
-import { system } from "./System";
+import { getSystem } from "./System";
+import { options } from "./Options";
 import { registry } from "./Registry";
 import { NumberFormatter } from "./formatters/NumberFormatter";
 import { DateFormatter } from "./formatters/DateFormatter";
@@ -403,7 +404,9 @@ var Sprite = /** @class */ (function (_super) {
         if (this.disabled || this.isTemplate) {
             return;
         }
-        this._internalDefaultsApplied = false;
+        // We no longer reset this on each invalidate, so that they are applied
+        // only once, and do not overwrite user-defined settings
+        //this._internalDefaultsApplied = false;
         this.invalid = true;
         // you could think it would be faster to check if sprite is already invalid and not to add it to array,
         // but in fact when we call invalidate() we move the sprite to the end of invalidSprites list and this is important to have optimized order of invalid sprites.
@@ -417,7 +420,7 @@ var Sprite = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Sprite.prototype.validate = function () {
-        this.dispatchImmediately("prevalidate");
+        this.dispatchImmediately("beforevalidated");
         this.renderingFrame = this.renderingFrequency;
         // Set internal defaults
         if (!this._internalDefaultsApplied) {
@@ -978,7 +981,7 @@ var Sprite = /** @class */ (function (_super) {
                     return this.parent.paper;
                 }
             }
-            return registry.ghostPaper;
+            return getSystem().ghostPaper;
         },
         /**
          * A [[Paper]] instance to place elements on.
@@ -1161,7 +1164,7 @@ var Sprite = /** @class */ (function (_super) {
             else if (this.parent) {
                 return this.parent.classNamePrefix;
             }
-            return system.classNamePrefix;
+            return options.classNamePrefix;
         },
         /**
          * When the element is creating its SVG elements, it may attach special
@@ -2025,8 +2028,8 @@ var Sprite = /** @class */ (function (_super) {
             transiton = this.animate(options, duration, easing);
             // TODO should this use events.once ?
             // TODO push onto _disposers array ?
-            this._disposers.push(transiton.events.on("animationend", function () {
-                _this.dispatchImmediately("transitionend");
+            this._disposers.push(transiton.events.on("animationended", function () {
+                _this.dispatchImmediately("transitionended");
             }));
         }
         // apply filters if set
@@ -2197,7 +2200,7 @@ var Sprite = /** @class */ (function (_super) {
                 else {
                     this.applyCurrentState();
                 }
-                this.dispatchImmediately("toggle");
+                this.dispatchImmediately("toggled");
             }
         },
         enumerable: true,
@@ -2454,7 +2457,7 @@ var Sprite = /** @class */ (function (_super) {
         set: function (value) {
             var _this = this;
             if (this._language.get() !== value) {
-                this._language.set(value, value.events.on("localeChanged", function (ev) {
+                this._language.set(value, value.events.on("localechanged", function (ev) {
                     if (_this instanceof Container) {
                         _this.deepInvalidate();
                     }
@@ -3216,7 +3219,7 @@ var Sprite = /** @class */ (function (_super) {
          */
         get: function () {
             if (!this._interaction) {
-                this._interaction = interaction.getInteraction(this.dom);
+                this._interaction = getInteraction().getInteraction(this.dom);
                 this._interaction.clickable = this.clickable;
                 this._interaction.hoverable = this.hoverable;
                 this._interaction.trackable = this.trackable;
@@ -3343,10 +3346,10 @@ var Sprite = /** @class */ (function (_super) {
          * object.
          *
          * ```TypeScript
-         * chart.focusFilter = new amcharts4.FocusFilter();
+         * chart.focusFilter = new am4core.FocusFilter();
          * ```
          * ```JavaScript
-         * chart.focusFilter = new amcharts4.FocusFilter();
+         * chart.focusFilter = new am4core.FocusFilter();
          * ```
          * ```JSON
          * {
@@ -3539,7 +3542,7 @@ var Sprite = /** @class */ (function (_super) {
         //this.dragStop(pointer);
         //this.draggable = true;
         this._isDragged = true;
-        interaction.dragStart(this.interactions, pointer);
+        getInteraction().dragStart(this.interactions, pointer);
     };
     /**
      * Executes when dragged element is being dropped.
@@ -3560,7 +3563,7 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.dragStop = function (pointer) {
         //this.draggable = false;
         this._isDragged = false;
-        interaction.dragStop(this.interactions, pointer);
+        getInteraction().dragStop(this.interactions, pointer);
         //this.handleDragStop();
     };
     /**
@@ -3774,7 +3777,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * Most of the elements are not clickable by default.
          *
-         * Use `hit`, `doublehit`, `up`, `down`, `toggle` events to watch for
+         * Use `hit`, `doublehit`, `up`, `down`, `toggled` events to watch for
          * respective click/touch actions.
          *
          * @param {boolean} value `true` if element can be clicked
@@ -4251,7 +4254,7 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (style) {
             this.cursorOptions.overStyle = style;
-            interaction.applyCursorOverStyle(this.interactions);
+            getInteraction().applyCursorOverStyle(this.interactions);
         },
         enumerable: true,
         configurable: true
@@ -6101,7 +6104,7 @@ var Sprite = /** @class */ (function (_super) {
             // Apply current state
             transition = this.applyCurrentState(duration);
             if (transition) {
-                this._showHideDisposer = transition.events.on("animationend", function () {
+                this._showHideDisposer = transition.events.on("animationended", function () {
                     _this.isShowing = false;
                 });
                 this._disposers.push(this._showHideDisposer);
@@ -6113,7 +6116,7 @@ var Sprite = /** @class */ (function (_super) {
             }
             this.visible = visible;
             // Dispatch "show" event
-            this.dispatchImmediately("show");
+            this.dispatchImmediately("shown");
         }
         return transition;
     };
@@ -6172,7 +6175,7 @@ var Sprite = /** @class */ (function (_super) {
                 transition = this.setState(hiddenState, duration, undefined);
                 if (transition) {
                     this._hideAnimation = transition;
-                    this._showHideDisposer = transition.events.on("animationend", function () {
+                    this._showHideDisposer = transition.events.on("animationended", function () {
                         _this.isHiding = false;
                     }, this);
                     this._disposers.push(this._showHideDisposer);
@@ -6186,8 +6189,8 @@ var Sprite = /** @class */ (function (_super) {
                 this.visible = false;
                 this.isHiding = false;
             }
-            // Dispach "hide" event
-            this.dispatchImmediately("hide");
+            // Dispach "hidden" event
+            this.dispatchImmediately("hidden");
             this.invalidate(); // hide it at once to avoid flickers // validate() causes SO
         }
         if (!$type.isNumber(duration)) {
@@ -6463,7 +6466,7 @@ var Sprite = /** @class */ (function (_super) {
                 }
                 tooltip.dataItem = tooltipDataItem;
                 if (this.tooltipPosition == "mouse") {
-                    this._interactionDisposer = interaction.body.events.on("track", function (ev) {
+                    this._interactionDisposer = getInteraction().body.events.on("track", function (ev) {
                         _this.pointTooltipTo($utils.documentPointToSvg(ev.point, _this.svgContainer), true);
                     });
                 }
@@ -6700,7 +6703,7 @@ var Sprite = /** @class */ (function (_super) {
         this.modal.closable = false;
         this.modal.show();
         this.disabled = true;
-        if (system.verbose) {
+        if (options.verbose) {
             console.log(e);
         }
     };

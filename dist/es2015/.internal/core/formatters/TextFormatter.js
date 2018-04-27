@@ -364,4 +364,19 @@ var TextFormatter = /** @class */ (function (_super) {
     return TextFormatter;
 }(BaseObject));
 export { TextFormatter };
+var formatter = null;
+/**
+ * Returns the global instance of [[TextFormatter]].
+ *
+ * All classes and instances should reuse this universal text formatter,
+ * rather than create their own instance of it.
+ *
+ * @type {TextFormatter}
+ */
+export function getTextFormatter() {
+    if (formatter == null) {
+        formatter = new TextFormatter();
+    }
+    return formatter;
+}
 //# sourceMappingURL=TextFormatter.js.map

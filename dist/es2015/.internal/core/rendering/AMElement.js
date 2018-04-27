@@ -1,13 +1,6 @@
 /**
  * [[AMElement]] represents any SVG element and related functionality.
  */
-/**
- * ============================================================================
- * IMPORTS
- * ============================================================================
- * @hidden
- */
-import { Paper } from "./Paper";
 import * as $dom from "../utils/DOM";
 import * as $type from "../utils/Type";
 /**
@@ -59,7 +52,7 @@ var AMElement = /** @class */ (function () {
          */
         this._scale = 1;
         if (typeof element === "string") {
-            this.node = document.createElementNS(Paper.SVGNS, element);
+            this.node = document.createElementNS($dom.SVGNS, element);
         }
         else {
             this.node = element;

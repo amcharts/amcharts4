@@ -460,10 +460,10 @@ export declare class MapChart extends SerialChart {
      * * Orthographic
      *
      * ```TypeScript
-     * map.projection = new maps.projections.Mercator();
+     * map.projection = new am4maps.projections.Mercator();
      * ```
      * ```JavaScript
-     * map.projection = new amcharts4.maps.projections.Mercator();
+     * map.projection = new am4maps.projections.Mercator();
      * ```
      * ```JSON
      * {
@@ -642,11 +642,11 @@ export declare class MapChart extends SerialChart {
      *
      * ```TypeScript
      * // Create a small map
-     * map.smallMap = new map.SmallMap();
+     * map.smallMap = new am4maps.SmallMap();
      * ```
      * ```JavaScript
      * // Create a small map
-     * map.smallMap = new amcharts4.map.SmallMap();
+     * map.smallMap = new am4maps.SmallMap();
      * ```
      * ```JSON
      * {
@@ -670,11 +670,11 @@ export declare class MapChart extends SerialChart {
      *
      * ```TypeScript
      * // Create a zoom control
-     * map.zoomControl = new maps.ZoomControl();
+     * map.zoomControl = new am4maps.ZoomControl();
      * ```
      * ```JavaScript
      * // Create a zoom control
-     * map.zoomControl = new amcharts4.maps.ZoomControl();
+     * map.zoomControl = new am4maps.ZoomControl();
      * ```
      * ```JSON
      * {

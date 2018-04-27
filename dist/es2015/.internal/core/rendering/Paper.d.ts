@@ -67,27 +67,6 @@ export declare class Paper {
      */
     id: string;
     /**
-     * SVG namespace.
-     *
-     * @ignore Exclude from docs
-     * @type {string}
-     */
-    static SVGNS: string;
-    /**
-     * XML namespace.
-     *
-     * @ignore Exclude from docs
-     * @type {string}
-     */
-    static XMLNS: string;
-    /**
-     * XLING namespace.
-     *
-     * @ignore Exclude from docs
-     * @type {string}
-     */
-    static XLINK: string;
-    /**
      * Creates main `<svg>` container and related elements.
      *
      * @param {HTMLElement} container A reference to HTML element to create `<svg>` in

@@ -193,10 +193,10 @@ export interface IExportMenuAdapters {
  * [[ExportMenu]].
  *
  * ```TypeScript
- * chart.exporting.menu = new amcharts4.ExportMenu();
+ * chart.exporting.menu = new am4core.ExportMenu();
  * ```
  * ```JavaScript
- * chart.exporting.menu = new amcharts4.ExportMenu();
+ * chart.exporting.menu = new am4core.ExportMenu();
  * ```
  * ```JSON
  * {

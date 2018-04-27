@@ -79,7 +79,7 @@ export declare class DateAxisDataItem extends ValueAxisDataItem {
  * @hidden
  */
 /**
- * Defines data fields for [[DateAxis]]
+ * Defines data fields for [[DateAxis]].
  */
 export interface IDateAxisDataFields extends IValueAxisDataFields {
     /**
@@ -94,6 +94,7 @@ export interface IDateAxisDataFields extends IValueAxisDataFields {
  * Defines properties for [[DateAxis]].
  */
 export interface IDateAxisProperties extends IValueAxisProperties {
+    skipEmptyPeriods?: boolean;
 }
 /**
  * Defines events for [[DateAxis]].
@@ -118,14 +119,14 @@ export interface IDateAxisAdapters extends IValueAxisAdapters, IDateAxisProperti
  *
  * ```TypeScript
  * // Create the axis
- * let xAxis = chart.xAxes.push(new charts.DateAxis());
+ * let xAxis = chart.xAxes.push(new am4charts.DateAxis());
  *
  * // Set settings
  * xAxis.title.text = "Time";
  * ```
  * ```JavaScript
  * // Create the axis
- * var valueAxis = chart.xAxes.push(new amcharts4.charts.DateAxis());
+ * var valueAxis = chart.xAxes.push(new am4charts.DateAxis());
  *
  * // Set settings
  * valueAxis.title.text = "Time";
@@ -226,7 +227,8 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * For example, if we have a DateAxis with days on it, the first day of month
      * indicates a break in month - a start of the bigger period.
      *
-     * For those labels, `changeDateFormats` are applied instead of `dateFormats`.
+     * For those labels, `periodChangeDateFormats` are applied instead of
+     * `dateFormats`.
      *
      * This allows us implement convenient structures, like instead of:
      *
@@ -240,10 +242,18 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * @type {Dictionary<TimeUnit, string>}
      */
-    changeDateFormats: Dictionary<TimeUnit, string>;
+    periodChangeDateFormats: Dictionary<TimeUnit, string>;
     /**
-     * Use `changeDateFormats` to apply different formats to the first label in
-     * bigger time unit.
+     * A special date format to apply axis tooltips.
+     *
+     * Will use same format as for labels, if not set.
+     *
+     * @type {string}
+     */
+    protected _tooltipDateFormat: string;
+    /**
+     * Use `periodChangeDateFormats` to apply different formats to the first
+     * label in bigger time unit.
      *
      * @type {boolean}
      */
@@ -313,13 +323,6 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @param {number} value Location (0-1)
      */
     protected _endLocation: AxisItemLocation;
-    /**
-     * Remove empty (no data points) stretches of time by adding AxisBreaks on
-     * them.
-     *
-     * @type {boolean}
-     */
-    protected _skipEmptyTimeUnits: boolean;
     /**
      * A collection of timestamps of previously processed data items. Used
      * internally to track distance between data items when processing data.
@@ -417,7 +420,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * Can be used to automatically remove strethes without data, like weekends.
      *
      * No, need to call this manually. It will automatically be done if
-     * `skipEmptyTimeUnits = true`.
+     * `skipEmptyPeriods = true`.
      *
      * @ignore Exclude from docs
      */
@@ -653,15 +656,37 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @return {boolean} Remove empty stretches of time?
      */
     /**
-     * Automatically collapse empty (without data points) periods of time, like
-     * weekends.
+     * If enabled, axis will automatically collapse empty (without data points)
+     * periods of time, i.e. weekends.
      *
-     * For each "empty" stretch of data, an [[AxisBreak]] will be created, which
-     * can be configured to be collapsaple by user.
+     * An "empty" period is considered a stretch of time in the length of current
+     * `baseInterval` without a single data point in it.
      *
-     * @param {boolean} value Remove empty stretches of time?
+     * For each such empty period, axis will automatically create an
+     * [[AxisBreak]]. By default they will be invisible. You can still configure
+     * them by accessing `axis.breaks.template`.
+     *
+     * [More info about breaks](https://www.amcharts.com/docs/v4/concepts/axes/#Breaks).
+     *
+     * Important notes:
+     * * If you set this property to `true`, you can not add your custom axis breaks to this axis anymore.
+     * * Using this feature affects performance. Use only if you need it.
+     * * Setting this to `true` will reset appearance of breaks. If you want to modify appearance, do it *after* you set `skipEmptyPeriods`.
+     *
+     * @param {boolean}  value  Remove empty stretches of time?
      */
-    skipEmptyTimeUnits: boolean;
+    skipEmptyPeriods: boolean;
+    /**
+     * @return {string} Date format
+     */
+    /**
+     * A special date format to apply axis tooltips.
+     *
+     * Will use same format as for labels, if not set.
+     *
+     * @param {string}  value  Date format
+     */
+    tooltipDateFormat: string;
     /**
      * @return {boolean} Use different format for period beginning?
      */
@@ -741,6 +766,12 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @todo Better format recognition
      */
     getPositionLabel(position: number): string;
+    /**
+     * Returns label date format based on currently used time units
+     *
+     * @return {string}  Format
+     */
+    protected getCurrentLabelFormat(): string;
     /**
      * Initializes an Axis renderer.
      *

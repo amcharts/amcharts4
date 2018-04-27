@@ -4,16 +4,17 @@
  * ============================================================================
  * @hidden
  */
-import { system } from "../System";
+import { getSystem } from "../System";
 import { registry } from "../Registry";
 import { Container } from "../Container";
 import { Paper } from "../rendering/Paper";
-import { SVGContainer } from "../rendering/SVGContainer";
+import { SVGContainer, svgContainers } from "../rendering/SVGContainer";
 import { FocusFilter } from "../rendering/filters/FocusFilter";
 import { Preloader } from "../elements/Preloader";
 import { AmChartsLogo } from "../elements/AmChartsLogo";
 import { Tooltip } from "../elements/Tooltip";
 import { percent } from "./Percent";
+import { options } from "../Options";
 import * as $array from "./Array";
 import * as $type from "./Type";
 import * as $dom from "./DOM";
@@ -45,7 +46,7 @@ function createChild(htmlElement, classType) {
         //	htmlContainer.appendChild(innerContainer);
         var svgDiv = new SVGContainer(htmlContainer);
         var paper = new Paper(svgDiv.SVGContainer);
-        paper.id = "svg-" + (system.svgContainers.length - 1);
+        paper.id = "svg-" + (svgContainers.length - 1);
         // the approach with masks is chosen because overflow:visible is set on SVG element in order tooltips could go outside
         // svg area - this is often needed when working with small charts.
         // main container which holds content container and tooltips container
@@ -84,14 +85,14 @@ function createChild(htmlElement, classType) {
         });
         //@todo: maybe we don't need to create one by default but only on request?
         contentContainer.preloader = new Preloader();
-        if (!system.commercialLicense) {
+        if (!options.commercialLicense) {
             tooltipContainer_1.createChild(AmChartsLogo);
         }
         sprite_1.numberFormatter; // need to create one.
         return sprite_1;
     }
     else {
-        system.log("html container not found");
+        getSystem().log("html container not found");
     }
 }
 /**
@@ -104,14 +105,14 @@ function createChild(htmlElement, classType) {
  * JavaScript users this can also be a string indicating chart type)
  *
  * ```TypeScript
- * let chart = amcharts4.create("chartdiv", charts.PieChart);
+ * let chart = am4core.create("chartdiv", am4charts.PieChart);
  * ```
  * ```JavaScript
  * // Can pass in chart type reference like this:
- * var chart = amcharts4.create("chartdiv", amcharts4.charts.PieChart);
+ * var chart = am4core.create("chartdiv", am4charts.PieChart);
  *
  * // ... or chart class type as a string:
- * var chart = amcharts4.create("chartdiv", "PieChart");
+ * var chart = am4core.create("chartdiv", "PieChart");
  * ```
  *
  * @param  {HTMLElement | string}  htmlElement  Reference or id of the target container element
@@ -148,10 +149,10 @@ export function create(htmlElement, classType) {
  * Example:
  *
  * ```TypeScript
- * let chart amcharts4.createFromConfig({ ... }, "chartdiv", charts.XYChart );
+ * let chart am4core.createFromConfig({ ... }, "chartdiv", am4charts.XYChart );
  * ```
  * ```JavaScript
- * var chart amcharts4.createFromConfig({ ... }, "chartdiv", "XYChart" );
+ * var chart am4core.createFromConfig({ ... }, "chartdiv", "XYChart" );
  * ```
  *
  * If `chartType` parameter is not supplied it must be set in a config object,
@@ -159,13 +160,13 @@ export function create(htmlElement, classType) {
  *
  * ```TypeScript
  * {
- *   "type": charts.XYChart,
+ *   "type": am4charts.XYChart,
  *   // ...
  * }
  * ```
  * ```JavaScript
  * {
- *   "type": amcharts4.charts.XYChart,
+ *   "type": am4charts.XYChart,
  *   // ...
  * }
  * ```
@@ -255,12 +256,12 @@ export function createFromConfig(config, htmlElement, classType) {
  * E.g.:
  *
  * ```TypeScript
- * amcharts4.useTheme(amcharts4.themes.material);
- * amcharts4.useTheme(amcharts4.themes.animated);
+ * am4core.useTheme(am4themes.material);
+ * am4core.useTheme(am4themes.animated);
  * ```
  * ```JavaScript
- * amcharts4.useTheme(amcharts4.themes.material);
- * amcharts4.useTheme(amcharts4.themes.animated);
+ * am4core.useTheme(am4themes.material);
+ * am4core.useTheme(am4themes.animated);
  * ```
  *
  * The above will apply both the Material color and animation options to all

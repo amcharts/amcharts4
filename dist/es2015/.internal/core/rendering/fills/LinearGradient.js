@@ -19,6 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { BaseObject } from "../../Base";
 import { List } from "../../utils/List";
+import { getSystem } from "../../System";
 import { registry } from "../../Registry";
 import * as $iter from "../../utils/Iterator";
 import * as $math from "../../utils/Math";
@@ -137,7 +138,7 @@ var LinearGradient = /** @class */ (function (_super) {
             if (this._paper) {
                 return this._paper;
             }
-            return registry.ghostPaper;
+            return getSystem().ghostPaper;
         },
         /**
          * [[Paper]] instace to use for the gradient.

@@ -18,7 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Sprite } from "../Sprite";
-import { Paper } from "../rendering/Paper";
+import * as $dom from "../utils/DOM";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -56,7 +56,7 @@ var Image = /** @class */ (function (_super) {
             "width": this.innerWidth,
             "height": this.innerHeight
         });
-        this.element.attrNS(Paper.XLINK, "xlink:href", this.href);
+        this.element.attrNS($dom.XLINK, "xlink:href", this.href);
     };
     Object.defineProperty(Image.prototype, "href", {
         /**

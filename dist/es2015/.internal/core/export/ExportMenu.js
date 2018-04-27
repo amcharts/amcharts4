@@ -20,7 +20,7 @@ var __extends = (this && this.__extends) || (function () {
 import exportCSS from "./ExportCSS";
 import { Adapter } from "../utils/Adapter";
 import { List } from "../utils/List";
-import { interaction } from "../interaction/Interaction";
+import { getInteraction } from "../interaction/Interaction";
 import { EventDispatcher } from "../utils/EventDispatcher";
 import { MutableValueDisposer } from "../utils/Disposer";
 import { Language } from "../utils/Language";
@@ -43,10 +43,10 @@ import * as $type from "../utils/Type";
  * [[ExportMenu]].
  *
  * ```TypeScript
- * chart.exporting.menu = new amcharts4.ExportMenu();
+ * chart.exporting.menu = new am4core.ExportMenu();
  * ```
  * ```JavaScript
- * chart.exporting.menu = new amcharts4.ExportMenu();
+ * chart.exporting.menu = new am4core.ExportMenu();
  * ```
  * ```JSON
  * {
@@ -234,14 +234,14 @@ var ExportMenu = /** @class */ (function (_super) {
             menuElement: this._element
         }).menuElement;
         // Set up global "down" event
-        interaction.body.events.on("down", function (ev) {
+        getInteraction().body.events.on("down", function (ev) {
             if (!ev.pointer.touch) {
                 _this._ignoreNextClose = false;
             }
             _this.close();
         });
         // Set up global event on ESC press to close the menu
-        interaction.body.events.on("keyup", function (ev) {
+        getInteraction().body.events.on("keyup", function (ev) {
             var key = keyboard.getEventKey(ev.event);
             switch (key) {
                 case "esc":
@@ -300,7 +300,7 @@ var ExportMenu = /** @class */ (function (_super) {
         // Add Label
         element.appendChild(label);
         // Create interaction object
-        branch.interactions = interaction.getInteraction(label);
+        branch.interactions = getInteraction().getInteraction(label);
         // Create interaction manager we can set event listeners to
         if (this.typeClickable(type)) {
             //branch.interactions.clickable = true;
@@ -784,7 +784,7 @@ var ExportMenu = /** @class */ (function (_super) {
             if (language == null) {
                 language = new Language();
                 // TODO code duplication with `set language()`
-                this._language.set(language, language.events.on("localeChanged", function (ev) {
+                this._language.set(language, language.events.on("localechanged", function (ev) {
                     _this.invalidate();
                 }));
             }
@@ -797,7 +797,7 @@ var ExportMenu = /** @class */ (function (_super) {
          */
         set: function (value) {
             var _this = this;
-            this._language.set(value, value.events.on("localeChanged", function (ev) {
+            this._language.set(value, value.events.on("localechanged", function (ev) {
                 _this.invalidate();
             }));
             this.invalidate();

@@ -1,3 +1,12 @@
+/**
+ * [[AMElement]] represents any SVG element and related functionality.
+ */
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
 import { IRectangle } from "../defs/IRectangle";
 import { IDisposer } from "../utils/Disposer";
 import { IPoint } from "../defs/IPoint";

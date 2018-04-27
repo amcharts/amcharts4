@@ -1,3 +1,12 @@
+/**
+ * This functionality is related to the HTML wrapper that houses `<svg>` tag.
+ */
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
 import { Container } from "../Container";
 import { IDisposer } from "../utils/Disposer";
 /**
@@ -6,6 +15,13 @@ import { IDisposer } from "../utils/Disposer";
  * ============================================================================
  * @hidden
  */
+/**
+ * A array of all SVG Containers (one SVG container per chart instance).
+ *
+ * @ignore Exclude from docs
+ * @type {Array<SVGContainer>}
+ */
+export declare const svgContainers: Array<SVGContainer>;
 /**
  * A class used to create an HTML wrapper for the SVG contents.
  */

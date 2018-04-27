@@ -41,10 +41,10 @@ export interface IDataLoaderAdapters {
  * The global instance of Data Loader is accessible via:
  *
  * ```TypeScript
- * amcharts4.dataLoader;
+ * am4core.dataLoader;
  * ```
  * ```JavaScript
- * amcharts4.dataLoader;
+ * am4core.dataLoader;
  * ```
  *
  * A loading of specific data source is done via [[DataSource]].

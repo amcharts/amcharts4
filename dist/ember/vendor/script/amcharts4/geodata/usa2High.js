@@ -20,29 +20,26 @@
  
 webpackJsonp([17],{
 
-/***/ 568:
+/***/ 569:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(569);
+module.exports = __webpack_require__(570);
 
-
-/***/ }),
-
-/***/ 569:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__geodata_es2015_usa2High__ = __webpack_require__(570);
-
-
-var amcharts4 = window.amcharts4;
-amcharts4.geodata = amcharts4.geodata || {};
-amcharts4.geodata.usa2High = __WEBPACK_IMPORTED_MODULE_0__geodata_es2015_usa2High__["a" /* default */];
 
 /***/ }),
 
 /***/ 570:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__geodata_es2015_usa2High__ = __webpack_require__(571);
+
+window.am4geodata_usa2High = __WEBPACK_IMPORTED_MODULE_0__geodata_es2015_usa2High__["a" /* default */];
+
+/***/ }),
+
+/***/ 571:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -103,4 +100,4 @@ amcharts4.geodata.usa2High = __WEBPACK_IMPORTED_MODULE_0__geodata_es2015_usa2Hig
 
 /***/ })
 
-},[568]);
+},[569]);

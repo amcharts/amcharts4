@@ -3,7 +3,7 @@ import * as amcharts4 from "@amcharts/amcharts4";
 import * as xy from "@amcharts/amcharts4/xy";
 import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
 
-amcharts4.system.commercialLicense = true;
+amcharts4.options.commercialLicense = true;
 
 amcharts4.useTheme(AnimatedTheme);
 

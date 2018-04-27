@@ -132,14 +132,14 @@ export { DateAxisDataItem };
  *
  * ```TypeScript
  * // Create the axis
- * let xAxis = chart.xAxes.push(new charts.DateAxis());
+ * let xAxis = chart.xAxes.push(new am4charts.DateAxis());
  *
  * // Set settings
  * xAxis.title.text = "Time";
  * ```
  * ```JavaScript
  * // Create the axis
- * var valueAxis = chart.xAxes.push(new amcharts4.charts.DateAxis());
+ * var valueAxis = chart.xAxes.push(new am4charts.DateAxis());
  *
  * // Set settings
  * valueAxis.title.text = "Time";
@@ -207,7 +207,8 @@ var DateAxis = /** @class */ (function (_super) {
          * For example, if we have a DateAxis with days on it, the first day of month
          * indicates a break in month - a start of the bigger period.
          *
-         * For those labels, `changeDateFormats` are applied instead of `dateFormats`.
+         * For those labels, `periodChangeDateFormats` are applied instead of
+         * `dateFormats`.
          *
          * This allows us implement convenient structures, like instead of:
          *
@@ -221,10 +222,10 @@ var DateAxis = /** @class */ (function (_super) {
          *
          * @type {Dictionary<TimeUnit, string>}
          */
-        _this.changeDateFormats = new Dictionary();
+        _this.periodChangeDateFormats = new Dictionary();
         /**
-         * Use `changeDateFormats` to apply different formats to the first label in
-         * bigger time unit.
+         * Use `periodChangeDateFormats` to apply different formats to the first
+         * label in bigger time unit.
          *
          * @type {boolean}
          */
@@ -261,13 +262,6 @@ var DateAxis = /** @class */ (function (_super) {
          * @param {number} value Location (0-1)
          */
         _this._endLocation = 1;
-        /**
-         * Remove empty (no data points) stretches of time by adding AxisBreaks on
-         * them.
-         *
-         * @type {boolean}
-         */
-        _this._skipEmptyTimeUnits = false;
         /**
          * A collection of timestamps of previously processed data items. Used
          * internally to track distance between data items when processing data.
@@ -354,21 +348,51 @@ var DateAxis = /** @class */ (function (_super) {
     DateAxis.prototype.applyInternalDefaults = function () {
         _super.prototype.applyInternalDefaults.call(this);
         // Set default date formats
-        this.dateFormats.setKey("millisecond", this.language.translate("_date_millisecond"));
-        this.dateFormats.setKey("second", this.language.translate("_date_second"));
-        this.dateFormats.setKey("minute", this.language.translate("_date_minute"));
-        this.dateFormats.setKey("hour", this.language.translate("_date_hour"));
-        this.dateFormats.setKey("day", this.language.translate("_date_day"));
-        this.dateFormats.setKey("week", this.language.translate("_date_day")); // not a mistake
-        this.dateFormats.setKey("month", this.language.translate("_date_month"));
-        this.dateFormats.setKey("year", this.language.translate("_date_year"));
-        this.changeDateFormats.setKey("millisecond", "[bold]" + this.language.translate("_date_millisecond"));
-        this.changeDateFormats.setKey("second", "[bold]" + this.language.translate("_date_second"));
-        this.changeDateFormats.setKey("minute", "[bold]" + this.language.translate("_date_minute"));
-        this.changeDateFormats.setKey("hour", "[bold]" + this.language.translate("_date_hour"));
-        this.changeDateFormats.setKey("day", "[bold]" + this.language.translate("_date_day"));
-        this.changeDateFormats.setKey("week", "[bold]" + this.language.translate("_date_day"));
-        this.changeDateFormats.setKey("month", "[bold]" + this.language.translate("_date_month") + " " + this.language.translate("_date_year"));
+        if (!this.dateFormats.hasKey("millisecond")) {
+            this.dateFormats.setKey("millisecond", this.language.translate("_date_millisecond"));
+        }
+        if (!this.dateFormats.hasKey("second")) {
+            this.dateFormats.setKey("second", this.language.translate("_date_second"));
+        }
+        if (!this.dateFormats.hasKey("minute")) {
+            this.dateFormats.setKey("minute", this.language.translate("_date_minute"));
+        }
+        if (!this.dateFormats.hasKey("hour")) {
+            this.dateFormats.setKey("hour", this.language.translate("_date_hour"));
+        }
+        if (!this.dateFormats.hasKey("day")) {
+            this.dateFormats.setKey("day", this.language.translate("_date_day"));
+        }
+        if (!this.dateFormats.hasKey("week")) {
+            this.dateFormats.setKey("week", this.language.translate("_date_day")); // not a mistake
+        }
+        if (!this.dateFormats.hasKey("month")) {
+            this.dateFormats.setKey("month", this.language.translate("_date_month"));
+        }
+        if (!this.dateFormats.hasKey("year")) {
+            this.dateFormats.setKey("year", this.language.translate("_date_year"));
+        }
+        if (!this.periodChangeDateFormats.hasKey("millisecond")) {
+            this.periodChangeDateFormats.setKey("millisecond", this.language.translate("_date_millisecond"));
+        }
+        if (!this.periodChangeDateFormats.hasKey("second")) {
+            this.periodChangeDateFormats.setKey("second", this.language.translate("_date_second"));
+        }
+        if (!this.periodChangeDateFormats.hasKey("minute")) {
+            this.periodChangeDateFormats.setKey("minute", this.language.translate("_date_minute"));
+        }
+        if (!this.periodChangeDateFormats.hasKey("hour")) {
+            this.periodChangeDateFormats.setKey("hour", this.language.translate("_date_hour"));
+        }
+        if (!this.periodChangeDateFormats.hasKey("day")) {
+            this.periodChangeDateFormats.setKey("day", this.language.translate("_date_day"));
+        }
+        if (!this.periodChangeDateFormats.hasKey("week")) {
+            this.periodChangeDateFormats.setKey("week", this.language.translate("_date_day"));
+        }
+        if (!this.periodChangeDateFormats.hasKey("month")) {
+            this.periodChangeDateFormats.setKey("month", this.language.translate("_date_month") + " " + this.language.translate("_date_year"));
+        }
     };
     /**
      * Returns a new/empty [[DataItem]] of the type appropriate for this object.
@@ -402,7 +426,7 @@ var DateAxis = /** @class */ (function (_super) {
         // allows to keep selection of the same size
         var newPeriodCount = (this.max - this.min) / this.baseDuration;
         start = start + (end - start) * (1 - periodCount / newPeriodCount);
-        this.zoom({ start: start, end: end });
+        this.zoom({ start: start, end: end }, false, true); // added instantlyto solve zoomout problem when we have axes gaps. @todo: check how this affects maxZoomFactor
     };
     /**
      * Handles process after zoom.
@@ -452,7 +476,9 @@ var DateAxis = /** @class */ (function (_super) {
      */
     DateAxis.prototype.validateData = function () {
         _super.prototype.validateData.call(this);
-        this.addEmptyUnitsBreaks();
+        if (!$type.isNumber(this.baseInterval.count)) {
+            this.baseInterval.count = 1;
+        }
     };
     /**
      * [dataChangeUpdate description]
@@ -481,6 +507,7 @@ var DateAxis = /** @class */ (function (_super) {
                 _this.postProcessSeriesDataItem(dataItem);
             });
         });
+        this.addEmptyUnitsBreaks();
     };
     /**
      * [postProcessSeriesDataItem description]
@@ -511,13 +538,13 @@ var DateAxis = /** @class */ (function (_super) {
      * Can be used to automatically remove strethes without data, like weekends.
      *
      * No, need to call this manually. It will automatically be done if
-     * `skipEmptyTimeUnits = true`.
+     * `skipEmptyPeriods = true`.
      *
      * @ignore Exclude from docs
      */
     DateAxis.prototype.addEmptyUnitsBreaks = function () {
         var _this = this;
-        if (this.skipEmptyTimeUnits) {
+        if (this.skipEmptyPeriods && $type.isNumber(this.min) && $type.isNumber(this.max)) {
             var timeUnit = this.baseInterval.timeUnit;
             var count = this.baseInterval.count;
             this.axisBreaks.clear(); // TODO: what about breaks added by user?
@@ -647,7 +674,7 @@ var DateAxis = /** @class */ (function (_super) {
                 if (this_2._markUnitChange && prevGridDate) {
                     if ($time.checkChange(date, prevGridDate, this_2._nextGridUnit)) {
                         if (timeUnit !== "year") {
-                            format = this_2.changeDateFormats.getKey(timeUnit);
+                            format = this_2.periodChangeDateFormats.getKey(timeUnit);
                         }
                     }
                 }
@@ -691,7 +718,7 @@ var DateAxis = /** @class */ (function (_super) {
                                 if (_this._markUnitChange && prevGridDate_1) {
                                     if ($time.checkChange(date, prevGridDate_1, _this._nextGridUnit)) {
                                         if (timeUnit_1 !== "year") {
-                                            format = _this.changeDateFormats.getKey(timeUnit_1);
+                                            format = _this.periodChangeDateFormats.getKey(timeUnit_1);
                                         }
                                     }
                                 }
@@ -1124,26 +1151,65 @@ var DateAxis = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(DateAxis.prototype, "skipEmptyTimeUnits", {
+    Object.defineProperty(DateAxis.prototype, "skipEmptyPeriods", {
         /**
          * @return {boolean} Remove empty stretches of time?
          */
         get: function () {
-            return this._skipEmptyTimeUnits;
+            return this.getPropertyValue("skipEmptyPeriods");
         },
         /**
-         * Automatically collapse empty (without data points) periods of time, like
-         * weekends.
+         * If enabled, axis will automatically collapse empty (without data points)
+         * periods of time, i.e. weekends.
          *
-         * For each "empty" stretch of data, an [[AxisBreak]] will be created, which
-         * can be configured to be collapsaple by user.
+         * An "empty" period is considered a stretch of time in the length of current
+         * `baseInterval` without a single data point in it.
          *
-         * @param {boolean} value Remove empty stretches of time?
+         * For each such empty period, axis will automatically create an
+         * [[AxisBreak]]. By default they will be invisible. You can still configure
+         * them by accessing `axis.breaks.template`.
+         *
+         * [More info about breaks](https://www.amcharts.com/docs/v4/concepts/axes/#Breaks).
+         *
+         * Important notes:
+         * * If you set this property to `true`, you can not add your custom axis breaks to this axis anymore.
+         * * Using this feature affects performance. Use only if you need it.
+         * * Setting this to `true` will reset appearance of breaks. If you want to modify appearance, do it *after* you set `skipEmptyPeriods`.
+         *
+         * @param {boolean}  value  Remove empty stretches of time?
          */
         set: function (value) {
-            if (this._skipEmptyTimeUnits != value) {
-                this._skipEmptyTimeUnits = value;
+            if (this.setPropertyValue("skipEmptyPeriods", value)) {
                 this.invalidateData();
+            }
+            if (value) {
+                var breakTemplate = this.axisBreaks.template;
+                breakTemplate.startLine.disabled = true;
+                breakTemplate.endLine.disabled = true;
+                breakTemplate.fillShape.disabled = true;
+                breakTemplate.breakSize = 0;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DateAxis.prototype, "tooltipDateFormat", {
+        /**
+         * @return {string} Date format
+         */
+        get: function () {
+            return this._tooltipDateFormat;
+        },
+        /**
+         * A special date format to apply axis tooltips.
+         *
+         * Will use same format as for labels, if not set.
+         *
+         * @param {string}  value  Date format
+         */
+        set: function (value) {
+            if (this._tooltipDateFormat != value) {
+                this._tooltipDateFormat = value;
             }
         },
         enumerable: true,
@@ -1205,8 +1271,14 @@ var DateAxis = /** @class */ (function (_super) {
      * @return {string}            Label (formatted date)
      */
     DateAxis.prototype.getTooltipText = function (position) {
-        var value = this.positionToValue(position);
-        return this.adapter.apply("getTooltipText", this.tooltip.dateFormatter.format(value));
+        var text;
+        if ($type.hasValue(this.tooltipDateFormat)) {
+            text = this.dateFormatter.format(this.positionToDate(position), this.tooltipDateFormat);
+        }
+        else {
+            text = this.getPositionLabel(position);
+        }
+        return this.adapter.apply("getTooltipText", text);
     };
     /**
      * Takes an absolute position (px) within axis and adjust it to a specific
@@ -1272,8 +1344,15 @@ var DateAxis = /** @class */ (function (_super) {
      */
     DateAxis.prototype.getPositionLabel = function (position) {
         var date = this.positionToDate(position);
-        var format = this.dateFormats.getKey(this._gridInterval ? this._gridInterval.timeUnit : "day");
-        return this.dateFormatter.format(date, format);
+        return this.dateFormatter.format(date, this.getCurrentLabelFormat());
+    };
+    /**
+     * Returns label date format based on currently used time units
+     *
+     * @return {string}  Format
+     */
+    DateAxis.prototype.getCurrentLabelFormat = function () {
+        return this.dateFormats.getKey(this._gridInterval ? this._gridInterval.timeUnit : "day");
     };
     /**
      * Initializes an Axis renderer.

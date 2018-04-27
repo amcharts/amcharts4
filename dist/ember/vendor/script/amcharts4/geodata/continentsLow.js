@@ -20,29 +20,26 @@
  
 webpackJsonp([18],{
 
-/***/ 565:
+/***/ 566:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(566);
+module.exports = __webpack_require__(567);
 
-
-/***/ }),
-
-/***/ 566:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__geodata_es2015_continentsLow__ = __webpack_require__(567);
-
-
-var amcharts4 = window.amcharts4;
-amcharts4.geodata = amcharts4.geodata || {};
-amcharts4.geodata.continentsLow = __WEBPACK_IMPORTED_MODULE_0__geodata_es2015_continentsLow__["a" /* default */];
 
 /***/ }),
 
 /***/ 567:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__geodata_es2015_continentsLow__ = __webpack_require__(568);
+
+window.am4geodata_continentsLow = __WEBPACK_IMPORTED_MODULE_0__geodata_es2015_continentsLow__["a" /* default */];
+
+/***/ }),
+
+/***/ 568:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -59,4 +56,4 @@ amcharts4.geodata.continentsLow = __WEBPACK_IMPORTED_MODULE_0__geodata_es2015_co
 
 /***/ })
 
-},[565]);
+},[566]);

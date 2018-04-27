@@ -20,13 +20,13 @@
  
 webpackJsonp([5],{
 
-/***/ 105:
+/***/ 106:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return MapSeriesDataItem; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapSeries; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__series_Series__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__series_Series__ = __webpack_require__(83);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_Registry__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_utils_Iterator__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core_utils_Type__ = __webpack_require__(2);
@@ -319,13 +319,13 @@ var MapSeries = /** @class */ (function (_super) {
  *
  * @ignore
  */
-__WEBPACK_IMPORTED_MODULE_1__core_Registry__["a" /* registry */].registeredClasses["MapSeries"] = MapSeries;
-__WEBPACK_IMPORTED_MODULE_1__core_Registry__["a" /* registry */].registeredClasses["MapSeriesDataItem"] = MapSeriesDataItem;
+__WEBPACK_IMPORTED_MODULE_1__core_Registry__["b" /* registry */].registeredClasses["MapSeries"] = MapSeries;
+__WEBPACK_IMPORTED_MODULE_1__core_Registry__["b" /* registry */].registeredClasses["MapSeriesDataItem"] = MapSeriesDataItem;
 //# sourceMappingURL=MapSeries.js.map
 
 /***/ }),
 
-/***/ 137:
+/***/ 138:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -401,12 +401,12 @@ var MapObject = /** @class */ (function (_super) {
  *
  * @ignore
  */
-__WEBPACK_IMPORTED_MODULE_1__core_Registry__["a" /* registry */].registeredClasses["MapObject"] = MapObject;
+__WEBPACK_IMPORTED_MODULE_1__core_Registry__["b" /* registry */].registeredClasses["MapObject"] = MapObject;
 //# sourceMappingURL=MapObject.js.map
 
 /***/ }),
 
-/***/ 138:
+/***/ 139:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -516,22 +516,22 @@ function geoToPoint(geoPoint) {
 
 /***/ }),
 
-/***/ 139:
+/***/ 140:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapLine; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MapObject__ = __webpack_require__(137);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__MapLineObject__ = __webpack_require__(528);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_elements_Triangle__ = __webpack_require__(122);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MapObject__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__MapLineObject__ = __webpack_require__(529);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_elements_Triangle__ = __webpack_require__(123);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core_utils_List__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__core_elements_Polyline__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__core_elements_Polyline__ = __webpack_require__(122);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__core_Registry__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__core_utils_Color__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__core_utils_InterfaceColorSet__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__core_utils_Percent__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__core_utils_Percent__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__core_utils_Iterator__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Geo__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__Geo__ = __webpack_require__(139);
 /**
  * Map line module
  */
@@ -888,12 +888,12 @@ var MapLine = /** @class */ (function (_super) {
  *
  * @ignore
  */
-__WEBPACK_IMPORTED_MODULE_5__core_Registry__["a" /* registry */].registeredClasses["MapLine"] = MapLine;
+__WEBPACK_IMPORTED_MODULE_5__core_Registry__["b" /* registry */].registeredClasses["MapLine"] = MapLine;
 //# sourceMappingURL=MapLine.js.map
 
 /***/ }),
 
-/***/ 140:
+/***/ 141:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -967,12 +967,12 @@ function pointToGeo(point) {
 
 /***/ }),
 
-/***/ 193:
+/***/ 195:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapImage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MapObject__ = __webpack_require__(137);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MapObject__ = __webpack_require__(138);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_Registry__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_utils_Type__ = __webpack_require__(2);
 /**
@@ -1076,18 +1076,18 @@ var MapImage = /** @class */ (function (_super) {
  *
  * @ignore
  */
-__WEBPACK_IMPORTED_MODULE_1__core_Registry__["a" /* registry */].registeredClasses["MapImage"] = MapImage;
+__WEBPACK_IMPORTED_MODULE_1__core_Registry__["b" /* registry */].registeredClasses["MapImage"] = MapImage;
 //# sourceMappingURL=MapImage.js.map
 
 /***/ }),
 
-/***/ 194:
+/***/ 196:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapPolygon; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MapObject__ = __webpack_require__(137);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_elements_Polygon__ = __webpack_require__(287);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MapObject__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_elements_Polygon__ = __webpack_require__(288);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_Registry__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core_utils_InterfaceColorSet__ = __webpack_require__(8);
 /**
@@ -1277,22 +1277,22 @@ var MapPolygon = /** @class */ (function (_super) {
  *
  * @ignore
  */
-__WEBPACK_IMPORTED_MODULE_2__core_Registry__["a" /* registry */].registeredClasses["MapPolygon"] = MapPolygon;
+__WEBPACK_IMPORTED_MODULE_2__core_Registry__["b" /* registry */].registeredClasses["MapPolygon"] = MapPolygon;
 //# sourceMappingURL=MapPolygon.js.map
 
 /***/ }),
 
-/***/ 195:
+/***/ 197:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return MapLineSeriesDataItem; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapLineSeries; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MapSeries__ = __webpack_require__(105);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__MapLine__ = __webpack_require__(139);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MapSeries__ = __webpack_require__(106);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__MapLine__ = __webpack_require__(140);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_utils_List__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core_Registry__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__MapUtils__ = __webpack_require__(140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__MapUtils__ = __webpack_require__(141);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__core_utils_Array__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__core_utils_Utils__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__core_utils_Iterator__ = __webpack_require__(4);
@@ -1674,21 +1674,21 @@ var MapLineSeries = /** @class */ (function (_super) {
  *
  * @ignore
  */
-__WEBPACK_IMPORTED_MODULE_3__core_Registry__["a" /* registry */].registeredClasses["MapLineSeries"] = MapLineSeries;
-__WEBPACK_IMPORTED_MODULE_3__core_Registry__["a" /* registry */].registeredClasses["MapLineSeriesDataItem"] = MapLineSeriesDataItem;
+__WEBPACK_IMPORTED_MODULE_3__core_Registry__["b" /* registry */].registeredClasses["MapLineSeries"] = MapLineSeries;
+__WEBPACK_IMPORTED_MODULE_3__core_Registry__["b" /* registry */].registeredClasses["MapLineSeriesDataItem"] = MapLineSeriesDataItem;
 //# sourceMappingURL=MapLineSeries.js.map
 
 /***/ }),
 
-/***/ 199:
+/***/ 201:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SmallMap; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_Container__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_elements_Rectangle__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_elements_Rectangle__ = __webpack_require__(91);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_utils_List__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core_utils_Disposer__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core_utils_Disposer__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__core_Registry__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__core_utils_Color__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__core_utils_InterfaceColorSet__ = __webpack_require__(8);
@@ -1936,18 +1936,18 @@ var SmallMap = /** @class */ (function (_super) {
  *
  * @ignore
  */
-__WEBPACK_IMPORTED_MODULE_4__core_Registry__["a" /* registry */].registeredClasses["SmallMap"] = SmallMap;
+__WEBPACK_IMPORTED_MODULE_4__core_Registry__["b" /* registry */].registeredClasses["SmallMap"] = SmallMap;
 //# sourceMappingURL=SmallMap.js.map
 
 /***/ }),
 
-/***/ 292:
+/***/ 293:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapSpline; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MapLine__ = __webpack_require__(139);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_elements_Polyspline__ = __webpack_require__(120);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MapLine__ = __webpack_require__(140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_elements_Polyspline__ = __webpack_require__(121);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_Registry__ = __webpack_require__(1);
 /**
  * Map spline module
@@ -2025,18 +2025,18 @@ var MapSpline = /** @class */ (function (_super) {
  *
  * @ignore
  */
-__WEBPACK_IMPORTED_MODULE_2__core_Registry__["a" /* registry */].registeredClasses["MapSpline"] = MapSpline;
+__WEBPACK_IMPORTED_MODULE_2__core_Registry__["b" /* registry */].registeredClasses["MapSpline"] = MapSpline;
 //# sourceMappingURL=MapSpline.js.map
 
 /***/ }),
 
-/***/ 293:
+/***/ 294:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapArc; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MapLine__ = __webpack_require__(139);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_elements_Polyarc__ = __webpack_require__(286);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MapLine__ = __webpack_require__(140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_elements_Polyarc__ = __webpack_require__(287);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_Registry__ = __webpack_require__(1);
 /**
  * Map arched line module
@@ -2112,23 +2112,23 @@ var MapArc = /** @class */ (function (_super) {
  *
  * @ignore
  */
-__WEBPACK_IMPORTED_MODULE_2__core_Registry__["a" /* registry */].registeredClasses["MapArc"] = MapArc;
+__WEBPACK_IMPORTED_MODULE_2__core_Registry__["b" /* registry */].registeredClasses["MapArc"] = MapArc;
 //# sourceMappingURL=MapArc.js.map
 
 /***/ }),
 
-/***/ 294:
+/***/ 295:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ZoomControl; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_Container__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_elements_Button__ = __webpack_require__(78);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_elements_RoundedRectangle__ = __webpack_require__(56);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core_utils_Disposer__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__core_utils_Keyboard__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_elements_RoundedRectangle__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core_utils_Disposer__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__core_utils_Keyboard__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__core_interaction_Interaction__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__core_utils_Percent__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__core_utils_Percent__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__core_Registry__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__core_utils_InterfaceColorSet__ = __webpack_require__(8);
 /**
@@ -2303,7 +2303,7 @@ var ZoomControl = /** @class */ (function (_super) {
                 chart.events.on("maxsizechanged", this.updateThumbSize, this),
                 chart.events.on("zoomlevelchanged", this.updateThumb, this),
                 this.minusButton.events.on("hit", function () { chart.zoomOut(chart.zoomGeoPoint); }, chart),
-                __WEBPACK_IMPORTED_MODULE_5__core_interaction_Interaction__["b" /* interaction */].body.events.on("keyup", function (ev) {
+                Object(__WEBPACK_IMPORTED_MODULE_5__core_interaction_Interaction__["b" /* getInteraction */])().body.events.on("keyup", function (ev) {
                     if (_this.topParent.hasFocused) {
                         if (__WEBPACK_IMPORTED_MODULE_4__core_utils_Keyboard__["b" /* keyboard */].isKey(ev.event, "enter")) {
                             if (_this.minusButton.isFocused) {
@@ -2431,27 +2431,16 @@ var ZoomControl = /** @class */ (function (_super) {
  *
  * @ignore
  */
-__WEBPACK_IMPORTED_MODULE_7__core_Registry__["a" /* registry */].registeredClasses["ZoomControl"] = ZoomControl;
+__WEBPACK_IMPORTED_MODULE_7__core_Registry__["b" /* registry */].registeredClasses["ZoomControl"] = ZoomControl;
 //# sourceMappingURL=ZoomControl.js.map
 
 /***/ }),
 
-/***/ 524:
+/***/ 525:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(525);
+module.exports = __webpack_require__(526);
 
-
-/***/ }),
-
-/***/ 525:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__es2015_maps__ = __webpack_require__(526);
-
-window.amcharts4.maps = __WEBPACK_IMPORTED_MODULE_0__es2015_maps__;
 
 /***/ }),
 
@@ -2460,59 +2449,70 @@ window.amcharts4.maps = __WEBPACK_IMPORTED_MODULE_0__es2015_maps__;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__internal_charts_Legend__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__es2015_maps__ = __webpack_require__(527);
+
+window.am4maps = __WEBPACK_IMPORTED_MODULE_0__es2015_maps__;
+
+/***/ }),
+
+/***/ 527:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__internal_charts_Legend__ = __webpack_require__(147);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "LegendDataItem", function() { return __WEBPACK_IMPORTED_MODULE_0__internal_charts_Legend__["b"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Legend", function() { return __WEBPACK_IMPORTED_MODULE_0__internal_charts_Legend__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "LegendSettings", function() { return __WEBPACK_IMPORTED_MODULE_0__internal_charts_Legend__["c"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__internal_charts_elements_HeatLegend__ = __webpack_require__(248);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__internal_charts_elements_HeatLegend__ = __webpack_require__(249);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "HeatLegend", function() { return __WEBPACK_IMPORTED_MODULE_1__internal_charts_elements_HeatLegend__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__internal_charts_types_MapChart__ = __webpack_require__(527);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__internal_charts_types_MapChart__ = __webpack_require__(528);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MapChartDataItem", function() { return __WEBPACK_IMPORTED_MODULE_2__internal_charts_types_MapChart__["b"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MapChart", function() { return __WEBPACK_IMPORTED_MODULE_2__internal_charts_types_MapChart__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__internal_charts_map_MapSeries__ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__internal_charts_map_MapSeries__ = __webpack_require__(106);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MapSeriesDataItem", function() { return __WEBPACK_IMPORTED_MODULE_3__internal_charts_map_MapSeries__["b"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MapSeries", function() { return __WEBPACK_IMPORTED_MODULE_3__internal_charts_map_MapSeries__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__internal_charts_map_MapObject__ = __webpack_require__(137);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__internal_charts_map_MapObject__ = __webpack_require__(138);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MapObject", function() { return __WEBPACK_IMPORTED_MODULE_4__internal_charts_map_MapObject__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__internal_charts_map_MapPolygon__ = __webpack_require__(194);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__internal_charts_map_MapPolygon__ = __webpack_require__(196);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MapPolygon", function() { return __WEBPACK_IMPORTED_MODULE_5__internal_charts_map_MapPolygon__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__internal_charts_map_MapImage__ = __webpack_require__(193);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__internal_charts_map_MapImage__ = __webpack_require__(195);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MapImage", function() { return __WEBPACK_IMPORTED_MODULE_6__internal_charts_map_MapImage__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__internal_charts_map_MapLine__ = __webpack_require__(139);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__internal_charts_map_MapLine__ = __webpack_require__(140);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MapLine", function() { return __WEBPACK_IMPORTED_MODULE_7__internal_charts_map_MapLine__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__internal_charts_map_MapSpline__ = __webpack_require__(292);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__internal_charts_map_MapSpline__ = __webpack_require__(293);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MapSpline", function() { return __WEBPACK_IMPORTED_MODULE_8__internal_charts_map_MapSpline__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__internal_charts_map_MapArc__ = __webpack_require__(293);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__internal_charts_map_MapArc__ = __webpack_require__(294);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MapArc", function() { return __WEBPACK_IMPORTED_MODULE_9__internal_charts_map_MapArc__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__internal_charts_map_MapPolygonSeries__ = __webpack_require__(529);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__internal_charts_map_MapPolygonSeries__ = __webpack_require__(530);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MapPolygonSeriesDataItem", function() { return __WEBPACK_IMPORTED_MODULE_10__internal_charts_map_MapPolygonSeries__["b"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MapPolygonSeries", function() { return __WEBPACK_IMPORTED_MODULE_10__internal_charts_map_MapPolygonSeries__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__internal_charts_map_MapLineSeries__ = __webpack_require__(195);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__internal_charts_map_MapLineSeries__ = __webpack_require__(197);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MapLineSeriesDataItem", function() { return __WEBPACK_IMPORTED_MODULE_11__internal_charts_map_MapLineSeries__["b"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MapLineSeries", function() { return __WEBPACK_IMPORTED_MODULE_11__internal_charts_map_MapLineSeries__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__internal_charts_map_MapSplineSeries__ = __webpack_require__(530);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__internal_charts_map_MapSplineSeries__ = __webpack_require__(531);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MapSplineSeriesDataItem", function() { return __WEBPACK_IMPORTED_MODULE_12__internal_charts_map_MapSplineSeries__["b"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MapSplineSeries", function() { return __WEBPACK_IMPORTED_MODULE_12__internal_charts_map_MapSplineSeries__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__internal_charts_map_MapImageSeries__ = __webpack_require__(531);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__internal_charts_map_MapImageSeries__ = __webpack_require__(532);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MapImageSeriesDataItem", function() { return __WEBPACK_IMPORTED_MODULE_13__internal_charts_map_MapImageSeries__["b"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MapImageSeries", function() { return __WEBPACK_IMPORTED_MODULE_13__internal_charts_map_MapImageSeries__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__internal_charts_map_MapArcSeries__ = __webpack_require__(532);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__internal_charts_map_MapArcSeries__ = __webpack_require__(533);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MapArcSeriesDataItem", function() { return __WEBPACK_IMPORTED_MODULE_14__internal_charts_map_MapArcSeries__["b"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "MapArcSeries", function() { return __WEBPACK_IMPORTED_MODULE_14__internal_charts_map_MapArcSeries__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__internal_charts_map_MapUtils__ = __webpack_require__(140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__internal_charts_map_MapUtils__ = __webpack_require__(141);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "multiPolygonToGeo", function() { return __WEBPACK_IMPORTED_MODULE_15__internal_charts_map_MapUtils__["c"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "multiLineToGeo", function() { return __WEBPACK_IMPORTED_MODULE_15__internal_charts_map_MapUtils__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "multiPointToGeo", function() { return __WEBPACK_IMPORTED_MODULE_15__internal_charts_map_MapUtils__["b"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "pointToGeo", function() { return __WEBPACK_IMPORTED_MODULE_15__internal_charts_map_MapUtils__["d"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__internal_charts_map_ZoomControl__ = __webpack_require__(294);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__internal_charts_map_ZoomControl__ = __webpack_require__(295);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ZoomControl", function() { return __WEBPACK_IMPORTED_MODULE_16__internal_charts_map_ZoomControl__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__internal_charts_map_SmallMap__ = __webpack_require__(199);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__internal_charts_map_SmallMap__ = __webpack_require__(201);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "SmallMap", function() { return __WEBPACK_IMPORTED_MODULE_17__internal_charts_map_SmallMap__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__internal_charts_map_projections_Projection__ = __webpack_require__(76);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Projection", function() { return __WEBPACK_IMPORTED_MODULE_18__internal_charts_map_projections_Projection__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__internal_charts_map_projections__ = __webpack_require__(533);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__internal_charts_map_projections__ = __webpack_require__(534);
 /* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "projections", function() { return __WEBPACK_IMPORTED_MODULE_19__internal_charts_map_projections__; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__internal_charts_map_Geo__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__internal_charts_map_Geo__ = __webpack_require__(139);
 /* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "geo", function() { return __WEBPACK_IMPORTED_MODULE_20__internal_charts_map_Geo__; });
 /**
  * Duplicated
@@ -2550,19 +2550,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 527:
+/***/ 528:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return MapChartDataItem; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapChart; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__SerialChart__ = __webpack_require__(108);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__map_MapSeries__ = __webpack_require__(105);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__map_MapImage__ = __webpack_require__(193);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__map_MapPolygon__ = __webpack_require__(194);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__SerialChart__ = __webpack_require__(109);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__map_MapSeries__ = __webpack_require__(106);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__map_MapImage__ = __webpack_require__(195);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__map_MapPolygon__ = __webpack_require__(196);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__map_projections_Projection__ = __webpack_require__(76);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__map_SmallMap__ = __webpack_require__(199);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__core_utils_Keyboard__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__map_SmallMap__ = __webpack_require__(201);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__core_utils_Keyboard__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__core_interaction_Interaction__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__core_Registry__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__core_utils_Math__ = __webpack_require__(3);
@@ -2570,7 +2570,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__core_utils_Ease__ = __webpack_require__(39);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__core_utils_Iterator__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__core_utils_Type__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__map_Geo__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__map_Geo__ = __webpack_require__(139);
 /**
  * Map module.
  */
@@ -2730,7 +2730,7 @@ var MapChart = /** @class */ (function (_super) {
         _this.background.fillOpacity = 0;
         _this.background.readerTitle = _this.language.translate("Use plus and minus keys on your keyboard to zoom in and out");
         // Add keyboard events for panning
-        __WEBPACK_IMPORTED_MODULE_7__core_interaction_Interaction__["b" /* interaction */].body.events.on("keyup", function (ev) {
+        Object(__WEBPACK_IMPORTED_MODULE_7__core_interaction_Interaction__["b" /* getInteraction */])().body.events.on("keyup", function (ev) {
             if (_this.topParent.hasFocused && (!_this._zoomControl || !_this._zoomControl.thumb.isFocused)) {
                 switch (__WEBPACK_IMPORTED_MODULE_6__core_utils_Keyboard__["b" /* keyboard */].getEventKey(ev.event)) {
                     case "up":
@@ -2760,7 +2760,9 @@ var MapChart = /** @class */ (function (_super) {
         _super.prototype.applyInternalDefaults.call(this);
         // Add a default screen reader title for accessibility
         // This will be overridden in screen reader if there are any `titles` set
-        this.readerTitle = this.language.translate("Map");
+        if (!__WEBPACK_IMPORTED_MODULE_13__core_utils_Type__["hasValue"](this.readerTitle)) {
+            this.readerTitle = this.language.translate("Map");
+        }
     };
     /**
      * Handles event when a pointer presses down on the map, e.g. user presses
@@ -2817,10 +2819,10 @@ var MapChart = /** @class */ (function (_super) {
          * * Orthographic
          *
          * ```TypeScript
-         * map.projection = new maps.projections.Mercator();
+         * map.projection = new am4maps.projections.Mercator();
          * ```
          * ```JavaScript
-         * map.projection = new amcharts4.maps.projections.Mercator();
+         * map.projection = new am4maps.projections.Mercator();
          * ```
          * ```JSON
          * {
@@ -3198,11 +3200,11 @@ var MapChart = /** @class */ (function (_super) {
          *
          * ```TypeScript
          * // Create a small map
-         * map.smallMap = new map.SmallMap();
+         * map.smallMap = new am4maps.SmallMap();
          * ```
          * ```JavaScript
          * // Create a small map
-         * map.smallMap = new amcharts4.map.SmallMap();
+         * map.smallMap = new am4maps.SmallMap();
          * ```
          * ```JSON
          * {
@@ -3240,11 +3242,11 @@ var MapChart = /** @class */ (function (_super) {
          *
          * ```TypeScript
          * // Create a zoom control
-         * map.zoomControl = new maps.ZoomControl();
+         * map.zoomControl = new am4maps.ZoomControl();
          * ```
          * ```JavaScript
          * // Create a zoom control
-         * map.zoomControl = new amcharts4.maps.ZoomControl();
+         * map.zoomControl = new am4maps.ZoomControl();
          * ```
          * ```JSON
          * {
@@ -3395,12 +3397,12 @@ var MapChart = /** @class */ (function (_super) {
  *
  * @ignore
  */
-__WEBPACK_IMPORTED_MODULE_8__core_Registry__["a" /* registry */].registeredClasses["MapChart"] = MapChart;
+__WEBPACK_IMPORTED_MODULE_8__core_Registry__["b" /* registry */].registeredClasses["MapChart"] = MapChart;
 //# sourceMappingURL=MapChart.js.map
 
 /***/ }),
 
-/***/ 528:
+/***/ 529:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3522,22 +3524,22 @@ var MapLineObject = /** @class */ (function (_super) {
  *
  * @ignore
  */
-__WEBPACK_IMPORTED_MODULE_1__core_Registry__["a" /* registry */].registeredClasses["MapLineObject"] = MapLineObject;
+__WEBPACK_IMPORTED_MODULE_1__core_Registry__["b" /* registry */].registeredClasses["MapLineObject"] = MapLineObject;
 //# sourceMappingURL=MapLineObject.js.map
 
 /***/ }),
 
-/***/ 529:
+/***/ 530:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return MapPolygonSeriesDataItem; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapPolygonSeries; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MapSeries__ = __webpack_require__(105);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__MapPolygon__ = __webpack_require__(194);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MapSeries__ = __webpack_require__(106);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__MapPolygon__ = __webpack_require__(196);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_utils_List__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core_Registry__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__MapUtils__ = __webpack_require__(140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__MapUtils__ = __webpack_require__(141);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__core_utils_Array__ = __webpack_require__(15);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__core_utils_Utils__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__core_utils_Iterator__ = __webpack_require__(4);
@@ -3977,20 +3979,20 @@ var MapPolygonSeries = /** @class */ (function (_super) {
  *
  * @ignore
  */
-__WEBPACK_IMPORTED_MODULE_3__core_Registry__["a" /* registry */].registeredClasses["MapPolygonSeries"] = MapPolygonSeries;
-__WEBPACK_IMPORTED_MODULE_3__core_Registry__["a" /* registry */].registeredClasses["MapPolygonSeriesDataItem"] = MapPolygonSeriesDataItem;
+__WEBPACK_IMPORTED_MODULE_3__core_Registry__["b" /* registry */].registeredClasses["MapPolygonSeries"] = MapPolygonSeries;
+__WEBPACK_IMPORTED_MODULE_3__core_Registry__["b" /* registry */].registeredClasses["MapPolygonSeriesDataItem"] = MapPolygonSeriesDataItem;
 //# sourceMappingURL=MapPolygonSeries.js.map
 
 /***/ }),
 
-/***/ 530:
+/***/ 531:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return MapSplineSeriesDataItem; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapSplineSeries; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MapLineSeries__ = __webpack_require__(195);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__MapSpline__ = __webpack_require__(292);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MapLineSeries__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__MapSpline__ = __webpack_require__(293);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_Registry__ = __webpack_require__(1);
 /**
  * Map spline series module
@@ -4104,24 +4106,24 @@ var MapSplineSeries = /** @class */ (function (_super) {
  *
  * @ignore
  */
-__WEBPACK_IMPORTED_MODULE_2__core_Registry__["a" /* registry */].registeredClasses["MapSplineSeries"] = MapSplineSeries;
-__WEBPACK_IMPORTED_MODULE_2__core_Registry__["a" /* registry */].registeredClasses["MapSplineSeriesDataItem"] = MapSplineSeriesDataItem;
+__WEBPACK_IMPORTED_MODULE_2__core_Registry__["b" /* registry */].registeredClasses["MapSplineSeries"] = MapSplineSeries;
+__WEBPACK_IMPORTED_MODULE_2__core_Registry__["b" /* registry */].registeredClasses["MapSplineSeriesDataItem"] = MapSplineSeriesDataItem;
 //# sourceMappingURL=MapSplineSeries.js.map
 
 /***/ }),
 
-/***/ 531:
+/***/ 532:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return MapImageSeriesDataItem; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapImageSeries; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MapSeries__ = __webpack_require__(105);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__MapImage__ = __webpack_require__(193);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MapSeries__ = __webpack_require__(106);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__MapImage__ = __webpack_require__(195);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_utils_List__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core_Registry__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__core_utils_Array__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__MapUtils__ = __webpack_require__(140);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__MapUtils__ = __webpack_require__(141);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__core_utils_Utils__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__core_utils_Iterator__ = __webpack_require__(4);
 /**
@@ -4407,20 +4409,20 @@ var MapImageSeries = /** @class */ (function (_super) {
  *
  * @ignore
  */
-__WEBPACK_IMPORTED_MODULE_3__core_Registry__["a" /* registry */].registeredClasses["MapImageSeries"] = MapImageSeries;
-__WEBPACK_IMPORTED_MODULE_3__core_Registry__["a" /* registry */].registeredClasses["MapImageSeriesDataItem"] = MapImageSeriesDataItem;
+__WEBPACK_IMPORTED_MODULE_3__core_Registry__["b" /* registry */].registeredClasses["MapImageSeries"] = MapImageSeries;
+__WEBPACK_IMPORTED_MODULE_3__core_Registry__["b" /* registry */].registeredClasses["MapImageSeriesDataItem"] = MapImageSeriesDataItem;
 //# sourceMappingURL=MapImageSeries.js.map
 
 /***/ }),
 
-/***/ 532:
+/***/ 533:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return MapArcSeriesDataItem; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MapArcSeries; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MapLineSeries__ = __webpack_require__(195);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__MapArc__ = __webpack_require__(293);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__MapLineSeries__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__MapArc__ = __webpack_require__(294);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_Registry__ = __webpack_require__(1);
 /**
  * Map arc series module.
@@ -4535,24 +4537,24 @@ var MapArcSeries = /** @class */ (function (_super) {
  *
  * @ignore
  */
-__WEBPACK_IMPORTED_MODULE_2__core_Registry__["a" /* registry */].registeredClasses["MapArcSeries"] = MapArcSeries;
-__WEBPACK_IMPORTED_MODULE_2__core_Registry__["a" /* registry */].registeredClasses["MapArcSeriesDataItem"] = MapArcSeriesDataItem;
+__WEBPACK_IMPORTED_MODULE_2__core_Registry__["b" /* registry */].registeredClasses["MapArcSeries"] = MapArcSeries;
+__WEBPACK_IMPORTED_MODULE_2__core_Registry__["b" /* registry */].registeredClasses["MapArcSeriesDataItem"] = MapArcSeriesDataItem;
 //# sourceMappingURL=MapArcSeries.js.map
 
 /***/ }),
 
-/***/ 533:
+/***/ 534:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__projections_Mercator__ = __webpack_require__(534);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__projections_Mercator__ = __webpack_require__(535);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Mercator", function() { return __WEBPACK_IMPORTED_MODULE_0__projections_Mercator__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__projections_Miller__ = __webpack_require__(535);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__projections_Miller__ = __webpack_require__(536);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Miller", function() { return __WEBPACK_IMPORTED_MODULE_1__projections_Miller__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__projections_Eckert6__ = __webpack_require__(536);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__projections_Eckert6__ = __webpack_require__(537);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Eckert6", function() { return __WEBPACK_IMPORTED_MODULE_2__projections_Eckert6__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__projections_Orthographic__ = __webpack_require__(537);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__projections_Orthographic__ = __webpack_require__(538);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Orthographic", function() { return __WEBPACK_IMPORTED_MODULE_3__projections_Orthographic__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__projections_Projection__ = __webpack_require__(76);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Projection", function() { return __WEBPACK_IMPORTED_MODULE_4__projections_Projection__["a"]; });
@@ -4565,7 +4567,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 534:
+/***/ 535:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4667,12 +4669,12 @@ var Mercator = /** @class */ (function (_super) {
  *
  * @ignore
  */
-__WEBPACK_IMPORTED_MODULE_1__core_Registry__["a" /* registry */].registeredClasses["Mercator"] = Mercator;
+__WEBPACK_IMPORTED_MODULE_1__core_Registry__["b" /* registry */].registeredClasses["Mercator"] = Mercator;
 //# sourceMappingURL=Mercator.js.map
 
 /***/ }),
 
-/***/ 535:
+/***/ 536:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4775,12 +4777,12 @@ var Miller = /** @class */ (function (_super) {
  *
  * @ignore
  */
-__WEBPACK_IMPORTED_MODULE_1__core_Registry__["a" /* registry */].registeredClasses["Miller"] = Miller;
+__WEBPACK_IMPORTED_MODULE_1__core_Registry__["b" /* registry */].registeredClasses["Miller"] = Miller;
 //# sourceMappingURL=Miller.js.map
 
 /***/ }),
 
-/***/ 536:
+/***/ 537:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4889,12 +4891,12 @@ var Eckert6 = /** @class */ (function (_super) {
  *
  * @ignore
  */
-__WEBPACK_IMPORTED_MODULE_1__core_Registry__["a" /* registry */].registeredClasses["Eckert6"] = Eckert6;
+__WEBPACK_IMPORTED_MODULE_1__core_Registry__["b" /* registry */].registeredClasses["Eckert6"] = Eckert6;
 //# sourceMappingURL=Eckert6.js.map
 
 /***/ }),
 
-/***/ 537:
+/***/ 538:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5120,7 +5122,7 @@ var Orthographic = /** @class */ (function (_super) {
  *
  * @ignore
  */
-__WEBPACK_IMPORTED_MODULE_1__core_Registry__["a" /* registry */].registeredClasses["Orthographic"] = Orthographic;
+__WEBPACK_IMPORTED_MODULE_1__core_Registry__["b" /* registry */].registeredClasses["Orthographic"] = Orthographic;
 //# sourceMappingURL=Orthographic.js.map
 
 /***/ }),
@@ -5132,7 +5134,7 @@ __WEBPACK_IMPORTED_MODULE_1__core_Registry__["a" /* registry */].registeredClass
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Projection; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_Registry__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils_Math__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Geo__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Geo__ = __webpack_require__(139);
 /**
  * This module contains funcitonality related to geographical projections
  */
@@ -5558,9 +5560,9 @@ var Projection = /** @class */ (function () {
  *
  * @ignore
  */
-__WEBPACK_IMPORTED_MODULE_0__core_Registry__["a" /* registry */].registeredClasses["Projection"] = Projection;
+__WEBPACK_IMPORTED_MODULE_0__core_Registry__["b" /* registry */].registeredClasses["Projection"] = Projection;
 //# sourceMappingURL=Projection.js.map
 
 /***/ })
 
-},[524]);
+},[525]);

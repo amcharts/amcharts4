@@ -67,11 +67,11 @@ export interface IResponsiveEvents extends IBaseObjectEvents {
      * Invoked when a list of applicable rules for the current resolution
      * changes.
      */
-    "ruleschanged": {};
+    ruleschanged: {};
     /**
      * Invoked after each rule is applied to the actual element.
      */
-    "appliedrule": {
+    ruleapplied: {
         /**
          * A rule that was just applied.
          *

@@ -23,6 +23,7 @@ import { Dictionary } from "../utils/Dictionary";
 import { InertiaTypes } from "./Inertia";
 import { IPointer, IBreadcrumb } from "./Pointer";
 import { IPoint } from "../defs/IPoint";
+import { IStyleProperty } from "../defs/IStyleProperty";
 /**
  * ============================================================================
  * REQUISITES
@@ -771,7 +772,7 @@ export declare class Interaction extends BaseObjectEvents {
      * @param  {string}             option  Option key
      * @return {any}                        Option value
      */
-    getHitOption(io: InteractionObject, option: string): any;
+    getHitOption(io: InteractionObject, option: keyof IHitOptions): any;
     /**
      * Returns an option associated with swipe events.
      *
@@ -780,7 +781,7 @@ export declare class Interaction extends BaseObjectEvents {
      * @param  {string}             option  Option key
      * @return {any}                        Option value
      */
-    getSwipeOption(io: InteractionObject, option: string): any;
+    getSwipeOption(io: InteractionObject, option: keyof ISwipeOptions): any;
     /**
      * Returns an option for keyboard.
      *
@@ -789,7 +790,7 @@ export declare class Interaction extends BaseObjectEvents {
      * @param  {string}             option  Option key
      * @return {any}                        Option value
      */
-    getKeyboardOption(io: InteractionObject, option: string): any;
+    getKeyboardOption(io: InteractionObject, option: keyof IKeyboardOptions): any;
     /**
      * Returns an option associated with inertia.
      *
@@ -799,7 +800,7 @@ export declare class Interaction extends BaseObjectEvents {
      * @param  {string}             option  Option key
      * @return {any}                        Option value
      */
-    getInertiaOption(io: InteractionObject, type: InertiaTypes, option: string): any;
+    getInertiaOption(io: InteractionObject, type: InertiaTypes, option: keyof IInertiaOptions): any;
     /**
      * Stops currently going on inertia. Useful if inertia is currently being
      * animated and the object is being interacted with.
@@ -848,6 +849,20 @@ export declare class Interaction extends BaseObjectEvents {
      * @param {IPointer}           pointer  Pointer
      */
     restoreCursorDownStyle(io: InteractionObject, pointer: IPointer): void;
+    /**
+     * Sets style on the body of the document.
+     *
+     * @ignore Exclude from docs
+     * @param {Array<IStyleProperty> | IStyleProperty}  style  Style definitions
+     */
+    setGlobalStyle(style: Array<IStyleProperty> | IStyleProperty): void;
+    /**
+     * Restores style on the body of the document.
+     *
+     * @ignore Exclude from docs
+     * @param {Array<IStyleProperty> | IStyleProperty}  style  Style definitions
+     */
+    restoreGlobalStyle(style: Array<IStyleProperty> | IStyleProperty): void;
     /**
      * Checks if pointer has moved since it was created.
      *
@@ -911,9 +926,9 @@ export declare class Interaction extends BaseObjectEvents {
     dispose(): void;
 }
 /**
- * A single unified global instance of [[Interaction]].
+ * Returns a single unified global instance of [[Interaction]].
  *
- * All code should use this variable, rather than create their own instances
+ * All code should use this function, rather than create their own instances
  * of [[Interaction]].
  */
-export declare let interaction: Interaction;
+export declare function getInteraction(): Interaction;

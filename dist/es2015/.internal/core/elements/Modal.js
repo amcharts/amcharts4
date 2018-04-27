@@ -20,7 +20,7 @@ var __extends = (this && this.__extends) || (function () {
 import modalCSS from "./ModalCSS";
 import { Adapter } from "../utils/Adapter";
 import { BaseObject } from "../Base";
-import { interaction } from "../interaction/Interaction";
+import { getInteraction } from "../interaction/Interaction";
 import { keyboard } from "../utils/Keyboard";
 import { MultiDisposer } from "../utils/Disposer";
 /**
@@ -127,7 +127,7 @@ var Modal = /** @class */ (function (_super) {
                 wrapper.appendChild(curtain);
                 // Create an InteractionObject for curtain because we might need to
                 // set interactions on it
-                this._curtainIO = interaction.getInteraction(curtain);
+                this._curtainIO = getInteraction().getInteraction(curtain);
                 // Create content element
                 var contentWrapper = document.createElement("div");
                 contentWrapper.className = classNames.contentClass;
@@ -140,7 +140,7 @@ var Modal = /** @class */ (function (_super) {
                 // Append close to content wrapper
                 contentWrapper.appendChild(close_1);
                 // Create an InteractionObject for close
-                this._closeIO = interaction.getInteraction(close_1);
+                this._closeIO = getInteraction().getInteraction(close_1);
                 // Hide close for now
                 close_1.style.visibility = "hidden";
                 // Add accessible stuff
@@ -296,7 +296,7 @@ var Modal = /** @class */ (function (_super) {
             if (this.closable) {
                 this._closeIO.element.style.visibility = "visible";
                 this._disposers.push(new MultiDisposer([
-                    interaction.body.events.on("keyup", function (ev) {
+                    getInteraction().body.events.on("keyup", function (ev) {
                         if (keyboard.isKey(ev.event, "esc") && _this.closable) {
                             _this.hide();
                         }

@@ -22,6 +22,7 @@ import { Adapter } from "./utils/Adapter";
 import { ListTemplate, ListDisposer } from "./utils/List";
 import { Filter } from "./rendering/filters/Filter";
 import { toColor } from "./utils/Color";
+import { percent } from "./utils/Percent";
 import * as $utils from "./utils/Utils";
 import * as $ease from "./utils/Ease";
 import * as $object from "./utils/Object";
@@ -254,7 +255,7 @@ var SpriteState = /** @class */ (function (_super) {
             $object.each(config["properties"], function (key, value) {
                 if ($type.isString(value)) {
                     if (value.match(/^[0-9.\-]+\%$/)) {
-                        config["properties"][key] = $type.percent($type.toNumber(value));
+                        config["properties"][key] = percent($type.toNumber(value));
                     }
                     else if (value.match(/^\#[0-9abcdef]{3,}$/i)) {
                         config["properties"][key] = toColor(value);

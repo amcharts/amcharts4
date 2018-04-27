@@ -57,13 +57,13 @@ export declare class GlobalAdapter {
  * Global adapter is a system-wide instance, accessible via `globalAdapter`.
  *
  * ```TypeScript
- * amcharts4.globalAdapter.addAll<charts.IPieSeriesAdapters, charts.PieSeries, "fill">(charts.PieSeries. "fill", (value, target) => {
- *   return amcharts4.color("#005500");
+ * am4core.globalAdapter.addAll<am4charts.IPieSeriesAdapters, am4charts.PieSeries, "fill">(am4charts.PieSeries. "fill", (value, target) => {
+ *   return am4core.color("#005500");
  * });
  * ```
  * ```JavaScript
- * amcharts4.globalAdapter.addAll(amcharts4.charts.PieSeries. "fill", (value, target) => {
- *   return amcharts4.color("#005500");
+ * am4core.globalAdapter.addAll(am4charts.PieSeries. "fill", (value, target) => {
+ *   return am4core.color("#005500");
  * });
  * ```
  *
@@ -100,13 +100,13 @@ export declare let globalAdapter: GlobalAdapter;
  * Global adapter is a system-wide instance, accessible via `globalAdapter`.
  *
  * ```TypeScript
- * amcharts4.globalAdapter.addAll<charts.IPieSeriesAdapters, charts.PieSeries, "fill">(charts.PieSeries. "fill", (value, target) => {
- *   return amcharts4.color("#005500");
+ * am4core.globalAdapter.addAll<am4charts.IPieSeriesAdapters, am4charts.PieSeries, "fill">(am4charts.PieSeries. "fill", (value, target) => {
+ *   return am4core.color("#005500");
  * });
  * ```
  * ```JavaScript
- * amcharts4.globalAdapter.addAll(amcharts4.charts.PieSeries. "fill", (value, target) => {
- *   return amcharts4.color("#005500");
+ * am4core.globalAdapter.addAll(am4charts.PieSeries. "fill", (value, target) => {
+ *   return am4core.color("#005500");
  * });
  * ```
  *
@@ -153,13 +153,13 @@ export declare class Adapter<Target, T> {
      * ```TypeScript
      * // Override fill color value and make all slices green
      * chart.series.template.adapter.add("fill", (value, target) => {
-     *   return amcharts4.color("#005500");
+     *   return am4core.color("#005500");
      * });
      * ```
      * ```JavaScript
      * // Override fill color value and make all slices green
      * chart.series.template.adapter.add("fill", function(value, target) {
-     *   return amcharts4.color("#005500");
+     *   return am4core.color("#005500");
      * });
      * ```
      * ```JSON
@@ -170,7 +170,7 @@ export declare class Adapter<Target, T> {
      *     "adapter": {
      *     	// Override fill color value and make all slices green
      *     	"fill": function(value, target) {
-     *     	  return amcharts4.color("#005500");
+     *     	  return am4core.color("#005500");
      *     	}
      *     }
      *   }]

@@ -18,7 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Container } from "../../core/Container";
-import { interaction } from "../../core/interaction/Interaction";
+import { getInteraction } from "../../core/interaction/Interaction";
 import { registry } from "../../core/Registry";
 import { percent } from "../../core/utils/Percent";
 import * as $math from "../../core/utils/Math";
@@ -67,8 +67,9 @@ var Cursor = /** @class */ (function (_super) {
         _this.clickable = true;
         _this.isMeasured = false;
         _this.mouseEnabled = false;
-        // Add events on body to trigger down and up events (to start zooming or 
+        // Add events on body to trigger down and up events (to start zooming or
         // selection)
+        var interaction = getInteraction();
         interaction.body.events.on("down", _this.handleCursorDown, _this);
         interaction.body.events.on("up", _this.handleCursorUp, _this);
         interaction.body.events.on("track", _this.handleCursorMove, _this);

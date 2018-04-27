@@ -21,6 +21,7 @@ var __extends = (this && this.__extends) || (function () {
 import { Column } from "./Column";
 import { Slice } from "../../core/elements/Slice";
 import { registry } from "../../core/Registry";
+import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -57,6 +58,30 @@ var RadarColumn = /** @class */ (function (_super) {
         if (this.radarColumn) {
             this.radarColumn.copyFrom(source.radarColumn);
         }
+    };
+    /**
+     * X coordinate for the slice tooltip.
+     *
+     * @return {number} X
+     */
+    RadarColumn.prototype.getTooltipX = function () {
+        var value = this.getPropertyValue("tooltipX");
+        if (!$type.isNumber(value)) {
+            value = this.radarColumn.tooltipX;
+        }
+        return value;
+    };
+    /**
+     * Y coordinate for the slice tooltip.
+     *
+     * @return {number} Y
+     */
+    RadarColumn.prototype.getTooltipY = function () {
+        var value = this.getPropertyValue("tooltipX");
+        if (!$type.isNumber(value)) {
+            value = this.radarColumn.tooltipY;
+        }
+        return value;
     };
     return RadarColumn;
 }(Column));

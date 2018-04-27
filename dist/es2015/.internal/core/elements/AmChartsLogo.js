@@ -92,9 +92,9 @@ var AmChartsLogo = /** @class */ (function (_super) {
         var hoverState = _this.states.create("hover");
         hoverState.properties.opacity = 1;
         hoverState.filters.push(desaturateFilterHover);
-        // temp
-        _this.scale = 0.001;
         return _this;
+        // temp
+        //this.scale = 0.001;
     }
     return AmChartsLogo;
 }(Container));

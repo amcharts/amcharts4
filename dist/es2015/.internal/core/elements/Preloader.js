@@ -23,7 +23,7 @@ import { Container } from "../Container";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import { Slice } from "./Slice";
 import { Label } from "./Label";
-import { system } from "../System";
+import { registry } from "../Registry";
 import { percent } from "../../core/utils/Percent";
 /**
  * ============================================================================
@@ -141,7 +141,7 @@ var Preloader = /** @class */ (function (_super) {
                     this._started = undefined;
                 }
                 // TODO remove closure ?
-                system.events.once("enterframe", function () {
+                registry.events.once("enterframe", function () {
                     _this.hide();
                 });
                 this.mouseEnabled = false;

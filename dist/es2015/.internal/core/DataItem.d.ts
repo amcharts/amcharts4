@@ -528,9 +528,9 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * one value to another.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Animation, IAnimationEvents>["animationstart" | "animationend" | "animationprogress"]} event Event object
+     * @param {AMEvent<Animation, IAnimationEvents>["animationstarted" | "animationended" | "animationprogress"]} event Event object
      */
-    handleInterpolationProgress(event: AMEvent<Animation, IAnimationEvents>["animationstart" | "animationend" | "animationprogress"]): void;
+    handleInterpolationProgress(event: AMEvent<Animation, IAnimationEvents>["animationstarted" | "animationended" | "animationprogress"]): void;
     /**
      * Checks whether Data Item has values set for all of the data fields,
      * supplied via argument.

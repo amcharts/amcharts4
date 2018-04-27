@@ -1,17 +1,8 @@
 /**
  * A collection of functions that deals with path calculations.
  */
-/**
- * ============================================================================
- * IMPORTS
- * ============================================================================
- * @hidden
- */
-import { registry } from "../Registry";
 import * as $math from "../utils/Math";
-import * as $utils from "../utils/Utils";
 import * as $type from "../utils/Type";
-import * as $smoothing from "./Smoothing";
 /**
  * ============================================================================
  * PATH FUNCTIONS
@@ -31,63 +22,6 @@ export function polyline(points) {
         path += lineTo(points[i]);
     }
     return path;
-}
-/**
- * Returns a waved line SVG path between two points.
- *
- * @ignore Exclude from docs
- * @param  {IPoint}   point1            Starting point
- * @param  {IPoint}   point2            Ending point
- * @param  {number}   waveLength        Wave length
- * @param  {number}   waveHeight        Wave height
- * @param  {boolean}  adjustWaveLength  Adjust wave length based on the actual line length
- * @return {string}                     SVG path
- */
-export function wavedLine(point1, point2, waveLength, waveHeight, tension, adjustWaveLength) {
-    var x1 = point1.x;
-    var y1 = point1.y;
-    var x2 = point2.x;
-    var y2 = point2.y;
-    var distance = $math.getDistance(point1, point2);
-    if (adjustWaveLength) {
-        waveLength = distance / Math.round(distance / waveLength);
-    }
-    var d = registry.getCache($utils.stringify(["wavedLine", point1.x, point2.x, point1.y, point2.y, waveLength, waveHeight]));
-    if (!d) {
-        if (distance > 0) {
-            var angle = Math.atan2(y2 - y1, x2 - x1);
-            var cos = Math.cos(angle);
-            var sin = Math.sin(angle);
-            var waveLengthX = waveLength * cos;
-            var waveLengthY = waveLength * sin;
-            if (waveLength <= 1 || waveHeight <= 1) {
-                d = lineTo(point2);
-            }
-            else {
-                var halfWaveCount = Math.round(2 * distance / waveLength);
-                var points = [];
-                var sign = 1;
-                if (x2 < x1) {
-                    sign *= -1;
-                }
-                if (y2 < y1) {
-                    sign *= -1;
-                }
-                for (var i = 0; i <= halfWaveCount; i++) {
-                    sign *= -1;
-                    var x = x1 + i * waveLengthX / 2 + sign * waveHeight / 2 * sin;
-                    var y = y1 + i * waveLengthY / 2 - sign * waveHeight / 2 * cos;
-                    points.push({ x: x, y: y });
-                }
-                d = new $smoothing.Tension(tension, tension).smooth(points);
-            }
-        }
-        else {
-            d = "";
-        }
-        registry.setCache($utils.stringify(["wavedLine", point1.x, point2.x, point1.y, point2.y, waveLength, waveHeight]), d);
-    }
-    return d;
 }
 /**
  * Returns a starting point of an SVG path.
@@ -204,6 +138,12 @@ export function arcTo(startAngle, arc, radius, radiusY) {
 export function arc(startAngle, arc, radius, innerRadius, radiusY, cornerRadius, innerCornerRadius) {
     if (arc == 0 || radius <= 0) {
         return "";
+    }
+    if (radius < innerRadius) {
+        var temp = radius;
+        radius = innerRadius;
+        innerRadius = temp;
+        radiusY = radiusY / innerRadius * radius;
     }
     arc = $math.min(arc, 360);
     if (arc == 360) {

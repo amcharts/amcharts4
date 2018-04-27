@@ -27,7 +27,7 @@ import { Container } from "../../core/Container";
 import { Tooltip } from "../../core/elements/Tooltip";
 import { Bullet } from "../elements/Bullet";
 import { LegendSettings } from "../Legend";
-import { system } from "../../core/System";
+import { options } from "../../core/Options";
 import { registry } from "../../core/Registry";
 import { Color } from "../../core/utils/Color";
 import * as $iter from "../../core/utils/Iterator";
@@ -205,7 +205,7 @@ var Series = /** @class */ (function (_super) {
         _this.dataItem.component = _this;
         // Apply accessibility
         _this.role = "group";
-        _this.events.once("prevalidate", _this.appear, _this);
+        _this.events.once("beforevalidated", _this.appear, _this);
         _this.hiddenState.properties.opacity = 1; // because we hide by changing values
         _this.applyTheme();
         return _this;
@@ -216,7 +216,9 @@ var Series = /** @class */ (function (_super) {
      */
     Series.prototype.applyInternalDefaults = function () {
         _super.prototype.applyInternalDefaults.call(this);
-        this.readerTitle = this.language.translate("Series");
+        if (!$type.hasValue(this.readerTitle)) {
+            this.readerTitle = this.language.translate("Series");
+        }
     };
     /**
      * Returns a new/empty DataItem of the type appropriate for this object.
@@ -256,7 +258,7 @@ var Series = /** @class */ (function (_super) {
         this.hide(0);
         var animation = this.show();
         if (animation) {
-            animation.events.once("animationend", function () {
+            animation.events.once("animationended", function () {
                 _this.appeared = true;
             });
         }
@@ -888,7 +890,7 @@ var Series = /** @class */ (function (_super) {
         this._chart.modal.closable = false;
         this._chart.modal.show();
         this._chart.disabled = true;
-        if (system.verbose) {
+        if (options.verbose) {
             console.log(e);
         }
     };
@@ -1021,7 +1023,7 @@ var Series = /** @class */ (function (_super) {
 }(Component));
 export { Series };
 /**
- * Register class in system, so that it can be instantiated using its name from
+ * Register class, so that it can be instantiated using its name from
  * anywhere.
  *
  * @ignore

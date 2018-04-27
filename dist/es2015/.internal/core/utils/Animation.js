@@ -150,7 +150,7 @@ var Animation = /** @class */ (function (_super) {
         //this.stopSameAnimations();
         /*if ($type.hasValue(callback)) {
             // TODO don't use .call
-            this.events.on("animationend", callback, object);
+            this.events.on("animationended", callback, object);
         }*/
         // Apply theme
         _this.applyTheme();
@@ -280,9 +280,9 @@ var Animation = /** @class */ (function (_super) {
         // Apply static options (just in case they were reset by previous
         // animation loop)
         this.applyStaticOptions();
-        if (this.events.isEnabled("animationstart")) {
-            this.events.dispatchImmediately("animationstart", {
-                type: "animationstart",
+        if (this.events.isEnabled("animationstarted")) {
+            this.events.dispatchImmediately("animationstarted", {
+                type: "animationstarted",
                 target: this,
                 progress: this.progress
             });
@@ -339,9 +339,9 @@ var Animation = /** @class */ (function (_super) {
         this.setProgress(1);
         // Apply static options
         this.applyStaticOptions();
-        if (this.events.isEnabled("animationend")) {
-            this.events.dispatchImmediately("animationend", {
-                type: "animationend",
+        if (this.events.isEnabled("animationended")) {
+            this.events.dispatchImmediately("animationended", {
+                type: "animationended",
                 target: this,
                 progress: this.progress
             });
@@ -376,7 +376,7 @@ var Animation = /** @class */ (function (_super) {
      * When animation is stopped, the properties of the target object will remain
      * where they were at the moment when `stop()` was called.
      *
-     * @param  {boolean}    skipEvent  Do not trigger `animationstop` event
+     * @param  {boolean}    skipEvent  Do not trigger `animationstopped` event
      * @return {Animation}             Animation
      */
     Animation.prototype.stop = function (skipEvent) {
@@ -384,9 +384,9 @@ var Animation = /** @class */ (function (_super) {
         this.dispose();
         $array.remove(this.object.animations, this);
         if (!skipEvent) {
-            if (this.events.isEnabled("animationstop")) {
-                this.events.dispatchImmediately("animationstop", {
-                    type: "animationstop",
+            if (this.events.isEnabled("animationstopped")) {
+                this.events.dispatchImmediately("animationstopped", {
+                    type: "animationstopped",
                     target: this,
                     progress: this.progress
                 });

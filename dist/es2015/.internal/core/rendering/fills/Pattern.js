@@ -18,6 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { BaseObject } from "../../Base";
+import { getSystem } from "../../System";
 import { List, ListDisposer } from "../../utils/List";
 import { MultiDisposer } from "../../utils/Disposer";
 import { Animation } from "../../utils/Animation";
@@ -412,7 +413,7 @@ var Pattern = /** @class */ (function (_super) {
             if (this._paper) {
                 return this._paper;
             }
-            return registry.ghostPaper;
+            return getSystem().ghostPaper;
         },
         /**
          * [[Paper]] instance to draw pattern in.

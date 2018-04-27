@@ -5,7 +5,7 @@
 /**
  * Elements: core
  */
-export { ISystemEvents, System, system } from "./.internal/core/System";
+export { System, getSystem } from "./.internal/core/System";
 export { BaseObject, IBaseObjectEvents, BaseObjectEvents } from "./.internal/core/Base";
 export { CalculatedValue, IComponentProperties, IComponentDataFields, IComponentEvents, IComponentAdapters, Component } from "./.internal/core/Component";
 export { ContainerLayout, IContainerProperties, IContainerEvents, IContainerAdapters, Container, FontWeight, TextDecoration } from "./.internal/core/Container";
@@ -13,6 +13,8 @@ export { IValues, IDataItemEvents, IDataItemAdapters, DataItem } from "./.intern
 export { ISpriteProperties, ISpriteAnimationOptions, ISpriteAdapters, Sprite } from "./.internal/core/Sprite";
 export { SpriteEventDispatcher, SpritePointEvent, SpriteMouseTouchEvent, SpriteShiftEvent, ISpriteEvents } from "./.internal/core/SpriteEvents";
 export { SpriteState } from "./.internal/core/SpriteState";
+export { registry, Registry, IRegistryEvents } from "./.internal/core/Registry";
+export { options, Options } from "./.internal/core/Options";
 /**
  * Elements: data
  */
@@ -92,12 +94,12 @@ export { IExportMenuItem, IExportMenuEvents, IExportMenuAdapters, ExportMenu } f
 export { DateFormatInfo, DateFormatter } from "./.internal/core/formatters/DateFormatter";
 export { DurationFormatter } from "./.internal/core/formatters/DurationFormatter";
 export { NumberFormatter } from "./.internal/core/formatters/NumberFormatter";
-export { ITextChunk, ITextFormatterAdapters, TextFormatter } from "./.internal/core/formatters/TextFormatter";
+export { ITextChunk, ITextFormatterAdapters, TextFormatter, getTextFormatter } from "./.internal/core/formatters/TextFormatter";
 /**
  * Elements: interaction
  */
 export { InertiaTypes, Inertia } from "./.internal/core/interaction/Inertia";
-export { IInteractionEvents, Interaction, interaction } from "./.internal/core/interaction/Interaction";
+export { IInteractionEvents, Interaction, getInteraction } from "./.internal/core/interaction/Interaction";
 export { InteractionKeyboardObject } from "./.internal/core/interaction/InteractionKeyboardObject";
 export { InteractionObject } from "./.internal/core/interaction/InteractionObject";
 export { PointEvent, PointerEvent, ShiftEvent, AngleEvent, ScaleEvent, CenterEvent, MouseTouchEvent, SimulatedKeyboardEvent, IInteractionObjectEvents, InteractionObjectEventDispatcher } from "./.internal/core/interaction/InteractionObjectEvents";

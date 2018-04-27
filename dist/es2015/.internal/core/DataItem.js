@@ -344,7 +344,7 @@ var DataItem = /** @class */ (function (_super) {
                 }
             });
             if (animation_1) {
-                this._hideDisposer = animation_1.events.on("animationend", function () {
+                this._hideDisposer = animation_1.events.on("animationended", function () {
                     _this.visible = false;
                     _this.isHiding = false;
                 });
@@ -485,9 +485,9 @@ var DataItem = /** @class */ (function (_super) {
             if ((duration > 0) && $type.isNumber(workingValue) && this.component) { // sometimes NaN is passed, so only change this to != null if all cases of NaN are handled, otherwise animation won't stop
                 if (workingValue != value) {
                     var animation = this.animate({ childObject: this.values[name], property: "workingValue", from: workingValue, to: value, dummyData: name }, duration, this.component.interpolationEasing).delay(delay);
-                    animation.events.on("animationstart", this.handleInterpolationProgress, this);
+                    animation.events.on("animationstarted", this.handleInterpolationProgress, this);
                     animation.events.on("animationprogress", this.handleInterpolationProgress, this);
-                    animation.events.on("animationend", this.handleInterpolationProgress, this);
+                    animation.events.on("animationended", this.handleInterpolationProgress, this);
                     this._valueAnimations[name] = animation;
                     return animation;
                 }
@@ -557,9 +557,9 @@ var DataItem = /** @class */ (function (_super) {
             if (workingLocation != value) {
                 var animation = this.animate({ childObject: this.workingLocations, property: name, from: workingLocation, to: value, dummyData: name }, duration, this.component.interpolationEasing);
                 animation.delay(delay);
-                animation.events.on("animationstart", this.handleInterpolationProgress, this);
+                animation.events.on("animationstarted", this.handleInterpolationProgress, this);
                 animation.events.on("animationprogress", this.handleInterpolationProgress, this);
-                animation.events.on("animationend", this.handleInterpolationProgress, this);
+                animation.events.on("animationended", this.handleInterpolationProgress, this);
                 this._locationAnimations[name] = animation;
                 return animation;
             }
@@ -736,7 +736,7 @@ var DataItem = /** @class */ (function (_super) {
      * one value to another.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Animation, IAnimationEvents>["animationstart" | "animationend" | "animationprogress"]} event Event object
+     * @param {AMEvent<Animation, IAnimationEvents>["animationstarted" | "animationended" | "animationprogress"]} event Event object
      */
     DataItem.prototype.handleInterpolationProgress = function (event) {
         var animation = event.target;

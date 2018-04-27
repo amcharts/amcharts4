@@ -18,27 +18,27 @@ export interface IDataSourceEvents extends IBaseObjectEvents {
     /**
      * Invoked when loading of the data starts.
      */
-    start: {};
+    started: {};
     /**
      * Invoked when loading of the data starts.
      */
-    loadstart: {};
+    loadstarted: {};
     /**
      * Invoked when the loading of the data finishes.
      */
-    loadstop: {};
+    loadended: {};
     /**
      * Invoked when parsing of the loaded data starts.
      */
-    parsestart: {};
+    parsestarted: {};
     /**
      * Invoked when parsing of the loaded data finishes.
      */
-    parsestop: {};
+    parseended: {};
     /**
      * Invoked when loading and parsing finishes.
      */
-    stop: {};
+    ended: {};
     /**
      * Invoked when data source was successfully loaded and parsed.
      */
@@ -132,11 +132,11 @@ export interface IDataSourceAdapters {
  *
  * ```TypeScript
  * chart.dataSource.url = "http://www.myweb.com/data.json";
- * chart.dataSource.parser = amcharts4.JSONParser;
+ * chart.dataSource.parser = am4core.JSONParser;
  * ```
  * ```JavaScript
  * chart.dataSource.url = "http://www.myweb.com/data.json";
- * chart.dataSource.parser = amcharts4.JSONParser;
+ * chart.dataSource.parser = am4core.JSONParser;
  * ```
  * ```JSON
  * {
@@ -270,11 +270,11 @@ export declare class DataSource extends BaseObjectEvents {
      *
      * ```TypeScript
      * chart.dataSource.url = "http://www.myweb.com/data.json";
-     * chart.dataSource.parser = amcharts4.JSONParser;
+     * chart.dataSource.parser = am4core.JSONParser;
      * ```
      * ```JavaScript
      * chart.dataSource.url = "http://www.myweb.com/data.json";
-     * chart.dataSource.parser = amcharts4.JSONParser;
+     * chart.dataSource.parser = am4core.JSONParser;
      * ```
      * ```JSON
      * {

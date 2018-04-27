@@ -11,14 +11,14 @@ import * as $type from "./Type";
  * JavaScript users this can also be a string indicating chart type)
  *
  * ```TypeScript
- * let chart = amcharts4.create("chartdiv", charts.PieChart);
+ * let chart = am4core.create("chartdiv", am4charts.PieChart);
  * ```
  * ```JavaScript
  * // Can pass in chart type reference like this:
- * var chart = amcharts4.create("chartdiv", amcharts4.charts.PieChart);
+ * var chart = am4core.create("chartdiv", am4charts.PieChart);
  *
  * // ... or chart class type as a string:
- * var chart = amcharts4.create("chartdiv", "PieChart");
+ * var chart = am4core.create("chartdiv", "PieChart");
  * ```
  *
  * @param  {HTMLElement | string}  htmlElement  Reference or id of the target container element
@@ -34,10 +34,10 @@ export declare function create<T extends Sprite>(htmlElement: $type.Optional<HTM
  * Example:
  *
  * ```TypeScript
- * let chart amcharts4.createFromConfig({ ... }, "chartdiv", charts.XYChart );
+ * let chart am4core.createFromConfig({ ... }, "chartdiv", am4charts.XYChart );
  * ```
  * ```JavaScript
- * var chart amcharts4.createFromConfig({ ... }, "chartdiv", "XYChart" );
+ * var chart am4core.createFromConfig({ ... }, "chartdiv", "XYChart" );
  * ```
  *
  * If `chartType` parameter is not supplied it must be set in a config object,
@@ -45,13 +45,13 @@ export declare function create<T extends Sprite>(htmlElement: $type.Optional<HTM
  *
  * ```TypeScript
  * {
- *   "type": charts.XYChart,
+ *   "type": am4charts.XYChart,
  *   // ...
  * }
  * ```
  * ```JavaScript
  * {
- *   "type": amcharts4.charts.XYChart,
+ *   "type": am4charts.XYChart,
  *   // ...
  * }
  * ```
@@ -112,12 +112,12 @@ export declare function createFromConfig(config: {
  * E.g.:
  *
  * ```TypeScript
- * amcharts4.useTheme(amcharts4.themes.material);
- * amcharts4.useTheme(amcharts4.themes.animated);
+ * am4core.useTheme(am4themes.material);
+ * am4core.useTheme(am4themes.animated);
  * ```
  * ```JavaScript
- * amcharts4.useTheme(amcharts4.themes.material);
- * amcharts4.useTheme(amcharts4.themes.animated);
+ * am4core.useTheme(am4themes.material);
+ * am4core.useTheme(am4themes.animated);
  * ```
  *
  * The above will apply both the Material color and animation options to all

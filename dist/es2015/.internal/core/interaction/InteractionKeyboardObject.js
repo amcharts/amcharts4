@@ -7,7 +7,7 @@
  * ============================================================================
  * @hidden
  */
-import { interaction } from "./Interaction";
+import { getInteraction } from "./Interaction";
 import { animations } from "../utils/Animation";
 import * as $array from "../utils/Array";
 /**
@@ -52,7 +52,7 @@ var InteractionKeyboardObject = /** @class */ (function () {
         this.directionY = 0;
         this.interaction = io;
         this._startedOn = new Date().getTime();
-        interaction.processDragStart(io);
+        getInteraction().processDragStart(io);
         animations.push(this);
     }
     /**
@@ -65,7 +65,7 @@ var InteractionKeyboardObject = /** @class */ (function () {
     InteractionKeyboardObject.prototype.update = function () {
         // Init and get settings
         var io = this.interaction;
-        var speed = interaction.getKeyboardOption(io, "speed"), accelleration = interaction.getKeyboardOption(io, "accelleration"), accellerationDelay = interaction.getKeyboardOption(io, "accellerationDelay"), shift = {
+        var speed = getInteraction().getKeyboardOption(io, "speed"), accelleration = getInteraction().getKeyboardOption(io, "accelleration"), accellerationDelay = getInteraction().getKeyboardOption(io, "accellerationDelay"), shift = {
             x: 0,
             y: 0
         };
@@ -92,7 +92,7 @@ var InteractionKeyboardObject = /** @class */ (function () {
         shift.x += this.directionX * (speed * ms);
         shift.y += this.directionY * (speed * ms);
         // Simulate move on Interaction
-        interaction.handleTransformMove(io, shift, { x: 0, y: 0 }, this.keyboardEvent, true);
+        getInteraction().handleTransformMove(io, shift, { x: 0, y: 0 }, this.keyboardEvent, true);
     };
     /**
      * Returns if this object has been already been disposed.
@@ -107,7 +107,7 @@ var InteractionKeyboardObject = /** @class */ (function () {
      */
     InteractionKeyboardObject.prototype.dispose = function () {
         if (!this._disposed) {
-            interaction.processDragStop(this.interaction);
+            getInteraction().processDragStop(this.interaction);
             $array.remove(animations, this);
         }
     };

@@ -18,20 +18,20 @@ export { iRGB, iHSV, iHSL };
  * [[color]] function:
  *
  * ```TypeScript
- * amcharts4.color("#ff0000");
- * amcharts4.color("#f00");
- * amcharts4.color("rgb(255, 0, 0)");
- * amcharts4.color("rgba(255, 0, 0, 0.5)");
- * amcharts4.color({ r: 255, g: 0, b: 0 });
- * amcharts4.color("red");
+ * am4core.color("#ff0000");
+ * am4core.color("#f00");
+ * am4core.color("rgb(255, 0, 0)");
+ * am4core.color("rgba(255, 0, 0, 0.5)");
+ * am4core.color({ r: 255, g: 0, b: 0 });
+ * am4core.color("red");
  * ```
  * ```JavaScript
- * amcharts4.color("#ff0000");
- * amcharts4.color("#f00");
- * amcharts4.color("rgb(255, 0, 0)");
- * amcharts4.color("rgba(255, 0, 0, 0.5)");
- * amcharts4.color({ r: 255, g: 0, b: 0 });
- * amcharts4.color("red");
+ * am4core.color("#ff0000");
+ * am4core.color("#f00");
+ * am4core.color("rgb(255, 0, 0)");
+ * am4core.color("rgba(255, 0, 0, 0.5)");
+ * am4core.color({ r: 255, g: 0, b: 0 });
+ * am4core.color("red");
  * ```
  */
 export declare class Color {

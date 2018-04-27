@@ -18,7 +18,6 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Axis, AxisDataItem } from "./Axis";
-import { system } from "../../core/System";
 import { registry } from "../../core/Registry";
 import { Dictionary } from "../../core/utils/Dictionary";
 import { CategoryAxisBreak } from "./CategoryAxisBreak";
@@ -127,14 +126,14 @@ export { CategoryAxisDataItem };
  *
  * ```TypeScript
  * // Create the axis
- * let xAxis = chart.xAxes.push(new charts.CategoryAxis());
+ * let xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
  *
  * // Set settings
  * xAxis.title.text = "Clients";
  * ```
  * ```JavaScript
  * // Create the axis
- * var valueAxis = chart.xAxes.push(new amcharts4.charts.CategoryAxis());
+ * var valueAxis = chart.xAxes.push(new am4charts.CategoryAxis());
  *
  * // Set settings
  * valueAxis.title.text = "Clients";
@@ -183,7 +182,7 @@ var CategoryAxis = /** @class */ (function (_super) {
             value = value.replace(/\#id=.*$/, "");
             return value;
         });
-        _this._prebuildDisposer = system.events.on("enterframe", _this.prebuildDataItem, _this);
+        _this._prebuildDisposer = registry.events.on("enterframe", _this.prebuildDataItem, _this);
         _this._lastDataItem = _this.createDataItem();
         _this._lastDataItem.component = _this;
         // Apply theme
@@ -742,7 +741,7 @@ var CategoryAxis = /** @class */ (function (_super) {
 }(Axis));
 export { CategoryAxis };
 /**
- * Register class in system, so that it can be instantiated using its name from
+ * Register class, so that it can be instantiated using its name from
  * anywhere.
  *
  * @ignore

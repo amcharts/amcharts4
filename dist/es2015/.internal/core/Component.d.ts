@@ -63,7 +63,15 @@ export interface IComponentEvents extends IContainerEvents {
     /**
      * Invoked just before element is validated (after changes).
      */
-    predatavalidate: {};
+    beforedatavalidated: {};
+    /**
+     * Invoked when range change animation starts
+     */
+    rangechangestarted: {};
+    /**
+     * Invoked when range change animation ends
+     */
+    rangechangeended: {};
 }
 /**
  * Defines adapters
@@ -678,7 +686,7 @@ export declare class Component extends Container {
      * @param  {IRange}  range          Range
      * @param  {boolean} skipRangeEvent Should rangechanged event not be triggered?
      * @param  {boolean} instantly      Do not animate?
-     * @return {IRange}                 Actual mofidied range (taking `maxZoomFactor` into account)
+     * @return {IRange}                 Actual modidied range (taking `maxZoomFactor` into account)
      */
     zoom(range: IRange, skipRangeEvent?: boolean, instantly?: boolean): IRange;
     /**
@@ -721,6 +729,13 @@ export declare class Component extends Container {
      * @param {number} value Start index
      */
     startIndex: number;
+    /**
+     * @ignore
+     * @todo:review description
+     * returns item's relative position by the index of the item
+     * @param {number} index
+     */
+    indexToPosition(index: number): number;
     /**
      * Current ending index.
      *

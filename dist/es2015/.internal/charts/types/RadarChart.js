@@ -129,7 +129,9 @@ var RadarChart = /** @class */ (function (_super) {
         _super.prototype.applyInternalDefaults.call(this);
         // Add a default screen reader title for accessibility
         // This will be overridden in screen reader if there are any `titles` set
-        this.readerTitle = this.language.translate("Radar chart");
+        if (!$type.hasValue(this.readerTitle)) {
+            this.readerTitle = this.language.translate("Radar chart");
+        }
     };
     /**
      * Decorates Axis with required properties for this chart.

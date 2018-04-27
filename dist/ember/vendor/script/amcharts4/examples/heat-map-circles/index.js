@@ -1,11 +1,11 @@
-amcharts4.useTheme(amcharts4.themes.animated);
-amcharts4.useTheme(amcharts4.themes.dark);
+am4core.useTheme(am4themes_animated);
+am4core.useTheme(am4themes_dark);
 
-let chart = amcharts4.create("chartdiv", amcharts4.charts.XYChart);
+let chart = am4core.create("chartdiv", am4charts.XYChart);
 chart.maskBullets = false;
 
-let xAxis = chart.xAxes.push(new amcharts4.charts.CategoryAxis());
-let yAxis = chart.yAxes.push(new amcharts4.charts.CategoryAxis());
+let xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+let yAxis = chart.yAxes.push(new am4charts.CategoryAxis());
 
 xAxis.dataFields.category = "weekday";
 xAxis.renderer.minGridDistance = 40;
@@ -20,7 +20,7 @@ xAxis.renderer.ticks.template.disabled = true;
 
 yAxis.renderer.inversed = true;
 
-var series = chart.series.push(new amcharts4.charts.ColumnSeries());
+var series = chart.series.push(new am4charts.ColumnSeries());
 series.dataFields.categoryX = "weekday";
 series.dataFields.categoryY = "hour";
 series.dataFields.value = "value";
@@ -28,10 +28,10 @@ series.columns.template.disabled = true;
 series.sequencedInterpolation = true;
 series.defaultState.transitionDuration = 3000;
 
-var bullet = series.bullets.push(new amcharts4.charts.CircleBullet());
+var bullet = series.bullets.push(new am4charts.CircleBullet());
 bullet.tooltipText = "{weekday}, {hour}: {value.workingValue.formatNumber('#.')}";
 bullet.strokeWidth = 3;
-bullet.stroke = amcharts4.color("#ffffff");
+bullet.stroke = am4core.color("#ffffff");
 bullet.strokeOpacity = 0;
 
 bullet.adapter.add("tooltipY", (tooltipY, target) => {

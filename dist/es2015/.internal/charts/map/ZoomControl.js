@@ -22,7 +22,7 @@ import { Button } from "../../core/elements/Button";
 import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
 import { MutableValueDisposer, MultiDisposer } from "../../core/utils/Disposer";
 import { keyboard } from "../../core/utils/Keyboard";
-import { interaction } from "../../core/interaction/Interaction";
+import { getInteraction } from "../../core/interaction/Interaction";
 import { percent } from "../../core/utils/Percent";
 import { registry } from "../../core/Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
@@ -170,7 +170,7 @@ var ZoomControl = /** @class */ (function (_super) {
                 chart.events.on("maxsizechanged", this.updateThumbSize, this),
                 chart.events.on("zoomlevelchanged", this.updateThumb, this),
                 this.minusButton.events.on("hit", function () { chart.zoomOut(chart.zoomGeoPoint); }, chart),
-                interaction.body.events.on("keyup", function (ev) {
+                getInteraction().body.events.on("keyup", function (ev) {
                     if (_this.topParent.hasFocused) {
                         if (keyboard.isKey(ev.event, "enter")) {
                             if (_this.minusButton.isFocused) {

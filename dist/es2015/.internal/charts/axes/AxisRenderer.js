@@ -102,6 +102,15 @@ var AxisRenderer = /** @class */ (function (_super) {
         disposers.push(_this.line);
         disposers.push(gridContainer);
         disposers.push(breakContainer);
+        axis.events.on("rangechangestarted", function () {
+            if (!_this._originalLayout) {
+                _this._originalLayout = _this.layout;
+            }
+            _this.layout = "none";
+        }, _this);
+        axis.events.on("rangechangeended", function () {
+            _this.layout = _this._originalLayout;
+        }, _this);
         // Apply theme
         _this.applyTheme();
         return _this;

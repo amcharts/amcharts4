@@ -623,7 +623,7 @@ var Axis = /** @class */ (function (_super) {
             // TODO should these be disposed of ?
             //series.events.on("datavalidated", this.processSeriesDataItems, this),
             //series.events.on("visibilitychanged", this.processSeriesDataItems, this),
-            //series.events.on("hide", this.processSeriesDataItems, this)
+            //series.events.on("hidden", this.processSeriesDataItems, this)
         ]);
     };
     Object.defineProperty(Axis.prototype, "renderer", {

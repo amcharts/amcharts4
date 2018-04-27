@@ -1,13 +1,6 @@
 /**
  * This functionality is related to the HTML wrapper that houses `<svg>` tag.
  */
-/**
- * ============================================================================
- * IMPORTS
- * ============================================================================
- * @hidden
- */
-import { system } from "../System";
 import * as $utils from "../utils/Utils";
 import * as $dom from "../utils/DOM";
 import * as $array from "../utils/Array";
@@ -17,6 +10,13 @@ import * as $array from "../utils/Array";
  * ============================================================================
  * @hidden
  */
+/**
+ * A array of all SVG Containers (one SVG container per chart instance).
+ *
+ * @ignore Exclude from docs
+ * @type {Array<SVGContainer>}
+ */
+export var svgContainers = [];
 /**
  * A class used to create an HTML wrapper for the SVG contents.
  */
@@ -46,7 +46,7 @@ var SVGContainer = /** @class */ (function () {
         // Log parent HTML element
         this.htmlElement = htmlElement;
         // Adds to containers array
-        system.svgContainers.push(this);
+        svgContainers.push(this);
         /**
          * Create child div for the container - it will have svg node
          * It might seem that this container is not necessay, however having it solves
@@ -112,7 +112,7 @@ var SVGContainer = /** @class */ (function () {
      */
     SVGContainer.prototype.dispose = function () {
         if (!this._disposed) {
-            $array.remove(system.svgContainers, this);
+            $array.remove(svgContainers, this);
         }
     };
     return SVGContainer;

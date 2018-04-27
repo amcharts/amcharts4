@@ -75,11 +75,11 @@ export { XYChartDataItem };
  *
  * ```TypeScript
  * // Includes
- * import * as amcharts4 from "@amcharts/amcharts4/core";
- * import * as charts from "@amcharts/amcharts4/charts";
+ * import * as am4core from "@amcharts/amcharts4/core";
+ * import * as am4charts from "@amcharts/amcharts4/charts";
  *
  * // Create chart
- * let chart = amcharts4.create("chartdiv", charts.XYChart);
+ * let chart = am4core.create("chartdiv", am4charts.XYChart);
  *
  * // Add Data
  * chart.data = [{
@@ -94,24 +94,24 @@ export { XYChartDataItem };
  * }];
  *
  * // Add category axis
- * let categoryAxis = chart.xAxes.push(new charts.CategoryAxis());
+ * let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
  * categoryAxis.dataFields.category = "country";
  *
  * // Add value axis
- * let valueAxis = chart.yAxes.push(new charts.ValueAxis());
+ * let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
  *
  * // Add series
- * let series = chart.series.push(new charts.ColumnSeries());
+ * let series = chart.series.push(new am4charts.ColumnSeries());
  * series.name = "Web Traffic";
  * series.dataFields.categoryX = "country";
  * series.dataFields.valueY = "visits";
  * ```
  * ```JavaScript
  * // Create chart
- * var chart = amcharts4.create("chartdiv", amcharts4.charts.XYChart);
+ * var chart = am4core.create("chartdiv", am4charts.XYChart);
  *
  * // The following would work as well:
- * // var chart = amcharts4.create("chartdiv", "XYChart");
+ * // var chart = am4core.create("chartdiv", "XYChart");
  *
  * // Add Data
  * chart.data = [{
@@ -126,20 +126,20 @@ export { XYChartDataItem };
  * }];
  *
  * // Add category axis
- * var categoryAxis = chart.xAxes.push(new amcharts4.charts.CategoryAxis());
+ * var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
  * categoryAxis.dataFields.category = "country";
  *
  * // Add value axis
- * var valueAxis = chart.yAxes.push(new amcharts4.charts.ValueAxis());
+ * var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
  *
  * // Add series
- * var series = chart.series.push(new amcharts4.charts.ColumnSeries());
+ * var series = chart.series.push(new am4charts.ColumnSeries());
  * series.name = "Web Traffic";
  * series.dataFields.categoryX = "country";
  * series.dataFields.valueY = "visits";
  * ```
  * ```JSON
- * var chart = amcharts4.createFromConfig({
+ * var chart = am4core.createFromConfig({
  *
  * 	// Category axis
  * 	"xAxes": [{
@@ -287,7 +287,9 @@ var XYChart = /** @class */ (function (_super) {
         _super.prototype.applyInternalDefaults.call(this);
         // Add a default screen reader title for accessibility
         // This will be overridden in screen reader if there are any `titles` set
-        this.readerTitle = this.language.translate("X/Y chart");
+        if (!$type.hasValue(this.readerTitle)) {
+            this.readerTitle = this.language.translate("X/Y chart");
+        }
     };
     /**
      * Draws the chart.
@@ -696,7 +698,7 @@ var XYChart = /** @class */ (function (_super) {
                     cursor.events.on("panstarted", this.handleCursorPanStart, this);
                     cursor.events.on("panning", this.handleCursorPanning, this);
                     cursor.events.on("panended", this.handleCursorPanEnd, this);
-                    cursor.events.on("hide", this.handleHideCursor, this);
+                    cursor.events.on("hidden", this.handleHideCursor, this);
                     cursor.zIndex = Number.MAX_SAFE_INTEGER;
                     if (this.data.length == 0) {
                         cursor.__disabled = true;
@@ -781,13 +783,15 @@ var XYChart = /** @class */ (function (_super) {
         var bottomRight = $utils.spritePointToSvg({ x: this.plotContainer.pixelWidth, y: this.plotContainer.pixelHeight }, this.plotContainer);
         var seriesPoints = [];
         $iter.each(this.series.iterator(), function (series) {
-            series.tooltip.setBounds({ x: 0, y: 0, width: _this.pixelWidth, height: _this.pixelHeight });
-            var point = series.showTooltipAtPosition(position.x, position.y);
-            if (point && $math.isInRectangle(point, { x: topLeft.x, y: topLeft.y, width: bottomRight.x - topLeft.x, height: bottomRight.y - topLeft.y })) {
-                seriesPoints.push({ point: point, series: series });
-            }
-            else {
-                series.tooltip.hide(0);
+            if (series.tooltipText || series.tooltipHTML) {
+                series.tooltip.setBounds({ x: 0, y: 0, width: _this.pixelWidth, height: _this.pixelHeight });
+                var point = series.showTooltipAtPosition(position.x, position.y);
+                if (point && $math.isInRectangle(point, { x: topLeft.x, y: topLeft.y, width: bottomRight.x - topLeft.x, height: bottomRight.y - topLeft.y })) {
+                    seriesPoints.push({ point: point, series: series });
+                }
+                else {
+                    series.tooltip.hide(0);
+                }
             }
         });
         seriesPoints.sort(function (a, b) {

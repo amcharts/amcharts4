@@ -346,14 +346,14 @@ var Responsive = /** @class */ (function (_super) {
                     // if they don't have responsive states.
                     if (!defaultStateApplied) {
                         // Nope, reset states (instantly).
-                        console.log("Applying default state to " + target.className + " (" + target.uid + "): " + JSON.stringify(target.defaultState.properties));
+                        //console.log("Applying default state to " + target.className + " (" + target.uid + "): " + JSON.stringify(target.defaultState.properties));
                         target.applyCurrentState(0);
                         defaultStateApplied = true;
                     }
                     // Is this rule currently applied?
                     if (_this.isApplied(rule.id)) {
                         // Yes. Apply the responsive state
-                        console.log("Applying state to " + target.className + " (" + target.uid + "): " + JSON.stringify(state.properties));
+                        //console.log("Applying state to " + target.className + " (" + target.uid + "): " + JSON.stringify(state.properties));
                         target.setState(state);
                     }
                 }

@@ -1936,10 +1936,10 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * object.
      *
      * ```TypeScript
-     * chart.focusFilter = new amcharts4.FocusFilter();
+     * chart.focusFilter = new am4core.FocusFilter();
      * ```
      * ```JavaScript
-     * chart.focusFilter = new amcharts4.FocusFilter();
+     * chart.focusFilter = new am4core.FocusFilter();
      * ```
      * ```JSON
      * {
@@ -2147,7 +2147,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * Most of the elements are not clickable by default.
      *
-     * Use `hit`, `doublehit`, `up`, `down`, `toggle` events to watch for
+     * Use `hit`, `doublehit`, `up`, `down`, `toggled` events to watch for
      * respective click/touch actions.
      *
      * @param {boolean} value `true` if element can be clicked

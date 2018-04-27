@@ -319,7 +319,9 @@ var PieSeries = /** @class */ (function (_super) {
      */
     PieSeries.prototype.applyInternalDefaults = function () {
         _super.prototype.applyInternalDefaults.call(this);
-        this.readerTitle = this.language.translate("Pie Slice Series");
+        if (!$type.hasValue(this.readerTitle)) {
+            this.readerTitle = this.language.translate("Pie Slice Series");
+        }
     };
     /**
      * Returns a new/empty DataItem of the type appropriate for this object.
@@ -349,7 +351,7 @@ var PieSeries = /** @class */ (function (_super) {
         var defaultState = slice.defaultState;
         defaultState.properties.shiftRadius = 0;
         slice.togglable = true;
-        slice.events.on("toggle", function (event) {
+        slice.events.on("toggled", function (event) {
             event.target.hideTooltip();
         });
         var activeState = slice.states.create("active");

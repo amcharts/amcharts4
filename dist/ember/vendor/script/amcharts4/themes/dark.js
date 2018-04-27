@@ -20,25 +20,11 @@
  
 webpackJsonp([8],{
 
-/***/ 550:
+/***/ 551:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(551);
+module.exports = __webpack_require__(552);
 
-
-/***/ }),
-
-/***/ 551:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__es2015_themes_dark__ = __webpack_require__(552);
-
-
-var amcharts4 = window.amcharts4;
-amcharts4.themes = amcharts4.themes || {};
-amcharts4.themes.dark = __WEBPACK_IMPORTED_MODULE_0__es2015_themes_dark__["a" /* default */];
 
 /***/ }),
 
@@ -46,10 +32,10 @@ amcharts4.themes.dark = __WEBPACK_IMPORTED_MODULE_0__es2015_themes_dark__["a" /*
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__internal_themes_dark__ = __webpack_require__(553);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__internal_themes_dark__["a"]; });
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__es2015_themes_dark__ = __webpack_require__(553);
 
-//# sourceMappingURL=dark.js.map
+window.am4themes_dark = __WEBPACK_IMPORTED_MODULE_0__es2015_themes_dark__["a" /* default */];
 
 /***/ }),
 
@@ -57,9 +43,20 @@ amcharts4.themes.dark = __WEBPACK_IMPORTED_MODULE_0__es2015_themes_dark__["a" /*
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__internal_themes_dark__ = __webpack_require__(554);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__internal_themes_dark__["a"]; });
+
+//# sourceMappingURL=dark.js.map
+
+/***/ }),
+
+/***/ 554:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__core_utils_Color__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__core_utils_InterfaceColorSet__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_elements_Scrollbar__ = __webpack_require__(101);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__core_elements_Scrollbar__ = __webpack_require__(102);
 
 
 
@@ -96,4 +93,4 @@ var theme = function (object) {
 
 /***/ })
 
-},[550]);
+},[551]);

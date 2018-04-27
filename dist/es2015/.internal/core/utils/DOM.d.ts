@@ -10,6 +10,27 @@
 import { Disposer, IDisposer } from "./Disposer";
 import * as $type from "./Type";
 /**
+ * SVG namespace.
+ *
+ * @ignore Exclude from docs
+ * @type {string}
+ */
+export declare const SVGNS: string;
+/**
+ * XML namespace.
+ *
+ * @ignore Exclude from docs
+ * @type {string}
+ */
+export declare const XMLNS: string;
+/**
+ * XLINK namespace.
+ *
+ * @ignore Exclude from docs
+ * @type {string}
+ */
+export declare const XLINK: string;
+/**
  * Function that adds a disposable event listener directly to a DOM element.
  *
  * @ignore Exclude from docs

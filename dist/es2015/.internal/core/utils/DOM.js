@@ -23,6 +23,27 @@ import * as $object from "./Object";
 import * as $array from "./Array";
 import * as $type from "./Type";
 /**
+ * SVG namespace.
+ *
+ * @ignore Exclude from docs
+ * @type {string}
+ */
+export var SVGNS = "http://www.w3.org/2000/svg";
+/**
+ * XML namespace.
+ *
+ * @ignore Exclude from docs
+ * @type {string}
+ */
+export var XMLNS = "http://www.w3.org/2000/xmlns/";
+/**
+ * XLINK namespace.
+ *
+ * @ignore Exclude from docs
+ * @type {string}
+ */
+export var XLINK = "http://www.w3.org/1999/xlink";
+/**
  * Function that adds a disposable event listener directly to a DOM element.
  *
  * @ignore Exclude from docs

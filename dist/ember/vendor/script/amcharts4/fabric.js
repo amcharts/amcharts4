@@ -20,7 +20,7 @@
  
 webpackJsonp([2],{
 
-/***/ 586:
+/***/ 587:
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(Buffer) {var fabric = fabric || {
@@ -39,15 +39,15 @@ if (typeof document !== "undefined" && typeof window !== "undefined") {
     fabric.document = document;
     fabric.window = window;
 } else {
-    fabric.document = __webpack_require__(597).jsdom(decodeURIComponent("%3C!DOCTYPE%20html%3E%3Chtml%3E%3Chead%3E%3C%2Fhead%3E%3Cbody%3E%3C%2Fbody%3E%3C%2Fhtml%3E"), {
+    fabric.document = __webpack_require__(598).jsdom(decodeURIComponent("%3C!DOCTYPE%20html%3E%3Chtml%3E%3Chead%3E%3C%2Fhead%3E%3Cbody%3E%3C%2Fbody%3E%3C%2Fhtml%3E"), {
         features: {
             FetchExternalResources: [ "img" ]
         }
     });
-    fabric.jsdomImplForWrapper = __webpack_require__(598).implForWrapper;
-    fabric.nodeCanvas = __webpack_require__(599).Canvas;
+    fabric.jsdomImplForWrapper = __webpack_require__(599).implForWrapper;
+    fabric.nodeCanvas = __webpack_require__(600).Canvas;
     fabric.window = fabric.document.defaultView;
-    DOMParser = __webpack_require__(600).DOMParser;
+    DOMParser = __webpack_require__(601).DOMParser;
 }
 
 fabric.isTouchSupported = "ontouchstart" in fabric.window;
@@ -14008,11 +14008,11 @@ fabric.util.object.extend(fabric.IText.prototype, {
         }
     });
 })();
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(591).Buffer))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(592).Buffer))
 
 /***/ }),
 
-/***/ 591:
+/***/ 592:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -14026,9 +14026,9 @@ fabric.util.object.extend(fabric.IText.prototype, {
 
 
 
-var base64 = __webpack_require__(593)
-var ieee754 = __webpack_require__(594)
-var isArray = __webpack_require__(595)
+var base64 = __webpack_require__(594)
+var ieee754 = __webpack_require__(595)
+var isArray = __webpack_require__(596)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -15806,11 +15806,11 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(592)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(593)))
 
 /***/ }),
 
-/***/ 592:
+/***/ 593:
 /***/ (function(module, exports) {
 
 var g;
@@ -15838,7 +15838,7 @@ module.exports = g;
 
 /***/ }),
 
-/***/ 593:
+/***/ 594:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -15962,7 +15962,7 @@ function fromByteArray (uint8) {
 
 /***/ }),
 
-/***/ 594:
+/***/ 595:
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -16053,7 +16053,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 /***/ }),
 
-/***/ 595:
+/***/ 596:
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -16062,13 +16062,6 @@ module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-
-/***/ }),
-
-/***/ 597:
-/***/ (function(module, exports) {
-
-/* (ignored) */
 
 /***/ }),
 
@@ -16087,6 +16080,13 @@ module.exports = Array.isArray || function (arr) {
 /***/ }),
 
 /***/ 600:
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+
+/***/ 601:
 /***/ (function(module, exports) {
 
 /* (ignored) */

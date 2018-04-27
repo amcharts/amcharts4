@@ -24,7 +24,7 @@ import { MapPolygon } from "../map/MapPolygon";
 import { Projection } from "../map/projections/Projection";
 import { SmallMap } from "../map/SmallMap";
 import { keyboard } from "../../core/utils/Keyboard";
-import { interaction } from "../../core/interaction/Interaction";
+import { getInteraction } from "../../core/interaction/Interaction";
 import { registry } from "../../core/Registry";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
@@ -157,7 +157,7 @@ var MapChart = /** @class */ (function (_super) {
         _this.background.fillOpacity = 0;
         _this.background.readerTitle = _this.language.translate("Use plus and minus keys on your keyboard to zoom in and out");
         // Add keyboard events for panning
-        interaction.body.events.on("keyup", function (ev) {
+        getInteraction().body.events.on("keyup", function (ev) {
             if (_this.topParent.hasFocused && (!_this._zoomControl || !_this._zoomControl.thumb.isFocused)) {
                 switch (keyboard.getEventKey(ev.event)) {
                     case "up":
@@ -187,7 +187,9 @@ var MapChart = /** @class */ (function (_super) {
         _super.prototype.applyInternalDefaults.call(this);
         // Add a default screen reader title for accessibility
         // This will be overridden in screen reader if there are any `titles` set
-        this.readerTitle = this.language.translate("Map");
+        if (!$type.hasValue(this.readerTitle)) {
+            this.readerTitle = this.language.translate("Map");
+        }
     };
     /**
      * Handles event when a pointer presses down on the map, e.g. user presses
@@ -244,10 +246,10 @@ var MapChart = /** @class */ (function (_super) {
          * * Orthographic
          *
          * ```TypeScript
-         * map.projection = new maps.projections.Mercator();
+         * map.projection = new am4maps.projections.Mercator();
          * ```
          * ```JavaScript
-         * map.projection = new amcharts4.maps.projections.Mercator();
+         * map.projection = new am4maps.projections.Mercator();
          * ```
          * ```JSON
          * {
@@ -625,11 +627,11 @@ var MapChart = /** @class */ (function (_super) {
          *
          * ```TypeScript
          * // Create a small map
-         * map.smallMap = new map.SmallMap();
+         * map.smallMap = new am4maps.SmallMap();
          * ```
          * ```JavaScript
          * // Create a small map
-         * map.smallMap = new amcharts4.map.SmallMap();
+         * map.smallMap = new am4maps.SmallMap();
          * ```
          * ```JSON
          * {
@@ -667,11 +669,11 @@ var MapChart = /** @class */ (function (_super) {
          *
          * ```TypeScript
          * // Create a zoom control
-         * map.zoomControl = new maps.ZoomControl();
+         * map.zoomControl = new am4maps.ZoomControl();
          * ```
          * ```JavaScript
          * // Create a zoom control
-         * map.zoomControl = new amcharts4.maps.ZoomControl();
+         * map.zoomControl = new am4maps.ZoomControl();
          * ```
          * ```JSON
          * {

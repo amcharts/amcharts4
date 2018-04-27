@@ -5,12 +5,11 @@
  * @hidden
  */
 import { registry } from "./Registry";
-import { EventDispatcher } from "./utils/EventDispatcher";
-import { SVGContainer } from "./rendering/SVGContainer";
+import { svgContainers, SVGContainer } from "./rendering/SVGContainer";
 import { Component } from "./Component";
+import { options } from "./Options";
 import { Paper } from "./rendering/Paper";
 import { raf } from "./utils/AsyncPending";
-import { TextFormatter } from "./formatters/TextFormatter";
 import { animations } from "./utils/Animation";
 import { triggerIdle } from "./utils/AsyncPending";
 import * as $dom from "./utils/DOM";
@@ -26,16 +25,7 @@ import * as $array from "./utils/Array";
  * @important
  */
 var System = /** @class */ (function () {
-    /**
-     * Constructor
-     */
     function System() {
-        /**
-         * Console output enabled.
-         *
-         * @type {boolean}
-         */
-        this.verbose = true;
         /**
          * Invalid sizes
          * @rodo Remove commented code
@@ -73,24 +63,12 @@ var System = /** @class */ (function () {
          */
         this.measureCounter = 0;
         /**
-         * amCharts will add `class` property to some elements. All those class names
-         * will be prefixed by `classNamePrefix`.
-         *
-         * @type {string}
-         */
-        this.classNamePrefix = "amcharts-";
-        /**
          * @todo Description
          * @todo Needed?
          * @ignore Exclude from docs
          * @type {number}
          */
         this.dummyCounter = 0;
-        /**
-         * @ignore
-         */
-        this.commercialLicense = false;
-        this.events = new EventDispatcher();
     }
     /**
      * Performs initialization of the System object.
@@ -101,8 +79,6 @@ var System = /** @class */ (function () {
      */
     System.prototype.init = function () {
         var _this = this;
-        this.svgContainers = [];
-        this.textFormatter = new TextFormatter();
         // frame at which we should measure
         this.measureAt = Math.round(this.frameRate / this.measureRate);
         // ghost is used to draw elements while real paper is not yet created or Sprite doesn't know parent yet
@@ -110,15 +86,15 @@ var System = /** @class */ (function () {
         ghostDiv.hidden = true;
         document.body.appendChild(ghostDiv);
         var ghostSvgContainer = new SVGContainer(ghostDiv);
-        registry.ghostPaper = new Paper(ghostSvgContainer.SVGContainer);
-        registry.ghostPaper.id = "ghost";
+        this.ghostPaper = new Paper(ghostSvgContainer.SVGContainer);
+        this.ghostPaper.id = "ghost";
         $dom.ready(function () {
             _this.update();
             raf(function () {
                 _this.update();
             });
         });
-        system.time = Date.now();
+        this.time = Date.now();
         // Create an id for system
         this.uid = registry.getUniqueId();
     };
@@ -131,11 +107,11 @@ var System = /** @class */ (function () {
      * @param {boolean}  reset  Reset time counter
      */
     System.prototype.reportTime = function (msg, reset) {
-        if (system.dummyCounter < 6) {
-            //console.log(Date.now() - system.time, msg, this.dummyCounter2);
+        if (this.dummyCounter < 6) {
+            //console.log(Date.now() - this.time, msg, this.dummyCounter2);
         }
         if (reset) {
-            system.time = Date.now();
+            this.time = Date.now();
         }
     };
     /**
@@ -150,7 +126,7 @@ var System = /** @class */ (function () {
      */
     System.prototype.update = function () {
         var _this = this;
-        this.dispatchImmediately("enterframe");
+        registry.dispatchImmediately("enterframe");
         this.measureCounter++;
         if (this.measureCounter >= this.measureAt) {
             this.measureCounter = 0;
@@ -292,8 +268,8 @@ var System = /** @class */ (function () {
         // to avoid flicker, we validate positions last time
         this.validateLayouts();
         this.validatePositions();
-        this.dispatchImmediately("exitframe");
-        //system.dummyCounter++;
+        registry.dispatchImmediately("exitframe");
+        //this.dummyCounter++;
         raf(function () {
             _this.update();
         });
@@ -347,7 +323,7 @@ var System = /** @class */ (function () {
      * @todo Maybe should be private?
      */
     System.prototype.measure = function () {
-        $array.each(this.svgContainers, function (svgContainer) {
+        $array.each(svgContainers, function (svgContainer) {
             if (svgContainer.autoResize) {
                 svgContainer.measure();
             }
@@ -359,7 +335,7 @@ var System = /** @class */ (function () {
      * @param {any} value Message to output to console
      */
     System.prototype.log = function (value) {
-        if (this.verbose) {
+        if (options.verbose) {
             if (console) {
                 console.log(value);
             }
@@ -399,57 +375,6 @@ var System = /** @class */ (function () {
         configurable: true
     });
     /**
-     * Dispatches an event using own event dispatcher. Will automatically
-     * populate event data object with event type and target (this element).
-     * It also checks if there are any handlers registered for this sepecific
-     * event.
-     *
-     * @param {string} eventType Event type (name)
-     * @param {any}    data      Data to pass into event handler(s)
-     */
-    System.prototype.dispatch = function (eventType, data) {
-        // @todo Implement proper type check
-        if (this.events.isEnabled(eventType)) {
-            if (data) {
-                data.type = eventType;
-                data.target = data.target || this;
-                this.events.dispatch(eventType, {
-                    type: eventType,
-                    target: this
-                });
-            }
-            else {
-                this.events.dispatch(eventType, {
-                    type: eventType,
-                    target: this
-                });
-            }
-        }
-    };
-    /**
-     * Works like `dispatch`, except event is triggered immediately, without
-     * waiting for the next frame cycle.
-     *
-     * @param {string} eventType Event type (name)
-     * @param {any}    data      Data to pass into event handler(s)
-     */
-    System.prototype.dispatchImmediately = function (eventType, data) {
-        // @todo Implement proper type check
-        if (this.events.isEnabled(eventType)) {
-            if (data) {
-                data.type = eventType;
-                data.target = data.target || this;
-                this.events.dispatchImmediately(eventType, data);
-            }
-            else {
-                this.events.dispatchImmediately(eventType, {
-                    type: eventType,
-                    target: this
-                });
-            }
-        }
-    };
-    /**
      * amCharts Version.
      *
      * This follows npm's semver specification.
@@ -457,19 +382,22 @@ var System = /** @class */ (function () {
      * @see {@link https://docs.npmjs.com/misc/semver}
      * @type {string}
      */
-    System.VERSION = "4.0.0-beta.9";
+    System.VERSION = "4.0.0-beta.10";
     return System;
 }());
 export { System };
+var system = null;
 /**
- * A singleton global instance of [[System]].
+ * Returns a singleton global instance of [[System]].
  *
- * All code should access this system variable, rather than instantiate their
- * own.
+ * All code should call this function, rather than instantiating their
+ * own System objects.
  */
-export var system = new System();
-/**
- * Init the System just once
- */
-system.init();
+export function getSystem() {
+    if (system == null) {
+        system = new System();
+        system.init();
+    }
+    return system;
+}
 //# sourceMappingURL=System.js.map

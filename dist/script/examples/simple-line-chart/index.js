@@ -1,6 +1,6 @@
-amcharts4.useTheme(amcharts4.themes.animated);
+am4core.useTheme(am4themes_animated);
 
-let chart = amcharts4.create("chartdiv", amcharts4.charts.XYChart);
+let chart = am4core.create("chartdiv", am4charts.XYChart);
 
 let data = [];
 let visits = 10;
@@ -11,18 +11,18 @@ for (let i = 0; i < 1000; i++) {
 
 chart.data = data;
 
-chart.legend = new amcharts4.charts.Legend();
+chart.legend = new am4charts.Legend();
 
-let categoryAxis = chart.xAxes.push(new amcharts4.charts.DateAxis());
+let categoryAxis = chart.xAxes.push(new am4charts.DateAxis());
 categoryAxis.renderer.grid.template.location = 0;
 
-let valueAxis = chart.yAxes.push(new amcharts4.charts.ValueAxis());
+let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 valueAxis.tooltip.disabled = true;
 
-let series = chart.series.push(new amcharts4.charts.LineSeries());
+let series = chart.series.push(new am4charts.LineSeries());
 series.dataFields.dateX = "date";
 series.dataFields.valueY = "value";
 
 series.tooltipText = "{valueY.value}";
-chart.cursor = new amcharts4.charts.XYCursor();
-chart.scrollbarX = new amcharts4.Scrollbar();
+chart.cursor = new am4charts.XYCursor();
+chart.scrollbarX = new am4core.Scrollbar();

@@ -80,4 +80,16 @@ export declare class RadarColumn extends Column {
     constructor();
     createAssets(): void;
     copyFrom(source: this): void;
+    /**
+     * X coordinate for the slice tooltip.
+     *
+     * @return {number} X
+     */
+    protected getTooltipX(): number;
+    /**
+     * Y coordinate for the slice tooltip.
+     *
+     * @return {number} Y
+     */
+    protected getTooltipY(): number;
 }

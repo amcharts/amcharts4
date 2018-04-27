@@ -175,6 +175,11 @@ export declare class RadarCursor extends XYCursor {
      */
     protected handleYTooltipPosition(event: ISpriteEvents["positionchanged"]): void;
     /**
+     * needs to be overriden
+     * @ignore
+     */
+    protected updateLinePositions(point: IPoint): void;
+    /**
      * [getRanges description]
      *
      * @todo Description

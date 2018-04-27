@@ -186,3 +186,12 @@ export declare class TextFormatter extends BaseObject {
      */
     isImage(text: string): boolean;
 }
+/**
+ * Returns the global instance of [[TextFormatter]].
+ *
+ * All classes and instances should reuse this universal text formatter,
+ * rather than create their own instance of it.
+ *
+ * @type {TextFormatter}
+ */
+export declare function getTextFormatter(): TextFormatter;

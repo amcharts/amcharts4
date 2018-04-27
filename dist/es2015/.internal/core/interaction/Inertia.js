@@ -19,7 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { BaseObject } from "../Base";
 import { MultiDisposer } from "../utils/Disposer";
-import { interaction } from "./Interaction";
+import { getInteraction } from "./Interaction";
 import * as $type from "../utils/Type";
 /**
  * A point of inertia is to simulate gradually drecreasing motion even after
@@ -158,7 +158,7 @@ var Inertia = /** @class */ (function (_super) {
         this.interaction.inertias.removeKey(this.type);
         // Move ended
         if (this.type === "move") {
-            interaction.processDragStop(this.interaction);
+            getInteraction().processDragStop(this.interaction);
         }
         // Destroy
         this.dispose();

@@ -21,7 +21,6 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { XYChart, XYChartDataItem } from "./XYChart";
-import { system } from "../../core/System";
 import { registry } from "../../core/Registry";
 import { DictionaryTemplate } from "../../core/utils/Dictionary";
 import { ValueAxis } from "../axes/ValueAxis";
@@ -465,7 +464,7 @@ var TreeMap = /** @class */ (function (_super) {
         this.yAxis.max = maxY;
         this.layoutItems(homeDataItem);
         this.createTreeSeries(homeDataItem);
-        system.events.once("exitframe", function () {
+        registry.events.once("exitframe", function () {
             _this.toggleBullets(0);
         });
     };
@@ -659,7 +658,7 @@ var TreeMap = /** @class */ (function (_super) {
             this.currentLevel = dataItem.level;
             var rangeChangeAnimation = this.xAxis.rangeChangeAnimation || this.yAxis.rangeChangeAnimation;
             if (rangeChangeAnimation) {
-                rangeChangeAnimation.events.once("animationend", function () {
+                rangeChangeAnimation.events.once("animationended", function () {
                     _this.toggleBullets();
                 });
             }
@@ -677,7 +676,9 @@ var TreeMap = /** @class */ (function (_super) {
         _super.prototype.applyInternalDefaults.call(this);
         // Add a default screen reader title for accessibility
         // This will be overridden in screen reader if there are any `titles` set
-        this.readerTitle = this.language.translate("TreeMap chart");
+        if (!$type.hasValue(this.readerTitle)) {
+            this.readerTitle = this.language.translate("TreeMap chart");
+        }
     };
     /**
      * Returns a new/empty DataItem of the type appropriate for this object.
@@ -1023,7 +1024,7 @@ var TreeMap = /** @class */ (function (_super) {
 }(XYChart));
 export { TreeMap };
 /**
- * Register class in system, so that it can be instantiated using its name from
+ * Register class, so that it can be instantiated using its name from
  * anywhere.
  *
  * @ignore

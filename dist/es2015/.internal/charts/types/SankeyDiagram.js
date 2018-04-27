@@ -556,7 +556,9 @@ var SankeyDiagram = /** @class */ (function (_super) {
         _super.prototype.applyInternalDefaults.call(this);
         // Add a default screen reader title for accessibility
         // This will be overridden in screen reader if there are any `titles` set
-        this.readerTitle = this.language.translate("Sankey diagram");
+        if (!$type.hasValue(this.readerTitle)) {
+            this.readerTitle = this.language.translate("Sankey diagram");
+        }
     };
     /**
      * Creates and returns a new data item.

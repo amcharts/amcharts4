@@ -181,12 +181,12 @@ export declare class EventDispatcher<T> implements IDisposer {
      * Creates an event listener to be invoked on a specific event type.
      *
      * ```TypeScript
-     * series.events.on("hide", (ev) => {
+     * series.events.on("hidden", (ev) => {
      *   console.log("Series hidden: " + ev.target.name);
      * }, this);
      * ```
      * ```JavaScript
-     * series.events.on("hide", function(ev) {
+     * series.events.on("hidden", function(ev) {
      *   console.log("Series hidden: " + ev.target.name);
      * }, this);
      * ```
@@ -196,7 +196,7 @@ export declare class EventDispatcher<T> implements IDisposer {
      *   "series": [{
      *     // ...
      *     "events": {
-     *     	"hide": function(ev) {
+     *     	"hidden": function(ev) {
      *     	  console.log("Series hidden: " + ev.target.name);
      *     	}
      *     }
@@ -220,12 +220,12 @@ export declare class EventDispatcher<T> implements IDisposer {
      * Once the event listener is invoked, it is automatically disposed.
      *
      * ```TypeScript
-     * series.events.on("hide", (ev) => {
+     * series.events.on("hidden", (ev) => {
      *   console.log("Series hidden: " + ev.target.name);
      * }, this);
      * ```
      * ```JavaScript
-     * series.events.on("hide", function(ev) {
+     * series.events.on("hidden", function(ev) {
      *   console.log("Series hidden: " + ev.target.name);
      * }, this);
      * ```
@@ -235,7 +235,7 @@ export declare class EventDispatcher<T> implements IDisposer {
      *   "series": [{
      *     // ...
      *     "events": {
-     *     	"hide": function(ev) {
+     *     	"hidden": function(ev) {
      *     	  console.log("Series hidden: " + ev.target.name);
      *     	}
      *     }

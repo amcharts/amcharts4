@@ -123,14 +123,14 @@ export interface ICategoryAxisAdapters extends IAxisAdapters, ICategoryAxisPrope
  *
  * ```TypeScript
  * // Create the axis
- * let xAxis = chart.xAxes.push(new charts.CategoryAxis());
+ * let xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
  *
  * // Set settings
  * xAxis.title.text = "Clients";
  * ```
  * ```JavaScript
  * // Create the axis
- * var valueAxis = chart.xAxes.push(new amcharts4.charts.CategoryAxis());
+ * var valueAxis = chart.xAxes.push(new am4charts.CategoryAxis());
  *
  * // Set settings
  * valueAxis.title.text = "Clients";

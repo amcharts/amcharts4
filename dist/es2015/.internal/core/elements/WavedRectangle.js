@@ -18,6 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Rectangle } from "./Rectangle";
+import { wavedLine } from "../rendering/Smoothing";
 import * as $path from "../rendering/Path";
 /**
  * ============================================================================
@@ -96,16 +97,16 @@ var WavedRectangle = /** @class */ (function (_super) {
             var bd = "";
             var ld = "";
             if (this._twaved) {
-                td = $path.wavedLine(p1, p2, waveLength, waveHeight, this.tension, true);
+                td = wavedLine(p1, p2, waveLength, waveHeight, this.tension, true);
             }
             if (this._rwaved) {
-                ld = $path.wavedLine(p2, p3, waveLength, waveHeight, this.tension, true);
+                ld = wavedLine(p2, p3, waveLength, waveHeight, this.tension, true);
             }
             if (this._bwaved) {
-                bd = $path.wavedLine(p3, p4, waveLength, waveHeight, this.tension, true);
+                bd = wavedLine(p3, p4, waveLength, waveHeight, this.tension, true);
             }
             if (this._rwaved) {
-                rd = $path.wavedLine(p4, p1, waveLength, waveHeight, this.tension, true);
+                rd = wavedLine(p4, p1, waveLength, waveHeight, this.tension, true);
             }
             var d = $path.moveTo(p1) + td + $path.lineTo(p2) + ld + $path.lineTo(p3) + bd + $path.lineTo(p4) + rd + "z";
             this.element.attr({ "d": d });

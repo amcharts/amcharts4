@@ -9,7 +9,7 @@
  * ============================================================================
  * @hidden
  */
-import { Percent } from "./Percent";
+import { percent, isPercent } from "./Percent";
 /**
  * ============================================================================
  * TYPE CHECK
@@ -300,32 +300,6 @@ export function toNumberOrPercent(value) {
         return percent(toNumber(value));
     }
     return toNumber(value);
-}
-/**
- * Converts numeric percent value to a proper [[Percent]] object.
- *
- * ```TypeScript
- * pieSeries.radius = amcharts4.percent(80);
- * ```
- * ```JavaScript
- * pieSeries.radius = amcharts4.percent(80);
- * ```
- *
- * @param  {number}   value  Percent
- * @return {Percent}         Percent object
- */
-export function percent(value) {
-    return new Percent(value);
-}
-/**
- * Checks if value is a [[Percent]] object.
- *
- * @ignore Exclude from docs
- * @param  {any}      value  Input value
- * @return {boolean}         Is percent?
- */
-export function isPercent(value) {
-    return value instanceof Percent;
 }
 /**
  * Checks if a variable has a value.

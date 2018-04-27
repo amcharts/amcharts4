@@ -321,12 +321,12 @@ var EventDispatcher = /** @class */ (function () {
      * Creates an event listener to be invoked on a specific event type.
      *
      * ```TypeScript
-     * series.events.on("hide", (ev) => {
+     * series.events.on("hidden", (ev) => {
      *   console.log("Series hidden: " + ev.target.name);
      * }, this);
      * ```
      * ```JavaScript
-     * series.events.on("hide", function(ev) {
+     * series.events.on("hidden", function(ev) {
      *   console.log("Series hidden: " + ev.target.name);
      * }, this);
      * ```
@@ -336,7 +336,7 @@ var EventDispatcher = /** @class */ (function () {
      *   "series": [{
      *     // ...
      *     "events": {
-     *     	"hide": function(ev) {
+     *     	"hidden": function(ev) {
      *     	  console.log("Series hidden: " + ev.target.name);
      *     	}
      *     }
@@ -362,12 +362,12 @@ var EventDispatcher = /** @class */ (function () {
      * Once the event listener is invoked, it is automatically disposed.
      *
      * ```TypeScript
-     * series.events.on("hide", (ev) => {
+     * series.events.on("hidden", (ev) => {
      *   console.log("Series hidden: " + ev.target.name);
      * }, this);
      * ```
      * ```JavaScript
-     * series.events.on("hide", function(ev) {
+     * series.events.on("hidden", function(ev) {
      *   console.log("Series hidden: " + ev.target.name);
      * }, this);
      * ```
@@ -377,7 +377,7 @@ var EventDispatcher = /** @class */ (function () {
      *   "series": [{
      *     // ...
      *     "events": {
-     *     	"hide": function(ev) {
+     *     	"hidden": function(ev) {
      *     	  console.log("Series hidden: " + ev.target.name);
      *     	}
      *     }

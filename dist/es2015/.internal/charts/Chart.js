@@ -18,7 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Component } from "../core/Component";
-import { system } from "../core/System";
+import { registry } from "../core/Registry";
 import { ListTemplate } from "../core/utils/List";
 import { Container } from "../core/Container";
 import { Label } from "../core/elements/Label";
@@ -95,7 +95,7 @@ var Chart = /** @class */ (function (_super) {
         // hides everything on first frame and shows only on second. helps to avoid technical flickering
         chartAndLegendContainer.visible = false;
         chartAndLegendContainer.events.once("validated", function () {
-            system.events.once("enterframe", function () {
+            registry.events.once("enterframe", function () {
                 chartAndLegendContainer.visible = true;
             });
         });
@@ -124,7 +124,9 @@ var Chart = /** @class */ (function (_super) {
      */
     Chart.prototype.applyInternalDefaults = function () {
         _super.prototype.applyInternalDefaults.call(this);
-        this.readerTitle = this.language.translate("Chart");
+        if (!$type.hasValue(this.readerTitle)) {
+            this.readerTitle = this.language.translate("Chart");
+        }
     };
     /**
      * (Re)validates chart data.

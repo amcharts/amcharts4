@@ -125,13 +125,13 @@ export interface IAnimationEvents extends IBaseObjectEvents {
     /**
      * Invoked when animation starts playing.
      */
-    animationstart: {
+    animationstarted: {
         progress: number;
     };
     /**
      * Invoked when animation finishes playing.
      */
-    animationend: {
+    animationended: {
         progress: number;
     };
     /**
@@ -144,7 +144,7 @@ export interface IAnimationEvents extends IBaseObjectEvents {
      * Invoked when animation is stopped by some other process, before it had
      * a chance to finish.
      */
-    animationstop: {
+    animationstopped: {
         progress: number;
     };
 }
@@ -326,7 +326,7 @@ export declare class Animation extends BaseObjectEvents implements IAnimationObj
      * When animation is stopped, the properties of the target object will remain
      * where they were at the moment when `stop()` was called.
      *
-     * @param  {boolean}    skipEvent  Do not trigger `animationstop` event
+     * @param  {boolean}    skipEvent  Do not trigger `animationstopped` event
      * @return {Animation}             Animation
      */
     stop(skipEvent?: boolean): Animation;

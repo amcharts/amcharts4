@@ -130,7 +130,7 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
     /**
      * Invoked when Sprite completes transition to a [[SpriteState]].
      */
-    transitionend: {};
+    transitionended: {};
     /**
      * Invoked when size of the Sprite changes.
      */
@@ -164,7 +164,7 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
      *
      * @todo Description (check)
      */
-    prevalidate: {};
+    beforevalidated: {};
     /**
      * Invoked when [[Sprite]] is validated. (on init or after update)
      *
@@ -179,11 +179,11 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
     /**
      * Invoked when hidden [[Sprite]] is shown.
      */
-    show: {};
+    shown: {};
     /**
      * Invoked when visible [[Sprite]] is hidden.
      */
-    hide: {};
+    hidden: {};
     /**
      * Invoked when property of the [[Sprite]] changes.
      */
@@ -270,5 +270,5 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
      * Invoked when `togglable` Sprite is being toggled on and off. (its
      * `isActive` property is being changed)
      */
-    toggle: {};
+    toggled: {};
 }

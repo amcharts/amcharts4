@@ -1,13 +1,5 @@
 /**
  * ============================================================================
- * IMPORTS
- * ============================================================================
- * @hidden
- */
-import { percent, isPercent } from "./Type";
-export { percent, isPercent };
-/**
- * ============================================================================
  * MAIN CLASS
  * ============================================================================
  * @hidden
@@ -34,12 +26,12 @@ var Percent = /** @class */ (function () {
          *
          * ```TypeScript
          * let value = 256;
-         * let percent = new amcharts4.Percent(50);
+         * let percent = new am4core.Percent(50);
          * console.log(value * percent.value); // outputs 128
          * ```
          * ```JavaScript
          * var value = 256;
-         * var percent = new amcharts4.Percent(50);
+         * var percent = new am4core.Percent(50);
          * console.log(value * percent.value); // outputs 128
          * ```
          *
@@ -67,4 +59,30 @@ var Percent = /** @class */ (function () {
     return Percent;
 }());
 export { Percent };
+/**
+ * Converts numeric percent value to a proper [[Percent]] object.
+ *
+ * ```TypeScript
+ * pieSeries.radius = am4core.percent(80);
+ * ```
+ * ```JavaScript
+ * pieSeries.radius = am4core.percent(80);
+ * ```
+ *
+ * @param  {number}   value  Percent
+ * @return {Percent}         Percent object
+ */
+export function percent(value) {
+    return new Percent(value);
+}
+/**
+ * Checks if value is a [[Percent]] object.
+ *
+ * @ignore Exclude from docs
+ * @param  {any}      value  Input value
+ * @return {boolean}         Is percent?
+ */
+export function isPercent(value) {
+    return value instanceof Percent;
+}
 //# sourceMappingURL=Percent.js.map

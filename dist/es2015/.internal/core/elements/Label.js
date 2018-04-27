@@ -12,7 +12,8 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 import { Container } from "../Container";
-import { system } from "../System";
+import { registry } from "../Registry";
+import { getTextFormatter } from "../formatters/TextFormatter";
 import { MultiDisposer } from "../utils/Disposer";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $math from "../utils/Math";
@@ -78,7 +79,7 @@ var Label = /** @class */ (function (_super) {
         // Set this class name
         _this.className = "Label";
         _this.fill = new InterfaceColorSet().getFor("text");
-        // not good to set this, as then these will appear on each label and values set on container won't be applied. 
+        // not good to set this, as then these will appear on each label and values set on container won't be applied.
         //this.textDecoration = "none";
         //this.fontWeigth = "normal";
         // Set defaults
@@ -115,7 +116,7 @@ var Label = /** @class */ (function (_super) {
         // trying to solve strange bug when text is measured as 0x0
         _this.events.once("validated", function () {
             if (_this.text && (_this._bbox.width == 0 || _this._bbox.height == 0)) {
-                system.events.once("exitframe", function () {
+                registry.events.once("exitframe", function () {
                     _this._prevStatus = "";
                     _this.invalidate();
                 });
@@ -172,7 +173,7 @@ var Label = /** @class */ (function (_super) {
         // Calculate max width and height
         var maxWidth = $math.max(this.availableWidth - this.pixelPaddingLeft - this.pixelPaddingRight, 0);
         var maxHeight = $math.max(this.availableHeight - this.pixelPaddingTop - this.pixelPaddingBottom, 0);
-        // save 
+        // save
         var status = maxHeight + "," + maxWidth + this.wrap + this.truncate + this.rtl + this.ellipsis;
         // Update text
         if (!this.updateCurrentText() && this.inited && this._prevStatus == status) {
@@ -224,7 +225,7 @@ var Label = /** @class */ (function (_super) {
                     // since there's nothing to measure. For subsequent lines we can take
                     // previous line's height
                     var tempElement = this.getSVGLineElement("", 0);
-                    tempElement.add(this.getSvgElement(".", system.textFormatter.translateStyleShortcuts(currentFormat)));
+                    tempElement.add(this.getSvgElement(".", getTextFormatter().translateStyleShortcuts(currentFormat)));
                     group.add(tempElement);
                     var offset = Math.ceil(tempElement.getBBox().height);
                     if (offset > 0) {
@@ -234,7 +235,7 @@ var Label = /** @class */ (function (_super) {
                     continue;
                 }
                 // Chunk up the line and process each chunk
-                var chunks = system.textFormatter.chunk(line);
+                var chunks = getTextFormatter().chunk(line);
                 var currentLineHeight = 0;
                 var firstChunk = true;
                 var skipTextChunks = false;
@@ -283,8 +284,8 @@ var Label = /** @class */ (function (_super) {
                             continue;
                         }
                         // Add chunk to the current element
-                        //lineInfo.element.content += $utils.trim(system.textFormatter.format(currentFormat + chunk.text, output));
-                        lineInfo.element.add(this.getSvgElement(chunk.text, system.textFormatter.translateStyleShortcuts(currentFormat)));
+                        //lineInfo.element.content += $utils.trim(getTextFormatter().format(currentFormat + chunk.text, output));
+                        lineInfo.element.add(this.getSvgElement(chunk.text, getTextFormatter().translateStyleShortcuts(currentFormat)));
                         lineInfo.bbox = lineInfo.element.getBBox();
                         lineInfo.bbox.width = Math.ceil(lineInfo.bbox.width);
                         // Updated current line height
@@ -416,7 +417,7 @@ var Label = /** @class */ (function (_super) {
                                     }
                                     // Use the first line to update last item
                                     if (excessChars > 0) {
-                                        lastElement_1.textContent = system.textFormatter.cleanUp($utils.trim(splitLines.shift()));
+                                        lastElement_1.textContent = getTextFormatter().cleanUp($utils.trim(splitLines.shift()));
                                     }
                                     // Measure again, just in case
                                     lineInfo.bbox = lineInfo.element.getBBox();
@@ -506,7 +507,7 @@ var Label = /** @class */ (function (_super) {
                 "height": height
             });
             // Create line element
-            //let lineElement: HTMLElement = this.getHTMLLineElement(system.textFormatter.format(this.html, output));
+            //let lineElement: HTMLElement = this.getHTMLLineElement(getTextFormatter().format(this.html, output));
             var lineElement = this.getHTMLLineElement(text);
             this.element.node.appendChild(lineElement);
             this.isOversized = true;

@@ -160,6 +160,18 @@ export declare class Tension implements ISmoothing {
     smooth(points: Array<IPoint>): string;
 }
 /**
+ * Returns a waved line SVG path between two points.
+ *
+ * @ignore Exclude from docs
+ * @param  {IPoint}   point1            Starting point
+ * @param  {IPoint}   point2            Ending point
+ * @param  {number}   waveLength        Wave length
+ * @param  {number}   waveHeight        Wave height
+ * @param  {boolean}  adjustWaveLength  Adjust wave length based on the actual line length
+ * @return {string}                     SVG path
+ */
+export declare function wavedLine(point1: IPoint, point2: IPoint, waveLength: number, waveHeight: number, tension: number, adjustWaveLength?: boolean): string;
+/**
  * @ignore Exclude from docs
  * @todo Description
  */

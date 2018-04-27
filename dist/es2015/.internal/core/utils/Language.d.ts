@@ -26,7 +26,7 @@ export interface ILanguageEvents extends IBaseObjectEvents {
     /**
      * Invoked when locale is changed by user.
      */
-    localeChanged: {
+    localechanged: {
         locale: ILocale;
     };
 }

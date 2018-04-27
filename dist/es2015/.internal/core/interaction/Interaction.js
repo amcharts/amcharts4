@@ -475,6 +475,10 @@ var Interaction = /** @class */ (function (_super) {
      * @param {FocusEvent}         ev  Original event
      */
     Interaction.prototype.handleFocus = function (io, ev) {
+        if (!io.focusable) {
+            ev.preventDefault();
+            return;
+        }
         io.isFocused = true;
         if (io.events.isEnabled("focus")) {
             var imev = {
@@ -493,6 +497,10 @@ var Interaction = /** @class */ (function (_super) {
      * @param {FocusEvent}         ev  Original event
      */
     Interaction.prototype.handleBlur = function (io, ev) {
+        if (!io.focusable) {
+            ev.preventDefault();
+            return;
+        }
         io.isFocused = false;
         if (io.events.isEnabled("blur")) {
             var imev = {
@@ -1061,7 +1069,7 @@ var Interaction = /** @class */ (function (_super) {
         // Add Pointer in object
         io.downPointers.moveValue(pointer);
         // Lose focus if needed
-        if (io.focusable && this.getHitOption(io, "noFocus")) {
+        if (io.focusable !== false && this.getHitOption(io, "noFocus")) {
             if (this.focusedObject) {
                 $dom.blur();
             }
@@ -1448,7 +1456,7 @@ var Interaction = /** @class */ (function (_super) {
             }];
         // Start animation
         var animation = new Animation(inertia, animationOptions, this.getInertiaOption(io, "move", "duration"), this.getInertiaOption(io, "move", "easing")).start();
-        this._disposers.push(animation.events.on("animationend", function (ev) {
+        this._disposers.push(animation.events.on("animationended", function (ev) {
             inertia.done();
         }));
         // Add inertia object
@@ -2131,6 +2139,30 @@ var Interaction = /** @class */ (function (_super) {
         }
     };
     /**
+     * Sets style on the body of the document.
+     *
+     * @ignore Exclude from docs
+     * @param {Array<IStyleProperty> | IStyleProperty}  style  Style definitions
+     */
+    Interaction.prototype.setGlobalStyle = function (style) {
+        var styles = ($type.isArray(style) ? style : [style]);
+        for (var i = 0; i < styles.length; i++) {
+            this.setTemporaryStyle(interaction.body, styles[i].property, styles[i].value);
+        }
+    };
+    /**
+     * Restores style on the body of the document.
+     *
+     * @ignore Exclude from docs
+     * @param {Array<IStyleProperty> | IStyleProperty}  style  Style definitions
+     */
+    Interaction.prototype.restoreGlobalStyle = function (style) {
+        var styles = ($type.isArray(style) ? style : [style]);
+        for (var i = 0; i < styles.length; i++) {
+            this.restoreStyle(interaction.body, styles[i].property);
+        }
+    };
+    /**
      * Checks if pointer has moved since it was created.
      *
      * @param  {IPointer}  pointer    Pointer
@@ -2247,11 +2279,17 @@ var Interaction = /** @class */ (function (_super) {
     return Interaction;
 }(BaseObjectEvents));
 export { Interaction };
+var interaction = null;
 /**
- * A single unified global instance of [[Interaction]].
+ * Returns a single unified global instance of [[Interaction]].
  *
- * All code should use this variable, rather than create their own instances
+ * All code should use this function, rather than create their own instances
  * of [[Interaction]].
  */
-export var interaction = new Interaction();
+export function getInteraction() {
+    if (interaction == null) {
+        interaction = new Interaction();
+    }
+    return interaction;
+}
 //# sourceMappingURL=Interaction.js.map

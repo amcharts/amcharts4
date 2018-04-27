@@ -99,10 +99,10 @@ import * as $type from "../utils/Type";
  * To enable menu, simply access export's `menu` property. E.g.:
  *
  * ```TypeScript
- * chart.exporting.menu = new amcharts4.ExportMenu();
+ * chart.exporting.menu = new am4core.ExportMenu();
  * ```
  * ```JavaScript
- * chart.exporting.menu = new amcharts4.ExportMenu();
+ * chart.exporting.menu = new am4core.ExportMenu();
  * ```
  * ```JSON
  * {
@@ -222,6 +222,7 @@ var Export = /** @class */ (function (_super) {
             return arg;
         });
         _this.applyTheme();
+        _this.dispatchImmediately("inited");
         return _this;
     }
     Object.defineProperty(Export.prototype, "menu", {
@@ -238,10 +239,10 @@ var Export = /** @class */ (function (_super) {
          * [[ExportMenu]].
          *
          * ```TypeScript
-         * chart.exporting.menu = new amcharts4.ExportMenu();
+         * chart.exporting.menu = new am4core.ExportMenu();
          * ```
          * ```JavaScript
-         * chart.exporting.menu = new amcharts4.ExportMenu();
+         * chart.exporting.menu = new am4core.ExportMenu();
          * ```
          * ```JSON
          * {
@@ -278,7 +279,7 @@ var Export = /** @class */ (function (_super) {
                 _this.menu.close();
             });
             // Dispatch event
-            this.dispatchImmediately("menuCreated");
+            this.dispatchImmediately("menucreated");
             // Prefix with Sprite's class name
             this._menu.adapter.add("classPrefix", function (obj) {
                 obj.classPrefix = _this.sprite.classNamePrefix + obj.classPrefix;
@@ -359,9 +360,9 @@ var Export = /** @class */ (function (_super) {
                 switch (_a.label) {
                     case 0:
                         // Dispatch event
-                        if (this.events.isEnabled("exportStarted")) {
-                            this.events.dispatchImmediately("exportStarted", {
-                                "type": "exportStarted",
+                        if (this.events.isEnabled("exportstarted")) {
+                            this.events.dispatchImmediately("exportstarted", {
+                                "type": "exportstarted",
                                 "target": this,
                                 "format": type,
                                 "options": options
@@ -374,9 +375,9 @@ var Export = /** @class */ (function (_super) {
                             this.hideTimeout();
                             this._timeoutTimeout = this.setTimeout(function () {
                                 // Dispatch event
-                                if (_this.events.isEnabled("exportTimeout")) {
-                                    _this.events.dispatchImmediately("exportTimeout", {
-                                        "type": "exportTimeout",
+                                if (_this.events.isEnabled("exporttimedout")) {
+                                    _this.events.dispatchImmediately("exporttimedout", {
+                                        "type": "exporttimedout",
                                         "target": _this,
                                         "format": type,
                                         "options": options
@@ -402,9 +403,9 @@ var Export = /** @class */ (function (_super) {
                         data = _a.sent();
                         if (data) {
                             // Dispatch event
-                            if (this.events.isEnabled("exportFinished")) {
-                                this.events.dispatchImmediately("exportFinished", {
-                                    "type": "exportFinished",
+                            if (this.events.isEnabled("exportfinished")) {
+                                this.events.dispatchImmediately("exportfinished", {
+                                    "type": "exportfinished",
                                     "target": this,
                                     "format": type,
                                     "options": options
@@ -428,9 +429,9 @@ var Export = /** @class */ (function (_super) {
                             // Throw exception?
                             // @todo
                             // Dispatch event
-                            if (this.events.isEnabled("exportError")) {
-                                this.events.dispatchImmediately("exportError", {
-                                    "type": "exportError",
+                            if (this.events.isEnabled("error")) {
+                                this.events.dispatchImmediately("error", {
+                                    "type": "error",
                                     "target": this,
                                     "format": type,
                                     "options": options

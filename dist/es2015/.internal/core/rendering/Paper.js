@@ -16,6 +16,7 @@
  */
 import { AMElement } from "./AMElement";
 import { Group } from "./Group";
+import * as $dom from "../utils/DOM";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -38,18 +39,18 @@ var Paper = /** @class */ (function () {
         // Store container reference
         this.container = container;
         // Create SVG element
-        var svg = document.createElementNS(Paper.SVGNS, "svg");
+        var svg = document.createElementNS($dom.SVGNS, "svg");
         svg.setAttribute("version", "1.1");
-        svg.setAttributeNS(Paper.XMLNS, "xmlns", Paper.SVGNS);
-        svg.setAttributeNS(Paper.XMLNS, "xmlns:xlink", Paper.XLINK);
+        svg.setAttributeNS($dom.XMLNS, "xmlns", $dom.SVGNS);
+        svg.setAttributeNS($dom.XMLNS, "xmlns:xlink", $dom.XLINK);
         svg.setAttribute("role", "group");
         this.container.appendChild(svg);
         // Add description
-        var desc = document.createElementNS(Paper.SVGNS, "desc");
+        var desc = document.createElementNS($dom.SVGNS, "desc");
         desc.appendChild(document.createTextNode("JavaScript chart by amCharts"));
         svg.appendChild(desc);
         // Add defs
-        this.defs = document.createElementNS(Paper.SVGNS, "defs");
+        this.defs = document.createElementNS($dom.SVGNS, "defs");
         svg.appendChild(this.defs);
         // Set width and height to fit container
         svg.style.width = "100%";
@@ -115,27 +116,6 @@ var Paper = /** @class */ (function () {
     Paper.prototype.supportsForeignObject = function () {
         return document.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#Extensibility", "1.1");
     };
-    /**
-     * SVG namespace.
-     *
-     * @ignore Exclude from docs
-     * @type {string}
-     */
-    Paper.SVGNS = "http://www.w3.org/2000/svg";
-    /**
-     * XML namespace.
-     *
-     * @ignore Exclude from docs
-     * @type {string}
-     */
-    Paper.XMLNS = "http://www.w3.org/2000/xmlns/";
-    /**
-     * XLING namespace.
-     *
-     * @ignore Exclude from docs
-     * @type {string}
-     */
-    Paper.XLINK = "http://www.w3.org/1999/xlink";
     return Paper;
 }());
 export { Paper };

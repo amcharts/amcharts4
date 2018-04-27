@@ -5,7 +5,7 @@
 /**
  * Elements: core
  */
-export { System, system } from "./.internal/core/System";
+export { System, getSystem } from "./.internal/core/System";
 export { BaseObject, BaseObjectEvents } from "./.internal/core/Base";
 export { Component } from "./.internal/core/Component";
 export { Container } from "./.internal/core/Container";
@@ -13,6 +13,8 @@ export { DataItem } from "./.internal/core/DataItem";
 export { Sprite } from "./.internal/core/Sprite";
 export { SpriteEventDispatcher } from "./.internal/core/SpriteEvents";
 export { SpriteState } from "./.internal/core/SpriteState";
+export { registry, Registry } from "./.internal/core/Registry";
+export { options } from "./.internal/core/Options";
 /**
  * Elements: data
  */
@@ -71,12 +73,12 @@ export { ExportMenu } from "./.internal/core/export/ExportMenu";
 export { DateFormatter } from "./.internal/core/formatters/DateFormatter";
 export { DurationFormatter } from "./.internal/core/formatters/DurationFormatter";
 export { NumberFormatter } from "./.internal/core/formatters/NumberFormatter";
-export { TextFormatter } from "./.internal/core/formatters/TextFormatter";
+export { TextFormatter, getTextFormatter } from "./.internal/core/formatters/TextFormatter";
 /**
  * Elements: interaction
  */
 export { Inertia } from "./.internal/core/interaction/Inertia";
-export { Interaction, interaction } from "./.internal/core/interaction/Interaction";
+export { Interaction, getInteraction } from "./.internal/core/interaction/Interaction";
 export { InteractionKeyboardObject } from "./.internal/core/interaction/InteractionKeyboardObject";
 export { InteractionObject } from "./.internal/core/interaction/InteractionObject";
 export { InteractionObjectEventDispatcher } from "./.internal/core/interaction/InteractionObjectEvents";

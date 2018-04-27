@@ -100,11 +100,11 @@ export interface IPieChartAdapters extends ISerialChartAdapters, IPieChartProper
  *
  * ```TypeScript
  * // Includes
- * import * as amcharts4 from "@amcharts/amcharts4/core";
- * import * as charts from "@amcharts/amcharts4/charts";
+ * import * as am4core from "@amcharts/amcharts4/core";
+ * import * as am4charts from "@amcharts/amcharts4/charts";
  *
  * // Create chart
- * let chart = amcharts4.create("chartdiv", charts.PieChart);
+ * let chart = am4core.create("chartdiv", am4charts.PieChart);
  *
  * // Set data
  * chart.data = [{
@@ -119,16 +119,16 @@ export interface IPieChartAdapters extends ISerialChartAdapters, IPieChartProper
  * }];
  *
  * // Create series
- * let series = chart.series.push(new charts.PieSeries());
+ * let series = chart.series.push(new am4charts.PieSeries());
  * series.dataFields.value = "litres";
  * series.dataFields.category = "country";
  * ```
  * ```JavaScript
  * // Create chart
- * var chart = amcharts4.create("chartdiv", amcharts4.charts.PieChart);
+ * var chart = am4core.create("chartdiv", am4charts.PieChart);
  *
  * // The following would work as well:
- * // var chart = amcharts4.create("chartdiv", "PieChart");
+ * // var chart = am4core.create("chartdiv", "PieChart");
  *
  * // Set data
  * chart.data = [{
@@ -143,12 +143,12 @@ export interface IPieChartAdapters extends ISerialChartAdapters, IPieChartProper
  * }];
  *
  * // Create series
- * var series = chart.series.push(new amcharts4.charts.PieSeries());
+ * var series = chart.series.push(new am4charts.PieSeries());
  * series.dataFields.value = "litres";
  * series.dataFields.category = "country";
  * ```
  * ```JSON
- * var chart = amcharts4.createFromConfig({
+ * var chart = am4core.createFromConfig({
  *
  * 	// Series
  * 	"series": [{
@@ -253,11 +253,11 @@ export declare class PieChart extends SerialChart {
      *
      * ```TypeScript
      * // Set pie chart to be at 50% of the available space
-     * pieChart.radius = amcharts4.percent.percent(50);
+     * pieChart.radius = am4core.percent.percent(50);
      * ```
      * ```JavaScript
      * // Set pie chart to be at 50% of the available space
-     * pieChart.radius = amcharts4.percent.percent(50);
+     * pieChart.radius = am4core.percent.percent(50);
      * ```
      * ```JSON
      * {

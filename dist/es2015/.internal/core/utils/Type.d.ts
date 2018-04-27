@@ -179,28 +179,6 @@ export declare function toText(value: any): string;
  */
 export declare function toNumberOrPercent(value: any): number | Percent;
 /**
- * Converts numeric percent value to a proper [[Percent]] object.
- *
- * ```TypeScript
- * pieSeries.radius = amcharts4.percent(80);
- * ```
- * ```JavaScript
- * pieSeries.radius = amcharts4.percent(80);
- * ```
- *
- * @param  {number}   value  Percent
- * @return {Percent}         Percent object
- */
-export declare function percent(value: number): Percent;
-/**
- * Checks if value is a [[Percent]] object.
- *
- * @ignore Exclude from docs
- * @param  {any}      value  Input value
- * @return {boolean}         Is percent?
- */
-export declare function isPercent(value: any): boolean;
-/**
  * ============================================================================
  * VALUE PRESENCE CHECK
  * ============================================================================

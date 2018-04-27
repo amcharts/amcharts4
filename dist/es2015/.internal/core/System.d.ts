@@ -1,26 +1,4 @@
-import { EventDispatcher, AMEvent } from "./utils/EventDispatcher";
-import { SVGContainer } from "./rendering/SVGContainer";
-import { TextFormatter } from "./formatters/TextFormatter";
-/**
- * ============================================================================
- * REQUISITES
- * ============================================================================
- * @hidden
- */
-/**
- * Define events available for [[System]]
- */
-export interface ISystemEvents {
-    /**
-     * Invoked when update cycle starts. Before invalid elements are re-validated.
-     */
-    enterframe: {};
-    /**
-     * Invoked when udpate cycle ends. After invalid elements have been
-     * re-validated.
-     */
-    exitframe: {};
-}
+import { Paper } from "./rendering/Paper";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -39,12 +17,6 @@ export declare class System {
      */
     uid: string;
     /**
-     * Event dispacther.
-     *
-     * @type {EventDispatcher}
-     */
-    events: EventDispatcher<AMEvent<System, ISystemEvents>>;
-    /**
      * amCharts Version.
      *
      * This follows npm's semver specification.
@@ -53,19 +25,6 @@ export declare class System {
      * @type {string}
      */
     static VERSION: string;
-    /**
-     * Console output enabled.
-     *
-     * @type {boolean}
-     */
-    verbose: boolean;
-    /**
-     * A array of all SVG Containers (one SVG container per chart instance).
-     *
-     * @ignore Exclude from docs
-     * @type {Array<SVGContainer>}
-     */
-    svgContainers: Array<SVGContainer>;
     /**
      * Invalid sizes
      * @rodo Remove commented code
@@ -108,22 +67,6 @@ export declare class System {
      */
     measureAt: number;
     /**
-     * amCharts will add `class` property to some elements. All those class names
-     * will be prefixed by `classNamePrefix`.
-     *
-     * @type {string}
-     */
-    classNamePrefix: string;
-    /**
-     * Holds the global instancce to [[TextFormatter]].
-     *
-     * All classes and instances are to reuse this universal text formatter,
-     * rather than create their own instance of it.
-     *
-     * @type {TextFormatter}
-     */
-    textFormatter: TextFormatter;
-    /**
      * @todo Description
      * @todo Needed?
      * @ignore Exclude from docs
@@ -137,13 +80,13 @@ export declare class System {
      */
     time: number;
     /**
-     * @ignore
+     * A [[Paper]] instance to create elements, that are not yet ready to be
+     * placed in visible DOM.
+     *
+     * @ignore Exclude from docs
+     * @type {Paper}
      */
-    commercialLicense: boolean;
-    /**
-     * Constructor
-     */
-    constructor();
+    ghostPaper: Paper;
     /**
      * Performs initialization of the System object.
      *
@@ -222,29 +165,11 @@ export declare class System {
      * @type {number} Frame rate
      */
     frameRate: number;
-    /**
-     * Dispatches an event using own event dispatcher. Will automatically
-     * populate event data object with event type and target (this element).
-     * It also checks if there are any handlers registered for this sepecific
-     * event.
-     *
-     * @param {string} eventType Event type (name)
-     * @param {any}    data      Data to pass into event handler(s)
-     */
-    dispatch(eventType: string, data?: any): void;
-    /**
-     * Works like `dispatch`, except event is triggered immediately, without
-     * waiting for the next frame cycle.
-     *
-     * @param {string} eventType Event type (name)
-     * @param {any}    data      Data to pass into event handler(s)
-     */
-    dispatchImmediately(eventType: string, data?: any): void;
 }
 /**
- * A singleton global instance of [[System]].
+ * Returns a singleton global instance of [[System]].
  *
- * All code should access this system variable, rather than instantiate their
- * own.
+ * All code should call this function, rather than instantiating their
+ * own System objects.
  */
-export declare let system: System;
+export declare function getSystem(): System;

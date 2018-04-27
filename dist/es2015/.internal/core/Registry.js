@@ -1,3 +1,4 @@
+import { EventDispatcher } from "./utils/EventDispatcher";
 import { Dictionary } from "./utils/Dictionary";
 import { cache } from "./utils/Cache";
 /**
@@ -112,6 +113,7 @@ var Registry = /** @class */ (function () {
          */
         this.invalidLayouts = [];
         this.uid = this.getUniqueId();
+        this.events = new EventDispatcher();
     }
     /**
      * Generates a unique chart system-wide ID.
@@ -158,6 +160,57 @@ var Registry = /** @class */ (function () {
      */
     Registry.prototype.getCache = function (key) {
         return cache.get(this.uid, key);
+    };
+    /**
+     * Dispatches an event using own event dispatcher. Will automatically
+     * populate event data object with event type and target (this element).
+     * It also checks if there are any handlers registered for this sepecific
+     * event.
+     *
+     * @param {string} eventType Event type (name)
+     * @param {any}    data      Data to pass into event handler(s)
+     */
+    Registry.prototype.dispatch = function (eventType, data) {
+        // @todo Implement proper type check
+        if (this.events.isEnabled(eventType)) {
+            if (data) {
+                data.type = eventType;
+                data.target = data.target || this;
+                this.events.dispatch(eventType, {
+                    type: eventType,
+                    target: this
+                });
+            }
+            else {
+                this.events.dispatch(eventType, {
+                    type: eventType,
+                    target: this
+                });
+            }
+        }
+    };
+    /**
+     * Works like `dispatch`, except event is triggered immediately, without
+     * waiting for the next frame cycle.
+     *
+     * @param {string} eventType Event type (name)
+     * @param {any}    data      Data to pass into event handler(s)
+     */
+    Registry.prototype.dispatchImmediately = function (eventType, data) {
+        // @todo Implement proper type check
+        if (this.events.isEnabled(eventType)) {
+            if (data) {
+                data.type = eventType;
+                data.target = data.target || this;
+                this.events.dispatchImmediately(eventType, data);
+            }
+            else {
+                this.events.dispatchImmediately(eventType, {
+                    type: eventType,
+                    target: this
+                });
+            }
+        }
     };
     return Registry;
 }());

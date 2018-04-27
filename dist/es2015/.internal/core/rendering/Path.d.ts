@@ -1,3 +1,12 @@
+/**
+ * A collection of functions that deals with path calculations.
+ */
+/**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
 import { IPoint } from "../defs/IPoint";
 import { IRectangle } from "../defs/IRectangle";
 /**
@@ -14,18 +23,6 @@ import { IRectangle } from "../defs/IRectangle";
  * @return {string}            SVG path
  */
 export declare function polyline(points: IPoint[]): string;
-/**
- * Returns a waved line SVG path between two points.
- *
- * @ignore Exclude from docs
- * @param  {IPoint}   point1            Starting point
- * @param  {IPoint}   point2            Ending point
- * @param  {number}   waveLength        Wave length
- * @param  {number}   waveHeight        Wave height
- * @param  {boolean}  adjustWaveLength  Adjust wave length based on the actual line length
- * @return {string}                     SVG path
- */
-export declare function wavedLine(point1: IPoint, point2: IPoint, waveLength: number, waveHeight: number, tension: number, adjustWaveLength?: boolean): string;
 /**
  * Returns a starting point of an SVG path.
  *

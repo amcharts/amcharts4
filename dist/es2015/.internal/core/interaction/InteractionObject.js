@@ -21,7 +21,7 @@ import { InteractionObjectEventDispatcher } from "./InteractionObjectEvents";
 import { BaseObjectEvents } from "../Base";
 import { List } from "../utils/List";
 import { Dictionary, DictionaryDisposer } from "../utils/Dictionary";
-import { interaction } from "./Interaction";
+import { getInteraction } from "./Interaction";
 import * as $iter from "../utils/Iterator";
 /**
  * Re-exports
@@ -151,10 +151,10 @@ var InteractionObject = /** @class */ (function (_super) {
             if (this.isHover != value) {
                 this._isHover = value;
                 if (value) {
-                    interaction.overObjects.moveValue(this);
+                    getInteraction().overObjects.moveValue(this);
                 }
                 else {
-                    interaction.overObjects.removeValue(this);
+                    getInteraction().overObjects.removeValue(this);
                 }
             }
         },
@@ -195,10 +195,10 @@ var InteractionObject = /** @class */ (function (_super) {
             if (this.isDown != value) {
                 this._isDown = value;
                 if (value) {
-                    interaction.downObjects.moveValue(this);
+                    getInteraction().downObjects.moveValue(this);
                 }
                 else {
-                    interaction.downObjects.removeValue(this);
+                    getInteraction().downObjects.removeValue(this);
                 }
             }
         },
@@ -239,10 +239,10 @@ var InteractionObject = /** @class */ (function (_super) {
             if (this.isFocused != value) {
                 this._isFocused = value;
                 if (value) {
-                    interaction.focusedObject = this;
+                    getInteraction().focusedObject = this;
                 }
                 else {
-                    interaction.focusedObject = undefined;
+                    getInteraction().focusedObject = undefined;
                 }
             }
         },
@@ -267,7 +267,7 @@ var InteractionObject = /** @class */ (function (_super) {
         set: function (value) {
             if (this._clickable !== value) {
                 this._clickable = value;
-                interaction.processClickable(this);
+                getInteraction().processClickable(this);
             }
         },
         enumerable: true,
@@ -290,7 +290,7 @@ var InteractionObject = /** @class */ (function (_super) {
         set: function (value) {
             if (this._hoverable !== value) {
                 this._hoverable = value;
-                interaction.processHoverable(this);
+                getInteraction().processHoverable(this);
             }
         },
         enumerable: true,
@@ -313,7 +313,7 @@ var InteractionObject = /** @class */ (function (_super) {
         set: function (value) {
             if (this._trackable !== value) {
                 this._trackable = value;
-                interaction.processTrackable(this);
+                getInteraction().processTrackable(this);
             }
         },
         enumerable: true,
@@ -336,7 +336,7 @@ var InteractionObject = /** @class */ (function (_super) {
         set: function (value) {
             if (this._draggable !== value) {
                 this._draggable = value;
-                interaction.processDraggable(this);
+                getInteraction().processDraggable(this);
             }
         },
         enumerable: true,
@@ -359,7 +359,7 @@ var InteractionObject = /** @class */ (function (_super) {
         set: function (value) {
             if (this._swipeable !== value) {
                 this._swipeable = value;
-                interaction.processSwipeable(this);
+                getInteraction().processSwipeable(this);
             }
         },
         enumerable: true,
@@ -382,7 +382,7 @@ var InteractionObject = /** @class */ (function (_super) {
         set: function (value) {
             if (this._resizable !== value) {
                 this._resizable = value;
-                interaction.processResizable(this);
+                getInteraction().processResizable(this);
             }
         },
         enumerable: true,
@@ -405,7 +405,7 @@ var InteractionObject = /** @class */ (function (_super) {
         set: function (value) {
             if (this._rotatable !== value) {
                 this._rotatable = value;
-                interaction.processRotatable(this);
+                getInteraction().processRotatable(this);
             }
         },
         enumerable: true,
@@ -428,7 +428,7 @@ var InteractionObject = /** @class */ (function (_super) {
         set: function (value) {
             if (this._wheelable !== value) {
                 this._wheelable = value;
-                interaction.processWheelable(this);
+                getInteraction().processWheelable(this);
             }
         },
         enumerable: true,
@@ -477,7 +477,7 @@ var InteractionObject = /** @class */ (function (_super) {
                 if (this._focusable && this.tabindex == -1) {
                     this._tabindex = 1;
                 }
-                interaction.processFocusable(this);
+                getInteraction().processFocusable(this);
             }
         },
         enumerable: true,
@@ -503,7 +503,7 @@ var InteractionObject = /** @class */ (function (_super) {
                 if (value > -1) {
                     this.focusable = true;
                 }
-                interaction.processFocusable(this);
+                getInteraction().processFocusable(this);
             }
         },
         enumerable: true,
@@ -620,7 +620,7 @@ var InteractionObject = /** @class */ (function (_super) {
         this.swipeOptions = source.swipeOptions;
         this.keyboardOptions = source.keyboardOptions;
         this.cursorOptions = source.cursorOptions;
-        interaction.applyCursorOverStyle(this);
+        getInteraction().applyCursorOverStyle(this);
     };
     return InteractionObject;
 }(BaseObjectEvents));

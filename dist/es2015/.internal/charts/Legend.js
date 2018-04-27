@@ -25,9 +25,10 @@ import { Container } from "../core/Container";
 import { Label } from "../core/elements/Label";
 import { keyboard } from "../core/utils/Keyboard";
 import { registry } from "../core/Registry";
-import { interaction } from "../core/interaction/Interaction";
+import { getInteraction } from "../core/interaction/Interaction";
 import { percent } from "../core/utils/Percent";
 import { InterfaceColorSet } from "../core/utils/InterfaceColorSet";
+import * as $type from "../core/utils/Type";
 /**
  * ============================================================================
  * DATA ITEM
@@ -130,7 +131,7 @@ var Legend = /** @class */ (function (_super) {
         // Create container list using item template we just created
         _this.itemContainers = new ListTemplate(itemContainer);
         // Set up global keyboard events for toggling elements
-        interaction.body.events.on("keyup", function (ev) {
+        getInteraction().body.events.on("keyup", function (ev) {
             if (keyboard.isKey(ev.event, "enter") && _this.focusedItem) {
                 _this.toggleDataItem(_this.focusedItem);
             }
@@ -187,7 +188,9 @@ var Legend = /** @class */ (function (_super) {
      */
     Legend.prototype.applyInternalDefaults = function () {
         _super.prototype.applyInternalDefaults.call(this);
-        this.readerTitle = this.language.translate("Legend");
+        if (!$type.hasValue(this.readerTitle)) {
+            this.readerTitle = this.language.translate("Legend");
+        }
     };
     /**
      * Returns a new/empty DataItem of the type appropriate for this object.

@@ -74,10 +74,10 @@ export interface IHitOptions {
      */
     hitTolerance?: number;
     /**
-     * If set to `true` (default), Interaction will try to browser not to move
-     * focus on a clicked/touched element. This prevents items to become focused
-     * (and marked out with an ugly highlinght square) on click/touch, but still
-     * make them focusable using keyboard for accessibility.
+     * If set to `true` (default), Interaction will try to trick the browser not
+     * to move focus on a clicked/touched element. This prevents items to become
+     * focused (and highlighted) on click/touch, but still make them focusable
+     * using keyboard for accessibility.
      *
      * @type {boolean}
      */

@@ -99,11 +99,11 @@ export interface IXYChartAdapters extends ISerialChartAdapters, IXYChartProperti
  *
  * ```TypeScript
  * // Includes
- * import * as amcharts4 from "@amcharts/amcharts4/core";
- * import * as charts from "@amcharts/amcharts4/charts";
+ * import * as am4core from "@amcharts/amcharts4/core";
+ * import * as am4charts from "@amcharts/amcharts4/charts";
  *
  * // Create chart
- * let chart = amcharts4.create("chartdiv", charts.XYChart);
+ * let chart = am4core.create("chartdiv", am4charts.XYChart);
  *
  * // Add Data
  * chart.data = [{
@@ -118,24 +118,24 @@ export interface IXYChartAdapters extends ISerialChartAdapters, IXYChartProperti
  * }];
  *
  * // Add category axis
- * let categoryAxis = chart.xAxes.push(new charts.CategoryAxis());
+ * let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
  * categoryAxis.dataFields.category = "country";
  *
  * // Add value axis
- * let valueAxis = chart.yAxes.push(new charts.ValueAxis());
+ * let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
  *
  * // Add series
- * let series = chart.series.push(new charts.ColumnSeries());
+ * let series = chart.series.push(new am4charts.ColumnSeries());
  * series.name = "Web Traffic";
  * series.dataFields.categoryX = "country";
  * series.dataFields.valueY = "visits";
  * ```
  * ```JavaScript
  * // Create chart
- * var chart = amcharts4.create("chartdiv", amcharts4.charts.XYChart);
+ * var chart = am4core.create("chartdiv", am4charts.XYChart);
  *
  * // The following would work as well:
- * // var chart = amcharts4.create("chartdiv", "XYChart");
+ * // var chart = am4core.create("chartdiv", "XYChart");
  *
  * // Add Data
  * chart.data = [{
@@ -150,20 +150,20 @@ export interface IXYChartAdapters extends ISerialChartAdapters, IXYChartProperti
  * }];
  *
  * // Add category axis
- * var categoryAxis = chart.xAxes.push(new amcharts4.charts.CategoryAxis());
+ * var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
  * categoryAxis.dataFields.category = "country";
  *
  * // Add value axis
- * var valueAxis = chart.yAxes.push(new amcharts4.charts.ValueAxis());
+ * var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
  *
  * // Add series
- * var series = chart.series.push(new amcharts4.charts.ColumnSeries());
+ * var series = chart.series.push(new am4charts.ColumnSeries());
  * series.name = "Web Traffic";
  * series.dataFields.categoryX = "country";
  * series.dataFields.valueY = "visits";
  * ```
  * ```JSON
- * var chart = amcharts4.createFromConfig({
+ * var chart = am4core.createFromConfig({
  *
  * 	// Category axis
  * 	"xAxes": [{

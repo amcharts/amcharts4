@@ -127,7 +127,7 @@ var SpriteEventDispatcher = /** @class */ (function (_super) {
             case "rotate":
             case "focus":
             case "blur":
-            case "toggle":
+            case "toggled":
                 disposers.push(this._addInteractionObjectEvent(type, this._dispatchSpriteEvent, this));
                 break;
         }
@@ -144,7 +144,7 @@ var SpriteEventDispatcher = /** @class */ (function (_super) {
             case "up":
                 this.target.clickable = true;
                 break;
-            case "toggle":
+            case "toggled":
                 this.target.togglable = true;
                 break;
             case "drag":

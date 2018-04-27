@@ -314,15 +314,8 @@ var SortedList = /** @class */ (function (_super) {
      * @param {T}  value  Item
      */
     SortedList.prototype._insert = function (value) {
-        var _a = $array.getSortedIndex(this._values, this._ordering, value), found = _a.found, index = _a.index;
-        // @todo maybe allow for multiple items which are equal ?
-        if (found) {
-            // @todo pretty printing
-            throw new Error("Value already exists: " + value);
-        }
-        else {
-            $array.insertIndex(this._values, index, value);
-        }
+        var index = $array.getSortedIndex(this._values, this._ordering, value).index;
+        $array.insertIndex(this._values, index, value);
     };
     /**
      * Returns index of the item in list if found.

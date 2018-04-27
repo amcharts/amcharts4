@@ -21,6 +21,7 @@ import { RadarChart, RadarChartDataItem } from "./RadarChart";
 import { ListTemplate } from "../../core/utils/List";
 import { ClockHand } from "../elements/ClockHand";
 import { registry } from "../../core/Registry";
+import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
  * DATA ITEM
@@ -86,7 +87,9 @@ var GaugeChart = /** @class */ (function (_super) {
         _super.prototype.applyInternalDefaults.call(this);
         // Add a default screen reader title for accessibility
         // This will be overridden in screen reader if there are any `titles` set
-        this.readerTitle = this.language.translate("Gauge chart");
+        if (!$type.hasValue(this.readerTitle)) {
+            this.readerTitle = this.language.translate("Gauge chart");
+        }
     };
     /**
      * Decorates a [[ClockHand]] when it is added to the chart.

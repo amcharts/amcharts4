@@ -20,25 +20,11 @@
  
 webpackJsonp([10],{
 
-/***/ 542:
+/***/ 543:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(543);
+module.exports = __webpack_require__(544);
 
-
-/***/ }),
-
-/***/ 543:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__es2015_lang_lt_LT__ = __webpack_require__(544);
-
-
-var amcharts4 = window.amcharts4;
-amcharts4.lang = amcharts4.lang || {};
-amcharts4.lang.lt_LT = __WEBPACK_IMPORTED_MODULE_0__es2015_lang_lt_LT__["a" /* default */];
 
 /***/ }),
 
@@ -46,14 +32,25 @@ amcharts4.lang.lt_LT = __WEBPACK_IMPORTED_MODULE_0__es2015_lang_lt_LT__["a" /* d
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__internal_lang_lt_LT__ = __webpack_require__(545);
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__es2015_lang_lt_LT__ = __webpack_require__(545);
+
+window.am4lang_lt_LT = __WEBPACK_IMPORTED_MODULE_0__es2015_lang_lt_LT__["a" /* default */];
+
+/***/ }),
+
+/***/ 545:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__internal_lang_lt_LT__ = __webpack_require__(546);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__internal_lang_lt_LT__["a"]; });
 
 //# sourceMappingURL=lt_LT.js.map
 
 /***/ }),
 
-/***/ 545:
+/***/ 546:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -214,4 +211,4 @@ amcharts4.lang.lt_LT = __WEBPACK_IMPORTED_MODULE_0__es2015_lang_lt_LT__["a" /* d
 
 /***/ })
 
-},[542]);
+},[543]);

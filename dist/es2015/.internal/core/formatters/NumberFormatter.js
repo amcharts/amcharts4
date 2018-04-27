@@ -13,7 +13,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import { Language } from "../utils/Language";
 import { BaseObject } from "../Base";
-import { system } from "../System";
+import { getTextFormatter } from "../formatters/TextFormatter";
 import * as $strings from "../utils/Strings";
 import * as $object from "../utils/Object";
 import * as $utils from "../utils/Utils";
@@ -245,7 +245,7 @@ var NumberFormatter = /** @class */ (function (_super) {
                 partFormat = _this._numberFormat;
             }
             // Let TextFormatter split into chunks
-            var chunks = system.textFormatter.chunk(partFormat, true);
+            var chunks = getTextFormatter().chunk(partFormat, true);
             for (var i = 0; i < chunks.length; i++) {
                 var chunk = chunks[i];
                 // replace back double vertical bar
@@ -312,7 +312,7 @@ var NumberFormatter = /** @class */ (function (_super) {
                 }
             }
             // Apply style formatting
-            //item.template = system.textFormatter.format(item.template, this.outputFormat);
+            //item.template = getTextFormatter().format(item.template, this.outputFormat);
             // Save cache
             _this.setCache(item.source, item);
             // Mark this as parsed

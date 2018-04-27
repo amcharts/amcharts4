@@ -19,6 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Line } from "./Line";
 import { color } from "../utils/Color";
+import { wavedLine } from "../rendering/Smoothing";
 import * as $path from "../rendering/Path";
 /**
  * ============================================================================
@@ -58,7 +59,7 @@ var WavedLine = /** @class */ (function (_super) {
         //super.draw();
         var p1 = { x: this.x1, y: this.y1 };
         var p2 = { x: this.x2, y: this.y2 };
-        var d = $path.moveTo(p1) + $path.wavedLine(p1, p2, this.waveLength, this.waveHeight, this.tension, true);
+        var d = $path.moveTo(p1) + wavedLine(p1, p2, this.waveLength, this.waveHeight, this.tension, true);
         this.element.attr({ "d": d });
     };
     Object.defineProperty(WavedLine.prototype, "waveLength", {

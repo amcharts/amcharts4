@@ -22,6 +22,7 @@ import { RoundedRectangle } from "./RoundedRectangle";
 import { registry } from "../Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import { Triangle } from "./Triangle";
+import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -97,7 +98,9 @@ var PlayButton = /** @class */ (function (_super) {
      */
     PlayButton.prototype.applyInternalDefaults = function () {
         _super.prototype.applyInternalDefaults.call(this);
-        this.readerTitle = this.language.translate("Play");
+        if (!$type.hasValue(this.readerTitle)) {
+            this.readerTitle = this.language.translate("Play");
+        }
     };
     return PlayButton;
 }(Button));

@@ -7,7 +7,7 @@
  * ============================================================================
  * @hidden
  */
-import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
+import { Container, ContainerLayout, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
 import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { IPoint } from "../../core/defs/IPoint";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
@@ -222,6 +222,7 @@ export declare class AxisRenderer extends Container {
      * A list of fill elements.
      */
     protected _axisFills: ListTemplate<this["_fillType"]>;
+    protected _originalLayout: ContainerLayout;
     /**
      * Constructor.
      *

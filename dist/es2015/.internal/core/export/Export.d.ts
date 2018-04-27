@@ -324,11 +324,11 @@ export interface IExportEvents {
     /**
      * Invoked when Export initializes.
      */
-    init: {};
+    inited: {};
     /**
      * Invoked when Export menu is created.
      */
-    menuCreated: {};
+    menucreated: {};
     /**
      * Invoked when the Export starts export procedure.
      *
@@ -337,19 +337,19 @@ export interface IExportEvents {
      *
      * @type {ExportOperation}
      */
-    exportStarted: ExportOperation;
+    exportstarted: ExportOperation;
     /**
      * Invoked when export operation finishes.
      *
      * @type {ExportOperation}
      */
-    exportFinished: ExportOperation;
+    exportfinished: ExportOperation;
     /**
      * Invoked when export operation encounters error.
      *
      * @type {ExportOperation}
      */
-    exportError: ExportOperation;
+    error: ExportOperation;
     /**
      * Invoked when export operation times out.
      *
@@ -357,7 +357,7 @@ export interface IExportEvents {
      *
      * @type {ExportOperation}
      */
-    exportTimeout: ExportOperation;
+    exporttimedout: ExportOperation;
 }
 /**
  * @ignore Exclude from docs
@@ -483,10 +483,10 @@ export interface IExportAdapters {
  * To enable menu, simply access export's `menu` property. E.g.:
  *
  * ```TypeScript
- * chart.exporting.menu = new amcharts4.ExportMenu();
+ * chart.exporting.menu = new am4core.ExportMenu();
  * ```
  * ```JavaScript
- * chart.exporting.menu = new amcharts4.ExportMenu();
+ * chart.exporting.menu = new am4core.ExportMenu();
  * ```
  * ```JSON
  * {
@@ -677,10 +677,10 @@ export declare class Export extends Validatable {
      * [[ExportMenu]].
      *
      * ```TypeScript
-     * chart.exporting.menu = new amcharts4.ExportMenu();
+     * chart.exporting.menu = new am4core.ExportMenu();
      * ```
      * ```JavaScript
-     * chart.exporting.menu = new amcharts4.ExportMenu();
+     * chart.exporting.menu = new am4core.ExportMenu();
      * ```
      * ```JSON
      * {

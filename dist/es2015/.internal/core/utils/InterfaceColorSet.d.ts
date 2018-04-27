@@ -74,11 +74,11 @@ export declare class InterfaceColorSet extends BaseObject {
      * Returns a color to be used for the specific purpose.
      *
      * ```TypeScript
-     * let uicolors = new amcharts4.InterfaceColorSet();
+     * let uicolors = new am4core.InterfaceColorSet();
      * console.log(uicolors.getFor("stroke"));
      * ```
      * ```JavaScript
-     * var uicolors = new amcharts4.InterfaceColorSet();
+     * var uicolors = new am4core.InterfaceColorSet();
      * console.log(uicolors.getFor("stroke"));
      * ```
      *

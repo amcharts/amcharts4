@@ -15,10 +15,10 @@ import * as $net from "../utils/Net";
  * The global instance of Data Loader is accessible via:
  *
  * ```TypeScript
- * amcharts4.dataLoader;
+ * am4core.dataLoader;
  * ```
  * ```JavaScript
- * amcharts4.dataLoader;
+ * am4core.dataLoader;
  * ```
  *
  * A loading of specific data source is done via [[DataSource]].
@@ -48,8 +48,8 @@ var DataLoader = /** @class */ (function () {
         // Add each Source to the list to be loaded simultaneously
         for (var x in sources) {
             // Dispatch events
-            sources[x].dispatchImmediately("start");
-            sources[x].dispatchImmediately("loadstart");
+            sources[x].dispatchImmediately("started");
+            sources[x].dispatchImmediately("loadstarted");
             promises.push($net.load(sources[x].url, sources[x]));
         }
         // Run all promises in parallel
@@ -60,7 +60,7 @@ var DataLoader = /** @class */ (function () {
                 var result = res[x];
                 var source_1 = result.target;
                 // Dispatch events
-                source_1.dispatchImmediately("loadstop");
+                source_1.dispatchImmediately("loadended");
                 if (result.error) {
                     if (source_1.events.isEnabled("error")) {
                         source_1.events.dispatchImmediately("error", {
@@ -75,10 +75,10 @@ var DataLoader = /** @class */ (function () {
                     // Initiate parsing of the loaded data
                     source_1.processData(result.response, result.type);
                 }
-                source_1.dispatchImmediately("stop");
+                source_1.dispatchImmediately("ended");
             }
         }).catch(function (res) {
-            res.dispatchImmediately("loadstop");
+            res.dispatchImmediately("loadended");
             if (res.target.events.isEnabled("error")) {
                 res.target.events.dispatchImmediately("error", {
                     type: "error",
@@ -87,7 +87,7 @@ var DataLoader = /** @class */ (function () {
                     target: res.target
                 });
             }
-            res.target.dispatchImmediately("stop");
+            res.target.dispatchImmediately("ended");
         });
     };
     /**

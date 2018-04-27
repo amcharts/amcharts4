@@ -20,7 +20,7 @@ var __extends = (this && this.__extends) || (function () {
 import { Container } from "../Container";
 import { ResizeButton } from "../elements/ResizeButton";
 import { Button } from "../elements/Button";
-import { interaction } from "../interaction/Interaction";
+import { getInteraction } from "../interaction/Interaction";
 import { MouseCursorStyle } from "../interaction/Mouse";
 import { RoundedRectangle } from "../elements/RoundedRectangle";
 import { registry } from "../Registry";
@@ -140,16 +140,32 @@ var Scrollbar = /** @class */ (function (_super) {
         }
         // Set screen reader tetxt accordingly
         if (this.orientation === "horizontal") {
-            this.readerTitle = this.language.translate("Use TAB to select grip buttons or left and right arrows to change selection");
-            this.thumb.readerDescription = this.language.translate("Use left and right arrows to move selection");
-            this.startGrip.readerDescription = this.language.translate("Use left and right arrows to move left selection");
-            this.endGrip.readerDescription = this.language.translate("Use left and right arrows to move right selection");
+            if (!$type.hasValue(this.readerTitle)) {
+                this.readerTitle = this.language.translate("Use TAB to select grip buttons or left and right arrows to change selection");
+            }
+            if (!$type.hasValue(this.thumb.readerDescription)) {
+                this.thumb.readerDescription = this.language.translate("Use left and right arrows to move selection");
+            }
+            if (!$type.hasValue(this.startGrip.readerDescription)) {
+                this.startGrip.readerDescription = this.language.translate("Use left and right arrows to move left selection");
+            }
+            if (!$type.hasValue(this.endGrip.readerDescription)) {
+                this.endGrip.readerDescription = this.language.translate("Use left and right arrows to move right selection");
+            }
         }
         else {
-            this.readerTitle = this.language.translate("Use TAB select grip buttons or up and down arrows to change selection");
-            this.thumb.readerDescription = this.language.translate("Use up and down arrows to move selection");
-            this.startGrip.readerDescription = this.language.translate("Use up and down arrows to move upper selection");
-            this.endGrip.readerDescription = this.language.translate("Use up and down arrows to move lower selection");
+            if (!$type.hasValue(this.readerTitle)) {
+                this.readerTitle = this.language.translate("Use TAB select grip buttons or up and down arrows to change selection");
+            }
+            if (!$type.hasValue(this.thumb.readerDescription)) {
+                this.thumb.readerDescription = this.language.translate("Use up and down arrows to move selection");
+            }
+            if (!$type.hasValue(this.startGrip.readerDescription)) {
+                this.startGrip.readerDescription = this.language.translate("Use up and down arrows to move upper selection");
+            }
+            if (!$type.hasValue(this.endGrip.readerDescription)) {
+                this.endGrip.readerDescription = this.language.translate("Use up and down arrows to move lower selection");
+            }
         }
     };
     /**
@@ -200,7 +216,7 @@ var Scrollbar = /** @class */ (function (_super) {
             this._thumbAnimation = thumb.animate({ property: "y", to: thumbY }, this.animationDuration, this.animationEasing);
         }
         if (this.animationDuration > 0) {
-            this._thumbAnimation.events.on("animationend", this.makeUnbusy, this);
+            this._thumbAnimation.events.on("animationended", this.makeUnbusy, this);
         }
         else {
             this._thumb.validate();
@@ -292,8 +308,8 @@ var Scrollbar = /** @class */ (function (_super) {
             thumb.width = innerWidth_1 * (end - start);
             thumb.maxX = innerWidth_1 - thumb.pixelWidth;
             thumb.x = start * innerWidth_1;
-            startGrip.moveTo({ x: thumb.x, y: 0 }, undefined, undefined, true); // overrides dragging
-            endGrip.moveTo({ x: thumb.x + thumb.innerWidth, y: 0 }, undefined, undefined, true);
+            startGrip.moveTo({ x: thumb.pixelX, y: 0 }, undefined, undefined, true); // overrides dragging
+            endGrip.moveTo({ x: thumb.pixelX + thumb.pixelWidth, y: 0 }, undefined, undefined, true);
             startGrip.readerTitle = this.language.translate("From %1", undefined, this.adapter.apply("positionValue", {
                 value: Math.round(start * 100) + "%",
                 position: start
@@ -308,8 +324,8 @@ var Scrollbar = /** @class */ (function (_super) {
             thumb.height = innerHeight_1 * (end - start);
             thumb.maxY = innerHeight_1 - thumb.pixelHeight;
             thumb.y = (1 - end) * innerHeight_1;
-            startGrip.moveTo({ x: 0, y: thumb.y + thumb.innerHeight }, undefined, undefined, true);
-            endGrip.moveTo({ x: 0, y: thumb.y }, undefined, undefined, true);
+            startGrip.moveTo({ x: 0, y: thumb.pixelY + thumb.pixelHeight }, undefined, undefined, true);
+            endGrip.moveTo({ x: 0, y: thumb.pixelY }, undefined, undefined, true);
             startGrip.readerTitle = this.language.translate("To %1", undefined, this.adapter.apply("positionValue", {
                 value: Math.round((1 - start) * 100) + "%",
                 position: (1 - start)
@@ -700,7 +716,6 @@ var Scrollbar = /** @class */ (function (_super) {
                 var thumb = new Button();
                 thumb.background.cornerRadius(10, 10, 10, 10);
                 thumb.padding(0, 0, 0, 0);
-                thumb.background.strokeOpacity = 0;
                 this.thumb = thumb;
             }
             return this._thumb;
@@ -739,7 +754,7 @@ var Scrollbar = /** @class */ (function (_super) {
                 thumb.events.on("doublehit", this.handleDoubleClick, this);
                 // Add event for space and ENTER to toggle full zoom out and back
                 // (same as doubleclick)
-                interaction.body.events.on("keyup", function (ev) {
+                getInteraction().body.events.on("keyup", function (ev) {
                     if (keyboard.isKey(ev.event, ["space", "enter"]) && _this.thumb.isFocused) {
                         ev.event.preventDefault();
                         _this.handleDoubleClick();
@@ -770,7 +785,7 @@ var Scrollbar = /** @class */ (function (_super) {
         }
         this._zoomAnimation = this.animate([{ property: "__start", to: newStart }, { property: "__end", to: newEnd }], this.animationDuration, this.animationEasing);
         if (this.animationDuration > 0) {
-            this._zoomAnimation.events.on("animationend", this.makeUnbusy, this);
+            this._zoomAnimation.events.on("animationended", this.makeUnbusy, this);
         }
         else {
             this.makeUnbusy();

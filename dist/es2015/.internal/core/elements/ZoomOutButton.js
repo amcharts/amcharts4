@@ -22,6 +22,7 @@ import { Sprite } from "../Sprite";
 import { registry } from "../Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $path from "../rendering/Path";
+import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -83,7 +84,9 @@ var ZoomOutButton = /** @class */ (function (_super) {
      */
     ZoomOutButton.prototype.applyInternalDefaults = function () {
         _super.prototype.applyInternalDefaults.call(this);
-        this.readerTitle = this.language.translate("Zoom Out");
+        if (!$type.hasValue(this.readerTitle)) {
+            this.readerTitle = this.language.translate("Zoom Out");
+        }
     };
     return ZoomOutButton;
 }(Button));

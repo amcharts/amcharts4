@@ -127,14 +127,14 @@ export interface IValueAxisAdapters extends IAxisAdapters, IValueAxisProperties 
  *
  * ```TypeScript
  * // Create the axis
- * let valueAxis = chart.yAxes.push(new charts.ValueAxis());
+ * let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
  *
  * // Set settings
  * valueAxis.title.text = "Monthly Sales";
  * ```
  * ```JavaScript
  * // Create the axis
- * var valueAxis = chart.yAxes.push(new amcharts4.charts.ValueAxis());
+ * var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
  *
  * // Set settings
  * valueAxis.title.text = "Monthly Sales";
@@ -507,7 +507,7 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      *
      * @todo Description (review)
      */
-    private getMinMax();
+    protected getMinMax(): void;
     /**
      * Adjusts the minimum value.
      *

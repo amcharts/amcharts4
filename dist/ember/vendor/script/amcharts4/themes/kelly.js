@@ -20,25 +20,11 @@
  
 webpackJsonp([7],{
 
-/***/ 554:
+/***/ 555:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(555);
+module.exports = __webpack_require__(556);
 
-
-/***/ }),
-
-/***/ 555:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__es2015_themes_kelly__ = __webpack_require__(556);
-
-
-var amcharts4 = window.amcharts4;
-amcharts4.themes = amcharts4.themes || {};
-amcharts4.themes.kelly = __WEBPACK_IMPORTED_MODULE_0__es2015_themes_kelly__["a" /* default */];
 
 /***/ }),
 
@@ -46,14 +32,25 @@ amcharts4.themes.kelly = __WEBPACK_IMPORTED_MODULE_0__es2015_themes_kelly__["a" 
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__internal_themes_kelly__ = __webpack_require__(557);
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__es2015_themes_kelly__ = __webpack_require__(557);
+
+window.am4themes_kelly = __WEBPACK_IMPORTED_MODULE_0__es2015_themes_kelly__["a" /* default */];
+
+/***/ }),
+
+/***/ 557:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__internal_themes_kelly__ = __webpack_require__(558);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__internal_themes_kelly__["a"]; });
 
 //# sourceMappingURL=kelly.js.map
 
 /***/ }),
 
-/***/ 557:
+/***/ 558:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -104,4 +101,4 @@ var theme = function (object) {
 
 /***/ })
 
-},[554]);
+},[555]);

@@ -25,6 +25,7 @@ import { percent } from "../../core/utils/Percent";
 import { ColorSet } from "../../core/utils/ColorSet";
 import { registry } from "../../core/Registry";
 import * as $iter from "../../core/utils/Iterator";
+import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
  * DATA ITEM
@@ -103,7 +104,9 @@ var SerialChart = /** @class */ (function (_super) {
         _super.prototype.applyInternalDefaults.call(this);
         // Add a default screen reader title for accessibility
         // This will be overridden in screen reader if there are any `titles` set
-        this.readerTitle = this.language.translate("Serial chart");
+        if (!$type.hasValue(this.readerTitle)) {
+            this.readerTitle = this.language.translate("Serial chart");
+        }
     };
     Object.defineProperty(SerialChart.prototype, "series", {
         /**

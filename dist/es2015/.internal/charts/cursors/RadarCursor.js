@@ -101,10 +101,10 @@ var RadarCursor = /** @class */ (function (_super) {
     RadarCursor.prototype.handleCursorMove = function (event) {
         var local = $utils.documentPointToSprite(event.pointer.point, this);
         _super.prototype.handleCursorMove.call(this, event);
-        if (!this.xAxis || (this.xAxis && !this.xAxis.cursorTooltipEnabled)) {
+        if (!this.xAxis || (this.xAxis && (!this.xAxis.cursorTooltipEnabled || this.xAxis.tooltip.disabled))) {
             this.updateLineX(this.point);
         }
-        if (!this.yAxis || (this.yAxis && !this.yAxis.cursorTooltipEnabled)) {
+        if (!this.yAxis || (this.yAxis && (!this.yAxis.cursorTooltipEnabled || this.yAxis.tooltip.disabled))) {
             this.updateLineY(this.point);
         }
         this.updateSelection();
@@ -123,9 +123,9 @@ var RadarCursor = /** @class */ (function (_super) {
             var innerRadius = this.pixelInnerRadius;
             var angle = $math.fitAngleToRange($math.getAngle(point), startAngle, endAngle);
             var path = void 0;
-            this.lineX.moveTo({ x: 0, y: 0 });
             if (this.lineX && this.lineX.visible) {
-                // fill
+                this.lineX.moveTo({ x: 0, y: 0 });
+                // fill				
                 if (this.xAxis && this.fullWidthLineX) {
                     var startPoint = this.xAxis.currentItemStartPoint;
                     var endPoint = this.xAxis.currentItemEndPoint;
@@ -282,6 +282,12 @@ var RadarCursor = /** @class */ (function (_super) {
             var tooltip = this.yAxis.tooltip;
             this.updateLineY($utils.svgPointToSprite({ x: tooltip.pixelX, y: tooltip.pixelY }, this));
         }
+    };
+    /**
+     * needs to be overriden
+     * @ignore
+     */
+    RadarCursor.prototype.updateLinePositions = function (point) {
     };
     /**
      * [getRanges description]

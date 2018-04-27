@@ -38,11 +38,11 @@ import * as $type from "../utils/Type";
  *
  * ```TypeScript
  * chart.dataSource.url = "http://www.myweb.com/data.json";
- * chart.dataSource.parser = amcharts4.JSONParser;
+ * chart.dataSource.parser = am4core.JSONParser;
  * ```
  * ```JavaScript
  * chart.dataSource.url = "http://www.myweb.com/data.json";
- * chart.dataSource.parser = amcharts4.JSONParser;
+ * chart.dataSource.parser = am4core.JSONParser;
  * ```
  * ```JSON
  * {
@@ -111,7 +111,7 @@ var DataSource = /** @class */ (function (_super) {
     DataSource.prototype.processData = function (data, type) {
         var _this = this;
         // Parsing started
-        this.dispatchImmediately("parsestart");
+        this.dispatchImmediately("parsestarted");
         // Check if parser is set
         if (!this.parser) {
             // Try to resolve from data
@@ -126,7 +126,7 @@ var DataSource = /** @class */ (function (_super) {
                         target: this
                     });
                 }
-                this.dispatchImmediately("parsestop");
+                this.dispatchImmediately("parseended");
                 return;
             }
         }
@@ -149,7 +149,7 @@ var DataSource = /** @class */ (function (_super) {
             });
         }
         // Wrap up
-        this.dispatchImmediately("parsestop");
+        this.dispatchImmediately("parseended");
         this.dispatchImmediately("done", {
             "data": this.data
         });
@@ -209,11 +209,11 @@ var DataSource = /** @class */ (function (_super) {
          *
          * ```TypeScript
          * chart.dataSource.url = "http://www.myweb.com/data.json";
-         * chart.dataSource.parser = amcharts4.JSONParser;
+         * chart.dataSource.parser = am4core.JSONParser;
          * ```
          * ```JavaScript
          * chart.dataSource.url = "http://www.myweb.com/data.json";
-         * chart.dataSource.parser = amcharts4.JSONParser;
+         * chart.dataSource.parser = am4core.JSONParser;
          * ```
          * ```JSON
          * {

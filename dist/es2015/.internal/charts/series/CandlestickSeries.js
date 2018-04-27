@@ -25,6 +25,7 @@ import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $utils from "../../core/utils/Utils";
 import * as $object from "../../core/utils/Object";
 import * as $iter from "../../core/utils/Iterator";
+import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
  * DATA ITEM
@@ -211,7 +212,9 @@ var CandlestickSeries = /** @class */ (function (_super) {
      */
     CandlestickSeries.prototype.applyInternalDefaults = function () {
         _super.prototype.applyInternalDefaults.call(this);
-        this.readerTitle = this.language.translate("Candlestick Series");
+        if (!$type.hasValue(this.readerTitle)) {
+            this.readerTitle = this.language.translate("Candlestick Series");
+        }
     };
     /**
      * Returns a new/empty DataItem of the type appropriate for this object.

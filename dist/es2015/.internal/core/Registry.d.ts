@@ -5,11 +5,25 @@
  * @hidden
  */
 import { ITheme } from "../themes/ITheme";
+import { EventDispatcher, AMEvent } from "./utils/EventDispatcher";
 import { Dictionary } from "./utils/Dictionary";
-import { Paper } from "./rendering/Paper";
 import { Sprite } from "./Sprite";
 import { Container } from "./Container";
 import { Component } from "./Component";
+/**
+ * Define events available for [[Registry]]
+ */
+export interface IRegistryEvents {
+    /**
+     * Invoked when update cycle starts. Before invalid elements are re-validated.
+     */
+    enterframe: {};
+    /**
+     * Invoked when udpate cycle ends. After invalid elements have been
+     * re-validated.
+     */
+    exitframe: {};
+}
 /**
  * ============================================================================
  * MAIN CLASS
@@ -29,6 +43,12 @@ export declare class Registry {
      * @type {string}
      */
     uid: string;
+    /**
+     * Event dispacther.
+     *
+     * @type {EventDispatcher}
+     */
+    events: EventDispatcher<AMEvent<Registry, IRegistryEvents>>;
     /**
      * Holds a universal mapping collection, so that elements and their children
      * can create and look up all kinds of relations between id and object.
@@ -69,14 +89,6 @@ export declare class Registry {
     registeredClasses: {
         [index: string]: any;
     };
-    /**
-     * A [[Paper]] instance to create elements, that are not yet ready to be
-     * placed in visible DOM.
-     *
-     * @ignore Exclude from docs
-     * @type {Paper}
-     */
-    ghostPaper: Paper;
     /**
      * Number of times per second charts will be updated.
      *
@@ -176,6 +188,24 @@ export declare class Registry {
      * @return {any}          Value
      */
     getCache(key: string): any;
+    /**
+     * Dispatches an event using own event dispatcher. Will automatically
+     * populate event data object with event type and target (this element).
+     * It also checks if there are any handlers registered for this sepecific
+     * event.
+     *
+     * @param {string} eventType Event type (name)
+     * @param {any}    data      Data to pass into event handler(s)
+     */
+    dispatch(eventType: string, data?: any): void;
+    /**
+     * Works like `dispatch`, except event is triggered immediately, without
+     * waiting for the next frame cycle.
+     *
+     * @param {string} eventType Event type (name)
+     * @param {any}    data      Data to pass into event handler(s)
+     */
+    dispatchImmediately(eventType: string, data?: any): void;
 }
 /**
  * A singleton global instance of [[Registry]].
