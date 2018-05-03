@@ -75,6 +75,11 @@ export { ClockHand } from "./.internal/charts/elements/ClockHand";
 export { SankeyNode } from "./.internal/charts/elements/SankeyNode";
 export { SankeyLink } from "./.internal/charts/elements/SankeyLink";
 export { NavigationBarDataItem, NavigationBar } from "./.internal/charts/elements/NavigationBar";
+export { Column } from "./.internal/charts/elements/Column";
+export { Candlestick } from "./.internal/charts/elements/Candlestick";
+export { RadarColumn } from "./.internal/charts/elements/RadarColumn";
+export { Column3D } from "./.internal/charts/elements/Column3D";
+export { ConeColumn } from "./.internal/charts/elements/ConeColumn";
 /**
  * Elements: cursors
  */

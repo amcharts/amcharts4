@@ -1,11 +1,11 @@
 am4core.useTheme(am4themes_animated);
 am4core.useTheme(am4themes_dark);
 
-let chart = am4core.create("chartdiv", am4charts.XYChart);
+var chart = am4core.create("chartdiv", am4charts.XYChart);
 chart.maskBullets = false;
 
-let xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-let yAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+var xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+var yAxis = chart.yAxes.push(new am4charts.CategoryAxis());
 
 xAxis.dataFields.category = "weekday";
 xAxis.renderer.minGridDistance = 40;
@@ -34,7 +34,7 @@ bullet.strokeWidth = 3;
 bullet.stroke = am4core.color("#ffffff");
 bullet.strokeOpacity = 0;
 
-bullet.adapter.add("tooltipY", (tooltipY, target) => {
+bullet.adapter.add("tooltipY", function (tooltipY, target) {
 	return -target.circle.radius + 1;
 })
 

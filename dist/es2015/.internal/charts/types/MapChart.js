@@ -429,6 +429,9 @@ var MapChart = /** @class */ (function (_super) {
             if (geodata != this._geodata) {
                 this._geodata = geodata;
                 this.invalidateData();
+                $iter.each(this._dataUsers.iterator(), function (x) {
+                    x.invalidateData();
+                });
             }
         },
         enumerable: true,
@@ -754,6 +757,38 @@ var MapChart = /** @class */ (function (_super) {
             series.invalidate();
         });
     };
+    Object.defineProperty(MapChart.prototype, "geodataSource", {
+        /**
+         * Returns a [[DataSource]] specifically for loading Component's data.
+         *
+         * @return {DataSource} Data source
+         */
+        get: function () {
+            if (!this._dataSources["geodata"]) {
+                this.getDataSource("geodata");
+            }
+            return this._dataSources["geodata"];
+        },
+        /**
+         * Sets a [[DataSource]] to be used for loading Component's data.
+         *
+         * @param {DataSource} value Data source
+         */
+        set: function (value) {
+            var _this = this;
+            if (this._dataSources["geodata"]) {
+                this.removeDispose(this._dataSources["geodata"]);
+            }
+            this._dataSources["geodata"] = value;
+            this._dataSources["geodata"].component = this;
+            this.events.on("inited", function () {
+                _this.loadData("geodata");
+            }, this);
+            this.setDataSourceEvents(value, "geodata");
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Processes JSON-based config before it is applied to the object.
      *

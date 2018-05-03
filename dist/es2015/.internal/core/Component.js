@@ -725,7 +725,9 @@ var Component = /** @class */ (function (_super) {
             this._dataSources[property].adapter.add("numberFields", function (val) {
                 return _this.dataSourceNumberFields(val);
             });
-            this.events.on("inited", this.loadData, this);
+            this.events.on("inited", function () {
+                _this.loadData(property);
+            }, this);
         }
         return this._dataSources[property];
     };
@@ -747,12 +749,15 @@ var Component = /** @class */ (function (_super) {
          * @param {DataSource} value Data source
          */
         set: function (value) {
+            var _this = this;
             if (this._dataSources["data"]) {
                 this.removeDispose(this._dataSources["data"]);
             }
             this._dataSources["data"] = value;
             this._dataSources["data"].component = this;
-            this.events.on("inited", this.loadData, this);
+            this.events.on("inited", function () {
+                _this.loadData("data");
+            }, this);
             this.setDataSourceEvents(value, "data");
         },
         enumerable: true,
@@ -763,8 +768,8 @@ var Component = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      */
-    Component.prototype.loadData = function () {
-        this._dataSources["data"].load();
+    Component.prototype.loadData = function (property) {
+        this._dataSources[property].load();
     };
     /**
      * This function is called by the [[DataSource]]'s `dateFields` adapater

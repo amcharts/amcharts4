@@ -78,6 +78,7 @@ import { Dictionary } from "../utils/Dictionary";
 import { DateFormatter } from "../formatters/DateFormatter";
 import { Language } from "../utils/Language";
 import { Validatable } from "../utils/Validatable";
+import { color } from "../utils/Color";
 import { registry } from "../Registry";
 import * as $object from "../utils/Object";
 import * as $net from "../utils/Net";
@@ -524,7 +525,7 @@ var Export = /** @class */ (function (_super) {
                         ctx = canvas.getContext("2d");
                         // Add background if necessary
                         if (background) {
-                            ctx.fillStyle = background;
+                            ctx.fillStyle = background.toString();
                             ctx.fillRect(0, 0, width, height);
                         }
                         DOMURL = this.getDOMURL();
@@ -612,7 +613,7 @@ var Export = /** @class */ (function (_super) {
                         });
                         background = this.backgroundColor || this.findBackgroundColor(this.sprite.dom);
                         if (background) {
-                            canvas.setBackgroundColor(background);
+                            canvas.setBackgroundColor(background.toString());
                         }
                         return [4 /*yield*/, new Promise(function (success, error) {
                                 fabric.loadSVGFromString(data, function (objects, fabricOptions) {
@@ -1075,7 +1076,7 @@ var Export = /** @class */ (function (_super) {
         // Apply font settings
         var styleParams = "";
         if (font) {
-            styleParams += "font-family: " + font + ";";
+            styleParams += "font-family: " + font.replace(/"/g, "") + ";";
         }
         if (fontSize) {
             styleParams += "font-size: " + fontSize + ";";
@@ -1670,19 +1671,19 @@ var Export = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @param  {Element}  element Element
-     * @return {string}           Color code
+     * @return {Color}            Color code
      */
     Export.prototype.findBackgroundColor = function (element) {
         // Check if element has styles set
-        var opacity = 1, color = "";
+        var opacity = 1, currentColor = "";
         if (element.currentStyle) {
-            color = element.currentStyle["background-color"];
+            currentColor = element.currentStyle["background-color"];
         }
         else if (window.getComputedStyle) {
-            color = document.defaultView.getComputedStyle(element, null).getPropertyValue("background-color");
+            currentColor = document.defaultView.getComputedStyle(element, null).getPropertyValue("background-color");
         }
         // Check opacity
-        if (color.match(/[^,]*,[^,]*,[^,]*,[ ]?0/) || color == "transparent") {
+        if (currentColor.match(/[^,]*,[^,]*,[^,]*,[ ]?0/) || currentColor == "transparent") {
             opacity = 0;
         }
         if (opacity == 0) {
@@ -1692,11 +1693,11 @@ var Export = /** @class */ (function (_super) {
                 return this.findBackgroundColor(parent_2);
             }
             else {
-                return undefined;
+                return color("#fff");
             }
         }
         else {
-            return color;
+            return color(currentColor, opacity);
         }
     };
     /**
@@ -1763,8 +1764,6 @@ var Export = /** @class */ (function (_super) {
     };
     Object.defineProperty(Export.prototype, "container", {
         /**
-         * Returns current [[ExportMenu]] container.
-         *
          * @return {HTMLElement} Reference
          */
         get: function () {
@@ -1773,7 +1772,7 @@ var Export = /** @class */ (function (_super) {
             }).container;
         },
         /**
-         * Sets container to be used to place [[ExportMenu]] in.
+         * A reference to a container to be used to place [[ExportMenu]] in.
          *
          * @param {HTMLElement} value Reference
          */
@@ -1785,8 +1784,6 @@ var Export = /** @class */ (function (_super) {
     });
     Object.defineProperty(Export.prototype, "sprite", {
         /**
-         * Returns current [[Sprite]].
-         *
          * @return {Sprite} Sprite
          */
         get: function () {
@@ -1795,7 +1792,7 @@ var Export = /** @class */ (function (_super) {
             }).sprite;
         },
         /**
-         * Reference to [[Sprite]] to export. Can be any Sprite, including some
+         * A reference to [[Sprite]] to export. Can be any Sprite, including some
          * internal elements.
          *
          * @param {Sprite} value Sprite
@@ -1808,8 +1805,6 @@ var Export = /** @class */ (function (_super) {
     });
     Object.defineProperty(Export.prototype, "data", {
         /**
-         * Returns current data.
-         *
          * @return {any} Data
          */
         get: function () {
@@ -1818,7 +1813,7 @@ var Export = /** @class */ (function (_super) {
             }).data;
         },
         /**
-         * Sets data to export.
+         * Data to export.
          *
          * @param {any} value Data
          */
@@ -1830,8 +1825,6 @@ var Export = /** @class */ (function (_super) {
     });
     Object.defineProperty(Export.prototype, "dataFields", {
         /**
-         * Returns current data fields.
-         *
          * @return {any} Field names `{ field: fieldName }`
          */
         get: function () {
@@ -1843,7 +1836,7 @@ var Export = /** @class */ (function (_super) {
             }).dataFields;
         },
         /**
-         * Sets data fields in `{ field: fieldName }` format. Those are used for
+         * Data fields in `{ field: fieldName }` format. Those are used for
          * exporting in data formats to name the columns.
          *
          * @param {any} value Field names
@@ -1856,8 +1849,6 @@ var Export = /** @class */ (function (_super) {
     });
     Object.defineProperty(Export.prototype, "dateFormatter", {
         /**
-         * Returns current [[DateFormatter]].
-         *
          * @return {any} A DateFormatter instance
          */
         get: function () {
@@ -1869,7 +1860,7 @@ var Export = /** @class */ (function (_super) {
             }).dateFormatter;
         },
         /**
-         * Sets a [[DateFormatter]] to use when formatting dates when exporting data.
+         * A [[DateFormatter]] to use when formatting dates when exporting data.
          *
          * @param {any} value DateFormatter instance
          */
@@ -1881,8 +1872,6 @@ var Export = /** @class */ (function (_super) {
     });
     Object.defineProperty(Export.prototype, "dateFormat", {
         /**
-         * Returns current date format setting.
-         *
          * @return {string} Date format
          */
         get: function () {
@@ -1891,7 +1880,7 @@ var Export = /** @class */ (function (_super) {
             }).dateFormat;
         },
         /**
-         * Sets a date format to use for exporting dates. Will use [[DateFormatter]]
+         * A date format to use for exporting dates. Will use [[DateFormatter]]
          * format if not set.
          *
          * @param {string} value Date format
@@ -1904,8 +1893,6 @@ var Export = /** @class */ (function (_super) {
     });
     Object.defineProperty(Export.prototype, "dateFields", {
         /**
-         * Returns current list of date fields.
-         *
          * @return {List<string>} Date field list
          */
         get: function () {
@@ -1917,7 +1904,7 @@ var Export = /** @class */ (function (_super) {
             }).dateFields;
         },
         /**
-         * Sets a list of fields that hold date values.
+         * A list of fields that hold date values.
          *
          * @param {List<string>} value Date field list
          */
@@ -1999,8 +1986,6 @@ var Export = /** @class */ (function (_super) {
     };
     Object.defineProperty(Export.prototype, "filePrefix", {
         /**
-         * Returns current file prefix.
-         *
          * @return {string} File prefix
          */
         get: function () {
@@ -2009,7 +1994,7 @@ var Export = /** @class */ (function (_super) {
             }).filePrefix;
         },
         /**
-         * Sets a file prefix to be used for all exported formats.
+         * A file prefix to be used for all exported formats.
          *
          * Export will apply format-related extension to it. E.g. if this is set to
          * "myExport", the file name of the PNG exported image will be "myExport.png".
@@ -2024,9 +2009,7 @@ var Export = /** @class */ (function (_super) {
     });
     Object.defineProperty(Export.prototype, "backgroundColor", {
         /**
-         * Returns currently set background color.
-         *
-         * @return {string} Background color
+         * @return {Color} Background color
          */
         get: function () {
             return this.adapter.apply("backgroundColor", {
@@ -2034,11 +2017,10 @@ var Export = /** @class */ (function (_super) {
             }).backgroundColor;
         },
         /**
-         * Sets a background color to be used for exported images. If set, this will
+         * A background color to be used for exported images. If set, this will
          * override the automatically acquired background color.
          *
-         * @param {string} value Color
-         * @todo Use [[Color]] instead of string.
+         * @param {Color} value Color
          */
         set: function (value) {
             this._backgroundColor = value;
@@ -2048,8 +2030,6 @@ var Export = /** @class */ (function (_super) {
     });
     Object.defineProperty(Export.prototype, "title", {
         /**
-         * Returns currently set print title.
-         *
          * @return {string} Title
          */
         get: function () {
@@ -2058,7 +2038,7 @@ var Export = /** @class */ (function (_super) {
             }).title;
         },
         /**
-         * Sets a title to be used when printing.
+         * A title to be used when printing.
          *
          * @param {string} value Title
          */
@@ -2131,9 +2111,6 @@ var Export = /** @class */ (function (_super) {
     };
     Object.defineProperty(Export.prototype, "language", {
         /**
-         * Returns current [[Language]] instance. If it's not set a new instance is
-         * created.
-         *
          * @return {Language} A [[Language]] instance to be used
          */
         get: function () {
@@ -2144,7 +2121,7 @@ var Export = /** @class */ (function (_super) {
             return this.language;
         },
         /**
-         * Sets [[Language]] instance.
+         * A [[Language]] instance to be used for translations.
          *
          * @param {Language} value An instance of [[Language]]
          */

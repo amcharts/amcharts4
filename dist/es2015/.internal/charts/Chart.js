@@ -129,15 +129,6 @@ var Chart = /** @class */ (function (_super) {
         }
     };
     /**
-     * (Re)validates chart data.
-     *
-     * @ignore Exclude from docs
-     */
-    Chart.prototype.validateData = function () {
-        _super.prototype.validateData.call(this);
-        this.feedLegend();
-    };
-    /**
      * Initiates drawing of the chart.
      *
      * @ignore Exclude from docs
@@ -251,6 +242,7 @@ var Chart = /** @class */ (function (_super) {
                     }
                 });
             }
+            this.feedLegend();
         }
     };
     /**

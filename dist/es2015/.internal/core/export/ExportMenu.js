@@ -521,8 +521,6 @@ var ExportMenu = /** @class */ (function (_super) {
     };
     Object.defineProperty(ExportMenu.prototype, "container", {
         /**
-         * Returns current menu container.
-         *
          * @return {HTMLElement} Container
          */
         get: function () {
@@ -532,7 +530,7 @@ var ExportMenu = /** @class */ (function (_super) {
          * Getters and setters
          */
         /**
-         * Sets HTML container to place the Menu in.
+         * An HTML container to place the Menu in.
          *
          * A container must be an HTML element, because menu itself is HTML, and
          * cannot be placed into SVG.
@@ -549,15 +547,13 @@ var ExportMenu = /** @class */ (function (_super) {
     });
     Object.defineProperty(ExportMenu.prototype, "items", {
         /**
-         * Returns current menu items.
-         *
          * @return {Array<IExportMenuItem>} Menu items
          */
         get: function () {
             return this._items;
         },
         /**
-         * Sets a list of menu items. Can be nested.
+         * A list of menu items. Can be nested.
          *
          * @param {Array<IExportMenuItem>}  items  Menu items
          */
@@ -636,8 +632,6 @@ var ExportMenu = /** @class */ (function (_super) {
     });
     Object.defineProperty(ExportMenu.prototype, "align", {
         /**
-         * Returns current setting for horizontal alignement.
-         *
          * @return {Align} Horizontal alignement
          */
         get: function () {
@@ -646,7 +640,7 @@ var ExportMenu = /** @class */ (function (_super) {
             }).align;
         },
         /**
-         * Sets horizontal alignement for the menu placement.
+         * A horizontal alignement for the menu placement.
          *
          * @param {Align} value Horizontal alignement
          */
@@ -659,8 +653,6 @@ var ExportMenu = /** @class */ (function (_super) {
     });
     Object.defineProperty(ExportMenu.prototype, "verticalAlign", {
         /**
-         * Returns current setting for vertical alignement.
-         *
          * @return {VerticalAlign} Vertical alignement
          */
         get: function () {
@@ -669,7 +661,7 @@ var ExportMenu = /** @class */ (function (_super) {
             }).verticalAlign;
         },
         /**
-         * Sets vertical alignement for the menu placement.
+         * A vertical alignement for the menu placement.
          *
          * @param {VerticalAlign} value Vertical alignement
          */
@@ -682,8 +674,6 @@ var ExportMenu = /** @class */ (function (_super) {
     });
     Object.defineProperty(ExportMenu.prototype, "classPrefix", {
         /**
-         * Return current class name prefix.
-         *
          * @return {string} Class name prefix
          */
         get: function () {
@@ -692,7 +682,7 @@ var ExportMenu = /** @class */ (function (_super) {
             }).classPrefix;
         },
         /**
-         * Sets class name prefix.
+         * Class name prefix.
          *
          * @default "amexport"
          * @param {string} value Class name prefix
@@ -706,8 +696,6 @@ var ExportMenu = /** @class */ (function (_super) {
     });
     Object.defineProperty(ExportMenu.prototype, "defaultStyles", {
         /**
-         * Returns current setting for deafult style usage.
-         *
          * @return {boolean} Should ExportMenu load its own CSS?
          */
         get: function () {
@@ -716,7 +704,7 @@ var ExportMenu = /** @class */ (function (_super) {
             }).defaultStyles;
         },
         /**
-         * Sets whether [[ExportMenu]] should load external CSS to style itself.
+         * Indicates whether [[ExportMenu]] should load external CSS to style itself.
          *
          * If set to `false`, the menu will not be styled, and will rely on some
          * external CSS.
@@ -747,8 +735,6 @@ var ExportMenu = /** @class */ (function (_super) {
     };
     Object.defineProperty(ExportMenu.prototype, "tabindex", {
         /**
-         * Returns current tab index setting.
-         *
          * @return {number} Tab index
          */
         get: function () {
@@ -757,7 +743,7 @@ var ExportMenu = /** @class */ (function (_super) {
             }).tabindex;
         },
         /**
-         * Sets tab index for the menu.
+         * A tab index for the menu.
          *
          * Tab index will influence the order in which elements on the chart and
          * the whole page are selected when pressing TAB key.
@@ -773,9 +759,6 @@ var ExportMenu = /** @class */ (function (_super) {
     });
     Object.defineProperty(ExportMenu.prototype, "language", {
         /**
-         * Returns current [[Language]] instance. If it's not set a new instance is
-         * created.
-         *
          * @return {Language} A [[Language]] instance to be used
          */
         get: function () {
@@ -791,7 +774,7 @@ var ExportMenu = /** @class */ (function (_super) {
             return language;
         },
         /**
-         * Sets [[Language]] instance.
+         * A [[Language]] instance.
          *
          * @param {Language} value An instance of [[Language]]
          */

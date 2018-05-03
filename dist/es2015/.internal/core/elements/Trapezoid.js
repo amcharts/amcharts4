@@ -19,6 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Sprite } from "../Sprite";
 import { percent } from "../../core/utils/Percent";
+import { registry } from "../Registry";
 import * as $utils from "../utils/Utils";
 import * as $type from "../utils/Type";
 import * as $path from "../rendering/Path";
@@ -218,4 +219,11 @@ var Trapezoid = /** @class */ (function (_super) {
     return Trapezoid;
 }(Sprite));
 export { Trapezoid };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["Trapezoid"] = Trapezoid;
 //# sourceMappingURL=Trapezoid.js.map

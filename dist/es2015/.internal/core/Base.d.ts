@@ -72,10 +72,9 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      * maintain a list of its clones so that properties can be re-applied to
      * clones whenever property on the object they were cloned from changes.
      *
-     * @type {Dictionary<string, BaseObject>}
-     * @ignore Exclude from docs
+     * @type {Dictionary<string, this>}
      */
-    protected _clones: List<BaseObject>;
+    protected _clones: List<this>;
     /**
      * Reference to the original object this object was cloned from. We need to
      * keep this so we can disassociate it from source object when this object
@@ -190,9 +189,9 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      * Returns a collection of object's clones.
      *
      * @ignore Exclude from docs
-     * @return {Dictionary<string, BaseObject>} Clones
+     * @return {Dictionary<string, this>} Clones
      */
-    readonly clones: List<BaseObject>;
+    readonly clones: List<this>;
     /**
      * Copies all properties and related data from different element.
      *

@@ -11,7 +11,6 @@ import { AxisRendererX, IAxisRendererXProperties, IAxisRendererXAdapters, IAxisR
 import { Sprite, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { XYChart3D } from "../types/XYChart3D";
 import { Grid } from "../axes/Grid";
-import { Axis } from "../axes/Axis";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
 /**
  * ============================================================================
@@ -78,7 +77,7 @@ export declare class AxisRendererX3D extends AxisRendererX {
      *
      * @param {Axis} axis Related axis
      */
-    constructor(axis: Axis);
+    constructor();
     /**
      * Updates and positions a grid element.
      *

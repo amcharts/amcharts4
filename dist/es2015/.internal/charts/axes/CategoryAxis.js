@@ -267,16 +267,6 @@ var CategoryAxis = /** @class */ (function (_super) {
         });
     };
     /**
-     * Validates Axis' data.
-     *
-     * @ignore Exclude from docs
-     * @todo Description (review)
-     */
-    CategoryAxis.prototype.validateData = function () {
-        _super.prototype.validateData.call(this);
-        this.maxZoomFactor = this.dataItems.length;
-    };
-    /**
      * Validates the whole axis. Causes it to redraw.
      *
      * @ignore Exclude from docs
@@ -285,6 +275,10 @@ var CategoryAxis = /** @class */ (function (_super) {
     CategoryAxis.prototype.validate = function () {
         var _this = this;
         _super.prototype.validate.call(this);
+        this.maxZoomFactor = this.dataItems.length;
+        if (this.dataItems.length <= 0) {
+            this.maxZoomFactor = 1;
+        }
         this.resetIterators();
         $iter.each(this.dataItems.iterator(), function (dataItem) {
             dataItem.__disabled = true;

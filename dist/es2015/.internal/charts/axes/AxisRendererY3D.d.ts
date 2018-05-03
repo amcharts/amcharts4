@@ -10,7 +10,6 @@
 import { AxisRendererY, IAxisRendererYProperties, IAxisRendererYAdapters, IAxisRendererYEvents } from "../axes/AxisRendererY";
 import { Sprite, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { XYChart3D } from "../types/XYChart3D";
-import { Axis } from "../axes/Axis";
 import { Grid } from "../axes/Grid";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
 /**
@@ -81,7 +80,7 @@ export declare class AxisRendererY3D extends AxisRendererY {
      *
      * @param {Axis} axis Related axis
      */
-    constructor(axis: Axis);
+    constructor();
     /**
      * Updates and positions a grid element.
      *

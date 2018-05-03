@@ -21,6 +21,7 @@ import { Container } from "../../core/Container";
 import { getInteraction } from "../../core/interaction/Interaction";
 import { registry } from "../../core/Registry";
 import { percent } from "../../core/utils/Percent";
+import { MouseCursorStyle } from "../../core/interaction/Mouse";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
 /**
@@ -124,6 +125,7 @@ var Cursor = /** @class */ (function (_super) {
                 break;
             case "pan":
                 this.dispatchImmediately("panstarted");
+                getInteraction().setGlobalStyle(MouseCursorStyle.grabbing);
                 break;
         }
     };
@@ -145,6 +147,7 @@ var Cursor = /** @class */ (function (_super) {
                     break;
                 case "pan":
                     this.dispatchImmediately("panended");
+                    getInteraction().setGlobalStyle(MouseCursorStyle.default);
                     break;
             }
         }

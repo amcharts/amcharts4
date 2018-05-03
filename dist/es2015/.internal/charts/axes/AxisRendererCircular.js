@@ -43,10 +43,10 @@ var AxisRendererCircular = /** @class */ (function (_super) {
      *
      * @param {Axis} axis Related axis
      */
-    function AxisRendererCircular(axis) {
+    function AxisRendererCircular() {
         var _this = 
         // Init
-        _super.call(this, axis) || this;
+        _super.call(this) || this;
         // axis.layout = "none"; // does not trigger redraw when size changes
         _this.layout = "none";
         _this.className = "AxisRendererCircular";
@@ -57,7 +57,6 @@ var AxisRendererCircular = /** @class */ (function (_super) {
         _this.height = percent(100);
         _this.radius = percent(100);
         _this.isMeasured = false;
-        axis.isMeasured = false;
         _this.grid.template.location = 0;
         _this.labels.template.location = 0;
         _this.labels.template.isMeasured = true;
@@ -66,6 +65,16 @@ var AxisRendererCircular = /** @class */ (function (_super) {
         _this.ticks.template.pixelPerfect = false;
         _this.tooltipLocation = 0;
         _this.line.strokeOpacity = 0;
+        _this.applyTheme();
+        return _this;
+    }
+    /**
+    * @ignore
+    */
+    AxisRendererCircular.prototype.setAxis = function (axis) {
+        var _this = this;
+        _super.prototype.setAxis.call(this, axis);
+        axis.isMeasured = false;
         // modify x and y so that tooltip would always be on circle
         var tooltip = axis.tooltip;
         tooltip.adapter.add("dx", function (x, target) {
@@ -76,9 +85,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
             var point = $utils.svgPointToSprite({ x: target.pixelX, y: target.pixelY }, _this);
             return _this.pixelRadius * Math.sin(Math.atan2(point.y, point.x)) - point.y;
         });
-        _this.applyTheme();
-        return _this;
-    }
+    };
     /**
      * Validates Axis renderer.
      *

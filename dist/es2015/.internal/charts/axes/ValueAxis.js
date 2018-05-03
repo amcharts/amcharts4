@@ -860,7 +860,7 @@ var ValueAxis = /** @class */ (function (_super) {
         if ((this._minAdjusted != min || this._maxAdjusted != max) && $type.isNumber(min) && $type.isNumber(max)) {
             this._minAdjusted = min;
             this._maxAdjusted = max;
-            this.invalidate();
+            this.invalidateDataItems();
             this.dispatchImmediately("extremeschanged");
         }
     };
@@ -1359,7 +1359,8 @@ var ValueAxis = /** @class */ (function (_super) {
         this._difference = this.adjustDifference(this.min, this.max);
     };
     /**
-     * Returns value based on position
+     * Returns value based on position.
+     *
      * @param  {number}  position  Relative position on axis (0-1)
      * @return {string}            Position label
      */

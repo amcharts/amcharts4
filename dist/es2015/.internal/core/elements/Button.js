@@ -21,6 +21,7 @@ import { Container } from "../Container";
 import { Label } from "./Label";
 import { RoundedRectangle } from "../elements/RoundedRectangle";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
+import { registry } from "../Registry";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -174,4 +175,11 @@ var Button = /** @class */ (function (_super) {
     return Button;
 }(Container));
 export { Button };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["Button"] = Button;
 //# sourceMappingURL=Button.js.map

@@ -321,7 +321,7 @@ var HeatLegend = /** @class */ (function (_super) {
                 markerContainer.width = percent(100);
                 markerContainer.height = undefined;
                 if (!(valueAxis.renderer instanceof AxisRendererX)) {
-                    valueAxis.renderer = new AxisRendererX(valueAxis);
+                    valueAxis.renderer = new AxisRendererX();
                 }
             }
             // VERTICAL
@@ -336,7 +336,7 @@ var HeatLegend = /** @class */ (function (_super) {
                 valueAxis.height = percent(100);
                 valueAxis.width = undefined;
                 if (!(valueAxis.renderer instanceof AxisRendererY)) {
-                    valueAxis.renderer = new AxisRendererY(valueAxis);
+                    valueAxis.renderer = new AxisRendererY();
                 }
                 valueAxis.renderer.inside = true;
                 valueAxis.renderer.labels.template.inside = true;

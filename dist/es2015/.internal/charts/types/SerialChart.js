@@ -138,6 +138,7 @@ var SerialChart = /** @class */ (function (_super) {
         series.parent = this.seriesContainer;
         series.bulletsContainer.parent = this.bulletsContainer;
         this._dataUsers.moveValue(series);
+        this.feedLegend();
     };
     /**
      * Setups the legend to use the chart's data.

@@ -463,11 +463,17 @@ var ColumnSeries = /** @class */ (function (_super) {
     };
     ColumnSeries.prototype.disableUnusedColumns = function (dataItem) {
         if (dataItem.column) {
+            // otherwise might flicker when enabling
+            dataItem.column.width = 0;
+            dataItem.column.height = 0;
             dataItem.column.__disabled = true;
         }
         $iter.each(this.axisRanges.iterator(), function (axisRange) {
             var rangeColumn = dataItem.rangesColumns.getKey(axisRange.uid);
             if (rangeColumn) {
+                // otherwise might flicker when enabling
+                rangeColumn.width = 0;
+                rangeColumn.height = 0;
                 rangeColumn.__disabled = true;
             }
         });

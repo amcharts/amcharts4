@@ -723,7 +723,8 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      */
     fixAxisBreaks(): void;
     /**
-     * Returns value based on position
+     * Returns value based on position.
+     *
      * @param  {number}  position  Relative position on axis (0-1)
      * @return {string}            Position label
      */

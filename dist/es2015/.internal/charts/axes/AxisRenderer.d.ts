@@ -140,7 +140,7 @@ export declare class AxisRenderer extends Container {
      *
      * @type {Axis}
      */
-    axis: Axis;
+    protected _axis: Axis;
     /**
      * An Axis line of the related Axis.
      *
@@ -228,7 +228,12 @@ export declare class AxisRenderer extends Container {
      *
      * @param {Axis} axis Related axis
      */
-    constructor(axis: Axis);
+    constructor();
+    axis: Axis;
+    /**
+    * @ignore
+    */
+    setAxis(axis: Axis): void;
     /**
      * Called when rendered is attached to an Axis, as well as a property of
      * Axis that might affect the appearance is updated.

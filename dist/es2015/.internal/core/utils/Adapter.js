@@ -163,12 +163,12 @@ export { GlobalAdapter };
  * Global adapter is a system-wide instance, accessible via `globalAdapter`.
  *
  * ```TypeScript
- * am4core.globalAdapter.addAll<am4charts.IPieSeriesAdapters, am4charts.PieSeries, "fill">(am4charts.PieSeries. "fill", (value, target) => {
+ * am4core.globalAdapter.addAll<am4charts.IPieSeriesAdapters, am4charts.PieSeries, "fill">(am4charts.PieSeries, "fill", (value, target) => {
  *   return am4core.color("#005500");
  * });
  * ```
  * ```JavaScript
- * am4core.globalAdapter.addAll(am4charts.PieSeries. "fill", (value, target) => {
+ * am4core.globalAdapter.addAll(am4charts.PieSeries, "fill", (value, target) => {
  *   return am4core.color("#005500");
  * });
  * ```

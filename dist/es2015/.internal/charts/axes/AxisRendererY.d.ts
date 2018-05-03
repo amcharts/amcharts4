@@ -75,7 +75,11 @@ export declare class AxisRendererY extends AxisRenderer {
      *
      * @param {Axis} axis Related axis
      */
-    constructor(axis: Axis);
+    constructor();
+    /**
+    * @ignore
+    */
+    setAxis(axis: Axis): void;
     /**
      * Called when rendered is attached to an Axis, as well as a property of
      * Axis that might affect the appearance is updated.

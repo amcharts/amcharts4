@@ -229,6 +229,12 @@ export declare class PieChart extends SerialChart {
      */
     validate(): void;
     /**
+     * (Re)validates chart data.
+     *
+     * @ignore Exclude from docs
+     */
+    validateData(): void;
+    /**
      * Recalculates pie's radius, based on a number of criteria.
      *
      * @ignore Exclude from docs

@@ -35,6 +35,7 @@ import { IDisposer } from "../utils/Disposer";
 import { DateFormatter } from "../formatters/DateFormatter";
 import { Language } from "../utils/Language";
 import { Validatable } from "../utils/Validatable";
+import { Color } from "../utils/Color";
 /**
  * ============================================================================
  * REQUISITES
@@ -455,7 +456,7 @@ export interface IExportAdapters {
         filePrefix: string;
     };
     backgroundColor: {
-        backgroundColor: string;
+        backgroundColor: Color;
     };
     timeoutMessage: {
         message: string;
@@ -631,9 +632,9 @@ export declare class Export extends Validatable {
      * override it and use some other color, set this property.
      *
      * @ignore Exclude from docs
-     * @type {string}
+     * @type {Color}
      */
-    protected _backgroundColor: string;
+    protected _backgroundColor: Color;
     /**
      * A title to use for some document exports, mainly for print.
      * A document.title will be used if not set.
@@ -1060,9 +1061,9 @@ export declare class Export extends Validatable {
      *
      * @ignore Exclude from docs
      * @param  {Element}  element Element
-     * @return {string}           Color code
+     * @return {Color}            Color code
      */
-    findBackgroundColor(element: Element): string;
+    findBackgroundColor(element: Element): Color;
     /**
      * Returns a font fmaily name for the element (directly set or
      * computed/inherited).
@@ -1082,81 +1083,67 @@ export declare class Export extends Validatable {
      */
     findFontSize(element: Element): string;
     /**
-     * Returns current [[ExportMenu]] container.
-     *
      * @return {HTMLElement} Reference
      */
     /**
-     * Sets container to be used to place [[ExportMenu]] in.
+     * A reference to a container to be used to place [[ExportMenu]] in.
      *
      * @param {HTMLElement} value Reference
      */
     container: HTMLElement;
     /**
-     * Returns current [[Sprite]].
-     *
      * @return {Sprite} Sprite
      */
     /**
-     * Reference to [[Sprite]] to export. Can be any Sprite, including some
+     * A reference to [[Sprite]] to export. Can be any Sprite, including some
      * internal elements.
      *
      * @param {Sprite} value Sprite
      */
     sprite: Sprite;
     /**
-     * Returns current data.
-     *
      * @return {any} Data
      */
     /**
-     * Sets data to export.
+     * Data to export.
      *
      * @param {any} value Data
      */
     data: any;
     /**
-     * Returns current data fields.
-     *
      * @return {any} Field names `{ field: fieldName }`
      */
     /**
-     * Sets data fields in `{ field: fieldName }` format. Those are used for
+     * Data fields in `{ field: fieldName }` format. Those are used for
      * exporting in data formats to name the columns.
      *
      * @param {any} value Field names
      */
     dataFields: any;
     /**
-     * Returns current [[DateFormatter]].
-     *
      * @return {any} A DateFormatter instance
      */
     /**
-     * Sets a [[DateFormatter]] to use when formatting dates when exporting data.
+     * A [[DateFormatter]] to use when formatting dates when exporting data.
      *
      * @param {any} value DateFormatter instance
      */
     dateFormatter: any;
     /**
-     * Returns current date format setting.
-     *
      * @return {string} Date format
      */
     /**
-     * Sets a date format to use for exporting dates. Will use [[DateFormatter]]
+     * A date format to use for exporting dates. Will use [[DateFormatter]]
      * format if not set.
      *
      * @param {string} value Date format
      */
     dateFormat: string;
     /**
-     * Returns current list of date fields.
-     *
      * @return {List<string>} Date field list
      */
     /**
-     * Sets a list of fields that hold date values.
+     * A list of fields that hold date values.
      *
      * @param {List<string>} value Date field list
      */
@@ -1185,12 +1172,10 @@ export declare class Export extends Validatable {
      */
     getContentType<Key extends keyof IExportOptions>(type: Key): string;
     /**
-     * Returns current file prefix.
-     *
      * @return {string} File prefix
      */
     /**
-     * Sets a file prefix to be used for all exported formats.
+     * A file prefix to be used for all exported formats.
      *
      * Export will apply format-related extension to it. E.g. if this is set to
      * "myExport", the file name of the PNG exported image will be "myExport.png".
@@ -1199,25 +1184,20 @@ export declare class Export extends Validatable {
      */
     filePrefix: string;
     /**
-     * Returns currently set background color.
-     *
-     * @return {string} Background color
+     * @return {Color} Background color
      */
     /**
-     * Sets a background color to be used for exported images. If set, this will
+     * A background color to be used for exported images. If set, this will
      * override the automatically acquired background color.
      *
-     * @param {string} value Color
-     * @todo Use [[Color]] instead of string.
+     * @param {Color} value Color
      */
-    backgroundColor: string;
+    backgroundColor: Color;
     /**
-     * Returns currently set print title.
-     *
      * @return {string} Title
      */
     /**
-     * Sets a title to be used when printing.
+     * A title to be used when printing.
      *
      * @param {string} value Title
      */
@@ -1255,13 +1235,10 @@ export declare class Export extends Validatable {
      */
     hideTimeout(): void;
     /**
-     * Returns current [[Language]] instance. If it's not set a new instance is
-     * created.
-     *
      * @return {Language} A [[Language]] instance to be used
      */
     /**
-     * Sets [[Language]] instance.
+     * A [[Language]] instance to be used for translations.
      *
      * @param {Language} value An instance of [[Language]]
      */

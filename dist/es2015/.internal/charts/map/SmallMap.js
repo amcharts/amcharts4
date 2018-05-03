@@ -119,6 +119,7 @@ var SmallMap = /** @class */ (function (_super) {
             this._series.removeValue(series);
             this._series.push(newSeries);
             series = newSeries;
+            this.chart.dataUsers.push(newSeries);
         }
         series.chart = this.chart;
         series.parent = this.seriesContainer;

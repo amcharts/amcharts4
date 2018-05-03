@@ -1,0 +1,12 @@
+body {
+  font-family: Archivo Narrow;
+  background-color: #222222;
+  overflow: hidden;
+  margin: 0;
+}
+
+#chartdiv {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}

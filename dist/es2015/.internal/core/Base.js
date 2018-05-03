@@ -207,10 +207,9 @@ var BaseObject = /** @class */ (function () {
         }
         var newObject = new this.constructor();
         newObject.cloneId = cloneId;
-        newObject.clonedFrom = this;
         newObject.copyFrom(this);
-        // add to clones list
-        this.clones.push(newObject);
+        // add to clones list		
+        // this.clones.push(newObject); // moved this to copyFrom
         return newObject;
     };
     Object.defineProperty(BaseObject.prototype, "clones", {
@@ -218,7 +217,7 @@ var BaseObject = /** @class */ (function () {
          * Returns a collection of object's clones.
          *
          * @ignore Exclude from docs
-         * @return {Dictionary<string, BaseObject>} Clones
+         * @return {Dictionary<string, this>} Clones
          */
         get: function () {
             if (!this._clones) {
@@ -235,6 +234,8 @@ var BaseObject = /** @class */ (function () {
      * @param {this} object Source element
      */
     BaseObject.prototype.copyFrom = function (object) {
+        object.clones.moveValue(this);
+        this.clonedFrom = object;
     };
     Object.defineProperty(BaseObject.prototype, "className", {
         /**
@@ -567,6 +568,9 @@ var BaseObject = /** @class */ (function () {
                 }
             });
         }
+        else if ($type.isArray(config)) {
+            // @todo Implement
+        }
     };
     BaseObject.prototype.processEvents = function (item, config) {
         if ($type.isObject(config)) {
@@ -575,6 +579,9 @@ var BaseObject = /** @class */ (function () {
                     item.on(key, entry);
                 }
             });
+        }
+        else if ($type.isArray(config)) {
+            // @todo Implement
         }
     };
     /**

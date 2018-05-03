@@ -40,8 +40,8 @@ var AxisRendererX3D = /** @class */ (function (_super) {
      *
      * @param {Axis} axis Related axis
      */
-    function AxisRendererX3D(axis) {
-        var _this = _super.call(this, axis) || this;
+    function AxisRendererX3D() {
+        var _this = _super.call(this) || this;
         /**
          * A related chart.
          *

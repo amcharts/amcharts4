@@ -139,12 +139,6 @@ export declare class Chart extends Component {
      */
     protected applyInternalDefaults(): void;
     /**
-     * (Re)validates chart data.
-     *
-     * @ignore Exclude from docs
-     */
-    validateData(): void;
-    /**
      * Initiates drawing of the chart.
      *
      * @ignore Exclude from docs

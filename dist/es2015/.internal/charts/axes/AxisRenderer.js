@@ -47,7 +47,7 @@ var AxisRenderer = /** @class */ (function (_super) {
      *
      * @param {Axis} axis Related axis
      */
-    function AxisRenderer(axis) {
+    function AxisRenderer() {
         var _this = 
         // Init
         _super.call(this) || this;
@@ -70,8 +70,6 @@ var AxisRenderer = /** @class */ (function (_super) {
         _this.minLabelPosition = 0;
         _this.maxLabelPosition = 1;
         _this.shouldClone = false;
-        // Set axis
-        _this.axis = axis;
         var gridContainer = _this.createChild(Container);
         gridContainer.shouldClone = false;
         gridContainer.layout = "none";
@@ -86,13 +84,13 @@ var AxisRenderer = /** @class */ (function (_super) {
         breakContainer.width = percent(100);
         breakContainer.height = percent(100);
         _this.breakContainer = breakContainer;
-        _this.line = axis.createChild(AxisLine); // yes, to axis, not to renderer
+        _this.line = _this.createChild(AxisLine); // yes, to axis, not to renderer
         _this.line.shouldClone = false;
         _this.line.strokeOpacity = 0;
         _this.ticks.template.strokeOpacity = 0;
         //this.ticks.template.disabled = true;
         //this.axisFills.template.disabled = true;
-        var baseGrid = axis.createChild(Grid);
+        var baseGrid = _this.createChild(Grid);
         baseGrid.shouldClone = false;
         _this.baseGrid = baseGrid;
         _this.gridContainer.events.on("maxsizechanged", _this.invalidateAxisItems, _this);
@@ -102,19 +100,38 @@ var AxisRenderer = /** @class */ (function (_super) {
         disposers.push(_this.line);
         disposers.push(gridContainer);
         disposers.push(breakContainer);
+        // Apply theme
+        _this.applyTheme();
+        return _this;
+    }
+    Object.defineProperty(AxisRenderer.prototype, "axis", {
+        get: function () {
+            return this._axis;
+        },
+        set: function (axis) {
+            this.setAxis(axis);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+    * @ignore
+    */
+    AxisRenderer.prototype.setAxis = function (axis) {
+        var _this = this;
+        this._axis = axis;
         axis.events.on("rangechangestarted", function () {
             if (!_this._originalLayout) {
                 _this._originalLayout = _this.layout;
             }
             _this.layout = "none";
-        }, _this);
+        }, this);
         axis.events.on("rangechangeended", function () {
             _this.layout = _this._originalLayout;
-        }, _this);
-        // Apply theme
-        _this.applyTheme();
-        return _this;
-    }
+        }, this);
+        this.baseGrid.parent = axis;
+        this.line.parent = axis;
+    };
     /**
      * Called when rendered is attached to an Axis, as well as a property of
      * Axis that might affect the appearance is updated.
@@ -129,6 +146,7 @@ var AxisRenderer = /** @class */ (function (_super) {
      */
     AxisRenderer.prototype.processRenderer = function () {
         this.events.on("sizechanged", this.updateTooltip, this);
+        this.events.on("positionchanged", this.updateTooltip, this);
         this.labels.template.inside = this.inside;
         this.ticks.template.inside = this.inside;
     };
@@ -164,7 +182,6 @@ var AxisRenderer = /** @class */ (function (_super) {
     AxisRenderer.prototype.positionItem = function (item, point) {
         if (item) {
             item.moveTo(point);
-            //item.visible = this.fitsToBounds(point);
         }
     };
     /**
@@ -333,7 +350,9 @@ var AxisRenderer = /** @class */ (function (_super) {
      */
     AxisRenderer.prototype.updateBreakElement = function (axisBreak) {
         this.positionItem(axisBreak.startLine, axisBreak.startPoint);
+        this.toggleVisibility(axisBreak.startLine, axisBreak.startPosition, 0, 1);
         this.positionItem(axisBreak.endLine, axisBreak.endPoint);
+        this.toggleVisibility(axisBreak.endLine, axisBreak.endPosition, 0, 1);
     };
     Object.defineProperty(AxisRenderer.prototype, "minGridDistance", {
         /**

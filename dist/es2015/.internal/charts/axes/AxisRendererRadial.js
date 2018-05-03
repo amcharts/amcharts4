@@ -23,7 +23,6 @@ import { WavedCircle } from "../../core/elements/WavedCircle";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
 import { percent } from "../../core/utils/Percent";
 import { registry } from "../../core/Registry";
-import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
 import * as $utils from "../../core/utils/Utils";
@@ -44,10 +43,10 @@ var AxisRendererRadial = /** @class */ (function (_super) {
      *
      * @param {Axis} axis Related axis
      */
-    function AxisRendererRadial(axis) {
+    function AxisRendererRadial() {
         var _this = 
         // Init
-        _super.call(this, axis) || this;
+        _super.call(this) || this;
         /**
          * A related chart.
          *
@@ -391,13 +390,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
          * @param {"circles" | "polygons"}  value  Grid type
          */
         set: function (value) {
-            var _this = this;
-            if (this.setPropertyValue("gridType", value, true)) {
-                var axisBreaks = this.axis.axisBreaks;
-                $iter.each(axisBreaks.iterator(), function (axisBreak) {
-                    _this.createBreakSprites(axisBreak);
-                });
-            }
+            this.setPropertyValue("gridType", value, true);
         },
         enumerable: true,
         configurable: true

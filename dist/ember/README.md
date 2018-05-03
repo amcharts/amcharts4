@@ -1,7 +1,7 @@
 @amcharts/amcharts4-ember
 ==============================================================================
 
-Ember add-on for AmCharts V4
+Ember add-on for AmCharts 4
 
 Installation
 ------------------------------------------------------------------------------
@@ -49,11 +49,11 @@ Lastly, import and use V4 like normal (make sure to use the `didInsertElement` a
 
 ```js
 import Component from "@ember/component";
-import * as amcharts4 from "@amcharts/amcharts4";
-import * as xy from "@amcharts/amcharts4/xy";
-import AnimatedTheme from "@amcharts/amcharts4/themes/animated";
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
-amcharts4.useTheme(AnimatedTheme);
+am4core.useTheme(am4themes_animated);
 
 export default Component.extend({
   init() {
@@ -64,7 +64,7 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments);
 
-    let chart = amcharts4.create("chartdiv", xy.XYChart);
+    let chart = am4core.create("chartdiv", am4charts.XYChart);
     chart.paddingRight = 20;
 
     let data = [];
@@ -76,21 +76,21 @@ export default Component.extend({
 
     chart.data = data;
 
-    let dateAxis = chart.xAxes.push(new xy.DateAxis());
+    let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
     dateAxis.renderer.grid.template.location = 0;
 
-    let valueAxis = chart.yAxes.push(new xy.ValueAxis());
+    let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
     valueAxis.tooltip.disabled = true;
     valueAxis.renderer.minWidth = 35;
 
-    let series = chart.series.push(new xy.LineSeries());
+    let series = chart.series.push(new am4charts.LineSeries());
     series.dataFields.dateX = "date";
     series.dataFields.valueY = "value";
 
     series.tooltipText = "{valueY.value}";
-    chart.cursor = new xy.XYCursor();
+    chart.cursor = new am4charts.XYCursor();
 
-    let scrollbarX = new xy.XYChartScrollbar();
+    let scrollbarX = new am4charts.XYChartScrollbar();
     scrollbarX.series.push(series);
     chart.scrollbarX = scrollbarX;
 

@@ -14,6 +14,7 @@ import { MapSeries } from "../map/MapSeries";
 import { MapObject } from "../map/MapObject";
 import { IPoint } from "../../core/defs/IPoint";
 import { IGeoPoint } from "../../core/defs/IGeoPoint";
+import { DataSource } from "../../core/data/DataSource";
 import { Projection } from "../map/projections/Projection";
 import { ZoomControl } from "../map/ZoomControl";
 import { Ordering } from "../../core/utils/Order";
@@ -718,6 +719,17 @@ export declare class MapChart extends SerialChart {
      * Invalidates projection, causing all series to be redrawn.
      */
     protected invalidateProjection(): void;
+    /**
+     * Returns a [[DataSource]] specifically for loading Component's data.
+     *
+     * @return {DataSource} Data source
+     */
+    /**
+     * Sets a [[DataSource]] to be used for loading Component's data.
+     *
+     * @param {DataSource} value Data source
+     */
+    geodataSource: DataSource;
     /**
      * Processes JSON-based config before it is applied to the object.
      *

@@ -19,6 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Container } from "../Container";
 import { Sprite } from "../Sprite";
+import { registry } from "../Registry";
 import * as $math from "../utils/Math";
 import * as $path from "../rendering/Path";
 import * as $type from "../utils/Type";
@@ -319,4 +320,11 @@ var Slice = /** @class */ (function (_super) {
     return Slice;
 }(Container));
 export { Slice };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["Slice"] = Slice;
 //# sourceMappingURL=Slice.js.map

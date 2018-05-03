@@ -75,6 +75,11 @@ export { IClockHandProperties, IClockHandEvents, IClockHandAdapters, ClockHand }
 export { ISankeyNodeProperties, ISankeyNodeEvents, ISankeyNodeAdapters, SankeyNode } from "./.internal/charts/elements/SankeyNode";
 export { ISankeyLinkProperties, ISankeyLinkEvents, ISankeyLinkAdapters, SankeyLink } from "./.internal/charts/elements/SankeyLink";
 export { NavigationBarDataItem, INavigationBarDataFields, INavigationBarProperties, INavigationBarEvents, INavigationBarAdapters, NavigationBar } from "./.internal/charts/elements/NavigationBar";
+export { Column, IColumnAdapters, IColumnEvents, IColumnProperties } from "./.internal/charts/elements/Column";
+export { Candlestick, ICandlestickAdapters, ICandlestickEvents, ICandlestickProperties } from "./.internal/charts/elements/Candlestick";
+export { RadarColumn, IRadarColumnAdapters, IRadarColumnEvents, IRadarColumnProperties } from "./.internal/charts/elements/RadarColumn";
+export { Column3D, IColumn3DAdapters, IColumn3DEvents, IColumn3DProperties } from "./.internal/charts/elements/Column3D";
+export { ConeColumn, IConeColumnAdapters, IConeColumnEvents, IConeColumnProperties } from "./.internal/charts/elements/ConeColumn";
 /**
  * Elements: cursors
  */

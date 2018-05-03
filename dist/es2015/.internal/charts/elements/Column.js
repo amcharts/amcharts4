@@ -49,7 +49,14 @@ var Column = /** @class */ (function (_super) {
         _this.isMeasured = false;
         _this.applyOnClones = true;
         _this.strokeOpacity = 1;
+        _this.layout = "none";
         _this.createAssets();
+        // otherwise users will have to set layout themselves if they'll want to align, scale etc children
+        _this.events.on("childadded", function () {
+            if (_this.layout == "none") {
+                _this.layout = "absolute";
+            }
+        });
         return _this;
     }
     Column.prototype.createAssets = function () {

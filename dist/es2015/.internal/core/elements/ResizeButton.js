@@ -20,6 +20,7 @@ var __extends = (this && this.__extends) || (function () {
 import { Button } from "./Button";
 import { Sprite } from "../Sprite";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
+import { registry } from "../Registry";
 import * as $path from "../rendering/Path";
 /**
  * ============================================================================
@@ -92,4 +93,11 @@ var ResizeButton = /** @class */ (function (_super) {
     return ResizeButton;
 }(Button));
 export { ResizeButton };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["ResizeButton"] = ResizeButton;
 //# sourceMappingURL=ResizeButton.js.map

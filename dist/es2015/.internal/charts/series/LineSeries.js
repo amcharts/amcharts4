@@ -497,13 +497,19 @@ var LineSeries = /** @class */ (function (_super) {
                 });
                 if (!hasLabels_1) {
                     var clone = bullet.clone();
-                    clone.copyFrom(_this);
                     clone.parent = marker;
                     clone.isMeasured = true;
                     clone.tooltipText = undefined;
                     clone.x = w / 2;
                     clone.y = h / 2;
                     clone.visible = true;
+                    // otherwise will not transit to color after hiding
+                    if (!$type.hasValue(clone.fill)) {
+                        clone.fill = _this.fill;
+                    }
+                    if (!$type.hasValue(clone.stroke)) {
+                        clone.stroke = _this.stroke;
+                    }
                     return false;
                 }
             }

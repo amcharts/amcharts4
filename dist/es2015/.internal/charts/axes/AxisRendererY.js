@@ -44,17 +44,23 @@ var AxisRendererY = /** @class */ (function (_super) {
      *
      * @param {Axis} axis Related axis
      */
-    function AxisRendererY(axis) {
-        var _this = _super.call(this, axis) || this;
+    function AxisRendererY() {
+        var _this = _super.call(this) || this;
         _this.className = "AxisRendererY";
         _this.minGridDistance = 40;
         _this.opposite = false;
         _this.height = percent(100);
         _this.labels.template.verticalCenter = "middle";
-        axis.layout = "horizontal"; // in order to properly position title, as title goes to axis, not renderer
         _this.applyTheme();
         return _this;
     }
+    /**
+    * @ignore
+    */
+    AxisRendererY.prototype.setAxis = function (axis) {
+        _super.prototype.setAxis.call(this, axis);
+        axis.layout = "horizontal";
+    };
     /**
      * Called when rendered is attached to an Axis, as well as a property of
      * Axis that might affect the appearance is updated.
@@ -294,6 +300,14 @@ var AxisRendererY = /** @class */ (function (_super) {
         var endPoint = axisBreak.endPoint;
         var x1 = axisBreak.pixelMarginLeft;
         var x2 = this.gridContainer.pixelWidth - axisBreak.pixelMarginLeft - axisBreak.pixelMarginRight;
+        startPoint.y = $math.fitToRange(startPoint.y, -1, this.pixelHeight + 1);
+        endPoint.y = $math.fitToRange(endPoint.y, -1, this.pixelHeight + 1);
+        if (startPoint.y == endPoint.y && (startPoint.y < 0 || startPoint.y > this.pixelHeight)) {
+            axisBreak.fillShape.__disabled = true;
+        }
+        else {
+            axisBreak.fillShape.__disabled = false;
+        }
         var w = Math.abs(x2 - x1);
         startLine.x = x1;
         startLine.height = 0;

@@ -625,7 +625,7 @@ export declare class Component extends Container {
      *
      * @ignore Exclude from docs
      */
-    protected loadData(): void;
+    protected loadData(property: string): void;
     /**
      * This function is called by the [[DataSource]]'s `dateFields` adapater
      * so that particular chart types can popuplate this setting with their

@@ -19,6 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Sprite } from "../Sprite";
 import { color } from "../utils/Color";
+import { registry } from "../Registry";
 import * as $type from "../utils/Type";
 /**
  * ============================================================================
@@ -164,4 +165,11 @@ var Line = /** @class */ (function (_super) {
     return Line;
 }(Sprite));
 export { Line };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["Line"] = Line;
 //# sourceMappingURL=Line.js.map

@@ -301,7 +301,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             var path = void 0;
             if (this.orientation == "horizontal") {
                 path = $path.rectToPath({
-                    x: 0,
+                    x: -1,
                     y: 0,
                     width: x,
                     height: h

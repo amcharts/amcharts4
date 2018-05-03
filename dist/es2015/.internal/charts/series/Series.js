@@ -205,7 +205,7 @@ var Series = /** @class */ (function (_super) {
         _this.dataItem.component = _this;
         // Apply accessibility
         _this.role = "group";
-        _this.events.once("beforevalidated", _this.appear, _this);
+        _this.events.once("beforevalidated", function () { _this.appear(); }, _this);
         _this.hiddenState.properties.opacity = 1; // because we hide by changing values
         _this.applyTheme();
         return _this;
@@ -257,7 +257,7 @@ var Series = /** @class */ (function (_super) {
         this.appeared = false;
         this.hide(0);
         var animation = this.show();
-        if (animation) {
+        if (animation && !animation.isDisposed()) {
             animation.events.once("animationended", function () {
                 _this.appeared = true;
             });
@@ -1019,6 +1019,26 @@ var Series = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Processes JSON-based config before it is applied to the object.
+     *
+     * @ignore Exclude from docs
+     * @param {object}  config  Config
+     */
+    Series.prototype.processConfig = function (config) {
+        if (config) {
+            // Set up bullets
+            if ($type.hasValue(config.bullets) && $type.isArray(config.bullets)) {
+                for (var i = 0, len = config.bullets.length; i < len; i++) {
+                    var bullets = config.bullets[i];
+                    if (!$type.hasValue(bullets.type)) {
+                        bullets.type = "Bullet";
+                    }
+                }
+            }
+        }
+        _super.prototype.processConfig.call(this, config);
+    };
     return Series;
 }(Component));
 export { Series };

@@ -182,6 +182,15 @@ var PieChart = /** @class */ (function (_super) {
         this.updateRadius();
     };
     /**
+     * (Re)validates chart data.
+     *
+     * @ignore Exclude from docs
+     */
+    PieChart.prototype.validateData = function () {
+        _super.prototype.validateData.call(this);
+        this.feedLegend();
+    };
+    /**
      * Recalculates pie's radius, based on a number of criteria.
      *
      * @ignore Exclude from docs

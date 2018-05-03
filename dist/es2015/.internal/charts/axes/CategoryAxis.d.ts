@@ -256,13 +256,6 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      */
     validateDataRange(): void;
     /**
-     * Validates Axis' data.
-     *
-     * @ignore Exclude from docs
-     * @todo Description (review)
-     */
-    validateData(): void;
-    /**
      * Validates the whole axis. Causes it to redraw.
      *
      * @ignore Exclude from docs

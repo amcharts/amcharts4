@@ -18,6 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Sprite } from "../Sprite";
+import { registry } from "../Registry";
 import * as $math from "../utils/Math";
 /**
  * ============================================================================
@@ -80,4 +81,11 @@ var Rectangle = /** @class */ (function (_super) {
     return Rectangle;
 }(Sprite));
 export { Rectangle };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["Rectangle"] = Rectangle;
 //# sourceMappingURL=Rectangle.js.map

@@ -39,8 +39,8 @@ var AxisRendererY3D = /** @class */ (function (_super) {
      *
      * @param {Axis} axis Related axis
      */
-    function AxisRendererY3D(axis) {
-        var _this = _super.call(this, axis) || this;
+    function AxisRendererY3D() {
+        var _this = _super.call(this) || this;
         /**
          * A related chart.
          *

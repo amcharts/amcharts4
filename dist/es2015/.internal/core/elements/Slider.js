@@ -18,6 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Scrollbar } from "../../core/elements/Scrollbar";
+import { registry } from "../Registry";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -101,4 +102,11 @@ var Slider = /** @class */ (function (_super) {
     return Slider;
 }(Scrollbar));
 export { Slider };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["Slider"] = Slider;
 //# sourceMappingURL=Slider.js.map

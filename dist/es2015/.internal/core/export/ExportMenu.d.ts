@@ -419,15 +419,13 @@ export declare class ExportMenu extends Validatable {
      */
     getReaderLabel(branch: IExportMenuItem, label: string): string;
     /**
-     * Returns current menu container.
-     *
      * @return {HTMLElement} Container
      */
     /**
      * Getters and setters
      */
     /**
-     * Sets HTML container to place the Menu in.
+     * An HTML container to place the Menu in.
      *
      * A container must be an HTML element, because menu itself is HTML, and
      * cannot be placed into SVG.
@@ -437,12 +435,10 @@ export declare class ExportMenu extends Validatable {
      */
     container: HTMLElement;
     /**
-     * Returns current menu items.
-     *
      * @return {Array<IExportMenuItem>} Menu items
      */
     /**
-     * Sets a list of menu items. Can be nested.
+     * A list of menu items. Can be nested.
      *
      * @param {Array<IExportMenuItem>}  items  Menu items
      */
@@ -482,46 +478,38 @@ export declare class ExportMenu extends Validatable {
      */
     readonly labelTag: string;
     /**
-     * Returns current setting for horizontal alignement.
-     *
      * @return {Align} Horizontal alignement
      */
     /**
-     * Sets horizontal alignement for the menu placement.
+     * A horizontal alignement for the menu placement.
      *
      * @param {Align} value Horizontal alignement
      */
     align: Align;
     /**
-     * Returns current setting for vertical alignement.
-     *
      * @return {VerticalAlign} Vertical alignement
      */
     /**
-     * Sets vertical alignement for the menu placement.
+     * A vertical alignement for the menu placement.
      *
      * @param {VerticalAlign} value Vertical alignement
      */
     verticalAlign: VerticalAlign;
     /**
-     * Return current class name prefix.
-     *
      * @return {string} Class name prefix
      */
     /**
-     * Sets class name prefix.
+     * Class name prefix.
      *
      * @default "amexport"
      * @param {string} value Class name prefix
      */
     classPrefix: string;
     /**
-     * Returns current setting for deafult style usage.
-     *
      * @return {boolean} Should ExportMenu load its own CSS?
      */
     /**
-     * Sets whether [[ExportMenu]] should load external CSS to style itself.
+     * Indicates whether [[ExportMenu]] should load external CSS to style itself.
      *
      * If set to `false`, the menu will not be styled, and will rely on some
      * external CSS.
@@ -537,12 +525,10 @@ export declare class ExportMenu extends Validatable {
      */
     loadDefaultCSS(): void;
     /**
-     * Returns current tab index setting.
-     *
      * @return {number} Tab index
      */
     /**
-     * Sets tab index for the menu.
+     * A tab index for the menu.
      *
      * Tab index will influence the order in which elements on the chart and
      * the whole page are selected when pressing TAB key.
@@ -551,13 +537,10 @@ export declare class ExportMenu extends Validatable {
      */
     tabindex: number;
     /**
-     * Returns current [[Language]] instance. If it's not set a new instance is
-     * created.
-     *
      * @return {Language} A [[Language]] instance to be used
      */
     /**
-     * Sets [[Language]] instance.
+     * A [[Language]] instance.
      *
      * @param {Language} value An instance of [[Language]]
      */

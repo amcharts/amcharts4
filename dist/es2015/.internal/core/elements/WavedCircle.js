@@ -18,6 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Circle } from "./Circle";
+import { registry } from "../Registry";
 import * as $path from "../rendering/Path";
 import * as $math from "../utils/Math";
 import * as $utils from "../utils/Utils";
@@ -188,4 +189,11 @@ var WavedCircle = /** @class */ (function (_super) {
     return WavedCircle;
 }(Circle));
 export { WavedCircle };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["WavedCircle"] = WavedCircle;
 //# sourceMappingURL=WavedCircle.js.map

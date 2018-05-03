@@ -44,18 +44,24 @@ var AxisRendererX = /** @class */ (function (_super) {
      *
      * @param {Axis} axis Related axis
      */
-    function AxisRendererX(axis) {
-        var _this = _super.call(this, axis) || this;
+    function AxisRendererX() {
+        var _this = _super.call(this) || this;
         _this.className = "AxisRendererX";
         _this.minGridDistance = 120;
         _this.opposite = false;
         _this.rotation = 0;
         _this.width = percent(100);
-        axis.layout = "vertical"; // in order to properly position title, as title goes to axis, not renderer
         _this.labels.template.horizontalCenter = "middle";
         _this.applyTheme();
         return _this;
     }
+    /**
+    * @ignore
+    */
+    AxisRendererX.prototype.setAxis = function (axis) {
+        _super.prototype.setAxis.call(this, axis);
+        axis.layout = "vertical";
+    };
     /**
      * Called when rendered is attached to an Axis, as well as a property of
      * Axis that might affect the appearance is updated.
@@ -209,13 +215,21 @@ var AxisRendererX = /** @class */ (function (_super) {
         var endPoint = axisBreak.endPoint;
         var y1 = axisBreak.pixelMarginLeft;
         var y2 = this.gridContainer.pixelHeight - axisBreak.pixelMarginTop - axisBreak.pixelMarginBottom;
+        startPoint.x = $math.fitToRange(startPoint.x, -1, this.pixelWidth + 1);
+        endPoint.x = $math.fitToRange(endPoint.x, -1, this.pixelWidth + 1);
+        if (startPoint.x == endPoint.x && (startPoint.x < 0 || startPoint.x > this.pixelWidth)) {
+            axisBreak.fillShape.__disabled = true;
+        }
+        else {
+            axisBreak.fillShape.__disabled = false;
+        }
         startLine.y = y1;
         startLine.width = 0;
         startLine.height = y2;
         endLine.y = y1;
         endLine.width = 0;
         endLine.height = y2;
-        fillShape.height = Math.abs(y2 - y1);
+        fillShape.height = y2;
         fillShape.width = Math.abs(endPoint.x - startPoint.x);
         fillShape.y = y1;
         fillShape.x = startPoint.x;

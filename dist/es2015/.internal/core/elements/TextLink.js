@@ -20,6 +20,7 @@ var __extends = (this && this.__extends) || (function () {
 import { Label } from "../../core/elements/Label";
 import { MouseCursorStyle } from "../../core/interaction/Mouse";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
+import { registry } from "../Registry";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -54,4 +55,11 @@ var TextLink = /** @class */ (function (_super) {
     return TextLink;
 }(Label));
 export { TextLink };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["TextLink"] = TextLink;
 //# sourceMappingURL=TextLink.js.map

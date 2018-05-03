@@ -632,4 +632,13 @@ export declare class Series extends Component implements ILegendItem<Series, ISe
      * @todo Description
      */
     readonly heatRules: List<IHeatRule>;
+    /**
+     * Processes JSON-based config before it is applied to the object.
+     *
+     * @ignore Exclude from docs
+     * @param {object}  config  Config
+     */
+    processConfig(config?: {
+        [index: string]: any;
+    }): void;
 }

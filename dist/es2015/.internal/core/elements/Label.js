@@ -1021,4 +1021,11 @@ var Label = /** @class */ (function (_super) {
     return Label;
 }(Container));
 export { Label };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["Label"] = Label;
 //# sourceMappingURL=Label.js.map

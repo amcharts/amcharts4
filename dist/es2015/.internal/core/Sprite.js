@@ -240,8 +240,13 @@ var Sprite = /** @class */ (function (_super) {
          */
         _this.propertyFields = {};
         /**
-         * @todo: review description
-         * Specifies if a property changed on this sprite should also affect all the clones cloned from it. This is only important if you want to change properties of clones after the cloning was done. When cloning Sprite initially, all the properties are copied anyway.
+         * Specifies if a property changes on this object should be propaged to the
+         * objects cloned from this object.
+         *
+         * This setting affects property chanegs *after* cloning, since at the moment
+         * of cloning all of properties from source object are copied to the clone
+         * anyway.
+         *
          * @default false
          */
         _this.applyOnClones = false;
@@ -687,6 +692,7 @@ var Sprite = /** @class */ (function (_super) {
         if (this.group) {
             this.group.dispose();
         }
+        this.parent = undefined;
         while (this.filters.length > 0) {
             var filter = this.filters.getIndex(0);
             filter.dispose();

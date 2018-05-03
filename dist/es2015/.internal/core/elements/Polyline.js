@@ -19,6 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Sprite } from "../Sprite";
 import { color } from "../utils/Color";
+import { registry } from "../Registry";
 import * as $path from "../rendering/Path";
 import * as $math from "../utils/Math";
 /**
@@ -153,4 +154,11 @@ var Polyline = /** @class */ (function (_super) {
     return Polyline;
 }(Sprite));
 export { Polyline };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["Polyline"] = Polyline;
 //# sourceMappingURL=Polyline.js.map

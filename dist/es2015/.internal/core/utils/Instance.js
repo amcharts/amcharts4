@@ -35,6 +35,7 @@ import * as $dom from "./DOM";
 function createChild(htmlElement, classType) {
     var htmlContainer = $dom.getElement(htmlElement);
     if (htmlContainer) {
+        htmlContainer.innerHTML = "";
         // we need to create another div with position:absolute in order div elements added inside could be positioned relatively
         /*
         let innerContainer = document.createElement("div");

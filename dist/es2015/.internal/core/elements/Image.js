@@ -18,6 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Sprite } from "../Sprite";
+import { registry } from "../Registry";
 import * as $dom from "../utils/DOM";
 /**
  * ============================================================================
@@ -79,4 +80,11 @@ var Image = /** @class */ (function (_super) {
     return Image;
 }(Sprite));
 export { Image };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["Image"] = Image;
 //# sourceMappingURL=Image.js.map

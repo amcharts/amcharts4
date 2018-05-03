@@ -125,7 +125,11 @@ export declare class AxisRendererCircular extends AxisRenderer {
      *
      * @param {Axis} axis Related axis
      */
-    constructor(axis: Axis);
+    constructor();
+    /**
+    * @ignore
+    */
+    setAxis(axis: Axis): void;
     /**
      * Validates Axis renderer.
      *

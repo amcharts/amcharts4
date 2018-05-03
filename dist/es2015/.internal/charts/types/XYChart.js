@@ -388,7 +388,7 @@ var XYChart = /** @class */ (function (_super) {
     XYChart.prototype.processXAxis = function (event) {
         var axis = event.newValue;
         axis.chart = this;
-        axis.renderer = new this._axisRendererX(axis);
+        axis.renderer = new this._axisRendererX();
         axis.axisLetter = "X";
         axis.renderer.observe(["opposite", "inside", "inversed", "minGridDistance"], this.handleXAxisChange, this);
         axis.events.on("datarangechanged", this.handleXAxisRangeChange, this);
@@ -418,7 +418,7 @@ var XYChart = /** @class */ (function (_super) {
     XYChart.prototype.processYAxis = function (event) {
         var axis = event.newValue;
         axis.chart = this;
-        axis.renderer = new this._axisRendererY(axis);
+        axis.renderer = new this._axisRendererY();
         axis.axisLetter = "Y";
         axis.renderer.observe(["opposite", "inside", "inversed", "minGridDistance"], this.handleYAxisChange, this);
         axis.events.on("datarangechanged", this.handleYAxisRangeChange, this);
@@ -616,8 +616,6 @@ var XYChart = /** @class */ (function (_super) {
          */
         get: function () {
             if (!this._xAxes) {
-                //let template = new Axis();
-                //template.renderer = new this._axisRendererX(template);
                 this._xAxes = new List();
                 this._xAxes.events.on("insert", this.processXAxis, this);
                 this._xAxes.events.on("remove", this.processXAxisRemoval, this);
@@ -635,8 +633,6 @@ var XYChart = /** @class */ (function (_super) {
          */
         get: function () {
             if (!this._yAxes) {
-                //let template = new Axis();
-                //template.renderer = new this._axisRendererY(template);
                 this._yAxes = new List();
                 this._yAxes.events.on("insert", this.processYAxis, this);
                 this._yAxes.events.on("remove", this.processYAxisRemoval, this);

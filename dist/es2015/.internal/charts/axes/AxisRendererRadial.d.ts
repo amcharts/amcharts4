@@ -8,7 +8,6 @@
  * @hidden
  */
 import { AxisRendererY, IAxisRendererYProperties, IAxisRendererYAdapters, IAxisRendererYEvents } from "./AxisRendererY";
-import { Axis } from "./Axis";
 import { AxisTick } from "./AxisTick";
 import { RadarChart } from "../types/RadarChart";
 import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
@@ -125,7 +124,7 @@ export declare class AxisRendererRadial extends AxisRendererY {
      *
      * @param {Axis} axis Related axis
      */
-    constructor(axis: Axis);
+    constructor();
     /**
      * Validates Axis renderer.
      *

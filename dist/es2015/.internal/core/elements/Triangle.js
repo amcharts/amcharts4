@@ -18,6 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Sprite } from "../Sprite";
+import { registry } from "../Registry";
 import * as $path from "../rendering/Path";
 /**
  * ============================================================================
@@ -104,4 +105,11 @@ var Triangle = /** @class */ (function (_super) {
     return Triangle;
 }(Sprite));
 export { Triangle };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["Triangle"] = Triangle;
 //# sourceMappingURL=Triangle.js.map

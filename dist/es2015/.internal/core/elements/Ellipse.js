@@ -18,6 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Circle } from "./Circle";
+import { registry } from "../Registry";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -95,4 +96,11 @@ var Ellipse = /** @class */ (function (_super) {
     return Ellipse;
 }(Circle));
 export { Ellipse };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["Ellipse"] = Ellipse;
 //# sourceMappingURL=Ellipse.js.map
