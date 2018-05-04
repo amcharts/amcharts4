@@ -683,7 +683,7 @@ var DateAxis = /** @class */ (function (_super) {
                 //let dataItem = dataItemsIterator.getFirst();
                 dataItem.__disabled = false;
                 //dataItem.visible = true;
-                this_2.processDataItem(dataItem);
+                //this.processDataItem(dataItem);
                 this_2.appendDataItem(dataItem);
                 dataItem.axisBreak = undefined;
                 dataItem.date = date;
@@ -724,7 +724,7 @@ var DateAxis = /** @class */ (function (_super) {
                                 }
                                 var text_1 = _this.dateFormatter.format(date, format);
                                 var dataItem = dataItemsIterator_1.find(function (x) { return x.text === text_1; });
-                                _this.processDataItem(dataItem);
+                                //this.processDataItem(dataItem);
                                 _this.appendDataItem(dataItem);
                                 dataItem.axisBreak = axisBreak;
                                 axisBreak.dataItems.moveValue(dataItem);

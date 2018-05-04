@@ -40,16 +40,45 @@ import * as $type from "./utils/Type";
  *
  * Default state can be accessed using Sprite's `defaultState` getter.
  *
+ * ```TypeScript
+ * sprite.defaultState.properties.fillOpacity = 0.5;
  * ```
- * sprite.defaultState.fillOpacity = 0.5;
+ * ```JavaScript
+ * sprite.defaultState.properties.fillOpacity = 0.5;
+ * ```
+ * ```JSON
+ * {
+ *   // ...
+ *   "defaultState": {
+ *     "properties": {
+ *       "fillOpacity": 0.5
+ *     }
+ *   }
+ * }
  * ```
  *
  * If Sprite is "hoverable", it automatically adds a "hover" state, which is
  * applied when it has a cursor over it.
  *
- * ```
+ * ```TypeScript
  * let hoverstate = sprite.states.create("hover");
- * hoverstate.fillOpacity = 1;
+ * hoverstate.properties.fillOpacity = 1;
+ * ```
+ * ```JavaScript
+ * var hoverstate = sprite.states.create("hover");
+ * hoverstate.properties.fillOpacity = 1;
+ * ```
+ * ```JSON
+ * {
+ *   // ...
+ *   "states": {
+ *     "hover": {
+ *       "properties": {
+ *         "fillOpacity": 0.5
+ *       }
+ *     }
+ *   }
+ * }
  * ```
  *
  * The above will automatically apply "hover" state when the Sprite is hovered,
@@ -61,14 +90,20 @@ import * as $type from "./utils/Type";
  *
  * User can create their own states, and apply them as needed:
  *
- * ```
+ * ```TypeScript
  * let myCustomState = sprite.states.create("mystate");
- * myCustomState.fillOpacity = 0.5;
- * myCustomState.strokeOpacity = 0.8;
+ * myCustomState.properties.fillOpacity = 0.5;
+ * myCustomState.properties.strokeOpacity = 0.8;
+ * sprite.setState("mystate");
+ * ```
+ * ```JavaScript
+ * var myCustomState = sprite.states.create("mystate");
+ * myCustomState.properties.fillOpacity = 0.5;
+ * myCustomState.properties.strokeOpacity = 0.8;
  * sprite.setState("mystate");
  * ```
  *
- * @see {@link SpriteState}
+ * @see {@link https://www.amcharts.com/docs/v4/concepts/states/}
  * @important
  */
 var SpriteState = /** @class */ (function (_super) {
@@ -163,8 +198,8 @@ var SpriteState = /** @class */ (function (_super) {
     SpriteState.prototype.getPropertyValue = function (propertyName) {
         var propValue = this.properties[propertyName];
         var sprite = this.sprite;
-        var fieldName = this.propertyFields[propertyName];
         if (sprite) {
+            var fieldName = this.propertyFields[propertyName];
             if ($type.hasValue(fieldName)) {
                 if (sprite.dataItem) {
                     propValue = sprite.dataItem.dataContext[fieldName];
@@ -229,6 +264,12 @@ var SpriteState = /** @class */ (function (_super) {
             var keys = this.adapter.keys;
             for (var x in keys) {
                 var prop = keys[x];
+                var value = this.getPropertyValue(prop);
+                res[prop] = value;
+            }
+            // Cycle through all property fileds and add values for missing properties
+            var propertyFields = this.propertyFields;
+            for (var prop in propertyFields) {
                 var value = this.getPropertyValue(prop);
                 res[prop] = value;
             }

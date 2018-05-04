@@ -453,7 +453,7 @@ var ValueAxis = /** @class */ (function (_super) {
                 var axisBreak = this.isInBreak(value_1);
                 if (!axisBreak) {
                     var dataItem = dataItemsIterator_1.find(function (x) { return x.value === value_1; });
-                    this.processDataItem(dataItem);
+                    //this.processDataItem(dataItem);
                     this.appendDataItem(dataItem);
                     dataItem.axisBreak = undefined;
                     if (dataItem.value != value_1) {
@@ -490,7 +490,7 @@ var ValueAxis = /** @class */ (function (_super) {
                         while (breakValue_1 <= axisBreak.adjustedMax) {
                             if (breakValue_1 >= axisBreak.adjustedStartValue && breakValue_1 <= axisBreak.adjustedEndValue) {
                                 var dataItem = dataItemsIterator_1.find(function (x) { return x.value === breakValue_1; });
-                                _this.processDataItem(dataItem);
+                                //this.processDataItem(dataItem);
                                 _this.appendDataItem(dataItem);
                                 dataItem.axisBreak = axisBreak;
                                 if (dataItem.value != breakValue_1) {

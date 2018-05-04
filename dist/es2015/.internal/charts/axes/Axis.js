@@ -1297,6 +1297,9 @@ var Axis = /** @class */ (function (_super) {
         if (this.renderer) {
             this.renderer.copyFrom(source.renderer);
         }
+        if (source.title) {
+            this.title = source.title.clone();
+        }
     };
     /**
      * Resets internal iterator.

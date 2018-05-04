@@ -41,4 +41,5 @@ series2.defaultState.transitionDuration = 1500;
 series2.stroke = chart.colors.getIndex(6);
 
 chart.cursor = new am4charts.XYCursor();
+chart.cursor.xAxis = dateAxis;
 chart.scrollbarX = new am4core.Scrollbar();

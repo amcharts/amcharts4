@@ -19,6 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Sprite } from "../Sprite";
 import { color } from "../utils/Color";
+import { LinearGradient } from "../rendering/fills/LinearGradient";
 import { registry } from "../Registry";
 import * as $type from "../utils/Type";
 /**
@@ -82,8 +83,12 @@ var Line = /** @class */ (function (_super) {
             if (!$type.isNumber(value)) {
                 value = 0;
             }
+            var delta = 0;
+            if (this.pixelPerfect && this.stroke instanceof LinearGradient) {
+                delta = 0.00001;
+            }
             this.setPropertyValue("x1", value);
-            this.element.attr({ "x1": value });
+            this.element.attr({ "x1": value + delta });
         },
         enumerable: true,
         configurable: true
@@ -130,8 +135,12 @@ var Line = /** @class */ (function (_super) {
             if (!$type.isNumber(value)) {
                 value = 0;
             }
+            var delta = 0;
+            if (this.pixelPerfect && this.stroke instanceof LinearGradient) {
+                delta = 0.00001;
+            }
             this.setPropertyValue("y1", value);
-            this.element.attr({ "y1": value });
+            this.element.attr({ "y1": value + delta });
         },
         enumerable: true,
         configurable: true

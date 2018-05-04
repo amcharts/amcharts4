@@ -52,6 +52,10 @@ var RadarCursor = /** @class */ (function (_super) {
      */
     RadarCursor.prototype.fitsToBounds = function (point) {
         var radius = $math.getDistance(point);
+        var angle = $math.getAngle(point);
+        //if(!$math.isAngleInRange(angle, this.startAngle, this.endAngle)){
+        //return false;
+        //}
         if (radius < this.truePixelRadius + 1 && radius > this.pixelInnerRadius - 1) { // ok to add/remove some
             return true;
         }

@@ -349,7 +349,6 @@ var AxisRendererY = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("inside", value);
-            this.minWidth = value ? undefined : 65;
         },
         enumerable: true,
         configurable: true

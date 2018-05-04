@@ -210,7 +210,7 @@ series.columns.template.width = am4core.percent(90);
 series.columns.template.strokeOpacity = 0;
 series.dataFields.valueY = "value" + currentYear;
 series.dataFields.categoryX = "country";
-series.tooltipText = "{categoryX}:{valueY.value}°C";
+series.tooltipText = "{categoryX}:{valueY.value}";
 series.tooltipYField = "openValueY";
 
 // this makes columns to be of a different color, depending on value

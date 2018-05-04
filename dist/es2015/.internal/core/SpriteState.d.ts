@@ -25,16 +25,45 @@ import { Sprite } from "./Sprite";
  *
  * Default state can be accessed using Sprite's `defaultState` getter.
  *
+ * ```TypeScript
+ * sprite.defaultState.properties.fillOpacity = 0.5;
  * ```
- * sprite.defaultState.fillOpacity = 0.5;
+ * ```JavaScript
+ * sprite.defaultState.properties.fillOpacity = 0.5;
+ * ```
+ * ```JSON
+ * {
+ *   // ...
+ *   "defaultState": {
+ *     "properties": {
+ *       "fillOpacity": 0.5
+ *     }
+ *   }
+ * }
  * ```
  *
  * If Sprite is "hoverable", it automatically adds a "hover" state, which is
  * applied when it has a cursor over it.
  *
- * ```
+ * ```TypeScript
  * let hoverstate = sprite.states.create("hover");
- * hoverstate.fillOpacity = 1;
+ * hoverstate.properties.fillOpacity = 1;
+ * ```
+ * ```JavaScript
+ * var hoverstate = sprite.states.create("hover");
+ * hoverstate.properties.fillOpacity = 1;
+ * ```
+ * ```JSON
+ * {
+ *   // ...
+ *   "states": {
+ *     "hover": {
+ *       "properties": {
+ *         "fillOpacity": 0.5
+ *       }
+ *     }
+ *   }
+ * }
  * ```
  *
  * The above will automatically apply "hover" state when the Sprite is hovered,
@@ -46,14 +75,20 @@ import { Sprite } from "./Sprite";
  *
  * User can create their own states, and apply them as needed:
  *
- * ```
+ * ```TypeScript
  * let myCustomState = sprite.states.create("mystate");
- * myCustomState.fillOpacity = 0.5;
- * myCustomState.strokeOpacity = 0.8;
+ * myCustomState.properties.fillOpacity = 0.5;
+ * myCustomState.properties.strokeOpacity = 0.8;
+ * sprite.setState("mystate");
+ * ```
+ * ```JavaScript
+ * var myCustomState = sprite.states.create("mystate");
+ * myCustomState.properties.fillOpacity = 0.5;
+ * myCustomState.properties.strokeOpacity = 0.8;
  * sprite.setState("mystate");
  * ```
  *
- * @see {@link SpriteState}
+ * @see {@link https://www.amcharts.com/docs/v4/concepts/states/}
  * @important
  */
 export declare class SpriteState<P, A> extends BaseObject {

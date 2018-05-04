@@ -601,6 +601,9 @@ var Component = /** @class */ (function (_super) {
                 this.dataItems.clear();
                 // and for all components
                 $iter.each(this._dataUsers.iterator(), function (dataUser) {
+                    $iter.each(dataUser.dataItems.iterator(), function (dataItem) {
+                        dataItem.dispose();
+                    });
                     dataUser.dataItems.clear();
                     // need this to slice new data
                     dataUser._prevStartIndex = undefined;
@@ -936,7 +939,7 @@ var Component = /** @class */ (function (_super) {
                 }
                 this.dispatchImmediately("rangechangestarted");
                 if (this.rangeChangeAnimation) {
-                    this.rangeChangeAnimation.dispose();
+                    this.rangeChangeAnimation.stop();
                 }
                 this.rangeChangeAnimation = this.animate([{ property: "start", to: start }, { property: "end", to: end }], this.rangeChangeDuration, this.rangeChangeEasing);
                 if (this.rangeChangeAnimation && !this.rangeChangeAnimation.isDisposed()) {
