@@ -32,7 +32,7 @@ Then inside of the `files` you should include the various files that you will be
 let app = new EmberApp(defaults, {
   amcharts4: {
     files: [
-      "xy",
+      "charts",
       "themes/animated"
     ]
   }

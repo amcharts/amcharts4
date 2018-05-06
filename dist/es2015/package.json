@@ -1,6 +1,6 @@
 {
   "name": "@amcharts/amcharts4",
-  "version": "4.0.0-beta.12",
+  "version": "4.0.0-beta.13",
   "author": "amCharts <contact@amcharts.com> (https://www.amcharts.com/)",
   "description": "AmCharts v4",
   "homepage": "https://www.amcharts.com/",
@@ -22,8 +22,7 @@
   "main": "./index.js",
   "types": "./index.d.ts",
   "dependencies": {
-    "fabric": "^2.1.0",
     "pdfmake": "^0.1.36",
-    "xlsx": "^0.12.2"
+    "xlsx": "^0.12.8"
   }
 }

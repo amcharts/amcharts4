@@ -1,15 +1,14 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
-am4core.options.commercialLicense = true;
-
 am4core.useTheme(am4themes_animated);
 
 @Component({
-  selector: "app-root",
-  template: `<div id="chartdiv" style="width: 100%; height: 500px;"></div>`
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   private chart: am4charts.XYChart;
