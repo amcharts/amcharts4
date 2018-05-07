@@ -45,7 +45,7 @@ label.x = 100;
 label.y = 100;
 label.fill = am4core.color("#ffffff");
 label.fontSize = 35;
-label.fontWeigth = "bold";
+label.fontWeight = "bold";
 label.text = "Afghanistan";
 label.fillOpacity = 0.6;
 

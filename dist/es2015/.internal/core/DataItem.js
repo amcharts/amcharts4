@@ -311,7 +311,9 @@ var DataItem = /** @class */ (function (_super) {
         this._visible = true;
         return animation;
     };
-    // if data item is disposed, dispose sprites
+    /**
+     * Destroys this object and all related data.
+     */
     DataItem.prototype.dispose = function () {
         _super.prototype.dispose.call(this);
         $array.each(this.sprites, function (sprite) {

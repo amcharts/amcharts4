@@ -785,4 +785,13 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @return {IPoint} Base point
      */
     readonly basePoint: IPoint;
+    /**
+     * Zooms axis to specific Dates.
+     *
+     * @param {Date}     startDate       Start date
+     * @param {Date}     endValue        End date
+     * @param {boolean}  skipRangeEvent  Do not invoke events
+     * @param {boolean}  instantly       Do not play zoom animations
+     */
+    zoomToDates(startDate: Date, endDate: Date, skipRangeEvent?: boolean, instantly?: boolean): void;
 }

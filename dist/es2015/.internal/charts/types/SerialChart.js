@@ -115,9 +115,13 @@ var SerialChart = /** @class */ (function (_super) {
          * @return {List} Chart's series
          */
         get: function () {
+            var _this = this;
             if (!this._series) {
                 this._series = new ListTemplate(this.createSeries());
                 this._series.events.on("insert", this.processSeries, this);
+                this._series.events.on("remove", function (event) {
+                    _this.dataUsers.removeValue(event.oldValue);
+                });
             }
             return this._series;
         },

@@ -72,7 +72,7 @@ export interface IContainerProperties extends ISpriteProperties {
      * @default "normal"
      * @type {FontWeight}
      */
-    fontWeigth?: FontWeight;
+    fontWeight?: FontWeight;
     /**
      * Font size for the text.
      *
@@ -590,7 +590,7 @@ export declare class Container extends Sprite {
      *
      * @param {FontWeight} value Font weight
      */
-    fontWeigth: FontWeight;
+    fontWeight: FontWeight;
     /**
      * Returns current text decoration setting.
      *

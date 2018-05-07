@@ -81,7 +81,7 @@ var Label = /** @class */ (function (_super) {
         _this.fill = new InterfaceColorSet().getFor("text");
         // not good to set this, as then these will appear on each label and values set on container won't be applied.
         //this.textDecoration = "none";
-        //this.fontWeigth = "normal";
+        //this.fontWeight = "normal";
         // Set defaults
         _this.wrap = false;
         _this.truncate = false;

@@ -278,7 +278,7 @@ title.fontSize = "1.2em";
 title.verticalCenter = "bottom";
 title.textAlign = "middle";
 title.horizontalCenter = "middle";
-title.fontWeigth = "800";
+title.fontWeight = "800";
 
 chart.maskBullets = false;
 

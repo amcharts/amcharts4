@@ -437,11 +437,8 @@ var TreeMap = /** @class */ (function (_super) {
      */
     TreeMap.prototype.validateData = function () {
         var _this = this;
-        _super.prototype.validateData.call(this);
-        $iter.each(this.series.iterator(), function (series) {
-            series.dispose();
-        });
         this.series.clear();
+        _super.prototype.validateData.call(this);
         if (this._homeDataItem) {
             this._homeDataItem.dispose();
         }

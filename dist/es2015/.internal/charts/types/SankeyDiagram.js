@@ -47,7 +47,7 @@ import { SankeyNode } from "../elements/SankeyNode";
 import { SankeyLink } from "../elements/SankeyLink";
 import { LinearGradientModifier } from "../../core/rendering/fills/LinearGradientModifier";
 import { ColorSet } from "../../core/utils/ColorSet";
-import { toColor } from "../../core/utils/Color";
+import { toColor, Color } from "../../core/utils/Color";
 import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
@@ -302,6 +302,9 @@ var SankeyDiagram = /** @class */ (function (_super) {
         this._levelCount = 0;
         $iter.each(this.nodes.iterator(), function (strNode) {
             var node = strNode[1];
+            if (node.fill instanceof Color) {
+                node.color = node.fill;
+            }
             if (node.color == undefined) {
                 node.color = _this.colors.next();
             }
@@ -396,6 +399,7 @@ var SankeyDiagram = /** @class */ (function (_super) {
             availableHeight = this.chartContainer.maxWidth - 1;
         }
         this.valueHeight = (availableHeight - (maxSumLevelNodeCount - 1) * this.nodePadding) / this.maxSum;
+        this.maxSumLevelNodeCount = maxSumLevelNodeCount;
     };
     /**
      * Updates a cummulative value of the node.
@@ -440,16 +444,17 @@ var SankeyDiagram = /** @class */ (function (_super) {
                 nodesInLevel[level]++;
             }
         });
+        var maxSumLevelNodeCount = this.maxSumLevelNodeCount;
         $iter.each(this._sorted, function (strNode) {
             var node = strNode[1];
             var level = node.level;
             var levelCoordinate = 0;
             switch (_this.nodeAlign) {
                 case "bottom":
-                    levelCoordinate = (_this.maxSum - _this._levelSum[level]) * _this.valueHeight - (nodesInLevel[level] - 2) * _this.nodePadding;
+                    levelCoordinate = (_this.maxSum - _this._levelSum[level]) * _this.valueHeight - (nodesInLevel[level] - maxSumLevelNodeCount) * _this.nodePadding;
                     break;
                 case "middle":
-                    levelCoordinate = (_this.maxSum - _this._levelSum[level]) * _this.valueHeight / 2 - (nodesInLevel[level] - 2) * _this.nodePadding / 2;
+                    levelCoordinate = (_this.maxSum - _this._levelSum[level]) * _this.valueHeight / 2 - (nodesInLevel[level] - maxSumLevelNodeCount) * _this.nodePadding / 2;
                     break;
             }
             if (node.value > 0) {
@@ -640,6 +645,15 @@ var SankeyDiagram = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("orientation", value, true);
+            var nameLabel = this.nodes.template.nameLabel;
+            if (value == "vertical") {
+                nameLabel.label.horizontalCenter = "middle";
+                nameLabel.locationX = 0.5;
+            }
+            else {
+                nameLabel.label.horizontalCenter = "left";
+                nameLabel.locationX = 1;
+            }
         },
         enumerable: true,
         configurable: true

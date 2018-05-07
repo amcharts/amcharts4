@@ -269,6 +269,10 @@ export declare class SankeyDiagram extends Chart {
      */
     maxSum: number;
     /**
+     * number of nodes in level with max value, needed for position calculation
+     */
+    protected maxSumLevelNodeCount: number;
+    /**
      * [valueHeight description]
      *
      * @ignore Exclude from docs

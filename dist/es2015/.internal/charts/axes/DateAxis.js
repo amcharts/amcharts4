@@ -1383,6 +1383,19 @@ var DateAxis = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Zooms axis to specific Dates.
+     *
+     * @param {Date}     startDate       Start date
+     * @param {Date}     endValue        End date
+     * @param {boolean}  skipRangeEvent  Do not invoke events
+     * @param {boolean}  instantly       Do not play zoom animations
+     */
+    DateAxis.prototype.zoomToDates = function (startDate, endDate, skipRangeEvent, instantly) {
+        startDate = this.dateFormatter.parse(startDate);
+        endDate = this.dateFormatter.parse(endDate);
+        this.zoomToValues(startDate.getTime(), endDate.getTime(), skipRangeEvent, instantly);
+    };
     return DateAxis;
 }(ValueAxis));
 export { DateAxis };

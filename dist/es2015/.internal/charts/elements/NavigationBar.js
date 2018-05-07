@@ -117,7 +117,7 @@ var NavigationBar = /** @class */ (function (_super) {
         _this.activeLink = activeLink;
         activeLink.copyFrom(textLink);
         activeLink.valign = "middle";
-        activeLink.fontWeigth = "bold";
+        activeLink.fontWeight = "bold";
         _this.width = percent(100);
         _this.layout = "grid";
         _this.dataFields.name = "name";

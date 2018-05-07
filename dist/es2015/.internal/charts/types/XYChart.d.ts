@@ -264,7 +264,7 @@ export declare class XYChart extends SerialChart {
      * @ignore Exclude from docs
      * @type {Container}
      */
-    yAxesAndPlotCont: Container;
+    yAxesAndPlotContainer: Container;
     /**
      * A container that holds top axes.
      *

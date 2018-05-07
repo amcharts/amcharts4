@@ -79,17 +79,18 @@ var SankeyNode = /** @class */ (function (_super) {
         _this.draggable = true;
         _this.inert = true;
         _this.events.on("positionchanged", _this.invalidateLinks, _this);
+        _this.events.on("sizechanged", _this.invalidateLinks, _this);
         var nameLabel = _this.createChild(LabelBullet);
         nameLabel.shouldClone = false;
         //@should we auto update these locations if position is changed?
         nameLabel.locationX = 1;
         nameLabel.locationY = 0.5;
-        nameLabel.padding(0, 5, 0, 5);
         nameLabel.label.text = "{name}";
         //nameLabel.label.textElement.hideOversized = false;
         nameLabel.maxWidth = 150;
         nameLabel.height = 150;
         nameLabel.label.horizontalCenter = "left";
+        nameLabel.label.padding(0, 5, 0, 5);
         _this.nameLabel = nameLabel;
         var valueLabel = _this.createChild(LabelBullet);
         valueLabel.shouldClone = false;

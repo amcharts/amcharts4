@@ -1335,14 +1335,14 @@ var Container = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Container.prototype, "fontWeigth", {
+    Object.defineProperty(Container.prototype, "fontWeight", {
         /**
          * Returns currently set font weight.
          *
          * @return {FontWeight} Font weight
          */
         get: function () {
-            return this.getPropertyValue("fontWeigth");
+            return this.getPropertyValue("fontWeight");
         },
         /**
          * Sets font weight to use for text.
@@ -1352,7 +1352,7 @@ var Container = /** @class */ (function (_super) {
          * @param {FontWeight} value Font weight
          */
         set: function (value) {
-            this.setPropertyValue("fontWeigth", value);
+            this.setPropertyValue("fontWeight", value);
             this.setSVGAttribute({ "font-weight": value });
         },
         enumerable: true,

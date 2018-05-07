@@ -233,7 +233,7 @@ var XYChart = /** @class */ (function (_super) {
         yAxesAndPlotCont.width = percent(100);
         yAxesAndPlotCont.height = percent(100);
         yAxesAndPlotCont.zIndex = 0;
-        _this.yAxesAndPlotCont = yAxesAndPlotCont;
+        _this.yAxesAndPlotContainer = yAxesAndPlotCont;
         // Create a container for bottom axes
         var bottomAxesCont = chartCont.createChild(Container);
         bottomAxesCont.shouldClone = false;
@@ -248,6 +248,7 @@ var XYChart = /** @class */ (function (_super) {
         leftAxesCont.height = percent(100);
         leftAxesCont.contentAlign = "right";
         leftAxesCont.events.on("transformed", _this.updateXAxesMargins, _this);
+        leftAxesCont.zIndex = 1;
         _this.leftAxesContainer = leftAxesCont;
         // Create a container for plot area
         var plotCont = yAxesAndPlotCont.createChild(Container);
@@ -261,6 +262,7 @@ var XYChart = /** @class */ (function (_super) {
         rightAxesCont.shouldClone = false;
         rightAxesCont.layout = "horizontal";
         rightAxesCont.height = percent(100);
+        rightAxesCont.zIndex = 1;
         rightAxesCont.events.on("transformed", _this.updateXAxesMargins, _this);
         _this.rightAxesContainer = rightAxesCont;
         _this.seriesContainer.parent = plotCont;

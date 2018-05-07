@@ -363,6 +363,9 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * @param {string[]}  fields    A list of fields to set values of
      */
     show(duration?: number, delay?: number, fields?: string[]): Animation;
+    /**
+     * Destroys this object and all related data.
+     */
     dispose(): void;
     /**
      * Hides the Data Item and related visual elements.
