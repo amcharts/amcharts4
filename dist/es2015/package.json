@@ -1,6 +1,6 @@
 {
   "name": "@amcharts/amcharts4",
-  "version": "4.0.0-beta.16",
+  "version": "4.0.0-beta.17",
   "author": "amCharts <contact@amcharts.com> (https://www.amcharts.com/)",
   "description": "AmCharts v4",
   "homepage": "https://www.amcharts.com/",
@@ -23,5 +23,8 @@
     "fabric": "file:./.internal/fabric",
     "pdfmake": "^0.1.36",
     "xlsx": "^0.12.8"
-  }
+  },
+  "bundledDependencies": [
+    "fabric"
+  ]
 }
