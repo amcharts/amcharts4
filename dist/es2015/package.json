@@ -1,6 +1,6 @@
 {
   "name": "@amcharts/amcharts4",
-  "version": "4.0.0-beta.17",
+  "version": "4.0.0-beta.18",
   "author": "amCharts <contact@amcharts.com> (https://www.amcharts.com/)",
   "description": "AmCharts v4",
   "homepage": "https://www.amcharts.com/",
@@ -19,12 +19,19 @@
     "charts",
     "typescript"
   ],
+  "browser": {
+    "canvas": false,
+    "fs": false,
+    "jsdom": false,
+    "jsdom/lib/jsdom/living/generated/utils": false,
+    "jsdom/lib/jsdom/utils": false,
+    "http": false,
+    "https": false,
+    "xmldom": false,
+    "url": false
+  },
   "dependencies": {
-    "fabric": "file:./.internal/fabric",
     "pdfmake": "^0.1.36",
     "xlsx": "^0.12.8"
-  },
-  "bundledDependencies": [
-    "fabric"
-  ]
+  }
 }
