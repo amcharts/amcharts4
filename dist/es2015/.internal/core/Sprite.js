@@ -830,6 +830,9 @@ var Sprite = /** @class */ (function (_super) {
                     oldParent.children.removeValue(this);
                 }
                 if (parent) {
+                    if (parent.isTemplate) {
+                        this.isTemplate = true;
+                    }
                     this.paper = parent.paper;
                     parent.children.moveValue(this);
                     if (this._tooltip && !this._tooltipContainer) {

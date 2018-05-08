@@ -147,18 +147,22 @@ var Chart = /** @class */ (function (_super) {
             switch (legend.position) {
                 case "left":
                     chartAndLegendContainer.layout = "horizontal";
+                    legend.maxWidth = 200;
                     legend.toBack();
                     break;
                 case "right":
                     chartAndLegendContainer.layout = "horizontal";
+                    legend.maxWidth = 200;
                     legend.toFront();
                     break;
                 case "top":
                     chartAndLegendContainer.layout = "vertical";
+                    legend.maxWidth = undefined;
                     legend.toBack();
                     break;
                 case "bottom":
                     chartAndLegendContainer.layout = "vertical";
+                    legend.maxWidth = undefined;
                     legend.toFront();
             }
         }

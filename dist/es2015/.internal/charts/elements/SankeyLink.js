@@ -92,6 +92,8 @@ var SankeyLink = /** @class */ (function (_super) {
         _this.middleSpline = _this.createChild(Polyspline);
         _this.middleSpline.shouldClone = false;
         _this.middleSpline.strokeOpacity = 0;
+        _this.maxWidth = 100;
+        _this.maxHeight = 100;
         _this.applyTheme();
         return _this;
     }

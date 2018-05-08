@@ -40,7 +40,7 @@ valueAxis.renderer.labels.template.fillOpacity = 0.3;
 valueAxis.renderer.grid.template.strokeOpacity = 0;
 valueAxis.min = 0;
 valueAxis.cursorTooltipEnabled = false;
-valueAxis.renderer.baseGrid.strokeDasharray = "2,4";
+valueAxis.renderer.baseGrid.strokeOpacity = 0;
 
 let series = chart.series.push(new am4charts.ColumnSeries);
 series.dataFields.valueY = "steps";
@@ -62,6 +62,7 @@ series.mainContainer.mask = undefined;
 let cursor = new am4charts.XYCursor();
 chart.cursor = cursor;
 cursor.lineX.disabled = true;
+cursor.lineY.disabled = true;
 cursor.behavior = "none";
 
 let bullet = columnTemplate.createChild(am4charts.CircleBullet);
@@ -88,7 +89,9 @@ image.verticalCenter = "middle";
 
 image.adapter.add("href", (href, target) => {
     let dataItem = target.dataItem;
-    return dataItem.categoryX.toLowerCase() + ".jpg";
+    if (dataItem) {
+        return dataItem.categoryX.toLowerCase() + ".jpg";
+    }
 })
 
 
