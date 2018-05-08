@@ -102,14 +102,16 @@ var Sprite = /** @class */ (function (_super) {
          */
         _this.properties = {};
         /**
-         * Event dispacther..
+         * Event dispacther.
          *
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/event-listeners/} for more info about Events
          * @type {SpriteEventDispatcher<AMEvent<Sprite, ISpriteEvents>>} Event dispatcher instance
          */
         _this.events = new SpriteEventDispatcher(_this);
         /**
          * Holds Adapter.
          *
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/adapters/} for more info about Adapters
          * @type {Adapter<Sprite, ISpriteAdapters>}
          */
         _this.adapter = new Adapter(_this);
@@ -595,6 +597,7 @@ var Sprite = /** @class */ (function (_super) {
             this.dispatchImmediately("inited");
         }
         this.validatePosition();
+        this.applyMask();
     };
     /**
      * Triggers a re-initialization of this element.
@@ -1647,7 +1650,7 @@ var Sprite = /** @class */ (function (_super) {
          * @return {Optional<Sprite>} A [[Sprite]] to use as mask
          */
         get: function () {
-            return this._mask.get();
+            return this.adapter.apply("mask", this._mask.get());
         },
         /**
          * Sets another [[Sprite]] element as this elements mask.
@@ -4961,6 +4964,10 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = $type.toNumberOrPercent(value);
+            var maxWidth = this.maxWidth;
+            if (value > maxWidth) {
+                value = maxWidth;
+            }
             var changed = this.setPropertyValue("width", value, true);
             if (changed) {
                 this.percentWidth = undefined;
@@ -4971,7 +4978,7 @@ var Sprite = /** @class */ (function (_super) {
                 }
                 else {
                     this._pixelWidth = Number(value);
-                    this.maxWidth = this._pixelWidth;
+                    //this.maxWidth = this._pixelWidth;
                 }
             }
         },
@@ -4998,6 +5005,10 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = $type.toNumberOrPercent(value);
+            var maxHeight = this.maxHeight;
+            if (value > maxHeight) {
+                value = maxHeight;
+            }
             var changed = this.setPropertyValue("height", value, true);
             if (changed) {
                 this.percentHeight = undefined;
@@ -5008,7 +5019,7 @@ var Sprite = /** @class */ (function (_super) {
                 }
                 else {
                     this._pixelHeight = Number(value);
-                    this.maxHeight = this._pixelHeight;
+                    //this.maxHeight = this._pixelHeight;
                 }
                 this.invalidate();
             }

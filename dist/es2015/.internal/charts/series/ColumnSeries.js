@@ -308,6 +308,8 @@ var ColumnSeries = /** @class */ (function (_super) {
         var percentHeight = template.percentHeight;
         var pixelWidth = template.pixelWidth;
         var pixelHeight = template.pixelHeight;
+        var maxWidth = template.maxWidth;
+        var maxHeight = template.maxHeight;
         // two category axes
         if ((this.xAxis instanceof CategoryAxis) && (this.yAxis instanceof CategoryAxis)) {
             startLocation = 0;
@@ -325,6 +327,12 @@ var ColumnSeries = /** @class */ (function (_super) {
                 l += offset;
                 r -= offset;
             }
+            // in case max width is set in pixels
+            if (!$type.isNaN(maxWidth)) {
+                var offset = ((r - l) - maxWidth) / 2;
+                l += offset;
+                r -= offset;
+            }
             startLocation = 0;
             endLocation = 1;
             if (!$type.isNaN(percentHeight)) {
@@ -337,6 +345,12 @@ var ColumnSeries = /** @class */ (function (_super) {
             // in case width is set in pixels
             if ($type.isNaN(percentHeight)) {
                 var offset = ((b - t) - pixelHeight) / 2;
+                b += offset;
+                t -= offset;
+            }
+            // in case max width is set in pixels
+            if (!$type.isNaN(maxHeight)) {
+                var offset = ((b - t) - maxHeight) / 2;
                 b += offset;
                 t -= offset;
             }
@@ -357,6 +371,12 @@ var ColumnSeries = /** @class */ (function (_super) {
             // in case width is set in pixels
             if ($type.isNaN(percentWidth)) {
                 var offset = ((r - l) - pixelWidth) / 2;
+                l += offset;
+                r -= offset;
+            }
+            // in case width is set in pixels
+            if (!$type.isNaN(maxWidth)) {
+                var offset = ((r - l) - maxWidth) / 2;
                 l += offset;
                 r -= offset;
             }
@@ -389,6 +409,12 @@ var ColumnSeries = /** @class */ (function (_super) {
                 b += offset;
                 t -= offset;
             }
+            // in case width is set in pixels
+            if (!$type.isNaN(maxHeight)) {
+                var offset = ((b - t) - maxHeight) / 2;
+                b += offset;
+                t -= offset;
+            }
             var rightLocation = dataItem.locations[xField];
             var leftLocation = dataItem.locations[xOpenField];
             // otherwise gantt chart will start items in the middle of a cell
@@ -415,7 +441,7 @@ var ColumnSeries = /** @class */ (function (_super) {
             var column = void 0;
             if (!dataItem.column) {
                 column = this.columns.create();
-                $object.forceCopyProperties(this.columns.template, column, visualProperties);
+                //$object.forceCopyProperties(this.columns.template, column, visualProperties);
                 $object.copyProperties(this, column, visualProperties); // need this because 3d columns are not in the same container
                 $object.copyProperties(this.columns.template, column, visualProperties); // second time, no force, so that columns.template would override series properties
                 dataItem.addSprite(column);
@@ -438,7 +464,7 @@ var ColumnSeries = /** @class */ (function (_super) {
                 var rangeColumn = dataItem.rangesColumns.getKey(axisRange.uid);
                 if (!rangeColumn) {
                     rangeColumn = _this.columns.create();
-                    $object.forceCopyProperties(_this.columns.template, rangeColumn, visualProperties);
+                    //$object.forceCopyProperties(this.columns.template, rangeColumn, visualProperties);
                     $object.copyProperties(axisRange.contents, rangeColumn, visualProperties); // need this because 3d columns are not in the same container
                     dataItem.addSprite(rangeColumn);
                     dataItem.rangesColumns.setKey(axisRange.uid, rangeColumn);

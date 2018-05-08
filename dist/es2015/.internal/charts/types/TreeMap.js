@@ -782,30 +782,36 @@ var TreeMap = /** @class */ (function (_super) {
      * @param {object}  config  Config
      */
     TreeMap.prototype.processConfig = function (config) {
-        // Instantiate projection
-        if ($type.hasValue(config["layoutAlgorithm"]) && $type.isString(config["layoutAlgorithm"])) {
-            switch (config["layoutAlgorithm"]) {
-                case "squarify":
-                    config["layoutAlgorithm"] = this.squarify;
-                    break;
-                case "binaryTree":
-                    config["layoutAlgorithm"] = this.binaryTree;
-                    break;
-                case "slice":
-                    config["layoutAlgorithm"] = this.slice;
-                    break;
-                case "dice":
-                    config["layoutAlgorithm"] = this.dice;
-                    break;
-                case "sliceDice":
-                    config["layoutAlgorithm"] = this.sliceDice;
-                    break;
-                default:
-                    delete config["layoutAlgorithm"];
-                    break;
+        if (config) {
+            // Instantiate layout algorithm
+            if ($type.hasValue(config["layoutAlgorithm"]) && $type.isString(config["layoutAlgorithm"])) {
+                switch (config["layoutAlgorithm"]) {
+                    case "squarify":
+                        config["layoutAlgorithm"] = this.squarify;
+                        break;
+                    case "binaryTree":
+                        config["layoutAlgorithm"] = this.binaryTree;
+                        break;
+                    case "slice":
+                        config["layoutAlgorithm"] = this.slice;
+                        break;
+                    case "dice":
+                        config["layoutAlgorithm"] = this.dice;
+                        break;
+                    case "sliceDice":
+                        config["layoutAlgorithm"] = this.sliceDice;
+                        break;
+                    default:
+                        delete config["layoutAlgorithm"];
+                        break;
+                }
             }
+            // Set type for navigation bar
+            if ($type.hasValue(config.navigationBar) && !$type.hasValue(config.navigationBar.type)) {
+                config.navigationBar.type = "NavigationBar";
+            }
+            _super.prototype.processConfig.call(this, config);
         }
-        _super.prototype.processConfig.call(this, config);
     };
     TreeMap.prototype.handleDataItemValueChange = function () {
         this.invalidateDataItems();

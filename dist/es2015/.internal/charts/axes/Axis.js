@@ -772,6 +772,7 @@ var Axis = /** @class */ (function (_super) {
     Axis.prototype.showTooltipAtPosition = function (position) {
         if (this._cursorTooltipEnabled) {
             var tooltip = this._tooltip;
+            position = this.toAxisPosition(position);
             var renderer = this.renderer;
             if (tooltip) {
                 //@todo: think of how to solve this better
@@ -1306,6 +1307,34 @@ var Axis = /** @class */ (function (_super) {
      */
     Axis.prototype.resetIterators = function () {
         this._dataItemsIterator.reset();
+    };
+    /**
+     * Processes JSON-based config before it is applied to the object.
+     *
+     * @ignore Exclude from docs
+     * @param {object}  config  Config
+     */
+    Axis.prototype.processConfig = function (config) {
+        if (config) {
+            // Set up axis ranges
+            if ($type.hasValue(config.axisRanges) && $type.isArray(config.axisRanges)) {
+                for (var i = 0, len = config.axisRanges.length; i < len; i++) {
+                    var range = config.axisRanges[i];
+                    // If `series` is set, we know it's a series range
+                    if ($type.hasValue(range["series"])) {
+                        if ($type.isString(range["series"])) {
+                            if (this.map.hasKey(range["series"])) {
+                                //range["series"] = this.map.getKey(range["series"]);
+                                config.axisRanges[i] = this.createSeriesRange(this.map.getKey(range["series"]));
+                                delete (range["series"]);
+                                config.axisRanges[i].config = range;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        _super.prototype.processConfig.call(this, config);
     };
     return Axis;
 }(Component));

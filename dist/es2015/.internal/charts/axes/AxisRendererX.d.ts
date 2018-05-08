@@ -186,15 +186,4 @@ export declare class AxisRendererX extends AxisRenderer {
      * @param {AxisBreak} axisBreak Axis break
      */
     createBreakSprites(axisBreak: AxisBreak): void;
-    /**
-     * Returns current setting for `inside`.
-     *
-     * @return {boolean} Labels inside?
-     */
-    /**
-     * Sets if Axis labels should be drawn inside Axis.
-     *
-     * @param {boolean} value Labels inside?
-     */
-    inside: boolean;
 }

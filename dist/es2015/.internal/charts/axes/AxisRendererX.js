@@ -320,27 +320,6 @@ var AxisRendererX = /** @class */ (function (_super) {
         wavedRectangle.setWavedSides(false, true, false, true);
         axisBreak.fillShape = wavedRectangle;
     };
-    Object.defineProperty(AxisRendererX.prototype, "inside", {
-        /**
-         * Returns current setting for `inside`.
-         *
-         * @return {boolean} Labels inside?
-         */
-        get: function () {
-            return this.getPropertyValue("inside");
-        },
-        /**
-         * Sets if Axis labels should be drawn inside Axis.
-         *
-         * @param {boolean} value Labels inside?
-         */
-        set: function (value) {
-            this.setPropertyValue("inside", value);
-            this.minHeight = value ? undefined : 40;
-        },
-        enumerable: true,
-        configurable: true
-    });
     return AxisRendererX;
 }(AxisRenderer));
 export { AxisRendererX };

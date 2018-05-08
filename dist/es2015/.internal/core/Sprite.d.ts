@@ -179,6 +179,7 @@ export interface ISpriteAdapters extends ISpriteProperties {
     relativeX: number;
     pixelY: number;
     relativeY: number;
+    mask: Sprite;
 }
 /**
  * ============================================================================
@@ -238,14 +239,16 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     properties: this["_properties"];
     /**
-     * Event dispacther..
+     * Event dispacther.
      *
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/event-listeners/} for more info about Events
      * @type {SpriteEventDispatcher<AMEvent<Sprite, ISpriteEvents>>} Event dispatcher instance
      */
     events: SpriteEventDispatcher<AMEvent<Sprite, ISpriteEvents>>;
     /**
      * Holds Adapter.
      *
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/adapters/} for more info about Adapters
      * @type {Adapter<Sprite, ISpriteAdapters>}
      */
     adapter: Adapter<this, this["_adapter"]>;

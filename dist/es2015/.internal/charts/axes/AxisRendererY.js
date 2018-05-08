@@ -262,26 +262,39 @@ var AxisRendererY = /** @class */ (function (_super) {
         position = position + (endPosition - position) * label.location;
         label.isMeasured = !label.inside;
         var point = this.positionToPoint(position);
-        var align;
+        var horizontalCenter;
+        var deltaX = 0;
         if (this.opposite) {
             if (label.inside) {
-                align = "right";
+                horizontalCenter = "right";
             }
             else {
-                align = "left";
+                horizontalCenter = "left";
             }
-            point.x = 0;
+            if (label.inside) {
+                if (label.align == "left") {
+                    deltaX = -this.maxWidth;
+                    horizontalCenter = "left";
+                }
+            }
+            point.x = 0 + deltaX;
         }
         else {
             if (label.inside) {
-                align = "left";
+                horizontalCenter = "left";
             }
             else {
-                align = "right";
+                horizontalCenter = "right";
             }
-            point.x = this.pixelWidth;
+            if (label.inside) {
+                if (label.align == "right") {
+                    deltaX = this.maxWidth;
+                    horizontalCenter = "right";
+                }
+            }
+            point.x = this.pixelWidth + deltaX;
         }
-        label.horizontalCenter = align;
+        label.horizontalCenter = horizontalCenter;
         this.positionItem(label, point);
         this.toggleVisibility(label, position, this.minLabelPosition, this.maxLabelPosition);
     };
@@ -333,26 +346,6 @@ var AxisRendererY = /** @class */ (function (_super) {
         wavedRectangle.setWavedSides(true, false, true, false);
         axisBreak.fillShape = wavedRectangle;
     };
-    Object.defineProperty(AxisRendererY.prototype, "inside", {
-        /**
-         * Returns current setting for `inside`.
-         *
-         * @return {boolean} Labels inside?
-         */
-        get: function () {
-            return this.getPropertyValue("inside");
-        },
-        /**
-         * Sets if Axis labels should be drawn inside Axis.
-         *
-         * @param {boolean} value Labels inside?
-         */
-        set: function (value) {
-            this.setPropertyValue("inside", value);
-        },
-        enumerable: true,
-        configurable: true
-    });
     /**
      * Converts a position on the axis to a coordinate in pixels.
      *

@@ -341,8 +341,13 @@ var XYChartScrollbar = /** @class */ (function (_super) {
             if ($type.hasValue(config.series) && $type.isArray(config.series)) {
                 for (var i = 0, len = config.series.length; i < len; i++) {
                     var series = config.series[i];
-                    if ($type.hasValue(series) && $type.isString(series) && this.map.hasKey(series)) {
-                        config.series[i] = this.map.getKey(series);
+                    if ($type.hasValue(series) && $type.isString(series)) {
+                        if (this.map.hasKey(series)) {
+                            config.series[i] = this.map.getKey(series);
+                        }
+                        else {
+                            throw Error("XYChartScrollbar error: Series with id `" + series + "` does not exist.");
+                        }
                     }
                 }
             }

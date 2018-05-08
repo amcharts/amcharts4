@@ -418,6 +418,11 @@ var BaseObject = /** @class */ (function () {
                             if (item_1.hasIndex(index)) {
                                 listItem = item_1.getIndex(index);
                             }
+                            else if (entry instanceof BaseObject) {
+                                // Item is already a BaseObject, no need to process it further
+                                item_1.push(entry);
+                                return;
+                            }
                             else if (type) {
                                 listItem = item_1.create(type);
                             }
@@ -447,26 +452,32 @@ var BaseObject = /** @class */ (function () {
                     else if ($type.isObject(configValue)) {
                         // It's a single oject.
                         // Treat it as a template.
-                        $object.each(configValue, function (entryKey, entryValue) {
-                            var listItem = item_1.template[entryKey];
-                            if (listItem instanceof Adapter) {
-                                _this.processAdapters(listItem, entryValue);
-                            }
-                            else if (listItem instanceof EventDispatcher) {
-                                _this.processEvents(listItem, entryValue);
-                            }
-                            else if (listItem instanceof DictionaryTemplate) {
-                                _this.processDictionaryTemplate(listItem, entryValue);
-                            }
-                            else if (item_1.template[entryKey] instanceof BaseObject) {
-                                // Template is a BaseObject. Let it deal with its own config.
-                                item_1.template[entryKey].config = entryValue;
-                            }
-                            else {
-                                // Aything else. Just assing and be done with it.
-                                item_1.template[entryKey] = entryValue;
-                            }
-                        });
+                        if (configValue instanceof BaseObject) {
+                            // Item is already a BaseObject, no need to process it further
+                            item_1.template = configValue;
+                        }
+                        else {
+                            $object.each(configValue, function (entryKey, entryValue) {
+                                var listItem = item_1.template[entryKey];
+                                if (listItem instanceof Adapter) {
+                                    _this.processAdapters(listItem, entryValue);
+                                }
+                                else if (listItem instanceof EventDispatcher) {
+                                    _this.processEvents(listItem, entryValue);
+                                }
+                                else if (listItem instanceof DictionaryTemplate) {
+                                    _this.processDictionaryTemplate(listItem, entryValue);
+                                }
+                                else if (item_1.template[entryKey] instanceof BaseObject) {
+                                    // Template is a BaseObject. Let it deal with its own config.
+                                    item_1.template[entryKey].config = entryValue;
+                                }
+                                else {
+                                    // Aything else. Just assing and be done with it.
+                                    item_1.template[entryKey] = entryValue;
+                                }
+                            });
+                        }
                     }
                     else {
                         // Something else?
@@ -495,9 +506,14 @@ var BaseObject = /** @class */ (function () {
                             if (item_1.hasIndex(index)) {
                                 listItem = item_1.getIndex(index);
                             }
+                            else if (entry instanceof BaseObject) {
+                                // Item is already a BaseObject, no need to process it further
+                                item_1.push(entry);
+                                return;
+                            }
                             else {
-                                var listItem_1 = _this.createEntryInstance(entry);
-                                item_1.push(listItem_1);
+                                listItem = _this.createEntryInstance(entry);
+                                item_1.push(listItem);
                             }
                             // If the list item is BaseObject, we just need to let it
                             // deal if its own config

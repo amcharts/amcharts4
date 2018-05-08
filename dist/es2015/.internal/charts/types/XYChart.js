@@ -855,9 +855,8 @@ var XYChart = /** @class */ (function (_super) {
     XYChart.prototype.showAxisTooltip = function (axes, position) {
         var _this = this;
         $iter.each(axes.iterator(), function (axis) {
-            var axisPosition = axis.toAxisPosition(position);
             if (_this.dataItems.length > 0) {
-                axis.showTooltipAtPosition(axisPosition);
+                axis.showTooltipAtPosition(position);
             }
         });
     };
@@ -945,7 +944,7 @@ var XYChart = /** @class */ (function (_super) {
             if (panEndRange.end > 1) {
                 delta = panEndRange.end - 1;
             }
-            this.zoomAxes(this.xAxes, { start: panEndRange.start - delta, end: panEndRange.end - delta });
+            this.zoomAxes(this.xAxes, { start: panEndRange.start - delta, end: panEndRange.end - delta }, false, true);
             this._panEndXRange = undefined;
             this._panStartXRange = undefined;
         }
@@ -958,7 +957,7 @@ var XYChart = /** @class */ (function (_super) {
             if (panEndRange.end > 1) {
                 delta = panEndRange.end - 1;
             }
-            this.zoomAxes(this.yAxes, { start: panEndRange.start - delta, end: panEndRange.end - delta });
+            this.zoomAxes(this.yAxes, { start: panEndRange.start - delta, end: panEndRange.end - delta }, false, true);
             this._panEndYRange = undefined;
             this._panStartYRange = undefined;
         }
@@ -1129,12 +1128,17 @@ var XYChart = /** @class */ (function (_super) {
      * @param  {boolean}     instantly  If set to `true` will skip zooming animation
      * @return {IRange}                 Recalculated range that is common to all involved axes
      */
-    XYChart.prototype.zoomAxes = function (axes, range, instantly) {
+    XYChart.prototype.zoomAxes = function (axes, range, instantly, round) {
         var realRange = { start: 0, end: 1 };
         if (!this.dataInvalid) {
             $iter.each(axes.iterator(), function (axis) {
                 if (axis.renderer.inversed) {
                     range = $math.invertRange(range);
+                }
+                if (round) {
+                    var diff = range.end - range.start;
+                    range.start = axis.roundPosition(range.start + 0.0001, 0);
+                    range.end = range.start + diff;
                 }
                 var axisRange = axis.zoom(range, instantly, instantly);
                 if (axis.renderer.inversed) {
@@ -1210,21 +1214,36 @@ var XYChart = /** @class */ (function (_super) {
      */
     XYChart.prototype.processConfig = function (config) {
         if (config) {
+            // Save axis ranges for later processing
+            var xAxes = [];
+            var yAxes = [];
             // Set up axes
             if ($type.hasValue(config.xAxes) && $type.isArray(config.xAxes)) {
                 for (var i = 0, len = config.xAxes.length; i < len; i++) {
                     if (!config.xAxes[i].type) {
-                        throw Error("No type set for xAxes[" + i + "].");
+                        throw Error("[XYChart error] No type set for xAxes[" + i + "].");
                     }
-                    //config.xAxes[i].type = config.xAxes[i].type || "ValueAxis";
+                    else if ($type.hasValue(config.xAxes[i]["axisRanges"])) {
+                        xAxes.push({
+                            axisRanges: config.xAxes[i]["axisRanges"],
+                            index: i
+                        });
+                        delete (config.xAxes[i]["axisRanges"]);
+                    }
                 }
             }
             if ($type.hasValue(config.yAxes) && $type.isArray(config.yAxes)) {
                 for (var i = 0, len = config.yAxes.length; i < len; i++) {
                     if (!config.yAxes[i].type) {
-                        throw Error("No type set for yAxes[" + i + "].");
+                        throw Error("[XYChart error] No type set for yAxes[" + i + "].");
                     }
-                    //config.yAxes[i].type = config.yAxes[i].type || "ValueAxis";
+                    else if ($type.hasValue(config.yAxes[i]["axisRanges"])) {
+                        yAxes.push({
+                            axisRanges: config.yAxes[i]["axisRanges"],
+                            index: i
+                        });
+                        delete (config.yAxes[i]["axisRanges"]);
+                    }
                 }
             }
             // Set up series
@@ -1244,8 +1263,26 @@ var XYChart = /** @class */ (function (_super) {
             if ($type.hasValue(config.scrollbarY) && !$type.hasValue(config.scrollbarY.type)) {
                 config.scrollbarY.type = "Scrollbar";
             }
+            _super.prototype.processConfig.call(this, config);
+            // Finish up with ranges.
+            // We need to do this here because series are processed last in JSON
+            // config. Therefore their respective objects are not yet are available
+            // when axis (and respectively their ranges) are being processed.
+            if (yAxes.length) {
+                for (var i = 0; i < yAxes.length; i++) {
+                    this.yAxes.getIndex(yAxes[i].index).config = {
+                        axisRanges: yAxes[i].axisRanges
+                    };
+                }
+            }
+            if (xAxes.length) {
+                for (var i = 0; i < xAxes.length; i++) {
+                    this.xAxes.getIndex(xAxes[i].index).config = {
+                        axisRanges: xAxes[i].axisRanges
+                    };
+                }
+            }
         }
-        _super.prototype.processConfig.call(this, config);
     };
     /**
      * This function is used to sort element's JSON config properties, so that

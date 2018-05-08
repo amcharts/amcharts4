@@ -99,7 +99,9 @@ export declare function create<T extends Sprite>(htmlElement: $type.Optional<HTM
  */
 export declare function createFromConfig(config: {
     [index: string]: any;
-}, htmlElement?: string | HTMLElement, classType?: typeof Sprite | string): Sprite;
+}, htmlElement?: string | HTMLElement, classType?: {
+    new (): Sprite;
+} | string): Sprite;
 /**
  * Applies a theme to System, and subsequently all chart instances created
  * from that point forward.

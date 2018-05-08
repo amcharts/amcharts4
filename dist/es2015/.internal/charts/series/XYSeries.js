@@ -542,15 +542,17 @@ var XYSeries = /** @class */ (function (_super) {
      */
     XYSeries.prototype.createMask = function () {
         // this mask from which we cut out ranges. does not work well if ranges overlap.
-        var path = this.getMaskPath();
-        // @todo: this approach won't work well on circluar or other non x/y axes
-        $iter.each(this.axisRanges.iterator(), function (range) {
-            if (range.axisFill.fillPath) {
-                range.axisFill.validate();
-                path += range.axisFill.fillPath;
-            }
-        });
-        this.mainContainer.mask.element.attr({ "d": path });
+        if (this.mainContainer.mask) {
+            var path_1 = this.getMaskPath();
+            // @todo: this approach won't work well on circluar or other non x/y axes
+            $iter.each(this.axisRanges.iterator(), function (range) {
+                if (range.axisFill.fillPath) {
+                    range.axisFill.validate();
+                    path_1 += range.axisFill.fillPath;
+                }
+            });
+            this.mainContainer.mask.element.attr({ "d": path_1 });
+        }
     };
     /**
      * Returns an SVG path to use as series mask.

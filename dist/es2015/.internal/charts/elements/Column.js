@@ -22,6 +22,7 @@ import { Container } from "../../core/Container";
 import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
 import { registry } from "../../core/Registry";
 import { percent } from "../../core/utils/Percent";
+import * as $math from "../../core/utils/Math";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -67,8 +68,8 @@ var Column = /** @class */ (function (_super) {
     Column.prototype.validate = function () {
         _super.prototype.validate.call(this);
         if (this.column) {
-            this.column.width = this.pixelWidth;
-            this.column.height = this.pixelHeight;
+            this.column.width = $math.min(this.pixelWidth, this.maxWidth);
+            this.column.height = $math.min(this.pixelHeight, this.maxHeight);
         }
     };
     Column.prototype.copyFrom = function (source) {

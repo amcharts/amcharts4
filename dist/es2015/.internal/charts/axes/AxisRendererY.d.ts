@@ -186,17 +186,6 @@ export declare class AxisRendererY extends AxisRenderer {
      */
     createBreakSprites(axisBreak: AxisBreak): void;
     /**
-     * Returns current setting for `inside`.
-     *
-     * @return {boolean} Labels inside?
-     */
-    /**
-     * Sets if Axis labels should be drawn inside Axis.
-     *
-     * @param {boolean} value Labels inside?
-     */
-    inside: boolean;
-    /**
      * Converts a position on the axis to a coordinate in pixels.
      *
      * @ignore Exclude from docs
