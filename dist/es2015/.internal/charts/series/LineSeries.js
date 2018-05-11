@@ -130,12 +130,12 @@ var LineSeries = /** @class */ (function (_super) {
      * @param {this["_dataItem"]}  dataItem  Data item
      * @param {number}             index     Data item's index
      */
-    LineSeries.prototype.setInitialWorkingValues = function (dataItem, index) {
-        var yAxis = this._yAxis.get();
-        var xAxis = this._xAxis.get();
+    LineSeries.prototype.setInitialWorkingValues = function (dataItem) {
         // this makes data items animate when added
-        if (this.visible) {
-            var previousDataItem = this.dataItems.getIndex(index - 1);
+        if (this.appeared && this.visible) {
+            var yAxis = this._yAxis.get();
+            var xAxis = this._xAxis.get();
+            var previousDataItem = this.dataItems.getIndex(dataItem.index - 1);
             dataItem.component = this; // as these values are set before, we don't know component yet
             if (this.baseAxis == xAxis) {
                 if (yAxis instanceof ValueAxis) {
@@ -145,6 +145,7 @@ var LineSeries = /** @class */ (function (_super) {
                     }
                     // this makes line animate from previous point to newly added point
                     dataItem.setWorkingValue("valueY", initialY, 0);
+                    dataItem.setWorkingValue("valueY", dataItem.values.valueY.value);
                     if (xAxis instanceof DateAxis) {
                         dataItem.setWorkingLocation("dateX", -0.5, 0); // instantly move it to previous
                         dataItem.setWorkingLocation("dateX", 0.5); // animate to it's location
@@ -158,6 +159,7 @@ var LineSeries = /** @class */ (function (_super) {
                         initialX = previousDataItem.values["valueX"].workingValue;
                     }
                     dataItem.setWorkingValue("valueX", initialX, 0);
+                    dataItem.setWorkingValue("valueX", dataItem.values.valueX.value);
                     if (yAxis instanceof DateAxis) {
                         dataItem.setWorkingLocation("dateY", -0.5, 0); // instantly move it to previous
                         dataItem.setWorkingLocation("dateY", 0.5); // animate to it's location
@@ -285,7 +287,11 @@ var LineSeries = /** @class */ (function (_super) {
      * @param {boolean}           backwards [description]
      */
     LineSeries.prototype.addPoints = function (points, dataItem, xField, yField, backwards) {
-        points.push(this.getPoint(dataItem, xField, yField, dataItem.locations[xField], dataItem.locations[yField]));
+        var point = this.getPoint(dataItem, xField, yField, dataItem.workingLocations[xField], dataItem.workingLocations[yField]);
+        if (!backwards) {
+            dataItem.point = point;
+        }
+        points.push(point);
     };
     /**
      * [closeSegment description]

@@ -168,16 +168,20 @@ export declare class Chart extends Component {
      */
     updateReaderTitleReferences(): void;
     /**
-     * @return {Legend} legend
+     * @return {Legend} Legend
      */
     /**
-     * Chart legend
+     * Holds the instance of chart's [[Leged]].
      *
-     * @todo Description
-     *
-     * @param {Legend} legend
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/legend/} for more information about legends
+     * @param {Legend} Legend
      */
     legend: Legend;
+    /**
+     * Prepares the legend instance for use in this chart.
+     *
+     * @param {Legend}  legend  Legend
+     */
     protected setLegend(legend: Legend): void;
     /**
      * Processes JSON-based config before it is applied to the object.

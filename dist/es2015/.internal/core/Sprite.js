@@ -33,6 +33,7 @@ import { Container } from "./Container";
 import { Pattern } from "./rendering/fills/Pattern";
 import { LinearGradient } from "./rendering/fills/LinearGradient";
 import { RadialGradient } from "./rendering/fills/RadialGradient";
+import { Popup } from "./elements/Popup";
 import { Modal } from "./elements/Modal";
 import { Color, color, toColor } from "./utils/Color";
 import { Filter } from "./rendering/filters/Filter";
@@ -206,13 +207,6 @@ var Sprite = /** @class */ (function (_super) {
          */
         _this._exporting = new MutableValueDisposer();
         /**
-         * Holds [[Modal]] object.
-         *
-         * @ignore Exclude from docs
-         * @type {MutableValueDisposer}
-         */
-        _this._modal = new MutableValueDisposer();
-        /**
          * Parent container.
          *
          * @ignore Exclude from docs
@@ -358,7 +352,7 @@ var Sprite = /** @class */ (function (_super) {
         _this._disposers.push(_this._url);
         _this._disposers.push(_this._mask);
         _this._disposers.push(_this._exporting);
-        _this._disposers.push(_this._modal);
+        //this._disposers.push(this._modal);
         _this._disposers.push(new Disposer(function () {
             $object.each(_this._bindings, function (key, value) {
                 value.dispose();
@@ -681,10 +675,14 @@ var Sprite = /** @class */ (function (_super) {
     };
     Sprite.prototype.dispose = function () {
         if (this.isBaseSprite) {
+            if (this.htmlContainer) {
+                while (this.htmlContainer.children.length > 0) {
+                    this.htmlContainer.removeChild(this.htmlContainer.children[0]);
+                }
+            }
             this.isBaseSprite = false;
-            this.parent.parent.dispose();
-            while (this.htmlContainer.children.length > 0) {
-                this.htmlContainer.removeChild(this.htmlContainer.children[0]);
+            if (this.parent.parent) {
+                this.parent.parent.dispose();
             }
         }
         _super.prototype.dispose.call(this);
@@ -4397,14 +4395,13 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "modal", {
         /**
          * ==========================================================================
-         * MODAL-RELATED STUFF
+         * MODAL/POPUP RELATED STUFF
          * ==========================================================================
          * @hidden
          */
         /**
-         * Returns a [[Modal]] instance, associated with this element.
-         *
-         * Modal can be inherited from element's parents.
+         * Returns a [[Modal]] instance, associated with this chart.
+         * (elements top parent)
          *
          * Accessing modal does not make it appear. To make a modal appear, use
          * `showModal()` method.
@@ -4414,27 +4411,26 @@ var Sprite = /** @class */ (function (_super) {
          */
         get: function () {
             var _this = this;
-            var _modal = this._modal.get();
-            if (_modal) {
-                return _modal;
+            if (this.parent) {
+                // We always use top parent's modal
+                return this.topParent.modal;
             }
             else {
-                if (this.parent) {
-                    return this.parent.modal;
-                }
-                else {
-                    // Create new Modal
-                    _modal = new Modal();
-                    _modal.container = this.svgContainer;
-                    this._modal.set(_modal, _modal);
+                // We are a top parent, let's check if we have a modal
+                if (!$type.hasValue(this._modal)) {
+                    // Create new modal
+                    this._modal = new Modal();
+                    this._modal.container = this.svgContainer;
                     // Prefix with Sprite's class name
-                    _modal.adapter.add("classPrefix", function (value) {
+                    this._modal.adapter.add("classPrefix", function (value) {
                         value = _this.classNamePrefix + value;
                         return value;
                     });
+                    // Add to disposers
+                    this._disposers.push(this._modal);
                 }
+                return this._modal;
             }
-            return _modal;
         },
         enumerable: true,
         configurable: true
@@ -4446,7 +4442,8 @@ var Sprite = /** @class */ (function (_super) {
      * The `text` parameter can contain HTML content.
      *
      * @see {@link Modal} for more information about using Modal windows
-     * @param {string} text Modal contents
+     * @param {string}  text   Modal contents
+     * @param {string}  title  Title for the modal window
      */
     Sprite.prototype.showModal = function (text, title) {
         // Hide previous modal
@@ -4464,6 +4461,65 @@ var Sprite = /** @class */ (function (_super) {
         if (this._modal) {
             this.modal.hide();
         }
+    };
+    Object.defineProperty(Sprite.prototype, "popups", {
+        /**
+         * A list of popups for this chart.
+         *
+         * @return {ListTemplate<Popup>} Popups
+         */
+        get: function () {
+            var _this = this;
+            if (this.parent) {
+                // We always use top parent's popups
+                return this.topParent.popups;
+            }
+            else {
+                // We are a top parent, let's check if we have a modal
+                if (!$type.hasValue(this._popups)) {
+                    // Create popup template
+                    var popupTemplate = new Popup();
+                    popupTemplate.container = this.svgContainer;
+                    // Prefix with Sprite's class name
+                    popupTemplate.adapter.add("classPrefix", function (value) {
+                        value = _this.classNamePrefix + value;
+                        return value;
+                    });
+                    // Create the list
+                    this._popups = new ListTemplate(popupTemplate);
+                    // Add to disposers
+                    this._disposers.push(new ListDisposer(this._popups));
+                }
+                return this._popups;
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Creates, opens, and returns a new [[Popup]] window.
+     *
+     * `text` can be any valid HTML.
+     *
+     * `title` is currently not supported.
+     *
+     * @param  {string}  text   Popup contents
+     * @param  {string}  title  Popup title
+     * @return {Popup}          Popup instance
+     */
+    Sprite.prototype.openPopup = function (text, title) {
+        var popup = this.popups.create();
+        popup.content = text;
+        popup.show();
+        return popup;
+    };
+    /**
+     * Closes all currently open popup windows
+     */
+    Sprite.prototype.closeAllPopups = function () {
+        $iter.each(this.popups.iterator(), function (popup) {
+            popup.hide();
+        });
     };
     Object.defineProperty(Sprite.prototype, "x", {
         /**

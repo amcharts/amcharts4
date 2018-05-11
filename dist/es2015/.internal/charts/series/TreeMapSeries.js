@@ -151,9 +151,9 @@ var TreeMapSeries = /** @class */ (function (_super) {
      * @param {Object}                 dataContext  Raw data
      * @param {number}                 index        Index of the data item
      */
-    TreeMapSeries.prototype.processDataItem = function (dataItem, dataContext, index) {
+    TreeMapSeries.prototype.processDataItem = function (dataItem, dataContext) {
         dataContext.seriesDataItem = dataItem; // save a reference here. dataContext is TreeMapDataItem and we need to know dataItem sometimes
-        _super.prototype.processDataItem.call(this, dataItem, dataContext, index);
+        _super.prototype.processDataItem.call(this, dataItem, dataContext);
     };
     /**
      * Returns a new/empty DataItem of the type appropriate for this object.

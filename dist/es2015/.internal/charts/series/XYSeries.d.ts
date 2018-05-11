@@ -556,7 +556,14 @@ export declare class XYSeries extends Series {
      * @param {Object}            dataContext  Raw data
      * @param {number}            index        Index of the data item
      */
-    protected processDataItem(dataItem: this["_dataItem"], dataContext?: Object, index?: number): void;
+    protected processDataItem(dataItem: this["_dataItem"], dataContext?: Object): void;
+    /**
+     * Inits data item's working values.
+     *
+     * @param {this["_dataItem"]}  dataItem  Data item
+     * @param {number}             index     Data item's index
+     */
+    protected setInitialWorkingValues(dataItem: this["_dataItem"]): void;
     /**
      * Sets up which data fields to use for data access.
      */

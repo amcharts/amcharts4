@@ -443,13 +443,14 @@ var ValueAxis = /** @class */ (function (_super) {
         if ($type.isNumber(this.max) && $type.isNumber(this.min)) {
             // first regular items
             var value_1 = this.minZoomed - this._step * 2;
-            if (this.strictMinMax) {
-                value_1 = Math.floor(value_1 / this._step) * this._step;
-            }
+            //if (this.strictMinMax) {
+            value_1 = Math.floor(value_1 / this._step) * this._step;
+            //}
+            var maxZoomed = this._maxZoomed + this._step;
             this.resetIterators();
             var dataItemsIterator_1 = this._dataItemsIterator;
             var i = 0;
-            while (value_1 <= this._maxZoomed) {
+            while (value_1 <= maxZoomed) {
                 var axisBreak = this.isInBreak(value_1);
                 if (!axisBreak) {
                     var dataItem = dataItemsIterator_1.find(function (x) { return x.value === value_1; });
@@ -523,6 +524,7 @@ var ValueAxis = /** @class */ (function (_super) {
         var value = dataItem.value;
         var endValue = dataItem.endValue;
         var position = this.valueToPosition(value);
+        dataItem.position = position;
         var endPosition = position;
         var fillEndPosition = this.valueToPosition(value + this._step);
         if ($type.isNumber(endValue)) {
@@ -572,7 +574,7 @@ var ValueAxis = /** @class */ (function (_super) {
          * @return {IPoint} Base point
          */
         get: function () {
-            var baseValue = $math.fitToRange(this._baseValue, this.minZoomed, this.maxZoomed);
+            var baseValue = this._baseValue;
             var position = this.valueToPosition(baseValue);
             var basePoint = this.renderer.positionToPoint(position);
             return basePoint;
@@ -646,58 +648,58 @@ var ValueAxis = /** @class */ (function (_super) {
     ValueAxis.prototype.valueToPosition = function (value) {
         if ($type.isNumber(value)) {
             var strValue = value.toString();
-            var cachedPosition = this._valueToPosition[strValue];
-            if ($type.isNumber(cachedPosition)) {
-                return cachedPosition;
-            }
-            else {
-                // todo: think if possible to take previous value and do not go through all previous breaks
-                var min_1 = this.min;
-                var max_1 = this.max;
-                if ($type.isNumber(min_1) && $type.isNumber(max_1)) {
-                    var difference = this._difference;
-                    if (!$type.isNumber(difference)) {
-                        difference = this.adjustDifference(min_1, max_1);
-                    }
-                    var axisBreaks = this.axisBreaks;
-                    $iter.eachContinue(axisBreaks.iterator(), function (axisBreak) {
-                        var startValue = axisBreak.adjustedStartValue;
-                        var endValue = axisBreak.adjustedEndValue;
-                        if ($type.isNumber(startValue) && $type.isNumber(endValue)) {
-                            if (value < startValue) {
-                                return false;
+            //let cachedPosition: number = this._valueToPosition[strValue];
+            //if ($type.isNumber(cachedPosition)) {
+            //				return cachedPosition;
+            //			}
+            //			else {
+            // todo: think if possible to take previous value and do not go through all previous breaks
+            var min_1 = this.min;
+            var max_1 = this.max;
+            if ($type.isNumber(min_1) && $type.isNumber(max_1)) {
+                var difference = this._difference;
+                if (!$type.isNumber(difference)) {
+                    difference = this.adjustDifference(min_1, max_1);
+                }
+                var axisBreaks = this.axisBreaks;
+                $iter.eachContinue(axisBreaks.iterator(), function (axisBreak) {
+                    var startValue = axisBreak.adjustedStartValue;
+                    var endValue = axisBreak.adjustedEndValue;
+                    if ($type.isNumber(startValue) && $type.isNumber(endValue)) {
+                        if (value < startValue) {
+                            return false;
+                        }
+                        if ($math.intersect({ start: startValue, end: endValue }, { start: min_1, end: max_1 })) { // todo: check this once and set some flag in axisBreak
+                            startValue = Math.max(startValue, min_1);
+                            endValue = Math.min(endValue, max_1);
+                            var breakSize = axisBreak.breakSize;
+                            // value to the right of break end
+                            if (value > endValue) {
+                                min_1 += (endValue - startValue) * (1 - breakSize); // todo: maybe this can be done differently?
                             }
-                            if ($math.intersect({ start: startValue, end: endValue }, { start: min_1, end: max_1 })) { // todo: check this once and set some flag in axisBreak
-                                startValue = Math.max(startValue, min_1);
-                                endValue = Math.min(endValue, max_1);
-                                var breakSize = axisBreak.breakSize;
-                                // value to the right of break end
-                                if (value > endValue) {
-                                    min_1 += (endValue - startValue) * (1 - breakSize); // todo: maybe this can be done differently?
-                                }
-                                // value to the left of break start
-                                else if (value < startValue) {
-                                }
-                                // value within break
-                                else {
-                                    value = startValue + (value - startValue) * breakSize;
-                                }
+                            // value to the left of break start
+                            else if (value < startValue) {
+                            }
+                            // value within break
+                            else {
+                                value = startValue + (value - startValue) * breakSize;
                             }
                         }
-                        return true;
-                    });
-                    var position = void 0;
-                    if (!this.logarithmic) {
-                        position = (value - min_1) / difference;
                     }
-                    else {
-                        position = (Math.log(value) * Math.LOG10E - Math.log(this.min) * Math.LOG10E) / ((Math.log(this.max) * Math.LOG10E - Math.log(this.min) * Math.LOG10E));
-                    }
-                    position = $math.round(position, 5);
-                    this._valueToPosition[strValue] = position;
-                    return position;
+                    return true;
+                });
+                var position = void 0;
+                if (!this.logarithmic) {
+                    position = (value - min_1) / difference;
                 }
+                else {
+                    position = (Math.log(value) * Math.LOG10E - Math.log(this.min) * Math.LOG10E) / ((Math.log(this.max) * Math.LOG10E - Math.log(this.min) * Math.LOG10E));
+                }
+                position = $math.round(position, 5);
+                //this._valueToPosition[strValue] = position;
+                return position;
             }
+            //}
         }
     };
     /**
@@ -710,56 +712,56 @@ var ValueAxis = /** @class */ (function (_super) {
     ValueAxis.prototype.positionToValue = function (position) {
         position = $math.round(position, 10);
         var strPosition = position.toString();
-        var cachedValue = this._positionToValue[strPosition];
-        if ($type.isNumber(cachedValue)) {
-            return cachedValue;
-        }
-        else {
-            var min_2 = this.min;
-            var max_2 = this.max;
-            if ($type.isNumber(min_2) && $type.isNumber(max_2)) {
-                var difference_1 = max_2 - min_2; //no need to adjust!
-                var axisBreaks = this.axisBreaks;
-                var value_2 = null;
-                // in case we have some axis breaks
-                $iter.eachContinue(axisBreaks.iterator(), function (axisBreak) {
-                    var breakStartPosition = axisBreak.startPosition;
-                    var breakEndPosition = axisBreak.endPosition;
-                    var breakStartValue = axisBreak.adjustedStartValue;
-                    var breakEndValue = axisBreak.adjustedEndValue;
-                    if ($type.isNumber(breakStartValue) && $type.isNumber(breakEndValue)) {
-                        if (breakStartValue > max_2) {
+        //let cachedValue: number = this._positionToValue[strPosition];
+        //if ($type.isNumber(cachedValue)) {
+        //			return cachedValue;
+        //		}
+        //		else {
+        var min = this.min;
+        var max = this.max;
+        if ($type.isNumber(min) && $type.isNumber(max)) {
+            var difference_1 = max - min; //no need to adjust!
+            var axisBreaks = this.axisBreaks;
+            var value_2 = null;
+            // in case we have some axis breaks
+            $iter.eachContinue(axisBreaks.iterator(), function (axisBreak) {
+                var breakStartPosition = axisBreak.startPosition;
+                var breakEndPosition = axisBreak.endPosition;
+                var breakStartValue = axisBreak.adjustedStartValue;
+                var breakEndValue = axisBreak.adjustedEndValue;
+                if ($type.isNumber(breakStartValue) && $type.isNumber(breakEndValue)) {
+                    if (breakStartValue > max) {
+                        return false;
+                    }
+                    if ($math.intersect({ start: breakStartValue, end: breakEndValue }, { start: min, end: max })) {
+                        breakStartValue = $math.max(breakStartValue, min);
+                        breakEndValue = $math.min(breakEndValue, max);
+                        var breakSize = axisBreak.breakSize;
+                        difference_1 -= (breakEndValue - breakStartValue) * (1 - breakSize);
+                        // position to the right of break end
+                        if (position > breakEndPosition) {
+                            min += (breakEndValue - breakStartValue) * (1 - breakSize);
+                        }
+                        // position to the left of break start
+                        else if (position < breakStartPosition) {
+                        }
+                        // value within break
+                        else {
+                            var breakPosition = (position - breakStartPosition) / (breakEndPosition - breakStartPosition);
+                            value_2 = breakStartValue + breakPosition * (breakEndValue - breakStartValue);
                             return false;
                         }
-                        if ($math.intersect({ start: breakStartValue, end: breakEndValue }, { start: min_2, end: max_2 })) {
-                            breakStartValue = $math.max(breakStartValue, min_2);
-                            breakEndValue = $math.min(breakEndValue, max_2);
-                            var breakSize = axisBreak.breakSize;
-                            difference_1 -= (breakEndValue - breakStartValue) * (1 - breakSize);
-                            // position to the right of break end
-                            if (position > breakEndPosition) {
-                                min_2 += (breakEndValue - breakStartValue) * (1 - breakSize);
-                            }
-                            // position to the left of break start
-                            else if (position < breakStartPosition) {
-                            }
-                            // value within break
-                            else {
-                                var breakPosition = (position - breakStartPosition) / (breakEndPosition - breakStartPosition);
-                                value_2 = breakStartValue + breakPosition * (breakEndValue - breakStartValue);
-                                return false;
-                            }
-                        }
-                        return true;
                     }
-                });
-                if (!$type.isNumber(value_2)) {
-                    value_2 = position * difference_1 + min_2;
+                    return true;
                 }
-                this._positionToValue[strPosition] = value_2;
-                return value_2;
+            });
+            if (!$type.isNumber(value_2)) {
+                value_2 = position * difference_1 + min;
             }
+            //this._positionToValue[strPosition] = value;
+            return value_2;
         }
+        //}
     };
     /**
      * Converts an X coordinate to a relative value in axis' scale.
@@ -858,10 +860,32 @@ var ValueAxis = /** @class */ (function (_super) {
         }
         // checking isNumber is good when all series are hidden
         if ((this._minAdjusted != min || this._maxAdjusted != max) && $type.isNumber(min) && $type.isNumber(max)) {
-            this._minAdjusted = min;
-            this._maxAdjusted = max;
-            this.invalidateDataItems();
-            this.dispatchImmediately("extremeschanged");
+            if ($type.isNumber(this._minAdjusted) && $type.isNumber(this._maxAdjusted)) {
+                var animation = this._minMaxAnimation;
+                if (!animation || this._finalMin != min || this._finalMax != max) {
+                    this._finalMin = min;
+                    this._finalMax = max;
+                    animation = this.animate([{ property: "_minAdjusted", from: this._minAdjusted, to: min }, { property: "_maxAdjusted", from: this._maxAdjusted, to: max }], this.rangeChangeDuration);
+                    animation.events.on("animationprogress", function () {
+                        _this.validateDataItems();
+                    });
+                    animation.events.on("animationended", function () {
+                        _this.validateDataItems();
+                        _this.handleSelectionExtremesChange();
+                    });
+                    this._minMaxAnimation = animation;
+                    this.validateDataItems();
+                    this.handleSelectionExtremesChange();
+                }
+            }
+            else {
+                this._minAdjusted = min;
+                this._maxAdjusted = max;
+                this._finalMin = min;
+                this._finalMax = max;
+                this.invalidateDataItems();
+                this.dispatchImmediately("extremeschanged");
+            }
         }
     };
     /**
@@ -1149,7 +1173,7 @@ var ValueAxis = /** @class */ (function (_super) {
         if(selectionMax > this.max){
             this._maxAdjusted = selectionMax;
         } 	*/
-        this.zoom({ start: start, end: end });
+        this.zoom({ start: start, end: end }, false);
     };
     Object.defineProperty(ValueAxis.prototype, "strictMinMax", {
         /**

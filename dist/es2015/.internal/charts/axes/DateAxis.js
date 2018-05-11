@@ -760,6 +760,7 @@ var DateAxis = /** @class */ (function (_super) {
             }
             var position = this.valueToPosition(timestamp);
             var endPosition = this.valueToPosition(endTimestamp);
+            dataItem.position = position;
             var tick = dataItem.tick;
             if (tick) {
                 renderer.updateTickElement(tick, position, endPosition);

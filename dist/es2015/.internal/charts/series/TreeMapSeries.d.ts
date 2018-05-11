@@ -170,7 +170,7 @@ export declare class TreeMapSeries extends ColumnSeries {
      * @param {Object}                 dataContext  Raw data
      * @param {number}                 index        Index of the data item
      */
-    protected processDataItem(dataItem: this["_dataItem"], dataContext?: Object, index?: number): void;
+    protected processDataItem(dataItem: this["_dataItem"], dataContext?: Object): void;
     /**
      * Returns a new/empty DataItem of the type appropriate for this object.
      *

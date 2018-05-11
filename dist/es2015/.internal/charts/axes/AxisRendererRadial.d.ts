@@ -120,6 +120,10 @@ export declare class AxisRendererRadial extends AxisRendererY {
      */
     protected _chart: MutableValueDisposer<RadarChart>;
     /**
+     * @ignore
+     */
+    pixelRadiusReal: number;
+    /**
      * Constructor.
      *
      * @param {Axis} axis Related axis

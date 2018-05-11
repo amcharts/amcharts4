@@ -59,7 +59,7 @@ var Component = /** @class */ (function (_super) {
          * Holds data field names.
          *
          * Data fields define connection beween [[DataItem]] and actual properties
-         * in raw data.\z
+         * in raw data.
          *
          * @type {IComponentDataFields}
          */
@@ -276,7 +276,7 @@ var Component = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      * @param {Object} item
      */
-    Component.prototype.processDataItem = function (dataItem, dataContext, index) {
+    Component.prototype.processDataItem = function (dataItem, dataContext) {
         var _this = this;
         if (dataItem) {
             if (!dataContext) {
@@ -301,7 +301,7 @@ var Component = /** @class */ (function (_super) {
                             var rawDataItem = value[i];
                             var childDataItem = children.create();
                             childDataItem.parent = dataItem;
-                            _this.processDataItem(childDataItem, rawDataItem, i);
+                            _this.processDataItem(childDataItem, rawDataItem);
                         }
                         var anyDataItem = dataItem;
                         anyDataItem[fieldName] = children;
@@ -404,7 +404,7 @@ var Component = /** @class */ (function (_super) {
      *
      * @param {Object | Object[]} rawDataItem One or many raw data item objects
      */
-    Component.prototype.addData = function (rawDataItem) {
+    Component.prototype.addData = function (rawDataItem, removeCount) {
         this._parseDataFrom = this.data.length; // save length of parsed data
         if (rawDataItem instanceof Array) {
             this.data = this.data.concat(rawDataItem);
@@ -412,7 +412,32 @@ var Component = /** @class */ (function (_super) {
         else {
             this.data.push(rawDataItem); // add to raw data array
         }
+        this.removeData(removeCount);
         this.invalidateData();
+    };
+    /**
+     * Removes elements from the beginning of data
+     *
+     * @param {number} coun number of elements to remove
+     */
+    Component.prototype.removeData = function (count) {
+        if ($type.isNumber(count)) {
+            while (count > 0) {
+                var dataItem = this.dataItems.getIndex(0);
+                if (dataItem) {
+                    this.dataItems.remove(dataItem);
+                    dataItem.dispose();
+                }
+                $iter.each(this._dataUsers.iterator(), function (dataUser) {
+                    var dataItem = dataUser.dataItems.getIndex(0);
+                    if (dataItem) {
+                        dataUser.dataItems.remove(dataItem);
+                        dataItem.dispose();
+                    }
+                });
+                count--;
+            }
+        }
     };
     /**
      * Triggers a data (re)parsing.
@@ -605,26 +630,29 @@ var Component = /** @class */ (function (_super) {
                         dataItem.dispose();
                     });
                     dataUser.dataItems.clear();
-                    // need this to slice new data
-                    dataUser._prevStartIndex = undefined;
-                    dataUser._prevEndIndex = undefined;
                     // todo: this needs some overthinking, maybe some extra settings like zoomOUtonDataupdate like in v3 or so. some charts like pie chart probably should act like this always
                     dataUser._startIndex = undefined;
                     dataUser._endIndex = undefined;
                 });
             }
+            // and for all components
+            $iter.each(this._dataUsers.iterator(), function (dataUser) {
+                // todo: this needs some overthinking, maybe some extra settings like zoomOUtonDataupdate like in v3 or so. some charts like pie chart probably should act like this always
+                dataUser._startIndex = undefined;
+                dataUser._endIndex = undefined;
+            });
             var counter = 0;
             var startTime = Date.now();
             // parse data
-            var i_1 = this._parseDataFrom;
+            var i = this._parseDataFrom;
             var n = this.data.length;
             var _loop_1 = function () {
-                var rawDataItem = this_1.data[i_1];
+                var rawDataItem = this_1.data[i];
                 var dataItem = this_1.dataItems.create();
-                this_1.processDataItem(dataItem, rawDataItem, i_1);
+                this_1.processDataItem(dataItem, rawDataItem);
                 $iter.each(this_1._dataUsers.iterator(), function (dataUser) {
                     var dataUserDataItem = dataUser.dataItems.create();
-                    dataUser.processDataItem(dataUserDataItem, rawDataItem, i_1);
+                    dataUser.processDataItem(dataUserDataItem, rawDataItem);
                 });
                 counter++;
                 // show preloader if this takes too many time
@@ -632,19 +660,19 @@ var Component = /** @class */ (function (_super) {
                     counter = 0;
                     var elapsed = Date.now() - startTime;
                     if (elapsed > this_1.parsingStepDuration) {
-                        if (i_1 < this_1.data.length - 10) {
-                            this_1._parseDataFrom = i_1 + 1;
+                        if (i < this_1.data.length - 10) {
+                            this_1._parseDataFrom = i + 1;
                             // update preloader
                             if (preloader) {
-                                if (i_1 / this_1.data.length > 0.5 && !this_1.preloader.visible) {
+                                if (i / this_1.data.length > 0.5 && !this_1.preloader.visible) {
                                     // do not start showing
                                 }
                                 else {
-                                    preloader.progress = i_1 / this_1.data.length;
+                                    preloader.progress = i / this_1.data.length;
                                 }
                             }
-                            this_1.dataValidationProgress = i_1 / this_1.data.length;
-                            i_1 = this_1.data.length; // stops cycle
+                            this_1.dataValidationProgress = i / this_1.data.length;
+                            i = this_1.data.length; // stops cycle
                             this_1.invalidateData();
                             return { value: void 0 };
                         }
@@ -652,7 +680,7 @@ var Component = /** @class */ (function (_super) {
                 }
             };
             var this_1 = this;
-            for (i_1; i_1 < n; i_1++) {
+            for (i; i < n; i++) {
                 var state_1 = _loop_1();
                 if (typeof state_1 === "object")
                     return state_1.value;
@@ -736,8 +764,6 @@ var Component = /** @class */ (function (_super) {
     };
     Object.defineProperty(Component.prototype, "dataSource", {
         /**
-         * Returns a [[DataSource]] specifically for loading Component's data.
-         *
          * @return {DataSource} Data source
          */
         get: function () {
@@ -747,9 +773,10 @@ var Component = /** @class */ (function (_super) {
             return this._dataSources["data"];
         },
         /**
-         * Sets a [[DataSource]] to be used for loading Component's data.
+         *A [[DataSource]] to be used for loading Component's data.
          *
-         * @param {DataSource} value Data source
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/loading-external-data/} for more on loading external data
+         * @param {DataSource}  value  Data source
          */
         set: function (value) {
             var _this = this;
@@ -854,9 +881,6 @@ var Component = /** @class */ (function (_super) {
     };
     Object.defineProperty(Component.prototype, "responsive", {
         /**
-         * Returns (creates if necessary) a new [[DataSource]] object for loading
-         * external data files.
-         *
          * @return {DataSource} Data source
          */
         get: function () {
@@ -867,10 +891,13 @@ var Component = /** @class */ (function (_super) {
             return this._responsive;
         },
         /**
-         * Sets a [[Responsive]] instance to be used when applying conditional
+         * A [[Responsive]] instance to be used when applying conditional
          * property values.
          *
-         * @param {Responsive} value Data source
+         * NOTE: Responsive features are currently in development and may not work
+         * as expected, if at all.
+         *
+         * @param {Responsive}  value  Data source
          */
         set: function (value) {
             this._responsive = value;
@@ -989,18 +1016,17 @@ var Component = /** @class */ (function (_super) {
     });
     Object.defineProperty(Component.prototype, "maxZoomFactor", {
         /**
-         * Returns max available `zoomFactor`. The element will not allow zoom to
-         * occur beyond this factor.
-         *
          * @return {number} Maximum `zoomFactor`
          */
         get: function () {
             return this.getPropertyValue("maxZoomFactor");
         },
         /**
-         * Sets max available `zoomFactor`.
+         * Max available `zoomFactor`.
          *
-         * @param {number} value Maximum `zoomFactor`
+         * The element will not allow zoom to occur beyond this factor.
+         *
+         * @param {number}  value  Maximum `zoomFactor`
          */
         set: function (value) {
             if (this.setPropertyValue("maxZoomFactor", value)) {
@@ -1162,9 +1188,10 @@ var Component = /** @class */ (function (_super) {
          * Returns a list of source [[DataItem]] objects.
          *
          * @return {OrderedListTemplate} List of data items
-         * @todo Check if we can automatically dispose all of the data items when Component is disposed
          */
         get: function () {
+            // @todo Check if we can automatically dispose all of the data items when
+            // Component is disposed
             if (!this._dataItems) {
                 this._dataItems = new OrderedListTemplate(this.createDataItem());
                 this._dataItems.events.on("insert", this.handleDataItemAdded, this);
@@ -1301,6 +1328,7 @@ var Component = /** @class */ (function (_super) {
          * If it does not exist it looks in parents. It also adds "data" Adapter so
          * that Export can access Component's data.
          *
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/exporting/} for more about exporting
          * @return {Export} Export instance
          */
         get: function () {

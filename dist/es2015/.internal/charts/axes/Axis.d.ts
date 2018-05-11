@@ -115,6 +115,10 @@ export declare class AxisDataItem extends DataItem {
      */
     isRange: boolean;
     /**
+     * relative position of data item on axis
+     */
+    position: number;
+    /**
      * Constructor
      */
     constructor();

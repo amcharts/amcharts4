@@ -273,7 +273,8 @@ var AxisRendererY = /** @class */ (function (_super) {
             }
             if (label.inside) {
                 if (label.align == "left") {
-                    deltaX = -this.maxWidth;
+                    deltaX = -this.maxWidth + this.pixelWidth;
+                    ;
                     horizontalCenter = "left";
                 }
             }
@@ -288,7 +289,7 @@ var AxisRendererY = /** @class */ (function (_super) {
             }
             if (label.inside) {
                 if (label.align == "right") {
-                    deltaX = this.maxWidth;
+                    deltaX = this.maxWidth - this.pixelWidth;
                     horizontalCenter = "right";
                 }
             }

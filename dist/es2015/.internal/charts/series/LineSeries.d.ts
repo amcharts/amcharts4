@@ -35,6 +35,11 @@ export declare class LineSeriesDataItem extends XYSeriesDataItem {
      */
     _component: LineSeries;
     /**
+     * Point of line series data item
+     * @type {IPoint}
+     */
+    point: IPoint;
+    /**
      * Constructor
      */
     constructor();
@@ -198,7 +203,7 @@ export declare class LineSeries extends XYSeries {
      * @param {this["_dataItem"]}  dataItem  Data item
      * @param {number}             index     Data item's index
      */
-    protected setInitialWorkingValues(dataItem: this["_dataItem"], index?: number): void;
+    protected setInitialWorkingValues(dataItem: this["_dataItem"]): void;
     /**
      * (Re)validates the whole series, effectively causing it to redraw.
      *

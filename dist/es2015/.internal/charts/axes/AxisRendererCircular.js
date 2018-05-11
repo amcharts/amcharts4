@@ -47,14 +47,16 @@ var AxisRendererCircular = /** @class */ (function (_super) {
         var _this = 
         // Init
         _super.call(this) || this;
+        /**
+         * @ignore
+         */
+        _this.pixelRadiusReal = 0;
         // axis.layout = "none"; // does not trigger redraw when size changes
         _this.layout = "none";
         _this.className = "AxisRendererCircular";
         _this.isMeasured = false;
         _this.startAngle = -90;
         _this.endAngle = 270;
-        _this.width = percent(100);
-        _this.height = percent(100);
         _this.radius = percent(100);
         _this.isMeasured = false;
         _this.grid.template.location = 0;
@@ -140,7 +142,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
          * @return {number} Outer radius (px)
          */
         get: function () {
-            return $utils.relativeRadiusToValue(this.radius, $math.min(this.innerWidth / 2, this.innerHeight / 2));
+            return $utils.relativeRadiusToValue(this.radius, this.pixelRadiusReal);
         },
         enumerable: true,
         configurable: true
@@ -174,7 +176,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
          * @return {number} Inner radius (px)
          */
         get: function () {
-            return $utils.relativeRadiusToValue(this.innerRadius, $math.min(this.innerWidth / 2, this.innerHeight / 2)) || 0;
+            return $utils.relativeRadiusToValue(this.innerRadius, this.pixelRadiusReal) || 0;
         },
         enumerable: true,
         configurable: true

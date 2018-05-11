@@ -1,17 +1,25 @@
 var $path = require("path");
 
-module.exports = function (info) {
-  return {
-    mode: "production",
+module.exports = {
+  mode: "production",
 
-    entry: {
-      "index": "./index.js"
-    },
+  devtool: "source-map",
 
-    output: {
-      path: $path.join(__dirname, "dist"),
-      filename: "[name].js",
-      chunkFilename: "[name].js",
-    }
-  };
-}
+  entry: {
+    index: "./index.js"
+  },
+
+  output: {
+    path: $path.join(__dirname, "dist"),
+    filename: "[name].js",
+    chunkFilename: "[name].js"
+  },
+
+  module: {
+    rules: [{
+      test: /.js$/,
+      use: ["source-map-loader"],
+      enforce: "pre"
+    }]
+  }
+};

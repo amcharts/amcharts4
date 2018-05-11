@@ -340,6 +340,7 @@ var CategoryAxis = /** @class */ (function (_super) {
         }
         var position = this.indexToPosition(index, dataItem.locations.category);
         var endPosition = this.indexToPosition(endIndex, dataItem.locations.endCategory);
+        dataItem.position = position;
         var fillEndIndex;
         var fillPosition;
         var fillEndPosition;

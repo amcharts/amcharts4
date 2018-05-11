@@ -147,12 +147,12 @@ var Chart = /** @class */ (function (_super) {
             switch (legend.position) {
                 case "left":
                     chartAndLegendContainer.layout = "horizontal";
-                    legend.maxWidth = 200;
+                    legend.maxWidth = 250;
                     legend.toBack();
                     break;
                 case "right":
                     chartAndLegendContainer.layout = "horizontal";
-                    legend.maxWidth = 200;
+                    legend.maxWidth = 250;
                     legend.toFront();
                     break;
                 case "top":
@@ -211,17 +211,16 @@ var Chart = /** @class */ (function (_super) {
     };
     Object.defineProperty(Chart.prototype, "legend", {
         /**
-         * @return {Legend} legend
+         * @return {Legend} Legend
          */
         get: function () {
             return this._legend;
         },
         /**
-         * Chart legend
+         * Holds the instance of chart's [[Leged]].
          *
-         * @todo Description
-         *
-         * @param {Legend} legend
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/legend/} for more information about legends
+         * @param {Legend} Legend
          */
         set: function (legend) {
             this.setLegend(legend);
@@ -229,6 +228,11 @@ var Chart = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Prepares the legend instance for use in this chart.
+     *
+     * @param {Legend}  legend  Legend
+     */
     Chart.prototype.setLegend = function (legend) {
         var _this = this;
         if (this._legend != legend) {

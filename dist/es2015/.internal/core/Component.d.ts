@@ -117,7 +117,7 @@ export declare class Component extends Container {
      * Holds data field names.
      *
      * Data fields define connection beween [[DataItem]] and actual properties
-     * in raw data.\z
+     * in raw data.
      *
      * @type {IComponentDataFields}
      */
@@ -460,7 +460,7 @@ export declare class Component extends Container {
      * @ignore Exclude from docs
      * @param {Object} item
      */
-    protected processDataItem(dataItem: this["_dataItem"], dataContext?: Object, index?: number): void;
+    protected processDataItem(dataItem: this["_dataItem"], dataContext?: Object): void;
     /**
      *
      * When validating raw data, instead of processing data item, we update it
@@ -494,7 +494,13 @@ export declare class Component extends Container {
      *
      * @param {Object | Object[]} rawDataItem One or many raw data item objects
      */
-    addData(rawDataItem: Object | Object[]): void;
+    addData(rawDataItem: Object | Object[], removeCount?: number): void;
+    /**
+     * Removes elements from the beginning of data
+     *
+     * @param {number} coun number of elements to remove
+     */
+    removeData(count: number): void;
     /**
      * Triggers a data (re)parsing.
      *
@@ -610,14 +616,13 @@ export declare class Component extends Container {
      */
     getDataSource(property: string): DataSource;
     /**
-     * Returns a [[DataSource]] specifically for loading Component's data.
-     *
      * @return {DataSource} Data source
      */
     /**
-     * Sets a [[DataSource]] to be used for loading Component's data.
+     *A [[DataSource]] to be used for loading Component's data.
      *
-     * @param {DataSource} value Data source
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/loading-external-data/} for more on loading external data
+     * @param {DataSource}  value  Data source
      */
     dataSource: DataSource;
     /**
@@ -665,16 +670,16 @@ export declare class Component extends Container {
      */
     protected setDataSourceEvents(ds: DataSource, property?: string): void;
     /**
-     * Returns (creates if necessary) a new [[DataSource]] object for loading
-     * external data files.
-     *
      * @return {DataSource} Data source
      */
     /**
-     * Sets a [[Responsive]] instance to be used when applying conditional
+     * A [[Responsive]] instance to be used when applying conditional
      * property values.
      *
-     * @param {Responsive} value Data source
+     * NOTE: Responsive features are currently in development and may not work
+     * as expected, if at all.
+     *
+     * @param {Responsive}  value  Data source
      */
     responsive: Responsive;
     /**
@@ -706,15 +711,14 @@ export declare class Component extends Container {
      */
     readonly zoomFactor: number;
     /**
-     * Returns max available `zoomFactor`. The element will not allow zoom to
-     * occur beyond this factor.
-     *
      * @return {number} Maximum `zoomFactor`
      */
     /**
-     * Sets max available `zoomFactor`.
+     * Max available `zoomFactor`.
      *
-     * @param {number} value Maximum `zoomFactor`
+     * The element will not allow zoom to occur beyond this factor.
+     *
+     * @param {number}  value  Maximum `zoomFactor`
      */
     maxZoomFactor: number;
     /**
@@ -791,7 +795,6 @@ export declare class Component extends Container {
      * Returns a list of source [[DataItem]] objects.
      *
      * @return {OrderedListTemplate} List of data items
-     * @todo Check if we can automatically dispose all of the data items when Component is disposed
      */
     readonly dataItems: OrderedListTemplate<this["_dataItem"]>;
     /**
@@ -878,6 +881,7 @@ export declare class Component extends Container {
      * If it does not exist it looks in parents. It also adds "data" Adapter so
      * that Export can access Component's data.
      *
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/exporting/} for more about exporting
      * @return {Export} Export instance
      */
     readonly exporting: Export;

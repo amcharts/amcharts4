@@ -54,6 +54,10 @@ var AxisRendererRadial = /** @class */ (function (_super) {
          * @type {MutableValueDisposer}
          */
         _this._chart = new MutableValueDisposer();
+        /**
+         * @ignore
+         */
+        _this.pixelRadiusReal = 0;
         _this.className = "AxisRendererRadial";
         _this.isMeasured = false;
         _this.startAngle = -90;
@@ -63,7 +67,6 @@ var AxisRendererRadial = /** @class */ (function (_super) {
         _this.axisAngle = -90;
         _this.isMeasured = false;
         _this.layout = "none";
-        _this.width = percent(100);
         _this.radius = percent(100);
         _this.line.strokeOpacity = 0;
         _this.labels.template.horizontalCenter = "middle";
@@ -124,7 +127,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
          * @return {number} Outer radius (px)
          */
         get: function () {
-            return $utils.relativeRadiusToValue(this.radius, $math.min(this.innerWidth / 2, this.innerHeight / 2));
+            return $utils.relativeRadiusToValue(this.radius, this.pixelRadiusReal);
         },
         enumerable: true,
         configurable: true
@@ -158,7 +161,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
          * @return {number} Inner radius (px)
          */
         get: function () {
-            return $utils.relativeRadiusToValue(this.innerRadius, $math.min(this.innerWidth / 2, this.innerHeight / 2)) || 0;
+            return $utils.relativeRadiusToValue(this.innerRadius, this.pixelRadiusReal) || 0;
         },
         enumerable: true,
         configurable: true

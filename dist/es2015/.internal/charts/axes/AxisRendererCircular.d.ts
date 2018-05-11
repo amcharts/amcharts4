@@ -121,6 +121,10 @@ export declare class AxisRendererCircular extends AxisRenderer {
      */
     _labelType: AxisLabelCircular;
     /**
+     * @ignore
+     */
+    pixelRadiusReal: number;
+    /**
      * Constructor.
      *
      * @param {Axis} axis Related axis

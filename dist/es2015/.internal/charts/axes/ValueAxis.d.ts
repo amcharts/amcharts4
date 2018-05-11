@@ -16,6 +16,7 @@ import { IDisposer } from "../../core/utils/Disposer";
 import { SerialChart } from "../types/SerialChart";
 import { XYSeries, XYSeriesDataItem } from "../series/XYSeries";
 import { ValueAxisBreak } from "./ValueAxisBreak";
+import { Animation } from "../../core/utils/Animation";
 /**
  * ============================================================================
  * DATA ITEM
@@ -332,11 +333,17 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
     /**
      * @todo Description
      */
-    private _valueToPosition;
+    protected _valueToPosition: {
+        [key: string]: number;
+    };
     /**
      * @todo Description
      */
-    private _positionToValue;
+    protected _positionToValue: {
+        [key: string]: number;
+    };
+    protected _finalMin: number;
+    protected _finalMax: number;
     /**
      * A function which applies fills to alternating cells.
      *
@@ -350,6 +357,7 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @type {boolean}
      */
     calculateTotals: boolean;
+    protected _minMaxAnimation: Animation;
     /**
      * Constructor
      */

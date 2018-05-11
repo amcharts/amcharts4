@@ -33,6 +33,7 @@ export { Ellipse } from "./.internal/core/elements/Ellipse";
 export { Image } from "./.internal/core/elements/Image";
 export { Label } from "./.internal/core/elements/Label";
 export { Line } from "./.internal/core/elements/Line";
+export { Popup } from "./.internal/core/elements/Popup";
 export { Modal } from "./.internal/core/elements/Modal";
 export { PointedRectangle } from "./.internal/core/elements/PointedRectangle";
 export { PointedShape } from "./.internal/core/elements/PointedShape";
@@ -89,7 +90,7 @@ export { MouseCursorStyle } from "./.internal/core/interaction/Mouse";
 export { AMElement } from "./.internal/core/rendering/AMElement";
 export { Group } from "./.internal/core/rendering/Group";
 export { Paper } from "./.internal/core/rendering/Paper";
-export { Monotone, MonotoneX, MonotoneY, CatmullRom, Tension, Basis } from "./.internal/core/rendering/Smoothing";
+export { Tension, Basis } from "./.internal/core/rendering/Smoothing";
 export { SVGContainer } from "./.internal/core/rendering/SVGContainer";
 /**
  * Elements: fills

@@ -54,6 +54,7 @@ export { IEllipseProperties, IEllipseEvents, IEllipseAdapters, Ellipse } from ".
 export { IImageProperties, IImageEvents, IImageAdapters, Image } from "./.internal/core/elements/Image";
 export { ITextLineInfo, ILabelProperties, ILabelEvents, ILabelAdapters, Label } from "./.internal/core/elements/Label";
 export { ILineProperties, ILineEvents, ILineAdapters, Line } from "./.internal/core/elements/Line";
+export { IPopupAdapters, Popup } from "./.internal/core/elements/Popup";
 export { IModalAdapters, Modal } from "./.internal/core/elements/Modal";
 export { IPointedRectangleProperties, IPointedRectangleEvents, IPointedRectangleAdapters, PointedRectangle } from "./.internal/core/elements/PointedRectangle";
 export { IPointedShapeProperties, IPointedShapeEvents, IPointedShapeAdapters, PointedShape } from "./.internal/core/elements/PointedShape";
@@ -112,7 +113,7 @@ export { IPointer, IBreadcrumb } from "./.internal/core/interaction/Pointer";
 export { SVGAttribute, ISVGAttribute, AMElement } from "./.internal/core/rendering/AMElement";
 export { Group } from "./.internal/core/rendering/Group";
 export { SVGElementNames, Paper } from "./.internal/core/rendering/Paper";
-export { ISmoothing, Monotone, MonotoneX, MonotoneY, CatmullRom, Tension, Basis } from "./.internal/core/rendering/Smoothing";
+export { ISmoothing, Tension, Basis } from "./.internal/core/rendering/Smoothing";
 export { SVGContainer } from "./.internal/core/rendering/SVGContainer";
 /**
  * Elements: fills

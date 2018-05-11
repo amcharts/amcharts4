@@ -429,17 +429,26 @@ var XYSeries = /** @class */ (function (_super) {
      * @param {Object}            dataContext  Raw data
      * @param {number}            index        Index of the data item
      */
-    XYSeries.prototype.processDataItem = function (dataItem, dataContext, index) {
+    XYSeries.prototype.processDataItem = function (dataItem, dataContext) {
         try {
-            _super.prototype.processDataItem.call(this, dataItem, dataContext, index);
+            _super.prototype.processDataItem.call(this, dataItem, dataContext);
             dataItem.events.disable();
             this.xAxis.processSeriesDataItem(dataItem);
             this.yAxis.processSeriesDataItem(dataItem);
             dataItem.events.enable();
+            this.setInitialWorkingValues(dataItem);
         }
         catch (e) {
             this._chart.raiseCriticalError(e);
         }
+    };
+    /**
+     * Inits data item's working values.
+     *
+     * @param {this["_dataItem"]}  dataItem  Data item
+     * @param {number}             index     Data item's index
+     */
+    XYSeries.prototype.setInitialWorkingValues = function (dataItem) {
     };
     /**
      * Sets up which data fields to use for data access.
@@ -772,15 +781,6 @@ var XYSeries = /** @class */ (function (_super) {
         this.yAxis.processSeriesDataItems();
         var xAxisId = this.xAxis.uid;
         var yAxisId = this.yAxis.uid;
-        if (this._smin.getKey(xAxisId) != minX || this._smax.getKey(xAxisId) != maxX || this._smin.getKey(yAxisId) != minY || this._smax.getKey(yAxisId) != maxY) {
-            this._smin.setKey(xAxisId, minX);
-            this._smax.setKey(xAxisId, maxX);
-            this._smin.setKey(yAxisId, minY);
-            this._smax.setKey(yAxisId, maxY);
-            if (this.appeared) {
-                this.dispatchImmediately("selectionextremeschanged");
-            }
-        }
         if (!working) {
             if (this._tmin.getKey(xAxisId) != minX || this._tmax.getKey(xAxisId) != maxX || this._tmin.getKey(yAxisId) != minY || this._tmax.getKey(yAxisId) != maxY) {
                 this._tmin.setKey(xAxisId, minX);
@@ -788,6 +788,15 @@ var XYSeries = /** @class */ (function (_super) {
                 this._tmin.setKey(yAxisId, minY);
                 this._tmax.setKey(yAxisId, maxY);
                 this.dispatchImmediately("extremeschanged");
+            }
+        }
+        if (this._smin.getKey(xAxisId) != minX || this._smax.getKey(xAxisId) != maxX || this._smin.getKey(yAxisId) != minY || this._smax.getKey(yAxisId) != maxY) {
+            this._smin.setKey(xAxisId, minX);
+            this._smax.setKey(xAxisId, maxX);
+            this._smin.setKey(yAxisId, minY);
+            this._smax.setKey(yAxisId, maxY);
+            if (this.appeared) {
+                this.dispatchImmediately("selectionextremeschanged");
             }
         }
     };

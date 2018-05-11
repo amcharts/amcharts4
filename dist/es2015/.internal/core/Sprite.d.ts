@@ -31,6 +31,7 @@ import { LinearGradient } from "./rendering/fills/LinearGradient";
 import { RadialGradient } from "./rendering/fills/RadialGradient";
 import { Align } from "./defs/Align";
 import { Roles, AriaLive } from "./defs/Accessibility";
+import { Popup } from "./elements/Popup";
 import { Modal } from "./elements/Modal";
 import { Color } from "./utils/Color";
 import { Ordering } from "./utils/Order";
@@ -461,9 +462,16 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Holds [[Modal]] object.
      *
      * @ignore Exclude from docs
-     * @type {MutableValueDisposer}
+     * @type {Modal}
      */
-    protected _modal: MutableValueDisposer<Modal>;
+    protected _modal: Modal;
+    /**
+     * Holds [[Popup]] objects.
+     *
+     * @ignore Exclude from docs
+     * @type {ListTemplate<Popup>}
+     */
+    protected _popups: ListTemplate<Popup>;
     /**
      * A reference to a top-level SVG node for this Sprite element.
      *
@@ -2454,14 +2462,13 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     exporting: Export;
     /**
      * ==========================================================================
-     * MODAL-RELATED STUFF
+     * MODAL/POPUP RELATED STUFF
      * ==========================================================================
      * @hidden
      */
     /**
-     * Returns a [[Modal]] instance, associated with this element.
-     *
-     * Modal can be inherited from element's parents.
+     * Returns a [[Modal]] instance, associated with this chart.
+     * (elements top parent)
      *
      * Accessing modal does not make it appear. To make a modal appear, use
      * `showModal()` method.
@@ -2477,13 +2484,36 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * The `text` parameter can contain HTML content.
      *
      * @see {@link Modal} for more information about using Modal windows
-     * @param {string} text Modal contents
+     * @param {string}  text   Modal contents
+     * @param {string}  title  Title for the modal window
      */
     showModal(text: string, title?: string): void;
     /**
      * Hides modal window if there is one currently open.
      */
     hideModal(): void;
+    /**
+     * A list of popups for this chart.
+     *
+     * @return {ListTemplate<Popup>} Popups
+     */
+    readonly popups: ListTemplate<Popup>;
+    /**
+     * Creates, opens, and returns a new [[Popup]] window.
+     *
+     * `text` can be any valid HTML.
+     *
+     * `title` is currently not supported.
+     *
+     * @param  {string}  text   Popup contents
+     * @param  {string}  title  Popup title
+     * @return {Popup}          Popup instance
+     */
+    openPopup(text: string, title?: string): Popup;
+    /**
+     * Closes all currently open popup windows
+     */
+    closeAllPopups(): void;
     /**
      * @return {number | Percent} X coordinate
      */
