@@ -23,6 +23,7 @@ import { AxisRendererY } from "../../charts/axes/AxisRendererY";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import * as $colors from "../../core/utils/Colors";
+import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -50,11 +51,12 @@ var HeatLegend = /** @class */ (function (_super) {
         _this.orientation = "horizontal";
         _this.markerCount = 1;
         // Create a template container and list for the a marker
-        var marker = new Container();
+        var marker = new RoundedRectangle();
         marker.minHeight = 20;
         marker.minWidth = 20;
         marker.mouseEnabled = false;
-        marker.background.fillOpacity = 1;
+        marker.fillOpacity = 1;
+        marker.cornerRadius(0, 0, 0, 0);
         _this.markerContainer.minHeight = 20;
         _this.markerContainer.minWidth = 20;
         _this.markers = new ListTemplate(marker);
@@ -104,12 +106,14 @@ var HeatLegend = /** @class */ (function (_super) {
         if (!$type.hasValue(maxColor)) {
             maxColor = toColor(this.getMaxFromRules("fill"));
         }
-        var seriesFill = series.fill;
-        if (!$type.hasValue(minColor) && seriesFill instanceof Color) {
-            minColor = seriesFill;
-        }
-        if (!$type.hasValue(maxColor) && seriesFill instanceof Color) {
-            maxColor = seriesFill;
+        if (series) {
+            var seriesFill = series.fill;
+            if (!$type.hasValue(minColor) && seriesFill instanceof Color) {
+                minColor = seriesFill;
+            }
+            if (!$type.hasValue(maxColor) && seriesFill instanceof Color) {
+                maxColor = seriesFill;
+            }
         }
         if (!$type.hasValue(maxColor)) {
             maxColor = toColor(this.getMaxFromRules("fill"));
@@ -132,59 +136,59 @@ var HeatLegend = /** @class */ (function (_super) {
         }
         var minStroke = toColor(this.getMinFromRules("stroke"));
         var maxStroke = toColor(this.getMaxFromRules("stroke"));
-        if (series) {
-            for (var i = 0; i < this.markerCount; i++) {
-                var marker = this.markers.getIndex(i);
-                if (!marker) {
-                    marker = this.markers.create();
-                    marker.parent = this.markerContainer;
-                    marker.height = percent(100);
-                    marker.width = percent(100);
+        //if (series) {
+        for (var i = 0; i < this.markerCount; i++) {
+            var marker = this.markers.getIndex(i);
+            if (!marker) {
+                marker = this.markers.create();
+                marker.parent = this.markerContainer;
+                marker.height = percent(100);
+                marker.width = percent(100);
+            }
+            if (this.markerCount == 1) {
+                var gradient = new LinearGradient();
+                gradient.addColor(minColor, minOpacity);
+                gradient.addColor(maxColor, maxOpacity);
+                if (this.orientation == "vertical") {
+                    gradient.rotation = -90;
                 }
-                if (this.markerCount == 1) {
-                    var gradient = new LinearGradient();
-                    gradient.addColor(minColor, minOpacity);
-                    gradient.addColor(maxColor, maxOpacity);
+                marker.fill = gradient;
+                if ($type.hasValue(minStroke) && $type.hasValue(maxStroke)) {
+                    var strokeGradient = new LinearGradient();
+                    strokeGradient.addColor(minStroke, minStrokeOpacity);
+                    strokeGradient.addColor(maxStroke, maxStrokeOpacity);
                     if (this.orientation == "vertical") {
-                        gradient.rotation = -90;
+                        strokeGradient.rotation = -90;
                     }
-                    marker.background.fill = gradient;
-                    if ($type.hasValue(minStroke) && $type.hasValue(maxStroke)) {
-                        var strokeGradient = new LinearGradient();
-                        strokeGradient.addColor(minStroke, minStrokeOpacity);
-                        strokeGradient.addColor(maxStroke, maxStrokeOpacity);
-                        if (this.orientation == "vertical") {
-                            strokeGradient.rotation = -90;
-                        }
-                        marker.background.stroke = strokeGradient;
-                    }
-                }
-                else {
-                    var color = new Color($colors.interpolate(minColor.rgb, maxColor.rgb, i / this.markerCount));
-                    marker.background.fill = color;
-                    var opacity = minOpacity + (maxOpacity - minOpacity) * i / this.markerCount;
-                    marker.background.fillOpacity = opacity;
-                    if ($type.hasValue(minStroke) && $type.hasValue(maxStroke)) {
-                        var color_1 = new Color($colors.interpolate(minStroke.rgb, maxStroke.rgb, i / this.markerCount));
-                        marker.background.stroke = color_1;
-                        var opacity_1 = minStrokeOpacity + (maxStrokeOpacity - minStrokeOpacity) * i / this.markerCount;
-                        marker.background.strokeOpacity = opacity_1;
-                    }
+                    marker.stroke = strokeGradient;
                 }
             }
-            var renderer = this.valueAxis.renderer;
-            if (this.markerCount > 1) {
-                if (this.orientation == "horizontal") {
-                    renderer.minGridDistance = this.pixelWidth / this.markerCount;
+            else {
+                var color = new Color($colors.interpolate(minColor.rgb, maxColor.rgb, i / this.markerCount));
+                marker.fill = color;
+                var opacity = minOpacity + (maxOpacity - minOpacity) * i / this.markerCount;
+                marker.fillOpacity = opacity;
+                if ($type.hasValue(minStroke) && $type.hasValue(maxStroke)) {
+                    var color_1 = new Color($colors.interpolate(minStroke.rgb, maxStroke.rgb, i / this.markerCount));
+                    marker.stroke = color_1;
+                    var opacity_1 = minStrokeOpacity + (maxStrokeOpacity - minStrokeOpacity) * i / this.markerCount;
+                    marker.strokeOpacity = opacity_1;
                 }
-                else {
-                    renderer.minGridDistance = this.pixelHeight / this.markerCount;
-                }
-            }
-            for (var i = this.markerCount; i < this.markers.length; i++) {
-                this.markers.getIndex(i).parent = undefined;
             }
         }
+        var renderer = this.valueAxis.renderer;
+        if (this.markerCount > 1) {
+            if (this.orientation == "horizontal") {
+                renderer.minGridDistance = this.pixelWidth / this.markerCount;
+            }
+            else {
+                renderer.minGridDistance = this.pixelHeight / this.markerCount;
+            }
+        }
+        for (var i = this.markerCount; i < this.markers.length; i++) {
+            this.markers.getIndex(i).parent = undefined;
+        }
+        //}
     };
     Object.defineProperty(HeatLegend.prototype, "minColor", {
         /**
@@ -393,9 +397,18 @@ var HeatLegend = /** @class */ (function (_super) {
         set: function (series) {
             var _this = this;
             this._series = series;
-            this.updateMinMax(series.dataItem.values.value.low, series.dataItem.values.value.high);
+            var dataField = "value";
+            try {
+                var dataFieldDefined = series.heatRules.getIndex(0).dataField;
+                if (dataFieldDefined) {
+                    dataField = dataFieldDefined;
+                }
+            }
+            catch (err) {
+            }
+            this.updateMinMax(series.dataItem.values[dataField].low, series.dataItem.values[dataField].high);
             series.dataItem.events.on("calculatedvaluechanged", function (event) {
-                _this.updateMinMax(series.dataItem.values.value.low, series.dataItem.values.value.high);
+                _this.updateMinMax(series.dataItem.values[dataField].low, series.dataItem.values[dataField].high);
             });
             series.heatRules.events.on("insert", this.invalidate, this);
             series.heatRules.events.on("remove", this.invalidate, this);

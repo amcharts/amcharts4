@@ -13,6 +13,7 @@ import { Series } from "../series/Series";
 import { Color } from "../../core/utils/Color";
 import { ListTemplate } from "../../core/utils/List";
 import { ValueAxis } from "../../charts/axes/ValueAxis";
+import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
 /**
  * ============================================================================
  * REQUISITES
@@ -116,9 +117,9 @@ export declare class HeatLegend extends Container {
     /**
      * List of heat legend markers (color step rectangles).
      *
-     * @type {ListTemplate<Container>}
+     * @type {ListTemplate<RoundedRectangle>}
      */
-    markers: ListTemplate<Container>;
+    markers: ListTemplate<RoundedRectangle>;
     /**
      * Container which holds markers
      *

@@ -842,15 +842,12 @@ var Sprite = /** @class */ (function (_super) {
                     if (!this._dataItem) {
                         this.dataItem = parent.dataItem;
                     }
+                    if (currentPaper != parent.paper) {
+                        this.appendDefs();
+                    }
                 }
                 else {
                     this._parent.reset();
-                }
-            }
-            // appends defs if previous paper was different, goes deep through all children
-            if (parent) {
-                if (currentPaper != parent.paper) {
-                    this.appendDefs();
                 }
             }
         },
@@ -1009,15 +1006,18 @@ var Sprite = /** @class */ (function (_super) {
          * @param {Paper}  paper  Paper
          */
         set: function (paper) {
-            var oldPaper = this.paper;
-            if (oldPaper != paper) {
-                this._paper = paper;
-                paper.append(this.group);
-            }
+            this.setPaper(paper);
         },
         enumerable: true,
         configurable: true
     });
+    Sprite.prototype.setPaper = function (paper) {
+        var oldPaper = this.paper;
+        if (oldPaper != paper) {
+            this._paper = paper;
+            paper.append(this.group);
+        }
+    };
     Object.defineProperty(Sprite.prototype, "htmlContainer", {
         /**
          * @return {HTMLElement} HTML element

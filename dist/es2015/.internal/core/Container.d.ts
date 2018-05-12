@@ -18,6 +18,7 @@ import { IPoint } from "./defs/IPoint";
 import { Preloader } from "./elements/Preloader";
 import { DataItem } from "./DataItem";
 import { Optional } from "./utils/Type";
+import { Paper } from "./rendering/Paper";
 /**
  * ============================================================================
  * REQUISITES
@@ -531,6 +532,7 @@ export declare class Container extends Sprite {
      * @param {Preloader} preloader Preloader instance
      */
     preloader: Preloader;
+    setPaper(paper: Paper): void;
     /**
      * Removes Container from the system-wide list of invalid Containers.
      *

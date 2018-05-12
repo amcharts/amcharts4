@@ -860,7 +860,7 @@ var ValueAxis = /** @class */ (function (_super) {
         }
         // checking isNumber is good when all series are hidden
         if ((this._minAdjusted != min || this._maxAdjusted != max) && $type.isNumber(min) && $type.isNumber(max)) {
-            if ($type.isNumber(this._minAdjusted) && $type.isNumber(this._maxAdjusted)) {
+            if ($type.isNumber(this._minAdjusted) && $type.isNumber(this._maxAdjusted) && this.inited) {
                 var animation = this._minMaxAnimation;
                 if (!animation || this._finalMin != min || this._finalMax != max) {
                     this._finalMin = min;
@@ -1109,7 +1109,7 @@ var ValueAxis = /** @class */ (function (_super) {
         var selectionMax;
         var allHidden = true;
         $iter.each(this.series.iterator(), function (series) {
-            if (!series.ignoreMinMax) {
+            if (!series.ignoreMinMax && series.appeared) {
                 if (series.visible && !series.isHiding) {
                     allHidden = false;
                 }

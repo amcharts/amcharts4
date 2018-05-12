@@ -1260,6 +1260,17 @@ var Container = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Container.prototype.setPaper = function (paper) {
+        _super.prototype.setPaper.call(this, paper);
+        $array.each(this._childrenByLayout, function (child) {
+            if (child instanceof Container) {
+                child.setPaper(paper);
+            }
+            else {
+                child.setPaper(paper);
+            }
+        });
+    };
     /**
      * Removes Container from the system-wide list of invalid Containers.
      *

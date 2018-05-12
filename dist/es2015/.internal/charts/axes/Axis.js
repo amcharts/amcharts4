@@ -576,7 +576,6 @@ var Axis = /** @class */ (function (_super) {
             _this.appendDataItem(axisRange);
             _this.validateDataElement(axisRange);
             axisRange.grid.invalidate();
-            axisRange.label.deepInvalidate();
             axisRange.tick.invalidate();
             axisRange.axisFill.invalidate();
         });

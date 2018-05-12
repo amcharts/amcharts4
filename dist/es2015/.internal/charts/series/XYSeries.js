@@ -386,7 +386,6 @@ var XYSeries = /** @class */ (function (_super) {
         _this.mainContainer.mask = new Sprite();
         _this.mainContainer.mask.element = _this.paper.add("path");
         _this.stacked = false;
-        _this.newStack = false;
         _this.tooltip.pointerOrientation = "horizontal";
         _this.applyTheme();
         return _this;
@@ -911,25 +910,6 @@ var XYSeries = /** @class */ (function (_super) {
         }
         return bulletLocation;
     };
-    Object.defineProperty(XYSeries.prototype, "newStack", {
-        /**
-         * @return {boolean} Start new stack?
-         */
-        get: function () {
-            return this.getPropertyValue("newStack");
-        },
-        /**
-         * Should this series start a new stack?
-         *
-         * @default false
-         * @param {boolean}  value  Start new stack?
-         */
-        set: function (value) {
-            this.setPropertyValue("newStack", value, true);
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(XYSeries.prototype, "stacked", {
         /**
          * @return {boolean} Can be stacked?
@@ -1066,7 +1046,7 @@ var XYSeries = /** @class */ (function (_super) {
         var _this = this;
         // todo: here wer stack x and y values only. question is - what should we do with other values, like openX, openY?
         // if this series is not stacked or new stack begins, return.
-        if (!this.stacked || this.newStack) {
+        if (!this.stacked) {
             return;
         }
         else {
@@ -1096,7 +1076,7 @@ var XYSeries = /** @class */ (function (_super) {
                             return false;
                         }
                     }
-                    else if (prevSeries.newStack || !prevSeries.stacked) {
+                    else if (!prevSeries.stacked) {
                         return false;
                     }
                 }

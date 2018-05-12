@@ -213,7 +213,7 @@ var ColumnSeries = /** @class */ (function (_super) {
         $iter.each(baseAxisSeries.iterator(), function (series) {
             if (series instanceof ColumnSeries) {
                 if (_this.baseAxis == series.baseAxis) {
-                    if ((!series.stacked && series.clustered) || series.newStack || clusterCount === 0) {
+                    if ((!series.stacked && series.clustered) || clusterCount === 0) {
                         clusterCount++;
                     }
                     if (series == _this) {

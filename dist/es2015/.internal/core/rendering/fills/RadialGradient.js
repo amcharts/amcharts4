@@ -22,6 +22,7 @@ import { getSystem } from "../../System";
 import { List } from "../../utils/List";
 import { registry } from "../../Registry";
 import * as $iter from "../../utils/Iterator";
+import { Percent } from "../../utils/Percent";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -57,12 +58,35 @@ var RadialGradient = /** @class */ (function (_super) {
     RadialGradient.prototype.draw = function () {
         var _this = this;
         var gradientElement = this.element;
-        if (this._center) {
-            gradientElement.attr({ "cx": this._center.x, "cy": this._center.y });
+        if (this.cx) {
+            var value = this.cx;
+            if (value instanceof Percent) {
+                value = value.percent + "%";
+            }
+            gradientElement.attr({ "cx": value });
         }
-        if (this._focalPoint) {
-            gradientElement.attr({ "fx": this._focalPoint.x, "fy": this._focalPoint.y });
+        if (this.cy) {
+            var value = this.cy;
+            if (value instanceof Percent) {
+                value = value.percent + "%";
+            }
+            gradientElement.attr({ "cy": value });
         }
+        if (this.fx) {
+            var value = this.fx;
+            if (value instanceof Percent) {
+                value = value.percent + "%";
+            }
+            gradientElement.attr({ "fx": value });
+        }
+        if (this.fy) {
+            var value = this.fy;
+            if (value instanceof Percent) {
+                value = value.percent + "%";
+            }
+            gradientElement.attr({ "fy": value });
+        }
+        gradientElement.removeChildNodes();
         $iter.each($iter.indexed(this._stops.iterator()), function (a) {
             var i = a[0];
             var stop = a[1];
@@ -119,29 +143,65 @@ var RadialGradient = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(RadialGradient.prototype, "center", {
+    Object.defineProperty(RadialGradient.prototype, "cx", {
+        get: function () {
+            return this._cx;
+        },
         /**
-         * Center coordinates of the gradient.
+         * Center x coordinate of the gradient, can be set as number or Percent
          *
-         * @ignore Exclude from docs
-         * @param {IPoint}  point  Center point
+         * @param {number | Percent}  point  Center point
          */
-        set: function (point) {
-            this._center = point;
+        set: function (value) {
+            this._cx = value;
             this.draw();
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(RadialGradient.prototype, "focalPoint", {
+    Object.defineProperty(RadialGradient.prototype, "cy", {
+        get: function () {
+            return this._cy;
+        },
         /**
-         * Focal point coordinates of the gradient.
+         * Center y coordinate of the gradient, can be set as number or Percent
          *
-         * @ignore Exclude from docs
-         * @param {IPoint}  point  Focal point
+         * @param {number | Percent}  point  Center point
          */
-        set: function (point) {
-            this._focalPoint = point;
+        set: function (value) {
+            this._cy = value;
+            this.draw();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(RadialGradient.prototype, "fx", {
+        get: function () {
+            return this._fx;
+        },
+        /**
+         * y coordinate of the focal point of a gradient, can be set in pixels or as Percent
+         *
+         * @param {number | Percent}  point  Center point
+         */
+        set: function (value) {
+            this._fx = value;
+            this.draw();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(RadialGradient.prototype, "fy", {
+        get: function () {
+            return this._fy;
+        },
+        /**
+         * y coordinate of the focal point of a gradient, can be set in pixels or as Percent
+         *
+         * @param {number | Percent}  point  Center point
+         */
+        set: function (value) {
+            this._fy = value;
             this.draw();
         },
         enumerable: true,
@@ -150,8 +210,10 @@ var RadialGradient = /** @class */ (function (_super) {
     RadialGradient.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
         this._stops = source.stops;
-        this._focalPoint = source.focalPoint;
-        this._center = source.center;
+        this.cx = source.cx;
+        this.cy = source.cy;
+        this.fx = source.fx;
+        this.fy = source.fy;
     };
     Object.defineProperty(RadialGradient.prototype, "stops", {
         /**

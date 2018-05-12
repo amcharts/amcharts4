@@ -12,8 +12,8 @@ import { List } from "../../utils/List";
 import { Group } from "../Group";
 import { Paper } from "../Paper";
 import { IGradientStop } from "./LinearGradient";
-import { IPoint } from "../../defs/IPoint";
 import { Color } from "../../utils/Color";
+import { Percent } from "../../utils/Percent";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -44,17 +44,29 @@ export declare class RadialGradient extends BaseObject {
      */
     protected _paper: Paper;
     /**
-     * A center coordinates for the radial gradient.
+     * A center x coordinate for the radial gradient, can be set in pixels or as Percent
      *
-     * @type {IPoint}
+     * @type { number | Percent}
      */
-    protected _center: IPoint;
+    protected _cx: number | Percent;
     /**
-     * Focal point coordinates.
+     * A center y coordinate for the radial gradient, can be set in pixels or as Percent
      *
-     * @type {IPoint}
+     * @type { number | Percent }
      */
-    protected _focalPoint: IPoint;
+    protected _cy: number | Percent;
+    /**
+     * A y coordinate of the focal point of a gradient, can be set in pixels or as Percent
+     *
+     * @type { number | Percent}
+     */
+    protected _fx: number | Percent;
+    /**
+     * A y coordinate of the focal point of a gradient, can be set in pixels or as Percent
+     *
+     * @type { number | Percent }
+     */
+    protected _fy: number | Percent;
     /**
      * Constructor
      */
@@ -83,19 +95,29 @@ export declare class RadialGradient extends BaseObject {
      */
     paper: Paper;
     /**
-     * Center coordinates of the gradient.
+     * Center x coordinate of the gradient, can be set as number or Percent
      *
-     * @ignore Exclude from docs
-     * @param {IPoint}  point  Center point
+     * @param {number | Percent}  point  Center point
      */
-    center: IPoint;
+    cx: number | Percent;
     /**
-     * Focal point coordinates of the gradient.
+     * Center y coordinate of the gradient, can be set as number or Percent
      *
-     * @ignore Exclude from docs
-     * @param {IPoint}  point  Focal point
+     * @param {number | Percent}  point  Center point
      */
-    focalPoint: IPoint;
+    cy: number | Percent;
+    /**
+     * y coordinate of the focal point of a gradient, can be set in pixels or as Percent
+     *
+     * @param {number | Percent}  point  Center point
+     */
+    fx: number | Percent;
+    /**
+     * y coordinate of the focal point of a gradient, can be set in pixels or as Percent
+     *
+     * @param {number | Percent}  point  Center point
+     */
+    fy: number | Percent;
     copyFrom(source: this): void;
     /**
      * A list of color stops in the gradient.

@@ -1004,6 +1004,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {Paper}  paper  Paper
      */
     paper: Paper;
+    setPaper(paper: Paper): void;
     /**
      * @return {HTMLElement} HTML element
      */

@@ -340,13 +340,6 @@ export interface IXYSeriesProperties extends ISeriesProperties {
      * @type {boolean}
      */
     stacked?: boolean;
-    /**
-     * Should this series start a new stack?
-     *
-     * @default false
-     * @type {boolean}
-     */
-    newStack?: boolean;
 }
 /**
  * Defines events for [[XYSeries]].
@@ -700,16 +693,6 @@ export declare class XYSeries extends Series {
     * @ignore
     */
     protected getBulletLocationY(bullet: Bullet, field: string): number;
-    /**
-     * @return {boolean} Start new stack?
-     */
-    /**
-     * Should this series start a new stack?
-     *
-     * @default false
-     * @param {boolean}  value  Start new stack?
-     */
-    newStack: boolean;
     /**
      * @return {boolean} Can be stacked?
      */
