@@ -70,6 +70,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
         _this.radius = percent(100);
         _this.line.strokeOpacity = 0;
         _this.labels.template.horizontalCenter = "middle";
+        _this._disposers.push(_this._chart);
         _this.applyTheme();
         return _this;
     }

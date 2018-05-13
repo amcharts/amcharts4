@@ -100,6 +100,7 @@ var AxisRenderer = /** @class */ (function (_super) {
         disposers.push(_this.line);
         disposers.push(gridContainer);
         disposers.push(breakContainer);
+        disposers.push(_this._chart);
         // Apply theme
         _this.applyTheme();
         return _this;

@@ -49,6 +49,7 @@ var AxisRendererY3D = /** @class */ (function (_super) {
          */
         _this._chart = new MutableValueDisposer();
         _this.className = "AxisRendererY3D";
+        _this._disposers.push(_this._chart);
         _this.applyTheme();
         return _this;
     }

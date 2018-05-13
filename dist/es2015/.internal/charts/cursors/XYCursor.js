@@ -109,6 +109,10 @@ var XYCursor = /** @class */ (function (_super) {
         _this._disposers.push(_this.lineY);
         // Add handler for size changes
         _this.events.on("sizechanged", _this.updateSize, _this);
+        _this._disposers.push(_this._lineX);
+        _this._disposers.push(_this._lineY);
+        _this._disposers.push(_this._xAxis);
+        _this._disposers.push(_this._yAxis);
         // Apply theme
         _this.applyTheme();
         return _this;

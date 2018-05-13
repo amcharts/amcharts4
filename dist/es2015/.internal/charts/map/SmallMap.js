@@ -85,6 +85,7 @@ var SmallMap = /** @class */ (function (_super) {
         rectangle.horizontalCenter = "middle";
         rectangle.isMeasured = false;
         _this.rectangle = rectangle;
+        _this._disposers.push(_this._chart);
         // Apply theme
         _this.applyTheme();
         return _this;

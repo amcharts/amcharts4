@@ -72,6 +72,7 @@ var ClockHand = /** @class */ (function (_super) {
         _this.innerRadius = percent(0);
         var hand = new Trapezoid();
         _this.hand = hand;
+        _this._disposers.push(_this._axis);
         // Apply theme
         _this.applyTheme();
         return _this;

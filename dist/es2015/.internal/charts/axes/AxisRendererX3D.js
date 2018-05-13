@@ -50,6 +50,7 @@ var AxisRendererX3D = /** @class */ (function (_super) {
          */
         _this._chart = new MutableValueDisposer();
         _this.className = "AxisRendererX3D";
+        _this._disposers.push(_this._chart);
         _this.applyTheme();
         return _this;
     }

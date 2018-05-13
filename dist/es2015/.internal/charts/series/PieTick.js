@@ -53,6 +53,8 @@ var PieTick = /** @class */ (function (_super) {
         _this._slice = new MutableValueDisposer();
         _this.className = "PieTick";
         _this.element = _this.paper.add("polyline");
+        _this._disposers.push(_this._label);
+        _this._disposers.push(_this._slice);
         _this.applyTheme();
         return _this;
     }

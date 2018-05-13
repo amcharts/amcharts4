@@ -71,9 +71,9 @@ var Cursor = /** @class */ (function (_super) {
         // Add events on body to trigger down and up events (to start zooming or
         // selection)
         var interaction = getInteraction();
-        interaction.body.events.on("down", _this.handleCursorDown, _this);
-        interaction.body.events.on("up", _this.handleCursorUp, _this);
-        interaction.body.events.on("track", _this.handleCursorMove, _this);
+        _this._disposers.push(interaction.body.events.on("down", _this.handleCursorDown, _this));
+        _this._disposers.push(interaction.body.events.on("up", _this.handleCursorUp, _this));
+        _this._disposers.push(interaction.body.events.on("track", _this.handleCursorMove, _this));
         // Apply theme
         _this.applyTheme();
         return _this;

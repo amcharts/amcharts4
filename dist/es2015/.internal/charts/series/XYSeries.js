@@ -387,6 +387,8 @@ var XYSeries = /** @class */ (function (_super) {
         _this.mainContainer.mask.element = _this.paper.add("path");
         _this.stacked = false;
         _this.tooltip.pointerOrientation = "horizontal";
+        _this._disposers.push(_this._xAxis);
+        _this._disposers.push(_this._yAxis);
         _this.applyTheme();
         return _this;
     }
@@ -662,6 +664,7 @@ var XYSeries = /** @class */ (function (_super) {
             if (oldAxis != axis) {
                 if (oldAxis) {
                     this.dataItemsByAxis.removeKey(oldAxis.uid);
+                    // TODO why is this here ?
                     this._xAxis.dispose();
                     // temp @todo: why it is not disposed?
                     oldAxis.series.removeValue(this);
@@ -698,6 +701,7 @@ var XYSeries = /** @class */ (function (_super) {
             if (oldAxis != axis) {
                 if (oldAxis) {
                     this.dataItemsByAxis.removeKey(oldAxis.uid);
+                    // TODO why is this here ?
                     this._yAxis.dispose();
                     // temp @todo: why it is not disposed?
                     oldAxis.series.removeValue(this);

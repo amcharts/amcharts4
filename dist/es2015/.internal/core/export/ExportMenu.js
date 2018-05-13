@@ -186,6 +186,7 @@ var ExportMenu = /** @class */ (function (_super) {
             }
         ];
         _this.className = "ExportMenu";
+        _this._disposers.push(_this._language);
         _this.invalidate();
         _this.applyTheme();
         return _this;
@@ -234,14 +235,14 @@ var ExportMenu = /** @class */ (function (_super) {
             menuElement: this._element
         }).menuElement;
         // Set up global "down" event
-        getInteraction().body.events.on("down", function (ev) {
+        this._disposers.push(getInteraction().body.events.on("down", function (ev) {
             if (!ev.pointer.touch) {
                 _this._ignoreNextClose = false;
             }
             _this.close();
-        });
+        }));
         // Set up global event on ESC press to close the menu
-        getInteraction().body.events.on("keyup", function (ev) {
+        this._disposers.push(getInteraction().body.events.on("keyup", function (ev) {
             var key = keyboard.getEventKey(ev.event);
             switch (key) {
                 case "esc":
@@ -254,7 +255,7 @@ var ExportMenu = /** @class */ (function (_super) {
                     _this.moveSelection(key);
                     break;
             }
-        });
+        }));
         if (this.defaultStyles) {
             this.loadDefaultCSS();
         }
@@ -300,10 +301,12 @@ var ExportMenu = /** @class */ (function (_super) {
         // Add Label
         element.appendChild(label);
         // Create interaction object
+        // TODO clean this up when it's disposed
         branch.interactions = getInteraction().getInteraction(label);
         // Create interaction manager we can set event listeners to
         if (this.typeClickable(type)) {
             //branch.interactions.clickable = true;
+            // TODO clean this up when it's disposed
             branch.interactions.events.on("hit", function (ev) {
                 if (_this.events.isEnabled("hit")) {
                     _this.events.dispatchImmediately("hit", {
@@ -313,6 +316,7 @@ var ExportMenu = /** @class */ (function (_super) {
                     });
                 }
             });
+            // TODO clean this up when it's disposed
             branch.interactions.events.on("keyup", function (ev) {
                 if (keyboard.isKey(ev.event, "enter")) {
                     if (_this.events.isEnabled("enter")) {
@@ -327,6 +331,7 @@ var ExportMenu = /** @class */ (function (_super) {
         }
         // Add ENTER event to open sub-menus
         if (this.hasSubMenu(branch)) {
+            // TODO clean this up when it's disposed
             branch.interactions.events.on("keyup", function (ev) {
                 if (keyboard.isKey(ev.event, "enter")) {
                     // This is item has sub-menu, activate the first child on ENTER
@@ -337,6 +342,7 @@ var ExportMenu = /** @class */ (function (_super) {
             });
         }
         // Add events
+        // TODO clean this up when it's disposed
         branch.interactions.events.on("over", function (ev) {
             if (ev.pointer.touch) {
                 // Cancel pending menu closure
@@ -344,14 +350,17 @@ var ExportMenu = /** @class */ (function (_super) {
             }
             _this.selectBranch(branch);
         });
+        // TODO clean this up when it's disposed
         branch.interactions.events.on("out", function (ev) {
             if (!ev.pointer.touch) {
                 _this.delayUnselectBranch(branch);
             }
         });
+        // TODO clean this up when it's disposed
         branch.interactions.events.on("focus", function (ev) {
             _this.selectBranch(branch);
         });
+        // TODO clean this up when it's disposed
         branch.interactions.events.on("blur", function (ev) {
             _this.delayUnselectBranch(branch);
         });

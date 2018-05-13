@@ -157,7 +157,7 @@ var MapChart = /** @class */ (function (_super) {
         _this.background.fillOpacity = 0;
         _this.background.readerTitle = _this.language.translate("Use plus and minus keys on your keyboard to zoom in and out");
         // Add keyboard events for panning
-        getInteraction().body.events.on("keyup", function (ev) {
+        _this._disposers.push(getInteraction().body.events.on("keyup", function (ev) {
             if (_this.topParent.hasFocused && (!_this._zoomControl || !_this._zoomControl.thumb.isFocused)) {
                 switch (keyboard.getEventKey(ev.event)) {
                     case "up":
@@ -174,7 +174,7 @@ var MapChart = /** @class */ (function (_super) {
                         break;
                 }
             }
-        }, _this);
+        }, _this));
         // Apply theme
         _this.applyTheme();
         return _this;

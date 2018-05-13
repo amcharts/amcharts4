@@ -333,7 +333,6 @@ var Sprite = /** @class */ (function (_super) {
         // Apply the theme
         _this.applyTheme();
         //this._disposers.push(this._clickable);
-        //this._disposers.push(this._parent);
         // Decorate adapter with events so that we can apply its settings whenever
         // it is modified
         // @todo Think what to do here. We can't just apply the adapter value to
@@ -351,7 +350,9 @@ var Sprite = /** @class */ (function (_super) {
         _this._disposers.push(_this.group);
         _this._disposers.push(_this._url);
         _this._disposers.push(_this._mask);
+        _this._disposers.push(_this._language);
         _this._disposers.push(_this._exporting);
+        _this._disposers.push(_this._parent);
         //this._disposers.push(this._modal);
         _this._disposers.push(new Disposer(function () {
             $object.each(_this._bindings, function (key, value) {
@@ -686,6 +687,9 @@ var Sprite = /** @class */ (function (_super) {
             }
         }
         _super.prototype.dispose.call(this);
+        if (this._interactionDisposer) {
+            this._interactionDisposer.dispose();
+        }
         this.removeFromInvalids();
         if (this.element) {
             this.element.dispose();
@@ -836,9 +840,7 @@ var Sprite = /** @class */ (function (_super) {
                     if (this._tooltip && !this._tooltipContainer) {
                         this._tooltip.parent = parent.tooltipContainer;
                     }
-                    var parentEvent = parent.events.on("globalscalechanged", this.handleGlobalScale, this);
-                    this._disposers.push(parentEvent);
-                    this._parent.set(parent, parentEvent);
+                    this._parent.set(parent, parent.events.on("globalscalechanged", this.handleGlobalScale, this));
                     if (!this._dataItem) {
                         this.dataItem = parent.dataItem;
                     }

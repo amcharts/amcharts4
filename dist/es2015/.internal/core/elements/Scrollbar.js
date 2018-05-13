@@ -754,12 +754,12 @@ var Scrollbar = /** @class */ (function (_super) {
                 thumb.events.on("doublehit", this.handleDoubleClick, this);
                 // Add event for space and ENTER to toggle full zoom out and back
                 // (same as doubleclick)
-                getInteraction().body.events.on("keyup", function (ev) {
+                this._disposers.push(getInteraction().body.events.on("keyup", function (ev) {
                     if (keyboard.isKey(ev.event, ["space", "enter"]) && _this.thumb.isFocused) {
                         ev.event.preventDefault();
                         _this.handleDoubleClick();
                     }
-                });
+                }));
                 this._disposers.push(this._thumb);
             }
         },

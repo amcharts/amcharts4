@@ -96,6 +96,7 @@ var ZoomControl = /** @class */ (function (_super) {
                 _this.fixLayout();
             }
         });
+        _this._disposers.push(_this._chart);
         _this.fixLayout();
         return _this;
     }

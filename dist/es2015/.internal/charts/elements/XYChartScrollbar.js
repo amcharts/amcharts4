@@ -94,6 +94,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         if (downState) {
             downState.properties.fillOpacity = 0.4;
         }
+        _this._disposers.push(_this._chart);
         _this.applyTheme();
         return _this;
     }

@@ -86,6 +86,7 @@ var AxisBreak = /** @class */ (function (_super) {
         endLine.strokeOpacity = 0.3;
         endLine.zIndex = 2;
         _this._endLine = endLine;
+        _this._disposers.push(_this._axis);
         // Apply theme
         _this.applyTheme();
         return _this;

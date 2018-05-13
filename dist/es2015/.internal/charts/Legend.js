@@ -131,11 +131,11 @@ var Legend = /** @class */ (function (_super) {
         // Create container list using item template we just created
         _this.itemContainers = new ListTemplate(itemContainer);
         // Set up global keyboard events for toggling elements
-        getInteraction().body.events.on("keyup", function (ev) {
+        _this._disposers.push(getInteraction().body.events.on("keyup", function (ev) {
             if (keyboard.isKey(ev.event, "enter") && _this.focusedItem) {
                 _this.toggleDataItem(_this.focusedItem);
             }
-        }, _this);
+        }, _this));
         var interfaceColors = new InterfaceColorSet();
         // Create a template container and list for the a marker
         var marker = new Container();
