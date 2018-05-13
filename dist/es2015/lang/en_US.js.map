@@ -1,1 +1,1 @@
-{"version":3,"file":"en_US.js","sourceRoot":"","sources":["../../../src/lang/en_US.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,yBAAyB,CAAC","sourcesContent":["export { default } from \"../.internal/lang/en_US\";\r\n"]}
+{"version":3,"file":"en_US.js","sourceRoot":"","sources":["../../../src/lang/en_US.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,yBAAyB,CAAC","sourcesContent":["export { default } from \"../.internal/lang/en_US\";\n"]}

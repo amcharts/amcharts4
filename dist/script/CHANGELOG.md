@@ -3,11 +3,14 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [4.0.0-beta.22] - 2018-05-11
+## [4.0.0-beta.22] - 2018-05-13
 ### Fixed
 - Heights of vertical `HeatLegend`'s gradient band and value axis (labels) were different.
 - `HeatLegend` without its `series` set was resulting in critical error.
 - `HeatLegend` did not respect `dataField` setting in `Series.heatRules`.
+
+### Removed
+- `newStack` from Series which was redundant.
 
 ## [4.0.0-beta.21] - 2018-05-10
 ### Added
