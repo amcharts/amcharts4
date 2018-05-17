@@ -616,7 +616,10 @@ var BaseObject = /** @class */ (function () {
             $object.each(config, function (entryKey, entryValue) {
                 var listItem;
                 // Get existing one, or create a new one
-                if (item.hasKey(entryKey)) {
+                if (entryKey == "template") {
+                    listItem = item.template;
+                }
+                else if (item.hasKey(entryKey)) {
                     listItem = item.getKey(entryKey);
                 }
                 else {

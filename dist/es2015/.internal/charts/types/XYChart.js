@@ -687,6 +687,7 @@ var XYChart = /** @class */ (function (_super) {
                 }
                 this._cursor = cursor;
                 if (cursor) {
+                    // TODO this is wrong, fix it
                     this._disposers.push(cursor);
                     cursor.chart = this;
                     cursor.parent = this._cursorContainer;

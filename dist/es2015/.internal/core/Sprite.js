@@ -3323,6 +3323,11 @@ var Sprite = /** @class */ (function (_super) {
                 // need to call it here
                 this.filters.push(this.focusFilter);
             }
+            if (this.hoverOnFocus) {
+                // Trigger a hover event as well
+                this.isHover = true;
+                this.handleOver();
+            }
         }
     };
     /**
@@ -3340,6 +3345,11 @@ var Sprite = /** @class */ (function (_super) {
                 // Any `filters` manipulation will trigger `applyFilters()` so we don't
                 // need to call it here
                 this.filters.removeValue(this.focusFilter);
+            }
+            if (this.hoverOnFocus) {
+                // Trigger a out event as well
+                this.isHover = false;
+                this.handleOut();
             }
         }
     };
@@ -3403,6 +3413,32 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._focusFilter = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Sprite.prototype, "hoverOnFocus", {
+        /**
+         * @return {boolean} Trigger hover on focus?
+         */
+        get: function () {
+            return this.getPropertyValue("hoverOnFocus");
+        },
+        /**
+         * If set to `true`, this element will also trigger `"over"` event with all
+         * the related consequences, like "hover" state being applied and tooltip
+         * being shown.
+         *
+         * Useful as an accessibility feature to display rollover tooltips on items
+         * selected via keyboard.
+         *
+         * @param {boolean}  value  Trigger hover on focus?
+         * @default false
+         */
+        set: function (value) {
+            if (value !== this.hoverOnFocus) {
+                this.setPropertyValue("hoverOnFocus", value);
+            }
         },
         enumerable: true,
         configurable: true

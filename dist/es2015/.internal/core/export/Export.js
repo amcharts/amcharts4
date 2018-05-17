@@ -272,13 +272,20 @@ var Export = /** @class */ (function (_super) {
             });
             // Add click events
             this._menu.events.on("hit", function (ev) {
-                _this.export(ev.target.type, ev.target.options);
+                _this.export(ev.branch.type, ev.branch.options);
                 _this.menu.close();
             });
             this._menu.events.on("enter", function (ev) {
-                _this.export(ev.target.type, ev.target.options);
+                _this.export(ev.branch.type, ev.branch.options);
                 _this.menu.close();
             });
+            /*this._menu.events.on("branchselected", (ev) => {
+                getInteraction().body.events.disable();
+            });
+    
+            this._menu.events.on("branchunselected", (ev) => {
+                getInteraction().body.events.enable();
+            });*/
             // Dispatch event
             this.dispatchImmediately("menucreated");
             // Prefix with Sprite's class name

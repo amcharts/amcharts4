@@ -864,6 +864,13 @@ export declare class Interaction extends BaseObjectEvents {
      */
     restoreGlobalStyle(style: Array<IStyleProperty> | IStyleProperty): void;
     /**
+     * Checks if element is a non-cahrt element.
+     *
+     * @param  {InteractionObject}  io  InteractionObject
+     * @return {boolean}                Global element?
+     */
+    protected isGlobalElement(io: InteractionObject): boolean;
+    /**
      * Checks if pointer has moved since it was created.
      *
      * @param  {IPointer}  pointer    Pointer

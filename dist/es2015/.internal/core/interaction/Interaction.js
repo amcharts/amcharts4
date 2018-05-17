@@ -317,7 +317,9 @@ var Interaction = /** @class */ (function (_super) {
         // Add unified events
         if (io.draggable || io.swipeable || io.trackable || io.resizable || io.rotatable) {
             // Prep the element
-            this.prepElement(io);
+            if (!this.isGlobalElement(io)) {
+                this.prepElement(io);
+            }
             // Add hover styles
             this.applyCursorOverStyle(io);
         }
@@ -1073,7 +1075,9 @@ var Interaction = /** @class */ (function (_super) {
             if (this.focusedObject) {
                 $dom.blur();
             }
-            ev.preventDefault();
+            if (!this.isGlobalElement(io)) {
+                ev.preventDefault();
+            }
         }
         io.isDown = true;
         // Report event
@@ -2161,6 +2165,15 @@ var Interaction = /** @class */ (function (_super) {
         for (var i = 0; i < styles.length; i++) {
             this.restoreStyle(interaction.body, styles[i].property);
         }
+    };
+    /**
+     * Checks if element is a non-cahrt element.
+     *
+     * @param  {InteractionObject}  io  InteractionObject
+     * @return {boolean}                Global element?
+     */
+    Interaction.prototype.isGlobalElement = function (io) {
+        return document.body === io.element;
     };
     /**
      * Checks if pointer has moved since it was created.

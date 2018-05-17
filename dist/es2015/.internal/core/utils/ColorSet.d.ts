@@ -160,8 +160,11 @@ export declare class ColorSet extends BaseObject {
      */
     reuse: boolean;
     /**
-     * Saturation of colors. THis will change saturation of all colors of color set.
-     * It is recommended to set this in theme, as changing it at run time won't make the items to redraw and change color.
+     * Saturation of colors. This will change saturation of all colors of color
+     * set
+     *
+     * It is recommended to set this in theme, as changing it at run time won't
+     * make the items to redraw and change color.
      *
      * @type {boolean}
      */

@@ -312,7 +312,8 @@ var ExportMenu = /** @class */ (function (_super) {
                     _this.events.dispatchImmediately("hit", {
                         "type": "hit",
                         "event": ev.event,
-                        "target": branch
+                        "target": _this,
+                        "branch": branch
                     });
                 }
             });
@@ -323,7 +324,8 @@ var ExportMenu = /** @class */ (function (_super) {
                         _this.events.dispatchImmediately("enter", {
                             "type": "enter",
                             "event": ev.event,
-                            "target": branch
+                            "target": _this,
+                            "branch": branch
                         });
                     }
                 }
@@ -822,6 +824,10 @@ var ExportMenu = /** @class */ (function (_super) {
                 $dom.removeClass(items[i], "active");
             }
         }
+        this.events.dispatchImmediately("closed", {
+            type: "closed",
+            target: this
+        });
     };
     /**
      * Selects a branch in the menu.
@@ -858,6 +864,12 @@ var ExportMenu = /** @class */ (function (_super) {
         });
         // Log current selection
         this._currentSelection = branch;
+        // Invoke event
+        this.events.dispatchImmediately("branchselected", {
+            type: "branchselected",
+            target: this,
+            branch: branch
+        });
     };
     /**
      * Unselects a branch. Also selects a branch one level up if necessary.
@@ -873,6 +885,12 @@ var ExportMenu = /** @class */ (function (_super) {
         if (this._currentSelection == branch) {
             this._currentSelection = undefined;
         }
+        // Invoke event
+        this.events.dispatchImmediately("branchunselected", {
+            type: "branchunselected",
+            target: this,
+            branch: branch
+        });
     };
     /**
      * Delay unselection of a branch. This can still be cancelled in some other

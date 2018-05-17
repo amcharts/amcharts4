@@ -153,6 +153,33 @@ export function blur() {
     document.body.removeChild(input);
 }
 /**
+ * Tries to focus the element.
+ *
+ * @ignore Exlude from docs
+ * @param {HTMLElement | SVGSVGElement}  element  Element to focus
+ */
+export function focus(element) {
+    if (element instanceof HTMLElement) {
+        element.focus();
+    }
+    else {
+        var input = document.createElement("input");
+        var fo = document.createElementNS(SVGNS, "foreignObject");
+        fo.appendChild(input);
+        element.appendChild(fo);
+        input.focus();
+        input.disabled = true;
+        fo.remove();
+    }
+    /*if ((<any>element).focus != undefined) {
+        (<any>element).focus();
+    }
+    else if (element instanceof SVGSVGElement) {
+        // Not implemented
+        // @todo implement focus fallback
+    }*/
+}
+/**
  * Returns markup for the element including the element tag itself.
  * SVG elements do not support `outerHTML` so this functions applies of
  * a workaround which creates a new temporary wrapper, clones element and uses

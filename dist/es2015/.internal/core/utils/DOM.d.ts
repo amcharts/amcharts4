@@ -82,6 +82,13 @@ export declare function setStyle(element: HTMLElement | SVGSVGElement, property:
  */
 export declare function blur(): void;
 /**
+ * Tries to focus the element.
+ *
+ * @ignore Exlude from docs
+ * @param {HTMLElement | SVGSVGElement}  element  Element to focus
+ */
+export declare function focus(element: HTMLElement | SVGSVGElement): void;
+/**
  * Returns markup for the element including the element tag itself.
  * SVG elements do not support `outerHTML` so this functions applies of
  * a workaround which creates a new temporary wrapper, clones element and uses

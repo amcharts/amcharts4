@@ -100,18 +100,21 @@ export interface IExportMenuEvents {
      * Invoked when menu item is clicked/tapped.
      */
     hit: {
+        branch: IExportMenuItem;
         event: MouseEvent | TouchEvent;
     };
     /**
      * Invoked when menu item is hovered.
      */
     over: {
+        branch: IExportMenuItem;
         event: MouseEvent | TouchEvent;
     };
     /**
      * Invoked when menu item is no longer hovered.
      */
     out: {
+        branch: IExportMenuItem;
         event: MouseEvent | TouchEvent;
     };
     /**
@@ -120,8 +123,25 @@ export interface IExportMenuEvents {
      * @type {KeyboardEvent}
      */
     enter: {
+        branch: IExportMenuItem;
         event: KeyboardEvent;
     };
+    /**
+     * Invoked when menu branch is selected. (either by hover or keyboard)
+     */
+    branchselected: {
+        branch: IExportMenuItem;
+    };
+    /**
+     * Invoked when menu branch is unselected.
+     */
+    branchunselected: {
+        branch: IExportMenuItem;
+    };
+    /**
+     * Invoked when menu is closed.
+     */
+    closed: {};
 }
 /**
  * Represents a list of available adapters for Export
@@ -212,7 +232,7 @@ export declare class ExportMenu extends Validatable {
     /**
      * Holds [[EventDispatcher]].
      */
-    events: EventDispatcher<AMEvent<IExportMenuItem, IExportMenuEvents>>;
+    events: EventDispatcher<AMEvent<ExportMenu, IExportMenuEvents>>;
     /**
      * An [[Adapter]].
      *

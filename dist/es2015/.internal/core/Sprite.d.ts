@@ -140,6 +140,7 @@ export interface ISpriteProperties {
     maxHeight?: number;
     fillModifier?: ColorModifier;
     strokeModifier?: ColorModifier;
+    hoverOnFocus?: boolean;
 }
 /**
  * Defines animation options
@@ -1979,6 +1980,21 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @todo This is still experimental, don't use it
      */
     focusFilter: Filter;
+    /**
+     * @return {boolean} Trigger hover on focus?
+     */
+    /**
+     * If set to `true`, this element will also trigger `"over"` event with all
+     * the related consequences, like "hover" state being applied and tooltip
+     * being shown.
+     *
+     * Useful as an accessibility feature to display rollover tooltips on items
+     * selected via keyboard.
+     *
+     * @param {boolean}  value  Trigger hover on focus?
+     * @default false
+     */
+    hoverOnFocus: boolean;
     /**
      * Returns current TAB index for focusable item.
      *

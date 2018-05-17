@@ -1,7 +1,21 @@
 # amCharts 4 Changelog
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
-and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
+
+Please note, that this project DOES NOT adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
+## [4.0.0-beta.24] - 2018-05-16
+### Fixed
+- Mouse/touch-related functionality was preventing text selection on the whole document.
+
+### Added
+- Added examples in JSON format. (available in JS-oriented packages and GitHub only)
+- New events on `ExportMenu`: `"branchselected"`, `"branunselected"`, `"closed"`.
+- Added [`Sprite.hoverOnFocus`](https://www.amcharts.com/docs/v4/reference/sprite/#hoverOnFocus_property) boolean setting. If set to `true` element will also trigger hover events on it when it gains focus, e.g. display tooltip. (accessibility feature)
+
+## [4.0.0-beta.23] - 2018-05-13
+### Fixed
+- Various internal things were not properly disposed.
 
 ## [4.0.0-beta.22] - 2018-05-13
 ### Fixed
