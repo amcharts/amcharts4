@@ -26,7 +26,6 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { BaseObjectEvents } from "../Base";
 import { List } from "../utils/List";
-import { EventDispatcher } from "../utils/EventDispatcher";
 import { Animation } from "../utils/Animation";
 import { MultiDisposer } from "../utils/Disposer";
 import { InteractionObject } from "./InteractionObject";
@@ -69,13 +68,6 @@ var Interaction = /** @class */ (function (_super) {
         var _this = 
         // Call super
         _super.call(this) || this;
-        /**
-         * EventDispatcher for [[Interaction]].
-         *
-         * @ignore Exclude from docs
-         * @deprecated Use inetraction.body.events instead
-         */
-        _this.events = new EventDispatcher();
         /**
          * An indicator of global events were already initialized.
          *

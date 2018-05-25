@@ -966,7 +966,7 @@ var Component = /** @class */ (function (_super) {
                 }
                 this.dispatchImmediately("rangechangestarted");
                 if (this.rangeChangeAnimation) {
-                    this.rangeChangeAnimation.stop();
+                    this.rangeChangeAnimation.dispose();
                 }
                 this.rangeChangeAnimation = this.animate([{ property: "start", to: start }, { property: "end", to: end }], this.rangeChangeDuration, this.rangeChangeEasing);
                 if (this.rangeChangeAnimation && !this.rangeChangeAnimation.isDisposed()) {

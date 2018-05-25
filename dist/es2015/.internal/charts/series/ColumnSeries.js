@@ -577,9 +577,8 @@ var ColumnSeries = /** @class */ (function (_super) {
     };
     Object.defineProperty(ColumnSeries.prototype, "columns", {
         /**
-         * A list of column elements.
+         * A list of column elements in the series.
          *
-         * @ignore Exclude from docs
          * @return {ListTemplate<this["_column"]>} Columns
          */
         get: function () {

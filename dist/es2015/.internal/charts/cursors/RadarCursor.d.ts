@@ -6,7 +6,6 @@
  */
 import { RadarChart } from "../types/RadarChart";
 import { XYCursor, IXYCursorAdapters, IXYCursorEvents, IXYCursorProperties } from "./XYCursor";
-import { IInteractionEvents } from "../../core/interaction/Interaction";
 import { IPoint } from "../../core/defs/IPoint";
 import { ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Percent } from "../../core/utils/Percent";
@@ -127,12 +126,7 @@ export declare class RadarCursor extends XYCursor {
      * @param {number} value End angle
      */
     endAngle: number;
-    /**
-     * Updates cursor's positions when the tracked coordinates change.
-     *
-     * @param {ISpriteEvents["track"]} event Event
-     */
-    handleCursorMove(event: IInteractionEvents["track"]): IPoint;
+    protected triggerMoveReal(point: IPoint, triggeredByPointer?: boolean): void;
     /**
      * (Re)draws the horizontal (circular) cursor's line.
      *

@@ -94,13 +94,11 @@ export declare class AxisRendererX3D extends AxisRendererX {
      */
     updateBaseGridElement(): void;
     /**
-     * Returns currently set associated chart.
-     *
      * @ignore Exclude from docs
      * @return {XYChart3D} Chart
      */
     /**
-     * Sets a chart, associated with the Axis.
+     * Chart, associated with the Axis.
      *
      * @ignore Exclude from docs
      * @param {XYChart3D} value Chart

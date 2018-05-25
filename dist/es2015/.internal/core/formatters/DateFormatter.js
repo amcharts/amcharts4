@@ -405,16 +405,16 @@ var DateFormatter = /** @class */ (function (_super) {
                     value = $utils.padString(milliseconds, info.parts[i].length, "0");
                     break;
                 case "z":
-                    value = $utils.getTimeZone(date, false, false);
+                    value = $utils.getTimeZone(date, false, false, this.utc);
                     break;
                 case "zz":
-                    value = $utils.getTimeZone(date, true, false);
+                    value = $utils.getTimeZone(date, true, false, this.utc);
                     break;
                 case "zzz":
-                    value = $utils.getTimeZone(date, false, true);
+                    value = $utils.getTimeZone(date, false, true, this.utc);
                     break;
                 case "zzzz":
-                    value = $utils.getTimeZone(date, true, true);
+                    value = $utils.getTimeZone(date, true, true, this.utc);
                     break;
                 case "Z":
                 case "ZZ":

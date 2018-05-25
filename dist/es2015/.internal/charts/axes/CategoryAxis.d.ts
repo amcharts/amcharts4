@@ -40,19 +40,15 @@ export declare class CategoryAxisDataItem extends AxisDataItem {
      */
     constructor();
     /**
-     * Returns category.
-     *
      * @return {string} Category
      */
     /**
-     * Sets category.
+     * Category.
      *
-     * @param {string} value  Category
+     * @param {string}  value  Category
      */
     category: string;
     /**
-     * An alias to `category`.
-     *
      * @param {string} Category
      */
     /**
@@ -62,12 +58,10 @@ export declare class CategoryAxisDataItem extends AxisDataItem {
      */
     startCategory: string;
     /**
-     * Returns currently set end category.
-     *
      * @return {string} End category
      */
     /**
-     * Sets end category.
+     * End category.
      *
      * Used for items that span several categories, like [[CategoryAxisBreak]].
      *

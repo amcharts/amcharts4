@@ -391,6 +391,14 @@ export declare class List<T> {
      */
     iterator(): $iter.Iterator<T>;
     /**
+     * Returns an ES6 iterator for the list.
+     */
+    [Symbol.iterator](): Iterator<T>;
+    /**
+     * Calls `f` for each element in the list.
+     */
+    each(f: (value: T) => void): void;
+    /**
      * Returns a specific range of list items, which can be iterated.
      *
      * @ignore Exclude from docs

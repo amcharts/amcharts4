@@ -1,0 +1,1 @@
+{"version":3,"file":"ru_RU.js","sourceRoot":"","sources":["../../../src/lang/ru_RU.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,yBAAyB,CAAC","sourcesContent":["export { default } from \"../.internal/lang/ru_RU\";\n"]}

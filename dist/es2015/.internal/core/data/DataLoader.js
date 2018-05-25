@@ -50,7 +50,7 @@ var DataLoader = /** @class */ (function () {
             // Dispatch events
             sources[x].dispatchImmediately("started");
             sources[x].dispatchImmediately("loadstarted");
-            promises.push($net.load(sources[x].url, sources[x]));
+            promises.push($net.load(sources[x].url, sources[x], sources[x].requestOptions));
         }
         // Run all promises in parallel
         Promise.all(promises).then(function (res) {
@@ -78,7 +78,7 @@ var DataLoader = /** @class */ (function () {
                 source_1.dispatchImmediately("ended");
             }
         }).catch(function (res) {
-            res.dispatchImmediately("loadended");
+            res.target.dispatchImmediately("loadended");
             if (res.target.events.isEnabled("error")) {
                 res.target.events.dispatchImmediately("error", {
                     type: "error",

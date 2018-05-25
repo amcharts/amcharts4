@@ -208,7 +208,7 @@ var BaseObject = /** @class */ (function () {
         var newObject = new this.constructor();
         newObject.cloneId = cloneId;
         newObject.copyFrom(this);
-        // add to clones list		
+        // add to clones list
         // this.clones.push(newObject); // moved this to copyFrom
         return newObject;
     };
@@ -562,21 +562,35 @@ var BaseObject = /** @class */ (function () {
                     // ... something else - probably a simple property or object
                     // ------------------------------------------------------------------
                     // Maybe convert to `Percent` or `Color`?
-                    if ($type.isString(configValue)) {
-                        if (configValue.match(/^[0-9.\-]+\%$/)) {
-                            configValue = percent($type.toNumber(configValue));
-                        }
-                        else if (configValue.match(/^\#[0-9abcdef]{3,}$/i)) {
-                            configValue = color(configValue);
-                        }
-                    }
+                    configValue = _this.maybeColorOrPercent(configValue);
                     // Assign
                     target[configKey] = configValue;
                 }
             }
         }, this.configOrder);
     };
+    /**
+     * Tries to detect if value is color or percent and converts to proper object
+     * if necessary.
+     *
+     * Returns the same source value if no color/percent detected
+     *
+     * @param  {any}  value  Source value
+     * @return {any}         Converted value
+     */
+    BaseObject.prototype.maybeColorOrPercent = function (value) {
+        if ($type.isString(value)) {
+            if (value.match(/^[0-9.\-]+\%$/)) {
+                return percent($type.toNumber(value));
+            }
+            else if (value.match(/^\#[0-9abcdef]{3,}$/i)) {
+                return color(value);
+            }
+        }
+        return value;
+    };
     BaseObject.prototype.processAdapters = function (item, config) {
+        var _this = this;
         if ($type.isObject(config)) {
             $object.each(config, function (key, entry) {
                 if (!item.has(key, entry)) {
@@ -585,10 +599,13 @@ var BaseObject = /** @class */ (function () {
             });
         }
         else if ($type.isArray(config)) {
-            // @todo Implement
+            $array.each(config, function (entry, index) {
+                item.add(entry.type, entry.callback, entry.priority || 0, _this);
+            });
         }
     };
     BaseObject.prototype.processEvents = function (item, config) {
+        var _this = this;
         if ($type.isObject(config)) {
             $object.each(config, function (key, entry) {
                 if (!item.has(key, entry)) {
@@ -597,7 +614,9 @@ var BaseObject = /** @class */ (function () {
             });
         }
         else if ($type.isArray(config)) {
-            // @todo Implement
+            $array.each(config, function (entry, index) {
+                item.on(entry.type, entry.callback, _this);
+            });
         }
     };
     /**

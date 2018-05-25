@@ -19,7 +19,6 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { BaseObjectEvents } from "../Base";
 import { List } from "../utils/List";
-import { EventDispatcher } from "../utils/EventDispatcher";
 import { Adapter } from "../utils/Adapter";
 import { registry } from "../Registry";
 import * as $iter from "../utils/Iterator";
@@ -92,10 +91,6 @@ var Responsive = /** @class */ (function (_super) {
          * @type {Boolean}
          */
         _this._useDefault = true;
-        /**
-         * EventDispatcher for [[Responsive]].
-         */
-        _this.events = new EventDispatcher();
         /**
          * Adapter.
          *

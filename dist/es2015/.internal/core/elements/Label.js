@@ -495,22 +495,53 @@ var Label = /** @class */ (function (_super) {
             /**
              * HTML
              */
-            // Create a ForeignObject to use as HTML container
-            this.element = this.paper.foreignObject();
-            this.paper.append(this.group);
+            this.element.removeAttr("display");
             this.resetBBox();
-            // Set ForeignObject dimensions
+            // Clear the element
+            var group = this.element;
+            group.disposeChildren();
+            // Create a ForeignObject to use as HTML container
+            var fo = this.paper.foreignObject();
+            group.add(fo);
+            // Set group and foreignObject dimensions
             var width = maxWidth > 0 ? (maxWidth).toString() + "px" : "100%";
             var height = maxHeight > 0 ? (maxHeight).toString() + "px" : "100%";
-            this.element.attr({
-                "width": width,
-                "height": height
-            });
+            /*			fo.attr({
+                            width: width,
+                            height: height
+                        });*/
             // Create line element
             //let lineElement: HTMLElement = this.getHTMLLineElement(getTextFormatter().format(this.html, output));
             var lineElement = this.getHTMLLineElement(text);
-            this.element.node.appendChild(lineElement);
-            this.isOversized = true;
+            fo.node.appendChild(lineElement);
+            // Temporarily set to inline-block so we can measure real width and height
+            lineElement.style.display = "inline-block";
+            var tmpBBox = lineElement.getBoundingClientRect();
+            lineElement.style.display = "block";
+            this._bbox = {
+                x: 0,
+                y: 0,
+                width: tmpBBox.width,
+                height: tmpBBox.height
+            };
+            // Set exact dimensions of foreignObject so it is sized exactly as
+            // the content within
+            fo.attr({
+                width: tmpBBox.width,
+                height: tmpBBox.height
+            });
+            // Set measurements and update bbox
+            this._measuredWidth = $math.max(this._bbox.width, this.pixelWidth - this.pixelPaddingLeft - this.pixelPaddingRight);
+            this._measuredHeight = $math.max(this._bbox.height, this.pixelHeight - this.pixelPaddingTop - this.pixelPaddingBottom);
+            this._bbox.width = this._measuredWidth;
+            this._bbox.height = this._measuredHeight;
+            // Don't let labels bleed out of the alotted area
+            if (this.truncate) {
+                lineElement.style.overflow = "hidden";
+            }
+            if ((tmpBBox.width > maxWidth) || (tmpBBox.height > maxHeight)) {
+                this.isOversized = true;
+            }
         }
         // Set applicable styles
         this.setStyles();
@@ -650,14 +681,19 @@ var Label = /** @class */ (function (_super) {
         else {
             div.style.whiteSpace = "nowrap";
         }
-        // Don't let labels blled out of the alotted area
-        if (this.truncate) {
+        // Don't let labels bleed out of the alotted area
+        // Moved to `draw()` because setting "hidden" kills all measuring
+        /*if (this.truncate) {
             div.style.overflow = "hidden";
-        }
+        }*/
         // Set RTL-related styles
         if (this.rtl) {
             div.style.direction = "rtl";
             div.style.unicodeBidi = "bidi-override";
+        }
+        // Translate some of the SVG styles into CSS
+        if ($type.hasValue(this.fill)) {
+            div.style.color = this.fill.toString();
         }
         return div;
     };
@@ -700,21 +736,19 @@ var Label = /** @class */ (function (_super) {
     };
     Object.defineProperty(Label.prototype, "text", {
         /**
-         * Returns current SVG text.
-         *
          * @return {string} SVG text
          */
         get: function () {
             return this.getPropertyValue("text");
         },
         /**
-         * Sets SVG text.
+         * An SVG text.
          *
          * Please note that setting `html` will override this setting if browser
          * supports `foreignObject` in SGV, such as most modern browsers excluding
          * IEs.
          *
-         * @param {string} value SVG Text
+         * @param {string}  value  SVG Text
          */
         set: function (value) {
             //this.setPropertyValue("html", undefined);
@@ -725,8 +759,6 @@ var Label = /** @class */ (function (_super) {
     });
     Object.defineProperty(Label.prototype, "wrap", {
         /**
-         * Returns current auto-wrap setting.
-         *
          * @return {boolean} Auto-wrap enabled or not
          */
         get: function () {
@@ -735,7 +767,7 @@ var Label = /** @class */ (function (_super) {
         /**
          * Enables or disables autowrapping of text.
          *
-         * @param {boolean} value Auto-wrapping enabled
+         * @param {boolean}  value  Auto-wrapping enabled
          */
         set: function (value) {
             this.resetBBox();
@@ -746,8 +778,6 @@ var Label = /** @class */ (function (_super) {
     });
     Object.defineProperty(Label.prototype, "truncate", {
         /**
-         * Returns current truncation setting.
-         *
          * @return {boolean} Truncate text?
          */
         get: function () {
@@ -774,15 +804,13 @@ var Label = /** @class */ (function (_super) {
     });
     Object.defineProperty(Label.prototype, "ellipsis", {
         /**
-         * Returns current ellipsis setting.
-         *
          * @return {string} Ellipsis string
          */
         get: function () {
             return this.getPropertyValue("ellipsis");
         },
         /**
-         * Sets ellipsis character to use if `truncate` is enabled.
+         * Ellipsis character to use if `truncate` is enabled.
          *
          * @param {string} value Ellipsis string
          * @default "..."
@@ -795,8 +823,6 @@ var Label = /** @class */ (function (_super) {
     });
     Object.defineProperty(Label.prototype, "selectable", {
         /**
-         * Returns current setting for selectable text.
-         *
          * @return {boolean} Text selectable?
          */
         get: function () {
@@ -819,22 +845,20 @@ var Label = /** @class */ (function (_super) {
     });
     Object.defineProperty(Label.prototype, "textAlign", {
         /**
-         * Returns current horizontal text alignement.
-         *
          * @return {TextAlign} Alignement
          */
         get: function () {
             return this.getPropertyValue("textAlign");
         },
         /**
-         * Sets text alignement.
+         * Horizontal text alignement.
          *
          * Available choices:
          * * "start"
          * * "middle"
          * * "end"
          *
-         * @param {TextAlign} value Alignement
+         * @param {TextAlign}  value  Alignement
          */
         set: function (value) {
             this.setPropertyValue("textAlign", value, true);
@@ -844,8 +868,6 @@ var Label = /** @class */ (function (_super) {
     });
     Object.defineProperty(Label.prototype, "textValign", {
         /**
-         * Returns vertical text alignement.
-         *
          * @ignore Exclude from docs (not used)
          * @return {TextValign} Alignement
          * @deprecated
@@ -854,10 +876,10 @@ var Label = /** @class */ (function (_super) {
             return this.getPropertyValue("textValign");
         },
         /**
-         * Sets vertical text alignement.
+         * Vertical text alignement.
          *
          * @ignore Exclude from docs (not used)
-         * @param {TextValign} value Alignement
+         * @param {TextValign}  value  Alignement
          * @deprecated
          */
         set: function (value) {
@@ -868,15 +890,13 @@ var Label = /** @class */ (function (_super) {
     });
     Object.defineProperty(Label.prototype, "html", {
         /**
-         * Returns current HTML content of the label.
-         *
          * @return {string} HTML content
          */
         get: function () {
             return this.getPropertyValue("html");
         },
         /**
-         * Sets raw HTML to be used as text.
+         * Raw HTML to be used as text.
          *
          * NOTE: HTML text is subject to browser support. It relies on browsers
          * supporting SVG `foreignObject` nodes. Some browsers (read IEs) do not
@@ -896,18 +916,16 @@ var Label = /** @class */ (function (_super) {
     });
     Object.defineProperty(Label.prototype, "hideOversized", {
         /**
-         * Returns current setting for hiding oversized text.
-         *
          * @return {boolean} Hide if text does not fit?
          */
         get: function () {
             return this.getPropertyValue("hideOversized");
         },
         /**
-         * Sets whether the whole text should be hidden if it does not fit into its
-         * allotted space.
+         * Indicates whether the whole text should be hidden if it does not fit into
+         * its allotted space.
          *
-         * @param {boolean} value Hide if text does not fit?
+         * @param {boolean}  value  Hide if text does not fit?
          */
         set: function (value) {
             this.setPropertyValue("hideOversized", value, true);

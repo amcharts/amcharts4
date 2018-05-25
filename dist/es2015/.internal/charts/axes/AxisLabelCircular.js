@@ -49,15 +49,13 @@ var AxisLabelCircular = /** @class */ (function (_super) {
     }
     Object.defineProperty(AxisLabelCircular.prototype, "relativeRotation", {
         /**
-         * Returns current relative rotation.
-         *
          * @return {number} Rotation angle
          */
         get: function () {
             return this.getPropertyValue("relativeRotation");
         },
         /**
-         * Sets relative rotation of the label.
+         * Relative rotation of the label.
          *
          * It is an angle to circle. In case 90, labels will be positioned like rays
          * of light, if 0 - positione along the circle.
@@ -72,15 +70,13 @@ var AxisLabelCircular = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisLabelCircular.prototype, "radius", {
         /**
-         * Returns current setting for label distance.
-         *
          * @return {number} Distance (px)
          */
         get: function () {
             return this.getPropertyValue("radius");
         },
         /**
-         * Sets distance from axis circle to label in pixels.
+         * Distance from axis circle to label in pixels.
          *
          * @param {number} value Distance (px)
          */

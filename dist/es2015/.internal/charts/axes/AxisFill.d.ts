@@ -120,34 +120,28 @@ export declare class AxisFill extends Sprite {
      */
     draw(): void;
     /**
-     * Returns current starting position.
-     *
      * @return {number} Start position
      */
     /**
-     * Sets the actual starting position of the fill.
+     * An actual starting position of the fill.
      *
-     * @param {number} value Starting position
+     * @param {number}  value  Starting position
      */
     startPosition: number;
     /**
-     * Returns current end position.
-     *
      * @return {number} End position
      */
     /**
-     * Sets the actual end position of the fill.
+     * An actual end position of the fill.
      *
      * @param {number} value End position
      */
     endPosition: number;
     /**
-     * Returns current relative location.
-     *
      * @return {AxisItemLocation} Location (0-1)
      */
     /**
-     * Sets the relative location of the fill. (0-1)
+     * Relative location of the fill. (0-1)
      *
      * @param {number} value Location (0-1)
      */

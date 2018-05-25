@@ -163,6 +163,14 @@ export declare class OrderedList<T> {
      * @return {Iterator} Iterator
      */
     iterator(): $iter.Iterator<T>;
+    /**
+     * Returns an ES6 iterator for the list.
+     */
+    [Symbol.iterator](): Iterator<T>;
+    /**
+     * Calls `f` for each element in the list.
+     */
+    each(f: (value: T) => void): void;
 }
 /**
  * A list where all items are ordered according to specific ordering function,

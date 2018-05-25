@@ -413,15 +413,13 @@ var InteractionObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(InteractionObject.prototype, "wheelable", {
         /**
-         * Returns current setting for wheel tracking.
-         *
          * @return {boolean} Track wheel?
          */
         get: function () {
             return this._wheelable;
         },
         /**
-         * Sets whether track moouse wheel rotation over element.
+         * Indicates whether track moouse wheel rotation over element.
          *
          * @param {boolean} value Track wheel?
          */

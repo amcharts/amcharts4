@@ -44,7 +44,7 @@ var CandlestickSeriesDataItem = /** @class */ (function (_super) {
      * @type {CandlestickSeries}
      * @todo Disabled to work around TS bug (see if we can re-enable it again)
      */
-    //public _component: CandlestickSeries;
+    //public _component!: CandlestickSeries;
     /**
      * Constructor
      */

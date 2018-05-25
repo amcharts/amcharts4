@@ -337,12 +337,10 @@ export declare class InteractionObject extends BaseObjectEvents {
      */
     rotatable: boolean;
     /**
-     * Returns current setting for wheel tracking.
-     *
      * @return {boolean} Track wheel?
      */
     /**
-     * Sets whether track moouse wheel rotation over element.
+     * Indicates whether track moouse wheel rotation over element.
      *
      * @param {boolean} value Track wheel?
      */

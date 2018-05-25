@@ -530,9 +530,15 @@ export declare class Series extends Component implements ILegendItem<Series, ISe
      */
     minBulletDistance: number;
     /**
-     * List of bullets that can be used for the series' purposes.
+     * A list of bullets that will be added to each and every items in the
+     * series.
      *
-     * @return {ListTemplate<Bullet>} [description]
+     * You can push any object that is a descendant of a [[Bullet]] here. All
+     * items added to this list will be copied and used as a bullet on all data
+     * items, including their properties, events, etc.
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/bullets/} for more info about the concept of Bullets
+     * @return {ListTemplate<Bullet>} List of bullets.
      */
     readonly bullets: ListTemplate<Bullet>;
     /**

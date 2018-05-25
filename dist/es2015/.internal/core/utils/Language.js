@@ -42,7 +42,6 @@ var __spread = (this && this.__spread) || function () {
  */
 import { BaseObjectEvents } from "../Base";
 import { Adapter } from "./Adapter";
-import { EventDispatcher } from "./EventDispatcher";
 import * as $array from "./Array";
 import * as $type from "./Type";
 import en from "../../lang/en";
@@ -66,12 +65,6 @@ var Language = /** @class */ (function (_super) {
      */
     function Language() {
         var _this = _super.call(this) || this;
-        /**
-         * Event dispatcher.
-         *
-         * @type {EventDispatcher<AMEvent<Language, ILanguageEvents>>}
-         */
-        _this.events = new EventDispatcher();
         /**
          * Adapter.
          *

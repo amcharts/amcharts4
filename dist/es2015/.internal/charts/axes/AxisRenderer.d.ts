@@ -383,27 +383,23 @@ export declare class AxisRenderer extends Container {
      */
     updateBreakElement(axisBreak: AxisBreak): void;
     /**
-     * Returns currently set minimum distance.
-     *
      * @return {number} Min distance (px)
      */
     /**
-     * Sets mMinimum distance in pixels between grid elements.
+     * Minimum distance in pixels between grid elements.
      *
-     * @param {number} value Min distance (px)
+     * @param {number}  value  Min distance (px)
      */
     minGridDistance: number;
     /**
-     * Returns currently set associated chart.
-     *
      * @ignore Exclude from docs
      * @return {Chart} Chart
      */
     /**
-     * Sets a chart, associated with the Axis.
+     * A chart, associated with the Axis.
      *
      * @ignore Exclude from docs
-     * @param {Chart} value Chart
+     * @param {Chart}  value  Chart
      */
     chart: Chart;
     /**
@@ -475,35 +471,34 @@ export declare class AxisRenderer extends Container {
      */
     createLabel(): this["_labelType"];
     /**
-     * Returns current setting for `inside`.
-     *
      * @return {boolean} Labels inside?
      */
     /**
-     * Sets if Axis labels and ticks should be drawn inside Plot area, does not work with all renderers, like AxisRendererRadial.
+     * Indicates whether Axis' labels and ticks should be drawn inside Plot area.
      *
-     * @param {boolean} value Labels inside?
+     * Does not work with all renderers, like AxisRendererRadial.
+     *
+     * @param {boolean}  value  Labels inside?
      */
     inside: boolean;
     /**
-     * Returns current setting for `opposite`.
-     *
      * @return {boolean} Draw axis on opposite side?
      */
     /**
-     * Sets whether axis should be drawn on the opposite side of the plot area,
-     * than it would normally be drawn base on chart's settings. Does not work with all renderers, like AxisRendererRadial and AxisRenderer Circular.
+     * Indicates whether Axis should be drawn on the opposite side of the plot
+     * area than it would normally be drawn based on chart's settings.
      *
-     * @param {boolean} value Draw axis on opposite side?
+     * Does not work with all renderers, like [[AxisRendererRadial]] and
+     * [[AxisRenderer Circular].
+     *
+     * @param {boolean}  value  Draw axis on opposite side?
      */
     opposite: boolean;
     /**
-     * Returns current setting for full-width tooltips.
-     *
      * @return {boolean} Full width tooltip?
      */
     /**
-     * Sets if Axis tooltip should take the whole width of the axis cell.
+     * Indicates if Axis tooltip should take the whole width of the axis cell.
      * (between two grid lines)
      *
      * NOTE: this setting is ignored on circular axis types.
@@ -512,12 +507,10 @@ export declare class AxisRenderer extends Container {
      */
     fullWidthTooltip: boolean;
     /**
-     * Returns current axis tooltip location.
-     *
      * @return {number} Tooltip location
      */
     /**
-     * Sets location within axis cell to show tooltip on. (0-1)
+     * Location within axis cell to show tooltip on. (0-1)
      *
      * 0 - show at the start
      * 0.5 - show right in the middle
@@ -527,12 +520,10 @@ export declare class AxisRenderer extends Container {
      */
     tooltipLocation: number;
     /**
-     * Returns currently set cell start location.
-     *
      * @return {number} Cell start (0-1)
      */
     /**
-     * Sets location for the cell start.
+     * Location for the cell start.
      *
      * Normally a "cell" is the whole available width in a category.
      *
@@ -550,17 +541,15 @@ export declare class AxisRenderer extends Container {
      *
      * This is used to limit a space occupied by series like column.
      *
-     * @todo Description (review)
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
      * @param {number} value Cell start (0-1)
      */
     cellStartLocation: number;
     /**
-     * Returns currently set cell end location.
-     *
      * @return {number} Cell end (0-1)
      */
     /**
-     * Sets location for the cell end.
+     * Location for the cell end.
      *
      * Normally a "cell" is the whole available width in a category.
      *
@@ -578,28 +567,24 @@ export declare class AxisRenderer extends Container {
      *
      * This is used to limit a space occupied by series like column.
      *
-     * @todo Description (review)
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
      * @param {number} value Cell end (0-1)
      */
     cellEndLocation: number;
     /**
-     * Returns currently set `inversed` setting.
-     *
      * @return {boolean} Flip axis?
      */
     /**
-     * Sets if the scale of the axis should be flipped.
+     * Indicates if the scale of the axis should be flipped.
      *
      * @param {boolean} value Flip axis?
      */
     inversed: boolean;
     /**
-     * Returns currently set min label position.
-     *
      * @return {number} Min label position (0-1)
      */
     /**
-     * Sets a minimum position along the Axis, for labels.
+     * Minimum position along the Axis, for labels.
      *
      * Labels, which have their position closer to the start of the Axis, will be
      * automatically hidden.
@@ -610,16 +595,15 @@ export declare class AxisRenderer extends Container {
      * This is especially usefull with `inside = true`, or if the chart hasn't
      * got any extra margins.
      *
-     * @param {number} value Min label position (0-1)
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
+     * @param {number}  value  Min label position (0-1)
      */
     minLabelPosition: number;
     /**
-     * Returns currently set max label position.
-     *
      * @return {number} Max label position (0-1)
      */
     /**
-     * Sets a maximum position along the Axis, for labels.
+     * Maximum position along the Axis, for labels.
      *
      * Labels, which have their position closer to the and of the Axis, will be
      * automatically hidden.
@@ -630,7 +614,8 @@ export declare class AxisRenderer extends Container {
      * This is especially usefull with `inside = true`, or if the chart hasn't
      * got any extra margins.
      *
-     * @param {number} value Max label position (0-1)
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
+     * @param {number}  value  Max label position (0-1)
      */
     maxLabelPosition: number;
     /**

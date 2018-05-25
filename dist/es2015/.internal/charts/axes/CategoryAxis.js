@@ -52,17 +52,15 @@ var CategoryAxisDataItem = /** @class */ (function (_super) {
     }
     Object.defineProperty(CategoryAxisDataItem.prototype, "category", {
         /**
-         * Returns category.
-         *
          * @return {string} Category
          */
         get: function () {
             return this.properties["category"];
         },
         /**
-         * Sets category.
+         * Category.
          *
-         * @param {string} value  Category
+         * @param {string}  value  Category
          */
         set: function (value) {
             this.setProperty("category", value);
@@ -72,8 +70,6 @@ var CategoryAxisDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(CategoryAxisDataItem.prototype, "startCategory", {
         /**
-         * An alias to `category`.
-         *
          * @param {string} Category
          */
         get: function () {
@@ -92,15 +88,13 @@ var CategoryAxisDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(CategoryAxisDataItem.prototype, "endCategory", {
         /**
-         * Returns currently set end category.
-         *
          * @return {string} End category
          */
         get: function () {
             return this.properties["endCategory"];
         },
         /**
-         * Sets end category.
+         * End category.
          *
          * Used for items that span several categories, like [[CategoryAxisBreak]].
          *

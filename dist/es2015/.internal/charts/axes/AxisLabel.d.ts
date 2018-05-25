@@ -90,12 +90,10 @@ export declare class AxisLabel extends Label {
      */
     constructor();
     /**
-     * Returns current location of the label.
-     *
      * @return {AxisItemLocation} Location (0-1)
      */
     /**
-     * Sets relative location of the label. (0-1)
+     * Relative location of the label. (0-1)
      *
      * @param {AxisItemLocation}  value  Location (0-1)
      */

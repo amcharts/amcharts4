@@ -274,8 +274,10 @@ var Tooltip = /** @class */ (function (_super) {
          * @param {string}  value  HTML content
          */
         set: function (value) {
-            this.label.html = value;
-            this.invalidate();
+            if (this.label.html != value) {
+                this.label.html = value;
+                this.invalidate();
+            }
         },
         enumerable: true,
         configurable: true

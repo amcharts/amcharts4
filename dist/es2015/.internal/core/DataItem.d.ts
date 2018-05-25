@@ -24,6 +24,7 @@ import { Component, CalculatedValue } from "./Component";
 import { IAnimatable, Animation, IAnimationOptions, IAnimationEvents } from "./utils/Animation";
 import { Sprite } from "./Sprite";
 import { IDisposer } from "./utils/Disposer";
+import * as $type from "./utils/Type";
 /**
  * ============================================================================
  * REQUISITES
@@ -129,9 +130,9 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * When we are using a nested data structure, like for example in a TreeMap,
      * this property points to a parent Data Item of this one.
      *
-     * @type {this}
+     * @type {Optional<this>}
      */
-    parent: this;
+    parent: $type.Optional<this>;
     /**
      * Event dispacther..
      *
@@ -155,9 +156,9 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * A reference to a [[Component]] this Data Item belongs to.
      *
      * @ignore Exclude from docs
-     * @type {Component}
+     * @type {Optional<Component>}
      */
-    component: this["_component"];
+    component: $type.Optional<this["_component"]>;
     /**
      * A reference to the original Data Item in raw data.
      *
@@ -253,9 +254,9 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * List of animations currently animating Data Item's values.
      *
      * @ignore Exclude from docs
-     * @type {Array<Animation>}
+     * @type {Optional<Array<Animation>>}
      */
-    protected _animations: Array<Animation>;
+    protected _animations: $type.Optional<Array<Animation>>;
     /**
      * Is Data Item currently visible?
      *
@@ -291,9 +292,9 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * Holds a Disposer reference to hiding [[Animation]] currently playing.
      *
      * @ignore Exclude from docs
-     * @type {IDisposer}
+     * @type {Optional<IDisposer>}
      */
-    protected _hideDisposer: IDisposer;
+    protected _hideDisposer: $type.Optional<IDisposer>;
     /**
      *
      * @ignore Exclude from docs
@@ -362,7 +363,7 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * @param {number}    delay     Delay animation (ms)
      * @param {string[]}  fields    A list of fields to set values of
      */
-    show(duration?: number, delay?: number, fields?: string[]): Animation;
+    show(duration?: number, delay?: number, fields?: string[]): $type.Optional<Animation>;
     /**
      * Destroys this object and all related data.
      */
@@ -375,18 +376,18 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * @param {number}    toValue   A value to set to `fields` when hiding
      * @param {string[]}  fields    A list of data fields to set value to `toValue`
      */
-    hide(duration?: number, delay?: number, toValue?: number, fields?: string[]): Animation;
+    hide(duration?: number, delay?: number, toValue?: number, fields?: string[]): $type.Optional<Animation>;
     /**
      * Returns a duration (ms) the Data Item should take to animate from one
      * value to another.
      *
      * If the duration is not specified via parameter, this method will try to
-     * request a default duration from the ralated `Component`.
+     * request a default duration from the related `Component`.
      *
      * @param  {number}  duration  Default duration (ms)
      * @return {number}            Duration (ms)
      */
-    getDuration(duration?: number): number;
+    getDuration(duration?: number): $type.Optional<number>;
     /**
      * Returns a numeric value for specific data field.
      *
@@ -397,9 +398,9 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      *
      * @param  {string}           name        Data field name
      * @param  {CalculatedValue}  calculated  A calculated value name
-     * @return {number}                       Value
+     * @return {Optional<number>}             Value
      */
-    getValue(name: string, calculated?: CalculatedValue): number;
+    getValue(name: string, calculated?: CalculatedValue): $type.Optional<number>;
     /**
      * Returns a current working value for a specific data field.
      *
@@ -411,9 +412,9 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      *
      * @param  {string}           name        Data field name
      * @param  {CalculatedValue}  calculated  A calculated value name
-     * @return {number}                       Value
+     * @return {Optional<number>}             Value
      */
-    getWorkingValue(name: string): number;
+    getWorkingValue(name: string): $type.Optional<number>;
     /**
      * Sets a numeric value for specific data field.
      *
@@ -424,7 +425,7 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * @param {number}           delay       Delay animation (ms)
      */
     setValue(name: string, value: number, duration?: number, delay?: number): void;
-    setCalculatedValue(name: string, value: number, calculated?: CalculatedValue): void;
+    setCalculatedValue(name: string, value: number, calculated: CalculatedValue): void;
     /**
      * Set current working numeric value for a specific data field.
      *
@@ -433,9 +434,9 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * @param  {CalculatedValue}  calculated  Calculated data field name
      * @param  {number}           duration    Duration (ms) to animate to new value to
      * @param  {number}           delay       Delay animation (ms)
-     * @return {Animation}                    An [[Animation]] object used for transition to new values
+     * @return {Optional<Animation>}          An [[Animation]] object used for transition to new values
      */
-    setWorkingValue(name: string, value: number, duration?: number, delay?: number): Animation;
+    setWorkingValue(name: string, value: number, duration?: number, delay?: number): $type.Optional<Animation>;
     /**
      * Sets a relative location for a data field.
      *
@@ -458,7 +459,7 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * @param {number}  duration  Duration (ms) to animate to new value to
      * @param {number}  delay     Delay animation (ms)
      */
-    setWorkingLocation(name: string, value: number, duration?: number, delay?: number): Animation;
+    setWorkingLocation(name: string, value: number, duration?: number, delay?: number): $type.Optional<Animation>;
     /**
      * Sets Date value to a data field.
      *

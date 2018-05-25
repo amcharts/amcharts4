@@ -1,9 +1,11 @@
 import { Adapter } from "../utils/Adapter";
 import { BaseObject } from "../Base";
+import { Sprite } from "../Sprite";
 import { InteractionObject } from "../interaction/InteractionObject";
 import { Percent } from "../utils/Percent";
 import { Align } from "../defs/Align";
 import { VerticalAlign } from "../defs/VerticalAlign";
+import { IPoint } from "../defs/IPoint";
 /**
  * Represents a list of available adapters for Export.
  */
@@ -19,6 +21,11 @@ export interface IPopupAdapters {
      * @type {string}
      */
     content: string;
+    /**
+     * Applied to popup title before it is shown.
+     * @type {string}
+     */
+    title: string;
     /**
      * Applied to the screen reader title.
      * @type {string}
@@ -36,6 +43,12 @@ export interface IPopupAdapters {
      * @type {boolean}
      */
     showCurtain: boolean;
+    /**
+     * Applied to default `draggable` property before it is retrieved.
+     *
+     * @type {boolean}
+     */
+    draggable: boolean;
     /**
      * Applied to horizontal alignement of the popup.
      *
@@ -78,6 +91,7 @@ export interface IPopupAdapters {
      */
     classNames: {
         wrapperClass: string;
+        titleClass: string;
         contentClass: string;
         curtainClass: string;
         closeClass: string;
@@ -103,41 +117,41 @@ export declare class Popup extends BaseObject {
      */
     container: HTMLElement | Document;
     /**
-     * A top element in popup.
+     * A parent element this Popup belongs to.
      *
-     * @type {HTMLElement}
+     * @type {Sprite}
      */
-    protected _element: HTMLElement;
+    sprite: Sprite;
     /**
-     * A content wrapper element.
-     *
-     * @type {HTMLElement}
+     * Holds references to various HTML elements, Popup consists of.
      */
-    protected _contentWrapperElement: HTMLElement;
+    protected _elements: {
+        wrapper?: HTMLElement;
+        title?: HTMLElement;
+        content?: HTMLElement;
+        curtain?: HTMLElement;
+    };
     /**
-     * A content element.
-     *
-     * @type {HTMLElement}
+     * Holdes Interaction objects for various Popup's elements.
      */
-    protected _contentElement: HTMLElement;
-    /**
-     * Holds [[InteractionObject]] representation of popup curtain element.
-     *
-     * @type {InteractionObject}
-     */
-    protected _curtainIO: InteractionObject;
-    /**
-     * Holds [[InteractionObject]] representation of the close button element.
-     *
-     * @type {InteractionObject}
-     */
-    protected _closeIO: InteractionObject;
+    protected _IOs: {
+        wrapper?: InteractionObject;
+        content?: InteractionObject;
+        close?: InteractionObject;
+        curtain?: InteractionObject;
+    };
     /**
      * Contents of popup window.
      *
      * @type {string}
      */
     protected _content: string;
+    /**
+     * Title of the popup window.
+     *
+     * @type {string}
+     */
+    protected _title: string;
     /**
      * Prefix to apply to class names for popup elements.
      *
@@ -158,6 +172,12 @@ export declare class Popup extends BaseObject {
      */
     protected _showCurtain: boolean;
     /**
+     * Indicates whether popup can be dragged with a mouse.
+     *
+     * @type {boolean}
+     */
+    protected _draggable: boolean;
+    /**
      * Horizontal position of the content window.
      *
      * @type {Align}
@@ -169,6 +189,18 @@ export declare class Popup extends BaseObject {
      * @type {VerticalAlign}
      */
     protected _verticalAlign: VerticalAlign;
+    /**
+     * Shift in position of the element. (used for dragging)
+     *
+     * @type {number}
+     */
+    protected _shift: IPoint;
+    /**
+     * Temporary shift in position of the element. (used for dragging)
+     *
+     * @type {number}
+     */
+    protected _tempShift: IPoint;
     /**
      * "left" position of the popup content.
      *
@@ -208,6 +240,19 @@ export declare class Popup extends BaseObject {
      */
     private _closable;
     /**
+     * Was CSS already loaded?
+     *
+     * @type {boolean}
+     */
+    private _cssLoaded;
+    /**
+     * Used to log original value of `mouseEnabled` so that it can be restored
+     * after temporarily disabling it.
+     *
+     * @type {boolean}
+     */
+    private _spriteMouseEnabled;
+    /**
      * Constructor
      */
     constructor();
@@ -224,18 +269,12 @@ export declare class Popup extends BaseObject {
      */
     dispose(): void;
     /**
-     * Creates and returns an HTML holder element for popup (`<div>`).
-     *
-     * @ignore Exclude from docs
-     * @return {HTMLElement} Popup holder element
-     */
-    readonly element: HTMLElement;
-    /**
      * Positions content element in the center of popup based on its actual size.
      *
      * @ignore Exclude from docs
      */
     positionElement(): void;
+    protected setupDragging(): void;
     protected toStyle(value: number | Percent): string;
     /**
      * A prefix that is applied to class names of various popup elements.
@@ -252,10 +291,32 @@ export declare class Popup extends BaseObject {
     /**
      * Popup content.
      *
-     * Popup contemt can be any valid HTML, including CSS.
+     * Popup content can be any valid HTML, including CSS.
+     *
      * @param {string} value Popup content
      */
     content: string;
+    protected getClassNames(): {
+        wrapperClass: string;
+        titleClass: string;
+        contentClass: string;
+        curtainClass: string;
+        closeClass: string;
+    };
+    /**
+     * Creates content element.
+     */
+    protected createContentElement(): void;
+    /**
+     * @return {string} Popup content
+     */
+    /**
+     * Popup ttile.
+     *
+     * Popup title can be any valid HTML, including CSS.
+     * @param {string} value Popup content
+     */
+    title: string;
     /**
      * @return {boolean} Closable?
      */
@@ -293,6 +354,20 @@ export declare class Popup extends BaseObject {
      * @param {boolean} Show curtain?
      */
     showCurtain: boolean;
+    /**
+     * Creates curtain element.
+     */
+    protected createCurtainElement(): void;
+    /**
+     * @return {boolean} Show curtain?
+     */
+    /**
+     * Can the popup be dragged with a pointer?
+     *
+     * @default false
+     * @param {boolean} Show curtain?
+     */
+    draggable: boolean;
     /**
      * @return {boolean} Horizontal position
      */
@@ -387,6 +462,14 @@ export declare class Popup extends BaseObject {
      * If popup is closable, this method adds various events to popup elements.
      */
     protected _applyEvents(): void;
+    /**
+     * Disables interactivity on parent chart.
+     */
+    protected _disableMouse(): void;
+    /**
+     * Releases temporarily disabled mouse on parent chart.
+     */
+    protected _releaseMouse(): void;
     /**
      * Copies all properties and related data from different element.
      *

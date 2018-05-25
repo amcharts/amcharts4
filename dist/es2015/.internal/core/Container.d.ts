@@ -567,12 +567,10 @@ export declare class Container extends Sprite {
      */
     protected getTooltipY(): number;
     /**
-     * Returns current font size for text element.
-     *
      * @return {any} Font size
      */
     /**
-     * Sets font size to be used for the text. The size can either be numeric, in
+     * Font size to be used for the text. The size can either be numeric, in
      * pxels, or other measurements.
      *
      * Parts of the text may override this setting using in-line formatting.
@@ -581,12 +579,10 @@ export declare class Container extends Sprite {
      */
     fontSize: any;
     /**
-     * Returns currently set font weight.
-     *
      * @return {FontWeight} Font weight
      */
     /**
-     * Sets font weight to use for text.
+     * Font weight to use for text.
      *
      * Parts of the text may override this setting using in-line formatting.
      *
@@ -594,18 +590,19 @@ export declare class Container extends Sprite {
      */
     fontWeight: FontWeight;
     /**
-     * Returns current text decoration setting.
-     *
      * @return {TextDecoration} Decoration
      */
     /**
-     * Sets a text decoration to use for text.
+     * A text decoration to use for text.
      *
      * Parts of the text may override this setting using in-line formatting.
      *
-     * @param {TextDecoration} value Decoration
+     * @param {TextDecoration}  value  Decoration
      */
     textDecoration: TextDecoration;
+    /**
+     * Disposes (destroys) the element and all its children.
+     */
     dispose(): void;
     /**
      * Applies a [[SpriteState]] on this element.

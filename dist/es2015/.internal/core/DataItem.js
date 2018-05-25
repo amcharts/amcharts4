@@ -304,7 +304,7 @@ var DataItem = /** @class */ (function (_super) {
         }
         $array.each(this.sprites, function (sprite) {
             var animation = sprite.show(duration);
-            if (delay > 0 && animation && !animation.isDisposed()) {
+            if (delay != null && delay > 0 && animation != null && !animation.isDisposed()) {
                 animation.delay(delay);
             }
         });
@@ -333,7 +333,7 @@ var DataItem = /** @class */ (function (_super) {
         this.isHiding = true;
         $array.each(this.sprites, function (sprite) {
             var animation = sprite.hide(duration);
-            if (delay > 0 && animation && !animation.isDisposed()) {
+            if (delay != null && delay > 0 && animation != null && !animation.isDisposed()) {
                 animation.delay(delay);
             }
         });
@@ -361,7 +361,7 @@ var DataItem = /** @class */ (function (_super) {
      * value to another.
      *
      * If the duration is not specified via parameter, this method will try to
-     * request a default duration from the ralated `Component`.
+     * request a default duration from the related `Component`.
      *
      * @param  {number}  duration  Default duration (ms)
      * @return {number}            Duration (ms)
@@ -373,7 +373,9 @@ var DataItem = /** @class */ (function (_super) {
                 duration = component.interpolationDuration;
             }
         }
-        return this.adapter.apply("duration", duration);
+        if (duration != null) {
+            return this.adapter.apply("duration", duration);
+        }
     };
     /**
      * Returns a numeric value for specific data field.
@@ -385,7 +387,7 @@ var DataItem = /** @class */ (function (_super) {
      *
      * @param  {string}           name        Data field name
      * @param  {CalculatedValue}  calculated  A calculated value name
-     * @return {number}                       Value
+     * @return {Optional<number>}             Value
      */
     DataItem.prototype.getValue = function (name, calculated) {
         if (name && this.component) {
@@ -418,7 +420,7 @@ var DataItem = /** @class */ (function (_super) {
      *
      * @param  {string}           name        Data field name
      * @param  {CalculatedValue}  calculated  A calculated value name
-     * @return {number}                       Value
+     * @return {Optional<number>}             Value
      */
     DataItem.prototype.getWorkingValue = function (name) {
         if (name && this.component) {
@@ -443,7 +445,7 @@ var DataItem = /** @class */ (function (_super) {
      */
     DataItem.prototype.setValue = function (name, value, duration, delay) {
         var currentValue = this.values[name].value;
-        duration = this.getDuration(duration);
+        var newDuration = this.getDuration(duration);
         value = $type.toNumber(value);
         if (currentValue !== value) {
             this.values[name].value = value;
@@ -455,7 +457,7 @@ var DataItem = /** @class */ (function (_super) {
                 });
             }
         }
-        this.setWorkingValue(name, value, duration, delay);
+        this.setWorkingValue(name, value, newDuration, delay);
     };
     DataItem.prototype.setCalculatedValue = function (name, value, calculated) {
         var currentValue = this.values[name][calculated];
@@ -478,15 +480,18 @@ var DataItem = /** @class */ (function (_super) {
      * @param  {CalculatedValue}  calculated  Calculated data field name
      * @param  {number}           duration    Duration (ms) to animate to new value to
      * @param  {number}           delay       Delay animation (ms)
-     * @return {Animation}                    An [[Animation]] object used for transition to new values
+     * @return {Optional<Animation>}          An [[Animation]] object used for transition to new values
      */
     DataItem.prototype.setWorkingValue = function (name, value, duration, delay) {
         if ($type.isNumber(this.values[name].value)) {
-            duration = this.getDuration(duration);
+            var newDuration = this.getDuration(duration);
             var workingValue = this.values[name].workingValue;
-            if ((duration > 0) && $type.isNumber(workingValue) && this.component) { // sometimes NaN is passed, so only change this to != null if all cases of NaN are handled, otherwise animation won't stop
+            if (newDuration != null && newDuration > 0 && $type.isNumber(workingValue) && this.component) { // sometimes NaN is passed, so only change this to != null if all cases of NaN are handled, otherwise animation won't stop
                 if (workingValue != value) {
-                    var animation = this.animate({ childObject: this.values[name], property: "workingValue", from: workingValue, to: value, dummyData: name }, duration, this.component.interpolationEasing).delay(delay);
+                    var animation = this.animate({ childObject: this.values[name], property: "workingValue", from: workingValue, to: value, dummyData: name }, newDuration, this.component.interpolationEasing);
+                    if (delay != null) {
+                        animation.delay(delay);
+                    }
                     animation.events.on("animationstarted", this.handleInterpolationProgress, this);
                     animation.events.on("animationprogress", this.handleInterpolationProgress, this);
                     animation.events.on("animationended", this.handleInterpolationProgress, this);
@@ -553,12 +558,14 @@ var DataItem = /** @class */ (function (_super) {
      * @param {number}  delay     Delay animation (ms)
      */
     DataItem.prototype.setWorkingLocation = function (name, value, duration, delay) {
-        duration = this.getDuration(duration);
+        var newDuration = this.getDuration(duration);
         var workingLocation = this.workingLocations[name];
-        if ((duration > 0) && $type.isNumber(workingLocation) && this.component) { // sometimes NaN is passed, so only change this to != null if all cases of NaN are handled, otherwise animation won't stop
+        if (newDuration != null && newDuration > 0 && $type.isNumber(workingLocation) && this.component) { // sometimes NaN is passed, so only change this to != null if all cases of NaN are handled, otherwise animation won't stop
             if (workingLocation != value) {
-                var animation = this.animate({ childObject: this.workingLocations, property: name, from: workingLocation, to: value, dummyData: name }, duration, this.component.interpolationEasing);
-                animation.delay(delay);
+                var animation = this.animate({ childObject: this.workingLocations, property: name, from: workingLocation, to: value, dummyData: name }, newDuration, this.component.interpolationEasing);
+                if (delay != null) {
+                    animation.delay(delay);
+                }
                 animation.events.on("animationstarted", this.handleInterpolationProgress, this);
                 animation.events.on("animationprogress", this.handleInterpolationProgress, this);
                 animation.events.on("animationended", this.handleInterpolationProgress, this);
@@ -596,7 +603,7 @@ var DataItem = /** @class */ (function (_super) {
      * @param {number}  duration  Duration (ms) to animate to new value to
      */
     DataItem.prototype.setDate = function (name, date, duration) {
-        if (!$type.isDate(date)) {
+        if (!$type.isDate(date) && this.component) {
             date = this.component.dateFormatter.parse(date);
         }
         var currentDate = this.dates[name];
@@ -784,7 +791,7 @@ var DataItem = /** @class */ (function (_super) {
             if (!this.parent) {
                 return 0;
             }
-            else if (this.parent) {
+            else {
                 return this.parent.depth + 1;
             }
         },

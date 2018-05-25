@@ -67,7 +67,6 @@ var Cursor = /** @class */ (function (_super) {
         _this.trackable = true;
         _this.clickable = true;
         _this.isMeasured = false;
-        _this.mouseEnabled = false;
         // Add events on body to trigger down and up events (to start zooming or
         // selection)
         var interaction = getInteraction();
@@ -85,21 +84,123 @@ var Cursor = /** @class */ (function (_super) {
      * @param {IInteractionEvents["track"]} event Event
      */
     Cursor.prototype.handleCursorMove = function (event) {
-        var local = $utils.documentPointToSprite(event.pointer.point, this);
-        // hide cursor if it's out of bounds
-        if (this.fitsToBounds(local)) {
-            this.show(0);
+        if (!this.mouseEnabled) {
+            return;
         }
-        else {
-            // unless we are selecting (mouse is down)
-            if (!this.downPoint) {
-                this.hide(0);
+        var local = $utils.documentPointToSprite(event.pointer.point, this);
+        this.triggerMove(local, true);
+        return local;
+    };
+    /**
+     * Places the cursor at specific point.
+     *
+     * If `triggeredByPointer == false` the cursor will stay there, regardless
+     * movement of the actual pointer(s). This is useful when you want to
+     * manually place cursor.
+     *
+     * @param {IPoint}   point               Point to place cursor at
+     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
+     */
+    Cursor.prototype.triggerMove = function (point, triggeredByPointer) {
+        this.triggerMoveReal(point, triggeredByPointer);
+    };
+    /**
+     * Places the cursor at specific point.
+     *
+     * @param {IPoint}   point               Point to place cursor at
+     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
+     */
+    Cursor.prototype.triggerMoveReal = function (point, triggeredByPointer) {
+        if (this.point.x != point.x || this.point.y != point.y) {
+            // hide cursor if it's out of bounds
+            if (this.fitsToBounds(point)) {
+                this.show(0);
+            }
+            else {
+                // unless we are selecting (mouse is down)
+                if (!this.downPoint) {
+                    this.hide(0);
+                }
+            }
+            this.point = point;
+            if (this.visible) {
+                this.getPositions();
+                this.dispatch("cursorpositionchanged");
             }
         }
-        this.point = local;
-        this.getPositions();
-        this.dispatch("cursorpositionchanged");
-        return local;
+    };
+    /**
+     * Simulates pressing down (click/touch) action by a cursor.
+     *
+     * @param {IPoint}   point               Point of action
+     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
+     */
+    Cursor.prototype.triggerDown = function (point, triggeredByPointer) {
+        this.triggerDownReal(point, triggeredByPointer);
+    };
+    /**
+     * Simulates pressing down (click/touch) action by a cursor.
+     *
+     * @param {IPoint}   point               Point of action
+     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
+     */
+    Cursor.prototype.triggerDownReal = function (point, triggeredByPointer) {
+        switch (this._generalBehavior) {
+            case "zoom":
+                this.dispatchImmediately("zoomstarted");
+                break;
+            case "select":
+                this.dispatchImmediately("selectstarted");
+                break;
+            case "pan":
+                this.dispatchImmediately("panstarted");
+                getInteraction().setGlobalStyle(MouseCursorStyle.grabbing);
+                break;
+        }
+    };
+    /**
+     * Simulates the action of release of the mouse down / touch.
+     *
+     * @param {IPoint}   point               Point of action
+     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
+     */
+    Cursor.prototype.triggerUp = function (point, triggeredByPointer) {
+        this.triggerUpReal(point, triggeredByPointer);
+    };
+    /**
+     * Simulates the action of release of the mouse down / touch.
+     *
+     * @param {IPoint}   point               Point of action
+     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
+     */
+    Cursor.prototype.triggerUpReal = function (point, triggeredByPointer) {
+        this.updatePoint(this.upPoint);
+        if ($math.getDistance(this.upPoint, this.downPoint) > 5) {
+            switch (this._generalBehavior) {
+                case "zoom":
+                    this.dispatchImmediately("zoomended");
+                    break;
+                case "select":
+                    this.dispatchImmediately("selectended");
+                    break;
+                case "pan":
+                    this.dispatchImmediately("panended");
+                    getInteraction().setGlobalStyle(MouseCursorStyle.default);
+                    break;
+            }
+        }
+        else {
+            this.dispatchImmediately("behaviorcanceled");
+        }
+        this.downPoint = undefined;
+        this.updateSelection();
+    };
+    /**
+     * Updates selection dimensions on size change.
+     *
+     * @ignore Exclude from docs
+     */
+    Cursor.prototype.updateSelection = function () {
     };
     /**
      * Updates cursors current positions.
@@ -116,18 +217,18 @@ var Cursor = /** @class */ (function (_super) {
      * @param {IInteractionEvents["down"]} event Original event
      */
     Cursor.prototype.handleCursorDown = function (event) {
-        switch (this._generalBehavior) {
-            case "zoom":
-                this.dispatchImmediately("zoomstarted");
-                break;
-            case "select":
-                this.dispatchImmediately("selectstarted");
-                break;
-            case "pan":
-                this.dispatchImmediately("panstarted");
-                getInteraction().setGlobalStyle(MouseCursorStyle.grabbing);
-                break;
+        if (!this.mouseEnabled) {
+            this.downPoint = undefined;
+            return;
         }
+        var local = $utils.documentPointToSprite(event.pointer.point, this);
+        this.triggerDown(local, true);
+    };
+    /**
+     * Updates the coordinates of where pointer down event occurred
+     * (was pressed).
+     */
+    Cursor.prototype.updatePoint = function (point) {
     };
     /**
      * Handles pointer up event - finishes zoom or selection action.
@@ -136,22 +237,12 @@ var Cursor = /** @class */ (function (_super) {
      * @param {IInteractionEvents["up"]} event Original event
      */
     Cursor.prototype.handleCursorUp = function (event) {
-        this.upPoint = $utils.documentPointToSprite(event.pointer.point, this);
-        if ($math.getDistance(this.upPoint, this.downPoint) > 5) {
-            switch (this._generalBehavior) {
-                case "zoom":
-                    this.dispatchImmediately("zoomended");
-                    break;
-                case "select":
-                    this.dispatchImmediately("selectended");
-                    break;
-                case "pan":
-                    this.dispatchImmediately("panended");
-                    getInteraction().setGlobalStyle(MouseCursorStyle.default);
-                    break;
-            }
+        if (!this.mouseEnabled) {
+            this.downPoint = undefined;
+            return;
         }
-        this.downPoint = undefined;
+        var local = $utils.documentPointToSprite(event.pointer.point, this);
+        this.triggerUp(local, true);
     };
     Object.defineProperty(Cursor.prototype, "chart", {
         /**

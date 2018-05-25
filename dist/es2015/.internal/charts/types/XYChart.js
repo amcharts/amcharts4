@@ -901,15 +901,19 @@ var XYChart = /** @class */ (function (_super) {
         var behavior = cursor.behavior;
         if (behavior == "zoomX" || behavior == "zoomXY") {
             var xRange = cursor.xRange;
-            xRange = this.getUpdatedRange(this.xAxes.getIndex(0), xRange);
-            xRange.priority = "start";
-            this.zoomAxes(this.xAxes, xRange);
+            if (xRange) {
+                xRange = this.getUpdatedRange(this.xAxes.getIndex(0), xRange);
+                xRange.priority = "start";
+                this.zoomAxes(this.xAxes, xRange);
+            }
         }
         if (behavior == "zoomY" || behavior == "zoomXY") {
             var yRange = cursor.yRange;
-            yRange = this.getUpdatedRange(this.yAxes.getIndex(0), yRange);
-            yRange.priority = "start";
-            this.zoomAxes(this.yAxes, yRange);
+            if (yRange) {
+                yRange = this.getUpdatedRange(this.yAxes.getIndex(0), yRange);
+                yRange.priority = "start";
+                this.zoomAxes(this.yAxes, yRange);
+            }
         }
         this.handleHideCursor();
     };

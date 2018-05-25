@@ -5,6 +5,7 @@ import { Adapter } from "../utils/Adapter";
 import { EventDispatcher, AMEvent } from "../utils/EventDispatcher";
 import { Language } from "../utils/Language";
 import { DateFormatter } from "../formatters/DateFormatter";
+import { INetRequestOptions } from "../utils/Net";
 /**
  * ============================================================================
  * REQUISITES
@@ -119,6 +120,12 @@ export interface IDataSourceAdapters {
      * @type {string[]}
      */
     numberFields: string[];
+    /**
+     * Applied to the custom request options object.
+     *
+     * @type {INetRequestOptions}
+     */
+    requestOptions: INetRequestOptions;
 }
 /**
  * ============================================================================
@@ -197,6 +204,12 @@ export declare class DataSource extends BaseObjectEvents {
      */
     protected _url: string;
     /**
+     * Custom options for HTTP(S) request.
+     *
+     * @type {INetRequestOptions}
+     */
+    protected _requestOptions: INetRequestOptions;
+    /**
      * Reload full data source every X ms.
      *
      * @type {number}
@@ -262,6 +275,47 @@ export declare class DataSource extends BaseObjectEvents {
      * @param {string}  value  URL
      */
     url: string;
+    /**
+     * @return {INetRequestOptions} Options
+     */
+    /**
+     * Custom options for HTTP(S) request.
+     *
+     * At this moment the only option supported is: `requestHeaders`, which holds
+     * an array of objects for custom request headers, e.g.:
+     *
+     * ```TypeScript
+     * chart.dataSource.requestOptions.requestHeaders = [{
+     *   "key": "x-access-token",
+     *   "value": "123456789"
+     * }];
+     * ``````JavaScript
+     * chart.dataSource.requestOptions.requestHeaders = [{
+     *   "key": "x-access-token",
+     *   "value": "123456789"
+     * }];
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "dataSource": {
+     *     // ...
+     *     "requestOptions": {
+     *       "requestHeaders": [{
+     *         "key": "x-access-token",
+     *         "value": "123456789"
+     *       }]
+     *     }
+     *   }
+     * }
+     * ```
+     *
+     * NOTE: setting this options on an-already loaded DataSource will not
+     * trigger a reload.
+     *
+     * @param {INetRequestOptions}  value  Options
+     */
+    requestOptions: INetRequestOptions;
     /**
      * @return {DataParser} Data parser
      */

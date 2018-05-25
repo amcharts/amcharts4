@@ -10,6 +10,7 @@
 import { Filter, FilterProperties } from "./Filter";
 import { AMElement } from "../AMElement";
 import { Color } from "../../utils/Color";
+import * as $type from "../../utils/Type";
 /**
  * ============================================================================
  * REQUISITES
@@ -84,7 +85,7 @@ export declare class ColorizeFilter extends Filter {
      *
      * @param {Color}  value  Color
      */
-    color: Color;
+    color: $type.Optional<Color>;
     /**
      * @return {number} Intensity (0-1)
      */

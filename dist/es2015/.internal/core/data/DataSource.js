@@ -19,7 +19,6 @@ import { JSONParser } from "./JSONParser";
 import { CSVParser } from "./CSVParser";
 import { BaseObjectEvents } from "../Base";
 import { Adapter } from "../utils/Adapter";
-import { EventDispatcher } from "../utils/EventDispatcher";
 import { Language } from "../utils/Language";
 import { DateFormatter } from "../formatters/DateFormatter";
 import { registry } from "../Registry";
@@ -68,17 +67,17 @@ var DataSource = /** @class */ (function (_super) {
         // Init
         _super.call(this) || this;
         /**
-         * Event dispatcher.
-         *
-         * @type {EventDispatcher<AMEvent<DataSource, IDataSourceEvents>>}
-         */
-        _this.events = new EventDispatcher();
-        /**
          * Adapter.
          *
          * @type {Adapter<DataSource, IDataSourceAdapters>}
          */
         _this.adapter = new Adapter(_this);
+        /**
+         * Custom options for HTTP(S) request.
+         *
+         * @type {INetRequestOptions}
+         */
+        _this._requestOptions = {};
         /**
          * Will show loading indicator when loading files.
          *
@@ -190,6 +189,56 @@ var DataSource = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._url = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DataSource.prototype, "requestOptions", {
+        /**
+         * @return {INetRequestOptions} Options
+         */
+        get: function () {
+            return this.adapter.apply("requestOptions", this._requestOptions);
+        },
+        /**
+         * Custom options for HTTP(S) request.
+         *
+         * At this moment the only option supported is: `requestHeaders`, which holds
+         * an array of objects for custom request headers, e.g.:
+         *
+         * ```TypeScript
+         * chart.dataSource.requestOptions.requestHeaders = [{
+         *   "key": "x-access-token",
+         *   "value": "123456789"
+         * }];
+         * ``````JavaScript
+         * chart.dataSource.requestOptions.requestHeaders = [{
+         *   "key": "x-access-token",
+         *   "value": "123456789"
+         * }];
+         * ```
+         * ```JSON
+         * {
+         *   // ...
+         *   "dataSource": {
+         *     // ...
+         *     "requestOptions": {
+         *       "requestHeaders": [{
+         *         "key": "x-access-token",
+         *         "value": "123456789"
+         *       }]
+         *     }
+         *   }
+         * }
+         * ```
+         *
+         * NOTE: setting this options on an-already loaded DataSource will not
+         * trigger a reload.
+         *
+         * @param {INetRequestOptions}  value  Options
+         */
+        set: function (value) {
+            this._requestOptions = value;
         },
         enumerable: true,
         configurable: true

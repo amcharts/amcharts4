@@ -230,7 +230,7 @@ export { Color };
  */
 export function color(value, alpha) {
     if (!$type.hasValue(value)) {
-        return new Color();
+        return new Color(undefined);
     }
     if (typeof value == "string") {
         return new Color($colors.rgb(value, alpha));

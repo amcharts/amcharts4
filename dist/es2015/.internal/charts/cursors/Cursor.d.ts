@@ -42,32 +42,27 @@ export interface ICursorEvents extends IContainerEvents {
     selectended: {};
     /**
      * Invoked when user starts zooming using cursor.
-     *
-     * @todo Description (check)
      */
     zoomstarted: {};
     /**
+     * Invoked when user clicked to start zooming/panning/selecting but haven't
+     * finished the operation.
+     */
+    behaviorcanceled: {};
+    /**
      * Invoked when user is done zooming using cursor.
-     *
-     * @todo Description (check)
      */
     zoomended: {};
     /**
      * Invoked when user starts panning using cursor.
-     *
-     * @todo Description (check)
      */
     panstarted: {};
     /**
      * Invoked when user is done panning using cursor.
-     *
-     * @todo Description (check)
      */
     panended: {};
     /**
      * Invoked when user is panning using cursor.
-     *
-     * @todo Description (check)
      */
     panning: {};
 }
@@ -180,6 +175,58 @@ export declare class Cursor extends Container {
      */
     handleCursorMove(event: IInteractionEvents["track"]): IPoint;
     /**
+     * Places the cursor at specific point.
+     *
+     * If `triggeredByPointer == false` the cursor will stay there, regardless
+     * movement of the actual pointer(s). This is useful when you want to
+     * manually place cursor.
+     *
+     * @param {IPoint}   point               Point to place cursor at
+     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
+     */
+    triggerMove(point: IPoint, triggeredByPointer?: boolean): void;
+    /**
+     * Places the cursor at specific point.
+     *
+     * @param {IPoint}   point               Point to place cursor at
+     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
+     */
+    protected triggerMoveReal(point: IPoint, triggeredByPointer?: boolean): void;
+    /**
+     * Simulates pressing down (click/touch) action by a cursor.
+     *
+     * @param {IPoint}   point               Point of action
+     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
+     */
+    triggerDown(point: IPoint, triggeredByPointer?: boolean): void;
+    /**
+     * Simulates pressing down (click/touch) action by a cursor.
+     *
+     * @param {IPoint}   point               Point of action
+     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
+     */
+    protected triggerDownReal(point: IPoint, triggeredByPointer?: boolean): void;
+    /**
+     * Simulates the action of release of the mouse down / touch.
+     *
+     * @param {IPoint}   point               Point of action
+     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
+     */
+    triggerUp(point: IPoint, triggeredByPointer?: boolean): void;
+    /**
+     * Simulates the action of release of the mouse down / touch.
+     *
+     * @param {IPoint}   point               Point of action
+     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
+     */
+    protected triggerUpReal(point: IPoint, triggeredByPointer?: boolean): void;
+    /**
+     * Updates selection dimensions on size change.
+     *
+     * @ignore Exclude from docs
+     */
+    updateSelection(): void;
+    /**
      * Updates cursors current positions.
      */
     protected getPositions(): void;
@@ -190,6 +237,11 @@ export declare class Cursor extends Container {
      * @param {IInteractionEvents["down"]} event Original event
      */
     handleCursorDown(event: IInteractionEvents["down"]): void;
+    /**
+     * Updates the coordinates of where pointer down event occurred
+     * (was pressed).
+     */
+    protected updatePoint(point: IPoint): void;
     /**
      * Handles pointer up event - finishes zoom or selection action.
      *

@@ -149,34 +149,28 @@ export declare class AxisBreak extends Container {
      */
     constructor();
     /**
-     * Returns currently set element for starting line.
-     *
      * @return {IWavedShape} Element
      */
     /**
-     * Sets an element to use for the starting line of the break.
+     * An element used for the starting line of the break.
      *
-     * @param {IWavedShape} sprite Element
+     * @param {IWavedShape}  sprite  Element
      */
     startLine: IWavedShape;
     /**
-     * Returns currently set element for end line.
-     *
      * @return {IWavedShape} Element
      */
     /**
-     * Sets an element to use for the end line of the break.
+     * An element used for the end line of the break.
      *
      * @param {IWavedShape} sprite Element
      */
     endLine: IWavedShape;
     /**
-     * Returns currently set element for break fill.
-     *
      * @return {IWavedShape} Element
      */
     /**
-     * Sets an element to use for fill of the break.
+     * An element used for fill of the break.
      *
      * @param {IWavedShape} sprite Element
      */
@@ -190,20 +184,15 @@ export declare class AxisBreak extends Container {
      */
     addBreakSprite(sprite: IWavedShape): void;
     /**
-     * Returns currently set parent Axis for the break.
-     *
-     * @return {this} Axis
+     * @return {Axis} Axis
      */
     /**
-     * Associates this break to particular Axis.
+     * An Axis this Break is associated with.
      *
-     * @param {this["_axisType"]} axis Axis
+     * @param {Axis}  axis  Axis
      */
     axis: this["_axisType"];
     /**
-     * [breakSize description]
-     *
-     * @todo Description
      * @return {number} [description]
      */
     /**
@@ -250,25 +239,21 @@ export declare class AxisBreak extends Container {
      */
     draw(): void;
     /**
-     * Returns currently set starting value.
-     *
      * @return {number} Starting value
      */
     /**
-     * Sets the starting value for the break.
+     * A starting value for the break.
      *
-     * @param {number} value Starting value
+     * @param {number}  value  Starting value
      */
     startValue: number;
     /**
-     * Returns currently set end value.
-     *
      * @return {number} End value
      */
     /**
-     * Sets the end value for the break.
+     * An end value for the break.
      *
-     * @param {number} value End value
+     * @param {number}  value  End value
      */
     endValue: number;
 }

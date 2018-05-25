@@ -277,34 +277,28 @@ export declare class Label extends Container {
      */
     protected hideUnused(index: number): void;
     /**
-     * Returns current SVG text.
-     *
      * @return {string} SVG text
      */
     /**
-     * Sets SVG text.
+     * An SVG text.
      *
      * Please note that setting `html` will override this setting if browser
      * supports `foreignObject` in SGV, such as most modern browsers excluding
      * IEs.
      *
-     * @param {string} value SVG Text
+     * @param {string}  value  SVG Text
      */
     text: string;
     /**
-     * Returns current auto-wrap setting.
-     *
      * @return {boolean} Auto-wrap enabled or not
      */
     /**
      * Enables or disables autowrapping of text.
      *
-     * @param {boolean} value Auto-wrapping enabled
+     * @param {boolean}  value  Auto-wrapping enabled
      */
     wrap: boolean;
     /**
-     * Returns current truncation setting.
-     *
      * @return {boolean} Truncate text?
      */
     /**
@@ -321,20 +315,16 @@ export declare class Label extends Container {
      */
     truncate: boolean;
     /**
-     * Returns current ellipsis setting.
-     *
      * @return {string} Ellipsis string
      */
     /**
-     * Sets ellipsis character to use if `truncate` is enabled.
+     * Ellipsis character to use if `truncate` is enabled.
      *
      * @param {string} value Ellipsis string
      * @default "..."
      */
     ellipsis: string;
     /**
-     * Returns current setting for selectable text.
-     *
      * @return {boolean} Text selectable?
      */
     /**
@@ -347,43 +337,37 @@ export declare class Label extends Container {
      */
     selectable: boolean;
     /**
-     * Returns current horizontal text alignement.
-     *
      * @return {TextAlign} Alignement
      */
     /**
-     * Sets text alignement.
+     * Horizontal text alignement.
      *
      * Available choices:
      * * "start"
      * * "middle"
      * * "end"
      *
-     * @param {TextAlign} value Alignement
+     * @param {TextAlign}  value  Alignement
      */
     textAlign: TextAlign;
     /**
-     * Returns vertical text alignement.
-     *
      * @ignore Exclude from docs (not used)
      * @return {TextValign} Alignement
      * @deprecated
      */
     /**
-     * Sets vertical text alignement.
+     * Vertical text alignement.
      *
      * @ignore Exclude from docs (not used)
-     * @param {TextValign} value Alignement
+     * @param {TextValign}  value  Alignement
      * @deprecated
      */
     textValign: TextValign;
     /**
-     * Returns current HTML content of the label.
-     *
      * @return {string} HTML content
      */
     /**
-     * Sets raw HTML to be used as text.
+     * Raw HTML to be used as text.
      *
      * NOTE: HTML text is subject to browser support. It relies on browsers
      * supporting SVG `foreignObject` nodes. Some browsers (read IEs) do not
@@ -397,15 +381,13 @@ export declare class Label extends Container {
      */
     html: string;
     /**
-     * Returns current setting for hiding oversized text.
-     *
      * @return {boolean} Hide if text does not fit?
      */
     /**
-     * Sets whether the whole text should be hidden if it does not fit into its
-     * allotted space.
+     * Indicates whether the whole text should be hidden if it does not fit into
+     * its allotted space.
      *
-     * @param {boolean} value Hide if text does not fit?
+     * @param {boolean}  value  Hide if text does not fit?
      */
     hideOversized: boolean;
     /**

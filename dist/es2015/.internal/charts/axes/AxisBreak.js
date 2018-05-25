@@ -93,17 +93,15 @@ var AxisBreak = /** @class */ (function (_super) {
     }
     Object.defineProperty(AxisBreak.prototype, "startLine", {
         /**
-         * Returns currently set element for starting line.
-         *
          * @return {IWavedShape} Element
          */
         get: function () {
             return this._startLine;
         },
         /**
-         * Sets an element to use for the starting line of the break.
+         * An element used for the starting line of the break.
          *
-         * @param {IWavedShape} sprite Element
+         * @param {IWavedShape}  sprite  Element
          */
         set: function (sprite) {
             if (this._startLine) {
@@ -117,15 +115,13 @@ var AxisBreak = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisBreak.prototype, "endLine", {
         /**
-         * Returns currently set element for end line.
-         *
          * @return {IWavedShape} Element
          */
         get: function () {
             return this._endLine;
         },
         /**
-         * Sets an element to use for the end line of the break.
+         * An element used for the end line of the break.
          *
          * @param {IWavedShape} sprite Element
          */
@@ -141,15 +137,13 @@ var AxisBreak = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisBreak.prototype, "fillShape", {
         /**
-         * Returns currently set element for break fill.
-         *
          * @return {IWavedShape} Element
          */
         get: function () {
             return this._fillShape;
         },
         /**
-         * Sets an element to use for fill of the break.
+         * An element used for fill of the break.
          *
          * @param {IWavedShape} sprite Element
          */
@@ -177,17 +171,15 @@ var AxisBreak = /** @class */ (function (_super) {
     };
     Object.defineProperty(AxisBreak.prototype, "axis", {
         /**
-         * Returns currently set parent Axis for the break.
-         *
-         * @return {this} Axis
+         * @return {Axis} Axis
          */
         get: function () {
             return this._axis.get();
         },
         /**
-         * Associates this break to particular Axis.
+         * An Axis this Break is associated with.
          *
-         * @param {this["_axisType"]} axis Axis
+         * @param {Axis}  axis  Axis
          */
         set: function (axis) {
             if (this._axis.get() !== axis) {
@@ -205,9 +197,6 @@ var AxisBreak = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisBreak.prototype, "breakSize", {
         /**
-         * [breakSize description]
-         *
-         * @todo Description
          * @return {number} [description]
          */
         get: function () {
@@ -303,17 +292,15 @@ var AxisBreak = /** @class */ (function (_super) {
     };
     Object.defineProperty(AxisBreak.prototype, "startValue", {
         /**
-         * Returns currently set starting value.
-         *
          * @return {number} Starting value
          */
         get: function () {
             return this.getPropertyValue("startValue");
         },
         /**
-         * Sets the starting value for the break.
+         * A starting value for the break.
          *
-         * @param {number} value Starting value
+         * @param {number}  value  Starting value
          */
         set: function (value) {
             if (this.setPropertyValue("startValue", value)) {
@@ -327,17 +314,15 @@ var AxisBreak = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisBreak.prototype, "endValue", {
         /**
-         * Returns currently set end value.
-         *
          * @return {number} End value
          */
         get: function () {
             return this.getPropertyValue("endValue");
         },
         /**
-         * Sets the end value for the break.
+         * An end value for the break.
          *
-         * @param {number} value End value
+         * @param {number}  value  End value
          */
         set: function (value) {
             if (this.setPropertyValue("endValue", value)) {

@@ -436,6 +436,7 @@ function createSlider() {
     slider.valign = "middle";
     slider.margin(0, 0, 0, 0);
     slider.marginLeft = 30;
+    slider.height = 15;
     slider.events.on("rangechanged", () => {
         setTime();
     });

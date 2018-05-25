@@ -357,17 +357,15 @@ var AxisRenderer = /** @class */ (function (_super) {
     };
     Object.defineProperty(AxisRenderer.prototype, "minGridDistance", {
         /**
-         * Returns currently set minimum distance.
-         *
          * @return {number} Min distance (px)
          */
         get: function () {
             return this.getPropertyValue("minGridDistance");
         },
         /**
-         * Sets mMinimum distance in pixels between grid elements.
+         * Minimum distance in pixels between grid elements.
          *
-         * @param {number} value Min distance (px)
+         * @param {number}  value  Min distance (px)
          */
         set: function (value) {
             if (this.setPropertyValue("minGridDistance", value)) {
@@ -381,8 +379,6 @@ var AxisRenderer = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRenderer.prototype, "chart", {
         /**
-         * Returns currently set associated chart.
-         *
          * @ignore Exclude from docs
          * @return {Chart} Chart
          */
@@ -390,10 +386,10 @@ var AxisRenderer = /** @class */ (function (_super) {
             return this._chart.get();
         },
         /**
-         * Sets a chart, associated with the Axis.
+         * A chart, associated with the Axis.
          *
          * @ignore Exclude from docs
-         * @param {Chart} value Chart
+         * @param {Chart}  value  Chart
          */
         set: function (value) {
             this._chart.set(value, null);
@@ -533,17 +529,17 @@ var AxisRenderer = /** @class */ (function (_super) {
     };
     Object.defineProperty(AxisRenderer.prototype, "inside", {
         /**
-         * Returns current setting for `inside`.
-         *
          * @return {boolean} Labels inside?
          */
         get: function () {
             return this.getPropertyValue("inside");
         },
         /**
-         * Sets if Axis labels and ticks should be drawn inside Plot area, does not work with all renderers, like AxisRendererRadial.
+         * Indicates whether Axis' labels and ticks should be drawn inside Plot area.
          *
-         * @param {boolean} value Labels inside?
+         * Does not work with all renderers, like AxisRendererRadial.
+         *
+         * @param {boolean}  value  Labels inside?
          */
         set: function (value) {
             this.setPropertyValue("inside", value);
@@ -553,18 +549,19 @@ var AxisRenderer = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRenderer.prototype, "opposite", {
         /**
-         * Returns current setting for `opposite`.
-         *
          * @return {boolean} Draw axis on opposite side?
          */
         get: function () {
             return this.getPropertyValue("opposite");
         },
         /**
-         * Sets whether axis should be drawn on the opposite side of the plot area,
-         * than it would normally be drawn base on chart's settings. Does not work with all renderers, like AxisRendererRadial and AxisRenderer Circular.
+         * Indicates whether Axis should be drawn on the opposite side of the plot
+         * area than it would normally be drawn based on chart's settings.
          *
-         * @param {boolean} value Draw axis on opposite side?
+         * Does not work with all renderers, like [[AxisRendererRadial]] and
+         * [[AxisRenderer Circular].
+         *
+         * @param {boolean}  value  Draw axis on opposite side?
          */
         set: function (value) {
             this.setPropertyValue("opposite", value);
@@ -574,15 +571,13 @@ var AxisRenderer = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRenderer.prototype, "fullWidthTooltip", {
         /**
-         * Returns current setting for full-width tooltips.
-         *
          * @return {boolean} Full width tooltip?
          */
         get: function () {
             return this.getPropertyValue("fullWidthTooltip");
         },
         /**
-         * Sets if Axis tooltip should take the whole width of the axis cell.
+         * Indicates if Axis tooltip should take the whole width of the axis cell.
          * (between two grid lines)
          *
          * NOTE: this setting is ignored on circular axis types.
@@ -597,15 +592,13 @@ var AxisRenderer = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRenderer.prototype, "tooltipLocation", {
         /**
-         * Returns current axis tooltip location.
-         *
          * @return {number} Tooltip location
          */
         get: function () {
             return this.getPropertyValue("tooltipLocation");
         },
         /**
-         * Sets location within axis cell to show tooltip on. (0-1)
+         * Location within axis cell to show tooltip on. (0-1)
          *
          * 0 - show at the start
          * 0.5 - show right in the middle
@@ -621,15 +614,13 @@ var AxisRenderer = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRenderer.prototype, "cellStartLocation", {
         /**
-         * Returns currently set cell start location.
-         *
          * @return {number} Cell start (0-1)
          */
         get: function () {
             return this.getPropertyValue("cellStartLocation");
         },
         /**
-         * Sets location for the cell start.
+         * Location for the cell start.
          *
          * Normally a "cell" is the whole available width in a category.
          *
@@ -647,7 +638,7 @@ var AxisRenderer = /** @class */ (function (_super) {
          *
          * This is used to limit a space occupied by series like column.
          *
-         * @todo Description (review)
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
          * @param {number} value Cell start (0-1)
          */
         set: function (value) {
@@ -658,15 +649,13 @@ var AxisRenderer = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRenderer.prototype, "cellEndLocation", {
         /**
-         * Returns currently set cell end location.
-         *
          * @return {number} Cell end (0-1)
          */
         get: function () {
             return this.getPropertyValue("cellEndLocation");
         },
         /**
-         * Sets location for the cell end.
+         * Location for the cell end.
          *
          * Normally a "cell" is the whole available width in a category.
          *
@@ -684,7 +673,7 @@ var AxisRenderer = /** @class */ (function (_super) {
          *
          * This is used to limit a space occupied by series like column.
          *
-         * @todo Description (review)
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
          * @param {number} value Cell end (0-1)
          */
         set: function (value) {
@@ -695,15 +684,13 @@ var AxisRenderer = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRenderer.prototype, "inversed", {
         /**
-         * Returns currently set `inversed` setting.
-         *
          * @return {boolean} Flip axis?
          */
         get: function () {
             return this.getPropertyValue("inversed");
         },
         /**
-         * Sets if the scale of the axis should be flipped.
+         * Indicates if the scale of the axis should be flipped.
          *
          * @param {boolean} value Flip axis?
          */
@@ -715,15 +702,13 @@ var AxisRenderer = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRenderer.prototype, "minLabelPosition", {
         /**
-         * Returns currently set min label position.
-         *
          * @return {number} Min label position (0-1)
          */
         get: function () {
             return this.getPropertyValue("minLabelPosition");
         },
         /**
-         * Sets a minimum position along the Axis, for labels.
+         * Minimum position along the Axis, for labels.
          *
          * Labels, which have their position closer to the start of the Axis, will be
          * automatically hidden.
@@ -734,7 +719,8 @@ var AxisRenderer = /** @class */ (function (_super) {
          * This is especially usefull with `inside = true`, or if the chart hasn't
          * got any extra margins.
          *
-         * @param {number} value Min label position (0-1)
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
+         * @param {number}  value  Min label position (0-1)
          */
         set: function (value) {
             this.setPropertyValue("minLabelPosition", value, true);
@@ -744,15 +730,13 @@ var AxisRenderer = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRenderer.prototype, "maxLabelPosition", {
         /**
-         * Returns currently set max label position.
-         *
          * @return {number} Max label position (0-1)
          */
         get: function () {
             return this.getPropertyValue("maxLabelPosition");
         },
         /**
-         * Sets a maximum position along the Axis, for labels.
+         * Maximum position along the Axis, for labels.
          *
          * Labels, which have their position closer to the and of the Axis, will be
          * automatically hidden.
@@ -763,7 +747,8 @@ var AxisRenderer = /** @class */ (function (_super) {
          * This is especially usefull with `inside = true`, or if the chart hasn't
          * got any extra margins.
          *
-         * @param {number} value Max label position (0-1)
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/} for more info.
+         * @param {number}  value  Max label position (0-1)
          */
         set: function (value) {
             this.setPropertyValue("maxLabelPosition", value, true);

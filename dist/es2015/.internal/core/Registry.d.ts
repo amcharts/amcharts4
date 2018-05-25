@@ -10,6 +10,7 @@ import { Dictionary } from "./utils/Dictionary";
 import { Sprite } from "./Sprite";
 import { Container } from "./Container";
 import { Component } from "./Component";
+import * as $type from "./utils/Type";
 /**
  * Define events available for [[Registry]]
  */
@@ -56,7 +57,7 @@ export declare class Registry {
      * @type {Dictionary<string, any>}
      * @ignore Exclude from docs
      */
-    protected _map: Dictionary<string, any>;
+    protected _map: $type.Optional<Dictionary<string, any>>;
     /**
      * All currently applied themes. All new chart instances created will
      * automatically inherit and retain System's themes.

@@ -90,12 +90,10 @@ export declare class AxisLabelCircular extends AxisLabel {
      */
     constructor();
     /**
-     * Returns current relative rotation.
-     *
      * @return {number} Rotation angle
      */
     /**
-     * Sets relative rotation of the label.
+     * Relative rotation of the label.
      *
      * It is an angle to circle. In case 90, labels will be positioned like rays
      * of light, if 0 - positione along the circle.
@@ -104,12 +102,10 @@ export declare class AxisLabelCircular extends AxisLabel {
      */
     relativeRotation: number;
     /**
-     * Returns current setting for label distance.
-     *
      * @return {number} Distance (px)
      */
     /**
-     * Sets distance from axis circle to label in pixels.
+     * Distance from axis circle to label in pixels.
      *
      * @param {number} value Distance (px)
      */

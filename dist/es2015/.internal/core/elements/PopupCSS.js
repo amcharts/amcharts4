@@ -16,8 +16,8 @@ export default function (prefix) {
     var counter = rules.insertKeyIfEmpty(prefix, function () {
         var disposer = new MultiDisposer([
             new StyleRule("." + prefix, {
-                "width": "100%",
-                "height": "100%",
+                //"width": "100%",
+                //"height": "100%",
                 "overflow": "visible",
                 "position": "absolute",
                 "top": "0",
@@ -34,7 +34,13 @@ export default function (prefix) {
                 "background": "#fff",
                 "opacity": "0.5"
             }),
+            new StyleRule("." + prefix + "-title", {
+                "font-weight": "120%",
+                "font-size": "120%"
+            }),
             new StyleRule("." + prefix + "-content", {
+                /*"width": "100%",
+                "height": "100%",*/
                 "padding": "1em 2em",
                 "background": "rgb(255, 255, 255);",
                 "background-color": "rgba(255, 255, 255, 0.8)",

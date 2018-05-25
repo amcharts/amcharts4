@@ -50,15 +50,13 @@ var AxisLabel = /** @class */ (function (_super) {
     }
     Object.defineProperty(AxisLabel.prototype, "location", {
         /**
-         * Returns current location of the label.
-         *
          * @return {AxisItemLocation} Location (0-1)
          */
         get: function () {
             return this.getPropertyValue("location");
         },
         /**
-         * Sets relative location of the label. (0-1)
+         * Relative location of the label. (0-1)
          *
          * @param {AxisItemLocation}  value  Location (0-1)
          */

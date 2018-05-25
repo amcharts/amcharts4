@@ -23,7 +23,7 @@ import * as $object from "./Object";
  */
 export function copyProperties(source, target) {
     $object.each(source, function (key, value) {
-        // only if value is set		
+        // only if value is set
         if ($type.hasValue(value)) {
             target[key] = value;
         }
@@ -624,11 +624,16 @@ export function get12Hours(hours, base) {
  * @param  {Date}     date     Date object
  * @param  {boolean}  long     Should return long ("Pacific Standard Time") or short abbreviation ("PST")
  * @param  {boolean}  savings  Include information if it's in daylight savings mode
+ * @param  {boolean}  utc      Assume UTC dates
  * @return {string}            Time zone name
  */
-export function getTimeZone(date, long, savings) {
+export function getTimeZone(date, long, savings, utc) {
     if (long === void 0) { long = false; }
     if (savings === void 0) { savings = false; }
+    if (utc === void 0) { utc = false; }
+    if (utc) {
+        return long ? "Coordinated Universal Time" : "UTC";
+    }
     var wotz = date.toLocaleString("UTC");
     var wtz = date.toLocaleString("UTC", { timeZoneName: long ? "long" : "short" }).substr(wotz.length);
     //wtz = wtz.replace(/[+-]+[0-9]+$/, "");

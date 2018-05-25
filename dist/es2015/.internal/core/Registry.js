@@ -16,6 +16,12 @@ import { cache } from "./utils/Cache";
 var Registry = /** @class */ (function () {
     function Registry() {
         /**
+         * Event dispacther.
+         *
+         * @type {EventDispatcher}
+         */
+        this.events = new EventDispatcher();
+        /**
          * All currently applied themes. All new chart instances created will
          * automatically inherit and retain System's themes.
          *
@@ -113,7 +119,6 @@ var Registry = /** @class */ (function () {
          */
         this.invalidLayouts = [];
         this.uid = this.getUniqueId();
-        this.events = new EventDispatcher();
     }
     /**
      * Generates a unique chart system-wide ID.

@@ -24,6 +24,7 @@ import { getInteraction } from "../interaction/Interaction";
 import { keyboard } from "../utils/Keyboard";
 import { MultiDisposer } from "../utils/Disposer";
 import * as $type from "../utils/Type";
+import * as $object from "../utils/Object";
 /**
  * Shows an HTML popup which covers window or a chart area.
  *
@@ -43,11 +44,25 @@ var Popup = /** @class */ (function (_super) {
          */
         _this.adapter = new Adapter(_this);
         /**
+         * Holds references to various HTML elements, Popup consists of.
+         */
+        _this._elements = {};
+        /**
+         * Holdes Interaction objects for various Popup's elements.
+         */
+        _this._IOs = {};
+        /**
          * Contents of popup window.
          *
          * @type {string}
          */
         _this._content = "";
+        /**
+         * Title of the popup window.
+         *
+         * @type {string}
+         */
+        _this._title = "";
         /**
          * Prefix to apply to class names for popup elements.
          *
@@ -68,6 +83,12 @@ var Popup = /** @class */ (function (_super) {
          */
         _this._showCurtain = false;
         /**
+         * Indicates whether popup can be dragged with a mouse.
+         *
+         * @type {boolean}
+         */
+        _this._draggable = true;
+        /**
          * Horizontal position of the content window.
          *
          * @type {Align}
@@ -79,6 +100,24 @@ var Popup = /** @class */ (function (_super) {
          * @type {VerticalAlign}
          */
         _this._verticalAlign = "middle";
+        /**
+         * Shift in position of the element. (used for dragging)
+         *
+         * @type {number}
+         */
+        _this._shift = {
+            x: 0,
+            y: 0
+        };
+        /**
+         * Temporary shift in position of the element. (used for dragging)
+         *
+         * @type {number}
+         */
+        _this._tempShift = {
+            x: 0,
+            y: 0
+        };
         /**
          * A title for screen readers. It is very highly recommended to set that title
          * so that people using screen reader tools can get an immediate summary of
@@ -93,6 +132,12 @@ var Popup = /** @class */ (function (_super) {
          * @type {boolean}
          */
         _this._closable = true;
+        /**
+         * Was CSS already loaded?
+         *
+         * @type {boolean}
+         */
+        _this._cssLoaded = false;
         _this.className = "Popup";
         return _this;
     }
@@ -101,7 +146,12 @@ var Popup = /** @class */ (function (_super) {
      */
     Popup.prototype.show = function () {
         if (this.container) {
-            this.container.appendChild(this.element);
+            if (this._elements.wrapper) {
+                this.container.appendChild(this._elements.wrapper);
+            }
+            if (this._elements.curtain) {
+                this.container.appendChild(this._elements.curtain);
+            }
             this.positionElement();
         }
     };
@@ -109,9 +159,17 @@ var Popup = /** @class */ (function (_super) {
      * Hides popup window.
      */
     Popup.prototype.hide = function () {
-        if (this.element && this.element.parentElement) {
-            this.element.parentElement.removeChild(this.element);
+        if (this._elements.wrapper) {
+            if (this._elements.wrapper.parentElement) {
+                this._elements.wrapper.parentElement.removeChild(this._elements.wrapper);
+            }
         }
+        if (this._elements.curtain) {
+            if (this._elements.curtain.parentElement) {
+                this._elements.curtain.parentElement.removeChild(this._elements.curtain);
+            }
+        }
+        this._releaseMouse();
     };
     /**
      * Destroy (dispose) popup.
@@ -120,82 +178,6 @@ var Popup = /** @class */ (function (_super) {
         _super.prototype.dispose.call(this);
         this.hide();
     };
-    Object.defineProperty(Popup.prototype, "element", {
-        /**
-         * Creates and returns an HTML holder element for popup (`<div>`).
-         *
-         * @ignore Exclude from docs
-         * @return {HTMLElement} Popup holder element
-         */
-        get: function () {
-            if (!this._element) {
-                // Get class names for popup elements
-                var classNames = this.adapter.apply("classNames", {
-                    wrapperClass: this.classPrefix + "",
-                    contentClass: this.classPrefix + "-content",
-                    curtainClass: this.classPrefix + "-curtain",
-                    closeClass: this.classPrefix + "-close"
-                });
-                // Create the wrapper
-                var wrapper = document.createElement("div");
-                wrapper.className = classNames.wrapperClass;
-                // See if we're loading external CSS
-                // Hide it until CSS is loaded
-                if (this.defaultStyles) {
-                    wrapper.style.display = "none";
-                }
-                // Curtain
-                if (this.showCurtain) {
-                    // Create the curtain
-                    var curtain = document.createElement("div");
-                    curtain.className = classNames.curtainClass;
-                    // Append curtain to wrapper
-                    wrapper.appendChild(curtain);
-                    // Create an InteractionObject for curtain because we might need to
-                    // set interactions on it
-                    this._curtainIO = getInteraction().getInteraction(curtain);
-                    // Add Curtain IO to disposers
-                    this._disposers.push(this._curtainIO);
-                }
-                // Create content element
-                var contentWrapper = document.createElement("div");
-                contentWrapper.className = classNames.contentClass;
-                // Create close button
-                var close_1 = document.createElement("a");
-                close_1.className = classNames.closeClass;
-                // Content div
-                var content = document.createElement("div");
-                content.innerHTML = this.content;
-                // Append close to content wrapper
-                contentWrapper.appendChild(close_1);
-                // Create an InteractionObject for close
-                this._closeIO = getInteraction().getInteraction(close_1);
-                // Hide close for now
-                close_1.style.visibility = "hidden";
-                // Add accessible stuff
-                content.setAttribute("role", "dialog");
-                content.setAttribute("aria-label", this.adapter.apply("readerTitle", this.readerTitle));
-                // Add to wrapper
-                contentWrapper.appendChild(content);
-                wrapper.appendChild(contentWrapper);
-                // Set references for easy access later on
-                this._element = wrapper;
-                this._contentElement = content;
-                this._contentWrapperElement = contentWrapper;
-                // Add IOs to disposers
-                this._disposers.push(this._closeIO);
-                // Apply events
-                this._applyEvents();
-                // Load CSS
-                if (this.defaultStyles) {
-                    this.loadDefaultCSS();
-                }
-            }
-            return this._element;
-        },
-        enumerable: true,
-        configurable: true
-    });
     /**
      * Positions content element in the center of popup based on its actual size.
      *
@@ -203,64 +185,94 @@ var Popup = /** @class */ (function (_super) {
      */
     Popup.prototype.positionElement = function () {
         var _this = this;
-        if (!this._contentWrapperElement) {
+        if (!this._elements.wrapper) {
             return;
         }
         setTimeout(function () {
-            _this._contentWrapperElement.style.opacity = "0.01";
-            _this._contentWrapperElement.style.left = "0";
-            _this._contentWrapperElement.style.top = "0";
+            _this._elements.wrapper.style.opacity = "0.01";
+            _this._elements.wrapper.style.left = "0";
+            _this._elements.wrapper.style.top = "0";
+            // Size the element, but only for the first time
+            if (!_this._elements.wrapper.style.width) {
+                var bbox = _this._elements.wrapper.getBoundingClientRect();
+                _this._elements.wrapper.style.width = bbox.width + "px";
+                _this._elements.wrapper.style.height = bbox.height + "px";
+            }
             setTimeout(function () {
-                var bbox = _this._contentWrapperElement.getBoundingClientRect();
-                _this._contentWrapperElement.style.opacity = "initial";
+                var bbox = _this._elements.wrapper.getBoundingClientRect();
+                _this._elements.wrapper.style.opacity = "initial";
                 // Set horizontal positioning
                 switch (_this.align) {
                     case "left":
-                        _this._contentWrapperElement.style.left = "0";
-                        _this._contentWrapperElement.style.right = "auto";
-                        _this._contentWrapperElement.style.marginLeft = "0";
+                        _this._elements.wrapper.style.left = "0";
+                        _this._elements.wrapper.style.right = "auto";
+                        _this._elements.wrapper.style.marginLeft = (_this._shift.x + _this._tempShift.x).toString();
                         break;
                     case "center":
-                        _this._contentWrapperElement.style.left = "50%";
-                        _this._contentWrapperElement.style.right = "auto";
-                        _this._contentWrapperElement.style.marginLeft = Math.round(-bbox.width / 2) + "px";
+                        _this._elements.wrapper.style.left = "50%";
+                        _this._elements.wrapper.style.right = "auto";
+                        _this._elements.wrapper.style.marginLeft = (Math.round(-bbox.width / 2) + (_this._shift.x + _this._tempShift.x)) + "px";
                         break;
                     case "right":
-                        _this._contentWrapperElement.style.left = "auto";
-                        _this._contentWrapperElement.style.right = "0";
-                        _this._contentWrapperElement.style.marginLeft = "0";
+                        _this._elements.wrapper.style.left = "auto";
+                        _this._elements.wrapper.style.right = "0";
+                        _this._elements.wrapper.style.marginLeft = (_this._shift.x + _this._tempShift.x).toString();
                         break;
                     default:
-                        _this._contentWrapperElement.style.left = _this.toStyle(_this.left) || "auto";
-                        _this._contentWrapperElement.style.right = _this.toStyle(_this.right) || "auto";
-                        _this._contentWrapperElement.style.marginLeft = "0";
+                        _this._elements.wrapper.style.left = _this.toStyle(_this.left) || "auto";
+                        _this._elements.wrapper.style.right = _this.toStyle(_this.right) || "auto";
+                        _this._elements.wrapper.style.marginLeft = (_this._shift.x + _this._tempShift.x).toString();
                         break;
                 }
                 // Set vertical positioning
                 switch (_this.verticalAlign) {
                     case "top":
-                        _this._contentWrapperElement.style.top = "0";
-                        _this._contentWrapperElement.style.bottom = "auto";
-                        _this._contentWrapperElement.style.marginTop = "0";
+                        _this._elements.wrapper.style.top = "0";
+                        _this._elements.wrapper.style.bottom = "auto";
+                        _this._elements.wrapper.style.marginTop = (_this._shift.y + _this._tempShift.y).toString();
                         break;
                     case "middle":
-                        _this._contentWrapperElement.style.top = "50%";
-                        _this._contentWrapperElement.style.bottom = "auto";
-                        _this._contentWrapperElement.style.marginTop = Math.round(-bbox.height / 2) + "px";
+                        _this._elements.wrapper.style.top = "50%";
+                        _this._elements.wrapper.style.bottom = "auto";
+                        _this._elements.wrapper.style.marginTop = (Math.round(-bbox.height / 2) + (_this._shift.y + _this._tempShift.y)).toString() + "px";
                         break;
                     case "bottom":
-                        _this._contentWrapperElement.style.top = "auto";
-                        _this._contentWrapperElement.style.bottom = "0";
-                        _this._contentWrapperElement.style.marginTop = "0";
+                        _this._elements.wrapper.style.top = "auto";
+                        _this._elements.wrapper.style.bottom = "0";
+                        _this._elements.wrapper.style.marginTop = (_this._shift.y + _this._tempShift.y).toString();
                         break;
                     default:
-                        _this._contentWrapperElement.style.top = _this.toStyle(_this.top) || "auto";
-                        _this._contentWrapperElement.style.bottom = _this.toStyle(_this.bottom) || "auto";
-                        _this._contentWrapperElement.style.marginTop = "0";
+                        _this._elements.wrapper.style.top = _this.toStyle(_this.top) || "auto";
+                        _this._elements.wrapper.style.bottom = _this.toStyle(_this.bottom) || "auto";
+                        _this._elements.wrapper.style.marginTop = (_this._shift.y + _this._tempShift.y).toString();
                         break;
                 }
             }, 1);
         }, 1);
+    };
+    Popup.prototype.setupDragging = function () {
+        var _this = this;
+        if (this.draggable) {
+            if (!this._IOs.wrapper.events.has("drag")) {
+                this._IOs.wrapper.events.on("drag", function (ev) {
+                    _this._tempShift.x = ev.shift.x;
+                    _this._tempShift.y = ev.shift.y;
+                    _this.positionElement();
+                });
+            }
+            if (!this._IOs.wrapper.events.has("dragstop")) {
+                this._IOs.wrapper.events.on("dragstop", function (ev) {
+                    _this._shift.x += _this._tempShift.x;
+                    _this._shift.y += _this._tempShift.y;
+                    _this._tempShift.x = 0;
+                    _this._tempShift.y = 0;
+                    _this.positionElement();
+                });
+            }
+        }
+        else {
+            // @todo Remove events
+        }
     };
     Popup.prototype.toStyle = function (value) {
         if (!$type.hasValue(value)) {
@@ -301,13 +313,112 @@ var Popup = /** @class */ (function (_super) {
         /**
          * Popup content.
          *
-         * Popup contemt can be any valid HTML, including CSS.
+         * Popup content can be any valid HTML, including CSS.
+         *
          * @param {string} value Popup content
          */
         set: function (value) {
-            this._content = value;
-            if (this._contentElement) {
-                this._contentElement.innerHTML = value;
+            if (this._content != value) {
+                this._content = value;
+                if (!this._elements.content) {
+                    this.createContentElement();
+                }
+                this._elements.content.innerHTML = value;
+                this.positionElement();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Popup.prototype.getClassNames = function () {
+        return this.adapter.apply("classNames", {
+            wrapperClass: this.classPrefix + "",
+            titleClass: this.classPrefix + "-title",
+            contentClass: this.classPrefix + "-content",
+            curtainClass: this.classPrefix + "-curtain",
+            closeClass: this.classPrefix + "-close"
+        });
+    };
+    /**
+     * Creates content element.
+     */
+    Popup.prototype.createContentElement = function () {
+        // Check if it's created already
+        if (this._elements.wrapper) {
+            return;
+        }
+        // Get class names for popup elements
+        var classNames = this.getClassNames();
+        // Create content element
+        var wrapper = document.createElement("div");
+        wrapper.className = classNames.contentClass;
+        // Create close button
+        var close = document.createElement("a");
+        close.className = classNames.closeClass;
+        // Content title
+        var title = document.createElement("div");
+        title.innerHTML = this.title;
+        title.className = classNames.titleClass;
+        if (!this.title) {
+            title.style.display = "none";
+        }
+        // Content div
+        var content = document.createElement("div");
+        content.innerHTML = this.content;
+        // Set up events for content
+        this._IOs.wrapper = getInteraction().getInteraction(wrapper);
+        this._disposers.push(this._IOs.wrapper);
+        // Set hover/out events
+        this._IOs.wrapper.events.on("over", this._disableMouse, this);
+        this._IOs.wrapper.events.on("out", this._releaseMouse, this);
+        // Create an InteractionObject for close
+        this._IOs.close = getInteraction().getInteraction(close);
+        this._disposers.push(this._IOs.close);
+        // Hide close for now
+        close.style.visibility = "hidden";
+        // Add accessible stuff
+        wrapper.setAttribute("role", "dialog");
+        wrapper.setAttribute("aria-label", this.adapter.apply("readerTitle", this.readerTitle));
+        // Add to wrapper
+        wrapper.appendChild(close);
+        wrapper.appendChild(title);
+        wrapper.appendChild(content);
+        this.container.appendChild(wrapper);
+        // Save for later access
+        this._elements.wrapper = wrapper;
+        this._elements.content = content;
+        this._elements.title = title;
+        // Load CSS
+        if (this.defaultStyles) {
+            this.loadDefaultCSS();
+        }
+        // Create curtain as well
+        this.createCurtainElement();
+        // Apply events
+        this._applyEvents();
+        // Draggable?
+        this.setupDragging();
+    };
+    Object.defineProperty(Popup.prototype, "title", {
+        /**
+         * @return {string} Popup content
+         */
+        get: function () {
+            return this.adapter.apply("title", this._title);
+        },
+        /**
+         * Popup ttile.
+         *
+         * Popup title can be any valid HTML, including CSS.
+         * @param {string} value Popup content
+         */
+        set: function (value) {
+            if (this._title != value) {
+                this._title = value;
+                if (!this._elements.content) {
+                    this.createContentElement();
+                }
+                this._elements.title.innerHTML = value;
                 this.positionElement();
             }
         },
@@ -380,7 +491,53 @@ var Popup = /** @class */ (function (_super) {
         set: function (value) {
             if (this._showCurtain != value) {
                 this._showCurtain = value;
-                this.positionElement();
+                if (this._elements.curtain) {
+                    this._elements.curtain.style.display = value ? "block" : "none";
+                }
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Creates curtain element.
+     */
+    Popup.prototype.createCurtainElement = function () {
+        // Get class names for popup elements
+        var classNames = this.getClassNames();
+        // Create the curtain
+        var curtain = document.createElement("div");
+        curtain.className = classNames.curtainClass;
+        // Append curtain to wrapper
+        this.container.appendChild(curtain);
+        // Create an InteractionObject for curtain because we might need to
+        // set interactions on it
+        this._IOs.curtain = getInteraction().getInteraction(curtain);
+        // Add Curtain IO to disposers
+        this._disposers.push(this._IOs.curtain);
+        // Set events to disable underlying interactivity
+        this._IOs.curtain.events.on("over", this._disableMouse, this);
+        this._IOs.curtain.events.on("out", this._releaseMouse, this);
+        // Save for later
+        this._elements.curtain = curtain;
+    };
+    Object.defineProperty(Popup.prototype, "draggable", {
+        /**
+         * @return {boolean} Show curtain?
+         */
+        get: function () {
+            return this.adapter.apply("draggable", this._draggable);
+        },
+        /**
+         * Can the popup be dragged with a pointer?
+         *
+         * @default false
+         * @param {boolean} Show curtain?
+         */
+        set: function (value) {
+            if (this._draggable != value) {
+                this._draggable = value;
+                this.setupDragging();
             }
         },
         enumerable: true,
@@ -552,37 +709,58 @@ var Popup = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Popup.prototype.loadDefaultCSS = function () {
-        this._disposers.push(popupCSS(this.classPrefix));
-        this._element.style.display = "initial";
+        if (!this._cssLoaded) {
+            this._disposers.push(popupCSS(this.classPrefix));
+            $object.each(this._elements, function (key, el) {
+                el.style.display = "initial";
+            });
+            this._cssLoaded = true;
+        }
     };
     /**
      * If popup is closable, this method adds various events to popup elements.
      */
     Popup.prototype._applyEvents = function () {
         var _this = this;
-        if (this._closeIO) {
+        if (this._IOs.close) {
             if (this.closable) {
-                this._closeIO.element.style.visibility = "visible";
+                this._IOs.close.element.style.visibility = "visible";
                 var disposers = [
                     getInteraction().body.events.on("keyup", function (ev) {
                         if (keyboard.isKey(ev.event, "esc") && _this.closable) {
                             _this.hide();
                         }
                     }),
-                    this._closeIO.events.on("hit", function (ev) {
+                    this._IOs.close.events.on("hit", function (ev) {
                         _this.hide();
                     })
                 ];
-                if (this.showCurtain) {
-                    disposers.push(this._curtainIO.events.on("hit", function (ev) {
+                disposers.push(this._IOs.curtain.events.on("hit", function (ev) {
+                    if (_this.showCurtain) {
                         _this.hide();
-                    }));
-                }
+                    }
+                }));
                 this._disposers.push(new MultiDisposer(disposers));
             }
             else {
-                this._closeIO.element.style.visibility = "hidden";
+                this._IOs.close.element.style.visibility = "hidden";
             }
+        }
+    };
+    /**
+     * Disables interactivity on parent chart.
+     */
+    Popup.prototype._disableMouse = function () {
+        this._spriteMouseEnabled = this.sprite.mouseEnabled;
+        this.sprite.mouseEnabled = false;
+    };
+    /**
+     * Releases temporarily disabled mouse on parent chart.
+     */
+    Popup.prototype._releaseMouse = function () {
+        if ($type.hasValue(this._spriteMouseEnabled)) {
+            this.sprite.mouseEnabled = this._spriteMouseEnabled;
+            this._spriteMouseEnabled = undefined;
         }
     };
     /**
@@ -593,8 +771,10 @@ var Popup = /** @class */ (function (_super) {
     Popup.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
         this.container = source.container;
+        this.sprite = source.sprite;
         this.classPrefix = source.classPrefix;
         this.content = source.content;
+        this.title = source.title;
         this.readerTitle = source.readerTitle;
         this.defaultStyles = source.defaultStyles;
         this.showCurtain = source.showCurtain;

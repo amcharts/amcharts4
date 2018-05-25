@@ -1,13 +1,4 @@
 /**
- * A collection of network-related functions
- */
-/**
- * ============================================================================
- * IMPORTS
- * ============================================================================
- * @hidden
- */
-/**
  * Defines an interface for objects that hold a net request result.
  */
 export interface INetLoadResult<A> {
@@ -42,6 +33,15 @@ export interface INetLoadResult<A> {
      */
     target?: A;
 }
+export interface INetRequestOptions {
+    /**
+     * Custom request headers to be added to HTTP(S) request.
+     */
+    requestHeaders?: {
+        key: string;
+        value: string;
+    }[];
+}
 /**
  * Loads an external file via its URL.
  *
@@ -69,8 +69,9 @@ export interface INetLoadResult<A> {
  * ```
  *
  * @async
- * @param  {string}                      url     URL for the file to load
- * @param  {A}                           target  A target element that is requesting the net load
- * @return {Promise<INetLoadResult<A>>}          Result (Promise)
+ * @param  {string}                      url      URL for the file to load
+ * @param  {A}                           target   A target element that is requesting the net load
+ * @param  {INetRequestOptions}          options  Request options
+ * @return {Promise<INetLoadResult<A>>}           Result (Promise)
  */
-export declare function load<A>(url: string, target?: A): Promise<INetLoadResult<A>>;
+export declare function load<A>(url: string, target?: A, options?: INetRequestOptions): Promise<INetLoadResult<A>>;

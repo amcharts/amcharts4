@@ -123,17 +123,15 @@ export declare class AxisDataItem extends DataItem {
      */
     constructor();
     /**
-     * Returns currently associated [[Grid]] element.
+     * @return {Grid} Grid element
+     */
+    /**
+     * A [[Grid]] element associated with this data item.
      *
      * If there is no grid element associated with data item, a new one is
      * created and returned.
      *
-     * @return {Grid} Grid element
-     */
-    /**
-     * Associates a [[Grid]] element with this data item.
-     *
-     * @param {Grid} grid Grid element
+     * @param {Grid}  grid  Grid element
      */
     grid: Grid;
     /**
@@ -141,54 +139,46 @@ export declare class AxisDataItem extends DataItem {
      */
     protected validateDataElements(): void;
     /**
-     * Returns currently associated [[AxisTick]] element.
+     * @return {AxisTick} Tick element
+     */
+    /**
+     * An [[AxisTick]] element associated with this data item.
      *
      * If there is no tick element associated with data item, a new one is
      * created and returned.
      *
-     * @return {AxisTick} Tick element
-     */
-    /**
-     * Associates an [[AxisTick]] element with this data item.
-     *
-     * @param {AxisTick} tick Tick element
+     * @param {AxisTick}  tick  Tick element
      */
     tick: AxisTick;
     /**
-     * Returns currently associated [[AxisLabel]] element.
-     *
-     * If there is no label element associated with data item, a new one is
-     * created and returned.
-     *
      * @return {AxisLabel} Label element
      */
     /**
-     * Associates an [[AxisLabel]] element with this data item.
+     * An [[AxisLabel]] element associated with this data item.
+     *
+     * If there is no label element associated with data item, a new one is
+     * created and returned.
      *
      * @param {AxisLabel} label Label element
      */
     label: AxisLabel;
     /**
-     * Returns currently associated [[AxisFill]] element.
-     *
-     * If there is no fill element associated with data item, a new one is
-     * created and returned.
-     *
      * @return {AxisFill} Label element
      */
     /**
-     * Associates an [[AxisFill]] element with this data item.
+     * An [[AxisFill]] associated element with this data item.
+     *
+     * If there is no fill element associated with data item, a new one is
+     * created and returned.
      *
      * @param {AxisFill} label Label element
      */
     axisFill: AxisFill;
     /**
-     * Returns data item's current label.
-     *
      * @return {string} Text label
      */
     /**
-     * Sets text to be used as data item's label.
+     * Text to be used as data item's label.
      *
      * @param {string} text Text label
      */
@@ -209,12 +199,10 @@ export declare class AxisDataItem extends DataItem {
      */
     readonly contents: Container;
     /**
-     * Returns currently set [[AxisBreak]].
-     *
      * @return {AxisBreak} Axis break
      */
     /**
-     * Sets an [[AxisBreak]] this data item falls within.
+     * An [[AxisBreak]] this data item falls within.
      *
      * @param {AxisBreak} axisBreak Axis break
      */
@@ -537,7 +525,10 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      */
     registerSeries(series: XYSeries): IDisposer;
     /**
-     * Returns currently set [[AxisRenderer]].
+     * @return {T} Renderer
+     */
+    /**
+     * An [[AxisRenderer]] to be used to render this Axis.
      *
      * Please note that most of the settings, related to Axis' appearance are set
      * via its renderer. Not directly on the Axis.
@@ -555,12 +546,8 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * axis.renderer.maxLabelPosition = 0.9;
      * ```
      *
-     * @return {T} Renderer
-     */
-    /**
-     * Sets [[AxisRenderer]] to be used to render this Axis.
-     *
-     * @param {T} renderer Renderer
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/} for more info
+     * @param {T}  renderer  Renderer
      */
     renderer: T;
     /**
@@ -620,12 +607,10 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      */
     readonly axisLength: number;
     /**
-     * Returns current setting for showing axis tooltip.
-     *
      * @return {boolean} Display tooltip?
      */
     /**
-     * Sets if axis should display a tooltip for chart's cursor.
+     * Indicates if axis should display a tooltip for chart's cursor.
      *
      * @param {boolean} value Display tooltip?
      */
@@ -869,10 +854,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      */
     protected fixAxisBreaks(): void;
     /**
-     * [startIndex description]
-     *
      * @ignore Exclude from docs
-     * @todo Description
      * @return {number} [description]
      */
     /**
@@ -893,10 +875,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      */
     startIndex: number;
     /**
-     * [endIndex description]
-     *
      * @ignore Exclude from docs
-     * @todo Description
      * @return {number} [description]
      */
     /**
@@ -918,12 +897,10 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      */
     getPositionLabel(position: number): string;
     /**
-     * Returns currently associated Chart.
-     *
      * @return {Chart} Chart
      */
     /**
-     * Sets associated Chart for this Axis.
+     * A Chart this Axis belongs to.
      *
      * @param {Chart}  value  Chart
      */

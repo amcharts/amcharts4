@@ -115,15 +115,13 @@ var AxisRendererCircular = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRendererCircular.prototype, "radius", {
         /**
-         * Returns currently set outer radius.
-         *
          * @return {number | Percent} Outer radius
          */
         get: function () {
             return this.getPropertyValue("radius");
         },
         /**
-         * Sets outer radius of the axis.
+         * Outer radius of the axis.
          *
          * Can be absolute (px) or relative ([[Percent]]).
          *
@@ -149,15 +147,13 @@ var AxisRendererCircular = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRendererCircular.prototype, "innerRadius", {
         /**
-         * Returns currently set inner radius.
-         *
          * @return {number | Percent} Inner radius
          */
         get: function () {
             return this.getPropertyValue("innerRadius");
         },
         /**
-         * Sets inner radius of the axis.
+         * Inner radius of the axis.
          *
          * Can be absolute (px) or relative ([[Percent]]).
          *
@@ -298,19 +294,16 @@ var AxisRendererCircular = /** @class */ (function (_super) {
     };
     Object.defineProperty(AxisRendererCircular.prototype, "startAngle", {
         /**
-         * Returns currently set start angle.
-         *
-         * @todo Description (units)
          * @return {number} Start angle
          */
         get: function () {
             return this.getPropertyValue("startAngle");
         },
         /**
-         * Sets start angle of the axis.
+         * Start angle of the axis.
          *
          * @todo Description (units)
-         * @param {number} value Start angle
+         * @param {number}  value  Start angle
          */
         set: function (value) {
             // do not normalize angel here!
@@ -321,19 +314,16 @@ var AxisRendererCircular = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRendererCircular.prototype, "endAngle", {
         /**
-         * Returns currently set end angle.
-         *
-         * @todo Description (units)
          * @return {number} End angle
          */
         get: function () {
             return this.getPropertyValue("endAngle");
         },
         /**
-         * Sets end angle of the axis.
+         * End angle of the axis.
          *
          * @todo Description (units)
-         * @param {number} value end angle
+         * @param {number}  value  end angle
          */
         set: function (value) {
             // do not normalize angel here!

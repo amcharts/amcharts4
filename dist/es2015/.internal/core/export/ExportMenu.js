@@ -21,7 +21,6 @@ import exportCSS from "./ExportCSS";
 import { Adapter } from "../utils/Adapter";
 import { List } from "../utils/List";
 import { getInteraction } from "../interaction/Interaction";
-import { EventDispatcher } from "../utils/EventDispatcher";
 import { MutableValueDisposer } from "../utils/Disposer";
 import { Language } from "../utils/Language";
 import { Validatable } from "../utils/Validatable";
@@ -65,10 +64,6 @@ var ExportMenu = /** @class */ (function (_super) {
      */
     function ExportMenu() {
         var _this = _super.call(this) || this;
-        /**
-         * Holds [[EventDispatcher]].
-         */
-        _this.events = new EventDispatcher();
         /**
          * An [[Adapter]].
          *
@@ -351,12 +346,24 @@ var ExportMenu = /** @class */ (function (_super) {
                 _this._ignoreNextClose = true;
             }
             _this.selectBranch(branch);
+            _this.events.dispatchImmediately("over", {
+                "type": "over",
+                "event": ev.event,
+                "target": _this,
+                "branch": branch
+            });
         });
         // TODO clean this up when it's disposed
         branch.interactions.events.on("out", function (ev) {
             if (!ev.pointer.touch) {
                 _this.delayUnselectBranch(branch);
             }
+            _this.events.dispatchImmediately("out", {
+                "type": "out",
+                "event": ev.event,
+                "target": _this,
+                "branch": branch
+            });
         });
         // TODO clean this up when it's disposed
         branch.interactions.events.on("focus", function (ev) {

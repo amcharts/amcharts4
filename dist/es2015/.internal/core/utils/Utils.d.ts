@@ -288,9 +288,10 @@ export declare function get12Hours(hours: number, base?: number): number;
  * @param  {Date}     date     Date object
  * @param  {boolean}  long     Should return long ("Pacific Standard Time") or short abbreviation ("PST")
  * @param  {boolean}  savings  Include information if it's in daylight savings mode
+ * @param  {boolean}  utc      Assume UTC dates
  * @return {string}            Time zone name
  */
-export declare function getTimeZone(date: Date, long?: boolean, savings?: boolean): string;
+export declare function getTimeZone(date: Date, long?: boolean, savings?: boolean, utc?: boolean): string;
 /**
  * ============================================================================
  * NUMBER-RELATED FUNCTIONS

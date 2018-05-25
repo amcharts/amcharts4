@@ -78,7 +78,7 @@ export declare function interpolate(rgb1: iRGB, rgb2: iRGB, percent: number): iR
  * @param  {number}  percent  Brightness percent
  * @return {iRGB}             Hex code of the new color
  */
-export declare function lighten(rgb: iRGB, percent: number): iRGB;
+export declare function lighten(rgb: $type.Optional<iRGB>, percent: number): $type.Optional<iRGB>;
 /**
  * Gets lightness step.
  *
@@ -96,7 +96,7 @@ export declare function getLightnessStep(value: number, percent: number): number
  * @param  {number}  percent  Brightness percent
  * @return {iRGB}             New color
  */
-export declare function brighten(rgb: iRGB, percent: number): iRGB;
+export declare function brighten(rgb: $type.Optional<iRGB>, percent: number): $type.Optional<iRGB>;
 /**
  * Returns brightness step.
  *
@@ -118,7 +118,7 @@ export declare function getBrightnessStep(value: number, percent: number): numbe
  * @param  {number}  saturation  Saturation (0-1)
  * @return {iRGB}                New color
  */
-export declare function saturate(rgb: iRGB, saturation: number): iRGB;
+export declare function saturate(rgb: $type.Optional<iRGB>, saturation: number): $type.Optional<iRGB>;
 /**
  * The functions below are taken and adapted from Garry Tan's blog post:
  * http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c

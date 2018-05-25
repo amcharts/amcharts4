@@ -71,7 +71,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
  */
 import { ExportMenu } from "./ExportMenu";
 import { Adapter } from "../utils/Adapter";
-import { EventDispatcher } from "../utils/EventDispatcher";
 import { Modal } from "../elements/Modal";
 import { List } from "../utils/List";
 import { Dictionary } from "../utils/Dictionary";
@@ -144,10 +143,6 @@ var Export = /** @class */ (function (_super) {
      */
     function Export() {
         var _this = _super.call(this) || this;
-        /**
-         * Event dispacther..
-         */
-        _this.events = new EventDispatcher();
         /**
          * Adapter.
          *
@@ -279,13 +274,12 @@ var Export = /** @class */ (function (_super) {
                 _this.export(ev.branch.type, ev.branch.options);
                 _this.menu.close();
             });
-            /*this._menu.events.on("branchselected", (ev) => {
-                getInteraction().body.events.disable();
+            this._menu.events.on("over", function (ev) {
+                _this._disableMouse();
             });
-    
-            this._menu.events.on("branchunselected", (ev) => {
-                getInteraction().body.events.enable();
-            });*/
+            this._menu.events.on("out", function (ev) {
+                _this._releaseMouse();
+            });
             // Dispatch event
             this.dispatchImmediately("menucreated");
             // Prefix with Sprite's class name
@@ -2121,11 +2115,10 @@ var Export = /** @class */ (function (_super) {
          * @return {Language} A [[Language]] instance to be used
          */
         get: function () {
-            if (this._language) {
-                return this._language;
+            if (!this._language) {
+                this._language = new Language();
             }
-            this.language = new Language();
-            return this.language;
+            return this._language;
         },
         /**
          * A [[Language]] instance to be used for translations.
@@ -2308,6 +2301,23 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getFormatOptions = function (type) {
         return this._formatOptions.getKey(type);
+    };
+    /**
+ * Disables interactivity on parent chart.
+ */
+    Export.prototype._disableMouse = function () {
+        if (!$type.hasValue(this._spriteMouseEnabled)) {
+            this._spriteMouseEnabled = this.sprite.mouseEnabled;
+        }
+        this.sprite.mouseEnabled = false;
+    };
+    /**
+     * Releases temporarily disabled mouse on parent chart.
+     */
+    Export.prototype._releaseMouse = function () {
+        if ($type.hasValue(this._spriteMouseEnabled)) {
+            this.sprite.mouseEnabled = this._spriteMouseEnabled;
+        }
     };
     /**
      * Processes JSON-based config before it is applied to the object.

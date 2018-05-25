@@ -18,10 +18,8 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { BaseObjectEvents } from "../Base";
-import { EventDispatcher } from "../utils/EventDispatcher";
 import { SVGDefaults } from "../defs/SVGDefaults";
 import { Disposer } from "../utils/Disposer";
-import { registry } from "../Registry";
 import { Color } from "../utils/Color";
 import { Percent, percent } from "../utils/Percent";
 import * as $async from "../utils/AsyncPending";
@@ -69,6 +67,141 @@ export function animate(duration, callback) {
  */
 export var animations = [];
 /**
+ * Returns numeric value accoring to progress between start and end values.
+ *
+ * @param  {number}  progress  Progress (0-1)
+ * @param  {number}  from
+ * @param  {number}  to
+ * @return {number}            Value according to progress
+ */
+function getProgressNumber(progress, from, to) {
+    return from + ((to - from) * progress);
+}
+/**
+ * Returns [[Percent]] value accoring to progress between start and end
+ * values.
+ *
+ * @param  {number}   progress  Progress (0-1)
+ * @param  {Percent}  from
+ * @param  {Percent}  to
+ * @return {number}             Value according to progress
+ */
+function getProgressPercent(progress, from, to) {
+    return new Percent(getProgressNumber(progress, from.percent, to.percent));
+}
+/**
+ * Returns color value accoring to progress between start and end values.
+ *
+ * @param  {number}  progress  Progress (0-1)
+ * @param  {Color}   from
+ * @param  {Color}   to
+ * @return {string}            Color according to progress
+ */
+function getProgressColor(progress, from, to) {
+    return new Color($colors.interpolate(from.rgb, to.rgb, progress));
+}
+/**
+ * [getHybridProperty description]
+ *
+ * @todo Description
+ * @param  {string}     property [description]
+ * @param  {"pixel" |        "relative"}  type [description]
+ * @return {string}              [description]
+ */
+function getHybridProperty(property, type) {
+    return type + property.charAt(0).toUpperCase() + property.substr(1);
+}
+function processAnimationOptions(object, animationOptions) {
+    var processed = [];
+    $array.each($array.toArray(animationOptions), function (options) {
+        var childObject = (options.childObject ? options.childObject : object);
+        if (!$type.hasValue(options.from)) {
+            options.from = childObject[options.property];
+            if (!$type.hasValue(options.from)) {
+                options.from = SVGDefaults[options.property];
+            }
+            /*if (!$type.hasValue(options.from)) {
+                throw Error("Could not get initial transition value.");
+            }*/
+        }
+        if (options.from !== options.to) { // || options.to == (<any>object)[options.property]){ this is not good, as dataItem.value is set to final at once, and we animate workingValue
+            // Use different update methods for different value types
+            if ($type.isNumber(options.to)) {
+                // Check if initial value is not Percent
+                if (options.from instanceof Percent) {
+                    // It is. Let's convert it to pixel value
+                    // @todo Check if we can do this in a less hacky way
+                    var convertedFrom = childObject[getHybridProperty(options.property, "pixel")];
+                    // TODO better check
+                    if (!isNaN(convertedFrom)) {
+                        options.from = convertedFrom;
+                    }
+                }
+                processed.push({
+                    childObject: childObject,
+                    property: options.property,
+                    update: function (time) {
+                        childObject[options.property] = getProgressNumber(time, options.from, options.to);
+                    }
+                });
+                // Check if maybe we have a color or percent value
+            }
+            else if (options.to instanceof Color) {
+                // Yup - set resolved named color
+                //options.from = $colors.stringToColor(<string>options.from);
+                if (options.from) {
+                    processed.push({
+                        childObject: childObject,
+                        property: options.property,
+                        update: function (time) {
+                            childObject[options.property] = getProgressColor(time, options.from, options.to);
+                        }
+                    });
+                }
+                else {
+                    processed.push({
+                        childObject: childObject,
+                        property: options.property,
+                        update: function (time) {
+                            childObject[options.property] = (time < 0.5 ? options.from : options.to);
+                        }
+                    });
+                }
+            }
+            else if (options.to instanceof Percent) {
+                // Check if the initial value is maybe in pixels
+                // TODO better check
+                if (!isNaN(options.from)) {
+                    // It is. Let's convert it
+                    // @todo Check if we can do this in a less hacky way
+                    var convertedFrom = childObject[getHybridProperty(options.property, "relative")];
+                    // TODO better check
+                    if (!isNaN(convertedFrom)) {
+                        options.from = percent(convertedFrom * 100);
+                    }
+                }
+                processed.push({
+                    childObject: childObject,
+                    property: options.property,
+                    update: function (time) {
+                        childObject[options.property] = getProgressPercent(time, options.from, options.to);
+                    }
+                });
+            }
+            else {
+                processed.push({
+                    childObject: childObject,
+                    property: options.property,
+                    update: function (time) {
+                        childObject[options.property] = (time < 0.5 ? options.from : options.to);
+                    }
+                });
+            }
+        }
+    });
+    return processed;
+}
+/**
  * Animation can be used to transition certain properties on an object that
  * implements [[IAnimatable]] interface.
  *
@@ -89,12 +222,6 @@ var Animation = /** @class */ (function (_super) {
         // Init
         _super.call(this) || this;
         /**
-         * Event dispatcher.
-         *
-         * @type {EventDispatcher<AMEvent<Animation, IAnimationEvents>>}
-         */
-        _this.events = new EventDispatcher();
-        /**
          * Duration of the animation in milliseconds.
          *
          * @type {number}
@@ -108,29 +235,17 @@ var Animation = /** @class */ (function (_super) {
          */
         _this.easing = $ease.linear;
         /**
-         * Is this a frame-based animation?
+         * Contains progress of the current animation: 0 (start) to 1 (end).
          *
-         * If the animation is frame-based, Animation will ensure that every frame
-         * is played, regardless of time.
-         *
-         * If the animation is non-frame-based, it will play exactly the time set in
-         * [[duration]].
-         *
-         * @type {boolean}
+         * @type {number}
          */
-        _this.frameBased = false;
+        _this.progress = 0;
         /**
          * Indicated how many times animation should loop.
          *
          * @type {number}
          */
         _this._loop = 0;
-        /**
-         * Animation duration in frames.
-         *
-         * @type {number}
-         */
-        _this._frames = 0;
         /**
          * Animation is paused.
          *
@@ -162,11 +277,6 @@ var Animation = /** @class */ (function (_super) {
     Animation.prototype.dispose = function () {
         _super.prototype.dispose.call(this);
         this.pause();
-        if (this._delayTimeout) {
-            this.removeDispose(this._delayTimeout);
-            this._delayTimeout = null;
-        }
-        $array.remove(animations, this);
     };
     /**
      * Delays animation start by X milliseconds.
@@ -177,7 +287,7 @@ var Animation = /** @class */ (function (_super) {
     Animation.prototype.delay = function (delay) {
         //@todo Maybe not use `bind()`
         if (delay > 0) {
-            this._pause = true;
+            this.pause();
             this._delayTimeout = this.setTimeout(this.start.bind(this), delay);
         }
         return this;
@@ -198,8 +308,6 @@ var Animation = /** @class */ (function (_super) {
         this.stopSameAnimations();
         // Reset counters
         this._pause = false;
-        this._frame = 1;
-        this._frames = registry.frameRate * this.duration / 1000;
         this._startTime = Date.now();
         this._time = 0;
         this.staticOptions = [];
@@ -227,12 +335,12 @@ var Animation = /** @class */ (function (_super) {
                 // Use different update methods for different value types
                 if ($type.isNumber(options.to)) {
                     // Numeric value
-                    options.updateMethod = this.getProgressNumber;
+                    options.updateMethod = getProgressNumber;
                     // Check if initial value is not Percent
                     if (options.from instanceof Percent) {
                         // It is. Let's convert it to pixel value
                         // @todo Check if we can do this in a less hacky way
-                        var convertedFrom = this.object[this.getHybridProperty(options.property, "pixel")];
+                        var convertedFrom = this.object[getHybridProperty(options.property, "pixel")];
                         if (!isNaN(convertedFrom)) {
                             options.from = convertedFrom;
                         }
@@ -244,7 +352,7 @@ var Animation = /** @class */ (function (_super) {
                         // Yup - set resolved named color
                         //options.from = $colors.stringToColor(<string>options.from);
                         if (options.from) {
-                            options.updateMethod = this.getProgressColor;
+                            options.updateMethod = getProgressColor;
                         }
                         else {
                             // Static value
@@ -254,12 +362,12 @@ var Animation = /** @class */ (function (_super) {
                     }
                     else if (options.to instanceof Percent) {
                         // Percent
-                        options.updateMethod = this.getProgressPercent;
+                        options.updateMethod = getProgressPercent;
                         // Check if the initial value is maybe in pixels
                         if (!isNaN(options.from)) {
                             // It is. Let's convert it
                             // @todo Check if we can do this in a less hacky way
-                            var convertedFrom = this.object[this.getHybridProperty(options.property, "relative")];
+                            var convertedFrom = this.object[getHybridProperty(options.property, "relative")];
                             if (!isNaN(convertedFrom)) {
                                 options.from = percent(convertedFrom * 100);
                             }
@@ -315,6 +423,12 @@ var Animation = /** @class */ (function (_super) {
      */
     Animation.prototype.pause = function () {
         this._pause = true;
+        if (this._delayTimeout) {
+            this.removeDispose(this._delayTimeout);
+            this._delayTimeout = null;
+        }
+        $array.remove(animations, this);
+        $array.remove(this.object.animations, this);
         return this;
     };
     /**
@@ -381,8 +495,6 @@ var Animation = /** @class */ (function (_super) {
      */
     Animation.prototype.stop = function (skipEvent) {
         this.pause();
-        this.dispose();
-        $array.remove(this.object.animations, this);
         if (!skipEvent) {
             if (this.events.isEnabled("animationstopped")) {
                 this.events.dispatchImmediately("animationstopped", {
@@ -395,37 +507,6 @@ var Animation = /** @class */ (function (_super) {
         return this;
     };
     /**
-     * Returns numeric value accoring to progress between start and end values.
-     *
-     * @param  {IAnimationOptions}  options   Option
-     * @param  {number}             progress  Progress (0-1)
-     * @return {number}                       Value according to progress
-     */
-    Animation.prototype.getProgressNumber = function (options, progress) {
-        return options.from + (options.to - options.from) * progress;
-    };
-    /**
-     * Returns [[Percent]] value accoring to progress between start and end
-     * values.
-     *
-     * @param  {IPercentAnimationOptions}  options   Option
-     * @param  {number}                    progress  Progress (0-1)
-     * @return {number}                              Value according to progress
-     */
-    Animation.prototype.getProgressPercent = function (options, progress) {
-        return new Percent($type.getValue(options.from).percent + (options.to.percent - $type.getValue(options.from).percent) * progress);
-    };
-    /**
-     * Returns color value accoring to progress between start and end values.
-     *
-     * @param  {IAnimationOptions}  options   Option
-     * @param  {number}             progress  Progress (0-1)
-     * @return {string}                       Color according to progress
-     */
-    Animation.prototype.getProgressColor = function (options, progress) {
-        return new Color($colors.interpolate($type.getValue(options.from).rgb, options.to.rgb, progress));
-    };
-    /**
      * Sets current progress and updates object's numeric and color values.
      *
      * @param {number} progress Progress (0-1)
@@ -434,7 +515,7 @@ var Animation = /** @class */ (function (_super) {
         var _this = this;
         this._time = this.duration * progress; // just in case we call this from outside
         $array.each(this.animationOptions, function (options) {
-            var value = options.updateMethod(options, progress);
+            var value = options.updateMethod(progress, options.from, options.to);
             if (options.childObject) {
                 options.childObject[options.property] = value;
             }
@@ -460,27 +541,14 @@ var Animation = /** @class */ (function (_super) {
     Animation.prototype.update = function () {
         if (!this._pause) {
             var progress = void 0;
-            if (this.frameBased) {
-                progress = this.easing(this._frame / this._frames);
-            }
-            else {
-                this._time = $math.fitToRange(Date.now() - this._startTime, 0, this.duration);
-                progress = this.easing(this._time / this.duration);
-                if (this.duration == 0 || !$type.isNumber(progress)) {
-                    progress = 1;
-                }
+            this._time = $math.fitToRange(Date.now() - this._startTime, 0, this.duration);
+            progress = this.easing(this._time / this.duration);
+            if (this.duration == 0 || !$type.isNumber(progress)) {
+                progress = 1;
             }
             this.setProgress(progress);
-            if (this.frameBased) {
-                this._frame++;
-                if (this._frame >= this._frames) {
-                    this.end();
-                }
-            }
-            else {
-                if ($math.round(this._time / this.duration, 6) == 1) {
-                    this.end();
-                }
+            if ($math.round(this._time / this.duration, 6) == 1) {
+                this.end();
             }
         }
         return this;
@@ -529,17 +597,6 @@ var Animation = /** @class */ (function (_super) {
                 });
             }
         });
-    };
-    /**
-     * [getHybridProperty description]
-     *
-     * @todo Description
-     * @param  {string}     property [description]
-     * @param  {"pixel" |        "relative"}  type [description]
-     * @return {string}              [description]
-     */
-    Animation.prototype.getHybridProperty = function (property, type) {
-        return type + property.charAt(0).toUpperCase() + property.substr(1);
     };
     return Animation;
 }(BaseObjectEvents));

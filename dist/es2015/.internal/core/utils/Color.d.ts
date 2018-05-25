@@ -60,7 +60,7 @@ export declare class Color {
      *
      * @param {iRGB} color Source color
      */
-    constructor(color?: iRGB);
+    constructor(color: $type.Optional<iRGB>);
     /**
      * Returns [[iRGB]] representation of the color.
      *

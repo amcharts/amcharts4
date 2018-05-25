@@ -68,17 +68,15 @@ var AxisFill = /** @class */ (function (_super) {
     };
     Object.defineProperty(AxisFill.prototype, "startPosition", {
         /**
-         * Returns current starting position.
-         *
          * @return {number} Start position
          */
         get: function () {
             return this.getPropertyValue("startPosition");
         },
         /**
-         * Sets the actual starting position of the fill.
+         * An actual starting position of the fill.
          *
-         * @param {number} value Starting position
+         * @param {number}  value  Starting position
          */
         set: function (value) {
             this.setPropertyValue("startPosition", value);
@@ -89,15 +87,13 @@ var AxisFill = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisFill.prototype, "endPosition", {
         /**
-         * Returns current end position.
-         *
          * @return {number} End position
          */
         get: function () {
             return this.getPropertyValue("endPosition");
         },
         /**
-         * Sets the actual end position of the fill.
+         * An actual end position of the fill.
          *
          * @param {number} value End position
          */
@@ -110,15 +106,13 @@ var AxisFill = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisFill.prototype, "location", {
         /**
-         * Returns current relative location.
-         *
          * @return {AxisItemLocation} Location (0-1)
          */
         get: function () {
             return this.getPropertyValue("location");
         },
         /**
-         * Sets the relative location of the fill. (0-1)
+         * Relative location of the fill. (0-1)
          *
          * @param {number} value Location (0-1)
          */

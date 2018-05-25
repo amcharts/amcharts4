@@ -27,6 +27,7 @@ export interface IAnimationObject {
 export interface IAnimatable {
     animations: Array<Animation>;
 }
+export declare type IAnimationOption = Color | Percent | number | string | boolean;
 /**
  * Defines interface for animation options.
  */
@@ -38,13 +39,13 @@ export interface IAnimationOptions {
      *
      * @type {Color | Percent | number | string | boolean}
      */
-    from?: Color | Percent | number | string | boolean;
+    from?: IAnimationOption;
     /**
      * A target value to animate from.
      *
      * @type {Color | Percent | number | string | boolean}
      */
-    to: Color | Percent | number | string | boolean;
+    to: IAnimationOption;
     /**
      * Property name to animate.
      *
@@ -66,7 +67,7 @@ export interface IAnimationOptions {
      *
      * @type {function}
      */
-    updateMethod?: (options: IAnimationOptions | IPercentAnimationOptions | IColorAnimationOptions, progress: number) => string | number | Color | Percent;
+    updateMethod?: (progress: number, from: IAnimationOption, to: IAnimationOption) => IAnimationOption;
     /**
      * sometimes we need to pass some dummy data in animationOptions
      * @type {any}
@@ -199,21 +200,9 @@ export declare class Animation extends BaseObjectEvents implements IAnimationObj
     /**
      * Contains progress of the current animation: 0 (start) to 1 (end).
      *
-     * @type {Optional<number>}
+     * @type {number}
      */
-    progress: $type.Optional<number>;
-    /**
-     * Is this a frame-based animation?
-     *
-     * If the animation is frame-based, Animation will ensure that every frame
-     * is played, regardless of time.
-     *
-     * If the animation is non-frame-based, it will play exactly the time set in
-     * [[duration]].
-     *
-     * @type {boolean}
-     */
-    frameBased: boolean;
+    progress: number;
     /**
      * A list of options that cannot be animated. Those will be applied when
      * Animation ends.
@@ -227,18 +216,6 @@ export declare class Animation extends BaseObjectEvents implements IAnimationObj
      * @type {number}
      */
     protected _loop: number;
-    /**
-     * Animation duration in frames.
-     *
-     * @type {number}
-     */
-    protected _frames: number;
-    /**
-     * Current frame.
-     *
-     * @type {number}
-     */
-    protected _frame: $type.Optional<number>;
     /**
      * Animation is paused.
      *
@@ -331,31 +308,6 @@ export declare class Animation extends BaseObjectEvents implements IAnimationObj
      */
     stop(skipEvent?: boolean): Animation;
     /**
-     * Returns numeric value accoring to progress between start and end values.
-     *
-     * @param  {IAnimationOptions}  options   Option
-     * @param  {number}             progress  Progress (0-1)
-     * @return {number}                       Value according to progress
-     */
-    protected getProgressNumber(options: IAnimationOptions, progress: number): number;
-    /**
-     * Returns [[Percent]] value accoring to progress between start and end
-     * values.
-     *
-     * @param  {IPercentAnimationOptions}  options   Option
-     * @param  {number}                    progress  Progress (0-1)
-     * @return {number}                              Value according to progress
-     */
-    protected getProgressPercent(options: IPercentAnimationOptions, progress: number): Percent;
-    /**
-     * Returns color value accoring to progress between start and end values.
-     *
-     * @param  {IAnimationOptions}  options   Option
-     * @param  {number}             progress  Progress (0-1)
-     * @return {string}                       Color according to progress
-     */
-    protected getProgressColor(options: IColorAnimationOptions, progress: number): Color;
-    /**
      * Sets current progress and updates object's numeric and color values.
      *
      * @param {number} progress Progress (0-1)
@@ -384,13 +336,4 @@ export declare class Animation extends BaseObjectEvents implements IAnimationObj
      * other's toes by trying to animate the same property.
      */
     private stopSameAnimations();
-    /**
-     * [getHybridProperty description]
-     *
-     * @todo Description
-     * @param  {string}     property [description]
-     * @param  {"pixel" |        "relative"}  type [description]
-     * @return {string}              [description]
-     */
-    private getHybridProperty(property, type);
 }

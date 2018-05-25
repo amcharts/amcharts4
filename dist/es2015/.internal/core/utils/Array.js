@@ -55,6 +55,19 @@ export function each(array, fn) {
     }
 }
 /**
+ * Iterates thorugh all items in array in reverse order and calls `fn` function for each of
+ * them.
+ *
+ * @param   {ArrayLike<A>}  array  Source array
+ * @param   {function}      fn     Callback function
+ */
+export function eachReverse(array, fn) {
+    var i = array.length;
+    while (i--) {
+        fn(array[i], i);
+    }
+}
+/**
  * Iterates thorugh all items in array and calls `fn` function for each of
  * them.
  *

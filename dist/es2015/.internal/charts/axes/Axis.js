@@ -58,11 +58,6 @@ var AxisDataItem = /** @class */ (function (_super) {
     }
     Object.defineProperty(AxisDataItem.prototype, "grid", {
         /**
-         * Returns currently associated [[Grid]] element.
-         *
-         * If there is no grid element associated with data item, a new one is
-         * created and returned.
-         *
          * @return {Grid} Grid element
          */
         get: function () {
@@ -75,9 +70,12 @@ var AxisDataItem = /** @class */ (function (_super) {
             return this._grid;
         },
         /**
-         * Associates a [[Grid]] element with this data item.
+         * A [[Grid]] element associated with this data item.
          *
-         * @param {Grid} grid Grid element
+         * If there is no grid element associated with data item, a new one is
+         * created and returned.
+         *
+         * @param {Grid}  grid  Grid element
          */
         set: function (grid) {
             if (this._grid && this._grid != grid) {
@@ -104,11 +102,6 @@ var AxisDataItem = /** @class */ (function (_super) {
     };
     Object.defineProperty(AxisDataItem.prototype, "tick", {
         /**
-         * Returns currently associated [[AxisTick]] element.
-         *
-         * If there is no tick element associated with data item, a new one is
-         * created and returned.
-         *
          * @return {AxisTick} Tick element
          */
         get: function () {
@@ -121,9 +114,12 @@ var AxisDataItem = /** @class */ (function (_super) {
             return this._tick;
         },
         /**
-         * Associates an [[AxisTick]] element with this data item.
+         * An [[AxisTick]] element associated with this data item.
          *
-         * @param {AxisTick} tick Tick element
+         * If there is no tick element associated with data item, a new one is
+         * created and returned.
+         *
+         * @param {AxisTick}  tick  Tick element
          */
         set: function (tick) {
             if (this._tick && this._tick != tick) {
@@ -145,11 +141,6 @@ var AxisDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisDataItem.prototype, "label", {
         /**
-         * Returns currently associated [[AxisLabel]] element.
-         *
-         * If there is no label element associated with data item, a new one is
-         * created and returned.
-         *
          * @return {AxisLabel} Label element
          */
         get: function () {
@@ -162,7 +153,10 @@ var AxisDataItem = /** @class */ (function (_super) {
             return this._label;
         },
         /**
-         * Associates an [[AxisLabel]] element with this data item.
+         * An [[AxisLabel]] element associated with this data item.
+         *
+         * If there is no label element associated with data item, a new one is
+         * created and returned.
          *
          * @param {AxisLabel} label Label element
          */
@@ -186,11 +180,6 @@ var AxisDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisDataItem.prototype, "axisFill", {
         /**
-         * Returns currently associated [[AxisFill]] element.
-         *
-         * If there is no fill element associated with data item, a new one is
-         * created and returned.
-         *
          * @return {AxisFill} Label element
          */
         get: function () {
@@ -203,7 +192,10 @@ var AxisDataItem = /** @class */ (function (_super) {
             return this._axisFill;
         },
         /**
-         * Associates an [[AxisFill]] element with this data item.
+         * An [[AxisFill]] associated element with this data item.
+         *
+         * If there is no fill element associated with data item, a new one is
+         * created and returned.
          *
          * @param {AxisFill} label Label element
          */
@@ -228,15 +220,13 @@ var AxisDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisDataItem.prototype, "text", {
         /**
-         * Returns data item's current label.
-         *
          * @return {string} Text label
          */
         get: function () {
             return this._text;
         },
         /**
-         * Sets text to be used as data item's label.
+         * Text to be used as data item's label.
          *
          * @param {string} text Text label
          */
@@ -292,15 +282,13 @@ var AxisDataItem = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisDataItem.prototype, "axisBreak", {
         /**
-         * Returns currently set [[AxisBreak]].
-         *
          * @return {AxisBreak} Axis break
          */
         get: function () {
             return this._axisBreak;
         },
         /**
-         * Sets an [[AxisBreak]] this data item falls within.
+         * An [[AxisBreak]] this data item falls within.
          *
          * @param {AxisBreak} axisBreak Axis break
          */
@@ -627,7 +615,13 @@ var Axis = /** @class */ (function (_super) {
     };
     Object.defineProperty(Axis.prototype, "renderer", {
         /**
-         * Returns currently set [[AxisRenderer]].
+         * @return {T} Renderer
+         */
+        get: function () {
+            return this._renderer;
+        },
+        /**
+         * An [[AxisRenderer]] to be used to render this Axis.
          *
          * Please note that most of the settings, related to Axis' appearance are set
          * via its renderer. Not directly on the Axis.
@@ -645,15 +639,8 @@ var Axis = /** @class */ (function (_super) {
          * axis.renderer.maxLabelPosition = 0.9;
          * ```
          *
-         * @return {T} Renderer
-         */
-        get: function () {
-            return this._renderer;
-        },
-        /**
-         * Sets [[AxisRenderer]] to be used to render this Axis.
-         *
-         * @param {T} renderer Renderer
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/} for more info
+         * @param {T}  renderer  Renderer
          */
         set: function (renderer) {
             this._renderer = renderer;
@@ -742,15 +729,13 @@ var Axis = /** @class */ (function (_super) {
     });
     Object.defineProperty(Axis.prototype, "cursorTooltipEnabled", {
         /**
-         * Returns current setting for showing axis tooltip.
-         *
          * @return {boolean} Display tooltip?
          */
         get: function () {
             return this._cursorTooltipEnabled;
         },
         /**
-         * Sets if axis should display a tooltip for chart's cursor.
+         * Indicates if axis should display a tooltip for chart's cursor.
          *
          * @param {boolean} value Display tooltip?
          */
@@ -1190,10 +1175,7 @@ var Axis = /** @class */ (function (_super) {
     };
     Object.defineProperty(Axis.prototype, "startIndex", {
         /**
-         * [startIndex description]
-         *
          * @ignore Exclude from docs
-         * @todo Description
          * @return {number} [description]
          */
         get: function () {
@@ -1222,10 +1204,7 @@ var Axis = /** @class */ (function (_super) {
     });
     Object.defineProperty(Axis.prototype, "endIndex", {
         /**
-         * [endIndex description]
-         *
          * @ignore Exclude from docs
-         * @todo Description
          * @return {number} [description]
          */
         get: function () {
@@ -1257,15 +1236,13 @@ var Axis = /** @class */ (function (_super) {
     };
     Object.defineProperty(Axis.prototype, "chart", {
         /**
-         * Returns currently associated Chart.
-         *
          * @return {Chart} Chart
          */
         get: function () {
             return this._chart;
         },
         /**
-         * Sets associated Chart for this Axis.
+         * A Chart this Axis belongs to.
          *
          * @param {Chart}  value  Chart
          */

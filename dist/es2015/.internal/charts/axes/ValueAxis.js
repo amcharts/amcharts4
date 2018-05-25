@@ -1009,7 +1009,7 @@ var ValueAxis = /** @class */ (function (_super) {
             step = $math.round(step, decCount);
         }
         if (!this.logarithmic) {
-            // final min and max		
+            // final min and max
             min = $math.round(step * Math.floor(min / step), decCount);
             max = $math.round(step * Math.ceil(max / step), decCount);
         }

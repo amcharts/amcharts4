@@ -1324,15 +1324,13 @@ var Container = /** @class */ (function (_super) {
     };
     Object.defineProperty(Container.prototype, "fontSize", {
         /**
-         * Returns current font size for text element.
-         *
          * @return {any} Font size
          */
         get: function () {
             return this.getPropertyValue("fontSize");
         },
         /**
-         * Sets font size to be used for the text. The size can either be numeric, in
+         * Font size to be used for the text. The size can either be numeric, in
          * pxels, or other measurements.
          *
          * Parts of the text may override this setting using in-line formatting.
@@ -1348,15 +1346,13 @@ var Container = /** @class */ (function (_super) {
     });
     Object.defineProperty(Container.prototype, "fontWeight", {
         /**
-         * Returns currently set font weight.
-         *
          * @return {FontWeight} Font weight
          */
         get: function () {
             return this.getPropertyValue("fontWeight");
         },
         /**
-         * Sets font weight to use for text.
+         * Font weight to use for text.
          *
          * Parts of the text may override this setting using in-line formatting.
          *
@@ -1371,19 +1367,17 @@ var Container = /** @class */ (function (_super) {
     });
     Object.defineProperty(Container.prototype, "textDecoration", {
         /**
-         * Returns current text decoration setting.
-         *
          * @return {TextDecoration} Decoration
          */
         get: function () {
             return this.getPropertyValue("textDecoration");
         },
         /**
-         * Sets a text decoration to use for text.
+         * A text decoration to use for text.
          *
          * Parts of the text may override this setting using in-line formatting.
          *
-         * @param {TextDecoration} value Decoration
+         * @param {TextDecoration}  value  Decoration
          */
         set: function (value) {
             this.setPropertyValue("textDecoration", value);
@@ -1392,6 +1386,9 @@ var Container = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Disposes (destroys) the element and all its children.
+     */
     Container.prototype.dispose = function () {
         this.disposeChildren();
         _super.prototype.dispose.call(this);

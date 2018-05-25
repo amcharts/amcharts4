@@ -202,7 +202,15 @@ export declare class Dictionary<Key extends string, T> {
      *
      * @return {Iterator} Iterator
      */
-    iterator(): $iter.Iterator<[string, T]>;
+    iterator(): $iter.Iterator<[Key, T]>;
+    /**
+     * Returns an ES6 iterator for the keys/values of the dictionary.
+     */
+    [Symbol.iterator](): Iterator<[Key, T]>;
+    /**
+     * Calls `f` for each key/value in the dictionary.
+     */
+    each(f: (key: Key, value: T) => void): void;
     /**
      * Returns an iterator that can be used to iterate through all items in
      * the dictionary, ordered by key.
@@ -210,7 +218,7 @@ export declare class Dictionary<Key extends string, T> {
      * @ignore Exclude from docs
      * @return {Iterator} Iterator
      */
-    sortedIterator(): $iter.Iterator<[string, T]>;
+    sortedIterator(): $iter.Iterator<[Key, T]>;
 }
 /**
  * A version of a [[Dictionary]] that has a "template".

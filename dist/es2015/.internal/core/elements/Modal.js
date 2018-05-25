@@ -39,6 +39,7 @@ var Modal = /** @class */ (function (_super) {
         _this.adapter = new Adapter(_this);
         _this.className = "Modal";
         _this.showCurtain = true;
+        _this.draggable = false;
         return _this;
     }
     return Modal;

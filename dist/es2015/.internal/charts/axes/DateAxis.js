@@ -1277,7 +1277,13 @@ var DateAxis = /** @class */ (function (_super) {
             text = this.dateFormatter.format(this.positionToDate(position), this.tooltipDateFormat);
         }
         else {
-            text = this.getPositionLabel(position);
+            var dateFormat = this.dateFormats.getKey(this.baseInterval.timeUnit);
+            if (dateFormat) {
+                text = this.dateFormatter.format(this.positionToDate(position), dateFormat);
+            }
+            else {
+                text = this.getPositionLabel(position);
+            }
         }
         return this.adapter.apply("getTooltipText", text);
     };

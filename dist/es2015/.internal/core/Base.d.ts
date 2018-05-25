@@ -266,6 +266,16 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      * @ignore Exclude from docs
      */
     protected processConfig(config?: object): void;
+    /**
+     * Tries to detect if value is color or percent and converts to proper object
+     * if necessary.
+     *
+     * Returns the same source value if no color/percent detected
+     *
+     * @param  {any}  value  Source value
+     * @return {any}         Converted value
+     */
+    protected maybeColorOrPercent(value: any): any;
     protected processAdapters(item: Adapter<any, any>, config: any): void;
     protected processEvents(item: EventDispatcher<any>, config: any): void;
     /**

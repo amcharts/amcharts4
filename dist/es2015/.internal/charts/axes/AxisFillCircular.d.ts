@@ -105,34 +105,28 @@ export declare class AxisFillCircular extends AxisFill {
      */
     draw(): void;
     /**
-     * Returns current inner radius.
-     *
      * @return {number} Inner radius
      */
     /**
-     * Sets inner radius of the fill. Relative ([[Percent]]) or absolute (pixels).
+     * Inner radius of the fill. Relative ([[Percent]]) or absolute (pixels).
      *
      * @param {number | Percent}  value  Inner radius
      */
     innerRadius: number | Percent;
     /**
-     * Returns current outer radius.
-     *
      * @return {number} Outer radius
      */
     /**
-     * Sets outer radius of the fill. Relative ([[Percent]]) or absolute (pixels).
+     * Outer radius of the fill. Relative ([[Percent]]) or absolute (pixels).
      *
      * @param {number | Percent}  value  Outer radius
      */
     radius: number | Percent;
     /**
-     * Returns current corner radius.
-     *
      * @return {number} Corner radius (px)
      */
     /**
-     * Sets corner radius for the fill. In pixels.
+     * Corner radius for the fill. In pixels.
      *
      * @param {number}  value  Corner radius (px)
      */

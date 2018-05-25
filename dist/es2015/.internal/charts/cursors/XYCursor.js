@@ -174,6 +174,9 @@ var XYCursor = /** @class */ (function (_super) {
                 selection.element.attr({ "d": $path.rectangle(w, h) });
                 selection.validatePosition(); // otherwise Edge shoes some incorrect size rectangle
             }
+            else {
+                this.selection.hide();
+            }
         }
     };
     /**
@@ -187,14 +190,7 @@ var XYCursor = /** @class */ (function (_super) {
         point.y = Math.min(this.pixelHeight, point.y);
         return point;
     };
-    /**
-     * Updates position of Cursor's line(s) as pointer moves.
-     *
-     * @ignore Exclude from docs
-     * @param {IInteractionEvents["track"]} event Original event
-     */
-    XYCursor.prototype.handleCursorMove = function (event) {
-        var point = _super.prototype.handleCursorMove.call(this, event);
+    XYCursor.prototype.triggerMoveReal = function (point, triggeredByPointer) {
         this.updateLinePositions(point);
         if (this.downPoint) {
             if (this._generalBehavior == "pan") {
@@ -202,7 +198,7 @@ var XYCursor = /** @class */ (function (_super) {
                 this.dispatch("panning");
             }
         }
-        return point;
+        _super.prototype.triggerMoveReal.call(this, point, triggeredByPointer);
     };
     /**
      *
@@ -218,20 +214,14 @@ var XYCursor = /** @class */ (function (_super) {
         }
         this.updateSelection();
     };
-    /**
-     * Starts pointer down action, according to `behavior`.
-     *
-     * @ignore Exclude from docs
-     * @param {ISpriteEvents["down"]} event Original event
-     */
-    XYCursor.prototype.handleCursorDown = function (event) {
+    XYCursor.prototype.triggerDownReal = function (point, triggeredByPointer) {
         if (this.visible && !this.isHiding) {
-            this.downPoint = $utils.documentPointToSprite(event.pointer.point, this);
-            this.point.x = this.downPoint.x;
-            this.point.y = this.downPoint.y;
-            this.updateLinePositions(this.downPoint); // otherwise lines won't be in correct position and touch won't work fine
-            if (this.fitsToBounds(this.downPoint)) {
-                this.updateDownPoint();
+            if (this.fitsToBounds(point)) {
+                this.downPoint = point;
+                this.updatePoint(point);
+                //this.updateLinePositions(point); // otherwise lines won't be in correct position and touch won't work fine
+                this.point.x = this.downPoint.x;
+                this.point.y = this.downPoint.y;
                 var selection = this.selection;
                 var selectionX = this.downPoint.x;
                 var selectionY = this.downPoint.y;
@@ -241,34 +231,32 @@ var XYCursor = /** @class */ (function (_super) {
                     selection.element.attr({ "d": "" });
                     selection.show();
                 }
-                _super.prototype.handleCursorDown.call(this, event);
+                _super.prototype.triggerDownReal.call(this, point, triggeredByPointer);
             }
             else {
                 this.downPoint = undefined;
             }
+        }
+        else {
+            this.downPoint = undefined;
         }
     };
     /**
      * Updates the coordinates of where pointer down event occurred
      * (was pressed).
      */
-    XYCursor.prototype.updateDownPoint = function () {
+    XYCursor.prototype.updatePoint = function (point) {
         if (this.lineX) {
-            this.downPoint.x = this.lineX.pixelX;
+            point.x = this.lineX.pixelX;
         }
         if (this.lineY) {
-            this.downPoint.y = this.lineY.pixelY;
+            point.y = this.lineY.pixelY;
         }
     };
-    /**
-     * Ends pointer down action, according to `behavior`.
-     *
-     * @ignore Exclude from docs
-     * @param {ISpriteEvents["up"]} event Original event
-     */
-    XYCursor.prototype.handleCursorUp = function (event) {
+    XYCursor.prototype.triggerUpReal = function (point, triggeredByPointer) {
         if (this.downPoint) {
-            this.upPoint = $utils.documentPointToSprite(event.pointer.point, this);
+            this.upPoint = point;
+            this.updatePoint(this.upPoint);
             this.getRanges();
             if (this.behavior == "selectX" || this.behavior == "selectY" || this.behavior == "selectXY") {
                 // void
@@ -276,8 +264,10 @@ var XYCursor = /** @class */ (function (_super) {
             else {
                 this.selection.hide();
             }
-            _super.prototype.handleCursorUp.call(this, event);
+            _super.prototype.triggerUpReal.call(this, point, triggeredByPointer);
         }
+        this.downPoint = undefined;
+        this.updateSelection();
     };
     /**
      * [getRanges description]

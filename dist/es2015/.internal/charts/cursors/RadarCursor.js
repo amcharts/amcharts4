@@ -97,14 +97,7 @@ var RadarCursor = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    /**
-     * Updates cursor's positions when the tracked coordinates change.
-     *
-     * @param {ISpriteEvents["track"]} event Event
-     */
-    RadarCursor.prototype.handleCursorMove = function (event) {
-        var local = $utils.documentPointToSprite(event.pointer.point, this);
-        _super.prototype.handleCursorMove.call(this, event);
+    RadarCursor.prototype.triggerMoveReal = function (point, triggeredByPointer) {
         if (!this.xAxis || (this.xAxis && (!this.xAxis.cursorTooltipEnabled || this.xAxis.tooltip.disabled))) {
             this.updateLineX(this.point);
         }
@@ -112,7 +105,7 @@ var RadarCursor = /** @class */ (function (_super) {
             this.updateLineY(this.point);
         }
         this.updateSelection();
-        return local;
+        _super.prototype.triggerMoveReal.call(this, point, triggeredByPointer);
     };
     /**
      * (Re)draws the horizontal (circular) cursor's line.
@@ -129,7 +122,7 @@ var RadarCursor = /** @class */ (function (_super) {
             var path = void 0;
             if (this.lineX && this.lineX.visible) {
                 this.lineX.moveTo({ x: 0, y: 0 });
-                // fill				
+                // fill
                 if (this.xAxis && this.fullWidthLineX) {
                     var startPoint = this.xAxis.currentItemStartPoint;
                     var endPoint = this.xAxis.currentItemEndPoint;

@@ -177,7 +177,7 @@ var EventDispatcher = /** @class */ (function () {
         var index = $array.findIndex(this._listeners, function (info) {
             return info.once !== true && // Ignoring "once" listeners
                 info.type === type &&
-                info.callback === callback &&
+                (!callback || info.callback === callback) &&
                 info.context === context;
         });
         return index !== -1;

@@ -122,7 +122,7 @@ export declare class EventDispatcher<T> implements IDisposer {
      * @param   {B}           context   Callback context
      * @return {boolean}                Has listener?
      */
-    has<C, Key extends keyof T>(type: Key, callback: (this: C, event: T[Key]) => void, context?: C): boolean;
+    has<C, Key extends keyof T>(type: Key, callback?: (this: C, event: T[Key]) => void, context?: C): boolean;
     /**
      * Checks whether event of the particular type should be dispatched.
      *

@@ -293,9 +293,14 @@ var TextFormatter = /** @class */ (function (_super) {
                 // Text outside quotes
                 // Parse for style blocks which are "text" chunks, the rest chunks are
                 // "value"
+                chunk = chunk.replace("][", "]" + $strings.PLACEHOLDER + "[");
                 var chunks2 = chunk.split(/[\[\]]+/);
                 for (var i2 = 0; i2 < chunks2.length; i2++) {
                     var chunk2 = this.unescape(chunks2[i2]);
+                    // Placeholder?
+                    if (chunk2 === $strings.PLACEHOLDER) {
+                        continue;
+                    }
                     // Empty?
                     if (chunk2 === "") {
                         continue;

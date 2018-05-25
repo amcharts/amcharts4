@@ -2021,7 +2021,7 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.transitTo = function (state, duration, easing) {
         var _this = this;
         // Init
-        var options = [], propValues = state.allValues, transiton;
+        var options = [], propValues = state.allValues, transition;
         // todo: do this for numeric/color properties only?
         // @todo use state.getPropertyValue instead
         $object.each(propValues, function (propertyName, finalValue) {
@@ -2037,10 +2037,10 @@ var Sprite = /** @class */ (function (_super) {
             }
         });
         if (options.length > 0) {
-            transiton = this.animate(options, duration, easing);
+            transition = this.animate(options, duration, easing);
             // TODO should this use events.once ?
             // TODO push onto _disposers array ?
-            this._disposers.push(transiton.events.on("animationended", function () {
+            this._disposers.push(transition.events.on("animationended", function () {
                 _this.dispatchImmediately("transitionended");
             }));
         }
@@ -2073,7 +2073,7 @@ var Sprite = /** @class */ (function (_super) {
             this.filters.clear();
             this.filters.pushAll(newFilters_1);
         }
-        return transiton;
+        return transition;
     };
     /**
      * Returns `true` if Sprite is currently transiting from one state/value to
@@ -4346,10 +4346,13 @@ var Sprite = /** @class */ (function (_super) {
          */
         get: function () {
             var value = this.getPropertyValue("mouseEnabled");
-            if (!$type.hasValue(value)) {
-                value = true;
+            if (value === false) {
+                return false;
             }
-            return value;
+            if (this.parent) {
+                return this.parent.mouseEnabled;
+            }
+            return true;
         },
         /**
          * Setting this to `false` will efectively disable all interactivity on the
@@ -4518,6 +4521,7 @@ var Sprite = /** @class */ (function (_super) {
                     // Create popup template
                     var popupTemplate = new Popup();
                     popupTemplate.container = this.svgContainer;
+                    popupTemplate.sprite = this;
                     // Prefix with Sprite's class name
                     popupTemplate.adapter.add("classPrefix", function (value) {
                         value = _this.classNamePrefix + value;
@@ -4548,6 +4552,9 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.openPopup = function (text, title) {
         var popup = this.popups.create();
         popup.content = text;
+        if ($type.hasValue(title)) {
+            popup.title = title;
+        }
         popup.show();
         return popup;
     };
@@ -6208,7 +6215,7 @@ var Sprite = /** @class */ (function (_super) {
             this.isHiding = false;
             this.isShowing = true;
             if (this._hideAnimation) {
-                this._hideAnimation.stop();
+                this._hideAnimation.dispose();
                 this._hideAnimation = null;
             }
             // Cancel hide handler just in case it was there
@@ -6272,7 +6279,7 @@ var Sprite = /** @class */ (function (_super) {
             this.hideTooltip(0);
             this.isShowing = false;
             if (this._hideAnimation) {
-                this._hideAnimation.stop();
+                this._hideAnimation.dispose();
                 this._hideAnimation = null;
             }
             // Cancel hide handler just in case it was there
@@ -6572,11 +6579,14 @@ var Sprite = /** @class */ (function (_super) {
                     }
                 }
                 // Apply tooltip text
+                var text = "";
                 if (this.tooltipHTML) {
                     tooltip.html = this.tooltipHTML;
+                    text = this.tooltipHTML;
                 }
                 if (this.tooltipText) {
                     tooltip.text = this.tooltipText;
+                    text = this.tooltipText;
                 }
                 tooltip.dataItem = tooltipDataItem;
                 if (this.tooltipPosition == "mouse") {
@@ -6594,7 +6604,7 @@ var Sprite = /** @class */ (function (_super) {
                 }
                 // Set accessibility option
                 tooltip.readerDescribedBy = this.uidAttr();
-                if (tooltip.text != undefined && tooltip.text != "") {
+                if (text != undefined && text != "") {
                     //@todo: think of how to solve this better
                     if (tooltip && !tooltip.parent) {
                         tooltip.parent = this.tooltipContainer;

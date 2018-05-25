@@ -1,0 +1,1 @@
+{"version":3,"file":"nl_NL.js","sourceRoot":"","sources":["../../../src/lang/nl_NL.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,yBAAyB,CAAC","sourcesContent":["export { default } from \"../.internal/lang/nl_NL\";\n"]}

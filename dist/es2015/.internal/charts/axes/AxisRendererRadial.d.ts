@@ -143,12 +143,10 @@ export declare class AxisRendererRadial extends AxisRendererY {
      */
     readonly axisLength: number;
     /**
-     * Returns currently set outer radius.
-     *
      * @return {number | Percent} Outer radius
      */
     /**
-     * Sets outer radius of the axis.
+     * Outer radius of the axis.
      *
      * Can be absolute (px) or relative ([[Percent]]).
      *
@@ -162,12 +160,10 @@ export declare class AxisRendererRadial extends AxisRendererY {
      */
     readonly pixelRadius: number;
     /**
-     * Returns currently set inner radius.
-     *
      * @return {number | Percent} Inner radius
      */
     /**
-     * Sets inner radius of the axis.
+     * Inner radius of the axis.
      *
      * Can be absolute (px) or relative ([[Percent]]).
      *
@@ -181,13 +177,11 @@ export declare class AxisRendererRadial extends AxisRendererY {
      */
     readonly pixelInnerRadius: number;
     /**
-     * Returns currently set associated chart.
-     *
      * @ignore Exclude from docs
      * @return {RadarChart} Chart
      */
     /**
-     * Sets a chart, associated with the Axis.
+     * Chart, associated with the Axis.
      *
      * @ignore Exclude from docs
      * @param {RadarChart} value Chart
@@ -239,51 +233,40 @@ export declare class AxisRendererRadial extends AxisRendererY {
      */
     fitsToBounds(point: IPoint): boolean;
     /**
-     * Returns currently set start angle.
-     *
-     * @todo Description (units)
      * @return {number} Start angle
      */
     /**
-     * Sets start angle of the axis.
+     * Start angle of the axis.
      *
      * @todo Description (units)
      * @param {number} value Start angle
      */
     startAngle: number;
     /**
-     * Returns currently set end angle.
-     *
-     * @todo Description (units)
      * @return {number} End angle
      */
     /**
-     * Sets end angle of the axis.
+     * End angle of the axis.
      *
      * @todo Description (units)
-     * @param {number} value end angle
+     * @param {number}  value  end angle
      */
     endAngle: number;
     /**
-     * Returns currently set axis angle.
-     *
-     * @todo Description (units)
      * @return {number} Axis angle
      */
     /**
-     * Sets the angle of the radial axis.
+     * Angle of the radial axis.
      *
      * @todo Description (units)
-     * @param {number} value Axis angle
+     * @param {number}  value  Axis angle
      */
     axisAngle: number;
     /**
-     * Returns currently set grid type.
-     *
      * @type {"circles" | "polygons"} Grid type
      */
     /**
-     * Sets the grid type for radia axis.
+     * Grid type for radial axis.
      *
      * A grid on radia axis can either be perfect circles ("circles"), or
      * straight lines ("polygons").

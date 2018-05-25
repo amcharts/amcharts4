@@ -286,9 +286,8 @@ export declare class ColumnSeries extends XYSeries {
      */
     protected setColumnStates(sprite: Sprite): void;
     /**
-     * A list of column elements.
+     * A list of column elements in the series.
      *
-     * @ignore Exclude from docs
      * @return {ListTemplate<this["_column"]>} Columns
      */
     readonly columns: ListTemplate<this["_column"]>;

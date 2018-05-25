@@ -2,7 +2,38 @@
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 
-Please note, that this project DOES NOT adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+Please note, that this project, while following numbering syntax, it DOES NOT
+adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
+
+## [4.0.0-beta.25] - 2018-05-25
+
+### Fixed
+- Using `tooltipHTML` was very buggy.
+- Text formatting with two adjacent formatting blocks (`[...][...]`) was broken.
+- `DateFormatter` was ignoring `utc` setting when formatting dates.
+- Popup no longer obstructs the chart around it.
+- Popup/Modal and Export Menu now temporarily disable all interactivity behind it.
+
+### Added
+- `DataSource` now has property [`requestOptions`](https://www.amcharts.com/docs/v4/reference/datasource/#requestOptions_property) which you can use to add custom request headers to HTTP(S) requests.
+- `Popup.title` property.
+- `Popup.draggable` property (boolean). Default `true`. Makes popups draggable.
+- `ru_RU` (Russian) and `nl_NL` (Dutch) translations.
+- `Dictionary`, `DictionaryTemplate`, `List`, `ListTemplate`, `OrderedList`, `OrderedListTemplate`, `SortedList`, and `SortedListTemplate` have these new methods:
+- `each` (which calls a function for each element in the data structure)
+- `Symbol.iterator` (which is used for the ES6 iterator protocol)
+- New `Cursor` event: `"behaviorcanceled"`. (called when zoom/pan/select operation is abandoned)
+- New `Cursor` methods: [`triggerMove()`](https://www.amcharts.com/docs/v4/reference/cursor/#triggerMove_method), [`triggerDown()`](https://www.amcharts.com/docs/v4/reference/cursor/#triggerDown_method), and [`triggerUp()`](https://www.amcharts.com/docs/v4/reference/cursor/#triggerUp_method) for improving cursor syncing and manual placement.
+- Support for `Series.heatRules` in JSON chart config.
+- JSON config now supports arrays in `events` and `adapter`.
+
+### Changed
+- HTML labels now take `fill` (color) parameter into account by translating it into `color` CSS property of the style.
+- Now when data loader gracefully handles CORS and other critical load errors.
+- `Chart.openPopup()` now does not ignore second parameter. (title)
+- Changed default International English time with seconds format to `"HH:mm:ss"`.
+- Date format on `DateAxis` tooltip will now use axis' `minPeriod` rather than current label period.
+- `EventDispatacher.has()` function's second parameter (callback) is now optional. If it's not specified it will check whether **any** event handlers are present for this particular event type.
 
 ## [4.0.0-beta.24] - 2018-05-16
 ### Fixed

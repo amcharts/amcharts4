@@ -101,15 +101,13 @@ var AxisRendererRadial = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRendererRadial.prototype, "radius", {
         /**
-         * Returns currently set outer radius.
-         *
          * @return {number | Percent} Outer radius
          */
         get: function () {
             return this.getPropertyValue("radius");
         },
         /**
-         * Sets outer radius of the axis.
+         * Outer radius of the axis.
          *
          * Can be absolute (px) or relative ([[Percent]]).
          *
@@ -135,15 +133,13 @@ var AxisRendererRadial = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRendererRadial.prototype, "innerRadius", {
         /**
-         * Returns currently set inner radius.
-         *
          * @return {number | Percent} Inner radius
          */
         get: function () {
             return this.getPropertyValue("innerRadius");
         },
         /**
-         * Sets inner radius of the axis.
+         * Inner radius of the axis.
          *
          * Can be absolute (px) or relative ([[Percent]]).
          *
@@ -169,8 +165,6 @@ var AxisRendererRadial = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRendererRadial.prototype, "chart", {
         /**
-         * Returns currently set associated chart.
-         *
          * @ignore Exclude from docs
          * @return {RadarChart} Chart
          */
@@ -178,7 +172,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
             return this._chart.get();
         },
         /**
-         * Sets a chart, associated with the Axis.
+         * Chart, associated with the Axis.
          *
          * @ignore Exclude from docs
          * @param {RadarChart} value Chart
@@ -299,16 +293,13 @@ var AxisRendererRadial = /** @class */ (function (_super) {
     };
     Object.defineProperty(AxisRendererRadial.prototype, "startAngle", {
         /**
-         * Returns currently set start angle.
-         *
-         * @todo Description (units)
          * @return {number} Start angle
          */
         get: function () {
             return this.getPropertyValue("startAngle");
         },
         /**
-         * Sets start angle of the axis.
+         * Start angle of the axis.
          *
          * @todo Description (units)
          * @param {number} value Start angle
@@ -323,19 +314,16 @@ var AxisRendererRadial = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRendererRadial.prototype, "endAngle", {
         /**
-         * Returns currently set end angle.
-         *
-         * @todo Description (units)
          * @return {number} End angle
          */
         get: function () {
             return this.getPropertyValue("endAngle");
         },
         /**
-         * Sets end angle of the axis.
+         * End angle of the axis.
          *
          * @todo Description (units)
-         * @param {number} value end angle
+         * @param {number}  value  end angle
          */
         set: function (value) {
             // do not normalize angel here!
@@ -347,9 +335,6 @@ var AxisRendererRadial = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRendererRadial.prototype, "axisAngle", {
         /**
-         * Returns currently set axis angle.
-         *
-         * @todo Description (units)
          * @return {number} Axis angle
          */
         get: function () {
@@ -357,10 +342,10 @@ var AxisRendererRadial = /** @class */ (function (_super) {
             //return $math.fitToRange(this.getPropertyValue("axisAngle"), this.startAngle, this.endAngle); // no good, as less flexible
         },
         /**
-         * Sets the angle of the radial axis.
+         * Angle of the radial axis.
          *
          * @todo Description (units)
-         * @param {number} value Axis angle
+         * @param {number}  value  Axis angle
          */
         set: function (value) {
             this.setPropertyValue("axisAngle", $math.normalizeAngle(value));
@@ -371,8 +356,6 @@ var AxisRendererRadial = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisRendererRadial.prototype, "gridType", {
         /**
-         * Returns currently set grid type.
-         *
          * @type {"circles" | "polygons"} Grid type
          */
         get: function () {
@@ -386,7 +369,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
         },
         // polygons grid type is only possible under these conditions: xAxis is available and it is CategoryAxis, also at least one series should be added to a chart
         /**
-         * Sets the grid type for radia axis.
+         * Grid type for radial axis.
          *
          * A grid on radia axis can either be perfect circles ("circles"), or
          * straight lines ("polygons").

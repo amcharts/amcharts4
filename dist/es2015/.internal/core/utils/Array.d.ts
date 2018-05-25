@@ -40,6 +40,14 @@ export declare function map<A, B>(array: ArrayLike<A>, fn: (value: A, index: num
  */
 export declare function each<A>(array: ArrayLike<A>, fn: (value: A, index: number) => void): void;
 /**
+ * Iterates thorugh all items in array in reverse order and calls `fn` function for each of
+ * them.
+ *
+ * @param   {ArrayLike<A>}  array  Source array
+ * @param   {function}      fn     Callback function
+ */
+export declare function eachReverse<A>(array: ArrayLike<A>, fn: (value: A, index: number) => void): void;
+/**
  * Iterates thorugh all items in array and calls `fn` function for each of
  * them.
  *

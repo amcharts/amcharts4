@@ -15,7 +15,6 @@ import { IRange } from "../../core/defs/IRange";
 import { Axis } from "../axes/Axis";
 import { AxisRenderer } from "../axes/AxisRenderer";
 import { XYChart } from "../types/XYChart";
-import { IInteractionEvents } from "../../core/interaction/Interaction";
 /**
  * ============================================================================
  * REQUISITES
@@ -180,37 +179,19 @@ export declare class XYCursor extends Cursor {
      * @ignore Exclude from docs
      */
     protected fixPoint(point: IPoint): IPoint;
-    /**
-     * Updates position of Cursor's line(s) as pointer moves.
-     *
-     * @ignore Exclude from docs
-     * @param {IInteractionEvents["track"]} event Original event
-     */
-    handleCursorMove(event: IInteractionEvents["track"]): IPoint;
+    protected triggerMoveReal(point: IPoint, triggeredByPointer?: boolean): void;
     /**
      *
      * @ignore Exclude from docs
      */
     protected updateLinePositions(point: IPoint): void;
-    /**
-     * Starts pointer down action, according to `behavior`.
-     *
-     * @ignore Exclude from docs
-     * @param {ISpriteEvents["down"]} event Original event
-     */
-    handleCursorDown(event: IInteractionEvents["down"]): void;
+    protected triggerDownReal(point: IPoint, triggeredByPointer?: boolean): void;
     /**
      * Updates the coordinates of where pointer down event occurred
      * (was pressed).
      */
-    protected updateDownPoint(): void;
-    /**
-     * Ends pointer down action, according to `behavior`.
-     *
-     * @ignore Exclude from docs
-     * @param {ISpriteEvents["up"]} event Original event
-     */
-    handleCursorUp(event: IInteractionEvents["up"]): void;
+    protected updatePoint(point: IPoint): void;
+    protected triggerUpReal(point: IPoint, triggeredByPointer?: boolean): void;
     /**
      * [getRanges description]
      *

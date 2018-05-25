@@ -36,6 +36,7 @@ import { DateFormatter } from "../formatters/DateFormatter";
 import { Language } from "../utils/Language";
 import { Validatable } from "../utils/Validatable";
 import { Color } from "../utils/Color";
+import * as $type from "../utils/Type";
 /**
  * ============================================================================
  * REQUISITES
@@ -552,7 +553,7 @@ export declare class Export extends Validatable {
      * @ignore Exclude from docs
      * @type {Language}
      */
-    protected _language: Language;
+    protected _language: $type.Optional<Language>;
     /**
      * An instance of [[ExportMenu]].
      *
@@ -664,6 +665,13 @@ export declare class Export extends Validatable {
      * @type {Modal}
      */
     protected _modal: Modal;
+    /**
+     * Used to log original value of `mouseEnabled` so that it can be restored
+     * after temporarily disabling it.
+     *
+     * @type {boolean}
+     */
+    private _spriteMouseEnabled;
     /**
      * Constructor
      */
@@ -1327,6 +1335,14 @@ export declare class Export extends Validatable {
      * Returns current options for a format.
      */
     getFormatOptions<Key extends keyof IExportOptions>(type: Key): IExportOptions[Key];
+    /**
+ * Disables interactivity on parent chart.
+ */
+    protected _disableMouse(): void;
+    /**
+     * Releases temporarily disabled mouse on parent chart.
+     */
+    protected _releaseMouse(): void;
     /**
      * Processes JSON-based config before it is applied to the object.
      *

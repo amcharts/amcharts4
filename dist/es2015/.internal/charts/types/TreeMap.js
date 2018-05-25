@@ -337,11 +337,14 @@ var TreeMap = /** @class */ (function (_super) {
          */
         _this.layoutAlgorithm = _this.squarify;
         /**
-         * [TreeMapSeries description]
+         * Holds series object for each TreeMap level.
+         *
+         * "0" is the top-level series.
+         * "1" is the second level.
+         * Etc.
          *
          * @todo Description
-         * @ignore Exclude from docs
-         * @param {DictionaryTemplate<string, TreeMapSeries>} [description]
+         * @param {DictionaryTemplate<string, TreeMapSeries>} Templates for each level
          */
         _this.seriesTemplates = new DictionaryTemplate(new TreeMapSeries());
         /**

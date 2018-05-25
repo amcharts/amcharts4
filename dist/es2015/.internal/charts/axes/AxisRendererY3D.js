@@ -89,8 +89,6 @@ var AxisRendererY3D = /** @class */ (function (_super) {
     };
     Object.defineProperty(AxisRendererY3D.prototype, "chart", {
         /**
-         * Returns currently set associated chart.
-         *
          * @ignore Exclude from docs
          * @return {XYChart3D} Chart
          */
@@ -98,10 +96,10 @@ var AxisRendererY3D = /** @class */ (function (_super) {
             return this._chart.get();
         },
         /**
-         * Sets a chart, associated with the Axis.
+         * Chart, associated with the Axis.
          *
          * @ignore Exclude from docs
-         * @param {XYChart3D} value Chart
+         * @param {XYChart3D}  value  Chart
          */
         set: function (chart) {
             if (chart) {
