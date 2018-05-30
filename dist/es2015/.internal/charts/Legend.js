@@ -294,7 +294,6 @@ var Legend = /** @class */ (function (_super) {
         set: function (value) {
             if (this.setPropertyValue("position", value)) {
                 if (value == "left" || value == "right") {
-                    this.width = 200;
                     this.margin(10, 20, 10, 20);
                     this.valign = "middle";
                     this.itemContainers.template.width = percent(100);

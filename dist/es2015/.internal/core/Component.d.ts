@@ -190,14 +190,6 @@ export declare class Component extends Container {
     /**
      *
      * @ignore Exclude from docs
-     * @deprecated Not used?
-     * @todo Description
-     * @type {string}
-     */
-    protected _dataDateFormat: string;
-    /**
-     *
-     * @ignore Exclude from docs
      * @todo Description
      * @deprecated Not used?
      * @type {Dictionary}
@@ -266,7 +258,19 @@ export declare class Component extends Container {
      */
     skipRangeEvent: boolean;
     /**
-     * Duration (ms) to animate between different range selections.
+     * Whenever selected scope changes (chart is zoomed or panned), for example
+     * by interaction from a Scrollbar, or API, a chart needs to reposition
+     * its contents.
+     *
+     * `rangeChangeDuration` influences how this is performed.
+     *
+     * If set to zero (0), the change will happen instantenously.
+     *
+     * If set to non-zero value, the chart will gradually animate into new
+     * position for the set amount of milliseconds.
+     *
+     * @default 0
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
      * @type {number}
      */
     rangeChangeDuration: number;
@@ -274,11 +278,13 @@ export declare class Component extends Container {
      * An easing function to use for range change animation.
      *
      * @see {@link Ease}
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
      * @type {function}
      */
     rangeChangeEasing: (value: number) => number;
     /**
      * A reference to a currently playing range change [[Animation]] object.
+     *
      * @ignore Exclude from docs
      * @type {Animation}
      */
@@ -323,24 +329,36 @@ export declare class Component extends Container {
      */
     dataItemsInvalid: boolean;
     /**
-     * Duration (ms) the interpolation (morphing) animation should take when
-     * transiting from one value into another.
+     * If set to a non-zero number the element will "animate" data values of its
+     * children.
      *
+     * This will happen on first load and whenever data values change.
+     *
+     * Enabling interpolation will mean that elements will transit smoothly into
+     * new values rather than updating instantly.
+     *
+     * @default 0
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
      * @type {number}
      */
     interpolationDuration: number;
     /**
-     * An easing function to use for the interpolation (morphing) animation for
-     * transition between two values.
+     * An easing function to use for interpolating values when transiting from
+     * one source value to another.
      *
+     * @default cubicOut
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
      * @see {@link Ease}
      * @type {function}
      */
     interpolationEasing: (value: number) => number;
     /**
-     * Should interpolation animations for each element's data item play
-     * consequently?
+     * Indicates whether transition between data item's values should start and
+     * play out all at once, or with a small delay (as defined by
+     * `sequencedInterpolationDelay`) for each subsequent data item.
      *
+     * @default true
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
      * @type {boolean}
      */
     sequencedInterpolation: boolean;
@@ -348,6 +366,10 @@ export declare class Component extends Container {
      * A delay (ms) to wait between animating each subsequent data item's
      * interpolation animation.
      *
+     * Relative only if `sequencedInterpolation = true`.
+     *
+     * @default 0
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
      * @type {number}
      */
     sequencedInterpolationDelay: number;
@@ -776,14 +798,6 @@ export declare class Component extends Container {
      * @param {number} value End (0-1)
      */
     end: number;
-    /**
-     * Format of the dates in source data.
-     *
-     * @ignore Exclude from docs
-     * @deprecated Not used?
-     * @return {string} Format of the dates in source data
-     */
-    readonly dataDateFormat: string;
     /**
      * [removeFromInvalids description]
      *

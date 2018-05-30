@@ -19,8 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { BaseObject } from "../Base";
-import { Animation } from "../utils/Animation";
-import { MultiDisposer } from "../utils/Disposer";
+import { Animation, AnimationDisposer } from "../utils/Animation";
 import * as $math from "../utils/Math";
 import * as $ease from "../utils/Ease";
 import * as $type from "../utils/Type";
@@ -448,7 +447,7 @@ var Morpher = /** @class */ (function (_super) {
         get: function () {
             if (!this._animations) {
                 this._animations = [];
-                this._disposers.push(new MultiDisposer(this._animations));
+                this._disposers.push(new AnimationDisposer(this._animations));
             }
             return this._animations;
         },

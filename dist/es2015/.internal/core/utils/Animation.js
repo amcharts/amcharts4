@@ -201,6 +201,23 @@ function processAnimationOptions(object, animationOptions) {
     });
     return processed;
 }
+var AnimationDisposer = /** @class */ (function () {
+    function AnimationDisposer(array) {
+        this._disposer = new Disposer(function () {
+            while (array.length !== 0) {
+                array[0].dispose();
+            }
+        });
+    }
+    AnimationDisposer.prototype.isDisposed = function () {
+        return this._disposer.isDisposed();
+    };
+    AnimationDisposer.prototype.dispose = function () {
+        this._disposer.dispose();
+    };
+    return AnimationDisposer;
+}());
+export { AnimationDisposer };
 /**
  * Animation can be used to transition certain properties on an object that
  * implements [[IAnimatable]] interface.

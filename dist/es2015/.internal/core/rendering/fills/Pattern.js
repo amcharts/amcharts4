@@ -20,8 +20,7 @@ var __extends = (this && this.__extends) || (function () {
 import { BaseObject } from "../../Base";
 import { getSystem } from "../../System";
 import { List, ListDisposer } from "../../utils/List";
-import { MultiDisposer } from "../../utils/Disposer";
-import { Animation } from "../../utils/Animation";
+import { Animation, AnimationDisposer } from "../../utils/Animation";
 import { registry } from "../../Registry";
 import { InterfaceColorSet } from "../../utils/InterfaceColorSet";
 import * as $iter from "../../utils/Iterator";
@@ -453,7 +452,7 @@ var Pattern = /** @class */ (function (_super) {
         get: function () {
             if (!this._animations) {
                 this._animations = [];
-                this._disposers.push(new MultiDisposer(this._animations));
+                this._disposers.push(new AnimationDisposer(this._animations));
             }
             return this._animations;
         },

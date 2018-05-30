@@ -156,6 +156,12 @@ export interface IAnimationEvents extends IBaseObjectEvents {
  * @type {Array<IAnimationObject>}
  */
 export declare const animations: Array<IAnimationObject>;
+export declare class AnimationDisposer implements IDisposer {
+    private _disposer;
+    constructor(array: Array<Animation>);
+    isDisposed(): boolean;
+    dispose(): void;
+}
 /**
  * Animation can be used to transition certain properties on an object that
  * implements [[IAnimatable]] interface.

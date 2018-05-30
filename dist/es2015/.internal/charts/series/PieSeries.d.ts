@@ -59,8 +59,10 @@ export declare class PieSeriesDataItem extends SeriesDataItem implements ILegend
     protected _legendDataItem: LegendDataItem<DataItem, IDataItemEvents>;
     /**
      * Custom settings for the legend item.
+     * Not used, only added to sattisfy LegendDataItem
      *
      * @type {LegendSettings}
+     * @ignore
      */
     legendSettings: LegendSettings;
     /**

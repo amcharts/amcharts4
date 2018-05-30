@@ -677,6 +677,12 @@ export declare class XYSeries extends Series {
      */
     showTooltipAtPosition(xPosition: number, yPosition: number): IPoint;
     /**
+     * returns default state to bullets when tooltip is shown at some other data item or hidden
+     *
+     * @ignore Exclude from docs
+     */
+    protected returnBulletDefaultState(dataItem?: XYSeriesDataItem): void;
+    /**
      * Positions series bullet.
      *
      * @ignore Exclude from docs

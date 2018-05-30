@@ -317,7 +317,6 @@ export declare class Legend extends Component {
     /**
      * List of legend item value labels.
      *
-     * @ignore Exclude from docs
      * @type {ListTemplate<Label>}
      */
     valueLabels: ListTemplate<Label>;

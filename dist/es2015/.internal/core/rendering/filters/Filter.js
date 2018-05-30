@@ -27,9 +27,8 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { BaseObject } from "../../Base";
 import { getSystem } from "../../System";
-import { Animation } from "../../utils/Animation";
+import { Animation, AnimationDisposer } from "../../utils/Animation";
 import { List } from "../../utils/List";
-import { MultiDisposer } from "../../utils/Disposer";
 import * as $object from "../../utils/Object";
 import * as $iter from "../../utils/Iterator";
 ;
@@ -210,7 +209,7 @@ var Filter = /** @class */ (function (_super) {
         get: function () {
             if (!this._animations) {
                 this._animations = [];
-                this._disposers.push(new MultiDisposer(this._animations));
+                this._disposers.push(new AnimationDisposer(this._animations));
             }
             return this._animations;
         },

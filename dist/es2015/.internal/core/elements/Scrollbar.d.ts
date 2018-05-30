@@ -27,13 +27,21 @@ import { IDisposer } from "../utils/Disposer";
  */
 export interface IScrollbarProperties extends IContainerProperties {
     /**
-     * Duration in milliseconds of scrollbar animation
+     * Duration in milliseconds of Scrollbar animation.
      *
+     * This affects how fast Scrollbar elements move/resize. For example when
+     * chart zooms or pans, Scrollbar elements' positions need to be adjusted
+     * as well. This setting will affect whether they will be relocated
+     * instantenously (0), or will animte gradually.
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
      * @type {number}
      */
     animationDuration?: number;
     /**
-     * Animation easing function.
+     * An easing function to use when animating (moving/sizing) Scrollbar
+     * elements.
+     *
      * @type {(value: number) => number}
      */
     animationEasing?: (value: number) => number;

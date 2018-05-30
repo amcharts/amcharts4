@@ -754,34 +754,35 @@ var Axis = /** @class */ (function (_super) {
      * @param {number} position Position (0-1)
      */
     Axis.prototype.showTooltipAtPosition = function (position) {
-        if (this._cursorTooltipEnabled) {
-            var tooltip = this._tooltip;
-            position = this.toAxisPosition(position);
-            var renderer = this.renderer;
-            if (tooltip) {
-                //@todo: think of how to solve this better
-                if (tooltip && !tooltip.parent) {
-                    tooltip.parent = this.tooltipContainer;
-                }
-                var tooltipLocation = renderer.tooltipLocation;
-                var startPosition = this.getCellStartPosition(position);
-                var endPosition = this.getCellEndPosition(position);
-                position = startPosition + (endPosition - startPosition) * tooltipLocation;
-                position = $math.fitToRange(position, this.start, this.end);
-                var startPoint = renderer.positionToPoint(startPosition);
-                var endPoint = renderer.positionToPoint(endPosition);
-                // save values so cursor could use them
-                this.currentItemStartPoint = startPoint;
-                this.currentItemEndPoint = endPoint;
-                if (renderer.fullWidthTooltip) {
-                    tooltip.width = endPoint.x - startPoint.x;
-                    tooltip.height = endPoint.y - startPoint.y;
-                }
-                var point = renderer.positionToPoint(position);
-                var globalPoint = $utils.spritePointToSvg(point, this.renderer.line);
-                tooltip.text = this.getTooltipText(position);
-                tooltip.pointTo(globalPoint);
-                tooltip.show();
+        var tooltip = this._tooltip;
+        position = this.toAxisPosition(position);
+        var renderer = this.renderer;
+        if (tooltip) {
+            //@todo: think of how to solve this better
+            if (tooltip && !tooltip.parent) {
+                tooltip.parent = this.tooltipContainer;
+            }
+            var tooltipLocation = renderer.tooltipLocation;
+            var startPosition = this.getCellStartPosition(position);
+            var endPosition = this.getCellEndPosition(position);
+            position = startPosition + (endPosition - startPosition) * tooltipLocation;
+            position = $math.fitToRange(position, this.start, this.end);
+            var startPoint = renderer.positionToPoint(startPosition);
+            var endPoint = renderer.positionToPoint(endPosition);
+            // save values so cursor could use them
+            this.currentItemStartPoint = startPoint;
+            this.currentItemEndPoint = endPoint;
+            if (renderer.fullWidthTooltip) {
+                tooltip.width = endPoint.x - startPoint.x;
+                tooltip.height = endPoint.y - startPoint.y;
+            }
+            var point = renderer.positionToPoint(position);
+            var globalPoint = $utils.spritePointToSvg(point, this.renderer.line);
+            tooltip.text = this.getTooltipText(position);
+            tooltip.pointTo(globalPoint);
+            tooltip.show();
+            if (!this.cursorTooltipEnabled) {
+                tooltip.hide(0);
             }
         }
     };

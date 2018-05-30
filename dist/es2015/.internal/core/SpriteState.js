@@ -126,16 +126,20 @@ var SpriteState = /** @class */ (function (_super) {
          * Any number means the [[Sprite]] will transit smoothly to this state,
          * animating all animatable properties.
          *
+         * @default 0
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
          * @type {number}
          */
         _this.transitionDuration = 0;
         /**
          * Easing function to use when transitioning to this state.
          *
+         * @default cubicOut
          * @see {@link Ease}
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
          * @type {(number) => number}
          */
-        _this.easing = $ease.cubicOut;
+        _this.transitionEasing = $ease.cubicOut;
         /**
          * Collection of properties and their values that should be applied to [[Sprite]]
          * when switching to this State.
@@ -234,7 +238,7 @@ var SpriteState = /** @class */ (function (_super) {
     SpriteState.prototype.copyFrom = function (source) {
         if (source != this) {
             this.transitionDuration = source.transitionDuration;
-            this.easing = source.easing;
+            this.transitionEasing = source.transitionEasing;
             $utils.copyProperties(source.properties, this.properties);
             $utils.copyProperties(source.propertyFields, this.propertyFields);
             this.filters.copyFrom(source.filters);

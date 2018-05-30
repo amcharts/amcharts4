@@ -18,8 +18,8 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { BaseObject } from "../Base";
-import { MultiDisposer } from "../utils/Disposer";
 import { getInteraction } from "./Interaction";
+import { AnimationDisposer } from "../utils/Animation";
 import * as $type from "../utils/Type";
 /**
  * A point of inertia is to simulate gradually drecreasing motion even after
@@ -50,7 +50,7 @@ var Inertia = /** @class */ (function (_super) {
         _this.animations = [];
         _this.className = "Inertia";
         // Make animations disposable
-        _this._disposers.push(new MultiDisposer(_this.animations));
+        _this._disposers.push(new AnimationDisposer(_this.animations));
         return _this;
     }
     Object.defineProperty(Inertia.prototype, "x", {

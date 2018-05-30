@@ -256,7 +256,8 @@ var RadarCursor = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      */
-    RadarCursor.prototype.updateDownPoint = function () { };
+    RadarCursor.prototype.updatePoint = function (point) {
+    };
     /**
      * Updates Cursor's position when axis tooltip changes horizontal position.
      *

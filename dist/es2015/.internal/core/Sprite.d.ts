@@ -56,6 +56,7 @@ import { DurationFormatter } from "./formatters/DurationFormatter";
 import { Language } from "./utils/Language";
 import { Export } from "./export/Export";
 import { ISVGAttribute } from "./rendering/AMElement";
+import * as $type from "./utils/Type";
 import { Percent } from "./utils/Percent";
 /**
  * ============================================================================
@@ -285,9 +286,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * A reference to a Tooltip for this Sprite.
      *
      * @ignore Exclude from docs
-     * @type {Tooltip}
+     * @type {Optional<Tooltip>}
      */
-    protected _tooltip: Tooltip;
+    protected _tooltip: $type.Optional<Tooltip>;
     /**
      * A special data item which tooltip will use when formatting data. In case
      * it is not set, dataItem will be used.
@@ -419,9 +420,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * A [[Container]] instance to place this element's [[Tooltip]] elements in
      *
      * @ignore Exclude from docs
-     * @type {Container}
+     * @type {Optional<Container>}
      */
-    protected _tooltipContainer: Container;
+    protected _tooltipContainer: $type.Optional<Container>;
     /**
      * An URL to go to when user clicks on a this Sprite.
      *
@@ -571,9 +572,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * [[Animation]] instance, which is handling hiding animation.
      *
      * @ignore Exclude from docs
-     * @type {Animation}
+     * @type {Optional<Animation>}
      */
-    protected _hideAnimation: Animation;
+    protected _hideAnimation: $type.Optional<Animation>;
     /**
      * List of [[Filter]] items that are currently applied to the element.
      *
@@ -622,9 +623,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * value instead.
      *
      * @ignore Exclude from docs
-     * @type {number}
+     * @type {$type.Optional<number>}
      */
-    percentWidth: number;
+    percentWidth: $type.Optional<number>;
     /**
      * Element's relative height.
      *
@@ -632,9 +633,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * value instead.
      *
      * @ignore Exclude from docs
-     * @type {number}
+     * @type {$type.Optional<number>}
      */
-    percentHeight: number;
+    percentHeight: $type.Optional<number>;
     /**
      * An SVG group element that is used to put all SVG filters to.
      *
@@ -700,10 +701,10 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     protected _measuredHeight: number;
     protected _prevMeasuredWidth: number;
     protected _prevMeasuredHeight: number;
-    protected _pixelWidth: number;
-    protected _pixelHeight: number;
-    protected _relativeWidth: number;
-    protected _relativeHeight: number;
+    protected _pixelWidth: $type.Optional<number>;
+    protected _pixelHeight: $type.Optional<number>;
+    protected _relativeWidth: $type.Optional<number>;
+    protected _relativeHeight: $type.Optional<number>;
     protected _overflowX: number;
     protected _overflowY: number;
     protected _isDragged: boolean;
@@ -920,12 +921,12 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     readonly topParent: Optional<Container>;
     /**
-     * @return {Container} Parent container
+     * @return {Optional<Container>} Parent container
      */
     /**
      * Elements' parent [[Container]].
      *
-     * @param {Container}  parent  Parent container
+     * @param {Optional<Container>}  parent  Parent container
      */
     parent: Optional<Container>;
     /**
@@ -2817,23 +2818,23 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     readonly pixelHeight: number;
     /**
-     * @return {number} Relative width
+     * @return {$type.Optional<number>} Relative width
      */
     /**
      * Element's relative width in [[Percent]].
      *
-     * @param {number}  value  Relative width
+     * @param {$type.Optional<number>}  value  Relative width
      */
-    relativeWidth: number;
+    relativeWidth: $type.Optional<number>;
     /**
-     * @return {number} Relative height
+     * @return {$type.Optional<number>} Relative height
      */
     /**
      * Element's relative height in [[Percent]].
      *
-     * @param {number}  value  Relative height
+     * @param {$type.Optional<number>}  value  Relative height
      */
-    relativeHeight: number;
+    relativeHeight: $type.Optional<number>;
     /**
      * Returns element's measured width in pixels.
      *
@@ -2841,9 +2842,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * `paddingLeft`.
      *
      * @readonly
-     * @return {number} Width (px)
+     * @return {Optional<number>} Width (px)
      */
-    readonly measuredWidth: number;
+    readonly measuredWidth: $type.Optional<number>;
     /**
      * Returns elements's measured height in pixels.
      *
@@ -2851,9 +2852,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * `paddingBottom`.
      *
      * @readonly
-     * @return {number} Height (px)
+     * @return {Optional<number>} Height (px)
      */
-    readonly measuredHeight: number;
+    readonly measuredHeight: $type.Optional<number>;
     /**
      * Returns element's measured width plus its left and right margins in
      * pixels.
@@ -3323,9 +3324,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * If `duration` is not specified, it will use default.
      *
      * @param  {number}  duration  Fade in duration (ms)
-     * @return {Animation} Animation object if such object was created
+     * @return {Optional<Animation>} Animation object if such object was created
      */
-    show(duration?: number): Animation;
+    show(duration?: number): $type.Optional<Animation>;
     /**
      * Performs actual operations to reveal this element.
      *
@@ -3333,7 +3334,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param  {number} duration Fade in duration (ms)
      * @return {number}          Fade in duration (ms)
      */
-    protected showReal(duration: number): Animation;
+    protected showReal(duration?: number): $type.Optional<Animation>;
     /**
      * Initiates hiding of Sprite.
      * When called it will fade out the the Sprite to transparency, then make it
@@ -3353,9 +3354,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * When element is hidden, its `visible` property will resolve to `false`.
      *
      * @param  {number}  duration  Fade out duration (ms)
-     * @return {Animation} hide Animation object if such object was created
+     * @return {Optional<Animation>} hide Animation object if such object was created
      */
-    hide(duration?: number): Animation;
+    hide(duration?: number): $type.Optional<Animation>;
     /**
      * Hides actual SVG elements and handles hiding animations.
      *
@@ -3363,7 +3364,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @return {Animation}            Fade out duration (ms)
      * @ignore
      */
-    protected hideReal(duration: number): Animation;
+    protected hideReal(duration?: number): $type.Optional<Animation>;
     /**
      * Returns current visibility of the element.
      *
@@ -3410,7 +3411,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     toBack(): void;
     /**
-     * @return {Tooltip} Tooltip
+     * @return {Optional<Tooltip>} Tooltip
      */
     /**
      * ==========================================================================
@@ -3424,7 +3425,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * @param {Tooltip}  tooltip  Tooltip
      */
-    tooltip: Tooltip;
+    tooltip: $type.Optional<Tooltip>;
     /**
      * @return {DataItem} Tooltip data item
      */
@@ -3503,7 +3504,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     tooltipText: string;
     /**
      * @ignore Exclude from docs
-     * @return {Container} Container
+     * @return {Optional<Container>} Container
      */
     /**
      * A container reference that should be used to place element's
@@ -3515,7 +3516,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {Container} value Container
      * @todo Dispose of the old _tooltipContainer ?
      */
-    tooltipContainer: Container;
+    tooltipContainer: $type.Optional<Container>;
     /**
      * @ignore Exclude from docs
      * @return {number} Tooltip X (px)

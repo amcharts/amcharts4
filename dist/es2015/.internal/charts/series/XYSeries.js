@@ -11,6 +11,16 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __values = (this && this.__values) || function (o) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
+    if (m) return m.call(o);
+    return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+};
 /**
  * ============================================================================
  * IMPORTS
@@ -387,6 +397,9 @@ var XYSeries = /** @class */ (function (_super) {
         _this.mainContainer.mask.element = _this.paper.add("path");
         _this.stacked = false;
         _this.tooltip.pointerOrientation = "horizontal";
+        _this.tooltip.events.on("hidden", function () {
+            _this.returnBulletDefaultState();
+        });
         _this._disposers.push(_this._xAxis);
         _this._disposers.push(_this._yAxis);
         _this.applyTheme();
@@ -616,7 +629,6 @@ var XYSeries = /** @class */ (function (_super) {
         if (this.yAxis.dataRangeInvalid) {
             this.yAxis.validateDataRange();
         }
-        this.updateLegendValue();
         _super.prototype.validateDataRange.call(this);
     };
     /**
@@ -821,6 +833,7 @@ var XYSeries = /** @class */ (function (_super) {
             if (yAxis == this.baseAxis) {
                 dataItem = yAxis.getSeriesDataItem(this, yAxis.toAxisPosition(yPosition));
             }
+            this.returnBulletDefaultState(dataItem);
             if (dataItem) {
                 this.updateLegendValue(dataItem);
                 this.tooltipDataItem = dataItem;
@@ -837,6 +850,21 @@ var XYSeries = /** @class */ (function (_super) {
                             target: this,
                             dataItem: dataItem
                         });
+                        try {
+                            for (var _a = __values(dataItem.bullets), _b = _a.next(); !_b.done; _b = _a.next()) {
+                                var a = _b.value;
+                                var bullet = a[1];
+                                bullet.setState("hover");
+                            }
+                        }
+                        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+                        finally {
+                            try {
+                                if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                            }
+                            finally { if (e_1) throw e_1.error; }
+                        }
+                        this._prevTooltipDataItem = dataItem;
                     }
                     if (this.showTooltip()) {
                         return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
@@ -846,6 +874,31 @@ var XYSeries = /** @class */ (function (_super) {
             }
         }
         this.hideTooltip();
+        var e_1, _c;
+    };
+    /**
+     * returns default state to bullets when tooltip is shown at some other data item or hidden
+     *
+     * @ignore Exclude from docs
+     */
+    XYSeries.prototype.returnBulletDefaultState = function (dataItem) {
+        if (this._prevTooltipDataItem && this._prevTooltipDataItem != dataItem) {
+            try {
+                for (var _a = __values(this._prevTooltipDataItem.bullets), _b = _a.next(); !_b.done; _b = _a.next()) {
+                    var a = _b.value;
+                    var bullet = a[1];
+                    bullet.setState("default");
+                }
+            }
+            catch (e_2_1) { e_2 = { error: e_2_1 }; }
+            finally {
+                try {
+                    if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                }
+                finally { if (e_2) throw e_2.error; }
+            }
+        }
+        var e_2, _c;
     };
     /**
      * Positions series bullet.
@@ -942,9 +995,6 @@ var XYSeries = /** @class */ (function (_super) {
     XYSeries.prototype.show = function (duration) {
         var _this = this;
         var animation = _super.prototype.show.call(this, duration);
-        if (!$type.isNumber(duration) && animation) {
-            duration = animation.duration;
-        }
         var fields;
         if (this.xAxis instanceof ValueAxis && this.xAxis != this.baseAxis) {
             fields = this._xValueFields;
@@ -955,18 +1005,17 @@ var XYSeries = /** @class */ (function (_super) {
         var startIndex = this.startIndex;
         var endIndex = this.endIndex;
         $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
+            var interpolationDuration = _this.interpolationDuration;
+            if ($type.isNumber(duration)) {
+                interpolationDuration = duration;
+            }
             var i = a[0];
             var dataItem = a[1];
             var delay = 0;
             if (_this.sequencedInterpolation) {
-                delay = _this.sequencedInterpolationDelay * i + duration * (i - startIndex) / (endIndex - startIndex);
+                delay = _this.sequencedInterpolationDelay * i + interpolationDuration * (i - startIndex) / (endIndex - startIndex);
             }
-            /*let realDuration: number = duration;
-            // to avoid animation of non visible items
-            if (i < startIndex || i > endIndex) {
-                realDuration = 0;
-            }*/
-            animation = dataItem.show(duration, delay, fields);
+            animation = dataItem.show(interpolationDuration, delay, fields);
         });
         return animation;
     };
@@ -979,9 +1028,6 @@ var XYSeries = /** @class */ (function (_super) {
     XYSeries.prototype.hide = function (duration) {
         var _this = this;
         var animation = _super.prototype.hide.call(this, duration);
-        if (!$type.isNumber(duration) && animation) {
-            duration = animation.duration;
-        }
         var fields;
         var value;
         var xAxis = this.xAxis;
@@ -1013,15 +1059,21 @@ var XYSeries = /** @class */ (function (_super) {
             var i = a[0];
             var dataItem = a[1];
             var delay = 0;
-            if (_this.sequencedInterpolation) {
-                delay = _this.sequencedInterpolationDelay * i + duration * (i - startIndex) / (endIndex - startIndex);
+            var interpolationDuration = _this.interpolationDuration;
+            if ($type.isNumber(duration)) {
+                interpolationDuration = duration;
             }
-            var realDuration = duration;
-            // to avoid animation of non visible items
-            if (i < startIndex || i > endIndex) {
-                realDuration = 0;
+            if (animation && !animation.isDisposed() && interpolationDuration == 0 && animation.duration > 0) {
+                animation.events.once("animationended", function () {
+                    dataItem.hide(0, 0, value, fields);
+                });
             }
-            dataItem.hide(realDuration, delay, value, fields);
+            else {
+                if (_this.sequencedInterpolation) {
+                    delay = _this.sequencedInterpolationDelay * i + interpolationDuration * (i - startIndex) / (endIndex - startIndex);
+                }
+                dataItem.hide(interpolationDuration, delay, value, fields);
+            }
         });
         //}
         return animation;

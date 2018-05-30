@@ -305,7 +305,7 @@ var PieSeries = /** @class */ (function (_super) {
         //hiddenState.properties.endAngle = -90;
         //hiddenState.properties.startAngle = -90;
         var defaultState = _this.defaultState;
-        defaultState.easing = $ease.sinOut;
+        defaultState.transitionEasing = $ease.sinOut;
         var hoverState = _this.slices.template.states.create("hover");
         hoverState.properties.scale = 1.05;
         // Accessibility

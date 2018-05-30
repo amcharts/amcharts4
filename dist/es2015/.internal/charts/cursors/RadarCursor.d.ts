@@ -154,7 +154,7 @@ export declare class RadarCursor extends XYCursor {
      *
      * @ignore Exclude from docs
      */
-    protected updateDownPoint(): void;
+    protected updatePoint(point: IPoint): void;
     /**
      * Updates Cursor's position when axis tooltip changes horizontal position.
      *

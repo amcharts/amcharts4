@@ -199,7 +199,7 @@ var Series = /** @class */ (function (_super) {
         _this.bulletsContainer.shouldClone = false;
         _this.bulletsContainer.layout = "none";
         _this.tooltip = new Tooltip();
-        _this.hiddenState.easing = $ease.cubicIn;
+        _this.hiddenState.transitionEasing = $ease.cubicIn;
         // this data item holds sums, averages, etc
         _this.dataItem = _this.createDataItem();
         _this.dataItem.component = _this;

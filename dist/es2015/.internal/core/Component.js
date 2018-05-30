@@ -108,7 +108,19 @@ var Component = /** @class */ (function (_super) {
          */
         _this.skipRangeEvent = false;
         /**
-         * Duration (ms) to animate between different range selections.
+         * Whenever selected scope changes (chart is zoomed or panned), for example
+         * by interaction from a Scrollbar, or API, a chart needs to reposition
+         * its contents.
+         *
+         * `rangeChangeDuration` influences how this is performed.
+         *
+         * If set to zero (0), the change will happen instantenously.
+         *
+         * If set to non-zero value, the chart will gradually animate into new
+         * position for the set amount of milliseconds.
+         *
+         * @default 0
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
          * @type {number}
          */
         _this.rangeChangeDuration = 0;
@@ -116,6 +128,7 @@ var Component = /** @class */ (function (_super) {
          * An easing function to use for range change animation.
          *
          * @see {@link Ease}
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
          * @type {function}
          */
         _this.rangeChangeEasing = $ease.cubicOut;
@@ -159,24 +172,36 @@ var Component = /** @class */ (function (_super) {
          */
         _this.dataItemsInvalid = false;
         /**
-         * Duration (ms) the interpolation (morphing) animation should take when
-         * transiting from one value into another.
+         * If set to a non-zero number the element will "animate" data values of its
+         * children.
          *
+         * This will happen on first load and whenever data values change.
+         *
+         * Enabling interpolation will mean that elements will transit smoothly into
+         * new values rather than updating instantly.
+         *
+         * @default 0
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
          * @type {number}
          */
         _this.interpolationDuration = 0;
         /**
-         * An easing function to use for the interpolation (morphing) animation for
-         * transition between two values.
+         * An easing function to use for interpolating values when transiting from
+         * one source value to another.
          *
+         * @default cubicOut
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
          * @see {@link Ease}
          * @type {function}
          */
         _this.interpolationEasing = $ease.cubicOut;
         /**
-         * Should interpolation animations for each element's data item play
-         * consequently?
+         * Indicates whether transition between data item's values should start and
+         * play out all at once, or with a small delay (as defined by
+         * `sequencedInterpolationDelay`) for each subsequent data item.
          *
+         * @default true
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
          * @type {boolean}
          */
         _this.sequencedInterpolation = true;
@@ -184,6 +209,10 @@ var Component = /** @class */ (function (_super) {
          * A delay (ms) to wait between animating each subsequent data item's
          * interpolation animation.
          *
+         * Relative only if `sequencedInterpolation = true`.
+         *
+         * @default 0
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
          * @type {number}
          */
         _this.sequencedInterpolationDelay = 0;
@@ -1149,23 +1178,6 @@ var Component = /** @class */ (function (_super) {
                 this._endIndex = Math.min(this.dataItems.length, Math.ceil(this.dataItems.length * value) || 0);
                 this.invalidateDataRange();
             }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Component.prototype, "dataDateFormat", {
-        /**
-         * Format of the dates in source data.
-         *
-         * @ignore Exclude from docs
-         * @deprecated Not used?
-         * @return {string} Format of the dates in source data
-         */
-        get: function () {
-            if (!this._dataDateFormat) {
-                //return this.parentComponent.dataDateFormat;
-            }
-            return this._dataDateFormat;
         },
         enumerable: true,
         configurable: true

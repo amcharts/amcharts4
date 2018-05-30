@@ -698,7 +698,7 @@ var XYChart = /** @class */ (function (_super) {
                     cursor.events.on("panning", this.handleCursorPanning, this);
                     cursor.events.on("panended", this.handleCursorPanEnd, this);
                     cursor.events.on("hidden", this.handleHideCursor, this);
-                    cursor.zIndex = Number.MAX_SAFE_INTEGER;
+                    cursor.zIndex = Number.MAX_SAFE_INTEGER - 1;
                     if (this.data.length == 0) {
                         cursor.__disabled = true;
                     }

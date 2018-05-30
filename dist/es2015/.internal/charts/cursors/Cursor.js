@@ -218,7 +218,6 @@ var Cursor = /** @class */ (function (_super) {
      */
     Cursor.prototype.handleCursorDown = function (event) {
         if (!this.mouseEnabled) {
-            this.downPoint = undefined;
             return;
         }
         var local = $utils.documentPointToSprite(event.pointer.point, this);

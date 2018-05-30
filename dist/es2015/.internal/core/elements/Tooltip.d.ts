@@ -37,29 +37,43 @@ export interface ITooltipProperties extends IContainerProperties {
      */
     pointerOrientation?: PointerOrientation;
     /**
-     * Duration in milliseconds for the animation to take place when the tolltip
-     * is moving from one place to another.
+     * Duration (ms) that takes for a Tooltip to move from one place to another.
      *
+     * If set to a zero value, the Tooltop will jump to a new location
+     * instantenously.
+     *
+     * If set to a non-zero value, the Tooltip will "glide" to a new location at
+     * a speed determined by this setting.
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
      * @type {number}
      */
     animationDuration?: number;
     /**
-     * Tooltip animation easing function.
+     * An easing function to use when animating Tooltip position.
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
      * @type {(value: number) => number}
      */
     animationEasing?: (value: number) => number;
     /**
-     * Specifies if tooltip background should get stroke color from the sprite it is pointing to
+     * Specifies if tooltip background should get stroke color from the sprite
+     * it is pointing to.
+     *
      * @type {boolean}
      */
     getStrokeFromObject?: boolean;
     /**
-     * Specifies if tooltip background should get fill color from the sprite it is pointing to
+     * Specifies if tooltip background should get fill color from the sprite it
+     * is pointing to.
+     *
      * @type {boolean}
      */
     getFillFromObject?: boolean;
     /**
-     * Specifies if text color should be chosen automatically for a better readability.
+     * Specifies if text color should be chosen automatically for a better
+     * readability.
+     *
      * @type {boolean}
      */
     autoTextColor?: boolean;

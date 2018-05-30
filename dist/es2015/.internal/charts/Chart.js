@@ -147,12 +147,18 @@ var Chart = /** @class */ (function (_super) {
             switch (legend.position) {
                 case "left":
                     chartAndLegendContainer.layout = "horizontal";
-                    legend.maxWidth = 250;
+                    if (!$type.isNumber(legend.width)) {
+                        legend.width = 200;
+                    }
+                    //legend.maxWidth = legend.width;
                     legend.toBack();
                     break;
                 case "right":
                     chartAndLegendContainer.layout = "horizontal";
-                    legend.maxWidth = 250;
+                    if (!$type.isNumber(legend.width)) {
+                        legend.width = 200;
+                    }
+                    //legend.maxWidth = legend.width;
                     legend.toFront();
                     break;
                 case "top":
@@ -245,7 +251,7 @@ var Chart = /** @class */ (function (_super) {
                 // Set legend options
                 legend.parent = this.chartAndLegendContainer;
                 legend.events.on("propertychanged", function (event) {
-                    if (event.property == "position") {
+                    if (event.property == "position" || event.property == "width") {
                         _this.fixLayout();
                     }
                 });

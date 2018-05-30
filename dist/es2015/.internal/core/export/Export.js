@@ -79,9 +79,9 @@ import { Language } from "../utils/Language";
 import { Validatable } from "../utils/Validatable";
 import { color } from "../utils/Color";
 import { registry } from "../Registry";
+import { StyleRule } from "../utils/DOM";
 import * as $object from "../utils/Object";
 import * as $net from "../utils/Net";
-import * as $dom from "../utils/DOM";
 import * as $type from "../utils/Type";
 /**
  * ============================================================================
@@ -204,7 +204,8 @@ var Export = /** @class */ (function (_super) {
             useLocale: true
         });
         _this._formatOptions.setKey("print", {
-            delay: 500
+            delay: 500,
+            printMethod: "iframe"
         });
         // Add options adapter
         _this.adapter.add("options", function (arg) {
@@ -1613,18 +1614,29 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.print = function (data, options, title) {
         return __awaiter(this, void 0, void 0, function () {
-            var scroll, states, items, len, i, item, originalTitle, img, isIOS;
+            return __generator(this, function (_a) {
+                if (options.printMethod == "css") {
+                    return [2 /*return*/, this.printViaCSS(data, options, title)];
+                }
+                else {
+                    return [2 /*return*/, this.printViaIframe(data, options, title)];
+                }
+                return [2 /*return*/];
+            });
+        });
+    };
+    Export.prototype.printViaCSS = function (data, options, title) {
+        return __awaiter(this, void 0, void 0, function () {
+            var scroll, rule, originalTitle, img, isIOS;
             return __generator(this, function (_a) {
                 scroll = document.documentElement.scrollTop || document.body.scrollTop;
-                states = [];
-                items = document.body.childNodes;
-                for (len = items.length, i = 0; i < len; i++) {
-                    item = items[i];
-                    if ($dom.isElement(item)) {
-                        states[i] = item.style.display;
-                        item.style.display = "none";
-                    }
-                }
+                rule = new StyleRule("body > *", {
+                    "display": "none",
+                    "position": "fixed",
+                    "visibility": "hidden",
+                    "opacity": "0",
+                    "clipPath": "polygon(0px 0px,0px 0px,0px 0px,0px 0px);"
+                });
                 if (title && document && document.title) {
                     originalTitle = document.title;
                     document.title = title;
@@ -1632,6 +1644,11 @@ var Export = /** @class */ (function (_super) {
                 img = new Image();
                 img.src = data;
                 img.style.maxWidth = "100%";
+                img.style.display = "block";
+                img.style.position = "relative";
+                img.style.visibility = "visible";
+                img.style.opacity = "1";
+                img.style.clipPath = "none";
                 document.body.appendChild(img);
                 // Print
                 this.setTimeout(function () {
@@ -1649,18 +1666,59 @@ var Export = /** @class */ (function (_super) {
                     // Remove image
                     document.body.removeChild(img);
                     // Reset back all elements
-                    for (var len = items.length, i = 0; i < len; i++) {
-                        var item = items[i];
+                    /*for (let len = items.length, i = 0; i < len; i++) {
+                        let item = <HTMLElement>items[i];
                         if ($dom.isElement(item)) {
                             item.style.display = states[i];
                         }
-                    }
+                    }*/
+                    rule.dispose();
                     // Restore title
                     if (originalTitle) {
                         document.title = document.title;
                     }
                     // Scroll back the document the way it was before
                     document.documentElement.scrollTop = document.body.scrollTop = scroll;
+                }, options.delay || 500);
+                return [2 /*return*/, true];
+            });
+        });
+    };
+    Export.prototype.printViaIframe = function (data, options, title) {
+        return __awaiter(this, void 0, void 0, function () {
+            var iframe, img, isIOS;
+            return __generator(this, function (_a) {
+                iframe = document.createElement("iframe");
+                iframe.style.visibility = "hidden";
+                document.body.appendChild(iframe);
+                // This is needed for FireFox
+                iframe.contentWindow.document.open();
+                iframe.contentWindow.document.close();
+                img = new Image();
+                img.src = data;
+                img.style.maxWidth = "100%";
+                if (title) {
+                    iframe.contentWindow.document.title = title;
+                }
+                iframe.contentWindow.document.body.appendChild(img);
+                iframe.load = function () {
+                    iframe.contentWindow.document.body.appendChild(img);
+                };
+                // Print
+                this.setTimeout(function () {
+                    iframe.contentWindow.print();
+                }, 50);
+                isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+                if (isIOS && (options.delay < 1000)) {
+                    options.delay = 1000;
+                }
+                else if (options.delay < 100) {
+                    options.delay = 100;
+                }
+                // Delay function that resets back the document the way ot was before
+                this.setTimeout(function () {
+                    // Remove image
+                    document.body.removeChild(iframe);
                 }, options.delay || 500);
                 return [2 /*return*/, true];
             });

@@ -28,7 +28,7 @@ import { Adapter } from "./utils/Adapter";
 import { Dictionary, DictionaryTemplate, DictionaryDisposer } from "./utils/Dictionary";
 import { ListTemplate, ListDisposer } from "./utils/List";
 import { MultiDisposer, Disposer, MutableValueDisposer } from "./utils/Disposer";
-import { Animation } from "./utils/Animation";
+import { Animation, AnimationDisposer } from "./utils/Animation";
 import { Container } from "./Container";
 import { Pattern } from "./rendering/fills/Pattern";
 import { LinearGradient } from "./rendering/fills/LinearGradient";
@@ -811,7 +811,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "parent", {
         /**
-         * @return {Container} Parent container
+         * @return {Optional<Container>} Parent container
          */
         get: function () {
             return this._parent ? this._parent.get() : undefined;
@@ -819,7 +819,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Elements' parent [[Container]].
          *
-         * @param {Container}  parent  Parent container
+         * @param {Optional<Container>}  parent  Parent container
          */
         set: function (parent) {
             if (this.disabled || this.isTemplate) {
@@ -1896,7 +1896,7 @@ var Sprite = /** @class */ (function (_super) {
         get: function () {
             if (!this._animations) {
                 this._animations = [];
-                this._disposers.push(new MultiDisposer(this._animations));
+                this._disposers.push(new AnimationDisposer(this._animations));
             }
             return this._animations;
         },
@@ -1976,7 +1976,7 @@ var Sprite = /** @class */ (function (_super) {
             transitionDuration = state.transitionDuration;
         }
         if (!$type.hasValue(easing)) {
-            easing = state.easing;
+            easing = state.transitionEasing;
         }
         return this.transitTo(state, transitionDuration, easing);
     };
@@ -4452,9 +4452,10 @@ var Sprite = /** @class */ (function (_super) {
          */
         get: function () {
             var _this = this;
-            if (this.parent) {
+            var topParent = this.topParent;
+            if (topParent) {
                 // We always use top parent's modal
-                return this.topParent.modal;
+                return topParent.modal;
             }
             else {
                 // We are a top parent, let's check if we have a modal
@@ -4511,9 +4512,10 @@ var Sprite = /** @class */ (function (_super) {
          */
         get: function () {
             var _this = this;
-            if (this.parent) {
+            var topParent = this.topParent;
+            if (topParent != null) {
                 // We always use top parent's popups
-                return this.topParent.popups;
+                return topParent.popups;
             }
             else {
                 // We are a top parent, let's check if we have a modal
@@ -5068,10 +5070,10 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = $type.toNumberOrPercent(value);
-            var maxWidth = this.maxWidth;
-            if (value > maxWidth) {
-                value = maxWidth;
-            }
+            //let maxWidth = this.maxWidth;
+            //if ($type.isNumber(value) && $type.isNumber(maxWidth) && value > maxWidth) {
+            //	value = maxWidth;
+            //}
             var changed = this.setPropertyValue("width", value, true);
             if (changed) {
                 this.percentWidth = undefined;
@@ -5082,7 +5084,7 @@ var Sprite = /** @class */ (function (_super) {
                 }
                 else {
                     this._pixelWidth = Number(value);
-                    //this.maxWidth = this._pixelWidth;
+                    this.maxWidth = this._pixelWidth;
                 }
             }
         },
@@ -5109,10 +5111,11 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = $type.toNumberOrPercent(value);
-            var maxHeight = this.maxHeight;
-            if (value > maxHeight) {
-                value = maxHeight;
-            }
+            // this approach didn't work well. the legend positioned to right/left expands through all the container
+            //let maxHeight = this.maxHeight;
+            //if (value > maxHeight) {
+            //	value = maxHeight;
+            //}
             var changed = this.setPropertyValue("height", value, true);
             if (changed) {
                 this.percentHeight = undefined;
@@ -5123,7 +5126,7 @@ var Sprite = /** @class */ (function (_super) {
                 }
                 else {
                     this._pixelHeight = Number(value);
-                    //this.maxHeight = this._pixelHeight;
+                    this.maxHeight = this._pixelHeight; // yes, we reset maxWidth
                 }
                 this.invalidate();
             }
@@ -5149,8 +5152,9 @@ var Sprite = /** @class */ (function (_super) {
             else {
                 width = this._measuredWidth;
             }
-            if (width < this.minWidth) {
-                width = this.minWidth;
+            var minWidth = this.minWidth;
+            if (minWidth != null && width < minWidth) {
+                width = minWidth;
             }
             return this.adapter.apply("pixelWidth", $math.round(width, this._positionPrecision));
         },
@@ -5175,8 +5179,9 @@ var Sprite = /** @class */ (function (_super) {
             else {
                 height = this._measuredHeight;
             }
-            if (height < this.minHeight) {
-                height = this.minHeight;
+            var minHeight = this.minHeight;
+            if (minHeight != null && height < minHeight) {
+                height = minHeight;
             }
             return this.adapter.apply("pixelHeight", $math.round(height, this._positionPrecision));
         },
@@ -5185,15 +5190,18 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "relativeWidth", {
         /**
-         * @return {number} Relative width
+         * @return {$type.Optional<number>} Relative width
          */
         get: function () {
-            return this.adapter.apply("relativeWidth", this._relativeWidth);
+            var relativeWidth = this._relativeWidth;
+            if (relativeWidth != null) {
+                return this.adapter.apply("relativeWidth", relativeWidth);
+            }
         },
         /**
          * Element's relative width in [[Percent]].
          *
-         * @param {number}  value  Relative width
+         * @param {$type.Optional<number>}  value  Relative width
          */
         set: function (value) {
             if (this._relativeWidth != value) {
@@ -5206,15 +5214,18 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "relativeHeight", {
         /**
-         * @return {number} Relative height
+         * @return {$type.Optional<number>} Relative height
          */
         get: function () {
-            return this.adapter.apply("relativeHeight", this._relativeHeight);
+            var relativeHeight = this._relativeHeight;
+            if (relativeHeight != null) {
+                return this.adapter.apply("relativeHeight", relativeHeight);
+            }
         },
         /**
          * Element's relative height in [[Percent]].
          *
-         * @param {number}  value  Relative height
+         * @param {$type.Optional<number>}  value  Relative height
          */
         set: function (value) {
             if (this._relativeHeight != value) {
@@ -5233,10 +5244,14 @@ var Sprite = /** @class */ (function (_super) {
          * `paddingLeft`.
          *
          * @readonly
-         * @return {number} Width (px)
+         * @return {Optional<number>} Width (px)
          */
         get: function () {
-            return this.adapter.apply("measuredWidth", $math.fitToRange(this._measuredWidth, this.minWidth, this.maxWidth));
+            var minWidth = this.minWidth;
+            var maxWidth = this.maxWidth;
+            //if (minWidth != null && maxWidth != null) {
+            return this.adapter.apply("measuredWidth", $math.fitToRange(this._measuredWidth, minWidth, maxWidth));
+            //}
         },
         enumerable: true,
         configurable: true
@@ -5249,10 +5264,14 @@ var Sprite = /** @class */ (function (_super) {
          * `paddingBottom`.
          *
          * @readonly
-         * @return {number} Height (px)
+         * @return {Optional<number>} Height (px)
          */
         get: function () {
-            return this.adapter.apply("measuredWidth", $math.fitToRange(this._measuredHeight, this.minHeight, this.maxHeight));
+            var minHeight = this.minHeight;
+            var maxHeight = this.maxHeight;
+            //if (minHeight != null && maxHeight != null) {
+            return this.adapter.apply("measuredHeight", $math.fitToRange(this._measuredHeight, minHeight, maxHeight));
+            //}
         },
         enumerable: true,
         configurable: true
@@ -6193,7 +6212,7 @@ var Sprite = /** @class */ (function (_super) {
      * If `duration` is not specified, it will use default.
      *
      * @param  {number}  duration  Fade in duration (ms)
-     * @return {Animation} Animation object if such object was created
+     * @return {Optional<Animation>} Animation object if such object was created
      */
     Sprite.prototype.show = function (duration) {
         return this.showReal(duration);
@@ -6208,7 +6227,8 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.showReal = function (duration) {
         var _this = this;
         var transition;
-        if (!this.disabled && (!this.visible || this.isHiding || (this.opacity < this.defaultState.properties.opacity && !this.isShowing))) {
+        var properties = this.defaultState.properties;
+        if (!this.disabled && (!this.visible || this.isHiding || (properties.opacity != null && this.opacity < properties.opacity && !this.isShowing))) {
             if (!$type.isNumber(duration)) {
                 duration = this.defaultState.transitionDuration;
             }
@@ -6260,7 +6280,7 @@ var Sprite = /** @class */ (function (_super) {
      * When element is hidden, its `visible` property will resolve to `false`.
      *
      * @param  {number}  duration  Fade out duration (ms)
-     * @return {Animation} hide Animation object if such object was created
+     * @return {Optional<Animation>} hide Animation object if such object was created
      */
     Sprite.prototype.hide = function (duration) {
         return this.hideReal(duration);
@@ -6278,7 +6298,7 @@ var Sprite = /** @class */ (function (_super) {
         if (!this.isHiding && this.visible) {
             this.hideTooltip(0);
             this.isShowing = false;
-            if (this._hideAnimation) {
+            if (this._hideAnimation != null) {
                 this._hideAnimation.dispose();
                 this._hideAnimation = null;
             }
@@ -6418,16 +6438,14 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "tooltip", {
         /**
-         * @return {Tooltip} Tooltip
+         * @return {Optional<Tooltip>} Tooltip
          */
         get: function () {
             if (this._tooltip) {
                 return this._tooltip;
             }
-            else {
-                if (this.parent) {
-                    return this.parent.tooltip;
-                }
+            else if (this.parent) {
+                return this.parent.tooltip;
             }
         },
         /**
@@ -6448,7 +6466,9 @@ var Sprite = /** @class */ (function (_super) {
                 this.removeDispose(this._tooltip);
             }
             this._tooltip = tooltip;
-            tooltip.parent = this.tooltipContainer;
+            if (tooltip) {
+                tooltip.parent = this.tooltipContainer;
+            }
         },
         enumerable: true,
         configurable: true
@@ -6699,16 +6719,14 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "tooltipContainer", {
         /**
          * @ignore Exclude from docs
-         * @return {Container} Container
+         * @return {Optional<Container>} Container
          */
         get: function () {
             if (this._tooltipContainer) {
                 return this._tooltipContainer;
             }
-            else {
-                if (this.parent) {
-                    return this.parent.tooltipContainer;
-                }
+            else if (this.parent) {
+                return this.parent.tooltipContainer;
             }
         },
         /**
@@ -6823,10 +6841,12 @@ var Sprite = /** @class */ (function (_super) {
      * @todo Implement from applying further actions to this item
      */
     Sprite.prototype.raiseCriticalError = function (e) {
-        this.modal.content = e.message;
-        this.modal.closable = false;
-        this.modal.show();
-        this.disabled = true;
+        if (this.svgContainer) {
+            this.modal.content = e.message;
+            this.modal.closable = false;
+            this.modal.show();
+            this.disabled = true;
+        }
         if (options.verbose) {
             console.log(e);
         }

@@ -70,11 +70,15 @@ export function fitToRange(value, minValue, maxValue) {
         maxValue = minValue;
         minValue = temp;
     }
-    if (value < minValue) {
-        value = minValue;
+    if ($type.isNumber(minValue)) {
+        if (value < minValue) {
+            value = minValue;
+        }
     }
-    if (value > maxValue) {
-        value = maxValue;
+    if ($type.isNumber(maxValue)) {
+        if (value > maxValue) {
+            value = maxValue;
+        }
     }
     return value;
 }

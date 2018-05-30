@@ -28,7 +28,7 @@ export interface IXYCursorProperties extends ICursorProperties {
     /**
      * Cursor's behavior when moved with pointer down:
      *
-     * * "zoomX" - zooms horizontally;
+     * * "zoomX" - zooms horizontally; (default)
      * * "zoomY" - zooms vertically;
      * * "zoomXY" - zooms both horizontally and vertically;
      * * "selectX" - selects a range horizontally;
@@ -38,6 +38,8 @@ export interface IXYCursorProperties extends ICursorProperties {
      * * "panY" - moves (pans) current selection vertically;
      * * "panXY" - moves (pans) current selection both horizontally and vertically;
      * * "none" - does nothing with pointer down.
+     *
+     * @default "zoomX"
      */
     behavior?: "zoomX" | "zoomY" | "zoomXY" | "selectX" | "selectY" | "selectXY" | "panX" | "panY" | "panXY" | "none";
     /**

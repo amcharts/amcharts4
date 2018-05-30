@@ -280,7 +280,7 @@ var XYCursor = /** @class */ (function (_super) {
         var currentX = $math.round(this.point.x / this.innerWidth, 5);
         var currentY = $math.round(this.point.y / this.innerHeight, 5);
         var deltaX = startX - currentX;
-        var deltaY = startY - currentY;
+        var deltaY = -startY + currentY;
         this.xRange = { start: deltaX, end: 1 + deltaX };
         this.yRange = { start: deltaY, end: 1 + deltaY };
         if (this.behavior == "panX") {

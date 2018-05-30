@@ -129,16 +129,20 @@ export declare class SpriteState<P, A> extends BaseObject {
      * Any number means the [[Sprite]] will transit smoothly to this state,
      * animating all animatable properties.
      *
+     * @default 0
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
      * @type {number}
      */
     transitionDuration: number;
     /**
      * Easing function to use when transitioning to this state.
      *
+     * @default cubicOut
      * @see {@link Ease}
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/animations/} for more info about animations
      * @type {(number) => number}
      */
-    easing: (value: number) => number;
+    transitionEasing: (value: number) => number;
     /**
      * Collection of properties and their values that should be applied to [[Sprite]]
      * when switching to this State.

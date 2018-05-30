@@ -658,6 +658,7 @@ var DateAxis = /** @class */ (function (_super) {
     DateAxis.prototype.validateAxisElements = function () {
         var _this = this;
         if ($type.isNumber(this.max) && $type.isNumber(this.min)) {
+            this.calculateZoom();
             // first regular items
             var timestamp = this._gridDate.getTime();
             var timeUnit = this._gridInterval.timeUnit;
@@ -1273,13 +1274,15 @@ var DateAxis = /** @class */ (function (_super) {
      */
     DateAxis.prototype.getTooltipText = function (position) {
         var text;
+        var date = this.positionToDate(position);
+        date = $time.round(date, this.baseInterval.timeUnit, this.baseInterval.count);
         if ($type.hasValue(this.tooltipDateFormat)) {
-            text = this.dateFormatter.format(this.positionToDate(position), this.tooltipDateFormat);
+            text = this.dateFormatter.format(date, this.tooltipDateFormat);
         }
         else {
             var dateFormat = this.dateFormats.getKey(this.baseInterval.timeUnit);
             if (dateFormat) {
-                text = this.dateFormatter.format(this.positionToDate(position), dateFormat);
+                text = this.dateFormatter.format(date, dateFormat);
             }
             else {
                 text = this.getPositionLabel(position);

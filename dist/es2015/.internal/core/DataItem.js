@@ -29,8 +29,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { BaseObjectEvents } from "./Base";
 import { Adapter } from "./utils/Adapter";
-import { Animation } from "./utils/Animation";
-import { MultiDisposer } from "./utils/Disposer";
+import { Animation, AnimationDisposer } from "./utils/Animation";
 import * as $utils from "./utils/Utils";
 import * as $array from "./utils/Array";
 import * as $object from "./utils/Object";
@@ -208,7 +207,7 @@ var DataItem = /** @class */ (function (_super) {
         get: function () {
             if (!this._animations) {
                 this._animations = [];
-                this._disposers.push(new MultiDisposer(this._animations));
+                this._disposers.push(new AnimationDisposer(this._animations));
             }
             return this._animations;
         },

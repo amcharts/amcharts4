@@ -5,6 +5,29 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.26] - 2018-05-30
+
+### Fixed
+- Error with `EventDispatcher is disposed`.
+- Having "stray" axis objects (not attached to any chart) was resulting in critical error.
+- Zooming was broken on `RadarCursor` since last update.
+- `PieSeries.legendSettings` were being ingored.
+- `Cursor` was incorrectly doing `panY` (inverted).
+- Date axis tooltip was not rounding dates to `baseDuration`.
+- Date axis was not working properly with `min`/`max` values set.
+
+### Changed
+- Redone chart print functionality. Now printing is done via `<iframe>` by default. An alternative CSS option is also available.
+- If series' bullets have hover state set, it will be applied whenever chart cursor is over position, even if not directly hovering over bullet.
+- `XYSeries` used hidden/default state `transitionDuration` for interpolating values when showing/hiding series. Now they use `series.interpolationDuration`.
+- ZoomOut button was under the cursor lines making it impossible to click.
+- `easing` renamed to `transitionEasing` in SpriteState, for consistency.
+- When setting `width`/`height` for an element in pixels, `minWidth` and `maxWidth` is also set to the same values.
+- If `interpolationDuration` is 0 and `hiddenState.transitionDuration > 0`, the series will transit to hidden state first and then instantly interpolate values to 0.
+
+### Added
+- Finished cursor updates to support cursor syncing.
+
 ## [4.0.0-beta.25] - 2018-05-25
 
 ### Fixed

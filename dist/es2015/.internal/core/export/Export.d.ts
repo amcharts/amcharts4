@@ -280,6 +280,17 @@ export interface IExportPrintOptions extends IExportImageOptions {
      * @type {number}
      */
     delay?: number;
+    /**
+     * Method to use for printing.
+     *
+     * If one fails for your particular setup, try the other.
+     *
+     * "css" - inserts dynamic CSS that hides everything, except the image being printed.
+     * "iframe" - creates a dynamic `<iframe>` with the image, then prints it.
+     *
+     * @default "iframe"
+     */
+    printMethod?: "css" | "iframe";
 }
 /**
  * Represents interface for a temporarily removed image.
@@ -1063,6 +1074,8 @@ export declare class Export extends Validatable {
      * @async
      */
     print(data: string, options?: IExportPrintOptions, title?: string): Promise<boolean>;
+    protected printViaCSS(data: string, options?: IExportPrintOptions, title?: string): Promise<boolean>;
+    protected printViaIframe(data: string, options?: IExportPrintOptions, title?: string): Promise<boolean>;
     /**
      * Finds a background color for the element. If element is transparent it goes
      * up the DOM hierarchy to find a parent element that does.
