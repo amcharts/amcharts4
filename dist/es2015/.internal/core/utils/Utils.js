@@ -175,12 +175,8 @@ export function splitTextByCharCount(text, maxChars, fullWords, rtl) {
     var res = [];
     // Split by spacing
     var currentIndex = -1;
-    var words = text.split(/[\s]+/);
-    //let prefix: string = "";
-    /*if (rtl) {
-        words.reverse();
-    }*/
-    //console.log(words);
+    var tmpText = text.replace(/([,;:!?\\\/\.\s]+)/g, $strings.PLACEHOLDER + "$1" + $strings.PLACEHOLDER);
+    var words = tmpText.split($strings.PLACEHOLDER);
     // Process each word
     for (var i = 0; i < words.length; i++) {
         // Get word and symbol count
@@ -189,15 +185,6 @@ export function splitTextByCharCount(text, maxChars, fullWords, rtl) {
         // Ignore empty words
         if (wordLength === 0) {
             continue;
-        }
-        // Append space
-        if (i < (words.length - 1)) {
-            if (rtl) {
-                word = " " + word;
-            }
-            else {
-                word += " ";
-            }
         }
         // Check word length
         if ((wordLength > maxChars) && fullWords !== true) {
@@ -235,10 +222,6 @@ export function splitTextByCharCount(text, maxChars, fullWords, rtl) {
         // Update index
         currentIndex = res.length - 1;
     }
-    //console.log(res);
-    /*if (rtl) {
-        res.reverse();
-    }*/
     // Do we have only one word that does not fit?
     // Since fullWords is set and we can't split the word, we end up with empty
     // set.
@@ -250,7 +233,8 @@ export function splitTextByCharCount(text, maxChars, fullWords, rtl) {
 /**
  * Truncates the text to certain character count.
  *
- * Will add ellipsis if the string is truncated. Optionally, can truncate on full words only.
+ * Will add ellipsis if the string is truncated. Optionally, can truncate on
+ * full words only.
  *
  * For RTL support, pass in the fifth parameter as `true`.
  *
@@ -274,7 +258,7 @@ export function truncateWithEllipsis(text, maxChars, ellipsis, fullWords, rtl) {
     // Get lines
     var lines = splitTextByCharCount(text, maxChars, fullWords, rtl);
     // Use first line
-    return lines[0] + ellipsis;
+    return (lines[0] || "") + ellipsis;
 }
 /**
  * Removes whitespace from beginning and end of the string.

@@ -206,7 +206,7 @@ var Series = /** @class */ (function (_super) {
         // Apply accessibility
         _this.role = "group";
         _this.events.once("beforevalidated", function () { _this.appear(); }, _this);
-        _this.hiddenState.properties.opacity = 1; // because we hide by changing values
+        //this.hiddenState.properties.opacity = 1; // because we hide by changing values
         _this.applyTheme();
         return _this;
     }
@@ -307,9 +307,6 @@ var Series = /** @class */ (function (_super) {
         // create list and iterator
         var bulletsList = new ListTemplate(bullet);
         this.bulletsLists.setKey(bullet.uid, bulletsList);
-        var iterator = new $iter.ListIterator(bulletsList, function () { return bulletsList.create(); });
-        this.bulletsIterators.setKey(bullet.uid, iterator);
-        iterator.createNewItems = true;
         // Add accessibility options to bullet
         // If there are relatively few bullets, make them focusable
         if (this.itemsFocusable()) {
@@ -375,6 +372,9 @@ var Series = /** @class */ (function (_super) {
         //let duration: number = 0; // todo: check if series uses selection.change or selection.change.percent and set duration to interpolationduration
         var startIndex = this._workingStartIndex;
         var endIndex = this._workingEndIndex;
+        this.bulletsContainer.children.each(function (sprite) {
+            sprite.__disabled = true;
+        });
         // it's ok, we loop trough all the data and check if i is within start/end index later
         $iter.each($iter.indexed(dataItems.iterator()), function (a) {
             var i = a[0];
@@ -494,19 +494,12 @@ var Series = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Series.prototype.validate = function () {
-        if (this.bulletsIterators) {
-            $iter.each(this.bulletsIterators.iterator(), function (a) {
-                var iterator = a[1];
-                iterator.reset();
-            });
-        }
         $iter.each(this.axisRanges.iterator(), function (axisRange) {
             //axisRange.contents.disposeChildren(); // not good for columns, as they are reused
             //			axisRange.appendChildren();
             axisRange.validate();
         });
         _super.prototype.validate.call(this);
-        this.hideUnusedBullets();
         this.bulletsContainer.fill = this.fill;
         this.bulletsContainer.stroke = this.stroke;
         if (this.topParent) {
@@ -524,14 +517,10 @@ var Series = /** @class */ (function (_super) {
         _super.prototype.validateDataElement.call(this, dataItem);
         if (this._showBullets) {
             $iter.each(this.bullets.iterator(), function (bulletTemplate) {
-                var iterator = _this.bulletsIterators.getKey(bulletTemplate.uid);
                 // always better to use the same, this helps to avoid redrawing
                 var bullet = dataItem.bullets.getKey(bulletTemplate.uid);
                 if (!bullet) {
-                    bullet = iterator.getFirst();
-                }
-                else {
-                    iterator.removeItem(bullet);
+                    bullet = bulletTemplate.clone();
                 }
                 var currentDataItem = bullet.dataItem;
                 if (currentDataItem != dataItem) {
@@ -571,6 +560,7 @@ var Series = /** @class */ (function (_super) {
                 // pass max w/h so we'd know if we should show/hide somethings
                 bullet.maxWidth = dataItem.itemWidth;
                 bullet.maxHeight = dataItem.itemHeight;
+                bullet.__disabled = false;
                 _this.positionBullet(bullet);
             });
         }
@@ -690,7 +680,6 @@ var Series = /** @class */ (function (_super) {
             if (!this._bullets) {
                 this._bullets = new ListTemplate(new Bullet());
                 this._bullets.events.on("insert", this.processBullet, this);
-                this.bulletsIterators = new Dictionary();
                 this.bulletsLists = new Dictionary();
             }
             return this._bullets;
@@ -698,25 +687,6 @@ var Series = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    /**
-     * Hides bullet elements that are currently not in use.
-     * @ignore
-     */
-    Series.prototype.hideUnusedBullets = function () {
-        // hide all unused
-        var bulletsIterators = this.bulletsIterators;
-        if (bulletsIterators) {
-            $iter.each(bulletsIterators.iterator(), function (a) {
-                var iterator = a[1];
-                iterator.createNewItems = false;
-                $iter.each(iterator.iterator(), function (bullet) {
-                    bullet.visible = false;
-                });
-                iterator.clear();
-                iterator.createNewItems = true;
-            });
-        }
-    };
     /**
      * Destroys series and related elements.
      */

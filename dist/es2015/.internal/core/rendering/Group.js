@@ -55,8 +55,8 @@ var Group = /** @class */ (function (_super) {
      */
     Group.prototype.add = function (element) {
         if (element) {
-            this.node.appendChild(element.node);
             this.children.moveValue(element);
+            this.node.appendChild(element.node);
         }
     };
     /**

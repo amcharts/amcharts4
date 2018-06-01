@@ -1,0 +1,1 @@
+{"version":3,"file":"pt_BR.js","sourceRoot":"","sources":["../../../src/lang/pt_BR.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,yBAAyB,CAAC","sourcesContent":["export { default } from \"../.internal/lang/pt_BR\";\n"]}

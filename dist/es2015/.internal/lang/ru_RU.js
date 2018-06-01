@@ -1,6 +1,7 @@
 /**
  * Translation file
  * Locale: ru_RU (Russian, Russia)
+ *
  * @type {ILocale}
  */
 export default {

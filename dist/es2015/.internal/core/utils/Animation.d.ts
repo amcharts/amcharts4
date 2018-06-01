@@ -266,6 +266,7 @@ export declare class Animation extends BaseObjectEvents implements IAnimationObj
      * @return {Animation}         Animation
      */
     delay(delay: number): Animation;
+    private _start();
     /**
      * Starts animation.
      *

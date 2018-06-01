@@ -20,7 +20,6 @@ import { Axis } from "../axes/Axis";
 import { Bullet } from "../elements/Bullet";
 import { ILegendItem, LegendDataItem, LegendSettings } from "../Legend";
 import { Animation } from "../../core/utils/Animation";
-import * as $iter from "../../core/utils/Iterator";
 export interface IHeatRule {
     target: Sprite;
     property: string;
@@ -265,13 +264,6 @@ export declare class Series extends Component implements ILegendItem<Series, ISe
      * @type {Dictionary<string, List<Bullet>>}
      */
     bulletsLists: Dictionary<string, List<Bullet>>;
-    /**
-     * Bullet iterations by id.
-     *
-     * @ignore Exclude from docs
-     * @type {Dictionary}
-     */
-    bulletsIterators: Dictionary<string, $iter.ListIterator<Bullet>>;
     /**
      * Container bullets are placed in.
      *
@@ -541,11 +533,6 @@ export declare class Series extends Component implements ILegendItem<Series, ISe
      * @return {ListTemplate<Bullet>} List of bullets.
      */
     readonly bullets: ListTemplate<Bullet>;
-    /**
-     * Hides bullet elements that are currently not in use.
-     * @ignore
-     */
-    protected hideUnusedBullets(): void;
     /**
      * Destroys series and related elements.
      */

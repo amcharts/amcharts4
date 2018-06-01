@@ -309,12 +309,7 @@ var Animation = /** @class */ (function (_super) {
         }
         return this;
     };
-    /**
-     * Starts animation.
-     *
-     * @return {Animation} Animation
-     */
-    Animation.prototype.start = function () {
+    Animation.prototype._start = function () {
         // Clear delay timeout if there was one
         if (this._delayTimeout) {
             this.removeDispose(this._delayTimeout);
@@ -325,6 +320,18 @@ var Animation = /** @class */ (function (_super) {
         this.stopSameAnimations();
         // Reset counters
         this._pause = false;
+        // Register animation
+        $array.move(animations, this);
+        // Register this animation in object's `animations` list
+        $array.move(this.object.animations, this);
+    };
+    /**
+     * Starts animation.
+     *
+     * @return {Animation} Animation
+     */
+    Animation.prototype.start = function () {
+        this._start();
         this._startTime = Date.now();
         this._time = 0;
         this.staticOptions = [];
@@ -398,10 +405,6 @@ var Animation = /** @class */ (function (_super) {
                 }
             }
         }
-        // Register animation
-        $array.move(animations, this);
-        // Register this animation in object's `animations` list
-        $array.move(this.object.animations, this);
         // Apply static options (just in case they were reset by previous
         // animation loop)
         this.applyStaticOptions();
@@ -454,7 +457,7 @@ var Animation = /** @class */ (function (_super) {
      * @return {Animation} Animation
      */
     Animation.prototype.resume = function () {
-        this._pause = false;
+        this._start();
         this._startTime = Date.now() - this._time;
         return this;
     };

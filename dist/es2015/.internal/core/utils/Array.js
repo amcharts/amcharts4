@@ -177,7 +177,7 @@ export function remove(array, element) {
 export function move(array, element, toIndex) {
     // @todo this implementation must be the same as the List.moveValue method
     // @todo don't do anything if the desired index is the same as the current index
-    var index = array.indexOf(element);
+    var index = indexOf(array, element);
     // @todo remove all old values rather than only the first ?
     if (index !== -1) {
         removeIndex(array, index);

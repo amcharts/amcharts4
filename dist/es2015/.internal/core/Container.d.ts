@@ -233,6 +233,7 @@ export declare class Container extends Sprite {
     setStateOnChildren: boolean;
     protected _containerOverflowX: number;
     protected _containerOverflowY: number;
+    layoutInvalid: boolean;
     /**
      * Constructor
      */

@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.27] - 2018-06-01
+
+### Fixed
+- Issue with `Label` text truncation.
+- Huge performance improvements, especially on initial chart load.
+- `Animation.resume()` was not working.
+
+### Changed
+- Default `tooltipLocation` on `SankeyLink` is now `0.5`.
+- Default value of `series.hiddenState.opacity` is now `0` (was `1`). Animated theme sets it to `1`, because it animates stuff by interpolation, rather than fade.
+
+### Added
+- `pt_BR` and `en_CA` locales.
+- `fullWords` property on `Label`. Works only when `truncate = true`. Setting to `false` will force non-fitting label to be truncated in the middle of the word.
+
 ## [4.0.0-beta.26] - 2018-05-30
 
 ### Fixed

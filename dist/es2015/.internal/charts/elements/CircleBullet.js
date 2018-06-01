@@ -48,6 +48,7 @@ var CircleBullet = /** @class */ (function (_super) {
         _this.circle = _this.createChild(Circle);
         _this.circle.shouldClone = false;
         _this.circle.radius = 5;
+        _this.circle.isMeasured = false;
         return _this;
     }
     /**

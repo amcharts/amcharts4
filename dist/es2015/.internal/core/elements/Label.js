@@ -85,6 +85,7 @@ var Label = /** @class */ (function (_super) {
         // Set defaults
         _this.wrap = false;
         _this.truncate = false;
+        _this.fullWords = true;
         _this.ellipsis = "...";
         _this.textAlign = "start";
         _this.textValign = "top";
@@ -174,7 +175,7 @@ var Label = /** @class */ (function (_super) {
         var maxWidth = $math.max(this.availableWidth - this.pixelPaddingLeft - this.pixelPaddingRight, 0);
         var maxHeight = $math.max(this.availableHeight - this.pixelPaddingTop - this.pixelPaddingBottom, 0);
         // save
-        var status = maxHeight + "," + maxWidth + this.wrap + this.truncate + this.rtl + this.ellipsis;
+        var status = maxHeight + "," + maxWidth + this.wrap + this.truncate + this.fullWords + this.rtl + this.ellipsis;
         // Update text
         if (!this.updateCurrentText() && this.inited && this._prevStatus == status) {
             return;
@@ -362,9 +363,10 @@ var Label = /** @class */ (function (_super) {
                                                 lineInfo.element.removeElement(element);
                                             }
                                         }
-                                        // If we're on first chunk of text, we can break mid-word.
-                                        // Otherwise we break by words
-                                        if (e === 0) {
+                                        // If we're on first chunk of text, or we explicitly
+                                        // enabled word-breaking, we can break mid-word.
+                                        // Otherwise we break by words.
+                                        if (e === 0 || !this.fullWords) {
                                             elementText = $utils.truncateWithEllipsis(elementText, maxChars, this.ellipsis, false, this.rtl);
                                         }
                                         else {
@@ -798,6 +800,26 @@ var Label = /** @class */ (function (_super) {
         set: function (value) {
             this.resetBBox();
             this.setPropertyValue("truncate", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Label.prototype, "fullWords", {
+        /**
+         * @return {boolean} Truncate on full words?
+         */
+        get: function () {
+            return this.getPropertyValue("fullWords");
+        },
+        /**
+         * If `truncate` is enabled, should Label try to break only on full words
+         * (`true`), or whenever needed, including middle of the word. (`false`)
+         *
+         * @default true
+         * @param {boolean}  value  Truncate on full words?
+         */
+        set: function (value) {
+            this.setPropertyValue("fullWords", value, true);
         },
         enumerable: true,
         configurable: true

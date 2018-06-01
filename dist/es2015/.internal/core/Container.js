@@ -101,17 +101,17 @@ var Container = /** @class */ (function (_super) {
             console.log("Added to children a disposed object!");
             return;
         }
-        //if (this.element) {
-        //	let group = <Group>this.element;
-        //	group.add(child.group);
-        //}
-        this.addChildren();
+        if (this.element) {
+            var group = this.element;
+            group.add(child.group);
+        }
         // TODO this is hacky
         if (!$type.hasValue(child._childAddedDisposer)) {
             // it's not enough to listen to POSITION_CHANGED only, as some extra redrawals will happen.
             child._childAddedDisposer = child.events.on("transformed", this.handleChildTransform, this);
             //@todo: temporary commenting this because of error it causes when I add contents Container in AxisRange constructor. this._disposers.push((<any>child)._childAddedDisposer);
         }
+        this.invalidate();
         this.invalidateLayout();
     };
     /**
@@ -161,7 +161,10 @@ var Container = /** @class */ (function (_super) {
             return;
         }
         //this.validateLayout();
-        $array.move(registry.invalidLayouts, this);
+        if (!this.layoutInvalid) {
+            this.layoutInvalid = true;
+            $array.add(registry.invalidLayouts, this);
+        }
     };
     /**
      * Invalidates the whole element, including layout.
@@ -389,7 +392,7 @@ var Container = /** @class */ (function (_super) {
             }
         }
         this._childrenByLayout = [];
-        if (this.layout == "absolute") {
+        if (this.layout == "none" || this.layout == "absolute" || !this.layout) {
             $iter.each(this.children.iterator(), function (child) {
                 _this._childrenByLayout.push(child);
             });
@@ -489,7 +492,6 @@ var Container = /** @class */ (function (_super) {
         this.sortChildren();
         // add it to parent
         if (this.element) {
-            //$iter.each(this.zIndexGroups.iterator(), (child) => {
             var zindexed = $array.copy(this._childrenByLayout);
             zindexed.sort(function (a, b) {
                 return (a.zIndex || 0) - (b.zIndex || 0);
@@ -606,6 +608,7 @@ var Container = /** @class */ (function (_super) {
     Container.prototype.validateLayout = function () {
         var _this = this;
         $array.remove(registry.invalidLayouts, this);
+        this.layoutInvalid = false;
         this._availableWidth = this.innerWidth;
         this._availableHeight = this.innerHeight;
         var measuredWidth = 0;

@@ -563,9 +563,9 @@ var Axis = /** @class */ (function (_super) {
         $iter.each(this.axisRanges.iterator(), function (axisRange) {
             _this.appendDataItem(axisRange);
             _this.validateDataElement(axisRange);
-            axisRange.grid.invalidate();
-            axisRange.tick.invalidate();
-            axisRange.axisFill.invalidate();
+            axisRange.grid.validate();
+            axisRange.tick.validate();
+            axisRange.axisFill.validate();
         });
     };
     /**

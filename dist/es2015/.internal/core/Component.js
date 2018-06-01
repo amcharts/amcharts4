@@ -141,7 +141,7 @@ var Component = /** @class */ (function (_super) {
          *
          * @type {number}
          */
-        _this.parsingStepDuration = 100;
+        _this.parsingStepDuration = 50;
         /**
          * [dataInvalid description]
          *
@@ -477,11 +477,13 @@ var Component = /** @class */ (function (_super) {
         if (this.disabled || this.isTemplate) {
             return;
         }
+        //if(!this.dataInvalid){
         $array.move(registry.invalidDatas, this);
         this.dataInvalid = true;
         $iter.each(this._dataUsers.iterator(), function (x) {
             x.invalidateDataItems();
         });
+        //}
     };
     /**
      * [invalidateDataUsers description]
@@ -504,11 +506,13 @@ var Component = /** @class */ (function (_super) {
         if (this.disabled || this.isTemplate) {
             return;
         }
+        //if(!this.dataItemsInvalid){		
         $array.move(registry.invalidDataItems, this);
         this.dataItemsInvalid = true;
         $iter.each(this._dataUsers.iterator(), function (x) {
             x.invalidateDataItems();
         });
+        //}
     };
     /**
      * Invalidates data range. This is done when data which must be shown
@@ -520,8 +524,10 @@ var Component = /** @class */ (function (_super) {
         if (this.disabled || this.isTemplate) {
             return;
         }
+        //if(!this.dataRangeInvalid){
         this.dataRangeInvalid = true;
         $array.move(registry.invalidDataRange, this);
+        //}
     };
     /**
      * Processes data range.
@@ -607,11 +613,13 @@ var Component = /** @class */ (function (_super) {
         if (this.disabled || this.isTemplate) {
             return;
         }
+        //if(!this.rawDataInvalid){
         $array.move(registry.invalidRawDatas, this);
         this.rawDataInvalid = true;
         $iter.each(this._dataUsers.iterator(), function (x) {
             x.invalidateRawData();
         });
+        //}
     };
     /**
      * @ignore

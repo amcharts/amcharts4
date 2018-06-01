@@ -87,7 +87,7 @@ var SankeyNode = /** @class */ (function (_super) {
         nameLabel.locationY = 0.5;
         nameLabel.label.text = "{name}";
         //nameLabel.label.textElement.hideOversized = false;
-        //nameLabel.maxWidth = 150;
+        nameLabel.width = 150;
         nameLabel.height = 150;
         nameLabel.label.horizontalCenter = "left";
         nameLabel.label.padding(0, 5, 0, 5);

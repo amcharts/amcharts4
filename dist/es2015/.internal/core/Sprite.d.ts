@@ -600,6 +600,13 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     invalid: boolean;
     /**
+     * Indicates if this elements position is invalid and should be repositioned
+     *
+     * @ignore Exclude from docs
+     * @type {boolean}
+     */
+    positionInvalid: boolean;
+    /**
      * A collection of key/value pairs that can be used to bind specific Sprite
      * properties to [[DataItem]].
      *

@@ -74,6 +74,14 @@ define('@amcharts/amcharts4/core', [], function () {
   'use strict';
   return self.am4core;
 });
+define('@amcharts/amcharts4/lang/en_CA', [], function () {
+  'use strict';
+  var output = self.am4lang_en_CA;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'lang/en_CA' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4/lang/en_US', [], function () {
   'use strict';
   var output = self.am4lang_en_US;
@@ -97,6 +105,14 @@ define('@amcharts/amcharts4/lang/nl_NL', [], function () {
     return output;
   }
   throw new Error("You must add 'lang/nl_NL' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4/lang/pt_BR', [], function () {
+  'use strict';
+  var output = self.am4lang_pt_BR;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'lang/pt_BR' to the amcharts4.files array in your EmberApp.");
 });
 define('@amcharts/amcharts4/lang/ru_RU', [], function () {
   'use strict';

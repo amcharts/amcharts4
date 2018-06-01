@@ -93,7 +93,7 @@ var AxisRenderer = /** @class */ (function (_super) {
         var baseGrid = _this.createChild(Grid);
         baseGrid.shouldClone = false;
         _this.baseGrid = baseGrid;
-        _this.gridContainer.events.on("maxsizechanged", _this.invalidateAxisItems, _this);
+        //this.gridContainer.events.on("maxsizechanged", this.invalidateAxisItems, this);
         // Make elements disposable
         var disposers = _this._disposers;
         disposers.push(baseGrid);
@@ -226,6 +226,26 @@ var AxisRenderer = /** @class */ (function (_super) {
             coordinate = (position - axis.start) * axisFullLength;
         }
         return $math.round(coordinate, 1);
+    };
+    AxisRenderer.prototype.getHeight = function () {
+        var axis = this.axis;
+        if (axis && axis.chart) {
+            var chart = this.axis.chart;
+            if (chart.plotContainer) {
+                return chart.plotContainer.pixelHeight;
+            }
+        }
+        return this.gridContainer.pixelHeight;
+    };
+    AxisRenderer.prototype.getWidth = function () {
+        var axis = this.axis;
+        if (axis && axis.chart) {
+            var chart = this.axis.chart;
+            if (chart.plotContainer) {
+                return chart.plotContainer.pixelWidth;
+            }
+        }
+        return this.gridContainer.pixelWidth;
     };
     /**
      * Converts a coordinate in pixels to a relative position. (0-1)

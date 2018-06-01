@@ -190,7 +190,7 @@ var AxisRendererX = /** @class */ (function (_super) {
         var x1 = $math.fitToRange(this.positionToCoordinate(startPosition), 0, this.axisLength);
         var x2 = $math.fitToRange(this.positionToCoordinate(endPosition), 0, this.axisLength);
         var w = Math.abs(x2 - x1);
-        var h = this.gridContainer.pixelHeight;
+        var h = this.getHeight();
         var x = Math.min(x1, x2);
         var y = 0;
         return $path.rectToPath({
@@ -214,7 +214,7 @@ var AxisRendererX = /** @class */ (function (_super) {
         var startPoint = axisBreak.startPoint;
         var endPoint = axisBreak.endPoint;
         var y1 = axisBreak.pixelMarginLeft;
-        var y2 = this.gridContainer.pixelHeight - axisBreak.pixelMarginTop - axisBreak.pixelMarginBottom;
+        var y2 = this.getHeight() - axisBreak.pixelMarginTop - axisBreak.pixelMarginBottom;
         startPoint.x = $math.fitToRange(startPoint.x, -1, this.pixelWidth + 1);
         endPoint.x = $math.fitToRange(endPoint.x, -1, this.pixelWidth + 1);
         if (startPoint.x == endPoint.x && (startPoint.x < 0 || startPoint.x > this.pixelWidth)) {
@@ -246,7 +246,7 @@ var AxisRendererX = /** @class */ (function (_super) {
         position = position + (endPosition - position) * grid.location;
         var point = this.positionToPoint(position);
         if (grid.element) {
-            grid.element.attr({ "d": $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: 0, y: this.gridContainer.pixelHeight }) });
+            grid.element.attr({ "d": $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: 0, y: this.getHeight() }) });
         }
         this.positionItem(grid, point);
         this.toggleVisibility(grid, position, 0, 1);
@@ -293,8 +293,8 @@ var AxisRendererX = /** @class */ (function (_super) {
     AxisRendererX.prototype.updateBaseGridElement = function () {
         _super.prototype.updateBaseGridElement.call(this);
         var axis = this.axis;
-        var h = this.gridContainer.pixelHeight;
-        var w = this.gridContainer.pixelWidth;
+        var h = this.getHeight();
+        var w = this.getWidth();
         var baseGrid = this.baseGrid;
         var x = axis.basePoint.x;
         if (x < 0 || x > w) {

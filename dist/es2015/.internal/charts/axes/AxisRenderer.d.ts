@@ -293,6 +293,8 @@ export declare class AxisRenderer extends Container {
      * @return {number}            Coordinate (px)
      */
     positionToCoordinate(position: number): number;
+    protected getHeight(): number;
+    protected getWidth(): number;
     /**
      * Converts a coordinate in pixels to a relative position. (0-1)
      *

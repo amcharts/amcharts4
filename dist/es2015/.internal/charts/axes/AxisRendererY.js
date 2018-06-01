@@ -169,7 +169,7 @@ var AxisRendererY = /** @class */ (function (_super) {
         var y1 = $math.fitToRange(this.positionToCoordinate(startPosition), 0, this.axisLength);
         var y2 = $math.fitToRange(this.positionToCoordinate(endPosition), 0, this.axisLength);
         var h = Math.abs(y2 - y1);
-        var w = this.gridContainer.pixelWidth;
+        var w = this.getWidth();
         var y = Math.min(y1, y2);
         var x = 0;
         return $path.rectToPath({
@@ -190,7 +190,7 @@ var AxisRendererY = /** @class */ (function (_super) {
     AxisRendererY.prototype.updateGridElement = function (grid, position, endPosition) {
         var point = this.positionToPoint(position);
         if (grid.element) {
-            grid.element.attr({ "d": $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: this.gridContainer.pixelWidth, y: 0 }) });
+            grid.element.attr({ "d": $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: this.getWidth(), y: 0 }) });
         }
         this.positionItem(grid, point);
         this.toggleVisibility(grid, position, 0, 1);
@@ -236,8 +236,8 @@ var AxisRendererY = /** @class */ (function (_super) {
     AxisRendererY.prototype.updateBaseGridElement = function () {
         _super.prototype.updateBaseGridElement.call(this);
         var axis = this.axis;
-        var w = this.gridContainer.pixelWidth;
-        var h = this.gridContainer.pixelHeight;
+        var w = this.getWidth();
+        var h = this.getHeight();
         var y = axis.basePoint.y;
         var baseGrid = this.baseGrid;
         if (y < 0 || y > h) {
@@ -313,7 +313,7 @@ var AxisRendererY = /** @class */ (function (_super) {
         var startPoint = axisBreak.startPoint;
         var endPoint = axisBreak.endPoint;
         var x1 = axisBreak.pixelMarginLeft;
-        var x2 = this.gridContainer.pixelWidth - axisBreak.pixelMarginLeft - axisBreak.pixelMarginRight;
+        var x2 = this.getWidth() - axisBreak.pixelMarginLeft - axisBreak.pixelMarginRight;
         startPoint.y = $math.fitToRange(startPoint.y, -1, this.pixelHeight + 1);
         endPoint.y = $math.fitToRange(endPoint.y, -1, this.pixelHeight + 1);
         if (startPoint.y == endPoint.y && (startPoint.y < 0 || startPoint.y > this.pixelHeight)) {

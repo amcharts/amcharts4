@@ -68,6 +68,14 @@ export interface ILabelProperties extends IContainerProperties {
      */
     truncate?: boolean;
     /**
+     * If `truncate` is enabled, should Label try to break only on full words
+     * (`true`), or whenever needed, including middle of the word. (`false`)
+     *
+     * @default true
+     * @type {boolean}
+     */
+    fullWords?: boolean;
+    /**
      * If lines are truncated, this ellipsis will be added at the end.
      *
      * @default "..."
@@ -314,6 +322,17 @@ export declare class Label extends Container {
      * @param {boolean}  value  trincate text?
      */
     truncate: boolean;
+    /**
+     * @return {boolean} Truncate on full words?
+     */
+    /**
+     * If `truncate` is enabled, should Label try to break only on full words
+     * (`true`), or whenever needed, including middle of the word. (`false`)
+     *
+     * @default true
+     * @param {boolean}  value  Truncate on full words?
+     */
+    fullWords: boolean;
     /**
      * @return {string} Ellipsis string
      */

@@ -5,6 +5,7 @@
  * @hidden
  */
 import { registry } from "./Registry";
+import { Container } from "./Container";
 import { svgContainers, SVGContainer } from "./rendering/SVGContainer";
 import { Component } from "./Component";
 import { options } from "./Options";
@@ -230,6 +231,7 @@ var System = /** @class */ (function () {
             if (sprite && !sprite.isDisposed()) {
                 if (sprite instanceof Component && (sprite.dataInvalid || (sprite.dataProvider && sprite.dataProvider.dataInvalid))) {
                     // void
+                    skippedSprites.push(sprite);
                 }
                 else {
                     // @todo? maybe we should only check if preloader is visible and render only preloader sprites?
@@ -240,12 +242,29 @@ var System = /** @class */ (function () {
                     }
                     else if (sprite.dataItem && sprite.dataItem.component && sprite.dataItem.component.dataInvalid) {
                         // void
+                        skippedSprites.push(sprite);
                     }
                     else {
                         try {
+                            if (sprite instanceof Container) {
+                                sprite.children.each(function (child) {
+                                    if (child.invalid) {
+                                        if (child instanceof Component && (child.dataInvalid || (child.dataProvider && child.dataProvider.dataInvalid))) {
+                                            skippedSprites.push(child);
+                                        }
+                                        else if (child.dataItem && child.dataItem.component && child.dataItem.component.dataInvalid) {
+                                            skippedSprites.push(child);
+                                        }
+                                        else {
+                                            child.validate();
+                                        }
+                                    }
+                                });
+                            }
                             sprite.validate();
                         }
                         catch (e) {
+                            sprite.invalid = false;
                             $array.remove(registry.invalidSprites, sprite);
                             sprite.raiseCriticalError(e);
                         }
@@ -253,6 +272,7 @@ var System = /** @class */ (function () {
                 }
             }
             // this might seem too much, but it's ok
+            sprite.invalid = false;
             $array.remove(registry.invalidSprites, sprite);
         }
         registry.invalidSprites = skippedSprites;
@@ -287,9 +307,17 @@ var System = /** @class */ (function () {
         while (registry.invalidPositions.length > 0) {
             var sprite = registry.invalidPositions[registry.invalidPositions.length - 1];
             try {
+                if (sprite instanceof Container) {
+                    sprite.children.each(function (sprite) {
+                        if (sprite.positionInvalid) {
+                            sprite.validatePosition();
+                        }
+                    });
+                }
                 sprite.validatePosition();
             }
             catch (e) {
+                sprite.positionInvalid = false;
                 $array.remove(registry.invalidPositions, sprite);
                 sprite.raiseCriticalError(e);
             }
@@ -308,9 +336,15 @@ var System = /** @class */ (function () {
         while (registry.invalidLayouts.length > 0) {
             var container = registry.invalidLayouts[registry.invalidLayouts.length - 1];
             try {
+                container.children.each(function (sprite) {
+                    if (sprite instanceof Container && sprite.layoutInvalid) {
+                        sprite.validateLayout();
+                    }
+                });
                 container.validateLayout();
             }
             catch (e) {
+                container.layoutInvalid = false;
                 $array.remove(registry.invalidLayouts, container);
                 container.raiseCriticalError(e);
             }
@@ -382,7 +416,7 @@ var System = /** @class */ (function () {
      * @see {@link https://docs.npmjs.com/misc/semver}
      * @type {string}
      */
-    System.VERSION = "4.0.0-beta.26";
+    System.VERSION = "4.0.0-beta.27";
     return System;
 }());
 export { System };

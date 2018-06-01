@@ -409,10 +409,10 @@ var Sprite = /** @class */ (function (_super) {
         // We no longer reset this on each invalidate, so that they are applied
         // only once, and do not overwrite user-defined settings
         //this._internalDefaultsApplied = false;
-        this.invalid = true;
-        // you could think it would be faster to check if sprite is already invalid and not to add it to array,
-        // but in fact when we call invalidate() we move the sprite to the end of invalidSprites list and this is important to have optimized order of invalid sprites.
-        $array.move(registry.invalidSprites, this);
+        if (!this.invalid) {
+            this.invalid = true;
+            $array.add(registry.invalidSprites, this);
+        }
     };
     /**
      * Validates element:
@@ -443,7 +443,10 @@ var Sprite = /** @class */ (function (_super) {
         if (this.disabled || this.isTemplate) {
             return;
         }
-        $array.move(registry.invalidPositions, this);
+        if (!this.positionInvalid) {
+            this.positionInvalid = true;
+            $array.move(registry.invalidPositions, this);
+        }
     };
     /**
      * Positions element according its center settings.
@@ -551,6 +554,7 @@ var Sprite = /** @class */ (function (_super) {
         // it might happen that x and y changed again, so we only remove if they didn't
         if (this.pixelX + this.dx == x && this.pixelY + this.dy == y) {
             $array.remove(registry.invalidPositions, this);
+            this.positionInvalid = false;
         }
         var maskRectangle = this._maskRectangle;
         // todo: verify this

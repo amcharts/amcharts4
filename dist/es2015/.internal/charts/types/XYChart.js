@@ -609,6 +609,9 @@ var XYChart = /** @class */ (function (_super) {
         renderer.breakContainer.parent = this.plotContainer;
         renderer.breakContainer.toFront();
         renderer.breakContainer.zIndex = 1;
+        this.plotContainer.events.on("maxsizechanged", function (event) {
+            axis.invalidateDataItems();
+        });
     };
     Object.defineProperty(XYChart.prototype, "xAxes", {
         /**

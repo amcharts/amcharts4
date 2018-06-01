@@ -56,7 +56,6 @@ var LabelBullet = /** @class */ (function (_super) {
         label.stroke = color();
         label.strokeOpacity = 0;
         label.fill = new InterfaceColorSet().getFor("text");
-        label.renderingFrequency = 4;
         _this.events.on("maxsizechanged", function () {
             _this.label.maxWidth = _this.maxWidth;
             _this.label.maxHeight = _this.maxHeight;

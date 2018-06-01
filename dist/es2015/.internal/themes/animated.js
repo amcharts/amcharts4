@@ -23,7 +23,10 @@ var theme = function (object) {
         object.animationDuration = 800;
     }
     if (object instanceof Series) {
-        object.defaultState.transitionDuration = 1200;
+        object.defaultState.transitionDuration = 800;
+        object.hiddenState.transitionDuration = 1000;
+        object.hiddenState.properties.opacity = 1;
+        object.interpolationDuration = 1000;
     }
 };
 export default theme;

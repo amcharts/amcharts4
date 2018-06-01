@@ -118,7 +118,8 @@ export declare function splitTextByCharCount(text: string, maxChars: number, ful
 /**
  * Truncates the text to certain character count.
  *
- * Will add ellipsis if the string is truncated. Optionally, can truncate on full words only.
+ * Will add ellipsis if the string is truncated. Optionally, can truncate on
+ * full words only.
  *
  * For RTL support, pass in the fifth parameter as `true`.
  *

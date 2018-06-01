@@ -79,7 +79,6 @@ var Preloader = /** @class */ (function (_super) {
         label.horizontalCenter = "middle";
         label.verticalCenter = "middle";
         label.isMeasured = false;
-        label.width = 200;
         label.fill = interfaceColors.getFor("text");
         label.align = "center";
         label.valign = "middle";

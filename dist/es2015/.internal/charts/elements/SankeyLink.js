@@ -78,6 +78,7 @@ var SankeyLink = /** @class */ (function (_super) {
         _this.verticalCenter = "none";
         _this.horizontalCenter = "none";
         _this.tooltipText = "{fromName}→{toName}:{value.value}";
+        _this.tooltipLocation = 0.5;
         _this.link = _this.createChild(Sprite);
         _this.link.shouldClone = false;
         _this.link.element = _this.paper.add("path");
