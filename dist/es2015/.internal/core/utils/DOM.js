@@ -52,10 +52,12 @@ export var XLINK = "http://www.w3.org/1999/xlink";
  * @param {Function}      listener  Event listener
  * @returns {IDisposer}             Disposable event
  */
-export function addEventListener(dom, type, listener) {
-    dom.addEventListener(type, listener, false);
+export function addEventListener(dom, type, listener, options) {
+    //@todo proper type check for options: EventListenerOptions | boolean (TS for some reason gives error on passive parameter)
+    //console.log(type, dom);
+    dom.addEventListener(type, listener, options || false);
     return new Disposer(function () {
-        dom.removeEventListener(type, listener, false);
+        dom.removeEventListener(type, listener, options || false);
     });
 }
 /**

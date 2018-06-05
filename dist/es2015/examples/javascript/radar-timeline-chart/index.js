@@ -290,7 +290,7 @@ function createRange(name, continentData, index) {
     // every 3rd color for a bigger contrast
     axisRange.axisFill.fill = colorSet.getIndex(index * 3);
     axisRange.grid.disabled = true;
-    axisRange.label.mouseEnabled = false;
+    axisRange.label.interactionsEnabled = false;
 
     let axisFill = axisRange.axisFill;
     axisFill.innerRadius = -0.001; // almost the same as 100%, we set it in pixels as later we animate this property to some pixel value

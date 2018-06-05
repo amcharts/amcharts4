@@ -66,7 +66,7 @@ bullet.circle.radius = 30;
 bullet.valign = "bottom";
 bullet.align = "center";
 bullet.isMeasured = true;
-bullet.mouseEnabled = false;
+bullet.interactionsEnabled = false;
 bullet.verticalCenter = "bottom";
 
 var hoverState = bullet.states.create("hover");

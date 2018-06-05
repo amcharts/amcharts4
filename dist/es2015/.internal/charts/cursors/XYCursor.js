@@ -191,6 +191,7 @@ var XYCursor = /** @class */ (function (_super) {
         return point;
     };
     XYCursor.prototype.triggerMoveReal = function (point, triggeredByPointer) {
+        _super.prototype.triggerMoveReal.call(this, point, triggeredByPointer);
         this.updateLinePositions(point);
         if (this.downPoint) {
             if (this._generalBehavior == "pan") {
@@ -198,7 +199,6 @@ var XYCursor = /** @class */ (function (_super) {
                 this.dispatch("panning");
             }
         }
-        _super.prototype.triggerMoveReal.call(this, point, triggeredByPointer);
     };
     /**
      *
@@ -334,8 +334,8 @@ var XYCursor = /** @class */ (function (_super) {
          * * "panXY" - moves (pans) current selection both horizontally and vertically;
          * * "none" - does nothing with pointer down.
          *
-         * E.g. "zoomXY" will mean that pressing a mouse over plot area and dragging
-         * it will start zooming the chart.
+         * E.g. "zoomXY" will mean that pressing a mouse (or touching) over plot area
+         * and dragging it will start zooming the chart.
          *
          * @param {"zoomX" | "zoomY" | "zoomXY" | "selectX" | "selectY" | "selectXY" | "panX" | "panY" | "panXY" | "none"} value Bheavior
          */

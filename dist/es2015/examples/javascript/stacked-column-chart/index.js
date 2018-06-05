@@ -59,13 +59,13 @@ let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
 categoryAxis.dataFields.category = "category";
 categoryAxis.renderer.minGridDistance = 60;
 categoryAxis.renderer.grid.template.location = 0;
-categoryAxis.mouseEnabled = false;
+categoryAxis.interactionsEnabled = false;
 
 let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 valueAxis.tooltip.disabled = true;
 valueAxis.renderer.grid.template.strokeOpacity = 0.05;
 valueAxis.renderer.minGridDistance = 20;
-valueAxis.mouseEnabled = false;
+valueAxis.interactionsEnabled = false;
 valueAxis.min = 0;
 valueAxis.renderer.minWidth = 35;
 

@@ -142,7 +142,7 @@ chart.zoomOutButton.valign = "bottom";
 var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
 categoryAxis.dataFields.category = "name";
 categoryAxis.renderer.labels.template.location = 0.5;
-categoryAxis.mouseEnabled = false;
+categoryAxis.interactionsEnabled = false;
 
 var categoryAxisRenderer = categoryAxis.renderer;
 categoryAxisRenderer.cellStartLocation = 0;

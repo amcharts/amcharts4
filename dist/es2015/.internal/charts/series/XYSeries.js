@@ -783,7 +783,7 @@ var XYSeries = /** @class */ (function (_super) {
         var endIndex = this.endIndex;
         for (var i = startIndex; i < endIndex; i++) {
             var dataItem = dataItems.getIndex(i);
-            this.getStackValue(dataItem);
+            this.getStackValue(dataItem, working);
             var stackX = dataItem.getValue("valueX", "stack");
             var stackY = dataItem.getValue("valueY", "stack");
             minX = $math.min(dataItem.getMin(this._xValueFields, working, stackX), minX);
@@ -1098,7 +1098,7 @@ var XYSeries = /** @class */ (function (_super) {
      * @todo Description
      * @param {this["_dataItem"]}  dataItem  Data item
      */
-    XYSeries.prototype.getStackValue = function (dataItem) {
+    XYSeries.prototype.getStackValue = function (dataItem, working) {
         var _this = this;
         // todo: here wer stack x and y values only. question is - what should we do with other values, like openX, openY?
         // if this series is not stacked or new stack begins, return.
@@ -1124,7 +1124,13 @@ var XYSeries = /** @class */ (function (_super) {
                     var prevDataItem = prevSeries.dataItems.getIndex(dataItem.index); // indexes should match
                     if (prevDataItem.hasValue(_this._xValueFields) && prevDataItem.hasValue(_this._yValueFields)) {
                         var value = dataItem.getValue(field_1);
-                        var prevValue = prevDataItem.getWorkingValue(field_1) + prevDataItem.getValue(field_1, "stack");
+                        var prevValue = void 0;
+                        if (working) {
+                            prevValue = prevDataItem.getWorkingValue(field_1) + prevDataItem.getValue(field_1, "stack");
+                        }
+                        else {
+                            prevValue = prevDataItem.getValue(field_1) + prevDataItem.getValue(field_1, "stack");
+                        }
                         if ((value >= 0 && prevValue >= 0) || (value < 0 && prevValue < 0)) {
                             //dataItem.events.disable();
                             dataItem.setCalculatedValue(field_1, prevValue, "stack");

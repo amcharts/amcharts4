@@ -46,11 +46,11 @@ export function copy(source, target) {
 /**
  * Checks if value is not empty (undefined or zero-length string).
  *
- * @param  {any}      value  Value to check
- * @return {boolean}         `true` if value is "empty"
+ * @param  {Optional<string>}  value  Value to check
+ * @return {boolean}                  `true` if value is not "empty"
  */
-export function empty(value) {
-    return !$type.hasValue(value) || (value.toString() === "");
+export function isNotEmpty(value) {
+    return $type.hasValue(value) && (value.toString() !== "");
 }
 /**
  * [relativeToValue description]

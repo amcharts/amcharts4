@@ -84,7 +84,7 @@ var Cursor = /** @class */ (function (_super) {
      * @param {IInteractionEvents["track"]} event Event
      */
     Cursor.prototype.handleCursorMove = function (event) {
-        if (!this.mouseEnabled) {
+        if (!this.interactionsEnabled) {
             return;
         }
         var local = $utils.documentPointToSprite(event.pointer.point, this);
@@ -175,7 +175,8 @@ var Cursor = /** @class */ (function (_super) {
      */
     Cursor.prototype.triggerUpReal = function (point, triggeredByPointer) {
         this.updatePoint(this.upPoint);
-        if ($math.getDistance(this.upPoint, this.downPoint) > 5) {
+        var interaction = getInteraction();
+        if ($math.getDistance(this.upPoint, this.downPoint) > interaction.getHitOption(this.interactions, "hitTolerance")) {
             switch (this._generalBehavior) {
                 case "zoom":
                     this.dispatchImmediately("zoomended");
@@ -185,7 +186,7 @@ var Cursor = /** @class */ (function (_super) {
                     break;
                 case "pan":
                     this.dispatchImmediately("panended");
-                    getInteraction().setGlobalStyle(MouseCursorStyle.default);
+                    interaction.setGlobalStyle(MouseCursorStyle.default);
                     break;
             }
         }
@@ -217,10 +218,17 @@ var Cursor = /** @class */ (function (_super) {
      * @param {IInteractionEvents["down"]} event Original event
      */
     Cursor.prototype.handleCursorDown = function (event) {
-        if (!this.mouseEnabled) {
+        if (!this.interactionsEnabled) {
             return;
         }
+        // Get local point
         var local = $utils.documentPointToSprite(event.pointer.point, this);
+        // We need to cancel the event to prevent gestures on touch devices
+        if (event.event.cancelable && this.fitsToBounds(local)) {
+            event.event.preventDefault();
+        }
+        // Make this happen
+        this.triggerMove(local, true);
         this.triggerDown(local, true);
     };
     /**
@@ -236,11 +244,12 @@ var Cursor = /** @class */ (function (_super) {
      * @param {IInteractionEvents["up"]} event Original event
      */
     Cursor.prototype.handleCursorUp = function (event) {
-        if (!this.mouseEnabled) {
+        if (!this.interactionsEnabled) {
             this.downPoint = undefined;
             return;
         }
         var local = $utils.documentPointToSprite(event.pointer.point, this);
+        this.triggerMove(local, true);
         this.triggerUp(local, true);
     };
     Object.defineProperty(Cursor.prototype, "chart", {

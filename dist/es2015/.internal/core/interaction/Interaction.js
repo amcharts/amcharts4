@@ -94,6 +94,12 @@ var Interaction = /** @class */ (function (_super) {
          */
         _this._usePointerEventsOnly = false;
         /**
+         * Indicates if passive mode options is supported by this browser.
+         *
+         * @type {boolean}
+         */
+        _this._passiveSupported = false;
+        /**
          * List of objects that current have a pointer hovered over them.
          *
          * @type {List<InteractionObject>}
@@ -222,6 +228,20 @@ var Interaction = /** @class */ (function (_super) {
             "factor": 1,
             "easing": $ease.polyOut3
         });
+        // Check for passive mode support
+        try {
+            var target_1 = _this;
+            var options = Object.defineProperty({}, "passive", {
+                get: function () {
+                    target_1._passiveSupported = true;
+                }
+            });
+            window.addEventListener("test", options, options);
+            window.removeEventListener("test", options, options);
+        }
+        catch (err) {
+            _this._passiveSupported = false;
+        }
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -434,18 +454,10 @@ var Interaction = /** @class */ (function (_super) {
             this.addGlobalEvents();
             // Add local events
             if (!io.eventDisposers.hasKey("touchable")) {
-                if (this._usePointerEventsOnly) {
-                    io.eventDisposers.setKey("touchable", new MultiDisposer([
-                        addEventListener(io.element, this._pointerEvents.pointerdown, function (e) { return _this.handlePointerDown(io, e); }),
-                        addEventListener(io.element, "touchstart", function (e) { return _this.preventTouchAction(e); })
-                    ]));
-                }
-                else {
-                    io.eventDisposers.setKey("touchable", new MultiDisposer([
-                        addEventListener(io.element, this._pointerEvents.pointerdown, function (e) { return _this.handlePointerDown(io, e); }),
-                        addEventListener(io.element, "touchstart", function (e) { return _this.handleTouchDown(io, e); })
-                    ]));
-                }
+                io.eventDisposers.setKey("touchable", new MultiDisposer([
+                    addEventListener(io.element, this._pointerEvents.pointerdown, function (e) { return _this.handlePointerDown(io, e); }),
+                    addEventListener(io.element, "touchstart", function (e) { return _this.handleTouchDown(io, e); }, this._passiveSupported ? { passive: false } : false)
+                ]));
             }
         }
         else {
@@ -713,7 +725,7 @@ var Interaction = /** @class */ (function (_super) {
             // Get pointer
             var pointer = this.getPointer(ev.changedTouches[i]);
             // Prepare and fire global event
-            if (this.events.isEnabled("down")) {
+            if (!this._usePointerEventsOnly && this.events.isEnabled("down")) {
                 var imev = {
                     type: "down",
                     target: this,
@@ -860,9 +872,11 @@ var Interaction = /** @class */ (function (_super) {
     Interaction.prototype.handleTouchDown = function (io, ev) {
         // Stop further propagation so we don't get multiple triggers on hybrid
         // devices (both mouse and touch capabilities)
-        /*ev.stopPropagation();
-        if (ev.defaultPrevented) {
-            ev.preventDefault();
+        // We're disabling this here because it's impossible to cancel touch
+        // event otherwise, and it might be needed in order to control default
+        // touch gestures.
+        /*if (this._usePointerEventsOnly) {
+            return;
         }*/
         // Process each changed touch point
         for (var i = 0; i < ev.changedTouches.length; i++) {
@@ -925,7 +939,7 @@ var Interaction = /** @class */ (function (_super) {
                             };
                             io.events.dispatchImmediately("rightclick", imev);
                         }
-
+        
                     } else {
                         if (io.events.isEnabled("hit")) {
                             let imev: AMEvent<InteractionObject, InteractionObjectEvents>["hit"] = {
@@ -1057,6 +1071,13 @@ var Interaction = /** @class */ (function (_super) {
         // Stop inertia animations if they're currently being played out
         if (io.inert) {
             this.stopInertia(io);
+        }
+        // Reset hover status if it's a touch pointer
+        if (pointer.touch && io.overPointers.length) {
+            while (io.overPointers.length) {
+                this.handleOut(io, io.overPointers.getIndex(0), ev);
+            }
+            io.isHover = false;
         }
         // Log last down event
         pointer.lastDownEvent = ev;
@@ -1803,7 +1824,7 @@ var Interaction = /** @class */ (function (_super) {
             // Init pointer
             pointer = {
                 "id": id,
-                "touch": !(ev instanceof MouseEvent) || (ev.pointerType && ev.pointerType != "mouse"),
+                "touch": !(ev instanceof MouseEvent) || (ev.pointerType && ev.pointerType != "pointer"),
                 "startPoint": point,
                 "startTime": new Date().getTime(),
                 "point": point,
@@ -1863,6 +1884,22 @@ var Interaction = /** @class */ (function (_super) {
         if (this.transformedObjects.length == 0) {
             this.restoreAllStyles(this.body);
         }
+    };
+    /**
+     * Lock element (disable all touch)
+     *
+     * @ignore Exclude from docs
+     */
+    Interaction.prototype.lockElement = function (io) {
+        this.prepElement(io);
+    };
+    /**
+     * Restores element's functionality.
+     *
+     * @ignore Exclude from docs
+     */
+    Interaction.prototype.unlockElement = function (io) {
+        this.restoreAllStyles(io);
     };
     /**
      * Locks document's wheel scroll.

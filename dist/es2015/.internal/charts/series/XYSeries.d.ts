@@ -734,7 +734,7 @@ export declare class XYSeries extends Series {
      * @todo Description
      * @param {this["_dataItem"]}  dataItem  Data item
      */
-    getStackValue(dataItem: this["_dataItem"]): void;
+    getStackValue(dataItem: this["_dataItem"], working?: boolean): void;
     /**
      * [xField description]
      *

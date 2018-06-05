@@ -4,6 +4,7 @@ import { Scrollbar } from "../core/elements/Scrollbar";
 import { Tooltip } from "../core/elements/Tooltip";
 import { Series } from "../charts/series/Series";
 import { SankeyDiagram } from "../charts/types/SankeyDiagram";
+import { AmChartsLogo } from "../core/elements/AmChartsLogo";
 var theme = function (object) {
     if (object instanceof SpriteState) {
         object.transitionDuration = 400;
@@ -27,6 +28,11 @@ var theme = function (object) {
         object.hiddenState.transitionDuration = 1000;
         object.hiddenState.properties.opacity = 1;
         object.interpolationDuration = 1000;
+    }
+    if (object instanceof AmChartsLogo) {
+        object.urlTarget = "_self";
+        object.align = "left";
+        object.valign = "bottom";
     }
 };
 export default theme;

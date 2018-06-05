@@ -33,7 +33,7 @@ let nightSeries = mapChart.series.push(new am4maps.MapPolygonSeries());
 let night = nightSeries.mapPolygons.create();
 night.fill = am4core.color("#000000");
 night.fillOpacity = 0.7;
-night.mouseEnabled = false;
+night.interactionsEnabled = false;
 night.stroke = am4core.color("#000000");
 night.strokeOpacity = 0;
 

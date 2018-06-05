@@ -443,9 +443,18 @@ var ValueAxis = /** @class */ (function (_super) {
         if ($type.isNumber(this.max) && $type.isNumber(this.min)) {
             // first regular items
             var value_1 = this.minZoomed - this._step * 2;
-            //if (this.strictMinMax) {
-            value_1 = Math.floor(value_1 / this._step) * this._step;
-            //}
+            if (!this.logarithmic) {
+                value_1 = Math.floor(value_1 / this._step) * this._step;
+            }
+            else {
+                var differencePower = Math.log(this.max) * Math.LOG10E - Math.log(this.min) * Math.LOG10E;
+                if (differencePower > 1) {
+                    value_1 = Math.pow(10, Math.log(this.min) * Math.LOG10E);
+                }
+                else {
+                    value_1 = Math.floor(this.minZoomed / this._step) * this._step;
+                }
+            }
             var maxZoomed = this._maxZoomed + this._step;
             this.resetIterators();
             var dataItemsIterator_1 = this._dataItemsIterator;

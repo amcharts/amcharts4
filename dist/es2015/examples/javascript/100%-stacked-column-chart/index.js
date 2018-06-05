@@ -48,7 +48,7 @@ let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
 categoryAxis.dataFields.category = "category";
 categoryAxis.renderer.minGridDistance = 60;
 categoryAxis.renderer.grid.template.location = 0;
-categoryAxis.mouseEnabled = false;
+categoryAxis.interactionsEnabled = false;
 
 let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 valueAxis.min = 0;

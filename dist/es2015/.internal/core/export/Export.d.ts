@@ -677,12 +677,12 @@ export declare class Export extends Validatable {
      */
     protected _modal: Modal;
     /**
-     * Used to log original value of `mouseEnabled` so that it can be restored
+     * Used to log original value of `interactionsEnabled` so that it can be restored
      * after temporarily disabling it.
      *
      * @type {boolean}
      */
-    private _spriteMouseEnabled;
+    private _spriteInteractionsEnabled;
     /**
      * Constructor
      */
@@ -1351,11 +1351,11 @@ export declare class Export extends Validatable {
     /**
  * Disables interactivity on parent chart.
  */
-    protected _disableMouse(): void;
+    protected _disablePointers(): void;
     /**
-     * Releases temporarily disabled mouse on parent chart.
+     * Releases temporarily disabled pointers on parent chart.
      */
-    protected _releaseMouse(): void;
+    protected _releasePointers(): void;
     /**
      * Processes JSON-based config before it is applied to the object.
      *

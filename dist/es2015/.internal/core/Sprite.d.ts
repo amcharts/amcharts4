@@ -107,8 +107,8 @@ export interface ISpriteProperties {
     tooltipHTML?: string;
     tooltipX?: number;
     tooltipY?: number;
-    tooltipPosition?: "fixed" | "mouse";
-    mouseEnabled?: boolean;
+    tooltipPosition?: "fixed" | "pointer";
+    interactionsEnabled?: boolean;
     horizontalCenter?: HorizontalCenter;
     verticalCenter?: VerticalCenter;
     align?: Align;
@@ -231,13 +231,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     _adapter: ISpriteAdapters;
     /**
-     * Defines event type.
-     *
-     * @ignore Exclude from docs
-     * @type {ISpriteEvents}
-     */
-    _events: ISpriteEvents;
-    /**
      * Holds values for Sprite's properties.
      */
     properties: this["_properties"];
@@ -265,16 +258,16 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * other Sprites from and should not be treated as full-fledged element.
      *
      * @ignore Exclude from docs
-     * @type {boolean}
+     * @type {Optional<boolean>}
      */
-    protected _isTemplate: boolean;
+    protected _isTemplate: $type.Optional<boolean>;
     /**
      * Holds collection of Sprite States.
      *
      * @ignore Exclude from docs
-     * @type {DictionaryTemplate<string, SpriteState<this["_properties"], this["_adapter"]>>}
+     * @type {Optional<DictionaryTemplate<string, SpriteState<this["_properties"], this["_adapter"]>>>}
      */
-    _states: DictionaryTemplate<string, SpriteState<this["_properties"], this["_adapter"]>>;
+    _states: $type.Optional<DictionaryTemplate<string, SpriteState<this["_properties"], this["_adapter"]>>>;
     /**
      * Holds indicator whether this sprite was already initialized.
      *
@@ -294,17 +287,17 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * it is not set, dataItem will be used.
      *
      * @ignore Exclude from docs
-     * @type {DataItem}
+     * @type {Optional<DataItem>}
      */
-    protected _tooltipDataItem: DataItem;
+    protected _tooltipDataItem: $type.Optional<DataItem>;
     /**
      * A reference to another sprite or sprite template from which tooltip should take colors if getFillFromObject or getStrokeFromObject are set to true.
      * Mostly used when we need to adjust tooltip color for a series, depending on column or bullet color.
      *
      * @ignore Exclude from docs
-     * @type {Sprite}
+     * @type {Optional<Sprite>}
      */
-    protected _tooltipColorSource: Sprite;
+    protected _tooltipColorSource: $type.Optional<Sprite>;
     /**
      * If `sprite.hide()` is called and we have "hidden" state and
      * `transitionDuration > 0`, we set `isHiding` flag to `true` in order to
@@ -351,15 +344,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * @ignore Exclude from docs
      * @todo Description
-     * @type {AMElement}
+     * @type {Optional<AMElement>}
      */
-    protected _clipElement: AMElement;
-    /**
-     * @ignore Exclude from docs
-     * @todo Description
-     * @type {Paper}
-     */
-    protected _originalPaper: Paper;
+    protected _clipElement: $type.Optional<AMElement>;
     /**
      * @ignore Exclude from docs
      * @todo Description
@@ -371,9 +358,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * perform any user interactions directly, it happens via [[InteractionObject]].
      *
      * @ignore Exclude from docs
-     * @type {InteractionObject}
+     * @type {Optional<InteractionObject>}
      */
-    protected _interaction: InteractionObject;
+    protected _interaction: $type.Optional<InteractionObject>;
     /**
      * An instance of [[Language]].
      *
@@ -385,37 +372,37 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * An instance of [[NumberFormatter]].
      *
      * @ignore Exclude from docs
-     * @type {NumberFormatter}
+     * @type {Optional<NumberFormatter>}
      */
-    protected _numberFormatter: NumberFormatter;
+    protected _numberFormatter: $type.Optional<NumberFormatter>;
     /**
      * An instance of [[DateFormatter]].
      *
      * @ignore Exclude from docs
-     * @type {DateFormatter}
+     * @type {Optional<DateFormatter>}
      */
-    protected _dateFormatter: DateFormatter;
+    protected _dateFormatter: $type.Optional<DateFormatter>;
     /**
      * An instance of [[DurationFormatter]].
      *
      * @ignore Exclude from docs
-     * @type {DurationFormatter}
+     * @type {Optional<DurationFormatter>}
      */
-    protected _durationFormatter: DurationFormatter;
+    protected _durationFormatter: $type.Optional<DurationFormatter>;
     /**
      * An HTML element to which [[svgContainer]] is added.
      *
      * @ignore Exclude from docs
-     * @type {HTMLElement}
+     * @type {Optional<HTMLElement>}
      */
-    protected _htmlContainer: HTMLElement;
+    protected _htmlContainer: $type.Optional<HTMLElement>;
     /**
      * An HTML element to which all chart elements are added.
      *
      * @ignore Exclude from docs
-     * @type {HTMLElement}
+     * @type {Optional<HTMLElement>}
      */
-    protected _svgContainer: HTMLElement;
+    protected _svgContainer: $type.Optional<HTMLElement>;
     /**
      * A [[Container]] instance to place this element's [[Tooltip]] elements in
      *
@@ -442,10 +429,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * dimentions?
      *
      * @ignore Exclude from docs
-     * @default true
-     * @type {boolean}
+     * @type {Optional<boolean>}
      */
-    protected _isMeasured: boolean;
+    protected _isMeasured: $type.Optional<boolean>;
     /**
      * Indicates if the chart should follow righ-to-left rules.
      *
@@ -464,16 +450,16 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Holds [[Modal]] object.
      *
      * @ignore Exclude from docs
-     * @type {Modal}
+     * @type {Optional<Modal>}
      */
-    protected _modal: Modal;
+    protected _modal: $type.Optional<Modal>;
     /**
      * Holds [[Popup]] objects.
      *
      * @ignore Exclude from docs
-     * @type {ListTemplate<Popup>}
+     * @type {Optional<ListTemplate<Popup>>}
      */
-    protected _popups: ListTemplate<Popup>;
+    protected _popups: $type.Optional<ListTemplate<Popup>>;
     /**
      * A reference to a top-level SVG node for this Sprite element.
      *
@@ -491,17 +477,17 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * A reference to [[Paper]] SVG renderer used to create SVG nodes.
      *
      * @ignore Exclude from docs
-     * @type {Paper}
+     * @type {Optional<Paper>}
      */
-    protected _paper: Paper;
+    protected _paper: $type.Optional<Paper>;
     /**
      * Data item assigned to the sprite. It might contain information defining
      * some style properties.
      *
      * @ignore Exclude from docs
-     * @type {DataItem}
+     * @type {Optional<DataItem>}
      */
-    _dataItem: DataItem;
+    _dataItem: $type.Optional<DataItem>;
     /**
      * Parent container.
      *
@@ -526,18 +512,18 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Use accessors `classNamePrefix` to set and retrieve.
      *
      * @ignore Exclude from docs
-     * @type {string}
+     * @type {Optional<string>}
      */
-    protected _classNamePrefix: string;
+    protected _classNamePrefix: $type.Optional<string>;
     /**
      * Base tab index for the Sprite. Used for TAB-key selection order.
      *
      * Use accessors `tabIndex` to set and retrieve.
      *
      * @ignore Exclude from docs
-     * @type {number}
+     * @type {Optional<number>}
      */
-    protected _tabindex: number;
+    protected _tabindex: $type.Optional<number>;
     /**
      * Should system tooltips be allowed to be displayed if the element has
      * `readerTitle` set?
@@ -547,16 +533,16 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * This is an accessibility feature.
      *
      * @ignore Exclude from docs
-     * @type {boolean}
+     * @type {Optional<boolean>}
      */
-    protected _showSystemTooltip: boolean;
+    protected _showSystemTooltip: $type.Optional<boolean>;
     /**
      * List of animations currently playing for this Sprite.
      *
      * @ignore Exclude from docs
-     * @type {Array<Animation>}
+     * @type {Optional<Array<Animation>>}
      */
-    protected _animations: Array<Animation>;
+    protected _animations: $type.Optional<Array<Animation>>;
     /**
      * A link to [[Disposer]] for event handler which is attached to hide
      * animation. In some cases we need to cancel this event. This property is
@@ -564,9 +550,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * cancel it by calling its `dispose()` method.
      *
      * @ignore Exclude from docs
-     * @type {IDisposer}
+     * @type {Optional<IDisposer>}
      */
-    protected _showHideDisposer: IDisposer;
+    protected _showHideDisposer: $type.Optional<IDisposer>;
     /**
      * If element is currently hiding, this property will hold a reference to
      * [[Animation]] instance, which is handling hiding animation.
@@ -579,9 +565,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * List of [[Filter]] items that are currently applied to the element.
      *
      * @ignore Exclude from docs
-     * @type {ListTemplate<Filter>}
+     * @type {Optional<ListTemplate<Filter>>}
      */
-    protected _filters: ListTemplate<Filter>;
+    protected _filters: $type.Optional<ListTemplate<Filter>>;
     /**
      * A shortcut to the special "Focus" filter which is applied when the element
      * gains focus.
@@ -589,9 +575,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * This is an accessibility feature.
      *
      * @ignore Exclude from docs
-     * @type {Filter}
+     * @type {Optional<Filter>}
      */
-    protected _focusFilter: Filter;
+    protected _focusFilter: $type.Optional<Filter>;
     /**
      * Indicates if this element is invalid and should be re-validated (redrawn).
      *
@@ -647,9 +633,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * An SVG group element that is used to put all SVG filters to.
      *
      * @ignore Exclude from docs
-     * @type {Group}
+     * @type {Optional<Group>}
      */
-    filterElement: Group;
+    filterElement: $type.Optional<Group>;
     /**
      * A field in data context of element's `dataItem` that holds config values
      * for this element.
@@ -671,21 +657,21 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * If you set element's `configField = "config"`, the element for this
      * specific data point will have a red fill.
      *
-     * @type {string}
+     * @type {Optional<string>}
      */
-    configField: string;
+    configField: $type.Optional<string>;
     /**
      * Reference to element's `<title>` element.
      *
      * @ignore Exclude from docs
-     * @type {SVGTitleElement}
+     * @type {Optional<SVGTitleElement>}
      */
     protected _titleElement: Optional<AMElement>;
     /**
      * Reference to element's `<description>` element.
      *
      * @ignore Exclude from docs
-     * @type {SVGDescElement}
+     * @type {Optional<SVGDescElement>}
      */
     protected _descriptionElement: Optional<AMElement>;
     /**
@@ -721,9 +707,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     protected _disabled: boolean;
     protected _internalDisabled: boolean;
-    protected _maskRectangle: IRectangle;
+    protected _maskRectangle: $type.Optional<IRectangle>;
     protected _internalDefaultsApplied: boolean;
-    protected _interactionDisposer: IDisposer;
+    protected _interactionDisposer: $type.Optional<IDisposer>;
     /**
      * Sets frequency at which this element should be rendered. Used to save CPU,
      * mostly for text elements.
@@ -753,7 +739,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * @ignore
      */
-    protected _outTimeout: IDisposer;
+    protected _outTimeout: $type.Optional<IDisposer>;
     /**
      * @ignore
      * this flag is set to true for the initial sprite you create and place to the div so that we could clear all additional sprites/containers when this sprite is disposed
@@ -784,9 +770,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Returns theme(s) used by this object either set explicitly on this
      * element, inherited from parent, or inherited from [[System]].
      *
-     * @return {Optional<ITheme>} An array of theme references
+     * @return {ITheme} An array of theme references
      */
-    getCurrentThemes(): Optional<ITheme[]>;
+    getCurrentThemes(): ITheme[];
     /**
      * Called just before element's validation, this function allows setting
      * defaults.
@@ -1015,7 +1001,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     paper: Paper;
     setPaper(paper: Paper): void;
     /**
-     * @return {HTMLElement} HTML element
+     * @return {Optional<HTMLElement>} HTML element
      */
     /**
      * An HTML element to be used when placing wrapper element (`<div>`)
@@ -1023,21 +1009,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * This is the same for **all** elements within the same chart.
      *
-     * @param {HTMLElement} htmlContainer HTML element
+     * @param {Optional<HTMLElement>} htmlContainer HTML element
      */
-    htmlContainer: HTMLElement;
-    /**
-     * HTML container (`<div>`) which is used to place chart's `<svg>` element
-     * in.
-     *
-     * @return {HTMLElement} Container for chart elements
-     */
-    /**
-     * Sets HTML container to add SVG and other chart elements to.
-     *
-     * @param {HTMLElement} svgContainer Container for chart elements
-     */
-    svgContainer: HTMLElement;
+    htmlContainer: $type.Optional<HTMLElement>;
     /**
      * Creates (if not yet created) and returns element's `<title>` element.
      *
@@ -1144,6 +1118,18 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {Optional<AMElement>}  element  Element
      */
     element: Optional<AMElement>;
+    /**
+     * HTML container (`<div>`) which is used to place chart's `<svg>` element
+     * in.
+     *
+     * @return {Optional<HTMLElement>} Container for chart elements
+     */
+    /**
+     * Sets HTML container to add SVG and other chart elements to.
+     *
+     * @param {Optional<HTMLElement>} svgContainer Container for chart elements
+     */
+    svgContainer: $type.Optional<HTMLElement>;
     /**
      * Measures main element.
      *
@@ -1343,7 +1329,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @see {@link SpriteState}
      * @return {DictionaryTemplate<string, SpriteState>} States
      */
-    readonly states: this["_states"];
+    readonly states: DictionaryTemplate<string, SpriteState<this["_properties"], this["_adapter"]>>;
     /**
      * Returns a [[SpriteState]] object for "hidden" state.
      *
@@ -1412,7 +1398,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {number}               transitionDuration  Duration of the transition between current and new state
      * @param {number) => number}    easing              An easing function
      */
-    setState(value: string | SpriteState<this["_properties"], this["_adapter"]>, transitionDuration?: number, easing?: (value: number) => number): Animation;
+    setState(value: string | SpriteState<this["_properties"], this["_adapter"]>, transitionDuration?: number, easing?: (value: number) => number): $type.Optional<Animation>;
     /**
      * Applies proper state based on the condition of the element. A condition is
      * deducted in this order:
@@ -1425,9 +1411,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * current values of properties, to the new target state(s).
      *
      * @param  {number}     duration  Duration for the animation (ms)
-     * @return {Animation}            [[Animation]] object which is handling the transition
+     * @return {Optional<Animation>}  [[Animation]] object which is handling the transition
      */
-    applyCurrentState(duration?: number): Animation;
+    applyCurrentState(duration?: number): $type.Optional<Animation>;
     /**
      * Starts an [[Animation]] of the properties to specific values as they are
      * set in `state`.
@@ -1979,7 +1965,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * @see {@link Filter}
      * @ignore Exclude from docs
-     * @return {Filter} Focused element filter
+     * @return {Optional<Filter>} Focused element filter
      * @todo This is still experimental, use at your own risk.
      */
     /**
@@ -1987,7 +1973,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @ignore Exclude from docs
      * @todo This is still experimental, don't use it
      */
-    focusFilter: Filter;
+    focusFilter: $type.Optional<Filter>;
     /**
      * @return {boolean} Trigger hover on focus?
      */
@@ -2218,7 +2204,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * Returns current setting for URL.
      *
-     * @return {string} URL
+     * @return {Optional<string>} URL
      */
     /**
      * Sets click-through URL for this element.
@@ -2226,9 +2212,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * If set, clicking/tapping this element will open the new URL in a target
      * window/tab as set by `urlTarget`.
      *
-     * @param {string} value URL
+     * @param {Optional<string>} value URL
      */
-    url: string;
+    url: $type.Optional<string>;
     /**
      * Returns current URL target.
      *
@@ -2442,17 +2428,15 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     applyCursorStyle(): void;
     /**
-     * Returns current value for `mouseEnabled` setting.
-     *
-     * @return {boolean} Is mouse enabled for this element?
+     * @return {boolean} Is interaction enabled for this element?
      */
     /**
      * Setting this to `false` will efectively disable all interactivity on the
      * element.
      *
-     * @param {boolean} value Is mouse enabled for this element?
+     * @param {boolean}  value  Is interaction enabled for this element?
      */
-    mouseEnabled: boolean;
+    interactionsEnabled: boolean;
     /**
      * Sets up the element to either ignore all interactivity, or not.
      *
@@ -2460,7 +2444,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param  {boolean}  value  Interactivity enabled?
      * @return {string}          Current event handlers for the element
      */
-    setMouseEnabled(value: boolean): string;
+    setInteractionsEnabled(value: boolean): string;
     /**
      * @return {Export} Export instance
      */
@@ -2849,9 +2833,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * `paddingLeft`.
      *
      * @readonly
-     * @return {Optional<number>} Width (px)
+     * @return {number} Width (px)
      */
-    readonly measuredWidth: $type.Optional<number>;
+    readonly measuredWidth: number;
     /**
      * Returns elements's measured height in pixels.
      *
@@ -2859,9 +2843,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * `paddingBottom`.
      *
      * @readonly
-     * @return {Optional<number>} Height (px)
+     * @return {number} Height (px)
      */
-    readonly measuredHeight: $type.Optional<number>;
+    readonly measuredHeight: number;
     /**
      * Returns element's measured width plus its left and right margins in
      * pixels.
@@ -3446,7 +3430,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     tooltipDataItem: DataItem;
     /**
-     * @return {Sprite} Tooltip color source
+     * @return {Optional<Sprite>} Tooltip color source
      */
     /**
      * A [[Sprite]] or sprite template to use when getting colors for tooltip. If a template is set,
@@ -3454,9 +3438,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * @see {@link Tooltip}
      * @see {@link Sprite}
-     * @param {Sprite}  sprite Sprite
+     * @param {Optional<Sprite>}  sprite Sprite
      */
-    tooltipColorSource: Sprite;
+    tooltipColorSource: $type.Optional<Sprite>;
     /**
      * Shows the element's [[Tooltip]].
      *
@@ -3536,15 +3520,15 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     tooltipX: number;
     /**
-     * @type {"fixed" | "mouse"} Position
+     * @type {"fixed" | "pointer"} Position
      */
     /**
-     * Specifies if [[Tooltip]] should follow the mouse or be at a fixed
-     * position.
+     * Specifies if [[Tooltip]] should follow the mouse or touch pointer or stay
+     * at the fixed position.
      *
-     * @param { "fixed" | "mouse" }  value  Position
+     * @param { "fixed" | "pointer" }  value  Position
      */
-    tooltipPosition: "fixed" | "mouse";
+    tooltipPosition: "fixed" | "pointer";
     /**
      * @ignore Exclude from docs
      * @return {number} Tooltip Y (px)

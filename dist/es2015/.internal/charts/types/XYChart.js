@@ -781,10 +781,10 @@ var XYChart = /** @class */ (function (_super) {
      */
     XYChart.prototype.showSeriesTooltip = function (position) {
         var _this = this;
-        var topLeft = $utils.spritePointToSvg({ x: 0, y: 0 }, this.plotContainer);
-        var bottomRight = $utils.spritePointToSvg({ x: this.plotContainer.pixelWidth, y: this.plotContainer.pixelHeight }, this.plotContainer);
+        var topLeft = $utils.spritePointToSvg({ x: -0.5, y: -0.5 }, this.plotContainer);
+        var bottomRight = $utils.spritePointToSvg({ x: this.plotContainer.pixelWidth + 0.5, y: this.plotContainer.pixelHeight + 0.5 }, this.plotContainer);
         var seriesPoints = [];
-        $iter.each(this.series.iterator(), function (series) {
+        this.series.each(function (series) {
             if (series.tooltipText || series.tooltipHTML) {
                 series.tooltip.setBounds({ x: 0, y: 0, width: _this.pixelWidth, height: _this.pixelHeight });
                 var point = series.showTooltipAtPosition(position.x, position.y);

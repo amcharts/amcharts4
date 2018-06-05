@@ -2,6 +2,7 @@ import { color } from "../core/utils/Color";
 import { ColorSet } from "../core/utils/ColorSet";
 import { Tooltip } from "../core/elements/Tooltip";
 import { ResizeButton } from "../core/elements/ResizeButton";
+import { AmChartsLogo } from "../core/elements/AmChartsLogo";
 var theme = function (object) {
     if (object instanceof ColorSet) {
         object.list = [
@@ -37,6 +38,11 @@ var theme = function (object) {
     }
     if (object instanceof Tooltip) {
         object.animationDuration = 800;
+    }
+    if (object instanceof AmChartsLogo) {
+        object.urlTarget = "_self";
+        object.align = "left";
+        object.valign = "bottom";
     }
 };
 export default theme;

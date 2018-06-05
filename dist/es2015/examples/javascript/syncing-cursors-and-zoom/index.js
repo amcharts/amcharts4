@@ -10,7 +10,7 @@ container.width = am4core.percent(100);
 container.height = am4core.percent(100);
 container.layout = "vertical";
 
-//container.mouseEnabled = false;
+//container.interactionsEnabled = false;
 
 
 let chartCount = 3;
@@ -92,7 +92,7 @@ function initCursorListeners() {
   for (let i = 0; i < charts.length; i++) {
     let chart = charts[i];
     let cursor = chart.cursor;
-    cursor.mouseEnabled = true;
+    cursor.interactionsEnabled = true;
 
     cursorShowDisposers.push(cursor.events.on("shown", (event) => {
       handleShowCursor(event.target);
@@ -110,7 +110,7 @@ function handleShowCursor(shownCursor) {
     let chart = charts[i];
     let cursor = chart.cursor;
     if (cursor != shownCursor) {
-      cursor.mouseEnabled = false;
+      cursor.interactionsEnabled = false;
     }
     // remove show listener
     cursorShowDisposers[i].dispose();

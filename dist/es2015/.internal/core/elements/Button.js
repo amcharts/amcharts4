@@ -102,7 +102,7 @@ var Button = /** @class */ (function (_super) {
             if (icon) {
                 this.setPropertyValue("icon", icon);
                 icon.parent = this;
-                icon.mouseEnabled = false;
+                icon.interactionsEnabled = false;
                 this.iconPosition = this.iconPosition;
                 this._disposers.push(icon);
             }

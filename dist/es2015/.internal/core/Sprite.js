@@ -221,6 +221,20 @@ var Sprite = /** @class */ (function (_super) {
          */
         _this._bbox = { x: 0, y: 0, width: 0, height: 0 };
         /**
+         * Indicates if this element is invalid and should be re-validated (redrawn).
+         *
+         * @ignore Exclude from docs
+         * @type {boolean}
+         */
+        _this.invalid = false;
+        /**
+         * Indicates if this elements position is invalid and should be repositioned
+         *
+         * @ignore Exclude from docs
+         * @type {boolean}
+         */
+        _this.positionInvalid = false;
+        /**
          * A collection of key/value pairs that can be used to bind specific Sprite
          * properties to [[DataItem]].
          *
@@ -371,17 +385,21 @@ var Sprite = /** @class */ (function (_super) {
      * Returns theme(s) used by this object either set explicitly on this
      * element, inherited from parent, or inherited from [[System]].
      *
-     * @return {Optional<ITheme>} An array of theme references
+     * @return {ITheme} An array of theme references
      */
     Sprite.prototype.getCurrentThemes = function () {
-        if (this._themes) {
-            return this._themes;
-        }
-        else if (this.parent) {
-            return this.parent.getCurrentThemes();
+        var themes = this._themes;
+        if (themes) {
+            return themes;
         }
         else {
-            return registry.themes;
+            var parent_1 = this.parent;
+            if (parent_1) {
+                return parent_1.getCurrentThemes();
+            }
+            else {
+                return registry.themes;
+            }
         }
     };
     /**
@@ -591,7 +609,7 @@ var Sprite = /** @class */ (function (_super) {
         if (!this._inited) {
             this.applyFilters();
             this.visible = this.visible;
-            this.mouseEnabled = this.mouseEnabled;
+            this.interactionsEnabled = this.interactionsEnabled;
             this._inited = true;
             this.dispatchImmediately("inited");
         }
@@ -665,8 +683,9 @@ var Sprite = /** @class */ (function (_super) {
         //this.mask = source.mask; need to think about this, generally this causes a lot of problems
         this.disabled = source.disabled;
         //@todo: create tooltip if it's on source but not on this?
-        if (this._tooltip) {
-            this._tooltip.copyFrom(source.tooltip);
+        var tooltip = this._tooltip;
+        if (tooltip) {
+            tooltip.copyFrom(source.tooltip);
         }
         this._showSystemTooltip = source.showSystemTooltip;
         $utils.copyProperties(source.propertyFields, this.propertyFields);
@@ -686,8 +705,9 @@ var Sprite = /** @class */ (function (_super) {
                 }
             }
             this.isBaseSprite = false;
-            if (this.parent.parent) {
-                this.parent.parent.dispose();
+            var parent_2 = this.parent.parent;
+            if (parent_2) {
+                parent_2.dispose();
             }
         }
         _super.prototype.dispose.call(this);
@@ -808,7 +828,6 @@ var Sprite = /** @class */ (function (_super) {
                     return this.parent;
                 }
             }
-            return;
         },
         enumerable: true,
         configurable: true
@@ -915,8 +934,9 @@ var Sprite = /** @class */ (function (_super) {
          * @return {Dictionary<string, any>} Map collection
          */
         get: function () {
-            if (this.parent) {
-                return this.topParent.map;
+            var top = this.topParent;
+            if (top) {
+                return top.map;
             }
             else if (!this._map) {
                 this._map = new Dictionary();
@@ -1026,7 +1046,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "htmlContainer", {
         /**
-         * @return {HTMLElement} HTML element
+         * @return {Optional<HTMLElement>} HTML element
          */
         get: function () {
             if (this._htmlContainer) {
@@ -1044,38 +1064,10 @@ var Sprite = /** @class */ (function (_super) {
          *
          * This is the same for **all** elements within the same chart.
          *
-         * @param {HTMLElement} htmlContainer HTML element
+         * @param {Optional<HTMLElement>} htmlContainer HTML element
          */
         set: function (htmlContainer) {
             this._htmlContainer = htmlContainer;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Sprite.prototype, "svgContainer", {
-        /**
-         * HTML container (`<div>`) which is used to place chart's `<svg>` element
-         * in.
-         *
-         * @return {HTMLElement} Container for chart elements
-         */
-        get: function () {
-            if (this._svgContainer) {
-                return this._svgContainer;
-            }
-            else {
-                if (this.parent) {
-                    return this.parent.svgContainer;
-                }
-            }
-        },
-        /**
-         * Sets HTML container to add SVG and other chart elements to.
-         *
-         * @param {HTMLElement} svgContainer Container for chart elements
-         */
-        set: function (svgContainer) {
-            this._svgContainer = svgContainer;
         },
         enumerable: true,
         configurable: true
@@ -1232,8 +1224,9 @@ var Sprite = /** @class */ (function (_super) {
      * @todo Description
      */
     Sprite.prototype.updateClipPath = function () {
-        if (this._clipElement) {
-            this._clipElement.moveTo({ x: this.mask.pixelX, y: this.mask.pixelY });
+        var element = this._clipElement;
+        if (element) {
+            element.moveTo({ x: this.mask.pixelX, y: this.mask.pixelY });
         }
     };
     /**
@@ -1364,6 +1357,34 @@ var Sprite = /** @class */ (function (_super) {
             this.setClassName();
             this.setSVGAttributes();
             this.applyAccessibility();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Sprite.prototype, "svgContainer", {
+        /**
+         * HTML container (`<div>`) which is used to place chart's `<svg>` element
+         * in.
+         *
+         * @return {Optional<HTMLElement>} Container for chart elements
+         */
+        get: function () {
+            if (this._svgContainer) {
+                return this._svgContainer;
+            }
+            else {
+                if (this.parent) {
+                    return this.parent.svgContainer;
+                }
+            }
+        },
+        /**
+         * Sets HTML container to add SVG and other chart elements to.
+         *
+         * @param {Optional<HTMLElement>} svgContainer Container for chart elements
+         */
+        set: function (svgContainer) {
+            this._svgContainer = svgContainer;
         },
         enumerable: true,
         configurable: true
@@ -1996,7 +2017,7 @@ var Sprite = /** @class */ (function (_super) {
      * current values of properties, to the new target state(s).
      *
      * @param  {number}     duration  Duration for the animation (ms)
-     * @return {Animation}            [[Animation]] object which is handling the transition
+     * @return {Optional<Animation>}  [[Animation]] object which is handling the transition
      */
     Sprite.prototype.applyCurrentState = function (duration) {
         var animation = this.setState(this.defaultState, duration);
@@ -2273,6 +2294,7 @@ var Sprite = /** @class */ (function (_super) {
                         this.removeSVGAttribute("display");
                     }
                 }
+                this.dispatch("transformed");
             }
         },
         enumerable: true,
@@ -2450,13 +2472,14 @@ var Sprite = /** @class */ (function (_super) {
          * @return {Language} An instance of Language
          */
         get: function () {
-            if (this._language.get()) {
-                return this._language.get();
+            var language = this._language.get();
+            if (language) {
+                return language;
             }
             else if (this.parent) {
                 return this.parent.language;
             }
-            var language = new Language();
+            language = new Language();
             this.language = language;
             return language;
         },
@@ -2609,7 +2632,7 @@ var Sprite = /** @class */ (function (_super) {
             }
             // Check component's data item
             if (!$type.hasValue(value) && dataItem.component && dataItem.component.dataItem !== dataItem) {
-                value = dataItem.component.getTagValue(tagName, format, null);
+                value = dataItem.component.getTagValue(tagName, format);
             }
         }
         // Check sprite's properties
@@ -2618,7 +2641,7 @@ var Sprite = /** @class */ (function (_super) {
         }
         // Finally, check the parent
         if (!$type.hasValue(value) && this.parent) {
-            value = this.parent.getTagValue(tagName, format, null);
+            value = this.parent.getTagValue(tagName, format);
         }
         return value;
     };
@@ -3283,6 +3306,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {Optional<boolean>}  value  Can element be focused?
          */
         set: function (value) {
+            var _this = this;
             value = $type.toBoolean(value);
             if (value !== this.focusable) {
                 this.setPropertyValue("focusable", value);
@@ -3294,18 +3318,10 @@ var Sprite = /** @class */ (function (_super) {
                 }
                 this.interactions.focusable = value;
                 // Set focus events that would apply "focus" state
-                if (value !== false) {
-                    if (!this.interactions.eventDisposers.hasKey("sprite-focusable")) {
-                        this.interactions.eventDisposers.setKey("sprite-focusable", new MultiDisposer([
-                            this.events.on("blur", this.handleBlur, this),
-                            this.events.on("focus", this.handleFocus, this)
-                        ]));
-                    }
-                }
-                else if (this.interactions.eventDisposers.hasKey("sprite-focusable")) {
-                    this.interactions.eventDisposers.getKey("sprite-focusable").dispose();
-                    this.interactions.eventDisposers.removeKey("sprite-focusable");
-                }
+                this.interactions.setEventDisposer("sprite-focusable", value, function () { return new MultiDisposer([
+                    _this.events.on("blur", _this.handleBlur, _this),
+                    _this.events.on("focus", _this.handleFocus, _this)
+                ]); });
             }
         },
         enumerable: true,
@@ -3389,7 +3405,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * @see {@link Filter}
          * @ignore Exclude from docs
-         * @return {Filter} Focused element filter
+         * @return {Optional<Filter>} Focused element filter
          * @todo This is still experimental, use at your own risk.
          */
         get: function () {
@@ -3398,17 +3414,15 @@ var Sprite = /** @class */ (function (_super) {
                 this._disposers.push(this._focusFilter);
             }*/
             //return this._focusFilter;
-            if (this._focusFilter) {
-                return this._focusFilter;
+            var focusFilter = this._focusFilter;
+            if (focusFilter) {
+                return focusFilter;
             }
-            else {
-                if (this.parent) {
-                    return this.parent.focusFilter;
-                }
-                //this._focusFilter = new FocusFilter();
-                //this._disposers.push(this._focusFilter);
-                return this._focusFilter;
+            else if (this.parent) {
+                return this.parent.focusFilter;
             }
+            //this._focusFilter = new FocusFilter();
+            //this._disposers.push(this._focusFilter);
         },
         /**
          * @see {@link Filter}
@@ -3454,8 +3468,9 @@ var Sprite = /** @class */ (function (_super) {
          * @return {number} TAB index
          */
         get: function () {
-            if (this._tabindex) {
-                return this._tabindex;
+            var index = this._tabindex;
+            if (index != null) {
+                return index;
             }
             else if (this.parent) {
                 return this.parent.tabindex;
@@ -3538,6 +3553,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {boolean}  value  `true` if element can be dragged
          */
         set: function (value) {
+            var _this = this;
             value = $type.toBoolean(value);
             if (value !== this.draggable) {
                 this.setPropertyValue("draggable", value);
@@ -3548,20 +3564,12 @@ var Sprite = /** @class */ (function (_super) {
                 // @todo Maybe attach to InteractionObject's multidisposer so that
                 // sprites events get disposed together with them?
                 // this.interactions.disposers.getItem("movable")
-                if (value) {
-                    if (!this.interactions.eventDisposers.hasKey("sprite-draggable")) {
-                        this.interactions.eventDisposers.setKey("sprite-draggable", new MultiDisposer([
-                            this.events.on("down", this.handleDown, this),
-                            this.events.on("dragstart", this.handleDragStart, this),
-                            this.events.on("drag", this.handleDragMove, this),
-                            this.events.on("dragstop", this.handleDragStop, this)
-                        ]));
-                    }
-                }
-                else if (this.interactions.eventDisposers.hasKey("sprite-draggable")) {
-                    this.interactions.eventDisposers.getKey("sprite-draggable").dispose();
-                    this.interactions.eventDisposers.removeKey("sprite-draggable");
-                }
+                this.interactions.setEventDisposer("sprite-draggable", value, function () { return new MultiDisposer([
+                    _this.events.on("down", _this.handleDown, _this),
+                    _this.events.on("dragstart", _this.handleDragStart, _this),
+                    _this.events.on("drag", _this.handleDragMove, _this),
+                    _this.events.on("dragstop", _this.handleDragStop, _this)
+                ]); });
             }
         },
         enumerable: true,
@@ -3682,26 +3690,17 @@ var Sprite = /** @class */ (function (_super) {
          * @param {boolean} value `true` if element can be hovered
          */
         set: function (value) {
+            var _this = this;
             value = $type.toBoolean(value);
             if (value !== this.hoverable) {
                 this.setPropertyValue("hoverable", value);
                 this.applyCursorStyle();
                 this.interactions.hoverable = value;
                 //interaction.processHoverable(this);
-                var eventDisposers = this.interactions.eventDisposers;
-                var key = "sprite-hoverable";
-                if (value) {
-                    if (!eventDisposers.hasKey(key)) {
-                        eventDisposers.setKey(key, new MultiDisposer([
-                            this.events.on("over", this.handleOver, this),
-                            this.events.on("out", this.handleOut, this),
-                        ]));
-                    }
-                }
-                else if (eventDisposers.hasKey(key)) {
-                    eventDisposers.getKey(key).dispose();
-                    eventDisposers.removeKey(key);
-                }
+                this.interactions.setEventDisposer("sprite-hoverable", value, function () { return new MultiDisposer([
+                    _this.events.on("over", _this.handleOver, _this),
+                    _this.events.on("out", _this.handleOut, _this),
+                ]); });
             }
         },
         enumerable: true,
@@ -3835,24 +3834,17 @@ var Sprite = /** @class */ (function (_super) {
          * @param {boolean} value `true` if element can be clicked
          */
         set: function (value) {
+            var _this = this;
             value = $type.toBoolean(value);
             if (value !== this.clickable) {
                 this.setPropertyValue("clickable", value);
                 this.applyCursorStyle();
                 this.interactions.clickable = value;
                 //interaction.processClickable(this);
-                if (value) {
-                    if (!this.interactions.eventDisposers.hasKey("sprite-clickable")) {
-                        this.interactions.eventDisposers.setKey("sprite-clickable", new MultiDisposer([
-                            this.events.on("down", this.handleDown, this),
-                            this.events.on("up", this.handleUp, this)
-                        ]));
-                    }
-                }
-                else if (this.interactions.eventDisposers.hasKey("sprite-clickable")) {
-                    this.interactions.eventDisposers.getKey("sprite-clickable").dispose();
-                    this.interactions.eventDisposers.removeKey("sprite-clickable");
-                }
+                this.interactions.setEventDisposer("sprite-clickable", value, function () { return new MultiDisposer([
+                    _this.events.on("down", _this.handleDown, _this),
+                    _this.events.on("up", _this.handleUp, _this)
+                ]); });
             }
         },
         enumerable: true,
@@ -3876,18 +3868,11 @@ var Sprite = /** @class */ (function (_super) {
          * @param {boolean} value Is togglable?
          */
         set: function (value) {
+            var _this = this;
             value = $type.toBoolean(value);
             if (value !== this.togglable) {
                 this.setPropertyValue("togglable", value);
-                if (value) {
-                    if (!this.interactions.eventDisposers.hasKey("sprite-togglable")) {
-                        this.interactions.eventDisposers.setKey("sprite-togglable", this.events.on("hit", this.handleToggle, this));
-                    }
-                }
-                else if (this.interactions.eventDisposers.hasKey("sprite-togglable")) {
-                    this.interactions.eventDisposers.getKey("sprite-togglable").dispose();
-                    this.interactions.eventDisposers.removeKey("sprite-togglable");
-                }
+                this.interactions.setEventDisposer("sprite-togglable", value, function () { return _this.events.on("hit", _this.handleToggle, _this); });
             }
         },
         enumerable: true,
@@ -3906,7 +3891,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Returns current setting for URL.
          *
-         * @return {string} URL
+         * @return {Optional<string>} URL
          */
         get: function () {
             return this._url.get();
@@ -3917,21 +3902,21 @@ var Sprite = /** @class */ (function (_super) {
          * If set, clicking/tapping this element will open the new URL in a target
          * window/tab as set by `urlTarget`.
          *
-         * @param {string} value URL
+         * @param {Optional<string>} value URL
          */
         set: function (value) {
             // If URL is not empty, set up events
-            if ($utils.empty(value)) {
-                // TODO is this correct ? maybe it should set to "" instead
-                this._url.set(value, undefined);
-            }
-            else {
+            if ($utils.isNotEmpty(value)) {
                 var urlEvent = this.events.on("hit", this.urlHandler, this);
                 this._disposers.push(urlEvent);
                 this._url.set(value, urlEvent);
                 // Set other required parameters
                 this.clickable = true;
                 this.cursorOverStyle = MouseCursorStyle.pointer;
+            }
+            else {
+                // TODO is this correct ? maybe it should set to "" instead
+                this._url.set(value, undefined);
             }
         },
         enumerable: true,
@@ -3972,15 +3957,14 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.urlHandler = function (ev) {
         // Is URL set?
-        if ($utils.empty(this.url)) {
-            return;
-        }
-        // Proceed to the URL
-        if (this.urlTarget === "_self") {
-            window.location.href = this.url;
-        }
-        else {
-            window.open(this.urlTarget, this.url);
+        if ($utils.isNotEmpty(this.url)) {
+            // Proceed to the URL
+            if (this.urlTarget === "_self") {
+                window.location.href = this.url;
+            }
+            else {
+                window.open(this.url, this.urlTarget);
+            }
         }
     };
     Object.defineProperty(Sprite.prototype, "swipeOptions", {
@@ -4141,24 +4125,17 @@ var Sprite = /** @class */ (function (_super) {
          * @param {boolean}  value  Element resizable?
          */
         set: function (value) {
+            var _this = this;
             value = $type.toBoolean(value);
             if (value !== this.resizable) {
                 this.setPropertyValue("resizable", value);
                 this.applyCursorStyle();
                 this.interactions.resizable = value;
                 //interaction.processResizable(this);
-                if (value) {
-                    if (!this.interactions.eventDisposers.hasKey("sprite-resizable")) {
-                        this.interactions.eventDisposers.setKey("sprite-resizable", new MultiDisposer([
-                            this.events.on("down", this.handleDown, this),
-                            this.events.on("resize", this.handleResize, this)
-                        ]));
-                    }
-                }
-                else if (this.interactions.eventDisposers.hasKey("sprite-resizable")) {
-                    this.interactions.eventDisposers.getKey("sprite-resizable").dispose();
-                    this.interactions.eventDisposers.removeKey("sprite-resizable");
-                }
+                this.interactions.setEventDisposer("sprite-resizable", value, function () { return new MultiDisposer([
+                    _this.events.on("down", _this.handleDown, _this),
+                    _this.events.on("resize", _this.handleResize, _this)
+                ]); });
             }
         },
         enumerable: true,
@@ -4232,23 +4209,16 @@ var Sprite = /** @class */ (function (_super) {
          * @param {boolean}  value  Can be rotated?
          */
         set: function (value) {
+            var _this = this;
             value = $type.toBoolean(value);
             if (value !== this.rotatable) {
                 this.setPropertyValue("rotatable", value);
                 this.interactions.rotatable = value;
                 //interaction.processRotatable(this);
-                if (value) {
-                    if (!this.interactions.eventDisposers.hasKey("sprite-rotatable")) {
-                        this.interactions.eventDisposers.setKey("sprite-rotatable", new MultiDisposer([
-                            this.events.on("down", this.handleDown, this),
-                            this.events.on("rotate", this.handleRotate, this)
-                        ]));
-                    }
-                }
-                else if (this.interactions.eventDisposers.hasKey("sprite-rotatable")) {
-                    this.interactions.eventDisposers.getKey("sprite-rotatable").dispose();
-                    this.interactions.eventDisposers.removeKey("sprite-rotatable");
-                }
+                this.interactions.setEventDisposer("sprite-rotatable", value, function () { return new MultiDisposer([
+                    _this.events.on("down", _this.handleDown, _this),
+                    _this.events.on("rotate", _this.handleRotate, _this)
+                ]); });
             }
         },
         enumerable: true,
@@ -4342,19 +4312,17 @@ var Sprite = /** @class */ (function (_super) {
             }
         }*/
     };
-    Object.defineProperty(Sprite.prototype, "mouseEnabled", {
+    Object.defineProperty(Sprite.prototype, "interactionsEnabled", {
         /**
-         * Returns current value for `mouseEnabled` setting.
-         *
-         * @return {boolean} Is mouse enabled for this element?
+         * @return {boolean} Is interaction enabled for this element?
          */
         get: function () {
-            var value = this.getPropertyValue("mouseEnabled");
+            var value = this.getPropertyValue("interactionsEnabled");
             if (value === false) {
                 return false;
             }
             if (this.parent) {
-                return this.parent.mouseEnabled;
+                return this.parent.interactionsEnabled;
             }
             return true;
         },
@@ -4362,11 +4330,11 @@ var Sprite = /** @class */ (function (_super) {
          * Setting this to `false` will efectively disable all interactivity on the
          * element.
          *
-         * @param {boolean} value Is mouse enabled for this element?
+         * @param {boolean}  value  Is interaction enabled for this element?
          */
         set: function (value) {
             value = $type.toBoolean(value);
-            this.setMouseEnabled(value);
+            this.setInteractionsEnabled(value);
         },
         enumerable: true,
         configurable: true
@@ -4378,8 +4346,8 @@ var Sprite = /** @class */ (function (_super) {
      * @param  {boolean}  value  Interactivity enabled?
      * @return {string}          Current event handlers for the element
      */
-    Sprite.prototype.setMouseEnabled = function (value) {
-        this.setPropertyValue("mouseEnabled", value);
+    Sprite.prototype.setInteractionsEnabled = function (value) {
+        this.setPropertyValue("interactionsEnabled", value);
         var pointerEvents = "null";
         if (!value) {
             pointerEvents = "none";
@@ -5248,14 +5216,13 @@ var Sprite = /** @class */ (function (_super) {
          * `paddingLeft`.
          *
          * @readonly
-         * @return {Optional<number>} Width (px)
+         * @return {number} Width (px)
          */
         get: function () {
-            var minWidth = this.minWidth;
-            var maxWidth = this.maxWidth;
-            //if (minWidth != null && maxWidth != null) {
-            return this.adapter.apply("measuredWidth", $math.fitToRange(this._measuredWidth, minWidth, maxWidth));
-            //}
+            if (this.disabled || this.__disabled) {
+                return 0;
+            }
+            return this.adapter.apply("measuredWidth", $math.fitToRange(this._measuredWidth, this.minWidth, this.maxWidth));
         },
         enumerable: true,
         configurable: true
@@ -5268,14 +5235,13 @@ var Sprite = /** @class */ (function (_super) {
          * `paddingBottom`.
          *
          * @readonly
-         * @return {Optional<number>} Height (px)
+         * @return {number} Height (px)
          */
         get: function () {
-            var minHeight = this.minHeight;
-            var maxHeight = this.maxHeight;
-            //if (minHeight != null && maxHeight != null) {
-            return this.adapter.apply("measuredHeight", $math.fitToRange(this._measuredHeight, minHeight, maxHeight));
-            //}
+            if (this.disabled || this.__disabled) {
+                return 0;
+            }
+            return this.adapter.apply("measuredHeight", $math.fitToRange(this._measuredHeight, this.minHeight, this.maxHeight));
         },
         enumerable: true,
         configurable: true
@@ -6324,10 +6290,10 @@ var Sprite = /** @class */ (function (_super) {
                         _this.isHiding = false;
                     }, this);
                     this._disposers.push(this._showHideDisposer);
+                    // Thrown everything into `_disposers` just in case Sprite gets
+                    // destroyed in the meantime
+                    this._disposers.push(transition);
                 }
-                // Thrown everything into `_disposers` just in case Sprite gets
-                // destroyed in the meantime
-                this._disposers.push(transition);
             }
             else {
                 // No hidden state, let's just set `visibile` and call it a day
@@ -6409,9 +6375,9 @@ var Sprite = /** @class */ (function (_super) {
         set: function (value) {
             value = $type.toNumber(value);
             if (this.setPropertyValue("zIndex", value)) {
-                var parent_1 = this._parent.get();
-                if (parent_1) {
-                    parent_1.addChildren();
+                var parent_3 = this._parent.get();
+                if (parent_3) {
+                    parent_3.addChildren();
                 }
             }
         },
@@ -6482,8 +6448,9 @@ var Sprite = /** @class */ (function (_super) {
          * @return {DataItem} Tooltip data item
          */
         get: function () {
-            if (this._tooltipDataItem) {
-                return this._tooltipDataItem;
+            var tooltipDataItem = this._tooltipDataItem;
+            if (tooltipDataItem) {
+                return tooltipDataItem;
             }
             else {
                 return this.dataItem;
@@ -6506,7 +6473,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "tooltipColorSource", {
         /**
-         * @return {Sprite} Tooltip color source
+         * @return {Optional<Sprite>} Tooltip color source
          */
         get: function () {
             return this._tooltipColorSource;
@@ -6517,7 +6484,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * @see {@link Tooltip}
          * @see {@link Sprite}
-         * @param {Sprite}  sprite Sprite
+         * @param {Optional<Sprite>}  sprite Sprite
          */
         set: function (sprite) {
             this._tooltipColorSource = sprite;
@@ -6542,7 +6509,7 @@ var Sprite = /** @class */ (function (_super) {
             if (tooltip) {
                 var colorSource_1 = this;
                 var tooltipColorSource_1 = this.tooltipColorSource;
-                if ((tooltip.getStrokeFromObject || tooltip.getFillFromObject) && this.tooltipColorSource) {
+                if ((tooltip.getStrokeFromObject || tooltip.getFillFromObject) && tooltipColorSource_1) {
                     if (tooltipColorSource_1.isTemplate) {
                         if (tooltipDataItem) {
                             $array.eachContinue(tooltipDataItem.sprites, function (sprite) {
@@ -6613,7 +6580,7 @@ var Sprite = /** @class */ (function (_super) {
                     text = this.tooltipText;
                 }
                 tooltip.dataItem = tooltipDataItem;
-                if (this.tooltipPosition == "mouse") {
+                if (this.tooltipPosition == "pointer") {
                     this._interactionDisposer = getInteraction().body.events.on("track", function (ev) {
                         _this.pointTooltipTo($utils.documentPointToSvg(ev.point, _this.svgContainer), true);
                     });
@@ -6765,23 +6732,25 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = $type.toNumber(value);
-            this.setPropertyValue("tooltipX", value);
+            if (this.setPropertyValue("tooltipX", value) && this.tooltip) {
+                this.tooltip.invalidate();
+            }
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(Sprite.prototype, "tooltipPosition", {
         /**
-         * @type {"fixed" | "mouse"} Position
+         * @type {"fixed" | "pointer"} Position
          */
         get: function () {
             return this.getPropertyValue("tooltipPosition");
         },
         /**
-         * Specifies if [[Tooltip]] should follow the mouse or be at a fixed
-         * position.
+         * Specifies if [[Tooltip]] should follow the mouse or touch pointer or stay
+         * at the fixed position.
          *
-         * @param { "fixed" | "mouse" }  value  Position
+         * @param { "fixed" | "pointer" }  value  Position
          */
         set: function (value) {
             this.setPropertyValue("tooltipPosition", value);
@@ -6805,7 +6774,9 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = $type.toNumber(value);
-            this.setPropertyValue("tooltipY", value);
+            if (this.setPropertyValue("tooltipY", value) && this.tooltip) {
+                this.tooltip.invalidate();
+            }
         },
         enumerable: true,
         configurable: true

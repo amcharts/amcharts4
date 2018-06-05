@@ -172,7 +172,7 @@ export declare class Popup extends BaseObject {
      */
     protected _showCurtain: boolean;
     /**
-     * Indicates whether popup can be dragged with a mouse.
+     * Indicates whether popup can be dragged.
      *
      * @type {boolean}
      */
@@ -246,12 +246,12 @@ export declare class Popup extends BaseObject {
      */
     private _cssLoaded;
     /**
-     * Used to log original value of `mouseEnabled` so that it can be restored
+     * Used to log original value of `interactionsEnabled` so that it can be restored
      * after temporarily disabling it.
      *
      * @type {boolean}
      */
-    private _spriteMouseEnabled;
+    private _spriteInteractionsEnabled;
     /**
      * Constructor
      */
@@ -465,11 +465,11 @@ export declare class Popup extends BaseObject {
     /**
      * Disables interactivity on parent chart.
      */
-    protected _disableMouse(): void;
+    protected _disablePointers(): void;
     /**
-     * Releases temporarily disabled mouse on parent chart.
+     * Releases temporarily disabled pointers on parent chart.
      */
-    protected _releaseMouse(): void;
+    protected _releasePointers(): void;
     /**
      * Copies all properties and related data from different element.
      *

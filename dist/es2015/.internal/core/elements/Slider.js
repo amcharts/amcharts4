@@ -40,9 +40,9 @@ var Slider = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.className = "Slider";
         _this.thumb.opacity = 0;
-        _this.thumb.mouseEnabled = false;
+        _this.thumb.interactionsEnabled = false;
         _this.endGrip.opacity = 0;
-        _this.endGrip.mouseEnabled = false;
+        _this.endGrip.interactionsEnabled = false;
         _this.startGrip.events.on("drag", function () {
             _this.endGrip.x = _this.startGrip.x;
             _this.endGrip.y = _this.startGrip.y;

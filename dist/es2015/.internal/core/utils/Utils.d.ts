@@ -38,10 +38,10 @@ export declare function copy(source: Object, target: Object): Object;
 /**
  * Checks if value is not empty (undefined or zero-length string).
  *
- * @param  {any}      value  Value to check
- * @return {boolean}         `true` if value is "empty"
+ * @param  {Optional<string>}  value  Value to check
+ * @return {boolean}                  `true` if value is not "empty"
  */
-export declare function empty(value: any): boolean;
+export declare function isNotEmpty(value: $type.Optional<string>): value is string;
 /**
  * [relativeToValue description]
  *

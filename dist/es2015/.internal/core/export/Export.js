@@ -276,10 +276,10 @@ var Export = /** @class */ (function (_super) {
                 _this.menu.close();
             });
             this._menu.events.on("over", function (ev) {
-                _this._disableMouse();
+                _this._disablePointers();
             });
             this._menu.events.on("out", function (ev) {
-                _this._releaseMouse();
+                _this._releasePointers();
             });
             // Dispatch event
             this.dispatchImmediately("menucreated");
@@ -2363,18 +2363,18 @@ var Export = /** @class */ (function (_super) {
     /**
  * Disables interactivity on parent chart.
  */
-    Export.prototype._disableMouse = function () {
-        if (!$type.hasValue(this._spriteMouseEnabled)) {
-            this._spriteMouseEnabled = this.sprite.mouseEnabled;
+    Export.prototype._disablePointers = function () {
+        if (!$type.hasValue(this._spriteInteractionsEnabled)) {
+            this._spriteInteractionsEnabled = this.sprite.interactionsEnabled;
         }
-        this.sprite.mouseEnabled = false;
+        this.sprite.interactionsEnabled = false;
     };
     /**
-     * Releases temporarily disabled mouse on parent chart.
+     * Releases temporarily disabled pointers on parent chart.
      */
-    Export.prototype._releaseMouse = function () {
-        if ($type.hasValue(this._spriteMouseEnabled)) {
-            this.sprite.mouseEnabled = this._spriteMouseEnabled;
+    Export.prototype._releasePointers = function () {
+        if ($type.hasValue(this._spriteInteractionsEnabled)) {
+            this.sprite.interactionsEnabled = this._spriteInteractionsEnabled;
         }
     };
     /**

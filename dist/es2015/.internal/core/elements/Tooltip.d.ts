@@ -12,6 +12,7 @@ import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { PointedRectangle } from "./PointedRectangle";
 import { IPoint } from "../defs/IPoint";
 import { Label } from "../elements/Label";
+import { Animation } from "../utils/Animation";
 import { IRectangle } from "../defs/IRectangle";
 /**
  * ============================================================================
@@ -169,6 +170,11 @@ export declare class Tooltip extends Container {
      * @ignore
      */
     protected _verticalOrientation: "up" | "down";
+    /**
+     * Position animation of a tooltip
+     * @ignore
+     */
+    protected _animation: Animation;
     /**
      * Constructor
      */

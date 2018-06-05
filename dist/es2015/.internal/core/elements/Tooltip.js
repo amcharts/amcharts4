@@ -79,7 +79,7 @@ var Tooltip = /** @class */ (function (_super) {
         _this.margin(5, 5, 5, 5);
         // Create chrome/background
         var background = _this.background;
-        background.mouseEnabled = false;
+        background.interactionsEnabled = false;
         background.fillOpacity = 0.9;
         background.strokeWidth = 1;
         background.strokeOpacity = 1;
@@ -93,7 +93,7 @@ var Tooltip = /** @class */ (function (_super) {
         label.shouldClone = false;
         _this.label = label;
         label.padding(7, 12, 6, 12);
-        label.mouseEnabled = false;
+        label.interactionsEnabled = false;
         label.horizontalCenter = "middle";
         label.fill = color("#ffffff");
         _this._disposers.push(label);
@@ -407,9 +407,12 @@ var Tooltip = /** @class */ (function (_super) {
             // this helps to avoid strange animation from nowhere on initial show or when balloon was hidden already
             if (!this.visible || instantly) {
                 this.moveTo(this._pointTo);
+                if (this._animation) {
+                    this._animation.dispose();
+                }
             }
             else {
-                new Animation(this, [{ property: "x", to: point.x, from: this.pixelX }, { property: "y", to: point.y, from: this.pixelY }], this.animationDuration, this.animationEasing).start();
+                this._animation = new Animation(this, [{ property: "x", to: point.x, from: this.pixelX }, { property: "y", to: point.y, from: this.pixelY }], this.animationDuration, this.animationEasing).start();
             }
         }
     };

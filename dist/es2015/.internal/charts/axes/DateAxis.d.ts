@@ -709,44 +709,41 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      */
     boldUnitChange: boolean;
     /**
-     * Returns text to show in a tooltip, based on specific position within axis.
+     * Returns text to show in a tooltip, based on specific relative position within axis.
      *
      * The label will be formatted as per [[DateFormatter]] set for the whole
      * chart, or explicitly for this Axis.
      *
      * @ignore Exclude from docs
-     * @param  {number}  position  Position (px)
+     * @param  {number}  position  Position
      * @return {string}            Label (formatted date)
      */
     getTooltipText(position: number): string;
     /**
-     * Takes an absolute position (px) within axis and adjust it to a specific
-     * `location` within base interval. (cell)
+     * Takes an absolute position within axis and adjust it to a specific position within base interval. (cell)
      *
      * @ignore Exclude from docs
-     * @param  {number}            position  Source position (px)
-     * @param  {AxisItemLocation}  location  Location within base interval (0-1)
-     * @return {number}                      Adjusted position (px)
+     * @param  {number}            position Source position
+     * @param  {AxisItemLocation}  location  Location in the cell
+     * @return {number}            Adjusted position
      */
-    roundPosition(position: number): number;
+    roundPosition(position: number, location?: AxisItemLocation): number;
     /**
-     * Returns an absolute pixel coordinate of the start of the cell (period),
-     * that specific position value falls into.
+     * Returns an relative position of the start of the cell (period), that specific position value falls into.
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {number}  position  Position (px)
-     * @return {number}            Cell start position (px)
+     * @param  {number}  position  Relative position
+     * @return {number}            Cell start relative position
      */
     getCellStartPosition(position: number): number;
     /**
-     * Returns an absolute pixel coordinate of the end of the cell (period),
-     * that specific position value falls into.
+     * Returns an relative position of the end of the cell (period), that specific position value falls into.
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {number}  position  Position (px)
-     * @return {number}            Cell end position (px)
+     * @param  {number}  position  Relative position
+     * @return {number}            Cell end relative position
      */
     getCellEndPosition(position: number): number;
     /**

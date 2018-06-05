@@ -124,7 +124,7 @@ var SmallMap = /** @class */ (function (_super) {
         }
         series.chart = this.chart;
         series.parent = this.seriesContainer;
-        series.mouseEnabled = false;
+        series.interactionsEnabled = false;
     };
     /**
      * Cleans up after series are removed from Scrollbar.

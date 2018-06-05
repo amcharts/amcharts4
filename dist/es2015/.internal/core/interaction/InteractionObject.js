@@ -620,6 +620,23 @@ var InteractionObject = /** @class */ (function (_super) {
         this.cursorOptions = source.cursorOptions;
         getInteraction().applyCursorOverStyle(this);
     };
+    /**
+     * @ignore Exclude from docs
+     */
+    InteractionObject.prototype.setEventDisposer = function (key, value, f) {
+        var disposer = this.eventDisposers.getKey(key);
+        if (value) {
+            if (disposer == null) {
+                this.eventDisposers.setKey(key, f());
+            }
+        }
+        else {
+            if (disposer != null) {
+                disposer.dispose();
+                this.eventDisposers.removeKey(key);
+            }
+        }
+    };
     return InteractionObject;
 }(BaseObjectEvents));
 export { InteractionObject };

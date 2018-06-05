@@ -52,7 +52,7 @@ var LineSeriesSegment = /** @class */ (function (_super) {
         _this.className = "LineSeriesSegment";
         // Set defaults
         _this.isMeasured = false;
-        _this.mouseEnabled = false;
+        _this.interactionsEnabled = false;
         // Create fill element
         var fillSprite = _this.createChild(Sprite);
         _this.fillSprite = fillSprite;

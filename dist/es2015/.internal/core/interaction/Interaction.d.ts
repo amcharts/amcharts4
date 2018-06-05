@@ -112,6 +112,12 @@ export declare class Interaction extends BaseObjectEvents {
      */
     protected _usePointerEventsOnly: boolean;
     /**
+     * Indicates if passive mode options is supported by this browser.
+     *
+     * @type {boolean}
+     */
+    protected _passiveSupported: boolean;
+    /**
      * List of objects that current have a pointer hovered over them.
      *
      * @type {List<InteractionObject>}
@@ -723,6 +729,18 @@ export declare class Interaction extends BaseObjectEvents {
      * @ignore Exclude from docs
      */
     unlockDocument(): void;
+    /**
+     * Lock element (disable all touch)
+     *
+     * @ignore Exclude from docs
+     */
+    lockElement(io: InteractionObject): void;
+    /**
+     * Restores element's functionality.
+     *
+     * @ignore Exclude from docs
+     */
+    unlockElement(io: InteractionObject): void;
     /**
      * Locks document's wheel scroll.
      *

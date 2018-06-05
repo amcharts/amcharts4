@@ -60,9 +60,9 @@ export function stretch(t, from, to) {
  * Adjust numeric value so it fits to specific value range.
  *
  * @param  {number} value     Value
- * @param  {number} minValue  Lowest possible value
- * @param  {number} maxValue  Highest possible value
- * @return {number}           Adjusted value
+ * @param  {Optional<number>} minValue  Lowest possible value
+ * @param  {Optional<number>} maxValue  Highest possible value
+ * @return {number}                     Adjusted value
  */
 export function fitToRange(value, minValue, maxValue) {
     if (maxValue < minValue) {

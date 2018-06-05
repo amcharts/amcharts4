@@ -1263,13 +1263,13 @@ var DateAxis = /** @class */ (function (_super) {
         configurable: true
     });
     /**
-     * Returns text to show in a tooltip, based on specific position within axis.
+     * Returns text to show in a tooltip, based on specific relative position within axis.
      *
      * The label will be formatted as per [[DateFormatter]] set for the whole
      * chart, or explicitly for this Axis.
      *
      * @ignore Exclude from docs
-     * @param  {number}  position  Position (px)
+     * @param  {number}  position  Position
      * @return {string}            Label (formatted date)
      */
     DateAxis.prototype.getTooltipText = function (position) {
@@ -1291,44 +1291,54 @@ var DateAxis = /** @class */ (function (_super) {
         return this.adapter.apply("getTooltipText", text);
     };
     /**
-     * Takes an absolute position (px) within axis and adjust it to a specific
-     * `location` within base interval. (cell)
+     * Takes an absolute position within axis and adjust it to a specific position within base interval. (cell)
      *
      * @ignore Exclude from docs
-     * @param  {number}            position  Source position (px)
-     * @param  {AxisItemLocation}  location  Location within base interval (0-1)
-     * @return {number}                      Adjusted position (px)
+     * @param  {number}            position Source position
+     * @param  {AxisItemLocation}  location  Location in the cell
+     * @return {number}            Adjusted position
      */
-    DateAxis.prototype.roundPosition = function (position) {
+    DateAxis.prototype.roundPosition = function (position, location) {
+        var baseInterval = this.baseInterval;
+        var timeUnit = baseInterval.timeUnit;
+        var count = baseInterval.count;
         var date = this.positionToDate(position);
-        $time.round(date, this.baseInterval.timeUnit, this.baseInterval.count);
+        $time.round(date, timeUnit, count);
+        if (location > 0) {
+            $time.add(date, timeUnit, location);
+        }
+        if (this.isInBreak(date.getTime())) {
+            while (date.getTime() < this.max) {
+                $time.add(date, timeUnit, count);
+                if (this.isInBreak(date.getTime())) {
+                    break;
+                }
+            }
+        }
         return this.dateToPosition(date);
     };
     /**
-     * Returns an absolute pixel coordinate of the start of the cell (period),
-     * that specific position value falls into.
+     * Returns an relative position of the start of the cell (period), that specific position value falls into.
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {number}  position  Position (px)
-     * @return {number}            Cell start position (px)
+     * @param  {number}  position  Relative position
+     * @return {number}            Cell start relative position
      */
     DateAxis.prototype.getCellStartPosition = function (position) {
-        return this.roundPosition(position);
+        return this.roundPosition(position, 0);
     };
     /**
-     * Returns an absolute pixel coordinate of the end of the cell (period),
-     * that specific position value falls into.
+     * Returns an relative position of the end of the cell (period), that specific position value falls into.
      *
      * @ignore Exclude from docs
      * @todo Description (review)
-     * @param  {number}  position  Position (px)
-     * @return {number}            Cell end position (px)
+     * @param  {number}  position  Relative position
+     * @return {number}            Cell end relative position
      */
     DateAxis.prototype.getCellEndPosition = function (position) {
-        position = this.roundPosition(position);
-        var date = $time.add(this.positionToDate(position), this.baseInterval.timeUnit, this.baseInterval.count);
-        return this.dateToPosition(date);
+        return this.roundPosition(position, 1);
+        //return this.dateToPosition($time.add(this.positionToDate(this.roundPosition(position, 1)), this.baseInterval.timeUnit, this.baseInterval.count));
     };
     /**
      * Returns a Series data item that corresponds to the specific pixel position

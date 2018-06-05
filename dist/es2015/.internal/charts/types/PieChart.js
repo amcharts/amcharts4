@@ -156,6 +156,9 @@ var PieChart = /** @class */ (function (_super) {
         _this.valign = "none";
         _this.startAngle = -90;
         _this.endAngle = 270;
+        _this.chartContainer.events.on("maxsizechanged", function () {
+            _this.invalidate();
+        });
         // Apply theme
         _this.applyTheme();
         return _this;

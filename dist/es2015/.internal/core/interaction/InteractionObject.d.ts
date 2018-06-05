@@ -436,4 +436,8 @@ export declare class InteractionObject extends BaseObjectEvents {
      * @param {this} source Source object
      */
     copyFrom(source: this): void;
+    /**
+     * @ignore Exclude from docs
+     */
+    setEventDisposer(key: string, value: boolean, f: () => IDisposer): void;
 }

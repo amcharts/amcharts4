@@ -19,6 +19,7 @@ import { Preloader } from "./elements/Preloader";
 import { DataItem } from "./DataItem";
 import { Optional } from "./utils/Type";
 import { Paper } from "./rendering/Paper";
+import * as $type from "./utils/Type";
 /**
  * ============================================================================
  * REQUISITES
@@ -525,14 +526,14 @@ export declare class Container extends Sprite {
      * Creates (if necessary) and returns an instance of the [[Preloader]] to
      * show when Container is busy loading.
      *
-     * @return {Preloader} Preloader instance
+     * @return {Optional<Preloader>} Preloader instance
      */
     /**
      * Sets a [[Preloader]] instance to be used when Container is busy.
      *
-     * @param {Preloader} preloader Preloader instance
+     * @param {Optional<Preloader>} preloader Preloader instance
      */
-    preloader: Preloader;
+    preloader: $type.Optional<Preloader>;
     setPaper(paper: Paper): void;
     /**
      * Removes Container from the system-wide list of invalid Containers.
@@ -620,5 +621,5 @@ export declare class Container extends Sprite {
      * @param {number}               transitionDuration  Duration of the transition between current and new state
      * @param {number) => number}    easing              An easing function
      */
-    setState(value: string | SpriteState<this["_properties"], this["_adapter"]>, transitionDuration?: number, easing?: (value: number) => number): Animation;
+    setState(value: string | SpriteState<this["_properties"], this["_adapter"]>, transitionDuration?: number, easing?: (value: number) => number): $type.Optional<Animation>;
 }

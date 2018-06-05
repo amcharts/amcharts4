@@ -779,7 +779,7 @@ var Container = /** @class */ (function (_super) {
                 //	let childHeight: number = Math.min(child.pixelHeight, child.measuredHeight);
                 var childWidth = child.measuredWidth;
                 var childHeight = child.measuredHeight;
-                if (child.isMeasured) {
+                if (child.isMeasured && !child.disabled && !child.__disabled) {
                     switch (this.layout) {
                         // absolute layout
                         case "absolute":
@@ -1233,22 +1233,21 @@ var Container = /** @class */ (function (_super) {
          * Creates (if necessary) and returns an instance of the [[Preloader]] to
          * show when Container is busy loading.
          *
-         * @return {Preloader} Preloader instance
+         * @return {Optional<Preloader>} Preloader instance
          */
         get: function () {
-            if (this._preloader) {
-                return this._preloader;
+            var preloader = this._preloader;
+            if (preloader) {
+                return preloader;
             }
-            else {
-                if (this.parent) {
-                    return this.parent.preloader;
-                }
+            else if (this.parent) {
+                return this.parent.preloader;
             }
         },
         /**
          * Sets a [[Preloader]] instance to be used when Container is busy.
          *
-         * @param {Preloader} preloader Preloader instance
+         * @param {Optional<Preloader>} preloader Preloader instance
          */
         set: function (preloader) {
             if (this._preloader) {

@@ -39,7 +39,7 @@ export declare const XLINK: string;
  * @param {Function}      listener  Event listener
  * @returns {IDisposer}             Disposable event
  */
-export declare function addEventListener<E extends Event>(dom: EventTarget, type: string, listener: (event: E) => void): IDisposer;
+export declare function addEventListener<E extends Event>(dom: EventTarget, type: string, listener: (event: E) => void, options?: any): IDisposer;
 /**
  * Finds and returns an element reference using following logic:
  * * If we pass in an element instance, we just return it back.

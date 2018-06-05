@@ -54,7 +54,7 @@ var HeatLegend = /** @class */ (function (_super) {
         var marker = new RoundedRectangle();
         marker.minHeight = 20;
         marker.minWidth = 20;
-        marker.mouseEnabled = false;
+        marker.interactionsEnabled = false;
         marker.fillOpacity = 1;
         marker.cornerRadius(0, 0, 0, 0);
         _this.markerContainer.minHeight = 20;

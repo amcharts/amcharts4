@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.28] - 2018-06-05
+
+### Fixed
+- Using chart `Cursor` now prevents default browser gestures on touch and hybrid displays.
+- Disabling elements (e.g. Legend or Axis labels) will now make other elements take up vacant space automatically.
+- Tooltips on `XYSeries` data items with zero value were not being shown.
+- Sometimes `XYSeries` tooltips were messed up and shown in incorrect position.
+- Updating chart data with stacked series could result incorrect min/max values on `ValueAxis`.
+- `Treemap` was not showing all the required levels on zoom-out unless animated theme was being used.
+- Sometimes unpredictable behavior of labels on a logarithmic value axis was fixed.
+- `DateAxis` with `skipEmptyPeriods = true` was showing axis tooltip at incorrect positions in some cases.
+
+### Changed
+- `Sprite.mouseEnabled` was renamed to `interactionsEnabled`.
+- An option `"mouse"` for `tooltipPosition` was renamed to `"pointer"`.
+
 ## [4.0.0-beta.27] - 2018-06-01
 
 ### Fixed

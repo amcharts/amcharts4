@@ -51,7 +51,7 @@ var MapPolygon = /** @class */ (function (_super) {
             //this.toFront();
             //this.isFocused = true;
         });*/
-        _this.tooltipPosition = "mouse";
+        _this.tooltipPosition = "pointer";
         _this.applyTheme();
         return _this;
     }

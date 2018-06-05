@@ -223,8 +223,8 @@ export declare class XYCursor extends Cursor {
      * * "panXY" - moves (pans) current selection both horizontally and vertically;
      * * "none" - does nothing with pointer down.
      *
-     * E.g. "zoomXY" will mean that pressing a mouse over plot area and dragging
-     * it will start zooming the chart.
+     * E.g. "zoomXY" will mean that pressing a mouse (or touching) over plot area
+     * and dragging it will start zooming the chart.
      *
      * @param {"zoomX" | "zoomY" | "zoomXY" | "selectX" | "selectY" | "selectXY" | "panX" | "panY" | "panXY" | "none"} value Bheavior
      */

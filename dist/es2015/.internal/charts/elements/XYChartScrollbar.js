@@ -65,7 +65,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         scrollbarChart.shouldClone = false;
         scrollbarChart.margin(0, 0, 0, 0);
         scrollbarChart.padding(0, 0, 0, 0);
-        scrollbarChart.mouseEnabled = false;
+        scrollbarChart.interactionsEnabled = false;
         _this._scrollbarChart = scrollbarChart;
         _this._disposers.push(_this._scrollbarChart);
         _this.minHeight = 60;
@@ -75,7 +75,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         unselectedOverlay.element = _this.paper.add("path");
         unselectedOverlay.fill = interfaceColors.getFor("background");
         unselectedOverlay.fillOpacity = 0.8;
-        unselectedOverlay.mouseEnabled = false;
+        unselectedOverlay.interactionsEnabled = false;
         unselectedOverlay.isMeasured = false;
         unselectedOverlay.toBack();
         _this._unselectedOverlay = unselectedOverlay;

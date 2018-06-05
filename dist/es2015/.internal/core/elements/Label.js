@@ -95,7 +95,7 @@ var Label = /** @class */ (function (_super) {
         // Set up adapters for manipulating accessibility
         _this.adapter.add("readerTitle", function (arg) {
             if (!arg) {
-                arg = _this.populateString($utils.plainText(!$utils.empty(_this.html)
+                arg = _this.populateString($utils.plainText($utils.isNotEmpty(_this.html)
                     ? _this.html
                     : _this.text));
             }
@@ -144,7 +144,7 @@ var Label = /** @class */ (function (_super) {
     Label.prototype.updateCurrentText = function () {
         // Determine output format
         var output, text;
-        if (!$utils.empty(this.html) && this.paper.supportsForeignObject()) {
+        if ($utils.isNotEmpty(this.html) && this.paper.supportsForeignObject()) {
             // We favor HTML text if it's set and browser supports `foreignObject`
             output = "html";
             text = this.html;

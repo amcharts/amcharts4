@@ -143,7 +143,7 @@ var Preloader = /** @class */ (function (_super) {
                 registry.events.once("enterframe", function () {
                     _this.hide();
                 });
-                this.mouseEnabled = false;
+                this.interactionsEnabled = false;
             }
             else if (value > 0) {
                 if (this.delay) {
@@ -152,12 +152,12 @@ var Preloader = /** @class */ (function (_super) {
                     }
                     else if ((this._started + this.delay) >= new Date().getTime()) {
                         this.show();
-                        this.mouseEnabled = true;
+                        this.interactionsEnabled = true;
                     }
                 }
                 else {
                     this.show();
-                    this.mouseEnabled = true;
+                    this.interactionsEnabled = true;
                 }
             }
         },

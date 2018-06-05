@@ -656,6 +656,7 @@ var TreeMap = /** @class */ (function (_super) {
             this.xAxis.zoomToValues(dataItem.x0, dataItem.x1);
             this.yAxis.zoomToValues(dataItem.y0, dataItem.y1);
             this.currentLevel = dataItem.level;
+            this.createTreeSeries(dataItem);
             var rangeChangeAnimation = this.xAxis.rangeChangeAnimation || this.yAxis.rangeChangeAnimation;
             if (rangeChangeAnimation) {
                 rangeChangeAnimation.events.once("animationended", function () {
@@ -665,7 +666,6 @@ var TreeMap = /** @class */ (function (_super) {
             else {
                 this.toggleBullets();
             }
-            this.createTreeSeries(dataItem);
         }
     };
     /**

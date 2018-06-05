@@ -83,7 +83,7 @@ var Popup = /** @class */ (function (_super) {
          */
         _this._showCurtain = false;
         /**
-         * Indicates whether popup can be dragged with a mouse.
+         * Indicates whether popup can be dragged.
          *
          * @type {boolean}
          */
@@ -169,7 +169,7 @@ var Popup = /** @class */ (function (_super) {
                 this._elements.curtain.parentElement.removeChild(this._elements.curtain);
             }
         }
-        this._releaseMouse();
+        this._releasePointers();
     };
     /**
      * Destroy (dispose) popup.
@@ -369,8 +369,8 @@ var Popup = /** @class */ (function (_super) {
         this._IOs.wrapper = getInteraction().getInteraction(wrapper);
         this._disposers.push(this._IOs.wrapper);
         // Set hover/out events
-        this._IOs.wrapper.events.on("over", this._disableMouse, this);
-        this._IOs.wrapper.events.on("out", this._releaseMouse, this);
+        this._IOs.wrapper.events.on("over", this._disablePointers, this);
+        this._IOs.wrapper.events.on("out", this._releasePointers, this);
         // Create an InteractionObject for close
         this._IOs.close = getInteraction().getInteraction(close);
         this._disposers.push(this._IOs.close);
@@ -516,8 +516,8 @@ var Popup = /** @class */ (function (_super) {
         // Add Curtain IO to disposers
         this._disposers.push(this._IOs.curtain);
         // Set events to disable underlying interactivity
-        this._IOs.curtain.events.on("over", this._disableMouse, this);
-        this._IOs.curtain.events.on("out", this._releaseMouse, this);
+        this._IOs.curtain.events.on("over", this._disablePointers, this);
+        this._IOs.curtain.events.on("out", this._releasePointers, this);
         // Save for later
         this._elements.curtain = curtain;
     };
@@ -750,17 +750,17 @@ var Popup = /** @class */ (function (_super) {
     /**
      * Disables interactivity on parent chart.
      */
-    Popup.prototype._disableMouse = function () {
-        this._spriteMouseEnabled = this.sprite.mouseEnabled;
-        this.sprite.mouseEnabled = false;
+    Popup.prototype._disablePointers = function () {
+        this._spriteInteractionsEnabled = this.sprite.interactionsEnabled;
+        this.sprite.interactionsEnabled = false;
     };
     /**
-     * Releases temporarily disabled mouse on parent chart.
+     * Releases temporarily disabled pointers on parent chart.
      */
-    Popup.prototype._releaseMouse = function () {
-        if ($type.hasValue(this._spriteMouseEnabled)) {
-            this.sprite.mouseEnabled = this._spriteMouseEnabled;
-            this._spriteMouseEnabled = undefined;
+    Popup.prototype._releasePointers = function () {
+        if ($type.hasValue(this._spriteInteractionsEnabled)) {
+            this.sprite.interactionsEnabled = this._spriteInteractionsEnabled;
+            this._spriteInteractionsEnabled = undefined;
         }
     };
     /**

@@ -63,7 +63,7 @@ categoryAxis.renderer.grid.template.location = 0;
 categoryAxis.renderer.tooltipLocation = 0.5;
 categoryAxis.renderer.grid.template.strokeOpacity = 0.07;
 categoryAxis.renderer.minGridDistance = 10;
-categoryAxis.mouseEnabled = false;
+categoryAxis.interactionsEnabled = false;
 categoryAxis.tooltip.disabled = true;
 
 var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
@@ -73,7 +73,7 @@ dateAxis.renderer.maxLabelPosition = 0.99;
 dateAxis.renderer.grid.template.strokeOpacity = 0.07;
 dateAxis.min = new Date(2018, 0, 0, 0, 0, 0).getTime();
 dateAxis.max = new Date(2019, 0, 0, 0, 0, 0).getTime();
-dateAxis.mouseEnabled = false;
+dateAxis.interactionsEnabled = false;
 dateAxis.tooltip.disabled = true;
 dateAxis.periodChangeDateFormats.setKey("month", dateAxis.language.translate("_date_month"));
 dateAxis
