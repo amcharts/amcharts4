@@ -11,6 +11,16 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __values = (this && this.__values) || function (o) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
+    if (m) return m.call(o);
+    return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+};
 /**
  * ============================================================================
  * IMPORTS
@@ -69,41 +79,53 @@ var CSVParser = /** @class */ (function (_super) {
      * @return {string}        Separator
      */
     CSVParser.getDelimiterFromData = function (data) {
-        // We're going to take first few lines of the CSV with different 
+        // We're going to take first few lines of the CSV with different
         // possible separators and check if it results in same number of columns.
         // If it does, we're going to assume it's a CSV
         var lines = data.split("\n");
         var separator;
-        for (var x in separators) {
-            var sep = separators[x], columns = 0, lineColums = 0;
-            for (var i in lines) {
-                // Get number of columns in a line
-                columns = lines[i].split(sep).length;
-                if (columns > 1) {
-                    // More than one column - possible candidate
-                    if (lineColums === 0) {
-                        // First line
-                        lineColums = columns;
+        try {
+            // TODO replace with iterators
+            for (var separators_1 = __values(separators), separators_1_1 = separators_1.next(); !separators_1_1.done; separators_1_1 = separators_1.next()) {
+                var sep = separators_1_1.value;
+                var columns = 0, lineColums = 0;
+                for (var i in lines) {
+                    // Get number of columns in a line
+                    columns = lines[i].split(sep).length;
+                    if (columns > 1) {
+                        // More than one column - possible candidate
+                        if (lineColums === 0) {
+                            // First line
+                            lineColums = columns;
+                        }
+                        else if (columns != lineColums) {
+                            // Incorrect number of columns, give up on this separator
+                            lineColums = 0;
+                            break;
+                        }
                     }
-                    else if (columns != lineColums) {
-                        // Incorrect number of columns, give up on this separator
+                    else {
+                        // Not this separator
+                        // Not point in continuing
                         lineColums = 0;
                         break;
                     }
                 }
-                else {
-                    // Not this separator
-                    // Not point in continuing
-                    lineColums = 0;
-                    break;
+                // Check if we have a winner
+                if (lineColums) {
+                    separator = sep;
                 }
             }
-            // Check if we have a winner
-            if (lineColums) {
-                separator = sep;
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (separators_1_1 && !separators_1_1.done && (_a = separators_1.return)) _a.call(separators_1);
             }
+            finally { if (e_1) throw e_1.error; }
         }
         return separator;
+        var e_1, _a;
     };
     /**
      * Parses and returns data.
@@ -151,7 +173,7 @@ var CSVParser = /** @class */ (function (_super) {
             for (i = 0; i < row.length; i++) {
                 col = undefined === cols[i] ? "col" + i : cols[i];
                 dataPoint[col] = row[i] === "" ? this.options.emptyAs : row[i];
-                // Convert 
+                // Convert
                 if (empty) {
                     row[col] = this.maybeToEmpty(dataPoint[col]);
                 }

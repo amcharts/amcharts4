@@ -221,14 +221,14 @@ export declare class Responsive extends BaseObjectEvents {
      */
     constructor();
     /**
-     * @return {Component} Target object
+     * @return {Optional<Component>} Target object
      */
     /**
      * A target object that responsive rules will need to be applied to.
      *
-     * @param {Component}  value  Target object
+     * @param {Optional<Component>}  value  Target object
      */
-    component: Component;
+    component: $type.Optional<Component>;
     /**
      * @return {boolean} Apply responsive rules?
      */

@@ -14,7 +14,7 @@ import { Dictionary } from "../utils/Dictionary";
 import { AMEvent } from "../utils/EventDispatcher";
 import { IPoint } from "../defs/IPoint";
 import { IPointer } from "./Pointer";
-import { IInertiaOptions, ISwipeOptions, IHitOptions, ICursorOptions, IKeyboardOptions } from "./InteractionOptions";
+import { IInertiaOptions, ISwipeOptions, IHitOptions, IHoverOptions, ICursorOptions, IKeyboardOptions } from "./InteractionOptions";
 import { InteractionKeyboardObject } from "./InteractionKeyboardObject";
 import { Inertia, InertiaTypes } from "./Inertia";
 import { IDisposer } from "../utils/Disposer";
@@ -179,6 +179,12 @@ export declare class InteractionObject extends BaseObjectEvents {
      * @type {IHitOptions}
      */
     hitOptions: IHitOptions;
+    /**
+     * Hover options.
+     *
+     * @type {IHoverOptions}
+     */
+    hoverOptions: IHoverOptions;
     /**
      * Swipe gesture options.
      *

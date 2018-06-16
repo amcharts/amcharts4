@@ -396,7 +396,7 @@ export declare class SankeyDiagram extends Chart {
     /**
      * Sort nodes by "name" or "value" or do not sort at all. If not sorted, nodes will appear in the same order as they are in the data.
      * @default "none"
-     * @param {"none" "name" | "value"}  value  Node sorting
+     * @param {"none" | "name" | "value"}  value  Node sorting
      */
     sortBy: "none" | "name" | "value";
     /**

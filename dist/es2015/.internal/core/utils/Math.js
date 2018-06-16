@@ -65,12 +65,12 @@ export function stretch(t, from, to) {
  * @return {number}                     Adjusted value
  */
 export function fitToRange(value, minValue, maxValue) {
-    if (maxValue < minValue) {
-        var temp = maxValue;
-        maxValue = minValue;
-        minValue = temp;
-    }
     if ($type.isNumber(minValue)) {
+        if ($type.isNumber(maxValue) && maxValue < minValue) {
+            var temp = maxValue;
+            maxValue = minValue;
+            minValue = temp;
+        }
         if (value < minValue) {
             value = minValue;
         }

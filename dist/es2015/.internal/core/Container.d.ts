@@ -11,7 +11,7 @@
 import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "./Sprite";
 import { SpriteState } from "./SpriteState";
 import { Animation } from "./utils/Animation";
-import { List, IListEvents, ListGrouper } from "./utils/List";
+import { List, IListEvents } from "./utils/List";
 import { VerticalAlign } from "./defs/VerticalAlign";
 import { Align } from "./defs/Align";
 import { IPoint } from "./defs/IPoint";
@@ -155,27 +155,19 @@ export declare class Container extends Sprite {
      */
     protected _childrenByLayout: Sprite[];
     /**
-     * [_zIndexGroups description]
-     *
-     * @ignore Exclude from docs
-     * @todo Description
-     * @type {ListGrouper<Sprite>}
-     */
-    protected _zIndexGroups: ListGrouper<Sprite>;
-    /**
      * Available width. (px)
      *
      * @ignore Exclude from docs
-     * @type {number}
+     * @type {Optional<number>}
      */
-    protected _availableWidth: number;
+    protected _availableWidth: $type.Optional<number>;
     /**
      * Available height. (px)
      *
      * @ignore Exclude from docs
-     * @type {number}
+     * @type {Optional<number>}
      */
-    protected _availableHeight: number;
+    protected _availableHeight: $type.Optional<number>;
     /**
      * [_fixedWidthGrid description]
      *
@@ -188,22 +180,22 @@ export declare class Container extends Sprite {
      * Container's child elements. (sorded by their `zIndex`)
      *
      * @ignore Exclude from docs
-     * @type {List<Sprite>}
+     * @type {Optional<List<Sprite>>}
      */
-    protected _children: List<Sprite>;
+    protected _children: $type.Optional<List<Sprite>>;
     /**
      * Horizontal alignement of Container's items
      * @ignore Exclude from docs
-     * @type {Align}
+     * @type {Optional<Align>}
      */
-    protected _contentAlign: Align;
+    protected _contentAlign: $type.Optional<Align>;
     /**
      * Vertical alignement of Container's items.
      *
      * @ignore Exclude from docs
-     * @type {VerticalAlign}
+     * @type {Optional<VerticalAlign>}
      */
-    protected _contentValign: VerticalAlign;
+    protected _contentValign: $type.Optional<VerticalAlign>;
     /**
      * A [[Sprite]] instance to use as Container's background.
      *
@@ -217,9 +209,9 @@ export declare class Container extends Sprite {
      * itself.
      *
      * @ignore Exclude from docs
-     * @type {Preloader}
+     * @type {Optional<Preloader>}
      */
-    protected _preloader: Preloader;
+    protected _preloader: $type.Optional<Preloader>;
     /**
      * Indicates if this container contains any focused elements, including
      * itself.

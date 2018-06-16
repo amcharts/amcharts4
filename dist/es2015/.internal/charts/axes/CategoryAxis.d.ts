@@ -199,7 +199,6 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
     /**
      * A collection that holds Axis' data items sorted by each category.
      *
-     * @ignore Exclude from docs
      * @type {Dictionary}
      */
     dataItemsByCategory: Dictionary<string, this["_dataItem"]>;

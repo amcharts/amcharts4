@@ -106,6 +106,12 @@ var InteractionObject = /** @class */ (function (_super) {
          */
         _this.hitOptions = {};
         /**
+         * Hover options.
+         *
+         * @type {IHoverOptions}
+         */
+        _this.hoverOptions = {};
+        /**
          * Swipe gesture options.
          *
          * @type {ISwipeOptions}
@@ -615,6 +621,7 @@ var InteractionObject = /** @class */ (function (_super) {
         _super.prototype.copyFrom.call(this, source);
         this.inertiaOptions = source.inertiaOptions;
         this.hitOptions = source.hitOptions;
+        this.hoverOptions = source.hoverOptions;
         this.swipeOptions = source.swipeOptions;
         this.keyboardOptions = source.keyboardOptions;
         this.cursorOptions = source.cursorOptions;

@@ -72,6 +72,13 @@ var Filter = /** @class */ (function (_super) {
          */
         _this.properties = {};
         /**
+         * Identifies if this object is a "template" and should not be treated as
+         * real object that is drawn or actually used in the chart.
+         *
+         * @type {boolean}
+         */
+        _this.isTemplate = false;
+        /**
          * [_scale description]
          *
          * @todo Description

@@ -43,7 +43,7 @@ import { AMElement } from "./rendering/AMElement";
 import { Filter } from "./rendering/filters/Filter";
 import { ColorModifier } from "./rendering/fills/ColorModifier";
 import { InteractionObject } from "./interaction/InteractionObject";
-import { IInertiaOptions, ISwipeOptions, IHitOptions, ICursorOptions, IKeyboardOptions } from "./interaction/InteractionOptions";
+import { IInertiaOptions, ISwipeOptions, IHitOptions, IHoverOptions, ICursorOptions, IKeyboardOptions } from "./interaction/InteractionOptions";
 import { IPointer } from "./interaction/Pointer";
 import { InertiaTypes } from "./interaction/Inertia";
 import { IStyleProperty } from "./defs/IStyleProperty";
@@ -2096,13 +2096,20 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     inert: boolean;
     /**
-     * @return {boolean} `true` if element is hoverable
-     */
-    /**
      * ==========================================================================
      * HOVERING
      * ==========================================================================
      * @hidden
+     */
+    /**
+     * Returns Sprite's hover options.
+     *
+     * @see {@link IHoverOptions} for available options.
+     * @return {IHoverOptions} Options
+     */
+    readonly hoverOptions: IHoverOptions;
+    /**
+     * @return {boolean} `true` if element is hoverable
      */
     /**
      * Controls if the element is hoverable (hover events are registered).
@@ -2143,8 +2150,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * Click (hit) options control things like double-click, timeouts, etc.
      *
-     * Check [[IHitOptions]] for available options.
-     *
+     * @see {@link IHitOptions} for available options.
      * @return {IHitOptions} Options
      */
     readonly hitOptions: IHitOptions;

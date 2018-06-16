@@ -253,6 +253,26 @@ export declare class Popup extends BaseObject {
      */
     private _spriteInteractionsEnabled;
     /**
+     * Identifies if this object is a "template" and should not be treated as
+     * real object that is drawn or actually used in the chart.
+     *
+     * @type {boolean}
+     */
+    isTemplate: boolean;
+    /**
+     * Indicates if the element was already sized and should not be measured for
+     * sized again, saving some precious resources.
+     *
+     * @type {boolean}
+     */
+    private _sized;
+    /**
+     * Cached bounding rectangle info.
+     *
+     * @type {DOMRect | ClientRect}
+     */
+    private _bbox;
+    /**
      * Constructor
      */
     constructor();
@@ -273,7 +293,7 @@ export declare class Popup extends BaseObject {
      *
      * @ignore Exclude from docs
      */
-    positionElement(): void;
+    positionElement(forceResize?: boolean): void;
     protected setupDragging(): void;
     protected toStyle(value: number | Percent): string;
     /**

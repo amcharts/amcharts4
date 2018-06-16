@@ -52,6 +52,13 @@ var Container = /** @class */ (function (_super) {
         // Init
         _super.call(this) || this;
         /**
+         * Container children. (sorted by layout)
+         *
+         * @ignore Exclude from docs
+         * @type {List<Sprite>}
+         */
+        _this._childrenByLayout = [];
+        /**
          * Indicates if this container contains any focused elements, including
          * itself.
          *
@@ -71,6 +78,10 @@ var Container = /** @class */ (function (_super) {
          * @ignore
          */
         _this._containerOverflowY = 0;
+        /*
+         * @ignore
+         */
+        _this.layoutInvalid = false;
         _this.className = "Container";
         _this.element = _this.paper.addGroup("g");
         _this.pixelPerfect = false;

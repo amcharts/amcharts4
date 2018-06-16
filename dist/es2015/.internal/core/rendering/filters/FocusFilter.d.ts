@@ -11,6 +11,7 @@ import { Sprite } from "../../Sprite";
 import { Filter, FilterProperties } from "./Filter";
 import { AMElement } from "../AMElement";
 import { Color } from "../../utils/Color";
+import * as $type from "../../utils/Type";
 /**
  * ============================================================================
  * REQUISITES
@@ -110,14 +111,14 @@ export declare class FocusFilter extends Filter {
      */
     constructor();
     /**
-     * @return {number} Color
+     * @return {Optional<Color>} Color
      */
     /**
      * Stroke (outline) color.
      *
-     * @param {number}  value  Color
+     * @param {Color}  value  Color
      */
-    stroke: Color;
+    stroke: $type.Optional<Color>;
     /**
      * @return {number} Outline thickness (px)
      */
@@ -126,7 +127,7 @@ export declare class FocusFilter extends Filter {
      *
      * @param {number}  value  Outline thickness (px)
      */
-    strokeWidth: number;
+    strokeWidth: $type.Optional<number>;
     /**
      * @return {number} Outline opacity (0-1)
      */
@@ -135,7 +136,7 @@ export declare class FocusFilter extends Filter {
      *
      * @param {number}  value  Outline opacity (0-1)
      */
-    opacity: number;
+    opacity: $type.Optional<number>;
     /**
      * Sets filter's target element.
      *

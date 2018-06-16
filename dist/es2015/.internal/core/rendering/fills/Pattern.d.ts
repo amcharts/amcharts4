@@ -15,6 +15,7 @@ import { ShapeRendering } from "../../defs/ShapeRendering";
 import { List } from "../../utils/List";
 import { Animation, IAnimatable, IAnimationOptions } from "../../utils/Animation";
 import { Color } from "../../utils/Color";
+import * as $type from "../../utils/Type";
 /**
  * ============================================================================
  * REQUISITES
@@ -33,20 +34,20 @@ export declare type PatternUnits = "userSpaceOnUse" | "objectBoundingBox";
  * @type {string}
  */
 export interface PatternProperties {
-    x?: number;
-    y?: number;
-    width?: number;
-    height?: number;
-    backgroundOpacity?: number;
-    backgroundFill?: Color;
-    fillOpacity?: number;
-    fill?: Color;
-    stroke?: Color;
-    strokeOpacity?: number;
-    strokeWidth?: number;
-    shapeRendering?: ShapeRendering;
-    rotation?: number;
-    patternUnits?: PatternUnits;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    backgroundOpacity: number;
+    backgroundFill: Color;
+    fillOpacity: number;
+    fill: Color;
+    stroke: Color;
+    strokeOpacity: number;
+    strokeWidth: number;
+    shapeRendering: ShapeRendering;
+    rotation: number;
+    patternUnits: PatternUnits;
 }
 /**
  * ============================================================================
@@ -61,9 +62,9 @@ export declare class Pattern extends BaseObject implements IAnimatable {
     /**
      * List of available animations currently running on a pattern.
      *
-     * @type {Array<Animation>}
+     * @type {Optional<Array<Animation>>}
      */
-    protected _animations: Array<Animation>;
+    protected _animations: $type.Optional<Array<Animation>>;
     /**
      * An SVG `<group>` element to put sub-elements into.
      *
@@ -73,15 +74,9 @@ export declare class Pattern extends BaseObject implements IAnimatable {
     /**
      * Reference to [[Paper]] instance.
      *
-     * @type {Paper}
+     * @type {Optional<Paper>}
      */
-    protected _paper: Paper;
-    /**
-     * Reference to pattern's background element.
-     *
-     * @type {AMElement}
-     */
-    protected _background: AMElement;
+    protected _paper: $type.Optional<Paper>;
     /**
      * List of elements the pattern consists of.
      *

@@ -749,7 +749,7 @@ var ExportMenu = /** @class */ (function (_super) {
      */
     ExportMenu.prototype.loadDefaultCSS = function () {
         this._disposers.push(exportCSS(this.classPrefix));
-        this._element.style.display = "initial";
+        this._element.style.display = "";
     };
     Object.defineProperty(ExportMenu.prototype, "tabindex", {
         /**

@@ -5,6 +5,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.29] - 2018-06-16
+
+### Fixed
+- Wrong `Cursor` behavior in Edge browser on hybrid touch screens.
+- Malfunctioning colors in IE9.
+- Console errors, triggered by mouse hover in IE9.
+- A bunch of errors and bugs on Popup/Modal in IE9.
+- Enabling `ExportMenu` on IEs was breaking the chart.
+- `"dragstop"` event was not being triggered on touch and hybrid devices.
+
+### Changed
+- Dramatically improved performance of dragging of Popup.
+- The `dataItem` of the tooltip is now set sooner, which enables it to be used in its various adapters.
+
+### Added
+- `Sprite` now has [`hoverOptions`](https://www.amcharts.com/docs/v4/reference/sprite/#hoverOptions_property) which can be used to set up how touch "hovering" works.
+
 ## [4.0.0-beta.28] - 2018-06-05
 
 ### Fixed

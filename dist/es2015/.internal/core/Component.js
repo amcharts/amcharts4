@@ -313,7 +313,8 @@ var Component = /** @class */ (function (_super) {
             }
             // store reference to original data item
             dataItem.dataContext = dataContext;
-            $object.each(this.dataFields, function (fieldName, fieldValue) {
+            $object.each(this.dataFields, function (key, fieldValue) {
+                var fieldName = key;
                 var value = dataContext[fieldValue];
                 // Apply adapters to a retrieved value
                 value = _this.adapter.apply("dataContextValue", {
@@ -343,7 +344,8 @@ var Component = /** @class */ (function (_super) {
                     }
                 }
             });
-            $object.each(this.propertyFields, function (f, fieldValue) {
+            $object.each(this.propertyFields, function (key, fieldValue) {
+                var f = key;
                 var value = dataContext[fieldValue];
                 if ($type.hasValue(value)) {
                     dataItem.setProperty(f, value);
@@ -368,7 +370,8 @@ var Component = /** @class */ (function (_super) {
         var _this = this;
         if (dataItem) {
             var dataContext_1 = dataItem.dataContext;
-            $object.each(this.dataFields, function (fieldName, fieldValue) {
+            $object.each(this.dataFields, function (key, fieldValue) {
+                var fieldName = key;
                 var value = dataContext_1[fieldValue];
                 // Apply adapters to a retrieved value
                 value = _this.adapter.apply("dataContextValue", {
@@ -392,7 +395,8 @@ var Component = /** @class */ (function (_super) {
                     }
                 }
             });
-            $object.each(this.propertyFields, function (f, fieldValue) {
+            $object.each(this.propertyFields, function (key, fieldValue) {
+                var f = key;
                 var value = dataContext_1[fieldValue];
                 if ($type.hasValue(value)) {
                     dataItem.setProperty(f, value);
@@ -408,7 +412,11 @@ var Component = /** @class */ (function (_super) {
      */
     Component.prototype.validateDataElements = function () {
         for (var i = this.startIndex; i < this.endIndex; i++) {
-            this.validateDataElement(this.dataItems.getIndex(i));
+            var dataItem = this.dataItems.getIndex(i);
+            // TODO is this correct ?
+            if (dataItem) {
+                this.validateDataElement(dataItem);
+            }
         }
     };
     /**
@@ -447,7 +455,7 @@ var Component = /** @class */ (function (_super) {
     /**
      * Removes elements from the beginning of data
      *
-     * @param {number} coun number of elements to remove
+     * @param {Optional<number>} coun number of elements to remove
      */
     Component.prototype.removeData = function (count) {
         if ($type.isNumber(count)) {
@@ -506,7 +514,7 @@ var Component = /** @class */ (function (_super) {
         if (this.disabled || this.isTemplate) {
             return;
         }
-        //if(!this.dataItemsInvalid){		
+        //if(!this.dataItemsInvalid){
         $array.move(registry.invalidDataItems, this);
         this.dataItemsInvalid = true;
         $iter.each(this._dataUsers.iterator(), function (x) {
@@ -701,7 +709,7 @@ var Component = /** @class */ (function (_super) {
                             this_1._parseDataFrom = i + 1;
                             // update preloader
                             if (preloader) {
-                                if (i / this_1.data.length > 0.5 && !this_1.preloader.visible) {
+                                if (i / this_1.data.length > 0.5 && !preloader.visible) {
                                     // do not start showing
                                 }
                                 else {
@@ -887,28 +895,49 @@ var Component = /** @class */ (function (_super) {
     Component.prototype.setDataSourceEvents = function (ds, property) {
         var _this = this;
         ds.events.on("started", function (ev) {
-            _this.preloader.progress = 0;
-            //this.preloader.label.text = this.language.translate("Loading");
+            var preloader = _this.preloader;
+            if (preloader) {
+                preloader.progress = 0;
+                //preloader.label.text = this.language.translate("Loading");
+            }
         });
         ds.events.on("loadstarted", function (ev) {
-            _this.preloader.progress = 0.25;
+            var preloader = _this.preloader;
+            if (preloader) {
+                preloader.progress = 0.25;
+            }
         });
         ds.events.on("loadended", function (ev) {
-            _this.preloader.progress = 0.5;
+            var preloader = _this.preloader;
+            if (preloader) {
+                preloader.progress = 0.5;
+            }
         });
         ds.events.on("parseended", function (ev) {
-            _this.preloader.progress = 0.75;
+            var preloader = _this.preloader;
+            if (preloader) {
+                preloader.progress = 0.75;
+            }
         });
         ds.events.on("ended", function (ev) {
-            _this.preloader.progress = 1;
+            var preloader = _this.preloader;
+            if (preloader) {
+                preloader.progress = 1;
+            }
         });
         ds.events.on("error", function (ev) {
-            _this.preloader.progress = 1;
+            var preloader = _this.preloader;
+            if (preloader) {
+                preloader.progress = 1;
+            }
             _this.showModal(ev.message);
         });
         if (property) {
             ds.events.on("done", function (ev) {
-                _this.preloader.progress = 1;
+                var preloader = _this.preloader;
+                if (preloader) {
+                    preloader.progress = 1;
+                }
                 if (property == "data" && !$type.isArray(ev.data)) {
                     ev.data = [ev.data];
                 }
@@ -956,6 +985,8 @@ var Component = /** @class */ (function (_super) {
      */
     Component.prototype.zoom = function (range, skipRangeEvent, instantly) {
         var _this = this;
+        if (skipRangeEvent === void 0) { skipRangeEvent = false; }
+        if (instantly === void 0) { instantly = false; }
         var start = range.start;
         var end = range.end;
         var priority = range.priority;

@@ -17,8 +17,8 @@
 import { BaseObjectEvents, IBaseObjectEvents } from "../Base";
 import { List } from "../utils/List";
 import { EventDispatcher, AMEvent } from "../utils/EventDispatcher";
-import { IInertiaOptions, ISwipeOptions, IHitOptions, IKeyboardOptions } from "./InteractionOptions";
-import { InteractionObject } from "./InteractionObject";
+import { IInertiaOptions, ISwipeOptions, IHitOptions, IHoverOptions, IKeyboardOptions } from "./InteractionOptions";
+import { InteractionObject, IInteractionObjectEvents } from "./InteractionObject";
 import { Dictionary } from "../utils/Dictionary";
 import { InertiaTypes } from "./Inertia";
 import { IPointer, IBreadcrumb } from "./Pointer";
@@ -49,6 +49,18 @@ export interface IInteractionEvents extends IBaseObjectEvents {
     focus: {
         event: FocusEvent;
     };
+}
+/**
+ * Interface representing a delayed event
+ *
+ * @ignore Exclude from docs
+ */
+export interface IDelayedEvent {
+    type: keyof IInteractionObjectEvents;
+    io: InteractionObject;
+    pointer: IPointer;
+    event: MouseEvent | TouchEvent;
+    timeout?: number;
 }
 /**
  * ============================================================================
@@ -118,6 +130,14 @@ export declare class Interaction extends BaseObjectEvents {
      */
     protected _passiveSupported: boolean;
     /**
+     * Holds list of delayed events
+     *
+     * @type {IDelayedEvent[]}
+     */
+    protected _delayedEvents: {
+        out: IDelayedEvent[];
+    };
+    /**
      * List of objects that current have a pointer hovered over them.
      *
      * @type {List<InteractionObject>}
@@ -171,6 +191,13 @@ export declare class Interaction extends BaseObjectEvents {
      * @type {IHitOptions}
      */
     hitOptions: IHitOptions;
+    /**
+     * Default options for hover events. These can be overridden in
+     * [[InteractionObject]].
+     *
+     * @type {IHoverOptions}
+     */
+    hoverOptions: IHoverOptions;
     /**
      * Default options for detecting a swipe gesture. These can be overridden in
      * [[InteractionObject]].
@@ -484,7 +511,7 @@ export declare class Interaction extends BaseObjectEvents {
      * @param {IPointer}                 pointer  Pointer
      * @param {MouseEvent | TouchEvent}  ev       Original event
      */
-    handleOut(io: InteractionObject, pointer: IPointer, ev: MouseEvent | TouchEvent): void;
+    handleOut(io: InteractionObject, pointer: IPointer, ev: MouseEvent | TouchEvent, ignoreBehavior?: boolean): void;
     /**
      * Performs tasks on pointer down.
      *
@@ -792,6 +819,15 @@ export declare class Interaction extends BaseObjectEvents {
      */
     getHitOption(io: InteractionObject, option: keyof IHitOptions): any;
     /**
+     * Returns an option associated with hover events.
+     *
+     * @ignore Exclude from docs
+     * @param  {InteractionObject}  io      Element
+     * @param  {string}             option  Option key
+     * @return {any}                        Option value
+     */
+    getHoverOption(io: InteractionObject, option: keyof IHoverOptions): any;
+    /**
      * Returns an option associated with swipe events.
      *
      * @ignore Exclude from docs
@@ -913,6 +949,14 @@ export declare class Interaction extends BaseObjectEvents {
      */
     getTrailPoint(pointer: IPointer, timestamp: number): IBreadcrumb;
     /**
+     * Checks if same pointer already exists in the list.
+     *
+     * @param  {List<IPointer>}  list     List to check agains
+     * @param  {IPointer}        pointer  Pointer
+     * @return {boolean}                  Exists?
+     */
+    protected pointerExists(list: List<IPointer>, pointer: IPointer): boolean;
+    /**
      * Returns an [[InteractionObject]] representation of a DOM element.
      *
      * You can use this on any HTML or SVG element, to add interactive features
@@ -945,6 +989,11 @@ export declare class Interaction extends BaseObjectEvents {
      * @param {InteractionObject} io Element
      */
     restoreAllStyles(io: InteractionObject): void;
+    /**
+     * Processes dalyed events, such as "out" event that was initiated for
+     * elements by touch.
+     */
+    private processDelayed();
     /**
      * Disposes this object and cleans up after itself.
      */

@@ -138,6 +138,20 @@ var Popup = /** @class */ (function (_super) {
          * @type {boolean}
          */
         _this._cssLoaded = false;
+        /**
+         * Identifies if this object is a "template" and should not be treated as
+         * real object that is drawn or actually used in the chart.
+         *
+         * @type {boolean}
+         */
+        _this.isTemplate = false;
+        /**
+         * Indicates if the element was already sized and should not be measured for
+         * sized again, saving some precious resources.
+         *
+         * @type {boolean}
+         */
+        _this._sized = false;
         _this.className = "Popup";
         return _this;
     }
@@ -183,24 +197,34 @@ var Popup = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      */
-    Popup.prototype.positionElement = function () {
+    Popup.prototype.positionElement = function (forceResize) {
         var _this = this;
+        if (forceResize === void 0) { forceResize = true; }
         if (!this._elements.wrapper) {
             return;
         }
         setTimeout(function () {
-            _this._elements.wrapper.style.opacity = "0.01";
-            _this._elements.wrapper.style.left = "0";
-            _this._elements.wrapper.style.top = "0";
-            // Size the element, but only for the first time
-            if (!_this._elements.wrapper.style.width) {
-                var bbox = _this._elements.wrapper.getBoundingClientRect();
-                _this._elements.wrapper.style.width = bbox.width + "px";
-                _this._elements.wrapper.style.height = bbox.height + "px";
+            if (forceResize || !_this._sized) {
+                _this._elements.wrapper.style.opacity = "0.01";
+                _this._elements.wrapper.style.left = "0";
+                _this._elements.wrapper.style.top = "0";
+                // Size the element, but only for the first time
+                if (!_this._elements.wrapper.style.width) {
+                    var bbox = _this._elements.wrapper.getBoundingClientRect();
+                    _this._elements.wrapper.style.width = bbox.width + "px";
+                    _this._elements.wrapper.style.height = bbox.height + "px";
+                }
+                _this._sized = true;
             }
             setTimeout(function () {
-                var bbox = _this._elements.wrapper.getBoundingClientRect();
-                _this._elements.wrapper.style.opacity = "initial";
+                var bbox;
+                if ((forceResize || !_this._sized) && _this._bbox) {
+                    bbox = _this._bbox;
+                }
+                else {
+                    bbox = _this._elements.wrapper.getBoundingClientRect();
+                    _this._elements.wrapper.style.opacity = "";
+                }
                 // Set horizontal positioning
                 switch (_this.align) {
                     case "left":
@@ -257,7 +281,7 @@ var Popup = /** @class */ (function (_super) {
                 this._IOs.wrapper.events.on("drag", function (ev) {
                     _this._tempShift.x = ev.shift.x;
                     _this._tempShift.y = ev.shift.y;
-                    _this.positionElement();
+                    _this.positionElement(false);
                 });
             }
             if (!this._IOs.wrapper.events.has("dragstop")) {
@@ -266,7 +290,7 @@ var Popup = /** @class */ (function (_super) {
                     _this._shift.y += _this._tempShift.y;
                     _this._tempShift.x = 0;
                     _this._tempShift.y = 0;
-                    _this.positionElement();
+                    _this.positionElement(false);
                 });
             }
         }
@@ -352,6 +376,7 @@ var Popup = /** @class */ (function (_super) {
         // Create content element
         var wrapper = document.createElement("div");
         wrapper.className = classNames.contentClass;
+        wrapper.style.opacity = "0.01";
         // Create close button
         var close = document.createElement("a");
         close.className = classNames.closeClass;

@@ -175,6 +175,13 @@ var SpriteState = /** @class */ (function (_super) {
          * @param {ListTemplate<Filter>}
          */
         _this.filters = new ListTemplate(new Filter());
+        /**
+         * Identifies if this object is a "template" and should not be treated as
+         * real object that is drawn or actually used in the chart.
+         *
+         * @type {boolean}
+         */
+        _this.isTemplate = false;
         _this.className = "SpriteState";
         // Make filter list disposable
         _this._disposers.push(new ListDisposer(_this.filters));

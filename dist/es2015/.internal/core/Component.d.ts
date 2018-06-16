@@ -15,6 +15,7 @@ import { DataSource } from "./data/DataSource";
 import { Responsive } from "./responsive/Responsive";
 import { DataItem, IDataItemEvents } from "./DataItem";
 import { IRange } from "./defs/IRange";
+import * as $type from "./utils/Type";
 /**
  * ============================================================================
  * REQUISITES
@@ -146,16 +147,16 @@ export declare class Component extends Container {
      * Holds the data for the component.
      *
      * @ignore Exclude from docs
-     * @type {any[]}
+     * @type {Optional<any[]>}
      */
-    protected _data: any[];
+    protected _data: $type.Optional<any[]>;
     /**
      * A [[Component]] which provides data to this component (like Chart provides
      * data for Series).
      *
-     * @type {Component}
+     * @type {Optional<Component>}
      */
-    dataProvider: Component;
+    dataProvider: $type.Optional<Component>;
     /**
      * A list of [[DataSource]] definitions of external data source.
      *
@@ -169,9 +170,9 @@ export declare class Component extends Container {
      * An instance of [[Responsive]].
      *
      * @ignore Exclude from docs
-     * @type {Responsive}
+     * @type {Optional<Responsive>}
      */
-    protected _responsive: Responsive;
+    protected _responsive: $type.Optional<Responsive>;
     /**
      * This is used when only new data is invalidated (if added using `addData`
      * method).
@@ -192,9 +193,9 @@ export declare class Component extends Container {
      * @ignore Exclude from docs
      * @todo Description
      * @deprecated Not used?
-     * @type {Dictionary}
+     * @type {Optional<Dictionary>}
      */
-    protected _dataMethods: Dictionary<string, (value: number) => number>;
+    protected _dataMethods: $type.Optional<Dictionary<string, (value: number) => number>>;
     /**
      * Identifies the type of the [[DataItem]] used in this element.
      *
@@ -207,21 +208,21 @@ export declare class Component extends Container {
      *
      * @ignore Exclude from docs
      */
-    protected _dataItems: OrderedListTemplate<this["_dataItem"]>;
+    protected _dataItems: $type.Optional<OrderedListTemplate<this["_dataItem"]>>;
     /**
      * [_startIndex description]
      *
      * @ignore Exclude from docs
-     * @type {number}
+     * @type {Optional<number>}
      */
-    protected _startIndex: number;
+    protected _startIndex: $type.Optional<number>;
     /**
      * [_endIndex description]
      *
      * @ignore Exclude from docs
-     * @type {number}
+     * @type {Optional<number>}
      */
-    protected _endIndex: number;
+    protected _endIndex: $type.Optional<number>;
     /**
      * [_start description]
      *
@@ -240,16 +241,16 @@ export declare class Component extends Container {
      * [_finalStart description]
      *
      * @ignore Exclude from docs
-     * @type {number}
+     * @type {Optional<number>}
      */
-    protected _finalStart: number;
+    protected _finalStart: $type.Optional<number>;
     /**
      * [_finalEnd description]
      *
      * @ignore Exclude from docs
-     * @type {number}
+     * @type {Optional<number>}
      */
-    protected _finalEnd: number;
+    protected _finalEnd: $type.Optional<number>;
     /**
      * If set to `true`, changing data range in element will not trigger
      * `daterangechanged` event.
@@ -286,9 +287,9 @@ export declare class Component extends Container {
      * A reference to a currently playing range change [[Animation]] object.
      *
      * @ignore Exclude from docs
-     * @type {Animation}
+     * @type {Optional<Animation>}
      */
-    rangeChangeAnimation: Animation;
+    rangeChangeAnimation: $type.Optional<Animation>;
     /**
      * A duration (ms) of each data parsing step. A Component parses its data in
      * chunks in order to avoid completely freezing the machine when large data
@@ -385,17 +386,17 @@ export declare class Component extends Container {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @type {number}
+     * @type {Optional<number>}
      */
-    protected _prevStartIndex: number;
+    protected _prevStartIndex: $type.Optional<number>;
     /**
      * [_prevEndIndex description]
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @type {number}
+     * @type {Optional<number>}
      */
-    protected _prevEndIndex: number;
+    protected _prevEndIndex: $type.Optional<number>;
     /**
      * Sometimes we need to process more dataItems then actually is
      * selected (for example, not to cut lines at the end/beginning).
@@ -408,17 +409,17 @@ export declare class Component extends Container {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @type {number}
+     * @type {Optional<number>}
      */
-    protected _workingStartIndex: number;
+    protected _workingStartIndex: $type.Optional<number>;
     /**
      * [_workingEndIndex description]
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @type {number}
+     * @type {Optional<number>}
      */
-    protected _workingEndIndex: number;
+    protected _workingEndIndex: $type.Optional<number>;
     /**
      * Constructor
      */
@@ -520,9 +521,9 @@ export declare class Component extends Container {
     /**
      * Removes elements from the beginning of data
      *
-     * @param {number} coun number of elements to remove
+     * @param {Optional<number>} coun number of elements to remove
      */
-    removeData(count: number): void;
+    removeData(count: $type.Optional<number>): void;
     /**
      * Triggers a data (re)parsing.
      *

@@ -33,7 +33,7 @@ export interface ColorizeFilterProperties extends FilterProperties {
      * @default 1
      * @type {number}
      */
-    intensity?: number;
+    intensity: number;
 }
 /**
  * ============================================================================

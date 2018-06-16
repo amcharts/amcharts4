@@ -43,7 +43,7 @@ export interface BlurFilterProperties extends FilterProperties {
      *
      * @type {number}
      */
-    blur?: number;
+    blur: number;
     /**
      * Opacity. (0-1)
      *

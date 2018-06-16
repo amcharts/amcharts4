@@ -150,7 +150,7 @@ var RadialGradient = /** @class */ (function (_super) {
         /**
          * Center x coordinate of the gradient, can be set as number or Percent
          *
-         * @param {number | Percent}  point  Center point
+         * @param {Optional<number | Percent>}  point  Center point
          */
         set: function (value) {
             this._cx = value;
@@ -166,7 +166,7 @@ var RadialGradient = /** @class */ (function (_super) {
         /**
          * Center y coordinate of the gradient, can be set as number or Percent
          *
-         * @param {number | Percent}  point  Center point
+         * @param {Optional<number | Percent>}  point  Center point
          */
         set: function (value) {
             this._cy = value;
@@ -182,7 +182,7 @@ var RadialGradient = /** @class */ (function (_super) {
         /**
          * y coordinate of the focal point of a gradient, can be set in pixels or as Percent
          *
-         * @param {number | Percent}  point  Center point
+         * @param {Optional<number | Percent>}  point  Center point
          */
         set: function (value) {
             this._fx = value;
@@ -198,7 +198,7 @@ var RadialGradient = /** @class */ (function (_super) {
         /**
          * y coordinate of the focal point of a gradient, can be set in pixels or as Percent
          *
-         * @param {number | Percent}  point  Center point
+         * @param {Optional<number | Percent>}  point  Center point
          */
         set: function (value) {
             this._fy = value;

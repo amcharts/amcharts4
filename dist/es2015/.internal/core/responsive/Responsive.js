@@ -120,7 +120,7 @@ var Responsive = /** @class */ (function (_super) {
     }
     Object.defineProperty(Responsive.prototype, "component", {
         /**
-         * @return {Component} Target object
+         * @return {Optional<Component>} Target object
          */
         get: function () {
             return this._component;
@@ -128,7 +128,7 @@ var Responsive = /** @class */ (function (_super) {
         /**
          * A target object that responsive rules will need to be applied to.
          *
-         * @param {Component}  value  Target object
+         * @param {Optional<Component>}  value  Target object
          */
         set: function (value) {
             // Check if it's the same
@@ -142,7 +142,7 @@ var Responsive = /** @class */ (function (_super) {
             // Set
             this._component = value;
             // Set up resize monitoring events
-            this._sizeEventDisposer = this.component.events.on("sizechanged", this.checkRules, this);
+            this._sizeEventDisposer = $type.getValue(this.component).events.on("sizechanged", this.checkRules, this);
             this._disposers.push(this._sizeEventDisposer);
             // Enable resoponsive
             this.enabled = true;
@@ -270,7 +270,8 @@ var Responsive = /** @class */ (function (_super) {
      * @return {boolean}          Is currently applied?
      */
     Responsive.prototype.isApplied = function (ruleId) {
-        return $type.hasValue(this._appliedRules[ruleId]) ? this._appliedRules[ruleId] : false;
+        var rule = this._appliedRules[ruleId];
+        return $type.hasValue(rule) ? rule : false;
     };
     /**
      * Checks which responsive rules currently satisfy their conditions and
@@ -296,6 +297,7 @@ var Responsive = /** @class */ (function (_super) {
         }
         // Init a list of rules to be applied
         var rulesChanged = false;
+        var component = $type.getValue(this.component);
         // Check which rules match
         $iter.each(rules.iterator(), function (rule) {
             // Check if rule has an id
@@ -303,7 +305,7 @@ var Responsive = /** @class */ (function (_super) {
                 rule.id = registry.getUniqueId();
             }
             // Init indicator if this rule should be applied
-            var apply = rule.relevant(_this.component);
+            var apply = rule.relevant(component);
             // Let's check if this rule needs to be applied
             if ((apply && !_this.isApplied(rule.id)) || (!apply && _this.isApplied(rule.id))) {
                 rulesChanged = true;
@@ -325,15 +327,15 @@ var Responsive = /** @class */ (function (_super) {
     Responsive.prototype.applyRules = function (target) {
         var _this = this;
         // If no target supplied, we assume the top-level element
-        if (!$type.hasValue(target)) {
-            target = this.component;
-        }
+        var newTarget = ($type.hasValue(target)
+            ? target
+            : $type.getValue(this.component));
         // Check each rule
         var defaultStateApplied = false;
         if (this.enabled) {
             $iter.each(this.allRules.iterator(), function (rule) {
                 // Get relevant state
-                var state = _this.getState(rule, target);
+                var state = _this.getState(rule, newTarget);
                 // If there's a state, it means it needs to be applied
                 if (state) {
                     // Check if default state was already applied to this element.
@@ -341,22 +343,22 @@ var Responsive = /** @class */ (function (_super) {
                     // if they don't have responsive states.
                     if (!defaultStateApplied) {
                         // Nope, reset states (instantly).
-                        //console.log("Applying default state to " + target.className + " (" + target.uid + "): " + JSON.stringify(target.defaultState.properties));
-                        target.applyCurrentState(0);
+                        //console.log("Applying default state to " + newTarget.className + " (" + newTarget.uid + "): " + JSON.stringify(newTarget.defaultState.properties));
+                        newTarget.applyCurrentState(0);
                         defaultStateApplied = true;
                     }
                     // Is this rule currently applied?
-                    if (_this.isApplied(rule.id)) {
+                    if (_this.isApplied($type.getValue(rule.id))) {
                         // Yes. Apply the responsive state
-                        //console.log("Applying state to " + target.className + " (" + target.uid + "): " + JSON.stringify(state.properties));
-                        target.setState(state);
+                        //console.log("Applying state to " + newTarget.className + " (" + newTarget.uid + "): " + JSON.stringify(state.properties));
+                        newTarget.setState(state);
                     }
                 }
             });
         }
         // Apply rules to the children
-        if (target.children) {
-            $iter.each(target.children.iterator(), function (child) {
+        if (newTarget.children) {
+            $iter.each(newTarget.children.iterator(), function (child) {
                 _this.applyRules(child);
             });
         }

@@ -70,7 +70,7 @@ var BaseObject = /** @class */ (function () {
     });
     Object.defineProperty(BaseObject.prototype, "id", {
         /**
-         * @return {string} Id
+         * @return {Optional<string>} Id
          */
         get: function () {
             return this._id;
@@ -78,7 +78,7 @@ var BaseObject = /** @class */ (function () {
         /**
          * Sets the user-defined id of the element.
          *
-         * @param {string} value Id
+         * @param {Optional<string>} value Id
          */
         set: function (value) {
             //registry.map.setKey(value, this); // registry.map only stores by uid
@@ -124,7 +124,7 @@ var BaseObject = /** @class */ (function () {
     Object.defineProperty(BaseObject.prototype, "themes", {
         /**
          * @ignore Exclude from docs
-         * @return {ITheme[]} An array of themes
+         * @return {Optional<ITheme[]>} An array of themes
          */
         get: function () {
             return this._themes;
@@ -133,7 +133,7 @@ var BaseObject = /** @class */ (function () {
          * A list of themes to be used for this element.
          *
          * @ignore Exclude from docs
-         * @param {ITheme[]} value An array of themes
+         * @param {Optional<ITheme[]>} value An array of themes
          */
         set: function (value) {
             this._themes = value;
@@ -175,7 +175,10 @@ var BaseObject = /** @class */ (function () {
             if (this.clonedFrom) {
                 this.clonedFrom.clones.removeValue(this);
             }
-            registry.map.removeKey(this._uid);
+            var uid = this._uid;
+            if (uid != null) {
+                registry.map.removeKey(uid);
+            }
         }
     };
     /**
@@ -355,7 +358,8 @@ var BaseObject = /** @class */ (function () {
         // Get target
         var target = this;
         // Iterate through all of the items
-        $object.eachOrdered(config, function (configKey, configValue) {
+        $object.eachOrdered(config, function (configKey, value) {
+            var configValue = value;
             // Check if there's a property in target
             if (_this.hasProperty(configKey)) {
                 var item_1;

@@ -215,6 +215,20 @@ export function isElement(el) {
     return el instanceof Object && el && el.nodeType === 1;
 }
 /**
+ * Checks of element `a` contains element `b`.
+ *
+ * @param  {HTMLElement | SVGSVGElement}  a  Aleged ascendant
+ * @param  {HTMLElement | SVGSVGElement}  b  Aleged descendant
+ * @return {boolean}                         Contains?
+ */
+export function contains(a, b) {
+    return a !== b && (a.contains
+        ? a.contains(b)
+        : a.compareDocumentPosition
+            ? !!(a.compareDocumentPosition(b) & 16)
+            : true);
+}
+/**
  * Copies attributes from one element to another.
  *
  * @ignore Exclude from docs
@@ -266,7 +280,7 @@ export function fixPixelPerfect(el) {
  * @todo Description
  * @type {Optional<CSSStyleSheet>}
  */
-var rootStylesheet = null;
+var rootStylesheet;
 /**
  * [getStylesheet description]
  *

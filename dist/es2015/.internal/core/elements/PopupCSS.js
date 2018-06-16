@@ -35,7 +35,7 @@ export default function (prefix) {
                 "opacity": "0.5"
             }),
             new StyleRule("." + prefix + "-title", {
-                "font-weight": "120%",
+                "font-weight": "bold",
                 "font-size": "120%"
             }),
             new StyleRule("." + prefix + "-content", {

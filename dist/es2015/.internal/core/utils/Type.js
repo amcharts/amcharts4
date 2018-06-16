@@ -304,8 +304,8 @@ export function toNumberOrPercent(value) {
 /**
  * Checks if a variable has a value.
  *
- * @param {any}  a  Input value
- * @returns         Has value?
+ * @param {Optional<A> | null}  a  Input value
+ * @returns                        Has value?
  */
 export function hasValue(a) {
     return a != null;
@@ -314,8 +314,8 @@ export function hasValue(a) {
  * Returns a value or throws an {Error} exception if the variable has not
  * value.
  *
- * @param {any}  a  Input value
- * @returns         Value
+ * @param {Optional<A> | null}  a  Input value
+ * @returns                        Value
  */
 export function getValue(a) {
     if (hasValue(a)) {

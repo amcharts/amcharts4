@@ -24,6 +24,7 @@ import { percent } from "../../core/utils/Percent";
 import { MouseCursorStyle } from "../../core/interaction/Mouse";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
+import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -266,6 +267,9 @@ var Cursor = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._chart = value;
+            if ($type.hasValue(this._chart.plotContainer)) {
+                getInteraction().lockElement(this._chart.plotContainer.interactions);
+            }
         },
         enumerable: true,
         configurable: true

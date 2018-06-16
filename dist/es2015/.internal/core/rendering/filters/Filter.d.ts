@@ -40,14 +40,14 @@ export interface FilterProperties {
      * @default 120
      * @type {number}
      */
-    width?: number;
+    width: number;
     /**
      * Height of the filter in pixels.
      *
      * @default 120
      * @type {number}
      */
-    height?: number;
+    height: number;
 }
 /**
  * ============================================================================
@@ -107,6 +107,13 @@ export declare class Filter extends BaseObject implements IAnimatable {
      */
     filterElement: $type.Optional<Group>;
     /**
+     * Identifies if this object is a "template" and should not be treated as
+     * real object that is drawn or actually used in the chart.
+     *
+     * @type {boolean}
+     */
+    isTemplate: boolean;
+    /**
      * A Paper instance to add element to.
      *
      * @type {Paper}
@@ -133,7 +140,7 @@ export declare class Filter extends BaseObject implements IAnimatable {
      * element, so we have to remove it from the old "parent" when attaching to
      * the new one.
      */
-    protected _sprite: Sprite;
+    protected _sprite: $type.Optional<Sprite>;
     /**
      * Constructor
      */

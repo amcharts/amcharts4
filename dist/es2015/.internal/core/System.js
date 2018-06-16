@@ -26,7 +26,21 @@ import * as $array from "./utils/Array";
  * @important
  */
 var System = /** @class */ (function () {
+    /**
+     * Performs initialization of the System object.
+     *
+     * Called when the first [[Sprite]] object is created.
+     *
+     * @ignore Exclude from docs
+     */
     function System() {
+        var _this = this;
+        /**
+         * Unique ID of the object.
+         *
+         * @type {string}
+         */
+        this.uid = registry.getUniqueId();
         /**
          * Invalid sizes
          * @rodo Remove commented code
@@ -70,16 +84,6 @@ var System = /** @class */ (function () {
          * @type {number}
          */
         this.dummyCounter = 0;
-    }
-    /**
-     * Performs initialization of the System object.
-     *
-     * Called when the first [[Sprite]] object is created.
-     *
-     * @ignore Exclude from docs
-     */
-    System.prototype.init = function () {
-        var _this = this;
         // frame at which we should measure
         this.measureAt = Math.round(this.frameRate / this.measureRate);
         // ghost is used to draw elements while real paper is not yet created or Sprite doesn't know parent yet
@@ -96,9 +100,7 @@ var System = /** @class */ (function () {
             });
         });
         this.time = Date.now();
-        // Create an id for system
-        this.uid = registry.getUniqueId();
-    };
+    }
     /**
      * Reports time elapsed since timer was reset.
      *
@@ -416,7 +418,7 @@ var System = /** @class */ (function () {
      * @see {@link https://docs.npmjs.com/misc/semver}
      * @type {string}
      */
-    System.VERSION = "4.0.0-beta.28";
+    System.VERSION = "4.0.0-beta.29";
     return System;
 }());
 export { System };
@@ -430,7 +432,6 @@ var system = null;
 export function getSystem() {
     if (system == null) {
         system = new System();
-        system.init();
     }
     return system;
 }

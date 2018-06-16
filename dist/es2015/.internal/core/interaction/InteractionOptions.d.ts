@@ -84,6 +84,33 @@ export interface IHitOptions {
     noFocus?: boolean;
 }
 /**
+ * Represents collection of options related to hovering elements
+ */
+export interface IHoverOptions {
+    /**
+     * What happens when element is no longer touched.
+     *
+     * `"remove"` - "out" event is triggered immediately, meaning all related hover
+     * states and tooltips will be removed.
+     *
+     * `"delay"` - "out" event is delayed by `touchOutDelay` milliseconds.
+     *
+     * `"leave"` (default) - "out" event will not be triggered until any other
+     * interaction takes place somewhere elese.
+     *
+     * @default "leave"
+     * @type {number}
+     */
+    touchOutBehavior?: "remove" | "delay" | "leave";
+    /**
+     * How long in milliseconds should "out" event be delayed when the element
+     * is not longer being touched. Works only if `touchOutBehavior = "delay"`.
+     *
+     * @type {number}
+     */
+    touchOutDelay?: number;
+}
+/**
  * Represents collection of options for swipe gesture.
  */
 export interface ISwipeOptions {

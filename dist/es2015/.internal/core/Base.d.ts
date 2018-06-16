@@ -15,6 +15,7 @@ import { EventDispatcher, AMEvent } from "./utils/EventDispatcher";
 import { Adapter } from "./utils/Adapter";
 import { ITheme } from "../themes/ITheme";
 import { Ordering } from "./utils/Order";
+import * as $type from "./utils/Type";
 /**
  * Provides base functionality for all derivative objects, like generating ids,
  * handling cache, etc.
@@ -25,10 +26,10 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      *
      * Generated on first access by `uid()` getter.
      *
-     * @type {string}
+     * @type {Optional<string>}
      * @ignore Exclude from docs
      */
-    protected _uid: string;
+    protected _uid: $type.Optional<string>;
     /**
      * Indicates if this object has already been deleted. Any
      * destruction/disposal code should take this into account when deciding
@@ -48,41 +49,41 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
     /**
      * User-defined id of the object.
      *
-     * @type {string}
+     * @type {Optional<string>}
      * @ignore Exclude from docs
      */
-    protected _id: string;
+    protected _id: $type.Optional<string>;
     /**
      * Holds a universal mapping collection, so that elements and their children
      * can create and look up all kinds of relations between id and object.
      *
-     * @type {Dictionary<string, any>}
+     * @type {Optional<Dictionary<string, any>>}
      * @ignore Exclude from docs
      */
-    protected _map: Dictionary<string, any>;
+    protected _map: $type.Optional<Dictionary<string, any>>;
     /**
      * The theme used by this object.
      *
-     * @type {ITheme[]}
+     * @type {Optional<ITheme[]>}
      * @ignore Exclude from docs
      */
-    protected _themes: ITheme[];
+    protected _themes: $type.Optional<ITheme[]>;
     /**
      * A list of objects that are clones of this object. An object needs to
      * maintain a list of its clones so that properties can be re-applied to
      * clones whenever property on the object they were cloned from changes.
      *
-     * @type {Dictionary<string, this>}
+     * @type {Optional<Dictionary<string, this>>}
      */
-    protected _clones: List<this>;
+    protected _clones: $type.Optional<List<this>>;
     /**
      * Reference to the original object this object was cloned from. We need to
      * keep this so we can disassociate it from source object when this object
      * is disposed.
      *
-     * @type {this}
+     * @type {Optional<this>}
      */
-    clonedFrom: this;
+    clonedFrom: $type.Optional<this>;
     /**
      * A class name for the object.
      *
@@ -91,25 +92,18 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      * doing so is too costly, so we are relying on this property to quickly
      * access type of class.
      *
-     * @type {string}
+     * @type {Optional<string>}
      * @ignore Exclude from docs
      */
-    protected _className: string;
+    protected _className: $type.Optional<string>;
     /**
      * [cloneId description]
      *
-     * @type {string}
+     * @type {Optional<string>}
      * @todo Needs description
      * @ignore Exclude from docs
      */
-    cloneId: string;
-    /**
-     * Identifies if this object is a "template" and should not be treated as
-     * real object that is drawn or actually used in the chart.
-     *
-     * @type {boolean}
-     */
-    isTemplate: boolean;
+    cloneId: $type.Optional<string>;
     /**
      * Constructor
      * * Sets class name
@@ -122,14 +116,14 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      */
     readonly uid: string;
     /**
-     * @return {string} Id
+     * @return {Optional<string>} Id
      */
     /**
      * Sets the user-defined id of the element.
      *
-     * @param {string} value Id
+     * @param {Optional<string>} value Id
      */
-    id: string;
+    id: $type.Optional<string>;
     /**
      * Returns a universal collection for mapping ids with objects.
      *
@@ -145,15 +139,15 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
     applyTheme(): void;
     /**
      * @ignore Exclude from docs
-     * @return {ITheme[]} An array of themes
+     * @return {Optional<ITheme[]>} An array of themes
      */
     /**
      * A list of themes to be used for this element.
      *
      * @ignore Exclude from docs
-     * @param {ITheme[]} value An array of themes
+     * @param {Optional<ITheme[]>} value An array of themes
      */
-    themes: ITheme[];
+    themes: $type.Optional<ITheme[]>;
     /**
      * Returns a list of themes that should be applied to this element. It could
      * either be a list of themes set explicitly on this element, or system-wide.
@@ -208,7 +202,7 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      * @ignore Exclude from docs
      * @param {string}  value  Class name
      */
-    className: string;
+    className: $type.Optional<string>;
     /**
      * Caches value in object's cache.
      *

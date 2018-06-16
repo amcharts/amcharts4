@@ -82,7 +82,7 @@ function createChild(htmlElement, classType) {
         sprite_1.tooltip.hide(0);
         sprite_1.tooltip.setBounds({ x: 0, y: 0, width: tooltipContainer_1.maxWidth, height: tooltipContainer_1.maxHeight });
         tooltipContainer_1.events.on("maxsizechanged", function () {
-            sprite_1.tooltip.setBounds({ x: 0, y: 0, width: tooltipContainer_1.maxWidth, height: tooltipContainer_1.maxHeight });
+            $type.getValue(sprite_1.tooltip).setBounds({ x: 0, y: 0, width: tooltipContainer_1.maxWidth, height: tooltipContainer_1.maxHeight });
         });
         //@todo: maybe we don't need to create one by default but only on request?
         contentContainer.preloader = new Preloader();

@@ -13,6 +13,7 @@ import { Group } from "../Group";
 import { Paper } from "../Paper";
 import { IGradientStop } from "./LinearGradient";
 import { Color } from "../../utils/Color";
+import * as $type from "../../utils/Type";
 import { Percent } from "../../utils/Percent";
 /**
  * ============================================================================
@@ -40,33 +41,33 @@ export declare class RadialGradient extends BaseObject {
     /**
      * Reference to Paper to add element to.
      *
-     * @type {Paper}
+     * @type {Optional<Paper>}
      */
-    protected _paper: Paper;
+    protected _paper: $type.Optional<Paper>;
     /**
      * A center x coordinate for the radial gradient, can be set in pixels or as Percent
      *
-     * @type { number | Percent}
+     * @type {Optional<number | Percent>}
      */
-    protected _cx: number | Percent;
+    protected _cx: $type.Optional<number | Percent>;
     /**
      * A center y coordinate for the radial gradient, can be set in pixels or as Percent
      *
-     * @type { number | Percent }
+     * @type {Optional<number | Percent>}
      */
-    protected _cy: number | Percent;
+    protected _cy: $type.Optional<number | Percent>;
     /**
      * A y coordinate of the focal point of a gradient, can be set in pixels or as Percent
      *
-     * @type { number | Percent}
+     * @type {Optional<number | Percent>}
      */
-    protected _fx: number | Percent;
+    protected _fx: $type.Optional<number | Percent>;
     /**
      * A y coordinate of the focal point of a gradient, can be set in pixels or as Percent
      *
-     * @type { number | Percent }
+     * @type {Optional<number | Percent>}
      */
-    protected _fy: number | Percent;
+    protected _fy: $type.Optional<number | Percent>;
     /**
      * Constructor
      */
@@ -97,27 +98,27 @@ export declare class RadialGradient extends BaseObject {
     /**
      * Center x coordinate of the gradient, can be set as number or Percent
      *
-     * @param {number | Percent}  point  Center point
+     * @param {Optional<number | Percent>}  point  Center point
      */
-    cx: number | Percent;
+    cx: $type.Optional<number | Percent>;
     /**
      * Center y coordinate of the gradient, can be set as number or Percent
      *
-     * @param {number | Percent}  point  Center point
+     * @param {Optional<number | Percent>}  point  Center point
      */
-    cy: number | Percent;
+    cy: $type.Optional<number | Percent>;
     /**
      * y coordinate of the focal point of a gradient, can be set in pixels or as Percent
      *
-     * @param {number | Percent}  point  Center point
+     * @param {Optional<number | Percent>}  point  Center point
      */
-    fx: number | Percent;
+    fx: $type.Optional<number | Percent>;
     /**
      * y coordinate of the focal point of a gradient, can be set in pixels or as Percent
      *
-     * @param {number | Percent}  point  Center point
+     * @param {Optional<number | Percent>}  point  Center point
      */
-    fy: number | Percent;
+    fy: $type.Optional<number | Percent>;
     copyFrom(source: this): void;
     /**
      * A list of color stops in the gradient.

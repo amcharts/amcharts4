@@ -94,7 +94,7 @@ export declare class System {
      *
      * @ignore Exclude from docs
      */
-    init(): void;
+    constructor();
     /**
      * Reports time elapsed since timer was reset.
      *

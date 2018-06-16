@@ -60,8 +60,7 @@ export default function (prefix) {
                 "text-align": "center"
             }),
             new StyleRule("." + prefix + "-item." + prefix + "-item-level-0:before", {
-                "display": "block",
-                "content": "..."
+                "display": "block"
             }),
             new StyleRule("." + prefix + "-item", {
                 "position": "relative",

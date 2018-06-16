@@ -3668,6 +3668,30 @@ var Sprite = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Sprite.prototype, "hoverOptions", {
+        /**
+         * ==========================================================================
+         * HOVERING
+         * ==========================================================================
+         * @hidden
+         */
+        /**
+         * Returns Sprite's hover options.
+         *
+         * @see {@link IHoverOptions} for available options.
+         * @return {IHoverOptions} Options
+         */
+        get: function () {
+            if (!this.interactions.hoverOptions) {
+                if (this.parent) {
+                    return this.parent.hoverOptions;
+                }
+            }
+            return this.interactions.hoverOptions;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Sprite.prototype, "hoverable", {
         /**
          * @return {boolean} `true` if element is hoverable
@@ -3675,12 +3699,6 @@ var Sprite = /** @class */ (function (_super) {
         get: function () {
             return this.getPropertyValue("hoverable");
         },
-        /**
-         * ==========================================================================
-         * HOVERING
-         * ==========================================================================
-         * @hidden
-         */
         /**
          * Controls if the element is hoverable (hover events are registered).
          *
@@ -3762,8 +3780,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * Click (hit) options control things like double-click, timeouts, etc.
          *
-         * Check [[IHitOptions]] for available options.
-         *
+         * @see {@link IHitOptions} for available options.
          * @return {IHitOptions} Options
          */
         get: function () {
@@ -5868,7 +5885,7 @@ var Sprite = /** @class */ (function (_super) {
             }
             // todo: review this place when some Color type will be added
             if (value instanceof Color) {
-                this.setSVGAttribute({ "fill": value });
+                this.setSVGAttribute({ "fill": value.toString() });
             }
             else if (!$type.hasValue(value)) {
                 this.removeSVGAttribute("fill");
@@ -5954,7 +5971,7 @@ var Sprite = /** @class */ (function (_super) {
                     this.removeSVGAttribute("stroke");
                 }
                 else {
-                    this.setSVGAttribute({ "stroke": value });
+                    this.setSVGAttribute({ "stroke": value.toString() });
                 }
             }
             else if (!$type.hasValue(value)) {
@@ -6544,6 +6561,8 @@ var Sprite = /** @class */ (function (_super) {
                         tooltip.background.stroke = stroke;
                     }
                 }
+                // Set data item
+                tooltip.dataItem = tooltipDataItem;
                 if (tooltip.getFillFromObject) {
                     var fill = this.fill;
                     var source = colorSource_1;
@@ -6579,7 +6598,6 @@ var Sprite = /** @class */ (function (_super) {
                     tooltip.text = this.tooltipText;
                     text = this.tooltipText;
                 }
-                tooltip.dataItem = tooltipDataItem;
                 if (this.tooltipPosition == "pointer") {
                     this._interactionDisposer = getInteraction().body.events.on("track", function (ev) {
                         _this.pointTooltipTo($utils.documentPointToSvg(ev.point, _this.svgContainer), true);

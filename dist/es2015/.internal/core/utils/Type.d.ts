@@ -189,22 +189,22 @@ export declare function toNumberOrPercent(value: any): number | Percent;
  *
  * @type {[type]}
  */
-export declare type Optional<A> = A | undefined | null;
+export declare type Optional<A> = A | undefined;
 /**
  * Checks if a variable has a value.
  *
- * @param {any}  a  Input value
- * @returns         Has value?
+ * @param {Optional<A> | null}  a  Input value
+ * @returns                        Has value?
  */
-export declare function hasValue<A>(a: Optional<A>): a is A;
+export declare function hasValue<A>(a: Optional<A> | null): a is A;
 /**
  * Returns a value or throws an {Error} exception if the variable has not
  * value.
  *
- * @param {any}  a  Input value
- * @returns         Value
+ * @param {Optional<A> | null}  a  Input value
+ * @returns                        Value
  */
-export declare function getValue<A>(a: Optional<A>): A;
+export declare function getValue<A>(a: Optional<A> | null): A;
 /**
  * ============================================================================
  * TYPE CHECK
@@ -245,4 +245,4 @@ export declare function isObject(value: any): value is number;
  * @param  {any}    value  Input value
  * @return {value}         Is Array?
  */
-export declare function isArray(value: any): boolean;
+export declare function isArray(value: any): value is Array<any>;

@@ -139,6 +139,13 @@ var DataItem = /** @class */ (function (_super) {
          */
         _this.sprites = [];
         /**
+         * Identifies if this object is a "template" and should not be treated as
+         * real object that is drawn or actually used in the chart.
+         *
+         * @type {boolean}
+         */
+        _this.isTemplate = false;
+        /**
          * Is Data Item currently visible?
          *
          * @ignore Exclude from docs

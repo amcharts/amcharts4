@@ -59,7 +59,7 @@ var FocusFilter = /** @class */ (function (_super) {
     }
     Object.defineProperty(FocusFilter.prototype, "stroke", {
         /**
-         * @return {number} Color
+         * @return {Optional<Color>} Color
          */
         get: function () {
             return this.properties["stroke"];
@@ -67,7 +67,7 @@ var FocusFilter = /** @class */ (function (_super) {
         /**
          * Stroke (outline) color.
          *
-         * @param {number}  value  Color
+         * @param {Color}  value  Color
          */
         set: function (value) {
             this.properties["stroke"] = value;

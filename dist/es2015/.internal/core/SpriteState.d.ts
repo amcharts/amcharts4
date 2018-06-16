@@ -12,6 +12,7 @@ import { Adapter } from "./utils/Adapter";
 import { ListTemplate } from "./utils/List";
 import { Filter } from "./rendering/filters/Filter";
 import { Sprite } from "./Sprite";
+import * as $type from "./utils/Type";
 /**
  * Defines a state for [[Sprite]].
  *
@@ -115,9 +116,9 @@ export declare class SpriteState<P, A> extends BaseObject {
     /**
      * Reference to [[Sprite]] element this State is for.
      *
-     * @type {Sprite}
+     * @type {Optional<Sprite>}
      */
-    sprite: Sprite;
+    sprite: $type.Optional<Sprite>;
     /**
      * Holds Adapter.
      *
@@ -179,6 +180,13 @@ export declare class SpriteState<P, A> extends BaseObject {
      * @param {ListTemplate<Filter>}
      */
     filters: ListTemplate<Filter>;
+    /**
+     * Identifies if this object is a "template" and should not be treated as
+     * real object that is drawn or actually used in the chart.
+     *
+     * @type {boolean}
+     */
+    isTemplate: boolean;
     /**
      * Constructor
      */

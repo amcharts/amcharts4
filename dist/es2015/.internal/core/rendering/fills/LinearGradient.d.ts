@@ -12,6 +12,7 @@ import { List } from "../../utils/List";
 import { Group } from "../Group";
 import { Paper } from "../Paper";
 import { Color } from "../../utils/Color";
+import * as $type from "../../utils/Type";
 /**
  * ============================================================================
  * REQUISITES
@@ -70,7 +71,7 @@ export declare class LinearGradient extends BaseObject {
      *
      * @type {Paper}
      */
-    protected _paper: Paper;
+    protected _paper: $type.Optional<Paper>;
     /**
      * Gradient direction.
      *

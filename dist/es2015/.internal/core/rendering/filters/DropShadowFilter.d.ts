@@ -26,31 +26,31 @@ export interface DropShadowFilterProperties extends FilterProperties {
      *
      * @type {number}
      */
-    dx?: number;
+    dx: number;
     /**
      * Vertical offset in pixels.
      *
      * @type {number}
      */
-    dy?: number;
+    dy: number;
     /**
      * Blur.
      *
      * @type {number}
      */
-    blur?: number;
+    blur: number;
     /**
      * Shadow opacity. (0-1)
      *
      * @type {number}
      */
-    opacity?: number;
+    opacity: number;
     /**
      * Shadow color.
      *
      * @type {Color}
      */
-    color?: Color;
+    color: Color;
 }
 /**
  * ============================================================================

@@ -100,6 +100,12 @@ var Interaction = /** @class */ (function (_super) {
          */
         _this._passiveSupported = false;
         /**
+         * Holds list of delayed events
+         *
+         * @type {IDelayedEvent[]}
+         */
+        _this._delayedEvents = { out: [] };
+        /**
          * List of objects that current have a pointer hovered over them.
          *
          * @type {List<InteractionObject>}
@@ -151,6 +157,16 @@ var Interaction = /** @class */ (function (_super) {
             "delayFirstHit": false,
             "hitTolerance": 10,
             "noFocus": true
+        };
+        /**
+         * Default options for hover events. These can be overridden in
+         * [[InteractionObject]].
+         *
+         * @type {IHoverOptions}
+         */
+        _this.hoverOptions = {
+            "touchOutBehavior": "leave",
+            "touchOutDelay": 1000
         };
         /**
          * Default options for detecting a swipe gesture. These can be overridden in
@@ -265,10 +281,10 @@ var Interaction = /** @class */ (function (_super) {
             this._disposers.push(addEventListener(document, this._pointerEvents.pointermove, function (ev) { _this.handleGlobalPointerMove(ev); }));
             this._disposers.push(addEventListener(document, this._pointerEvents.pointerdown, function (ev) { _this.handleGlobalPointerDown(ev); }));
             this._disposers.push(addEventListener(document, this._pointerEvents.pointerup, function (ev) { _this.handleGlobalPointerUp(ev); }));
+            this._disposers.push(addEventListener(document, "touchend", function (ev) { _this.handleGlobalTouchEnd(ev); }));
             if (!this._usePointerEventsOnly) {
                 this._disposers.push(addEventListener(document, "touchmove", function (ev) { _this.handleGlobalTouchMove(ev); }));
                 this._disposers.push(addEventListener(document, "touchstart", function (ev) { _this.handleGlobalTouchStart(ev); }));
-                this._disposers.push(addEventListener(document, "touchend", function (ev) { _this.handleGlobalTouchEnd(ev); }));
             }
             this._disposers.push(addEventListener(document, "keydown", function (ev) { _this.handleGlobalKeyDown(ev); }));
             this._disposers.push(addEventListener(document, "keyup", function (ev) { _this.handleGlobalKeyUp(ev); }));
@@ -623,6 +639,8 @@ var Interaction = /** @class */ (function (_super) {
      * @param {MouseEvent} ev Event object
      */
     Interaction.prototype.handleGlobalPointerDown = function (ev) {
+        // Remove delayed hovers
+        this.processDelayed();
         // Get pointer
         var pointer = this.getPointer(ev);
         // Prepare and fire global event
@@ -991,6 +1009,13 @@ var Interaction = /** @class */ (function (_super) {
         if (!io.hoverable) {
             return;
         }
+        // We need to check if pointer already exists in the downPointers so we
+        // don't end up with duplicate pointers. This could happen on hybrid
+        // displays where both touch and pointer event is generated on screen
+        // touch.
+        if (this.pointerExists(io.overPointers, pointer)) {
+            return;
+        }
         // Add pointer to object
         io.overPointers.moveValue(pointer);
         // First one?
@@ -1022,7 +1047,9 @@ var Interaction = /** @class */ (function (_super) {
      * @param {IPointer}                 pointer  Pointer
      * @param {MouseEvent | TouchEvent}  ev       Original event
      */
-    Interaction.prototype.handleOut = function (io, pointer, ev) {
+    Interaction.prototype.handleOut = function (io, pointer, ev, ignoreBehavior) {
+        var _this = this;
+        if (ignoreBehavior === void 0) { ignoreBehavior = false; }
         if (!io.hoverable) {
             return;
         }
@@ -1039,6 +1066,37 @@ var Interaction = /** @class */ (function (_super) {
             // Report event to InteractionObject (but only when the last hover leaves)
             if (io.isHover) {
                 if (io.downPointers.length === 0) {
+                    // Check touch behavior, but only if the pointer did not move
+                    if (!ignoreBehavior && pointer.touch && !this.moved(pointer, this.getHitOption(io, "hitTolerance"))) {
+                        var behavior = this.getHoverOption(io, "touchOutBehavior");
+                        if (behavior == "leave") {
+                            // Set to "leave", so we do not execute any "out" event.
+                            // It will be handled by any other interaction that happens
+                            // afterwards.
+                            this._delayedEvents.out.push({
+                                type: "out",
+                                io: io,
+                                pointer: pointer,
+                                event: ev
+                            });
+                            return;
+                        }
+                        else if (behavior == "delay" && this.getHoverOption(io, "touchOutDelay")) {
+                            this._delayedEvents.out.push({
+                                type: "out",
+                                io: io,
+                                pointer: pointer,
+                                event: ev,
+                                timeout: setTimeout(function () {
+                                    _this.handleOut(io, pointer, ev, true);
+                                }, this.getHoverOption(io, "touchOutDelay"))
+                            });
+                            return;
+                        }
+                        else {
+                            // Nothing for "remove" - that's how it works "out-of-the-box"
+                        }
+                    }
                     if (io.lastOutEvent) {
                         io.lastOutEvent = undefined;
                     }
@@ -1068,21 +1126,31 @@ var Interaction = /** @class */ (function (_super) {
      * @param {MouseEvent | TouchEvent}  ev       Original event
      */
     Interaction.prototype.handleDown = function (io, pointer, ev) {
+        // Remove delayed hovers
+        this.processDelayed();
         // Stop inertia animations if they're currently being played out
         if (io.inert) {
             this.stopInertia(io);
         }
         // Reset hover status if it's a touch pointer
-        if (pointer.touch && io.overPointers.length) {
+        // @todo Check if we need to keep this
+        /*if (pointer.touch && io.overPointers.length) {
             while (io.overPointers.length) {
                 this.handleOut(io, io.overPointers.getIndex(0), ev);
             }
             io.isHover = false;
-        }
+        }*/
         // Log last down event
         pointer.lastDownEvent = ev;
         // Add Pointer in object
-        io.downPointers.moveValue(pointer);
+        // We need to check if pointer already exists in the downPointers so we
+        // don't end up with duplicate pointers. This could happen on hybrid
+        // displays where both touch and pointer event is generated on screen
+        // touch.
+        if (!this.pointerExists(io.downPointers, pointer)) {
+            //return;
+            io.downPointers.moveValue(pointer);
+        }
         // Lose focus if needed
         if (io.focusable !== false && this.getHitOption(io, "noFocus")) {
             if (this.focusedObject) {
@@ -1158,7 +1226,7 @@ var Interaction = /** @class */ (function (_super) {
                     // Check if the element is still hovered
                     var reset = false;
                     if (io.element) {
-                        if (!io.element.contains(pointer.lastEvent.target)) {
+                        if (!$dom.contains(io.element, pointer.lastEvent.target)) {
                             reset = true;
                         }
                     }
@@ -1824,7 +1892,8 @@ var Interaction = /** @class */ (function (_super) {
             // Init pointer
             pointer = {
                 "id": id,
-                "touch": !(ev instanceof MouseEvent) || (ev.pointerType && ev.pointerType != "pointer"),
+                //"touch": !(ev instanceof MouseEvent) || ((<any>ev).pointerType && (<any>ev).pointerType != "pointer"),
+                "touch": !(ev instanceof MouseEvent) || (ev.pointerType && ev.pointerType != "mouse"),
                 "startPoint": point,
                 "startTime": new Date().getTime(),
                 "point": point,
@@ -1990,6 +2059,21 @@ var Interaction = /** @class */ (function (_super) {
         var res = io.hitOptions[option];
         if (typeof res === "undefined") {
             res = this.hitOptions[option];
+        }
+        return res;
+    };
+    /**
+     * Returns an option associated with hover events.
+     *
+     * @ignore Exclude from docs
+     * @param  {InteractionObject}  io      Element
+     * @param  {string}             option  Option key
+     * @return {any}                        Option value
+     */
+    Interaction.prototype.getHoverOption = function (io, option) {
+        var res = io.hoverOptions[option];
+        if (typeof res === "undefined") {
+            res = this.hoverOptions[option];
         }
         return res;
     };
@@ -2246,6 +2330,20 @@ var Interaction = /** @class */ (function (_super) {
         return res;
     };
     /**
+     * Checks if same pointer already exists in the list.
+     *
+     * @param  {List<IPointer>}  list     List to check agains
+     * @param  {IPointer}        pointer  Pointer
+     * @return {boolean}                  Exists?
+     */
+    Interaction.prototype.pointerExists = function (list, pointer) {
+        var exists = false;
+        list.each(function (item) {
+            exists = item.point.x == pointer.point.x && item.point.y == pointer.point.y;
+        });
+        return exists;
+    };
+    /**
      * Returns an [[InteractionObject]] representation of a DOM element.
      *
      * You can use this on any HTML or SVG element, to add interactive features
@@ -2307,6 +2405,19 @@ var Interaction = /** @class */ (function (_super) {
             io.element.style[key] = value;
             io.replacedStyles.removeKey(key);
         });
+    };
+    /**
+     * Processes dalyed events, such as "out" event that was initiated for
+     * elements by touch.
+     */
+    Interaction.prototype.processDelayed = function () {
+        var delayedEvent;
+        while (delayedEvent = this._delayedEvents.out.shift()) {
+            if (delayedEvent.timeout) {
+                clearTimeout(delayedEvent.timeout);
+            }
+            this.handleOut(delayedEvent.io, delayedEvent.pointer, delayedEvent.event, true);
+        }
     };
     /**
      * Disposes this object and cleans up after itself.

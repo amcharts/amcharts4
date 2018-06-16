@@ -24,7 +24,7 @@ export interface DesaturateFilterProperties extends FilterProperties {
      *
      * @type {number}
      */
-    saturation?: number;
+    saturation: number;
 }
 /**
  * ============================================================================

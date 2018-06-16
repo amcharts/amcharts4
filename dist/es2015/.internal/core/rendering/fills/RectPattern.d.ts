@@ -9,6 +9,7 @@
  */
 import { Pattern, PatternProperties } from "./Pattern";
 import { AMElement } from "../AMElement";
+import * as $type from "../../utils/Type";
 /**
  * ============================================================================
  * REQUISITES
@@ -20,8 +21,8 @@ import { AMElement } from "../AMElement";
  * @type {[type]}
  */
 export interface RectPatternProperties extends PatternProperties {
-    rectWidth?: number;
-    rectHeight?: number;
+    rectWidth: number;
+    rectHeight: number;
 }
 /**
  * ============================================================================
@@ -36,9 +37,9 @@ export declare class RectPattern extends Pattern {
     /**
      * Reference to `<rect>` element used in pattern.
      *
-     * @type {AMElement}
+     * @type {Optional<AMElement>}
      */
-    protected _rect: AMElement;
+    protected _rect: $type.Optional<AMElement>;
     /**
      * Defines property types.
      *

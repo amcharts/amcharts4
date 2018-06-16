@@ -157,7 +157,6 @@ var CategoryAxis = /** @class */ (function (_super) {
         /**
          * A collection that holds Axis' data items sorted by each category.
          *
-         * @ignore Exclude from docs
          * @type {Dictionary}
          */
         _this.dataItemsByCategory = new Dictionary();

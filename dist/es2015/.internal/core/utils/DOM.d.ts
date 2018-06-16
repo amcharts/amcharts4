@@ -109,6 +109,14 @@ export declare function outerHTML(element: HTMLElement | SVGSVGElement): string;
  */
 export declare function isElement(el: HTMLElement): boolean;
 /**
+ * Checks of element `a` contains element `b`.
+ *
+ * @param  {HTMLElement | SVGSVGElement}  a  Aleged ascendant
+ * @param  {HTMLElement | SVGSVGElement}  b  Aleged descendant
+ * @return {boolean}                         Contains?
+ */
+export declare function contains(a: HTMLElement | SVGSVGElement, b: HTMLElement | SVGSVGElement): boolean;
+/**
  * Copies attributes from one element to another.
  *
  * @ignore Exclude from docs
