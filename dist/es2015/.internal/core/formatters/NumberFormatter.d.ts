@@ -10,6 +10,7 @@
 import { Sprite } from "../Sprite";
 import { Language } from "../utils/Language";
 import { BaseObject } from "../Base";
+import * as $type from "../utils/Type";
 /**
  * NumberFormatter class. Formats numbers according to specified formats.
  *
@@ -74,15 +75,15 @@ export declare class NumberFormatter extends BaseObject {
     /**
      * Holds reference to parent [[Sprite]] object.
      *
-     * @type {Sprite}
+     * @type {Optional<Sprite>}
      */
-    sprite: Sprite;
+    sprite: $type.Optional<Sprite>;
     /**
      * Holds reference to [[Language]] object.
      *
-     * @type {Language}
+     * @type {Optional<Language>}
      */
-    language: Language;
+    language: $type.Optional<Language>;
     /**
      * Constructor
      */

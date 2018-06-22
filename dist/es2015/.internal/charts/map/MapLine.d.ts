@@ -8,7 +8,6 @@
  * @hidden
  */
 import { MapObject, IMapObjectProperties, IMapObjectAdapters, IMapObjectEvents } from "./MapObject";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { MapLineObject } from "./MapLineObject";
 import { MapLineSeriesDataItem, MapLineSeries } from "./MapLineSeries";
 import { MapImage } from "./MapImage";
@@ -82,11 +81,12 @@ export declare class MapLine extends MapObject {
      */
     _adapter: IMapLineAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<MapLine, IMapLineEvents>>} Event dispatcher instance
+     * @type {IMapLineEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<MapLine, IMapLineEvents>>;
+    _events: IMapLineEvents;
     /**
      * A line visual element.
      *

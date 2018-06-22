@@ -22,6 +22,25 @@ import { Disposer } from "./Disposer";
 import * as $array from "./Array";
 import * as $async from "./AsyncPending";
 import * as $type from "./Type";
+/*export interface IEventDispatcher<T> {
+    isDisposed(): boolean;
+    dispose(): void;
+    hasListeners(): boolean;
+    enable(): void;
+    disable(): void;
+    enableType<Key extends keyof T>(type: Key): void;
+    disableType<Key extends keyof T>(type: Key, amount?: number): void;
+    isEnabled<Key extends keyof T>(type: Key): boolean;
+    has<C, Key extends keyof T>(type: Key, callback?: (this: C, event: T[Key]) => void, context?: C): boolean;
+    dispatchImmediately<Key extends keyof T>(type: Key, event: T[Key]): void;
+    dispatch<Key extends keyof T>(type: Key, event: T[Key]): void;
+    onAll<C, Key extends keyof T>(callback: (this: C, type: Key, event: T[Key]) => void, context?: C): IDisposer;
+    on<C, Key extends keyof T>(type: Key, callback: (this: C, event: T[Key]) => void, context?: C): IDisposer;
+    once<C, Key extends keyof T>(type: Key, callback: (this: C, event: T[Key]) => void, context?: C): IDisposer;
+    off<C, Key extends keyof T>(type: Key, callback: (this: C, event: T[Key]) => void, context?: C): void;
+    off<C, Key extends keyof T>(type: Key, callback: (this: C, event: T[Key]) => void, context?: C): void;
+    copyFrom(source: this): void;
+}*/
 /**
  * Universal Event Dispatcher.
  *
@@ -93,7 +112,7 @@ var EventDispatcher = /** @class */ (function () {
      * Enable dispatching particular event, if it was disabled before by
      * `disableType()`.
      *
-     * @param {keyof T} type Event type
+     * @param {Key} type Event type
      */
     EventDispatcher.prototype.enableType = function (type) {
         delete this._disabled[type];
@@ -104,7 +123,7 @@ var EventDispatcher = /** @class */ (function () {
      * Optionally, can set how many dispatches to skip before automatically
      * re-enabling the dispatching.
      *
-     * @param {keyof T}            type    Event type
+     * @param {Key}                type    Event type
      * @param {number = Infinity}  amount  Number of event dispatches to skip
      */
     EventDispatcher.prototype.disableType = function (type, amount) {
@@ -155,7 +174,7 @@ var EventDispatcher = /** @class */ (function () {
     /**
      * Checks if dispatching for particular event type is enabled.
      *
-     * @param  {string}   type  Event type
+     * @param  {Key}      type  Event type
      * @return {boolean}        Enabled?
      */
     EventDispatcher.prototype.isEnabled = function (type) {
@@ -185,7 +204,7 @@ var EventDispatcher = /** @class */ (function () {
     /**
      * Checks whether event of the particular type should be dispatched.
      *
-     * @param  {string}   type  Event type
+     * @param  {Key}   type  Event type
      * @return {boolean}        Dispatch?
      */
     EventDispatcher.prototype._shouldDispatch = function (type) {

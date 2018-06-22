@@ -8,7 +8,6 @@
  * @hidden
  */
 import { RadarChart, IRadarChartProperties, IRadarChartDataFields, IRadarChartAdapters, IRadarChartEvents, RadarChartDataItem } from "./RadarChart";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { ListTemplate, IListEvents } from "../../core/utils/List";
 import { ClockHand } from "../elements/ClockHand";
 /**
@@ -99,11 +98,12 @@ export declare class GaugeChart extends RadarChart {
      */
     _adapter: IGaugeChartAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<GaugeChart, IGaugeChartEvents>>} Event dispatcher instance
+     * @type {IGaugeChartEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<GaugeChart, IGaugeChartEvents>>;
+    _events: IGaugeChartEvents;
     /**
      * A list of [[ClockHand]] items displayed on this Gauge chart.
      *

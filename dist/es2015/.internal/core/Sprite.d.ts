@@ -29,6 +29,7 @@ import { Container } from "./Container";
 import { Pattern } from "./rendering/fills/Pattern";
 import { LinearGradient } from "./rendering/fills/LinearGradient";
 import { RadialGradient } from "./rendering/fills/RadialGradient";
+import { SVGContainer } from "./rendering/SVGContainer";
 import { Align } from "./defs/Align";
 import { Roles, AriaLive } from "./defs/Accessibility";
 import { Popup } from "./elements/Popup";
@@ -235,12 +236,19 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     properties: this["_properties"];
     /**
+     * Defines available events.
+     *
+     * @type {ISpriteEvents}
+     * @ignore Exclude from docs
+     */
+    _events: ISpriteEvents;
+    /**
      * Event dispacther.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/event-listeners/} for more info about Events
      * @type {SpriteEventDispatcher<AMEvent<Sprite, ISpriteEvents>>} Event dispatcher instance
      */
-    events: SpriteEventDispatcher<AMEvent<Sprite, ISpriteEvents>>;
+    events: SpriteEventDispatcher<AMEvent<this, this["_events"]>>;
     /**
      * Holds Adapter.
      *
@@ -315,6 +323,15 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @type {boolean}
      */
     isShowing: boolean;
+    /**
+     * Indicates if this element is a standalone instance. A "standalone
+     * instance" means this is a autonomous object which maintains its own
+     * set of controls like Preloader, Export, etc.
+     *
+     * @ignore Exclude from docs
+     * @type {boolean}
+     */
+    isStandaloneInstance: boolean;
     /**
      * Indicates if togglable Sprite is currently active (toggled on).
      *
@@ -400,9 +417,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * An HTML element to which all chart elements are added.
      *
      * @ignore Exclude from docs
-     * @type {Optional<HTMLElement>}
+     * @type {Optional<SVGContainer>}
      */
-    protected _svgContainer: $type.Optional<HTMLElement>;
+    protected _svgContainer: $type.Optional<SVGContainer>;
     /**
      * A [[Container]] instance to place this element's [[Tooltip]] elements in
      *
@@ -502,19 +519,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @type {IRectangle}
      */
     protected _bbox: IRectangle;
-    /**
-     * When the Sprite is creating its SVG elements, it may attach special
-     * `class` properties to them, indicating type of element, so that they can
-     * be styled and referenced using CSS.
-     *
-     * This property holds prefix to be attached to all class names.
-     *
-     * Use accessors `classNamePrefix` to set and retrieve.
-     *
-     * @ignore Exclude from docs
-     * @type {Optional<string>}
-     */
-    protected _classNamePrefix: $type.Optional<string>;
     /**
      * Base tab index for the Sprite. Used for TAB-key selection order.
      *
@@ -767,6 +771,14 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @hidden
      */
     /**
+     * Applies properties from all assigned themes.
+     *
+     * We do this here so that we can apply class names as well.
+     *
+     * @ignore Exclude from docs
+     */
+    applyTheme(): void;
+    /**
      * Returns theme(s) used by this object either set explicitly on this
      * element, inherited from parent, or inherited from [[System]].
      *
@@ -955,7 +967,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * Element's user-defined ID.
      *
-     * Will trow an Error if there alread is an object with the same ID.
+     * Will throw an Error if there already is an object with the same ID.
      *
      * Please note that above check will be performed withing the scope of the
      * current chart instance. It will not do checks across other chart instances
@@ -1055,24 +1067,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     protected removeSVGAttribute(attribute: string): void;
     /**
-     * @return {string} Class name prefix
-     */
-    /**
-     * When the element is creating its SVG elements, it may attach special
-     * `class` properties to them, indicating type of element, so that they can
-     * be styled and referenced using CSS.
-     *
-     * This accessor sets/returns class name prefix, which will be prepended to
-     * all class names.
-     *
-     * @param {string}  prefix  Class name prefix
-     */
-    classNamePrefix: string;
-    /**
      * Sets `class` attribute of the elements SVG node.
      *
+     * Uses `am4core.options.classNamePrefix`.
+     *
      * @ignore Exclude from docs
-     * Uses `classNamePrefix`.
      */
     setClassName(): void;
     /**
@@ -1122,14 +1121,14 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * HTML container (`<div>`) which is used to place chart's `<svg>` element
      * in.
      *
-     * @return {Optional<HTMLElement>} Container for chart elements
+     * @return {Optional<SVGContainer>} Container for chart elements
      */
     /**
      * Sets HTML container to add SVG and other chart elements to.
      *
-     * @param {Optional<HTMLElement>} svgContainer Container for chart elements
+     * @param {Optional<SVGContainer>} svgContainer Container for chart elements
      */
-    svgContainer: $type.Optional<HTMLElement>;
+    svgContainer: $type.Optional<SVGContainer>;
     /**
      * Measures main element.
      *
@@ -1726,7 +1725,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @return {boolean}                          Did the value change? It will return `true` if the new value and the old value of the property are not the same
      * @todo Review propagation to clones. Right now we simply check if clone is disposed before setting the same property on it. It's better to remove from clone list altogether.
      */
-    setPropertyValue(property: keyof this["properties"], value: any, invalidate?: boolean, transform?: boolean): boolean;
+    setPropertyValue<Key extends keyof this["properties"]>(property: Key, value: any, invalidate?: boolean, transform?: boolean): boolean;
     /**
      * @ignore Exclude from docs
      * @todo Verify this
@@ -2475,6 +2474,12 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {Export}  exp  Export
      */
     exporting: Export;
+    /**
+     * This is here as a method so that inheriting classes could override it.
+     *
+     * @return {Export} Export instance
+     */
+    protected getExporting(): Export;
     /**
      * ==========================================================================
      * MODAL/POPUP RELATED STUFF

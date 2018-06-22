@@ -8,7 +8,7 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../Sprite";
+import { Sprite } from "../Sprite";
 import { Label } from "./Label";
 import { RoundedRectangle } from "../elements/RoundedRectangle";
 /**
@@ -71,11 +71,12 @@ export declare class Button extends Container {
      */
     _adapter: IButtonAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Button, IButtonEvents>>} Event dispatcher instance
+     * @type {IButtonEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Button, IButtonEvents>>;
+    _events: IButtonEvents;
     /**
      * Icon reference.
      *

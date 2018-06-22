@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Component, IComponentProperties, IComponentDataFields, IComponentEvents, IComponentAdapters } from "../core/Component";
-import { SpriteEventDispatcher, AMEvent } from "../core/Sprite";
 import { ListTemplate, IListEvents } from "../core/utils/List";
 import { Container } from "../core/Container";
 import { Label } from "../core/elements/Label";
@@ -100,11 +99,12 @@ export declare class Chart extends Component {
      */
     _adapter: IChartAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Chart, IChartEvents>>} Event dispatcher instance
+     * @type {IChartEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Chart, IChartEvents>>;
+    _events: IChartEvents;
     /**
      * A List of chart titles.
      *

@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Component, IComponentProperties, IComponentDataFields, IComponentAdapters, IComponentEvents } from "../../core/Component";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Container } from "../../core/Container";
 import { DataItem } from "../../core/DataItem";
 import { Grid } from "./Grid";
@@ -341,11 +340,12 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      */
     _axisBreak: AxisBreak;
     /**
-     * An event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Axis, IAxisEvents>>} Event dispatcher instance
+     * @type {IAxisEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Axis, IAxisEvents>>;
+    _events: IAxisEvents;
     /**
      * A [[Label]] instance that is used for Axis title label.
      *

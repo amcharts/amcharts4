@@ -8,7 +8,7 @@
  * @hidden
  */
 import { AxisRendererX, IAxisRendererXProperties, IAxisRendererXAdapters, IAxisRendererXEvents } from "../axes/AxisRendererX";
-import { Sprite, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite, ISpriteEvents, AMEvent } from "../../core/Sprite";
 import { XYChart3D } from "../types/XYChart3D";
 import { Grid } from "../axes/Grid";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
@@ -61,10 +61,12 @@ export declare class AxisRendererX3D extends AxisRendererX {
      */
     _adapter: IAxisRendererX3DAdapters;
     /**
-     * Event dispacther.
-     * @type {SpriteEventDispatcher<AMEvent<AxisRendererX3D, IAxisRendererX3DEvents>>} Event dispatcher instance
+     * Defines available events.
+     *
+     * @type {IAxisRendererX3DEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<AxisRendererX3D, IAxisRendererX3DEvents>>;
+    _events: IAxisRendererX3DEvents;
     /**
      * A related chart.
      *

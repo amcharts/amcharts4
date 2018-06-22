@@ -10,7 +10,6 @@
 import { AxisRenderer, IAxisRendererProperties, IAxisRendererAdapters, IAxisRendererEvents } from "./AxisRenderer";
 import { Axis } from "./Axis";
 import { AxisFillCircular } from "./AxisFillCircular";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { IPoint } from "../../core/defs/IPoint";
 import { AxisTick } from "./AxisTick";
 import { GridCircular } from "./GridCircular";
@@ -94,11 +93,12 @@ export declare class AxisRendererCircular extends AxisRenderer {
      */
     _adapter: IAxisRendererCircularAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<AxisRenderer, IAxisRendererEvents>>} Event dispatcher instance
+     * @type {IAxisRendererCircularEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<AxisRendererCircular, IAxisRendererCircularEvents>>;
+    _events: IAxisRendererCircularEvents;
     /**
      * Defines type of the grid elements.
      *

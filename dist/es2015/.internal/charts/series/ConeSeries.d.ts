@@ -9,7 +9,6 @@
  * @hidden
  */
 import { ColumnSeries, IColumnSeriesDataFields, IColumnSeriesProperties, IColumnSeriesAdapters, IColumnSeriesEvents, ColumnSeriesDataItem } from "./ColumnSeries";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { ConeColumn } from "../elements/ConeColumn";
 /**
  * ============================================================================
@@ -111,11 +110,12 @@ export declare class ConeSeries extends ColumnSeries {
      */
     _adapter: IConeSeriesAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<ConeSeries, IConeSeriesEvents>>} Event dispatcher instance
+     * @type {IConeSeriesEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<ConeSeries, IConeSeriesEvents>>;
+    _events: IConeSeriesEvents;
     /**
      * Constructor
      */

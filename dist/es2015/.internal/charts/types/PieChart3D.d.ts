@@ -8,7 +8,6 @@
  * @hidden
  */
 import { PieChart, IPieChartProperties, IPieChartDataFields, IPieChartAdapters, IPieChartEvents, PieChartDataItem } from "./PieChart";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { PieSeries3D } from "../series/PieSeries3D";
 /**
  * ============================================================================
@@ -185,11 +184,12 @@ export declare class PieChart3D extends PieChart {
      */
     _adapter: IPieChart3DAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<PieChart3D, IPieChart3DEvents>>} Event dispatcher instance
+     * @type {IPieChart3DEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<PieChart3D, IPieChart3DEvents>>;
+    _events: IPieChart3DEvents;
     /**
      * Defines a type of series that this chart uses.
      *

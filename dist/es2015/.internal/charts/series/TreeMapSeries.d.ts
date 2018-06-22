@@ -8,7 +8,6 @@
  * @hidden
  */
 import { ColumnSeries, IColumnSeriesProperties, IColumnSeriesDataFields, IColumnSeriesAdapters, IColumnSeriesEvents, ColumnSeriesDataItem } from "./ColumnSeries";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { TreeMap, TreeMapDataItem } from "../types/TreeMap";
 import { Animation } from "../../core/utils/Animation";
 /**
@@ -134,11 +133,12 @@ export declare class TreeMapSeries extends ColumnSeries {
      */
     _adapter: ITreeMapSeriesAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<TreeMapSeries, ITreeMapSeriesEvents>>} Event dispatcher instance
+     * @type {ITreeMapSeriesEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<TreeMapSeries, ITreeMapSeriesEvents>>;
+    _events: ITreeMapSeriesEvents;
     /**
      * The level in treemap hierarchy series is at.
      *

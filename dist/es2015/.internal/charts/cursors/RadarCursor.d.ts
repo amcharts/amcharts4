@@ -7,7 +7,7 @@
 import { RadarChart } from "../types/RadarChart";
 import { XYCursor, IXYCursorAdapters, IXYCursorEvents, IXYCursorProperties } from "./XYCursor";
 import { IPoint } from "../../core/defs/IPoint";
-import { ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { ISpriteEvents } from "../../core/Sprite";
 import { Percent } from "../../core/utils/Percent";
 /**
  * ============================================================================
@@ -84,10 +84,12 @@ export declare class RadarCursor extends XYCursor {
      */
     _adapter: IRadarCursorAdapters;
     /**
-     * Cursor's event dispatcher
-     * @type {SpriteEventDispatcher}
+     * Defines available events.
+     *
+     * @type {IRadarCursorEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<RadarCursor, IRadarCursorEvents>>;
+    _events: IRadarCursorEvents;
     /**
      * A reference to chart cursor belongs to.
      *

@@ -8,7 +8,7 @@
  * @hidden
  */
 import { SerialChart, ISerialChartProperties, ISerialChartDataFields, ISerialChartAdapters, ISerialChartEvents, SerialChartDataItem } from "./SerialChart";
-import { Sprite, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite, ISpriteEvents, AMEvent } from "../../core/Sprite";
 import { Container } from "../../core/Container";
 import { IComponentEvents } from "../../core/Component";
 import { List, IListEvents } from "../../core/utils/List";
@@ -234,11 +234,12 @@ export declare class XYChart extends SerialChart {
      */
     _adapter: IXYChartAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<XYChart, IXYChartEvents>>} Event dispatcher instance
+     * @type {IXYChartEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<XYChart, IXYChartEvents>>;
+    _events: IXYChartEvents;
     /**
      * Defines a type of series that this chart uses.
      *

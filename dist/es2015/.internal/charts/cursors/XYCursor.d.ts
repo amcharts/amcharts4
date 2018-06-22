@@ -8,7 +8,7 @@
  * @hidden
  */
 import { Cursor, ICursorProperties, ICursorAdapters, ICursorEvents } from "./Cursor";
-import { Sprite, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite, ISpriteEvents } from "../../core/Sprite";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
 import { IPoint } from "../../core/defs/IPoint";
 import { IRange } from "../../core/defs/IRange";
@@ -106,11 +106,12 @@ export declare class XYCursor extends Cursor {
      */
     _adapter: IXYCursorAdapters;
     /**
-     * Cursor's event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher}
+     * @type {IXYCursorEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<XYCursor, IXYCursorEvents>>;
+    _events: IXYCursorEvents;
     /**
      * Vertical cursor line element.
      *

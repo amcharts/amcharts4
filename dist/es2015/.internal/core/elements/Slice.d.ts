@@ -9,7 +9,6 @@
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
 import { Sprite } from "../Sprite";
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
 import { IPoint } from "../defs/IPoint";
 /**
  * ============================================================================
@@ -119,11 +118,12 @@ export declare class Slice extends Container {
      */
     _adapter: ISliceAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Slice, ISliceEvents>>} Event dispatcher instance
+     * @type {ISliceEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Slice, ISliceEvents>>;
+    _events: ISliceEvents;
     /**
      * Main slice element.
      *

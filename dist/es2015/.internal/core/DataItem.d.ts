@@ -18,7 +18,7 @@
  * @hidden
  */
 import { BaseObjectEvents, IBaseObjectEvents } from "./Base";
-import { EventDispatcher, AMEvent } from "./utils/EventDispatcher";
+import { AMEvent } from "./utils/EventDispatcher";
 import { Adapter } from "./utils/Adapter";
 import { Component, CalculatedValue } from "./Component";
 import { IAnimatable, Animation, IAnimationOptions, IAnimationEvents } from "./utils/Animation";
@@ -134,11 +134,12 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      */
     parent: $type.Optional<this>;
     /**
-     * Event dispacther..
+     * Defines available events.
      *
-     * @type {EventDispatcher<AMEvent<DataItem, IDataItemEvents>>} Event dispatcher instance
+     * @type {IDataItemEvents}
+     * @ignore Exclude from docs
      */
-    events: EventDispatcher<AMEvent<DataItem, IDataItemEvents>>;
+    _events: IDataItemEvents;
     /**
      * Holds Adapter.
      *

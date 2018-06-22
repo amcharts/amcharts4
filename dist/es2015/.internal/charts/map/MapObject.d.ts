@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { MapSeries } from "./MapSeries";
 /**
  * ============================================================================
@@ -61,11 +60,12 @@ export declare class MapObject extends Container {
      */
     _adapter: IMapObjectAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<MapObject, IMapObjectEvents>>} Event dispatcher instance
+     * @type {IMapObjectEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<MapObject, IMapObjectEvents>>;
+    _events: IMapObjectEvents;
     /**
      * A map series this object belongs to.
      *

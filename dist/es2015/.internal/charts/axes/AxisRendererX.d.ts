@@ -8,7 +8,6 @@
  * @hidden
  */
 import { AxisRenderer, IAxisRendererProperties, IAxisRendererAdapters, IAxisRendererEvents } from "./AxisRenderer";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { IPoint } from "../../core/defs/IPoint";
 import { Axis } from "./Axis";
 import { Grid } from "./Grid";
@@ -66,11 +65,12 @@ export declare class AxisRendererX extends AxisRenderer {
      */
     _adapter: IAxisRendererXAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<AxisRendererX, IAxisRendererXEvents>>} Event dispatcher instance
+     * @type {IAxisRendererXEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<AxisRendererX, IAxisRendererXEvents>>;
+    _events: IAxisRendererXEvents;
     /**
      * Constructor.
      *

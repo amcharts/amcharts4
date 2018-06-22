@@ -7,7 +7,7 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../Sprite";
+import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../Sprite";
 import { Percent } from "../../core/utils/Percent";
 /**
  * ============================================================================
@@ -104,10 +104,12 @@ export declare class Trapezoid extends Sprite {
      */
     _adapter: ITrapezoidAdapters;
     /**
-     * Event dispacther.
-     * @type {SpriteEventDispatcher<AMEvent<Trapezoid, ITrapezoidEvents>>} Event dispatcher instance
+     * Defines available events.
+     *
+     * @type {ITrapezoidEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Trapezoid, ITrapezoidEvents>>;
+    _events: ITrapezoidEvents;
     /**
      * Constructor
      */

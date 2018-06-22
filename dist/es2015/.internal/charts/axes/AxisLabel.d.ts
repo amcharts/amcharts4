@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Label, ILabelProperties, ILabelAdapters, ILabelEvents } from "../../core/elements/Label";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { AxisItemLocation, AxisDataItem } from "./Axis";
 /**
  * ============================================================================
@@ -74,11 +73,12 @@ export declare class AxisLabel extends Label {
      */
     _adapter: IAxisLabelAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<AxisLabel, IAxisLabelEvents>>} Event dispatcher instance
+     * @type {IAxisLabelEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<AxisLabel, IAxisLabelEvents>>;
+    _events: IAxisLabelEvents;
     /**
      * Related data item.
      *

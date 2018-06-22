@@ -9,7 +9,7 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite } from "../../core/Sprite";
 import { IPoint } from "../../core/defs/IPoint";
 /**
  * ============================================================================
@@ -66,11 +66,12 @@ export declare class LineSeriesSegment extends Container {
      */
     _adapter: ILineSeriesSegmentAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<LineSeriesSegment, ILineSeriesSegmentEvents>>} Event dispatcher instance
+     * @type {ILineSeriesSegmentEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<LineSeriesSegment, ILineSeriesSegmentEvents>>;
+    _events: ILineSeriesSegmentEvents;
     /**
      * Segment's line element.
      *

@@ -8,7 +8,7 @@
  * @hidden
  */
 import { XYChart, IXYChartProperties, IXYChartDataFields, IXYChartAdapters, IXYChartEvents, XYChartDataItem } from "./XYChart";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { AMEvent } from "../../core/Sprite";
 import { Percent } from "../../core/utils/Percent";
 import { Container } from "../../core/Container";
 import { IComponentEvents } from "../../core/Component";
@@ -132,11 +132,12 @@ export declare class RadarChart extends XYChart {
      */
     _adapter: IRadarChartAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<RadarChart, IRadarChartEvents>>} Event dispatcher instance
+     * @type {IRadarChartEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<RadarChart, IRadarChartEvents>>;
+    _events: IRadarChartEvents;
     /**
      * Defines X axis renderer type.
      *

@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { MapLine } from "./MapLine";
 /**
  * ============================================================================
@@ -75,11 +74,12 @@ export declare class MapLineObject extends Container {
      */
     _adapter: IMapLineObjectAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<MapLineObject, IMapLineObjectEvents>>} Event dispatcher instance
+     * @type {IMapLineObjectEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<MapLineObject, IMapLineObjectEvents>>;
+    _events: IMapLineObjectEvents;
     /**
      * [mapLine description]
      *

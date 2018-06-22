@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Label, ILabelProperties, ILabelAdapters, ILabelEvents } from "../../core/elements/Label";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 /**
  * ============================================================================
  * REQUISITES
@@ -60,11 +59,12 @@ export declare class TextLink extends Label {
      */
     _adapter: ITextLinkAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<TextLink, ITextLinkEvents>>} Event dispatcher instance
+     * @type {ITextLinkEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<TextLink, ITextLinkEvents>>;
+    _events: ITextLinkEvents;
     /**
      * Constructor
      */

@@ -7,7 +7,7 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../Sprite";
+import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../Sprite";
 import { IPoint } from "../defs/IPoint";
 import { Morpher } from "../utils/Morpher";
 import { IMorphable } from "../defs/IMorphable";
@@ -66,11 +66,12 @@ export declare class Polygon extends Sprite implements IMorphable {
      */
     _adapter: IPolygonAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Polygon, IPolygonEvents>>} Event dispatcher instance
+     * @type {IPolygonEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Polygon, IPolygonEvents>>;
+    _events: IPolygonEvents;
     /**
      * A morpher instance that is used to morph polygon into some other shape.
      *

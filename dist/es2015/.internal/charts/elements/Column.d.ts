@@ -9,7 +9,6 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
 /**
  * ============================================================================
@@ -64,11 +63,12 @@ export declare class Column extends Container {
      */
     _adapter: IColumnAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Column, IColumnEvents>>} Event dispatcher instance
+     * @type {IColumnEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Column, IColumnEvents>>;
+    _events: IColumnEvents;
     /**
      * column element
      * @type {RoundedRectangle}

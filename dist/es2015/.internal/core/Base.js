@@ -788,7 +788,7 @@ var BaseObjectEvents = /** @class */ (function (_super) {
      * It also checks if there are any handlers registered for this sepecific
      * event.
      *
-     * @param {string} eventType Event type (name)
+     * @param {Key} eventType Event type (name)
      * @param {any}    data      Data to pass into event handler(s)
      */
     BaseObjectEvents.prototype.dispatch = function (eventType, data) {
@@ -814,7 +814,7 @@ var BaseObjectEvents = /** @class */ (function (_super) {
      * Works like `dispatch`, except event is triggered immediately, without
      * waiting for the next frame cycle.
      *
-     * @param {string} eventType Event type (name)
+     * @param {Key} eventType Event type (name)
      * @param {any}    data      Data to pass into event handler(s)
      */
     BaseObjectEvents.prototype.dispatchImmediately = function (eventType, data) {

@@ -11,7 +11,6 @@
  * @hidden
  */
 import { ValueAxisBreak, IValueAxisBreakProperties, IValueAxisBreakAdapters, IValueAxisBreakEvents } from "./ValueAxisBreak";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { DateAxis } from "./DateAxis";
 import { ITimeInterval } from "../../core/defs/ITimeInterval";
 /**
@@ -81,11 +80,12 @@ export declare class DateAxisBreak extends ValueAxisBreak {
      */
     _adapter: IDateAxisBreakAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<DateAxisBreak, IDateAxisBreakEvents>>} Event dispatcher instance
+     * @type {IDateAxisBreakEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<DateAxisBreak, IDateAxisBreakEvents>>;
+    _events: IDateAxisBreakEvents;
     /**
      * Defines the type of the Axis this break is used for.
      *

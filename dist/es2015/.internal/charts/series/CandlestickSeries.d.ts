@@ -222,11 +222,12 @@ export declare class CandlestickSeries extends ColumnSeries {
      */
     _adapter: ICandlestickSeriesAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<CandlestickSeries, ICandlestickSeriesEvents>>} Event dispatcher instance
-     * @todo Disabled to work around TS bug (see if we can re-enable it again)
+     * @type {ICandlestickSeriesEvents}
+     * @ignore Exclude from docs
      */
+    _events: ICandlestickSeriesEvents;
     /**
      * A data field to look for "low" value for horizontal axis.
      */

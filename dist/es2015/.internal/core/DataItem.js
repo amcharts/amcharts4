@@ -240,11 +240,12 @@ var DataItem = /** @class */ (function (_super) {
             if (this._visible != value) {
                 this._visible = value;
                 if (this.events.isEnabled("visibilitychanged")) {
-                    this.events.dispatchImmediately("visibilitychanged", {
+                    var event_1 = {
                         type: "visibilitychanged",
                         target: this,
                         visible: value
-                    });
+                    };
+                    this.events.dispatchImmediately("visibilitychanged", event_1);
                 }
             }
         },
@@ -456,11 +457,12 @@ var DataItem = /** @class */ (function (_super) {
         if (currentValue !== value) {
             this.values[name].value = value;
             if (this.events.isEnabled("valuechanged")) {
-                this.events.dispatchImmediately("valuechanged", {
+                var event_2 = {
                     type: "valuechanged",
                     target: this,
                     property: name
-                });
+                };
+                this.events.dispatchImmediately("valuechanged", event_2);
             }
         }
         this.setWorkingValue(name, value, newDuration, delay);
@@ -470,11 +472,12 @@ var DataItem = /** @class */ (function (_super) {
         if (currentValue !== value && $type.isNumber(value)) {
             this.values[name][calculated] = value;
             if (this.events.isEnabled("calculatedvaluechanged")) {
-                this.events.dispatchImmediately("calculatedvaluechanged", {
+                var event_3 = {
                     type: "calculatedvaluechanged",
                     target: this,
                     property: name
-                });
+                };
+                this.events.dispatchImmediately("calculatedvaluechanged", event_3);
             }
         }
     };
@@ -519,11 +522,12 @@ var DataItem = /** @class */ (function (_super) {
                 }
                 this.values[name].workingValue = value;
                 if (this.events.isEnabled("workingvaluechanged")) {
-                    this.events.dispatchImmediately("workingvaluechanged", {
+                    var event_4 = {
                         type: "workingvaluechanged",
                         target: this,
                         property: name
-                    });
+                    };
+                    this.events.dispatchImmediately("workingvaluechanged", event_4);
                 }
             }
         }
@@ -545,11 +549,12 @@ var DataItem = /** @class */ (function (_super) {
         if (currentLocation !== value) {
             this.locations[name] = value;
             if (this.events.isEnabled("locationchanged")) {
-                this.events.dispatchImmediately("locationchanged", {
+                var event_5 = {
                     type: "locationchanged",
                     target: this,
                     property: name
-                });
+                };
+                this.events.dispatchImmediately("locationchanged", event_5);
             }
             this.setWorkingLocation(name, value, duration, delay);
         }
@@ -593,11 +598,12 @@ var DataItem = /** @class */ (function (_super) {
             }
             this.workingLocations[name] = value;
             if (this.events.isEnabled("workinglocationchanged")) {
-                this.events.dispatchImmediately("workinglocationchanged", {
+                var event_6 = {
                     type: "workinglocationchanged",
                     target: this,
                     property: name
-                });
+                };
+                this.events.dispatchImmediately("workinglocationchanged", event_6);
             }
         }
     };
@@ -641,12 +647,13 @@ var DataItem = /** @class */ (function (_super) {
             this.hasProperties = true;
             this.properties[name] = value;
             if (this.events.isEnabled("propertychanged")) {
-                this.events.dispatchImmediately("propertychanged", {
+                var event_7 = {
                     type: "propertychanged",
                     target: this,
                     property: name,
                     value: value
-                });
+                };
+                this.events.dispatchImmediately("propertychanged", event_7);
             }
         }
     };
@@ -722,12 +729,13 @@ var DataItem = /** @class */ (function (_super) {
         set: function (value) {
             this._ignoreMinMax = value;
             if (this.events.isEnabled("propertychanged")) {
-                this.events.dispatchImmediately("propertychanged", {
+                var event_8 = {
                     type: "propertychanged",
                     target: this,
                     property: "ignoreMinMax",
                     value: value
-                });
+                };
+                this.events.dispatchImmediately("propertychanged", event_8);
             }
         },
         enumerable: true,
@@ -759,11 +767,12 @@ var DataItem = /** @class */ (function (_super) {
         var animationOptions = animation.animationOptions[0];
         if (animationOptions) {
             if (this.events.isEnabled("workingvaluechanged")) {
-                this.events.dispatchImmediately("workingvaluechanged", {
+                var event_9 = {
                     type: "workingvaluechanged",
                     target: this,
                     property: animationOptions.dummyData
-                });
+                };
+                this.events.dispatchImmediately("workingvaluechanged", event_9);
             }
         }
     };

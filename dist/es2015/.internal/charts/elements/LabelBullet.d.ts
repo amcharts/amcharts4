@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Bullet, IBulletProperties, IBulletAdapters, IBulletEvents } from "./Bullet";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Label } from "../../core/elements/Label";
 /**
  * ============================================================================
@@ -66,11 +65,12 @@ export declare class LabelBullet extends Bullet {
      */
     _adapter: ILabelBulletAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<LabelBullet, ILabelBulletEvents>>} Event dispatcher instance
+     * @type {ILabelBulletEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<LabelBullet, ILabelBulletEvents>>;
+    _events: ILabelBulletEvents;
     /**
      * A label (textual) element for the bullet.
      *

@@ -7,7 +7,7 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../Sprite";
+import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../Sprite";
 /**
  * ============================================================================
  * REQUISITES
@@ -85,11 +85,12 @@ export declare class PointedShape extends Sprite {
      */
     _adapter: IPointedShapeAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<PointedShape, IPointedShapeEvents>>} Event dispatcher instance
+     * @type {IPointedShapeEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<PointedShape, IPointedShapeEvents>>;
+    _events: IPointedShapeEvents;
     /**
      * Constructor
      */

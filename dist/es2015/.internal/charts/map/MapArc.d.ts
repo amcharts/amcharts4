@@ -8,7 +8,6 @@
  * @hidden
  */
 import { MapLine, IMapLineProperties, IMapLineAdapters, IMapLineEvents } from "./MapLine";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Polyarc } from "../../core/elements/Polyarc";
 import { MapArcSeries } from "./MapArcSeries";
 /**
@@ -62,11 +61,12 @@ export declare class MapArc extends MapLine {
      */
     _adapter: IMapArcAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<MapArc, IMapArcEvents>>} Event dispatcher instance
+     * @type {IMapArcEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<MapArc, IMapArcEvents>>;
+    _events: IMapArcEvents;
     /**
      * A visual element.
      *

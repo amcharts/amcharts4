@@ -11,7 +11,6 @@
  * @hidden
  */
 import { XYChart, IXYChartProperties, IXYChartDataFields, IXYChartAdapters, IXYChartEvents, XYChartDataItem } from "./XYChart";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { DictionaryTemplate } from "../../core/utils/Dictionary";
 import { ValueAxis } from "../axes/ValueAxis";
 import { OrderedListTemplate } from "../../core/utils/SortedList";
@@ -305,11 +304,12 @@ export declare class TreeMap extends XYChart {
      */
     _adapter: ITreeMapAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<TreeMap, ITreeMapEvents>>} Event dispatcher instance
+     * @type {ITreeMapEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<TreeMap, ITreeMapEvents>>;
+    _events: ITreeMapEvents;
     /**
      * A horizontal value axis.
      *

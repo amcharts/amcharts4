@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Circle, ICircleProperties, ICircleAdapters, ICircleEvents } from "./Circle";
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
 /**
  * ============================================================================
  * REQUISITES
@@ -70,11 +69,12 @@ export declare class Ellipse extends Circle {
      */
     _adapter: IEllipseAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Ellipse, IEllipseEvents>>} Event dispatcher instance
+     * @type {IEllipseEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Ellipse, IEllipseEvents>>;
+    _events: IEllipseEvents;
     /**
      * Constructor
      */

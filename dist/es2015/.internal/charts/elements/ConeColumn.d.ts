@@ -9,7 +9,6 @@
  * @hidden
  */
 import { Column, IColumnProperties, IColumnAdapters, IColumnEvents } from "./Column";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Cone } from "../../core/elements/3d/Cone";
 /**
  * ============================================================================
@@ -64,11 +63,12 @@ export declare class ConeColumn extends Column {
      */
     _adapter: IConeColumnAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<ConeColumn, IConeColumnEvents>>} Event dispatcher instance
+     * @type {IConeColumnEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<ConeColumn, IConeColumnEvents>>;
+    _events: IConeColumnEvents;
     /**
      * Radar column element
      * @type {Slice}

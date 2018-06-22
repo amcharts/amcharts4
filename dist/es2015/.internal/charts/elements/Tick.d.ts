@@ -7,7 +7,7 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../../core/Sprite";
 /**
  * ============================================================================
  * REQUISITES
@@ -69,11 +69,12 @@ export declare class Tick extends Sprite {
      */
     _adapter: ITickAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Tick, ITickEvents>>} Event dispatcher instance
+     * @type {ITickEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Tick, ITickEvents>>;
+    _events: ITickEvents;
     /**
      * Constructor
      */

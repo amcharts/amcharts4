@@ -79,10 +79,12 @@ import { Language } from "../utils/Language";
 import { Validatable } from "../utils/Validatable";
 import { color } from "../utils/Color";
 import { registry } from "../Registry";
+import { options } from "../Options";
 import { StyleRule } from "../utils/DOM";
 import * as $object from "../utils/Object";
 import * as $net from "../utils/Net";
 import * as $type from "../utils/Type";
+import * as $utils from "../utils/Utils";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -224,7 +226,7 @@ var Export = /** @class */ (function (_super) {
     }
     Object.defineProperty(Export.prototype, "menu", {
         /**
-         * @return {ExportMenu} ExportMenu instance
+         * @return {Optional<ExportMenu>} ExportMenu instance
          */
         get: function () {
             return this._menu;
@@ -250,7 +252,7 @@ var Export = /** @class */ (function (_super) {
          * }
          * ```
          *
-         * @param {ExportMenu}  menu  ExportMenu instance
+         * @param {Optional<ExportMenu>}  menu  ExportMenu instance
          */
         set: function (menu) {
             var _this = this;
@@ -285,7 +287,7 @@ var Export = /** @class */ (function (_super) {
             this.dispatchImmediately("menucreated");
             // Prefix with Sprite's class name
             this._menu.adapter.add("classPrefix", function (obj) {
-                obj.classPrefix = _this.sprite.classNamePrefix + obj.classPrefix;
+                obj.classPrefix = options.classNamePrefix + obj.classPrefix;
                 return obj;
             });
             // Add menu to disposers so that it's destroyed when Export is disposed
@@ -358,18 +360,19 @@ var Export = /** @class */ (function (_super) {
     Export.prototype.export = function (type, options) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
-            var func, data;
+            var event_1, func, data, event_2, event_3;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         // Dispatch event
                         if (this.events.isEnabled("exportstarted")) {
-                            this.events.dispatchImmediately("exportstarted", {
+                            event_1 = {
                                 "type": "exportstarted",
                                 "target": this,
                                 "format": type,
                                 "options": options
-                            });
+                            };
+                            this.events.dispatchImmediately("exportstarted", event_1);
                         }
                         // Schedule a preloader
                         this.showPreloader();
@@ -379,12 +382,13 @@ var Export = /** @class */ (function (_super) {
                             this._timeoutTimeout = this.setTimeout(function () {
                                 // Dispatch event
                                 if (_this.events.isEnabled("exporttimedout")) {
-                                    _this.events.dispatchImmediately("exporttimedout", {
+                                    var event_4 = {
                                         "type": "exporttimedout",
                                         "target": _this,
                                         "format": type,
                                         "options": options
-                                    });
+                                    };
+                                    _this.events.dispatchImmediately("exporttimedout", event_4);
                                 }
                                 // Show modal
                                 _this.showTimeout();
@@ -407,12 +411,13 @@ var Export = /** @class */ (function (_super) {
                         if (data) {
                             // Dispatch event
                             if (this.events.isEnabled("exportfinished")) {
-                                this.events.dispatchImmediately("exportfinished", {
+                                event_2 = {
                                     "type": "exportfinished",
                                     "target": this,
                                     "format": type,
                                     "options": options
-                                });
+                                };
+                                this.events.dispatchImmediately("exportfinished", event_2);
                             }
                             // Hide preloader and timeout modals
                             this.hidePreloader();
@@ -433,12 +438,13 @@ var Export = /** @class */ (function (_super) {
                             // @todo
                             // Dispatch event
                             if (this.events.isEnabled("error")) {
-                                this.events.dispatchImmediately("error", {
+                                event_3 = {
                                     "type": "error",
                                     "target": this,
                                     "format": type,
                                     "options": options
-                                });
+                                };
+                                this.events.dispatchImmediately("error", event_3);
                             }
                             return [2 /*return*/, false];
                         }
@@ -1045,7 +1051,7 @@ var Export = /** @class */ (function (_super) {
                     options: options
                 }).charset;
                 uri = this.adapter.apply("getSVG", {
-                    data: "data:" + this.getContentType(type) + ";" + charset + "," + svg,
+                    data: "data:" + this.getContentType(type) + ";" + charset + "," + encodeURIComponent(svg),
                     options: options
                 }).data;
                 return [2 /*return*/, uri];
@@ -1299,9 +1305,9 @@ var Export = /** @class */ (function (_super) {
                                 type: "base64"
                             }
                         }).options;
-                        sheetName = this.adapter.apply("xlsxSheetName", {
+                        sheetName = this.normalizeExcelSheetName(this.adapter.apply("xlsxSheetName", {
                             name: this.title || this.language.translate("Data")
-                        }).name;
+                        }).name);
                         wb = {
                             SheetNames: [sheetName],
                             Sheets: {}
@@ -1325,6 +1331,16 @@ var Export = /** @class */ (function (_super) {
                 }
             });
         });
+    };
+    /**
+     * This is needed to work around Excel limitations.
+     *
+     * @param  {string}  name  Source name
+     * @return {string}        Normalized name
+     */
+    Export.prototype.normalizeExcelSheetName = function (name) {
+        name = name.replace(/([:\\\/?*\[\]]+)/g, " ");
+        return $utils.truncateWithEllipsis(name, 31, "...", true);
     };
     /**
      * Rertuns an array of values to be used as Excel row.
@@ -1500,6 +1516,7 @@ var Export = /** @class */ (function (_super) {
                 if (this.linkDownloadSupport() && !$type.hasValue(window.navigator.msSaveOrOpenBlob)) {
                     link = document.createElement("a");
                     link.download = fileName;
+                    //uri = uri.replace(/#/g, "%23");
                     link.href = uri;
                     document.body.appendChild(link);
                     link.click();
@@ -1510,13 +1527,15 @@ var Export = /** @class */ (function (_super) {
                     contentType = parts.shift().replace(/data:/, "");
                     uri = decodeURIComponent(parts.join(";").replace(/^[^,]*,/, ""));
                     // Check if we need to Base64-decode
-                    try {
-                        decoded = atob(uri);
-                        uri = decoded;
-                    }
-                    catch (e) {
-                        // Error occurred, meaning string was not Base64-encoded. Do nothing.
-                        return [2 /*return*/, false];
+                    if (["image/svg+xml", "application/json", "text/csv"].indexOf(contentType) == -1) {
+                        try {
+                            decoded = atob(uri);
+                            uri = decoded;
+                        }
+                        catch (e) {
+                            // Error occurred, meaning string was not Base64-encoded. Do nothing.
+                            return [2 /*return*/, false];
+                        }
                     }
                     chars = new Array(uri.length);
                     for (i = 0; i < uri.length; ++i) {
@@ -1706,7 +1725,12 @@ var Export = /** @class */ (function (_super) {
                 };
                 // Print
                 this.setTimeout(function () {
-                    iframe.contentWindow.print();
+                    try {
+                        iframe.contentWindow.document.execCommand('print', false, null);
+                    }
+                    catch (e) {
+                        iframe.contentWindow.print();
+                    }
                 }, 50);
                 isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
                 if (isIOS && (options.delay < 1000)) {
@@ -1719,7 +1743,7 @@ var Export = /** @class */ (function (_super) {
                 this.setTimeout(function () {
                     // Remove image
                     document.body.removeChild(iframe);
-                }, options.delay || 500);
+                }, options.delay || 51);
                 return [2 /*return*/, true];
             });
         });
@@ -2197,12 +2221,11 @@ var Export = /** @class */ (function (_super) {
          * @return {Modal} Modal instance
          */
         get: function () {
-            var _this = this;
             if (!this._modal) {
                 this._modal = new Modal();
                 // Prefix with Sprite's class name
                 this._modal.adapter.add("classPrefix", function (value) {
-                    value = _this.sprite.classNamePrefix + value;
+                    value = options.classNamePrefix + value;
                     return value;
                 });
             }
@@ -2223,7 +2246,7 @@ var Export = /** @class */ (function (_super) {
         this.hidePreloader();
         // Create modal
         var modal = this.modal;
-        modal.container = this.sprite.svgContainer;
+        modal.container = this.sprite.svgContainer.SVGContainer;
         modal.content = text;
         modal.readerTitle = title;
         modal.show();

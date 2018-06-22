@@ -256,14 +256,16 @@ var DurationFormatter = /** @class */ (function (_super) {
                     }
                     // Find all possible parts
                     var matches = chunk.text.match(/y+|Y+|M+|d+|D+|w+|h+|H+|K+|k+|m+|s+|S+|n+/g);
-                    // Populate template
-                    for (var x = 0; x < matches.length; x++) {
-                        // Is it an alias?
-                        if (!$type.hasValue(matches[x])) {
-                            matches[x] = _this._unitAliases[matches[x]];
+                    if (matches) {
+                        // Populate template
+                        for (var x = 0; x < matches.length; x++) {
+                            // Is it an alias?
+                            if (!$type.hasValue(matches[x])) {
+                                matches[x] = _this._unitAliases[matches[x]];
+                            }
+                            item.parts.push(matches[x]);
+                            chunk.text = chunk.text.replace(matches[x], $strings.PLACEHOLDER);
                         }
-                        item.parts.push(matches[x]);
-                        chunk.text = chunk.text.replace(matches[x], $strings.PLACEHOLDER);
                     }
                 }
                 // Apply to template

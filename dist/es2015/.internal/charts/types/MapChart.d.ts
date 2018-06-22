@@ -8,7 +8,7 @@
  * @hidden
  */
 import { SerialChart, ISerialChartProperties, ISerialChartDataFields, ISerialChartAdapters, ISerialChartEvents, SerialChartDataItem } from "./SerialChart";
-import { Sprite, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite, ISpriteEvents, AMEvent } from "../../core/Sprite";
 import { ListTemplate } from "../../core/utils/List";
 import { MapSeries } from "../map/MapSeries";
 import { MapObject } from "../map/MapObject";
@@ -251,11 +251,12 @@ export declare class MapChart extends SerialChart {
      */
     _adapter: IMapChartAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<MapChart, IMapChartEvents>>}
+     * @type {IMapChartEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<MapChart, IMapChartEvents>>;
+    _events: IMapChartEvents;
     /**
      * The East-most longitude point of the map.
      *

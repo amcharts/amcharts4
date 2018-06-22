@@ -195,18 +195,18 @@ export declare class Registry {
      * It also checks if there are any handlers registered for this sepecific
      * event.
      *
-     * @param {string} eventType Event type (name)
+     * @param {Key} eventType Event type (name)
      * @param {any}    data      Data to pass into event handler(s)
      */
-    dispatch(eventType: string, data?: any): void;
+    dispatch<Key extends keyof IRegistryEvents>(eventType: Key, data?: any): void;
     /**
      * Works like `dispatch`, except event is triggered immediately, without
      * waiting for the next frame cycle.
      *
-     * @param {string} eventType Event type (name)
+     * @param {Key} eventType Event type (name)
      * @param {any}    data      Data to pass into event handler(s)
      */
-    dispatchImmediately(eventType: string, data?: any): void;
+    dispatchImmediately<Key extends keyof IRegistryEvents>(eventType: Key, data?: any): void;
 }
 /**
  * A singleton global instance of [[Registry]].

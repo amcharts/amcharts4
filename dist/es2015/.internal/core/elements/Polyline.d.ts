@@ -7,7 +7,7 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../Sprite";
+import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../Sprite";
 import { IPoint, IOrientationPoint } from "../defs/IPoint";
 /**
  * ============================================================================
@@ -66,11 +66,12 @@ export declare class Polyline extends Sprite {
      */
     _adapter: IPolylineAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Polyline, IPolylineEvents>>} Event dispatcher instance
+     * @type {IPolylineEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Polyline, IPolylineEvents>>;
+    _events: IPolylineEvents;
     /**
      * [_distance description]
      *

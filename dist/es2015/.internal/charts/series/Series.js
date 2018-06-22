@@ -1002,6 +1002,7 @@ var Series = /** @class */ (function (_super) {
      * @param {object}  config  Config
      */
     Series.prototype.processConfig = function (config) {
+        var heatRules;
         if (config) {
             // Set up bullets
             if ($type.hasValue(config.bullets) && $type.isArray(config.bullets)) {
@@ -1012,30 +1013,75 @@ var Series = /** @class */ (function (_super) {
                     }
                 }
             }
-            // Set heat rules
+            // Let's take heatRules out of the config, so that we can process
+            // them later, when bullets are already there
             if ($type.hasValue(config.heatRules) && $type.isArray(config.heatRules)) {
-                for (var i = 0, len = config.heatRules.length; i < len; i++) {
-                    var rule = config.heatRules[i];
-                    // Resolve target
-                    var target = this;
-                    if ($type.hasValue(rule.target)) {
-                        var parts = rule.target.split(".");
-                        for (var x = 0; x < parts.length; x++) {
-                            target = target[parts[x]];
-                        }
-                    }
-                    rule.target = target;
-                    // Resolve colors and percents
-                    if ($type.hasValue(rule.min)) {
-                        rule.min = this.maybeColorOrPercent(rule.min);
-                    }
-                    if ($type.hasValue(rule.max)) {
-                        rule.max = this.maybeColorOrPercent(rule.max);
-                    }
-                }
+                heatRules = config.heatRules;
+                delete config.heatRules;
             }
         }
         _super.prototype.processConfig.call(this, config);
+        // Process heat rules again, when all other lements are ready
+        if (heatRules) {
+            for (var i = 0, len = heatRules.length; i < len; i++) {
+                var rule = heatRules[i];
+                // Resolve target
+                var target = this;
+                if ($type.hasValue(rule.target) && $type.isString(rule.target)) {
+                    // Check if we can find this element by id
+                    if (this.map.hasKey(rule.target)) {
+                        target = this.map.getKey(rule.target);
+                    }
+                    else {
+                        var parts = rule.target.split(".");
+                        for (var x = 0; x < parts.length; x++) {
+                            if (target instanceof List) {
+                                target = target.getIndex($type.toNumber(parts[x]));
+                            }
+                            else {
+                                target = target[parts[x]];
+                            }
+                        }
+                    }
+                }
+                rule.target = target;
+                // Resolve colors and percents
+                if ($type.hasValue(rule.min)) {
+                    rule.min = this.maybeColorOrPercent(rule.min);
+                }
+                if ($type.hasValue(rule.max)) {
+                    rule.max = this.maybeColorOrPercent(rule.max);
+                }
+            }
+            _super.prototype.processConfig.call(this, {
+                heatRules: heatRules
+            });
+        }
+    };
+    /**
+     * This function is used to sort element's JSON config properties, so that
+     * some properties that absolutely need to be processed last, can be put at
+     * the end.
+     *
+     * @ignore Exclude from docs
+     * @param  {string}  a  Element 1
+     * @param  {string}  b  Element 2
+     * @return {Ordering}   Sorting number
+     */
+    Series.prototype.configOrder = function (a, b) {
+        if (a == b) {
+            return 0;
+        }
+        // Must come last
+        else if (a == "heatRules") {
+            return 1;
+        }
+        else if (b == "heatRules") {
+            return -1;
+        }
+        else {
+            return _super.prototype.configOrder.call(this, a, b);
+        }
     };
     return Series;
 }(Component));

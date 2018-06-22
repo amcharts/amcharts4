@@ -16,7 +16,6 @@
  */
 import { BaseObjectEvents, IBaseObjectEvents } from "../Base";
 import { List } from "../utils/List";
-import { EventDispatcher, AMEvent } from "../utils/EventDispatcher";
 import { IInertiaOptions, ISwipeOptions, IHitOptions, IHoverOptions, IKeyboardOptions } from "./InteractionOptions";
 import { InteractionObject, IInteractionObjectEvents } from "./InteractionObject";
 import { Dictionary } from "../utils/Dictionary";
@@ -83,12 +82,13 @@ export interface IDelayedEvent {
 */
 export declare class Interaction extends BaseObjectEvents {
     /**
-     * EventDispatcher for [[Interaction]].
+     * Defines available events.
      *
+     * @type {IInteractionEvents}
      * @ignore Exclude from docs
      * @deprecated Use inetraction.body.events instead
      */
-    events: EventDispatcher<AMEvent<Interaction, IInteractionEvents>>;
+    _events: IInteractionEvents;
     /**
      * A reference to an [[Interaction]] object for document's body.
      *

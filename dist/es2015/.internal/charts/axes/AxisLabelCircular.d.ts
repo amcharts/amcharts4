@@ -8,7 +8,6 @@
  * @hidden
  */
 import { AxisLabel, IAxisLabelProperties, IAxisLabelAdapters, IAxisLabelEvents } from "./AxisLabel";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { IPoint } from "../../core/defs/IPoint";
 /**
  * ============================================================================
@@ -73,11 +72,12 @@ export declare class AxisLabelCircular extends AxisLabel {
      */
     _adapter: IAxisLabelCircularAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<AxisLabelCircular, IAxisLabelCircularEvents>>} Event dispatcher instance
+     * @type {IAxisLabelCircularEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<AxisLabelCircular, IAxisLabelCircularEvents>>;
+    _events: IAxisLabelCircularEvents;
     /**
      * Related data item.
      *

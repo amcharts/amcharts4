@@ -7,7 +7,7 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, ISpriteProperties, ISpriteEvents, SpriteEventDispatcher, AMEvent, ISpriteAdapters } from "../../core/Sprite";
+import { Sprite, ISpriteProperties, ISpriteEvents, ISpriteAdapters } from "../../core/Sprite";
 import { AxisItemLocation, AxisDataItem } from "./Axis";
 /**
  * ============================================================================
@@ -68,11 +68,12 @@ export declare class Grid extends Sprite {
      */
     _adapter: IGridAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Grid, IGridEvents>>} Event dispatcher instance
+     * @type {IGridEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Grid, IGridEvents>>;
+    _events: IGridEvents;
     /**
      * A grid visual element.
      *

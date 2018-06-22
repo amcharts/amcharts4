@@ -8,7 +8,7 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../Container";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../Sprite";
+import { Sprite } from "../../Sprite";
 /**
  * ============================================================================
  * REQUISITES
@@ -73,11 +73,12 @@ export declare class Rectangle3D extends Container {
      */
     _adapter: Rectangle3DAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Rectangle3D, Rectangle3DEvents>>} Event dispatcher instance
+     * @type {Rectangle3DEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Rectangle3D, Rectangle3DEvents>>;
+    _events: Rectangle3DEvents;
     /**
      * Left side element.
      *

@@ -7,7 +7,7 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../Sprite";
+import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../Sprite";
 import { Percent } from "../utils/Percent";
 /**
  * ============================================================================
@@ -66,11 +66,12 @@ export declare class Circle extends Sprite {
      */
     _adapter: ICircleAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Circle, ICircleEvents>>} Event dispatcher instance
+     * @type {ICircleEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Circle, ICircleEvents>>;
+    _events: ICircleEvents;
     /**
      * Constructor
      */

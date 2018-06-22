@@ -13,7 +13,6 @@ import { SpriteState } from "../SpriteState";
 import { Container } from "../Container";
 import { Component } from "../Component";
 import { List } from "../utils/List";
-import { EventDispatcher, AMEvent } from "../utils/EventDispatcher";
 import { Adapter } from "../utils/Adapter";
 import { Optional } from "../utils/Type";
 import * as $type from "../utils/Type";
@@ -189,9 +188,12 @@ export declare class Responsive extends BaseObjectEvents {
      */
     protected _component: $type.Optional<Component>;
     /**
-     * EventDispatcher for [[Responsive]].
+     * Defines available events.
+     *
+     * @type {IResponsiveEvents}
+     * @ignore Exclude from docs
      */
-    events: EventDispatcher<AMEvent<Responsive, IResponsiveEvents>>;
+    _events: IResponsiveEvents;
     /**
      * Adapter.
      *

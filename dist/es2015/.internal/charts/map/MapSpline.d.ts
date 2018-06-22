@@ -8,7 +8,6 @@
  * @hidden
  */
 import { MapLine, IMapLineProperties, IMapLineAdapters, IMapLineEvents } from "./MapLine";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Polyspline } from "../../core/elements/Polyspline";
 import { MapSplineSeriesDataItem, MapSplineSeries } from "./MapSplineSeries";
 /**
@@ -62,11 +61,12 @@ export declare class MapSpline extends MapLine {
      */
     _adapter: IMapSplineAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<MapSpline, IMapSplineEvents>>} Event dispatcher instance
+     * @type {IMapSplineEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<MapSpline, IMapSplineEvents>>;
+    _events: IMapSplineEvents;
     /**
      * A visual element for the spline.
      *

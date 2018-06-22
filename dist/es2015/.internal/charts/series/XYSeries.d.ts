@@ -8,7 +8,7 @@
  * @hidden
  */
 import { Series, SeriesDataItem, ISeriesProperties, ISeriesDataFields, ISeriesAdapters, ISeriesEvents } from "./Series";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { AMEvent } from "../../core/Sprite";
 import { Axis } from "../axes/Axis";
 import { AxisRenderer } from "../axes/AxisRenderer";
 import { ValueAxis } from "../axes/ValueAxis";
@@ -394,11 +394,12 @@ export declare class XYSeries extends Series {
      */
     _adapter: IXYSeriesAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<XYSeries, IXYSeriesEvents>>} Event dispatcher instance
+     * @type {IXYSeriesEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<XYSeries, IXYSeriesEvents>>;
+    _events: IXYSeriesEvents;
     /**
      * Defines the type of data item.
      *

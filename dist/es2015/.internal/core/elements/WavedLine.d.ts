@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Line, ILineProperties, ILineAdapters, ILineEvents } from "./Line";
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
 import { IWavedShape } from "../defs/IWavedShape";
 /**
  * ============================================================================
@@ -82,11 +81,12 @@ export declare class WavedLine extends Line implements IWavedShape {
      */
     _adapter: IWavedLineAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<WavedLine, IWavedLineEvents>>} Event dispatcher instance
+     * @type {IWavedLineEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<WavedLine, IWavedLineEvents>>;
+    _events: IWavedLineEvents;
     /**
      * Constructor
      */

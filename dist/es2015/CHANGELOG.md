@@ -5,6 +5,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.30] - 2018-06-22
+
+### Fixed
+- JSON config: `heatRules` can now refer to bullets in `tartget` using syntax `"bullets.0.property"`, e.g. `"bullets.0.circle"`. (meaning use "circle" property of the first bullet as heat rule target)
+- Export: fixed SVG export on Firefox.
+- Export: fixed SVG/CSV/JSON export for Edge/IE.
+- Export: fixed sheet name limitations for Excel export.
+- Export: print option was printing the whole page instead of just chart on IEs.
+- Export: fixed bitmap image export on IEs.
+- [Issue 65.](https://github.com/amcharts/amcharts4/issues/65)
+
+### Changed
+- `class` attribute is no longer applied to elements by default. To enable it use new setting `am4core.options.autoSetClassName`.
+- `class` attributes now will contain the whole inheritance chain, e.g. `"amcharts-Sprite amcharts-Container amcharts-Button"`. Class names are no longer lowercased.
+- The `svgContainer` property is now an `SVGContainer`, not an `HTMLElement`.
+
+### Added
+- New global option `am4core.options.autoSetClassName` (default `false`). If set to `true` will set `class` attribute of all elements that reflect class element was created in, including inheritance, e.g. `"amcharts-Sprite amcharts-Container amcharts-Button"`.
+
+### Removed
+- Element-level `classNamePrefix` is no longer available. Use global `am4core.options.autoSetClassName` instead.
+
 ## [4.0.0-beta.29] - 2018-06-16
 
 ### Fixed

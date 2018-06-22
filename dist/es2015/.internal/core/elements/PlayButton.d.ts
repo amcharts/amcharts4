@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Button, IButtonProperties, IButtonAdapters, IButtonEvents } from "./Button";
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
 /**
  * ============================================================================
  * REQUISITES
@@ -60,11 +59,12 @@ export declare class PlayButton extends Button {
      */
     _adapter: IPlayButtonAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<PlayButton, IPlayButtonEvents>>} Event dispatcher instance
+     * @type {IPlayButtonEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<PlayButton, IPlayButtonEvents>>;
+    _events: IPlayButtonEvents;
     /**
      * Orientation of the resize direction.
      *

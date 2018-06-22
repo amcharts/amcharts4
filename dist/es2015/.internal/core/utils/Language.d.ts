@@ -12,7 +12,6 @@
  */
 import { BaseObjectEvents, IBaseObjectEvents } from "../Base";
 import { Adapter } from "./Adapter";
-import { EventDispatcher, AMEvent } from "./EventDispatcher";
 /**
  * ============================================================================
  * REQUISITES
@@ -215,17 +214,25 @@ export interface ILanguageAdapters {
  */
 export declare class Language extends BaseObjectEvents {
     /**
-     * Event dispatcher.
+     * Defines type used in the Sprite.
      *
-     * @type {EventDispatcher<AMEvent<Language, ILanguageEvents>>}
+     * @ignore Exclude from docs
+     * @type {ILanguageAdapters}
      */
-    events: EventDispatcher<AMEvent<Language, ILanguageEvents>>;
+    _adapter: ILanguageAdapters;
+    /**
+     * Defines available events.
+     *
+     * @type {ILanguageEvents}
+     * @ignore Exclude from docs
+     */
+    _events: ILanguageEvents;
     /**
      * Adapter.
      *
-     * @type {Adapter<Language, ILanguageAdapters>}
+     * @type {Adapter<this, this["_adapter"]>}
      */
-    adapter: Adapter<Language, ILanguageAdapters>;
+    adapter: Adapter<this, this["_adapter"]>;
     /**
      * Current locale.
      *

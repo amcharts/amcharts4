@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Chart, IChartProperties, IChartDataFields, IChartAdapters, IChartEvents, ChartDataItem } from "../Chart";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { IListEvents, ListTemplate } from "../../core/utils/List";
 import { Container } from "../../core/Container";
 import { Series } from "../series/Series";
@@ -107,11 +106,12 @@ export declare class SerialChart extends Chart {
      */
     _adapter: ISerialChartAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<SerialChart, ISerialChartEvents>>} Event dispatcher instance
+     * @type {ISerialChartEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<SerialChart, ISerialChartEvents>>;
+    _events: ISerialChartEvents;
     /**
      * Defines a type of series that this chart uses.
      *

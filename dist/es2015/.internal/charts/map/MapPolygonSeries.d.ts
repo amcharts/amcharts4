@@ -8,7 +8,6 @@
  * @hidden
  */
 import { MapSeries, MapSeriesDataItem, IMapSeriesProperties, IMapSeriesDataFields, IMapSeriesAdapters, IMapSeriesEvents } from "./MapSeries";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { MapChart } from "../types/MapChart";
 import { MapPolygon } from "./MapPolygon";
 import { ListTemplate } from "../../core/utils/List";
@@ -277,11 +276,12 @@ export declare class MapPolygonSeries extends MapSeries {
      */
     _adapter: IMapPolygonSeriesAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<MapPolygonSeries, IMapPolygonSeriesEvents>>} Event dispatcher instance
+     * @type {IMapPolygonSeriesEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<MapPolygonSeries, IMapPolygonSeriesEvents>>;
+    _events: IMapPolygonSeriesEvents;
     /**
      * Defines the type of data item.
      *

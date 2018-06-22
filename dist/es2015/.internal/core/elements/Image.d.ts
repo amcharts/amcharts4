@@ -7,7 +7,7 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../Sprite";
+import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../Sprite";
 /**
  * ============================================================================
  * REQUISITES
@@ -65,11 +65,12 @@ export declare class Image extends Sprite {
      */
     _adapter: IImageAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Image, IImageEvents>>} Event dispatcher instance
+     * @type {IImageEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Image, IImageEvents>>;
+    _events: IImageEvents;
     /**
      * Constructor
      */

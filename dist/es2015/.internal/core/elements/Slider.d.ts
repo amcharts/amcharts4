@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Scrollbar, IScrollbarProperties, IScrollbarAdapters, IScrollbarEvents } from "../../core/elements/Scrollbar";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 /**
  * ============================================================================
  * REQUISITES
@@ -60,11 +59,12 @@ export declare class Slider extends Scrollbar {
      */
     _adapter: ISliderAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Slider, ISliderEvents>>} Event dispatcher instance
+     * @type {ISliderEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Slider, ISliderEvents>>;
+    _events: ISliderEvents;
     /**
      * Constructor
      */

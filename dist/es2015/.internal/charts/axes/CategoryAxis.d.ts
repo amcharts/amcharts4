@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Axis, AxisItemLocation, AxisDataItem, IAxisProperties, IAxisDataFields, IAxisAdapters, IAxisEvents } from "./Axis";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { IPoint, IOrientationPoint } from "../../core/defs/IPoint";
 import { AxisRenderer } from "./AxisRenderer";
 import { SerialChart } from "../types/SerialChart";
@@ -165,11 +164,12 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      */
     _adapter: ICategoryAxisAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<CategoryAxis, ICategoryAxisEvents>>} Event dispatcher instance
+     * @type {ICategoryAxisEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<CategoryAxis, ICategoryAxisEvents>>;
+    _events: ICategoryAxisEvents;
     /**
      * Defines the type of the Date Items.
      *

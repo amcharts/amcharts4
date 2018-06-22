@@ -409,11 +409,12 @@ var Animation = /** @class */ (function (_super) {
         // animation loop)
         this.applyStaticOptions();
         if (this.events.isEnabled("animationstarted")) {
-            this.events.dispatchImmediately("animationstarted", {
+            var event_1 = {
                 type: "animationstarted",
                 target: this,
                 progress: this.progress
-            });
+            };
+            this.events.dispatchImmediately("animationstarted", event_1);
         }
         this.update();
         // If duration is 0, just end animation
@@ -474,11 +475,12 @@ var Animation = /** @class */ (function (_super) {
         // Apply static options
         this.applyStaticOptions();
         if (this.events.isEnabled("animationended")) {
-            this.events.dispatchImmediately("animationended", {
+            var event_2 = {
                 type: "animationended",
                 target: this,
                 progress: this.progress
-            });
+            };
+            this.events.dispatchImmediately("animationended", event_2);
         }
         // Check if we should loop
         if (this._loop > 0) {
@@ -517,11 +519,12 @@ var Animation = /** @class */ (function (_super) {
         this.pause();
         if (!skipEvent) {
             if (this.events.isEnabled("animationstopped")) {
-                this.events.dispatchImmediately("animationstopped", {
+                var event_3 = {
                     type: "animationstopped",
                     target: this,
                     progress: this.progress
-                });
+                };
+                this.events.dispatchImmediately("animationstopped", event_3);
             }
         }
         return this;
@@ -545,11 +548,12 @@ var Animation = /** @class */ (function (_super) {
         });
         this.progress = progress;
         if (this.events.isEnabled("animationprogress")) {
-            this.events.dispatchImmediately("animationprogress", {
+            var event_4 = {
                 type: "animationprogress",
                 target: this,
                 progress: this.progress
-            });
+            };
+            this.events.dispatchImmediately("animationprogress", event_4);
         }
     };
     /**

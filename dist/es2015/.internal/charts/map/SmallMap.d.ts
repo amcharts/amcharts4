@@ -8,7 +8,7 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { Sprite, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite, ISpriteEvents, AMEvent } from "../../core/Sprite";
 import { Rectangle } from "../../core/elements/Rectangle";
 import { MapChart } from "../types/MapChart";
 import { MapSeries } from "./MapSeries";
@@ -69,11 +69,12 @@ export declare class SmallMap extends Container {
      */
     _adapter: ISmallMapAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<SmallMap, ISmallMapEvents>>} Event dispatcher instance
+     * @type {ISmallMapEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<SmallMap, ISmallMapEvents>>;
+    _events: ISmallMapEvents;
     /**
      * A target map.
      *

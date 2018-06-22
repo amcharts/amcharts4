@@ -1241,9 +1241,6 @@ var Container = /** @class */ (function (_super) {
     };
     Object.defineProperty(Container.prototype, "preloader", {
         /**
-         * Creates (if necessary) and returns an instance of the [[Preloader]] to
-         * show when Container is busy loading.
-         *
          * @return {Optional<Preloader>} Preloader instance
          */
         get: function () {
@@ -1256,9 +1253,9 @@ var Container = /** @class */ (function (_super) {
             }
         },
         /**
-         * Sets a [[Preloader]] instance to be used when Container is busy.
+         * A [[Preloader]] instance to be used when Container is busy.
          *
-         * @param {Optional<Preloader>} preloader Preloader instance
+         * @param {Optional<Preloader>}  preloader  Preloader instance
          */
         set: function (preloader) {
             if (this._preloader) {
@@ -1273,6 +1270,12 @@ var Container = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Sets [[Paper]] instance to use to draw elements.
+     *
+     * @ignore Exclude from docs
+     * @param {Paper}  paper  Paper
+     */
     Container.prototype.setPaper = function (paper) {
         _super.prototype.setPaper.call(this, paper);
         $array.each(this._childrenByLayout, function (child) {

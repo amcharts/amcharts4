@@ -53,7 +53,7 @@ function createChild(htmlElement, classType) {
         // main container which holds content container and tooltips container
         var container = new Container();
         container.htmlContainer = htmlContainer;
-        container.svgContainer = svgDiv.SVGContainer;
+        container.svgContainer = svgDiv;
         container.width = percent(100);
         container.height = percent(100);
         container.paper = paper;
@@ -90,6 +90,9 @@ function createChild(htmlElement, classType) {
             tooltipContainer_1.createChild(AmChartsLogo);
         }
         sprite_1.numberFormatter; // need to create one.
+        // Set this as an autonomouse instance
+        // Controls like Preloader, Export will use this.
+        contentContainer.isStandaloneInstance = true;
         return sprite_1;
     }
     else {

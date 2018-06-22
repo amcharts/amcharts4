@@ -7,7 +7,7 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../Sprite";
+import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../Sprite";
 /**
  * ============================================================================
  * REQUISITES
@@ -59,11 +59,12 @@ export declare class Rectangle extends Sprite {
      */
     _adapter: IRectangleAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Rectangle, IRectangleEvents>>} Event dispatcher instance
+     * @type {IRectangleEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Rectangle, IRectangleEvents>>;
+    _events: IRectangleEvents;
     /**
      * Constructor
      * * Creates a `<rect>` element

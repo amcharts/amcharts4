@@ -10,6 +10,7 @@
 import { Sprite } from "../Sprite";
 import { Language } from "../utils/Language";
 import { BaseObject } from "../Base";
+import * as $type from "../utils/Type";
 /**
  * DurationFormatter class. Formats numbers as durations.
  *
@@ -69,15 +70,15 @@ export declare class DurationFormatter extends BaseObject {
     /**
      * Holds reference to parent [[Sprite]] object.
      *
-     * @type {Sprite}
+     * @type {Optional<Sprite>}
      */
-    sprite: Sprite;
+    sprite: $type.Optional<Sprite>;
     /**
      * Holds reference to [[Language]] object.
      *
-     * @type {Language}
+     * @type {Optional<Language>}
      */
-    language: Language;
+    language: $type.Optional<Language>;
     /**
      * Constructor
      */

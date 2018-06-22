@@ -2,7 +2,6 @@ import { DataParser } from "./DataParser";
 import { BaseObjectEvents, IBaseObjectEvents } from "../Base";
 import { Component } from "../Component";
 import { Adapter } from "../utils/Adapter";
-import { EventDispatcher, AMEvent } from "../utils/EventDispatcher";
 import { Language } from "../utils/Language";
 import { DateFormatter } from "../formatters/DateFormatter";
 import { INetRequestOptions } from "../utils/Net";
@@ -161,11 +160,12 @@ export interface IDataSourceAdapters {
  */
 export declare class DataSource extends BaseObjectEvents {
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {EventDispatcher<AMEvent<DataSource, IDataSourceEvents>>}
+     * @type {IDataSourceEvents}
+     * @ignore Exclude from docs
      */
-    events: EventDispatcher<AMEvent<DataSource, IDataSourceEvents>>;
+    _events: IDataSourceEvents;
     /**
      * Adapter.
      *

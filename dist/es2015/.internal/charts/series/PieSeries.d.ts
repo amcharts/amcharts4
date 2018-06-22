@@ -8,7 +8,7 @@
  * @hidden
  */
 import { Series, SeriesDataItem, ISeriesProperties, ISeriesDataFields, ISeriesAdapters, ISeriesEvents } from "./Series";
-import { ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { ISpriteEvents, AMEvent } from "../../core/Sprite";
 import { Slice } from "../../core/elements/Slice";
 import { AxisLabelCircular } from "../axes/AxisLabelCircular";
 import { PieTick } from "./PieTick";
@@ -306,11 +306,12 @@ export declare class PieSeries extends Series {
      */
     _adapter: IPieSeriesAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<PieSeries, IPieSeriesEvents>>} Event dispatcher instance
+     * @type {IPieSeriesEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<PieSeries, IPieSeriesEvents>>;
+    _events: IPieSeriesEvents;
     /**
      * Defines the type of data item.
      *

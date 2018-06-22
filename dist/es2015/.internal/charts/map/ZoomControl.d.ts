@@ -8,7 +8,7 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { Sprite, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite, ISpriteEvents, AMEvent } from "../../core/Sprite";
 import { Button } from "../../core/elements/Button";
 import { MapChart } from "../types/MapChart";
 import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
@@ -65,11 +65,12 @@ export declare class ZoomControl extends Container {
      */
     _adapter: IZoomControlAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<ZoomControl, IZoomControlEvents>>} Event dispatcher instance
+     * @type {IZoomControlEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<ZoomControl, IZoomControlEvents>>;
+    _events: IZoomControlEvents;
     /**
      * Zoom in button element.
      *

@@ -6,7 +6,6 @@
  */
 import { AxisFill, IAxisFillProperties, IAxisFillAdapters, IAxisFillEvents } from "./AxisFill";
 import { Axis } from "./Axis";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Percent } from "../../core/utils/Percent";
 /**
  * ============================================================================
@@ -79,11 +78,12 @@ export declare class AxisFillCircular extends AxisFill {
      */
     _adapter: IAxisFillCircularAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {AxisFillEventDispatcher<AMEvent<AxisFillCircular, IAxisFillCircularEvents>>} Event dispatcher instance
+     * @type {IAxisFillCircularEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<AxisFillCircular, IAxisFillCircularEvents>>;
+    _events: IAxisFillCircularEvents;
     /**
      * An SVG path, used to draw fill shape.
      *

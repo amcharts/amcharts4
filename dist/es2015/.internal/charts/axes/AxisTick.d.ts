@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Tick, ITickProperties, ITickAdapters, ITickEvents } from "../elements/Tick";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { AxisItemLocation, AxisDataItem } from "./Axis";
 /**
  * ============================================================================
@@ -60,10 +59,12 @@ export declare class AxisTick extends Tick {
      */
     _adapter: IAxisTickAdapters;
     /**
-     * Event dispacther.
-     * @type {SpriteEventDispatcher<AMEvent<AxisTick, IAxisTickEvents>>} Event dispatcher instance
+     * Defines available events.
+     *
+     * @type {IAxisTickEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<AxisTick, IAxisTickEvents>>;
+    _events: IAxisTickEvents;
     _dataItem: AxisDataItem;
     constructor();
     location: AxisItemLocation;

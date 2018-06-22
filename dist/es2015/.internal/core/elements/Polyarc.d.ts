@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Polyline, IPolylineProperties, IPolylineAdapters, IPolylineEvents } from "./Polyline";
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
 /**
  * ============================================================================
  * REQUISITES
@@ -76,11 +75,12 @@ export declare class Polyarc extends Polyline {
      */
     _adapter: IPolyarcAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Polyarc, IPolyarcEvents>>} Event dispatcher instance
+     * @type {IPolyarcEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Polyarc, IPolyarcEvents>>;
+    _events: IPolyarcEvents;
     /**
      * Constructor
      */

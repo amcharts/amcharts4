@@ -8,7 +8,6 @@
  * @hidden
  */
 import { MapObject, IMapObjectProperties, IMapObjectAdapters, IMapObjectEvents } from "./MapObject";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { MapImageSeriesDataItem, MapImageSeries } from "./MapImageSeries";
 /**
  * ============================================================================
@@ -73,11 +72,12 @@ export declare class MapImage extends MapObject {
      */
     _adapter: IMapImageAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<MapImage, IMapImageEvents>>} Event dispatcher instance
+     * @type {IMapImageEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<MapImage, IMapImageEvents>>;
+    _events: IMapImageEvents;
     /**
      * A related data item.
      *

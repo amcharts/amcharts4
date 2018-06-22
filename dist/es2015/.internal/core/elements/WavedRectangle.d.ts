@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Rectangle, IRectangleProperties, IRectangleAdapters, IRectangleEvents } from "./Rectangle";
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
 import { IWavedShape } from "../defs/IWavedShape";
 /**
  * ============================================================================
@@ -82,11 +81,12 @@ export declare class WavedRectangle extends Rectangle implements IWavedShape {
      */
     _adapter: IWavedRectangleAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<WavedRectangle, IWavedRectangleEvents>>} Event dispatcher instance
+     * @type {IWavedRectangleEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<WavedRectangle, IWavedRectangleEvents>>;
+    _events: IWavedRectangleEvents;
     /**
      * Top waved?
      *

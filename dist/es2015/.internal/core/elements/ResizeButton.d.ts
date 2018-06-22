@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Button, IButtonProperties, IButtonAdapters, IButtonEvents } from "./Button";
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
 import { Orientation } from "../defs/Orientation";
 /**
  * ============================================================================
@@ -61,11 +60,12 @@ export declare class ResizeButton extends Button {
      */
     _adapter: IResizeButtonAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<ResizeButton, IResizeButtonEvents>>} Event dispatcher instance
+     * @type {IResizeButtonEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<ResizeButton, IResizeButtonEvents>>;
+    _events: IResizeButtonEvents;
     /**
      * Orientation of the resize direction.
      *

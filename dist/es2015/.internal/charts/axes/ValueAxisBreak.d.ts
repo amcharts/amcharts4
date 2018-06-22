@@ -8,7 +8,6 @@
  * @hidden
  */
 import { AxisBreak, IAxisBreakProperties, IAxisBreakAdapters, IAxisBreakEvents } from "./AxisBreak";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { ValueAxis } from "./ValueAxis";
 /**
  * ============================================================================
@@ -79,11 +78,12 @@ export declare class ValueAxisBreak extends AxisBreak {
      */
     _adapter: IValueAxisBreakAdapters;
     /**
-     * Event disptacher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<ValueAxisBreak, IValueAxisBreakEvents>>} Event dispatcher instance
+     * @type {IValueAxisBreakEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<ValueAxisBreak, IValueAxisBreakEvents>>;
+    _events: IValueAxisBreakEvents;
     /**
      * Defines the type of the Axis this break is used for.
      *

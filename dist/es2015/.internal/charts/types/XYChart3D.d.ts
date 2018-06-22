@@ -8,7 +8,6 @@
  * @hidden
  */
 import { XYChart, IXYChartProperties, IXYChartDataFields, IXYChartAdapters, IXYChartEvents, XYChartDataItem } from "./XYChart";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Container } from "../../core/Container";
 import { AxisRendererX3D } from "../axes/AxisRendererX3D";
 import { AxisRendererY3D } from "../axes/AxisRendererY3D";
@@ -102,11 +101,12 @@ export declare class XYChart3D extends XYChart {
      */
     _adapter: IXYChart3DAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<XYChart3D, IXYChart3DEvents>>} Event dispatcher instance
+     * @type {IXYChart3DEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<XYChart3D, IXYChart3DEvents>>;
+    _events: IXYChart3DEvents;
     /**
      * Type of the axis renderer to use for X axes.
      *

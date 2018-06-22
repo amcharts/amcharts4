@@ -8,7 +8,7 @@
  * @hidden
  */
 import { Scrollbar, IScrollbarProperties, IScrollbarAdapters, IScrollbarEvents } from "../../core/elements/Scrollbar";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite } from "../../core/Sprite";
 import { List, IListEvents } from "../../core/utils/List";
 import { XYSeries } from "../series/XYSeries";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
@@ -69,11 +69,12 @@ export declare class XYChartScrollbar extends Scrollbar {
      */
     _adapter: IXYChartScrollbarAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<XYChartScrollbar, IXYChartScrollbarEvents>>} Event dispatcher instance
+     * @type {IXYChartScrollbarEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<XYChartScrollbar, IXYChartScrollbarEvents>>;
+    _events: IXYChartScrollbarEvents;
     /**
      * An [[XYSeries]] used to draw a graph on the Scrollbar.
      *

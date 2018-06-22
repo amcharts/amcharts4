@@ -9,7 +9,6 @@
  * @hidden
  */
 import { Column, IColumnProperties, IColumnAdapters, IColumnEvents } from "./Column";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Rectangle3D } from "../../core/elements/3d/Rectangle3D";
 /**
  * ============================================================================
@@ -64,11 +63,12 @@ export declare class Column3D extends Column {
      */
     _adapter: IColumn3DAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Column3D, IColumn3DEvents>>} Event dispatcher instance
+     * @type {IColumn3DEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Column3D, IColumn3DEvents>>;
+    _events: IColumn3DEvents;
     /**
      * column3D element
      * @type {Slice}

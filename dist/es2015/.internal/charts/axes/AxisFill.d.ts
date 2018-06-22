@@ -4,7 +4,7 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../../core/Sprite";
 import { Axis, AxisItemLocation, AxisDataItem } from "./Axis";
 /**
  * ============================================================================
@@ -78,11 +78,12 @@ export declare class AxisFill extends Sprite {
      */
     _adapter: IAxisFillAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<AxisFill, IAxisFillEvents>>} Event dispatcher instance
+     * @type {IAxisFillEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<AxisFill, IAxisFillEvents>>;
+    _events: IAxisFillEvents;
     /**
      * A referecent to Axis element this fill is applied to.
      *

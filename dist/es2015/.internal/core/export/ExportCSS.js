@@ -11,58 +11,56 @@ var rules = new Dictionary();
  * @return {IDisposer}          A MultiDisposer with style rules
  */
 export default function (prefix) {
-    if (!prefix) {
-        prefix = "amexport";
-    }
+    var newPrefix = (prefix ? prefix : "amexport");
     var colorSet = new InterfaceColorSet();
-    var counter = rules.insertKeyIfEmpty(prefix, function () {
+    var counter = rules.insertKeyIfEmpty(newPrefix, function () {
         var disposer = new MultiDisposer([
-            /*new StyleRule(`.${prefix}-menu`, {
+            /*new StyleRule(`.${newPrefix}-menu`, {
                 "opacity": "0.3",
                 "transition": "all 100ms ease-in-out",
             }),
 
-            new StyleRule(`div:hover .${prefix}-menu, .${prefix}-menu.active`, {
+            new StyleRule(`div:hover .${newPrefix}-menu, .${newPrefix}-menu.active`, {
                 "opacity": "0.9",
             }),*/
-            new StyleRule("." + prefix + "-menu-level-0", {
+            new StyleRule("." + newPrefix + "-menu-level-0", {
                 "position": "absolute",
                 "top": "5px",
                 "right": "5px",
             }),
-            new StyleRule("." + prefix + "-menu-level-0." + prefix + "-left", {
+            new StyleRule("." + newPrefix + "-menu-level-0." + newPrefix + "-left", {
                 "right": "auto",
                 "left": "5px",
             }),
-            new StyleRule("." + prefix + "-menu-level-0." + prefix + "-right", {
+            new StyleRule("." + newPrefix + "-menu-level-0." + newPrefix + "-right", {
                 "right": "5px",
                 "left": "auto",
             }),
-            new StyleRule("." + prefix + "-menu-level-0." + prefix + "-top", {
+            new StyleRule("." + newPrefix + "-menu-level-0." + newPrefix + "-top", {
                 "top": "5px",
                 "bottom": "auto",
             }),
-            new StyleRule("." + prefix + "-menu-level-0." + prefix + "-bottom", {
+            new StyleRule("." + newPrefix + "-menu-level-0." + newPrefix + "-bottom", {
                 "top": "auto",
                 "bottom": "5px",
             }),
-            new StyleRule("." + prefix + "-item." + prefix + "-item-level-0", {
+            new StyleRule("." + newPrefix + "-item." + newPrefix + "-item-level-0", {
                 "opacity": "0.3",
                 "width": "30px",
                 "height": "30px",
                 "transition": "all 100ms ease-in-out",
             }),
-            new StyleRule("div:hover ." + prefix + "-item." + prefix + "-item-level-0, ." + prefix + "-item." + prefix + "-item-level-0.active", {
+            new StyleRule("div:hover ." + newPrefix + "-item." + newPrefix + "-item-level-0, ." + newPrefix + "-item." + newPrefix + "-item-level-0.active", {
                 "opacity": "0.9",
             }),
-            new StyleRule("." + prefix + "-item." + prefix + "-item-level-0 > a", {
+            new StyleRule("." + newPrefix + "-item." + newPrefix + "-item-level-0 > a", {
                 "padding": "0",
                 "text-align": "center"
             }),
-            new StyleRule("." + prefix + "-item." + prefix + "-item-level-0:before", {
+            new StyleRule("." + newPrefix + "-item." + newPrefix + "-item-level-0:before", {
                 "display": "block"
             }),
-            new StyleRule("." + prefix + "-item", {
+            new StyleRule("." + newPrefix + "-item", {
                 "position": "relative",
                 "display": "block",
                 "opacity": "0",
@@ -77,65 +75,65 @@ export default function (prefix) {
                 "height": "initial",
                 "text-indent": "initial",
             }),
-            new StyleRule("." + prefix + "-left ." + prefix + "-item", {
+            new StyleRule("." + newPrefix + "-left ." + newPrefix + "-item", {
                 "margin": "1px 0 0 1px",
             }),
-            new StyleRule("." + prefix + "-item:hover, ." + prefix + "-item.active", {
+            new StyleRule("." + newPrefix + "-item:hover, ." + newPrefix + "-item.active", {
                 "background": colorSet.getFor("secondaryButtonHover").hex,
                 "color": colorSet.getFor("secondaryButtonText").hex,
             }),
-            new StyleRule("." + prefix + "-item > ." + prefix + "-menu", {
+            new StyleRule("." + newPrefix + "-item > ." + newPrefix + "-menu", {
                 "position": "absolute",
                 "top": "-1px",
                 "right": "0",
                 "margin-right": "100%",
             }),
-            new StyleRule("." + prefix + "-left ." + prefix + "-item > ." + prefix + "-menu", {
+            new StyleRule("." + newPrefix + "-left ." + newPrefix + "-item > ." + newPrefix + "-menu", {
                 "left": "0",
                 "right": "auto",
                 "margin-left": "100%",
                 "margin-right": "auto",
             }),
-            new StyleRule("." + prefix + "-right ." + prefix + "-item > ." + prefix + "-menu", {
+            new StyleRule("." + newPrefix + "-right ." + newPrefix + "-item > ." + newPrefix + "-menu", {
                 "left": "auto",
                 "right": "0",
                 "margin-left": "auto",
                 "margin-right": "100%",
             }),
-            new StyleRule("." + prefix + "-top ." + prefix + "-item > ." + prefix + "-menu", {
+            new StyleRule("." + newPrefix + "-top ." + newPrefix + "-item > ." + newPrefix + "-menu", {
                 "top": "-1px",
                 "bottom": "auto",
             }),
-            new StyleRule("." + prefix + "-bottom ." + prefix + "-item > ." + prefix + "-menu", {
+            new StyleRule("." + newPrefix + "-bottom ." + newPrefix + "-item > ." + newPrefix + "-menu", {
                 "top": "auto",
                 "bottom": "0",
             }),
-            new StyleRule("." + prefix + "-item > ." + prefix + "-menu", {
+            new StyleRule("." + newPrefix + "-item > ." + newPrefix + "-menu", {
                 "display": "none",
             }),
-            new StyleRule("." + prefix + "-item:hover > ." + prefix + "-menu, ." + prefix + "-item.active > ." + prefix + "-menu", {
+            new StyleRule("." + newPrefix + "-item:hover > ." + newPrefix + "-menu, ." + newPrefix + "-item.active > ." + newPrefix + "-menu", {
                 "display": "block",
             }),
-            new StyleRule("." + prefix + "-item:hover > ." + prefix + "-menu > ." + prefix + "-item, ." + prefix + "-item.active > ." + prefix + "-menu > ." + prefix + "-item", {
+            new StyleRule("." + newPrefix + "-item:hover > ." + newPrefix + "-menu > ." + newPrefix + "-item, ." + newPrefix + "-item.active > ." + newPrefix + "-menu > ." + newPrefix + "-item", {
                 "opacity": "1",
             }),
-            new StyleRule("." + prefix + "-menu", {
+            new StyleRule("." + newPrefix + "-menu", {
                 "display": "block",
                 "list-style": "none",
                 "margin": "0",
                 "padding": "0",
             }),
-            new StyleRule("." + prefix + "-label", {
+            new StyleRule("." + newPrefix + "-label", {
                 "display": "block",
                 "cursor": "default",
                 "padding": "0.5em 1em",
             }),
-            new StyleRule("." + prefix + "-clickable", {
+            new StyleRule("." + newPrefix + "-clickable", {
                 "cursor": "pointer",
             }),
         ]);
         return new CounterDisposer(function () {
-            rules.removeKey(prefix);
+            rules.removeKey(newPrefix);
             disposer.dispose();
         });
     });

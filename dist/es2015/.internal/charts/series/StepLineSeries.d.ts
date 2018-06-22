@@ -8,7 +8,6 @@
  * @hidden
  */
 import { LineSeries, LineSeriesDataItem, ILineSeriesDataFields, ILineSeriesProperties, ILineSeriesAdapters, ILineSeriesEvents } from "./LineSeries";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { IPoint } from "../../core/defs/IPoint";
 /**
  * ============================================================================
@@ -99,11 +98,12 @@ export declare class StepLineSeries extends LineSeries {
      */
     _adapter: IStepLineSeriesAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<StepLineSeries, IStepLineSeriesEvents>>} Event dispatcher instance
+     * @type {IStepLineSeriesEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<StepLineSeries, IStepLineSeriesEvents>>;
+    _events: IStepLineSeriesEvents;
     /**
      * Defines the type of data item.
      *

@@ -8,7 +8,6 @@
  * @hidden
  */
 import { MapSeries, MapSeriesDataItem, IMapSeriesProperties, IMapSeriesDataFields, IMapSeriesAdapters, IMapSeriesEvents } from "./MapSeries";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { MapChart } from "../types/MapChart";
 import { MapImage } from "./MapImage";
 import { ListTemplate } from "../../core/utils/List";
@@ -166,11 +165,12 @@ export declare class MapImageSeries extends MapSeries {
      */
     _adapter: IMapImageSeriesAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<MapImageSeries, IMapImageSeriesEvents>>} Event dispatcher instance
+     * @type {IMapImageSeriesEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<MapImageSeries, IMapImageSeriesEvents>>;
+    _events: IMapImageSeriesEvents;
     /**
      * Defines the type of data item.
      *

@@ -18,7 +18,6 @@ import { Container } from "./Container";
 import { List, ListDisposer } from "./utils/List";
 import { OrderedListTemplate } from "./utils/SortedList";
 import { Dictionary } from "./utils/Dictionary";
-import { Export } from "./export/Export";
 import { DataSource } from "./data/DataSource";
 import { Responsive } from "./responsive/Responsive";
 import { DataItem } from "./DataItem";
@@ -1372,42 +1371,22 @@ var Component = /** @class */ (function (_super) {
         this._inited = false;
         this.deepInvalidate();
     };
-    Object.defineProperty(Component.prototype, "exporting", {
-        /**
-         * Returns an [[Export]] instance.
-         *
-         * If it does not exist it looks in parents. It also adds "data" Adapter so
-         * that Export can access Component's data.
-         *
-         * @see {@link https://www.amcharts.com/docs/v4/concepts/exporting/} for more about exporting
-         * @return {Export} Export instance
-         */
-        get: function () {
-            var _this = this;
-            var _export = this._exporting.get();
-            if (_export) {
-                return _export;
-            }
-            else {
-                if (this.parent) {
-                    _export = this.parent.exporting;
-                }
-                else {
-                    _export = new Export();
-                    _export.container = this.svgContainer;
-                    _export.sprite = this;
-                }
-                this._exporting.set(_export, _export);
-                _export.adapter.add("data", function (arg) {
-                    arg.data = _this.data;
-                    return arg;
-                });
-            }
-            return _export;
-        },
-        enumerable: true,
-        configurable: true
-    });
+    /**
+     * Add an adapter for data.
+     *
+     * @return {Export} Exporting
+     */
+    Component.prototype.getExporting = function () {
+        var _export = _super.prototype.getExporting.call(this);
+        if (!_export.adapter.has("data", this._exportData, null, this)) {
+            _export.adapter.add("data", this._exportData, null, this);
+        }
+        return _export;
+    };
+    Component.prototype._exportData = function (arg) {
+        arg.data = this.data;
+        return arg;
+    };
     return Component;
 }(Container));
 export { Component };

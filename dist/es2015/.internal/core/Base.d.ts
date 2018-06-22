@@ -350,26 +350,27 @@ export declare class BaseObjectEvents extends BaseObject {
      * Constructor
      */
     constructor();
+    _events: IBaseObjectEvents;
     /**
      * An [[EventDispatcher]] instance
      */
-    events: EventDispatcher<AMEvent<BaseObject, IBaseObjectEvents>>;
+    events: EventDispatcher<AMEvent<this, this["_events"]>>;
     /**
      * Dispatches an event using own event dispatcher. Will automatically
      * populate event data object with event type and target (this element).
      * It also checks if there are any handlers registered for this sepecific
      * event.
      *
-     * @param {string} eventType Event type (name)
+     * @param {Key} eventType Event type (name)
      * @param {any}    data      Data to pass into event handler(s)
      */
-    dispatch(eventType: string, data?: any): void;
+    dispatch<Key extends keyof this["_events"]>(eventType: Key, data?: any): void;
     /**
      * Works like `dispatch`, except event is triggered immediately, without
      * waiting for the next frame cycle.
      *
-     * @param {string} eventType Event type (name)
+     * @param {Key} eventType Event type (name)
      * @param {any}    data      Data to pass into event handler(s)
      */
-    dispatchImmediately(eventType: string, data?: any): void;
+    dispatchImmediately<Key extends keyof this["_events"]>(eventType: Key, data?: any): void;
 }

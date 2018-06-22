@@ -957,7 +957,7 @@ var Interaction = /** @class */ (function (_super) {
                             };
                             io.events.dispatchImmediately("rightclick", imev);
                         }
-        
+
                     } else {
                         if (io.events.isEnabled("hit")) {
                             let imev: AMEvent<InteractionObject, InteractionObjectEvents>["hit"] = {

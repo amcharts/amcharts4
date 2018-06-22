@@ -8,7 +8,7 @@
  * @hidden
  */
 import { Container, ContainerLayout, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite } from "../../core/Sprite";
 import { IPoint } from "../../core/defs/IPoint";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
 import { Axis } from "./Axis";
@@ -130,11 +130,12 @@ export declare class AxisRenderer extends Container {
      */
     _adapter: IAxisRendererAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<AxisRenderer, IAxisRendererEvents>>} Event dispatcher instance
+     * @type {IAxisRendererEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<AxisRenderer, IAxisRendererEvents>>;
+    _events: IAxisRendererEvents;
     /**
      * A related Axis.
      *

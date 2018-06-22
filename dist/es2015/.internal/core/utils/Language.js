@@ -68,7 +68,7 @@ var Language = /** @class */ (function (_super) {
         /**
          * Adapter.
          *
-         * @type {Adapter<Language, ILanguageAdapters>}
+         * @type {Adapter<this, this["_adapter"]>}
          */
         _this.adapter = new Adapter(_this);
         /**
@@ -249,11 +249,12 @@ var Language = /** @class */ (function (_super) {
             if (this._locale != value) {
                 this._locale = value;
                 if (this.events.isEnabled("localechanged")) {
-                    this.events.dispatchImmediately("localechanged", {
+                    var event_1 = {
                         type: "localechanged",
                         locale: value,
                         target: this
-                    });
+                    };
+                    this.events.dispatchImmediately("localechanged", event_1);
                 }
             }
         },

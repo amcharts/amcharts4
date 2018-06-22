@@ -26,7 +26,6 @@
  */
 import { ExportMenu } from "./ExportMenu";
 import { Adapter } from "../utils/Adapter";
-import { EventDispatcher, AMEvent } from "../utils/EventDispatcher";
 import { Sprite } from "../Sprite";
 import { Preloader } from "../elements/Preloader";
 import { Modal } from "../elements/Modal";
@@ -542,9 +541,12 @@ export declare class Export extends Validatable {
      */
     static XLINK: string;
     /**
-     * Event dispacther..
+     * Defines available events.
+     *
+     * @type {IExportEvents}
+     * @ignore Exclude from docs
      */
-    events: EventDispatcher<AMEvent<Export, IExportEvents>>;
+    _events: IExportEvents;
     /**
      * Adapter.
      *
@@ -569,9 +571,9 @@ export declare class Export extends Validatable {
      * An instance of [[ExportMenu]].
      *
      * @ignore Exclude from docs
-     * @type {ExportMenu}
+     * @type {Optional<ExportMenu>}
      */
-    protected _menu: ExportMenu;
+    protected _menu: $type.Optional<ExportMenu>;
     /**
      * Reference to main container to place menu in.
      *
@@ -583,9 +585,9 @@ export declare class Export extends Validatable {
      * [[Sprite]] instance to be used when converting to image.
      *
      * @ignore Exclude from docs
-     * @type {Sprite}
+     * @type {Optional<Sprite>}
      */
-    protected _sprite: Sprite;
+    protected _sprite: $type.Optional<Sprite>;
     /**
      * Data storage to be used when exporting to data formats.
      *
@@ -688,7 +690,7 @@ export declare class Export extends Validatable {
      */
     constructor();
     /**
-     * @return {ExportMenu} ExportMenu instance
+     * @return {Optional<ExportMenu>} ExportMenu instance
      */
     /**
      * An instance of [[ExportMenu]].
@@ -711,9 +713,9 @@ export declare class Export extends Validatable {
      * }
      * ```
      *
-     * @param {ExportMenu}  menu  ExportMenu instance
+     * @param {Optional<ExportMenu>}  menu  ExportMenu instance
      */
-    menu: ExportMenu;
+    menu: $type.Optional<ExportMenu>;
     /**
      * Checks if this specific menu item type is supported by current system.
      *
@@ -983,6 +985,13 @@ export declare class Export extends Validatable {
      * @todo Support for multi-sheet
      */
     getExcel(type: "xlsx", options?: IExportExcelOptions): Promise<string>;
+    /**
+     * This is needed to work around Excel limitations.
+     *
+     * @param  {string}  name  Source name
+     * @return {string}        Normalized name
+     */
+    private normalizeExcelSheetName(name);
     /**
      * Rertuns an array of values to be used as Excel row.
      *

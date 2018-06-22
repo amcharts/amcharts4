@@ -8,7 +8,6 @@
  * @hidden
  */
 import { ColumnSeries, IColumnSeriesProperties, IColumnSeriesDataFields, IColumnSeriesAdapters, IColumnSeriesEvents, ColumnSeriesDataItem } from "../series/ColumnSeries";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { RadarChart } from "../types/RadarChart";
 import { RadarColumn } from "../elements/RadarColumn";
 /**
@@ -113,11 +112,12 @@ export declare class RadarColumnSeries extends ColumnSeries {
      */
     _adapter: IRadarColumnSeriesAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<RadarColumnSeries, IRadarColumnSeriesEvents>>} Event dispatcher instance
+     * @type {IRadarColumnSeriesEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<RadarColumnSeries, IRadarColumnSeriesEvents>>;
+    _events: IRadarColumnSeriesEvents;
     /**
      * A chart series belongs to.
      *

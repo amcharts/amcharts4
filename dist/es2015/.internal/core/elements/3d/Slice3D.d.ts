@@ -8,7 +8,7 @@
  * @hidden
  */
 import { Slice, ISliceProperties, ISliceAdapters, ISliceEvents } from "../Slice";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../Sprite";
+import { Sprite } from "../../Sprite";
 import { Container } from "../../Container";
 /**
  * Defines properties for [[Slice3D]].
@@ -69,10 +69,12 @@ export declare class Slice3D extends Slice {
      */
     _adapter: ISlice3DAdapters;
     /**
-     * Event dispacther.
-     * @type {SpriteEventDispatcher<AMEvent<Slice3D, ISlice3DEvents>>} Event dispatcher instance
+     * Defines available events.
+     *
+     * @type {ISlice3DEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Slice3D, ISlice3DEvents>>;
+    _events: ISlice3DEvents;
     /**
      * Container element for elements of the 3D sides.
      *

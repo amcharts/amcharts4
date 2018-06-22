@@ -1,13 +1,3 @@
-/**
- * Text class deals with all text placed on chart.
- */
-/**
- * ============================================================================
- * IMPORTS
- * ============================================================================
- * @hidden
- */
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
 import { DataItem } from "../DataItem";
 import { TextValign } from "../defs/TextValign";
@@ -185,11 +175,12 @@ export declare class Label extends Container {
      */
     _adapter: ILabelAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Text, ILabelEvents>>} Event dispatcher instance
+     * @type {ILabelEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Label, ILabelEvents>>;
+    _events: ILabelEvents;
     /**
      * Indicates if the whole text does not fit into max dimenstions set for it.
      *

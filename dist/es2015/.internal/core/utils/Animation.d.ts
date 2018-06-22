@@ -8,7 +8,6 @@
  * @hidden
  */
 import { BaseObjectEvents, IBaseObjectEvents } from "../Base";
-import { EventDispatcher, AMEvent } from "../utils/EventDispatcher";
 import { IDisposer } from "../utils/Disposer";
 import { Color } from "../utils/Color";
 import { Percent } from "../utils/Percent";
@@ -170,11 +169,12 @@ export declare class AnimationDisposer implements IDisposer {
  */
 export declare class Animation extends BaseObjectEvents implements IAnimationObject {
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {EventDispatcher<AMEvent<Animation, IAnimationEvents>>}
+     * @type {IAnimationEvents}
+     * @ignore Exclude from docs
      */
-    events: EventDispatcher<AMEvent<Animation, IAnimationEvents>>;
+    _events: IAnimationEvents;
     /**
      * An animation target object. [[Animation]] will update properties of
      * this object.

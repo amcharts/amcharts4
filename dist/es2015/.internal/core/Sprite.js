@@ -146,6 +146,15 @@ var Sprite = /** @class */ (function (_super) {
          */
         _this.isShowing = false;
         /**
+         * Indicates if this element is a standalone instance. A "standalone
+         * instance" means this is a autonomous object which maintains its own
+         * set of controls like Preloader, Export, etc.
+         *
+         * @ignore Exclude from docs
+         * @type {boolean}
+         */
+        _this.isStandaloneInstance = false;
+        /**
          * Indicates if togglable Sprite is currently active (toggled on).
          *
          * @ignore Exclude from docs
@@ -381,6 +390,19 @@ var Sprite = /** @class */ (function (_super) {
      * ==========================================================================
      * @hidden
      */
+    /**
+     * Applies properties from all assigned themes.
+     *
+     * We do this here so that we can apply class names as well.
+     *
+     * @ignore Exclude from docs
+     */
+    Sprite.prototype.applyTheme = function () {
+        _super.prototype.applyTheme.call(this);
+        if (options.autoSetClassName) {
+            this.setClassName();
+        }
+    };
     /**
      * Returns theme(s) used by this object either set explicitly on this
      * element, inherited from parent, or inherited from [[System]].
@@ -711,6 +733,9 @@ var Sprite = /** @class */ (function (_super) {
             }
         }
         _super.prototype.dispose.call(this);
+        if (this._svgContainer) {
+            this._svgContainer.dispose();
+        }
         if (this._interactionDisposer) {
             this._interactionDisposer.dispose();
         }
@@ -956,7 +981,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Element's user-defined ID.
          *
-         * Will trow an Error if there alread is an object with the same ID.
+         * Will throw an Error if there already is an object with the same ID.
          *
          * Please note that above check will be performed withing the scope of the
          * current chart instance. It will not do checks across other chart instances
@@ -975,7 +1000,9 @@ var Sprite = /** @class */ (function (_super) {
                 else {
                     this.map.setKey(value, this);
                 }
-                this.setClassName();
+                if (options.autoSetClassName) {
+                    this.setClassName();
+                }
             }
         },
         enumerable: true,
@@ -1161,45 +1188,16 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.removeSVGAttribute = function (attribute) {
         this.group.removeAttr(attribute);
     };
-    Object.defineProperty(Sprite.prototype, "classNamePrefix", {
-        /**
-         * @return {string} Class name prefix
-         */
-        get: function () {
-            if (this._classNamePrefix) {
-                return this._classNamePrefix;
-            }
-            else if (this.parent) {
-                return this.parent.classNamePrefix;
-            }
-            return options.classNamePrefix;
-        },
-        /**
-         * When the element is creating its SVG elements, it may attach special
-         * `class` properties to them, indicating type of element, so that they can
-         * be styled and referenced using CSS.
-         *
-         * This accessor sets/returns class name prefix, which will be prepended to
-         * all class names.
-         *
-         * @param {string}  prefix  Class name prefix
-         */
-        set: function (prefix) {
-            prefix = $type.toText(prefix);
-            this._classNamePrefix = prefix;
-        },
-        enumerable: true,
-        configurable: true
-    });
     /**
      * Sets `class` attribute of the elements SVG node.
      *
+     * Uses `am4core.options.classNamePrefix`.
+     *
      * @ignore Exclude from docs
-     * Uses `classNamePrefix`.
      */
     Sprite.prototype.setClassName = function () {
-        var className = this.className.toLowerCase();
-        var classNamePrefix = this.classNamePrefix;
+        var className = this.className;
+        var classNamePrefix = options.classNamePrefix;
         if (this.element) {
             this.element.addClass(classNamePrefix + className);
         }
@@ -1354,7 +1352,9 @@ var Sprite = /** @class */ (function (_super) {
             if (!this.invalid) {
                 this.validate();
             }
-            this.setClassName();
+            if (options.autoSetClassName) {
+                this.setClassName();
+            }
             this.setSVGAttributes();
             this.applyAccessibility();
         },
@@ -1366,7 +1366,7 @@ var Sprite = /** @class */ (function (_super) {
          * HTML container (`<div>`) which is used to place chart's `<svg>` element
          * in.
          *
-         * @return {Optional<HTMLElement>} Container for chart elements
+         * @return {Optional<SVGContainer>} Container for chart elements
          */
         get: function () {
             if (this._svgContainer) {
@@ -1381,7 +1381,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Sets HTML container to add SVG and other chart elements to.
          *
-         * @param {Optional<HTMLElement>} svgContainer Container for chart elements
+         * @param {Optional<SVGContainer>} svgContainer Container for chart elements
          */
         set: function (svgContainer) {
             this._svgContainer = svgContainer;
@@ -2827,11 +2827,12 @@ var Sprite = /** @class */ (function (_super) {
         if (this.properties[property] !== value) {
             this.properties[property] = value;
             if (this.events.isEnabled("propertychanged")) {
-                this.events.dispatchImmediately("propertychanged", {
+                var event_1 = {
                     type: "propertychanged",
                     target: this,
                     property: property
-                });
+                };
+                this.events.dispatchImmediately("propertychanged", event_1);
             }
             if (invalidate) {
                 this.invalidate();
@@ -4377,24 +4378,7 @@ var Sprite = /** @class */ (function (_super) {
          * @return {Export} Export instance
          */
         get: function () {
-            var _export = this._exporting.get();
-            if (_export) {
-                return _export;
-            }
-            else {
-                if (this.parent) {
-                    return this.parent.exporting;
-                }
-                else {
-                    _export = new Export();
-                    _export.container = this.svgContainer;
-                    _export.sprite = this;
-                    _export.language = this.language;
-                    _export.dateFormatter = this.dateFormatter;
-                    this._exporting.set(_export, _export);
-                }
-            }
-            return _export;
+            return this.getExporting();
         },
         /**
          * ==========================================================================
@@ -4422,6 +4406,31 @@ var Sprite = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * This is here as a method so that inheriting classes could override it.
+     *
+     * @return {Export} Export instance
+     */
+    Sprite.prototype.getExporting = function () {
+        var _export = this._exporting.get();
+        if (_export) {
+            return _export;
+        }
+        else {
+            if (this.isStandaloneInstance || !this.parent) {
+                _export = new Export();
+                _export.container = this.svgContainer.SVGContainer;
+                _export.sprite = this;
+                _export.language = this.language;
+                _export.dateFormatter = this.dateFormatter;
+                this._exporting.set(_export, _export);
+            }
+            else {
+                return this.parent.exporting;
+            }
+        }
+        return _export;
+    };
     Object.defineProperty(Sprite.prototype, "modal", {
         /**
          * ==========================================================================
@@ -4440,7 +4449,6 @@ var Sprite = /** @class */ (function (_super) {
          * @return {Modal} Modal instance
          */
         get: function () {
-            var _this = this;
             var topParent = this.topParent;
             if (topParent) {
                 // We always use top parent's modal
@@ -4451,10 +4459,10 @@ var Sprite = /** @class */ (function (_super) {
                 if (!$type.hasValue(this._modal)) {
                     // Create new modal
                     this._modal = new Modal();
-                    this._modal.container = this.svgContainer;
+                    this._modal.container = this.svgContainer.SVGContainer;
                     // Prefix with Sprite's class name
                     this._modal.adapter.add("classPrefix", function (value) {
-                        value = _this.classNamePrefix + value;
+                        value = options.classNamePrefix + value;
                         return value;
                     });
                     // Add to disposers
@@ -4500,7 +4508,6 @@ var Sprite = /** @class */ (function (_super) {
          * @return {ListTemplate<Popup>} Popups
          */
         get: function () {
-            var _this = this;
             var topParent = this.topParent;
             if (topParent != null) {
                 // We always use top parent's popups
@@ -4511,11 +4518,11 @@ var Sprite = /** @class */ (function (_super) {
                 if (!$type.hasValue(this._popups)) {
                     // Create popup template
                     var popupTemplate = new Popup();
-                    popupTemplate.container = this.svgContainer;
+                    popupTemplate.container = this.svgContainer.SVGContainer;
                     popupTemplate.sprite = this;
                     // Prefix with Sprite's class name
                     popupTemplate.adapter.add("classPrefix", function (value) {
-                        value = _this.classNamePrefix + value;
+                        value = options.classNamePrefix + value;
                         return value;
                     });
                     // Create the list
@@ -6600,7 +6607,7 @@ var Sprite = /** @class */ (function (_super) {
                 }
                 if (this.tooltipPosition == "pointer") {
                     this._interactionDisposer = getInteraction().body.events.on("track", function (ev) {
-                        _this.pointTooltipTo($utils.documentPointToSvg(ev.point, _this.svgContainer), true);
+                        _this.pointTooltipTo($utils.documentPointToSvg(ev.point, _this.svgContainer.SVGContainer), true);
                     });
                 }
                 else {

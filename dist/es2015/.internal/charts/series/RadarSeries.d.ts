@@ -8,7 +8,6 @@
  * @hidden
  */
 import { LineSeries, LineSeriesDataItem, ILineSeriesDataFields, ILineSeriesProperties, ILineSeriesAdapters, ILineSeriesEvents } from "./LineSeries";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { LineSeriesSegment } from "./LineSeriesSegment";
 import { IPoint } from "../../core/defs/IPoint";
 import { RadarChart } from "../types/RadarChart";
@@ -108,11 +107,12 @@ export declare class RadarSeries extends LineSeries {
      */
     _adapter: IRadarSeriesAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<RadarSeries, IRadarSeriesEvents>>} Event dispatcher instance
+     * @type {IRadarSeriesEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<RadarSeries, IRadarSeriesEvents>>;
+    _events: IRadarSeriesEvents;
     /**
      * Defines the type of data item.
      *

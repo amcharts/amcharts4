@@ -369,7 +369,7 @@ var TextFormatter = /** @class */ (function (_super) {
     return TextFormatter;
 }(BaseObject));
 export { TextFormatter };
-var formatter = null;
+var formatter;
 /**
  * Returns the global instance of [[TextFormatter]].
  *

@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Tick, ITickProperties, ITickAdapters, ITickEvents } from "../elements/Tick";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { AxisLabelCircular } from "../axes/AxisLabelCircular";
 import { Slice } from "../../core/elements/Slice";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
@@ -63,11 +62,12 @@ export declare class PieTick extends Tick {
      */
     _adapter: IPieTickAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<PieTick, IPieTickEvents>>} Event dispatcher instance
+     * @type {IPieTickEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<PieTick, IPieTickEvents>>;
+    _events: IPieTickEvents;
     /**
      * A label element this tick is attached to.
      *

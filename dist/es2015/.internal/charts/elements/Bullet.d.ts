@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 /**
  * ============================================================================
  * REQUISITES
@@ -98,11 +97,12 @@ export declare class Bullet extends Container {
      */
     _adapter: IBulletAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Bullet, IBulletEvents>>} Event dispatcher instance
+     * @type {IBulletEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Bullet, IBulletEvents>>;
+    _events: IBulletEvents;
     /**
      * Constructor
      */

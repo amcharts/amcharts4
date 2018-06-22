@@ -8,7 +8,6 @@
  * @hidden
  */
 import { ValueAxis, ValueAxisDataItem, IValueAxisProperties, IValueAxisDataFields, IValueAxisAdapters, IValueAxisEvents } from "./ValueAxis";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { AxisItemLocation } from "./Axis";
 import { AxisRenderer } from "./AxisRenderer";
 import { List } from "../../core/utils/List";
@@ -167,11 +166,12 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      */
     _adapter: IDateAxisAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<DateAxis, IDateAxisEvents>>} Event dispatcher instance
+     * @type {IDateAxisEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<DateAxis, IDateAxisEvents>>;
+    _events: IDateAxisEvents;
     /**
      * Defines the type of the Date Items.
      *

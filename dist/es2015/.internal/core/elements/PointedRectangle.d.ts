@@ -8,7 +8,6 @@
  * @hidden
  */
 import { PointedShape, IPointedShapeProperties, IPointedShapeAdapters, IPointedShapeEvents } from "./PointedShape";
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
 /**
  * ============================================================================
  * REQUISITES
@@ -67,11 +66,12 @@ export declare class PointedRectangle extends PointedShape {
      */
     _adapter: IPointedRectangleAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<PointedRectangle, IPointedRectangleEvents>>} Event dispatcher instance
+     * @type {IPointedRectangleEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<PointedRectangle, IPointedRectangleEvents>>;
+    _events: IPointedRectangleEvents;
     /**
      * Constructor
      */

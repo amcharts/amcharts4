@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { SankeyDiagram, SankeyDiagramDataItem } from "../types/SankeyDiagram";
 import { List } from "../../core/utils/List";
 import { LabelBullet } from "./LabelBullet";
@@ -95,11 +94,12 @@ export declare class SankeyNode extends Container {
      */
     _adapter: ISankeyNodeAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<SankeyNode, ISankeyNodeEvents>>} Event dispatcher instance
+     * @type {ISankeyNodeEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<SankeyNode, ISankeyNodeEvents>>;
+    _events: ISankeyNodeEvents;
     /**
      * A list of data items of the items coming in from another node, one level
      * up.

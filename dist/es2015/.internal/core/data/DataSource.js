@@ -119,11 +119,12 @@ var DataSource = /** @class */ (function (_super) {
                 // We have a problem - nobody knows what to do with the data
                 // Raise error
                 if (this.events.isEnabled("parseerror")) {
-                    this.events.dispatchImmediately("parseerror", {
+                    var event_1 = {
                         type: "parseerror",
                         message: this.language.translate("No parser available for file: %1", null, this.url),
                         target: this
-                    });
+                    };
+                    this.events.dispatchImmediately("parseerror", event_1);
                 }
                 this.dispatchImmediately("parseended");
                 return;
@@ -141,11 +142,12 @@ var DataSource = /** @class */ (function (_super) {
         this.data = this.adapter.apply("parsedData", this.parser.parse(this.adapter.apply("unparsedData", data)));
         // Check for parsing errors
         if (!$type.hasValue(this.data) && this.events.isEnabled("parseerror")) {
-            this.events.dispatchImmediately("parseerror", {
+            var event_2 = {
                 type: "parseerror",
                 message: this.language.translate("Error parsing file: %1", null, this.url),
                 target: this
-            });
+            };
+            this.events.dispatchImmediately("parseerror", event_2);
         }
         // Wrap up
         this.dispatchImmediately("parseended");

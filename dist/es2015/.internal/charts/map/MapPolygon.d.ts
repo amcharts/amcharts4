@@ -8,7 +8,6 @@
  * @hidden
  */
 import { MapObject, IMapObjectProperties, IMapObjectAdapters, IMapObjectEvents } from "./MapObject";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { MapPolygonSeriesDataItem, MapPolygonSeries } from "./MapPolygonSeries";
 import { IGeoPoint } from "../../core/defs/IGeoPoint";
 import { Polygon } from "../../core/elements/Polygon";
@@ -67,11 +66,12 @@ export declare class MapPolygon extends MapObject {
      */
     _adapter: IMapPolygonAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<MapPolygon, IMapPolygonEvents>>} Event dispatcher instance
+     * @type {IMapPolygonEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<MapPolygon, IMapPolygonEvents>>;
+    _events: IMapPolygonEvents;
     /**
      * A visual polygon element.
      *

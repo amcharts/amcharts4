@@ -10,7 +10,6 @@
 import { AxisRendererY, IAxisRendererYProperties, IAxisRendererYAdapters, IAxisRendererYEvents } from "./AxisRendererY";
 import { AxisTick } from "./AxisTick";
 import { RadarChart } from "../types/RadarChart";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { IPoint } from "../../core/defs/IPoint";
 import { Grid } from "./Grid";
 import { AxisBreak } from "./AxisBreak";
@@ -107,11 +106,12 @@ export declare class AxisRendererRadial extends AxisRendererY {
      */
     _adapter: IAxisRendererRadialAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<AxisRenderer, AxisRendererEvents>>} Event dispatcher instance
+     * @type {IAxisRendererRadialEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<AxisRendererRadial, IAxisRendererRadialEvents>>;
+    _events: IAxisRendererRadialEvents;
     /**
      * A related chart.
      *

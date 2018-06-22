@@ -10,7 +10,7 @@
  */
 import { Component, IComponentProperties, IComponentDataFields, IComponentAdapters, IComponentEvents } from "../../core/Component";
 import { AxisDataItem } from "../axes/Axis";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite, AMEvent } from "../../core/Sprite";
 import { List, ListTemplate, IListEvents } from "../../core/utils/List";
 import { Dictionary } from "../../core/utils/Dictionary";
 import { DataItem, IDataItemEvents } from "../../core/DataItem";
@@ -18,8 +18,9 @@ import { Container } from "../../core/Container";
 import { SerialChart } from "../types/SerialChart";
 import { Axis } from "../axes/Axis";
 import { Bullet } from "../elements/Bullet";
-import { ILegendItem, LegendDataItem, LegendSettings } from "../Legend";
+import { LegendDataItem, LegendSettings } from "../Legend";
 import { Animation } from "../../core/utils/Animation";
+import { Ordering } from "../../core/utils/Order";
 export interface IHeatRule {
     target: Sprite;
     property: string;
@@ -183,7 +184,7 @@ export interface ISeriesAdapters extends IComponentAdapters, ISeriesProperties {
  * @see {@link ISeriesAdapters} for a list of available Adapters
  * @todo Separate axis-related stuff to some other class so that MapSeries would not have unrelated stuff
  */
-export declare class Series extends Component implements ILegendItem<Series, ISeriesEvents> {
+export declare class Series extends Component {
     /**
      * Defines the type of data fields used for the series.
      *
@@ -206,11 +207,12 @@ export declare class Series extends Component implements ILegendItem<Series, ISe
      */
     _adapter: ISeriesAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Series, ISeriesEvents>>} Event dispatcher instance
+     * @type {ISeriesEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Series, ISeriesEvents>>;
+    _events: ISeriesEvents;
     /**
      * Defines a type of data item used for the series.
      *
@@ -634,4 +636,15 @@ export declare class Series extends Component implements ILegendItem<Series, ISe
     processConfig(config?: {
         [index: string]: any;
     }): void;
+    /**
+     * This function is used to sort element's JSON config properties, so that
+     * some properties that absolutely need to be processed last, can be put at
+     * the end.
+     *
+     * @ignore Exclude from docs
+     * @param  {string}  a  Element 1
+     * @param  {string}  b  Element 2
+     * @return {Ordering}   Sorting number
+     */
+    protected configOrder(a: string, b: string): Ordering;
 }

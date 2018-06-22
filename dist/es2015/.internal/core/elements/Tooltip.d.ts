@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { PointedRectangle } from "./PointedRectangle";
 import { IPoint } from "../defs/IPoint";
 import { Label } from "../elements/Label";
@@ -119,11 +118,12 @@ export declare class Tooltip extends Container {
      */
     _adapter: ITooltipAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Tooltip, ITooltipEvents>>} Event dispatcher instance
+     * @type {ITooltipEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Tooltip, ITooltipEvents>>;
+    _events: ITooltipEvents;
     /**
      * A type for the background element.
      *

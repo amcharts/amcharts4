@@ -9,7 +9,7 @@
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
 import { IRange } from "../defs/IRange";
-import { ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../Sprite";
+import { ISpriteEvents, AMEvent } from "../Sprite";
 import { Orientation } from "../defs/Orientation";
 import { ResizeButton } from "../elements/ResizeButton";
 import { Button } from "../elements/Button";
@@ -96,12 +96,12 @@ export declare class Scrollbar extends Container {
      */
     _adapter: IScrollbarAdapters;
     /**
-     * Holds reference to event dispatcher.
+     * Defines available events.
      *
+     * @type {IScrollbarEvents}
      * @ignore Exclude from docs
-     * @type {SpriteEventDispatcher}
      */
-    events: SpriteEventDispatcher<AMEvent<Scrollbar, IScrollbarEvents>>;
+    _events: IScrollbarEvents;
     /**
      * Holds a reference to a draggable rectangle that fills the space between
      * two selection grips. It can be used to pan the selection maintaining the

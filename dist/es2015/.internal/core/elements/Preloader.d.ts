@@ -10,7 +10,6 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
 import { Slice } from "./Slice";
 import { Label } from "./Label";
 /**
@@ -86,11 +85,12 @@ export declare class Preloader extends Container {
      */
     _adapter: IPreloaderAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Preloader, IPreloaderEvents>>} Event dispatcher instance
+     * @type {IPreloaderEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Preloader, IPreloaderEvents>>;
+    _events: IPreloaderEvents;
     /**
      * A [[Slice]] element that indicates load progress.
      *

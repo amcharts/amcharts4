@@ -8,7 +8,6 @@
  * @hidden
  */
 import { ColumnSeries, IColumnSeriesProperties, IColumnSeriesDataFields, IColumnSeriesAdapters, IColumnSeriesEvents, ColumnSeriesDataItem } from "../series/ColumnSeries";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Container } from "../../core/Container";
 import { XYChart3D } from "../types/XYChart3D";
 import { Column3D } from "../elements/Column3D";
@@ -117,11 +116,12 @@ export declare class ColumnSeries3D extends ColumnSeries {
      */
     _adapter: IColumnSeries3DAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<ColumnSeries3D, IColumnSeries3DEvents>>} Event dispatcher instance
+     * @type {IColumnSeries3DEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<ColumnSeries3D, IColumnSeries3DEvents>>;
+    _events: IColumnSeries3DEvents;
     /**
      * Specifies how deep in 3d space columns should be drawn.
      *

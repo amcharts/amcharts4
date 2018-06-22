@@ -8,7 +8,7 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "./Sprite";
+import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, AMEvent } from "./Sprite";
 import { SpriteState } from "./SpriteState";
 import { Animation } from "./utils/Animation";
 import { List, IListEvents } from "./utils/List";
@@ -142,11 +142,12 @@ export declare class Container extends Sprite {
      */
     _adapter: IContainerAdapters;
     /**
-     * Event dispacther..
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Container, IContainerEvents>>} Event dispatcher instance
+     * @type {IContainerEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Container, IContainerEvents>>;
+    _events: IContainerEvents;
     /**
      * Container children. (sorted by layout)
      *
@@ -515,17 +516,20 @@ export declare class Container extends Sprite {
      */
     copyFrom(source: this): void;
     /**
-     * Creates (if necessary) and returns an instance of the [[Preloader]] to
-     * show when Container is busy loading.
-     *
      * @return {Optional<Preloader>} Preloader instance
      */
     /**
-     * Sets a [[Preloader]] instance to be used when Container is busy.
+     * A [[Preloader]] instance to be used when Container is busy.
      *
-     * @param {Optional<Preloader>} preloader Preloader instance
+     * @param {Optional<Preloader>}  preloader  Preloader instance
      */
     preloader: $type.Optional<Preloader>;
+    /**
+     * Sets [[Paper]] instance to use to draw elements.
+     *
+     * @ignore Exclude from docs
+     * @param {Paper}  paper  Paper
+     */
     setPaper(paper: Paper): void;
     /**
      * Removes Container from the system-wide list of invalid Containers.

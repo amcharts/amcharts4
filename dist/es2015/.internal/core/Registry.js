@@ -172,7 +172,7 @@ var Registry = /** @class */ (function () {
      * It also checks if there are any handlers registered for this sepecific
      * event.
      *
-     * @param {string} eventType Event type (name)
+     * @param {Key} eventType Event type (name)
      * @param {any}    data      Data to pass into event handler(s)
      */
     Registry.prototype.dispatch = function (eventType, data) {
@@ -198,7 +198,7 @@ var Registry = /** @class */ (function () {
      * Works like `dispatch`, except event is triggered immediately, without
      * waiting for the next frame cycle.
      *
-     * @param {string} eventType Event type (name)
+     * @param {Key} eventType Event type (name)
      * @param {any}    data      Data to pass into event handler(s)
      */
     Registry.prototype.dispatchImmediately = function (eventType, data) {

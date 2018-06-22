@@ -9,7 +9,6 @@
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
 import { Axis, AxisDataItem } from "./Axis";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
 import { IWavedShape } from "../../core/defs/IWavedShape";
 import { List } from "../../core/utils/List";
@@ -84,11 +83,12 @@ export declare class AxisBreak extends Container {
      */
     _adapter: IAxisBreakAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<AxisBreak, IAxisBreakEvents>>} Event dispatcher instance
+     * @type {IAxisBreakEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<AxisBreak, IAxisBreakEvents>>;
+    _events: IAxisBreakEvents;
     /**
      * Defines the type of the Axis this break is used for.
      *

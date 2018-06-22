@@ -4,7 +4,6 @@ import { List } from "../utils/List";
 import { Align } from "../defs/Align";
 import { VerticalAlign } from "../defs/VerticalAlign";
 import { InteractionObject } from "../interaction/InteractionObject";
-import { EventDispatcher, AMEvent } from "../utils/EventDispatcher";
 import { IDisposer, MutableValueDisposer } from "../utils/Disposer";
 import { Language } from "../utils/Language";
 import { Validatable } from "../utils/Validatable";
@@ -230,9 +229,12 @@ export interface IExportMenuAdapters {
  */
 export declare class ExportMenu extends Validatable {
     /**
-     * Holds [[EventDispatcher]].
+     * Defines available events.
+     *
+     * @type {IExportMenuEvents}
+     * @ignore Exclude from docs
      */
-    events: EventDispatcher<AMEvent<ExportMenu, IExportMenuEvents>>;
+    _events: IExportMenuEvents;
     /**
      * An [[Adapter]].
      *

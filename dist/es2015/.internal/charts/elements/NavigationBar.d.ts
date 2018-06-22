@@ -8,7 +8,7 @@
  * @hidden
  */
 import { Component, IComponentProperties, IComponentAdapters, IComponentEvents, IComponentDataFields } from "../../core/Component";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite } from "../../core/Sprite";
 import { DataItem } from "../../core/DataItem";
 import { ListTemplate } from "../../core/utils/List";
 import { TextLink } from "../../core/elements/TextLink";
@@ -118,11 +118,12 @@ export declare class NavigationBar extends Component {
      */
     _adapter: INavigationBarAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<NavigationBar, INavigationBarEvents>>} Event dispatcher instance
+     * @type {INavigationBarEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<NavigationBar, INavigationBarEvents>>;
+    _events: INavigationBarEvents;
     /**
      * A list of breadcrumbs (links) in the nav bar.
      *

@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Button, IButtonProperties, IButtonAdapters, IButtonEvents } from "./Button";
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
 /**
  * ============================================================================
  * REQUISITES
@@ -60,11 +59,12 @@ export declare class ZoomOutButton extends Button {
      */
     _adapter: IZoomOutButtonAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<ZoomOutButton, IZoomOutButtonEvents>>} Event dispatcher instance
+     * @type {IZoomOutButtonEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<ZoomOutButton, IZoomOutButtonEvents>>;
+    _events: IZoomOutButtonEvents;
     /**
      * Orientation of the resize direction.
      *

@@ -7,7 +7,7 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../Sprite";
+import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../Sprite";
 /**
  * ============================================================================
  * REQUISITES
@@ -60,11 +60,12 @@ export declare class Triangle extends Sprite {
      */
     _adapter: ITriangleAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Triangle, ITriangleEvents>>} Event dispatcher instance
+     * @type {ITriangleEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Triangle, ITriangleEvents>>;
+    _events: ITriangleEvents;
     /**
      * Constructor
      */

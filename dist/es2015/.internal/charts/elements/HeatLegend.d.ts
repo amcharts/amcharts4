@@ -1,13 +1,3 @@
-/**
- * HeatLegend module
- */
-/**
- * ============================================================================
- * IMPORTS
- * ============================================================================
- * @hidden
- */
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Container, IContainerProperties, IContainerEvents, IContainerAdapters } from "../../core/Container";
 import { Series } from "../series/Series";
 import { Color } from "../../core/utils/Color";
@@ -109,11 +99,12 @@ export declare class HeatLegend extends Container {
      */
     _adapter: IHeatLegendAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<HeatLegend, IHeatLegendEvents>>} Event dispatcher instance
+     * @type {IHeatLegendEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<HeatLegend, IHeatLegendEvents>>;
+    _events: IHeatLegendEvents;
     /**
      * List of heat legend markers (color step rectangles).
      *

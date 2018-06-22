@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Column, IColumnProperties, IColumnAdapters, IColumnEvents } from "./Column";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Line } from "../../core/elements/Line";
 /**
  * ============================================================================
@@ -63,11 +62,12 @@ export declare class Candlestick extends Column {
      */
     _adapter: ICandlestickAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Candlestick, ICandlestickEvents>>} Event dispatcher instance
+     * @type {ICandlestickEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Candlestick, ICandlestickEvents>>;
+    _events: ICandlestickEvents;
     /**
      * Low line element
      * @type {Line}

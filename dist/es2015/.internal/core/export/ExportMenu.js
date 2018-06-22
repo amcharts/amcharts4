@@ -304,24 +304,26 @@ var ExportMenu = /** @class */ (function (_super) {
             // TODO clean this up when it's disposed
             branch.interactions.events.on("hit", function (ev) {
                 if (_this.events.isEnabled("hit")) {
-                    _this.events.dispatchImmediately("hit", {
+                    var event_1 = {
                         "type": "hit",
                         "event": ev.event,
                         "target": _this,
                         "branch": branch
-                    });
+                    };
+                    _this.events.dispatchImmediately("hit", event_1);
                 }
             });
             // TODO clean this up when it's disposed
             branch.interactions.events.on("keyup", function (ev) {
                 if (keyboard.isKey(ev.event, "enter")) {
                     if (_this.events.isEnabled("enter")) {
-                        _this.events.dispatchImmediately("enter", {
+                        var event_2 = {
                             "type": "enter",
                             "event": ev.event,
                             "target": _this,
                             "branch": branch
-                        });
+                        };
+                        _this.events.dispatchImmediately("enter", event_2);
                     }
                 }
             });
@@ -346,24 +348,30 @@ var ExportMenu = /** @class */ (function (_super) {
                 _this._ignoreNextClose = true;
             }
             _this.selectBranch(branch);
-            _this.events.dispatchImmediately("over", {
-                "type": "over",
-                "event": ev.event,
-                "target": _this,
-                "branch": branch
-            });
+            if (_this.events.isEnabled("over")) {
+                var event_3 = {
+                    "type": "over",
+                    "event": ev.event,
+                    "target": _this,
+                    "branch": branch
+                };
+                _this.events.dispatchImmediately("over", event_3);
+            }
         });
         // TODO clean this up when it's disposed
         branch.interactions.events.on("out", function (ev) {
             if (!ev.pointer.touch) {
                 _this.delayUnselectBranch(branch);
             }
-            _this.events.dispatchImmediately("out", {
-                "type": "out",
-                "event": ev.event,
-                "target": _this,
-                "branch": branch
-            });
+            if (_this.events.isEnabled("out")) {
+                var event_4 = {
+                    "type": "out",
+                    "event": ev.event,
+                    "target": _this,
+                    "branch": branch
+                };
+                _this.events.dispatchImmediately("out", event_4);
+            }
         });
         // TODO clean this up when it's disposed
         branch.interactions.events.on("focus", function (ev) {
@@ -872,11 +880,14 @@ var ExportMenu = /** @class */ (function (_super) {
         // Log current selection
         this._currentSelection = branch;
         // Invoke event
-        this.events.dispatchImmediately("branchselected", {
-            type: "branchselected",
-            target: this,
-            branch: branch
-        });
+        if (this.events.isEnabled("branchselected")) {
+            var event_5 = {
+                type: "branchselected",
+                target: this,
+                branch: branch
+            };
+            this.events.dispatchImmediately("branchselected", event_5);
+        }
     };
     /**
      * Unselects a branch. Also selects a branch one level up if necessary.
@@ -893,11 +904,14 @@ var ExportMenu = /** @class */ (function (_super) {
             this._currentSelection = undefined;
         }
         // Invoke event
-        this.events.dispatchImmediately("branchunselected", {
-            type: "branchunselected",
-            target: this,
-            branch: branch
-        });
+        if (this.events.isEnabled("branchunselected")) {
+            var event_6 = {
+                type: "branchunselected",
+                target: this,
+                branch: branch
+            };
+            this.events.dispatchImmediately("branchunselected", event_6);
+        }
     };
     /**
      * Delay unselection of a branch. This can still be cancelled in some other

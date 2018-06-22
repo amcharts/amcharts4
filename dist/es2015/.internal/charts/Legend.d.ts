@@ -11,7 +11,6 @@ import { Component, IComponentProperties, IComponentDataFields, IComponentAdapte
 import { EventDispatcher, AMEvent } from "../core/utils/EventDispatcher";
 import { DataItem, IDataItemEvents } from "../core/DataItem";
 import { ListTemplate } from "../core/utils/List";
-import { SpriteEventDispatcher } from "../core/Sprite";
 import { Container } from "../core/Container";
 import { Label } from "../core/elements/Label";
 import { Optional } from "../core/utils/Type";
@@ -27,7 +26,7 @@ import { Preloader } from "../core/elements/Preloader";
  *
  * @see {@link DataItem}
  */
-export declare class LegendDataItem<T, E> extends DataItem {
+export declare class LegendDataItem<T, E extends ILegendItemEvents> extends DataItem {
     /**
      * A container data item's elements will be placed in.
      *
@@ -179,10 +178,20 @@ export interface ILegendEvents extends IComponentEvents {
  */
 export interface ILegendAdapters extends IComponentAdapters, ILegendProperties {
 }
+export interface ILegendItemEvents {
+    propertychanged: {
+        /**
+         * Property key.
+         *
+         * @type {string}
+         */
+        property: string;
+    };
+}
 /**
  * Represents a an interface for leged item.
  */
-export interface ILegendItem<T, E> {
+export interface ILegendItem<T, E extends ILegendItemEvents> {
     /**
      * Legend item needs to have an EventDispatcher so that legend can monitor
      * changes in its properties, i.e. `visible`
@@ -278,11 +287,12 @@ export declare class Legend extends Component {
      */
     _adapter: ILegendAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Legend, ILegendEvents>>} Event dispatcher instance
+     * @type {ILegendEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Legend, ILegendEvents>>;
+    _events: ILegendEvents;
     /**
      * Defines data item type.
      *

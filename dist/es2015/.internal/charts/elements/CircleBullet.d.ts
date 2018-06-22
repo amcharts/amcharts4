@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Bullet, IBulletProperties, IBulletAdapters, IBulletEvents } from "./Bullet";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Circle } from "../../core/elements/Circle";
 /**
  * ============================================================================
@@ -66,11 +65,12 @@ export declare class CircleBullet extends Bullet {
      */
     _adapter: ICircleBulletAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<CircleBullet, ICircleBulletEvents>>} Event dispatcher instance
+     * @type {ICircleBulletEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<CircleBullet, ICircleBulletEvents>>;
+    _events: ICircleBulletEvents;
     /**
      * A label (textual) element for the bullet.
      *

@@ -5,7 +5,6 @@
  * @hidden
  */
 import { PieSeries, PieSeriesDataItem, IPieSeriesDataFields, IPieSeriesProperties, IPieSeriesAdapters, IPieSeriesEvents } from "../series/PieSeries";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { PieChart3D } from "../types/PieChart3D";
 import { Slice3D } from "../../core/elements/3d/Slice3D";
 import { ListTemplate } from "../../core/utils/List";
@@ -137,11 +136,12 @@ export declare class PieSeries3D extends PieSeries {
      */
     _adapter: IPieSeries3DAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<PieSeries3D, IPieSeries3DEvents>>} Event dispatcher instance
+     * @type {IPieSeries3DEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<PieSeries3D, IPieSeries3DEvents>>;
+    _events: IPieSeries3DEvents;
     /**
      * Defines the type of data item.
      *

@@ -7,7 +7,7 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../../core/Sprite";
 /**
  * ============================================================================
  * REQUISITES
@@ -59,11 +59,12 @@ export declare class AxisLine extends Sprite {
      */
     _adapter: IAxisLineAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<AxisLine, IAxisLineEvents>>} Event dispatcher instance
+     * @type {IAxisLineEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<AxisLine, IAxisLineEvents>>;
+    _events: IAxisLineEvents;
     /**
      * Constructor
      */

@@ -7,7 +7,7 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../Sprite";
+import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../Sprite";
 /**
  * ============================================================================
  * REQUISITES
@@ -87,11 +87,12 @@ export declare class RoundedRectangle extends Sprite {
      */
     _adapter: IRoundedRectangleAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<RoundedRectangle, IRoundedRectangleEvents>>} Event dispatcher instance
+     * @type {IRoundedRectangleEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<RoundedRectangle, IRoundedRectangleEvents>>;
+    _events: IRoundedRectangleEvents;
     /**
      * Constructor
      */

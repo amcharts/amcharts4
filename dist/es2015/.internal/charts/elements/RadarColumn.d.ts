@@ -9,7 +9,6 @@
  * @hidden
  */
 import { Column, IColumnProperties, IColumnAdapters, IColumnEvents } from "./Column";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Slice } from "../../core/elements/Slice";
 /**
  * ============================================================================
@@ -64,11 +63,12 @@ export declare class RadarColumn extends Column {
      */
     _adapter: IRadarColumnAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<RadarColumn, IRadarColumnEvents>>} Event dispatcher instance
+     * @type {IRadarColumnEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<RadarColumn, IRadarColumnEvents>>;
+    _events: IRadarColumnEvents;
     /**
      * Radar column element
      * @type {Slice}

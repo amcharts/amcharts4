@@ -8,7 +8,6 @@
  * @hidden
  */
 import { SerialChart, ISerialChartProperties, ISerialChartDataFields, ISerialChartAdapters, ISerialChartEvents, SerialChartDataItem } from "./SerialChart";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Percent } from "../../core/utils/Percent";
 import { PieSeries } from "../series/PieSeries";
 import { Legend } from "../Legend";
@@ -201,11 +200,12 @@ export declare class PieChart extends SerialChart {
      */
     _adapter: IPieChartAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<PieChart, IPieChartEvents>>} Event dispatcher instance
+     * @type {IPieChartEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<PieChart, IPieChartEvents>>;
+    _events: IPieChartEvents;
     /**
      * Defines a type of series that this chart uses.
      *

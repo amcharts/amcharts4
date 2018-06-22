@@ -5,7 +5,7 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "./Container";
-import { SpriteEventDispatcher, AMEvent } from "./Sprite";
+import { AMEvent } from "./Sprite";
 import { List, IListEvents } from "./utils/List";
 import { OrderedListTemplate } from "./utils/SortedList";
 import { Animation } from "./utils/Animation";
@@ -138,11 +138,12 @@ export declare class Component extends Container {
      */
     _adapter: IComponentAdapters;
     /**
-     * Event dispacther..
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Component, IComponentEvents>>} Event dispatcher instance
+     * @type {IComponentEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Component, IComponentEvents>>;
+    _events: IComponentEvents;
     /**
      * Holds the data for the component.
      *
@@ -891,13 +892,10 @@ export declare class Component extends Container {
      */
     reinit(): void;
     /**
-     * Returns an [[Export]] instance.
+     * Add an adapter for data.
      *
-     * If it does not exist it looks in parents. It also adds "data" Adapter so
-     * that Export can access Component's data.
-     *
-     * @see {@link https://www.amcharts.com/docs/v4/concepts/exporting/} for more about exporting
-     * @return {Export} Export instance
+     * @return {Export} Exporting
      */
-    readonly exporting: Export;
+    protected getExporting(): Export;
+    private _exportData(arg);
 }

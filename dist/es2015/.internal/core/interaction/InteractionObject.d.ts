@@ -39,9 +39,16 @@ export { IInteractionObjectEvents, InteractionObjectEventDispatcher };
  */
 export declare class InteractionObject extends BaseObjectEvents {
     /**
+     * Defines available events.
+     *
+     * @type {IInteractionObjectEvents}
+     * @ignore Exclude from docs
+     */
+    _events: IInteractionObjectEvents;
+    /**
      * An [[EventDispatcher]] instance which holds events for this object
      */
-    events: InteractionObjectEventDispatcher<AMEvent<InteractionObject, IInteractionObjectEvents>>;
+    events: InteractionObjectEventDispatcher<AMEvent<this, this["_events"]>>;
     /**
      * Collection of Disposers for various events. (so that those get disposed
      * when the whole InteractionObject is disposed)

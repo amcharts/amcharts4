@@ -8,7 +8,7 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../Container";
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../Sprite";
+import { Sprite } from "../../Sprite";
 import { Ellipse } from "../../elements/Ellipse";
 import { LinearGradientModifier } from "../../rendering/fills/LinearGradientModifier";
 import { Percent } from "../../utils/Percent";
@@ -94,11 +94,12 @@ export declare class Cone extends Container {
      */
     _adapter: IConeAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<Cone, IConeEvents>>} Event dispatcher instance
+     * @type {IConeEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Cone, IConeEvents>>;
+    _events: IConeEvents;
     /**
      * Bottom ellement.
      *

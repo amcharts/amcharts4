@@ -10,7 +10,6 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
-import { SpriteEventDispatcher, AMEvent } from "../Sprite";
 /**
  * ============================================================================
  * REQUISITES
@@ -66,11 +65,12 @@ export declare class AmChartsLogo extends Container {
      */
     _adapter: IAmChartsLogoAdapters;
     /**
-     * Event dispacther.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<AmChartsLogo, IAmChartsLogoEvents>>} Event dispatcher instance
+     * @type {IAmChartsLogoEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<AmChartsLogo, IAmChartsLogoEvents>>;
+    _events: IAmChartsLogoEvents;
     /**
      * Constructor
      */

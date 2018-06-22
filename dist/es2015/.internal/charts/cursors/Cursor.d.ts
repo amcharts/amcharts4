@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { IInteractionEvents } from "../../core/interaction/Interaction";
 import { IPoint } from "../../core/defs/IPoint";
 import { Chart } from "../Chart";
@@ -105,11 +104,12 @@ export declare class Cursor extends Container {
      */
     _adapter: ICursorAdapters;
     /**
-     * Cursor's event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher}
+     * @type {ICursorEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<Cursor, ICursorEvents>>;
+    _events: ICursorEvents;
     /**
      * Point coordinates of where selection started.
      *

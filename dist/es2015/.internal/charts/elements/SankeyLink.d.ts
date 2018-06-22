@@ -7,7 +7,7 @@
  * ============================================================================
  * @hidden
  */
-import { Sprite, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { Sprite } from "../../core/Sprite";
 import { Container, IContainerProperties, IContainerEvents, IContainerAdapters } from "../../core/Container";
 import { SankeyDiagramDataItem } from "../types/SankeyDiagram";
 import { LinearGradient } from "../../core/rendering/fills/LinearGradient";
@@ -135,11 +135,12 @@ export declare class SankeyLink extends Container {
      */
     _adapter: ISankeyLinkAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<SankeyLink, ISankeyLinkEvents>>} Event dispatcher instance
+     * @type {ISankeyLinkEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<SankeyLink, ISankeyLinkEvents>>;
+    _events: ISankeyLinkEvents;
     /**
      * Defines a type of data item used by this class.
      *

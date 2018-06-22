@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Circle } from "../../core/elements/Circle";
 import { Trapezoid } from "../../core/elements/Trapezoid";
 import { Axis } from "../axes/Axis";
@@ -106,11 +105,12 @@ export declare class ClockHand extends Container {
      */
     _adapter: IClockHandAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<ClockHand, IClockHandEvents>>} Event dispatcher instance
+     * @type {IClockHandEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<ClockHand, IClockHandEvents>>;
+    _events: IClockHandEvents;
     /**
      * A circle element used as hand's base.
      *

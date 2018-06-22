@@ -10,6 +10,7 @@
 import { Sprite } from "../Sprite";
 import { Language, ILocaleProperties } from "../utils/Language";
 import { BaseObject } from "../Base";
+import * as $type from "../utils/Type";
 /**
  * Interface describing parsed date format definition.
  */
@@ -118,15 +119,15 @@ export declare class DateFormatter extends BaseObject {
     /**
      * Holds reference to parent [[Sprite]] object.
      *
-     * @type {Sprite}
+     * @type {Optional<Sprite>}
      */
-    sprite: Sprite;
+    sprite: $type.Optional<Sprite>;
     /**
      * Holds reference to [[Language]] object.
      *
-     * @type {Language}
+     * @type {Optional<Language>}
      */
-    language: Language;
+    language: $type.Optional<Language>;
     /**
      * Constructor
      */

@@ -11,7 +11,6 @@ import { Axis, AxisDataItem, IAxisProperties, IAxisDataFields, IAxisAdapters, IA
 import { AxisRenderer } from "./AxisRenderer";
 import { List } from "../../core/utils/List";
 import { IPoint, IOrientationPoint } from "../../core/defs/IPoint";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { IDisposer } from "../../core/utils/Disposer";
 import { SerialChart } from "../types/SerialChart";
 import { XYSeries, XYSeriesDataItem } from "../series/XYSeries";
@@ -190,11 +189,12 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      */
     _axisBreak: ValueAxisBreak;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<ValueAxis, IValueAxisEvents>>} Event dispatcher instance
+     * @type {IValueAxisEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<ValueAxis, IValueAxisEvents>>;
+    _events: IValueAxisEvents;
     /**
      * A reference to chart the axis is for.
      *

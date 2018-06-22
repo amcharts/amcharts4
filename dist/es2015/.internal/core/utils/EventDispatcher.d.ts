@@ -77,19 +77,19 @@ export declare class EventDispatcher<T> implements IDisposer {
      * Enable dispatching particular event, if it was disabled before by
      * `disableType()`.
      *
-     * @param {keyof T} type Event type
+     * @param {Key} type Event type
      */
-    enableType(type: keyof T): void;
+    enableType<Key extends keyof T>(type: Key): void;
     /**
      * Disable dispatching of events for a certain event type.
      *
      * Optionally, can set how many dispatches to skip before automatically
      * re-enabling the dispatching.
      *
-     * @param {keyof T}            type    Event type
+     * @param {Key}                type    Event type
      * @param {number = Infinity}  amount  Number of event dispatches to skip
      */
-    disableType(type: keyof T, amount?: number): void;
+    disableType<Key extends keyof T>(type: Key, amount?: number): void;
     /**
      * Removes listener from dispatcher.
      *
@@ -110,10 +110,10 @@ export declare class EventDispatcher<T> implements IDisposer {
     /**
      * Checks if dispatching for particular event type is enabled.
      *
-     * @param  {string}   type  Event type
+     * @param  {Key}      type  Event type
      * @return {boolean}        Enabled?
      */
-    isEnabled(type: string): boolean;
+    isEnabled<Key extends keyof T>(type: Key): boolean;
     /**
      * Checks if there's already a listener with specific parameters.
      *
@@ -126,10 +126,10 @@ export declare class EventDispatcher<T> implements IDisposer {
     /**
      * Checks whether event of the particular type should be dispatched.
      *
-     * @param  {string}   type  Event type
+     * @param  {Key}   type  Event type
      * @return {boolean}        Dispatch?
      */
-    protected _shouldDispatch(type: string): boolean;
+    protected _shouldDispatch<Key extends keyof T>(type: Key): boolean;
     /**
      * [_eachListener description]
      *

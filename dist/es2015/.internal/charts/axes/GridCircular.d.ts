@@ -1,13 +1,3 @@
-/**
- * A module defining functionality for circular axis grid elements.
- */
-/**
- * ============================================================================
- * IMPORTS
- * ============================================================================
- * @hidden
- */
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Grid, IGridProperties, IGridAdapters, IGridEvents } from "./Grid";
 import { Percent } from "../../core/utils/Percent";
 /**
@@ -74,11 +64,12 @@ export declare class GridCircular extends Grid {
      */
     _adapter: IGridCircularAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {GridEventDispatcher<AMEvent<GridCircular, IGridCircularEvents>>} Event dispatcher instance
+     * @type {IGridCircularEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<GridCircular, IGridCircularEvents>>;
+    _events: IGridCircularEvents;
     /**
      * Constructor
      */

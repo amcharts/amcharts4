@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Series, SeriesDataItem, ISeriesProperties, ISeriesDataFields, ISeriesAdapters, ISeriesEvents } from "../series/Series";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { MapChart } from "../types/MapChart";
 import { MapObject } from "./MapObject";
 import { IListEvents } from "../../core/utils/List";
@@ -176,11 +175,12 @@ export declare class MapSeries extends Series {
      */
     _adapter: IMapSeriesAdapters;
     /**
-     * Event dispatcher.
+     * Defines available events.
      *
-     * @type {SpriteEventDispatcher<AMEvent<MapSeries, IMapSeriesEvents>>} Event dispatcher instance
+     * @type {IMapSeriesEvents}
+     * @ignore Exclude from docs
      */
-    events: SpriteEventDispatcher<AMEvent<MapSeries, IMapSeriesEvents>>;
+    _events: IMapSeriesEvents;
     /**
      * Defines the type of data item.
      *
