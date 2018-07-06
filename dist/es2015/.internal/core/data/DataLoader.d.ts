@@ -55,6 +55,13 @@ export interface IDataLoaderAdapters {
  */
 export declare class DataLoader {
     /**
+     * Defines available adapters.
+     *
+     * @ignore Exclude from docs
+     * @type {IExportAdapters}
+     */
+    _adapter: IDataLoaderAdapters;
+    /**
      * Adapter.
      *
      * @type {Adapter<DataLoader, IDataLoaderAdapters>}

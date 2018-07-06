@@ -272,7 +272,7 @@ var SpriteState = /** @class */ (function (_super) {
                 res[prop] = _this.getPropertyValue(prop);
             });
             // Cycle through all adapters and add values for missing properties
-            var keys = this.adapter.keys;
+            var keys = this.adapter.keys();
             for (var x in keys) {
                 var prop = keys[x];
                 var value = this.getPropertyValue(prop);

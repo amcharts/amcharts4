@@ -45,11 +45,8 @@ var Slice = /** @class */ (function (_super) {
         // Init
         _super.call(this) || this;
         _this.className = "Slice";
-        // this is dumb container
-        _this.layout = "none";
         // Set defaults
         // @todo Override `measureElement` method and calculate size using math
-        _this.isMeasured = false;
         _this.cornerRadius = 0;
         _this.startAngle = 0;
         _this.innerRadius = 0;
@@ -59,8 +56,8 @@ var Slice = /** @class */ (function (_super) {
         _this.strokeOpacity = 1;
         // Create a slice wedge element
         _this.slice = _this.createChild(Sprite);
-        _this.slice.isMeasured = false;
         _this.slice.element = _this.paper.add("path");
+        _this.slice.isMeasured = false;
         _this._disposers.push(_this.slice);
         _this.element.attr({ "stroke-linejoin": "round" });
         _this.element.attr({ "stroke-linecap": "round" });
@@ -76,7 +73,11 @@ var Slice = /** @class */ (function (_super) {
     Slice.prototype.draw = function () {
         _super.prototype.draw.call(this);
         this.slice.element.attr({ "d": $path.arc(this.startAngle, this.arc, this.radius, this.innerRadius, this.radiusY, this.cornerRadius, this.innerCornerRadius) });
+        this.slice.invalidate();
         this.shiftRadius = this.shiftRadius;
+    };
+    Slice.prototype.getContainerBBox = function () {
+        return $math.getArcRect(this.startAngle, this.startAngle + this.arc, this.radius);
     };
     Object.defineProperty(Slice.prototype, "startAngle", {
         /**

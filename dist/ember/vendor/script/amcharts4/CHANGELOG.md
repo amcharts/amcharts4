@@ -5,6 +5,37 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.31] - 2018-07-06
+
+### Important
+- Layouting mechanism was revamped to make it more consistent and intuitive. If you see some layout issues with your chart, please let us know!
+
+### Added
+- New chart type: [`ChordDiagram`](https://www.amcharts.com/docs/v4/chart-types/chord-diagram/).
+
+### Changed
+- The `Adapter` `keys` property is now a 0-argument function and not a property.
+- `Adapter` callback now has third parameter `key`, which is a string indentifier of the adapter being applied.
+- `ChordDiagram`, same as `SankeyDiagram` now extend `FlowDiagram` class. `FlowDiagram` can not be instantiated alone, it's a base class for those two.
+- `minWidth`/`minHeight` is now set to some small amount on a `PieChart` so that it remains visible even, if the oversized legend does not fit into container.
+- `heatRules` no longer override properties if they are set using `propertyFields`.
+
+### Fixed
+- Printing in Firefox was broken after latest updates in export/print.
+- Re-enabled data export on legacy IEs.
+- If a legend was initially disabled, it did not show up after enabling it later.
+- Series tooltip was not disposed when series was disposed. This could result in tooltips hanging and not hidin in such charts as `TreeMap` after data was changed.
+- `Tooltip` was sometimes flickeing at 0,0 position when first hovered on columns of a series.
+- When all values were 0, `XYChart` was not displayed properly.
+- When all values were equal and less than 0, `XYChart` was not displayed properly.
+- Zero-value slices were shown as black rectangles in the pie chart legend.
+- Labels were not showing tooltips.
+- `LineSeries` was not displayed properly if colors were set in data. (using `propertyFields`)
+- Tooltips were shown with white background when first hovered over slices/columns/etc.
+- Setting `interactionsEnabled = true` did not if it was set to `false` previously.
+- `axisFill` was not showing `innerRadius` correctly if it was set as `Percent`.
+- Data update on `SankyDiagram` was resulting in error.
+
 ## [4.0.0-beta.30] - 2018-06-22
 
 ### Fixed

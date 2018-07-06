@@ -195,6 +195,13 @@ export declare class Responsive extends BaseObjectEvents {
      */
     _events: IResponsiveEvents;
     /**
+     * Defines available adapters.
+     *
+     * @ignore Exclude from docs
+     * @type {IExportAdapters}
+     */
+    _adapter: IResponsiveAdapters;
+    /**
      * Adapter.
      *
      * @type {Adapter<Responsive, IResponsiveAdapters>}

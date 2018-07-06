@@ -38,7 +38,7 @@ heatLegend.valign = "bottom";
 heatLegend.series = polygonSeries;
 heatLegend.width = am4core.percent(100);
 heatLegend.orientation = "horizontal";
-heatLegend.margin(20, 20, 20, 20);
+heatLegend.padding(20, 20, 20, 20);
 heatLegend.valueAxis.renderer.labels.template.fontSize = 10;
 heatLegend.valueAxis.renderer.minGridDistance = 40;
 

@@ -1,20 +1,8 @@
-/**
- * Sankey diagram module.
- */
-/**
- * ============================================================================
- * IMPORTS
- * ============================================================================
- * @hidden
- */
-import { Chart, IChartProperties, IChartDataFields, IChartAdapters, IChartEvents, ChartDataItem } from "../Chart";
+import { FlowDiagram, FlowDiagramDataItem, IFlowDiagramAdapters, IFlowDiagramDataFields, IFlowDiagramEvents, IFlowDiagramProperties } from "./FlowDiagram";
 import { ListTemplate } from "../../core/utils/List";
 import { DictionaryTemplate } from "../../core/utils/Dictionary";
-import { Container } from "../../core/Container";
 import { SankeyNode } from "../elements/SankeyNode";
 import { SankeyLink } from "../elements/SankeyLink";
-import { ColorSet } from "../../core/utils/ColorSet";
-import { Color } from "../../core/utils/Color";
 import { Orientation } from "../../core/defs/Orientation";
 import * as $iter from "../../core/utils/Iterator";
 /**
@@ -28,7 +16,7 @@ import * as $iter from "../../core/utils/Iterator";
  *
  * @see {@link DataItem}
  */
-export declare class SankeyDiagramDataItem extends ChartDataItem {
+export declare class SankeyDiagramDataItem extends FlowDiagramDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
@@ -38,10 +26,10 @@ export declare class SankeyDiagramDataItem extends ChartDataItem {
     _component: SankeyDiagram;
     /**
      * An a link element, connecting two nodes.
-     *
+     * @ignore
      * @type {SankeyLink}
      */
-    protected _link: SankeyLink;
+    _link: SankeyLink;
     /**
      * An origin node.
      *
@@ -58,52 +46,6 @@ export declare class SankeyDiagramDataItem extends ChartDataItem {
      * Constructor
      */
     constructor();
-    /**
-     * @return {string} name
-     */
-    /**
-     * Source node's name.
-     *
-     * @param {string}  value  Name
-     */
-    fromName: string;
-    /**
-     * @return {string} name
-     */
-    /**
-     * Destination node's name.
-     *
-     * @param {string}  value  Name
-     */
-    toName: string;
-    /**
-     * @return {string} color
-     */
-    /**
-     * Node color
-     *
-     * @param {string}  value  Name
-     */
-    color: Color;
-    /**
-     * @return {number} Value
-     */
-    /**
-     * Link's value.
-     *
-     * @param {number}  value  Value
-     */
-    value: number;
-    /**
-     * A visual element, representing link between the source and target nodes.
-     *
-     * Link's actual thickness will be determined by `value` of this link and
-     * `value` of the source node.
-     *
-     * @readonly
-     * @return {SankeyLink} Link element
-     */
-    readonly link: SankeyLink;
 }
 /**
  * ============================================================================
@@ -114,7 +56,7 @@ export declare class SankeyDiagramDataItem extends ChartDataItem {
 /**
  * Defines data fields for [[SankeyDiagram]].
  */
-export interface ISankeyDiagramDataFields extends IChartDataFields {
+export interface ISankeyDiagramDataFields extends IFlowDiagramDataFields {
     /**
      * Name of the source node.
      *
@@ -143,25 +85,13 @@ export interface ISankeyDiagramDataFields extends IChartDataFields {
 /**
  * Defines properties for [[SankeyDiagram]]
  */
-export interface ISankeyDiagramProperties extends IChartProperties {
-    /**
-     * Padding for node square in pixels.
-     *
-     * @type {number}
-     */
-    nodePadding?: number;
+export interface ISankeyDiagramProperties extends IFlowDiagramProperties {
     /**
      * Sort nodes by name or value or do not sort at all
      *
      * @type {"top" | "bottom" | "middle"}
      */
     nodeAlign?: "top" | "bottom" | "middle";
-    /**
-     * Sort nodes by name or value or do not sort a
-     *
-     * @type {"none" | "name" | "value"}
-     */
-    sortBy?: "none" | "name" | "value";
     /**
      * Orientation of the chart.
      *
@@ -172,14 +102,14 @@ export interface ISankeyDiagramProperties extends IChartProperties {
 /**
  * Defines events for [[SankeyDiagram]].
  */
-export interface ISankeyDiagramEvents extends IChartEvents {
+export interface ISankeyDiagramEvents extends IFlowDiagramEvents {
 }
 /**
  * Defines adapters for [[SankeyDiagram]].
  *
  * @see {@link Adapter}
  */
-export interface ISankeyDiagramAdapters extends IChartAdapters, ISankeyDiagramProperties {
+export interface ISankeyDiagramAdapters extends IFlowDiagramAdapters, ISankeyDiagramProperties {
 }
 /**
  * ============================================================================
@@ -193,14 +123,7 @@ export interface ISankeyDiagramAdapters extends IChartAdapters, ISankeyDiagramPr
  * @see {@link ISankeyDiagramAdapters} for a list of available Adapters
  * @important
  */
-export declare class SankeyDiagram extends Chart {
-    /**
-     * A Color Set to use when applying/generating colors for each subsequent
-     * node.
-     *
-     * @type {ColorSet}
-     */
-    colors: ColorSet;
+export declare class SankeyDiagram extends FlowDiagram {
     /**
      * Defines a type for the DataItem.
      *
@@ -287,30 +210,12 @@ export declare class SankeyDiagram extends Chart {
      */
     protected _levelCount: number;
     /**
-     * A container that holds all of the link elements.
-     *
-     * @type {Container}
-     */
-    linksContainer: Container;
-    /**
-     * A container that holds all of the node elements.
-     * @type {Container}
-     */
-    nodesContainer: Container;
-    /**
      * Sorted nodes iterator.
      *
      * @ignore
      * @type {Iterator}
      */
     protected _sorted: $iter.Iterator<[string, SankeyNode]>;
-    /**
-     * Alignment of nodes
-     *
-     * @ignore
-     * @type {"top" | "bottom" | "middle"}
-     */
-    protected _nodeAlign: "top" | "bottom" | "middle";
     /**
      * Constructor
      */
@@ -330,25 +235,12 @@ export declare class SankeyDiagram extends Chart {
      */
     protected getNodeLevel(node: SankeyNode, level: number): number;
     /**
-     * Sorts nodes by either their values or names, based on `sortBy` setting.
-     */
-    protected sortNodes(): void;
-    /**
      * Calculates relation between pixel height and total value.
      *
      * In Sankey the actual thickness of links and height of nodes will depend
      * on their values.
      */
     protected calculateValueHeight(): void;
-    /**
-     * Updates a cummulative value of the node.
-     *
-     * A node's value is determined by summing values of all of the incoming
-     * links or all of the outgoing links, whichever results in bigger number.
-     *
-     * @param {SankeyNode}  node  Node value
-     */
-    protected getNodeValue(node: SankeyNode): void;
     /**
      * Redraws the chart.
      *
@@ -379,26 +271,6 @@ export declare class SankeyDiagram extends Chart {
      * @return {this} Data item
      */
     protected createDataItem(): this["_dataItem"];
-    /**
-     * @return {number} Padding (px)
-     */
-    /**
-     * Padding for node square in pixels.
-     *
-     * Padding will add extra space around node's name label.
-     *
-     * @param {number} value Padding (px)
-     */
-    nodePadding: number;
-    /**
-     * @returns {"none" | name" | "value"} Node sorting
-     */
-    /**
-     * Sort nodes by "name" or "value" or do not sort at all. If not sorted, nodes will appear in the same order as they are in the data.
-     * @default "none"
-     * @param {"none" | "name" | "value"}  value  Node sorting
-     */
-    sortBy: "none" | "name" | "value";
     /**
      * @returns {"top" | "middle" | "bottom"} Returns nodeAlign value
      */

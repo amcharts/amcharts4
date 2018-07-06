@@ -703,7 +703,7 @@ export declare class XYChart extends SerialChart {
     /**
      * This function is called by the [[DataSource]]'s `numberFields` adapater
      * so that particular chart types can popuplate this setting with their
-     * own type-speicifc data fields so they are parsed properly.
+     * own type-specific data fields so they are parsed properly.
      *
      * @param  {string[]}  value  Array of number fields
      * @return {string[]}         Array of number fields populated with chart's number fields

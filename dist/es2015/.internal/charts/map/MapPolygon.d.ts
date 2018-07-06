@@ -148,18 +148,4 @@ export declare class MapPolygon extends MapObject {
      * @return {number} Width (px)
      */
     readonly pixelHeight: number;
-    /**
-     * Element's horizontal overflow in pixels.
-     *
-     * @readonly
-     * @return {number} Overflow (px)
-     */
-    readonly overflowX: number;
-    /**
-     * Element's vertical overflow in pixels.
-     *
-     * @readonly
-     * @return {number} Overflow (px)
-     */
-    readonly overflowY: number;
 }

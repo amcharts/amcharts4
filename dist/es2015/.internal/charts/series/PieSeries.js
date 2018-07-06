@@ -267,10 +267,10 @@ var PieSeries = /** @class */ (function (_super) {
         _this.endAngle = 270;
         _this.colors = new ColorSet();
         _this.colors.step = 1;
+        _this.isMeasured = true;
         var slicesContainer = _this.createChild(Container);
         slicesContainer.shouldClone = false;
         slicesContainer.isMeasured = false;
-        slicesContainer.layout = "none";
         _this.slicesContainer = slicesContainer;
         var ticksContainer = _this.createChild(Container);
         ticksContainer.shouldClone = false;
@@ -410,90 +410,90 @@ var PieSeries = /** @class */ (function (_super) {
         var _this = this;
         if (this.radius > 0) {
             var percent = dataItem.values.value.percent;
-            if (percent > 0) {
-                dataItem.__disabled = false;
-                // SLICE
-                var slice_1 = dataItem.slice;
-                slice_1.parent = this.slicesContainer;
-                slice_1.radius = this.radius;
-                if ($type.isNumber(dataItem.radiusValue)) {
-                    slice_1.radius *= dataItem.values.radiusValue.percent / this._maxRadiusPercent;
+            //if (percent > 0) {
+            dataItem.__disabled = false;
+            // SLICE
+            var slice_1 = dataItem.slice;
+            slice_1.parent = this.slicesContainer;
+            slice_1.radius = this.radius;
+            if ($type.isNumber(dataItem.radiusValue)) {
+                slice_1.radius *= dataItem.values.radiusValue.percent / this._maxRadiusPercent;
+            }
+            slice_1.innerRadius = this.innerRadius;
+            slice_1.startAngle = this._currentStartAngle;
+            if (slice_1.fill == undefined) {
+                slice_1.fill = this.colors.getIndex(dataItem.index * this.colors.step);
+            }
+            if (slice_1.stroke == undefined) {
+                slice_1.stroke = this.colors.getIndex(dataItem.index * this.colors.step);
+            }
+            slice_1.arc = dataItem.values.value.percent * (this.endAngle - this.startAngle) / 100;
+            // LABEL
+            var label = dataItem.label;
+            label.parent = this.labelsContainer;
+            var tick = dataItem.tick;
+            tick.parent = this.ticksContainer;
+            var normalizedMiddleAngle = (slice_1.middleAngle + 360) % 360; // force angle to be 0 - 360;
+            var point = void 0;
+            if (this.alignLabels) {
+                var x = tick.length + label.radius;
+                label.verticalCenter = "middle";
+                var arcRect = this._arcRect;
+                // right half
+                if (normalizedMiddleAngle >= 270 || normalizedMiddleAngle <= 91) { // 91 makes less chances for flickering
+                    x += (arcRect.width + arcRect.x) * this.radius;
+                    label.horizontalCenter = "left";
+                    this._rightItems.push(dataItem);
                 }
-                slice_1.innerRadius = this.innerRadius;
-                slice_1.startAngle = this._currentStartAngle;
-                if (slice_1.fill == undefined) {
-                    slice_1.fill = this.colors.getIndex(dataItem.index * this.colors.step);
-                }
-                if (slice_1.stroke == undefined) {
-                    slice_1.stroke = this.colors.getIndex(dataItem.index * this.colors.step);
-                }
-                slice_1.arc = dataItem.values.value.percent * (this.endAngle - this.startAngle) / 100;
-                // LABEL
-                var label = dataItem.label;
-                label.parent = this.labelsContainer;
-                var tick = dataItem.tick;
-                tick.parent = this.ticksContainer;
-                var normalizedMiddleAngle = (slice_1.middleAngle + 360) % 360; // force angle to be 0 - 360;
-                var point = void 0;
-                if (this.alignLabels) {
-                    var x = tick.length + label.radius;
-                    label.verticalCenter = "middle";
-                    var arcRect = this._arcRect;
-                    // right half
-                    if (normalizedMiddleAngle >= 270 || normalizedMiddleAngle <= 91) { // 91 makes less chances for flickering
-                        x += (arcRect.width + arcRect.x) * this.radius;
-                        label.horizontalCenter = "left";
-                        this._rightItems.push(dataItem);
-                    }
-                    // left half
-                    else {
-                        x -= arcRect.x * this.radius;
-                        label.horizontalCenter = "right";
-                        this._leftItems.push(dataItem);
-                        x *= -1;
-                    }
-                    var distance = this.radius + tick.length + label.radius;
-                    point = { x: x, y: slice_1.iy * distance };
-                }
+                // left half
                 else {
-                    var x = slice_1.ix * slice_1.radius;
-                    var y = slice_1.iy * slice_1.radiusY;
-                    point = label.fixPoint({ x: x, y: y }, slice_1.radius);
+                    x -= arcRect.x * this.radius;
+                    label.horizontalCenter = "right";
+                    this._leftItems.push(dataItem);
+                    x *= -1;
                 }
-                label.moveTo(point);
-                this._currentStartAngle += slice_1.arc;
-                // Apply accessibility
-                if (this.itemsFocusable()) {
-                    slice_1.role = "menuitem";
-                    slice_1.focusable = true;
-                }
-                else {
-                    slice_1.role = "listitem";
-                    slice_1.focusable = false;
-                }
-                // Apply screen reader label
-                if (slice_1.focusable) {
-                    slice_1.events.once("focus", function (ev) {
-                        slice_1.readerTitle = _this.populateString(_this.itemReaderText, dataItem);
-                    });
-                    slice_1.events.once("blur", function (ev) {
-                        slice_1.readerTitle = "";
-                    });
-                }
-                if (slice_1.hoverable) {
-                    slice_1.events.once("over", function (ev) {
-                        slice_1.readerTitle = _this.populateString(_this.itemReaderText, dataItem);
-                    });
-                    slice_1.events.once("out", function (ev) {
-                        slice_1.readerTitle = "";
-                    });
-                }
-                // do this at the end, otherwise bullets won't be positioned properly
-                _super.prototype.validateDataElement.call(this, dataItem);
+                var distance = this.radius + tick.length + label.radius;
+                point = { x: x, y: slice_1.iy * distance };
             }
             else {
-                dataItem.__disabled = true;
+                var x = slice_1.ix * slice_1.radius;
+                var y = slice_1.iy * slice_1.radiusY;
+                point = label.fixPoint({ x: x, y: y }, slice_1.radius);
             }
+            label.moveTo(point);
+            this._currentStartAngle += slice_1.arc;
+            // Apply accessibility
+            if (this.itemsFocusable()) {
+                slice_1.role = "menuitem";
+                slice_1.focusable = true;
+            }
+            else {
+                slice_1.role = "listitem";
+                slice_1.focusable = false;
+            }
+            // Apply screen reader label
+            if (slice_1.focusable) {
+                slice_1.events.once("focus", function (ev) {
+                    slice_1.readerTitle = _this.populateString(_this.itemReaderText, dataItem);
+                });
+                slice_1.events.once("blur", function (ev) {
+                    slice_1.readerTitle = "";
+                });
+            }
+            if (slice_1.hoverable) {
+                slice_1.events.once("over", function (ev) {
+                    slice_1.readerTitle = _this.populateString(_this.itemReaderText, dataItem);
+                });
+                slice_1.events.once("out", function (ev) {
+                    slice_1.readerTitle = "";
+                });
+            }
+            // do this at the end, otherwise bullets won't be positioned properly
+            _super.prototype.validateDataElement.call(this, dataItem);
+            //}
+            //else {
+            //	dataItem.__disabled = true;
+            //}
         }
     };
     /**
@@ -702,14 +702,18 @@ var PieSeries = /** @class */ (function (_super) {
         _super.prototype.positionBullet.call(this, bullet);
         var dataItem = bullet.dataItem;
         var slice = dataItem.slice;
-        var location = 1;
-        if ($type.isNumber(bullet.locationX)) {
-            location = bullet.locationX;
+        var locationX = bullet.locationX;
+        if (!$type.isNumber(locationX)) {
+            locationX = 0.5;
         }
-        if ($type.isNumber(bullet.locationY)) {
-            location = bullet.locationY;
+        var locationY = bullet.locationY;
+        if (!$type.isNumber(locationY)) {
+            locationY = 1;
         }
-        bullet.moveTo({ x: slice.ix * slice.radius * slice.scale * location, y: slice.iy * slice.radius * slice.scale * location });
+        var angle = slice.startAngle + slice.arc * locationX;
+        var radius = locationY * slice.radius;
+        bullet.x = radius * $math.cos(angle);
+        bullet.y = radius * $math.sin(angle);
     };
     /**
      * Repositions bullets when slice's size changes.
@@ -753,11 +757,20 @@ var PieSeries = /** @class */ (function (_super) {
         this.labels.template.copyFrom(source.labels.template);
         this.ticks.template.copyFrom(source.ticks.template);
     };
+    PieSeries.prototype.getContainerBBox = function () {
+        var chart = this.chart;
+        if (chart) {
+            return $math.getArcRect(chart.startAngle, chart.endAngle, this.radius);
+        }
+        else {
+            return $math.getArcRect(this.startAngle, this.endAngle, this.radius);
+        }
+    };
     return PieSeries;
 }(Series));
 export { PieSeries };
 /**
- * Register class in system, so that it can be instantiated using its name from
+ * bboxter class in system, so that it can be instantiated using its name from
  * anywhere.
  *
  * @ignore

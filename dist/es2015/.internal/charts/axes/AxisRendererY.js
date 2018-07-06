@@ -244,7 +244,7 @@ var AxisRendererY = /** @class */ (function (_super) {
             baseGrid.hide(0);
         }
         else {
-            var x = $utils.spritePointToSprite({ x: 0, y: 0 }, this.gridContainer, this).x;
+            var x = $utils.spritePointToSprite({ x: 0, y: 0 }, this.gridContainer, baseGrid.parent).x;
             baseGrid.element.attr({ "d": $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: w, y: 0 }) });
             baseGrid.moveTo({ x: x, y: y });
             baseGrid.show(0);

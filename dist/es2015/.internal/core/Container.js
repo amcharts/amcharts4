@@ -22,6 +22,7 @@ import { Sprite } from "./Sprite";
 import { SpriteState } from "./SpriteState";
 import { List } from "./utils/List";
 import { Rectangle } from "./elements/Rectangle";
+import { Percent } from "./utils/Percent";
 import { registry } from "./Registry";
 import { InterfaceColorSet } from "../core/utils/InterfaceColorSet";
 import * as $iter from "./utils/Iterator";
@@ -73,15 +74,9 @@ var Container = /** @class */ (function (_super) {
         /*
          * @ignore
          */
-        _this._containerOverflowX = 0;
-        /*
-         * @ignore
-         */
-        _this._containerOverflowY = 0;
-        /*
-         * @ignore
-         */
         _this.layoutInvalid = false;
+        _this._absoluteWidth = 0;
+        _this._absoluteHeight = 0;
         _this.className = "Container";
         _this.element = _this.paper.addGroup("g");
         _this.pixelPerfect = false;
@@ -89,9 +84,8 @@ var Container = /** @class */ (function (_super) {
         _this.group.add(_this.element);
         _this.layout = "absolute";
         _this._fixedWidthGrid = false;
-        _this.ignoreOverflow = false;
-        _this.verticalCenter = "top";
-        _this.horizontalCenter = "left";
+        _this.verticalCenter = "none";
+        _this.horizontalCenter = "none";
         _this.children.events.on("insert", _this.handleChildAdded, _this);
         _this.children.events.on("remove", _this.handleChildRemoved, _this);
         _this.applyTheme();
@@ -633,7 +627,7 @@ var Container = /** @class */ (function (_super) {
                 var maxHeight;
                 if ($type.isNumber(child.relativeWidth)) {
                     maxWidth = $math.round(_this._availableWidth * child.relativeWidth);
-                    if (_this.layout == "horizontal") { // || this.layout == "absolute") { // not sure about absolute, but works well in cases like small map
+                    if (_this.layout == "horizontal") { // || this.layout == "absolute") { 
                         maxWidth -= child.pixelMarginRight + child.pixelMarginLeft;
                     }
                 }
@@ -646,7 +640,7 @@ var Container = /** @class */ (function (_super) {
                 }
                 if ($type.isNumber(child.relativeHeight)) {
                     maxHeight = $math.round(_this._availableHeight * child.relativeHeight);
-                    if (_this.layout == "vertical") { //  || this.layout == "absolute") { // not sure about absolute, but works well in cases like small map
+                    if (_this.layout == "vertical") { //  || this.layout == "absolute") { 
                         maxHeight -= child.pixelMarginTop + child.pixelMarginBottom;
                     }
                 }
@@ -671,9 +665,6 @@ var Container = /** @class */ (function (_super) {
                             if (!$type.isNumber(child.percentWidth)) {
                                 if (child.measuredWidth > 0) {
                                     _this._availableWidth -= child.measuredWidth + child.pixelMarginLeft + child.pixelMarginRight;
-                                    if (child.ignoreOverflow) {
-                                        _this._availableWidth -= child.overflowX;
-                                    }
                                 }
                             }
                         }
@@ -682,14 +673,19 @@ var Container = /** @class */ (function (_super) {
                             if (!$type.isNumber(child.percentHeight)) {
                                 if (child.measuredHeight > 0) {
                                     _this._availableHeight -= child.measuredHeight + child.pixelMarginTop + child.pixelMarginBottom;
-                                    if (child.ignoreOverflow) {
-                                        _this._availableHeight -= child.overflowY;
-                                    }
                                 }
                             }
                         }
-                        measuredWidth = Math.max(measuredWidth, child.measuredWidth);
-                        measuredHeight = Math.max(measuredHeight, child.measuredHeight);
+                        var childMeasuredWidth = child.measuredWidth;
+                        var childMeasuredHeight = child.measuredHeight;
+                        if (child.align != "none") {
+                            childMeasuredWidth += child.pixelMarginLeft + child.pixelMarginRight;
+                        }
+                        if (child.valign != "none") {
+                            childMeasuredHeight += child.pixelMarginTop + child.pixelMarginBottom;
+                        }
+                        measuredWidth = Math.max(measuredWidth, childMeasuredWidth);
+                        measuredHeight = Math.max(measuredHeight, childMeasuredHeight);
                     }
                 }
                 // if child is not valid
@@ -712,9 +708,8 @@ var Container = /** @class */ (function (_super) {
                 }
             });
         }
-        // this is needed in case we have some children which we have to valign to, for example, center
-        this._measuredWidth = measuredWidth + this.pixelPaddingLeft + this.pixelPaddingRight;
-        this._measuredHeight = measuredHeight + this.pixelPaddingTop + this.pixelPaddingBottom;
+        this._absoluteWidth = measuredWidth;
+        this._absoluteHeight = measuredHeight;
         // arrange after measuring, only if all children are valid already
         if (allValid) {
             this.arrange();
@@ -739,10 +734,19 @@ var Container = /** @class */ (function (_super) {
             */
             var measuredWidth = 0;
             var measuredHeight = 0;
-            var left = void 0;
-            var right = void 0;
-            var top_1;
-            var bottom = void 0;
+            //let innerWidth: number = this.innerWidth; //$math.max(this.innerWidth, this._measuredWidth - paddingLeft - paddingRight);
+            //let innerHeight: number = this.innerHeight; //$math.max(this.innerHeight, this._measuredHeight - paddingTop - paddingBottom);
+            // above is wrong, as if a w/h is not specified, it is 0 and alignment doesn't work at all.
+            var innerWidth_1 = $math.max(this.innerWidth, this._absoluteWidth);
+            var innerHeight_1 = $math.max(this.innerHeight, this._absoluteHeight);
+            var left = void 0; // = 0;
+            var right = void 0; // = innerWidth;
+            var top_1; // = 0;
+            var bottom = void 0; // = innerHeight;
+            var paddingLeft = this.pixelPaddingLeft;
+            var paddingRight = this.pixelPaddingRight;
+            var paddingTop = this.pixelPaddingTop;
+            var paddingBottom = this.pixelPaddingBottom;
             var nextX = 0;
             var nextY = 0;
             var row = 0;
@@ -752,10 +756,6 @@ var Container = /** @class */ (function (_super) {
             var maxCellWidth = void 0;
             var minCellWidth = void 0;
             var columnCount = void 0;
-            var paddingLeft = this.pixelPaddingLeft;
-            var paddingRight = this.pixelPaddingRight;
-            var paddingTop = this.pixelPaddingTop;
-            var paddingBottom = this.pixelPaddingBottom;
             // GRID PRECALCULATIONS
             if (this.layout == "grid") {
                 minCellWidth = $math.fitToRange($iter.min($iter.map(this.children.iterator(), function (x) { return x.measuredWidth; })), 1, this.maxWidth);
@@ -769,27 +769,26 @@ var Container = /** @class */ (function (_super) {
                 columnCount = $math.max(1, Math.floor(columnCount));
                 columnWidth = this.getColumnWidth(columnCount, maxCellWidth);
             }
-            var innerWidth_1 = $math.max(this.innerWidth, this._measuredWidth - paddingLeft - paddingRight);
-            var innerHeight_1 = $math.max(this.innerHeight, this._measuredHeight - paddingTop - paddingBottom);
-            var containerOverflowX = void 0;
-            var containerOverflowY = void 0;
+            var contentLeft = void 0;
+            var contentRight = void 0;
+            var contentTop = void 0;
+            var contentBottom = void 0;
             // we itterate through array of children
             // TODO use iterator instead
             for (var i = 0, len = this.children.length; i < len; i++) {
                 var child = this.children.getIndex(i);
                 var x = undefined; // must reset
                 var y = undefined; // must reset
-                var childOverflowX = child.overflowX;
-                var childOverflowY = child.overflowY;
                 var childMarginLeft = child.pixelMarginLeft;
                 var childMarginRight = child.pixelMarginRight;
                 var childMarginTop = child.pixelMarginTop;
                 var childMarginBottom = child.pixelMarginBottom;
-                // this is not good, as if we rotate sprite, it gets incorrect
-                //	let childWidth: number = Math.min(child.pixelWidth, child.measuredWidth);
-                //	let childHeight: number = Math.min(child.pixelHeight, child.measuredHeight);
                 var childWidth = child.measuredWidth;
                 var childHeight = child.measuredHeight;
+                var childLeft = void 0;
+                var childRight = void 0;
+                var childTop = void 0;
+                var childBottom = void 0;
                 if (child.isMeasured && !child.disabled && !child.__disabled) {
                     switch (this.layout) {
                         // absolute layout
@@ -797,92 +796,96 @@ var Container = /** @class */ (function (_super) {
                             // horizontal alignment
                             switch (child.align) {
                                 case "left":
-                                    x = child.pixelMarginLeft - childOverflowX;
+                                    x = childMarginLeft - child.maxLeft;
                                     break;
                                 case "center":
-                                    x = (innerWidth_1 - childWidth) / 2 - childOverflowX;
+                                    x = (innerWidth_1 - childWidth) / 2 - child.maxLeft;
                                     break;
                                 case "right":
-                                    x = innerWidth_1 - childWidth - childMarginRight - childOverflowX;
+                                    x = innerWidth_1 - childMarginRight - child.maxRight;
+                                    break;
+                                default:
+                                    if (!(child.x instanceof Percent)) {
+                                        x = child.pixelX;
+                                    }
                                     break;
                             }
                             // vertical alignment
                             switch (child.valign) {
                                 case "top":
-                                    y = childMarginTop - childOverflowY;
+                                    y = childMarginTop - child.maxTop;
                                     break;
                                 case "middle":
-                                    y = (innerHeight_1 - childHeight) / 2 - childOverflowY;
+                                    y = (innerHeight_1 - childHeight) / 2 - child.maxTop;
                                     break;
                                 case "bottom":
-                                    y = innerHeight_1 - childHeight - childMarginBottom - childOverflowY;
+                                    y = innerHeight_1 - childMarginBottom - child.maxBottom;
+                                    break;
+                                default:
+                                    if (!(child.y instanceof Percent)) {
+                                        y = child.pixelY;
+                                    }
                                     break;
                             }
                             break;
                         // vertical layout
                         case "vertical":
-                            if ($type.isNumber(child.relativeHeight)) {
-                                childHeight = child.maxHeight;
-                            }
-                            if (child.ignoreOverflow) {
-                                if (!$type.isNumber(child.relativeHeight)) {
-                                    childHeight += childOverflowY;
-                                }
-                                childOverflowX = 0;
-                                childOverflowY = 0;
-                            }
+                            //if ($type.isNumber(child.relativeHeight)) {
+                            //	childHeight = child.maxHeight;
+                            //}
                             switch (child.align) {
                                 case "left":
-                                    x = childMarginLeft - childOverflowX;
+                                    x = childMarginLeft - child.maxLeft;
                                     break;
                                 case "center":
-                                    x = (innerWidth_1 - childWidth) / 2 - childOverflowX;
+                                    x = (innerWidth_1 - childWidth) / 2 - child.maxLeft;
                                     break;
                                 case "right":
-                                    x = innerWidth_1 - childWidth - childMarginRight - childOverflowX;
+                                    x = innerWidth_1 - childMarginRight - child.maxRight;
+                                    break;
+                                default:
+                                    x = child.pixelX;
                                     break;
                             }
-                            y = nextY - childOverflowY + childMarginTop;
-                            nextY = childHeight + y + childOverflowY + childMarginBottom;
+                            y = nextY + childMarginTop - child.maxTop;
+                            nextY = y + child.maxBottom + childMarginBottom;
                             break;
                         // horizontal layout
                         case "horizontal":
-                            if ($type.isNumber(child.relativeHeight)) {
-                                childHeight = child.maxHeight;
-                            }
-                            if (child.ignoreOverflow) {
-                                if (!$type.isNumber(child.relativeWidth)) {
-                                    childWidth += childOverflowX;
-                                }
-                                childOverflowX = 0;
-                                childOverflowY = 0;
-                            }
+                            //if ($type.isNumber(child.relativeHeight)) {
+                            //	childHeight = child.maxHeight;
+                            //}
                             switch (child.valign) {
                                 case "top":
-                                    y = child.pixelMarginTop - childOverflowY;
+                                    y = childMarginTop - child.maxTop;
                                     break;
                                 case "middle":
-                                    y = (innerHeight_1 - childHeight) / 2 - childOverflowY;
+                                    y = (innerHeight_1 - childHeight) / 2 - child.maxTop;
                                     break;
                                 case "bottom":
-                                    y = innerHeight_1 - childHeight - childMarginBottom - childOverflowY;
+                                    y = innerHeight_1 - childMarginBottom - child.maxBottom;
+                                    break;
+                                default:
+                                    y = child.pixelY;
                                     break;
                             }
-                            x = nextX - childOverflowX + childMarginLeft;
-                            nextX = x + childWidth + childOverflowX + childMarginRight;
+                            x = nextX + childMarginLeft - child.maxLeft;
+                            nextX = x + child.maxRight + childMarginRight;
                             break;
                         case "grid":
-                            x = nextX - childOverflowX + childMarginLeft;
-                            y = nextY - childOverflowY + childMarginTop;
+                            x = nextX + childMarginLeft - child.maxLeft;
                             switch (child.valign) {
                                 case "top":
-                                    y = nextY + child.pixelMarginTop - childOverflowY;
+                                    y = nextY + childMarginTop - child.maxTop;
                                     break;
                                 case "middle":
-                                    y = nextY + (innerHeight_1 - childHeight) / 2 - childOverflowY;
+                                    y = nextY + (innerHeight_1 - childHeight) / 2 - child.maxTop;
                                     break;
                                 case "bottom":
-                                    y = nextY + innerHeight_1 - childHeight - childMarginBottom - childOverflowY;
+                                    y = nextY + innerHeight_1 - childMarginBottom - child.maxBottom;
+                                    break;
+                                default:
+                                    y = nextY - child.maxTop;
                                     break;
                             }
                             nextX += columnWidth[column];
@@ -893,7 +896,7 @@ var Container = /** @class */ (function (_super) {
                                 nextColumnWidth = maxCellWidth;
                             }
                             // here we reduce number of columns
-                            if (nextX > this.maxWidth - nextColumnWidth && column < columnCount) {
+                            if (nextX > $math.min(this.innerWidth, this.maxWidth) - nextColumnWidth && column < columnCount) {
                                 columnCount = column - 1; // cause we added one and we need current item to go to next row
                                 nextX = 0;
                                 nextY = 0;
@@ -914,14 +917,21 @@ var Container = /** @class */ (function (_super) {
                     }
                     // NaN is handled by setter
                     child.moveTo({ x: x, y: y });
-                    var childLeft = child.pixelX + childOverflowX;
-                    var childRight = child.pixelX + childWidth + childOverflowX;
-                    var childTop = child.pixelY + childOverflowY;
-                    var childBottom = child.pixelY + childHeight + childOverflowY;
-                    childLeft -= child.pixelMarginLeft;
-                    childRight += child.pixelMarginRight;
-                    childTop -= child.pixelMarginTop;
-                    childBottom += child.pixelMarginBottom;
+                    childLeft = x + child.maxLeft - childMarginLeft;
+                    childRight = x + child.maxRight + childMarginRight;
+                    childTop = y + child.maxTop - childMarginTop;
+                    childBottom = y + child.maxBottom + childMarginBottom;
+                    /* not good, maybe leave this for absolute layouts only
+                                        if (child.align == "none") {
+                                            childLeft += childMarginLeft;
+                                            childRight -= childMarginRight;
+                                        }
+                    
+                                        if (child.valign == "none") {
+                                            childTop += childMarginTop;
+                                            childBottom -= childMarginBottom;
+                                        }
+                    */
                     if (childRight > right || !$type.isNumber(right)) {
                         right = childRight;
                     }
@@ -934,44 +944,97 @@ var Container = /** @class */ (function (_super) {
                     if (childBottom > bottom || !$type.isNumber(bottom)) {
                         bottom = childBottom;
                     }
-                    measuredWidth = right - left;
-                    measuredHeight = bottom - top_1;
-                    containerOverflowX = $math.min(containerOverflowX, childLeft);
-                    containerOverflowY = $math.min(containerOverflowY, childTop);
+                    if (childRight > contentRight || !$type.isNumber(contentRight)) {
+                        contentRight = childRight;
+                    }
+                    if (childLeft < contentLeft || !$type.isNumber(contentLeft)) {
+                        contentLeft = childLeft;
+                    }
+                    if (childTop < contentTop || !$type.isNumber(contentTop)) {
+                        contentTop = childTop;
+                    }
+                    if (childBottom > contentBottom || !$type.isNumber(contentBottom)) {
+                        contentBottom = contentBottom;
+                    }
                 }
             }
-            this._containerOverflowX = containerOverflowX;
-            this._containerOverflowY = containerOverflowY;
-            innerWidth_1 = $math.max(innerWidth_1, measuredWidth);
-            innerHeight_1 = $math.max(innerHeight_1, measuredHeight);
+            if (!$type.isNumber(left)) {
+                left = 0;
+                contentLeft = 0;
+            }
+            if (!$type.isNumber(right)) {
+                right = this._availableWidth;
+                contentRight = right;
+            }
+            if (!$type.isNumber(top_1)) {
+                top_1 = 0;
+                contentTop = 0;
+            }
+            if (!$type.isNumber(bottom)) {
+                bottom = this._availableHeight;
+                contentBottom = bottom;
+            }
+            if (!$type.isNumber(contentTop)) {
+                contentTop = 0;
+            }
+            if (!$type.isNumber(contentBottom)) {
+                contentBottom = contentTop;
+            }
+            if (!$type.isNumber(contentLeft)) {
+                contentLeft = 0;
+            }
+            if (!$type.isNumber(contentRight)) {
+                contentRight = contentLeft;
+            }
+            measuredWidth = right - left;
+            measuredHeight = bottom - top_1;
+            if ($type.isNumber(this.relativeWidth)) {
+                measuredWidth = this.maxWidth - this.pixelPaddingLeft - this.pixelPaddingRight;
+                left = 0;
+                right = measuredWidth;
+            }
+            if ($type.isNumber(this.relativeHeight)) {
+                measuredHeight = this.maxHeight - this.pixelPaddingTop - this.pixelPaddingBottom;
+                top_1 = 0;
+                bottom = measuredHeight;
+            }
+            if ($type.isNumber(this._pixelWidth)) {
+                left = 0;
+                measuredWidth = this._pixelWidth;
+            }
+            if ($type.isNumber(this.minWidth) && measuredWidth < this.minWidth) {
+                left = 0;
+                measuredWidth = this.minWidth;
+            }
+            if ($type.isNumber(this._pixelHeight)) {
+                top_1 = 0;
+                measuredHeight = this._pixelHeight;
+            }
+            if ($type.isNumber(this.minHeight) && measuredHeight < this.minHeight) {
+                top_1 = 0;
+                measuredHeight = this.minHeight;
+            }
+            var measuredContentWidth = contentRight - contentLeft;
+            var measuredContentHeight = contentBottom - contentTop;
             /// handle content alignment
             var dx_1;
             var dy_1;
-            if (this.contentAlign == "left") {
-                dx_1 = 0;
-            }
             if (this.contentAlign == "center") {
-                dx_1 = (innerWidth_1 - measuredWidth) / 2;
+                dx_1 = (measuredWidth - measuredContentWidth) / 2;
             }
             if (this.contentAlign == "right") {
-                dx_1 = innerWidth_1 - measuredWidth;
-            }
-            if (this.contentValign == "top") {
-                dy_1 = 0;
+                dx_1 = measuredWidth - measuredContentWidth;
             }
             if (this.contentValign == "middle") {
-                dy_1 = (innerHeight_1 - measuredHeight) / 2;
+                dy_1 = (measuredHeight - measuredContentHeight) / 2;
             }
             if (this.contentValign == "bottom") {
-                dy_1 = innerHeight_1 - measuredHeight;
+                dy_1 = measuredHeight - measuredContentHeight;
             }
             if ($type.isNumber(dx_1)) {
                 $iter.each(this.children.iterator(), function (child) {
-                    var childOverflowX = child.overflowX;
+                    var childLeft = child.maxLeft;
                     var ddx = dx_1;
-                    if (child.ignoreOverflow) {
-                        childOverflowX = 0;
-                    }
                     if (_this.layout == "horizontal") {
                         child.x = child.pixelX + ddx;
                     }
@@ -982,34 +1045,31 @@ var Container = /** @class */ (function (_super) {
                     if (_this.layout == "vertical") {
                         ddx += child.pixelMarginLeft;
                         if (child.align == "none") {
-                            child.x = ddx - childOverflowX;
+                            child.x = ddx - childLeft;
                         }
                     }
                     if (_this.layout == "absolute") {
                         ddx += child.pixelMarginLeft;
                         if (child.align == "none") {
-                            child.x = ddx - childOverflowX;
+                            child.x = ddx - childLeft;
                         }
                     }
                 });
             }
             if ($type.isNumber(dy_1)) {
                 $iter.each(this.children.iterator(), function (child) {
-                    var childOverflowY = child.overflowY;
+                    var childTop = child.maxTop;
                     var ddy = dy_1;
-                    if (child.ignoreOverflow) {
-                        childOverflowY = 0;
-                    }
                     if (_this.layout == "horizontal") {
                         ddy += child.pixelMarginTop;
                         if (child.valign == "none") {
-                            child.y = ddy - childOverflowY;
+                            child.y = ddy - childTop;
                         }
                     }
                     // individual grid elements can not be aligned vertically, that's why it's different from horizontal
                     if (_this.layout == "grid") {
                         ddy += child.pixelMarginTop;
-                        child.y = ddy - childOverflowY;
+                        child.y = ddy - childTop;
                     }
                     if (_this.layout == "vertical") {
                         child.y = child.pixelY + ddy;
@@ -1017,30 +1077,33 @@ var Container = /** @class */ (function (_super) {
                     if (_this.layout == "absolute") {
                         ddy += child.pixelMarginTop;
                         if (child.valign == "none") {
-                            child.y = ddy - childOverflowY;
+                            child.y = ddy - childTop;
                         }
                     }
                 });
             }
-            var oldBBox = this._bbox;
-            measuredWidth = $math.round($math.max(measuredWidth, this.innerWidth), 1);
-            measuredHeight = $math.round($math.max(measuredHeight, this.innerHeight), 1);
-            // experimental
+            var oldBBox = this.bbox;
+            // this will mess up maxw/maxh set by container layout, we need a separate min/maxwidth for users
             // this prevents invalidating layout in such cases as scrolling category axis, when labels go outside bounds and results transformed event
             // todo: need to check if this doesn't cause other problems.
-            if (this.maxWidth > 0) {
-                measuredWidth = $math.min(measuredWidth, this.maxWidth);
-                measuredWidth = $math.max(measuredWidth, this.minWidth);
-            }
-            if (this.maxHeight > 0) {
-                measuredHeight = $math.min(measuredHeight, this.maxHeight);
-                measuredHeight = $math.max(measuredHeight, this.minHeight);
-            }
-            this._bbox = { x: 0, y: 0, width: measuredWidth, height: measuredHeight };
-            this.updateBackground(measuredWidth, measuredHeight);
+            //if (this.maxWidth > 0) {
+            //measuredWidth = $math.min(measuredWidth, this.maxWidth);
+            //measuredWidth = $math.max(measuredWidth, this.minWidth);
+            //}
+            //if (this.maxHeight > 0) {
+            //measuredHeight = $math.min(measuredHeight, this.maxHeight);
+            //measuredHeight = $math.max(measuredHeight, this.minHeight);				
+            //}
+            measuredWidth = $math.max(measuredWidth, this.minWidth);
+            measuredHeight = $math.max(measuredHeight, this.minHeight);
+            this.bbox = this.getContainerBBox(left, top_1, measuredWidth, measuredHeight);
+            var prevLeft = this.maxLeft;
+            var prevTop = this.maxTop;
+            var prevBotttom = this.maxBottom;
+            var prevRight = this.maxRight;
             this.measure();
-            if (!oldBBox || (oldBBox.width != measuredWidth || oldBBox.height != measuredHeight)) {
-                // temp
+            //if (!oldBBox || ($math.round(oldBBox.width, 1) != $math.round(measuredWidth, 1) || $math.round(oldBBox.height, 1) != $math.round(measuredHeight, 1))) {
+            if (prevLeft != this.maxLeft || prevRight != this.maxRight || prevTop != this.maxTop || prevBotttom != this.maxBottom) {
                 if (this.events.isEnabled("transformed")) {
                     var event_1 = {
                         type: "transformed",
@@ -1054,31 +1117,32 @@ var Container = /** @class */ (function (_super) {
             }
         }
     };
+    Container.prototype.getContainerBBox = function (x, y, width, height) {
+        if (this.definedBBox) {
+            return this.definedBBox;
+        }
+        else {
+            return { x: x, y: y, width: width, height: height };
+        }
+    };
+    Container.prototype.updateCenter = function () {
+        _super.prototype.updateCenter.call(this);
+        this.updateBackground();
+    };
     /**
      * Update the background to fit into specific dimensions.
      *
      * @ignore Exclude from docs
      * @todo Make it protected?
-     * @param {number} measuredWidth  Wdith (px)
-     * @param {number} measuredHeight Height (px)
      */
-    Container.prototype.updateBackground = function (measuredWidth, measuredHeight) {
+    Container.prototype.updateBackground = function () {
         var background = this._background; // accessing protected, as getter creates instance if it doesn't exist
         if (background) {
-            if ($type.isNumber(this.relativeWidth)) {
-                background.width = this.maxWidth;
-            }
-            else {
-                background.width = measuredWidth + this.pixelPaddingLeft + this.pixelPaddingRight;
-            }
-            if ($type.isNumber(this.relativeHeight)) {
-                background.height = this.maxHeight;
-            }
-            else {
-                background.height = measuredHeight + this.pixelPaddingTop + this.pixelPaddingBottom;
-            }
-            background.x = this.overflowX;
-            background.y = this.overflowY;
+            background.x = this.maxLeft;
+            background.y = this.maxTop;
+            background.width = this.maxRight - this.maxLeft;
+            background.height = this.maxBottom - this.maxTop;
+            //console.log(this._right, this._left)
             this.group.addToBack(background.group);
         }
     };
@@ -1319,6 +1383,7 @@ var Container = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Container.prototype.measureElement = function () {
+        this.validateLayout();
     };
     /**
      * Returns Tooltip X coordinate if it's set, or middle of the element.
@@ -1327,7 +1392,7 @@ var Container = /** @class */ (function (_super) {
      * @return {number} X (px)
      */
     Container.prototype.getTooltipX = function () {
-        return _super.prototype.getTooltipX.call(this) + this._containerOverflowX;
+        return _super.prototype.getTooltipX.call(this);
     };
     /**
      * Returns Tooltip Y coordinate if it's set, or middle of the element.
@@ -1336,7 +1401,7 @@ var Container = /** @class */ (function (_super) {
      * @return {number} Y (px)
      */
     Container.prototype.getTooltipY = function () {
-        return _super.prototype.getTooltipY.call(this) + this._containerOverflowY;
+        return _super.prototype.getTooltipY.call(this);
     };
     Object.defineProperty(Container.prototype, "fontSize", {
         /**
@@ -1433,6 +1498,7 @@ var Container = /** @class */ (function (_super) {
             $iter.each(this.children.iterator(), function (child) {
                 child.setState(stateName, transitionDuration, easing);
             });
+            this.background.setState(stateName);
         }
         return _super.prototype.setState.call(this, value, transitionDuration, easing);
     };

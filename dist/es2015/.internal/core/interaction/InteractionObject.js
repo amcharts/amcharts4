@@ -23,6 +23,7 @@ import { List } from "../utils/List";
 import { Dictionary, DictionaryDisposer } from "../utils/Dictionary";
 import { getInteraction } from "./Interaction";
 import * as $iter from "../utils/Iterator";
+import * as $type from "../utils/Type";
 /**
  * Re-exports
  */
@@ -69,6 +70,15 @@ var InteractionObject = /** @class */ (function (_super) {
          * @type {Dictionary<string, string>}
          */
         _this.replacedStyles = new Dictionary();
+        _this._clickable = false;
+        _this._hoverable = false;
+        _this._trackable = false;
+        _this._draggable = false;
+        _this._swipeable = false;
+        _this._resizable = false;
+        _this._rotatable = false;
+        _this._wheelable = false;
+        _this._inert = false;
         /**
          * Is element currently hovered?
          *
@@ -465,15 +475,15 @@ var InteractionObject = /** @class */ (function (_super) {
         /**
          * Returns if element is currently set as focusable.
          *
-         * @return {true} Focusable?
+         * @return {Optional<boolean>} Focusable?
          */
         get: function () {
-            return this._focusable || undefined;
+            return this._focusable;
         },
         /**
          * Sets if element can gain focus.
          *
-         * @param {boolean} value Focusable?
+         * @param {Optional<boolean>} value Focusable?
          */
         set: function (value) {
             if (this._focusable !== value) {
@@ -494,7 +504,7 @@ var InteractionObject = /** @class */ (function (_super) {
          * @return {number} Tab index
          */
         get: function () {
-            return this._tabindex || -1;
+            return $type.getValueDefault(this._tabindex, -1);
         },
         /**
          * Sets element's tab index.
@@ -523,7 +533,7 @@ var InteractionObject = /** @class */ (function (_super) {
         },
         /**
          * Sets DOM element associated with this element
-         * @param {HTMLElement | SVGSVGElement} element Element
+         * @param {Optional<HTMLElement | SVGSVGElement>} element Element
          */
         set: function (element) {
             this._element = element;
@@ -560,7 +570,7 @@ var InteractionObject = /** @class */ (function (_super) {
          * @return {number} Scale
          */
         get: function () {
-            return this._originalScale || 1;
+            return $type.getValueDefault(this._originalScale, 1);
         },
         /**
          * Sets element's original scale.
@@ -583,7 +593,7 @@ var InteractionObject = /** @class */ (function (_super) {
          * @return {number} Angle
          */
         get: function () {
-            return this._originalAngle || 0;
+            return $type.getValueDefault(this._originalAngle, 0);
         },
         /**
          * Sets element's original angle.

@@ -103,12 +103,9 @@ var RadarChart = /** @class */ (function (_super) {
         _this.innerRadius = 0;
         var radarContainer = _this.plotContainer.createChild(Container);
         radarContainer.shouldClone = false;
-        radarContainer.width = percent(100);
-        radarContainer.height = percent(100);
-        radarContainer.layout = "none";
-        radarContainer.events.on("maxsizechanged", function () {
-            _this.invalidate();
-        });
+        radarContainer.layout = "absolute";
+        radarContainer.align = "center";
+        radarContainer.valign = "middle";
         _this.seriesContainer.parent = radarContainer;
         _this.radarContainer = radarContainer;
         _this.bulletsContainer.parent = radarContainer;
@@ -214,27 +211,29 @@ var RadarChart = /** @class */ (function (_super) {
     RadarChart.prototype.beforeDraw = function () {
         _super.prototype.beforeDraw.call(this);
         var radarCont = this.radarContainer;
+        var plotContainer = this.plotContainer;
         var rect = $math.getArcRect(this.startAngle, this.endAngle, 1);
         var innerRect = { x: 0, y: 0, width: 0, height: 0 };
-        var wr = radarCont.innerWidth / rect.width;
-        var hr = radarCont.innerHeight / rect.height;
+        var wr = plotContainer.innerWidth / rect.width;
+        var hr = plotContainer.innerHeight / rect.height;
         var innerRadius = this.innerRadius;
         if (innerRadius instanceof Percent) {
             var value = innerRadius.value;
             var mr = Math.min(wr, hr);
-            value = Math.max(mr * value, mr - Math.min(radarCont.innerHeight, radarCont.innerWidth)) / mr;
+            value = Math.max(mr * value, mr - Math.min(plotContainer.innerHeight, plotContainer.innerWidth)) / mr;
             innerRect = $math.getArcRect(this.startAngle, this.endAngle, value);
             this.innerRadiusModifyer = value / innerRadius.value;
             innerRadius = percent(value * 100);
         }
         // @todo handle this when innerRadius set in pixels (do it for pie also)
         rect = $math.getCommonRectangle([rect, innerRect]);
-        var maxRadius = Math.min(radarCont.innerWidth / rect.width, radarCont.innerHeight / rect.height);
+        var maxRadius = Math.min(plotContainer.innerWidth / rect.width, plotContainer.innerHeight / rect.height);
         var diameter = $utils.relativeRadiusToValue(this.radius, maxRadius) * 2;
+        var radius = diameter / 2;
         var startAngle = this.startAngle;
         var endAngle = this.endAngle;
-        this._pixelInnerRadius = $utils.relativeRadiusToValue(innerRadius, diameter / 2);
-        this._bulletMask.element.attr({ "d": $path.arc(startAngle, endAngle - startAngle, diameter / 2, this._pixelInnerRadius) });
+        this._pixelInnerRadius = $utils.relativeRadiusToValue(innerRadius, radius);
+        this._bulletMask.element.attr({ "d": $path.arc(startAngle, endAngle - startAngle, radius, this._pixelInnerRadius) });
         $iter.each(this.xAxes.iterator(), function (axis) {
             axis.renderer.startAngle = startAngle;
             axis.renderer.endAngle = endAngle;
@@ -242,7 +241,7 @@ var RadarChart = /** @class */ (function (_super) {
             axis.height = diameter;
             //axis.renderer.width = diameter;
             //axis.renderer.height = diameter;
-            axis.renderer.pixelRadiusReal = diameter / 2;
+            axis.renderer.pixelRadiusReal = radius;
             axis.renderer.innerRadius = innerRadius;
         });
         $iter.each(this.yAxes.iterator(), function (axis) {
@@ -252,7 +251,7 @@ var RadarChart = /** @class */ (function (_super) {
             axis.height = diameter;
             //axis.renderer.width = diameter;
             //axis.renderer.height = diameter;
-            axis.renderer.pixelRadiusReal = diameter / 2;
+            axis.renderer.pixelRadiusReal = radius;
             axis.renderer.innerRadius = innerRadius;
         });
         var cursor = this.cursor;
@@ -262,12 +261,7 @@ var RadarChart = /** @class */ (function (_super) {
             cursor.startAngle = startAngle;
             cursor.endAngle = endAngle;
         }
-        var x0 = rect.x;
-        var y0 = rect.y;
-        var x1 = rect.x + rect.width;
-        var y1 = rect.y + rect.height;
-        var point = { x: this.seriesContainer.maxWidth / 2 - diameter / 2 * (x0 + (x1 - x0) / 2), y: this.seriesContainer.maxHeight / 2 - diameter / 2 * (y0 + (y1 - y0) / 2) };
-        this.radarContainer.moveTo(point);
+        this.radarContainer.definedBBox = { x: radius * rect.x, y: radius * rect.y, width: radius * rect.width, height: radius * rect.height };
     };
     /**
      * Creates and returns a new Series, suitable for RadarChart.

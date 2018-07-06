@@ -199,6 +199,7 @@ var Series = /** @class */ (function (_super) {
         _this.bulletsContainer.shouldClone = false;
         _this.bulletsContainer.layout = "none";
         _this.tooltip = new Tooltip();
+        _this._disposers.push(_this.tooltip);
         _this.hiddenState.transitionEasing = $ease.cubicIn;
         // this data item holds sums, averages, etc
         _this.dataItem = _this.createDataItem();
@@ -922,7 +923,7 @@ var Series = /** @class */ (function (_super) {
                                                             var anyChild = child;
                                                             anyChild[property_1] = anyChild[property_1];
                                                         }
-                                                        // givup here
+                                                        // giveup here
                                                         else if (child instanceof Container) {
                                                             child.deepInvalidate();
                                                         }
@@ -963,9 +964,19 @@ var Series = /** @class */ (function (_super) {
                                 }
                             }
                         });
-                        target.adapter.add(property_1, function (value, ruleTarget) {
+                        target.adapter.add(property_1, function (value, ruleTarget, property) {
                             var minValue = $type.toNumber(heatRule.minValue);
                             var maxValue = $type.toNumber(heatRule.maxValue);
+                            if (ruleTarget instanceof Sprite) {
+                                var anySprite = ruleTarget;
+                                var propertyField = anySprite.propertyFields[property];
+                                if (propertyField && ruleTarget.dataItem) {
+                                    var dataContext = ruleTarget.dataItem.dataContext;
+                                    if (dataContext && $type.hasValue(dataContext[propertyField])) {
+                                        return value;
+                                    }
+                                }
+                            }
                             var dataItem = ruleTarget.dataItem;
                             if (!$type.isNumber(minValue)) {
                                 minValue = seriesDataItem_1.values[dataField_1].low;

@@ -156,6 +156,16 @@ var PieChart = /** @class */ (function (_super) {
         _this.valign = "none";
         _this.startAngle = -90;
         _this.endAngle = 270;
+        var seriesContainer = _this.seriesContainer;
+        seriesContainer.isMeasured = true;
+        seriesContainer.valign = "middle";
+        seriesContainer.align = "center";
+        seriesContainer.layout = "absolute";
+        seriesContainer.width = undefined;
+        seriesContainer.height = undefined;
+        // so that the pie is always drawn, even the legend wants all the space
+        _this.chartContainer.minHeight = 50;
+        _this.chartContainer.minWidth = 50;
         _this.chartContainer.events.on("maxsizechanged", function () {
             _this.invalidate();
         });
@@ -223,15 +233,6 @@ var PieChart = /** @class */ (function (_super) {
             series.startAngle = _this.startAngle;
             series.endAngle = _this.endAngle;
         });
-        var x0 = rect.x;
-        var y0 = rect.y;
-        var x1 = rect.x + rect.width;
-        var y1 = rect.y + rect.height;
-        var point = { x: this.seriesContainer.maxWidth / 2 - radius * (x0 + (x1 - x0) / 2), y: this.seriesContainer.maxHeight / 2 - radius * (y0 + (y1 - y0) / 2) };
-        $iter.each(this.series.iterator(), function (series) {
-            series.moveTo(point);
-        });
-        this.bulletsContainer.moveTo(point);
     };
     /**
      * Setups the legend to use the chart's data.

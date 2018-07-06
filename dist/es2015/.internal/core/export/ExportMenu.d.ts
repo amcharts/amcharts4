@@ -236,6 +236,13 @@ export declare class ExportMenu extends Validatable {
      */
     _events: IExportMenuEvents;
     /**
+     * Defines available adapters.
+     *
+     * @ignore Exclude from docs
+     * @type {IExportAdapters}
+     */
+    _adapter: IExportMenuAdapters;
+    /**
      * An [[Adapter]].
      *
      * @type {Adapter<ExportMenu, IExportMenuAdapters>}

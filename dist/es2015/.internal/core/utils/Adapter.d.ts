@@ -25,10 +25,10 @@ export declare class GlobalAdapter {
     private _callbacks;
     addAll<T, Target, Key extends keyof T>(type: {
         new (): Target;
-    }, key: Key, callback: (value: T[Key], target: Target) => T[Key], priority?: number): void;
+    }, key: Key, callback: (value: T[Key], target: Target, key: keyof T) => T[Key], priority?: number): void;
     addAll<T, Target, Key extends keyof T, C>(type: {
         new (): Target;
-    }, key: Key, callback: (this: C, value: T[Key], target: Target) => T[Key], priority?: number, scope?: C): void;
+    }, key: Key, callback: (this: C, value: T[Key], target: Target, key: keyof T) => T[Key], priority?: number, scope?: C): void;
     /**
      * Returns if there are adapters for specific type available.
      *
@@ -57,12 +57,12 @@ export declare class GlobalAdapter {
  * Global adapter is a system-wide instance, accessible via `globalAdapter`.
  *
  * ```TypeScript
- * am4core.globalAdapter.addAll<am4charts.IPieSeriesAdapters, am4charts.PieSeries, "fill">(am4charts.PieSeries, "fill", (value, target) => {
+ * am4core.globalAdapter.addAll<am4charts.IPieSeriesAdapters, am4charts.PieSeries, "fill">(am4charts.PieSeries, "fill", (value, target, key) => {
  *   return am4core.color("#005500");
  * });
  * ```
  * ```JavaScript
- * am4core.globalAdapter.addAll(am4charts.PieSeries, "fill", (value, target) => {
+ * am4core.globalAdapter.addAll(am4charts.PieSeries, "fill", (value, target, key) => {
  *   return am4core.color("#005500");
  * });
  * ```
@@ -100,12 +100,12 @@ export declare let globalAdapter: GlobalAdapter;
  * Global adapter is a system-wide instance, accessible via `globalAdapter`.
  *
  * ```TypeScript
- * am4core.globalAdapter.addAll<am4charts.IPieSeriesAdapters, am4charts.PieSeries, "fill">(am4charts.PieSeries. "fill", (value, target) => {
+ * am4core.globalAdapter.addAll<am4charts.IPieSeriesAdapters, am4charts.PieSeries, "fill">(am4charts.PieSeries. "fill", (value, target, key) => {
  *   return am4core.color("#005500");
  * });
  * ```
  * ```JavaScript
- * am4core.globalAdapter.addAll(am4charts.PieSeries. "fill", (value, target) => {
+ * am4core.globalAdapter.addAll(am4charts.PieSeries. "fill", (value, target, key) => {
  *   return am4core.color("#005500");
  * });
  * ```
@@ -152,13 +152,13 @@ export declare class Adapter<Target, T> {
      *
      * ```TypeScript
      * // Override fill color value and make all slices green
-     * chart.series.template.adapter.add("fill", (value, target) => {
+     * chart.series.template.adapter.add("fill", (value, target, key) => {
      *   return am4core.color("#005500");
      * });
      * ```
      * ```JavaScript
      * // Override fill color value and make all slices green
-     * chart.series.template.adapter.add("fill", function(value, target) {
+     * chart.series.template.adapter.add("fill", function(value, target, key) {
      *   return am4core.color("#005500");
      * });
      * ```
@@ -169,7 +169,7 @@ export declare class Adapter<Target, T> {
      *     // ...
      *     "adapter": {
      *     	// Override fill color value and make all slices green
-     *     	"fill": function(value, target) {
+     *     	"fill": function(value, target, key) {
      *     	  return am4core.color("#005500");
      *     	}
      *     }
@@ -197,7 +197,7 @@ export declare class Adapter<Target, T> {
      * @param {number}         priority  The higher priority, the more chance the adapter will be applied last
      * @param {any}            scope     Scope for the callback function
      */
-    add<Key extends keyof T, C>(key: Key, callback: (this: C, value: T[Key], target: Target) => T[Key], priority?: number, scope?: C): void;
+    add<Key extends keyof T, C>(key: Key, callback: (this: C, value: T[Key], target: Target, key: keyof T) => T[Key], priority?: number, scope?: C): void;
     /**
      * Checks whether specific adapter is already set.
      *
@@ -207,7 +207,7 @@ export declare class Adapter<Target, T> {
      * @param   {any}            scope     Scope for the callback function
      * @returns                            Adapter set?
      */
-    has<Key extends keyof T, C>(key: Key, callback: (this: C, value: T[Key], target: Target) => T[Key], priority?: number, scope?: C): boolean;
+    has<Key extends keyof T, C>(key: Key, callback: (this: C, value: T[Key], target: Target, key: keyof T) => T[Key], priority?: number, scope?: C): boolean;
     /**
      * Removes adapter callbacks for the specific `key`.
      *
@@ -238,7 +238,7 @@ export declare class Adapter<Target, T> {
      *
      * @return {string[]} Adapter keys
      */
-    readonly keys: Array<keyof T>;
+    keys(): Array<keyof T>;
     /**
      * Copies all the adapter callbacks from `source`.
      *

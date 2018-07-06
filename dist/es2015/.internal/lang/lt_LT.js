@@ -98,6 +98,8 @@ export default {
     "Gauge chart": "Daviklio tipo grafikas",
     "Radar chart": "Radaro tipo grafikas",
     "Sankey diagram": "Sankey diagrama",
+    "Chord diagram": "Chord diagrama",
+    "Flow diagram": "Flow diagrama",
     "TreeMap chart": "TreeMap grafikas",
     // Series types
     "Series": "Serija",

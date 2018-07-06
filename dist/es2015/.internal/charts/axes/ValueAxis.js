@@ -830,6 +830,10 @@ var ValueAxis = /** @class */ (function (_super) {
                 }
             });
         }
+        if (min == 0 && max == 0) {
+            max = 0.9;
+            min = -0.9;
+        }
         // if defined from outside
         if ($type.isNumber(this._minDefined)) {
             min = this._minDefined;
@@ -950,7 +954,7 @@ var ValueAxis = /** @class */ (function (_super) {
         var initialMax = max;
         // in case min and max is the same, use max
         if (difference === 0) {
-            difference = max;
+            difference = Math.abs(max);
         }
         // the number by which we need to raise 10 to get difference
         var exponent = Math.log(Math.abs(difference)) * Math.LOG10E;

@@ -348,8 +348,8 @@ var XYChart = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     XYChart.prototype.updateXAxesMargins = function () {
-        var leftAxesWidth = this.leftAxesContainer.pixelWidth;
-        var rightAxesWidth = this.rightAxesContainer.pixelWidth;
+        var leftAxesWidth = this.leftAxesContainer.measuredWidth;
+        var rightAxesWidth = this.rightAxesContainer.measuredWidth;
         var bottomAxesCont = this.bottomAxesContainer;
         if (bottomAxesCont.paddingLeft != leftAxesWidth || bottomAxesCont.paddingRight != rightAxesWidth) {
             bottomAxesCont.paddingLeft = leftAxesWidth;
@@ -1200,7 +1200,7 @@ var XYChart = /** @class */ (function (_super) {
     /**
      * This function is called by the [[DataSource]]'s `numberFields` adapater
      * so that particular chart types can popuplate this setting with their
-     * own type-speicifc data fields so they are parsed properly.
+     * own type-specific data fields so they are parsed properly.
      *
      * @param  {string[]}  value  Array of number fields
      * @return {string[]}         Array of number fields populated with chart's number fields

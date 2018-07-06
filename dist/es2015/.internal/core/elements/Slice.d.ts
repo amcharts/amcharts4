@@ -10,6 +10,7 @@
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
 import { Sprite } from "../Sprite";
 import { IPoint } from "../defs/IPoint";
+import { IRectangle } from "../defs/IRectangle";
 /**
  * ============================================================================
  * REQUISITES
@@ -179,6 +180,7 @@ export declare class Slice extends Container {
      * @ignore Exclude from docs
      */
     draw(): void;
+    protected getContainerBBox(): IRectangle;
     /**
      * @return {number} Angle (0-360)
      */

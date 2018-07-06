@@ -48,7 +48,6 @@ var AmChartsLogo = /** @class */ (function (_super) {
         // Init
         _super.call(this) || this;
         _this.className = "AmChartsLogo";
-        //this.isMeasured = false;
         _this.valign = "bottom";
         var d = 0.3;
         _this.opacity = 0.3;

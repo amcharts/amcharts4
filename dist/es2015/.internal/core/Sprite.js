@@ -138,6 +138,14 @@ var Sprite = /** @class */ (function (_super) {
          */
         _this.isHiding = false;
         /**
+         * If `sprite.hide()` is called, we set isHidden to true when sprite is hidden.
+         * This was added becaus hidden state might have visibility set to true and so
+         * there would not be possible to find out if a sprite is technically hidden or not.
+         *
+         * @type {boolean}
+         */
+        _this.isHidden = false;
+        /**
          * This property indicates if Sprite is currently being revealed from hidden
          * state. This is used to prevent multiple calls to `sprite.show()` to
          * restart reveal animation. (if enabled)
@@ -161,12 +169,6 @@ var Sprite = /** @class */ (function (_super) {
          * @type {boolean}
          */
         _this._isActive = false;
-        /**
-         * @todo Description
-         * @ignore Exclude from docs
-         * @type {boolean}
-         */
-        _this._ignoreOverflow = false;
         /**
          * A Sprite element to use as a mask for this Sprite.
          *
@@ -228,7 +230,7 @@ var Sprite = /** @class */ (function (_super) {
          * @ignore Exclude from docs
          * @type {IRectangle}
          */
-        _this._bbox = { x: 0, y: 0, width: 0, height: 0 };
+        _this.bbox = { x: 0, y: 0, width: 0, height: 0 };
         /**
          * Indicates if this element is invalid and should be re-validated (redrawn).
          *
@@ -269,8 +271,23 @@ var Sprite = /** @class */ (function (_super) {
          * @default false
          */
         _this.applyOnClones = false;
-        _this._overflowX = 0;
-        _this._overflowY = 0;
+        // read only, sprite extreme coordinates
+        /**
+         * @ignore
+         */
+        _this.maxLeft = 0;
+        /**
+         * @ignore
+         */
+        _this.maxRight = 0;
+        /**
+         * @ignore
+         */
+        _this.maxTop = 0;
+        /**
+         * @ignore
+         */
+        _this.maxBottom = 0;
         _this._isDragged = false;
         /**
          * @deprecated Moved to [[SpriteProperties]]
@@ -342,8 +359,9 @@ var Sprite = /** @class */ (function (_super) {
         _this._measuredHeight = 0;
         _this.verticalCenter = "none";
         _this.horizontalCenter = "none";
-        _this._overflowX = 0;
-        _this._overflowY = 0;
+        // never do this!
+        //this.verticalCenter = "top";		
+        //this.horizontalCenter = "left";
         _this.isMeasured = true;
         // Invalidate the Sprite so that renderer knows it needs to be drawn
         _this.invalidate();
@@ -486,72 +504,6 @@ var Sprite = /** @class */ (function (_super) {
         if (!this.positionInvalid) {
             this.positionInvalid = true;
             $array.move(registry.invalidPositions, this);
-        }
-    };
-    /**
-     * Positions element according its center settings.
-     *
-     * @todo Description (review)
-     * @ignore Exclude from docs
-     */
-    Sprite.prototype.updateCenter = function () {
-        if (this.element) {
-            var bbox = this._bbox;
-            var ex = 0;
-            var ey = 0;
-            var elementX = bbox.x;
-            var elementY = bbox.y;
-            var elementWidth = bbox.width;
-            var elementHeigth = bbox.height;
-            var overflowX = 0;
-            var overflowY = 0;
-            var pixelPaddingLeft = this.pixelPaddingLeft;
-            var pixelPaddingRight = this.pixelPaddingRight;
-            var pixelPaddingTop = this.pixelPaddingTop;
-            var pixelPaddingBottom = this.pixelPaddingBottom;
-            switch (this.horizontalCenter) {
-                case "none":
-                    ex = this.pixelPaddingLeft + elementX;
-                    overflowX = elementX;
-                    break;
-                case "left":
-                    ex = this.pixelPaddingLeft;
-                    break;
-                case "middle":
-                    ex = pixelPaddingLeft - (elementWidth + pixelPaddingRight + pixelPaddingLeft) / 2;
-                    overflowX = ex - pixelPaddingLeft;
-                    break;
-                case "right":
-                    ex = -elementWidth - pixelPaddingRight;
-                    overflowX = ex - pixelPaddingLeft;
-                    break;
-            }
-            switch (this.verticalCenter) {
-                case "none":
-                    ey = this.pixelPaddingTop + elementY;
-                    overflowY = elementY;
-                    break;
-                case "top":
-                    ey = this.pixelPaddingTop;
-                    break;
-                case "middle":
-                    ey = pixelPaddingTop - (elementHeigth + pixelPaddingBottom + pixelPaddingTop) / 2;
-                    overflowY = ey - pixelPaddingTop;
-                    break;
-                case "bottom":
-                    ey = -elementHeigth - pixelPaddingBottom;
-                    overflowY = ey - pixelPaddingTop;
-                    break;
-            }
-            this._overflowX = overflowX;
-            this._overflowY = overflowY;
-            var x = $math.round(ex - elementX, this._positionPrecision);
-            var y = $math.round(ey - elementY, this._positionPrecision);
-            if (this.pixelPerfect) {
-                x -= 0.5;
-                y -= 0.5;
-            }
-            this.element.moveTo({ x: x, y: y });
         }
     };
     /**
@@ -1399,7 +1351,82 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.measureElement = function () {
         if (this.element) {
             var svgBBox = this.element.getBBox();
-            this._bbox = { x: svgBBox.x, y: svgBBox.y, width: svgBBox.width, height: svgBBox.height };
+            if (this.definedBBox) {
+                this.bbox = this.definedBBox;
+            }
+            else {
+                this.bbox = { x: svgBBox.x, y: svgBBox.y, width: svgBBox.width, height: svgBBox.height };
+            }
+        }
+    };
+    /**
+     * Positions element according its center settings.
+     *
+     * @todo Description (review)
+     * @ignore Exclude from docs
+     */
+    Sprite.prototype.updateCenter = function () {
+        if (this.element) {
+            var bbox = this.bbox;
+            var ex = 0;
+            var ey = 0;
+            var elementX = bbox.x;
+            var elementY = bbox.y;
+            var elementWidth = bbox.width;
+            var elementHeigth = bbox.height;
+            var pixelPaddingLeft = this.pixelPaddingLeft;
+            var pixelPaddingRight = this.pixelPaddingRight;
+            var pixelPaddingTop = this.pixelPaddingTop;
+            var pixelPaddingBottom = this.pixelPaddingBottom;
+            // add padding to the measured size
+            var measuredWidth = bbox.width + this.pixelPaddingLeft + this.pixelPaddingRight;
+            var measuredHeight = bbox.height + this.pixelPaddingTop + this.pixelPaddingBottom;
+            // extremes
+            var left = bbox.x;
+            var right = bbox.x + measuredWidth;
+            var top_1 = bbox.y;
+            var bottom = bbox.y + measuredHeight;
+            switch (this.horizontalCenter) {
+                case "none":
+                    ex = elementX + pixelPaddingLeft;
+                    break;
+                case "left":
+                    ex = pixelPaddingLeft;
+                    break;
+                case "middle":
+                    ex = pixelPaddingLeft - (elementWidth + pixelPaddingRight + pixelPaddingLeft) / 2;
+                    break;
+                case "right":
+                    ex = -pixelPaddingRight - elementWidth;
+                    break;
+            }
+            switch (this.verticalCenter) {
+                case "none":
+                    ey = elementY + pixelPaddingTop;
+                    break;
+                case "top":
+                    ey = pixelPaddingTop;
+                    break;
+                case "middle":
+                    ey = pixelPaddingTop - (elementHeigth + pixelPaddingBottom + pixelPaddingTop) / 2;
+                    break;
+                case "bottom":
+                    ey = -pixelPaddingBottom - elementHeigth;
+                    break;
+            }
+            this._measuredHeight = measuredHeight;
+            this._measuredWidth = measuredWidth;
+            var x = $math.round(ex - elementX, this._positionPrecision);
+            var y = $math.round(ey - elementY, this._positionPrecision);
+            this.maxLeft = left + x - pixelPaddingLeft;
+            this.maxRight = right + x - pixelPaddingLeft;
+            this.maxTop = top_1 + y - pixelPaddingTop;
+            this.maxBottom = bottom + y - pixelPaddingTop;
+            if (this.pixelPerfect) {
+                x -= 0.5;
+                y -= 0.5;
+            }
+            this.element.moveTo({ x: x, y: y });
         }
     };
     /**
@@ -1411,13 +1438,20 @@ var Sprite = /** @class */ (function (_super) {
      * @return {boolean} Did the size chance from the last measurement?
      */
     Sprite.prototype.measure = function () {
-        var bbox = this._bbox;
+        this.updateCenter();
+        var bbox = this.bbox;
         if (bbox) {
-            var overflowX = this._overflowX;
-            var overflowY = this._overflowY;
-            var measuredWidth = bbox.width + this.pixelPaddingLeft + this.pixelPaddingRight;
-            var measuredHeight = bbox.height + this.pixelPaddingTop + this.pixelPaddingBottom;
-            // find overflow
+            var measuredWidth = this._measuredWidth;
+            var measuredHeight = this._measuredHeight;
+            // extremes
+            var left = this.maxLeft;
+            var right = this.maxRight;
+            var top_2 = this.maxTop;
+            var bottom = this.maxBottom;
+            // non-parent wise size
+            this._measuredWidthSelf = measuredWidth;
+            this._measuredHeightSelf = measuredHeight;
+            // if a sprite is rotated or scaled, calculate measured size after transformations
             if (this.rotation !== 0 || this.scale !== 1) {
                 var svg = this.paper.svg;
                 var matrix = svg.createSVGMatrix();
@@ -1429,34 +1463,35 @@ var Sprite = /** @class */ (function (_super) {
                 matrix.d = $math.cos(rotation) * this.scale;
                 matrix.f = 0;
                 var p1 = svg.createSVGPoint();
-                p1.x = overflowX;
-                p1.y = overflowY;
+                p1.x = left;
+                p1.y = top_2;
                 var p2 = svg.createSVGPoint();
-                p2.x = overflowX + measuredWidth;
-                p2.y = overflowY;
+                p2.x = right;
+                p2.y = top_2;
                 var p3 = svg.createSVGPoint();
-                p3.x = overflowX + measuredWidth;
-                p3.y = overflowY + measuredHeight;
+                p3.x = right;
+                p3.y = bottom;
                 var p4 = svg.createSVGPoint();
-                p4.x = overflowX;
-                p4.y = overflowY + measuredHeight;
+                p4.x = left;
+                p4.y = bottom;
                 var pt1 = p1.matrixTransform(matrix);
                 var pt2 = p2.matrixTransform(matrix);
                 var pt3 = p3.matrixTransform(matrix);
                 var pt4 = p4.matrixTransform(matrix);
-                var minX = Math.min(pt1.x, pt2.x, pt3.x, pt4.x);
-                var maxX = Math.max(pt1.x, pt2.x, pt3.x, pt4.x);
-                var minY = Math.min(pt1.y, pt2.y, pt3.y, pt4.y);
-                var maxY = Math.max(pt1.y, pt2.y, pt3.y, pt4.y);
-                measuredWidth = maxX - minX;
-                measuredHeight = maxY - minY;
-                overflowX = minX;
-                overflowY = minY;
+                left = Math.min(pt1.x, pt2.x, pt3.x, pt4.x);
+                right = Math.max(pt1.x, pt2.x, pt3.x, pt4.x);
+                top_2 = Math.min(pt1.y, pt2.y, pt3.y, pt4.y);
+                bottom = Math.max(pt1.y, pt2.y, pt3.y, pt4.y);
+                measuredWidth = right - left;
+                measuredHeight = bottom - top_2;
             }
-            this._measuredWidth = $math.round(measuredWidth, this._positionPrecision);
-            this._measuredHeight = $math.round(measuredHeight, this._positionPrecision);
-            this._overflowX = $math.round(overflowX, this._positionPrecision);
-            this._overflowY = $math.round(overflowY, this._positionPrecision);
+            var positionPrecision = this._positionPrecision;
+            this.maxLeft = $math.round(left, positionPrecision);
+            this.maxRight = $math.round(right, positionPrecision);
+            this.maxTop = $math.round(top_2, positionPrecision);
+            this.maxBottom = $math.round(bottom, positionPrecision);
+            this._measuredWidth = $math.round(measuredWidth, positionPrecision);
+            this._measuredHeight = $math.round(measuredHeight, positionPrecision);
         }
         // dispatch event
         if (this._measuredWidth != this._prevMeasuredWidth || this._measuredHeight != this._prevMeasuredHeight) {
@@ -1642,34 +1677,6 @@ var Sprite = /** @class */ (function (_super) {
         }
         this.invalidatePosition();
     };
-    Object.defineProperty(Sprite.prototype, "ignoreOverflow", {
-        get: function () {
-            return this._ignoreOverflow;
-        },
-        /**
-         * Specifies, how this element's parent `Container`, when arranging layout,
-         * should treat this elements overflow.
-         *
-         * Setting this to `true` will make layout mechanism ignore everything that
-         * does not fit right into this element. In this case Conatiner will use
-         * elsements 0,0 coordinate.
-         *
-         * While setting to `false` will take into actual size of the element. In
-         * this case, container will use actual element coordinates.
-         *
-         * @ignore Exclude from docs
-         * @param {boolean} value Ignore overflow?
-         */
-        set: function (value) {
-            value = $type.toBoolean(value);
-            if (this._ignoreOverflow != value) {
-                this._ignoreOverflow = value;
-                this.invalidate();
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(Sprite.prototype, "mask", {
         /**
          * Returns [[Sprite]] element currently used as mask for this element.
@@ -1795,30 +1802,6 @@ var Sprite = /** @class */ (function (_super) {
         var by2 = by1 + sprite.measuredHeight;
         return !(bx1 > ax2 || bx2 < ax1 || by1 > ay2 || by2 < ay1);
     };
-    Object.defineProperty(Sprite.prototype, "overflowX", {
-        /**
-         * Returns horizontal overflow.
-         *
-         * @return {number} Horizontal overflow (px)
-         */
-        get: function () {
-            return this._overflowX;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Sprite.prototype, "overflowY", {
-        /**
-         * Returns vertical overflow.
-         *
-         * @return {number} Vertical overflow (px)
-         */
-        get: function () {
-            return this._overflowY;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(Sprite.prototype, "inited", {
         /**
          * ==========================================================================
@@ -2274,32 +2257,35 @@ var Sprite = /** @class */ (function (_super) {
          * @param {boolean}  value  Disabled?
          */
         set: function (value) {
-            value = $type.toBoolean(value);
-            var current = this.getPropertyValue("disabled");
-            if (current != value) {
-                this.setPropertyValue("disabled", value, true);
-                if (value) {
-                    this.parent = this.parent;
-                    this.removeFromInvalids();
-                    this.group.attr({ "display": "none" });
-                }
-                else {
-                    if (this instanceof Container) {
-                        this.deepInvalidate();
-                    }
-                    else {
-                        this.invalidate();
-                    }
-                    if (!this.__disabled) {
-                        this.removeSVGAttribute("display");
-                    }
-                }
-                this.dispatch("transformed");
-            }
+            this.setDisabled(value);
         },
         enumerable: true,
         configurable: true
     });
+    Sprite.prototype.setDisabled = function (value) {
+        value = $type.toBoolean(value);
+        var current = this.getPropertyValue("disabled");
+        if (current != value) {
+            this.setPropertyValue("disabled", value, true);
+            if (value) {
+                this.parent = this.parent;
+                this.removeFromInvalids();
+                this.group.attr({ "display": "none" });
+            }
+            else {
+                if (this instanceof Container) {
+                    this.deepInvalidate();
+                }
+                else {
+                    this.invalidate();
+                }
+                if (!this.__disabled) {
+                    this.removeSVGAttribute("display");
+                }
+            }
+            this.dispatch("transformed");
+        }
+    };
     Object.defineProperty(Sprite.prototype, "__disabled", {
         /**
          * Internal disable method.
@@ -2824,7 +2810,12 @@ var Sprite = /** @class */ (function (_super) {
      * @todo Review propagation to clones. Right now we simply check if clone is disposed before setting the same property on it. It's better to remove from clone list altogether.
      */
     Sprite.prototype.setPropertyValue = function (property, value, invalidate, transform) {
+        var currentValue = this.properties[property];
         if (this.properties[property] !== value) {
+            //@todo: create some method like setPercentPropertyValue to save some cpu
+            if (value instanceof Percent && currentValue instanceof Percent && value.value == currentValue.value) {
+                return false;
+            }
             this.properties[property] = value;
             if (this.events.isEnabled("propertychanged")) {
                 var event_1 = {
@@ -4366,7 +4357,7 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.setInteractionsEnabled = function (value) {
         this.setPropertyValue("interactionsEnabled", value);
-        var pointerEvents = "null";
+        var pointerEvents = null; // must be null, not "null"!
         if (!value) {
             pointerEvents = "none";
         }
@@ -5132,7 +5123,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "pixelWidth", {
         /**
-         * Returns element's actual width in pixels.
+         * Returns element's width in pixels, if width was set. For actual width use measuredWidth property.
          *
          * @readonly
          * @return {number} Width (px)
@@ -5146,7 +5137,7 @@ var Sprite = /** @class */ (function (_super) {
                 width = this._pixelWidth;
             }
             else {
-                width = this._measuredWidth;
+                width = 0;
             }
             var minWidth = this.minWidth;
             if (minWidth != null && width < minWidth) {
@@ -5159,7 +5150,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "pixelHeight", {
         /**
-         * Returns element's actual height in pixels.
+         * Returns element's height in pixels. For actual height use measuredHeight property.
          *
          * @readonly
          * @return {number} Height (px)
@@ -5173,7 +5164,7 @@ var Sprite = /** @class */ (function (_super) {
                 height = this._pixelHeight;
             }
             else {
-                height = this._measuredHeight;
+                height = 0; //this._measuredHeightSelf;
             }
             var minHeight = this.minHeight;
             if (minHeight != null && height < minHeight) {
@@ -5187,15 +5178,17 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "relativeWidth", {
         /**
          * @return {$type.Optional<number>} Relative width
+         * @ignore
          */
         get: function () {
             var relativeWidth = this._relativeWidth;
-            if (relativeWidth != null) {
+            if ($type.isNumber(relativeWidth)) {
                 return this.adapter.apply("relativeWidth", relativeWidth);
             }
         },
         /**
          * Element's relative width in [[Percent]].
+         * @ignore
          *
          * @param {$type.Optional<number>}  value  Relative width
          */
@@ -5211,10 +5204,11 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "relativeHeight", {
         /**
          * @return {$type.Optional<number>} Relative height
+         * @ignore
          */
         get: function () {
             var relativeHeight = this._relativeHeight;
-            if (relativeHeight != null) {
+            if ($type.isNumber(relativeHeight)) {
                 return this.adapter.apply("relativeHeight", relativeHeight);
             }
         },
@@ -5222,6 +5216,7 @@ var Sprite = /** @class */ (function (_super) {
          * Element's relative height in [[Percent]].
          *
          * @param {$type.Optional<number>}  value  Relative height
+         * @ignore
          */
         set: function (value) {
             if (this._relativeHeight != value) {
@@ -5236,8 +5231,8 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Returns element's measured width in pixels.
          *
-         * A measured width is actual width of contents plus `paddingRight` and
-         * `paddingLeft`.
+         * A measured width is actual width of contents plus `paddingRight` and* `paddingLeft`, relative to sprite parent, meaning that
+         * rotation and scale is taken into account.
          *
          * @readonly
          * @return {number} Width (px)
@@ -5246,7 +5241,9 @@ var Sprite = /** @class */ (function (_super) {
             if (this.disabled || this.__disabled) {
                 return 0;
             }
-            return this.adapter.apply("measuredWidth", $math.fitToRange(this._measuredWidth, this.minWidth, this.maxWidth));
+            return this.adapter.apply("measuredWidth", this._measuredWidth);
+            // it's not good to fit to min/max range as then rotations and scale won't be taken into account
+            //return this.adapter.apply("measuredWidth", $math.fitToRange(this._measuredWidth, this.minWidth, this.maxWidth));
         },
         enumerable: true,
         configurable: true
@@ -5255,8 +5252,8 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Returns elements's measured height in pixels.
          *
-         * A measured height is actual height of contents plus `paddingTop` and
-         * `paddingBottom`.
+         * A measured height is actual height of contents plus `paddingTop` and `paddingBottom`, relative to sprite parent, meaning that
+         * rotation and scale taken into account.
          *
          * @readonly
          * @return {number} Height (px)
@@ -5265,7 +5262,9 @@ var Sprite = /** @class */ (function (_super) {
             if (this.disabled || this.__disabled) {
                 return 0;
             }
-            return this.adapter.apply("measuredHeight", $math.fitToRange(this._measuredHeight, this.minHeight, this.maxHeight));
+            // it's not good to fit to min/max range as then rotations and scale won't be taken into account
+            //return this.adapter.apply("measuredHeight", $math.fitToRange(this._measuredHeight, this.minHeight, this.maxHeight));
+            return this.adapter.apply("measuredHeight", this._measuredHeight);
         },
         enumerable: true,
         configurable: true
@@ -6222,10 +6221,11 @@ var Sprite = /** @class */ (function (_super) {
         var _this = this;
         var transition;
         var properties = this.defaultState.properties;
-        if (!this.disabled && (!this.visible || this.isHiding || (properties.opacity != null && this.opacity < properties.opacity && !this.isShowing))) {
+        if (!this.disabled && (this.isHidden || !this.visible || this.isHiding || (properties.opacity != null && this.opacity < properties.opacity && !this.isShowing))) {
             if (!$type.isNumber(duration)) {
                 duration = this.defaultState.transitionDuration;
             }
+            this.isHidden = false;
             this.isHiding = false;
             this.isShowing = true;
             if (this._hideAnimation) {
@@ -6312,6 +6312,7 @@ var Sprite = /** @class */ (function (_super) {
                     this._hideAnimation = transition;
                     this._showHideDisposer = transition.events.on("animationended", function () {
                         _this.isHiding = false;
+                        _this.isHidden = true;
                     }, this);
                     this._disposers.push(this._showHideDisposer);
                     // Thrown everything into `_disposers` just in case Sprite gets
@@ -6323,6 +6324,7 @@ var Sprite = /** @class */ (function (_super) {
                 // No hidden state, let's just set `visibile` and call it a day
                 this.visible = false;
                 this.isHiding = false;
+                this.isHidden = true;
             }
             // Dispach "hidden" event
             this.dispatchImmediately("hidden");
@@ -6586,7 +6588,12 @@ var Sprite = /** @class */ (function (_super) {
                         fill = color("#000000");
                     }
                     if (fill instanceof Color) {
-                        tooltip.background.animate({ property: "fill", to: fill }, tooltip.animationDuration);
+                        if (!tooltip.visible) {
+                            tooltip.background.fill = fill;
+                        }
+                        else {
+                            tooltip.background.animate({ property: "fill", to: fill }, tooltip.animationDuration);
+                        }
                     }
                     else {
                         tooltip.background.fill = fill;
@@ -6625,7 +6632,7 @@ var Sprite = /** @class */ (function (_super) {
                     if (tooltip && !tooltip.parent) {
                         tooltip.parent = this.tooltipContainer;
                     }
-                    // Reveal tooltip
+                    // Reveal tooltip					
                     tooltip.show();
                     return true;
                 }
@@ -6815,7 +6822,7 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.getTooltipX = function () {
         var x = this.getPropertyValue("tooltipX");
         if (!$type.isNumber(x)) {
-            x = this.overflowX + this.pixelWidth / 2 - this.pixelPaddingLeft; // overflow is know only for measured items, so this is not always good
+            x = this.maxLeft + this.measuredWidth / 2 - this.pixelPaddingLeft; // overflow is know only for measured items, so this is not always good
         }
         return x;
     };
@@ -6828,7 +6835,7 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.getTooltipY = function () {
         var y = this.getPropertyValue("tooltipY");
         if (!$type.isNumber(y)) {
-            y = this.overflowY + this.pixelHeight / 2 - this.pixelPaddingTop; // overflow is know only for measured items, so this is not always good
+            y = this.maxTop + this.measuredHeight / 2 - this.pixelPaddingTop; // overflow is know only for measured items, so this is not always good
         }
         return y;
     };

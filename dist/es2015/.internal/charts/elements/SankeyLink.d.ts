@@ -1,21 +1,5 @@
-/**
- * SankeyLink module
- */
-/**
- * ============================================================================
- * IMPORTS
- * ============================================================================
- * @hidden
- */
-import { Sprite } from "../../core/Sprite";
-import { Container, IContainerProperties, IContainerEvents, IContainerAdapters } from "../../core/Container";
 import { SankeyDiagramDataItem } from "../types/SankeyDiagram";
-import { LinearGradient } from "../../core/rendering/fills/LinearGradient";
-import { RadialGradient } from "../../core/rendering/fills/RadialGradient";
-import { Pattern } from "../../core/rendering/fills/Pattern";
-import { Bullet } from "../elements/Bullet";
-import { Color } from "../../core/utils/Color";
-import { ListTemplate } from "../../core/utils/List";
+import { FlowDiagramLink, IFlowDiagramLinkAdapters, IFlowDiagramLinkEvents, IFlowDiagramLinkProperties } from "./FlowDiagramLink";
 import { Polyspline } from "../../core/elements/Polyspline";
 /**
  * ============================================================================
@@ -26,7 +10,7 @@ import { Polyspline } from "../../core/elements/Polyspline";
 /**
  * Defines properties for [[SankeyLink]].
  */
-export interface ISankeyLinkProperties extends IContainerProperties {
+export interface ISankeyLinkProperties extends IFlowDiagramLinkProperties {
     /**
      * [tension description]
      *
@@ -70,40 +54,24 @@ export interface ISankeyLinkProperties extends IContainerProperties {
      */
     linkWidth?: number;
     /**
-     * [startAngle description]
+     * [controlPointDistance description]
      *
      * @todo Description
      * @type {number}
      */
-    startAngle?: number;
-    /**
-     * [endAngle description]
-     *
-     * @todo Description
-     * @type {number}
-     */
-    endAngle?: number;
-    /**
-     * Should link be filled with a solid color or gradient.
-     *
-     * @type {"solid" | "gradient"}
-     */
-    colorMode?: "solid" | "gradient";
     controlPointDistance?: number;
-    maskBullets?: boolean;
-    tooltipLocation?: number;
 }
 /**
  * Defines events for [[SankeyLink]].
  */
-export interface ISankeyLinkEvents extends IContainerEvents {
+export interface ISankeyLinkEvents extends IFlowDiagramLinkEvents {
 }
 /**
  * Defines adapters for [[SankeyLink]].
  *
  * @see {@link Adapter}
  */
-export interface ISankeyLinkAdapters extends IContainerAdapters, ISankeyLinkProperties {
+export interface ISankeyLinkAdapters extends IFlowDiagramLinkAdapters, ISankeyLinkProperties {
 }
 /**
  * ============================================================================
@@ -119,7 +87,7 @@ export interface ISankeyLinkAdapters extends IContainerAdapters, ISankeyLinkProp
  * @see {@link ISankeyLinkAdapters} for a list of available Adapters
  * @important
  */
-export declare class SankeyLink extends Container {
+export declare class SankeyLink extends FlowDiagramLink {
     /**
      * Defines available properties.
      *
@@ -149,34 +117,10 @@ export declare class SankeyLink extends Container {
      */
     _dataItem: SankeyDiagramDataItem;
     /**
-     * A gradiend instance that is used to provided colored gradient fills for
-     * the Sankey link.
-     *
-     * @type {LinearGradient}
-     */
-    gradient: LinearGradient;
-    protected _bullets: ListTemplate<Bullet>;
-    /**
-     * Link sprite
-     *
-     * @type {Sprite}
-     */
-    link: Sprite;
-    /**
-     * Bullets mask spite
-     * @type Sprite
-     */
-    bulletsMask: Sprite;
-    /**
-     * Bullets container
-     * @type Container
-     */
-    bulletsContainer: Container;
-    /**
      * Spline which goes through the middle of a link, used to calculate bullet and tooltip positions, invisible by default
      * @type Polyspline
      */
-    middleSpline: Polyspline;
+    middleLine: Polyspline;
     /**
      * Constructor
      */
@@ -187,28 +131,6 @@ export declare class SankeyLink extends Container {
      * @ignore Exclude from docs
      */
     validate(): void;
-    protected positionBullets(): void;
-    positionBullet(bullet: Bullet): void;
-    /**
-     * @return {number} Start angle
-     */
-    /**
-     * [startAngle description]
-     *
-     * @todo Description
-     * @param {number}  value  Start angle
-     */
-    startAngle: number;
-    /**
-     * @return {number} End angle
-     */
-    /**
-     * [endAngle description]
-     *
-     * @todo Description
-     * @param {number}  value  End angle
-     */
-    endAngle: number;
     /**
      * @return {number} Start X
      */
@@ -260,25 +182,6 @@ export declare class SankeyLink extends Container {
      */
     linkWidth: number;
     /**
-     * @type {"solid" | "gradient"} Fill mode
-     */
-    /**
-     * Should link be filled with a solid color or gradient.
-     *
-     * @param {"solid" | "gradient"}  value  Fill mode
-     */
-    colorMode: "solid" | "gradient";
-    /**
-     * @return {boolean} mask bullets value
-     */
-    /**
-     * Should link bullets be masked or not
-     *
-     * @param {boolean}  value
-     * @default false;
-     */
-    maskBullets: boolean;
-    /**
      * @return {number} relative control point distance
      */
     /**
@@ -296,43 +199,4 @@ export declare class SankeyLink extends Container {
      * @param {number} value
      */
     tension: number;
-    /**
-     * @type {number} tooltip location value
-     */
-    /**
-     * Relative location of a tooltip.
-     * @default 0.5
-     *
-     * @param {number} value
-     */
-    tooltipLocation: number;
-    /**
-     * Adds color steps in the link gradient.
-     *
-     * @param {Color | Pattern | LinearGradient | RadialGradient}  value  Fill option
-     */
-    protected setFill(value: Color | Pattern | LinearGradient | RadialGradient): void;
-    /**
-     * Updates bounding box based on element dimension settings.
-     *
-     * @ignore Exclude from docs
-     */
-    measureElement(): void;
-    /**
-     * List of bullets
-     *
-     * @return {ListTemplate<Bullet>} [description]
-     */
-    readonly bullets: ListTemplate<Bullet>;
-    copyFrom(source: this): void;
-    /**
-     * @ignore Exclude from docs
-     * @return {number} Tooltip X (px)
-     */
-    getTooltipX(): number;
-    /**
-     * @ignore Exclude from docs
-     * @return {number} Tooltip Y (px)
-     */
-    getTooltipY(): number;
 }

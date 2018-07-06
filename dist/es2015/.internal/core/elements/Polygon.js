@@ -141,10 +141,10 @@ var Polygon = /** @class */ (function (_super) {
             if (path) {
                 path += $path.closePath();
             }
-            this._bbox.x = left;
-            this._bbox.y = top;
-            this._bbox.width = right - left;
-            this._bbox.height = bottom - top;
+            this.bbox.x = left;
+            this.bbox.y = top;
+            this.bbox.width = right - left;
+            this.bbox.height = bottom - top;
         }
         this.element.attr({ "d": path });
     };
@@ -162,7 +162,7 @@ var Polygon = /** @class */ (function (_super) {
          * @return {IPoint} Center
          */
         get: function () {
-            return { x: this._bbox.x + this._bbox.width / 2, y: this._bbox.y + this._bbox.height / 2 };
+            return { x: this.bbox.x + this.bbox.width / 2, y: this.bbox.y + this.bbox.height / 2 };
         },
         enumerable: true,
         configurable: true

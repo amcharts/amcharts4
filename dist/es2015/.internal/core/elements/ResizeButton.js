@@ -46,24 +46,29 @@ var ResizeButton = /** @class */ (function (_super) {
         _this.className = "ResizeButton";
         // Set defaults
         _this.orientation = "horizontal";
+        _this.layout = "absolute";
+        _this.horizontalCenter = "middle";
+        _this.verticalCenter = "middle";
         _this.draggable = true;
         _this.padding(8, 8, 8, 8);
         _this.background.cornerRadius(20, 20, 20, 20);
-        _this.horizontalCenter = "middle";
-        _this.verticalCenter = "middle";
         // Create an icon
         var icon = new Sprite();
         icon.element = _this.paper.add("path");
-        var path = $path.moveTo({ x: 0, y: 0 });
-        path += $path.lineTo({ x: 0, y: 10 });
-        path += $path.moveTo({ x: 3, y: 0 });
-        path += $path.lineTo({ x: 3, y: 10 });
+        var path = $path.moveTo({ x: -2, y: -6 });
+        path += $path.lineTo({ x: -2, y: 6 });
+        path += $path.moveTo({ x: 2, y: -6 });
+        path += $path.lineTo({ x: 2, y: 6 });
         icon.element.attr({ "d": path });
         icon.pixelPerfect = true;
-        icon.padding(0, 3, 0, 3);
+        icon.padding(0, 4, 0, 4);
         icon.stroke = new InterfaceColorSet().getFor("alternativeText");
         icon.strokeOpacity = 0.7;
+        //icon.align = "center";
+        //icon.valign = "middle";
         _this.icon = icon;
+        _this.label.dispose();
+        _this.label = undefined;
         // Apply theme
         _this.applyTheme();
         return _this;

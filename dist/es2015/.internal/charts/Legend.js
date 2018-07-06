@@ -114,7 +114,7 @@ var Legend = /** @class */ (function (_super) {
         itemContainer.clickable = true;
         itemContainer.focusable = true;
         itemContainer.role = "checkbox";
-        itemContainer.background.opacity = 0; // creates hit area
+        itemContainer.background.fillOpacity = 0; // creates hit area
         itemContainer.togglable = true;
         // Add click/tap event to toggle item
         itemContainer.events.on("hit", function (ev) {
@@ -143,6 +143,8 @@ var Legend = /** @class */ (function (_super) {
         marker.height = 23;
         marker.interactionsEnabled = false;
         marker.setStateOnChildren = true;
+        marker.background.fillOpacity = 0;
+        marker.background.strokeOpacity = 0;
         marker.propertyFields.fill = "fill";
         var disabledColor = interfaceColors.getFor("disabledBackground");
         marker.events.on("childadded", function (event) {

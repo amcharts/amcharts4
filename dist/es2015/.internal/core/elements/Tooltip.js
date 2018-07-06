@@ -320,11 +320,24 @@ var Tooltip = /** @class */ (function (_super) {
         var x = this._pointTo.x;
         var y = this._pointTo.y;
         var boundingRect = this._boundingRect;
-        var textW = label.pixelWidth;
-        var textH = label.pixelHeight;
+        var textW = label.measuredWidth;
+        var textH = label.measuredHeight;
         var pointerLength = this.background.pointerLength;
         var textX;
         var textY;
+        // try to handle if text is wider than br
+        if (textW > boundingRect.width) {
+            var p0 = $utils.spritePointToDocument({ x: boundingRect.x, y: boundingRect.y }, this.parent);
+            var p1 = $utils.spritePointToDocument({ x: boundingRect.x + boundingRect.width, y: boundingRect.y + boundingRect.height }, this.parent);
+            var documentWidth = document.body.offsetWidth;
+            var documentHeight = document.body.offsetHeight;
+            if (p1.x > documentWidth / 2) {
+                boundingRect.x = boundingRect.width - textW;
+            }
+            else {
+                boundingRect.width = boundingRect.x + textW;
+            }
+        }
         // horizontal
         if (this.pointerOrientation == "horizontal") {
             textY = -textH / 2;
@@ -412,7 +425,13 @@ var Tooltip = /** @class */ (function (_super) {
                 }
             }
             else {
-                this._animation = new Animation(this, [{ property: "x", to: point.x, from: this.pixelX }, { property: "y", to: point.y, from: this.pixelY }], this.animationDuration, this.animationEasing).start();
+                // helps to avoid flicker on top/left corner				
+                if (this.pixelX == 0 && this.pixelY == 0) {
+                    this.moveTo(this._pointTo);
+                }
+                else {
+                    this._animation = new Animation(this, [{ property: "x", to: point.x, from: this.pixelX }, { property: "y", to: point.y, from: this.pixelY }], this.animationDuration, this.animationEasing).start();
+                }
             }
         }
     };

@@ -548,6 +548,13 @@ export declare class Export extends Validatable {
      */
     _events: IExportEvents;
     /**
+     * Defines available adapters.
+     *
+     * @ignore Exclude from docs
+     * @type {IExportAdapters}
+     */
+    _adapter: IExportAdapters;
+    /**
      * Adapter.
      *
      * @type {Adapter<Export, IExportAdapters>}
@@ -1057,12 +1064,26 @@ export declare class Export extends Validatable {
      */
     download(uri: string, fileName: string): Promise<boolean>;
     /**
+     * Returns `true` if browser has any supported methods to trigger download
+     * of a binary file.
+     *
+     * @return {boolean} Supports downloads?
+     */
+    downloadSupport(): boolean;
+    /**
      * Checks if the browser supports "download" attribute on links.
      *
      * @ignore Exclude from docs
      * @return {boolean} Browser supports triggering downloads?
      */
     linkDownloadSupport(): boolean;
+    /**
+     * Checks if the browser supports download via `msBlob`.
+     *
+     * @ignore Exclude from docs
+     * @return {boolean} Browser supports triggering downloads?
+     */
+    blobDownloadSupport(): boolean;
     /**
      * Checks if this is a legacy version of IE.
      *

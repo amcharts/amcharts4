@@ -326,6 +326,20 @@ export function getValue(a) {
     }
 }
 /**
+ * Returns a value, or returns the default value if it doesn't have a value.
+ *
+ * @param {Optional<A> | null}  a  Input value
+ * @returns                        Value
+ */
+export function getValueDefault(a, defaultValue) {
+    if (hasValue(a)) {
+        return a;
+    }
+    else {
+        return defaultValue;
+    }
+}
+/**
  * ============================================================================
  * TYPE CHECK
  * ============================================================================

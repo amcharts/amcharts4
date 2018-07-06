@@ -150,32 +150,6 @@ var MapPolygon = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(MapPolygon.prototype, "overflowX", {
-        /**
-         * Element's horizontal overflow in pixels.
-         *
-         * @readonly
-         * @return {number} Overflow (px)
-         */
-        get: function () {
-            return this.polygon.overflowX;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(MapPolygon.prototype, "overflowY", {
-        /**
-         * Element's vertical overflow in pixels.
-         *
-         * @readonly
-         * @return {number} Overflow (px)
-         */
-        get: function () {
-            return this.polygon.overflowY;
-        },
-        enumerable: true,
-        configurable: true
-    });
     return MapPolygon;
 }(MapObject));
 export { MapPolygon };

@@ -21,6 +21,13 @@ export interface IModalAdapters extends IPopupAdapters {
  */
 export declare class Modal extends Popup {
     /**
+     * Defines available adapters.
+     *
+     * @ignore Exclude from docs
+     * @type {IExportAdapters}
+     */
+    _adapter: IModalAdapters;
+    /**
      * Adapter.
      *
      * @type {Adapter<Modal, IModalAdapters>}

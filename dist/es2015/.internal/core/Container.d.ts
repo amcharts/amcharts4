@@ -20,6 +20,7 @@ import { DataItem } from "./DataItem";
 import { Optional } from "./utils/Type";
 import { Paper } from "./rendering/Paper";
 import * as $type from "./utils/Type";
+import { IRectangle } from "./defs/IRectangle";
 /**
  * ============================================================================
  * REQUISITES
@@ -225,9 +226,9 @@ export declare class Container extends Sprite {
      * @type {boolean}
      */
     setStateOnChildren: boolean;
-    protected _containerOverflowX: number;
-    protected _containerOverflowY: number;
     layoutInvalid: boolean;
+    protected _absoluteWidth: number;
+    protected _absoluteHeight: number;
     /**
      * Constructor
      */
@@ -435,15 +436,15 @@ export declare class Container extends Sprite {
      * @ignore Exclude from docs
      */
     arrange(): void;
+    protected getContainerBBox(x: number, y: number, width: number, height: number): IRectangle;
+    updateCenter(): void;
     /**
      * Update the background to fit into specific dimensions.
      *
      * @ignore Exclude from docs
      * @todo Make it protected?
-     * @param {number} measuredWidth  Wdith (px)
-     * @param {number} measuredHeight Height (px)
      */
-    updateBackground(measuredWidth: number, measuredHeight: number): void;
+    updateBackground(): void;
     /**
      * Returns widths of all columns in a horizontal Container layout.
      *

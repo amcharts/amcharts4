@@ -305,10 +305,10 @@ var Export = /** @class */ (function (_super) {
     Export.prototype.typeSupported = function (type) {
         var supported = true;
         if (type === "pdf") {
-            supported = this.linkDownloadSupport();
+            supported = this.downloadSupport();
         }
         else if (type === "xlsx") {
-            supported = this.linkDownloadSupport() && this.data;
+            supported = (this.downloadSupport() && this.data) ? true : false;
         }
         else if (type == "print" && !window.print) {
             supported = false;
@@ -1513,7 +1513,7 @@ var Export = /** @class */ (function (_super) {
             var link, parts, contentType, decoded, chars, i, charCode, blob, parts, contentType, iframe, idoc;
             return __generator(this, function (_a) {
                 //if (window.navigator.msSaveOrOpenBlob === undefined) {
-                if (this.linkDownloadSupport() && !$type.hasValue(window.navigator.msSaveOrOpenBlob)) {
+                if (this.linkDownloadSupport() && !this.blobDownloadSupport()) {
                     link = document.createElement("a");
                     link.download = fileName;
                     //uri = uri.replace(/#/g, "%23");
@@ -1590,6 +1590,15 @@ var Export = /** @class */ (function (_super) {
         });
     };
     /**
+     * Returns `true` if browser has any supported methods to trigger download
+     * of a binary file.
+     *
+     * @return {boolean} Supports downloads?
+     */
+    Export.prototype.downloadSupport = function () {
+        return this.linkDownloadSupport() || this.blobDownloadSupport();
+    };
+    /**
      * Checks if the browser supports "download" attribute on links.
      *
      * @ignore Exclude from docs
@@ -1605,6 +1614,15 @@ var Export = /** @class */ (function (_super) {
         var res = typeof a.download !== "undefined";
         registry.setCache("linkDownloadSupport", res);
         return res;
+    };
+    /**
+     * Checks if the browser supports download via `msBlob`.
+     *
+     * @ignore Exclude from docs
+     * @return {boolean} Browser supports triggering downloads?
+     */
+    Export.prototype.blobDownloadSupport = function () {
+        return $type.hasValue(window.navigator.msSaveOrOpenBlob);
     };
     /**
      * Checks if this is a legacy version of IE.
@@ -1726,12 +1744,14 @@ var Export = /** @class */ (function (_super) {
                 // Print
                 this.setTimeout(function () {
                     try {
-                        iframe.contentWindow.document.execCommand('print', false, null);
+                        if (!iframe.contentWindow.document.execCommand("print", false, null)) {
+                            iframe.contentWindow.print();
+                        }
                     }
                     catch (e) {
                         iframe.contentWindow.print();
                     }
-                }, 50);
+                }, options.delay || 50);
                 isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
                 if (isIOS && (options.delay < 1000)) {
                     options.delay = 1000;
@@ -1743,7 +1763,7 @@ var Export = /** @class */ (function (_super) {
                 this.setTimeout(function () {
                     // Remove image
                     document.body.removeChild(iframe);
-                }, options.delay || 51);
+                }, options.delay + 50 || 100);
                 return [2 /*return*/, true];
             });
         });

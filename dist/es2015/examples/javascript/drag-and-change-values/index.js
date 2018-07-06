@@ -48,9 +48,9 @@ chart.padding(40, 40, 40, 40);
 chart.maskBullets = false; // allow bullets to go out of plot area
 
 let label = chart.plotContainer.createChild(am4core.Label);
-label.text = "Dragg column bullet to change it's value";
+label.text = "Drag column bullet to change it's value";
 label.y = 92;
-label.x = am4core.percent(98);
+label.x = am4core.percent(100);
 label.horizontalCenter = "right";
 label.zIndex = 100;
 label.fillOpacity = 0.7;
@@ -166,7 +166,7 @@ columnTemplate.events.on("down", (event) => {
     itemBullet.dragStart(event.pointer);
 })
 
-// when columns position changes, adjust minX/maxX of bullets so that we could only dragg vertically
+// when columns position changes, adjust minX/maxX of bullets so that we could only drag vertically
 columnTemplate.events.on("positionchanged", (event) => {
     let dataItem = event.target.dataItem;
     let itemBullet = dataItem.bullets.getKey(bullet.uid);

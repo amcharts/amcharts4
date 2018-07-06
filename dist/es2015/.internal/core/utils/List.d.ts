@@ -209,9 +209,9 @@ export declare class List<T> {
     /**
      * Event dispatcher.
      *
-     * @type {EventDispatcher<AMEvent<List<T>, IListEvents<T>>>}
+     * @type {EventDispatcher<AMEvent<this, IListEvents<T>>>}
      */
-    events: EventDispatcher<AMEvent<List<T>, IListEvents<T>>>;
+    events: EventDispatcher<AMEvent<this, IListEvents<T>>>;
     /**
      * Constructor
      *

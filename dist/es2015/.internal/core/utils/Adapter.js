@@ -144,7 +144,7 @@ var GlobalAdapter = /** @class */ (function () {
         for (var i = 0; i < length; ++i) {
             var item = callbacks[i];
             if (item.key === key && type instanceof item.type) {
-                value = item.callback.call(item.scope, value, type);
+                value = item.callback.call(item.scope, value, type, key);
             }
         }
         return value;
@@ -163,12 +163,12 @@ export { GlobalAdapter };
  * Global adapter is a system-wide instance, accessible via `globalAdapter`.
  *
  * ```TypeScript
- * am4core.globalAdapter.addAll<am4charts.IPieSeriesAdapters, am4charts.PieSeries, "fill">(am4charts.PieSeries, "fill", (value, target) => {
+ * am4core.globalAdapter.addAll<am4charts.IPieSeriesAdapters, am4charts.PieSeries, "fill">(am4charts.PieSeries, "fill", (value, target, key) => {
  *   return am4core.color("#005500");
  * });
  * ```
  * ```JavaScript
- * am4core.globalAdapter.addAll(am4charts.PieSeries, "fill", (value, target) => {
+ * am4core.globalAdapter.addAll(am4charts.PieSeries, "fill", (value, target, key) => {
  *   return am4core.color("#005500");
  * });
  * ```
@@ -206,12 +206,12 @@ export var globalAdapter = new GlobalAdapter();
  * Global adapter is a system-wide instance, accessible via `globalAdapter`.
  *
  * ```TypeScript
- * am4core.globalAdapter.addAll<am4charts.IPieSeriesAdapters, am4charts.PieSeries, "fill">(am4charts.PieSeries. "fill", (value, target) => {
+ * am4core.globalAdapter.addAll<am4charts.IPieSeriesAdapters, am4charts.PieSeries, "fill">(am4charts.PieSeries. "fill", (value, target, key) => {
  *   return am4core.color("#005500");
  * });
  * ```
  * ```JavaScript
- * am4core.globalAdapter.addAll(am4charts.PieSeries. "fill", (value, target) => {
+ * am4core.globalAdapter.addAll(am4charts.PieSeries. "fill", (value, target, key) => {
  *   return am4core.color("#005500");
  * });
  * ```
@@ -251,13 +251,13 @@ var Adapter = /** @class */ (function () {
      *
      * ```TypeScript
      * // Override fill color value and make all slices green
-     * chart.series.template.adapter.add("fill", (value, target) => {
+     * chart.series.template.adapter.add("fill", (value, target, key) => {
      *   return am4core.color("#005500");
      * });
      * ```
      * ```JavaScript
      * // Override fill color value and make all slices green
-     * chart.series.template.adapter.add("fill", function(value, target) {
+     * chart.series.template.adapter.add("fill", function(value, target, key) {
      *   return am4core.color("#005500");
      * });
      * ```
@@ -268,7 +268,7 @@ var Adapter = /** @class */ (function () {
      *     // ...
      *     "adapter": {
      *     	// Override fill color value and make all slices green
-     *     	"fill": function(value, target) {
+     *     	"fill": function(value, target, key) {
      *     	  return am4core.color("#005500");
      *     	}
      *     }
@@ -364,26 +364,22 @@ var Adapter = /** @class */ (function () {
         for (var i = 0; i < length; ++i) {
             var item = callbacks[i];
             if (item.key === key) {
-                value = item.callback.call(item.scope, value, this.object);
+                value = item.callback.call(item.scope, value, this.object, key);
             }
         }
         // Apply global adapters
         value = globalAdapter.applyAll(this.object, key, value);
         return value;
     };
-    Object.defineProperty(Adapter.prototype, "keys", {
-        /**
-         * Returns all adapter keys that are currently in effect.
-         *
-         * @return {string[]} Adapter keys
-         */
-        get: function () {
-            // TODO inefficient
-            return $iter.toArray($iter.map(this._callbacks.iterator(), function (x) { return x.key; }));
-        },
-        enumerable: true,
-        configurable: true
-    });
+    /**
+     * Returns all adapter keys that are currently in effect.
+     *
+     * @return {string[]} Adapter keys
+     */
+    Adapter.prototype.keys = function () {
+        // TODO inefficient
+        return $iter.toArray($iter.map(this._callbacks.iterator(), function (x) { return x.key; }));
+    };
     /**
      * Copies all the adapter callbacks from `source`.
      *

@@ -553,6 +553,7 @@ var XYCursor = /** @class */ (function (_super) {
             if (lineX) {
                 lineX.element = this.paper.add("path");
                 this._lineX.set(lineX, lineX.events.on("positionchanged", this.updateSelection, this));
+                lineX.interactionsEnabled = false;
                 lineX.parent = this;
             }
             else {
@@ -579,6 +580,7 @@ var XYCursor = /** @class */ (function (_super) {
                 lineY.element = this.paper.add("path");
                 this._lineY.set(lineY, lineY.events.on("positionchanged", this.updateSelection, this));
                 lineY.parent = this;
+                lineY.interactionsEnabled = false;
             }
             else {
                 this._lineY.reset();

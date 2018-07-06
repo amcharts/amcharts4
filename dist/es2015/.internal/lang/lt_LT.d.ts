@@ -78,6 +78,8 @@ declare const _default: {
     "Gauge chart": string;
     "Radar chart": string;
     "Sankey diagram": string;
+    "Chord diagram": string;
+    "Flow diagram": string;
     "TreeMap chart": string;
     "Series": string;
     "Candlestick Series": string;

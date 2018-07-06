@@ -108,7 +108,7 @@ var AxisRendererX = /** @class */ (function (_super) {
             var bigNum = 1000;
             var bbx = this.line.pixelX;
             var bby = this.line.pixelY;
-            var bbw = this.pixelWidth;
+            var bbw = this.measuredWidth;
             var bbh = bigNum;
             // top
             if (this.opposite) {
@@ -153,7 +153,7 @@ var AxisRendererX = /** @class */ (function (_super) {
          */
         get: function () {
             var axis = this.axis;
-            return axis.pixelWidth - axis.pixelPaddingRight - axis.pixelPaddingLeft;
+            return axis.measuredWidth - axis.pixelPaddingRight - axis.pixelPaddingLeft;
         },
         enumerable: true,
         configurable: true
@@ -301,7 +301,7 @@ var AxisRendererX = /** @class */ (function (_super) {
             baseGrid.hide(0);
         }
         else {
-            var y = $utils.spritePointToSprite({ x: 0, y: 0 }, this.gridContainer, this).y;
+            var y = $utils.spritePointToSprite({ x: 0, y: 0 }, this.gridContainer, baseGrid.parent).y;
             baseGrid.element.attr({ "d": $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: 0, y: h }) });
             baseGrid.moveTo({ x: x, y: y });
             baseGrid.show(0);

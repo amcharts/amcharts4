@@ -179,10 +179,10 @@ var HeatLegend = /** @class */ (function (_super) {
         var renderer = this.valueAxis.renderer;
         if (this.markerCount > 1) {
             if (this.orientation == "horizontal") {
-                renderer.minGridDistance = this.pixelWidth / this.markerCount;
+                renderer.minGridDistance = this.measuredWidth / this.markerCount;
             }
             else {
-                renderer.minGridDistance = this.pixelHeight / this.markerCount;
+                renderer.minGridDistance = this.measuredHeight / this.markerCount;
             }
         }
         for (var i = this.markerCount; i < this.markers.length; i++) {

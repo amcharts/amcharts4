@@ -17,15 +17,10 @@ var __extends = (this && this.__extends) || (function () {
  * ============================================================================
  * @hidden
  */
-import { Container } from "../../core/Container";
-import { List } from "../../core/utils/List";
+import { FlowDiagramNode } from "./FlowDiagramNode";
 import { LabelBullet } from "./LabelBullet";
 import { registry } from "../../core/Registry";
-import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $iter from "../../core/utils/Iterator";
-import * as $string from "../../core/utils/String";
-import * as $order from "../../core/utils/Order";
-import * as $number from "../../core/utils/Number";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -70,16 +65,6 @@ var SankeyNode = /** @class */ (function (_super) {
         _this.className = "SankeyNode";
         _this.width = 10;
         _this.height = 10;
-        _this.isMeasured = false;
-        var interfaceColors = new InterfaceColorSet();
-        _this.background.fill = interfaceColors.getFor("alternativeBackground");
-        _this.background.fillOpacity = 1;
-        _this.pixelPerfect = false;
-        _this.background.pixelPerfect = false;
-        _this.draggable = true;
-        _this.inert = true;
-        _this.events.on("positionchanged", _this.invalidateLinks, _this);
-        _this.events.on("sizechanged", _this.invalidateLinks, _this);
         var nameLabel = _this.createChild(LabelBullet);
         nameLabel.shouldClone = false;
         //@should we auto update these locations if position is changed?
@@ -105,21 +90,13 @@ var SankeyNode = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     * Marks node as invalid, for redrawal in the next update cycle.
-     *
-     * @ignore Exclude from docs
-     */
-    SankeyNode.prototype.invalidate = function () {
-        _super.prototype.invalidate.call(this);
-        this.invalidateLinks();
-    };
-    /**
      * Invalidates all links, attached to this node.
      *
      * @ignore Exclude from docs
      */
     SankeyNode.prototype.invalidateLinks = function () {
         var _this = this;
+        _super.prototype.invalidateLinks.call(this);
         this.nextInCoord = 0;
         this.nextOutCoord = 0;
         var chart = this.chart;
@@ -147,7 +124,7 @@ var SankeyNode = /** @class */ (function (_super) {
                     link.startAngle = angle;
                     link.endAngle = angle;
                     link.gradient.rotation = angle;
-                    link.linkWidth = dataItem.value * chart.valueHeight;
+                    link.linkWidth = dataItem.getWorkingValue("value") * chart.valueHeight;
                     if (!dataItem.fromNode) {
                         if (orientation_1 == "horizontal") {
                             link.startX = _this.pixelX + _this.dx - link.maxWidth;
@@ -164,18 +141,11 @@ var SankeyNode = /** @class */ (function (_super) {
                             }
                             stop_1.opacity = 0;
                             link.fill = link.gradient;
-                            link.gradient.validate();
-                        }
-                    }
-                    if (link.colorMode == "gradient") {
-                        var stop_2 = link.gradient.stops.getIndex(1);
-                        if (stop_2) {
-                            stop_2.color = _this.color;
+                            link.stroke = link.gradient;
                             link.gradient.validate();
                         }
                     }
                     _this.nextInCoord += link.linkWidth;
-                    link.validate();
                 });
             }
             if (this._outgoingSorted) {
@@ -200,7 +170,7 @@ var SankeyNode = /** @class */ (function (_super) {
                     link.startAngle = angle;
                     link.endAngle = angle;
                     link.gradient.rotation = angle;
-                    link.linkWidth = dataItem.value * _this.chart.valueHeight;
+                    link.linkWidth = dataItem.getWorkingValue("value") * _this.chart.valueHeight;
                     if (!dataItem.toNode) {
                         if (orientation_1 == "horizontal") {
                             link.endX = _this.pixelX + link.maxWidth + _this.dx;
@@ -211,25 +181,18 @@ var SankeyNode = /** @class */ (function (_super) {
                             link.endY = _this.pixelY + link.maxHeight + _this.dy;
                         }
                         link.opacity = _this.opacity;
-                        var stop_3 = link.gradient.stops.getIndex(1);
-                        if (stop_3) {
+                        var stop_2 = link.gradient.stops.getIndex(1);
+                        if (stop_2) {
                             if (link.colorMode == "gradient") {
-                                stop_3.color = _this.color;
+                                stop_2.color = _this.color;
                             }
-                            stop_3.opacity = 0;
+                            stop_2.opacity = 0;
                             link.fill = link.gradient;
-                            link.gradient.validate();
-                        }
-                    }
-                    if (link.colorMode == "gradient") {
-                        var stop_4 = link.gradient.stops.getIndex(0);
-                        if (stop_4) {
-                            stop_4.color = _this.color;
+                            link.stroke = link.gradient;
                             link.gradient.validate();
                         }
                     }
                     _this.nextOutCoord += link.linkWidth;
-                    link.validate();
                 });
             }
         }
@@ -243,86 +206,10 @@ var SankeyNode = /** @class */ (function (_super) {
      */
     SankeyNode.prototype.positionBullet = function (bullet) {
         if (bullet) {
-            bullet.x = this.pixelWidth * bullet.locationX;
-            bullet.y = this.pixelHeight * bullet.locationY;
+            bullet.x = this.measuredWidth * bullet.locationX;
+            bullet.y = this.measuredHeight * bullet.locationY;
         }
     };
-    Object.defineProperty(SankeyNode.prototype, "incomingDataItems", {
-        /**
-         * List of incoming items (links).
-         *
-         * @readonly
-         * @return {List<SankeyDiagramDataItem>} Incoming items
-         */
-        get: function () {
-            var _this = this;
-            if (!this._incomingDataItems) {
-                var incomingDataItems = new List();
-                incomingDataItems.events.on("insert", function () {
-                    if (_this.chart.sortBy == "name") {
-                        _this._incomingSorted = $iter.sort(_this._incomingDataItems.iterator(), function (x, y) { return $string.order(x.fromName, y.fromName); });
-                    }
-                    else if (_this.chart.sortBy == "value") {
-                        _this._incomingSorted = $iter.sort(_this._incomingDataItems.iterator(), function (x, y) { return $order.reverse($number.order(x.value, y.value)); });
-                    }
-                    else {
-                        _this._incomingSorted = _this._incomingDataItems.iterator();
-                    }
-                }, this);
-                this._incomingDataItems = incomingDataItems;
-            }
-            return this._incomingDataItems;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(SankeyNode.prototype, "outgoingDataItems", {
-        /**
-         * List of outgoing items (links).
-         *
-         * @readonly
-         * @return {List<SankeyDiagramDataItem>} Outgoing items
-         */
-        get: function () {
-            var _this = this;
-            if (!this._outgoingDataItems) {
-                var outgoingDataItems = new List();
-                outgoingDataItems.events.on("insert", function () {
-                    if (_this.chart.sortBy == "name") {
-                        _this._outgoingSorted = $iter.sort(_this._outgoingDataItems.iterator(), function (x, y) { return $string.order(x.fromName, y.fromName); });
-                    }
-                    else if (_this.chart.sortBy == "value") {
-                        _this._outgoingSorted = $iter.sort(_this._outgoingDataItems.iterator(), function (x, y) { return $order.reverse($number.order(x.value, y.value)); });
-                    }
-                    else {
-                        _this._outgoingSorted = _this._outgoingDataItems.iterator();
-                    }
-                }, this);
-                this._outgoingDataItems = outgoingDataItems;
-            }
-            return this._outgoingDataItems;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(SankeyNode.prototype, "name", {
-        /**
-         * @return {string} Name
-         */
-        get: function () {
-            return this.getPropertyValue("name");
-        },
-        /**
-         * A name of the node.
-         *
-         * @param {string}  value  Name
-         */
-        set: function (value) {
-            this.setPropertyValue("name", value, true);
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(SankeyNode.prototype, "level", {
         /**
          * @return {number} Level
@@ -347,43 +234,6 @@ var SankeyNode = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(SankeyNode.prototype, "value", {
-        /**
-         * @return {number} Value
-         */
-        get: function () {
-            return this.getPropertyValue("value");
-        },
-        /**
-         * Node's numeric value.
-         *
-         * @param {number}  value  Value
-         */
-        set: function (value) {
-            this.setPropertyValue("value", value, true);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(SankeyNode.prototype, "color", {
-        /**
-         * @return {Color} Color
-         */
-        get: function () {
-            return this.getPropertyValue("color");
-        },
-        /**
-         * Node's color.
-         *
-         * @param {Color}  value  Color
-         */
-        set: function (value) {
-            this.setPropertyValue("color", value, true);
-            this.background.fill = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
     /**
      * Copies properties and labels from another [[SankeyNode]].
      *
@@ -395,7 +245,7 @@ var SankeyNode = /** @class */ (function (_super) {
         this.valueLabel.copyFrom(source.valueLabel);
     };
     return SankeyNode;
-}(Container));
+}(FlowDiagramNode));
 export { SankeyNode };
 /**
  * Register class in system, so that it can be instantiated using its name from

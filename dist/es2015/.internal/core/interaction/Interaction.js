@@ -477,8 +477,9 @@ var Interaction = /** @class */ (function (_super) {
             }
         }
         else {
-            if (io.eventDisposers.hasKey("touchable")) {
-                io.eventDisposers.getKey("touchable").dispose();
+            var disposer = io.eventDisposers.getKey("touchable");
+            if (disposer != null) {
+                disposer.dispose();
                 io.eventDisposers.removeKey("touchable");
             }
         }
@@ -1026,6 +1027,10 @@ var Interaction = /** @class */ (function (_super) {
             if (!io.isHover) {
                 // Set element as hovered
                 io.isHover = true;
+                // Generate body track event. This is needed so that if element loads
+                // under unmoved mouse cursor, we still need all the actions that are
+                // required to happen to kick in.
+                this.handleTrack(this.body, pointer, ev, true);
                 // Event
                 if (io.events.isEnabled("over")) {
                     var imev = {
@@ -1097,6 +1102,10 @@ var Interaction = /** @class */ (function (_super) {
                             // Nothing for "remove" - that's how it works "out-of-the-box"
                         }
                     }
+                    // Generate body track event. This is needed so that if element loads
+                    // under unmoved mouse cursor, we still need all the actions that are
+                    // required to happen to kick in.
+                    this.handleTrack(this.body, pointer, ev, true);
                     if (io.lastOutEvent) {
                         io.lastOutEvent = undefined;
                     }
@@ -1268,13 +1277,15 @@ var Interaction = /** @class */ (function (_super) {
      * Handles reporting of pointer movement.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}        io       Element
-     * @param {IPointer}                 pointer  Pointer
-     * @param {MouseEvent | TouchEvent}  ev       Original event
+     * @param {InteractionObject}        io        Element
+     * @param {IPointer}                 pointer    Pointer
+     * @param {MouseEvent | TouchEvent}  ev         Original event
+     * @param {boolean}                  skipCheck  Sould we skip check if cursor actually moved
      */
-    Interaction.prototype.handleTrack = function (io, pointer, ev) {
+    Interaction.prototype.handleTrack = function (io, pointer, ev, skipCheck) {
+        if (skipCheck === void 0) { skipCheck = false; }
         // Do nothing if the cursor did not actually move
-        if (!this.moved(pointer, 0)) {
+        if (!skipCheck && !this.moved(pointer, 0)) {
             return;
         }
         // Initiate TRACK event

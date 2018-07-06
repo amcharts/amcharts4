@@ -450,6 +450,7 @@ var Axis = /** @class */ (function (_super) {
         _this._dataItemsIterator.createNewItems = true;
         // Create tooltip
         var tooltip = new Tooltip();
+        _this._disposers.push(tooltip);
         tooltip.label.padding(5, 10, 5, 10);
         tooltip.background.pointerLength = 5;
         tooltip.fitPointerToBounds = true;

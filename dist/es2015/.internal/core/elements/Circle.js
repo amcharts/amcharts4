@@ -43,6 +43,8 @@ var Circle = /** @class */ (function (_super) {
         _this.radius = percent(100);
         _this.className = "Circle";
         _this.element = _this.paper.add("circle");
+        _this.horizontalCenter = "middle";
+        _this.verticalCenter = "middle";
         _this.applyTheme();
         return _this;
     }
@@ -96,7 +98,7 @@ var Circle = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Circle.prototype.measureElement = function () {
-        this._bbox = {
+        this.bbox = {
             x: -this.pixelRadius,
             y: -this.pixelRadius,
             width: this.pixelRadius * 2,

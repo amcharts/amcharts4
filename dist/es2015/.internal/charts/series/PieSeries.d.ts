@@ -20,6 +20,7 @@ import { LegendDataItem, ILegendItem, LegendSettings } from "../../charts/Legend
 import { Bullet } from "../elements/Bullet";
 import { ColorSet } from "../../core/utils/ColorSet";
 import { IRectangle } from "../../core/defs/IRectangle";
+import { PieChart } from "../types/PieChart";
 /**
  * ============================================================================
  * DATA ITEM
@@ -284,6 +285,7 @@ export interface IPieSeriesAdapters extends ISeriesAdapters, IPieSeriesPropertie
  * @important
  */
 export declare class PieSeries extends Series {
+    _chart: PieChart;
     /**
      * Defines the type of data fields used for the series.
      *
@@ -551,4 +553,5 @@ export declare class PieSeries extends Series {
      * @param {ColumnSeries}  source  Source series
      */
     copyFrom(source: this): void;
+    protected getContainerBBox(): IRectangle;
 }

@@ -101,11 +101,6 @@ var Scrollbar = /** @class */ (function (_super) {
         background.fillOpacity = 0.5;
         _this.startGrip = new ResizeButton();
         _this.endGrip = new ResizeButton();
-        // Set button defaults
-        _this.startGrip.showSystemTooltip = true;
-        _this.endGrip.showSystemTooltip = true;
-        _this.startGrip.zIndex = 100;
-        _this.endGrip.zIndex = 100;
         // Default orientation...
         // ... is set in `applyInternalDefaults()` because it accesses `language`
         // and should only be started to access when parent is set
@@ -672,11 +667,12 @@ var Scrollbar = /** @class */ (function (_super) {
      */
     Scrollbar.prototype.processGrip = function (button) {
         button.parent = this;
-        button.horizontalCenter = "middle";
-        button.verticalCenter = "middle";
         button.isMeasured = false;
         button.hoverable = true;
         button.focusable = true;
+        // Set button defaults
+        button.showSystemTooltip = true;
+        button.zIndex = 100;
         button.events.on("drag", this.handleGripDrag, this);
         button.events.on("dragstop", this.makeUnbusy, this);
         button.events.on("down", this.makeBusy, this);

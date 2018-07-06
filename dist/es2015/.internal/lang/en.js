@@ -198,6 +198,8 @@ export default {
     "Gauge chart": "",
     "Radar chart": "",
     "Sankey diagram": "",
+    "Chord diagram": "",
+    "Flow diagram": "",
     "TreeMap chart": "",
     // Series types.
     // Used to name series by type for screen readers if they do not have their

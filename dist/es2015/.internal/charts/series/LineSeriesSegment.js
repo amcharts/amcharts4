@@ -53,6 +53,7 @@ var LineSeriesSegment = /** @class */ (function (_super) {
         // Set defaults
         _this.isMeasured = false;
         _this.interactionsEnabled = false;
+        _this.layout = "none";
         // Create fill element
         var fillSprite = _this.createChild(Sprite);
         _this.fillSprite = fillSprite;
@@ -100,18 +101,10 @@ var LineSeriesSegment = /** @class */ (function (_super) {
     LineSeriesSegment.prototype.copyFrom = function (source) {
         var lineElement = this.strokeSprite;
         $object.copyProperties(source, lineElement.properties, visualProperties);
-        lineElement.horizontalCenter = "none";
-        lineElement.verticalCenter = "none";
-        lineElement.visible = true;
         lineElement.fillOpacity = 0;
-        lineElement.tooltipText = undefined;
         var fillElement = this.fillSprite;
         $object.copyProperties(source, fillElement.properties, visualProperties);
-        fillElement.horizontalCenter = "none";
-        fillElement.verticalCenter = "none";
-        fillElement.visible = true;
         fillElement.strokeOpacity = 0;
-        fillElement.tooltipText = undefined;
     };
     return LineSeriesSegment;
 }(Container));

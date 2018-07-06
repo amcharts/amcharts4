@@ -95,6 +95,8 @@ export default {
     "Gauge chart": "Датчик-диаграмма",
     "Radar chart": "Лепестковая диаграмма",
     "Sankey diagram": "Диаграмма Сэнки",
+    "Chord diagram": "Диаграмма Chord",
+    "Flow diagram": "Диаграмма флоу",
     "TreeMap chart": "Иерархическая диаграмма",
     // Series types
     "Series": "Серия",

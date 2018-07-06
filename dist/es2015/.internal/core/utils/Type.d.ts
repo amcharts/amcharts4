@@ -206,6 +206,13 @@ export declare function hasValue<A>(a: Optional<A> | null): a is A;
  */
 export declare function getValue<A>(a: Optional<A> | null): A;
 /**
+ * Returns a value, or returns the default value if it doesn't have a value.
+ *
+ * @param {Optional<A> | null}  a  Input value
+ * @returns                        Value
+ */
+export declare function getValueDefault<A>(a: Optional<A> | null, defaultValue: A): A;
+/**
  * ============================================================================
  * TYPE CHECK
  * ============================================================================

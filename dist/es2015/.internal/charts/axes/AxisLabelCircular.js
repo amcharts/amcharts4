@@ -116,8 +116,8 @@ var AxisLabelCircular = /** @class */ (function (_super) {
         var labelRadius = this.radius * sign;
         if ($type.isNumber(relativeRotation)) {
             this.rotation = relativeRotation + angle + 90;
-            var pixelWidth = this._bbox.width;
-            var pixelHeight = this._bbox.height;
+            var pixelWidth = this.bbox.width;
+            var pixelHeight = this.bbox.height;
             var dH = $math.sin(relativeRotation) / 2;
             var dW = $math.cos(relativeRotation) / 2;
             var rotation = this.rotation;

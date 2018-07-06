@@ -64,7 +64,7 @@ var OrderedList = /** @class */ (function () {
         /**
          * Event dispatcher.
          *
-         * @type {EventDispatcher<AMEvent<OrderedList<T>, ISortedListEvents<T>>>}
+         * @type {EventDispatcher<AMEvent<this, ISortedListEvents<T>>>}
          */
         this.events = new EventDispatcher();
         if (initial != null) {

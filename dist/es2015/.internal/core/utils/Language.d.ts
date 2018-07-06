@@ -110,6 +110,8 @@ export interface ILocaleProperties {
     "Gauge chart"?: string;
     "Radar chart"?: string;
     "Sankey diagram"?: string;
+    "Flow diagram"?: string;
+    "Chord diagram"?: string;
     "TreeMap chart"?: string;
     "Series"?: string;
     "Candlestick Series"?: string;

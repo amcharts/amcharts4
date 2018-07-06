@@ -213,12 +213,16 @@ function zoomToCountry(polygon) {
 
 function showPieChart(polygon) {
     polygon.polygon.measure();
-    pieChart.radius = polygon.pixelWidth / 2 * polygon.globalScale / chart.seriesContainer.scale;
+    let radius = polygon.polygon.measuredWidth / 2 * polygon.globalScale / chart.seriesContainer.scale;
+    pieChart.width = radius * 2;
+    pieChart.height = radius * 2;
+    pieChart.radius = radius;    
+
     let centerPoint = am4core.utils.spritePointToSvg(polygon.polygon.centerPoint, polygon.polygon);
     centerPoint = am4core.utils.svgPointToSprite(centerPoint, chart.seriesContainer);
 
-    pieChart.x = centerPoint.x - 50;
-    pieChart.y = centerPoint.y - 50;
+    pieChart.x = centerPoint.x - radius;
+    pieChart.y = centerPoint.y - radius;
 
     let fill = polygon.fill;
     let desaturated = fill.saturate(0.3);

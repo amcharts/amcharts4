@@ -10,7 +10,9 @@ export { XYChartDataItem, IXYChartDataFields, IXYChartProperties, IXYChartEvents
 export { SerialChartDataItem, ISerialChartDataFields, ISerialChartProperties, ISerialChartEvents, ISerialChartAdapters, SerialChart } from "./.internal/charts/types/SerialChart";
 export { PieChart3DDataItem, IPieChart3DDataFields, IPieChart3DProperties, IPieChart3DEvents, IPieChart3DAdapters, PieChart3D } from "./.internal/charts/types/PieChart3D";
 export { PieChartDataItem, IPieChartDataFields, IPieChartProperties, IPieChartEvents, IPieChartAdapters, PieChart } from "./.internal/charts/types/PieChart";
+export { FlowDiagramDataItem, IFlowDiagramDataFields, IFlowDiagramProperties, IFlowDiagramEvents, IFlowDiagramAdapters, FlowDiagram } from "./.internal/charts/types/FlowDiagram";
 export { SankeyDiagramDataItem, ISankeyDiagramDataFields, ISankeyDiagramProperties, ISankeyDiagramEvents, ISankeyDiagramAdapters, SankeyDiagram } from "./.internal/charts/types/SankeyDiagram";
+export { ChordDiagramDataItem, IChordDiagramDataFields, IChordDiagramProperties, IChordDiagramEvents, IChordDiagramAdapters, ChordDiagram } from "./.internal/charts/types/ChordDiagram";
 export { TreeMapDataItem, ITreeMapDataFields, ITreeMapProperties, ITreeMapEvents, ITreeMapAdapters, TreeMap } from "./.internal/charts/types/TreeMap";
 export { XYChart3DDataItem, IXYChart3DDataFields, IXYChart3DProperties, IXYChart3DEvents, IXYChart3DAdapters, XYChart3D } from "./.internal/charts/types/XYChart3D";
 /**
@@ -72,8 +74,12 @@ export { ILabelBulletProperties, ILabelBulletEvents, ILabelBulletAdapters, Label
 export { ICircleBulletProperties, ICircleBulletEvents, ICircleBulletAdapters, CircleBullet } from "./.internal/charts/elements/CircleBullet";
 export { IXYChartScrollbarProperties, IXYChartScrollbarEvents, IXYChartScrollbarAdapters, XYChartScrollbar } from "./.internal/charts/elements/XYChartScrollbar";
 export { IClockHandProperties, IClockHandEvents, IClockHandAdapters, ClockHand } from "./.internal/charts/elements/ClockHand";
+export { IFlowDiagramNodeProperties, IFlowDiagramNodeEvents, IFlowDiagramNodeAdapters, FlowDiagramNode } from "./.internal/charts/elements/FlowDiagramNode";
+export { IFlowDiagramLinkProperties, IFlowDiagramLinkEvents, IFlowDiagramLinkAdapters, FlowDiagramLink } from "./.internal/charts/elements/FlowDiagramLink";
 export { ISankeyNodeProperties, ISankeyNodeEvents, ISankeyNodeAdapters, SankeyNode } from "./.internal/charts/elements/SankeyNode";
 export { ISankeyLinkProperties, ISankeyLinkEvents, ISankeyLinkAdapters, SankeyLink } from "./.internal/charts/elements/SankeyLink";
+export { IChordNodeProperties, IChordNodeEvents, IChordNodeAdapters, ChordNode } from "./.internal/charts/elements/ChordNode";
+export { IChordLinkProperties, IChordLinkEvents, IChordLinkAdapters, ChordLink } from "./.internal/charts/elements/ChordLink";
 export { NavigationBarDataItem, INavigationBarDataFields, INavigationBarProperties, INavigationBarEvents, INavigationBarAdapters, NavigationBar } from "./.internal/charts/elements/NavigationBar";
 export { Column, IColumnAdapters, IColumnEvents, IColumnProperties } from "./.internal/charts/elements/Column";
 export { Candlestick, ICandlestickAdapters, ICandlestickEvents, ICandlestickProperties } from "./.internal/charts/elements/Candlestick";

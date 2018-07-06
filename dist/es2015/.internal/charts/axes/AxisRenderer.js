@@ -119,17 +119,7 @@ var AxisRenderer = /** @class */ (function (_super) {
     * @ignore
     */
     AxisRenderer.prototype.setAxis = function (axis) {
-        var _this = this;
         this._axis = axis;
-        axis.events.on("rangechangestarted", function () {
-            if (!_this._originalLayout) {
-                _this._originalLayout = _this.layout;
-            }
-            _this.layout = "none";
-        }, this);
-        axis.events.on("rangechangeended", function () {
-            _this.layout = _this._originalLayout;
-        }, this);
         this.baseGrid.parent = axis;
         this.line.parent = axis;
     };

@@ -55,7 +55,7 @@ var AxisFillCircular = /** @class */ (function (_super) {
         _super.prototype.draw.call(this);
         if (this.axis) {
             var renderer = this.axis.renderer;
-            this.fillPath = renderer.getPositionRangePath(this.startPosition, this.endPosition, this.radius, $type.isNumber(this.innerRadius) ? this.innerRadius : renderer.innerRadius, this.cornerRadius);
+            this.fillPath = renderer.getPositionRangePath(this.startPosition, this.endPosition, this.radius, $type.hasValue(this.innerRadius) ? this.innerRadius : renderer.innerRadius, this.cornerRadius);
             this.element.attr({ "d": this.fillPath });
         }
     };

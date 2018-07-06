@@ -104,6 +104,13 @@ export interface IPopupAdapters {
  */
 export declare class Popup extends BaseObject {
     /**
+     * Defines available adapters.
+     *
+     * @ignore Exclude from docs
+     * @type {IExportAdapters}
+     */
+    _adapter: IPopupAdapters;
+    /**
      * Adapter.
      *
      * @type {Adapter<Popup, IPopupAdapters>}

@@ -109,6 +109,8 @@ export default {
     "Gauge chart": "",
     "Radar chart": "",
     "Sankey diagram": "",
+    "Chord diagram": "",
+    "Flow diagram": "",
     "TreeMap chart": "",
     // Series types
     "Series": "",

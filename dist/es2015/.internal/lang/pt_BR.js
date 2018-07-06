@@ -145,6 +145,8 @@ export default {
     "Gauge chart": "Gráfico Indicador",
     "Radar chart": "Gráfico de Radar",
     "Sankey diagram": "Diagrama Sankey",
+    "Chord diagram": "Diagram Chord",
+    "Flow diagram": "Diagrama Flow",
     "TreeMap chart": "Gráfico de Mapa de Árvore",
     // Series types.
     // Used to name series by type for screen readers if they do not have their

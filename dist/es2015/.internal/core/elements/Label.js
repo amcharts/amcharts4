@@ -89,9 +89,8 @@ var Label = /** @class */ (function (_super) {
         _this.ellipsis = "...";
         _this.textAlign = "start";
         _this.textValign = "top";
-        _this.layout = "none";
+        _this.layout = "absolute";
         _this.renderingFrequency = 1;
-        _this.ignoreOverflow = false;
         // Set up adapters for manipulating accessibility
         _this.adapter.add("readerTitle", function (arg) {
             if (!arg) {
@@ -104,10 +103,10 @@ var Label = /** @class */ (function (_super) {
         // Add events to watch for maxWidth/maxHeight changes so that we can
         // invalidate this
         _this.events.on("maxsizechanged", function (ev) {
-            if ((_this._bbox.width > _this.availableWidth)
-                || ((_this._bbox.width < _this.availableWidth) && _this.isOversized)
-                || (_this._bbox.height > _this.availableHeight)
-                || ((_this._bbox.height < _this.availableHeight) && _this.isOversized)) {
+            if ((_this.bbox.width > _this.availableWidth)
+                || ((_this.bbox.width < _this.availableWidth) && _this.isOversized)
+                || (_this.bbox.height > _this.availableHeight)
+                || ((_this.bbox.height < _this.availableHeight) && _this.isOversized)) {
                 _this.invalidate();
             }
             else {
@@ -116,7 +115,7 @@ var Label = /** @class */ (function (_super) {
         });
         // trying to solve strange bug when text is measured as 0x0
         _this.events.once("validated", function () {
-            if (_this.text && (_this._bbox.width == 0 || _this._bbox.height == 0)) {
+            if (_this.text && (_this.bbox.width == 0 || _this.bbox.height == 0)) {
                 registry.events.once("exitframe", function () {
                     _this._prevStatus = "";
                     _this.invalidate();
@@ -452,13 +451,14 @@ var Label = /** @class */ (function (_super) {
                             }
                         }
                         // Let's update the text's bbox with the line's one
-                        if (this._bbox.width < lineInfo.bbox.width) {
-                            this._bbox.width = lineInfo.bbox.width;
+                        if (this.bbox.width < lineInfo.bbox.width) {
+                            this.bbox.width = lineInfo.bbox.width;
                         }
-                        if (this._bbox.x > lineInfo.bbox.x) {
-                            this._bbox.x = lineInfo.bbox.x;
-                        }
-                        this._bbox.height = currentHeight + currentLineHeight;
+                        // commented to avoid bug (seen on sankey link) where text is incorrectly aligned
+                        //if (this.bbox.x > lineInfo.bbox.x) {
+                        //this.bbox.x = lineInfo.bbox.x; 
+                        //}
+                        this.bbox.height = currentHeight + currentLineHeight;
                         // Position current line
                         lineInfo.element.attr({
                             "x": "0",
@@ -481,16 +481,16 @@ var Label = /** @class */ (function (_super) {
                 this.addLineInfo(lineInfo, i);
             }
             // Check if maybe we need to hide the whole label if it doesn't fit
-            if (this.hideOversized && ((this.availableWidth < this._bbox.width) || (this.availableHeight < this._bbox.height))) {
+            if (this.hideOversized && ((this.availableWidth < this.bbox.width) || (this.availableHeight < this.bbox.height))) {
                 this.element.attr({ display: "none" });
                 this.isOversized = true;
             }
-            this._measuredWidth = $math.max(this._bbox.width, this.pixelWidth - this.pixelPaddingLeft - this.pixelPaddingRight);
-            this._measuredHeight = $math.max(this._bbox.height, this.pixelHeight - this.pixelPaddingTop - this.pixelPaddingBottom);
+            this._measuredWidth = $math.max(this.bbox.width, this.pixelWidth - this.pixelPaddingLeft - this.pixelPaddingRight);
+            this._measuredHeight = $math.max(this.bbox.height, this.pixelHeight - this.pixelPaddingTop - this.pixelPaddingBottom);
             // Align the lines
             this.alignSVGText();
-            this._bbox.width = this._measuredWidth;
-            this._bbox.height = this._measuredHeight;
+            this.bbox.width = this._measuredWidth;
+            this.bbox.height = this._measuredHeight;
             this.hideUnused(lines.length);
         }
         else {
@@ -520,7 +520,7 @@ var Label = /** @class */ (function (_super) {
             lineElement.style.display = "inline-block";
             var tmpBBox = lineElement.getBoundingClientRect();
             lineElement.style.display = "block";
-            this._bbox = {
+            this.bbox = {
                 x: 0,
                 y: 0,
                 width: tmpBBox.width,
@@ -533,10 +533,10 @@ var Label = /** @class */ (function (_super) {
                 height: tmpBBox.height
             });
             // Set measurements and update bbox
-            this._measuredWidth = $math.max(this._bbox.width, this.pixelWidth - this.pixelPaddingLeft - this.pixelPaddingRight);
-            this._measuredHeight = $math.max(this._bbox.height, this.pixelHeight - this.pixelPaddingTop - this.pixelPaddingBottom);
-            this._bbox.width = this._measuredWidth;
-            this._bbox.height = this._measuredHeight;
+            this._measuredWidth = $math.max(this.bbox.width, this.pixelWidth - this.pixelPaddingLeft - this.pixelPaddingRight);
+            this._measuredHeight = $math.max(this.bbox.height, this.pixelHeight - this.pixelPaddingTop - this.pixelPaddingBottom);
+            this.bbox.width = this._measuredWidth;
+            this.bbox.height = this._measuredHeight;
             // Don't let labels bleed out of the alotted area
             if (this.truncate) {
                 lineElement.style.overflow = "hidden";
@@ -548,7 +548,7 @@ var Label = /** @class */ (function (_super) {
         // Set applicable styles
         this.setStyles();
         this.updateCenter();
-        this.updateBackground(this._measuredWidth, this._measuredHeight);
+        this.updateBackground();
         if (display == "none") {
             this.group.attr({ display: "none" });
         }
@@ -568,6 +568,10 @@ var Label = /** @class */ (function (_super) {
         }
         var width = this._measuredWidth;
         var height = this._measuredHeight;
+        var paddingLeft = this.pixelPaddingLeft;
+        var paddingRight = this.pixelPaddingRight;
+        var paddingTop = this.pixelPaddingTop;
+        var paddingBottom = this.pixelPaddingBottom;
         // Process each line
         $iter.each(group.children.backwards().iterator(), function (element) {
             // Align horizontally
@@ -594,18 +598,17 @@ var Label = /** @class */ (function (_super) {
                     }
                     break;
             }
-            if (_this.textValign != "top") {
-                var y = $type.toNumber(element.getAttr("y"));
-                switch (_this.textValign) {
-                    case "middle":
-                        element.attr({ "y": (y + (height - _this._bbox.height) / 2).toString() });
-                        break;
-                    case "bottom":
-                        element.attr({ "y": (y + height - _this._bbox.height).toString() });
-                        break;
-                    default:
-                        break;
-                }
+            var y = $type.toNumber(element.getAttr("y"));
+            switch (_this.textValign) {
+                case "middle":
+                    element.attr({ "y": (y + (height - _this.bbox.height) / 2).toString() });
+                    break;
+                case "bottom":
+                    element.attr({ "y": (y + height - _this.bbox.height).toString() });
+                    break;
+                default:
+                    element.attr({ "y": y.toString() });
+                    break;
             }
         });
     };
@@ -654,7 +657,7 @@ var Label = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Label.prototype.resetBBox = function () {
-        this._bbox = { x: 0, y: 0, width: 0, height: 0 };
+        this.bbox = { x: 0, y: 0, width: 0, height: 0 };
     };
     /**
      * Creates and returns an HTML line element (`<div>`).
@@ -711,14 +714,12 @@ var Label = /** @class */ (function (_super) {
         if (!this.selectable || this.draggable || this.resizable || this.swipeable) {
             group.addStyle({
                 "webkitUserSelect": "none",
-                "msUserSelect": "none",
-                "pointerEvents": "none"
+                "msUserSelect": "none"
             });
         }
         else if (this.selectable) {
             group.removeStyle("webkitUserSelect");
             group.removeStyle("msUserSelect");
-            group.removeStyle("pointerEvents");
         }
     };
     /**

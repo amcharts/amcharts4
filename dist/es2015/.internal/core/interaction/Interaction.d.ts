@@ -533,11 +533,12 @@ export declare class Interaction extends BaseObjectEvents {
      * Handles reporting of pointer movement.
      *
      * @ignore Exclude from docs
-     * @param {InteractionObject}        io       Element
-     * @param {IPointer}                 pointer  Pointer
-     * @param {MouseEvent | TouchEvent}  ev       Original event
+     * @param {InteractionObject}        io        Element
+     * @param {IPointer}                 pointer    Pointer
+     * @param {MouseEvent | TouchEvent}  ev         Original event
+     * @param {boolean}                  skipCheck  Sould we skip check if cursor actually moved
      */
-    handleTrack(io: InteractionObject, pointer: IPointer, ev: MouseEvent | TouchEvent): void;
+    handleTrack(io: InteractionObject, pointer: IPointer, ev: MouseEvent | TouchEvent, skipCheck?: boolean): void;
     /**
      * Performs tasks on pointer up.
      *

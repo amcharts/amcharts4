@@ -247,7 +247,7 @@ var LineSeries = /** @class */ (function (_super) {
                     this.updateSegmentProperties(dataItem.properties, segment);
                 }
                 else {
-                    // this time we only need to know if properties changed
+                    // this time we only need to know if properties changed, so we don't pass segment
                     propertiesChanged = this.updateSegmentProperties(dataItem.properties);
                 }
             }
@@ -330,8 +330,8 @@ var LineSeries = /** @class */ (function (_super) {
             }
         }
         this.drawSegment(segment, points, closePoints);
-        if (closeIndex < this._workingEndIndex) {
-            this.openSegment(closeIndex + 1, axisRange);
+        if (closeIndex < this._workingEndIndex - 1) {
+            this.openSegment(closeIndex, axisRange);
         }
     };
     /**
@@ -365,6 +365,7 @@ var LineSeries = /** @class */ (function (_super) {
                 if (segment) {
                     if (segment.properties[propertyName] != value) {
                         segment.setPropertyValue(propertyName, value);
+                        segment.invalidate(); // because setPropertyValue doesn't do this
                         changed = true;
                     }
                 }
@@ -507,7 +508,12 @@ var LineSeries = /** @class */ (function (_super) {
                     clone.isMeasured = true;
                     clone.tooltipText = undefined;
                     clone.x = w / 2;
-                    clone.y = h / 2;
+                    if (_this.fillOpacity > 0) {
+                        clone.y = 0;
+                    }
+                    else {
+                        clone.y = h / 2;
+                    }
                     clone.visible = true;
                     // otherwise will not transit to color after hiding
                     if (!$type.hasValue(clone.fill)) {

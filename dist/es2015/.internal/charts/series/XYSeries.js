@@ -791,7 +791,7 @@ var XYSeries = /** @class */ (function (_super) {
             maxX = $math.max(dataItem.getMax(this._xValueFields, working, stackX), maxX);
             maxY = $math.max(dataItem.getMax(this._yValueFields, working, stackY), maxY);
         }
-        // this is mainly for value axis to calculate total and perecen.total of each series category
+        // this is mainly for value axis to calculate total and perecent.total of each series category
         this.xAxis.processSeriesDataItems();
         this.yAxis.processSeriesDataItems();
         var xAxisId = this.xAxis.uid;

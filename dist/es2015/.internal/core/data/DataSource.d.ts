@@ -167,6 +167,13 @@ export declare class DataSource extends BaseObjectEvents {
      */
     _events: IDataSourceEvents;
     /**
+     * Defines available adapters.
+     *
+     * @ignore Exclude from docs
+     * @type {IExportAdapters}
+     */
+    _adapter: IDataSourceAdapters;
+    /**
      * Adapter.
      *
      * @type {Adapter<DataSource, IDataSourceAdapters>}

@@ -31,28 +31,16 @@ var __spread = (this && this.__spread) || function () {
     for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
     return ar;
 };
-/**
- * ============================================================================
- * IMPORTS
- * ============================================================================
- * @hidden
- */
-import { Chart, ChartDataItem } from "../Chart";
+import { FlowDiagram, FlowDiagramDataItem } from "./FlowDiagram";
 import { percent } from "../../core/utils/Percent";
 import { ListTemplate } from "../../core/utils/List";
 import { DictionaryTemplate } from "../../core/utils/Dictionary";
-import { Container } from "../../core/Container";
 import { registry } from "../../core/Registry";
 import { SankeyNode } from "../elements/SankeyNode";
 import { SankeyLink } from "../elements/SankeyLink";
-import { LinearGradientModifier } from "../../core/rendering/fills/LinearGradientModifier";
-import { ColorSet } from "../../core/utils/ColorSet";
-import { toColor, Color } from "../../core/utils/Color";
 import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
-import * as $number from "../../core/utils/Number";
-import * as $order from "../../core/utils/Order";
 /**
  * ============================================================================
  * DATA ITEM
@@ -73,104 +61,11 @@ var SankeyDiagramDataItem = /** @class */ (function (_super) {
     function SankeyDiagramDataItem() {
         var _this = _super.call(this) || this;
         _this.className = "SankeyDiagramDataItem";
-        _this.values.value = {};
         _this.applyTheme();
         return _this;
     }
-    Object.defineProperty(SankeyDiagramDataItem.prototype, "fromName", {
-        /**
-         * @return {string} name
-         */
-        get: function () {
-            return this.properties.fromName;
-        },
-        /**
-         * Source node's name.
-         *
-         * @param {string}  value  Name
-         */
-        set: function (value) {
-            this.setProperty("fromName", value);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(SankeyDiagramDataItem.prototype, "toName", {
-        /**
-         * @return {string} name
-         */
-        get: function () {
-            return this.properties.toName;
-        },
-        /**
-         * Destination node's name.
-         *
-         * @param {string}  value  Name
-         */
-        set: function (value) {
-            this.setProperty("toName", value);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(SankeyDiagramDataItem.prototype, "color", {
-        /**
-         * @return {string} color
-         */
-        get: function () {
-            return this.properties.color;
-        },
-        /**
-         * Node color
-         *
-         * @param {string}  value  Name
-         */
-        set: function (value) {
-            this.setProperty("color", toColor(value));
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(SankeyDiagramDataItem.prototype, "value", {
-        /**
-         * @return {number} Value
-         */
-        get: function () {
-            return this.values["value"].value;
-        },
-        /**
-         * Link's value.
-         *
-         * @param {number}  value  Value
-         */
-        set: function (value) {
-            this.setValue("value", value);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(SankeyDiagramDataItem.prototype, "link", {
-        /**
-         * A visual element, representing link between the source and target nodes.
-         *
-         * Link's actual thickness will be determined by `value` of this link and
-         * `value` of the source node.
-         *
-         * @readonly
-         * @return {SankeyLink} Link element
-         */
-        get: function () {
-            if (!this._link) {
-                this._link = this.component.links.create();
-                this.addSprite(this._link);
-            }
-            return this._link;
-        },
-        enumerable: true,
-        configurable: true
-    });
     return SankeyDiagramDataItem;
-}(ChartDataItem));
+}(FlowDiagramDataItem));
 export { SankeyDiagramDataItem };
 /**
  * ============================================================================
@@ -194,13 +89,6 @@ var SankeyDiagram = /** @class */ (function (_super) {
         // Init
         _super.call(this) || this;
         /**
-         * A Color Set to use when applying/generating colors for each subsequent
-         * node.
-         *
-         * @type {ColorSet}
-         */
-        _this.colors = new ColorSet();
-        /**
          * A list of chart's Sankey nodes.
          *
          * @param {DictionaryTemplate<string, SankeyNode>}
@@ -221,27 +109,12 @@ var SankeyDiagram = /** @class */ (function (_super) {
          */
         _this.valueHeight = 0;
         _this.className = "SankeyDiagram";
-        _this.nodePadding = 20;
-        _this.sortBy = "none";
         _this.orientation = "horizontal";
-        _this.sequencedInterpolation = true;
         _this.nodeAlign = "middle";
-        _this.colors.step = 2;
-        var linksContainer = _this.chartContainer.createChild(Container);
-        linksContainer.shouldClone = false;
-        linksContainer.width = percent(100);
-        linksContainer.height = percent(100);
-        linksContainer.layout = "none";
-        linksContainer.isMeasured = false;
-        _this.linksContainer = linksContainer;
-        _this.linksContainer.id = "linksContainer";
-        var nodesContainer = _this.chartContainer.createChild(Container);
-        nodesContainer.shouldClone = false;
-        nodesContainer.width = percent(100);
-        nodesContainer.height = percent(100);
-        nodesContainer.layout = "none";
-        nodesContainer.isMeasured = false;
-        _this.nodesContainer = nodesContainer;
+        _this.nodesContainer.width = percent(100);
+        _this.nodesContainer.height = percent(100);
+        _this.linksContainer.width = percent(100);
+        _this.linksContainer.height = percent(100);
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -254,70 +127,12 @@ var SankeyDiagram = /** @class */ (function (_super) {
     SankeyDiagram.prototype.validateData = function () {
         var _this = this;
         _super.prototype.validateData.call(this);
-        // reset toNodes and fromNodes
-        $iter.each(this.nodes.iterator(), function (strNode) {
-            var node = strNode[1];
-            node.incomingDataItems.clear();
-            node.outgoingDataItems.clear();
-        });
-        // build blocks
-        $iter.each(this.dataItems.iterator(), function (dataItem) {
-            var fromName = dataItem.fromName;
-            if (fromName) {
-                var node = _this.nodes.getKey(fromName);
-                if (!node) {
-                    node = _this.nodes.create(fromName);
-                    node.name = fromName;
-                    node.chart = _this;
-                }
-                dataItem.addSprite(node);
-                dataItem.fromNode = node;
-                dataItem.fromNode.outgoingDataItems.push(dataItem);
-            }
-            var toName = dataItem.toName;
-            if (toName) {
-                var node = _this.nodes.getKey(toName);
-                if (!node) {
-                    node = _this.nodes.create(toName);
-                    node.name = toName;
-                    node.chart = _this;
-                    if (!node.dataItem) {
-                        dataItem.addSprite(node);
-                    }
-                }
-                dataItem.toNode = node;
-                dataItem.toNode.incomingDataItems.push(dataItem);
-            }
-            if (!dataItem.fromNode) {
-                var strokeModifier = new LinearGradientModifier();
-                strokeModifier.opacities = [0, 1];
-                dataItem.link.strokeModifier = strokeModifier;
-            }
-            if (!dataItem.toNode) {
-                var fillModifier = new LinearGradientModifier();
-                fillModifier.opacities = [1, 0];
-                dataItem.link.strokeModifier = fillModifier;
-            }
-        });
         this._levelCount = 0;
         $iter.each(this.nodes.iterator(), function (strNode) {
             var node = strNode[1];
-            if (node.fill instanceof Color) {
-                node.color = node.fill;
-            }
-            if (node.color == undefined) {
-                node.color = _this.colors.next();
-            }
-            if (node.dataItem.color != undefined) {
-                node.color = node.dataItem.color;
-            }
             node.level = _this.getNodeLevel(node, 0);
             _this._levelCount = $math.max(_this._levelCount, node.level);
         });
-        this.sortNodes();
-        if (this.interpolationDuration > 0) {
-            this.events.once("validated", this.appear, this);
-        }
     };
     /**
      * Returns node's highest level.
@@ -328,6 +143,7 @@ var SankeyDiagram = /** @class */ (function (_super) {
      */
     SankeyDiagram.prototype.getNodeLevel = function (node, level) {
         var _this = this;
+        //@todo solve circular so
         var levels = [level];
         $iter.each(node.incomingDataItems.iterator(), function (link) {
             if (link.fromNode) {
@@ -337,20 +153,6 @@ var SankeyDiagram = /** @class */ (function (_super) {
         return Math.max.apply(Math, __spread(levels));
     };
     /**
-     * Sorts nodes by either their values or names, based on `sortBy` setting.
-     */
-    SankeyDiagram.prototype.sortNodes = function () {
-        if (this.sortBy == "name") {
-            this._sorted = this.nodes.sortedIterator();
-        }
-        else if (this.sortBy == "value") {
-            this._sorted = $iter.sort(this.nodes.iterator(), function (x, y) { return $order.reverse($number.order(x[1].value, y[1].value)); });
-        }
-        else {
-            this._sorted = this.nodes.iterator();
-        }
-    };
-    /**
      * Calculates relation between pixel height and total value.
      *
      * In Sankey the actual thickness of links and height of nodes will depend
@@ -358,11 +160,6 @@ var SankeyDiagram = /** @class */ (function (_super) {
      */
     SankeyDiagram.prototype.calculateValueHeight = function () {
         var _this = this;
-        //@todo respect startIndex/endIndex?
-        // calculate values of each node
-        $iter.each(this.nodes.iterator(), function (strNode) {
-            _this.getNodeValue(strNode[1]);
-        });
         // calculate sums of each level
         this._levelSum = {};
         this._levelNodesCount = {};
@@ -402,26 +199,6 @@ var SankeyDiagram = /** @class */ (function (_super) {
         this.maxSumLevelNodeCount = maxSumLevelNodeCount;
     };
     /**
-     * Updates a cummulative value of the node.
-     *
-     * A node's value is determined by summing values of all of the incoming
-     * links or all of the outgoing links, whichever results in bigger number.
-     *
-     * @param {SankeyNode}  node  Node value
-     */
-    SankeyDiagram.prototype.getNodeValue = function (node) {
-        var fromSum = 0;
-        var toSum = 0;
-        $iter.each(node.incomingDataItems.iterator(), function (link) {
-            fromSum += link.value;
-        });
-        $iter.each(node.outgoingDataItems.iterator(), function (link) {
-            toSum += link.value;
-        });
-        node.value = $math.max(fromSum, toSum);
-    };
-    ;
-    /**
      * Redraws the chart.
      *
      * @ignore Exclude from docs
@@ -436,6 +213,7 @@ var SankeyDiagram = /** @class */ (function (_super) {
         var nodesInLevel = [];
         $iter.each(this._sorted, function (strNode) {
             var node = strNode[1];
+            _this.getNodeValue(node);
             var level = node.level;
             if (!$type.isNumber(nodesInLevel[level])) {
                 nodesInLevel[level] = 1;
@@ -495,6 +273,7 @@ var SankeyDiagram = /** @class */ (function (_super) {
      */
     SankeyDiagram.prototype.appear = function () {
         var _this = this;
+        _super.prototype.appear.call(this);
         var container = this.nodesContainer;
         var i = 0;
         $iter.each(this.links.iterator(), function (link) {
@@ -520,7 +299,10 @@ var SankeyDiagram = /** @class */ (function (_super) {
             node.invalidateLinks();
             node.animate([{ property: "opacity", from: 0, to: 1 }, { property: property, to: 0 }], _this.interpolationDuration, _this.interpolationEasing).delay(delay);
             $iter.each(node.outgoingDataItems.iterator(), function (dataItem) {
-                dataItem.link.show(_this.interpolationDuration).delay(delay);
+                var animation = dataItem.link.show(_this.interpolationDuration);
+                if (animation) {
+                    animation.delay(delay);
+                }
             });
             i++;
         });
@@ -573,45 +355,6 @@ var SankeyDiagram = /** @class */ (function (_super) {
     SankeyDiagram.prototype.createDataItem = function () {
         return new SankeyDiagramDataItem();
     };
-    Object.defineProperty(SankeyDiagram.prototype, "nodePadding", {
-        /**
-         * @return {number} Padding (px)
-         */
-        get: function () {
-            return this.getPropertyValue("nodePadding");
-        },
-        /**
-         * Padding for node square in pixels.
-         *
-         * Padding will add extra space around node's name label.
-         *
-         * @param {number} value Padding (px)
-         */
-        set: function (value) {
-            this.setPropertyValue("nodePadding", value, true);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(SankeyDiagram.prototype, "sortBy", {
-        /**
-         * @returns {"none" | name" | "value"} Node sorting
-         */
-        get: function () {
-            return this.getPropertyValue("sortBy");
-        },
-        /**
-         * Sort nodes by "name" or "value" or do not sort at all. If not sorted, nodes will appear in the same order as they are in the data.
-         * @default "none"
-         * @param {"none" | "name" | "value"}  value  Node sorting
-         */
-        set: function (value) {
-            this.setPropertyValue("sortBy", value);
-            this.changeSorting();
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(SankeyDiagram.prototype, "nodeAlign", {
         /**
          * @returns {"top" | "middle" | "bottom"} Returns nodeAlign value
@@ -659,7 +402,7 @@ var SankeyDiagram = /** @class */ (function (_super) {
         configurable: true
     });
     return SankeyDiagram;
-}(Chart));
+}(FlowDiagram));
 export { SankeyDiagram };
 /**
  * Register class in system, so that it can be instantiated using its name from

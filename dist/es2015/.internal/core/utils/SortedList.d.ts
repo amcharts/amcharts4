@@ -48,9 +48,9 @@ export declare class OrderedList<T> {
     /**
      * Event dispatcher.
      *
-     * @type {EventDispatcher<AMEvent<OrderedList<T>, ISortedListEvents<T>>>}
+     * @type {EventDispatcher<AMEvent<this, ISortedListEvents<T>>>}
      */
-    events: EventDispatcher<AMEvent<OrderedList<T>, ISortedListEvents<T>>>;
+    events: EventDispatcher<AMEvent<this, ISortedListEvents<T>>>;
     /**
      * Constructor
      *
@@ -184,12 +184,6 @@ export declare class SortedList<T> extends OrderedList<T> {
      * @type {T}
      */
     private _ordering;
-    /**
-     * Event dispatcher.
-     *
-     * @type {EventDispatcher<AMEvent<SortedList<T>, ISortedListEvents<T>>>}
-     */
-    events: EventDispatcher<AMEvent<SortedList<T>, ISortedListEvents<T>>>;
     /**
      * Constructor.
      *

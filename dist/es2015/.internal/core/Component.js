@@ -1387,6 +1387,10 @@ var Component = /** @class */ (function (_super) {
         arg.data = this.data;
         return arg;
     };
+    Component.prototype.setDisabled = function (value) {
+        _super.prototype.setDisabled.call(this, value);
+        this.invalidateData();
+    };
     return Component;
 }(Container));
 export { Component };

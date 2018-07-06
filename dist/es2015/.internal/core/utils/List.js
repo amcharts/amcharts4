@@ -282,7 +282,7 @@ var List = /** @class */ (function () {
         /**
          * Event dispatcher.
          *
-         * @type {EventDispatcher<AMEvent<List<T>, IListEvents<T>>>}
+         * @type {EventDispatcher<AMEvent<this, IListEvents<T>>>}
          */
         this.events = new EventDispatcher();
         this._values = initial;

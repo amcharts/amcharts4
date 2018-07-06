@@ -71,9 +71,6 @@ export default function (prefix) {
                 "margin": "1px 1px 0 0",
                 "color": colorSet.getFor("secondaryButton").alternative.hex,
                 "transition": "all 100ms ease-in-out, opacity 0.5s ease 0.5s",
-                "width": "initial",
-                "height": "initial",
-                "text-indent": "initial",
             }),
             new StyleRule("." + newPrefix + "-left ." + newPrefix + "-item", {
                 "margin": "1px 0 0 1px",

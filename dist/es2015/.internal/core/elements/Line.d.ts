@@ -8,6 +8,7 @@
  * @hidden
  */
 import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../Sprite";
+import { IOrientationPoint } from "../defs/IPoint";
 /**
  * ============================================================================
  * REQUISITES
@@ -135,4 +136,11 @@ export declare class Line extends Sprite {
      * @param {number} value Y
      */
     y2: number;
+    /**
+     * Converts relative position along the line (0-1) into pixel coordinates.
+     *
+     * @param  {number}             position  Position (0-1)
+     * @return {IOrientationPoint}            Coordinates
+     */
+    positionToPoint(position: number): IOrientationPoint;
 }

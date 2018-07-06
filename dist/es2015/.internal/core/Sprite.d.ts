@@ -316,6 +316,14 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     isHiding: boolean;
     /**
+     * If `sprite.hide()` is called, we set isHidden to true when sprite is hidden.
+     * This was added becaus hidden state might have visibility set to true and so
+     * there would not be possible to find out if a sprite is technically hidden or not.
+     *
+     * @type {boolean}
+     */
+    isHidden: boolean;
+    /**
      * This property indicates if Sprite is currently being revealed from hidden
      * state. This is used to prevent multiple calls to `sprite.show()` to
      * restart reveal animation. (if enabled)
@@ -339,12 +347,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @type {boolean}
      */
     protected _isActive: boolean;
-    /**
-     * @todo Description
-     * @ignore Exclude from docs
-     * @type {boolean}
-     */
-    protected _ignoreOverflow: boolean;
     /**
      * A Sprite element to use as a mask for this Sprite.
      *
@@ -518,7 +520,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @ignore Exclude from docs
      * @type {IRectangle}
      */
-    protected _bbox: IRectangle;
+    bbox: IRectangle;
     /**
      * Base tab index for the Sprite. Used for TAB-key selection order.
      *
@@ -696,14 +698,30 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     protected _measuredWidth: number;
     protected _measuredHeight: number;
+    protected _measuredWidthSelf: number;
+    protected _measuredHeightSelf: number;
     protected _prevMeasuredWidth: number;
     protected _prevMeasuredHeight: number;
     protected _pixelWidth: $type.Optional<number>;
     protected _pixelHeight: $type.Optional<number>;
     protected _relativeWidth: $type.Optional<number>;
     protected _relativeHeight: $type.Optional<number>;
-    protected _overflowX: number;
-    protected _overflowY: number;
+    /**
+     * @ignore
+     */
+    maxLeft: number;
+    /**
+     * @ignore
+     */
+    maxRight: number;
+    /**
+     * @ignore
+     */
+    maxTop: number;
+    /**
+     * @ignore
+     */
+    maxBottom: number;
     protected _isDragged: boolean;
     /**
      * @deprecated Moved to [[SpriteProperties]]
@@ -714,6 +732,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     protected _maskRectangle: $type.Optional<IRectangle>;
     protected _internalDefaultsApplied: boolean;
     protected _interactionDisposer: $type.Optional<IDisposer>;
+    definedBBox: IRectangle;
     /**
      * Sets frequency at which this element should be rendered. Used to save CPU,
      * mostly for text elements.
@@ -756,6 +775,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @type {boolean}
      */
     shouldClone: boolean;
+    /**
+     * A property which you can use to store any data you want.
+     * @type {any}
+     */
+    dummyData: any;
     /**
      * Constructor:
      * * Creates initial node
@@ -814,13 +838,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @ignore Exclude from docs
      */
     invalidatePosition(): void;
-    /**
-     * Positions element according its center settings.
-     *
-     * @todo Description (review)
-     * @ignore Exclude from docs
-     */
-    updateCenter(): void;
     /**
      * Transforms the element.
      *
@@ -1138,6 +1155,13 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     protected measureElement(): void;
     /**
+     * Positions element according its center settings.
+     *
+     * @todo Description (review)
+     * @ignore Exclude from docs
+     */
+    updateCenter(): void;
+    /**
      * Measures the whole element.
      *
      * Returns `true` if the size has changed from the last measurement.
@@ -1232,21 +1256,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     moveTo(point: IPoint, rotation?: number, scale?: number, isDragged?: boolean): void;
     /**
-     * Specifies, how this element's parent `Container`, when arranging layout,
-     * should treat this elements overflow.
-     *
-     * Setting this to `true` will make layout mechanism ignore everything that
-     * does not fit right into this element. In this case Conatiner will use
-     * elsements 0,0 coordinate.
-     *
-     * While setting to `false` will take into actual size of the element. In
-     * this case, container will use actual element coordinates.
-     *
-     * @ignore Exclude from docs
-     * @param {boolean} value Ignore overflow?
-     */
-    ignoreOverflow: boolean;
-    /**
      * Returns [[Sprite]] element currently used as mask for this element.
      *
      * @ignore Exclude from docs
@@ -1298,18 +1307,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @return {boolean}          Overlapping?
      */
     hitTest(sprite: Sprite): boolean;
-    /**
-     * Returns horizontal overflow.
-     *
-     * @return {number} Horizontal overflow (px)
-     */
-    readonly overflowX: number;
-    /**
-     * Returns vertical overflow.
-     *
-     * @return {number} Vertical overflow (px)
-     */
-    readonly overflowY: number;
     /**
      * ==========================================================================
      * STATE-RELATED
@@ -1501,6 +1498,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {boolean}  value  Disabled?
      */
     disabled: boolean;
+    protected setDisabled(value: boolean): void;
     /**
      * Internal disable method.
      *
@@ -2806,14 +2804,14 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     height: number | Percent;
     /**
-     * Returns element's actual width in pixels.
+     * Returns element's width in pixels, if width was set. For actual width use measuredWidth property.
      *
      * @readonly
      * @return {number} Width (px)
      */
     readonly pixelWidth: number;
     /**
-     * Returns element's actual height in pixels.
+     * Returns element's height in pixels. For actual height use measuredHeight property.
      *
      * @readonly
      * @return {number} Height (px)
@@ -2821,27 +2819,31 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     readonly pixelHeight: number;
     /**
      * @return {$type.Optional<number>} Relative width
+     * @ignore
      */
     /**
      * Element's relative width in [[Percent]].
+     * @ignore
      *
      * @param {$type.Optional<number>}  value  Relative width
      */
     relativeWidth: $type.Optional<number>;
     /**
      * @return {$type.Optional<number>} Relative height
+     * @ignore
      */
     /**
      * Element's relative height in [[Percent]].
      *
      * @param {$type.Optional<number>}  value  Relative height
+     * @ignore
      */
     relativeHeight: $type.Optional<number>;
     /**
      * Returns element's measured width in pixels.
      *
-     * A measured width is actual width of contents plus `paddingRight` and
-     * `paddingLeft`.
+     * A measured width is actual width of contents plus `paddingRight` and* `paddingLeft`, relative to sprite parent, meaning that
+     * rotation and scale is taken into account.
      *
      * @readonly
      * @return {number} Width (px)
@@ -2850,8 +2852,8 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * Returns elements's measured height in pixels.
      *
-     * A measured height is actual height of contents plus `paddingTop` and
-     * `paddingBottom`.
+     * A measured height is actual height of contents plus `paddingTop` and `paddingBottom`, relative to sprite parent, meaning that
+     * rotation and scale taken into account.
      *
      * @readonly
      * @return {number} Height (px)

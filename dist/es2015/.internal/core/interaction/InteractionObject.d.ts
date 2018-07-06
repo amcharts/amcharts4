@@ -15,10 +15,10 @@ import { AMEvent } from "../utils/EventDispatcher";
 import { IPoint } from "../defs/IPoint";
 import { IPointer } from "./Pointer";
 import { IInertiaOptions, ISwipeOptions, IHitOptions, IHoverOptions, ICursorOptions, IKeyboardOptions } from "./InteractionOptions";
-import { InteractionKeyboardObject } from "./InteractionKeyboardObject";
 import { Inertia, InertiaTypes } from "./Inertia";
 import { IDisposer } from "../utils/Disposer";
 import { Optional } from "../utils/Type";
+import * as $type from "../utils/Type";
 /**
  * Re-exports
  */
@@ -75,12 +75,12 @@ export declare class InteractionObject extends BaseObjectEvents {
     protected _rotatable: boolean;
     protected _wheelable: boolean;
     protected _inert: boolean;
-    protected _focusable: boolean;
-    protected _tabindex: number;
+    protected _focusable: $type.Optional<boolean>;
+    protected _tabindex: Optional<number>;
     /**
      * Element to attach events to.
      *
-     * @type {HTMLElement}
+     * @type {Optional<HTMLElement>}
      */
     private _element;
     /**
@@ -95,14 +95,14 @@ export declare class InteractionObject extends BaseObjectEvents {
      * Original angle for the [[InteractionObject]]. (before rotation started)
      *
      * @ignore Exclude from docs
-     * @type {number}
+     * @type {Optional<number>}
      */
-    _originalAngle: number;
+    _originalAngle: $type.Optional<number>;
     /**
      * Original scale of the [[InteractionObject]]. (before resizing started)
-     * @type {number}
+     * @type {Optional<number>}
      */
-    _originalScale: number;
+    _originalScale: $type.Optional<number>;
     /**
      * Coordinates of the primary cursor position.
      *
@@ -113,15 +113,15 @@ export declare class InteractionObject extends BaseObjectEvents {
     /**
      * List of pointers current over element.
      *
-     * @type {List<IPointer>}
+     * @type {Optional<List<IPointer>>}
      */
-    protected _overPointers: List<IPointer>;
+    protected _overPointers: $type.Optional<List<IPointer>>;
     /**
      * List of pointer currently pressing down on element.
      *
-     * @type {List<IPointer>}
+     * @type {Optional<List<IPointer>>}
      */
-    protected _downPointers: List<IPointer>;
+    protected _downPointers: $type.Optional<List<IPointer>>;
     /**
      * Is element currently hovered?
      *
@@ -145,18 +145,18 @@ export declare class InteractionObject extends BaseObjectEvents {
      * Used to calculate double-hit.
      *
      * @ignore Exclude from docs
-     * @type {number}
+     * @type {Optional<number>}
      */
-    lastHit: number;
+    lastHit: $type.Optional<number>;
     /**
      * A pointer element that was used for the last hit.
      *
      * We need to keep this since only the same pointer can generate doublehit.
      *
      * @ignore Exclude from docs
-     * @type {IPointer}
+     * @type {Optional<IPointer>}
      */
-    lastHitPointer: IPointer;
+    lastHitPointer: $type.Optional<IPointer>;
     /**
      * A reference to last "out" event in case we had to delay its execution
      * until mouseup.
@@ -210,16 +210,6 @@ export declare class InteractionObject extends BaseObjectEvents {
      * @type {ICursorOptions}
      */
     cursorOptions: ICursorOptions;
-    /**
-     * Holds an [[InteractionKeyboardObject]] if element is currentfly focused
-     * and is being manipulated with keyboard.
-     *
-     * For example if draggable element is being dragged using directional keys.
-     *
-     * @ignore Exclude from docs
-     * @type {InteractionKeyboardObject}
-     */
-    keyboardObject: InteractionKeyboardObject;
     /**
      * Constructor
      */
@@ -373,14 +363,14 @@ export declare class InteractionObject extends BaseObjectEvents {
     /**
      * Returns if element is currently set as focusable.
      *
-     * @return {true} Focusable?
+     * @return {Optional<boolean>} Focusable?
      */
     /**
      * Sets if element can gain focus.
      *
-     * @param {boolean} value Focusable?
+     * @param {Optional<boolean>} value Focusable?
      */
-    focusable: boolean;
+    focusable: $type.Optional<boolean>;
     /**
      * Returns element's current tab index.
      *
@@ -398,9 +388,9 @@ export declare class InteractionObject extends BaseObjectEvents {
      */
     /**
      * Sets DOM element associated with this element
-     * @param {HTMLElement | SVGSVGElement} element Element
+     * @param {Optional<HTMLElement | SVGSVGElement>} element Element
      */
-    element: HTMLElement | SVGSVGElement;
+    element: $type.Optional<HTMLElement | SVGSVGElement>;
     /**
      * Returns element's original position.
      *

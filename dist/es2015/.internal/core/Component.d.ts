@@ -898,4 +898,5 @@ export declare class Component extends Container {
      */
     protected getExporting(): Export;
     private _exportData(arg);
+    protected setDisabled(value: boolean): void;
 }

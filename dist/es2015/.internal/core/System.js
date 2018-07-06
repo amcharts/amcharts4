@@ -272,9 +272,9 @@ var System = /** @class */ (function () {
                         }
                     }
                 }
+                // this might seem too much, but it's ok
+                sprite.invalid = false;
             }
-            // this might seem too much, but it's ok
-            sprite.invalid = false;
             $array.remove(registry.invalidSprites, sprite);
         }
         registry.invalidSprites = skippedSprites;
@@ -418,7 +418,7 @@ var System = /** @class */ (function () {
      * @see {@link https://docs.npmjs.com/misc/semver}
      * @type {string}
      */
-    System.VERSION = "4.0.0-beta.30";
+    System.VERSION = "4.0.0-beta.31";
     return System;
 }());
 export { System };
