@@ -44,6 +44,12 @@ a freeware license. Refer to included LICENSE file. The license is also
 [available online](https://github.com/amcharts/amcharts4/blob/master/dist/script/LICENSE).
 
 
+### Changelog
+
+* [amCharts 4 Changelog](https://github.com/amcharts/amcharts4/blob/master/dist/es2015/CHANGELOG.md)
+* [Documentation Changelog](https://www.amcharts.com/docs/v4/changelog/)
+
+
 ### Questions?
 
 [Contact amCharts](mailto:contact@amcharts.com).
