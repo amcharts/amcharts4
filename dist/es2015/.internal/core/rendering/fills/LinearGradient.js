@@ -56,7 +56,7 @@ var LinearGradient = /** @class */ (function (_super) {
         _this._rotation = 0;
         _this.className = "LinearGradient";
         _this._stops.events.on("setIndex", _this.validate, _this);
-        _this._stops.events.on("insert", _this.validate, _this);
+        _this._stops.events.on("inserted", _this.validate, _this);
         // Create element
         _this.element = _this.paper.addGroup("linearGradient");
         _this.id = "gradient-" + registry.getUniqueId();

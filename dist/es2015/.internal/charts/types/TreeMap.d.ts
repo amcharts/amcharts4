@@ -272,7 +272,7 @@ export interface ITreeMapAdapters extends IXYChartAdapters, ITreeMapProperties {
  *
  * @see {@link ITreeMapEvents} for a list of available Events
  * @see {@link ITreeMapAdapters} for a list of available Adapters
- * @todo Example
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/treemap/} for documentation
  */
 export declare class TreeMap extends XYChart {
     /**

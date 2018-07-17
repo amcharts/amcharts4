@@ -1,6 +1,5 @@
 import { FlowDiagram, FlowDiagramDataItem, IFlowDiagramAdapters, IFlowDiagramDataFields, IFlowDiagramEvents, IFlowDiagramProperties } from "./FlowDiagram";
 import { ListTemplate } from "../../core/utils/List";
-import { DictionaryTemplate } from "../../core/utils/Dictionary";
 import { SankeyNode } from "../elements/SankeyNode";
 import { SankeyLink } from "../elements/SankeyLink";
 import { Orientation } from "../../core/defs/Orientation";
@@ -118,9 +117,11 @@ export interface ISankeyDiagramAdapters extends IFlowDiagramAdapters, ISankeyDia
  * @hidden
  */
 /**
- * Creates a Pie chart
+ * Creates a Sankey Diagram chart.
+ *
  * @see {@link ISankeyDiagramEvents} for a list of available Events
  * @see {@link ISankeyDiagramAdapters} for a list of available Adapters
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/sankey-diagram/} for documentation
  * @important
  */
 export declare class SankeyDiagram extends FlowDiagram {
@@ -160,12 +161,6 @@ export declare class SankeyDiagram extends FlowDiagram {
      */
     _events: ISankeyDiagramEvents;
     /**
-     * A list of chart's Sankey nodes.
-     *
-     * @param {DictionaryTemplate<string, SankeyNode>}
-     */
-    nodes: DictionaryTemplate<string, SankeyNode>;
-    /**
      * A list of Sankey links connecting nodes.
      *
      * @param {ListTemplate<SankeyLink>}
@@ -183,6 +178,10 @@ export declare class SankeyDiagram extends FlowDiagram {
     protected _levelNodesCount: {
         [index: number]: number;
     };
+    /**
+     * @ignore
+     */
+    _node: SankeyNode;
     /**
      * [maxSum description]
      *
@@ -289,4 +288,12 @@ export declare class SankeyDiagram extends FlowDiagram {
      * @param {Orientation} value Orientation
      */
     orientation: Orientation;
+    /**
+     * @ignore
+     */
+    createNode(): this["_node"];
+    /**
+     * @ignore
+     */
+    createLink(): this["_link"];
 }

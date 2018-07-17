@@ -5,6 +5,7 @@ import am4geodata_continentsLow from "@amcharts/amcharts4-geodata/continentsLow"
 import am4themes_dark from "@amcharts/amcharts4/themes/dark";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
+
 am4core.useTheme(am4themes_animated);
 am4core.useTheme(am4themes_dark);
 
@@ -420,9 +421,11 @@ function createSlider() {
     sliderContainer.valign = "bottom";
     sliderContainer.padding(0, 50, 25, 50);
     sliderContainer.layout = "horizontal";
+    sliderContainer.height = 50;
 
 
     playButton = sliderContainer.createChild(am4core.PlayButton);
+    playButton.valign = "middle";
     playButton.events.on("toggled", (event) => {
         if (event.target.isActive) {
             play();
@@ -462,6 +465,7 @@ function play() {
             sliderAnimation.start();
         }
         sliderAnimation.resume();
+        playButton.isActive = true;
     }
 }
 
@@ -469,6 +473,10 @@ function stop() {
     sliderAnimation.pause();
     playButton.isActive = false;
 }
+
+setTimeout(() => {
+    play()
+}, 2000);
 
 let label = container.createChild(am4core.Label);
 label.text = "Website traffic in Hawaii during January 13, 2018 false ballistic missile alert";

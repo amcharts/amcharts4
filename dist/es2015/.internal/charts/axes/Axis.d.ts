@@ -511,9 +511,9 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * `axisBreaks`.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<AxisBreak>["insert"]} event Event
+     * @param {IListEvents<AxisBreak>["inserted"]} event Event
      */
-    processBreak(event: IListEvents<AxisBreak>["insert"]): void;
+    processBreak(event: IListEvents<AxisBreak>["inserted"]): void;
     /**
      * Registers a [[XYSeries]] element with this Axis.
      *
@@ -685,9 +685,9 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
     /**
      * Decorates an axis range after it has been added to the axis range list.
      *
-     * @param {IListEvents<AxisDataItem>["insert"]} event Event
+     * @param {IListEvents<AxisDataItem>["inserted"]} event Event
      */
-    protected processAxisRange(event: IListEvents<AxisDataItem>["insert"]): void;
+    protected processAxisRange(event: IListEvents<AxisDataItem>["inserted"]): void;
     /**
      * A list of axis breaks on this Axis.
      *

@@ -296,7 +296,7 @@ export declare class MapSeries extends Series {
     /**
      * Decorates a newly added object.
      *
-     * @param {IListEvents<MapObject>["insert"]} event [description]
+     * @param {IListEvents<MapObject>["inserted"]} event [description]
      */
-    protected handleObjectAdded(event: IListEvents<MapObject>["insert"]): void;
+    protected handleObjectAdded(event: IListEvents<MapObject>["inserted"]): void;
 }

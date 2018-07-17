@@ -273,8 +273,7 @@ var AxisRendererY = /** @class */ (function (_super) {
             }
             if (label.inside) {
                 if (label.align == "left") {
-                    deltaX = -this.maxWidth + this.pixelWidth;
-                    ;
+                    deltaX = -this.maxWidth + this.measuredWidth;
                     horizontalCenter = "left";
                 }
             }
@@ -289,11 +288,11 @@ var AxisRendererY = /** @class */ (function (_super) {
             }
             if (label.inside) {
                 if (label.align == "right") {
-                    deltaX = this.maxWidth - this.pixelWidth;
+                    deltaX = this.maxWidth - this.measuredWidth;
                     horizontalCenter = "right";
                 }
             }
-            point.x = this.pixelWidth + deltaX;
+            point.x = this.measuredWidth + deltaX;
         }
         label.horizontalCenter = horizontalCenter;
         this.positionItem(label, point);

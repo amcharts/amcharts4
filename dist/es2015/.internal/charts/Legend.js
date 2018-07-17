@@ -19,7 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Component } from "../core/Component";
 import { DataItem } from "../core/DataItem";
-import { ListTemplate } from "../core/utils/List";
+import { ListTemplate, ListDisposer } from "../core/utils/List";
 import { RoundedRectangle } from "../core/elements/RoundedRectangle";
 import { Container } from "../core/Container";
 import { Label } from "../core/elements/Label";
@@ -130,6 +130,8 @@ var Legend = /** @class */ (function (_super) {
         });
         // Create container list using item template we just created
         _this.itemContainers = new ListTemplate(itemContainer);
+        _this._disposers.push(new ListDisposer(_this.itemContainers));
+        _this._disposers.push(_this.itemContainers.template);
         // Set up global keyboard events for toggling elements
         _this._disposers.push(getInteraction().body.events.on("keyup", function (ev) {
             if (keyboard.isKey(ev.event, "enter") && _this.focusedItem) {
@@ -153,10 +155,14 @@ var Legend = /** @class */ (function (_super) {
             activeState.properties.fill = disabledColor;
         });
         _this.markers = new ListTemplate(marker);
+        _this._disposers.push(new ListDisposer(_this.markers));
+        _this._disposers.push(_this.markers.template);
         // Create a legend background element
         var rectangle = marker.createChild(RoundedRectangle);
         rectangle.width = percent(100);
         rectangle.height = percent(100);
+        rectangle.propertyFields.fill = "fill";
+        rectangle.strokeOpacity = 0;
         // Create a template container and list for item labels
         var label = new Label();
         label.text = "{name}";
@@ -165,6 +171,8 @@ var Legend = /** @class */ (function (_super) {
         label.states.create("active").properties.fill = interfaceColors.getFor("disabledBackground");
         label.renderingFrequency = 2;
         _this.labels = new ListTemplate(label);
+        _this._disposers.push(new ListDisposer(_this.labels));
+        _this._disposers.push(_this.labels.template);
         // Create a template container and list for item value labels
         var valueLabel = new Label();
         valueLabel.margin(0, 5, 0, 0);
@@ -175,6 +183,8 @@ var Legend = /** @class */ (function (_super) {
         valueLabel.states.create("active").properties.fill = interfaceColors.getFor("disabledBackground");
         valueLabel.renderingFrequency = 2;
         _this.valueLabels = new ListTemplate(valueLabel);
+        _this._disposers.push(new ListDisposer(_this.valueLabels));
+        _this._disposers.push(_this.valueLabels.template);
         _this.position = "bottom";
         // Create a state for disabled legend items
         itemContainer.states.create("active");
@@ -231,20 +241,24 @@ var Legend = /** @class */ (function (_super) {
             container = this.itemContainers.create();
             dataItem.addSprite(container);
             container.readerTitle = this.language.translate("Click, tap or press ENTER to toggle");
-            container.readerControls = dataItem.dataContext.uidAttr();
-            container.readerLabelledBy = dataItem.dataContext.uidAttr();
+            if (dataItem.dataContext.uidAttr) {
+                container.readerControls = dataItem.dataContext.uidAttr();
+                container.readerLabelledBy = dataItem.dataContext.uidAttr();
+            }
             dataItem.itemContainer = container;
             // Add an event to check for item's properties
             // We cannot do this on a template since template does not have
             // dataContext, yet
-            dataItem.dataContext.events.on("propertychanged", function (ev) {
-                if (ev.property == "visible") {
-                    container.readerChecked = dataItem.dataContext.visible;
-                }
-                else {
-                    //this.validateDataElement(dataItem);
-                }
-            });
+            if (dataItem.dataContext.events) {
+                dataItem.dataContext.events.on("propertychanged", function (ev) {
+                    if (ev.property == "visible") {
+                        container.readerChecked = dataItem.dataContext.visible;
+                    }
+                    else {
+                        //this.validateDataElement(dataItem);
+                    }
+                });
+            }
         }
         // Set parent and update current state
         container.parent = this;
@@ -258,7 +272,7 @@ var Legend = /** @class */ (function (_super) {
         }
         // If we are not using default markers, create a unique legend marker based
         // on the data item type
-        if (!this.useDefaultMarker) {
+        if (dataItem.dataContext.createLegendMarker && !this.useDefaultMarker) {
             dataItem.dataContext.createLegendMarker(marker);
         }
         // Create label
@@ -348,10 +362,14 @@ var Legend = /** @class */ (function (_super) {
     Legend.prototype.toggleDataItem = function (item) {
         var dataContext = item.dataContext;
         if (!dataContext.visible || dataContext.isHiding) {
-            dataContext.show();
+            if (dataContext.show) {
+                dataContext.show();
+            }
         }
         else {
-            dataContext.hide();
+            if (dataContext.hide) {
+                dataContext.hide();
+            }
         }
     };
     Object.defineProperty(Legend.prototype, "preloader", {

@@ -19,7 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { MapSeries, MapSeriesDataItem } from "./MapSeries";
 import { MapLine } from "./MapLine";
-import { ListTemplate } from "../../core/utils/List";
+import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { registry } from "../../core/Registry";
 import * as $mapUtils from "./MapUtils";
 import * as $array from "../../core/utils/Array";
@@ -331,7 +331,9 @@ var MapLineSeries = /** @class */ (function (_super) {
             if (!this._mapLines) {
                 var lineTemplate = this.createLine();
                 var mapLines = new ListTemplate(lineTemplate);
-                mapLines.events.on("insert", this.handleObjectAdded, this);
+                this._disposers.push(new ListDisposer(mapLines));
+                this._disposers.push(mapLines.template);
+                mapLines.events.on("inserted", this.handleObjectAdded, this);
                 this._mapLines = mapLines;
             }
             return this._mapLines;

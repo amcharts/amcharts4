@@ -226,7 +226,7 @@ export interface IMapChartAdapters extends ISerialChartAdapters, IMapChartProper
  *
  * @see {@link IMapChartEvents} for a list of available Events
  * @see {@link IMapChartAdapters} for a list of available Adapters
- * @todo Example
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/map/} for documentation
  */
 export declare class MapChart extends SerialChart {
     /**

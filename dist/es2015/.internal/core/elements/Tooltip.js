@@ -120,7 +120,6 @@ var Tooltip = /** @class */ (function (_super) {
         _this.x = 0;
         _this.y = 0;
         _this.events.on("visibilitychanged", function () {
-            _this.label.disabled = !_this.visible;
             if (_this.visible) {
                 _this.label.invalidate();
             }
@@ -443,8 +442,11 @@ var Tooltip = /** @class */ (function (_super) {
      * @param {IRectangle} rectangle Boundary rectangle
      */
     Tooltip.prototype.setBounds = function (rectangle) {
-        this._boundingRect = rectangle;
-        this.invalidate();
+        var oldRect = this._boundingRect;
+        if (oldRect.x != rectangle.x || oldRect.y != rectangle.y || oldRect.width != rectangle.width || oldRect.height != rectangle.height) {
+            this._boundingRect = rectangle;
+            this.invalidate();
+        }
     };
     Object.defineProperty(Tooltip.prototype, "boundingContainer", {
         /**

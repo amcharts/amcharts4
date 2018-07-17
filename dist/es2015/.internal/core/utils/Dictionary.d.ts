@@ -16,7 +16,7 @@ export interface IDictionaryEvents<Key, Value> {
     /**
      * Invoked when an item is removed from the dictionary.
      */
-    remove: {
+    removed: {
         /**
          * Removed value.
          *
@@ -27,7 +27,7 @@ export interface IDictionaryEvents<Key, Value> {
     /**
      * Invoked when dictionary is cleared.
      */
-    clear: {};
+    cleared: {};
     /**
      * Invoked when `insertKey()` method is called.
      */
@@ -94,7 +94,7 @@ export interface IDictionaryEvents<Key, Value> {
  */
 export declare type DictionaryLike<K, A> = $iter.Iterable<[K, A]> & {
     events: EventDispatcher<{
-        remove: {
+        removed: {
             oldValue: A;
         };
     }>;

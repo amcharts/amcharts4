@@ -33,8 +33,6 @@ var __spread = (this && this.__spread) || function () {
 };
 import { FlowDiagram, FlowDiagramDataItem } from "./FlowDiagram";
 import { percent } from "../../core/utils/Percent";
-import { ListTemplate } from "../../core/utils/List";
-import { DictionaryTemplate } from "../../core/utils/Dictionary";
 import { registry } from "../../core/Registry";
 import { SankeyNode } from "../elements/SankeyNode";
 import { SankeyLink } from "../elements/SankeyLink";
@@ -74,9 +72,11 @@ export { SankeyDiagramDataItem };
  * @hidden
  */
 /**
- * Creates a Pie chart
+ * Creates a Sankey Diagram chart.
+ *
  * @see {@link ISankeyDiagramEvents} for a list of available Events
  * @see {@link ISankeyDiagramAdapters} for a list of available Adapters
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/sankey-diagram/} for documentation
  * @important
  */
 var SankeyDiagram = /** @class */ (function (_super) {
@@ -88,18 +88,6 @@ var SankeyDiagram = /** @class */ (function (_super) {
         var _this = 
         // Init
         _super.call(this) || this;
-        /**
-         * A list of chart's Sankey nodes.
-         *
-         * @param {DictionaryTemplate<string, SankeyNode>}
-         */
-        _this.nodes = new DictionaryTemplate(new SankeyNode());
-        /**
-         * A list of Sankey links connecting nodes.
-         *
-         * @param {ListTemplate<SankeyLink>}
-         */
-        _this.links = new ListTemplate(new SankeyLink());
         /**
          * [valueHeight description]
          *
@@ -401,6 +389,22 @@ var SankeyDiagram = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * @ignore
+     */
+    SankeyDiagram.prototype.createNode = function () {
+        var node = new SankeyNode();
+        this._disposers.push(node);
+        return node;
+    };
+    /**
+     * @ignore
+     */
+    SankeyDiagram.prototype.createLink = function () {
+        var link = new SankeyLink();
+        this._disposers.push(link);
+        return link;
+    };
     return SankeyDiagram;
 }(FlowDiagram));
 export { SankeyDiagram };

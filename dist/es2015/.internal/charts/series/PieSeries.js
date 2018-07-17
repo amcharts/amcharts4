@@ -21,7 +21,7 @@ import { Series, SeriesDataItem } from "./Series";
 import { Slice } from "../../core/elements/Slice";
 import { AxisLabelCircular } from "../axes/AxisLabelCircular";
 import { PieTick } from "./PieTick";
-import { ListTemplate } from "../../core/utils/List";
+import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { Container } from "../../core/Container";
 import { ColorSet } from "../../core/utils/ColorSet";
 import { registry } from "../../core/Registry";
@@ -176,6 +176,7 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
         get: function () {
             if (!this._tick) {
                 this._tick = this.component.ticks.create();
+                this._disposers.push(this._tick);
                 this.addSprite(this._tick);
                 this._tick.slice = this.slice;
                 this._tick.label = this.label;
@@ -195,6 +196,7 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
         get: function () {
             if (!this._label) {
                 this._label = this.component.labels.create();
+                this._disposers.push(this._label);
                 this.addSprite(this._label);
             }
             return this._label;
@@ -212,6 +214,7 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
         get: function () {
             if (!this._slice) {
                 this._slice = this.component.slices.create();
+                this._disposers.push(this._slice);
                 this.addSprite(this._slice);
             }
             return this._slice;
@@ -288,6 +291,8 @@ var PieSeries = /** @class */ (function (_super) {
         var tick = new PieTick();
         tick.isMeasured = false;
         _this.ticks = new ListTemplate(tick);
+        _this._disposers.push(new ListDisposer(_this.ticks));
+        _this._disposers.push(_this.ticks.template);
         // Create labels list
         // @todo create a labelText/labelHTML properties just like
         // tooltipText/tooltipHTML
@@ -298,6 +303,8 @@ var PieSeries = /** @class */ (function (_super) {
         label.padding(5, 5, 5, 5);
         label.renderingFrequency = 2;
         _this.labels = new ListTemplate(label);
+        _this._disposers.push(new ListDisposer(_this.labels));
+        _this._disposers.push(_this.labels.template);
         // Make all slices focusable
         _this.skipFocusThreshold = 50;
         //let hiddenState = this.hiddenState;
@@ -361,6 +368,8 @@ var PieSeries = /** @class */ (function (_super) {
         hiddenState.properties.opacity = 1;
         // Create slices list
         this.slices = new ListTemplate(slice);
+        this._disposers.push(new ListDisposer(this.slices));
+        this._disposers.push(this.slices.template);
         return slice;
     };
     /**

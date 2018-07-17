@@ -114,15 +114,15 @@ export declare class SmallMap extends Container {
     /**
      * Decorates a new series when they are pushed into a `series` list.
      *
-     * @param {IListEvents<MapSeries>["insert"]} event Event
+     * @param {IListEvents<MapSeries>["inserted"]} event Event
      */
-    protected handleSeriesAdded(event: IListEvents<MapSeries>["insert"]): void;
+    protected handleSeriesAdded(event: IListEvents<MapSeries>["inserted"]): void;
     /**
      * Cleans up after series are removed from Scrollbar.
      *
-     * @param {IListEvents<XYSeries>["remove"]}  event  Event
+     * @param {IListEvents<XYSeries>["removed"]}  event  Event
      */
-    protected handleSeriesRemoved(event: IListEvents<MapSeries>["remove"]): void;
+    protected handleSeriesRemoved(event: IListEvents<MapSeries>["removed"]): void;
     /**
      * Moves main map pan position after click on the small map.
      *

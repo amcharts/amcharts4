@@ -15,7 +15,7 @@ import { Container } from "../../core/Container";
 import { LinearGradient } from "../../core/rendering/fills/LinearGradient";
 import { registry } from "../../core/Registry";
 import { toColor, Color } from "../../core/utils/Color";
-import { ListTemplate } from "../../core/utils/List";
+import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { percent } from "../../core/utils/Percent";
 import { ValueAxis } from "../../charts/axes/ValueAxis";
 import { AxisRendererX } from "../../charts/axes/AxisRendererX";
@@ -60,6 +60,8 @@ var HeatLegend = /** @class */ (function (_super) {
         _this.markerContainer.minHeight = 20;
         _this.markerContainer.minWidth = 20;
         _this.markers = new ListTemplate(marker);
+        _this._disposers.push(new ListDisposer(_this.markers));
+        _this._disposers.push(_this.markers.template);
         _this.applyTheme();
         return _this;
     }
@@ -410,8 +412,8 @@ var HeatLegend = /** @class */ (function (_super) {
             series.dataItem.events.on("calculatedvaluechanged", function (event) {
                 _this.updateMinMax(series.dataItem.values[dataField].low, series.dataItem.values[dataField].high);
             });
-            series.heatRules.events.on("insert", this.invalidate, this);
-            series.heatRules.events.on("remove", this.invalidate, this);
+            series.heatRules.events.on("inserted", this.invalidate, this);
+            series.heatRules.events.on("removed", this.invalidate, this);
         },
         enumerable: true,
         configurable: true

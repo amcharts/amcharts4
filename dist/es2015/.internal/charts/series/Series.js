@@ -20,7 +20,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Component } from "../../core/Component";
 import { Sprite } from "../../core/Sprite";
-import { List, ListTemplate } from "../../core/utils/List";
+import { List, ListTemplate, ListDisposer } from "../../core/utils/List";
 import { Dictionary } from "../../core/utils/Dictionary";
 import { DataItem } from "../../core/DataItem";
 import { Container } from "../../core/Container";
@@ -189,7 +189,7 @@ var Series = /** @class */ (function (_super) {
         _this.layout = "none";
         _this.shouldClone = false;
         _this.axisRanges = new List();
-        _this.axisRanges.events.on("insert", _this.processAxisRange, _this);
+        _this.axisRanges.events.on("inserted", _this.processAxisRange, _this);
         _this.minBulletDistance = 0; // otherwise we'll have a lot of cases when people won't see bullets and think it's a bug
         _this.mainContainer = _this.createChild(Container);
         _this.mainContainer.shouldClone = false;
@@ -300,7 +300,7 @@ var Series = /** @class */ (function (_super) {
     /**
      * Decorates newly created bullet after it has been instert into the list.
      *
-     * @param {IListEvents<Bullet>["insert"]}  event  List event
+     * @param {IListEvents<Bullet>["inserted"]}  event  List event
      * @todo investigate why itemReaderText is undefined
      */
     Series.prototype.processBullet = function (event) {
@@ -605,7 +605,7 @@ var Series = /** @class */ (function (_super) {
     /**
      * Process axis range after it has been added to the list.
      *
-     * @param {IListEvents<AxisDataItem>["insert"]}  event  Event
+     * @param {IListEvents<AxisDataItem>["inserted"]}  event  Event
      */
     Series.prototype.processAxisRange = function (event) {
         // create container if not existing
@@ -680,8 +680,10 @@ var Series = /** @class */ (function (_super) {
         get: function () {
             if (!this._bullets) {
                 this._bullets = new ListTemplate(new Bullet());
-                this._bullets.events.on("insert", this.processBullet, this);
+                this._bullets.events.on("inserted", this.processBullet, this);
                 this.bulletsLists = new Dictionary();
+                this._disposers.push(new ListDisposer(this._bullets));
+                this._disposers.push(this._bullets.template);
             }
             return this._bullets;
         },
@@ -889,7 +891,7 @@ var Series = /** @class */ (function (_super) {
             var _this = this;
             if (!this._heatRules) {
                 this._heatRules = new List();
-                this._heatRules.events.on("insert", function (event) {
+                this._heatRules.events.on("inserted", function (event) {
                     var heatRule = event.newValue;
                     var target = heatRule.target;
                     if (target) {

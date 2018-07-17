@@ -22,7 +22,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { XYChart, XYChartDataItem } from "./XYChart";
 import { registry } from "../../core/Registry";
-import { DictionaryTemplate } from "../../core/utils/Dictionary";
+import { DictionaryTemplate, DictionaryDisposer } from "../../core/utils/Dictionary";
 import { ValueAxis } from "../axes/ValueAxis";
 import { TreeMapSeries } from "../series/TreeMapSeries";
 import { ColorSet } from "../../core/utils/ColorSet";
@@ -302,7 +302,7 @@ export { TreeMapDataItem };
  *
  * @see {@link ITreeMapEvents} for a list of available Events
  * @see {@link ITreeMapAdapters} for a list of available Adapters
- * @todo Example
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/treemap/} for documentation
  */
 var TreeMap = /** @class */ (function (_super) {
     __extends(TreeMap, _super);
@@ -336,17 +336,6 @@ var TreeMap = /** @class */ (function (_super) {
          * @type {function}
          */
         _this.layoutAlgorithm = _this.squarify;
-        /**
-         * Holds series object for each TreeMap level.
-         *
-         * "0" is the top-level series.
-         * "1" is the second level.
-         * Etc.
-         *
-         * @todo Description
-         * @param {DictionaryTemplate<string, TreeMapSeries>} Templates for each level
-         */
-        _this.seriesTemplates = new DictionaryTemplate(new TreeMapSeries());
         /**
          * Is the chart zoomable?
          *
@@ -393,6 +382,10 @@ var TreeMap = /** @class */ (function (_super) {
         // shortcuts
         _this.xAxis = xAxis;
         _this.yAxis = yAxis;
+        var template = new TreeMapSeries();
+        _this.seriesTemplates = new DictionaryTemplate(template);
+        _this._disposers.push(new DictionaryDisposer(_this.seriesTemplates));
+        _this._disposers.push(template);
         _this.zoomOutButton.events.on("hit", function () {
             _this.zoomToChartDataItem(_this._homeDataItem);
         });

@@ -157,6 +157,7 @@ var Button = /** @class */ (function (_super) {
             if (label) {
                 this._label = label;
                 label.parent = this;
+                label.interactionsEnabled = false;
                 this._disposers.push(this._label);
             }
         },

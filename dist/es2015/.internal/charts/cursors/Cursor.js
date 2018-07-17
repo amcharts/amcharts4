@@ -193,6 +193,7 @@ var Cursor = /** @class */ (function (_super) {
         }
         else {
             this.dispatchImmediately("behaviorcanceled");
+            interaction.setGlobalStyle(MouseCursorStyle.default);
         }
         this.downPoint = undefined;
         this.updateSelection();

@@ -413,9 +413,11 @@ function createSlider() {
     sliderContainer.valign = "bottom";
     sliderContainer.padding(0, 50, 25, 50);
     sliderContainer.layout = "horizontal";
+    sliderContainer.height = 50;
 
 
     playButton = sliderContainer.createChild(am4core.PlayButton);
+    playButton.valign = "middle";
     playButton.events.on("toggled", function (event) {
         if (event.target.isActive) {
             play();
@@ -455,6 +457,7 @@ function play() {
             sliderAnimation.start();
         }
         sliderAnimation.resume();
+        playButton.isActive = true;
     }
 }
 
@@ -462,6 +465,10 @@ function stop() {
     sliderAnimation.pause();
     playButton.isActive = false;
 }
+
+setTimeout(function () {
+    play()
+}, 2000);
 
 var label = container.createChild(am4core.Label);
 label.text = "Website traffic in Hawaii during January 13, 2018 false ballistic missile alert";

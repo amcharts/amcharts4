@@ -19,7 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Component } from "../core/Component";
 import { registry } from "../core/Registry";
-import { ListTemplate } from "../core/utils/List";
+import { ListTemplate, ListDisposer } from "../core/utils/List";
 import { Container } from "../core/Container";
 import { Label } from "../core/elements/Label";
 import { DataItem } from "../core/DataItem";
@@ -74,7 +74,10 @@ var Chart = /** @class */ (function (_super) {
         _super.call(this) || this;
         _this.className = "Chart";
         // Create a list of titles
-        _this.titles = new ListTemplate(new Label());
+        var template = new Label();
+        _this.titles = new ListTemplate(template);
+        _this._disposers.push(new ListDisposer(_this.titles));
+        _this._disposers.push(template);
         // Chart component is also a container. it holds _chartAndLegendCont and titles
         _this.width = percent(100);
         _this.height = percent(100);
@@ -101,11 +104,11 @@ var Chart = /** @class */ (function (_super) {
         });
         // Add title list events to apply certain formatting options and to make
         // the chart reference them as accessible screen reader labels
-        _this.titles.events.on("insert", function (label) {
+        _this.titles.events.on("inserted", function (label) {
             _this.processTitle(label);
             _this.updateReaderTitleReferences();
         }, _this);
-        _this.titles.events.on("remove", function (label) {
+        _this.titles.events.on("removed", function (label) {
             _this.updateReaderTitleReferences();
         }, _this);
         // Accessibility
@@ -183,7 +186,7 @@ var Chart = /** @class */ (function (_super) {
     /**
      * Adds a new title to the chart when it is inserted into chart's titles
      * list.
-     * @param  {IListEvents<Label>["insert"]}  event  An event object which is triggered when inserting into titles list
+     * @param  {IListEvents<Label>["inserted"]}  event  An event object which is triggered when inserting into titles list
      * @return {Label}                               Label object
      */
     Chart.prototype.processTitle = function (event) {

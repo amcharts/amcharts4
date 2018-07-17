@@ -18,7 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { RadarChart, RadarChartDataItem } from "./RadarChart";
-import { ListTemplate } from "../../core/utils/List";
+import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { ClockHand } from "../elements/ClockHand";
 import { registry } from "../../core/Registry";
 import * as $type from "../../core/utils/Type";
@@ -58,7 +58,7 @@ export { GaugeChartDataItem };
  *
  * @see {@link IGaugeChartEvents} for a list of available Events
  * @see {@link IGaugeChartAdapters} for a list of available Adapters
- * @todo Example
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/gauge-chart/} for documentation
  * @important
  */
 var GaugeChart = /** @class */ (function (_super) {
@@ -74,7 +74,9 @@ var GaugeChart = /** @class */ (function (_super) {
         _this.startAngle = 180;
         _this.endAngle = 360;
         _this.hands = new ListTemplate(new ClockHand());
-        _this.hands.events.on("insert", _this.processHand, _this);
+        _this.hands.events.on("inserted", _this.processHand, _this);
+        _this._disposers.push(new ListDisposer(_this.hands));
+        _this._disposers.push(_this.hands.template);
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -94,7 +96,7 @@ var GaugeChart = /** @class */ (function (_super) {
     /**
      * Decorates a [[ClockHand]] when it is added to the chart.
      *
-     * @param {IListEvents<ClockHand>["insert"]}  event  Event
+     * @param {IListEvents<ClockHand>["inserted"]}  event  Event
      */
     GaugeChart.prototype.processHand = function (event) {
         var hand = event.newValue;

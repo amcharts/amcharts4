@@ -144,39 +144,49 @@ var System = /** @class */ (function () {
         while (registry.invalidDatas.length > 0) {
             var component = registry.invalidDatas[0];
             var dataProvider = component.dataProvider;
-            if (dataProvider && dataProvider.dataInvalid) {
-                try {
-                    dataProvider.validateData();
-                    if (dataProvider.dataValidationProgress < 1) {
-                        break;
+            if (!component.isDisposed()) {
+                if (dataProvider && dataProvider.dataInvalid) {
+                    try {
+                        dataProvider.validateData();
+                        if (dataProvider.dataValidationProgress < 1) {
+                            break;
+                        }
+                    }
+                    catch (e) {
+                        $array.remove(registry.invalidDatas, dataProvider);
+                        dataProvider.raiseCriticalError(e);
                     }
                 }
-                catch (e) {
-                    $array.remove(registry.invalidDatas, dataProvider);
-                    dataProvider.raiseCriticalError(e);
+                else {
+                    try {
+                        component.validateData();
+                        if (component.dataValidationProgress < 1) {
+                            break;
+                        }
+                    }
+                    catch (e) {
+                        $array.remove(registry.invalidDatas, component);
+                        component.raiseCriticalError(e);
+                    }
                 }
             }
             else {
-                try {
-                    component.validateData();
-                    if (component.dataValidationProgress < 1) {
-                        break;
-                    }
-                }
-                catch (e) {
-                    $array.remove(registry.invalidDatas, component);
-                    component.raiseCriticalError(e);
-                }
+                $array.remove(registry.invalidDatas, component);
             }
         }
         while (registry.invalidRawDatas.length > 0) {
             var component = registry.invalidRawDatas[0];
-            try {
-                component.validateRawData();
+            if (!component.isDisposed()) {
+                try {
+                    component.validateRawData();
+                }
+                catch (e) {
+                    $array.remove(registry.invalidRawDatas, component);
+                    component.raiseCriticalError(e);
+                }
             }
-            catch (e) {
+            else {
                 $array.remove(registry.invalidRawDatas, component);
-                component.raiseCriticalError(e);
             }
         }
         // TODO use iterator instead
@@ -184,7 +194,7 @@ var System = /** @class */ (function () {
             var component = registry.invalidDataItems[0];
             var dataProvider = component.dataProvider;
             // this is needed to avoid partial value validation when data is parsed in chunks
-            if (component.dataInvalid || (dataProvider && dataProvider.dataInvalid)) {
+            if (component.isDisposed() || component.dataInvalid || (dataProvider && dataProvider.dataInvalid)) {
                 // void
             }
             else {
@@ -203,7 +213,7 @@ var System = /** @class */ (function () {
         while (registry.invalidDataRange.length > 0) {
             var component = registry.invalidDataRange[0];
             var dataProvider = component.dataProvider;
-            if (component.dataInvalid || (dataProvider && dataProvider.dataInvalid)) {
+            if (component.isDisposed() || component.dataInvalid || (dataProvider && dataProvider.dataInvalid)) {
                 // void
             }
             else {
@@ -308,20 +318,25 @@ var System = /** @class */ (function () {
         // TODO use iterator instead
         while (registry.invalidPositions.length > 0) {
             var sprite = registry.invalidPositions[registry.invalidPositions.length - 1];
-            try {
-                if (sprite instanceof Container) {
-                    sprite.children.each(function (sprite) {
-                        if (sprite.positionInvalid) {
-                            sprite.validatePosition();
-                        }
-                    });
+            if (!sprite.isDisposed()) {
+                try {
+                    if (sprite instanceof Container) {
+                        sprite.children.each(function (sprite) {
+                            if (sprite.positionInvalid) {
+                                sprite.validatePosition();
+                            }
+                        });
+                    }
+                    sprite.validatePosition();
                 }
-                sprite.validatePosition();
+                catch (e) {
+                    sprite.positionInvalid = false;
+                    $array.remove(registry.invalidPositions, sprite);
+                    sprite.raiseCriticalError(e);
+                }
             }
-            catch (e) {
-                sprite.positionInvalid = false;
+            else {
                 $array.remove(registry.invalidPositions, sprite);
-                sprite.raiseCriticalError(e);
             }
         }
     };
@@ -337,18 +352,23 @@ var System = /** @class */ (function () {
         // TODO use iterator instead
         while (registry.invalidLayouts.length > 0) {
             var container = registry.invalidLayouts[registry.invalidLayouts.length - 1];
-            try {
-                container.children.each(function (sprite) {
-                    if (sprite instanceof Container && sprite.layoutInvalid) {
-                        sprite.validateLayout();
-                    }
-                });
-                container.validateLayout();
+            if (!container.isDisposed()) {
+                try {
+                    container.children.each(function (sprite) {
+                        if (sprite instanceof Container && sprite.layoutInvalid) {
+                            sprite.validateLayout();
+                        }
+                    });
+                    container.validateLayout();
+                }
+                catch (e) {
+                    container.layoutInvalid = false;
+                    $array.remove(registry.invalidLayouts, container);
+                    container.raiseCriticalError(e);
+                }
             }
-            catch (e) {
-                container.layoutInvalid = false;
+            else {
                 $array.remove(registry.invalidLayouts, container);
-                container.raiseCriticalError(e);
             }
         }
     };
@@ -418,7 +438,7 @@ var System = /** @class */ (function () {
      * @see {@link https://docs.npmjs.com/misc/semver}
      * @type {string}
      */
-    System.VERSION = "4.0.0-beta.31";
+    System.VERSION = "4.0.0-beta.32";
     return System;
 }());
 export { System };

@@ -150,11 +150,12 @@ export declare class DateFormatter extends BaseObject {
     /**
      * Applies format to Date.
      *
-     * @param  {Date}            date  Date object
-     * @param  {DateFormatInfo}  info  Parsed format information
-     * @return {string}                Formatted date string
+     * @param  {Date}            date      Date object
+     * @param  {DateFormatInfo}  info      Parsed format information
+     * @param  {Language}        language  Language
+     * @return {string}                    Formatted date string
      */
-    protected applyFormat(date: Date, info: DateFormatInfo): string;
+    protected applyFormat(date: Date, info: DateFormatInfo, language: Language): string;
     /**
      * Parses any input value into Date object.
      *

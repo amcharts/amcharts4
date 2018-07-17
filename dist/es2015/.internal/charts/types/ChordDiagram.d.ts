@@ -140,9 +140,11 @@ export interface IChordDiagramAdapters extends IFlowDiagramAdapters, IChordDiagr
  * @hidden
  */
 /**
- * Creates a Pie chart
+ * Creates a Chord Diagram chart.
+ *
  * @see {@link IChordDiagramEvents} for a list of available Events
  * @see {@link IChordDiagramAdapters} for a list of available Adapters
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/chord-diagram/} for documentation
  * @important
  */
 export declare class ChordDiagram extends FlowDiagram {
@@ -208,7 +210,16 @@ export declare class ChordDiagram extends FlowDiagram {
      * @type {number}
      */
     valueAngle: number;
+    /**
+     * A container for chord elemens.
+     *
+     * @type {Container}
+     */
     chordContainer: Container;
+    /**
+     * @ignore
+     */
+    _node: ChordNode;
     /**
      * Constructor
      */
@@ -332,4 +343,12 @@ export declare class ChordDiagram extends FlowDiagram {
      * @param {boolean}  value
      */
     nonRibbon: boolean;
+    /**
+     * @ignore
+     */
+    createNode(): this["_node"];
+    /**
+     * @ignore
+     */
+    createLink(): this["_link"];
 }

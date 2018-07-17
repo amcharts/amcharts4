@@ -135,7 +135,7 @@ var DateFormatter = /** @class */ (function (_super) {
             return this.language.translate("Invalid date");
         }
         // Apply format
-        var formatted = this.applyFormat(date, info);
+        var formatted = this.applyFormat(date, info, this.language);
         // We're done
         return formatted;
     };
@@ -186,11 +186,12 @@ var DateFormatter = /** @class */ (function (_super) {
     /**
      * Applies format to Date.
      *
-     * @param  {Date}            date  Date object
-     * @param  {DateFormatInfo}  info  Parsed format information
-     * @return {string}                Formatted date string
+     * @param  {Date}            date      Date object
+     * @param  {DateFormatInfo}  info      Parsed format information
+     * @param  {Language}        language  Language
+     * @return {string}                    Formatted date string
      */
-    DateFormatter.prototype.applyFormat = function (date, info) {
+    DateFormatter.prototype.applyFormat = function (date, info, language) {
         // Init return value
         var res = info.template;
         // Get values
@@ -220,7 +221,7 @@ var DateFormatter = /** @class */ (function (_super) {
             var value = "";
             switch (info.parts[i]) {
                 case "G":
-                    value = this.language.translate(fullYear < 0
+                    value = language.translate(fullYear < 0
                         ? "_era_bc"
                         : "_era_ad");
                     break;
@@ -252,13 +253,13 @@ var DateFormatter = /** @class */ (function (_super) {
                     // @todo
                     break;
                 case "MMMMM":
-                    value = this.language.translate(this._months[month]).substr(0, 1);
+                    value = language.translate(this._months[month]).substr(0, 1);
                     break;
                 case "MMMM":
-                    value = this.language.translate(this._months[month]);
+                    value = language.translate(this._months[month]);
                     break;
                 case "MMM":
-                    value = this.language.translate(this._monthsShort[month]);
+                    value = language.translate(this._monthsShort[month]);
                     break;
                 case "MM":
                     value = $utils.padString(month + 1, 2, "0");
@@ -295,7 +296,7 @@ var DateFormatter = /** @class */ (function (_super) {
                     // @todo
                     break;
                 case "t":
-                    value = this.language.translateFunc("_dateOrd").call(this, day);
+                    value = language.translateFunc("_dateOrd").call(this, day);
                     break;
                 case "E":
                     value = (weekday || 7).toString();
@@ -305,15 +306,15 @@ var DateFormatter = /** @class */ (function (_super) {
                     break;
                 case "EEE":
                 case "eee":
-                    value = this.language.translate(this._weekdaysShort[weekday]);
+                    value = language.translate(this._weekdaysShort[weekday]);
                     break;
                 case "EEEE":
                 case "eeee":
-                    value = this.language.translate(this._weekdays[weekday]);
+                    value = language.translate(this._weekdays[weekday]);
                     break;
                 case "EEEEE":
                 case "eeeee":
-                    value = this.language.translate(this._weekdays[weekday]).substr(0, 1);
+                    value = language.translate(this._weekdays[weekday]).substr(0, 1);
                     break;
                 case "e":
                 case "ee":
@@ -324,35 +325,35 @@ var DateFormatter = /** @class */ (function (_super) {
                     break;
                 case "a":
                     if (hours > 12) {
-                        value = this.language.translate("PM");
+                        value = language.translate("PM");
                     }
                     else if (hours === 12 && (minutes > 0)) {
-                        value = this.language.translate("PM");
+                        value = language.translate("PM");
                     }
                     else {
-                        value = this.language.translate("AM");
+                        value = language.translate("AM");
                     }
                     break;
                 case "aa":
                     if (hours > 12) {
-                        value = this.language.translate("P.M.");
+                        value = language.translate("P.M.");
                     }
                     else if (hours === 12 && (minutes > 0)) {
-                        value = this.language.translate("P.M.");
+                        value = language.translate("P.M.");
                     }
                     else {
-                        value = this.language.translate("A.M.");
+                        value = language.translate("A.M.");
                     }
                     break;
                 case "aaa":
                     if (hours > 12) {
-                        value = this.language.translate("P");
+                        value = language.translate("P");
                     }
                     else if (hours === 12 && (minutes > 0)) {
-                        value = this.language.translate("P");
+                        value = language.translate("P");
                     }
                     else {
-                        value = this.language.translate("A");
+                        value = language.translate("A");
                     }
                     break;
                 case "h":
@@ -880,7 +881,7 @@ var DateFormatter = /** @class */ (function (_super) {
             // Adjust time zone
             if (parsedIndexes.zone > -1) {
                 var zone = matches[parsedIndexes.zone].replace(/:/, "");
-                var match = zone.match(/([+\-]?)([0-9]{2})([0-9]{2})/);
+                var match = $type.getValue(zone.match(/([+\-]?)([0-9]{2})([0-9]{2})/));
                 var dir = match[1];
                 var hour = match[2];
                 var minute = match[3];

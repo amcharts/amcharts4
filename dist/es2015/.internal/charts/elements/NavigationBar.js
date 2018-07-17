@@ -19,7 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Component } from "../../core/Component";
 import { DataItem } from "../../core/DataItem";
-import { ListTemplate } from "../../core/utils/List";
+import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { TextLink } from "../../core/elements/TextLink";
 import { Triangle } from "../../core/elements/Triangle";
 import { registry } from "../../core/Registry";
@@ -101,6 +101,8 @@ var NavigationBar = /** @class */ (function (_super) {
         textLink.paddingBottom = 8;
         _this.paddingBottom = 2;
         _this.links = new ListTemplate(textLink);
+        _this._disposers.push(new ListDisposer(_this.links));
+        _this._disposers.push(_this.links.template);
         _this._linksIterator = new $iter.ListIterator(_this.links, function () { return _this.links.create(); });
         _this._linksIterator.createNewItems = true;
         var triangle = new Triangle();
@@ -113,6 +115,8 @@ var NavigationBar = /** @class */ (function (_super) {
         triangle.marginLeft = 10;
         triangle.marginRight = 10;
         _this.separators = new ListTemplate(triangle);
+        _this._disposers.push(new ListDisposer(_this.separators));
+        _this._disposers.push(_this.separators.template);
         var activeLink = new TextLink();
         _this.activeLink = activeLink;
         activeLink.copyFrom(textLink);

@@ -134,7 +134,7 @@ var ListGrouper = /** @class */ (function (_super) {
      */
     function ListGrouper(list, getKey, sort) {
         var _this = _super.call(this, [
-            list.events.on("insert", function (x) {
+            list.events.on("inserted", function (x) {
                 var value = x.newValue;
                 var key = _this._getKey(value);
                 var index = 0;
@@ -149,7 +149,7 @@ var ListGrouper = /** @class */ (function (_super) {
                 });
                 _this._insert(value, key, index);
             }),
-            list.events.on("remove", function (x) {
+            list.events.on("removed", function (x) {
                 _this._remove(x.oldValue);
             })
         ]) || this;
@@ -242,7 +242,7 @@ var ListDisposer = /** @class */ (function (_super) {
     __extends(ListDisposer, _super);
     function ListDisposer(list) {
         var _this = this;
-        var disposer = list.events.on("remove", function (x) {
+        var disposer = list.events.on("removed", function (x) {
             x.oldValue.dispose();
         });
         _this = _super.call(this, function () {
@@ -387,16 +387,16 @@ var List = /** @class */ (function () {
                     newValue: value
                 });
             }
-            if (this.events.isEnabled("remove")) {
-                this.events.dispatchImmediately("remove", {
-                    type: "remove",
+            if (this.events.isEnabled("removed")) {
+                this.events.dispatchImmediately("removed", {
+                    type: "removed",
                     target: this,
                     oldValue: oldValue
                 });
             }
-            if (this.events.isEnabled("insert")) {
-                this.events.dispatchImmediately("insert", {
-                    type: "insert",
+            if (this.events.isEnabled("inserted")) {
+                this.events.dispatchImmediately("inserted", {
+                    type: "inserted",
                     target: this,
                     newValue: value
                 });
@@ -422,9 +422,9 @@ var List = /** @class */ (function () {
                 newValue: value
             });
         }
-        if (this.events.isEnabled("insert")) {
-            this.events.dispatchImmediately("insert", {
-                type: "insert",
+        if (this.events.isEnabled("inserted")) {
+            this.events.dispatchImmediately("inserted", {
+                type: "inserted",
                 target: this,
                 newValue: value
             });
@@ -538,9 +538,9 @@ var List = /** @class */ (function () {
                 oldValue: oldValue
             });
         }
-        if (this.events.isEnabled("remove")) {
-            this.events.dispatchImmediately("remove", {
-                type: "remove",
+        if (this.events.isEnabled("removed")) {
+            this.events.dispatchImmediately("removed", {
+                type: "removed",
                 target: this,
                 oldValue: oldValue
             });
@@ -588,9 +588,9 @@ var List = /** @class */ (function () {
             });
         }
         if (index === -1) {
-            if (this.events.isEnabled("insert")) {
-                this.events.dispatchImmediately("insert", {
-                    type: "insert",
+            if (this.events.isEnabled("inserted")) {
+                this.events.dispatchImmediately("inserted", {
+                    type: "inserted",
                     target: this,
                     newValue: value
                 });
@@ -612,9 +612,9 @@ var List = /** @class */ (function () {
                 newValue: value
             });
         }
-        if (this.events.isEnabled("insert")) {
-            this.events.dispatchImmediately("insert", {
-                type: "insert",
+        if (this.events.isEnabled("inserted")) {
+            this.events.dispatchImmediately("inserted", {
+                type: "inserted",
                 target: this,
                 newValue: value
             });
@@ -688,19 +688,19 @@ var List = /** @class */ (function () {
                 newArray: this._values // TODO make a copy ?
             });
         }
-        if (this.events.isEnabled("remove")) {
+        if (this.events.isEnabled("removed")) {
             $array.each(oldArray, function (x) {
-                _this.events.dispatchImmediately("remove", {
-                    type: "remove",
+                _this.events.dispatchImmediately("removed", {
+                    type: "removed",
                     target: _this,
                     oldValue: x
                 });
             });
         }
-        if (this.events.isEnabled("insert")) {
+        if (this.events.isEnabled("inserted")) {
             $array.each(this._values, function (x) {
-                _this.events.dispatchImmediately("insert", {
-                    type: "insert",
+                _this.events.dispatchImmediately("inserted", {
+                    type: "inserted",
                     target: _this,
                     newValue: x
                 });

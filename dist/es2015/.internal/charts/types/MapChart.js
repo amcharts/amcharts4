@@ -68,7 +68,7 @@ export { MapChartDataItem };
  *
  * @see {@link IMapChartEvents} for a list of available Events
  * @see {@link IMapChartAdapters} for a list of available Adapters
- * @todo Example
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/map/} for documentation
  */
 var MapChart = /** @class */ (function (_super) {
     __extends(MapChart, _super);

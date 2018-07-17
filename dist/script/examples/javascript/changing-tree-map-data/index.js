@@ -132,7 +132,7 @@ bullet1.locationY = 0.5;
 bullet1.locationX = 0.5;
 bullet1.label.text = "{name}";
 bullet1.label.fill = am4core.color("#ffffff");
-
+bullet1.interactionsEnabled = false;
 chart.maxLevels = 2;
 
 

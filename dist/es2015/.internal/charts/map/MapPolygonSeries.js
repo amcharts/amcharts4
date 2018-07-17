@@ -19,7 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { MapSeries, MapSeriesDataItem } from "./MapSeries";
 import { MapPolygon } from "./MapPolygon";
-import { ListTemplate } from "../../core/utils/List";
+import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { registry } from "../../core/Registry";
 import * as $mapUtils from "./MapUtils";
 import * as $array from "../../core/utils/Array";
@@ -396,8 +396,10 @@ var MapPolygonSeries = /** @class */ (function (_super) {
             if (!this._mapPolygons) {
                 var polygonTemplate = new MapPolygon();
                 var mapPolygons = new ListTemplate(polygonTemplate);
+                this._disposers.push(new ListDisposer(mapPolygons));
+                this._disposers.push(mapPolygons.template);
                 mapPolygons.template.focusable = true;
-                mapPolygons.events.on("insert", this.handleObjectAdded, this);
+                mapPolygons.events.on("inserted", this.handleObjectAdded, this);
                 this._mapPolygons = mapPolygons;
             }
             return this._mapPolygons;

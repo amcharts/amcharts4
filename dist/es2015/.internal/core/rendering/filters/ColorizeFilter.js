@@ -18,6 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Filter } from "./Filter";
+import { registry } from "../../Registry";
 ;
 /**
  * ============================================================================
@@ -119,4 +120,11 @@ var ColorizeFilter = /** @class */ (function (_super) {
     return ColorizeFilter;
 }(Filter));
 export { ColorizeFilter };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["ColorizeFilter"] = ColorizeFilter;
 //# sourceMappingURL=ColorizeFilter.js.map

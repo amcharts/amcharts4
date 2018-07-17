@@ -109,6 +109,7 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      * * Sets class name
      */
     constructor();
+    protected debug(): void;
     /**
      * Returns object's internal unique ID.
      *

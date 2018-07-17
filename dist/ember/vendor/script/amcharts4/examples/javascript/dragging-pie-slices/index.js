@@ -63,7 +63,7 @@ sliceTemplate1.propertyFields.strokeDasharray = "strokeDasharray";
 sliceTemplate1.strokeWidth = 1;
 sliceTemplate1.strokeOpacity = 1;
 
-var zIndex = 2;
+var zIndex = 5;
 
 sliceTemplate1.events.on("down", function (event) {
     event.target.toFront();

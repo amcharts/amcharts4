@@ -171,10 +171,6 @@ var Scrollbar = /** @class */ (function (_super) {
     Scrollbar.prototype.validateLayout = function () {
         this.updateSize();
         _super.prototype.validateLayout.call(this);
-        //this.background.paddingTop = this.paddingTop;
-        //this.background.paddingBottom = this.paddingBottom;
-        //this.background.paddingLeft = this.paddingLeft;
-        //this.background.paddingRight = this.paddingRight;
         // when size changes, need to update extremes
         this.updateExtremes();
     };
@@ -738,6 +734,7 @@ var Scrollbar = /** @class */ (function (_super) {
                 thumb.clickable = true;
                 thumb.hoverable = true;
                 thumb.focusable = true;
+                //thumb.zIndex = 0;
                 // TODO remove closures ?
                 // Add events
                 // Add cursor styles to thumb

@@ -185,12 +185,13 @@ var SpriteState = /** @class */ (function (_super) {
         _this.className = "SpriteState";
         // Make filter list disposable
         _this._disposers.push(new ListDisposer(_this.filters));
+        _this._disposers.push(_this.filters.template);
         // Decorate adapter with events so that we can apply its settings whenever
         // it is modified
-        _this.adapter.events.on("insert", function (ev) {
+        _this.adapter.events.on("inserted", function (ev) {
             _this[ev.newValue.key] = _this[ev.newValue.key];
         });
-        _this.adapter.events.on("remove", function (ev) {
+        _this.adapter.events.on("removed", function (ev) {
             _this[ev.newValue.key] = _this[ev.newValue.key];
         });
         // Apply theme

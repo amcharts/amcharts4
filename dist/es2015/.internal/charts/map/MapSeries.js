@@ -271,7 +271,7 @@ var MapSeries = /** @class */ (function (_super) {
     /**
      * Decorates a newly added object.
      *
-     * @param {IListEvents<MapObject>["insert"]} event [description]
+     * @param {IListEvents<MapObject>["inserted"]} event [description]
      */
     MapSeries.prototype.handleObjectAdded = function (event) {
         var mapObject = event.newValue;

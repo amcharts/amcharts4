@@ -18,6 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Filter } from "./Filter";
+import { registry } from "../../Registry";
 ;
 /**
  * ============================================================================
@@ -75,4 +76,11 @@ var BlurFilter = /** @class */ (function (_super) {
     return BlurFilter;
 }(Filter));
 export { BlurFilter };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["BlurFilter"] = BlurFilter;
 //# sourceMappingURL=BlurFilter.js.map

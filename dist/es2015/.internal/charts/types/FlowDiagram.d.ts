@@ -231,17 +231,25 @@ export declare class FlowDiagram extends Chart {
      */
     _events: IFlowDiagramEvents;
     /**
+     * @ignore
+     */
+    _node: FlowDiagramNode;
+    /**
      * A list of chart's FlowDiagram nodes.
      *
-     * @param {DictionaryTemplate<string, FlowDiagramNode>}
+     * @param {DictionaryTemplate<string, this["_node"]>}
      */
-    nodes: DictionaryTemplate<string, FlowDiagramNode>;
+    protected _nodes: DictionaryTemplate<string, this["_node"]>;
+    /**
+     * @ignore
+     */
+    _link: FlowDiagramLink;
     /**
      * A list of FlowDiagram links connecting nodes.
      *
-     * @param {ListTemplate<FlowDiagramLink>}
+     * @param {ListTemplate<this["_link"]>}
      */
-    links: ListTemplate<FlowDiagramLink>;
+    protected _links: ListTemplate<this["_link"]>;
     /**
      * A container that holds all of the link elements.
      *
@@ -343,4 +351,24 @@ export declare class FlowDiagram extends Chart {
      * @param {"none" | "name" | "value"}  value  Node sorting
      */
     minNodeSize: number;
+    /**
+     * A list of chart's nodes.
+     *
+     * @param {DictionaryTemplate<string, this["_node"]>}
+     */
+    readonly nodes: DictionaryTemplate<string, this["_node"]>;
+    /**
+     * @ignore
+     */
+    createNode(): this["_node"];
+    /**
+     * A list of chart's links.
+     *
+     * @param {ListTemplate<this["_link"]>}
+     */
+    readonly links: ListTemplate<this["_link"]>;
+    /**
+     * @ignore
+     */
+    createLink(): this["_link"];
 }

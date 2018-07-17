@@ -72,7 +72,7 @@ export interface IGaugeChartAdapters extends IRadarChartAdapters, IGaugeChartPro
  *
  * @see {@link IGaugeChartEvents} for a list of available Events
  * @see {@link IGaugeChartAdapters} for a list of available Adapters
- * @todo Example
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/gauge-chart/} for documentation
  * @important
  */
 export declare class GaugeChart extends RadarChart {
@@ -122,7 +122,7 @@ export declare class GaugeChart extends RadarChart {
     /**
      * Decorates a [[ClockHand]] when it is added to the chart.
      *
-     * @param {IListEvents<ClockHand>["insert"]}  event  Event
+     * @param {IListEvents<ClockHand>["inserted"]}  event  Event
      */
-    protected processHand(event: IListEvents<ClockHand>["insert"]): void;
+    protected processHand(event: IListEvents<ClockHand>["inserted"]): void;
 }

@@ -20,7 +20,7 @@ var __extends = (this && this.__extends) || (function () {
 import { XYSeries, XYSeriesDataItem } from "./XYSeries";
 import { visualProperties } from "../../core/Sprite";
 import { Container } from "../../core/Container";
-import { ListTemplate } from "../../core/utils/List";
+import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { LineSeriesSegment } from "./LineSeriesSegment";
 import { ValueAxis } from "../axes/ValueAxis";
 import { DateAxis } from "../axes/DateAxis";
@@ -88,6 +88,8 @@ var LineSeries = /** @class */ (function (_super) {
          */
         _this.minDistance = 0.5;
         _this.segments = new ListTemplate(new LineSeriesSegment());
+        _this._disposers.push(new ListDisposer(_this.segments));
+        _this._disposers.push(_this.segments.template);
         _this._segmentsIterator = new $iter.ListIterator(_this.segments, function () { return _this.segments.create(); });
         _this._segmentsIterator.createNewItems = true;
         _this.className = "LineSeries";

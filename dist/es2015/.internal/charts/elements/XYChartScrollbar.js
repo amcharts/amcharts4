@@ -108,8 +108,8 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         get: function () {
             if (!this._series) {
                 this._series = new List();
-                this._series.events.on("insert", this.handleSeriesAdded, this);
-                this._series.events.on("remove", this.handleSeriesRemoved, this);
+                this._series.events.on("inserted", this.handleSeriesAdded, this);
+                this._series.events.on("removed", this.handleSeriesRemoved, this);
             }
             return this._series;
         },
@@ -119,7 +119,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
     /**
      * Decorates a new series when they are pushed into a `series` list.
      *
-     * @param {IListEvents<XYSeries>["insert"]} event Event
+     * @param {IListEvents<XYSeries>["inserted"]} event Event
      */
     XYChartScrollbar.prototype.handleSeriesAdded = function (event) {
         var sourceSeries = event.newValue;
@@ -221,7 +221,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
     /**
      * Cleans up after series are removed from Scrollbar.
      *
-     * @param {IListEvents<XYSeries>["remove"]}  event  Event
+     * @param {IListEvents<XYSeries>["removed"]}  event  Event
      */
     XYChartScrollbar.prototype.handleSeriesRemoved = function (event) {
         var sourceSeries = event.oldValue;

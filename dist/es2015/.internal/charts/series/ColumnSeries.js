@@ -20,7 +20,7 @@ var __extends = (this && this.__extends) || (function () {
 import { XYSeries, XYSeriesDataItem } from "./XYSeries";
 import { visualProperties } from "../../core/Sprite";
 import { Container } from "../../core/Container";
-import { ListTemplate } from "../../core/utils/List";
+import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { Dictionary } from "../../core/utils/Dictionary";
 import { ValueAxis } from "../axes/ValueAxis";
 import { CategoryAxis } from "../axes/CategoryAxis";
@@ -584,6 +584,8 @@ var ColumnSeries = /** @class */ (function (_super) {
         get: function () {
             if (!this._columns) {
                 this._columns = new ListTemplate(this.createColumnTemplate());
+                this._disposers.push(new ListDisposer(this._columns));
+                this._disposers.push(this._columns.template);
             }
             return this._columns;
         },

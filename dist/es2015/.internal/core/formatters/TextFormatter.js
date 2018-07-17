@@ -46,6 +46,7 @@ var TextFormatter = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    TextFormatter.prototype.debug = function () { };
     /**
      * Formats the text according to specifications passed in.
      *

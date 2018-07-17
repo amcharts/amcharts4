@@ -70,7 +70,7 @@ var DictionaryDisposer = /** @class */ (function (_super) {
     __extends(DictionaryDisposer, _super);
     function DictionaryDisposer(dict) {
         var _this = this;
-        var disposer = dict.events.on("remove", function (x) {
+        var disposer = dict.events.on("removed", function (x) {
             x.oldValue.dispose();
         });
         _this = _super.call(this, function () {
@@ -168,9 +168,9 @@ var Dictionary = /** @class */ (function () {
                     newValue: value
                 });
             }
-            if (this.events.isEnabled("remove")) {
-                this.events.dispatchImmediately("remove", {
-                    type: "remove",
+            if (this.events.isEnabled("removed")) {
+                this.events.dispatchImmediately("removed", {
+                    type: "removed",
                     target: this,
                     oldValue: oldValue
                 });
@@ -212,9 +212,9 @@ var Dictionary = /** @class */ (function () {
                     newValue: newValue
                 });
             }
-            if (this.events.isEnabled("remove")) {
-                this.events.dispatchImmediately("remove", {
-                    type: "remove",
+            if (this.events.isEnabled("removed")) {
+                this.events.dispatchImmediately("removed", {
+                    type: "removed",
                     target: this,
                     oldValue: oldValue
                 });
@@ -241,9 +241,9 @@ var Dictionary = /** @class */ (function () {
                     oldValue: oldValue
                 });
             }
-            if (this.events.isEnabled("remove")) {
-                this.events.dispatchImmediately("remove", {
-                    type: "remove",
+            if (this.events.isEnabled("removed")) {
+                this.events.dispatchImmediately("removed", {
+                    type: "removed",
                     target: this,
                     oldValue: oldValue
                 });
@@ -271,19 +271,19 @@ var Dictionary = /** @class */ (function () {
     Dictionary.prototype.clear = function () {
         var _this = this;
         // TODO dispatch this after clear
-        if (this.events.isEnabled("remove")) {
+        if (this.events.isEnabled("removed")) {
             $object.each(this._dictionary, function (key, value) {
-                _this.events.dispatchImmediately("remove", {
-                    type: "remove",
+                _this.events.dispatchImmediately("removed", {
+                    type: "removed",
                     target: _this,
                     oldValue: value
                 });
             });
         }
         this._dictionary = {};
-        if (this.events.isEnabled("clear")) {
-            this.events.dispatchImmediately("clear", {
-                type: "clear",
+        if (this.events.isEnabled("cleared")) {
+            this.events.dispatchImmediately("cleared", {
+                type: "cleared",
                 target: this
             });
         }

@@ -83,7 +83,7 @@ function changeCountry() {
 		var colorAnimation = countryPolygon.animate({ "property": "fill", "to": colorset.getIndex(Math.round(Math.random() * 20)) }, 1000);
 
 		var animation = label.animate({ property: "y", to: 1000 }, 300);
-		animation.events.on("animationend", function () {
+		animation.events.on("animationended", function () {
 			label.text = morphToPolygon.dataItem.dataContext["name"];
 			label.y = -50;
 			label.animate({ property: "y", to: 200 }, 300, am4core.ease.quadOut);

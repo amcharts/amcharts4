@@ -67,7 +67,7 @@ export { RadarChartDataItem };
  *
  * @see {@link IRadarChartEvents} for a list of available Events
  * @see {@link IRadarChartAdapters} for a list of available Adapters
- * @todo Example
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/radar-chart/} for documentation
  * @important
  */
 var RadarChart = /** @class */ (function (_super) {

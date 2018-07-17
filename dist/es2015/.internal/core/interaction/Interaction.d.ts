@@ -23,6 +23,7 @@ import { InertiaTypes } from "./Inertia";
 import { IPointer, IBreadcrumb } from "./Pointer";
 import { IPoint } from "../defs/IPoint";
 import { IStyleProperty } from "../defs/IStyleProperty";
+import * as $type from "../utils/Type";
 /**
  * ============================================================================
  * REQUISITES
@@ -165,9 +166,9 @@ export declare class Interaction extends BaseObjectEvents {
      * An object that currently has focus. Usually set automatically via
      * [[InteractionObject]] `isFocus` method.
      *
-     * @type {InteractionObject}
+     * @type {Optional<InteractionObject>}
      */
-    focusedObject: InteractionObject;
+    focusedObject: $type.Optional<InteractionObject>;
     /**
      * Holds all known pointers.
      *
@@ -217,6 +218,7 @@ export declare class Interaction extends BaseObjectEvents {
      * outside particular chart container.
      */
     constructor();
+    protected debug(): void;
     /**
      * ==========================================================================
      * Processing
@@ -705,10 +707,10 @@ export declare class Interaction extends BaseObjectEvents {
      * Beware that this is not a rock-solid solution. If there are a few objects
      * being dragged at the same time, you may get unexepected results.
      *
-     * @param  {InteractionObject}  io  InteractionObject to get pointers from
-     * @return {IPointer}               Pointer currently being used for dragging
+     * @param  {InteractionObject}   io  InteractionObject to get pointers from
+     * @return {Optional<IPointer>}      Pointer currently being used for dragging
      */
-    getDragPointer(io?: InteractionObject): IPointer;
+    getDragPointer(io?: InteractionObject): $type.Optional<IPointer>;
     /**
      * ==========================================================================
      * Utils
@@ -944,11 +946,11 @@ export declare class Interaction extends BaseObjectEvents {
     /**
      * Returns a point from [[Pointer]]'s move history at a certain timetamp.
      *
-     * @param  {IPointer}     pointer    Pointer
-     * @param  {number}       timestamp  Timestamp
-     * @return {IBreadcrumb}             Point
+     * @param  {IPointer}               pointer    Pointer
+     * @param  {number}                 timestamp  Timestamp
+     * @return {Optional<IBreadcrumb>}             Point
      */
-    getTrailPoint(pointer: IPointer, timestamp: number): IBreadcrumb;
+    getTrailPoint(pointer: IPointer, timestamp: number): $type.Optional<IBreadcrumb>;
     /**
      * Checks if same pointer already exists in the list.
      *

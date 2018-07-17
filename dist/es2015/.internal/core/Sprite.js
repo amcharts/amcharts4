@@ -360,7 +360,7 @@ var Sprite = /** @class */ (function (_super) {
         _this.verticalCenter = "none";
         _this.horizontalCenter = "none";
         // never do this!
-        //this.verticalCenter = "top";		
+        //this.verticalCenter = "top";
         //this.horizontalCenter = "left";
         _this.isMeasured = true;
         // Invalidate the Sprite so that renderer knows it needs to be drawn
@@ -379,10 +379,10 @@ var Sprite = /** @class */ (function (_super) {
         // @todo Think what to do here. We can't just apply the adapter value to
         // property since not all of those are for properties. Commented out for
         // now.
-        /*this.adapter.events.on("insert", (ev: any) => {
+        /*this.adapter.events.on("inserted", (ev: any) => {
             (<any>this)[ev.newValue.key] = (<any>this)[ev.newValue.key];
         });
-        this.adapter.events.on("remove", (ev: any) => {
+        this.adapter.events.on("removed", (ev: any) => {
             (<any>this)[ev.newValue.key] = (<any>this)[ev.newValue.key];
         });*/
         // Add disposable dependencies to `_disposers` so they are automatically
@@ -400,6 +400,8 @@ var Sprite = /** @class */ (function (_super) {
                 value.dispose();
             });
         }));
+        // better than doing this.interactionsEnabled = true;
+        _this.setPropertyValue("interactionsEnabled", true);
         return _this;
     }
     /**
@@ -698,6 +700,13 @@ var Sprite = /** @class */ (function (_super) {
         if (this.group) {
             this.group.dispose();
         }
+        if (this._numberFormatter) {
+            this._numberFormatter.dispose();
+        }
+        // TODO a bit hacky
+        if (this.fill && !(this.fill instanceof Color)) {
+            this.fill.dispose();
+        }
         this.parent = undefined;
         while (this.filters.length > 0) {
             var filter = this.filters.getIndex(0);
@@ -711,8 +720,6 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "isTemplate", {
         /**
-         * Returns if the the Sprite is template.
-         *
          * @ignore Exclude from docs
          * @return {boolean} Is template?
          */
@@ -720,7 +727,7 @@ var Sprite = /** @class */ (function (_super) {
             return this._isTemplate;
         },
         /**
-         * Sets if this element is a "template".
+         * Indicates if this element is a "template".
          *
          * Template Sprites act only as a holders for config for other "real"
          * elements to be cloned from.
@@ -728,6 +735,7 @@ var Sprite = /** @class */ (function (_super) {
          * Templates are treated differently, as they are not validated, redrawn, or
          * otherwise are processed.
          *
+         * @ignore Exclude from docs
          * @param {boolean} value Is template?
          */
         set: function (value) {
@@ -753,9 +761,6 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "showSystemTooltip", {
         /**
-         * Returns whether the element should attempt to construct itself in a way so
-         * that system tooltip is shown if its `readerTitle` is set.
-         *
          * @return {boolean} Show system tooltip?
          */
         get: function () {
@@ -770,8 +775,8 @@ var Sprite = /** @class */ (function (_super) {
             return this._showSystemTooltip;
         },
         /**
-         * Sets whether the element should attempt to construct itself in a way so
-         * that system tooltip is shown if its `readerTitle` is set.
+         * Indicates whether the element should attempt to construct itself in a way
+         * so that system tooltip is shown if its `readerTitle` is set.
          *
          * @param {boolean} value Show system tooltip?
          */
@@ -790,7 +795,7 @@ var Sprite = /** @class */ (function (_super) {
          * @hidden
          */
         /**
-         * Returns elements's top-level [[Container]].
+         * Elements's top-level [[Container]].
          *
          * In most cases that will be a Chart.
          *
@@ -837,6 +842,7 @@ var Sprite = /** @class */ (function (_super) {
                     }
                     this.paper = parent.paper;
                     parent.children.moveValue(this);
+                    parent.addChildren();
                     if (this._tooltip && !this._tooltipContainer) {
                         this._tooltip.parent = parent.tooltipContainer;
                     }
@@ -1095,10 +1101,12 @@ var Sprite = /** @class */ (function (_super) {
          */
         get: function () {
             if (!this._filters) {
-                this._filters = new ListTemplate(new Filter());
+                var template = new Filter();
+                this._filters = new ListTemplate(template);
                 // TODO only add certain events ?
                 this._disposers.push(this._filters.events.onAll(this.applyFilters, this));
                 this._disposers.push(new ListDisposer(this._filters));
+                this._disposers.push(template);
             }
             return this._filters;
         },
@@ -1553,9 +1561,9 @@ var Sprite = /** @class */ (function (_super) {
         }
     };
     /**
-     * Returns relative (percent) value of the X coorindate within this element.
+     * Returns relative (percent) value of the X coordindate within this element.
      *
-     * A relative value is a hundrieth of a percent. So 100% would result in a 1
+     * A relative value is a hundredth of a percent. So 100% would result in a 1
      * as relative value.
      *
      * @param  {number | Percent}  value  Absolute or relative X coordinate
@@ -1571,9 +1579,9 @@ var Sprite = /** @class */ (function (_super) {
         return 0;
     };
     /**
-     * Returns relative (percent) value of the Y coorindate within this element.
+     * Returns relative (percent) value of the Y coordindate within this element.
      *
-     * A relative value is a hundrieth of a percent. So 100% would result in a 1
+     * A relative value is a hundredth of a percent. So 100% would result in a 1
      * as relative value.
      *
      * @param  {number | Percent}  value  Absolute or relative Y coordinate
@@ -1718,8 +1726,6 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "maskRectangle", {
         /**
-         * Returns [[Rectangle]] element currently used as elements mask.
-         *
          * @ignore Exclude from docs
          * @return {IRectangle} Mask Rectangle
          */
@@ -1746,8 +1752,6 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "isMeasured", {
         /**
-         * Returns if element was already measured.
-         *
          * @ignore Exclude from docs
          * @return {boolean} Was element already measured?
          */
@@ -1755,7 +1759,7 @@ var Sprite = /** @class */ (function (_super) {
             return this._isMeasured;
         },
         /**
-         * Sets if this element was already measured.
+         * Indicates if this element was already measured.
          *
          * @ignore Exclude from docs
          * @param {boolean} value Was element already measured?
@@ -1777,7 +1781,7 @@ var Sprite = /** @class */ (function (_super) {
         configurable: true
     });
     /**
-     * Checks if the this elemen has any of its parts overlapping with another
+     * Checks if the this element has any of its parts overlapping with another
      * element.
      *
      * @todo Description (review)
@@ -1829,12 +1833,14 @@ var Sprite = /** @class */ (function (_super) {
          */
         get: function () {
             if (!this._states) {
+                var state = new SpriteState();
                 // works
-                this._states = new DictionaryTemplate(new SpriteState());
+                this._states = new DictionaryTemplate(state);
                 // TODO what about removeKey ?
                 this._disposers.push(this._states.events.on("insertKey", this.processState, this));
                 this._disposers.push(this._states.events.on("setKey", this.processState, this));
                 this._disposers.push(new DictionaryDisposer(this._states));
+                this._disposers.push(state);
             }
             return this._states;
         },
@@ -2103,7 +2109,7 @@ var Sprite = /** @class */ (function (_super) {
             return this.interactions.isHover;
         },
         /**
-         * Sets indicator if this element has a mouse pointer currently hovering
+         * Indicates if this element has a mouse pointer currently hovering
          * over it, or if it has any touch pointers pressed on it.
          *
          * @param {boolean} value Is hovered?
@@ -2125,7 +2131,7 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "isDragged", {
         /**
-         * Returns indicator if this element is being dragged at the moment
+         * Returns indicator if this element is being dragged at the moment.
          *
          * @return {boolean} Is dragged?
          */
@@ -2137,17 +2143,14 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "isDown", {
         /**
-         * Returns indicator if this element has any pointers (mouse or touch)
-         * pressing down on it.
-         *
          * @return {boolean} Is down?
          */
         get: function () {
             return this.interactions.isDown;
         },
         /**
-         * Sets indicator if this element has any pointers (mouse or touch) pressing
-         * down on it.
+         * Indicates if this element has any pointers (mouse or touch) pressing down
+         * on it.
          *
          * @param {boolean} value Is down?
          */
@@ -2168,15 +2171,13 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "isFocused", {
         /**
-         * Returns if this element is focused.
-         *
          * @return {boolean} Is focused?
          */
         get: function () {
             return this.interactions.isFocused;
         },
         /**
-         * Sets if this element is focused (possibly by tab navigation).
+         * Indicates if this element is focused (possibly by tab navigation).
          *
          * @param {boolean} value Is focused?
          */
@@ -2197,15 +2198,13 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "isActive", {
         /**
-         * Returns if this element is currently active.
-         *
          * @return {boolean} Is active?
          */
         get: function () {
             return this._isActive;
         },
         /**
-         * Sets if this element is currently active (toggled on) or not
+         * Indicates if this element is currently active (toggled on) or not
          * (toggled off).
          *
          * @param {boolean} value Is active?
@@ -3250,7 +3249,8 @@ var Sprite = /** @class */ (function (_super) {
          */
         get: function () {
             if (!this._interaction) {
-                this._interaction = getInteraction().getInteraction(this.dom);
+                var interaction = getInteraction().getInteraction(this.dom);
+                this._interaction = interaction;
                 this._interaction.clickable = this.clickable;
                 this._interaction.hoverable = this.hoverable;
                 this._interaction.trackable = this.trackable;
@@ -3823,15 +3823,13 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "clickable", {
         /**
-         * Returns `true` if the element is currently set as draggable.
-         *
          * @return {boolean}
          */
         get: function () {
             return this.getPropertyValue("clickable");
         },
         /**
-         * Sets if the element is clickable.
+         * Indicates if the element is clickable.
          *
          * Some times of the elements, like buttons are clickable by default.
          *
@@ -3861,15 +3859,13 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "togglable", {
         /**
-         * Returns if element is currently set as togglable.
-         *
          * @return {boolean} Is togglable?
          */
         get: function () {
             return this.getPropertyValue("togglable");
         },
         /**
-         * Sets if element can be toggled on and off by subsequent clicks/taps.
+         * Indicates if element can be toggled on and off by subsequent clicks/taps.
          *
          * Togglable element will alternate its `isActive` property between `true`
          * and `false` with each click.
@@ -3898,15 +3894,13 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "url", {
         /**
-         * Returns current setting for URL.
-         *
          * @return {Optional<string>} URL
          */
         get: function () {
             return this._url.get();
         },
         /**
-         * Sets click-through URL for this element.
+         * Click-through URL for this element.
          *
          * If set, clicking/tapping this element will open the new URL in a target
          * window/tab as set by `urlTarget`.
@@ -3933,8 +3927,6 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "urlTarget", {
         /**
-         * Returns current URL target.
-         *
          * @return {string} URL target
          */
         get: function () {
@@ -3942,6 +3934,7 @@ var Sprite = /** @class */ (function (_super) {
         },
         /**
          * Target to use for URL clicks:
+         *
          * * _blank
          * * _self (default)
          * * _parent
@@ -4031,8 +4024,6 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "trackable", {
         /**
-         * Returns current trackable setting.
-         *
          * @return {boolean} Track cursor movement over element?
          */
         get: function () {
@@ -4045,7 +4036,7 @@ var Sprite = /** @class */ (function (_super) {
          * @hidden
          */
         /**
-         * Sets if the element is trackable (mouse position over it is reported to
+         * Indicates if the element is trackable (mouse position over it is reported to
          * event listeners).
          *
          * Will invoke `track` events whenever pointer (cursor) changes position
@@ -4070,8 +4061,6 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "wheelable", {
         /**
-         * Returns current setting for mouse wheel.
-         *
          * @return {boolean} Mouse wheel events enabled?
          */
         get: function () {
@@ -4084,7 +4073,7 @@ var Sprite = /** @class */ (function (_super) {
          * @hidden
          */
         /**
-         * Sets if the element can be interacted with mouse wheel.
+         * Indicates if the element can be interacted with mouse wheel.
          *
          * Will invoke `wheel`, `wheelup`, `wheeldown`, `wheelleft`, and `wheelright`
          * events when using mouse wheel over the element.
@@ -4104,8 +4093,6 @@ var Sprite = /** @class */ (function (_super) {
     });
     Object.defineProperty(Sprite.prototype, "resizable", {
         /**
-         * Returns current `resizable` value.
-         *
          * @return {boolean} Element resizable?
          */
         get: function () {
@@ -4118,7 +4105,7 @@ var Sprite = /** @class */ (function (_super) {
          * @hidden
          */
         /**
-         * Set if this element is resizable.
+         * Indicates if this element is resizable.
          *
          * Enabling resize will turn on various interactions on the element. Their
          * actual functionality will depend on other properties.
@@ -4336,7 +4323,7 @@ var Sprite = /** @class */ (function (_super) {
             return true;
         },
         /**
-         * Setting this to `false` will efectively disable all interactivity on the
+         * Setting this to `false` will effectively disable all interactivity on the
          * element.
          *
          * @param {boolean}  value  Is interaction enabled for this element?
@@ -4520,6 +4507,7 @@ var Sprite = /** @class */ (function (_super) {
                     this._popups = new ListTemplate(popupTemplate);
                     // Add to disposers
                     this._disposers.push(new ListDisposer(this._popups));
+                    this._disposers.push(this._popups.template);
                 }
                 return this._popups;
             }
@@ -4855,7 +4843,7 @@ var Sprite = /** @class */ (function (_super) {
             return this.getPropertyValue("align");
         },
         /**
-         * Controls horizontal alignement of the element.
+         * Controls horizontal alignment of the element.
          *
          * This is used by parent [[Container]] when layouting its children.
          *
@@ -4876,7 +4864,7 @@ var Sprite = /** @class */ (function (_super) {
             return this.getPropertyValue("valign");
         },
         /**
-         * Controls vertical alignement of the element.
+         * Controls vertical alignment of the element.
          *
          * This is used by parent [[Container]] when layouting its children.
          *
@@ -5115,7 +5103,6 @@ var Sprite = /** @class */ (function (_super) {
                     this._pixelHeight = Number(value);
                     this.maxHeight = this._pixelHeight; // yes, we reset maxWidth
                 }
-                this.invalidate();
             }
         },
         enumerable: true,
@@ -6145,7 +6132,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * Different elements use different default setting for `pixelPerfect`.
          *
-         * We recomment leaving this at their default settings, unless there's a
+         * We recommend leaving this at their default settings, unless there's a
          * specific need.
          *
          * @param {boolean}  value  Use pixel perfect?
@@ -6180,7 +6167,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * An RTL (righ-to-left) setting.
          *
-         * RTL may affect alignement, text, and other visual properties.
+         * RTL may affect alignment, text, and other visual properties.
          *
          * @param {DateFormatter}  value  `true` for to use RTL
          */
@@ -6318,10 +6305,14 @@ var Sprite = /** @class */ (function (_super) {
                     // Thrown everything into `_disposers` just in case Sprite gets
                     // destroyed in the meantime
                     this._disposers.push(transition);
+                    if (transition.progress == 1) {
+                        this.isHiding = false;
+                        this.isHidden = true;
+                    }
                 }
             }
             else {
-                // No hidden state, let's just set `visibile` and call it a day
+                // No hidden state, let's just set `visible` and call it a day
                 this.visible = false;
                 this.isHiding = false;
                 this.isHidden = true;
@@ -6401,10 +6392,7 @@ var Sprite = /** @class */ (function (_super) {
         set: function (value) {
             value = $type.toNumber(value);
             if (this.setPropertyValue("zIndex", value)) {
-                var parent_3 = this._parent.get();
-                if (parent_3) {
-                    parent_3.addChildren();
-                }
+                this.dispatchImmediately("zIndexChanged");
             }
         },
         enumerable: true,
@@ -6418,7 +6406,7 @@ var Sprite = /** @class */ (function (_super) {
         var parent = this.parent;
         if (parent && parent.children.indexOf(this) != parent.children.length - 1) {
             parent.children.moveValue(this, parent.children.length - 1);
-            parent.addChildren();
+            this.dispatchImmediately("zIndexChanged");
         }
     };
     /**
@@ -6429,7 +6417,7 @@ var Sprite = /** @class */ (function (_super) {
         var parent = this.parent;
         if (parent && parent.children.indexOf(this) != 0) {
             parent.children.moveValue(this, 0);
-            parent.addChildren();
+            this.dispatchImmediately("zIndexChanged");
         }
     };
     Object.defineProperty(Sprite.prototype, "tooltip", {
@@ -6632,7 +6620,7 @@ var Sprite = /** @class */ (function (_super) {
                     if (tooltip && !tooltip.parent) {
                         tooltip.parent = this.tooltipContainer;
                     }
-                    // Reveal tooltip					
+                    // Reveal tooltip
                     tooltip.show();
                     return true;
                 }

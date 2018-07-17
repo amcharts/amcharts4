@@ -99,6 +99,7 @@ var LineSeriesSegment = /** @class */ (function (_super) {
      * @param {Sprite} source Source [[Sprite]] to copy properties from
      */
     LineSeriesSegment.prototype.copyFrom = function (source) {
+        _super.prototype.copyFrom.call(this, source);
         var lineElement = this.strokeSprite;
         $object.copyProperties(source, lineElement.properties, visualProperties);
         lineElement.fillOpacity = 0;

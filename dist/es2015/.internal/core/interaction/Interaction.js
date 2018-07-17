@@ -194,6 +194,7 @@ var Interaction = /** @class */ (function (_super) {
         _this.className = "Interaction";
         // Create InteractionObject for <body>
         _this.body = _this.getInteraction(document.body);
+        _this._disposers.push(_this.body);
         // Detect browser capabilities and determine what event listeners to use
         if (window.hasOwnProperty("PointerEvent")) {
             // IE10+/Edge without touch controls enabled
@@ -262,6 +263,7 @@ var Interaction = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    Interaction.prototype.debug = function () { };
     /**
      * ==========================================================================
      * Processing
@@ -326,8 +328,9 @@ var Interaction = /** @class */ (function (_super) {
             }
         }
         else {
-            if (io.eventDisposers.hasKey("hoverable")) {
-                io.eventDisposers.getKey("hoverable").dispose();
+            var disposer = io.eventDisposers.getKey("hoverable");
+            if (disposer != null) {
+                disposer.dispose();
                 io.eventDisposers.removeKey("hoverable");
             }
         }
@@ -423,8 +426,9 @@ var Interaction = /** @class */ (function (_super) {
             }
         }
         else {
-            if (io.eventDisposers.hasKey("wheelable")) {
-                io.eventDisposers.getKey("wheelable").dispose();
+            var disposer = io.eventDisposers.getKey("wheelable");
+            if (disposer != null) {
+                disposer.dispose();
                 io.eventDisposers.removeKey("wheelable");
             }
         }
@@ -449,8 +453,9 @@ var Interaction = /** @class */ (function (_super) {
             }
         }
         else {
-            if (io.eventDisposers.hasKey("focusable")) {
-                io.eventDisposers.getKey("focusable").dispose();
+            var disposer = io.eventDisposers.getKey("focusable");
+            if (disposer != null) {
+                disposer.dispose();
                 io.eventDisposers.removeKey("focusable");
             }
         }
@@ -595,12 +600,15 @@ var Interaction = /** @class */ (function (_super) {
      */
     Interaction.prototype.handleGlobalKeyUp = function (ev) {
         var disposerKey = "interactionKeyboardObject";
-        if (this.focusedObject && this.focusedObject.eventDisposers.hasKey(disposerKey)) {
-            // Prevent scrolling of the document
-            ev.preventDefault();
-            // Dispose stuff
-            this.focusedObject.eventDisposers.getKey(disposerKey).dispose();
-            this.focusedObject.eventDisposers.removeKey(disposerKey);
+        if (this.focusedObject) {
+            var disposer = this.focusedObject.eventDisposers.getKey(disposerKey);
+            if (disposer != null) {
+                // Prevent scrolling of the document
+                ev.preventDefault();
+                // Dispose stuff
+                disposer.dispose();
+                this.focusedObject.eventDisposers.removeKey(disposerKey);
+            }
         }
     };
     /**
@@ -1835,8 +1843,8 @@ var Interaction = /** @class */ (function (_super) {
      * Beware that this is not a rock-solid solution. If there are a few objects
      * being dragged at the same time, you may get unexepected results.
      *
-     * @param  {InteractionObject}  io  InteractionObject to get pointers from
-     * @return {IPointer}               Pointer currently being used for dragging
+     * @param  {InteractionObject}   io  InteractionObject to get pointers from
+     * @return {Optional<IPointer>}      Pointer currently being used for dragging
      */
     Interaction.prototype.getDragPointer = function (io) {
         if (io) {
@@ -2232,14 +2240,13 @@ var Interaction = /** @class */ (function (_super) {
         if (pointer.touch) {
             return;
         }
+        var downStyle = io.cursorOptions.downStyle;
         // Is down?
-        if (io.downPointers.contains(pointer) && $type.hasValue(io.cursorOptions.downStyle)) {
-            // Get sprite's cursor ooptions
-            var options = io.cursorOptions;
+        if (io.downPointers.contains(pointer) && $type.hasValue(downStyle)) {
             // Apply cursor down styles
-            for (var i = 0; i < options.downStyle.length; i++) {
-                this.setTemporaryStyle(this.body, options.downStyle[i].property, options.downStyle[i].value);
-                this.setTemporaryStyle(io, options.downStyle[i].property, options.downStyle[i].value);
+            for (var i = 0; i < downStyle.length; i++) {
+                this.setTemporaryStyle(this.body, downStyle[i].property, downStyle[i].value);
+                this.setTemporaryStyle(io, downStyle[i].property, downStyle[i].value);
             }
         }
     };
@@ -2255,14 +2262,13 @@ var Interaction = /** @class */ (function (_super) {
         if (pointer.touch) {
             return;
         }
+        var downStyle = io.cursorOptions.downStyle;
         // Is down?
-        if (io.downPointers.contains(pointer) && $type.hasValue(io.cursorOptions.downStyle)) {
-            // Get sprite's cursor ooptions
-            var options = io.cursorOptions;
+        if (io.downPointers.contains(pointer) && $type.hasValue(downStyle)) {
             // Apply cursor down styles
-            for (var i = 0; i < options.downStyle.length; i++) {
-                this.restoreStyle(this.body, options.downStyle[i].property);
-                this.restoreStyle(io, options.downStyle[i].property);
+            for (var i = 0; i < downStyle.length; i++) {
+                this.restoreStyle(this.body, downStyle[i].property);
+                this.restoreStyle(io, downStyle[i].property);
             }
         }
     };
@@ -2326,9 +2332,9 @@ var Interaction = /** @class */ (function (_super) {
     /**
      * Returns a point from [[Pointer]]'s move history at a certain timetamp.
      *
-     * @param  {IPointer}     pointer    Pointer
-     * @param  {number}       timestamp  Timestamp
-     * @return {IBreadcrumb}             Point
+     * @param  {IPointer}               pointer    Pointer
+     * @param  {number}                 timestamp  Timestamp
+     * @return {Optional<IBreadcrumb>}             Point
      */
     Interaction.prototype.getTrailPoint = function (pointer, timestamp) {
         var res;
@@ -2364,9 +2370,7 @@ var Interaction = /** @class */ (function (_super) {
      * @return {InteractionObject}                     InteractionObject
      */
     Interaction.prototype.getInteraction = function (element) {
-        var io = new InteractionObject();
-        io.element = element;
-        return io;
+        return new InteractionObject(element);
     };
     /**
      * Sets a style property on an element. Stores original value to be restored

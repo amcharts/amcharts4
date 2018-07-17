@@ -19,6 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { Filter } from "./Filter";
 import { InterfaceColorSet } from "../../utils/InterfaceColorSet";
+import { registry } from "../../Registry";
 ;
 /**
  * ============================================================================
@@ -177,4 +178,11 @@ var DropShadowFilter = /** @class */ (function (_super) {
     return DropShadowFilter;
 }(Filter));
 export { DropShadowFilter };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["DropShadowFilter"] = DropShadowFilter;
 //# sourceMappingURL=DropShadowFilter.js.map

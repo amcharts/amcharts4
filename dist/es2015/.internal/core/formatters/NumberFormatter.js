@@ -17,6 +17,7 @@ import { getTextFormatter } from "../formatters/TextFormatter";
 import * as $strings from "../utils/Strings";
 import * as $object from "../utils/Object";
 import * as $utils from "../utils/Utils";
+import * as $type from "../utils/Type";
 /**
  * NumberFormatter class. Formats numbers according to specified formats.
  *
@@ -128,7 +129,7 @@ var NumberFormatter = /** @class */ (function (_super) {
         // Clean format
         format = $utils.cleanFormat(format);
         // Get format info (it will also deal with parser caching)
-        var info = this.parseFormat(format);
+        var info = this.parseFormat(format, this.language);
         // cast to number just in case
         // TODO: maybe use better casting
         var source = Number(value);
@@ -152,8 +153,9 @@ var NumberFormatter = /** @class */ (function (_super) {
      * the number.
      *
      * @param {string} format Format string, i.e. "#,###.00"
+     * @param {Language} language Language
      */
-    NumberFormatter.prototype.parseFormat = function (format) {
+    NumberFormatter.prototype.parseFormat = function (format, language) {
         var _this = this;
         // check cache
         if (typeof (this.getCache(format)) !== "undefined") {
@@ -166,12 +168,12 @@ var NumberFormatter = /** @class */ (function (_super) {
                     "active": -1,
                     "passive": -1,
                     "interval": -1,
-                    "separator": this.language.translateEmpty("_thousandSeparator")
+                    "separator": language.translateEmpty("_thousandSeparator")
                 },
                 "decimals": {
                     "active": -1,
                     "passive": -1,
-                    "separator": this.language.translateEmpty("_decimalSeparator")
+                    "separator": language.translateEmpty("_decimalSeparator")
                 },
                 "template": "",
                 "source": "",
@@ -182,12 +184,12 @@ var NumberFormatter = /** @class */ (function (_super) {
                     "active": -1,
                     "passive": -1,
                     "interval": -1,
-                    "separator": this.language.translateEmpty("_thousandSeparator")
+                    "separator": language.translateEmpty("_thousandSeparator")
                 },
                 "decimals": {
                     "active": -1,
                     "passive": -1,
-                    "separator": this.language.translateEmpty("_decimalSeparator")
+                    "separator": language.translateEmpty("_decimalSeparator")
                 },
                 "template": "",
                 "source": "",
@@ -198,12 +200,12 @@ var NumberFormatter = /** @class */ (function (_super) {
                     "active": -1,
                     "passive": -1,
                     "interval": -1,
-                    "separator": this.language.translateEmpty("_thousandSeparator")
+                    "separator": language.translateEmpty("_thousandSeparator")
                 },
                 "decimals": {
                     "active": -1,
                     "passive": -1,
-                    "separator": this.language.translateEmpty("_decimalSeparator")
+                    "separator": language.translateEmpty("_decimalSeparator")
                 },
                 "template": "",
                 "source": "",
@@ -286,7 +288,7 @@ var NumberFormatter = /** @class */ (function (_super) {
                                 }
                                 else {
                                     // Use length fo the last chunk as thousands length
-                                    item.thousands.interval = b.pop().length;
+                                    item.thousands.interval = $type.getValue(b.pop()).length;
                                     if (item.thousands.interval === 0)
                                         item.thousands.interval = -1;
                                 }

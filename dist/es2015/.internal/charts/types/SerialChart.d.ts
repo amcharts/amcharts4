@@ -139,6 +139,7 @@ export declare class SerialChart extends Chart {
      * Constructor
      */
     constructor();
+    dispose(): void;
     /**
      * Sets defaults that instantiate some objects that rely on parent, so they
      * cannot be set in constructor
@@ -155,10 +156,10 @@ export declare class SerialChart extends Chart {
      * added to the chart.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Series>["insert"]}  event  Event
+     * @param {IListEvents<Series>["inserted"]}  event  Event
      * @todo Consider renaming to "handle*" as it would suit event handler better
      */
-    processSeries(event: IListEvents<Series>["insert"]): void;
+    processSeries(event: IListEvents<Series>["inserted"]): void;
     /**
      * Setups the legend to use the chart's data.
      */

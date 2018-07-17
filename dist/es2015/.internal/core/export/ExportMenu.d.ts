@@ -507,21 +507,21 @@ export declare class ExportMenu extends Validatable {
      */
     readonly labelTag: string;
     /**
-     * @return {Align} Horizontal alignement
+     * @return {Align} Horizontal alignment
      */
     /**
-     * A horizontal alignement for the menu placement.
+     * A horizontal alignment for the menu placement.
      *
-     * @param {Align} value Horizontal alignement
+     * @param {Align} value Horizontal alignment
      */
     align: Align;
     /**
-     * @return {VerticalAlign} Vertical alignement
+     * @return {VerticalAlign} Vertical alignment
      */
     /**
-     * A vertical alignement for the menu placement.
+     * A vertical alignment for the menu placement.
      *
-     * @param {VerticalAlign} value Vertical alignement
+     * @param {VerticalAlign} value Vertical alignment
      */
     verticalAlign: VerticalAlign;
     /**

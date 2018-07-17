@@ -18,6 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Filter } from "./Filter";
+import { registry } from "../../Registry";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -77,4 +78,11 @@ var DesaturateFilter = /** @class */ (function (_super) {
     return DesaturateFilter;
 }(Filter));
 export { DesaturateFilter };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["DesaturateFilter"] = DesaturateFilter;
 //# sourceMappingURL=DesaturateFilter.js.map

@@ -227,7 +227,7 @@ var Component = /** @class */ (function (_super) {
         // Set up events
         _this.events.on("maxsizechanged", _this.invalidate, _this);
         // TODO what about remove ?
-        _this.dataUsers.events.on("insert", _this.handleDataUserAdded, _this);
+        _this.dataUsers.events.on("inserted", _this.handleDataUserAdded, _this);
         // Set up disposers
         _this._disposers.push(new ListDisposer(_this.dataItems));
         // Apply theme
@@ -248,7 +248,7 @@ var Component = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param {IListEvents<Component>["insert"]} event Event object
+     * @param {IListEvents<Component>["inserted"]} event Event object
      */
     Component.prototype.handleDataUserAdded = function (event) {
         var dataUser = event.newValue;
@@ -324,8 +324,9 @@ var Component = /** @class */ (function (_super) {
                 if (dataItem.hasChildren[fieldName]) {
                     if (value) {
                         var children = new OrderedListTemplate(_this.createDataItem());
-                        children.events.on("insert", _this.handleDataItemAdded, _this);
-                        children.events.on("remove", _this.handleDataItemRemoved, _this);
+                        children.events.on("inserted", _this.handleDataItemAdded, _this);
+                        children.events.on("removed", _this.handleDataItemRemoved, _this);
+                        _this._disposers.push(new ListDisposer(children));
                         for (var i = 0; i < value.length; i++) {
                             var rawDataItem = value[i];
                             var childDataItem = children.create();
@@ -1232,6 +1233,7 @@ var Component = /** @class */ (function (_super) {
         $array.remove(registry.invalidSprites, this);
         $array.remove(registry.invalidDataItems, this);
         $array.remove(registry.invalidDataRange, this);
+        $array.remove(registry.invalidRawDatas, this);
     };
     Object.defineProperty(Component.prototype, "dataItems", {
         /**
@@ -1244,9 +1246,10 @@ var Component = /** @class */ (function (_super) {
             // Component is disposed
             if (!this._dataItems) {
                 this._dataItems = new OrderedListTemplate(this.createDataItem());
-                this._dataItems.events.on("insert", this.handleDataItemAdded, this);
-                this._dataItems.events.on("remove", this.invalidateDataItems, this);
-                //this._disposers.push(new ListDisposer(this._dataItems));
+                this._dataItems.events.on("inserted", this.handleDataItemAdded, this);
+                this._dataItems.events.on("removed", this.invalidateDataItems, this);
+                this._disposers.push(new ListDisposer(this._dataItems));
+                this._disposers.push(this._dataItems.template);
             }
             return this._dataItems;
         },
@@ -1257,7 +1260,7 @@ var Component = /** @class */ (function (_super) {
      * Processes newly added [[DataItem]] as well as triggers data re-validation.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<DataItem>["insert"]} event [description]
+     * @param {IListEvents<DataItem>["inserted"]} event [description]
      */
     Component.prototype.handleDataItemAdded = function (event) {
         event.newValue.component = this;
@@ -1267,7 +1270,7 @@ var Component = /** @class */ (function (_super) {
      * removes [[DataItem]] as well as triggers data re-validation.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<DataItem>["insert"]} event [description]
+     * @param {IListEvents<DataItem>["inserted"]} event [description]
      */
     Component.prototype.handleDataItemRemoved = function (event) {
         event.oldValue.component = undefined;

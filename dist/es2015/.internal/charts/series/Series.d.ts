@@ -418,10 +418,10 @@ export declare class Series extends Component {
     /**
      * Decorates newly created bullet after it has been instert into the list.
      *
-     * @param {IListEvents<Bullet>["insert"]}  event  List event
+     * @param {IListEvents<Bullet>["inserted"]}  event  List event
      * @todo investigate why itemReaderText is undefined
      */
-    protected processBullet(event: IListEvents<Bullet>["insert"]): void;
+    protected processBullet(event: IListEvents<Bullet>["inserted"]): void;
     /**
      * Validates data items.
      *
@@ -489,9 +489,9 @@ export declare class Series extends Component {
     /**
      * Process axis range after it has been added to the list.
      *
-     * @param {IListEvents<AxisDataItem>["insert"]}  event  Event
+     * @param {IListEvents<AxisDataItem>["inserted"]}  event  Event
      */
-    protected processAxisRange(event: IListEvents<AxisDataItem>["insert"]): void;
+    protected processAxisRange(event: IListEvents<AxisDataItem>["inserted"]): void;
     /**
      * [getAxisField description]
      *

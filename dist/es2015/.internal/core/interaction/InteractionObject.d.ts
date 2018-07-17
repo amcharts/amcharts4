@@ -80,7 +80,7 @@ export declare class InteractionObject extends BaseObjectEvents {
     /**
      * Element to attach events to.
      *
-     * @type {Optional<HTMLElement>}
+     * @type {HTMLElement}
      */
     private _element;
     /**
@@ -213,7 +213,7 @@ export declare class InteractionObject extends BaseObjectEvents {
     /**
      * Constructor
      */
-    constructor();
+    constructor(element: HTMLElement | SVGSVGElement);
     /**
      * Returns if this element is currently hovered.
      *
@@ -384,13 +384,13 @@ export declare class InteractionObject extends BaseObjectEvents {
     tabindex: number;
     /**
      * Returns DOM element associated with this element
-     * @return {HTMLElement} Element
+     * @return {HTMLElement | SVGSVGElement} Element
      */
     /**
      * Sets DOM element associated with this element
-     * @param {Optional<HTMLElement | SVGSVGElement>} element Element
+     * @param {HTMLElement | SVGSVGElement} element Element
      */
-    element: $type.Optional<HTMLElement | SVGSVGElement>;
+    element: HTMLElement | SVGSVGElement;
     /**
      * Returns element's original position.
      *
@@ -428,10 +428,6 @@ export declare class InteractionObject extends BaseObjectEvents {
      * @param {number} value Angle
      */
     originalAngle: number;
-    /**
-     * Destroys this object and all related data.
-     */
-    dispose(): void;
     /**
      * Copies all properties and related assets from another object of the same
      * type.

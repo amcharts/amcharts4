@@ -178,6 +178,7 @@ var CategoryAxis = /** @class */ (function (_super) {
         _this._prebuildDisposer = registry.events.on("enterframe", _this.prebuildDataItem, _this);
         _this._lastDataItem = _this.createDataItem();
         _this._lastDataItem.component = _this;
+        _this._disposers.push(_this._lastDataItem);
         // Apply theme
         _this.applyTheme();
         return _this;

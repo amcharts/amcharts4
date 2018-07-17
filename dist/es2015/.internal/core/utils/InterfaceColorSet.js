@@ -75,6 +75,7 @@ var InterfaceColorSet = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    InterfaceColorSet.prototype.debug = function () { };
     /**
      * Returns a color to be used for the specific purpose.
      *

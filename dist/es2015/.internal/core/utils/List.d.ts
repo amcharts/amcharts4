@@ -71,7 +71,7 @@ export interface IListEvents<A> {
      *
      * @todo remove this later?
      */
-    insert: {
+    inserted: {
         newValue: A;
     };
     /**
@@ -79,7 +79,7 @@ export interface IListEvents<A> {
      *
      * @todo remove this later?
      */
-    remove: {
+    removed: {
         oldValue: A;
     };
     /**
@@ -161,10 +161,10 @@ export declare class ListGrouper<A> extends MultiDisposer {
      */
     constructor(list: $iter.Iterable<A> & {
         events: EventDispatcher<{
-            insert: {
+            inserted: {
                 newValue: A;
             };
-            remove: {
+            removed: {
                 oldValue: A;
             };
         }>;
@@ -184,7 +184,7 @@ export declare class ListGrouper<A> extends MultiDisposer {
  */
 export declare type ListLike<A> = $iter.Iterable<A> & {
     events: EventDispatcher<{
-        remove: {
+        removed: {
             oldValue: A;
         };
     }>;

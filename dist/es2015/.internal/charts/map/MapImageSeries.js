@@ -19,7 +19,7 @@ var __extends = (this && this.__extends) || (function () {
  */
 import { MapSeries, MapSeriesDataItem } from "./MapSeries";
 import { MapImage } from "./MapImage";
-import { ListTemplate } from "../../core/utils/List";
+import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { registry } from "../../core/Registry";
 import * as $array from "../../core/utils/Array";
 import * as $mapUtils from "./MapUtils";
@@ -233,8 +233,10 @@ var MapImageSeries = /** @class */ (function (_super) {
             if (!this._mapImages) {
                 var template = new MapImage();
                 var mapImages = new ListTemplate(template);
+                this._disposers.push(new ListDisposer(mapImages));
+                this._disposers.push(mapImages.template);
                 mapImages.template.focusable = true;
-                mapImages.events.on("insert", this.handleObjectAdded, this);
+                mapImages.events.on("inserted", this.handleObjectAdded, this);
                 this._mapImages = mapImages;
             }
             return this._mapImages;

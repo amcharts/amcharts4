@@ -119,6 +119,18 @@ export interface ILabelEvents extends IContainerEvents {
  * @see {@link Adapter}
  */
 export interface ILabelAdapters extends IContainerAdapters, ILabelProperties {
+    /**
+     * Applied to the final formatted label text.
+     *
+     * @type {string}
+     */
+    textOutput: string;
+    /**
+     * Applied to the final formatted label HTML.
+     *
+     * @type {string}
+     */
+    htmlOutput: string;
 }
 /**
  * ============================================================================
@@ -347,29 +359,29 @@ export declare class Label extends Container {
      */
     selectable: boolean;
     /**
-     * @return {TextAlign} Alignement
+     * @return {TextAlign} Alignment
      */
     /**
-     * Horizontal text alignement.
+     * Horizontal text alignment.
      *
      * Available choices:
      * * "start"
      * * "middle"
      * * "end"
      *
-     * @param {TextAlign}  value  Alignement
+     * @param {TextAlign}  value  Alignment
      */
     textAlign: TextAlign;
     /**
      * @ignore Exclude from docs (not used)
-     * @return {TextValign} Alignement
+     * @return {TextValign} Alignment
      * @deprecated
      */
     /**
-     * Vertical text alignement.
+     * Vertical text alignment.
      *
      * @ignore Exclude from docs (not used)
-     * @param {TextValign}  value  Alignement
+     * @param {TextValign}  value  Alignment
      * @deprecated
      */
     textValign: TextValign;

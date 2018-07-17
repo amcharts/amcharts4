@@ -14,6 +14,22 @@ define('@amcharts/amcharts4-geodata/continentsLow', [], function () {
   }
   throw new Error("You must add 'geodata/continentsLow' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4-geodata/franceHigh', [], function () {
+  'use strict';
+  var output = self.am4geodata_franceHigh;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/franceHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/franceLow', [], function () {
+  'use strict';
+  var output = self.am4geodata_franceLow;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/franceLow' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4-geodata/usa2High', [], function () {
   'use strict';
   var output = self.am4geodata_usa2High;

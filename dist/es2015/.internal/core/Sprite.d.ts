@@ -898,13 +898,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     copyFrom(source: this): void;
     dispose(): void;
     /**
-     * Returns if the the Sprite is template.
-     *
      * @ignore Exclude from docs
      * @return {boolean} Is template?
      */
     /**
-     * Sets if this element is a "template".
+     * Indicates if this element is a "template".
      *
      * Template Sprites act only as a holders for config for other "real"
      * elements to be cloned from.
@@ -912,18 +910,16 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Templates are treated differently, as they are not validated, redrawn, or
      * otherwise are processed.
      *
+     * @ignore Exclude from docs
      * @param {boolean} value Is template?
      */
     isTemplate: boolean;
     /**
-     * Returns whether the element should attempt to construct itself in a way so
-     * that system tooltip is shown if its `readerTitle` is set.
-     *
      * @return {boolean} Show system tooltip?
      */
     /**
-     * Sets whether the element should attempt to construct itself in a way so
-     * that system tooltip is shown if its `readerTitle` is set.
+     * Indicates whether the element should attempt to construct itself in a way
+     * so that system tooltip is shown if its `readerTitle` is set.
      *
      * @param {boolean} value Show system tooltip?
      */
@@ -935,7 +931,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @hidden
      */
     /**
-     * Returns elements's top-level [[Container]].
+     * Elements's top-level [[Container]].
      *
      * In most cases that will be a Chart.
      *
@@ -1194,9 +1190,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     protected removeElement(): void;
     /**
-     * Returns relative (percent) value of the X coorindate within this element.
+     * Returns relative (percent) value of the X coordindate within this element.
      *
-     * A relative value is a hundrieth of a percent. So 100% would result in a 1
+     * A relative value is a hundredth of a percent. So 100% would result in a 1
      * as relative value.
      *
      * @param  {number | Percent}  value  Absolute or relative X coordinate
@@ -1204,9 +1200,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     getRelativeX(value: number | Percent): number;
     /**
-     * Returns relative (percent) value of the Y coorindate within this element.
+     * Returns relative (percent) value of the Y coordindate within this element.
      *
-     * A relative value is a hundrieth of a percent. So 100% would result in a 1
+     * A relative value is a hundredth of a percent. So 100% would result in a 1
      * as relative value.
      *
      * @param  {number | Percent}  value  Absolute or relative Y coordinate
@@ -1269,8 +1265,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     mask: Optional<Sprite>;
     /**
-     * Returns [[Rectangle]] element currently used as elements mask.
-     *
      * @ignore Exclude from docs
      * @return {IRectangle} Mask Rectangle
      */
@@ -1286,20 +1280,18 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     maskRectangle: IRectangle;
     /**
-     * Returns if element was already measured.
-     *
      * @ignore Exclude from docs
      * @return {boolean} Was element already measured?
      */
     /**
-     * Sets if this element was already measured.
+     * Indicates if this element was already measured.
      *
      * @ignore Exclude from docs
      * @param {boolean} value Was element already measured?
      */
     isMeasured: boolean;
     /**
-     * Checks if the this elemen has any of its parts overlapping with another
+     * Checks if the this element has any of its parts overlapping with another
      * element.
      *
      * @todo Description (review)
@@ -1435,49 +1427,42 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @return {boolean} Is hovered?
      */
     /**
-     * Sets indicator if this element has a mouse pointer currently hovering
+     * Indicates if this element has a mouse pointer currently hovering
      * over it, or if it has any touch pointers pressed on it.
      *
      * @param {boolean} value Is hovered?
      */
     isHover: boolean;
     /**
-     * Returns indicator if this element is being dragged at the moment
+     * Returns indicator if this element is being dragged at the moment.
      *
      * @return {boolean} Is dragged?
      */
     readonly isDragged: boolean;
     /**
-     * Returns indicator if this element has any pointers (mouse or touch)
-     * pressing down on it.
-     *
      * @return {boolean} Is down?
      */
     /**
-     * Sets indicator if this element has any pointers (mouse or touch) pressing
-     * down on it.
+     * Indicates if this element has any pointers (mouse or touch) pressing down
+     * on it.
      *
      * @param {boolean} value Is down?
      */
     isDown: boolean;
     /**
-     * Returns if this element is focused.
-     *
      * @return {boolean} Is focused?
      */
     /**
-     * Sets if this element is focused (possibly by tab navigation).
+     * Indicates if this element is focused (possibly by tab navigation).
      *
      * @param {boolean} value Is focused?
      */
     isFocused: boolean;
     /**
-     * Returns if this element is currently active.
-     *
      * @return {boolean} Is active?
      */
     /**
-     * Sets if this element is currently active (toggled on) or not
+     * Indicates if this element is currently active (toggled on) or not
      * (toggled off).
      *
      * @param {boolean} value Is active?
@@ -2166,12 +2151,10 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     handleUp(ev?: AMEvent<Sprite, ISpriteEvents>["up"]): void;
     /**
-     * Returns `true` if the element is currently set as draggable.
-     *
      * @return {boolean}
      */
     /**
-     * Sets if the element is clickable.
+     * Indicates if the element is clickable.
      *
      * Some times of the elements, like buttons are clickable by default.
      *
@@ -2184,12 +2167,10 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     clickable: boolean;
     /**
-     * Returns if element is currently set as togglable.
-     *
      * @return {boolean} Is togglable?
      */
     /**
-     * Sets if element can be toggled on and off by subsequent clicks/taps.
+     * Indicates if element can be toggled on and off by subsequent clicks/taps.
      *
      * Togglable element will alternate its `isActive` property between `true`
      * and `false` with each click.
@@ -2205,12 +2186,10 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     handleToggle(ev: AMEvent<Sprite, ISpriteEvents>["hit"]): void;
     /**
-     * Returns current setting for URL.
-     *
      * @return {Optional<string>} URL
      */
     /**
-     * Sets click-through URL for this element.
+     * Click-through URL for this element.
      *
      * If set, clicking/tapping this element will open the new URL in a target
      * window/tab as set by `urlTarget`.
@@ -2219,12 +2198,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     url: $type.Optional<string>;
     /**
-     * Returns current URL target.
-     *
      * @return {string} URL target
      */
     /**
      * Target to use for URL clicks:
+     *
      * * _blank
      * * _self (default)
      * * _parent
@@ -2271,8 +2249,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     swipeable: boolean;
     /**
-     * Returns current trackable setting.
-     *
      * @return {boolean} Track cursor movement over element?
      */
     /**
@@ -2282,7 +2258,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @hidden
      */
     /**
-     * Sets if the element is trackable (mouse position over it is reported to
+     * Indicates if the element is trackable (mouse position over it is reported to
      * event listeners).
      *
      * Will invoke `track` events whenever pointer (cursor) changes position
@@ -2295,8 +2271,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     trackable: boolean;
     /**
-     * Returns current setting for mouse wheel.
-     *
      * @return {boolean} Mouse wheel events enabled?
      */
     /**
@@ -2306,7 +2280,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @hidden
      */
     /**
-     * Sets if the element can be interacted with mouse wheel.
+     * Indicates if the element can be interacted with mouse wheel.
      *
      * Will invoke `wheel`, `wheelup`, `wheeldown`, `wheelleft`, and `wheelright`
      * events when using mouse wheel over the element.
@@ -2315,8 +2289,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     wheelable: boolean;
     /**
-     * Returns current `resizable` value.
-     *
      * @return {boolean} Element resizable?
      */
     /**
@@ -2326,7 +2298,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @hidden
      */
     /**
-     * Set if this element is resizable.
+     * Indicates if this element is resizable.
      *
      * Enabling resize will turn on various interactions on the element. Their
      * actual functionality will depend on other properties.
@@ -2434,7 +2406,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @return {boolean} Is interaction enabled for this element?
      */
     /**
-     * Setting this to `false` will efectively disable all interactivity on the
+     * Setting this to `false` will effectively disable all interactivity on the
      * element.
      *
      * @param {boolean}  value  Is interaction enabled for this element?
@@ -2685,7 +2657,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @return {Align} Horizontal align
      */
     /**
-     * Controls horizontal alignement of the element.
+     * Controls horizontal alignment of the element.
      *
      * This is used by parent [[Container]] when layouting its children.
      *
@@ -2696,7 +2668,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @return {VerticalAlign} Vertical align
      */
     /**
-     * Controls vertical alignement of the element.
+     * Controls vertical alignment of the element.
      *
      * This is used by parent [[Container]] when layouting its children.
      *
@@ -3297,7 +3269,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * Different elements use different default setting for `pixelPerfect`.
      *
-     * We recomment leaving this at their default settings, unless there's a
+     * We recommend leaving this at their default settings, unless there's a
      * specific need.
      *
      * @param {boolean}  value  Use pixel perfect?
@@ -3309,7 +3281,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * An RTL (righ-to-left) setting.
      *
-     * RTL may affect alignement, text, and other visual properties.
+     * RTL may affect alignment, text, and other visual properties.
      *
      * @param {DateFormatter}  value  `true` for to use RTL
      */

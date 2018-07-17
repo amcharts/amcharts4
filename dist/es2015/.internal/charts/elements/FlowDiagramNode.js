@@ -121,7 +121,7 @@ var FlowDiagramNode = /** @class */ (function (_super) {
             var _this = this;
             if (!this._incomingDataItems) {
                 var incomingDataItems = new List();
-                incomingDataItems.events.on("insert", function () {
+                incomingDataItems.events.on("inserted", function () {
                     if (_this.chart.sortBy == "name") {
                         _this._incomingSorted = $iter.sort(_this._incomingDataItems.iterator(), function (x, y) { return $string.order(x.fromName, y.fromName); });
                     }
@@ -150,7 +150,7 @@ var FlowDiagramNode = /** @class */ (function (_super) {
             var _this = this;
             if (!this._outgoingDataItems) {
                 var outgoingDataItems = new List();
-                outgoingDataItems.events.on("insert", function () {
+                outgoingDataItems.events.on("inserted", function () {
                     if (_this.chart.sortBy == "name") {
                         _this._outgoingSorted = $iter.sort(_this._outgoingDataItems.iterator(), function (x, y) { return $string.order(x.fromName, y.fromName); });
                     }

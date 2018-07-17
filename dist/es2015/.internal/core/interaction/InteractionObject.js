@@ -22,7 +22,6 @@ import { BaseObjectEvents } from "../Base";
 import { List } from "../utils/List";
 import { Dictionary, DictionaryDisposer } from "../utils/Dictionary";
 import { getInteraction } from "./Interaction";
-import * as $iter from "../utils/Iterator";
 import * as $type from "../utils/Type";
 /**
  * Re-exports
@@ -47,7 +46,7 @@ var InteractionObject = /** @class */ (function (_super) {
     /**
      * Constructor
      */
-    function InteractionObject() {
+    function InteractionObject(element) {
         var _this = _super.call(this) || this;
         /**
          * An [[EventDispatcher]] instance which holds events for this object
@@ -144,8 +143,10 @@ var InteractionObject = /** @class */ (function (_super) {
                     "value": "default"
                 }]
         };
+        _this._element = element;
         _this.className = "InteractionObject";
         _this._disposers.push(new DictionaryDisposer(_this.inertias));
+        _this._disposers.push(new DictionaryDisposer(_this.eventDisposers));
         _this.applyTheme();
         return _this;
     }
@@ -526,14 +527,14 @@ var InteractionObject = /** @class */ (function (_super) {
     Object.defineProperty(InteractionObject.prototype, "element", {
         /**
          * Returns DOM element associated with this element
-         * @return {HTMLElement} Element
+         * @return {HTMLElement | SVGSVGElement} Element
          */
         get: function () {
             return this._element;
         },
         /**
          * Sets DOM element associated with this element
-         * @param {Optional<HTMLElement | SVGSVGElement>} element Element
+         * @param {HTMLElement | SVGSVGElement} element Element
          */
         set: function (element) {
             this._element = element;
@@ -609,18 +610,6 @@ var InteractionObject = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    /**
-     * Destroys this object and all related data.
-     */
-    InteractionObject.prototype.dispose = function () {
-        if (!this.isDisposed) {
-            _super.prototype.dispose.call(this);
-            $iter.each(this.eventDisposers.iterator(), function (a) {
-                var y = a[1];
-                y.dispose();
-            });
-        }
-    };
     /**
      * Copies all properties and related assets from another object of the same
      * type.

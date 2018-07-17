@@ -18,8 +18,8 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Chart, ChartDataItem } from "../Chart";
-import { ListTemplate } from "../../core/utils/List";
-import { DictionaryTemplate } from "../../core/utils/Dictionary";
+import { ListTemplate, ListDisposer } from "../../core/utils/List";
+import { DictionaryTemplate, DictionaryDisposer } from "../../core/utils/Dictionary";
 import { Container } from "../../core/Container";
 import { registry } from "../../core/Registry";
 import { FlowDiagramNode } from "../elements/FlowDiagramNode";
@@ -179,18 +179,6 @@ var FlowDiagram = /** @class */ (function (_super) {
          * @type {ColorSet}
          */
         _this.colors = new ColorSet();
-        /**
-         * A list of chart's FlowDiagram nodes.
-         *
-         * @param {DictionaryTemplate<string, FlowDiagramNode>}
-         */
-        _this.nodes = new DictionaryTemplate(new FlowDiagramNode());
-        /**
-         * A list of FlowDiagram links connecting nodes.
-         *
-         * @param {ListTemplate<FlowDiagramLink>}
-         */
-        _this.links = new ListTemplate(new FlowDiagramLink());
         _this.className = "FlowDiagram";
         _this.nodePadding = 20;
         _this.sortBy = "none";
@@ -221,18 +209,9 @@ var FlowDiagram = /** @class */ (function (_super) {
      */
     FlowDiagram.prototype.validateData = function () {
         var _this = this;
-        // reset toNodes and fromNodes
-        $iter.each(this.nodes.iterator(), function (strNode) {
-            var node = strNode[1];
-            node.incomingDataItems.clear();
-            node.outgoingDataItems.clear();
-        });
-        $iter.each(this.nodes.iterator(), function (strNode) {
-            var node = strNode[1];
-            _this.nodes.removeKey(strNode[0]);
-            node.dispose();
-        });
+        this.nodes.clear();
         this.links.clear();
+        this.sortNodes();
         _super.prototype.validateData.call(this);
         var sum = 0;
         var count = 0;
@@ -459,6 +438,54 @@ var FlowDiagram = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(FlowDiagram.prototype, "nodes", {
+        /**
+         * A list of chart's nodes.
+         *
+         * @param {DictionaryTemplate<string, this["_node"]>}
+         */
+        get: function () {
+            if (!this._nodes) {
+                this._nodes = new DictionaryTemplate(this.createNode());
+                this._disposers.push(new DictionaryDisposer(this._nodes));
+            }
+            return this._nodes;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @ignore
+     */
+    FlowDiagram.prototype.createNode = function () {
+        var node = new FlowDiagramNode();
+        this._disposers.push(node);
+        return node;
+    };
+    Object.defineProperty(FlowDiagram.prototype, "links", {
+        /**
+         * A list of chart's links.
+         *
+         * @param {ListTemplate<this["_link"]>}
+         */
+        get: function () {
+            if (!this._links) {
+                this._links = new ListTemplate(this.createLink());
+                this._disposers.push(new ListDisposer(this._links));
+            }
+            return this._links;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @ignore
+     */
+    FlowDiagram.prototype.createLink = function () {
+        var link = new FlowDiagramLink();
+        this._disposers.push(link);
+        return link;
+    };
     return FlowDiagram;
 }(Chart));
 export { FlowDiagram };

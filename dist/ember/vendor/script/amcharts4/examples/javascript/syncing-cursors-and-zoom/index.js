@@ -1,12 +1,9 @@
-am4core.useTheme(am4themes_animated);
+//am4core.useTheme(am4themes_animated);
 
 var container = am4core.create("chartdiv", am4core.Container);
 container.width = am4core.percent(100);
 container.height = am4core.percent(100);
 container.layout = "vertical";
-
-//container.interactionsEnabled = false;
-
 
 var chartCount = 3;
 var charts = [];

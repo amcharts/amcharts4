@@ -23,7 +23,7 @@ import { LinearGradient } from "../../core/rendering/fills/LinearGradient";
 import { registry } from "../../core/Registry";
 import { Bullet } from "../elements/Bullet";
 import { Color } from "../../core/utils/Color";
-import { ListTemplate } from "../../core/utils/List";
+import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { Polyline } from "../../core/elements/Polyline";
 import { Line } from "../../core/elements/Line";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
@@ -250,7 +250,9 @@ var FlowDiagramLink = /** @class */ (function (_super) {
             var _this = this;
             if (!this._bullets) {
                 this._bullets = new ListTemplate(new Bullet());
-                this._bullets.events.on("insert", function (event) {
+                this._disposers.push(new ListDisposer(this._bullets));
+                this._disposers.push(this._bullets.template);
+                this._bullets.events.on("inserted", function (event) {
                     event.newValue.events.on("propertychanged", function (event) {
                         if (event.property == "locationX" || event.property == "locationY") {
                             _this.positionBullet(event.target);

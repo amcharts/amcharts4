@@ -18,7 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Chart, ChartDataItem } from "../Chart";
-import { ListTemplate } from "../../core/utils/List";
+import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { Container } from "../../core/Container";
 import { Series } from "../series/Series";
 import { percent } from "../../core/utils/Percent";
@@ -96,6 +96,12 @@ var SerialChart = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    SerialChart.prototype.dispose = function () {
+        _super.prototype.dispose.call(this);
+        if (this.colors) {
+            this.colors.dispose();
+        }
+    };
     /**
      * Sets defaults that instantiate some objects that rely on parent, so they
      * cannot be set in constructor
@@ -118,10 +124,12 @@ var SerialChart = /** @class */ (function (_super) {
             var _this = this;
             if (!this._series) {
                 this._series = new ListTemplate(this.createSeries());
-                this._series.events.on("insert", this.processSeries, this);
-                this._series.events.on("remove", function (event) {
+                this._series.events.on("inserted", this.processSeries, this);
+                this._series.events.on("removed", function (event) {
                     _this.dataUsers.removeValue(event.oldValue);
                 });
+                this._disposers.push(new ListDisposer(this._series));
+                this._disposers.push(this._series.template);
             }
             return this._series;
         },
@@ -133,7 +141,7 @@ var SerialChart = /** @class */ (function (_super) {
      * added to the chart.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Series>["insert"]}  event  Event
+     * @param {IListEvents<Series>["inserted"]}  event  Event
      * @todo Consider renaming to "handle*" as it would suit event handler better
      */
     SerialChart.prototype.processSeries = function (event) {

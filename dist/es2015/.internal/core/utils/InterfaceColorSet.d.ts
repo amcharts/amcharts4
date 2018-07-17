@@ -70,6 +70,7 @@ export declare class InterfaceColorSet extends BaseObject {
      * Constructor
      */
     constructor();
+    protected debug(): void;
     /**
      * Returns a color to be used for the specific purpose.
      *

@@ -50,13 +50,13 @@ export interface IPopupAdapters {
      */
     draggable: boolean;
     /**
-     * Applied to horizontal alignement of the popup.
+     * Applied to horizontal alignment of the popup.
      *
      * @type {Align}
      */
     align: Align;
     /**
-     * Applied to vertical alignement of the popup.
+     * Applied to vertical alignment of the popup.
      *
      * @type {VerticalAlign}
      */

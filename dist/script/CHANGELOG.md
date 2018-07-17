@@ -5,6 +5,29 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.32] - 2018-07-17
+
+### Important (potentially breaking changes)
+- To maintain event-naming consistecy, events `"insert"` and `"remove"` were renamed to `"inserted"` and `"removed"` respectively in `List` and its inheriting classes. [#132]
+- To maintain event-naming consistecy, events `"clear"` and `"remove"` were renamed to `"cleared"` and `"removed"` respectively in `Dictionary` and its inheriting classes.
+
+### Fixed
+- Significant performance improvements were made.
+- JSON config: Filters could not be used.
+- Some properties were not being copied when cloning objects, e.g. `segments` in `LineSeries`. (`interactionsEnabled` and some others)
+- Circular axis was not properly drawing grid lines if `radius` was < `percent(100)`.
+- `Button` label was "stealing" interactions from the button itself.
+- `Tooltip` was sometimes drawn without pointer if "animated" theme was not enabled.
+- Fixed label alignment of Y axis.
+
+### Changed
+- Improved `contentAlign` (when content size is bigger than actual size of a container).
+
+### Added
+- Two new adapters added to `Label`: `"textOutput"` and `"htmlOutput"`. Both are applied **after** label contents (text or HTML respectively) are populated with data.
+- Added `"custom"` option to export menu types, which now allows creating clickable custom items in the `ExportMenu`.
+- `Legend` now accepts "raw" data, enabling creating custom items: `legend.data = [{name:"name 1", fill:"#ff0000"}, {name:"name 2", fill:"#00ff00"}]`. Important: a legend with custom items must be added to some chart container manually (e.g. `chart.chartContainer`). Assigning it to `chart.legend` will overwrite its data.
+
 ## [4.0.0-beta.31] - 2018-07-06
 
 ### Important

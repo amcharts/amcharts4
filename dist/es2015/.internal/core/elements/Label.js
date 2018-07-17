@@ -156,6 +156,12 @@ var Label = /** @class */ (function (_super) {
         if ($type.hasValue(text) && text !== "") {
             text = this.populateString(text, this.dataItem);
         }
+        if (output == "html") {
+            text = this.adapter.apply("htmlOutput", text);
+        }
+        else {
+            text = this.adapter.apply("textOutput", text);
+        }
         // Update the text
         var changed = text != this._currentText || output != this._currentFormat;
         this._currentText = text;
@@ -575,7 +581,7 @@ var Label = /** @class */ (function (_super) {
         // Process each line
         $iter.each(group.children.backwards().iterator(), function (element) {
             // Align horizontally
-            // Since we are using `text-anchor` for horizontal alignement, all we need
+            // Since we are using `text-anchor` for horizontal alignment, all we need
             // to do here is move the `x` position
             element.attr({ "text-anchor": _this.textAlign });
             switch (_this.textAlign) {
@@ -670,7 +676,7 @@ var Label = /** @class */ (function (_super) {
         // Create the <div> element
         var div = document.createElement("div");
         div.innerHTML = text;
-        // Set text alignement
+        // Set text alignment
         switch (this.textAlign) {
             case "middle":
                 div.style.textAlign = "center";
@@ -868,20 +874,20 @@ var Label = /** @class */ (function (_super) {
     });
     Object.defineProperty(Label.prototype, "textAlign", {
         /**
-         * @return {TextAlign} Alignement
+         * @return {TextAlign} Alignment
          */
         get: function () {
             return this.getPropertyValue("textAlign");
         },
         /**
-         * Horizontal text alignement.
+         * Horizontal text alignment.
          *
          * Available choices:
          * * "start"
          * * "middle"
          * * "end"
          *
-         * @param {TextAlign}  value  Alignement
+         * @param {TextAlign}  value  Alignment
          */
         set: function (value) {
             this.setPropertyValue("textAlign", value, true);
@@ -892,17 +898,17 @@ var Label = /** @class */ (function (_super) {
     Object.defineProperty(Label.prototype, "textValign", {
         /**
          * @ignore Exclude from docs (not used)
-         * @return {TextValign} Alignement
+         * @return {TextValign} Alignment
          * @deprecated
          */
         get: function () {
             return this.getPropertyValue("textValign");
         },
         /**
-         * Vertical text alignement.
+         * Vertical text alignment.
          *
          * @ignore Exclude from docs (not used)
-         * @param {TextValign}  value  Alignement
+         * @param {TextValign}  value  Alignment
          * @deprecated
          */
         set: function (value) {

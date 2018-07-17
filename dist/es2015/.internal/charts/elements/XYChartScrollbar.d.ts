@@ -114,9 +114,9 @@ export declare class XYChartScrollbar extends Scrollbar {
     /**
      * Decorates a new series when they are pushed into a `series` list.
      *
-     * @param {IListEvents<XYSeries>["insert"]} event Event
+     * @param {IListEvents<XYSeries>["inserted"]} event Event
      */
-    protected handleSeriesAdded(event: IListEvents<XYSeries>["insert"]): void;
+    protected handleSeriesAdded(event: IListEvents<XYSeries>["inserted"]): void;
     /**
      * @ignore
      */
@@ -124,9 +124,9 @@ export declare class XYChartScrollbar extends Scrollbar {
     /**
      * Cleans up after series are removed from Scrollbar.
      *
-     * @param {IListEvents<XYSeries>["remove"]}  event  Event
+     * @param {IListEvents<XYSeries>["removed"]}  event  Event
      */
-    protected handleSeriesRemoved(event: IListEvents<XYSeries>["remove"]): void;
+    protected handleSeriesRemoved(event: IListEvents<XYSeries>["removed"]): void;
     /**
      * A chart element that is used to display graphs in the Scrollbar.
      *

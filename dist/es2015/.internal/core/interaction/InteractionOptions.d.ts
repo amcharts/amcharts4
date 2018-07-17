@@ -101,7 +101,7 @@ export interface IHoverOptions {
      * @default "leave"
      * @type {number}
      */
-    touchOutBehavior?: "remove" | "delay" | "leave";
+    touchOutBehavior?: "removed" | "delay" | "leave";
     /**
      * How long in milliseconds should "out" event be delayed when the element
      * is not longer being touched. Works only if `touchOutBehavior = "delay"`.

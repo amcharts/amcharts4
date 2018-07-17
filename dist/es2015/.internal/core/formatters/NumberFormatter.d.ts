@@ -101,8 +101,9 @@ export declare class NumberFormatter extends BaseObject {
      * the number.
      *
      * @param {string} format Format string, i.e. "#,###.00"
+     * @param {Language} language Language
      */
-    protected parseFormat(format: string): any;
+    protected parseFormat(format: string, language: Language): any;
     /**
      * Applies parsed format to a numeric value.
      *

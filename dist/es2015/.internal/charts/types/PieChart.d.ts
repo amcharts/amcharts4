@@ -175,6 +175,7 @@ export interface IPieChartAdapters extends ISerialChartAdapters, IPieChartProper
  *
  * @see {@link IPieChartEvents} for a list of available Events
  * @see {@link IPieChartAdapters} for a list of available Adapters
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/pie-chart/} for documentation
  * @important
  */
 export declare class PieChart extends SerialChart {

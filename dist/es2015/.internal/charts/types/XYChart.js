@@ -185,6 +185,7 @@ export { XYChartDataItem };
  *
  * @see {@link IXYChartEvents} for a list of available Events
  * @see {@link IXYChartAdapters} for a list of available Adapters
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/xy-chart/} for documentation
  * @important
  */
 var XYChart = /** @class */ (function (_super) {
@@ -385,7 +386,7 @@ var XYChart = /** @class */ (function (_super) {
      * Sets up a new horizontal (X) axis when it is added to the chart.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Axis>["insert"]}  event  Axis insert event
+     * @param {IListEvents<Axis>["inserted"]}  event  Axis insert event
      */
     XYChart.prototype.processXAxis = function (event) {
         var axis = event.newValue;
@@ -405,7 +406,7 @@ var XYChart = /** @class */ (function (_super) {
      * Removes events from the Axis when it is removed from the chart.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Axis>["remove"]}  event  Event
+     * @param {IListEvents<Axis>["removed"]}  event  Event
      */
     XYChart.prototype.processXAxisRemoval = function (event) {
         var axis = event.oldValue;
@@ -415,7 +416,7 @@ var XYChart = /** @class */ (function (_super) {
      * Sets up a new vertical (Y) axis when it is added to the chart.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Axis>["insert"]} event Axis insert event
+     * @param {IListEvents<Axis>["inserted"]} event Axis insert event
      */
     XYChart.prototype.processYAxis = function (event) {
         var axis = event.newValue;
@@ -435,7 +436,7 @@ var XYChart = /** @class */ (function (_super) {
      * Removes events from the Axis when it is removed from the chart.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Axis>["remove"]}  event  Event
+     * @param {IListEvents<Axis>["removed"]}  event  Event
      */
     XYChart.prototype.processYAxisRemoval = function (event) {
         var axis = event.oldValue;
@@ -622,8 +623,8 @@ var XYChart = /** @class */ (function (_super) {
         get: function () {
             if (!this._xAxes) {
                 this._xAxes = new List();
-                this._xAxes.events.on("insert", this.processXAxis, this);
-                this._xAxes.events.on("remove", this.processXAxisRemoval, this);
+                this._xAxes.events.on("inserted", this.processXAxis, this);
+                this._xAxes.events.on("removed", this.processXAxisRemoval, this);
             }
             return this._xAxes;
         },
@@ -639,8 +640,8 @@ var XYChart = /** @class */ (function (_super) {
         get: function () {
             if (!this._yAxes) {
                 this._yAxes = new List();
-                this._yAxes.events.on("insert", this.processYAxis, this);
-                this._yAxes.events.on("remove", this.processYAxisRemoval, this);
+                this._yAxes.events.on("inserted", this.processYAxis, this);
+                this._yAxes.events.on("removed", this.processYAxisRemoval, this);
             }
             return this._yAxes;
         },
@@ -652,7 +653,7 @@ var XYChart = /** @class */ (function (_super) {
      * added to the chart.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<XYSeries>["insert"]}  event  Event
+     * @param {IListEvents<XYSeries>["inserted"]}  event  Event
      */
     XYChart.prototype.processSeries = function (event) {
         try {
@@ -700,6 +701,7 @@ var XYChart = /** @class */ (function (_super) {
                     cursor.events.on("panstarted", this.handleCursorPanStart, this);
                     cursor.events.on("panning", this.handleCursorPanning, this);
                     cursor.events.on("panended", this.handleCursorPanEnd, this);
+                    cursor.events.on("behaviorcanceled", this.handleCursorCanceled, this);
                     cursor.events.on("hidden", this.handleHideCursor, this);
                     cursor.zIndex = Number.MAX_SAFE_INTEGER - 1;
                     if (this.data.length == 0) {
@@ -969,6 +971,10 @@ var XYChart = /** @class */ (function (_super) {
             this._panEndYRange = undefined;
             this._panStartYRange = undefined;
         }
+    };
+    XYChart.prototype.handleCursorCanceled = function () {
+        this._panEndXRange = undefined;
+        this._panStartXRange = undefined;
     };
     /**
      * Performs zoom and other operations when user is panning chart plot using chart cursor.

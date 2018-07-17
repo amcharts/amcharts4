@@ -64,7 +64,15 @@ var Column = /** @class */ (function (_super) {
         this.column = this.createChild(RoundedRectangle);
         this.column.shouldClone = false;
         this.column.cornerRadius(0, 0, 0, 0);
+        this._disposers.push(this.column);
     };
+    /**
+     * Validates element:
+     * * Triggers events
+     * * Redraws the element
+     *
+     * @ignore Exclude from docs
+     */
     Column.prototype.validate = function () {
         _super.prototype.validate.call(this);
         if (this.column) {
@@ -72,6 +80,11 @@ var Column = /** @class */ (function (_super) {
             this.column.height = $math.min(this.pixelHeight, this.maxHeight);
         }
     };
+    /**
+     * Copies all parameters from another [[Sprite]].
+     *
+     * @param {Sprite} source Source Sprite
+     */
     Column.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
         if (this.column) {

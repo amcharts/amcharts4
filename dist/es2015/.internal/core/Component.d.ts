@@ -49,6 +49,7 @@ export interface IComponentDataFields {
 export interface IComponentEvents extends IContainerEvents {
     /**
      * Invoked when range of the currently selected data is validated.
+     *
      * @todo: change to datarangevalidated?
      */
     datarangechanged: {};
@@ -57,7 +58,8 @@ export interface IComponentEvents extends IContainerEvents {
      */
     datavalidated: {};
     /**
-     * Invoked when value(s) of the element's data items ar validated.
+     * Invoked when value(s) of the element's data items are validated.
+     *
      * @todo: change to valuesvalidated?
      */
     valueschanged: {};
@@ -437,9 +439,9 @@ export declare class Component extends Container {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @param {IListEvents<Component>["insert"]} event Event object
+     * @param {IListEvents<Component>["inserted"]} event Event object
      */
-    protected handleDataUserAdded(event: IListEvents<Component>["insert"]): void;
+    protected handleDataUserAdded(event: IListEvents<Component>["inserted"]): void;
     /**
      * [handleDataItemValueChange description]
      *
@@ -817,16 +819,16 @@ export declare class Component extends Container {
      * Processes newly added [[DataItem]] as well as triggers data re-validation.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<DataItem>["insert"]} event [description]
+     * @param {IListEvents<DataItem>["inserted"]} event [description]
      */
-    protected handleDataItemAdded(event: IListEvents<DataItem>["insert"]): void;
+    protected handleDataItemAdded(event: IListEvents<DataItem>["inserted"]): void;
     /**
      * removes [[DataItem]] as well as triggers data re-validation.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<DataItem>["insert"]} event [description]
+     * @param {IListEvents<DataItem>["inserted"]} event [description]
      */
-    protected handleDataItemRemoved(event: IListEvents<DataItem>["remove"]): void;
+    protected handleDataItemRemoved(event: IListEvents<DataItem>["removed"]): void;
     /**
      * [dataMethods description]
      *

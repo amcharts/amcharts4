@@ -185,6 +185,10 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
      */
     hidden: {};
     /**
+     * Invoked when zIndex of a sprite is changed
+     */
+    zIndexChanged: {};
+    /**
      * Invoked when property of the [[Sprite]] changes.
      */
     propertychanged: {

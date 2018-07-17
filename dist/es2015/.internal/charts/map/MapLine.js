@@ -30,7 +30,7 @@ var __values = (this && this.__values) || function (o) {
 import { MapObject } from "./MapObject";
 import { MapLineObject } from "./MapLineObject";
 import { Triangle } from "../../core/elements/Triangle";
-import { ListTemplate } from "../../core/utils/List";
+import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { Polyline } from "../../core/elements/Polyline";
 import { registry } from "../../core/Registry";
 import { color } from "../../core/utils/Color";
@@ -247,7 +247,9 @@ var MapLine = /** @class */ (function (_super) {
         get: function () {
             if (!this._lineObjects) {
                 this._lineObjects = new ListTemplate(new MapLineObject());
-                this._lineObjects.events.on("insert", this.handleLineObjectAdded, this);
+                this._lineObjects.events.on("inserted", this.handleLineObjectAdded, this);
+                this._disposers.push(new ListDisposer(this._lineObjects));
+                this._disposers.push(this._lineObjects.template);
             }
             return this._lineObjects;
         },
@@ -257,7 +259,7 @@ var MapLine = /** @class */ (function (_super) {
     /**
      * Decorate a [[LineObject]] when it is added to the line.
      *
-     * @param {IListEvents<MapLineObject>["insert"]}  event  Event
+     * @param {IListEvents<MapLineObject>["inserted"]}  event  Event
      */
     MapLine.prototype.handleLineObjectAdded = function (event) {
         var mapLineObject = event.newValue;

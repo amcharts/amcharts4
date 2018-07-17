@@ -73,7 +73,7 @@ export declare type ScaleEvent = {
     scale: number;
 };
 /**
- * Defines an event that contains event center coorindates.
+ * Defines an event that contains event center coordindates.
  */
 export declare type CenterEvent = {
     /**

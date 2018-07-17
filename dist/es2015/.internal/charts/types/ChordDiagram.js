@@ -13,8 +13,6 @@ var __extends = (this && this.__extends) || (function () {
 })();
 import { FlowDiagram, FlowDiagramDataItem } from "./FlowDiagram";
 import { percent } from "../../core/utils/Percent";
-import { ListTemplate } from "../../core/utils/List";
-import { DictionaryTemplate } from "../../core/utils/Dictionary";
 import { Container } from "../../core/Container";
 import { registry } from "../../core/Registry";
 import { ChordNode } from "../elements/ChordNode";
@@ -56,9 +54,11 @@ export { ChordDiagramDataItem };
  * @hidden
  */
 /**
- * Creates a Pie chart
+ * Creates a Chord Diagram chart.
+ *
  * @see {@link IChordDiagramEvents} for a list of available Events
  * @see {@link IChordDiagramAdapters} for a list of available Adapters
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/chord-diagram/} for documentation
  * @important
  */
 var ChordDiagram = /** @class */ (function (_super) {
@@ -70,18 +70,6 @@ var ChordDiagram = /** @class */ (function (_super) {
         var _this = 
         // Init
         _super.call(this) || this;
-        /**
-         * A list of chart's Chord nodes.
-         *
-         * @param {DictionaryTemplate<string, ChordNode>}
-         */
-        _this.nodes = new DictionaryTemplate(new ChordNode());
-        /**
-         * A list of Chord links connecting nodes.
-         *
-         * @param {ListTemplate<ChordLink>}
-         */
-        _this.links = new ListTemplate(new ChordLink());
         /**
          * [valueAngle description]
          *
@@ -349,6 +337,22 @@ var ChordDiagram = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * @ignore
+     */
+    ChordDiagram.prototype.createNode = function () {
+        var node = new ChordNode();
+        this._disposers.push(node);
+        return node;
+    };
+    /**
+     * @ignore
+     */
+    ChordDiagram.prototype.createLink = function () {
+        var link = new ChordLink();
+        this._disposers.push(link);
+        return link;
+    };
     return ChordDiagram;
 }(FlowDiagram));
 export { ChordDiagram };

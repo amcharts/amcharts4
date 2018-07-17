@@ -137,6 +137,7 @@ export { PieChartDataItem };
  *
  * @see {@link IPieChartEvents} for a list of available Events
  * @see {@link IPieChartAdapters} for a list of available Adapters
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/pie-chart/} for documentation
  * @important
  */
 var PieChart = /** @class */ (function (_super) {

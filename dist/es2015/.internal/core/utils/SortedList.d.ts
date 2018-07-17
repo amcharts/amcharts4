@@ -15,7 +15,7 @@ export interface ISortedListEvents<A> {
     /**
      * Invoked when new value is inserted into the list.
      */
-    insert: {
+    inserted: {
         /**
          * Inserted value.
          *
@@ -26,7 +26,7 @@ export interface ISortedListEvents<A> {
     /**
      * Invoked when a value is removed from the list.
      */
-    remove: {
+    removed: {
         /**
          * Removed value.
          *

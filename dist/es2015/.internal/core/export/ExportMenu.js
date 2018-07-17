@@ -658,7 +658,7 @@ var ExportMenu = /** @class */ (function (_super) {
     });
     Object.defineProperty(ExportMenu.prototype, "align", {
         /**
-         * @return {Align} Horizontal alignement
+         * @return {Align} Horizontal alignment
          */
         get: function () {
             return this.adapter.apply("align", {
@@ -666,9 +666,9 @@ var ExportMenu = /** @class */ (function (_super) {
             }).align;
         },
         /**
-         * A horizontal alignement for the menu placement.
+         * A horizontal alignment for the menu placement.
          *
-         * @param {Align} value Horizontal alignement
+         * @param {Align} value Horizontal alignment
          */
         set: function (value) {
             this._align = value;
@@ -679,7 +679,7 @@ var ExportMenu = /** @class */ (function (_super) {
     });
     Object.defineProperty(ExportMenu.prototype, "verticalAlign", {
         /**
-         * @return {VerticalAlign} Vertical alignement
+         * @return {VerticalAlign} Vertical alignment
          */
         get: function () {
             return this.adapter.apply("verticalAlign", {
@@ -687,9 +687,9 @@ var ExportMenu = /** @class */ (function (_super) {
             }).verticalAlign;
         },
         /**
-         * A vertical alignement for the menu placement.
+         * A vertical alignment for the menu placement.
          *
-         * @param {VerticalAlign} value Vertical alignement
+         * @param {VerticalAlign} value Vertical alignment
          */
         set: function (value) {
             this._verticalAlign = value;

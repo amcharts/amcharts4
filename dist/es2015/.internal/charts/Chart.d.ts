@@ -155,10 +155,10 @@ export declare class Chart extends Component {
     /**
      * Adds a new title to the chart when it is inserted into chart's titles
      * list.
-     * @param  {IListEvents<Label>["insert"]}  event  An event object which is triggered when inserting into titles list
+     * @param  {IListEvents<Label>["inserted"]}  event  An event object which is triggered when inserting into titles list
      * @return {Label}                               Label object
      */
-    protected processTitle(event: IListEvents<Label>["insert"]): Label;
+    protected processTitle(event: IListEvents<Label>["inserted"]): Label;
     /**
      * Checks if chart has any title elements. If it does, we will use them in an
      * `aria-labelledby` attribute so that screen readers can use them to properly

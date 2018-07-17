@@ -78,7 +78,19 @@ export declare class Column extends Container {
      * Constructor
      */
     constructor();
-    createAssets(): void;
+    protected createAssets(): void;
+    /**
+     * Validates element:
+     * * Triggers events
+     * * Redraws the element
+     *
+     * @ignore Exclude from docs
+     */
     validate(): void;
+    /**
+     * Copies all parameters from another [[Sprite]].
+     *
+     * @param {Sprite} source Source Sprite
+     */
     copyFrom(source: this): void;
 }

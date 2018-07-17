@@ -167,9 +167,9 @@ var OrderedList = /** @class */ (function () {
      */
     OrderedList.prototype.insert = function (value) {
         this._insert(value);
-        if (this.events.isEnabled("insert")) {
-            this.events.dispatchImmediately("insert", {
-                type: "insert",
+        if (this.events.isEnabled("inserted")) {
+            this.events.dispatchImmediately("inserted", {
+                type: "inserted",
                 target: this,
                 newValue: value
             });
@@ -185,9 +185,9 @@ var OrderedList = /** @class */ (function () {
         if (index !== -1) {
             var oldValue = this._values[index];
             $array.removeIndex(this._values, index);
-            if (this.events.isEnabled("remove")) {
-                this.events.dispatchImmediately("remove", {
-                    type: "remove",
+            if (this.events.isEnabled("removed")) {
+                this.events.dispatchImmediately("removed", {
+                    type: "removed",
                     target: this,
                     oldValue: oldValue
                 });
@@ -208,19 +208,19 @@ var OrderedList = /** @class */ (function () {
         $array.each(newArray, function (value) {
             _this._insert(value);
         });
-        if (this.events.isEnabled("remove")) {
+        if (this.events.isEnabled("removed")) {
             $array.each(oldArray, function (x) {
-                _this.events.dispatchImmediately("remove", {
-                    type: "remove",
+                _this.events.dispatchImmediately("removed", {
+                    type: "removed",
                     target: _this,
                     oldValue: x
                 });
             });
         }
-        if (this.events.isEnabled("insert")) {
+        if (this.events.isEnabled("inserted")) {
             $array.each(this._values, function (x) {
-                _this.events.dispatchImmediately("insert", {
-                    type: "insert",
+                _this.events.dispatchImmediately("inserted", {
+                    type: "inserted",
                     target: _this,
                     newValue: x
                 });

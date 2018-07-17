@@ -449,6 +449,7 @@ var AxisRenderer = /** @class */ (function (_super) {
             if (!this._axisFills) {
                 this._axisFills = new ListTemplate(this.createFill(this.axis));
                 this._disposers.push(new ListDisposer(this._axisFills));
+                this._disposers.push(this._axisFills.template);
             }
             return this._axisFills;
         },
@@ -473,6 +474,7 @@ var AxisRenderer = /** @class */ (function (_super) {
             if (!this._grid) {
                 this._grid = new ListTemplate(this.createGrid());
                 this._disposers.push(new ListDisposer(this._grid));
+                this._disposers.push(this._grid.template);
             }
             return this._grid;
         },
@@ -499,6 +501,7 @@ var AxisRenderer = /** @class */ (function (_super) {
                 tick.isMeasured = false;
                 this._ticks = new ListTemplate(tick);
                 this._disposers.push(new ListDisposer(this._ticks));
+                this._disposers.push(this._ticks.template);
             }
             return this._ticks;
         },
@@ -523,6 +526,7 @@ var AxisRenderer = /** @class */ (function (_super) {
             if (!this._labels) {
                 this._labels = new ListTemplate(this.createLabel());
                 this._disposers.push(new ListDisposer(this._labels));
+                this._disposers.push(this._labels.template);
             }
             return this._labels;
         },

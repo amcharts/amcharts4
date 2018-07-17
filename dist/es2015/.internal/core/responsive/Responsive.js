@@ -111,8 +111,8 @@ var Responsive = /** @class */ (function (_super) {
         _this._noStates = [];
         _this.className = "Responsive";
         // Set up rules list events
-        _this.rules.events.on("insert", _this.checkRules, true);
-        _this.rules.events.on("remove", _this.checkRules, true);
+        _this.rules.events.on("inserted", _this.checkRules, true);
+        _this.rules.events.on("removed", _this.checkRules, true);
         _this._disposers.push(_this.rules.events);
         // Apply theme
         _this.applyTheme();

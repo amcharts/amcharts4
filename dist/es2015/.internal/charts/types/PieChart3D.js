@@ -132,6 +132,7 @@ export { PieChart3DDataItem };
  *
  * @see {@link IPieChart3DEvents} for a list of available Events
  * @see {@link IPieChart3DAdapters} for a list of available Adapters
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/pie-chart/} for documentation
  * @important
  */
 var PieChart3D = /** @class */ (function (_super) {

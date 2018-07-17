@@ -86,8 +86,8 @@ var Container = /** @class */ (function (_super) {
         _this._fixedWidthGrid = false;
         _this.verticalCenter = "none";
         _this.horizontalCenter = "none";
-        _this.children.events.on("insert", _this.handleChildAdded, _this);
-        _this.children.events.on("remove", _this.handleChildRemoved, _this);
+        _this.children.events.on("inserted", _this.handleChildAdded, _this);
+        _this.children.events.on("removed", _this.handleChildRemoved, _this);
         _this.applyTheme();
         return _this;
     }
@@ -96,11 +96,15 @@ var Container = /** @class */ (function (_super) {
      * affect the whole layout so it needs to be revalidated.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Sprite>["insert"]} event Event object
+     * @param {IListEvents<Sprite>["inserted"]} event Event object
      * @todo Throw an exception on adding a disposed object. Of course it's better NOT TO add disposed objects, so that what we should focus on.
      */
     Container.prototype.handleChildAdded = function (event) {
+        var _this = this;
         var child = event.newValue;
+        this._disposers.push(child.events.on("zIndexChanged", function () {
+            _this.addChildren();
+        }));
         // Do not add disposed objects
         if (child.isDisposed()) {
             console.log("Added to children a disposed object!");
@@ -124,7 +128,7 @@ var Container = /** @class */ (function (_super) {
      * whole layout of the Container, hence layout needs to be invalidated.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Sprite>["remove"]} event Event object
+     * @param {IListEvents<Sprite>["removed"]} event Event object
      */
     Container.prototype.handleChildRemoved = function (event) {
         var child = event.oldValue;
@@ -178,12 +182,6 @@ var Container = /** @class */ (function (_super) {
      */
     Container.prototype.invalidate = function () {
         _super.prototype.invalidate.call(this);
-        this.sortChildren();
-        $array.each(this._childrenByLayout, function (child) {
-            if (child.invalid) {
-                child.invalidate(); // this sorts invalid components in correct order
-            }
-        });
         this.invalidateLayout();
     };
     /**
@@ -234,10 +232,10 @@ var Container = /** @class */ (function (_super) {
             // @todo Review if we can add all children to disposers
             if (!this._children) {
                 this._children = new List();
-                this._children.events.on("insert", function (event) {
+                this._children.events.on("inserted", function (event) {
                     _this.dispatchImmediately("childadded", { type: "childadded", newValue: event.newValue });
                 });
-                this._children.events.on("insert", function (event) {
+                this._children.events.on("inserted", function (event) {
                     _this.dispatchImmediately("childremoved", { type: "childremoved", newValue: event.newValue });
                 });
                 //this._disposers.push(new ListDisposer(this._children));
@@ -357,16 +355,6 @@ var Container = /** @class */ (function (_super) {
         configurable: true
     });
     /**
-     * Initiates drawing of this element.
-     *
-     * @ignore Exclude from docs
-     */
-    Container.prototype.draw = function () {
-        //this.validateLayout();
-        this.addChildren();
-        _super.prototype.draw.call(this);
-    };
-    /**
      * Overrides the original `removeElement` so that Container's actual element
      * is not removed. We do not need to remove element of a Container.
      *
@@ -398,9 +386,10 @@ var Container = /** @class */ (function (_super) {
         }
         this._childrenByLayout = [];
         if (this.layout == "none" || this.layout == "absolute" || !this.layout) {
-            $iter.each(this.children.iterator(), function (child) {
-                _this._childrenByLayout.push(child);
-            });
+            //$iter.each(this.children.iterator(), (child) => {
+            //	this._childrenByLayout.push(child);
+            //});
+            this._childrenByLayout = this.children.values;
         }
         else {
             // Assemble fixed-size and relative lists
@@ -494,9 +483,12 @@ var Container = /** @class */ (function (_super) {
      */
     Container.prototype.addChildren = function () {
         var _this = this;
-        this.sortChildren();
-        // add it to parent
+        /*
+          Need this check because a child might be assigned to parent even before element is created, for example a theme
+          access scrollbar.thumb
+        */
         if (this.element) {
+            this.sortChildren();
             var zindexed = $array.copy(this._childrenByLayout);
             zindexed.sort(function (a, b) {
                 return (a.zIndex || 0) - (b.zIndex || 0);
@@ -1019,17 +1011,25 @@ var Container = /** @class */ (function (_super) {
             /// handle content alignment
             var dx_1;
             var dy_1;
+            var mwa = measuredWidth;
+            var mha = measuredHeight;
+            if (mwa < measuredContentWidth) {
+                mwa = measuredContentWidth;
+            }
+            if (mha < measuredContentHeight) {
+                mha = measuredContentHeight;
+            }
             if (this.contentAlign == "center") {
-                dx_1 = (measuredWidth - measuredContentWidth) / 2;
+                dx_1 = (mwa - measuredContentWidth) / 2;
             }
             if (this.contentAlign == "right") {
-                dx_1 = measuredWidth - measuredContentWidth;
+                dx_1 = mwa - measuredContentWidth;
             }
             if (this.contentValign == "middle") {
-                dy_1 = (measuredHeight - measuredContentHeight) / 2;
+                dy_1 = (mha - measuredContentHeight) / 2;
             }
             if (this.contentValign == "bottom") {
-                dy_1 = measuredHeight - measuredContentHeight;
+                dy_1 = mha - measuredContentHeight;
             }
             if ($type.isNumber(dx_1)) {
                 $iter.each(this.children.iterator(), function (child) {
@@ -1201,17 +1201,17 @@ var Container = /** @class */ (function (_super) {
     });
     Object.defineProperty(Container.prototype, "contentValign", {
         /**
-         * @return {VerticalAlign} Vertical alignement
+         * @return {VerticalAlign} Vertical alignment
          */
         get: function () {
             return this._contentValign;
         },
         /**
-         * Vertical alignement of the elements for the vertical Container.
+         * Vertical alignment of the elements for the vertical Container.
          *
          * This is used when Container is larger than the height of all its children.
          *
-         * @param {VerticalAlign} value vertical alignement
+         * @param {VerticalAlign} value vertical alignment
          */
         set: function (value) {
             this._contentValign = value;
@@ -1222,17 +1222,17 @@ var Container = /** @class */ (function (_super) {
     });
     Object.defineProperty(Container.prototype, "contentAlign", {
         /**
-         * @return {Align} Horizontal alignement
+         * @return {Align} Horizontal alignment
          */
         get: function () {
             return this._contentAlign;
         },
         /**
-         * Horizontal alignement of the elements for the horizontal Container.
+         * Horizontal alignment of the elements for the horizontal Container.
          *
          * This is used when Container is larger than the height of all its children.
          *
-         * @param {Align}  value  Horizontal alignement
+         * @param {Align}  value  Horizontal alignment
          */
         set: function (value) {
             this._contentAlign = value;

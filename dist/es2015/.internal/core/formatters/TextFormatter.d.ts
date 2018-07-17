@@ -63,6 +63,7 @@ export declare class TextFormatter extends BaseObject {
      * Constructor
      */
     constructor();
+    protected debug(): void;
     /**
      * Formats the text according to specifications passed in.
      *

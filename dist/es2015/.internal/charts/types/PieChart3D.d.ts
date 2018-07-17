@@ -159,6 +159,7 @@ export interface IPieChart3DAdapters extends IPieChartAdapters, IPieChart3DPrope
  *
  * @see {@link IPieChart3DEvents} for a list of available Events
  * @see {@link IPieChart3DAdapters} for a list of available Adapters
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/pie-chart/} for documentation
  * @important
  */
 export declare class PieChart3D extends PieChart {

@@ -65,6 +65,7 @@ var AxisDataItem = /** @class */ (function (_super) {
                 var component = this.component;
                 if (component) {
                     this.grid = component.renderer.grid.create();
+                    this._disposers.push(this._grid);
                 }
             }
             return this._grid;
@@ -109,6 +110,7 @@ var AxisDataItem = /** @class */ (function (_super) {
                 var component = this.component;
                 if (component) {
                     this.tick = component.renderer.ticks.create();
+                    this._disposers.push(this._tick);
                 }
             }
             return this._tick;
@@ -148,6 +150,7 @@ var AxisDataItem = /** @class */ (function (_super) {
                 var component = this.component;
                 if (component) {
                     this.label = component.renderer.labels.create();
+                    this._disposers.push(this._label);
                 }
             }
             return this._label;
@@ -187,6 +190,7 @@ var AxisDataItem = /** @class */ (function (_super) {
                 var component = this.component;
                 if (component) {
                     this.axisFill = component.renderer.axisFills.create();
+                    this._disposers.push(this._axisFill);
                 }
             }
             return this._axisFill;
@@ -584,7 +588,7 @@ var Axis = /** @class */ (function (_super) {
      * `axisBreaks`.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<AxisBreak>["insert"]} event Event
+     * @param {IListEvents<AxisBreak>["inserted"]} event Event
      */
     Axis.prototype.processBreak = function (event) {
         var axisBreak = event.newValue;
@@ -875,8 +879,9 @@ var Axis = /** @class */ (function (_super) {
             if (!this._axisRanges) {
                 var dataItem = this.createDataItem();
                 this._axisRanges = new ListTemplate(dataItem);
-                this._axisRanges.events.on("insert", this.processAxisRange, this);
+                this._axisRanges.events.on("inserted", this.processAxisRange, this);
                 this._disposers.push(new ListDisposer(this._axisRanges));
+                this._disposers.push(this._axisRanges.template);
             }
             return this._axisRanges;
         },
@@ -886,7 +891,7 @@ var Axis = /** @class */ (function (_super) {
     /**
      * Decorates an axis range after it has been added to the axis range list.
      *
-     * @param {IListEvents<AxisDataItem>["insert"]} event Event
+     * @param {IListEvents<AxisDataItem>["inserted"]} event Event
      */
     Axis.prototype.processAxisRange = function (event) {
         var axisRange = event.newValue;
@@ -904,7 +909,7 @@ var Axis = /** @class */ (function (_super) {
                 this._axisBreaks = new SortedListTemplate(this.createAxisBreak(), function (a, b) {
                     return $number.order(a.adjustedStartValue, b.adjustedStartValue);
                 });
-                this._axisBreaks.events.on("insert", this.processBreak, this);
+                this._axisBreaks.events.on("inserted", this.processBreak, this);
                 this._disposers.push(new ListDisposer(this._axisBreaks));
             }
             return this._axisBreaks;

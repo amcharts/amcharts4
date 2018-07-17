@@ -200,9 +200,9 @@ export declare class MapLine extends MapObject {
     /**
      * Decorate a [[LineObject]] when it is added to the line.
      *
-     * @param {IListEvents<MapLineObject>["insert"]}  event  Event
+     * @param {IListEvents<MapLineObject>["inserted"]}  event  Event
      */
-    protected handleLineObjectAdded(event: IListEvents<MapLineObject>["insert"]): void;
+    protected handleLineObjectAdded(event: IListEvents<MapLineObject>["inserted"]): void;
     /**
      * @return {MapLineObject} Arrow element
      */

@@ -76,6 +76,7 @@ export interface IXYChart3DAdapters extends IXYChartAdapters, IXYChart3DProperti
  *
  * @see {@link IXYChart3DEvents} for a list of available Events
  * @see {@link IXYChart3DAdapters} for a list of available Adapters
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/xy-chart/} for documentation
  * @important
  */
 export declare class XYChart3D extends XYChart {

@@ -235,7 +235,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
         var point = this.positionToPoint(position);
         if (grid.element) {
             var angle = $math.DEGREES * Math.atan2(point.y, point.x);
-            var radius = $utils.relativeRadiusToValue($type.isNumber(grid.radius) ? grid.radius : this.radius, this.pixelRadius);
+            var radius = $utils.relativeRadiusToValue($type.hasValue(grid.radius) ? grid.radius : percent(100), this.pixelRadius);
             var gridInnerRadius = $utils.relativeRadiusToValue(grid.innerRadius, this.pixelRadius);
             grid.zIndex = 0;
             var innerRadius = $utils.relativeRadiusToValue($type.isNumber(gridInnerRadius) ? gridInnerRadius : this.innerRadius, this.pixelRadius, true);

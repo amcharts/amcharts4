@@ -374,6 +374,10 @@ var Export = /** @class */ (function (_super) {
                             };
                             this.events.dispatchImmediately("exportstarted", event_1);
                         }
+                        // Check if it's a custom item, and do nothing if it is
+                        if (type == "custom") {
+                            return [2 /*return*/, true];
+                        }
                         // Schedule a preloader
                         this.showPreloader();
                         // Schedule a timeout
@@ -518,14 +522,14 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getImage = function (type, options) {
         return __awaiter(this, void 0, void 0, function () {
-            var background, width, height, font, fontSize, canvas, ctx, DOMURL, data, svg, url, img, uri, e_1;
+            var background, width, height, font, fontSize, canvas, ctx, DOMURL, fontStyle, data, svg, url, img, uri, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         background = this.backgroundColor || this.findBackgroundColor(this.sprite.dom);
                         return [4 /*yield*/, this.simplifiedImageExport()];
                     case 1:
-                        if (!_a.sent()) return [3 /*break*/, 8];
+                        if (!_a.sent()) return [3 /*break*/, 10];
                         width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = this.findFont(this.sprite.dom), fontSize = this.findFontSize(this.sprite.dom);
                         canvas = document.createElement("canvas");
                         canvas.width = width;
@@ -545,14 +549,22 @@ var Export = /** @class */ (function (_super) {
                     case 2:
                         // Do prepareations on a document
                         _a.sent();
-                        data = this.normalizeSVG(this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, font, fontSize);
+                        fontStyle = "";
+                        if (!font) return [3 /*break*/, 4];
+                        return [4 /*yield*/, this.getFontDataURIs(font)];
+                    case 3:
+                        fontStyle = _a.sent();
+                        _a.label = 4;
+                    case 4:
+                        data = this.normalizeSVG(this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, font, fontSize, fontStyle);
+                        console.log(data);
                         svg = new Blob([data], { type: "image/svg+xml" });
                         url = DOMURL.createObjectURL(svg);
-                        _a.label = 3;
-                    case 3:
-                        _a.trys.push([3, 5, , 7]);
+                        _a.label = 5;
+                    case 5:
+                        _a.trys.push([5, 7, , 9]);
                         return [4 /*yield*/, this.loadNewImage(url, width, height, "anonymous")];
-                    case 4:
+                    case 6:
                         img = _a.sent();
                         // Draw image on canvas
                         ctx.drawImage(img, 0, 0);
@@ -566,20 +578,20 @@ var Export = /** @class */ (function (_super) {
                         this.restoreRemovedObjects();
                         // Return value
                         return [2 /*return*/, uri];
-                    case 5:
+                    case 7:
                         e_1 = _a.sent();
                         return [4 /*yield*/, this.getImageAdvanced(type, options)];
-                    case 6: 
+                    case 8: 
                     // An error occurred, let's try advanced method
                     return [2 /*return*/, _a.sent()];
-                    case 7: return [3 /*break*/, 10];
-                    case 8: return [4 /*yield*/, this.getImageAdvanced(type, options)];
-                    case 9: 
+                    case 9: return [3 /*break*/, 12];
+                    case 10: return [4 /*yield*/, this.getImageAdvanced(type, options)];
+                    case 11: 
                     /**
                      * Going the hard way. Converting to canvas from each node
                      */
                     return [2 /*return*/, _a.sent()];
-                    case 10: return [2 /*return*/];
+                    case 12: return [2 /*return*/];
                 }
             });
         });
@@ -921,45 +933,13 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.simplifiedImageExport = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var cache, canvas, ctx, DOMURL, svg, url, img, e_4;
+            var cache;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        cache = registry.getCache("simplifiedImageExport");
-                        if (cache === false || cache === true) {
-                            return [2 /*return*/, cache];
-                        }
-                        _a.label = 1;
-                    case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        canvas = document.createElement("canvas");
-                        canvas.width = 1;
-                        canvas.height = 1;
-                        ctx = canvas.getContext("2d");
-                        DOMURL = this.getDOMURL();
-                        svg = new Blob([this.normalizeSVG("<g></g>", {}, 1, 1)], { type: "image/svg+xml" });
-                        url = DOMURL.createObjectURL(svg);
-                        return [4 /*yield*/, this.loadNewImage(url, 1, 1)];
-                    case 2:
-                        img = _a.sent();
-                        ctx.drawImage(img, 0, 0);
-                        DOMURL.revokeObjectURL(url);
-                        try {
-                            //let uri = canvas.toDataURL("image/png");
-                            registry.setCache("simplifiedImageExport", true);
-                            return [2 /*return*/, true];
-                        }
-                        catch (e) {
-                            registry.setCache("simplifiedImageExport", false);
-                            return [2 /*return*/, false];
-                        }
-                        return [3 /*break*/, 4];
-                    case 3:
-                        e_4 = _a.sent();
-                        registry.setCache("simplifiedImageExport", false);
-                        return [2 /*return*/, false];
-                    case 4: return [2 /*return*/];
+                cache = registry.getCache("simplifiedImageExport");
+                if (cache === false || cache === true) {
+                    return [2 /*return*/, cache];
                 }
+                return [2 /*return*/, false];
             });
         });
     };
@@ -1069,10 +1049,11 @@ var Export = /** @class */ (function (_super) {
      * @param  {number}             height    Height of the SVG viewport
      * @param  {string}             font      Font family to use as a base
      * @param  {string}             fontSize  Font size to use as a base
+     * @param  {string}             style     A CSS to add as a <style></style> block
      * @return {string}                       Output SVG
      * @todo Add style params to existing <svg>
      */
-    Export.prototype.normalizeSVG = function (svg, options, width, height, font, fontSize) {
+    Export.prototype.normalizeSVG = function (svg, options, width, height, font, fontSize, style) {
         // Construct width/height params
         var dimParams = "";
         if (width) {
@@ -1084,14 +1065,21 @@ var Export = /** @class */ (function (_super) {
         // Apply font settings
         var styleParams = "";
         if (font) {
-            styleParams += "font-family: " + font.replace(/"/g, "") + ";";
+            styleParams += "font-family: " + this.normalizeFonts(font) + ";";
         }
         if (fontSize) {
             styleParams += "font-size: " + fontSize + ";";
         }
+        if (style) {
+            style = "<style>" + style + "</style>";
+        }
+        else {
+            style = "";
+        }
+        console.log(styleParams);
         // Add missing <svg> enclosure
         if (!svg.match(/<svg/)) {
-            svg = "<?xml version=\"1.0\" encoding=\"utf-8\"?><svg " + dimParams + " style=\"" + styleParams + "\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">" + svg + "</svg>";
+            svg = "<?xml version=\"1.0\" encoding=\"utf-8\"?><svg " + dimParams + " style=\"" + styleParams + "\" version=\"1.1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">" + style + svg + "</svg>";
         }
         else {
             if (dimParams !== "") {
@@ -1115,6 +1103,20 @@ var Export = /** @class */ (function (_super) {
             options: options
         }).data;
         return svg;
+    };
+    /**
+     * [normalizeFonts description]
+     *
+     * @ignore Exclude from docs
+     * @param  {string} fonts [description]
+     * @return {string}       [description]
+     */
+    Export.prototype.normalizeFonts = function (fonts) {
+        var items = fonts.replace(/"|'/g, "").split(",");
+        items = items.map(function (item) {
+            return "'" + $utils.trim(item) + "'";
+        });
+        return items.join(",");
     };
     /**
      * Serializes an element and returns its contents.
@@ -1864,6 +1866,66 @@ var Export = /** @class */ (function (_super) {
         else {
             return font;
         }
+    };
+    /**
+     * [getFontDataURIs description]
+     * @param  {string} fonts [description]
+     * @return {string}       [description]
+     */
+    Export.prototype.getFontDataURIs = function (fonts) {
+        return __awaiter(this, void 0, void 0, function () {
+            var items, output, font, i, sheet, x, rule, css, urls, y, url, urlContent, dataURI;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        items = fonts.split(",");
+                        output = [];
+                        while (font = items.pop()) {
+                            font = $utils.trim(font);
+                        }
+                        i = 0;
+                        _a.label = 1;
+                    case 1:
+                        if (!(i < document.styleSheets.length)) return [3 /*break*/, 10];
+                        sheet = document.styleSheets[i];
+                        x = 0;
+                        _a.label = 2;
+                    case 2:
+                        if (!(x < sheet.rules.length)) return [3 /*break*/, 9];
+                        rule = sheet.rules[x];
+                        if (!(rule instanceof CSSImportRule)) return [3 /*break*/, 8];
+                        return [4 /*yield*/, $net.load(rule.href)];
+                    case 3:
+                        css = _a.sent();
+                        if (!css.response) return [3 /*break*/, 8];
+                        urls = css.response.match(/url\(([^\)]*)\)/g);
+                        y = 0;
+                        _a.label = 4;
+                    case 4:
+                        if (!(y < urls.length)) return [3 /*break*/, 7];
+                        url = urls[y];
+                        return [4 /*yield*/, $net.load(url.replace(/url\(([^\)]*)\)/g, "$1"))];
+                    case 5:
+                        urlContent = _a.sent();
+                        dataURI = btoa(unescape(encodeURIComponent((urlContent.response))));
+                        css.response = css.response.replace(url, "src(data:font/woff2;base64," + dataURI + ")");
+                        _a.label = 6;
+                    case 6:
+                        y++;
+                        return [3 /*break*/, 4];
+                    case 7:
+                        items.push(css.response);
+                        _a.label = 8;
+                    case 8:
+                        x++;
+                        return [3 /*break*/, 2];
+                    case 9:
+                        i++;
+                        return [3 /*break*/, 1];
+                    case 10: return [2 /*return*/, items.join("\r\n")];
+                }
+            });
+        });
     };
     Object.defineProperty(Export.prototype, "container", {
         /**

@@ -138,8 +138,8 @@ export declare class Adapter<Target, T> {
      * Event dispatcher.
      */
     events: EventDispatcher<{
-        insert: {};
-        remove: {};
+        inserted: {};
+        removed: {};
     }>;
     /**
      * Constructor, sets the object referece this Adapter should be used for.

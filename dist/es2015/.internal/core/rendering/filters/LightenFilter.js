@@ -18,6 +18,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { Filter } from "./Filter";
+import { registry } from "../../Registry";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -72,4 +73,11 @@ var LightenFilter = /** @class */ (function (_super) {
     return LightenFilter;
 }(Filter));
 export { LightenFilter };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["LightenFilter"] = LightenFilter;
 //# sourceMappingURL=LightenFilter.js.map

@@ -186,13 +186,13 @@ export declare class Container extends Sprite {
      */
     protected _children: $type.Optional<List<Sprite>>;
     /**
-     * Horizontal alignement of Container's items
+     * Horizontal alignment of Container's items
      * @ignore Exclude from docs
      * @type {Optional<Align>}
      */
     protected _contentAlign: $type.Optional<Align>;
     /**
-     * Vertical alignement of Container's items.
+     * Vertical alignment of Container's items.
      *
      * @ignore Exclude from docs
      * @type {Optional<VerticalAlign>}
@@ -238,18 +238,18 @@ export declare class Container extends Sprite {
      * affect the whole layout so it needs to be revalidated.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Sprite>["insert"]} event Event object
+     * @param {IListEvents<Sprite>["inserted"]} event Event object
      * @todo Throw an exception on adding a disposed object. Of course it's better NOT TO add disposed objects, so that what we should focus on.
      */
-    handleChildAdded(event: IListEvents<Sprite>["insert"]): void;
+    handleChildAdded(event: IListEvents<Sprite>["inserted"]): void;
     /**
      * Handles child removal. Changing size of the child may change the
      * whole layout of the Container, hence layout needs to be invalidated.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Sprite>["remove"]} event Event object
+     * @param {IListEvents<Sprite>["removed"]} event Event object
      */
-    handleChildRemoved(event: IListEvents<Sprite>["remove"]): void;
+    handleChildRemoved(event: IListEvents<Sprite>["removed"]): void;
     /**
      * Handles child transformation. Changing size of the child may change the
      * whole layout of the Container, hence layout needs to be invalidated.
@@ -338,12 +338,6 @@ export declare class Container extends Sprite {
      * @param {Optional<number>} value Height (px)
      */
     maxHeight: number;
-    /**
-     * Initiates drawing of this element.
-     *
-     * @ignore Exclude from docs
-     */
-    draw(): void;
     /**
      * Overrides the original `removeElement` so that Container's actual element
      * is not removed. We do not need to remove element of a Container.
@@ -469,25 +463,25 @@ export declare class Container extends Sprite {
      */
     layout: ContainerLayout;
     /**
-     * @return {VerticalAlign} Vertical alignement
+     * @return {VerticalAlign} Vertical alignment
      */
     /**
-     * Vertical alignement of the elements for the vertical Container.
+     * Vertical alignment of the elements for the vertical Container.
      *
      * This is used when Container is larger than the height of all its children.
      *
-     * @param {VerticalAlign} value vertical alignement
+     * @param {VerticalAlign} value vertical alignment
      */
     contentValign: VerticalAlign;
     /**
-     * @return {Align} Horizontal alignement
+     * @return {Align} Horizontal alignment
      */
     /**
-     * Horizontal alignement of the elements for the horizontal Container.
+     * Horizontal alignment of the elements for the horizontal Container.
      *
      * This is used when Container is larger than the height of all its children.
      *
-     * @param {Align}  value  Horizontal alignement
+     * @param {Align}  value  Horizontal alignment
      */
     contentAlign: Align;
     /**

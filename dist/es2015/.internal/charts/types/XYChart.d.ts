@@ -209,6 +209,7 @@ export interface IXYChartAdapters extends ISerialChartAdapters, IXYChartProperti
  *
  * @see {@link IXYChartEvents} for a list of available Events
  * @see {@link IXYChartAdapters} for a list of available Adapters
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/xy-chart/} for documentation
  * @important
  */
 export declare class XYChart extends SerialChart {
@@ -428,30 +429,30 @@ export declare class XYChart extends SerialChart {
      * Sets up a new horizontal (X) axis when it is added to the chart.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Axis>["insert"]}  event  Axis insert event
+     * @param {IListEvents<Axis>["inserted"]}  event  Axis insert event
      */
-    processXAxis(event: IListEvents<Axis>["insert"]): void;
+    processXAxis(event: IListEvents<Axis>["inserted"]): void;
     /**
      * Removes events from the Axis when it is removed from the chart.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Axis>["remove"]}  event  Event
+     * @param {IListEvents<Axis>["removed"]}  event  Event
      */
-    processXAxisRemoval(event: IListEvents<Axis>["remove"]): void;
+    processXAxisRemoval(event: IListEvents<Axis>["removed"]): void;
     /**
      * Sets up a new vertical (Y) axis when it is added to the chart.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Axis>["insert"]} event Axis insert event
+     * @param {IListEvents<Axis>["inserted"]} event Axis insert event
      */
-    processYAxis(event: IListEvents<Axis>["insert"]): void;
+    processYAxis(event: IListEvents<Axis>["inserted"]): void;
     /**
      * Removes events from the Axis when it is removed from the chart.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<Axis>["remove"]}  event  Event
+     * @param {IListEvents<Axis>["removed"]}  event  Event
      */
-    processYAxisRemoval(event: IListEvents<Axis>["remove"]): void;
+    processYAxisRemoval(event: IListEvents<Axis>["removed"]): void;
     /**
      * Updates horizontal (X) scrollbar and other horizontal axis whenever axis'
      * value range changes.
@@ -531,9 +532,9 @@ export declare class XYChart extends SerialChart {
      * added to the chart.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<XYSeries>["insert"]}  event  Event
+     * @param {IListEvents<XYSeries>["inserted"]}  event  Event
      */
-    processSeries(event: IListEvents<XYSeries>["insert"]): void;
+    processSeries(event: IListEvents<XYSeries>["inserted"]): void;
     /**
      * @return {XYCursor} Cursor
      */
@@ -624,6 +625,7 @@ export declare class XYChart extends SerialChart {
      * @param {IXYCursorEvents["panning"]} event Cursor's event
      */
     protected handleCursorPanEnd(event: IXYCursorEvents["panning"]): void;
+    protected handleCursorCanceled(): void;
     /**
      * Performs zoom and other operations when user is panning chart plot using chart cursor.
      *

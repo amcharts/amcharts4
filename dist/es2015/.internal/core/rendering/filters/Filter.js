@@ -97,7 +97,7 @@ var Filter = /** @class */ (function (_super) {
         _this.filterPrimitives = new List();
         // Automatically add added primitives to `_disposers` so they are discarded
         // when Filter object is destroyed (disposed)
-        _this.filterPrimitives.events.on("insert", function (ev) {
+        _this.filterPrimitives.events.on("inserted", function (ev) {
             _this._disposers.push(ev.newValue);
         });
         // Set default dimensions

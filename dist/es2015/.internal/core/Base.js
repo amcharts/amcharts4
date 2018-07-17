@@ -23,6 +23,7 @@ import { cache } from "./utils/Cache";
 import * as $array from "./utils/Array";
 import * as $object from "./utils/Object";
 import * as $type from "./utils/Type";
+//import * as $debug from "./utils/Debug";
 /**
  * Provides base functionality for all derivative objects, like generating ids,
  * handling cache, etc.
@@ -51,7 +52,11 @@ var BaseObject = /** @class */ (function () {
          */
         this._disposers = [];
         this.className = "BaseObject";
+        this.debug();
     }
+    BaseObject.prototype.debug = function () {
+        //$debug.debug(this);
+    };
     Object.defineProperty(BaseObject.prototype, "uid", {
         /**
          * Returns object's internal unique ID.
@@ -166,9 +171,10 @@ var BaseObject = /** @class */ (function () {
             this._disposed = true;
             var a = this._disposers;
             this._disposers = null;
-            $array.each(a, function (x) {
-                x.dispose();
-            });
+            while (a.length !== 0) {
+                var disposer = a.shift();
+                disposer.dispose();
+            }
             // Clear cache
             this.clearCache();
             // remove from clones list
