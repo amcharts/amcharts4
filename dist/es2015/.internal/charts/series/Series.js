@@ -184,6 +184,13 @@ var Series = /** @class */ (function (_super) {
          * @ignore
          */
         _this.appeared = false;
+        /**
+         * As calculating totals is expensive operation and not often needed, by default we do not do it. In case you use percent for your charts, you must set this to true.
+         * Pie chart, which uses percent sets this to true by default.
+         * @todo review description
+         * @type {boolean}
+         */
+        _this.calculatePercent = false;
         _this.className = "Series";
         _this.isMeasured = false;
         _this.layout = "none";
@@ -331,17 +338,30 @@ var Series = /** @class */ (function (_super) {
      * @todo Description
      * @todo Convert to propert object property iterator
      */
-    Series.prototype.getFirstValue = function (key) {
+    Series.prototype.getFirstValue = function (key, startIndex) {
         // find first
-        return $iter.findMap(this.dataItems.iterator(), function (dataItem) {
-            for (var key_1 in dataItem.values) {
-                var value = dataItem.values[key_1].workingValue;
+        /*
+        return $iter.findMap(this.dataItems.iterator(), (dataItem) => {
+            for (let key in dataItem.values) {
+                let value: number = dataItem.values[key].workingValue;
                 if ($type.isNumber(value)) {
                     return value;
                 }
             }
+
             return null;
-        });
+        });*/
+        if (startIndex > 0) {
+            startIndex++;
+        }
+        for (var i = startIndex; i >= 0; i--) {
+            var dataItem = this.dataItems.getIndex(i);
+            var value = dataItem.values[key].workingValue;
+            if ($type.isNumber(value)) {
+                return value;
+            }
+        }
+        return null;
     };
     /**
      * [rangeChangeUpdate description]
@@ -360,7 +380,6 @@ var Series = /** @class */ (function (_super) {
      * @param {OrderedList<this["_dataItem"]>} dataItems [description]
      */
     Series.prototype.processValues = function (working) {
-        var _this = this;
         var dataItems = this.dataItems;
         var count = {};
         var sum = {};
@@ -373,95 +392,103 @@ var Series = /** @class */ (function (_super) {
         //let duration: number = 0; // todo: check if series uses selection.change or selection.change.percent and set duration to interpolationduration
         var startIndex = this._workingStartIndex;
         var endIndex = this._workingEndIndex;
+        if (!$type.isNumber(startIndex)) {
+            startIndex = 0;
+        }
+        if (!$type.isNumber(endIndex)) {
+            endIndex = this.dataItems.length;
+        }
         this.bulletsContainer.children.each(function (sprite) {
             sprite.__disabled = true;
         });
         // it's ok, we loop trough all the data and check if i is within start/end index later
-        $iter.each($iter.indexed(dataItems.iterator()), function (a) {
-            var i = a[0];
-            var dataItem = a[1];
-            for (var key in dataItem.values) {
-                var value = dataItem.values[key].workingValue;
-                if (i >= startIndex && i <= endIndex) { // do not add to count, sum etc if it is not within start/end index
-                    if ($type.isNumber(value)) {
-                        // count values
-                        if (!$type.isNumber(count[key])) {
-                            count[key] = 0;
-                        }
-                        count[key]++;
-                        // sum values
-                        if (!$type.isNumber(sum[key])) {
-                            sum[key] = 0;
-                        }
-                        sum[key] += value;
-                        // open
-                        if (!$type.isNumber(open[key])) {
-                            open[key] = value;
-                        }
-                        // close
-                        close[key] = value;
-                        // low
-                        if (!$type.isNumber(low[key])) {
+        //$iter.each($iter.indexed(dataItems.iterator()), (a) => {
+        //	let i = a[0];
+        //	let dataItem = a[1];
+        for (var i = startIndex; i < endIndex; i++) {
+            var dataItem_1 = dataItems.getIndex(i);
+            for (var key in dataItem_1.values) {
+                var value = dataItem_1.values[key].workingValue;
+                //if (i >= startIndex && i <= endIndex) { // do not add to count, sum etc if it is not within start/end index
+                if ($type.isNumber(value)) {
+                    // count values
+                    if (!$type.isNumber(count[key])) {
+                        count[key] = 0;
+                    }
+                    count[key]++;
+                    // sum values
+                    if (!$type.isNumber(sum[key])) {
+                        sum[key] = 0;
+                    }
+                    sum[key] += value;
+                    // open
+                    if (!$type.isNumber(open[key])) {
+                        open[key] = value;
+                    }
+                    // close
+                    close[key] = value;
+                    // low
+                    if (!$type.isNumber(low[key])) {
+                        low[key] = value;
+                    }
+                    else {
+                        if (low[key] > value) {
                             low[key] = value;
                         }
-                        else {
-                            if (low[key] > value) {
-                                low[key] = value;
-                            }
-                        }
-                        // high
-                        if (!$type.isNumber(high[key])) {
+                    }
+                    // high
+                    if (!$type.isNumber(high[key])) {
+                        high[key] = value;
+                    }
+                    else {
+                        if (high[key] < value) {
                             high[key] = value;
                         }
-                        else {
-                            if (high[key] < value) {
-                                high[key] = value;
-                            }
-                        }
                     }
+                    if (!$type.isNumber(first[key])) {
+                        first[key] = this.getFirstValue(key, startIndex);
+                    }
+                    // change
+                    dataItem_1.setCalculatedValue(key, value - first[key], "change");
+                    // change from start percent
+                    // will fail if first value is 0
+                    dataItem_1.setCalculatedValue(key, (value - first[key]) / first[key] * 100, "changePercent");
+                    // previous change
+                    var prevValue = previous[key];
+                    if (!$type.isNumber(prevValue)) {
+                        prevValue = value;
+                    }
+                    dataItem_1.setCalculatedValue(key, value - prevValue, "previousChange");
+                    // previous change percent
+                    dataItem_1.setCalculatedValue(key, (value - prevValue) / prevValue * 100, "previousChangePercent");
+                    // save previous
+                    previous[key] = value;
                 }
-                if (!$type.isNumber(first[key])) {
-                    first[key] = _this.getFirstValue(key);
-                }
-                // change
-                dataItem.setCalculatedValue(key, value - first[key], "change");
-                // change from start percent
-                dataItem.setCalculatedValue(key, (value - first[key]) / first[key] * 100, "changePercent");
-                // previous change
-                var prevValue = previous[key];
-                if (!$type.isNumber(prevValue)) {
-                    prevValue = value;
-                }
-                dataItem.setCalculatedValue(key, value - prevValue, "previousChange");
-                // previous change percent
-                dataItem.setCalculatedValue(key, (value - prevValue) / prevValue * 100, "previousChangePercent");
-                // save previous
-                previous[key] = value;
             }
-        });
-        // todo: this is not often needed (pie chart mostly), any chance to avoid? chart could have a flag which would enable/disable this calculations
-        // todo: think what to do with value.percent - we need to cycle through all data in order to have proper values, but this is expensive. flag might be a solution.
-        $iter.each($iter.indexed(dataItems.iterator()), function (a) {
-            var i = a[0];
-            var dataItem = a[1];
-            $object.each(dataItem.values, function (key) {
-                var ksum = sum[key];
-                var value = dataItem.values[key].workingValue;
-                // this hack is made in order to make it possible to animate single slice to 0
-                // if there is only one slice left, percent value is always 100%, so it won't animate
-                // so we use real value of a slice instead of current value
-                if (value == ksum) {
-                    ksum = dataItem.values[key].value;
-                }
-                if (i >= startIndex && i <= endIndex) {
-                    var percent = void 0; // used to be = 0; but no good for pie chart
+        }
+        if (this.calculatePercent) {
+            var _loop_1 = function (i) {
+                var dataItem_2 = dataItems.getIndex(i);
+                $object.each(dataItem_2.values, function (key) {
+                    var ksum = sum[key];
+                    var value = dataItem_2.values[key].workingValue;
                     if ($type.isNumber(value) && ksum > 0) {
+                        // this hack is made in order to make it possible to animate single slice to 0
+                        // if there is only one slice left, percent value is always 100%, so it won't animate
+                        // so we use real value of a slice instead of current value
+                        if (value == ksum) {
+                            ksum = dataItem_2.values[key].value;
+                        }
+                        var percent = void 0; // used to be = 0; but no good for pie chart
                         percent = value / ksum * 100;
-                        dataItem.setCalculatedValue(key, percent, "percent");
+                        dataItem_2.setCalculatedValue(key, percent, "percent");
                     }
-                }
-            });
-        });
+                });
+            };
+            for (var i = startIndex; i < endIndex; i++) {
+                _loop_1(i);
+            }
+        }
         // calculate one before first (cant do that in cycle, as we don't know open yet
         // when drawing line chart we should draw line to the invisible data point to the left, otherwise the line will always look like it starts from the selected point
         // so we do startIndex - 1

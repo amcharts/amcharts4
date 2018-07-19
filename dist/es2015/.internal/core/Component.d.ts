@@ -516,7 +516,7 @@ export declare class Component extends Container {
      */
     validateDataElement(dataItem: this["_dataItem"]): void;
     /**
-     * Adds one or several (arrat) of data items to the existing data.
+     * Adds one or several (array) of data items to the existing data.
      *
      * @param {Object | Object[]} rawDataItem One or many raw data item objects
      */

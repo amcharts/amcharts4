@@ -157,7 +157,7 @@ var Color = /** @class */ (function () {
         return this.alpha < 1 ? this.rgba : this.hex;
     };
     /**
-     * Retruns a new [[Color]] which is percent lighter (positivive value),
+     * Returns a new [[Color]] which is percent lighter (positivive value),
      * or darker (negative value).
      *
      * Parameter is in the scale of -1 to 1.
@@ -169,7 +169,7 @@ var Color = /** @class */ (function () {
         return new Color($colors.lighten(this.rgb, percent));
     };
     /**
-     * Retruns a new [[Color]] which is percent brighter (positivive value),
+     * Returns a new [[Color]] which is percent brighter (positivive value),
      * or darker (negative value).
      *
      * Parameter is in the scale of -1 to 1.

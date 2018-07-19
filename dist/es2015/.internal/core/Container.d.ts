@@ -157,14 +157,14 @@ export declare class Container extends Sprite {
      */
     protected _childrenByLayout: Sprite[];
     /**
-     * Available width. (px)
+     * Available width (px).
      *
      * @ignore Exclude from docs
      * @type {Optional<number>}
      */
     protected _availableWidth: $type.Optional<number>;
     /**
-     * Available height. (px)
+     * Available height (px).
      *
      * @ignore Exclude from docs
      * @type {Optional<number>}
@@ -292,50 +292,43 @@ export declare class Container extends Sprite {
      */
     readonly children: List<Sprite>;
     /**
-     * Retruns current minimum width. (px)
-     *
      * @return {Optional<number>} Width (px)
      */
     /**
-     * Sets minimum width (px) for the Container. A container will not
+     * Minimum width (px) for the Container. A container will not
      * auto-shrink beyond this value, even if child elements are smaller.
      *
-     * @param {Optional<number>} value Width (px)
+     * @param {Optional<number>}  value  Width (px)
      */
     minWidth: Optional<number>;
     /**
-     * Retruns current minimum height. (px)
-     *
      * @return {Optional<number>} Height (px)
      */
     /**
-     * Sets minimum height (px) for the Container. A container will not
+     * Minimum height (px) for the Container. A container will not
      * auto-shrink beyond this value, even if child elements are smaller.
-     * @param {Optional<number>} value Height (px)
+     *
+     * @param {Optional<number>}  value  Height (px)
      */
     minHeight: Optional<number>;
     /**
-     * Retruns current maximum width. (px)
-     *
      * @return {Optional<number>} Width (px)
      */
     /**
-     * Sets maximum width (px) for the Container. A container will not
+     * Maximum width (px) for the Container. A container will not
      * grow beyond this value, even if child elements do not fit.
      *
-     * @param {Optional<number>} value Width (px)
+     * @param {Optional<number>}  value  Width (px)
      */
     maxWidth: number;
     /**
-     * Retruns current maximum height. (px)
-     *
      * @return {Optional<number>} Height (px)
      */
     /**
-     * Sets maximum height (px) for the Container. A container will not
+     * Maximum height (px) for the Container. A container will not
      * grow beyond this value, even if child elements do not fit.
      *
-     * @param {Optional<number>} value Height (px)
+     * @param {Optional<number>}  value  Height (px)
      */
     maxHeight: number;
     /**

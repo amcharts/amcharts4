@@ -327,7 +327,7 @@ export declare class List<T> {
      */
     removeIndex(index: number): T;
     /**
-     * Moves an item to a specific index within the list
+     * Moves an item to a specific index within the list.
      *
      * If the index is not specified it will move the item to the end of the
      * list.

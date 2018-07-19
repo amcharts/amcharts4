@@ -42,7 +42,7 @@ export function map(array, fn) {
     return output;
 }
 /**
- * Iterates thorugh all items in array and calls `fn` function for each of
+ * Iterates through all items in array and calls `fn` function for each of
  * them.
  *
  * @param   {ArrayLike<A>}  array  Source array
@@ -55,7 +55,7 @@ export function each(array, fn) {
     }
 }
 /**
- * Iterates thorugh all items in array in reverse order and calls `fn` function for each of
+ * Iterates through all items in array in reverse order and calls `fn` function for each of
  * them.
  *
  * @param   {ArrayLike<A>}  array  Source array
@@ -68,7 +68,7 @@ export function eachReverse(array, fn) {
     }
 }
 /**
- * Iterates thorugh all items in array and calls `fn` function for each of
+ * Iterates through all items in array and calls `fn` function for each of
  * them.
  *
  * If `fn` call evaluates to `false`, further iteration is cancelled.

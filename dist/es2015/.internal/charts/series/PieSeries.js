@@ -271,6 +271,7 @@ var PieSeries = /** @class */ (function (_super) {
         _this.colors = new ColorSet();
         _this.colors.step = 1;
         _this.isMeasured = true;
+        _this.calculatePercent = true;
         var slicesContainer = _this.createChild(Container);
         slicesContainer.shouldClone = false;
         slicesContainer.isMeasured = false;

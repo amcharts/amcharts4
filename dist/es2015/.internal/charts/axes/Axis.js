@@ -88,7 +88,6 @@ var AxisDataItem = /** @class */ (function (_super) {
                     $array.remove(grid.dataItem.sprites, grid);
                     grid.dataItem.grid = undefined;
                 }
-                grid.__disabled = false;
                 this.addSprite(grid);
             }
             this._grid = grid;
@@ -133,7 +132,6 @@ var AxisDataItem = /** @class */ (function (_super) {
                     $array.remove(tick.dataItem.sprites, tick);
                     tick.dataItem.tick = undefined;
                 }
-                tick.__disabled = false;
                 this.addSprite(tick);
             }
             this._tick = tick;
@@ -173,7 +171,6 @@ var AxisDataItem = /** @class */ (function (_super) {
                     $array.remove(label.dataItem.sprites, label);
                     label.dataItem.label = undefined;
                 }
-                label.__disabled = false;
                 this.addSprite(label);
             }
             this._label = label;
@@ -213,7 +210,6 @@ var AxisDataItem = /** @class */ (function (_super) {
                     $array.remove(axisFill.dataItem.sprites, axisFill);
                     axisFill.dataItem.axisFill = undefined;
                 }
-                axisFill.__disabled = false;
                 axisFill.axis = this.component;
                 this.addSprite(axisFill);
             }

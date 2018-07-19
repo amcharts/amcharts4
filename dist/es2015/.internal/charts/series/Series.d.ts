@@ -363,6 +363,13 @@ export declare class Series extends Component {
     appeared: boolean;
     protected _heatRules: List<IHeatRule>;
     /**
+     * As calculating totals is expensive operation and not often needed, by default we do not do it. In case you use percent for your charts, you must set this to true.
+     * Pie chart, which uses percent sets this to true by default.
+     * @todo review description
+     * @type {boolean}
+     */
+    calculatePercent: boolean;
+    /**
      * Constructor
      */
     constructor();
@@ -436,7 +443,7 @@ export declare class Series extends Component {
      * @todo Description
      * @todo Convert to propert object property iterator
      */
-    protected getFirstValue(key: string): number;
+    protected getFirstValue(key: string, startIndex: number): number;
     /**
      * [rangeChangeUpdate description]
      *

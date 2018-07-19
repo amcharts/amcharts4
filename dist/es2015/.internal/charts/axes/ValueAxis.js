@@ -656,7 +656,7 @@ var ValueAxis = /** @class */ (function (_super) {
      */
     ValueAxis.prototype.valueToPosition = function (value) {
         if ($type.isNumber(value)) {
-            var strValue = value.toString();
+            //let strValue: string = value.toString();
             //let cachedPosition: number = this._valueToPosition[strValue];
             //if ($type.isNumber(cachedPosition)) {
             //				return cachedPosition;

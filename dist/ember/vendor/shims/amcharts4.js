@@ -46,6 +46,22 @@ define('@amcharts/amcharts4-geodata/usa2Low', [], function () {
   }
   throw new Error("You must add 'geodata/usa2Low' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4-geodata/usaAlbersHigh', [], function () {
+  'use strict';
+  var output = self.am4geodata_usaAlbersHigh;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/usaAlbersHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/usaAlbersLow', [], function () {
+  'use strict';
+  var output = self.am4geodata_usaAlbersLow;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/usaAlbersLow' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4-geodata/usaHigh', [], function () {
   'use strict';
   var output = self.am4geodata_usaHigh;

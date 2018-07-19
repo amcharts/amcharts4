@@ -32,7 +32,7 @@ export declare function indexOf<A>(array: ArrayLike<A>, value: A): number;
  */
 export declare function map<A, B>(array: ArrayLike<A>, fn: (value: A, index: number) => B): Array<B>;
 /**
- * Iterates thorugh all items in array and calls `fn` function for each of
+ * Iterates through all items in array and calls `fn` function for each of
  * them.
  *
  * @param   {ArrayLike<A>}  array  Source array
@@ -40,7 +40,7 @@ export declare function map<A, B>(array: ArrayLike<A>, fn: (value: A, index: num
  */
 export declare function each<A>(array: ArrayLike<A>, fn: (value: A, index: number) => void): void;
 /**
- * Iterates thorugh all items in array in reverse order and calls `fn` function for each of
+ * Iterates through all items in array in reverse order and calls `fn` function for each of
  * them.
  *
  * @param   {ArrayLike<A>}  array  Source array
@@ -48,7 +48,7 @@ export declare function each<A>(array: ArrayLike<A>, fn: (value: A, index: numbe
  */
 export declare function eachReverse<A>(array: ArrayLike<A>, fn: (value: A, index: number) => void): void;
 /**
- * Iterates thorugh all items in array and calls `fn` function for each of
+ * Iterates through all items in array and calls `fn` function for each of
  * them.
  *
  * If `fn` call evaluates to `false`, further iteration is cancelled.

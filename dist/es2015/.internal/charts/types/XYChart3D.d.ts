@@ -150,14 +150,14 @@ export declare class XYChart3D extends XYChart {
      */
     angle: number;
     /**
-     * A calculated horizontal 3D offset. (px)
+     * A calculated horizontal 3D offset (px).
      *
      * @readonly
      * @return {number} Offset (px)
      */
     readonly dx3D: number;
     /**
-     * A calculated vertical 3D offset. (px)
+     * A calculated vertical 3D offset (px).
      *
      * @readonly
      * @return {number} Offset (px)

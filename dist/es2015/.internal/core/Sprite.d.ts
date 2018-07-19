@@ -684,7 +684,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Specifies if a property changes on this object should be propaged to the
      * objects cloned from this object.
      *
-     * This setting affects property chanegs *after* cloning, since at the moment
+     * This setting affects property changes *after* cloning, since at the moment
      * of cloning all of properties from source object are copied to the clone
      * anyway.
      *
@@ -729,9 +729,14 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     protected _disabled: boolean;
     protected _internalDisabled: boolean;
+    protected _updateDisabled: boolean;
     protected _maskRectangle: $type.Optional<IRectangle>;
     protected _internalDefaultsApplied: boolean;
     protected _interactionDisposer: $type.Optional<IDisposer>;
+    /**
+     * You can set bbox from outside if you know what size your element must be (used in radar chart for example)
+     * @ignore
+     */
     definedBBox: IRectangle;
     /**
      * Sets frequency at which this element should be rendered. Used to save CPU,
@@ -769,7 +774,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     isBaseSprite: boolean;
     /**
-     * Whether this sprite should be cloned when clonning it's parent container. We set this to falsse in those cases when a sprite is created by the class, so that when clonning
+     * Whether this sprite should be cloned when cloning it's parent container. We set this to falsse in those cases when a sprite is created by the class, so that when cloning
      * a duplicate sprite would not appear.
      *
      * @type {boolean}
@@ -1421,7 +1426,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     isInTransition(): boolean;
     /**
-     * Retruns indicator if this element has a mouse pointer currently hovering
+     * Returns indicator if this element has a mouse pointer currently hovering
      * over it, or if it has any touch pointers pressed on it.
      *
      * @return {boolean} Is hovered?

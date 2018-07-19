@@ -264,7 +264,7 @@ var Sprite = /** @class */ (function (_super) {
          * Specifies if a property changes on this object should be propaged to the
          * objects cloned from this object.
          *
-         * This setting affects property chanegs *after* cloning, since at the moment
+         * This setting affects property changes *after* cloning, since at the moment
          * of cloning all of properties from source object are copied to the clone
          * anyway.
          *
@@ -295,6 +295,7 @@ var Sprite = /** @class */ (function (_super) {
          */
         _this._disabled = false;
         _this._internalDisabled = false;
+        _this._updateDisabled = false;
         _this._internalDefaultsApplied = false;
         /**
          * Sets frequency at which this element should be rendered. Used to save CPU,
@@ -328,7 +329,7 @@ var Sprite = /** @class */ (function (_super) {
          */
         _this.isBaseSprite = false;
         /**
-         * Whether this sprite should be cloned when clonning it's parent container. We set this to falsse in those cases when a sprite is created by the class, so that when clonning
+         * Whether this sprite should be cloned when cloning it's parent container. We set this to falsse in those cases when a sprite is created by the class, so that when cloning
          * a duplicate sprite would not appear.
          *
          * @type {boolean}
@@ -517,6 +518,17 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.validatePosition = function () {
         var x = this.pixelX + this.dx;
         var y = this.pixelY + this.dy;
+        if (this._updateDisabled) {
+            if (this._internalDisabled) {
+                this.group.attr({ "display": "none" });
+            }
+            else {
+                if (!this.disabled) {
+                    this.removeSVGAttribute("display");
+                }
+            }
+            this._updateDisabled = false;
+        }
         if (!this.invalid) {
             var elementTransformChanged = false;
             if (this.element) {
@@ -1358,11 +1370,11 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.measureElement = function () {
         if (this.element) {
-            var svgBBox = this.element.getBBox();
             if (this.definedBBox) {
                 this.bbox = this.definedBBox;
             }
             else {
+                var svgBBox = this.element.getBBox();
                 this.bbox = { x: svgBBox.x, y: svgBBox.y, width: svgBBox.width, height: svgBBox.height };
             }
         }
@@ -1447,6 +1459,9 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.measure = function () {
         this.updateCenter();
+        if (this.definedBBox) {
+            this.bbox = this.definedBBox;
+        }
         var bbox = this.bbox;
         if (bbox) {
             var measuredWidth = this._measuredWidth;
@@ -2100,7 +2115,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Object.defineProperty(Sprite.prototype, "isHover", {
         /**
-         * Retruns indicator if this element has a mouse pointer currently hovering
+         * Returns indicator if this element has a mouse pointer currently hovering
          * over it, or if it has any touch pointers pressed on it.
          *
          * @return {boolean} Is hovered?
@@ -2297,14 +2312,8 @@ var Sprite = /** @class */ (function (_super) {
         set: function (value) {
             if (this._internalDisabled != value) {
                 this._internalDisabled = value;
-                if (value) {
-                    this.group.attr({ "display": "none" });
-                }
-                else {
-                    if (!this.disabled) {
-                        this.removeSVGAttribute("display");
-                    }
-                }
+                this._updateDisabled = true;
+                this.invalidatePosition(); // better use this instead of invalidate()			
             }
         },
         enumerable: true,

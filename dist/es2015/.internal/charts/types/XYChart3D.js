@@ -139,7 +139,7 @@ var XYChart3D = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYChart3D.prototype, "dx3D", {
         /**
-         * A calculated horizontal 3D offset. (px)
+         * A calculated horizontal 3D offset (px).
          *
          * @readonly
          * @return {number} Offset (px)
@@ -152,7 +152,7 @@ var XYChart3D = /** @class */ (function (_super) {
     });
     Object.defineProperty(XYChart3D.prototype, "dy3D", {
         /**
-         * A calculated vertical 3D offset. (px)
+         * A calculated vertical 3D offset (px).
          *
          * @readonly
          * @return {number} Offset (px)

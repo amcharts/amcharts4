@@ -247,7 +247,7 @@ export declare class Pattern extends BaseObject implements IAnimatable {
      * @return {number} Y (px)
      */
     /**
-     * Y position. (px)
+     * Y position (px).
      *
      * @param {number} value Y (px)
      */

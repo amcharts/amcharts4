@@ -160,13 +160,6 @@ var CategoryAxis = /** @class */ (function (_super) {
          * @type {Dictionary}
          */
         _this.dataItemsByCategory = new Dictionary();
-        /**
-         * [_preBuildCount description]
-         *
-         * @todo Description
-         * @type {number}
-         */
-        _this._preBuildCount = 0;
         _this.className = "CategoryAxis";
         // Set field name
         _this.axisFieldName = "category";
@@ -175,7 +168,6 @@ var CategoryAxis = /** @class */ (function (_super) {
             value = value.replace(/\#id=.*$/, "");
             return value;
         });
-        _this._prebuildDisposer = registry.events.on("enterframe", _this.prebuildDataItem, _this);
         _this._lastDataItem = _this.createDataItem();
         _this._lastDataItem.component = _this;
         _this._disposers.push(_this._lastDataItem);
@@ -183,27 +175,6 @@ var CategoryAxis = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
-    /**
-     * [prebuildDataItem description]
-     *
-     * @ignore Exclude from docs
-     * @todo Description
-     */
-    CategoryAxis.prototype.prebuildDataItem = function () {
-        if (this.dataItems.length > 0) {
-            this.dataItems.getIndex(this._preBuildCount);
-            var dataItem = this.dataItems.getIndex(this._preBuildCount);
-            if (dataItem.__disabled) {
-                this.appendDataItem(dataItem);
-                this.validateDataElement(dataItem);
-                dataItem.__disabled = true;
-            }
-            this._preBuildCount++;
-            if (this._preBuildCount >= this.dataItems.length - 1) {
-                this._prebuildDisposer.dispose();
-            }
-        }
-    };
     /**
      * Returns a new/empty [[DataItem]] of the type appropriate for this object.
      *
@@ -274,24 +245,27 @@ var CategoryAxis = /** @class */ (function (_super) {
             this.maxZoomFactor = 1;
         }
         this.resetIterators();
-        $iter.each(this.dataItems.iterator(), function (dataItem) {
-            dataItem.__disabled = true;
-        });
         // it's important to use protected variables here, as getters will return 0 - length
         // TODO use iterator instead
         // @ todo: not solved cat axis item fading
         var startIndex = $math.max(0, this._startIndex - this._frequency);
         var endIndex = $math.min(this.dataItems.length, this._endIndex + this._frequency);
         var itemIndex = 0;
-        for (var i = startIndex; i < endIndex; i = i + this._frequency) {
+        for (var i = startIndex; i < endIndex; i++) {
             if (i <= this.dataItems.length) {
                 var dataItem = this.dataItems.getIndex(i);
-                var axisBreak = this.isInBreak(i);
-                if (!axisBreak) {
-                    this.appendDataItem(dataItem);
-                    this.validateDataElement(dataItem, itemIndex);
+                if (i / this._frequency == Math.round(i / this._frequency)) {
+                    var axisBreak = this.isInBreak(i);
+                    if (!axisBreak) {
+                        this.appendDataItem(dataItem);
+                        this.validateDataElement(dataItem, itemIndex);
+                    }
+                    itemIndex++;
                 }
-                itemIndex++;
+                else {
+                    //previously we disabled all before, but this is better for cpu
+                    dataItem.__disabled = true;
+                }
             }
         }
         this.appendDataItem(this._lastDataItem);

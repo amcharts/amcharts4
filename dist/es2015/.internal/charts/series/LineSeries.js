@@ -366,8 +366,7 @@ var LineSeries = /** @class */ (function (_super) {
             if ($type.hasValue(value)) {
                 if (segment) {
                     if (segment.properties[propertyName] != value) {
-                        segment.setPropertyValue(propertyName, value);
-                        segment.invalidate(); // because setPropertyValue doesn't do this
+                        segment[propertyName] = value;
                         changed = true;
                     }
                 }

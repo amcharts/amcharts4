@@ -392,7 +392,7 @@ var Pattern = /** @class */ (function (_super) {
             return this.properties["y"];
         },
         /**
-         * Y position. (px)
+         * Y position (px).
          *
          * @param {number} value Y (px)
          */

@@ -174,7 +174,7 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      */
     removeDispose(target: IDisposer): void;
     /**
-     * Makes a copy of this object and returns the clone. Try to avoid clonning complex objects like chart, create new instances if you need them.
+     * Makes a copy of this object and returns the clone. Try to avoid cloning complex objects like chart, create new instances if you need them.
      *
      * @param   {string}  cloneId  An id to use for clone (if not set a unique id will be generated)
      * @returns {Object}           Clone
@@ -245,7 +245,7 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      */
     /**
      * Use this property to set JSON-based config. When set, triggers processing
-     * routine, which will go thorugh all properties, and try to apply values,
+     * routine, which will go through all properties, and try to apply values,
      * create instances, etc.
      *
      * Use this with caution, as it is a time-consuming process. It's used for

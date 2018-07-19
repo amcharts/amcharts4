@@ -122,7 +122,7 @@ export declare class Color {
      */
     toString(): string;
     /**
-     * Retruns a new [[Color]] which is percent lighter (positivive value),
+     * Returns a new [[Color]] which is percent lighter (positivive value),
      * or darker (negative value).
      *
      * Parameter is in the scale of -1 to 1.
@@ -132,7 +132,7 @@ export declare class Color {
      */
     lighten(percent: number): Color;
     /**
-     * Retruns a new [[Color]] which is percent brighter (positivive value),
+     * Returns a new [[Color]] which is percent brighter (positivive value),
      * or darker (negative value).
      *
      * Parameter is in the scale of -1 to 1.

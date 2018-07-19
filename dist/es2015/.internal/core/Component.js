@@ -437,7 +437,7 @@ var Component = /** @class */ (function (_super) {
     Component.prototype.validateDataElement = function (dataItem) {
     };
     /**
-     * Adds one or several (arrat) of data items to the existing data.
+     * Adds one or several (array) of data items to the existing data.
      *
      * @param {Object | Object[]} rawDataItem One or many raw data item objects
      */

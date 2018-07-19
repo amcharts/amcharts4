@@ -247,18 +247,16 @@ var Container = /** @class */ (function (_super) {
     });
     Object.defineProperty(Container.prototype, "minWidth", {
         /**
-         * Retruns current minimum width. (px)
-         *
          * @return {Optional<number>} Width (px)
          */
         get: function () {
             return this.getPropertyValue("minWidth");
         },
         /**
-         * Sets minimum width (px) for the Container. A container will not
+         * Minimum width (px) for the Container. A container will not
          * auto-shrink beyond this value, even if child elements are smaller.
          *
-         * @param {Optional<number>} value Width (px)
+         * @param {Optional<number>}  value  Width (px)
          */
         set: function (value) {
             if (this.setPropertyValue("minWidth", value)) {
@@ -270,17 +268,16 @@ var Container = /** @class */ (function (_super) {
     });
     Object.defineProperty(Container.prototype, "minHeight", {
         /**
-         * Retruns current minimum height. (px)
-         *
          * @return {Optional<number>} Height (px)
          */
         get: function () {
             return this.getPropertyValue("minHeight");
         },
         /**
-         * Sets minimum height (px) for the Container. A container will not
+         * Minimum height (px) for the Container. A container will not
          * auto-shrink beyond this value, even if child elements are smaller.
-         * @param {Optional<number>} value Height (px)
+         *
+         * @param {Optional<number>}  value  Height (px)
          */
         set: function (value) {
             if (this.setPropertyValue("minHeight", value)) {
@@ -292,8 +289,6 @@ var Container = /** @class */ (function (_super) {
     });
     Object.defineProperty(Container.prototype, "maxWidth", {
         /**
-         * Retruns current maximum width. (px)
-         *
          * @return {Optional<number>} Width (px)
          */
         get: function () {
@@ -306,10 +301,10 @@ var Container = /** @class */ (function (_super) {
             return maxWidth;
         },
         /**
-         * Sets maximum width (px) for the Container. A container will not
+         * Maximum width (px) for the Container. A container will not
          * grow beyond this value, even if child elements do not fit.
          *
-         * @param {Optional<number>} value Width (px)
+         * @param {Optional<number>}  value  Width (px)
          */
         set: function (value) {
             if (this.setPropertyValue("maxWidth", value)) {
@@ -324,8 +319,6 @@ var Container = /** @class */ (function (_super) {
     });
     Object.defineProperty(Container.prototype, "maxHeight", {
         /**
-         * Retruns current maximum height. (px)
-         *
          * @return {Optional<number>} Height (px)
          */
         get: function () {
@@ -338,10 +331,10 @@ var Container = /** @class */ (function (_super) {
             return maxHeight;
         },
         /**
-         * Sets maximum height (px) for the Container. A container will not
+         * Maximum height (px) for the Container. A container will not
          * grow beyond this value, even if child elements do not fit.
          *
-         * @param {Optional<number>} value Height (px)
+         * @param {Optional<number>}  value  Height (px)
          */
         set: function (value) {
             if (this.setPropertyValue("maxHeight", value)) {
@@ -1295,6 +1288,7 @@ var Container = /** @class */ (function (_super) {
         this.setStateOnChildren = source.setStateOnChildren;
         if (source._background) {
             this.background = source._background.clone();
+            this.background.copyFrom(source._background); // won't work without this
         }
         $iter.each(source.children.iterator(), function (child) {
             if (child.shouldClone) {

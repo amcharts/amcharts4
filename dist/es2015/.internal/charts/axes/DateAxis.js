@@ -681,10 +681,6 @@ var DateAxis = /** @class */ (function (_super) {
                 }
                 var text = this_2.dateFormatter.format(date, format);
                 var dataItem = dataItemsIterator_1.find(function (x) { return x.text === text; });
-                //let dataItem = dataItemsIterator.getFirst();
-                dataItem.__disabled = false;
-                //dataItem.visible = true;
-                //this.processDataItem(dataItem);
                 this_2.appendDataItem(dataItem);
                 dataItem.axisBreak = undefined;
                 dataItem.date = date;

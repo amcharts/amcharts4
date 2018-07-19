@@ -353,13 +353,6 @@ export declare class Legend extends Component {
      */
     protected createDataItem(): this["_dataItem"];
     /**
-     * Removes children before calling validate method of the super class. (which
-     * initiates building of the legend)
-     *
-     * @ignore Exclude from docs
-     */
-    validate(): void;
-    /**
      * [validateDataElement description]
      *
      * @ignore Exclude from docs

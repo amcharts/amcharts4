@@ -14,7 +14,6 @@ import { SerialChart } from "../types/SerialChart";
 import { Dictionary } from "../../core/utils/Dictionary";
 import { XYSeries, XYSeriesDataItem } from "../series/XYSeries";
 import { CategoryAxisBreak } from "./CategoryAxisBreak";
-import { IDisposer } from "../../core/utils/Disposer";
 /**
  * ============================================================================
  * DATA ITEM
@@ -203,31 +202,13 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      */
     dataItemsByCategory: Dictionary<string, this["_dataItem"]>;
     /**
-     * [_preBuildCount description]
-     *
-     * @todo Description
-     * @type {number}
+     * last data item is used for the closing grid
      */
-    protected _preBuildCount: number;
-    /**
-     * [_prebuildDisposer description]
-     *
-     * @todo Description
-     * @type {IDisposer}
-     */
-    protected _prebuildDisposer: IDisposer;
     protected _lastDataItem: CategoryAxisDataItem;
     /**
      * Constructor
      */
     constructor();
-    /**
-     * [prebuildDataItem description]
-     *
-     * @ignore Exclude from docs
-     * @todo Description
-     */
-    prebuildDataItem(): void;
     /**
      * Returns a new/empty [[DataItem]] of the type appropriate for this object.
      *

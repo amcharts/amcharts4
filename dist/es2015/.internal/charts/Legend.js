@@ -214,16 +214,6 @@ var Legend = /** @class */ (function (_super) {
         return new LegendDataItem();
     };
     /**
-     * Removes children before calling validate method of the super class. (which
-     * initiates building of the legend)
-     *
-     * @ignore Exclude from docs
-     */
-    Legend.prototype.validate = function () {
-        this.removeChildren();
-        _super.prototype.validate.call(this);
-    };
-    /**
      * [validateDataElement description]
      *
      * @ignore Exclude from docs

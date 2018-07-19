@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.33] - 2018-07-19
+
+### Added
+- `calcualtePercent` flag added to `Series`. Default value is `false`, except for `PieSeries`. Series will not calculate percent values of each data item if this is not explicitly set to `true`. Since it wasn't been used anywhere but Pie chart, this should improve performance of initial data parsing.
+
+### Fixed
+- Performance improvements. Especially when zooming/scrolling chart with a lot of data.
+- `lineSeries` was not paying attention to `propertyField` values set in data.
+- Radar and Gauge charts were not centered properly when resizing window.
+- Container's background properties were not copied when clonging container.
+
+
 ## [4.0.0-beta.32] - 2018-07-17
 
 ### Important (potentially breaking changes)

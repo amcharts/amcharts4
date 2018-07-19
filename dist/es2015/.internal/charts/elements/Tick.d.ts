@@ -19,7 +19,7 @@ import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../..
  */
 export interface ITickProperties extends ISpriteProperties {
     /**
-     * Length of the tick. (px)
+     * Length of the tick (px).
      *
      * @type {number}
      */

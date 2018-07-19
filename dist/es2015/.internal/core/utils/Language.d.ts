@@ -260,7 +260,7 @@ export declare class Language extends BaseObjectEvents {
      */
     protected getLocale(locale?: ILocale): ILocale;
     /**
-     * Retruns the translation of the string.
+     * Returns the translation of the string.
      *
      * If the translation is empty, it will return untranslated prompt.
      *

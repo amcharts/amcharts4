@@ -143,9 +143,8 @@ export declare class AxisRenderer extends Container {
      */
     protected _axis: Axis;
     /**
-     * An Axis line of the related Axis.
+     * A line object of the related axis.
      *
-     * @ignore Exclude from docs
      * @type {AxisLine}
      */
     line: AxisLine;

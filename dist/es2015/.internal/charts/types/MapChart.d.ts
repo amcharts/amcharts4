@@ -324,13 +324,13 @@ export declare class MapChart extends SerialChart {
      */
     southPoint: IPoint;
     /**
-     * Width of the actual map objects. (px)
+     * Width of the actual map objects (px).
      *
      * @type {number}
      */
     seriesWidth: number;
     /**
-     * Height of the actual map objects. (px)
+     * Height of the actual map objects (px).
      *
      * @type {number}
      */

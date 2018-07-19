@@ -103,7 +103,7 @@ var Language = /** @class */ (function (_super) {
         }).locale;
     };
     /**
-     * Retruns the translation of the string.
+     * Returns the translation of the string.
      *
      * If the translation is empty, it will return untranslated prompt.
      *
