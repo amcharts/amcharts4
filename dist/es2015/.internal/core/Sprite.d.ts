@@ -511,9 +511,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Parent container.
      *
      * @ignore Exclude from docs
-     * @type {MutableValueDisposer}
+     * @type {Container}
      */
-    protected _parent: MutableValueDisposer<Container>;
+    protected _parent: Container;
     /**
      * Defines bounding box (square) for this element.
      *

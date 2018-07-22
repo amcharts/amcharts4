@@ -222,10 +222,19 @@ export declare class Container extends Sprite {
      */
     hasFocused: boolean;
     /**
-     * Specifies if, when state is applied on this container, the same state should be applied to container's children
+     * Specifies if, when state is applied on this container, the same state
+     * should be applied to container's children as well as `background`.
+     *
      * @type {boolean}
      */
     setStateOnChildren: boolean;
+    /**
+     * An array of references to elements the state should be set, when it is set
+     * ont this element.
+     *
+     * @type {Sprite[]}
+     */
+    setStateOnSprites: Sprite[];
     layoutInvalid: boolean;
     protected _absoluteWidth: number;
     protected _absoluteHeight: number;
@@ -346,9 +355,8 @@ export declare class Container extends Sprite {
      * ones can be drawn first.
      *
      * @ignore Exclude from docs
-     * @param {Sprite[]}  children  Container's children (elements)
      */
-    sortChildren(children?: Sprite[]): void;
+    sortChildren(): void;
     /**
      * Calculates relative sizes for all Container's children.
      *
@@ -395,6 +403,12 @@ export declare class Container extends Sprite {
      * @param {Sprite}  background  Background element
      */
     background: this["_background"];
+    /**
+     * Handles the situation where parent element is resized.
+     *
+     * @ignore Exclude from docs
+     */
+    handleGlobalScale(): void;
     /**
      * Creates and returns a [[Rectangle]] to use as a background for Container.
      *
@@ -557,7 +571,7 @@ export declare class Container extends Sprite {
      */
     /**
      * Font size to be used for the text. The size can either be numeric, in
-     * pxels, or other measurements.
+     * pixels, or other measurements.
      *
      * Parts of the text may override this setting using in-line formatting.
      *

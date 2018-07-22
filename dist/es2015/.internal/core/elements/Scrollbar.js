@@ -734,7 +734,7 @@ var Scrollbar = /** @class */ (function (_super) {
                 thumb.clickable = true;
                 thumb.hoverable = true;
                 thumb.focusable = true;
-                //thumb.zIndex = 0;
+                thumb.zIndex = 0;
                 // TODO remove closures ?
                 // Add events
                 // Add cursor styles to thumb

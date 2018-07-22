@@ -218,13 +218,6 @@ var Sprite = /** @class */ (function (_super) {
          */
         _this._exporting = new MutableValueDisposer();
         /**
-         * Parent container.
-         *
-         * @ignore Exclude from docs
-         * @type {MutableValueDisposer}
-         */
-        _this._parent = new MutableValueDisposer();
-        /**
          * Defines bounding box (square) for this element.
          *
          * @ignore Exclude from docs
@@ -341,11 +334,11 @@ var Sprite = /** @class */ (function (_super) {
         // Create SVG group to hold everything in
         _this.group = _this.paper.addGroup("g");
         // Set defaults
-        _this.scale = 1;
-        _this.rotation = 0;
-        _this.align = "none";
-        _this.valign = "none";
-        _this.pixelPerfect = false;
+        _this.setPropertyValue("scale", 1);
+        _this.setPropertyValue("rotation", 0);
+        _this.setPropertyValue("align", "none");
+        _this.setPropertyValue("valign", "none");
+        _this.setPropertyValue("pixelPerfect", false);
         _this.marginTop = 0;
         _this.marginBottom = 0;
         _this.marginLeft = 0;
@@ -394,7 +387,7 @@ var Sprite = /** @class */ (function (_super) {
         _this._disposers.push(_this._mask);
         _this._disposers.push(_this._language);
         _this._disposers.push(_this._exporting);
-        _this._disposers.push(_this._parent);
+        //this._disposers.push(this._parent);
         //this._disposers.push(this._modal);
         _this._disposers.push(new Disposer(function () {
             $object.each(_this._bindings, function (key, value) {
@@ -592,14 +585,18 @@ var Sprite = /** @class */ (function (_super) {
         if (this.isMeasured || this.horizontalCenter !== "none" || this.verticalCenter !== "none") {
             this.measureElement();
         }
-        this.setSVGAttributes();
-        this.dispatchImmediately("validated");
         if (!this._inited) {
+            this.setSVGAttributes();
             this.applyFilters();
             this.visible = this.visible;
             this.interactionsEnabled = this.interactionsEnabled;
+            this.appendDefs();
             this._inited = true;
+            this.dispatchImmediately("validated");
             this.dispatchImmediately("inited");
+        }
+        else {
+            this.dispatchImmediately("validated");
         }
         this.validatePosition();
         this.applyMask();
@@ -693,10 +690,13 @@ var Sprite = /** @class */ (function (_super) {
                 }
             }
             this.isBaseSprite = false;
-            var parent_2 = this.parent.parent;
-            if (parent_2) {
-                parent_2.dispose();
-            }
+            /*
+            not a disposer anymore
+            const parent = this.parent.parent;
+
+            if (parent) {
+                parent.dispose();
+            }*/
         }
         _super.prototype.dispose.call(this);
         if (this._svgContainer) {
@@ -720,10 +720,12 @@ var Sprite = /** @class */ (function (_super) {
             this.fill.dispose();
         }
         this.parent = undefined;
-        while (this.filters.length > 0) {
-            var filter = this.filters.getIndex(0);
-            filter.dispose();
-            this.filters.removeValue(filter);
+        if (this._filters) {
+            while (this._filters.length > 0) {
+                var filter = this._filters.getIndex(0);
+                filter.dispose();
+                this._filters.removeValue(filter);
+            }
         }
         // remove from map
         if ($type.hasValue(this.id)) {
@@ -831,7 +833,7 @@ var Sprite = /** @class */ (function (_super) {
          * @return {Optional<Container>} Parent container
          */
         get: function () {
-            return this._parent ? this._parent.get() : undefined;
+            return this._parent;
         },
         /**
          * Elements' parent [[Container]].
@@ -843,31 +845,33 @@ var Sprite = /** @class */ (function (_super) {
                 return;
             }
             var currentPaper = this.paper;
-            var oldParent = this._parent.get();
+            var oldParent = this._parent;
             if (oldParent != parent) {
                 if (oldParent) {
                     oldParent.children.removeValue(this);
                 }
+                this._parent = parent;
                 if (parent) {
                     if (parent.isTemplate) {
                         this.isTemplate = true;
                     }
                     this.paper = parent.paper;
                     parent.children.moveValue(this);
-                    parent.addChildren();
+                    // temp. here we should check zIndex and do insertBefore/after in order this to work properly
+                    var group = parent.element;
+                    if (group) {
+                        group.add(this.group);
+                    }
+                    parent.invalidateLayout();
                     if (this._tooltip && !this._tooltipContainer) {
                         this._tooltip.parent = parent.tooltipContainer;
                     }
-                    this._parent.set(parent, parent.events.on("globalscalechanged", this.handleGlobalScale, this));
                     if (!this._dataItem) {
                         this.dataItem = parent.dataItem;
                     }
                     if (currentPaper != parent.paper) {
                         this.appendDefs();
                     }
-                }
-                else {
-                    this._parent.reset();
                 }
             }
         },
@@ -1533,7 +1537,7 @@ var Sprite = /** @class */ (function (_super) {
      * @return {Sprite}          This element
      */
     Sprite.prototype.insertBefore = function (sprite) {
-        var parent = this._parent.get();
+        var parent = this.parent;
         if (parent) {
             var index = parent.children.indexOf(sprite);
             if (index !== -1) {
@@ -1550,7 +1554,7 @@ var Sprite = /** @class */ (function (_super) {
      * @return {Sprite}          This element
      */
     Sprite.prototype.insertAfter = function (sprite) {
-        var parent = this._parent.get();
+        var parent = this.parent;
         if (parent) {
             var index = parent.children.indexOf(sprite);
             if (index !== -1) {
@@ -5371,7 +5375,7 @@ var Sprite = /** @class */ (function (_super) {
                 value = 0;
             }
             if (value != this.getPropertyValue("scale")) {
-                this.dispatch("globalscalechanged");
+                this.handleGlobalScale();
             }
             this.setPropertyValue("scale", value, false, true);
             this.strokeWidth = this.strokeWidth; // to handle nonScalingStroke

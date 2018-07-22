@@ -333,7 +333,7 @@ var CategoryAxis = /** @class */ (function (_super) {
         }
         var label = dataItem.label;
         if (label) {
-            dataItem.text = dataItem.text; //@todo if this is left, kills custom data item text. this.adapter.apply("label", dataItem.category);
+            dataItem.text = this.adapter.apply("label", dataItem.text); //@todo if this is left, kills custom data item text. this.adapter.apply("label", dataItem.category);
             renderer.updateLabelElement(label, position, endPosition);
         }
         var fill = dataItem.axisFill;

@@ -67,10 +67,19 @@ var Container = /** @class */ (function (_super) {
          */
         _this.hasFocused = false;
         /**
-         * Specifies if, when state is applied on this container, the same state should be applied to container's children
+         * Specifies if, when state is applied on this container, the same state
+         * should be applied to container's children as well as `background`.
+         *
          * @type {boolean}
          */
         _this.setStateOnChildren = false;
+        /**
+         * An array of references to elements the state should be set, when it is set
+         * ont this element.
+         *
+         * @type {Sprite[]}
+         */
+        _this.setStateOnSprites = [];
         /*
          * @ignore
          */
@@ -78,7 +87,7 @@ var Container = /** @class */ (function (_super) {
         _this._absoluteWidth = 0;
         _this._absoluteHeight = 0;
         _this.className = "Container";
-        _this.element = _this.paper.addGroup("g");
+        _this._element = _this.paper.addGroup("g");
         _this.pixelPerfect = false;
         _this._positionPrecision = 4;
         _this.group.add(_this.element);
@@ -103,6 +112,7 @@ var Container = /** @class */ (function (_super) {
         var _this = this;
         var child = event.newValue;
         this._disposers.push(child.events.on("zIndexChanged", function () {
+            _this.sortChildren();
             _this.addChildren();
         }));
         // Do not add disposed objects
@@ -169,7 +179,6 @@ var Container = /** @class */ (function (_super) {
         if (this.disabled || this.isTemplate || this.layout == "none") {
             return;
         }
-        //this.validateLayout();
         if (!this.layoutInvalid) {
             this.layoutInvalid = true;
             $array.add(registry.invalidLayouts, this);
@@ -192,7 +201,7 @@ var Container = /** @class */ (function (_super) {
      */
     Container.prototype.deepInvalidate = function () {
         _super.prototype.invalidate.call(this);
-        this.sortChildren();
+        //this.sortChildren();
         $array.each(this._childrenByLayout, function (child) {
             if (child instanceof Container) {
                 child.deepInvalidate();
@@ -363,20 +372,9 @@ var Container = /** @class */ (function (_super) {
      * ones can be drawn first.
      *
      * @ignore Exclude from docs
-     * @param {Sprite[]}  children  Container's children (elements)
      */
-    Container.prototype.sortChildren = function (children) {
+    Container.prototype.sortChildren = function () {
         var _this = this;
-        if (children) {
-            var length_1 = children.length;
-            for (var i = 0; i < length_1; ++i) {
-                var child = children[i];
-                // TODO don't do anything if the indexes are the same ?
-                if (this.children.indexOf(child) != -1) {
-                    this.children.moveValue(child, i);
-                }
-            }
-        }
         this._childrenByLayout = [];
         if (this.layout == "none" || this.layout == "absolute" || !this.layout) {
             //$iter.each(this.children.iterator(), (child) => {
@@ -481,7 +479,7 @@ var Container = /** @class */ (function (_super) {
           access scrollbar.thumb
         */
         if (this.element) {
-            this.sortChildren();
+            //this.sortChildren(); // very bad for performance, maybe we don't need that at all
             var zindexed = $array.copy(this._childrenByLayout);
             zindexed.sort(function (a, b) {
                 return (a.zIndex || 0) - (b.zIndex || 0);
@@ -563,6 +561,17 @@ var Container = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Handles the situation where parent element is resized.
+     *
+     * @ignore Exclude from docs
+     */
+    Container.prototype.handleGlobalScale = function () {
+        _super.prototype.handleGlobalScale.call(this);
+        this.children.each(function (child) {
+            child.handleGlobalScale();
+        });
+    };
     /**
      * Creates and returns a [[Rectangle]] to use as a background for Container.
      *
@@ -1406,7 +1415,7 @@ var Container = /** @class */ (function (_super) {
         },
         /**
          * Font size to be used for the text. The size can either be numeric, in
-         * pxels, or other measurements.
+         * pixels, or other measurements.
          *
          * Parts of the text may override this setting using in-line formatting.
          *
@@ -1493,6 +1502,11 @@ var Container = /** @class */ (function (_super) {
                 child.setState(stateName, transitionDuration, easing);
             });
             this.background.setState(stateName);
+        }
+        if (this.setStateOnSprites.length) {
+            $array.each(this.setStateOnSprites, function (item) {
+                item.setState(stateName, transitionDuration, easing);
+            });
         }
         return _super.prototype.setState.call(this, value, transitionDuration, easing);
     };
