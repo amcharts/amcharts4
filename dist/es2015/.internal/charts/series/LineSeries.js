@@ -88,6 +88,7 @@ var LineSeries = /** @class */ (function (_super) {
          */
         _this.minDistance = 0.5;
         _this.segments = new ListTemplate(new LineSeriesSegment());
+        _this.segments.template.applyOnClones = true;
         _this._disposers.push(new ListDisposer(_this.segments));
         _this._disposers.push(_this.segments.template);
         _this._segmentsIterator = new $iter.ListIterator(_this.segments, function () { return _this.segments.create(); });

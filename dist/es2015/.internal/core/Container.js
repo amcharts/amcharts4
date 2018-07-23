@@ -130,6 +130,7 @@ var Container = /** @class */ (function (_super) {
             child._childAddedDisposer = child.events.on("transformed", this.handleChildTransform, this);
             //@todo: temporary commenting this because of error it causes when I add contents Container in AxisRange constructor. this._disposers.push((<any>child)._childAddedDisposer);
         }
+        this.dispatchImmediately("childadded", { type: "childadded", newValue: child });
         this.invalidate();
         this.invalidateLayout();
     };
@@ -156,6 +157,7 @@ var Container = /** @class */ (function (_super) {
         if (child.isMeasured) {
             this.invalidateLayout();
         }
+        this.dispatchImmediately("childremoved", { type: "childremoved", oldValue: child });
     };
     /**
      * Handles child transformation. Changing size of the child may change the
@@ -166,7 +168,7 @@ var Container = /** @class */ (function (_super) {
      */
     Container.prototype.handleChildTransform = function (event) {
         var child = event.target;
-        if (child.isMeasured) {
+        if (child.isMeasured) { // && this.layout != "none" && this.layout != "absolute") {
             this.invalidateLayout();
         }
     };
@@ -237,16 +239,9 @@ var Container = /** @class */ (function (_super) {
          * @return {List<Sprite>} List of child elements (Sprites)
          */
         get: function () {
-            var _this = this;
             // @todo Review if we can add all children to disposers
             if (!this._children) {
                 this._children = new List();
-                this._children.events.on("inserted", function (event) {
-                    _this.dispatchImmediately("childadded", { type: "childadded", newValue: event.newValue });
-                });
-                this._children.events.on("inserted", function (event) {
-                    _this.dispatchImmediately("childremoved", { type: "childremoved", newValue: event.newValue });
-                });
                 //this._disposers.push(new ListDisposer(this._children));
             }
             return this._children;
@@ -771,8 +766,8 @@ var Container = /** @class */ (function (_super) {
             // TODO use iterator instead
             for (var i = 0, len = this.children.length; i < len; i++) {
                 var child = this.children.getIndex(i);
-                var x = undefined; // must reset
-                var y = undefined; // must reset
+                var x = undefined; //child.pixelX; // must reset
+                var y = undefined; //child.pixelY; // must reset
                 var childMarginLeft = child.pixelMarginLeft;
                 var childMarginRight = child.pixelMarginRight;
                 var childMarginTop = child.pixelMarginTop;
@@ -785,6 +780,8 @@ var Container = /** @class */ (function (_super) {
                 var childBottom = void 0;
                 if (child.isMeasured && !child.disabled && !child.__disabled) {
                     switch (this.layout) {
+                        case "none":
+                            break;
                         // absolute layout
                         case "absolute":
                             // horizontal alignment
@@ -909,8 +906,9 @@ var Container = /** @class */ (function (_super) {
                             }
                             break;
                     }
-                    // NaN is handled by setter
-                    child.moveTo({ x: x, y: y });
+                    if (this.layout !== "none") {
+                        child.moveTo({ x: x, y: y });
+                    }
                     childLeft = x + child.maxLeft - childMarginLeft;
                     childRight = x + child.maxRight + childMarginRight;
                     childTop = y + child.maxTop - childMarginTop;
@@ -950,6 +948,9 @@ var Container = /** @class */ (function (_super) {
                     if (childBottom > contentBottom || !$type.isNumber(contentBottom)) {
                         contentBottom = contentBottom;
                     }
+                }
+                else {
+                    child.validatePosition();
                 }
             }
             if (!$type.isNumber(left)) {
@@ -1011,78 +1012,80 @@ var Container = /** @class */ (function (_super) {
             var measuredContentWidth = contentRight - contentLeft;
             var measuredContentHeight = contentBottom - contentTop;
             /// handle content alignment
-            var dx_1;
-            var dy_1;
-            var mwa = measuredWidth;
-            var mha = measuredHeight;
-            if (mwa < measuredContentWidth) {
-                mwa = measuredContentWidth;
-            }
-            if (mha < measuredContentHeight) {
-                mha = measuredContentHeight;
-            }
-            if (this.contentAlign == "center") {
-                dx_1 = (mwa - measuredContentWidth) / 2;
-            }
-            if (this.contentAlign == "right") {
-                dx_1 = mwa - measuredContentWidth;
-            }
-            if (this.contentValign == "middle") {
-                dy_1 = (mha - measuredContentHeight) / 2;
-            }
-            if (this.contentValign == "bottom") {
-                dy_1 = mha - measuredContentHeight;
-            }
-            if ($type.isNumber(dx_1)) {
-                $iter.each(this.children.iterator(), function (child) {
-                    var childLeft = child.maxLeft;
-                    var ddx = dx_1;
-                    if (_this.layout == "horizontal") {
-                        child.x = child.pixelX + ddx;
-                    }
-                    // individual grid elements can not be aligned vertically, that's why it's different from horizontal
-                    if (_this.layout == "grid") {
-                        child.x = child.pixelX + ddx;
-                    }
-                    if (_this.layout == "vertical") {
-                        ddx += child.pixelMarginLeft;
-                        if (child.align == "none") {
-                            child.x = ddx - childLeft;
+            if (this.layout != "none") {
+                var dx_1;
+                var dy_1;
+                var mwa = measuredWidth;
+                var mha = measuredHeight;
+                if (mwa < measuredContentWidth) {
+                    mwa = measuredContentWidth;
+                }
+                if (mha < measuredContentHeight) {
+                    mha = measuredContentHeight;
+                }
+                if (this.contentAlign == "center") {
+                    dx_1 = (mwa - measuredContentWidth) / 2;
+                }
+                if (this.contentAlign == "right") {
+                    dx_1 = mwa - measuredContentWidth;
+                }
+                if (this.contentValign == "middle") {
+                    dy_1 = (mha - measuredContentHeight) / 2;
+                }
+                if (this.contentValign == "bottom") {
+                    dy_1 = mha - measuredContentHeight;
+                }
+                if ($type.isNumber(dx_1)) {
+                    $iter.each(this.children.iterator(), function (child) {
+                        var childLeft = child.maxLeft;
+                        var ddx = dx_1;
+                        if (_this.layout == "horizontal") {
+                            child.x = child.pixelX + ddx;
                         }
-                    }
-                    if (_this.layout == "absolute") {
-                        ddx += child.pixelMarginLeft;
-                        if (child.align == "none") {
-                            child.x = ddx - childLeft;
+                        // individual grid elements can not be aligned vertically, that's why it's different from horizontal
+                        if (_this.layout == "grid") {
+                            child.x = child.pixelX + ddx;
                         }
-                    }
-                });
-            }
-            if ($type.isNumber(dy_1)) {
-                $iter.each(this.children.iterator(), function (child) {
-                    var childTop = child.maxTop;
-                    var ddy = dy_1;
-                    if (_this.layout == "horizontal") {
-                        ddy += child.pixelMarginTop;
-                        if (child.valign == "none") {
+                        if (_this.layout == "vertical") {
+                            ddx += child.pixelMarginLeft;
+                            if (child.align == "none") {
+                                child.x = ddx - childLeft;
+                            }
+                        }
+                        if (_this.layout == "absolute") {
+                            ddx += child.pixelMarginLeft;
+                            if (child.align == "none") {
+                                child.x = ddx - childLeft;
+                            }
+                        }
+                    });
+                }
+                if ($type.isNumber(dy_1)) {
+                    $iter.each(this.children.iterator(), function (child) {
+                        var childTop = child.maxTop;
+                        var ddy = dy_1;
+                        if (_this.layout == "horizontal") {
+                            ddy += child.pixelMarginTop;
+                            if (child.valign == "none") {
+                                child.y = ddy - childTop;
+                            }
+                        }
+                        // individual grid elements can not be aligned vertically, that's why it's different from horizontal
+                        if (_this.layout == "grid") {
+                            ddy += child.pixelMarginTop;
                             child.y = ddy - childTop;
                         }
-                    }
-                    // individual grid elements can not be aligned vertically, that's why it's different from horizontal
-                    if (_this.layout == "grid") {
-                        ddy += child.pixelMarginTop;
-                        child.y = ddy - childTop;
-                    }
-                    if (_this.layout == "vertical") {
-                        child.y = child.pixelY + ddy;
-                    }
-                    if (_this.layout == "absolute") {
-                        ddy += child.pixelMarginTop;
-                        if (child.valign == "none") {
-                            child.y = ddy - childTop;
+                        if (_this.layout == "vertical") {
+                            child.y = child.pixelY + ddy;
                         }
-                    }
-                });
+                        if (_this.layout == "absolute") {
+                            ddy += child.pixelMarginTop;
+                            if (child.valign == "none") {
+                                child.y = ddy - childTop;
+                            }
+                        }
+                    });
+                }
             }
             var oldBBox = this.bbox;
             // this will mess up maxw/maxh set by container layout, we need a separate min/maxwidth for users
@@ -1144,7 +1147,6 @@ var Container = /** @class */ (function (_super) {
             background.y = this.maxTop;
             background.width = this.maxRight - this.maxLeft;
             background.height = this.maxBottom - this.maxTop;
-            //console.log(this._right, this._left)
             this.group.addToBack(background.group);
         }
     };

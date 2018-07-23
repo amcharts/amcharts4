@@ -351,7 +351,7 @@ var Series = /** @class */ (function (_super) {
 
             return null;
         });*/
-        if (startIndex > 0) {
+        if (startIndex > 0 && startIndex < this.dataItems.length - 1) {
             startIndex++;
         }
         for (var i = startIndex; i >= 0; i--) {
@@ -530,6 +530,12 @@ var Series = /** @class */ (function (_super) {
         _super.prototype.validate.call(this);
         this.bulletsContainer.fill = this.fill;
         this.bulletsContainer.stroke = this.stroke;
+        this.updateTooltipBounds();
+    };
+    /**
+     * @ignore
+     */
+    Series.prototype.updateTooltipBounds = function () {
         if (this.topParent) {
             this.tooltip.setBounds({ x: 0, y: 0, width: this.topParent.maxWidth, height: this.topParent.maxHeight });
         }
@@ -894,7 +900,7 @@ var Series = /** @class */ (function (_super) {
     Series.prototype.raiseCriticalError = function (e) {
         this._chart.modal.content = e.message;
         this._chart.modal.closable = false;
-        this._chart.modal.show();
+        this._chart.modal.open();
         this._chart.disabled = true;
         if (options.verbose) {
             console.log(e);

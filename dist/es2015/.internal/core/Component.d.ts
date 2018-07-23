@@ -83,7 +83,7 @@ export interface IComponentEvents extends IContainerEvents {
  */
 export interface IComponentAdapters extends IContainerAdapters, IComponentProperties {
     /**
-     * Applied after [[Component ]] retrieves data value from data context
+     * Applied after [[Component]] retrieves data value from data context
      * (raw data), but before it is provided to [[DataItem]].
      */
     dataContextValue: {
@@ -91,6 +91,10 @@ export interface IComponentAdapters extends IContainerAdapters, IComponentProper
         field: string;
         dataItem: DataItem;
     };
+    /**
+     * Applied to chart's data before it is retrieved for use.
+     */
+    data: any[];
 }
 /**
  * ============================================================================

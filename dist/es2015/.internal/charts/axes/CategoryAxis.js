@@ -163,11 +163,6 @@ var CategoryAxis = /** @class */ (function (_super) {
         _this.className = "CategoryAxis";
         // Set field name
         _this.axisFieldName = "category";
-        // Add adapter to strip down `#id=xxx` from categories
-        _this.adapter.add("label", function (value) {
-            value = value.replace(/\#id=.*$/, "");
-            return value;
-        });
         _this._lastDataItem = _this.createDataItem();
         _this._lastDataItem.component = _this;
         _this._disposers.push(_this._lastDataItem);
@@ -251,8 +246,16 @@ var CategoryAxis = /** @class */ (function (_super) {
         var startIndex = $math.max(0, this._startIndex - this._frequency);
         var endIndex = $math.min(this.dataItems.length, this._endIndex + this._frequency);
         var itemIndex = 0;
+        for (var i = 0; i < startIndex; i++) {
+            var dataItem = this.dataItems.getIndex(i);
+            dataItem.__disabled = true;
+        }
+        for (var i = endIndex; i < this.dataItems.length; i++) {
+            var dataItem = this.dataItems.getIndex(i);
+            dataItem.__disabled = true;
+        }
         for (var i = startIndex; i < endIndex; i++) {
-            if (i <= this.dataItems.length) {
+            if (i < this.dataItems.length) {
                 var dataItem = this.dataItems.getIndex(i);
                 if (i / this._frequency == Math.round(i / this._frequency)) {
                     var axisBreak = this.isInBreak(i);
@@ -333,7 +336,7 @@ var CategoryAxis = /** @class */ (function (_super) {
         }
         var label = dataItem.label;
         if (label) {
-            dataItem.text = this.adapter.apply("label", dataItem.text); //@todo if this is left, kills custom data item text. this.adapter.apply("label", dataItem.category);
+            dataItem.text = dataItem.text; //@todo if this is left, kills custom data item text. this.adapter.apply("label", dataItem.category);
             renderer.updateLabelElement(label, position, endPosition);
         }
         var fill = dataItem.axisFill;

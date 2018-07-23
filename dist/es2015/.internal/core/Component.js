@@ -413,7 +413,7 @@ var Component = /** @class */ (function (_super) {
     Component.prototype.validateDataElements = function () {
         for (var i = this.startIndex; i < this.endIndex; i++) {
             var dataItem = this.dataItems.getIndex(i);
-            // TODO is this correct ?
+            // TODO is this correct
             if (dataItem) {
                 this.validateDataElement(dataItem);
             }
@@ -665,6 +665,7 @@ var Component = /** @class */ (function (_super) {
             var preloader = this.preloader;
             // data items array is reset only if all data is validated, if _parseDataFrom is not 0, we append new data only
             if (this._parseDataFrom === 0) {
+                // dispose old
                 $iter.each(this.dataItems.iterator(), function (dataItem) {
                     dataItem.dispose();
                 });
@@ -760,7 +761,7 @@ var Component = /** @class */ (function (_super) {
             if (!this._data) {
                 this._data = [];
             }
-            return this._data;
+            return this.adapter.apply("data", this._data);
         },
         /**
          * Sets source (raw) data for the element. The "data" is always an `Array`
@@ -930,7 +931,7 @@ var Component = /** @class */ (function (_super) {
             if (preloader) {
                 preloader.progress = 1;
             }
-            _this.showModal(ev.message);
+            _this.openModal(ev.message);
         });
         if (property) {
             ds.events.on("done", function (ev) {

@@ -126,6 +126,7 @@ var Preloader = /** @class */ (function (_super) {
          */
         set: function (value) {
             var _this = this;
+            this.__disabled = false;
             this.setPropertyValue("progress", value);
             /*if (!this.visible && value == 1) {
                 return;
@@ -141,7 +142,12 @@ var Preloader = /** @class */ (function (_super) {
                 }
                 // TODO remove closure ?
                 registry.events.once("enterframe", function () {
-                    _this.hide();
+                    var animation = _this.hide();
+                    if (animation) {
+                        animation.events.once("animationended", function () {
+                            _this.__disabled = true;
+                        });
+                    }
                 });
                 this.interactionsEnabled = false;
             }

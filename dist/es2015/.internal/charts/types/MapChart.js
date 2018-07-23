@@ -128,7 +128,6 @@ var MapChart = /** @class */ (function (_super) {
         _this.className = "MapChart";
         // Set default projection
         _this.projection = new Projection();
-        //		this.deltaLatitude = 0;
         _this.deltaLongitude = 0;
         // Set padding
         _this.padding(0, 0, 0, 0);
@@ -262,6 +261,7 @@ var MapChart = /** @class */ (function (_super) {
          * @param {Projection}  projection  Projection
          */
         set: function (projection) {
+            projection.deltaLongitude = this.deltaLongitude;
             this.setPropertyValue("projection", projection, true);
         },
         enumerable: true,
@@ -347,6 +347,7 @@ var MapChart = /** @class */ (function (_super) {
             this.scaleRatio = scaleRatio;
             $iter.each(this.series.iterator(), function (series) {
                 series.scale = _this.scaleRatio;
+                series.updateTooltipBounds();
             });
             this.dispatch("scaleratiochanged");
         }
@@ -606,6 +607,7 @@ var MapChart = /** @class */ (function (_super) {
     MapChart.prototype.handleMapTransform = function () {
         if (this.zoomLevel != this._prevZoomLevel) {
             this.dispatch("zoomlevelchanged");
+            this._prevZoomLevel = this.zoomLevel;
         }
         if (this.zoomGeoPoint && (this._prevZoomGeoPoint.latitude != this.zoomGeoPoint.latitude || this._prevZoomGeoPoint.longitude != this.zoomGeoPoint.longitude)) {
             this.dispatch("mappositionchanged");
@@ -709,36 +711,18 @@ var MapChart = /** @class */ (function (_super) {
     };
     Object.defineProperty(MapChart.prototype, "deltaLongitude", {
         /**
-         * @return {number} [description]
+         * @return {number} Map center shift
          */
         get: function () {
             return this.getPropertyValue("deltaLongitude");
         },
         /**
-         * [deltaLatitude description]
+         * Degrees to shift map center by.
          *
-         * @ignore Exclude from docs
-         * @todo Description
-         * @param {number} value [description]
-         */
-        /*public set deltaLatitude(value: number) {
-            this.setPropertyValue("deltaLatitude", $geo.wrapAngleTo180(value));
-            this.invalidateProjection();
-        }
-    */
-        /**
-         * @return {number} [description]
-         */
-        /*
-     public get deltaLatitude(): number {
-         return this.getPropertyValue("deltaLatitude");
-     }*/
-        /**
-         * [deltaLongitude description]
+         * E.g. if set to -160, the longitude 20 will become a new center, creating
+         * a Pacific-centered map.
          *
-         * @ignore Exclude from docs
-         * @todo Description
-         * @param {number} value [description]
+         * @param {number}  value  Map center shift
          */
         set: function (value) {
             this.setPropertyValue("deltaLongitude", $geo.wrapAngleTo180(value));

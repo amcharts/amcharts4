@@ -2482,11 +2482,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {string}  text   Modal contents
      * @param {string}  title  Title for the modal window
      */
-    showModal(text: string, title?: string): void;
+    openModal(text: string, title?: string): Modal;
     /**
      * Hides modal window if there is one currently open.
      */
-    hideModal(): void;
+    closeModal(): void;
     /**
      * A list of popups for this chart.
      *

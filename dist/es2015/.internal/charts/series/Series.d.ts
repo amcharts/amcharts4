@@ -465,6 +465,10 @@ export declare class Series extends Component {
      */
     validate(): void;
     /**
+     * @ignore
+     */
+    updateTooltipBounds(): void;
+    /**
      * Validates data item's element, effectively redrawing it.
      *
      * @ignore Exclude from docs

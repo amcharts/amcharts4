@@ -63,13 +63,13 @@ function createChild(htmlElement, classType) {
         svgDiv.container = container;
         // content container
         // setting mask directly on classType object would result mask to shift together with object transformations
-        var contentContainer = container.createChild(Container);
-        contentContainer.width = percent(100);
-        contentContainer.height = percent(100);
+        var contentContainer_1 = container.createChild(Container);
+        contentContainer_1.width = percent(100);
+        contentContainer_1.height = percent(100);
         // content mask
-        contentContainer.mask = contentContainer.background;
+        contentContainer_1.mask = contentContainer_1.background;
         // creating classType instance
-        var sprite_1 = contentContainer.createChild(classType);
+        var sprite_1 = contentContainer_1.createChild(classType);
         sprite_1.isBaseSprite = true;
         sprite_1.focusFilter = new FocusFilter();
         // tooltip container
@@ -77,7 +77,7 @@ function createChild(htmlElement, classType) {
         tooltipContainer_1.width = percent(100);
         tooltipContainer_1.height = percent(100);
         tooltipContainer_1.isMeasured = false;
-        contentContainer.tooltipContainer = tooltipContainer_1;
+        contentContainer_1.tooltipContainer = tooltipContainer_1;
         sprite_1.tooltip = new Tooltip();
         sprite_1.tooltip.hide(0);
         sprite_1.tooltip.setBounds({ x: 0, y: 0, width: tooltipContainer_1.maxWidth, height: tooltipContainer_1.maxHeight });
@@ -85,14 +85,17 @@ function createChild(htmlElement, classType) {
             $type.getValue(sprite_1.tooltip).setBounds({ x: 0, y: 0, width: tooltipContainer_1.maxWidth, height: tooltipContainer_1.maxHeight });
         });
         //@todo: maybe we don't need to create one by default but only on request?
-        contentContainer.preloader = new Preloader();
+        contentContainer_1.preloader = new Preloader();
+        contentContainer_1.preloader.events.on("inited", function () {
+            contentContainer_1.preloader.__disabled = true;
+        });
         if (!options.commercialLicense) {
             tooltipContainer_1.createChild(AmChartsLogo);
         }
         sprite_1.numberFormatter; // need to create one.
         // Set this as an autonomouse instance
         // Controls like Preloader, Export will use this.
-        contentContainer.isStandaloneInstance = true;
+        contentContainer_1.isStandaloneInstance = true;
         return sprite_1;
     }
     else {

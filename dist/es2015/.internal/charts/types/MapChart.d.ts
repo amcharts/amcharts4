@@ -170,21 +170,17 @@ export interface IMapChartDataFields extends ISerialChartDataFields {
  */
 export interface IMapChartProperties extends ISerialChartProperties {
     /**
-     * Projection to be used when drawing the map
+     * Projection to be used when drawing the map.
+     *
      * @type {Projection}
      */
     projection?: Projection;
     /**
-     * [deltaLatitude description]
+     * Degrees to shift map center by.
      *
-     * @todo Description
-     * @type {number}
-     */
-    deltaLatitude?: number;
-    /**
-     * [deltaLongitude description]
+     * E.g. if set to -160, the longitude 20 will become a new center, creating
+     * a Pacific-centered map.
      *
-     * @todo Description
      * @type {number}
      */
     deltaLongitude?: number;
@@ -696,24 +692,15 @@ export declare class MapChart extends SerialChart {
      */
     protected createSeries(): this["_seriesType"];
     /**
-     * @return {number} [description]
+     * @return {number} Map center shift
      */
     /**
-     * [deltaLatitude description]
+     * Degrees to shift map center by.
      *
-     * @ignore Exclude from docs
-     * @todo Description
-     * @param {number} value [description]
-     */
-    /**
-     * @return {number} [description]
-     */
-    /**
-     * [deltaLongitude description]
+     * E.g. if set to -160, the longitude 20 will become a new center, creating
+     * a Pacific-centered map.
      *
-     * @ignore Exclude from docs
-     * @todo Description
-     * @param {number} value [description]
+     * @param {number}  value  Map center shift
      */
     deltaLongitude: number;
     /**

@@ -309,6 +309,7 @@ var EventDispatcher = /** @class */ (function () {
         if (this._disposed) {
             throw new Error("EventDispatcher is disposed");
         }
+        //console.log(type, getSystem().dummyCounter++)
         this._removeExistingListener(once, type, callback, context);
         var info = {
             type: type,

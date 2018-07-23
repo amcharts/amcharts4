@@ -951,19 +951,10 @@ export declare class Export extends Validatable {
      * @param  {number}             height    Height of the SVG viewport
      * @param  {string}             font      Font family to use as a base
      * @param  {string}             fontSize  Font size to use as a base
-     * @param  {string}             style     A CSS to add as a <style></style> block
      * @return {string}                       Output SVG
      * @todo Add style params to existing <svg>
      */
-    normalizeSVG(svg: string, options?: IExportSVGOptions, width?: number, height?: number, font?: string, fontSize?: string, style?: string): string;
-    /**
-     * [normalizeFonts description]
-     *
-     * @ignore Exclude from docs
-     * @param  {string} fonts [description]
-     * @return {string}       [description]
-     */
-    normalizeFonts(fonts: string): string;
+    normalizeSVG(svg: string, options?: IExportSVGOptions, width?: number, height?: number, font?: string, fontSize?: string): string;
     /**
      * Serializes an element and returns its contents.
      *
@@ -1148,12 +1139,6 @@ export declare class Export extends Validatable {
      * @return {string}            Font family
      */
     findFontSize(element: Element): string;
-    /**
-     * [getFontDataURIs description]
-     * @param  {string} fonts [description]
-     * @return {string}       [description]
-     */
-    private getFontDataURIs(fonts);
     /**
      * @return {HTMLElement} Reference
      */

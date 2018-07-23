@@ -6,6 +6,7 @@ import { Percent } from "../utils/Percent";
 import { Align } from "../defs/Align";
 import { VerticalAlign } from "../defs/VerticalAlign";
 import { IPoint } from "../defs/IPoint";
+import { Optional } from "../utils/Type";
 /**
  * Represents a list of available adapters for Export.
  */
@@ -50,17 +51,30 @@ export interface IPopupAdapters {
      */
     draggable: boolean;
     /**
+     * Applied to `closable` property before it is retrieved.
+     *
+     * @type {boolean}
+     */
+    closable: boolean;
+    /**
+     * Applied to `fitTo` property before it's retrieved.
+     *
+     * @ignore Feature not yet implemented
+     * @type {"none" | "container" | "window"}
+     */
+    fitTo: "none" | "container" | "window";
+    /**
      * Applied to horizontal alignment of the popup.
      *
      * @type {Align}
      */
-    align: Align;
+    align: Optional<Align>;
     /**
      * Applied to vertical alignment of the popup.
      *
      * @type {VerticalAlign}
      */
-    verticalAlign: VerticalAlign;
+    verticalAlign: Optional<VerticalAlign>;
     /**
      * Appliet to `left` position value.
      *
@@ -189,13 +203,13 @@ export declare class Popup extends BaseObject {
      *
      * @type {Align}
      */
-    protected _align: Align;
+    protected _align: Optional<Align>;
     /**
      * Vertical position of the content window.
      *
      * @type {VerticalAlign}
      */
-    protected _verticalAlign: VerticalAlign;
+    protected _verticalAlign: Optional<VerticalAlign>;
     /**
      * Shift in position of the element. (used for dragging)
      *
@@ -253,6 +267,15 @@ export declare class Popup extends BaseObject {
      */
     private _cssLoaded;
     /**
+     * If set to other than "none" will try to re-adjust the position of the
+     * popop to fit within chart container or browser window.
+     *
+     * @ignore Feature not yet implemented
+     * @todo Implement
+     * @type {"none" | "container" | "window"}
+     */
+    private _fitTo;
+    /**
      * Used to log original value of `interactionsEnabled` so that it can be restored
      * after temporarily disabling it.
      *
@@ -263,6 +286,7 @@ export declare class Popup extends BaseObject {
      * Identifies if this object is a "template" and should not be treated as
      * real object that is drawn or actually used in the chart.
      *
+     * @ignore Exclude from docs
      * @type {boolean}
      */
     isTemplate: boolean;
@@ -286,11 +310,11 @@ export declare class Popup extends BaseObject {
     /**
      * Shows popup window.
      */
-    show(): void;
+    open(): void;
     /**
      * Hides popup window.
      */
-    hide(): void;
+    close(): void;
     /**
      * Destroy (dispose) popup.
      */
@@ -353,11 +377,26 @@ export declare class Popup extends BaseObject {
      * If it is, it can be closed in a number of ways, e.g. by hitting ESC key,
      * clicking curtain, or clicking the close button.
      *
-     * If it is not closable, the only way to close it is via `hide()` call.
+     * If it is not closable, the only way to close it is via `close()` call.
      *
      * @param {boolean} value Closable?
      */
     closable: boolean;
+    /**
+     * @ignore
+     * @todo Implement
+     * @return {"none" | "container" | "window"} Fit option
+     */
+    /**
+     * If set to other than "none" will try to re-adjust the position of the
+     * popop to fit within chart container or browser window.
+     *
+     * @ignore
+     * @todo Implement
+     * @default "window"
+     * @param {"none" | "container" | "window"}  value  Fit option
+     */
+    fitTo: "none" | "container" | "window";
     /**
      * @return {boolean} Use default CSS?
      */

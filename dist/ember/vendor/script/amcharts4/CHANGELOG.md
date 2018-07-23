@@ -5,6 +5,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.35] - 2018-07-23
+
+### Added
+- New adapter on `Component` (and everything that inherits it including charts and series): `"data"`.
+- New adapter on `Popup`: `"closable"`.
+
+### Changed
+- `showModal()` and `hideModal()` methods were renamed to `openModal()` and `closeModal()` respectively.
+- `show()` and `hide()` methods on `Popup`/`Modal` were renamed to `open()` and `close()` respectively.
+
+### Fixed
+- More performance-related improvements, especially with `CategoryAxis`.
+- Changing `interactionsEnabled` from `false` to `true` was not working properly in IE.
+- Setting `axisRenderer.inside = true` after chart was already built didn't work.
+- `zoomlevelchanged` event of `MapChart` was being fired even if zoom level did not change.
+- Setting `MapChart.deltaLongitude` was ignored if it was set before projection was set.
+- Map tooltip bounds were not being updated when map container's size changed.
+
+
 ## [4.0.0-beta.34] - 2018-07-22
 
 ### Fixed

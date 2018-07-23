@@ -95,11 +95,6 @@ var AxisDataItem = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    /**
-     * Override to cancel super call for data element validation.
-     */
-    AxisDataItem.prototype.validateDataElements = function () {
-    };
     Object.defineProperty(AxisDataItem.prototype, "tick", {
         /**
          * @return {AxisTick} Tick element
@@ -487,6 +482,11 @@ var Axis = /** @class */ (function (_super) {
         $iter.each(this.series.iterator(), function (series) {
             series.invalidateLayout();
         });
+    };
+    /**
+     * Override to cancel super call for data element validation.
+     */
+    Axis.prototype.validateDataElements = function () {
     };
     /**
      * Recalculates the number of grid items on the axis.

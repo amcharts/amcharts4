@@ -134,10 +134,6 @@ export declare class AxisDataItem extends DataItem {
      */
     grid: Grid;
     /**
-     * Override to cancel super call for data element validation.
-     */
-    protected validateDataElements(): void;
-    /**
      * @return {AxisTick} Tick element
      */
     /**
@@ -460,6 +456,10 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @ignore Exclude from docs
      */
     invalidateLayout(): void;
+    /**
+     * Override to cancel super call for data element validation.
+     */
+    protected validateDataElements(): void;
     /**
      * Recalculates the number of grid items on the axis.
      */

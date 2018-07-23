@@ -139,9 +139,19 @@ var Popup = /** @class */ (function (_super) {
          */
         _this._cssLoaded = false;
         /**
+         * If set to other than "none" will try to re-adjust the position of the
+         * popop to fit within chart container or browser window.
+         *
+         * @ignore Feature not yet implemented
+         * @todo Implement
+         * @type {"none" | "container" | "window"}
+         */
+        _this._fitTo = "window";
+        /**
          * Identifies if this object is a "template" and should not be treated as
          * real object that is drawn or actually used in the chart.
          *
+         * @ignore Exclude from docs
          * @type {boolean}
          */
         _this.isTemplate = false;
@@ -158,13 +168,14 @@ var Popup = /** @class */ (function (_super) {
     /**
      * Shows popup window.
      */
-    Popup.prototype.show = function () {
+    Popup.prototype.open = function () {
         if (this.container) {
             if (this._elements.wrapper) {
                 this.container.appendChild(this._elements.wrapper);
             }
             if (this._elements.curtain) {
                 this.container.appendChild(this._elements.curtain);
+                this.showCurtain = this.showCurtain;
             }
             this.positionElement();
         }
@@ -172,7 +183,7 @@ var Popup = /** @class */ (function (_super) {
     /**
      * Hides popup window.
      */
-    Popup.prototype.hide = function () {
+    Popup.prototype.close = function () {
         if (this._elements.wrapper) {
             if (this._elements.wrapper.parentElement) {
                 this._elements.wrapper.parentElement.removeChild(this._elements.wrapper);
@@ -190,7 +201,7 @@ var Popup = /** @class */ (function (_super) {
      */
     Popup.prototype.dispose = function () {
         _super.prototype.dispose.call(this);
-        this.hide();
+        this.close();
     };
     /**
      * Positions content element in the center of popup based on its actual size.
@@ -455,7 +466,7 @@ var Popup = /** @class */ (function (_super) {
          * @return {boolean} Closable?
          */
         get: function () {
-            return this._closable;
+            return this.adapter.apply("closable", this._closable);
         },
         /**
          * Is popup closable?
@@ -463,7 +474,7 @@ var Popup = /** @class */ (function (_super) {
          * If it is, it can be closed in a number of ways, e.g. by hitting ESC key,
          * clicking curtain, or clicking the close button.
          *
-         * If it is not closable, the only way to close it is via `hide()` call.
+         * If it is not closable, the only way to close it is via `close()` call.
          *
          * @param {boolean} value Closable?
          */
@@ -471,6 +482,33 @@ var Popup = /** @class */ (function (_super) {
             if (value !== this._closable) {
                 this._closable = value;
                 this._applyEvents();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Popup.prototype, "fitTo", {
+        /**
+         * @ignore
+         * @todo Implement
+         * @return {"none" | "container" | "window"} Fit option
+         */
+        get: function () {
+            return this.adapter.apply("fitTo", this._fitTo);
+        },
+        /**
+         * If set to other than "none" will try to re-adjust the position of the
+         * popop to fit within chart container or browser window.
+         *
+         * @ignore
+         * @todo Implement
+         * @default "window"
+         * @param {"none" | "container" | "window"}  value  Fit option
+         */
+        set: function (value) {
+            if (value != this._fitTo) {
+                this._fitTo = value;
+                this.positionElement;
             }
         },
         enumerable: true,
@@ -543,6 +581,8 @@ var Popup = /** @class */ (function (_super) {
         // Set events to disable underlying interactivity
         this._IOs.curtain.events.on("over", this._disablePointers, this);
         this._IOs.curtain.events.on("out", this._releasePointers, this);
+        // Hide it?
+        curtain.style.display = this.showCurtain ? "block" : "none";
         // Save for later
         this._elements.curtain = curtain;
     };
@@ -737,7 +777,7 @@ var Popup = /** @class */ (function (_super) {
         if (!this._cssLoaded) {
             this._disposers.push(popupCSS(this.classPrefix));
             $object.each(this._elements, function (key, el) {
-                el.style.display = "initial";
+                el.style.display = "";
             });
             this._cssLoaded = true;
         }
@@ -753,16 +793,16 @@ var Popup = /** @class */ (function (_super) {
                 var disposers = [
                     getInteraction().body.events.on("keyup", function (ev) {
                         if (keyboard.isKey(ev.event, "esc") && _this.closable) {
-                            _this.hide();
+                            _this.close();
                         }
                     }),
                     this._IOs.close.events.on("hit", function (ev) {
-                        _this.hide();
+                        _this.close();
                     })
                 ];
                 disposers.push(this._IOs.curtain.events.on("hit", function (ev) {
                     if (_this.showCurtain) {
-                        _this.hide();
+                        _this.close();
                     }
                 }));
                 this._disposers.push(new MultiDisposer(disposers));

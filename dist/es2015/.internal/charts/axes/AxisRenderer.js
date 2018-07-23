@@ -448,6 +448,7 @@ var AxisRenderer = /** @class */ (function (_super) {
         get: function () {
             if (!this._axisFills) {
                 this._axisFills = new ListTemplate(this.createFill(this.axis));
+                this._axisFills.template.applyOnClones = true;
                 this._disposers.push(new ListDisposer(this._axisFills));
                 this._disposers.push(this._axisFills.template);
             }
@@ -473,6 +474,7 @@ var AxisRenderer = /** @class */ (function (_super) {
         get: function () {
             if (!this._grid) {
                 this._grid = new ListTemplate(this.createGrid());
+                this._grid.template.applyOnClones = true;
                 this._disposers.push(new ListDisposer(this._grid));
                 this._disposers.push(this._grid.template);
             }
@@ -498,6 +500,7 @@ var AxisRenderer = /** @class */ (function (_super) {
         get: function () {
             if (!this._ticks) {
                 var tick = this.createTick();
+                tick.applyOnClones = true;
                 tick.isMeasured = false;
                 this._ticks = new ListTemplate(tick);
                 this._disposers.push(new ListDisposer(this._ticks));
@@ -525,6 +528,7 @@ var AxisRenderer = /** @class */ (function (_super) {
         get: function () {
             if (!this._labels) {
                 this._labels = new ListTemplate(this.createLabel());
+                this._labels.template.applyOnClones = true;
                 this._disposers.push(new ListDisposer(this._labels));
                 this._disposers.push(this._labels.template);
             }
@@ -557,6 +561,14 @@ var AxisRenderer = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("inside", value);
+            if (this.axis) {
+                this.axis.invalidateDataRange();
+            }
+            // todo: not a very good hack, but for some reason size is not update, need to check
+            if (value) {
+                this.width = 0;
+                this.height = 0;
+            }
         },
         enumerable: true,
         configurable: true

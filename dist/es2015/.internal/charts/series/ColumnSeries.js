@@ -229,7 +229,9 @@ var ColumnSeries = /** @class */ (function (_super) {
         this._endLocation = cellStartLocation + (index + 1) / clusterCount * (cellEndLocation - cellStartLocation);
         // can't use columnsContainer.removeChildren() because with 3d columns we use one container for all columns
         $iter.each(this.columns.iterator(), function (column) {
-            column.__disabled = true;
+            if (column.dataItem.index < _this.startIndex || column.dataItem.index >= _this.endIndex) {
+                column.__disabled = true;
+            }
         });
         _super.prototype.validate.call(this);
     };
@@ -460,6 +462,7 @@ var ColumnSeries = /** @class */ (function (_super) {
                 column.validate(); // validate as if it was used previously, it will flicker with previous dimensions
             }
             column.__disabled = false;
+            //column.returnAfterTemp();
             $iter.each(this.axisRanges.iterator(), function (axisRange) {
                 var rangeColumn = dataItem.rangesColumns.getKey(axisRange.uid);
                 if (!rangeColumn) {
@@ -479,6 +482,7 @@ var ColumnSeries = /** @class */ (function (_super) {
                     rangeColumn.validate(); // validate as if it was used previously, it will flicker with previous dimensions
                 }
                 rangeColumn.__disabled = false;
+                //rangeColumn.returnAfterTemp();
             });
         }
         else {
@@ -493,6 +497,7 @@ var ColumnSeries = /** @class */ (function (_super) {
             dataItem.column.width = 0;
             dataItem.column.height = 0;
             dataItem.column.__disabled = true;
+            //dataItem.column.removeTemporary();
         }
         $iter.each(this.axisRanges.iterator(), function (axisRange) {
             var rangeColumn = dataItem.rangesColumns.getKey(axisRange.uid);
@@ -501,6 +506,7 @@ var ColumnSeries = /** @class */ (function (_super) {
                 rangeColumn.width = 0;
                 rangeColumn.height = 0;
                 rangeColumn.__disabled = true;
+                //rangeColumn.removeTemporary();
             }
         });
     };

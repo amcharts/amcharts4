@@ -334,37 +334,30 @@ var Sprite = /** @class */ (function (_super) {
         // Create SVG group to hold everything in
         _this.group = _this.paper.addGroup("g");
         // Set defaults
+        // it is better to set defauls like this in order to save invaliation calls and events
         _this.setPropertyValue("scale", 1);
         _this.setPropertyValue("rotation", 0);
         _this.setPropertyValue("align", "none");
         _this.setPropertyValue("valign", "none");
         _this.setPropertyValue("pixelPerfect", false);
-        _this.marginTop = 0;
-        _this.marginBottom = 0;
-        _this.marginLeft = 0;
-        _this.marginRight = 0;
-        _this.paddingTop = 0;
-        _this.paddingBottom = 0;
-        _this.paddingRight = 0;
-        _this.paddingLeft = 0;
+        _this.setPropertyValue("verticalCenter", "none");
+        _this.setPropertyValue("horizontalCenter", "none");
+        _this.setPropertyValue("marginTop", 0);
+        _this.setPropertyValue("marginBottom", 0);
+        _this.setPropertyValue("marginLeft", 0);
+        _this.setPropertyValue("marginRight", 0);
+        _this.setPropertyValue("paddingTop", 0);
+        _this.setPropertyValue("paddingBottom", 0);
+        _this.setPropertyValue("paddingRight", 0);
+        _this.setPropertyValue("paddingLeft", 0);
         _this._prevMeasuredWidth = 0;
         _this._prevMeasuredHeight = 0;
         _this._measuredWidth = 0;
         _this._measuredHeight = 0;
-        _this.verticalCenter = "none";
-        _this.horizontalCenter = "none";
-        // never do this!
-        //this.verticalCenter = "top";
-        //this.horizontalCenter = "left";
-        _this.isMeasured = true;
+        _this._isMeasured = true;
         // Invalidate the Sprite so that renderer knows it needs to be drawn
         _this.invalidate();
-        // Create default and hidden states as they are two states that are used
-        // extensively
-        var hiddenState = _this.states.create("hidden");
-        hiddenState.properties.opacity = 0;
-        hiddenState.properties.visible = false;
-        _this.states.create("default").properties.opacity = 1;
+        //this.states.create("default").properties.opacity = 1;
         // Apply the theme
         _this.applyTheme();
         //this._disposers.push(this._clickable);
@@ -394,7 +387,6 @@ var Sprite = /** @class */ (function (_super) {
                 value.dispose();
             });
         }));
-        // better than doing this.interactionsEnabled = true;
         _this.setPropertyValue("interactionsEnabled", true);
         return _this;
     }
@@ -542,7 +534,13 @@ var Sprite = /** @class */ (function (_super) {
             }
             var sizeChanged = this.measure();
             if (prevGroupTransform != this.group.transformString || elementTransformChanged || sizeChanged) {
-                this.dispatchImmediately("transformed");
+                // not yet sure, this is to avoid many transforms=>container layout invalidation on initial buid
+                if (prevGroupTransform == null) {
+                    this.dispatch("transformed");
+                }
+                else {
+                    this.dispatchImmediately("transformed");
+                }
                 // TODO clear existing positionchanged dispatches ?
                 this.dispatch("positionchanged");
             }
@@ -589,7 +587,7 @@ var Sprite = /** @class */ (function (_super) {
             this.setSVGAttributes();
             this.applyFilters();
             this.visible = this.visible;
-            this.interactionsEnabled = this.interactionsEnabled;
+            this.interactionsEnabled = this.getPropertyValue("interactionsEnabled"); // can't use .interactionsEnabled as it get's parent's
             this.appendDefs();
             this._inited = true;
             this.dispatchImmediately("validated");
@@ -658,7 +656,9 @@ var Sprite = /** @class */ (function (_super) {
         this.events.copyFrom(source.events);
         this.isMeasured = source.isMeasured;
         this.states.copyFrom(source.states);
-        this.filters.copyFrom(source.filters);
+        if (source.filters.length > 0) {
+            this.filters.copyFrom(source.filters);
+        }
         this.adapter.copyFrom(source.adapter);
         this.interactions.copyFrom(source.interactions);
         this.configField = source.configField;
@@ -857,7 +857,7 @@ var Sprite = /** @class */ (function (_super) {
                     }
                     this.paper = parent.paper;
                     parent.children.moveValue(this);
-                    // temp. here we should check zIndex and do insertBefore/after in order this to work properly
+                    // @todo here we should check zIndex and do insertBefore/after in order this to work properly?
                     var group = parent.element;
                     if (group) {
                         group.add(this.group);
@@ -1697,11 +1697,12 @@ var Sprite = /** @class */ (function (_super) {
             }
         }
         if ($type.isNumber(rotation)) {
-            this.setPropertyValue("rotation", rotation);
+            this.rotation = rotation;
         }
         if ($type.isNumber(scale)) {
-            this.setPropertyValue("scale", scale);
+            this.scale = scale;
         }
+        // must leave this
         this.invalidatePosition();
     };
     Object.defineProperty(Sprite.prototype, "mask", {
@@ -1875,6 +1876,11 @@ var Sprite = /** @class */ (function (_super) {
          * @return {SpriteState} Hidden state
          */
         get: function () {
+            if (!this.states.getKey("hidden")) {
+                var hiddenState = this.states.create("hidden");
+                hiddenState.properties.opacity = 0;
+                hiddenState.properties.visible = false;
+            }
             return this.states.getKey("hidden");
         },
         enumerable: true,
@@ -1889,6 +1895,10 @@ var Sprite = /** @class */ (function (_super) {
          * @return {SpriteState} Hidden state
          */
         get: function () {
+            if (!this.states.getKey("default")) {
+                var defaultState = this.states.create("default");
+                defaultState.properties.opacity = 1;
+            }
             return this.states.getKey("default");
         },
         enumerable: true,
@@ -4361,6 +4371,10 @@ var Sprite = /** @class */ (function (_super) {
         if (!value) {
             pointerEvents = "none";
         }
+        else {
+            // this is for IE
+            this.group.node.style.pointerEvents = "";
+        }
         this.group.node.style.pointerEvents = pointerEvents;
         return pointerEvents;
     };
@@ -4475,21 +4489,22 @@ var Sprite = /** @class */ (function (_super) {
      * @param {string}  text   Modal contents
      * @param {string}  title  Title for the modal window
      */
-    Sprite.prototype.showModal = function (text, title) {
+    Sprite.prototype.openModal = function (text, title) {
         // Hide previous modal
-        this.hideModal();
+        this.closeModal();
         // Create modal
         var modal = this.modal;
         modal.content = text;
         modal.readerTitle = title;
-        modal.show();
+        modal.open();
+        return modal;
     };
     /**
      * Hides modal window if there is one currently open.
      */
-    Sprite.prototype.hideModal = function () {
+    Sprite.prototype.closeModal = function () {
         if (this._modal) {
-            this.modal.hide();
+            this.modal.close();
         }
     };
     Object.defineProperty(Sprite.prototype, "popups", {
@@ -4545,7 +4560,7 @@ var Sprite = /** @class */ (function (_super) {
         if ($type.hasValue(title)) {
             popup.title = title;
         }
-        popup.show();
+        popup.open();
         return popup;
     };
     /**
@@ -4553,7 +4568,7 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.closeAllPopups = function () {
         $iter.each(this.popups.iterator(), function (popup) {
-            popup.hide();
+            popup.close();
         });
     };
     Object.defineProperty(Sprite.prototype, "x", {
@@ -6301,7 +6316,7 @@ var Sprite = /** @class */ (function (_super) {
                 this.removeDispose(this._showHideDisposer);
             }
             // Get state
-            var hiddenState = this.states.getKey("hidden");
+            var hiddenState = this.hiddenState;
             // Transition to "hidden" state, provided Sprite has one set
             if (hiddenState) {
                 // Yes, we have a "hidden" state
@@ -6852,7 +6867,7 @@ var Sprite = /** @class */ (function (_super) {
         if (this.svgContainer) {
             this.modal.content = e.message;
             this.modal.closable = false;
-            this.modal.show();
+            this.modal.open();
             this.disabled = true;
         }
         if (options.verbose) {
