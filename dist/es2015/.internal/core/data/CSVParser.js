@@ -1,26 +1,7 @@
 /**
  * CSV parser.
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __values = (this && this.__values) || function (o) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
-    if (m) return m.call(o);
-    return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-};
+import * as tslib_1 from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -39,7 +20,7 @@ var separators = [",", ";", "\t"];
  * @important
  */
 var CSVParser = /** @class */ (function (_super) {
-    __extends(CSVParser, _super);
+    tslib_1.__extends(CSVParser, _super);
     function CSVParser() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         /**
@@ -86,7 +67,7 @@ var CSVParser = /** @class */ (function (_super) {
         var separator;
         try {
             // TODO replace with iterators
-            for (var separators_1 = __values(separators), separators_1_1 = separators_1.next(); !separators_1_1.done; separators_1_1 = separators_1.next()) {
+            for (var separators_1 = tslib_1.__values(separators), separators_1_1 = separators_1.next(); !separators_1_1.done; separators_1_1 = separators_1.next()) {
                 var sep = separators_1_1.value;
                 var columns = 0, lineColums = 0;
                 for (var i in lines) {

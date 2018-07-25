@@ -76,31 +76,31 @@ export interface IPopupAdapters {
      */
     verticalAlign: Optional<VerticalAlign>;
     /**
-     * Appliet to `left` position value.
+     * Applied to `left` position value.
      *
      * @type {number | Percent}
      */
     left: number | Percent;
     /**
-     * Appliet to `right` position value.
+     * Applied to `right` position value.
      *
      * @type {number | Percent}
      */
     right: number | Percent;
     /**
-     * Appliet to `top` position value.
+     * Applied to `top` position value.
      *
      * @type {number | Percent}
      */
     top: number | Percent;
     /**
-     * Appliet to `bottom` position value.
+     * Applied to `bottom` position value.
      *
      * @type {number | Percent}
      */
     bottom: number | Percent;
     /**
-     * Applied to class names list that are added ass `class` for various popup
+     * Applied to class names list that are added as class for various popup
      * elements.
      */
     classNames: {
@@ -150,6 +150,7 @@ export declare class Popup extends BaseObject {
         wrapper?: HTMLElement;
         title?: HTMLElement;
         content?: HTMLElement;
+        close?: HTMLElement;
         curtain?: HTMLElement;
     };
     /**
@@ -337,6 +338,13 @@ export declare class Popup extends BaseObject {
      */
     classPrefix: string;
     /**
+     * Returns raw prefix (without adapters applied).
+     *
+     * @ignore Exclude from docs
+     * @return {string} Class name prefix
+     */
+    readonly classPrefixRaw: string;
+    /**
      * @return {string} Popup content
      */
     /**
@@ -518,6 +526,22 @@ export declare class Popup extends BaseObject {
      * @param {number | Percent} Bottom
      */
     bottom: number | Percent;
+    /**
+     * Returns an object with references to various elements of the Popup.
+     *
+     * * `wrapper`
+     * * `title`
+     * * `content`
+     * * `close`
+     * * `curtain`
+     */
+    readonly elements: {
+        wrapper?: HTMLElement;
+        title?: HTMLElement;
+        content?: HTMLElement;
+        close?: HTMLElement;
+        curtain?: HTMLElement;
+    };
     /**
      * Loads popup CSS.
      *

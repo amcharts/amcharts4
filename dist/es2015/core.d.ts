@@ -5,7 +5,7 @@
 /**
  * Elements: core
  */
-export { System, getSystem } from "./.internal/core/System";
+export { System, system } from "./.internal/core/System";
 export { BaseObject, IBaseObjectEvents, BaseObjectEvents } from "./.internal/core/Base";
 export { CalculatedValue, IComponentProperties, IComponentDataFields, IComponentEvents, IComponentAdapters, Component } from "./.internal/core/Component";
 export { ContainerLayout, IContainerProperties, IContainerEvents, IContainerAdapters, Container, FontWeight, TextDecoration } from "./.internal/core/Container";

@@ -1,16 +1,7 @@
 /**
  * Handles formatting of pseudo-markup in text.
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+import * as tslib_1 from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -30,7 +21,7 @@ import * as $type from "../utils/Type";
  * @important
  */
 var TextFormatter = /** @class */ (function (_super) {
-    __extends(TextFormatter, _super);
+    tslib_1.__extends(TextFormatter, _super);
     /**
      * Constructor
      */
@@ -297,7 +288,7 @@ var TextFormatter = /** @class */ (function (_super) {
                 chunk = chunk.replace("][", "]" + $strings.PLACEHOLDER + "[");
                 var chunks2 = chunk.split(/[\[\]]+/);
                 for (var i2 = 0; i2 < chunks2.length; i2++) {
-                    var chunk2 = this.unescape(chunks2[i2]);
+                    var chunk2 = this.cleanUp(this.unescape(chunks2[i2]));
                     // Placeholder?
                     if (chunk2 === $strings.PLACEHOLDER) {
                         continue;
@@ -326,7 +317,7 @@ var TextFormatter = /** @class */ (function (_super) {
                 // All chunks are "text"
                 var chunks2 = chunk.split(/[\[\]]+/);
                 for (var i2 = 0; i2 < chunks2.length; i2++) {
-                    var chunk2 = this.unescape(chunks2[i2]);
+                    var chunk2 = this.cleanUp(this.unescape(chunks2[i2]));
                     // Empty?
                     if (chunk2 === "") {
                         continue;

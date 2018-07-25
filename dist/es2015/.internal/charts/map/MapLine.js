@@ -1,26 +1,7 @@
 /**
  * Map line module
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __values = (this && this.__values) || function (o) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
-    if (m) return m.call(o);
-    return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-};
+import * as tslib_1 from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -51,7 +32,7 @@ import * as $geo from "./Geo";
  * @see {@link IMapLineAdapters} for a list of available Adapters
  */
 var MapLine = /** @class */ (function (_super) {
-    __extends(MapLine, _super);
+    tslib_1.__extends(MapLine, _super);
     /**
      * Constructor
      */
@@ -121,7 +102,7 @@ var MapLine = /** @class */ (function (_super) {
             var _this = this;
             try {
                 //@todo dispose listeners if previous imagesToConnect exists
-                for (var images_1 = __values(images), images_1_1 = images_1.next(); !images_1_1.done; images_1_1 = images_1.next()) {
+                for (var images_1 = tslib_1.__values(images), images_1_1 = images_1.next(); !images_1_1.done; images_1_1 = images_1.next()) {
                     var image = images_1_1.value;
                     image.events.on("propertychanged", function (event) {
                         if (event.property == "longitude" || event.property == "latitude") {
@@ -156,7 +137,7 @@ var MapLine = /** @class */ (function (_super) {
             var segment = [];
             multiGeoLine = [segment];
             try {
-                for (var _a = __values(this.imagesToConnect), _b = _a.next(); !_b.done; _b = _a.next()) {
+                for (var _a = tslib_1.__values(this.imagesToConnect), _b = _a.next(); !_b.done; _b = _a.next()) {
                     var image = _b.value;
                     segment.push({ longitude: image.longitude, latitude: image.latitude });
                 }

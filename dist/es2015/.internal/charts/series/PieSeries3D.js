@@ -4,16 +4,7 @@
  * ============================================================================
  * @hidden
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+import * as tslib_1 from "tslib";
 import { PieSeries, PieSeriesDataItem } from "../series/PieSeries";
 import { Slice3D } from "../../core/elements/3d/Slice3D";
 import { registry } from "../../core/Registry";
@@ -30,7 +21,7 @@ import * as $type from "../../core/utils/Type";
  * @see {@link DataItem}
  */
 var PieSeries3DDataItem = /** @class */ (function (_super) {
-    __extends(PieSeries3DDataItem, _super);
+    tslib_1.__extends(PieSeries3DDataItem, _super);
     /**
      * Constructor
      */
@@ -77,7 +68,7 @@ export { PieSeries3DDataItem };
  * @important
  */
 var PieSeries3D = /** @class */ (function (_super) {
-    __extends(PieSeries3D, _super);
+    tslib_1.__extends(PieSeries3D, _super);
     /**
      * Constructor
      */

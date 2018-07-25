@@ -9,16 +9,7 @@
  * For more information on how SVG filters work, refer to
  * [this MDN tutorial](https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/SVG_Filters_Tutorial).
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+import * as tslib_1 from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -26,7 +17,7 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { BaseObject } from "../../Base";
-import { getSystem } from "../../System";
+import { getGhostPaper } from "../Paper";
 import { Animation, AnimationDisposer } from "../../utils/Animation";
 import { List } from "../../utils/List";
 import * as $object from "../../utils/Object";
@@ -55,7 +46,7 @@ import * as $iter from "../../utils/Iterator";
  * @todo Example
  */
 var Filter = /** @class */ (function (_super) {
-    __extends(Filter, _super);
+    tslib_1.__extends(Filter, _super);
     /**
      * Constructor
      */
@@ -190,7 +181,7 @@ var Filter = /** @class */ (function (_super) {
             if (this._paper) {
                 return this._paper;
             }
-            return getSystem().ghostPaper;
+            return getGhostPaper();
         },
         /**
          * Sets [[Paper]] instance to create filter's elements in.

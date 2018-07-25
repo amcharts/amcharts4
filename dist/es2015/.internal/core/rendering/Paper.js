@@ -16,6 +16,7 @@
  */
 import { AMElement } from "./AMElement";
 import { Group } from "./Group";
+import { SVGContainer } from "./SVGContainer";
 import * as $dom from "../utils/DOM";
 /**
  * ============================================================================
@@ -119,4 +120,24 @@ var Paper = /** @class */ (function () {
     return Paper;
 }());
 export { Paper };
+var ghostPaper = null;
+/**
+ * A [[Paper]] instance to create elements, that are not yet ready to be
+ * placed in visible DOM.
+ *
+ * @ignore Exclude from docs
+ * @type {Paper}
+ */
+export function getGhostPaper() {
+    if (ghostPaper === null) {
+        // ghost is used to draw elements while real paper is not yet created or Sprite doesn't know parent yet
+        var ghostDiv = document.createElement("div");
+        ghostDiv.hidden = true;
+        document.body.appendChild(ghostDiv);
+        var ghostSvgContainer = new SVGContainer(ghostDiv);
+        ghostPaper = new Paper(ghostSvgContainer.SVGContainer);
+        ghostPaper.id = "ghost";
+    }
+    return ghostPaper;
+}
 //# sourceMappingURL=Paper.js.map

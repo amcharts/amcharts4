@@ -1,13 +1,4 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+import * as tslib_1 from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -57,7 +48,7 @@ export { Disposer };
  * @ignore Exclude from docs
  */
 var MultiDisposer = /** @class */ (function (_super) {
-    __extends(MultiDisposer, _super);
+    tslib_1.__extends(MultiDisposer, _super);
     function MultiDisposer(disposers) {
         return _super.call(this, function () {
             $array.each(disposers, function (x) {
@@ -78,18 +69,24 @@ export { MultiDisposer };
  * @todo Description
  */
 var MutableValueDisposer = /** @class */ (function (_super) {
-    __extends(MutableValueDisposer, _super);
+    tslib_1.__extends(MutableValueDisposer, _super);
     /**
      * Constructor.
      */
-    function MutableValueDisposer() {
+    function MutableValueDisposer(disposeValue) {
+        if (disposeValue === void 0) { disposeValue = false; }
         var _this = _super.call(this, function () {
             if ($type.hasValue(_this._disposer)) {
                 _this._disposer.dispose();
                 _this._disposer = undefined;
             }
+            if (_this._disposeValue && $type.hasValue(_this._value)) {
+                _this._value.dispose();
+                _this._value = undefined;
+            }
         }) || this;
-        _this._disposer = undefined;
+        _this._disposeValue = false;
+        _this._disposeValue = disposeValue;
         return _this;
     }
     /**
@@ -110,6 +107,9 @@ var MutableValueDisposer = /** @class */ (function (_super) {
         if ($type.hasValue(this._disposer)) {
             this._disposer.dispose();
         }
+        if (this._disposeValue && $type.hasValue(this._value)) {
+            this._value.dispose();
+        }
         this._disposer = disposer;
         this._value = value;
     };
@@ -127,7 +127,7 @@ export { MutableValueDisposer };
  * @todo Description
  */
 var CounterDisposer = /** @class */ (function (_super) {
-    __extends(CounterDisposer, _super);
+    tslib_1.__extends(CounterDisposer, _super);
     function CounterDisposer() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         /**

@@ -88,6 +88,7 @@ export declare class NumberFormatter extends BaseObject {
      * Constructor
      */
     constructor();
+    dispose(): void;
     /**
      * Formats the number according to specific format.
      *

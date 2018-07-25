@@ -148,6 +148,7 @@ export declare class AxisBreak extends Container {
      * Constructor
      */
     constructor();
+    dispose(): void;
     /**
      * @return {IWavedShape} Element
      */

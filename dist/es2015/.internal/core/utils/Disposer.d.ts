@@ -60,7 +60,7 @@ export declare class MultiDisposer extends Disposer {
  * @ignore Exclude from docs
  * @todo Description
  */
-export declare class MutableValueDisposer<T> extends Disposer {
+export declare class MutableValueDisposer<T extends IDisposer> extends Disposer {
     /**
      * Current disposer.
      *
@@ -73,10 +73,11 @@ export declare class MutableValueDisposer<T> extends Disposer {
      * @type {Optional<T>}
      */
     private _value;
+    private _disposeValue;
     /**
      * Constructor.
      */
-    constructor();
+    constructor(disposeValue?: boolean);
     /**
      * Returns current value.
      *

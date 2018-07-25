@@ -1,13 +1,4 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+import * as tslib_1 from "tslib";
 import { TargetedEventDispatcher } from "../utils/EventDispatcher";
 import { MultiDisposer, CounterDisposer } from "../utils/Disposer";
 /**
@@ -18,7 +9,7 @@ import { MultiDisposer, CounterDisposer } from "../utils/Disposer";
  * but can turn into something else moving forward.
  */
 var InteractionObjectEventDispatcher = /** @class */ (function (_super) {
-    __extends(InteractionObjectEventDispatcher, _super);
+    tslib_1.__extends(InteractionObjectEventDispatcher, _super);
     function InteractionObjectEventDispatcher() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         /**

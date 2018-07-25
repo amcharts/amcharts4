@@ -4,16 +4,7 @@
  * If it's an element that is to be displayed on the screen at some point, its
  * class must extend [[Sprite]] class.
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+import * as tslib_1 from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -29,6 +20,7 @@ import { Dictionary, DictionaryTemplate, DictionaryDisposer } from "./utils/Dict
 import { ListTemplate, ListDisposer } from "./utils/List";
 import { MultiDisposer, Disposer, MutableValueDisposer } from "./utils/Disposer";
 import { Animation, AnimationDisposer } from "./utils/Animation";
+import { getGhostPaper } from "./rendering/Paper";
 import { Container } from "./Container";
 import { Pattern } from "./rendering/fills/Pattern";
 import { LinearGradient } from "./rendering/fills/LinearGradient";
@@ -39,7 +31,6 @@ import { Color, color, toColor } from "./utils/Color";
 import { Filter } from "./rendering/filters/Filter";
 import { getInteraction } from "./interaction/Interaction";
 import { MouseCursorStyle } from "./interaction/Mouse";
-import { getSystem } from "./System";
 import { options } from "./Options";
 import { registry } from "./Registry";
 import { NumberFormatter } from "./formatters/NumberFormatter";
@@ -86,7 +77,7 @@ export var visualProperties = ["fill", "fillOpacity", "stroke", "strokeOpacity",
  * @important
  */
 var Sprite = /** @class */ (function (_super) {
-    __extends(Sprite, _super);
+    tslib_1.__extends(Sprite, _super);
     /**
      * Constructor:
      * * Creates initial node
@@ -175,7 +166,7 @@ var Sprite = /** @class */ (function (_super) {
          * @ignore Exclude from docs
          * @type {MutableValueDisposer}
          */
-        _this._mask = new MutableValueDisposer();
+        _this._mask = new MutableValueDisposer(true);
         /**
          * @ignore Exclude from docs
          * @todo Description
@@ -189,13 +180,6 @@ var Sprite = /** @class */ (function (_super) {
          * @type {Language}
          */
         _this._language = new MutableValueDisposer();
-        /**
-         * An URL to go to when user clicks on a this Sprite.
-         *
-         * @ignore Exclude from docs
-         * @type {string}
-         */
-        _this._url = new MutableValueDisposer();
         /**
          * URL target to use.
          *
@@ -376,7 +360,6 @@ var Sprite = /** @class */ (function (_super) {
         // disposed of when this object is disposed
         _this._disposers.push(_this.events);
         _this._disposers.push(_this.group);
-        _this._disposers.push(_this._url);
         _this._disposers.push(_this._mask);
         _this._disposers.push(_this._language);
         _this._disposers.push(_this._exporting);
@@ -705,6 +688,9 @@ var Sprite = /** @class */ (function (_super) {
         if (this._interactionDisposer) {
             this._interactionDisposer.dispose();
         }
+        if (this._urlDisposer) {
+            this._urlDisposer.dispose();
+        }
         this.removeFromInvalids();
         if (this.element) {
             this.element.dispose();
@@ -714,6 +700,12 @@ var Sprite = /** @class */ (function (_super) {
         }
         if (this._numberFormatter) {
             this._numberFormatter.dispose();
+        }
+        if (this._focusFilter) {
+            this._focusFilter.dispose();
+        }
+        if (this.stroke && !(this.stroke instanceof Color)) {
+            this.stroke.dispose();
         }
         // TODO a bit hacky
         if (this.fill && !(this.fill instanceof Color)) {
@@ -758,7 +750,7 @@ var Sprite = /** @class */ (function (_super) {
                 this._isTemplate = value;
                 if (this instanceof Container) {
                     $iter.each(this.children.iterator(), function (child) {
-                        child.isTemplate = true;
+                        child.isTemplate = value;
                     });
                 }
                 if (value) {
@@ -1015,7 +1007,7 @@ var Sprite = /** @class */ (function (_super) {
                     return this.parent.paper;
                 }
             }
-            return getSystem().ghostPaper;
+            return getGhostPaper();
         },
         /**
          * A [[Paper]] instance to place elements on.
@@ -2327,7 +2319,7 @@ var Sprite = /** @class */ (function (_super) {
             if (this._internalDisabled != value) {
                 this._internalDisabled = value;
                 this._updateDisabled = true;
-                this.invalidatePosition(); // better use this instead of invalidate()			
+                this.invalidatePosition(); // better use this instead of invalidate()
             }
         },
         enumerable: true,
@@ -3920,7 +3912,7 @@ var Sprite = /** @class */ (function (_super) {
          * @return {Optional<string>} URL
          */
         get: function () {
-            return this._url.get();
+            return this._url;
         },
         /**
          * Click-through URL for this element.
@@ -3931,18 +3923,19 @@ var Sprite = /** @class */ (function (_super) {
          * @param {Optional<string>} value URL
          */
         set: function (value) {
-            // If URL is not empty, set up events
-            if ($utils.isNotEmpty(value)) {
-                var urlEvent = this.events.on("hit", this.urlHandler, this);
-                this._disposers.push(urlEvent);
-                this._url.set(value, urlEvent);
-                // Set other required parameters
-                this.clickable = true;
-                this.cursorOverStyle = MouseCursorStyle.pointer;
-            }
-            else {
+            if (this._url !== value) {
+                if (this._urlDisposer) {
+                    this._urlDisposer.dispose();
+                }
                 // TODO is this correct ? maybe it should set to "" instead
-                this._url.set(value, undefined);
+                this._url = value;
+                // If URL is not empty, set up events
+                if ($utils.isNotEmpty(value)) {
+                    this._urlDisposer = this.events.on("hit", this.urlHandler, this);
+                    // Set other required parameters
+                    this.clickable = true;
+                    this.cursorOverStyle = MouseCursorStyle.pointer;
+                }
             }
         },
         enumerable: true,

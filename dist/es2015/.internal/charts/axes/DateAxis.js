@@ -1,24 +1,7 @@
 /**
  * DateAxis module
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
-};
+import * as tslib_1 from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -48,7 +31,7 @@ import * as $object from "../../core/utils/Object";
  * @see {@link DataItem}
  */
 var DateAxisDataItem = /** @class */ (function (_super) {
-    __extends(DateAxisDataItem, _super);
+    tslib_1.__extends(DateAxisDataItem, _super);
     /**
      * Constructor
      */
@@ -158,7 +141,7 @@ export { DateAxisDataItem };
  * @important
  */
 var DateAxis = /** @class */ (function (_super) {
-    __extends(DateAxis, _super);
+    tslib_1.__extends(DateAxis, _super);
     /**
      * Constructor
      */
@@ -446,7 +429,7 @@ var DateAxis = /** @class */ (function (_super) {
         _super.prototype.calculateZoom.call(this);
         var gridInterval = this.chooseInterval(0, this.adjustDifference(this._minZoomed, this._maxZoomed), this._gridCount);
         if ($time.getDuration(gridInterval.timeUnit, gridInterval.count) < this.baseDuration) {
-            gridInterval = __assign({}, this.baseInterval);
+            gridInterval = tslib_1.__assign({}, this.baseInterval);
         }
         this._gridInterval = gridInterval;
         this._gridDate = $time.round(new Date(this.min), gridInterval.timeUnit);
@@ -849,21 +832,21 @@ var DateAxis = /** @class */ (function (_super) {
         var intervalDuration = $time.getDuration(gridInterval.timeUnit, gridInterval.count);
         var lastIndex = gridIntervals.length - 1;
         if (index >= lastIndex) {
-            return __assign({}, gridIntervals.getIndex(lastIndex));
+            return tslib_1.__assign({}, gridIntervals.getIndex(lastIndex));
         }
         var count = Math.ceil(duration / intervalDuration);
         if (duration < intervalDuration && index > 0) {
-            return __assign({}, gridIntervals.getIndex(index - 1));
+            return tslib_1.__assign({}, gridIntervals.getIndex(index - 1));
         }
         if (count <= gridCount) {
-            return __assign({}, gridIntervals.getIndex(index));
+            return tslib_1.__assign({}, gridIntervals.getIndex(index));
         }
         else {
             if (index + 1 < gridIntervals.length) {
                 return this.chooseInterval(index + 1, duration, gridCount);
             }
             else {
-                return __assign({}, gridIntervals.getIndex(index));
+                return tslib_1.__assign({}, gridIntervals.getIndex(index));
             }
         }
     };

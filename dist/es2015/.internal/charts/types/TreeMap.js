@@ -4,16 +4,7 @@
  * Parts of the functionality used in this module are taken from D3.js library
  * (https://d3js.org/)
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+import * as tslib_1 from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -42,7 +33,7 @@ import * as $array from "../../core/utils/Array";
  * @see {@link DataItem}
  */
 var TreeMapDataItem = /** @class */ (function (_super) {
-    __extends(TreeMapDataItem, _super);
+    tslib_1.__extends(TreeMapDataItem, _super);
     /**
      * Constructor
      */
@@ -305,7 +296,7 @@ export { TreeMapDataItem };
  * @see {@link https://www.amcharts.com/docs/v4/chart-types/treemap/} for documentation
  */
 var TreeMap = /** @class */ (function (_super) {
-    __extends(TreeMap, _super);
+    tslib_1.__extends(TreeMap, _super);
     /**
      * Constructor
      */

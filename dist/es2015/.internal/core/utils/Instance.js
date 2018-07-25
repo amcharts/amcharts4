@@ -4,7 +4,7 @@
  * ============================================================================
  * @hidden
  */
-import { getSystem } from "../System";
+import { system } from "../System";
 import { registry } from "../Registry";
 import { Container } from "../Container";
 import { Paper } from "../rendering/Paper";
@@ -99,7 +99,7 @@ function createChild(htmlElement, classType) {
         return sprite_1;
     }
     else {
-        getSystem().log("html container not found");
+        system.log("html container not found");
     }
 }
 /**

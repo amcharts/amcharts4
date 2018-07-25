@@ -1,13 +1,4 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+import * as tslib_1 from "tslib";
 import { XYCursor } from "./XYCursor";
 import { Percent, percent } from "../../core/utils/Percent";
 import { registry } from "../../core/Registry";
@@ -28,7 +19,7 @@ import * as $type from "../../core/utils/Type";
  * @see {@link IRadarCursorAdapters} for a list of available Adapters
  */
 var RadarCursor = /** @class */ (function (_super) {
-    __extends(RadarCursor, _super);
+    tslib_1.__extends(RadarCursor, _super);
     /**
      * Constructor
      */

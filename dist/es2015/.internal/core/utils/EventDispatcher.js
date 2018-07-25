@@ -2,16 +2,7 @@
  * Event Dispatcher module is used for registering listeners and dispatching
  * events across amCharts system.
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+import * as tslib_1 from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -309,7 +300,6 @@ var EventDispatcher = /** @class */ (function () {
         if (this._disposed) {
             throw new Error("EventDispatcher is disposed");
         }
-        //console.log(type, getSystem().dummyCounter++)
         this._removeExistingListener(once, type, callback, context);
         var info = {
             type: type,
@@ -472,7 +462,7 @@ export { EventDispatcher };
  * @important
  */
 var TargetedEventDispatcher = /** @class */ (function (_super) {
-    __extends(TargetedEventDispatcher, _super);
+    tslib_1.__extends(TargetedEventDispatcher, _super);
     /**
      * Constructor
      *

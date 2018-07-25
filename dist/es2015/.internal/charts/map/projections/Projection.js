@@ -1,16 +1,7 @@
 /**
  * This module contains funcitonality related to geographical projections
  */
-var __values = (this && this.__values) || function (o) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
-    if (m) return m.call(o);
-    return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-};
+import * as tslib_1 from "tslib";
 import { registry } from "../../../core/Registry";
 import * as $math from "../../../core/utils/Math";
 import * as $geo from "../Geo";
@@ -111,7 +102,7 @@ var Projection = /** @class */ (function () {
                 }
             }
             try {
-                for (var clippedAreas_1 = __values(clippedAreas), clippedAreas_1_1 = clippedAreas_1.next(); !clippedAreas_1_1.done; clippedAreas_1_1 = clippedAreas_1.next()) {
+                for (var clippedAreas_1 = tslib_1.__values(clippedAreas), clippedAreas_1_1 = clippedAreas_1.next(); !clippedAreas_1_1.done; clippedAreas_1_1 = clippedAreas_1.next()) {
                     var area = clippedAreas_1_1.value;
                     clippedArea.push(area);
                 }

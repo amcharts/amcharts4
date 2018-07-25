@@ -1,4 +1,3 @@
-import { Paper } from "./rendering/Paper";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -80,14 +79,6 @@ export declare class System {
      */
     time: number;
     /**
-     * A [[Paper]] instance to create elements, that are not yet ready to be
-     * placed in visible DOM.
-     *
-     * @ignore Exclude from docs
-     * @type {Paper}
-     */
-    ghostPaper: Paper;
-    /**
      * Performs initialization of the System object.
      *
      * Called when the first [[Sprite]] object is created.
@@ -167,9 +158,9 @@ export declare class System {
     frameRate: number;
 }
 /**
- * Returns a singleton global instance of [[System]].
+ * A singleton global instance of [[System]].
  *
- * All code should call this function, rather than instantiating their
+ * All code should use this, rather than instantiating their
  * own System objects.
  */
-export declare function getSystem(): System;
+export declare const system: System;

@@ -1,16 +1,7 @@
 /**
  * A collection of GeoJSON format-related utility functions.
  */
-var __values = (this && this.__values) || function (o) {
-    var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
-    if (m) return m.call(o);
-    return {
-        next: function () {
-            if (o && i >= o.length) o = void 0;
-            return { value: o && o[i++], done: !o };
-        }
-    };
-};
+import * as tslib_1 from "tslib";
 import * as $math from "../../core/utils/Math";
 /**
  * Normalizes a geo-point.
@@ -39,10 +30,10 @@ export function normalizePoint(geoPoint) {
  */
 export function normalizeMultiline(multiline) {
     try {
-        for (var multiline_1 = __values(multiline), multiline_1_1 = multiline_1.next(); !multiline_1_1.done; multiline_1_1 = multiline_1.next()) {
+        for (var multiline_1 = tslib_1.__values(multiline), multiline_1_1 = multiline_1.next(); !multiline_1_1.done; multiline_1_1 = multiline_1.next()) {
             var segment = multiline_1_1.value;
             try {
-                for (var segment_1 = __values(segment), segment_1_1 = segment_1.next(); !segment_1_1.done; segment_1_1 = segment_1.next()) {
+                for (var segment_1 = tslib_1.__values(segment), segment_1_1 = segment_1.next(); !segment_1_1.done; segment_1_1 = segment_1.next()) {
                     var point = segment_1_1.value;
                     point = normalizePoint(point);
                 }

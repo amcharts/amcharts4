@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "devDependencies": {
     "@amcharts/amcharts4": "^4.0.0-beta.35",
-    "@amcharts/amcharts4-geodata": "^4.0.4",
+    "@amcharts/amcharts4-geodata": "^4.0.5",
     "webpack": "^4.6.0",
     "webpack-cli": "^2.0.15",
     "source-map-loader": "0.2.3"

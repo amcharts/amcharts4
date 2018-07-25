@@ -2,16 +2,7 @@
  * Functionality for any series-based elements, like Line Series (graphs),
  * Pie slice lists, etc.
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+import * as tslib_1 from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -49,7 +40,7 @@ import * as $colors from "../../core/utils/Colors";
  * @see {@link DataItem}
  */
 var SeriesDataItem = /** @class */ (function (_super) {
-    __extends(SeriesDataItem, _super);
+    tslib_1.__extends(SeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -106,7 +97,7 @@ export { SeriesDataItem };
  * @todo Separate axis-related stuff to some other class so that MapSeries would not have unrelated stuff
  */
 var Series = /** @class */ (function (_super) {
-    __extends(Series, _super);
+    tslib_1.__extends(Series, _super);
     /**
      * Constructor
      */
@@ -201,6 +192,7 @@ var Series = /** @class */ (function (_super) {
         _this.mainContainer = _this.createChild(Container);
         _this.mainContainer.shouldClone = false;
         _this.mainContainer.mask = _this.createChild(Sprite);
+        _this._disposers.push(_this.mainContainer);
         // all bullets should go on top of lines/fills. So we add a separate container for bullets and later set it's parent to chart.bulletsContainer
         _this.bulletsContainer = _this.mainContainer.createChild(Container);
         _this.bulletsContainer.shouldClone = false;

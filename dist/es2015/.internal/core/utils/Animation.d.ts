@@ -246,6 +246,7 @@ export declare class Animation extends BaseObjectEvents implements IAnimationObj
      * @type {number}
      */
     protected _time: $type.Optional<number>;
+    protected debug(): void;
     /**
      * Constructor
      *

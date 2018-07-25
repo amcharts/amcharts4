@@ -5,7 +5,7 @@
 /**
  * Elements: core
  */
-export { System, getSystem } from "./.internal/core/System";
+export { System, system } from "./.internal/core/System";
 export { BaseObject, BaseObjectEvents } from "./.internal/core/Base";
 export { Component } from "./.internal/core/Component";
 export { Container } from "./.internal/core/Container";

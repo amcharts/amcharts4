@@ -1,16 +1,7 @@
 /**
  * Contains code and logic for generating radial gradients.
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+import * as tslib_1 from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -18,8 +9,8 @@ var __extends = (this && this.__extends) || (function () {
  * @hidden
  */
 import { BaseObject } from "../../Base";
-import { getSystem } from "../../System";
 import { List } from "../../utils/List";
+import { getGhostPaper } from "../Paper";
 import { registry } from "../../Registry";
 import * as $iter from "../../utils/Iterator";
 import { Percent } from "../../utils/Percent";
@@ -33,7 +24,7 @@ import { Percent } from "../../utils/Percent";
  * Radial gradient class.
  */
 var RadialGradient = /** @class */ (function (_super) {
-    __extends(RadialGradient, _super);
+    tslib_1.__extends(RadialGradient, _super);
     /**
      * Constructor
      */
@@ -125,7 +116,7 @@ var RadialGradient = /** @class */ (function (_super) {
             if (this._paper) {
                 return this._paper;
             }
-            return getSystem().ghostPaper;
+            return getGhostPaper();
         },
         /**
          * A [[Paper]] instace to use for the gradient.

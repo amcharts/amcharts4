@@ -112,3 +112,11 @@ export declare class Paper {
      */
     supportsForeignObject(): boolean;
 }
+/**
+ * A [[Paper]] instance to create elements, that are not yet ready to be
+ * placed in visible DOM.
+ *
+ * @ignore Exclude from docs
+ * @type {Paper}
+ */
+export declare function getGhostPaper(): Paper;

@@ -1,16 +1,7 @@
 /**
  * Base class for all Axis
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+import * as tslib_1 from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -46,7 +37,7 @@ import * as $type from "../../core/utils/Type";
  * @see {@link DataItem}
  */
 var AxisDataItem = /** @class */ (function (_super) {
-    __extends(AxisDataItem, _super);
+    tslib_1.__extends(AxisDataItem, _super);
     /**
      * Constructor
      */
@@ -386,7 +377,7 @@ export var AxisItemLocation;
  * @see {@link IAxisAdapters} for a list of available Adapters
  */
 var Axis = /** @class */ (function (_super) {
-    __extends(Axis, _super);
+    tslib_1.__extends(Axis, _super);
     /**
      * Constructor
      */
@@ -907,6 +898,7 @@ var Axis = /** @class */ (function (_super) {
                 });
                 this._axisBreaks.events.on("inserted", this.processBreak, this);
                 this._disposers.push(new ListDisposer(this._axisBreaks));
+                this._disposers.push(this._axisBreaks.template);
             }
             return this._axisBreaks;
         },

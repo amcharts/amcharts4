@@ -433,9 +433,10 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * An URL to go to when user clicks on a this Sprite.
      *
      * @ignore Exclude from docs
-     * @type {string}
+     * @type {Optional<string>}
      */
-    protected _url: MutableValueDisposer<string>;
+    protected _url: $type.Optional<string>;
+    protected _urlDisposer: $type.Optional<IDisposer>;
     /**
      * URL target to use.
      *

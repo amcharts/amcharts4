@@ -2,16 +2,7 @@
  * Container module
  * @todo Needs description
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+import * as tslib_1 from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -44,7 +35,7 @@ import * as $type from "./utils/Type";
  * @important
  */
 var Container = /** @class */ (function (_super) {
-    __extends(Container, _super);
+    tslib_1.__extends(Container, _super);
     /**
      * Constructor
      */
@@ -616,7 +607,7 @@ var Container = /** @class */ (function (_super) {
                 var maxHeight;
                 if ($type.isNumber(child.relativeWidth)) {
                     maxWidth = $math.round(_this._availableWidth * child.relativeWidth);
-                    if (_this.layout == "horizontal") { // || this.layout == "absolute") { 
+                    if (_this.layout == "horizontal") { // || this.layout == "absolute") {
                         maxWidth -= child.pixelMarginRight + child.pixelMarginLeft;
                     }
                 }
@@ -629,7 +620,7 @@ var Container = /** @class */ (function (_super) {
                 }
                 if ($type.isNumber(child.relativeHeight)) {
                     maxHeight = $math.round(_this._availableHeight * child.relativeHeight);
-                    if (_this.layout == "vertical") { //  || this.layout == "absolute") { 
+                    if (_this.layout == "vertical") { //  || this.layout == "absolute") {
                         maxHeight -= child.pixelMarginTop + child.pixelMarginBottom;
                     }
                 }
@@ -918,7 +909,7 @@ var Container = /** @class */ (function (_super) {
                                             childLeft += childMarginLeft;
                                             childRight -= childMarginRight;
                                         }
-                    
+
                                         if (child.valign == "none") {
                                             childTop += childMarginTop;
                                             childBottom -= childMarginBottom;
@@ -1097,7 +1088,7 @@ var Container = /** @class */ (function (_super) {
             //}
             //if (this.maxHeight > 0) {
             //measuredHeight = $math.min(measuredHeight, this.maxHeight);
-            //measuredHeight = $math.max(measuredHeight, this.minHeight);				
+            //measuredHeight = $math.max(measuredHeight, this.minHeight);
             //}
             measuredWidth = $math.max(measuredWidth, this.minWidth);
             measuredHeight = $math.max(measuredHeight, this.minHeight);

@@ -6,10 +6,9 @@
  */
 import { registry } from "./Registry";
 import { Container } from "./Container";
-import { svgContainers, SVGContainer } from "./rendering/SVGContainer";
+import { svgContainers } from "./rendering/SVGContainer";
 import { Component } from "./Component";
 import { options } from "./Options";
-import { Paper } from "./rendering/Paper";
 import { raf } from "./utils/AsyncPending";
 import { animations } from "./utils/Animation";
 import { triggerIdle } from "./utils/AsyncPending";
@@ -86,13 +85,6 @@ var System = /** @class */ (function () {
         this.dummyCounter = 0;
         // frame at which we should measure
         this.measureAt = Math.round(this.frameRate / this.measureRate);
-        // ghost is used to draw elements while real paper is not yet created or Sprite doesn't know parent yet
-        var ghostDiv = document.createElement("div");
-        ghostDiv.hidden = true;
-        document.body.appendChild(ghostDiv);
-        var ghostSvgContainer = new SVGContainer(ghostDiv);
-        this.ghostPaper = new Paper(ghostSvgContainer.SVGContainer);
-        this.ghostPaper.id = "ghost";
         $dom.ready(function () {
             _this.update();
             raf(function () {
@@ -442,17 +434,11 @@ var System = /** @class */ (function () {
     return System;
 }());
 export { System };
-var system = null;
 /**
- * Returns a singleton global instance of [[System]].
+ * A singleton global instance of [[System]].
  *
- * All code should call this function, rather than instantiating their
+ * All code should use this, rather than instantiating their
  * own System objects.
  */
-export function getSystem() {
-    if (system == null) {
-        system = new System();
-    }
-    return system;
-}
+export var system = new System();
 //# sourceMappingURL=System.js.map

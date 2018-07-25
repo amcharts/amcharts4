@@ -1,16 +1,7 @@
 /**
  * Chord diagram module.
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+import * as tslib_1 from "tslib";
 import { FlowDiagram, FlowDiagramDataItem } from "./FlowDiagram";
 import { percent } from "../../core/utils/Percent";
 import { Container } from "../../core/Container";
@@ -34,7 +25,7 @@ import * as $utils from "../../core/utils/Utils";
  * @see {@link DataItem}
  */
 var ChordDiagramDataItem = /** @class */ (function (_super) {
-    __extends(ChordDiagramDataItem, _super);
+    tslib_1.__extends(ChordDiagramDataItem, _super);
     /**
      * Constructor
      */
@@ -62,7 +53,7 @@ export { ChordDiagramDataItem };
  * @important
  */
 var ChordDiagram = /** @class */ (function (_super) {
-    __extends(ChordDiagram, _super);
+    tslib_1.__extends(ChordDiagram, _super);
     /**
      * Constructor
      */

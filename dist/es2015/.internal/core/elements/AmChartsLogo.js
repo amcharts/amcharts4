@@ -3,16 +3,7 @@
  *
  * AmChartsLogo shows amCharts logo for non-commercial users of a library.
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+import * as tslib_1 from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -39,7 +30,7 @@ import { DesaturateFilter } from "../rendering/filters/DesaturateFilter";
  * @ignore Exclude from docs
  */
 var AmChartsLogo = /** @class */ (function (_super) {
-    __extends(AmChartsLogo, _super);
+    tslib_1.__extends(AmChartsLogo, _super);
     /**
      * Constructor
      */
@@ -84,6 +75,7 @@ var AmChartsLogo = /** @class */ (function (_super) {
         a.tensionX = 0.75;
         a.tensionY = 1;
         a.stroke = aStroke;
+        _this._disposers.push(a);
         var desaturateFilter = new DesaturateFilter();
         _this.filters.push(desaturateFilter);
         var desaturateFilterHover = new DesaturateFilter();

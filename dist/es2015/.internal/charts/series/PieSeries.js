@@ -1,16 +1,7 @@
 /**
  * Defines Pie Chart Series.
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+import * as tslib_1 from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -42,7 +33,7 @@ import * as $type from "../../core/utils/Type";
  * @see {@link DataItem}
  */
 var PieSeriesDataItem = /** @class */ (function (_super) {
-    __extends(PieSeriesDataItem, _super);
+    tslib_1.__extends(PieSeriesDataItem, _super);
     /**
      * Constructor
      */
@@ -258,7 +249,7 @@ export { PieSeriesDataItem };
  * @important
  */
 var PieSeries = /** @class */ (function (_super) {
-    __extends(PieSeries, _super);
+    tslib_1.__extends(PieSeries, _super);
     /**
      * Constructor
      */

@@ -1,16 +1,7 @@
 /**
  * 3D Pie chart module.
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+import * as tslib_1 from "tslib";
 /**
  * ============================================================================
  * Imports
@@ -32,7 +23,7 @@ import { registry } from "../../core/Registry";
  * @see {@link DataItem}
  */
 var PieChart3DDataItem = /** @class */ (function (_super) {
-    __extends(PieChart3DDataItem, _super);
+    tslib_1.__extends(PieChart3DDataItem, _super);
     /**
      * Constructor
      */
@@ -136,7 +127,7 @@ export { PieChart3DDataItem };
  * @important
  */
 var PieChart3D = /** @class */ (function (_super) {
-    __extends(PieChart3D, _super);
+    tslib_1.__extends(PieChart3D, _super);
     /**
      * Constructor
      */

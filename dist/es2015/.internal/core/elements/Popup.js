@@ -1,16 +1,7 @@
 /**
  * Popup class is used to display information over chart area.
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+import * as tslib_1 from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -31,7 +22,7 @@ import * as $object from "../utils/Object";
  * @todo Positioning over whole window
  */
 var Popup = /** @class */ (function (_super) {
-    __extends(Popup, _super);
+    tslib_1.__extends(Popup, _super);
     /**
      * Constructor
      */
@@ -241,22 +232,22 @@ var Popup = /** @class */ (function (_super) {
                     case "left":
                         _this._elements.wrapper.style.left = "0";
                         _this._elements.wrapper.style.right = "auto";
-                        _this._elements.wrapper.style.marginLeft = (_this._shift.x + _this._tempShift.x).toString();
+                        _this._elements.wrapper.style.marginLeft = _this.toStyle(_this._shift.x + _this._tempShift.x);
                         break;
                     case "center":
                         _this._elements.wrapper.style.left = "50%";
                         _this._elements.wrapper.style.right = "auto";
-                        _this._elements.wrapper.style.marginLeft = (Math.round(-bbox.width / 2) + (_this._shift.x + _this._tempShift.x)) + "px";
+                        _this._elements.wrapper.style.marginLeft = _this.toStyle(Math.round(-bbox.width / 2) + (_this._shift.x + _this._tempShift.x));
                         break;
                     case "right":
                         _this._elements.wrapper.style.left = "auto";
                         _this._elements.wrapper.style.right = "0";
-                        _this._elements.wrapper.style.marginLeft = (_this._shift.x + _this._tempShift.x).toString();
+                        _this._elements.wrapper.style.marginLeft = _this.toStyle(_this._shift.x + _this._tempShift.x);
                         break;
                     default:
                         _this._elements.wrapper.style.left = _this.toStyle(_this.left) || "auto";
                         _this._elements.wrapper.style.right = _this.toStyle(_this.right) || "auto";
-                        _this._elements.wrapper.style.marginLeft = (_this._shift.x + _this._tempShift.x).toString();
+                        _this._elements.wrapper.style.marginLeft = _this.toStyle(_this._shift.x + _this._tempShift.x);
                         break;
                 }
                 // Set vertical positioning
@@ -264,22 +255,22 @@ var Popup = /** @class */ (function (_super) {
                     case "top":
                         _this._elements.wrapper.style.top = "0";
                         _this._elements.wrapper.style.bottom = "auto";
-                        _this._elements.wrapper.style.marginTop = (_this._shift.y + _this._tempShift.y).toString();
+                        _this._elements.wrapper.style.marginTop = _this.toStyle(_this._shift.y + _this._tempShift.y);
                         break;
                     case "middle":
                         _this._elements.wrapper.style.top = "50%";
                         _this._elements.wrapper.style.bottom = "auto";
-                        _this._elements.wrapper.style.marginTop = (Math.round(-bbox.height / 2) + (_this._shift.y + _this._tempShift.y)).toString() + "px";
+                        _this._elements.wrapper.style.marginTop = _this.toStyle(Math.round(-bbox.height / 2) + (_this._shift.y + _this._tempShift.y));
                         break;
                     case "bottom":
                         _this._elements.wrapper.style.top = "auto";
                         _this._elements.wrapper.style.bottom = "0";
-                        _this._elements.wrapper.style.marginTop = (_this._shift.y + _this._tempShift.y).toString();
+                        _this._elements.wrapper.style.marginTop = _this.toStyle(_this._shift.y + _this._tempShift.y);
                         break;
                     default:
                         _this._elements.wrapper.style.top = _this.toStyle(_this.top) || "auto";
                         _this._elements.wrapper.style.bottom = _this.toStyle(_this.bottom) || "auto";
-                        _this._elements.wrapper.style.marginTop = (_this._shift.y + _this._tempShift.y).toString();
+                        _this._elements.wrapper.style.marginTop = _this.toStyle(_this._shift.y + _this._tempShift.y);
                         break;
                 }
             }, 1);
@@ -334,6 +325,19 @@ var Popup = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._classPrefix = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Popup.prototype, "classPrefixRaw", {
+        /**
+         * Returns raw prefix (without adapters applied).
+         *
+         * @ignore Exclude from docs
+         * @return {string} Class name prefix
+         */
+        get: function () {
+            return this._classPrefix;
         },
         enumerable: true,
         configurable: true
@@ -424,6 +428,7 @@ var Popup = /** @class */ (function (_super) {
         this._elements.wrapper = wrapper;
         this._elements.content = content;
         this._elements.title = title;
+        this._elements.close = close;
         // Load CSS
         if (this.defaultStyles) {
             this.loadDefaultCSS();
@@ -768,6 +773,22 @@ var Popup = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Popup.prototype, "elements", {
+        /**
+         * Returns an object with references to various elements of the Popup.
+         *
+         * * `wrapper`
+         * * `title`
+         * * `content`
+         * * `close`
+         * * `curtain`
+         */
+        get: function () {
+            return this._elements;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Loads popup CSS.
      *
@@ -837,7 +858,7 @@ var Popup = /** @class */ (function (_super) {
         _super.prototype.copyFrom.call(this, source);
         this.container = source.container;
         this.sprite = source.sprite;
-        this.classPrefix = source.classPrefix;
+        this.classPrefix = source.classPrefixRaw;
         this.content = source.content;
         this.title = source.title;
         this.readerTitle = source.readerTitle;

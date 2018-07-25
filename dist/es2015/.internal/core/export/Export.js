@@ -18,51 +18,7 @@
  * Copyright (c) Stuart Knightley
  * Dual licenced under the [MIT license or GPLv3](https://raw.githubusercontent.com/Stuk/jszip/master/LICENSE.markdown).
  */
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
+import * as tslib_1 from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -139,7 +95,7 @@ import * as $utils from "../utils/Utils";
  * @important
  */
 var Export = /** @class */ (function (_super) {
-    __extends(Export, _super);
+    tslib_1.__extends(Export, _super);
     /**
      * Constructor
      */
@@ -358,10 +314,10 @@ var Export = /** @class */ (function (_super) {
      * @async
      */
     Export.prototype.export = function (type, options) {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var _this = this;
             var event_1, func, data, event_2, event_3;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         // Dispatch event
@@ -467,8 +423,8 @@ var Export = /** @class */ (function (_super) {
      * @async
      */
     Export.prototype.unsupported = function (type, options) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
                 return [2 /*return*/, undefined];
             });
         });
@@ -482,8 +438,8 @@ var Export = /** @class */ (function (_super) {
      * @async
      */
     Export.prototype.getPrint = function (type, options) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
                 return [2 /*return*/, this.getImage("png", options)];
             });
         });
@@ -521,9 +477,9 @@ var Export = /** @class */ (function (_super) {
      * @return {Promise<string>}               Promise
      */
     Export.prototype.getImage = function (type, options) {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var background, width, height, font, fontSize, canvas, ctx, DOMURL, data, svg, url, img, uri, e_1;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         background = this.backgroundColor || this.findBackgroundColor(this.sprite.dom);
@@ -601,10 +557,10 @@ var Export = /** @class */ (function (_super) {
      * @todo Is toDataURL a Promise?
      */
     Export.prototype.getImageAdvanced = function (type, options) {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var _this = this;
             var fpromise, fabric, width, height, font, fontSize, data, canvas, background, uri;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: 
                     // Convert external images to data uris
@@ -680,9 +636,9 @@ var Export = /** @class */ (function (_super) {
      * @return {Promise<void>}                 Promise
      */
     Export.prototype.imagesToDataURI = function (el, options) {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var images, promises, count, i, image, href;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         images = el.querySelectorAll("image");
@@ -729,9 +685,9 @@ var Export = /** @class */ (function (_super) {
      * @return {Promise<void>}                 Promise
      */
     Export.prototype.prepForeignObjects = function (el, options) {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var objects, count, i;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 objects = el.querySelectorAll("foreignObject");
                 if (objects.length) {
                     // There are foreign objects, process each of them
@@ -755,9 +711,9 @@ var Export = /** @class */ (function (_super) {
      * @param {IExportImageOptions} options  Options
      */
     Export.prototype.imageToDataURI = function (el, options) {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var img, canvas, uri, e_2;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
@@ -820,9 +776,9 @@ var Export = /** @class */ (function (_super) {
      * @param {IExportImageOptions} options   Options
      */
     Export.prototype.svgToDataURI = function (el, options) {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var href, data, charset, uri, e_3;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         href = el.getAttributeNS(Export.XLINK, "href");
@@ -924,9 +880,9 @@ var Export = /** @class */ (function (_super) {
      * @return {boolean} `true` if simplified export can be used
      */
     Export.prototype.simplifiedImageExport = function () {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var cache, canvas, ctx, DOMURL, svg, url, img, e_4;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         cache = registry.getCache("simplifiedImageExport");
@@ -1044,9 +1000,9 @@ var Export = /** @class */ (function (_super) {
      * @return {Promise<string>}            Promise
      */
     Export.prototype.getSVG = function (type, options) {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var width, height, font, fontSize, svg, charset, uri;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = this.findFont(this.sprite.dom), fontSize = this.findFontSize(this.sprite.dom);
                 svg = this.normalizeSVG(this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, font, fontSize);
                 charset = this.adapter.apply("charset", {
@@ -1143,9 +1099,9 @@ var Export = /** @class */ (function (_super) {
      * @todo Account for header when calculating vertical fit
      */
     Export.prototype.getPDF = function (type, options) {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var image, pdfmake, defaultMargins, doc, title;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.getImage(options.imageFormat || "png", options)];
                     case 1:
@@ -1295,9 +1251,9 @@ var Export = /** @class */ (function (_super) {
      * @todo Support for multi-sheet
      */
     Export.prototype.getExcel = function (type, options) {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var XLSX, wbOptions, sheetName, wb, data, len, i, uri;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.xlsx];
                     case 1:
@@ -1376,9 +1332,9 @@ var Export = /** @class */ (function (_super) {
      * @async
      */
     Export.prototype.getCSV = function (type, options) {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var csv, br, len, i, row, charset, uri;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 csv = "";
                 br = "";
                 for (len = this.data.length, i = 0; i < len; i++) {
@@ -1449,10 +1405,10 @@ var Export = /** @class */ (function (_super) {
      * @async
      */
     Export.prototype.getJSON = function (type, options) {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var _this = this;
             var json, charset, uri;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 json = JSON.stringify(this.data, function (key, value) {
                     if (typeof value == "object") {
                         $object.each(value, function (field, item) {
@@ -1513,9 +1469,9 @@ var Export = /** @class */ (function (_super) {
      * @async
      */
     Export.prototype.download = function (uri, fileName) {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var link, parts, contentType, decoded, chars, i, charCode, blob, parts, contentType, iframe, idoc;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 //if (window.navigator.msSaveOrOpenBlob === undefined) {
                 if (this.linkDownloadSupport() && !this.blobDownloadSupport()) {
                     link = document.createElement("a");
@@ -1654,8 +1610,8 @@ var Export = /** @class */ (function (_super) {
      * @async
      */
     Export.prototype.print = function (data, options, title) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
                 if (options.printMethod == "css") {
                     return [2 /*return*/, this.printViaCSS(data, options, title)];
                 }
@@ -1667,9 +1623,9 @@ var Export = /** @class */ (function (_super) {
         });
     };
     Export.prototype.printViaCSS = function (data, options, title) {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var scroll, rule, originalTitle, img, isIOS;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 scroll = document.documentElement.scrollTop || document.body.scrollTop;
                 rule = new StyleRule("body > *", {
                     "display": "none",
@@ -1726,9 +1682,9 @@ var Export = /** @class */ (function (_super) {
         });
     };
     Export.prototype.printViaIframe = function (data, options, title) {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var iframe, img, isIOS;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 iframe = document.createElement("iframe");
                 iframe.style.visibility = "hidden";
                 document.body.appendChild(iframe);
@@ -2296,8 +2252,8 @@ var Export = /** @class */ (function (_super) {
      * @async
      */
     Export.prototype._fabric = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, import(/* webpackChunkName: "fabric" */ "../../fabric/fabric")];
                     case 1: return [2 /*return*/, _a.sent()];
@@ -2329,19 +2285,20 @@ var Export = /** @class */ (function (_super) {
      * @async
      */
     Export.prototype._pdfmake = function () {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var a, pdfmake, vfs_fonts;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, Promise.all([
                             import(/* webpackChunkName: "pdfmake" */ "pdfmake/build/pdfmake.js"),
-                            import(/* webpackChunkName: "pdfmake" */ "pdfmake/build/vfs_fonts.js")
+                            import(/* webpackChunkName: "pdfmake" */ "../../pdfmake/vfs_fonts")
                         ])];
                     case 1:
                         a = _a.sent();
+                        console.log(a);
                         pdfmake = a[0];
                         vfs_fonts = a[1];
-                        pdfmake.vfs = vfs_fonts.pdfMake.vfs;
+                        pdfmake.vfs = vfs_fonts.default;
                         return [2 /*return*/, pdfmake];
                 }
             });
@@ -2371,8 +2328,8 @@ var Export = /** @class */ (function (_super) {
      * @async
      */
     Export.prototype._xlsx = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, import(/* webpackChunkName: "xlsx" */ "xlsx")];
                     case 1: return [2 /*return*/, _a.sent()];

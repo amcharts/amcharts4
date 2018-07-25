@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [UNRELEASED] - ????-??-??
+
+### Added
+- `elements` property in `Popup`. Returns an object consisting of references to various elements of the Popup, like content block, close button, etc.
+
+### Changed
+- `am4core.getSystem()` has been changed to `am4core.system`
+
+### Fixed
+- Fixed double "amcharts" in Popup's class names.
+- Fixed dragging on of absolute-positioned Popups.
+- Escaping square brackets in text (by repeating them twice) was not working.
+- Fixed a lot of disposer leaks.
+- Fixed an issue that caused runtime errors with Rollup.
+
+
 ## [4.0.0-beta.35] - 2018-07-23
 
 ### Added
