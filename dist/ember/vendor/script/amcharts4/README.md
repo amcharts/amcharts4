@@ -50,7 +50,7 @@ it does not include geodata itself (map files) needed to instantiate the maps.
 Those are available via separate package:
 
 * [NPM package](https://www.npmjs.com/package/@amcharts/amcharts4-geodata)
-* [GitHub repository](https://github.com/amcharts/amcharts4/tree/master/dist/geodata)
+* [GitHub repository (geodata)](https://github.com/amcharts/amcharts4-geodata)
 * [ZIP download](https://www.amcharts.com/download/download-v4/)
 
 

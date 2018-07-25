@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
-## [UNRELEASED] - ????-??-??
+## [4.0.0-beta.36] - 2018-07-25
 
 ### Added
 - `elements` property in `Popup`. Returns an object consisting of references to various elements of the Popup, like content block, close button, etc.
