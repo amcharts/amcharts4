@@ -6,6 +6,12 @@ Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
 
+## [4.0.0-beta.38] - 2018-07-26
+
+### Fixed
+- Using `PieSeries` data field `"visible"` was not graying out Legend's marker.
+
+
 ## [4.0.0-beta.37] - 2018-07-26
 
 ### Added
