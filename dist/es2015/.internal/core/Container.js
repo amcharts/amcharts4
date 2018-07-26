@@ -1494,7 +1494,9 @@ var Container = /** @class */ (function (_super) {
             $iter.each(this.children.iterator(), function (child) {
                 child.setState(stateName, transitionDuration, easing);
             });
-            this.background.setState(stateName);
+        }
+        if (this._background) {
+            this._background.setState(stateName);
         }
         if (this.setStateOnSprites.length) {
             $array.each(this.setStateOnSprites, function (item) {
@@ -1502,6 +1504,13 @@ var Container = /** @class */ (function (_super) {
             });
         }
         return _super.prototype.setState.call(this, value, transitionDuration, easing);
+    };
+    // otherwise isActive won't work properly with background
+    Container.prototype.setActive = function (value) {
+        _super.prototype.setActive.call(this, value);
+        if (this._background) {
+            this._background.isActive = value;
+        }
     };
     return Container;
 }(Sprite));

@@ -42,4 +42,18 @@ export function order(a, b) {
 export function repeat(string, amount) {
     return new Array(amount + 1).join(string);
 }
+/**
+ * Generates a random string `characters` length.
+ *
+ * @param  {number}  chars  Number of characters
+ * @return {string}         Random string
+ */
+export function random(chars) {
+    var res = "";
+    var choice = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i = 0; i < chars; i++) {
+        res += choice.charAt(Math.floor(Math.random() * choice.length));
+    }
+    return res;
+}
 //# sourceMappingURL=String.js.map

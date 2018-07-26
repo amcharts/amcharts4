@@ -45,6 +45,20 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
         return _this;
     }
     /**
+     * Sets visibility of the Data Item.
+     *
+     * @param {boolean} value Data Item
+     */
+    PieSeriesDataItem.prototype.setVisibility = function (value) {
+        _super.prototype.setVisibility.call(this, value);
+        if (value) {
+            this.setWorkingValue("value", this.values["value"].value, 0, 0);
+        }
+        else {
+            this.setWorkingValue("value", 0, 0, 0);
+        }
+    };
+    /**
      * Adds an `id` attribute the the slice element and returns its id.
      *
      * @ignore Exclude from docs
@@ -73,25 +87,6 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
     PieSeriesDataItem.prototype.show = function (duration, delay, fields) {
         return _super.prototype.show.call(this, duration, delay, ["value", "radiusValue"]);
     };
-    Object.defineProperty(PieSeriesDataItem.prototype, "color", {
-        /**
-         * @return {string} Color
-         */
-        get: function () {
-            return this.properties.color;
-        },
-        /**
-         * Color of the slice.
-         *
-         * @todo why not Color?
-         * @param {string}  value  Color
-         */
-        set: function (value) {
-            this.setProperty("color", value);
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(PieSeriesDataItem.prototype, "category", {
         /**
          * @return {string} Category
@@ -171,6 +166,7 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
                 this.addSprite(this._tick);
                 this._tick.slice = this.slice;
                 this._tick.label = this.label;
+                this._tick.visible = this.visible;
             }
             return this._tick;
         },
@@ -189,6 +185,7 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
                 this._label = this.component.labels.create();
                 this._disposers.push(this._label);
                 this.addSprite(this._label);
+                this._label.visible = this.visible;
             }
             return this._label;
         },
@@ -207,6 +204,7 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
                 this._slice = this.component.slices.create();
                 this._disposers.push(this._slice);
                 this.addSprite(this._slice);
+                this._slice.visible = this.visible;
             }
             return this._slice;
         },
@@ -411,8 +409,6 @@ var PieSeries = /** @class */ (function (_super) {
         var _this = this;
         if (this.radius > 0) {
             var percent = dataItem.values.value.percent;
-            //if (percent > 0) {
-            dataItem.__disabled = false;
             // SLICE
             var slice_1 = dataItem.slice;
             slice_1.parent = this.slicesContainer;
@@ -422,12 +418,6 @@ var PieSeries = /** @class */ (function (_super) {
             }
             slice_1.innerRadius = this.innerRadius;
             slice_1.startAngle = this._currentStartAngle;
-            if (slice_1.fill == undefined) {
-                slice_1.fill = this.colors.getIndex(dataItem.index * this.colors.step);
-            }
-            if (slice_1.stroke == undefined) {
-                slice_1.stroke = this.colors.getIndex(dataItem.index * this.colors.step);
-            }
             slice_1.arc = dataItem.values.value.percent * (this.endAngle - this.startAngle) / 100;
             // LABEL
             var label = dataItem.label;
@@ -489,12 +479,14 @@ var PieSeries = /** @class */ (function (_super) {
                     slice_1.readerTitle = "";
                 });
             }
+            if (slice_1.fill == undefined) {
+                slice_1.fill = this.colors.getIndex(dataItem.index * this.colors.step);
+            }
+            if (slice_1.stroke == undefined) {
+                slice_1.stroke = this.colors.getIndex(dataItem.index * this.colors.step);
+            }
             // do this at the end, otherwise bullets won't be positioned properly
             _super.prototype.validateDataElement.call(this, dataItem);
-            //}
-            //else {
-            //	dataItem.__disabled = true;
-            //}
         }
     };
     /**
@@ -691,6 +683,22 @@ var PieSeries = /** @class */ (function (_super) {
             child.bind("stroke", slice);
             child.bind("fillOpacity", slice);
             child.bind("strokeOpacity", slice);
+            slice.events.on("propertychanged", function (ev) {
+                child.defaultState.properties.fill = slice.fill;
+                child.defaultState.properties.stroke = slice.stroke;
+                child.defaultState.properties.fillOpacity = slice.fillOpacity;
+                child.defaultState.properties.strokeOpacity = slice.strokeOpacity;
+                if (ev.property == "fill") {
+                    if (!child.isActive) {
+                        child.fill = slice.fill;
+                    }
+                }
+                if (ev.property == "stroke") {
+                    if (!child.isActive) {
+                        child.stroke = slice.stroke;
+                    }
+                }
+            });
         });
     };
     /**

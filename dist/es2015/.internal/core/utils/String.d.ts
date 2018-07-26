@@ -37,3 +37,10 @@ export declare function order(a: string, b: string): Ordering;
  * @return {string}          New string
  */
 export declare function repeat(string: string, amount: number): string;
+/**
+ * Generates a random string `characters` length.
+ *
+ * @param  {number}  chars  Number of characters
+ * @return {string}         Random string
+ */
+export declare function random(chars: number): string;

@@ -11,6 +11,7 @@ import * as tslib_1 from "tslib";
 import { FlowDiagramNode } from "./FlowDiagramNode";
 import { LabelBullet } from "./LabelBullet";
 import { registry } from "../../core/Registry";
+import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $iter from "../../core/utils/Iterator";
 /**
  * ============================================================================
@@ -78,6 +79,8 @@ var SankeyNode = /** @class */ (function (_super) {
         //valueLabel.label.text = "{value}";
         valueLabel.label.horizontalCenter = "middle";
         _this.valueLabel = valueLabel;
+        var activeState = _this.background.states.create("active");
+        activeState.properties.fill = new InterfaceColorSet().getFor("disabledBackground");
         return _this;
     }
     /**
@@ -136,6 +139,7 @@ var SankeyNode = /** @class */ (function (_super) {
                             link.gradient.validate();
                         }
                     }
+                    //link.validate();
                     _this.nextInCoord += link.linkWidth;
                 });
             }
@@ -183,6 +187,7 @@ var SankeyNode = /** @class */ (function (_super) {
                             link.gradient.validate();
                         }
                     }
+                    //link.validate();
                     _this.nextOutCoord += link.linkWidth;
                 });
             }

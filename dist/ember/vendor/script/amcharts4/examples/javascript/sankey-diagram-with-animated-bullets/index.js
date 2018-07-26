@@ -67,6 +67,7 @@ chart.nodes.template.width = 0;
 chart.nodes.template.nameLabel.disabled = true;
 chart.nodes.template.draggable = true;
 chart.nodes.template.inert = true;
+chart.nodes.template.togglable = false;
 
 // making links draggable
 linkTemplate.events.on("down", function (event) {

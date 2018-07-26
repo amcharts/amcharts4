@@ -175,7 +175,9 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
      * Invoked when visibility of the [[Sprite]] changes. (from visible to hidden,
      * and vice versa)
      */
-    visibilitychanged: {};
+    visibilitychanged: {
+        visible: boolean;
+    };
     /**
      * Invoked when hidden [[Sprite]] is shown.
      */

@@ -1474,6 +1474,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {boolean} value Is active?
      */
     isActive: boolean;
+    protected setActive(value: boolean): void;
     /**
      * @return {boolean} Disabled?
      */

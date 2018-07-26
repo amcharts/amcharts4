@@ -1,6 +1,8 @@
 import { EventDispatcher } from "./utils/EventDispatcher";
 import { Dictionary } from "./utils/Dictionary";
 import { cache } from "./utils/Cache";
+import * as $type from "./utils/Type";
+import * as $string from "./utils/String";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -49,6 +51,10 @@ var Registry = /** @class */ (function () {
          * @ignore Exclude from docs
          */
         this.registeredClasses = {};
+        /**
+         * Holds all generated placeholders.
+         */
+        this._placeholders = {};
         /**
          * Number of times per second charts will be updated.
          *
@@ -216,6 +222,19 @@ var Registry = /** @class */ (function () {
                 });
             }
         }
+    };
+    /**
+     * Returns a unique placeholder suitable for the key.
+     *
+     * @param  {string}  key  Key
+     * @return {string}       Random string to be used as placeholder
+     */
+    Registry.prototype.getPlaceholder = function (key) {
+        if ($type.hasValue(this._placeholders[key])) {
+            return this._placeholders[key];
+        }
+        this._placeholders[key] = "__amcharts_" + key + "_" + $string.random(8) + "__";
+        return this._placeholders[key];
     };
     return Registry;
 }());

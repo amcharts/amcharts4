@@ -36,6 +36,7 @@ import { registry } from "./Registry";
 import { NumberFormatter } from "./formatters/NumberFormatter";
 import { DateFormatter } from "./formatters/DateFormatter";
 import { DurationFormatter } from "./formatters/DurationFormatter";
+import { getTextFormatter } from "./formatters/TextFormatter";
 import { Language } from "./utils/Language";
 import { Export } from "./export/Export";
 import * as $utils from "./utils/Utils";
@@ -334,6 +335,7 @@ var Sprite = /** @class */ (function (_super) {
         _this.setPropertyValue("paddingBottom", 0);
         _this.setPropertyValue("paddingRight", 0);
         _this.setPropertyValue("paddingLeft", 0);
+        _this.setPropertyValue("togglable", false);
         _this._prevMeasuredWidth = 0;
         _this._prevMeasuredHeight = 0;
         _this._measuredWidth = 0;
@@ -1218,7 +1220,7 @@ var Sprite = /** @class */ (function (_super) {
                 if (mask instanceof Container) {
                     // create clip path
                     this._clipElement = this.paper.add("rect");
-                    this._clipElement.attr({ "width": mask.pixelWidth, "height": mask.pixelHeight });
+                    this._clipElement.attr({ "width": $math.max(0, mask.pixelWidth), "height": $math.max(0, mask.pixelHeight) });
                 }
                 // Sprite
                 else {
@@ -2231,21 +2233,24 @@ var Sprite = /** @class */ (function (_super) {
          * @param {boolean} value Is active?
          */
         set: function (value) {
-            value = $type.toBoolean(value);
-            if (this._isActive !== value) {
-                this._isActive = value;
-                if (value && this.states.hasKey("active")) {
-                    this.setState("active");
-                }
-                else {
-                    this.applyCurrentState();
-                }
-                this.dispatchImmediately("toggled");
-            }
+            this.setActive(value);
         },
         enumerable: true,
         configurable: true
     });
+    Sprite.prototype.setActive = function (value) {
+        value = $type.toBoolean(value);
+        if (this._isActive !== value) {
+            this._isActive = value;
+            if (value && this.states.hasKey("active")) {
+                this.setState("active");
+            }
+            else {
+                this.applyCurrentState();
+            }
+            this.dispatchImmediately("toggled");
+        }
+    };
     Object.defineProperty(Sprite.prototype, "disabled", {
         /**
          * @return {boolean} Disabled?
@@ -2544,6 +2549,7 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.populateString = function (string, dataItem) {
         if ($type.hasValue(string)) {
             string = $type.castString(string);
+            string = getTextFormatter().escape(string);
             var tags = string.match(/\{([^}]+)\}/g);
             var i = void 0;
             if (tags) {
@@ -2556,6 +2562,7 @@ var Sprite = /** @class */ (function (_super) {
                     string = string.split(tags[i]).join(value);
                 }
             }
+            string = getTextFormatter().unescape(string);
         }
         else {
             string = "";
@@ -6390,7 +6397,14 @@ var Sprite = /** @class */ (function (_super) {
                 this.group.attr({ "visibility": "hidden" });
             }
             this.invalidatePosition();
-            this.dispatchImmediately("visibilitychanged");
+            if (this.events.isEnabled("visibilitychanged")) {
+                var event_2 = {
+                    type: "visibilitychanged",
+                    target: this,
+                    visible: value
+                };
+                this.events.dispatchImmediately("visibilitychanged", event_2);
+            }
         }
     };
     Object.defineProperty(Sprite.prototype, "zIndex", {

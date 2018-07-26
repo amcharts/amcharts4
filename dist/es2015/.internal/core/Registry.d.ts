@@ -91,6 +91,12 @@ export declare class Registry {
         [index: string]: any;
     };
     /**
+     * Holds all generated placeholders.
+     */
+    protected _placeholders: {
+        [index: string]: string;
+    };
+    /**
      * Number of times per second charts will be updated.
      *
      * This means that each time an element is invalidated it will wait for the
@@ -207,6 +213,13 @@ export declare class Registry {
      * @param {any}    data      Data to pass into event handler(s)
      */
     dispatchImmediately<Key extends keyof IRegistryEvents>(eventType: Key, data?: any): void;
+    /**
+     * Returns a unique placeholder suitable for the key.
+     *
+     * @param  {string}  key  Key
+     * @return {string}       Random string to be used as placeholder
+     */
+    getPlaceholder(key: string): string;
 }
 /**
  * A singleton global instance of [[Registry]].

@@ -2,6 +2,7 @@ import { FlowDiagram, FlowDiagramDataItem, IFlowDiagramAdapters, IFlowDiagramDat
 import { ListTemplate } from "../../core/utils/List";
 import { SankeyNode } from "../elements/SankeyNode";
 import { SankeyLink } from "../elements/SankeyLink";
+import { Animation } from "../../core/utils/Animation";
 import { Orientation } from "../../core/defs/Orientation";
 import * as $iter from "../../core/utils/Iterator";
 /**
@@ -191,9 +192,9 @@ export declare class SankeyDiagram extends FlowDiagram {
      */
     maxSum: number;
     /**
-     * number of nodes in level with max value, needed for position calculation
+     * level with max sum
      */
-    protected maxSumLevelNodeCount: number;
+    protected _maxSumLevel: number;
     /**
      * [valueHeight description]
      *
@@ -201,7 +202,7 @@ export declare class SankeyDiagram extends FlowDiagram {
      * @todo Description
      * @type {number}
      */
-    valueHeight: number;
+    protected _valueHeight: number;
     /**
      * A total number of levels, present on this chart.
      *
@@ -215,6 +216,7 @@ export declare class SankeyDiagram extends FlowDiagram {
      * @type {Iterator}
      */
     protected _sorted: $iter.Iterator<[string, SankeyNode]>;
+    protected _heightAnimation: Animation;
     /**
      * Constructor
      */
@@ -246,6 +248,7 @@ export declare class SankeyDiagram extends FlowDiagram {
      * @ignore Exclude from docs
      */
     validate(): void;
+    validateDataRange(): void;
     /**
      * [appear description]
      *
@@ -296,4 +299,5 @@ export declare class SankeyDiagram extends FlowDiagram {
      * @ignore
      */
     createLink(): this["_link"];
+    valueHeight: number;
 }

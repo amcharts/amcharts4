@@ -205,8 +205,14 @@ var Series = /** @class */ (function (_super) {
         _this.dataItem.component = _this;
         // Apply accessibility
         _this.role = "group";
-        _this.events.once("beforevalidated", function () { _this.appear(); }, _this);
-        //this.hiddenState.properties.opacity = 1; // because we hide by changing values
+        _this.events.once("beforevalidated", function () {
+            if (_this.visible == false) {
+                _this.hide(0);
+            }
+            else {
+                _this.appear();
+            }
+        }, _this);
         _this.applyTheme();
         return _this;
     }

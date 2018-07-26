@@ -55,6 +55,8 @@ chart.dataFields.color = "color";
 chart.orientation = "vertical";
 chart.sortBy = "none";
 
+chart.nodes.template.togglable = false;
+
 let linkTemplate = chart.links.template;
 linkTemplate.colorMode = "gradient";
 linkTemplate.fillOpacity = 0.95;

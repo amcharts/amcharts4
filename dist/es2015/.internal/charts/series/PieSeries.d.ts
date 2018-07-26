@@ -78,6 +78,12 @@ export declare class PieSeriesDataItem extends SeriesDataItem implements ILegend
      */
     constructor();
     /**
+     * Sets visibility of the Data Item.
+     *
+     * @param {boolean} value Data Item
+     */
+    setVisibility(value: boolean): void;
+    /**
      * Adds an `id` attribute the the slice element and returns its id.
      *
      * @ignore Exclude from docs
@@ -100,16 +106,6 @@ export declare class PieSeriesDataItem extends SeriesDataItem implements ILegend
      * @param {string[]}  fields    Fields to animate while hiding
      */
     show(duration?: number, delay?: number, fields?: string[]): Animation;
-    /**
-     * @return {string} Color
-     */
-    /**
-     * Color of the slice.
-     *
-     * @todo why not Color?
-     * @param {string}  value  Color
-     */
-    color: string;
     /**
      * @return {string} Category
      */
@@ -198,6 +194,12 @@ export interface IPieSeriesDataFields extends ISeriesDataFields {
      * @type {string}
      */
     hiddenInLegend?: string;
+    /**
+     * Name of the field in data that holds boolean flag if item should be hidden.
+     *
+     * @type {string}
+     */
+    visible?: string;
     /**
      * Name of the field in data that holds item's radius value.
      *

@@ -66,6 +66,10 @@ export declare class LegendDataItem<T, E extends ILegendItemEvents> extends Data
      */
     _component: Legend;
     /**
+     * @ignore
+     */
+    childrenCreated: boolean;
+    /**
      * Constructor
      */
     constructor();

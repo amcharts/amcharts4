@@ -283,7 +283,7 @@ var FlowDiagram = /** @class */ (function (_super) {
         }
     };
     FlowDiagram.prototype.handleDataItemWorkingValueChange = function (event) {
-        this.invalidate();
+        this.invalidateDataRange();
     };
     /**
      * [appear description]

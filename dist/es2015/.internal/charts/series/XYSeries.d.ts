@@ -16,7 +16,6 @@ import { Dictionary } from "../../core/utils/Dictionary";
 import { MutableValueDisposer } from "../../core/utils/Disposer";
 import { XYChart } from "../types/XYChart";
 import { CategoryAxis } from "../axes/CategoryAxis";
-import { Rectangle } from "../../core/elements/Rectangle";
 import { IPoint } from "../../core/defs/IPoint";
 import { DateAxis } from "../axes/DateAxis";
 import { Bullet } from "../elements/Bullet";
@@ -435,12 +434,6 @@ export declare class XYSeries extends Series {
      * @type {Axis}
      */
     protected _baseAxis: Axis;
-    /**
-     * A maske used for series.
-     *
-     * @type {Rectangle}
-     */
-    protected _rectangleMask: Rectangle;
     /**
      * Total data item count.
      *

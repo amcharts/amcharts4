@@ -11,6 +11,7 @@ import * as tslib_1 from "tslib";
 import { BaseObject } from "../Base";
 import { AMElement } from "../rendering/AMElement";
 import { Adapter } from "../utils/Adapter";
+import { registry } from "../Registry";
 import * as $strings from "../utils/Strings";
 import * as $type from "../utils/Type";
 /**
@@ -93,7 +94,12 @@ var TextFormatter = /** @class */ (function (_super) {
      * @return {string}        Escaped text
      */
     TextFormatter.prototype.escape = function (text) {
-        return text.replace("[[", $strings.PLACEHOLDER_L).replace("]]", $strings.PLACEHOLDER_R).replace("''", $strings.PLACEHOLDER_Q);
+        return text.
+            replace(/\[\[/g, registry.getPlaceholder("1")).
+            replace(/\]\]/g, registry.getPlaceholder("2")).
+            replace(/\{\{/g, registry.getPlaceholder("3")).
+            replace(/\}\}/g, registry.getPlaceholder("4")).
+            replace(/\'\'/g, registry.getPlaceholder("5"));
     };
     /**
      * Replaces placeholders back to brackets.
@@ -103,7 +109,12 @@ var TextFormatter = /** @class */ (function (_super) {
      * @return {string}        Unescaped text
      */
     TextFormatter.prototype.unescape = function (text) {
-        return text.replace($strings.PLACEHOLDER_L, "[[").replace($strings.PLACEHOLDER_R, "]]").replace($strings.PLACEHOLDER_Q, "'");
+        return text.
+            replace(new RegExp(registry.getPlaceholder("1"), "g"), "[[").
+            replace(new RegExp(registry.getPlaceholder("2"), "g"), "]]").
+            replace(new RegExp(registry.getPlaceholder("3"), "g"), "{{").
+            replace(new RegExp(registry.getPlaceholder("4"), "g"), "}}").
+            replace(new RegExp(registry.getPlaceholder("5"), "g"), "'");
     };
     /**
      * Cleans up the text text for leftover double square brackets.
@@ -113,7 +124,12 @@ var TextFormatter = /** @class */ (function (_super) {
      * @return {string}        Cleaned up text
      */
     TextFormatter.prototype.cleanUp = function (text) {
-        return text.replace("[[", "[").replace("]]", "]").replace("''", "'");
+        return text.
+            replace(/\[\[/g, "[").
+            replace(/\]\]/g, "]").
+            replace(/\{\{/g, "{").
+            replace(/\}\}/g, "}").
+            replace(/\'\'/g, "'");
     };
     /**
      * Wraps text into corresponding tags.
@@ -285,7 +301,8 @@ var TextFormatter = /** @class */ (function (_super) {
                 // Text outside quotes
                 // Parse for style blocks which are "text" chunks, the rest chunks are
                 // "value"
-                chunk = chunk.replace("][", "]" + $strings.PLACEHOLDER + "[");
+                chunk = chunk.replace(/\]\[/g, "]" + $strings.PLACEHOLDER + "[");
+                chunk = chunk.replace(/\[\]/g, "[ ]");
                 var chunks2 = chunk.split(/[\[\]]+/);
                 for (var i2 = 0; i2 < chunks2.length; i2++) {
                     var chunk2 = this.cleanUp(this.unescape(chunks2[i2]));

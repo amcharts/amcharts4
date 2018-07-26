@@ -44,14 +44,38 @@ var FlowDiagramNode = /** @class */ (function (_super) {
         _this.className = "FlowDiagramNode";
         _this.isMeasured = false;
         var interfaceColors = new InterfaceColorSet();
-        _this.background.fill = interfaceColors.getFor("alternativeBackground");
-        _this.background.fillOpacity = 1;
         _this.pixelPerfect = false;
         _this.background.pixelPerfect = false;
         _this.draggable = true;
         _this.inert = true;
+        _this.setStateOnChildren = true;
+        _this.togglable = true;
         _this.events.on("positionchanged", _this.invalidateLinks, _this);
         _this.events.on("sizechanged", _this.invalidateLinks, _this);
+        _this.states.create("active");
+        _this.events.on("toggled", function (event) {
+            var node = _this;
+            if (node.isActive) {
+                node.outgoingDataItems.each(function (dataItem) {
+                    dataItem.setWorkingValue("value", 0);
+                });
+                node.incomingDataItems.each(function (dataItem) {
+                    dataItem.setWorkingValue("value", 0);
+                });
+            }
+            else {
+                node.outgoingDataItems.each(function (dataItem) {
+                    if (!dataItem.toNode.isActive) {
+                        dataItem.setWorkingValue("value", dataItem.getValue("value"));
+                    }
+                });
+                node.incomingDataItems.each(function (dataItem) {
+                    if (!dataItem.fromNode.isActive) {
+                        dataItem.setWorkingValue("value", dataItem.value);
+                    }
+                });
+            }
+        });
         return _this;
     }
     /**

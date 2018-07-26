@@ -26,7 +26,7 @@ chart.paddingRight = 30;
 var nodeTemplate = chart.nodes.template;
 nodeTemplate.draggable = true;
 nodeTemplate.inert = true;
-nodeTemplate.readerTitle = "Drag me!";
+nodeTemplate.readerTitle = "Drag to rearrange or click to show&hide";
 nodeTemplate.showSystemTooltip = true;
 nodeTemplate.width = 30;
 

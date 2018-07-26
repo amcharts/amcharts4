@@ -7,6 +7,7 @@ import { percent } from "../../core/utils/Percent";
 import { registry } from "../../core/Registry";
 import { SankeyNode } from "../elements/SankeyNode";
 import { SankeyLink } from "../elements/SankeyLink";
+import { Animation } from "../../core/utils/Animation";
 import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
@@ -59,14 +60,6 @@ var SankeyDiagram = /** @class */ (function (_super) {
         var _this = 
         // Init
         _super.call(this) || this;
-        /**
-         * [valueHeight description]
-         *
-         * @ignore Exclude from docs
-         * @todo Description
-         * @type {number}
-         */
-        _this.valueHeight = 0;
         _this.className = "SankeyDiagram";
         _this.orientation = "horizontal";
         _this.nodeAlign = "middle";
@@ -92,6 +85,7 @@ var SankeyDiagram = /** @class */ (function (_super) {
             node.level = _this.getNodeLevel(node, 0);
             _this._levelCount = $math.max(_this._levelCount, node.level);
         });
+        this.calculateValueHeight();
     };
     /**
      * Returns node's highest level.
@@ -125,6 +119,7 @@ var SankeyDiagram = /** @class */ (function (_super) {
         this.maxSum = 0;
         $iter.each(this.nodes.iterator(), function (strNode) {
             var node = strNode[1];
+            _this.getNodeValue(node);
             var level = node.level;
             if ($type.isNumber(_this._levelSum[level])) {
                 _this._levelSum[level] += node.value;
@@ -146,7 +141,8 @@ var SankeyDiagram = /** @class */ (function (_super) {
                 maxSumLevel = Number(key);
             }
         }
-        var maxSumLevelNodeCount = this._levelNodesCount[maxSumLevel];
+        this._maxSumLevel = maxSumLevel;
+        var maxSumLevelNodeCount = this._levelNodesCount[this._maxSumLevel];
         var availableHeight;
         if (this.orientation == "horizontal") {
             availableHeight = this.chartContainer.maxHeight - 1;
@@ -154,8 +150,29 @@ var SankeyDiagram = /** @class */ (function (_super) {
         else {
             availableHeight = this.chartContainer.maxWidth - 1;
         }
-        this.valueHeight = (availableHeight - (maxSumLevelNodeCount - 1) * this.nodePadding) / this.maxSum;
-        this.maxSumLevelNodeCount = maxSumLevelNodeCount;
+        var valueHeight = (availableHeight - (maxSumLevelNodeCount - 1) * this.nodePadding) / this.maxSum;
+        if (!$type.isNumber(this.valueHeight)) {
+            this.valueHeight = valueHeight;
+        }
+        else {
+            var finalHeight = void 0;
+            try {
+                finalHeight = this._heightAnimation.animationOptions[0].to;
+            }
+            catch (err) {
+            }
+            // without animations it will be non-smooth as maxValue jumps from one column to another
+            if (finalHeight != valueHeight) {
+                var duration = this.interpolationDuration;
+                try {
+                    duration = this.nodes.template.states.getKey("active").transitionDuration;
+                }
+                catch (err) {
+                }
+                this._heightAnimation = new Animation(this, { property: "valueHeight", from: this.valueHeight, to: valueHeight }, duration).start();
+                this._disposers.push(this._heightAnimation);
+            }
+        }
     };
     /**
      * Redraws the chart.
@@ -165,33 +182,22 @@ var SankeyDiagram = /** @class */ (function (_super) {
     SankeyDiagram.prototype.validate = function () {
         var _this = this;
         _super.prototype.validate.call(this);
-        this.calculateValueHeight();
         var container = this.nodesContainer;
         container.removeChildren();
         var nextCoordinate = {};
-        var nodesInLevel = [];
+        var maxSumLevelNodeCount = this._levelNodesCount[this._maxSumLevel];
         $iter.each(this._sorted, function (strNode) {
             var node = strNode[1];
+            var level = node.level;
             _this.getNodeValue(node);
-            var level = node.level;
-            if (!$type.isNumber(nodesInLevel[level])) {
-                nodesInLevel[level] = 1;
-            }
-            else {
-                nodesInLevel[level]++;
-            }
-        });
-        var maxSumLevelNodeCount = this.maxSumLevelNodeCount;
-        $iter.each(this._sorted, function (strNode) {
-            var node = strNode[1];
-            var level = node.level;
             var levelCoordinate = 0;
+            var nodeCount = _this._levelNodesCount[level];
             switch (_this.nodeAlign) {
                 case "bottom":
-                    levelCoordinate = (_this.maxSum - _this._levelSum[level]) * _this.valueHeight - (nodesInLevel[level] - maxSumLevelNodeCount) * _this.nodePadding;
+                    levelCoordinate = (_this.maxSum - _this._levelSum[level]) * _this.valueHeight - (nodeCount - maxSumLevelNodeCount) * _this.nodePadding;
                     break;
                 case "middle":
-                    levelCoordinate = (_this.maxSum - _this._levelSum[level]) * _this.valueHeight / 2 - (nodesInLevel[level] - maxSumLevelNodeCount) * _this.nodePadding / 2;
+                    levelCoordinate = (_this.maxSum - _this._levelSum[level]) * _this.valueHeight / 2 - (nodeCount - maxSumLevelNodeCount) * _this.nodePadding / 2;
                     break;
             }
             if (node.value > 0) {
@@ -223,6 +229,10 @@ var SankeyDiagram = /** @class */ (function (_super) {
             node.x = x;
             node.y = y;
         });
+    };
+    SankeyDiagram.prototype.validateDataRange = function () {
+        _super.prototype.validateDataRange.call(this);
+        this.calculateValueHeight();
     };
     /**
      * [appear description]
@@ -376,6 +386,19 @@ var SankeyDiagram = /** @class */ (function (_super) {
         this._disposers.push(link);
         return link;
     };
+    Object.defineProperty(SankeyDiagram.prototype, "valueHeight", {
+        get: function () {
+            return this._valueHeight;
+        },
+        set: function (value) {
+            if (value != this._valueHeight) {
+                this._valueHeight = value;
+                this.invalidateDataRange();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     return SankeyDiagram;
 }(FlowDiagram));
 export { SankeyDiagram };

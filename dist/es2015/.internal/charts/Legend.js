@@ -20,6 +20,7 @@ import { getInteraction } from "../core/interaction/Interaction";
 import { percent } from "../core/utils/Percent";
 import { InterfaceColorSet } from "../core/utils/InterfaceColorSet";
 import * as $type from "../core/utils/Type";
+import { Sprite } from "../core/Sprite";
 /**
  * ============================================================================
  * DATA ITEM
@@ -38,6 +39,10 @@ var LegendDataItem = /** @class */ (function (_super) {
      */
     function LegendDataItem() {
         var _this = _super.call(this) || this;
+        /**
+         * @ignore
+         */
+        _this.childrenCreated = false;
         _this.className = "LegendDataItem";
         _this.applyTheme();
         return _this;
@@ -106,8 +111,8 @@ var Legend = /** @class */ (function (_super) {
         itemContainer.focusable = true;
         itemContainer.role = "checkbox";
         itemContainer.background.fillOpacity = 0; // creates hit area
-        itemContainer.togglable = true;
         // Add click/tap event to toggle item
+        // not good to listen to "toggled" as we will get to stackoverflow
         itemContainer.events.on("hit", function (ev) {
             _this.toggleDataItem(ev.target.dataItem);
         }, _this);
@@ -230,14 +235,11 @@ var Legend = /** @class */ (function (_super) {
             // Add an event to check for item's properties
             // We cannot do this on a template since template does not have
             // dataContext, yet
-            if (dataItem.dataContext.events) {
-                dataItem.dataContext.events.on("propertychanged", function (ev) {
-                    if (ev.property == "visible") {
-                        container.readerChecked = dataItem.dataContext.visible;
-                    }
-                    else {
-                        //this.validateDataElement(dataItem);
-                    }
+            var sprite = dataItem.dataContext;
+            if (sprite instanceof Sprite) {
+                sprite.events.on("visibilitychanged", function (ev) {
+                    container.readerChecked = ev.visible;
+                    container.isActive = !ev.visible;
                 });
             }
         }
@@ -254,7 +256,10 @@ var Legend = /** @class */ (function (_super) {
         // If we are not using default markers, create a unique legend marker based
         // on the data item type
         if (dataItem.dataContext.createLegendMarker && !this.useDefaultMarker) {
-            dataItem.dataContext.createLegendMarker(marker);
+            if (!dataItem.childrenCreated) {
+                dataItem.dataContext.createLegendMarker(marker);
+                dataItem.childrenCreated = true;
+            }
         }
         // Create label
         var label = dataItem.label;
@@ -272,6 +277,11 @@ var Legend = /** @class */ (function (_super) {
         }
         // Tell series its legend data item
         dataItem.dataContext.legendDataItem = dataItem;
+        container.isActive = !dataItem.dataContext.visible;
+        // this is needed as in case custom items were created in series the color might not be active
+        marker.children.each(function (child) {
+            child.isActive = !dataItem.dataContext.visible;
+        });
     };
     Object.defineProperty(Legend.prototype, "position", {
         /**
@@ -343,11 +353,13 @@ var Legend = /** @class */ (function (_super) {
     Legend.prototype.toggleDataItem = function (item) {
         var dataContext = item.dataContext;
         if (!dataContext.visible || dataContext.isHiding) {
+            item.itemContainer.isActive = false;
             if (dataContext.show) {
                 dataContext.show();
             }
         }
         else {
+            item.itemContainer.isActive = true;
             if (dataContext.hide) {
                 dataContext.hide();
             }

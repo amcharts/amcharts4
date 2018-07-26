@@ -165,7 +165,7 @@ export { INetLoadResult } from "./.internal/core/utils/Net";
 export { Ordering, reverse, or } from "./.internal/core/utils/Order";
 export { Percent, percent, isPercent } from "./.internal/core/utils/Percent";
 export { ISortedListEvents, OrderedList, SortedList, OrderedListTemplate, SortedListTemplate } from "./.internal/core/utils/SortedList";
-export { PX, STRING, NUMBER, DATE, DURATION, PLACEHOLDER, PLACEHOLDER2, PLACEHOLDER3, PLACEHOLDER4, PLACEHOLDER5 } from "./.internal/core/utils/Strings";
+export { PX, STRING, NUMBER, DATE, DURATION, PLACEHOLDER, PLACEHOLDER2 } from "./.internal/core/utils/Strings";
 export { Public, Optional, isNaN, checkString, checkBoolean, checkNumber, checkObject, castString, castNumber, isString, isNumber, isObject, isArray } from "./.internal/core/utils/Type";
 export { Validatable } from "./.internal/core/utils/Validatable";
 /**

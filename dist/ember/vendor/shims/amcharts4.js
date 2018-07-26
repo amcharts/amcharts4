@@ -158,6 +158,38 @@ define('@amcharts/amcharts4-geodata/mexicoLow', [], function () {
   }
   throw new Error("You must add 'geodata/mexicoLow' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4-geodata/russiaCrimeaHigh', [], function () {
+  'use strict';
+  var output = self.am4geodata_russiaCrimeaHigh;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/russiaCrimeaHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/russiaCrimeaLow', [], function () {
+  'use strict';
+  var output = self.am4geodata_russiaCrimeaLow;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/russiaCrimeaLow' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/russiaHigh', [], function () {
+  'use strict';
+  var output = self.am4geodata_russiaHigh;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/russiaHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/russiaLow', [], function () {
+  'use strict';
+  var output = self.am4geodata_russiaLow;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/russiaLow' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4-geodata/southKoreaHigh', [], function () {
   'use strict';
   var output = self.am4geodata_southKoreaHigh;
@@ -173,6 +205,38 @@ define('@amcharts/amcharts4-geodata/southKoreaLow', [], function () {
     return output;
   }
   throw new Error("You must add 'geodata/southKoreaLow' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/spainHigh', [], function () {
+  'use strict';
+  var output = self.am4geodata_spainHigh;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/spainHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/spainLow', [], function () {
+  'use strict';
+  var output = self.am4geodata_spainLow;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/spainLow' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/spainProvincesHigh', [], function () {
+  'use strict';
+  var output = self.am4geodata_spainProvincesHigh;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/spainProvincesHigh' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4-geodata/spainProvincesLow', [], function () {
+  'use strict';
+  var output = self.am4geodata_spainProvincesLow;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'geodata/spainProvincesLow' to the amcharts4.files array in your EmberApp.");
 });
 define('@amcharts/amcharts4-geodata/usa2High', [], function () {
   'use strict';

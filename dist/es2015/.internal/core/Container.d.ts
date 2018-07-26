@@ -620,4 +620,5 @@ export declare class Container extends Sprite {
      * @param {number) => number}    easing              An easing function
      */
     setState(value: string | SpriteState<this["_properties"], this["_adapter"]>, transitionDuration?: number, easing?: (value: number) => number): $type.Optional<Animation>;
+    protected setActive(value: boolean): void;
 }

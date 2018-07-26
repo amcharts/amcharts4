@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+
+## [4.0.0-beta.37] - 2018-07-26
+
+### Added
+- You can now make series initially to be hidden by setting `series.visible = false`.
+- `visible` added to `PieSeries.dataFields`. It allows making some of the slices initially hidden.
+
+### Changed
+- Sankey/Chord diagrams has now toggling nodes enabled by default. To disable, set `chart.nodes.template.togglable = false`.
+
+### Fixed
+- Text formatter now correctly escapes double square/curly brackets, as well as empty formatting blocks `[]`.
+- Setting `series.visible = false` or `series.hide()` wasn't toggling off related item in Legend.
+- Setting `isActive` did not affect `Container`'s background (assuming it had `"active"` state).
+
+
 ## [4.0.0-beta.36] - 2018-07-25
 
 ### Added

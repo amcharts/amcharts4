@@ -12,6 +12,7 @@ import { FlowDiagramNode } from "./FlowDiagramNode";
 import { AxisLabelCircular } from "../axes/AxisLabelCircular";
 import { registry } from "../../core/Registry";
 import { Slice } from "../../core/elements/Slice";
+import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
@@ -51,6 +52,8 @@ var ChordNode = /** @class */ (function (_super) {
         _this.events.on("positionchanged", _this.updateRotation, _this);
         _this.background.fillOpacity = 0;
         _this.slice = _this.createChild(Slice);
+        var activeState = _this.states.create("active");
+        activeState.properties.fill = new InterfaceColorSet().getFor("disabledBackground");
         return _this;
     }
     /**
