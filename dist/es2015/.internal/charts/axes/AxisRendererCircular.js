@@ -48,6 +48,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
         _this.isMeasured = false;
         _this.startAngle = -90;
         _this.endAngle = 270;
+        _this.useChartAngles = true;
         _this.radius = percent(100);
         _this.isMeasured = false;
         _this.grid.template.location = 0;
@@ -83,7 +84,6 @@ var AxisRendererCircular = /** @class */ (function (_super) {
      * Validates Axis renderer.
      *
      * @ignore Exclude from docs
-     * @todo Description (review)
      */
     AxisRendererCircular.prototype.validate = function () {
         // so that radius would be updated
@@ -119,7 +119,11 @@ var AxisRendererCircular = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Outer radius
          */
         set: function (value) {
-            this.setPropertyValue("radius", value);
+            if (this.setPropertyValue("radius", value)) {
+                if (this.axis) {
+                    this.axis.invalidate();
+                }
+            }
         },
         enumerable: true,
         configurable: true
@@ -151,7 +155,31 @@ var AxisRendererCircular = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Inner radius
          */
         set: function (value) {
-            this.setPropertyValue("innerRadius", value);
+            if (this.setPropertyValue("innerRadius", value)) {
+                if (this.axis) {
+                    this.axis.invalidate();
+                }
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(AxisRendererCircular.prototype, "useChartAngles", {
+        /**
+         * @return {boolean} Use chart angles
+         */
+        get: function () {
+            return this.getPropertyValue("useChartAngles");
+        },
+        /**
+         * Specifies if axis should use its own `startAngle` and `endAngle` or
+         * inherit them from relative properties from chart.
+         *
+         * @default false
+         * @param {boolean}  value  Use chart's angles
+         */
+        set: function (value) {
+            this.setPropertyValue("useChartAngles", value);
         },
         enumerable: true,
         configurable: true
@@ -180,11 +208,10 @@ var AxisRendererCircular = /** @class */ (function (_super) {
         return { x: this.pixelRadius * $math.cos(angle), y: this.pixelRadius * $math.sin(angle) };
     };
     /**
-     * Converts relative position on axis to angle.
+     * Converts relative position (0-1) on axis to angle in degrees (0-360).
      *
-     * @todo Description (units)
      * @param  {number}  position  Position (0-1)
-     * @return {number}            Angle
+     * @return {number}            Angle (0-360)
      */
     AxisRendererCircular.prototype.positionToAngle = function (position) {
         var axis = this.axis;
@@ -291,14 +318,17 @@ var AxisRendererCircular = /** @class */ (function (_super) {
             return this.getPropertyValue("startAngle");
         },
         /**
-         * Start angle of the axis.
+         * Start angle of the axis in degrees (0-360).
          *
-         * @todo Description (units)
          * @param {number}  value  Start angle
          */
         set: function (value) {
             // do not normalize angel here!
-            this.setPropertyValue("startAngle", value, true);
+            if (this.setPropertyValue("startAngle", value)) {
+                if (this.axis) {
+                    this.axis.invalidate();
+                }
+            }
         },
         enumerable: true,
         configurable: true
@@ -311,14 +341,17 @@ var AxisRendererCircular = /** @class */ (function (_super) {
             return this.getPropertyValue("endAngle");
         },
         /**
-         * End angle of the axis.
+         * End angle of the axis in degrees (0-360).
          *
-         * @todo Description (units)
-         * @param {number}  value  end angle
+         * @param {number}  value  End angle
          */
         set: function (value) {
             // do not normalize angel here!
-            this.setPropertyValue("endAngle", value, true);
+            if (this.setPropertyValue("endAngle", value)) {
+                if (this.axis) {
+                    this.axis.invalidate();
+                }
+            }
         },
         enumerable: true,
         configurable: true

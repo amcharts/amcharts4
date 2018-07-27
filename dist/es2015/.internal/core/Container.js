@@ -877,9 +877,8 @@ var Container = /** @class */ (function (_super) {
                             if (!$type.isNumber(nextColumnWidth)) {
                                 nextColumnWidth = maxCellWidth;
                             }
-                            // here we reduce number of columns
                             if (nextX > $math.min(this.innerWidth, this.maxWidth) - nextColumnWidth && column < columnCount) {
-                                columnCount = column - 1; // cause we added one and we need current item to go to next row
+                                columnCount = column;
                                 nextX = 0;
                                 nextY = 0;
                                 row = 0;

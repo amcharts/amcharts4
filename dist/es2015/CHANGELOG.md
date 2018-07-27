@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.39] - 2018-07-27
+
+### Added
+- `useChartAngles` added to `AxisRendererCircular`. If set to `false` allows to set `startAngle`/`endAngle` to each circular axis individually.
+
+### Fixed
+- Fixed problem with custom `Legend` data and initial visibility, you can now use `visible: false` to pre-hide custom legend items.
+- Grid Layout fixed, affects Legend.
+
 
 ## [4.0.0-beta.38] - 2018-07-26
 

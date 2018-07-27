@@ -26,16 +26,14 @@ import { Percent } from "../../core/utils/Percent";
  */
 export interface IAxisRendererCircularProperties extends IAxisRendererProperties {
     /**
-     * Start angle of the circular axis.
+     * Start angle of the circular axis in degrees (0-360).
      *
-     * @todo Description (units)
      * @type {number}
      */
     startAngle?: number;
     /**
-     * End angle of the circular axis.
+     * End angle of the circular axis in degrees (0-360).
      *
-     * @todo Description (units)
      * @type {number}
      */
     endAngle?: number;
@@ -55,6 +53,12 @@ export interface IAxisRendererCircularProperties extends IAxisRendererProperties
      * @type {number | Percent}
      */
     innerRadius?: number | Percent;
+    /**
+     * Specifies if axis should use it's own start/end angles or the ones set on chart.
+     *
+     * @type {boolean}
+     */
+    useChartAngles?: boolean;
 }
 /**
  * Defines events for [[AxisRendererCircular]].
@@ -138,7 +142,6 @@ export declare class AxisRendererCircular extends AxisRenderer {
      * Validates Axis renderer.
      *
      * @ignore Exclude from docs
-     * @todo Description (review)
      */
     validate(): void;
     /**
@@ -176,6 +179,17 @@ export declare class AxisRendererCircular extends AxisRenderer {
      */
     innerRadius: number | Percent;
     /**
+     * @return {boolean} Use chart angles
+     */
+    /**
+     * Specifies if axis should use its own `startAngle` and `endAngle` or
+     * inherit them from relative properties from chart.
+     *
+     * @default false
+     * @param {boolean}  value  Use chart's angles
+     */
+    useChartAngles: boolean;
+    /**
      * Inner radius in pixels.
      *
      * @return {number} Inner radius (px)
@@ -189,11 +203,10 @@ export declare class AxisRendererCircular extends AxisRenderer {
      */
     positionToPoint(position: number): IPoint;
     /**
-     * Converts relative position on axis to angle.
+     * Converts relative position (0-1) on axis to angle in degrees (0-360).
      *
-     * @todo Description (units)
      * @param  {number}  position  Position (0-1)
-     * @return {number}            Angle
+     * @return {number}            Angle (0-360)
      */
     positionToAngle(position: number): number;
     /**
@@ -241,9 +254,8 @@ export declare class AxisRendererCircular extends AxisRenderer {
      * @return {number} Start angle
      */
     /**
-     * Start angle of the axis.
+     * Start angle of the axis in degrees (0-360).
      *
-     * @todo Description (units)
      * @param {number}  value  Start angle
      */
     startAngle: number;
@@ -251,10 +263,9 @@ export declare class AxisRendererCircular extends AxisRenderer {
      * @return {number} End angle
      */
     /**
-     * End angle of the axis.
+     * End angle of the axis in degrees (0-360).
      *
-     * @todo Description (units)
-     * @param {number}  value  end angle
+     * @param {number}  value  End angle
      */
     endAngle: number;
     /**

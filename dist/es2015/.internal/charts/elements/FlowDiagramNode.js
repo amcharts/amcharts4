@@ -44,8 +44,6 @@ var FlowDiagramNode = /** @class */ (function (_super) {
         _this.className = "FlowDiagramNode";
         _this.isMeasured = false;
         var interfaceColors = new InterfaceColorSet();
-        _this.pixelPerfect = false;
-        _this.background.pixelPerfect = false;
         _this.draggable = true;
         _this.inert = true;
         _this.setStateOnChildren = true;
@@ -65,13 +63,13 @@ var FlowDiagramNode = /** @class */ (function (_super) {
             }
             else {
                 node.outgoingDataItems.each(function (dataItem) {
-                    if (!dataItem.toNode.isActive) {
+                    if (!dataItem.toNode || (dataItem.toNode && !dataItem.toNode.isActive)) {
                         dataItem.setWorkingValue("value", dataItem.getValue("value"));
                     }
                 });
                 node.incomingDataItems.each(function (dataItem) {
-                    if (!dataItem.fromNode.isActive) {
-                        dataItem.setWorkingValue("value", dataItem.value);
+                    if (!dataItem.fromNode || (dataItem.fromNode && !dataItem.fromNode.isActive)) {
+                        dataItem.setWorkingValue("value", dataItem.getValue("value"));
                     }
                 });
             }
@@ -233,7 +231,9 @@ var FlowDiagramNode = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("color", value, true);
-            this.background.fill = value;
+            if (this._background) {
+                this._background.fill = value;
+            }
             this.fill = value;
         },
         enumerable: true,

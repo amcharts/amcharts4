@@ -277,10 +277,16 @@ var Legend = /** @class */ (function (_super) {
         }
         // Tell series its legend data item
         dataItem.dataContext.legendDataItem = dataItem;
-        container.isActive = !dataItem.dataContext.visible;
+        var visible = dataItem.dataContext.visible;
+        if (visible === undefined) {
+            visible = true;
+        }
+        visible = $type.toBoolean(visible);
+        dataItem.dataContext.visible = visible;
+        container.isActive = !visible;
         // this is needed as in case custom items were created in series the color might not be active
         marker.children.each(function (child) {
-            child.isActive = !dataItem.dataContext.visible;
+            child.isActive = !visible;
         });
     };
     Object.defineProperty(Legend.prototype, "position", {
@@ -357,11 +363,17 @@ var Legend = /** @class */ (function (_super) {
             if (dataContext.show) {
                 dataContext.show();
             }
+            else {
+                dataContext.visible = true;
+            }
         }
         else {
             item.itemContainer.isActive = true;
             if (dataContext.hide) {
                 dataContext.hide();
+            }
+            else {
+                dataContext.visible = false;
             }
         }
     };

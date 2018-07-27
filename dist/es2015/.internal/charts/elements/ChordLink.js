@@ -83,6 +83,9 @@ var ChordLink = /** @class */ (function (_super) {
                 if (arc > 0) {
                     this.link.element.attr({ "d": path });
                 }
+                else {
+                    this.link.element.attr({ "d": "" });
+                }
                 if (this.maskBullets) {
                     this.bulletsMask.element.attr({ "d": path });
                     this.bulletsContainer.mask = this.bulletsMask;

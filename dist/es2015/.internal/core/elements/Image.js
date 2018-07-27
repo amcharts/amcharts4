@@ -44,11 +44,13 @@ var Image = /** @class */ (function (_super) {
      */
     Image.prototype.draw = function () {
         _super.prototype.draw.call(this);
-        this.element.attr({
-            "width": this.innerWidth,
-            "height": this.innerHeight
-        });
-        this.element.attrNS($dom.XLINK, "xlink:href", this.href);
+        if (this.href) {
+            this.element.attr({
+                "width": this.innerWidth,
+                "height": this.innerHeight
+            });
+            this.element.attrNS($dom.XLINK, "xlink:href", this.href);
+        }
     };
     Object.defineProperty(Image.prototype, "href", {
         /**

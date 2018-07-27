@@ -50,7 +50,6 @@ var ChordNode = /** @class */ (function (_super) {
         _this.label.zIndex = 1;
         _this.label.shouldClone = false;
         _this.events.on("positionchanged", _this.updateRotation, _this);
-        _this.background.fillOpacity = 0;
         _this.slice = _this.createChild(Slice);
         var activeState = _this.states.create("active");
         activeState.properties.fill = new InterfaceColorSet().getFor("disabledBackground");
@@ -98,6 +97,9 @@ var ChordNode = /** @class */ (function (_super) {
             });
             var labelAngle = slice.startAngle + arc_1 * label.location;
             var startAngle = slice.startAngle + (1 - sum_1 / this.value) * arc_1 * 0.5; // if value of a node is > then sum of the links, add to center link
+            if ($type.isNaN(startAngle)) {
+                startAngle = slice.startAngle;
+            }
             var x = (slice.radius + label.radius) * $math.cos(labelAngle);
             var y = (slice.radius + label.radius) * $math.sin(labelAngle);
             var point = { x: x, y: y };
