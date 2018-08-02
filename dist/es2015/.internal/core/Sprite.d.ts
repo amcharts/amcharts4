@@ -693,6 +693,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     applyOnClones: boolean;
     /**
+     * a reference to an object which should be used when populating string. used for tooltip label mostly.
+     * @ignore
+     */
+    populateStringFrom: any;
+    /**
      * Internal storage properties.
      *
      * @ignore Exclude from docs

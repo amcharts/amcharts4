@@ -149,8 +149,8 @@ export { Listener, nextFrame, readFrame, writeFrame, whenIdle, triggerIdle } fro
 export { Cache, cache } from "./.internal/core/utils/Cache";
 export { IClone } from "./.internal/core/utils/Clone";
 export { Color, iRGB, iHSL, iHSV, color, isColor, castColor } from "./.internal/core/utils/Color";
-export { iColorSetStepOptions, ColorSet } from "./.internal/core/utils/ColorSet";
-export { ColorPurpose, InterfaceColorSet } from "./.internal/core/utils/InterfaceColorSet";
+export { IColorSetStepOptions, ColorSet } from "./.internal/core/utils/ColorSet";
+export { IColorPurpose, InterfaceColorSet } from "./.internal/core/utils/InterfaceColorSet";
 export { Constructor } from "./.internal/core/utils/Constructor";
 export { IDictionaryEvents, DictionaryLike, DictionaryDisposer, Dictionary, DictionaryTemplate } from "./.internal/core/utils/Dictionary";
 export { IDisposer, Disposer, MultiDisposer, MutableValueDisposer, CounterDisposer } from "./.internal/core/utils/Disposer";

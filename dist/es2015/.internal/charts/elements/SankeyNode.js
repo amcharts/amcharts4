@@ -13,6 +13,7 @@ import { LabelBullet } from "./LabelBullet";
 import { registry } from "../../core/Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $iter from "../../core/utils/Iterator";
+import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -99,96 +100,108 @@ var SankeyNode = /** @class */ (function (_super) {
             if (this._incomingSorted) {
                 $iter.each(this._incomingSorted, function (dataItem) {
                     var link = dataItem.link;
-                    link.parent = _this.chart.linksContainer;
-                    var x;
-                    var y;
-                    var angle;
-                    if (orientation_1 == "horizontal") {
-                        x = _this.pixelX + _this.dx;
-                        y = _this.nextInCoord + _this.pixelY + _this.dy;
-                        angle = 0;
-                    }
-                    else {
-                        y = _this.pixelY + _this.dy;
-                        x = _this.nextInCoord + _this.pixelX + _this.dx;
-                        angle = 90;
-                    }
-                    link.endX = x;
-                    link.endY = y;
-                    link.startAngle = angle;
-                    link.endAngle = angle;
-                    link.gradient.rotation = angle;
-                    link.linkWidth = dataItem.getWorkingValue("value") * chart.valueHeight;
-                    if (!dataItem.fromNode) {
+                    var value = dataItem.getWorkingValue("value");
+                    if ($type.isNumber(value)) {
+                        link.parent = _this.chart.linksContainer;
+                        var x = void 0;
+                        var y = void 0;
+                        var angle = void 0;
                         if (orientation_1 == "horizontal") {
-                            link.startX = _this.pixelX + _this.dx - link.maxWidth;
-                            link.startY = link.endY;
+                            x = _this.pixelX + _this.dx;
+                            y = _this.nextInCoord + _this.pixelY + _this.dy;
+                            angle = 0;
                         }
                         else {
-                            link.startX = link.endX;
-                            link.startY = _this.pixelY + _this.dy - link.maxHeight;
+                            y = _this.pixelY + _this.dy;
+                            x = _this.nextInCoord + _this.pixelX + _this.dx;
+                            angle = 90;
                         }
-                        var stop_1 = link.gradient.stops.getIndex(0);
-                        if (stop_1) {
-                            if (link.colorMode == "gradient") {
-                                stop_1.color = _this.color;
+                        link.endX = x;
+                        link.endY = y;
+                        link.startAngle = angle;
+                        link.endAngle = angle;
+                        link.gradient.rotation = angle;
+                        link.linkWidth = value * chart.valueHeight;
+                        if (!dataItem.fromNode) {
+                            if (orientation_1 == "horizontal") {
+                                link.maxWidth = 200;
+                                link.startX = _this.pixelX + _this.dx - link.maxWidth;
+                                link.startY = link.endY;
                             }
-                            stop_1.opacity = 0;
-                            link.fill = link.gradient;
-                            link.stroke = link.gradient;
-                            link.gradient.validate();
+                            else {
+                                link.maxHeight = 200;
+                                link.startX = link.endX;
+                                link.startY = _this.pixelY + _this.dy - link.maxHeight;
+                            }
+                            link.gradient;
+                            link.fill = dataItem.toNode.color;
+                            var stop_1 = link.gradient.stops.getIndex(0);
+                            if (stop_1) {
+                                if (link.colorMode == "gradient") {
+                                    stop_1.color = _this.color;
+                                }
+                                stop_1.opacity = 0;
+                                link.fill = link.gradient;
+                                link.stroke = link.gradient;
+                                link.gradient.validate();
+                            }
                         }
+                        //link.validate();
+                        _this.nextInCoord += link.linkWidth;
                     }
-                    //link.validate();
-                    _this.nextInCoord += link.linkWidth;
                 });
             }
             if (this._outgoingSorted) {
                 $iter.each(this._outgoingSorted, function (dataItem) {
                     var link = dataItem.link;
                     link.parent = _this.chart.linksContainer;
-                    var x;
-                    var y;
-                    var angle;
-                    if (orientation_1 == "horizontal") {
-                        angle = 0;
-                        x = _this.pixelX + _this.pixelWidth + _this.dx - 1;
-                        y = _this.nextOutCoord + _this.pixelY + _this.dy;
-                    }
-                    else {
-                        angle = 90;
-                        x = _this.nextOutCoord + _this.pixelX + _this.dx;
-                        y = _this.pixelY + _this.pixelHeight + _this.dy - 1;
-                    }
-                    link.startX = x;
-                    link.startY = y;
-                    link.startAngle = angle;
-                    link.endAngle = angle;
-                    link.gradient.rotation = angle;
-                    link.linkWidth = dataItem.getWorkingValue("value") * _this.chart.valueHeight;
-                    if (!dataItem.toNode) {
+                    var value = dataItem.getWorkingValue("value");
+                    if ($type.isNumber(value)) {
+                        var x = void 0;
+                        var y = void 0;
+                        var angle = void 0;
                         if (orientation_1 == "horizontal") {
-                            link.endX = _this.pixelX + link.maxWidth + _this.dx;
-                            link.endY = link.startY;
+                            angle = 0;
+                            x = _this.pixelX + _this.pixelWidth + _this.dx - 1;
+                            y = _this.nextOutCoord + _this.pixelY + _this.dy;
                         }
                         else {
-                            link.endX = link.startX;
-                            link.endY = _this.pixelY + link.maxHeight + _this.dy;
+                            angle = 90;
+                            x = _this.nextOutCoord + _this.pixelX + _this.dx;
+                            y = _this.pixelY + _this.pixelHeight + _this.dy - 1;
                         }
-                        link.opacity = _this.opacity;
-                        var stop_2 = link.gradient.stops.getIndex(1);
-                        if (stop_2) {
-                            if (link.colorMode == "gradient") {
-                                stop_2.color = _this.color;
+                        link.startX = x;
+                        link.startY = y;
+                        link.startAngle = angle;
+                        link.endAngle = angle;
+                        link.gradient.rotation = angle;
+                        link.linkWidth = value * _this.chart.valueHeight;
+                        if (!dataItem.toNode) {
+                            if (orientation_1 == "horizontal") {
+                                link.maxWidth = 200;
+                                link.endX = _this.pixelX + link.maxWidth + _this.dx;
+                                link.endY = link.startY;
                             }
-                            stop_2.opacity = 0;
-                            link.fill = link.gradient;
-                            link.stroke = link.gradient;
-                            link.gradient.validate();
+                            else {
+                                link.maxHeight = 200;
+                                link.endX = link.startX;
+                                link.endY = _this.pixelY + link.maxHeight + _this.dy;
+                            }
+                            link.opacity = _this.opacity;
+                            var stop_2 = link.gradient.stops.getIndex(1);
+                            if (stop_2) {
+                                if (link.colorMode == "gradient") {
+                                    stop_2.color = _this.color;
+                                }
+                                stop_2.opacity = 0;
+                                link.fill = link.gradient;
+                                link.stroke = link.gradient;
+                                link.gradient.validate();
+                            }
                         }
+                        //link.validate();
+                        _this.nextOutCoord += link.linkWidth;
                     }
-                    //link.validate();
-                    _this.nextOutCoord += link.linkWidth;
                 });
             }
         }

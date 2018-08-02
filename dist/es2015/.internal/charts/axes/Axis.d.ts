@@ -388,9 +388,9 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      */
     protected _series: List<XYSeries>;
     /**
-     * [_prevLength description]
+     * Holds the length of the Axis, so that we can check if it changed after
+     * other changes and we need to update layouts.
      *
-     * @todo Description
      * @type {number}
      */
     protected _prevLength: number;
@@ -403,10 +403,9 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      */
     protected _dataItemsIterator: $iter.ListIterator<this["_dataItem"]>;
     /**
-     * [axisFieldName description]
+     * A name of the data field this Axis looks for its data in, e.g. "category".
      *
      * @ignore Exclude from docs
-     * @todo Description
      * @type {string}
      */
     axisFieldName: string;
@@ -754,7 +753,6 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * Hides unused data items.
      *
      * @ignore Exclude from docs
-     * @todo Description (review)
      */
     hideUnusedDataItems(): void;
     /**
@@ -769,7 +767,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      */
     getSeriesDataItem(series: XYSeries, position: number): XYSeriesDataItem;
     /**
-     * Returns an angle that corresponds to specific angle.
+     * Returns an angle that corresponds to specific position on axis.
      *
      * This is a placeholder to override for extending classes.
      *
@@ -811,10 +809,9 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      */
     getY(dataItem: XYSeriesDataItem, key: string, location?: number, stackKey?: string): number;
     /**
-     * [basePoint description]
+     * Coordinates of the actual axis start.
      *
      * @ignore Exclude from docs
-     * @todo Description (review)
      * @return {IPoint} Base point coordinates
      */
     readonly basePoint: IPoint;

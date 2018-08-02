@@ -16,21 +16,21 @@ var chart = am4core.createFromConfig({
 
     // Add axis ranges
     "axisRanges": [{
-      "startValue": 0,
+      "value": 0,
       "endValue": 50,
       "axisFill": {
         "fillOpacity": 1,
         "fill": "#67b7dc"
       }
     }, {
-      "startValue": 50,
+      "value": 50,
       "endValue": 80,
       "axisFill": {
         "fillOpacity": 1,
         "fill": "#6771dc"
       }
     }, {
-      "startValue": 80,
+      "value": 80,
       "endValue": 100,
       "axisFill": {
         "fillOpacity": 1,

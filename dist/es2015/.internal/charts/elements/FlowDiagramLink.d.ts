@@ -173,7 +173,7 @@ export declare class FlowDiagramLink extends Container {
      *
      * @type {LinearGradient}
      */
-    gradient: LinearGradient;
+    protected _gradient: LinearGradient;
     /**
      * List of bullets
      * @ignore
@@ -189,12 +189,12 @@ export declare class FlowDiagramLink extends Container {
      * Bullets mask spite
      * @type Sprite
      */
-    bulletsMask: Sprite;
+    protected _bulletsMask: Sprite;
     /**
      * Bullets container
      * @type Container
      */
-    bulletsContainer: Container;
+    protected _bulletsContainer: Container;
     /**
      * Spline which goes through the middle of a link, used to calculate bullet and tooltip positions, invisible by default
      * @type Polyspline
@@ -209,6 +209,16 @@ export declare class FlowDiagramLink extends Container {
      * @ignore
      */
     protected positionBullets(): void;
+    /**
+     * Bullets container
+     * @type Container
+     */
+    readonly bulletsContainer: Container;
+    /**
+     * Bullets mask spite
+     * @type Sprite
+     */
+    readonly bulletsMask: Sprite;
     /**
      * Positions bullets at relative bullet.locationX position on the link.
      * @ignore
@@ -298,4 +308,11 @@ export declare class FlowDiagramLink extends Container {
      * @return {number} Tooltip Y (px)
      */
     getTooltipY(): number;
+    /**
+     * A gradiend instance that is used to provided colored gradient fills for
+     * the Flow link.
+     *
+     * @type {LinearGradient}
+     */
+    readonly gradient: LinearGradient;
 }

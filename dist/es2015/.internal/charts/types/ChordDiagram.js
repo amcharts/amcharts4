@@ -79,6 +79,7 @@ var ChordDiagram = /** @class */ (function (_super) {
         chordContainer.align = "center";
         chordContainer.valign = "middle";
         chordContainer.shouldClone = false;
+        chordContainer.layout = "none";
         _this.chordContainer = chordContainer;
         _this.nodesContainer.parent = chordContainer;
         _this.linksContainer.parent = chordContainer;
@@ -86,26 +87,6 @@ var ChordDiagram = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
-    /**
-     * Updates a cummulative value of the node.
-     *
-     * A node's value is determined by summing values of all of the incoming
-     * links or all of the outgoing links, whichever results in bigger number.
-     *
-     * @param {FlowDiagramNode}  node  Node value
-     */
-    ChordDiagram.prototype.getNodeValue = function (node) {
-        var sum = 0;
-        $iter.each(node.incomingDataItems.iterator(), function (dataItem) {
-            sum += dataItem.getWorkingValue("value");
-        });
-        $iter.each(node.outgoingDataItems.iterator(), function (dataItem) {
-            sum += dataItem.getWorkingValue("value");
-        });
-        node.value = sum;
-        this.fixMin(node);
-    };
-    ;
     /**
      * Redraws the chart.
      *
@@ -121,59 +102,46 @@ var ChordDiagram = /** @class */ (function (_super) {
         var endAngle = this.endAngle;
         var startAngle = this.startAngle + this.nodePadding / 2;
         var rect = $math.getArcRect(this.startAngle, this.endAngle, 1);
-        var total = 0;
+        var total = this.dataItem.values.value.sum;
         var count = 0;
+        var newTotal = 0;
         $iter.each(this._sorted, function (strNode) {
             var node = strNode[1];
             _this.getNodeValue(node);
-            total += node.value;
             count++;
+            var value = node.total;
+            if (node.total / total < _this.minNodeSize) {
+                value = total * _this.minNodeSize;
+            }
+            newTotal += value;
         });
-        this.valueAngle = (endAngle - this.startAngle - this.nodePadding * count) / total;
+        this.valueAngle = (endAngle - this.startAngle - this.nodePadding * count) / newTotal;
         $iter.each(this._sorted, function (strNode) {
             var node = strNode[1];
             var slice = node.slice;
-            node.parent = nodesContainer;
             slice.radius = radius;
             slice.innerRadius = pixelInnerRadius;
+            var value = node.total;
+            if (node.total / total < _this.minNodeSize) {
+                value = total * _this.minNodeSize;
+            }
+            node.adjustedTotal = value;
             var arc;
             if (_this.nonRibbon) {
                 arc = (endAngle - _this.startAngle) / count - _this.nodePadding;
             }
             else {
-                arc = _this.valueAngle * node.value;
+                arc = _this.valueAngle * value;
             }
             slice.arc = arc;
             slice.startAngle = startAngle;
             node.trueStartAngle = startAngle;
             node.invalidate();
+            node.parent = _this.nodesContainer;
             startAngle += arc + _this.nodePadding;
         });
         this.chordContainer.definedBBox = { x: radius * rect.x, y: radius * rect.y, width: radius * rect.width, height: radius * rect.height };
         this.chordContainer.invalidateLayout();
-    };
-    /**
-     * [appear description]
-     *
-     * @ignore Exclude from docs
-     * @todo Description
-     */
-    ChordDiagram.prototype.appear = function () {
-        _super.prototype.appear.call(this);
-        /* quite useless - in case sequencedInterpolation = false, the animation is not visible, as the proportions
-           are the same. if true, then it doesn't look right either.
-        let duration = this.interpolationDuration;
-        let i = 0;
-        this.dataItems.each((dataItem) => {
-            let delay = 0;
-            if (this.sequencedInterpolation) {
-                delay = this.sequencedInterpolationDelay * i + duration * i / $iter.length(this.nodes.iterator());
-            }
-
-            dataItem.setWorkingValue("value", 0.001, 0);
-            dataItem.setWorkingValue("value", dataItem.value, duration, delay);
-            i++;
-        })*/
     };
     /**
      * Sets defaults that instantiate some objects that rely on parent, so they

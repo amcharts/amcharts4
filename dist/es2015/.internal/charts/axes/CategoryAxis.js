@@ -36,7 +36,6 @@ var CategoryAxisDataItem = /** @class */ (function (_super) {
         _this.className = "CategoryAxisDataItem";
         _this.text = "{category}";
         _this.locations.category = 0;
-        _this.locations.startCategory = 0;
         _this.locations.endCategory = 1;
         _this.applyTheme();
         return _this;
@@ -50,24 +49,6 @@ var CategoryAxisDataItem = /** @class */ (function (_super) {
         },
         /**
          * Category.
-         *
-         * @param {string}  value  Category
-         */
-        set: function (value) {
-            this.setProperty("category", value);
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(CategoryAxisDataItem.prototype, "startCategory", {
-        /**
-         * @param {string} Category
-         */
-        get: function () {
-            return this.properties["category"];
-        },
-        /**
-         * An alias to `category`.
          *
          * @param {string}  value  Category
          */
@@ -671,9 +652,9 @@ var CategoryAxis = /** @class */ (function (_super) {
     };
     Object.defineProperty(CategoryAxis.prototype, "basePoint", {
         /**
-         * [basePoint description]
+         * Coordinates of the actual axis start.
          *
-         * @todo Description
+         * @ignore Exclude from docs
          * @return {IPoint} Base point
          */
         get: function () {

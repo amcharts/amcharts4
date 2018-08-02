@@ -2,6 +2,9 @@
 var chart = am4core.create("chartdiv", am4charts.SankeyDiagram);
 
 chart.data = [
+  { from: "Cash in the U.S.", color: "#00aea0"},
+  { from: "Cash Overseas", color: "#000000"},
+
   { from: "Source", to: "Total non financial companies", value: 1768, color: "#5ea9e1", labelText: "[font-size:1.5em]2016 BREAKDOWN OF\nTHE U.S.CORPORATE CASH PILE\n\n[/]NON-FINANCIAL COMPANIES \n [bold]$1,768 Trillion[/b]", zIndex: 100 },
 
   { from: "Total non financial companies", to: "Non-tech companies", value: 907, color: "#5ea9e1", labelText: "NON-TECH COMPANIES\n [bold]$907 Billion[/]" },
@@ -40,6 +43,7 @@ chart.data = [
   { from: "Cash Overseas", color: "#000000", labelText: "[#5ea9e1 font-size:1.5em]CASH OVERSEAS\n[bold #5ea9e1 font-size:1.5em]$1,31 TRILLION", labelLocation: 0, value: 1310, dy: -30 }
 ];
 
+chart.minNodeSize = 0.001;
 chart.nodeAlign = "bottom";
 chart.paddingLeft = 80;
 chart.paddingRight = 80;

@@ -99,7 +99,7 @@ var Export = /** @class */ (function (_super) {
     /**
      * Constructor
      */
-    function Export() {
+    function Export(container) {
         var _this = _super.call(this) || this;
         /**
          * Adapter.
@@ -137,6 +137,7 @@ var Export = /** @class */ (function (_super) {
          * @type {number}
          */
         _this.timeoutDelay = 2000;
+        _this._container = container;
         _this.className = "Export";
         // Set default options
         _this._formatOptions.setKey("png", {});
@@ -425,7 +426,8 @@ var Export = /** @class */ (function (_super) {
     Export.prototype.unsupported = function (type, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             return tslib_1.__generator(this, function (_a) {
-                return [2 /*return*/, undefined];
+                // TODO should this return `undefined`?
+                return [2 /*return*/, ""];
             });
         });
     };
@@ -1935,7 +1937,7 @@ var Export = /** @class */ (function (_super) {
     });
     Object.defineProperty(Export.prototype, "dateFormat", {
         /**
-         * @return {string} Date format
+         * @return {Optional<string>} Date format
          */
         get: function () {
             return this.adapter.apply("dateFormat", {
@@ -1946,7 +1948,7 @@ var Export = /** @class */ (function (_super) {
          * A date format to use for exporting dates. Will use [[DateFormatter]]
          * format if not set.
          *
-         * @param {string} value Date format
+         * @param {Optional<string>} value Date format
          */
         set: function (value) {
             this._dateFormat = value;
@@ -2072,7 +2074,7 @@ var Export = /** @class */ (function (_super) {
     });
     Object.defineProperty(Export.prototype, "backgroundColor", {
         /**
-         * @return {Color} Background color
+         * @return {Optional<Color>} Background color
          */
         get: function () {
             return this.adapter.apply("backgroundColor", {
@@ -2083,7 +2085,7 @@ var Export = /** @class */ (function (_super) {
          * A background color to be used for exported images. If set, this will
          * override the automatically acquired background color.
          *
-         * @param {Color} value Color
+         * @param {Optional<Color>} value Color
          */
         set: function (value) {
             this._backgroundColor = value;
@@ -2093,7 +2095,7 @@ var Export = /** @class */ (function (_super) {
     });
     Object.defineProperty(Export.prototype, "title", {
         /**
-         * @return {string} Title
+         * @return {Optional<string>} Title
          */
         get: function () {
             return this.adapter.apply("title", {
@@ -2103,7 +2105,7 @@ var Export = /** @class */ (function (_super) {
         /**
          * A title to be used when printing.
          *
-         * @param {string} value Title
+         * @param {Optional<string>} value Title
          */
         set: function (value) {
             this._title = value;

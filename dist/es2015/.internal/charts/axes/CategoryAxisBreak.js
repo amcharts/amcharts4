@@ -120,9 +120,8 @@ var CategoryAxisBreak = /** @class */ (function (_super) {
             }
         },
         /**
-         * An index of start category or a start value.
+         * An index of start category.
          *
-         * @todo Description (review)
          * @param {number}  value  Value
          */
         set: function (value) {

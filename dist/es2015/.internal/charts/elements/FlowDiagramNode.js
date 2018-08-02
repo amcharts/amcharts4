@@ -199,20 +199,56 @@ var FlowDiagramNode = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(FlowDiagramNode.prototype, "value", {
+    Object.defineProperty(FlowDiagramNode.prototype, "total", {
         /**
          * @return {number} Value
          */
         get: function () {
-            return this.getPropertyValue("value");
+            return this.getPropertyValue("total");
         },
         /**
-         * Node's numeric value.
+         * Sum of all incoming+outgoing link values
          *
          * @param {number}  value  Value
          */
         set: function (value) {
-            this.setPropertyValue("value", value, true);
+            this.setPropertyValue("total", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(FlowDiagramNode.prototype, "totalIncoming", {
+        /**
+         * @return {number} Value
+         */
+        get: function () {
+            return this.getPropertyValue("totalIncoming");
+        },
+        /**
+         * Sum of all incomming link values.
+         *
+         * @param {number}  value  Value
+         */
+        set: function (value) {
+            this.setPropertyValue("totalIncoming", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(FlowDiagramNode.prototype, "totalOutgoing", {
+        /**
+         * @return {number} Value
+         */
+        get: function () {
+            return this.getPropertyValue("totalOutgoing");
+        },
+        /**
+         * Sum of all outgoing link values.
+         *
+         * @param {number}  value  Value
+         */
+        set: function (value) {
+            this.setPropertyValue("totalOutgoing", value, true);
         },
         enumerable: true,
         configurable: true

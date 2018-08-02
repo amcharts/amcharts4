@@ -982,7 +982,6 @@ var Axis = /** @class */ (function (_super) {
      * Hides unused data items.
      *
      * @ignore Exclude from docs
-     * @todo Description (review)
      */
     Axis.prototype.hideUnusedDataItems = function () {
         // hide all unused
@@ -1008,7 +1007,7 @@ var Axis = /** @class */ (function (_super) {
         return;
     };
     /**
-     * Returns an angle that corresponds to specific angle.
+     * Returns an angle that corresponds to specific position on axis.
      *
      * This is a placeholder to override for extending classes.
      *
@@ -1057,10 +1056,9 @@ var Axis = /** @class */ (function (_super) {
     };
     Object.defineProperty(Axis.prototype, "basePoint", {
         /**
-         * [basePoint description]
+         * Coordinates of the actual axis start.
          *
          * @ignore Exclude from docs
-         * @todo Description (review)
          * @return {IPoint} Base point coordinates
          */
         get: function () {

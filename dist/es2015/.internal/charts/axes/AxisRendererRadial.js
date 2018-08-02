@@ -41,7 +41,6 @@ var AxisRendererRadial = /** @class */ (function (_super) {
         /**
          * A related chart.
          *
-         * @todo Description
          * @type {MutableValueDisposer}
          */
         _this._chart = new MutableValueDisposer();
@@ -69,7 +68,6 @@ var AxisRendererRadial = /** @class */ (function (_super) {
      * Validates Axis renderer.
      *
      * @ignore Exclude from docs
-     * @todo Description (review)
      */
     AxisRendererRadial.prototype.validate = function () {
         // so that radius would be updated
@@ -290,10 +288,9 @@ var AxisRendererRadial = /** @class */ (function (_super) {
             return this.getPropertyValue("startAngle");
         },
         /**
-         * Start angle of the axis.
+         * Start angle of the axis in degrees. (0-360)
          *
-         * @todo Description (units)
-         * @param {number} value Start angle
+         * @param {number}  value  Start angle
          */
         set: function (value) {
             // do not normalize angel here!
@@ -311,10 +308,9 @@ var AxisRendererRadial = /** @class */ (function (_super) {
             return this.getPropertyValue("endAngle");
         },
         /**
-         * End angle of the axis.
+         * End angle of the axis in degrees. (0-360)
          *
-         * @todo Description (units)
-         * @param {number}  value  end angle
+         * @param {number}  value  End angle
          */
         set: function (value) {
             // do not normalize angel here!
@@ -333,9 +329,8 @@ var AxisRendererRadial = /** @class */ (function (_super) {
             //return $math.fitToRange(this.getPropertyValue("axisAngle"), this.startAngle, this.endAngle); // no good, as less flexible
         },
         /**
-         * Angle of the radial axis.
+         * Angle of the radial axis in degrees. (0-360)
          *
-         * @todo Description (units)
          * @param {number}  value  Axis angle
          */
         set: function (value) {
@@ -365,6 +360,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
          * A grid on radia axis can either be perfect circles ("circles"), or
          * straight lines ("polygons").
          *
+         * @default "circles"
          * @param {"circles" | "polygons"}  value  Grid type
          */
         set: function (value) {

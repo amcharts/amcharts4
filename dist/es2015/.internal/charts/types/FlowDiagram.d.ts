@@ -272,6 +272,7 @@ export declare class FlowDiagram extends Chart {
      * Constructor
      */
     constructor();
+    dispose(): void;
     /**
      * (Re)validates chart's data, effectively causing the chart to redraw.
      *
@@ -299,11 +300,6 @@ export declare class FlowDiagram extends Chart {
      * @param {FlowDiagramNode}  node  Node value
      */
     protected getNodeValue(node: FlowDiagramNode): void;
-    /**
-     * Limit size of a node for it not to be too small
-     * @ignore
-     */
-    protected fixMin(node: FlowDiagramNode): void;
     /**
      * Changes the sort type of the nodes.
      *

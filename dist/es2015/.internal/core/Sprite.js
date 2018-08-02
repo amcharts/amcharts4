@@ -1630,10 +1630,10 @@ var Sprite = /** @class */ (function (_super) {
         else if (value instanceof Percent) {
             var relative = value.value;
             if (this.parent) {
-                pixel = this.parent.innerWidth * relative;
+                pixel = $math.round(this.parent.innerWidth * relative, this._positionPrecision);
             }
         }
-        return $math.round(pixel, this._positionPrecision);
+        return pixel;
     };
     /**
      * Returns an Y coordinate in pixel within the element.
@@ -1656,10 +1656,10 @@ var Sprite = /** @class */ (function (_super) {
         else if (value instanceof Percent) {
             var relative = value.value;
             if (this.parent) {
-                pixel = this.parent.innerHeight * relative;
+                pixel = $math.round(this.parent.innerHeight * relative, this._positionPrecision);
             }
         }
-        return $math.round(pixel, this._positionPrecision);
+        return pixel;
     };
     /**
      * Moves the element to a specified coordinates.
@@ -2644,7 +2644,7 @@ var Sprite = /** @class */ (function (_super) {
         }
         // Check sprite's properties
         if (!$type.hasValue(value)) {
-            value = this.getTagValueFromObject(parts, this);
+            value = this.getTagValueFromObject(parts, this.populateStringFrom || this);
         }
         // Finally, check the parent
         if (!$type.hasValue(value) && this.parent) {
@@ -2680,16 +2680,25 @@ var Sprite = /** @class */ (function (_super) {
                 // Method
                 switch (part.method) {
                     case "formatNumber":
-                        current = this.numberFormatter.format($utils.anyToNumber(current), format || part.params[0] || undefined);
-                        formatApplied = true;
+                        var numberValue = $utils.anyToNumber(current);
+                        if ($type.hasValue(numberValue)) {
+                            current = this.numberFormatter.format(numberValue, format || part.params[0] || undefined);
+                            formatApplied = true;
+                        }
                         break;
                     case "formatDate":
-                        current = this.dateFormatter.format($utils.anyToDate(current), format || part.params[0] || undefined);
-                        formatApplied = true;
+                        var dateValue = $utils.anyToDate(current);
+                        if ($type.hasValue(dateValue)) {
+                            current = this.dateFormatter.format(dateValue, format || part.params[0] || undefined);
+                            formatApplied = true;
+                        }
                         break;
                     case "formatDuration":
-                        current = this.durationFormatter.format($utils.anyToNumber(current), format || part.params[0] || undefined, part.params[1] || undefined);
-                        formatApplied = true;
+                        var durationValue = $utils.anyToNumber(current);
+                        if ($type.hasValue(durationValue)) {
+                            current = this.durationFormatter.format(durationValue, format || part.params[0] || undefined, part.params[1] || undefined);
+                            formatApplied = true;
+                        }
                         break;
                     default:
                         if (current[part.method]) {
@@ -4423,8 +4432,7 @@ var Sprite = /** @class */ (function (_super) {
         }
         else {
             if (this.isStandaloneInstance || !this.parent) {
-                _export = new Export();
-                _export.container = this.svgContainer.SVGContainer;
+                _export = new Export(this.svgContainer.SVGContainer);
                 _export.sprite = this;
                 _export.language = this.language;
                 _export.dateFormatter = this.dateFormatter;
@@ -4595,6 +4603,9 @@ var Sprite = /** @class */ (function (_super) {
         set: function (value) {
             if (!this.isDragged) {
                 value = $type.toNumberOrPercent(value);
+                if ($type.isNumber(value)) {
+                    value = $math.round(value, this._positionPrecision);
+                }
                 this.setPropertyValue("x", value, false, true);
             }
         },
@@ -4694,6 +4705,9 @@ var Sprite = /** @class */ (function (_super) {
         set: function (value) {
             if (!this.isDragged) {
                 value = $type.toNumberOrPercent(value);
+                if ($type.isNumber(value)) {
+                    value = $math.round(value, this._positionPrecision);
+                }
                 this.setPropertyValue("y", value, false, true);
             }
         },
@@ -5083,6 +5097,9 @@ var Sprite = /** @class */ (function (_super) {
                 this.relativeWidth = undefined;
                 if (value instanceof Percent) {
                     this.percentWidth = value.percent;
+                    if ($type.isNumber(this._pixelWidth)) {
+                        this.maxWidth = undefined;
+                    }
                     this._pixelWidth = undefined;
                 }
                 else {
@@ -5125,6 +5142,9 @@ var Sprite = /** @class */ (function (_super) {
                 this._relativeHeight = undefined;
                 if (value instanceof Percent) {
                     this.percentHeight = value.percent;
+                    if ($type.isNumber(this._pixelHeight)) {
+                        this.maxHeight = undefined;
+                    }
                     this._pixelHeight = undefined;
                 }
                 else {
@@ -6171,7 +6191,7 @@ var Sprite = /** @class */ (function (_super) {
                 this._positionPrecision = 0;
             }
             else {
-                this._positionPrecision = 8;
+                this._positionPrecision = 3;
             }
             this.setPropertyValue("pixelPerfect", value, true);
         },
@@ -6595,6 +6615,7 @@ var Sprite = /** @class */ (function (_super) {
                 }
                 // Set data item
                 tooltip.dataItem = tooltipDataItem;
+                tooltip.label.populateStringFrom = this;
                 if (tooltip.getFillFromObject) {
                     var fill = this.fill;
                     var source = colorSource_1;

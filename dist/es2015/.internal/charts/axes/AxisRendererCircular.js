@@ -53,7 +53,6 @@ var AxisRendererCircular = /** @class */ (function (_super) {
         _this.isMeasured = false;
         _this.grid.template.location = 0;
         _this.labels.template.location = 0;
-        _this.labels.template.isMeasured = true;
         _this.labels.template.radius = 15;
         _this.ticks.template.location = 0;
         _this.ticks.template.pixelPerfect = false;

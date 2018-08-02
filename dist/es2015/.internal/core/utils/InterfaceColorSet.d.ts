@@ -20,7 +20,7 @@ import { Color } from "./Color";
  * Defines available color purposes and their relation with the color set color
  * index.
  */
-export interface ColorPurpose {
+export interface IColorPurpose {
     stroke: Color;
     fill: Color;
     primaryButton: Color;
@@ -59,13 +59,15 @@ export interface ColorPurpose {
  *
  * This way, every element in the UI can extract an exact color theme author
  * meant for the specific purpose, like strokes, backgrounds, etc.
+ *
+ * @see {@link https://www.amcharts.com/docs/v4/concepts/colors/} for color-related info
  */
 export declare class InterfaceColorSet extends BaseObject {
     /**
      * Maps the list of purposes (like "stroke") to an index of color of the
      * color set.
      */
-    protected _purposes: ColorPurpose;
+    protected _purposes: IColorPurpose;
     /**
      * Constructor
      */
@@ -83,15 +85,15 @@ export declare class InterfaceColorSet extends BaseObject {
      * console.log(uicolors.getFor("stroke"));
      * ```
      *
-     * @param  {keyof ColorPurpose}  purpose  Color use purpuse
+     * @param  {keyof IColorPurpose}  purpose  Color use purpuse
      * @return {Color}                        Color
      */
-    getFor(purpose: keyof ColorPurpose): Color;
+    getFor(purpose: keyof IColorPurpose): Color;
     /**
      * Sets color to be used for the specific purpose.
      *
-     * @param {keyof ColorPurpose}  purpose  Color use purpose
+     * @param {keyof IColorPurpose}  purpose  Color use purpose
      * @param {Color}               color    Color
      */
-    setFor(purpose: keyof ColorPurpose, color: Color): void;
+    setFor(purpose: keyof IColorPurpose, color: Color): void;
 }

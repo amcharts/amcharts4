@@ -19,7 +19,6 @@ import { LinearGradientModifier } from "../../core/rendering/fills/LinearGradien
 import { ColorSet } from "../../core/utils/ColorSet";
 import { toColor, Color } from "../../core/utils/Color";
 import * as $iter from "../../core/utils/Iterator";
-import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
 import * as $number from "../../core/utils/Number";
 import * as $order from "../../core/utils/Order";
@@ -193,6 +192,10 @@ var FlowDiagram = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    FlowDiagram.prototype.dispose = function () {
+        _super.prototype.dispose.call(this);
+        this.dataItem.dispose();
+    };
     /**
      * (Re)validates chart's data, effectively causing the chart to redraw.
      *
@@ -200,8 +203,10 @@ var FlowDiagram = /** @class */ (function (_super) {
      */
     FlowDiagram.prototype.validateData = function () {
         var _this = this;
-        this.nodes.clear();
-        this.links.clear();
+        if (this._parseDataFrom == 0) {
+            this.nodes.clear();
+            this.links.clear();
+        }
         this.sortNodes();
         _super.prototype.validateData.call(this);
         var sum = 0;
@@ -217,8 +222,8 @@ var FlowDiagram = /** @class */ (function (_super) {
                     node = _this.nodes.create(fromName);
                     node.name = fromName;
                     node.chart = _this;
+                    node.dataItem = dataItem;
                 }
-                dataItem.addSprite(node);
                 dataItem.fromNode = node;
                 dataItem.fromNode.outgoingDataItems.push(dataItem);
             }
@@ -229,9 +234,7 @@ var FlowDiagram = /** @class */ (function (_super) {
                     node = _this.nodes.create(toName);
                     node.name = toName;
                     node.chart = _this;
-                    if (!node.dataItem) {
-                        dataItem.addSprite(node);
-                    }
+                    node.dataItem = dataItem;
                 }
                 dataItem.toNode = node;
                 dataItem.toNode.incomingDataItems.push(dataItem);
@@ -303,7 +306,7 @@ var FlowDiagram = /** @class */ (function (_super) {
             this._sorted = this.nodes.sortedIterator();
         }
         else if (this.sortBy == "value") {
-            this._sorted = $iter.sort(this.nodes.iterator(), function (x, y) { return $order.reverse($number.order(x[1].value, y[1].value)); });
+            this._sorted = $iter.sort(this.nodes.iterator(), function (x, y) { return $order.reverse($number.order(x[1].total, y[1].total)); });
         }
         else {
             this._sorted = this.nodes.iterator();
@@ -318,31 +321,26 @@ var FlowDiagram = /** @class */ (function (_super) {
      * @param {FlowDiagramNode}  node  Node value
      */
     FlowDiagram.prototype.getNodeValue = function (node) {
-        var fromSum = 0;
-        var toSum = 0;
+        // todo: totalIncomming totalOutgoing, total
+        var incomingTotal = 0;
+        var outgoingTotal = 0;
         $iter.each(node.incomingDataItems.iterator(), function (dataItem) {
-            fromSum += dataItem.getWorkingValue("value");
+            var value = dataItem.getWorkingValue("value");
+            if ($type.isNumber(value)) {
+                incomingTotal += value;
+            }
         });
         $iter.each(node.outgoingDataItems.iterator(), function (dataItem) {
-            toSum += dataItem.getWorkingValue("value");
+            var value = dataItem.getWorkingValue("value");
+            if ($type.isNumber(value)) {
+                outgoingTotal += value;
+            }
         });
-        node.value = $math.max(fromSum, toSum);
-        this.fixMin(node);
+        node.total = incomingTotal + outgoingTotal;
+        node.totalIncoming = incomingTotal;
+        node.totalOutgoing = outgoingTotal;
     };
     ;
-    /**
-     * Limit size of a node for it not to be too small
-     * @ignore
-     */
-    FlowDiagram.prototype.fixMin = function (node) {
-        var minNodeSize = this.minNodeSize;
-        if (minNodeSize > 0) {
-            var total = this.dataItem.values.value.sum;
-            if (node.value < total * minNodeSize) {
-                node.value = total * minNodeSize;
-            }
-        }
-    };
     /**
      * Changes the sort type of the nodes.
      *

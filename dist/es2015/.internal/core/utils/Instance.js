@@ -72,6 +72,8 @@ function createChild(htmlElement, classType) {
         var sprite_1 = contentContainer_1.createChild(classType);
         sprite_1.isBaseSprite = true;
         sprite_1.focusFilter = new FocusFilter();
+        // TODO figure out a better way of doing this
+        sprite_1.addDisposer(container);
         // tooltip container
         var tooltipContainer_1 = container.createChild(Container);
         tooltipContainer_1.width = percent(100);

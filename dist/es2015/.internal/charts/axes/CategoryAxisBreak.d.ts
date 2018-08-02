@@ -124,9 +124,8 @@ export declare class CategoryAxisBreak extends AxisBreak {
      * @return {number} Value
      */
     /**
-     * An index of start category or a start value.
+     * An index of start category.
      *
-     * @todo Description (review)
      * @param {number}  value  Value
      */
     startValue: number;

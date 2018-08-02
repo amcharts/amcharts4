@@ -37,7 +37,6 @@ var Slice = /** @class */ (function (_super) {
         _super.call(this) || this;
         _this.className = "Slice";
         // Set defaults
-        // @todo Override `measureElement` method and calculate size using math
         _this.cornerRadius = 0;
         _this.startAngle = 0;
         _this.innerRadius = 0;
@@ -45,6 +44,7 @@ var Slice = /** @class */ (function (_super) {
         _this.arc = 0;
         _this.shiftRadius = 0;
         _this.strokeOpacity = 1;
+        _this.layout = "none";
         // Create a slice wedge element
         _this.slice = _this.createChild(Sprite);
         _this.slice.element = _this.paper.add("path");

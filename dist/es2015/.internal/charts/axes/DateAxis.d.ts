@@ -51,17 +51,6 @@ export declare class DateAxisDataItem extends ValueAxisDataItem {
      */
     date: Date;
     /**
-     * @return {Date} Date
-     */
-    /**
-     * Start date.
-     *
-     * Used for items that span several dates, like [[DateAxisBreak]].
-     *
-     * @param {Date} date Start date
-     */
-    startDate: Date;
-    /**
      * @return {Date} End date
      */
     /**
@@ -776,9 +765,9 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      */
     initRenderer(): void;
     /**
-     * [basePoint description]
+     * Coordinates of the actual axis start.
      *
-     * @todo Description
+     * @ignore Exclude from docs
      * @return {IPoint} Base point
      */
     readonly basePoint: IPoint;

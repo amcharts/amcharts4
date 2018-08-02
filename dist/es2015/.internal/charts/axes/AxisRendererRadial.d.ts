@@ -26,29 +26,27 @@ import { Percent } from "../../core/utils/Percent";
  */
 export interface IAxisRendererRadialProperties extends IAxisRendererYProperties {
     /**
-     * Start angle of the radial axis.
+     * Start angle of the radial axis in degrees. (0-360)
      *
-     * @todo Description (units)
      * @type {number}
      */
     startAngle?: number;
     /**
-     * End angle of the radial axis.
+     * End angle of the radial axis in degrees. (0-360)
      *
-     * @todo Description (units)
      * @type {number}
      */
     endAngle?: number;
     /**
      * A grid type to display: "circles" or "polygons".
      *
+     * @default "circles"
      * @type {"circles" | "polygons"}
      */
     gridType?: "circles" | "polygons";
     /**
-     * Axis angle.
+     * An angle of the axis in degrees. (0-360)
      *
-     * @todo Description (units)
      * @type {number}
      */
     axisAngle?: number;
@@ -115,7 +113,6 @@ export declare class AxisRendererRadial extends AxisRendererY {
     /**
      * A related chart.
      *
-     * @todo Description
      * @type {MutableValueDisposer}
      */
     protected _chart: MutableValueDisposer<RadarChart>;
@@ -133,7 +130,6 @@ export declare class AxisRendererRadial extends AxisRendererY {
      * Validates Axis renderer.
      *
      * @ignore Exclude from docs
-     * @todo Description (review)
      */
     validate(): void;
     /**
@@ -236,29 +232,26 @@ export declare class AxisRendererRadial extends AxisRendererY {
      * @return {number} Start angle
      */
     /**
-     * Start angle of the axis.
+     * Start angle of the axis in degrees. (0-360)
      *
-     * @todo Description (units)
-     * @param {number} value Start angle
+     * @param {number}  value  Start angle
      */
     startAngle: number;
     /**
      * @return {number} End angle
      */
     /**
-     * End angle of the axis.
+     * End angle of the axis in degrees. (0-360)
      *
-     * @todo Description (units)
-     * @param {number}  value  end angle
+     * @param {number}  value  End angle
      */
     endAngle: number;
     /**
      * @return {number} Axis angle
      */
     /**
-     * Angle of the radial axis.
+     * Angle of the radial axis in degrees. (0-360)
      *
-     * @todo Description (units)
      * @param {number}  value  Axis angle
      */
     axisAngle: number;
@@ -271,6 +264,7 @@ export declare class AxisRendererRadial extends AxisRendererY {
      * A grid on radia axis can either be perfect circles ("circles"), or
      * straight lines ("polygons").
      *
+     * @default "circles"
      * @param {"circles" | "polygons"}  value  Grid type
      */
     gridType: "circles" | "polygons";

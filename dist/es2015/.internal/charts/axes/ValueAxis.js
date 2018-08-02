@@ -60,26 +60,6 @@ var ValueAxisDataItem = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(ValueAxisDataItem.prototype, "startValue", {
-        /**
-         * @return {number} Value
-         */
-        get: function () {
-            return this.values["value"].value;
-        },
-        /**
-         * A data point's starting value.
-         *
-         * Used for items that span several dates, like [[ValueAxisBreak]].
-         *
-         * @param {number}  value  Value
-         */
-        set: function (value) {
-            this.setValue("value", value);
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(ValueAxisDataItem.prototype, "endValue", {
         /**
          * @return {number} Value
@@ -374,8 +354,8 @@ var ValueAxis = /** @class */ (function (_super) {
                 // first make sure that startValue is <= end value
                 for (let i: number = 0; i < axisBreaks.length; i++) {
                     let axisBreak: ValueAxisBreak = axisBreaks.get(i);
-                    let startValue: number = $math.min(axisBreak.startValue, axisBreak.endValue);
-                    let endValue: number = $math.max(axisBreak.startValue, axisBreak.endValue);
+                    let startValue: number = $math.min(axisBreak.value, axisBreak.endValue);
+                    let endValue: number = $math.max(axisBreak.value, axisBreak.endValue);
 
                     axisBreak.adjustedStartValue = startValue;
                     axisBreak.adjustedEndValue = endValue;
@@ -568,7 +548,7 @@ var ValueAxis = /** @class */ (function (_super) {
     };
     Object.defineProperty(ValueAxis.prototype, "basePoint", {
         /**
-         * A coordinate of the axis' base value.
+         * Coordinates of the actual axis start.
          *
          * @ignore Exclude from docs
          * @return {IPoint} Base point

@@ -400,7 +400,7 @@ export interface IExportAdapters {
         type?: Keys;
     };
     title: {
-        title: string;
+        title: $type.Optional<string>;
         options?: IExportOptions[Keys];
     };
     charset: {
@@ -452,7 +452,7 @@ export interface IExportAdapters {
         dateFormatter: DateFormatter;
     };
     dateFormat: {
-        dateFormat: string;
+        dateFormat: $type.Optional<string>;
     };
     dateFields: {
         dateFields: any;
@@ -473,7 +473,7 @@ export interface IExportAdapters {
         filePrefix: string;
     };
     backgroundColor: {
-        backgroundColor: Color;
+        backgroundColor: $type.Optional<Color>;
     };
     timeoutMessage: {
         message: string;
@@ -620,24 +620,24 @@ export declare class Export extends Validatable {
      * A reference to [[DateFormatter]].
      *
      * @ignore Exclude from docs
-     * @type {DateFormatter}
+     * @type {Optional<DateFormatter>}
      */
-    protected _dateFormatter: DateFormatter;
+    protected _dateFormatter: $type.Optional<DateFormatter>;
     /**
      * A Date format to be used when formatting dates in string-based data
      * formats.
      *
      * @ignore Exclude from docs
-     * @type {string}
+     * @type {Optional<string>}
      */
-    protected _dateFormat: string;
+    protected _dateFormat: $type.Optional<string>;
     /**
      * A list of column keys that hold date values.
      *
      * @ignore Exclude from docs
-     * @type {List<string>}
+     * @type {Optional<List<string>>}
      */
-    protected _dateFields: List<string>;
+    protected _dateFields: $type.Optional<List<string>>;
     /**
      * Holds a list of objects that were temporarily removed from the DOM while
      * exporting. Those most probably are tainted images, or foreign objects that
@@ -659,17 +659,17 @@ export declare class Export extends Validatable {
      * override it and use some other color, set this property.
      *
      * @ignore Exclude from docs
-     * @type {Color}
+     * @type {Optional<Color>}
      */
-    protected _backgroundColor: Color;
+    protected _backgroundColor: $type.Optional<Color>;
     /**
      * A title to use for some document exports, mainly for print.
      * A document.title will be used if not set.
      *
      * @ignore Exclude from docs
-     * @type {string}
+     * @type {Optional<string>}
      */
-    protected _title: string;
+    protected _title: $type.Optional<string>;
     /**
      * If export operation takes longer than milliseconds in this second, we will
      * show a modal saying export operation took longer than expected.
@@ -681,27 +681,27 @@ export declare class Export extends Validatable {
      * A reference to export timeout.
      *
      * @ignore Exclude from docs
-     * @type {number}
+     * @type {Optional<number>}
      */
-    protected _timeoutTimeout: IDisposer;
+    protected _timeoutTimeout: $type.Optional<IDisposer>;
     /**
      * Holds reference to [[Modal]] instance.
      *
      * @ignore Exclude from docs
-     * @type {Modal}
+     * @type {Optional<Modal>}
      */
-    protected _modal: Modal;
+    protected _modal: $type.Optional<Modal>;
     /**
      * Used to log original value of `interactionsEnabled` so that it can be restored
      * after temporarily disabling it.
      *
-     * @type {boolean}
+     * @type {Optional<boolean>}
      */
     private _spriteInteractionsEnabled;
     /**
      * Constructor
      */
-    constructor();
+    constructor(container: HTMLElement);
     /**
      * @return {Optional<ExportMenu>} ExportMenu instance
      */
@@ -1187,15 +1187,15 @@ export declare class Export extends Validatable {
      */
     dateFormatter: any;
     /**
-     * @return {string} Date format
+     * @return {Optional<string>} Date format
      */
     /**
      * A date format to use for exporting dates. Will use [[DateFormatter]]
      * format if not set.
      *
-     * @param {string} value Date format
+     * @param {Optional<string>} value Date format
      */
-    dateFormat: string;
+    dateFormat: $type.Optional<string>;
     /**
      * @return {List<string>} Date field list
      */
@@ -1241,24 +1241,24 @@ export declare class Export extends Validatable {
      */
     filePrefix: string;
     /**
-     * @return {Color} Background color
+     * @return {Optional<Color>} Background color
      */
     /**
      * A background color to be used for exported images. If set, this will
      * override the automatically acquired background color.
      *
-     * @param {Color} value Color
+     * @param {Optional<Color>} value Color
      */
-    backgroundColor: Color;
+    backgroundColor: $type.Optional<Color>;
     /**
-     * @return {string} Title
+     * @return {Optional<string>} Title
      */
     /**
      * A title to be used when printing.
      *
-     * @param {string} value Title
+     * @param {Optional<string>} value Title
      */
-    title: string;
+    title: $type.Optional<string>;
     /**
      * Displays a preloader/exporting indicator.
      *

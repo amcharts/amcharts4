@@ -52,17 +52,6 @@ export declare class ValueAxisDataItem extends AxisDataItem {
      * @return {number} Value
      */
     /**
-     * A data point's starting value.
-     *
-     * Used for items that span several dates, like [[ValueAxisBreak]].
-     *
-     * @param {number}  value  Value
-     */
-    startValue: number;
-    /**
-     * @return {number} Value
-     */
-    /**
      * Data point's numeric end value.
      *
      * @param {number}  value  End value
@@ -430,7 +419,7 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      */
     formatLabel(value: number): string;
     /**
-     * A coordinate of the axis' base value.
+     * Coordinates of the actual axis start.
      *
      * @ignore Exclude from docs
      * @return {IPoint} Base point

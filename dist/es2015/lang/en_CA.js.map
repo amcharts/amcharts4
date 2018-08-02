@@ -1,1 +1,1 @@
-{"version":3,"file":"en_CA.js","sourceRoot":"","sources":["../../../src/lang/en_CA.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,yBAAyB,CAAC","sourcesContent":["export { default } from \"../.internal/lang/en_CA\";\r\n"]}
+{"version":3,"file":"en_CA.js","sourceRoot":"","sources":["../../../src/lang/en_CA.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,2CAA2C,CAAC","sourcesContent":["export { default } from \"../.internal/git/amcharts4-lang/src/en_CA\";"]}

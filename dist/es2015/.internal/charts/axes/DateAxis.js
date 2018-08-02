@@ -62,26 +62,6 @@ var DateAxisDataItem = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(DateAxisDataItem.prototype, "startDate", {
-        /**
-         * @return {Date} Date
-         */
-        get: function () {
-            return this.dates["date"];
-        },
-        /**
-         * Start date.
-         *
-         * Used for items that span several dates, like [[DateAxisBreak]].
-         *
-         * @param {Date} date Start date
-         */
-        set: function (date) {
-            this.date = date;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(DateAxisDataItem.prototype, "endDate", {
         /**
          * @return {Date} End date
@@ -1371,9 +1351,9 @@ var DateAxis = /** @class */ (function (_super) {
     };
     Object.defineProperty(DateAxis.prototype, "basePoint", {
         /**
-         * [basePoint description]
+         * Coordinates of the actual axis start.
          *
-         * @todo Description
+         * @ignore Exclude from docs
          * @return {IPoint} Base point
          */
         get: function () {

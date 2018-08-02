@@ -15,7 +15,7 @@ import { BaseObjectEvents } from "../Base";
 import { Adapter } from "./Adapter";
 import * as $array from "./Array";
 import * as $type from "./Type";
-import en from "../../lang/en";
+import en from "../../../lang/en";
 ;
 ;
 /**
@@ -110,12 +110,15 @@ var Language = /** @class */ (function (_super) {
         var translations = this.getTranslations(locale);
         var value = translations[prompt];
         // Try to look for the translation
-        if ($type.hasValue(value)) {
+        if (value === null) {
+            value = "";
+        }
+        else if ($type.hasValue(value)) {
             // It might be an empty string
             translation = value || prompt;
-            // Try to look in default language
         }
         else if (locale !== this._defaultLocale) {
+            // Try to look in default language
             return this.translate.apply(this, tslib_1.__spread([prompt, this._defaultLocale], rest));
         }
         // Replace %1, %2, etc params

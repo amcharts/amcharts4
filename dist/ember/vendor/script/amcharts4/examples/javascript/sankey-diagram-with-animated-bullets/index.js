@@ -3,6 +3,10 @@
 var chart = am4core.create("chartdiv", am4charts.SankeyDiagram);
 
 chart.data = [
+    // these are just for color, as properties are taken from data object where the name is first mentioned.
+    {from:"Cash in the U.S.", color:"#f47b20"},
+    {from:"Cash Overseas", color:"#000000"},
+
     { from: "Source", to: "Total non financial companies", value: 1768, color: "#f47b20", labelText: "[font-size:1.5em]2016 BREAKDOWN OF\nTHE U.S.CORPORATE CASH PILE\n\n[/]NON-FINANCIAL COMPANIES \n [bold]$1,768 Trillion[/b]", zIndex: 100 },
 
     { from: "Total non financial companies", to: "Non-tech companies", value: 907, color: "#f47b20", labelText: "NON-TECH COMPANIES\n [bold]$907 Billion[/]" },
@@ -45,6 +49,8 @@ chart.paddingRight = 30;
 chart.paddingTop = 80;
 chart.paddingBottom = 80;
 chart.nodeAlign = "bottom";
+
+chart.minNodeSize = 0.001;
 
 chart.dataFields.fromName = "from";
 chart.dataFields.toName = "to";

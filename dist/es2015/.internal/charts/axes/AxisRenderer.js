@@ -45,7 +45,6 @@ var AxisRenderer = /** @class */ (function (_super) {
         /**
          * A related chart.
          *
-         * @todo Description
          * @type {MutableValueDisposer}
          */
         _this._chart = new MutableValueDisposer();
@@ -192,7 +191,6 @@ var AxisRenderer = /** @class */ (function (_super) {
     /**
      * Converts relative position (0-1) on axis to a pixel coordinate.
      *
-     * @todo Description (review)
      * @param  {number}  position  Position (0-1)
      * @return {number}            Coordinate (px)
      */
@@ -231,7 +229,6 @@ var AxisRenderer = /** @class */ (function (_super) {
     /**
      * Converts a coordinate in pixels to a relative position. (0-1)
      *
-     * @todo Description (review)
      * @param  {number}  coordinate  Coordinate (px)
      * @return {number}              Position (0-1)
      */

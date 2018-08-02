@@ -858,7 +858,7 @@ var XYChart = /** @class */ (function (_super) {
         });
     };
     /**
-     * Recalculates the value range for the axis.
+     * Recalculates the value range for the axis taking into account zoom level & inversed.
      *
      * @param  {Axis}    axis   Axis
      * @param  {IRange}  range  Range

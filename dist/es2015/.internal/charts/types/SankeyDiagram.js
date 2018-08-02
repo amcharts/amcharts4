@@ -67,6 +67,9 @@ var SankeyDiagram = /** @class */ (function (_super) {
         _this.nodesContainer.height = percent(100);
         _this.linksContainer.width = percent(100);
         _this.linksContainer.height = percent(100);
+        _this.events.on("maxsizechanged", function () {
+            _this.invalidateDataRange();
+        });
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -80,12 +83,10 @@ var SankeyDiagram = /** @class */ (function (_super) {
         var _this = this;
         _super.prototype.validateData.call(this);
         this._levelCount = 0;
-        $iter.each(this.nodes.iterator(), function (strNode) {
-            var node = strNode[1];
+        this.nodes.each(function (key, node) {
             node.level = _this.getNodeLevel(node, 0);
             _this._levelCount = $math.max(_this._levelCount, node.level);
         });
-        this.calculateValueHeight();
     };
     /**
      * Returns node's highest level.
@@ -117,15 +118,22 @@ var SankeyDiagram = /** @class */ (function (_super) {
         this._levelSum = {};
         this._levelNodesCount = {};
         this.maxSum = 0;
-        $iter.each(this.nodes.iterator(), function (strNode) {
+        var total = this.dataItem.values.value.sum;
+        $iter.each(this._sorted, function (strNode) {
             var node = strNode[1];
             _this.getNodeValue(node);
+        });
+        this.nodes.each(function (key, node) {
             var level = node.level;
+            var value = Math.max(node.totalIncoming, node.totalOutgoing);
+            if (value / total < _this.minNodeSize) {
+                value = total * _this.minNodeSize;
+            }
             if ($type.isNumber(_this._levelSum[level])) {
-                _this._levelSum[level] += node.value;
+                _this._levelSum[level] += value;
             }
             else {
-                _this._levelSum[level] = node.value;
+                _this._levelSum[level] = value;
             }
             if ($type.isNumber(_this._levelNodesCount[level])) {
                 _this._levelNodesCount[level]++;
@@ -183,13 +191,12 @@ var SankeyDiagram = /** @class */ (function (_super) {
         var _this = this;
         _super.prototype.validate.call(this);
         var container = this.nodesContainer;
-        container.removeChildren();
         var nextCoordinate = {};
         var maxSumLevelNodeCount = this._levelNodesCount[this._maxSumLevel];
+        var total = this.dataItem.values.value.sum;
         $iter.each(this._sorted, function (strNode) {
             var node = strNode[1];
             var level = node.level;
-            _this.getNodeValue(node);
             var levelCoordinate = 0;
             var nodeCount = _this._levelNodesCount[level];
             switch (_this.nodeAlign) {
@@ -200,17 +207,19 @@ var SankeyDiagram = /** @class */ (function (_super) {
                     levelCoordinate = (_this.maxSum - _this._levelSum[level]) * _this.valueHeight / 2 - (nodeCount - maxSumLevelNodeCount) * _this.nodePadding / 2;
                     break;
             }
-            if (node.value > 0) {
-                node.parent = container;
-            }
+            node.parent = container;
             var delta;
             var x;
             var y;
+            var value = Math.max(node.totalIncoming, node.totalOutgoing);
+            if (value / total < _this.minNodeSize) {
+                value = total * _this.minNodeSize;
+            }
             if (_this.orientation == "horizontal") {
                 delta = (container.pixelWidth - node.pixelWidth) / _this._levelCount;
                 x = delta * node.level;
                 y = nextCoordinate[level] || levelCoordinate;
-                var h = node.value * _this.valueHeight;
+                var h = value * _this.valueHeight;
                 node.height = h;
                 node.minX = x;
                 node.maxX = x;
@@ -220,7 +229,7 @@ var SankeyDiagram = /** @class */ (function (_super) {
                 delta = (container.pixelHeight - node.pixelHeight) / _this._levelCount;
                 x = nextCoordinate[level] || levelCoordinate;
                 y = delta * node.level;
-                var w = node.value * _this.valueHeight;
+                var w = value * _this.valueHeight;
                 node.width = w;
                 node.minY = y;
                 node.maxY = y;
@@ -271,6 +280,14 @@ var SankeyDiagram = /** @class */ (function (_super) {
                 var animation = dataItem.link.show(_this.interpolationDuration);
                 if (animation) {
                     animation.delay(delay);
+                }
+            });
+            $iter.each(node.incomingDataItems.iterator(), function (dataItem) {
+                if (!dataItem.fromNode) {
+                    var animation = dataItem.link.show(_this.interpolationDuration);
+                    if (animation) {
+                        animation.delay(delay);
+                    }
                 }
             });
             i++;

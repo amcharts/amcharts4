@@ -24,7 +24,7 @@ import { Color, iHSL } from "./Color";
  * It takes the last available color, then applies one or several of the
  * properties, like hue, or saturation with each subsequent generated color.
  */
-export interface iColorSetStepOptions {
+export interface IColorSetStepOptions {
     hue?: number;
     brighten?: number;
     lighten?: number;
@@ -41,6 +41,7 @@ export interface iColorSetStepOptions {
  * Represents a set of colors. Can also generate colors according to set rules.
  *
  * @important
+ * @see {@link https://www.amcharts.com/docs/v4/concepts/colors/} for color-related info
  */
 export declare class ColorSet extends BaseObject {
     /**
@@ -74,18 +75,18 @@ export declare class ColorSet extends BaseObject {
     /**
      * Modifications to apply with each new generated color.
      *
-     * @type {iColorSetStepOptions}
+     * @type {IColorSetStepOptions}
      */
-    stepOptions: iColorSetStepOptions;
+    stepOptions: IColorSetStepOptions;
     /**
      * Modifications to apply on top of `stepOptions` for each "pass" of the
      * color generation.
      *
      * A "pass" is when ColorSet generates `minColors` number of colors.
      *
-     * @type {iColorSetStepOptions}
+     * @type {IColorSetStepOptions}
      */
-    passOptions: iColorSetStepOptions;
+    passOptions: IColorSetStepOptions;
     /**
      * An index increment to use when iterating through color list.
      *
@@ -227,9 +228,9 @@ export declare class ColorSet extends BaseObject {
      * Generates modifiers for color, based on what step and pass.
      *
      * @param {iHSL}                  hsl   Curren HSL value of the color to modify
-     * @param {iColorSetStepOptions}  base  The modifiers that were before modification to use as a base
+     * @param {IColorSetStepOptions}  base  The modifiers that were before modification to use as a base
      * @param {number}                step  Current step
      * @param {number}                pass  Current pass
      */
-    protected applyStepOptions(hsl: iHSL, base: iColorSetStepOptions, step: number, pass: number): void;
+    protected applyStepOptions(hsl: iHSL, base: IColorSetStepOptions, step: number, pass: number): void;
 }

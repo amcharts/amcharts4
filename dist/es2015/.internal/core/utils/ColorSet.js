@@ -23,6 +23,7 @@ import * as $utils from "./Utils";
  * Represents a set of colors. Can also generate colors according to set rules.
  *
  * @important
+ * @see {@link https://www.amcharts.com/docs/v4/concepts/colors/} for color-related info
  */
 var ColorSet = /** @class */ (function (_super) {
     tslib_1.__extends(ColorSet, _super);
@@ -66,7 +67,7 @@ var ColorSet = /** @class */ (function (_super) {
         /**
          * Modifications to apply with each new generated color.
          *
-         * @type {iColorSetStepOptions}
+         * @type {IColorSetStepOptions}
          */
         _this.stepOptions = {};
         /**
@@ -75,7 +76,7 @@ var ColorSet = /** @class */ (function (_super) {
          *
          * A "pass" is when ColorSet generates `minColors` number of colors.
          *
-         * @type {iColorSetStepOptions}
+         * @type {IColorSetStepOptions}
          */
         _this.passOptions = {
             brighten: -0.2
@@ -335,7 +336,7 @@ var ColorSet = /** @class */ (function (_super) {
      * Generates modifiers for color, based on what step and pass.
      *
      * @param {iHSL}                  hsl   Curren HSL value of the color to modify
-     * @param {iColorSetStepOptions}  base  The modifiers that were before modification to use as a base
+     * @param {IColorSetStepOptions}  base  The modifiers that were before modification to use as a base
      * @param {number}                step  Current step
      * @param {number}                pass  Current pass
      */

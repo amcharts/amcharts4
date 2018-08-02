@@ -33,6 +33,8 @@ export { iRGB, iHSV, iHSL };
  * am4core.color({ r: 255, g: 0, b: 0 });
  * am4core.color("red");
  * ```
+ *
+ * @see {@link https://www.amcharts.com/docs/v4/concepts/colors/} for color-related info
  */
 export declare class Color {
     /**
@@ -122,7 +124,7 @@ export declare class Color {
      */
     toString(): string;
     /**
-     * Returns a new [[Color]] which is percent lighter (positivive value),
+     * Returns a new [[Color]] which is percent lighter (positive value),
      * or darker (negative value).
      *
      * Parameter is in the scale of -1 to 1.
@@ -132,7 +134,7 @@ export declare class Color {
      */
     lighten(percent: number): Color;
     /**
-     * Returns a new [[Color]] which is percent brighter (positivive value),
+     * Returns a new [[Color]] which is percent brighter (positive value),
      * or darker (negative value).
      *
      * Parameter is in the scale of -1 to 1.

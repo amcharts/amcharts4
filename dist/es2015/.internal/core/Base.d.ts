@@ -167,6 +167,13 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      */
     dispose(): void;
     /**
+     * Adds an IDisposer, which will be disposed when this object is disposed.
+     *
+     * @param {IDisposer} target Object to dispose
+     * @ignore Exclude from docs
+     */
+    addDisposer(target: IDisposer): void;
+    /**
      * Disposes disposable object and removes it from `_disposers`.
      *
      * @param {IDisposer} target Object to dispose

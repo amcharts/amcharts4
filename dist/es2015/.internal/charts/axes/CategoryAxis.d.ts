@@ -47,15 +47,6 @@ export declare class CategoryAxisDataItem extends AxisDataItem {
      */
     category: string;
     /**
-     * @param {string} Category
-     */
-    /**
-     * An alias to `category`.
-     *
-     * @param {string}  value  Category
-     */
-    startCategory: string;
-    /**
      * @return {string} End category
      */
     /**
@@ -428,9 +419,9 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      */
     getPositionLabel(position: number): string;
     /**
-     * [basePoint description]
+     * Coordinates of the actual axis start.
      *
-     * @todo Description
+     * @ignore Exclude from docs
      * @return {IPoint} Base point
      */
     readonly basePoint: IPoint;

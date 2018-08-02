@@ -30,10 +30,9 @@ export interface IAxisFillCircularProperties extends IAxisFillProperties {
      */
     radius?: number | Percent;
     /**
-     * [number description]
+     * Corner radius for the fill. In pixels.
      *
-     * @todo Description
-     * @type {[type]}
+     * @type {number}
      */
     cornerRadius?: number;
 }

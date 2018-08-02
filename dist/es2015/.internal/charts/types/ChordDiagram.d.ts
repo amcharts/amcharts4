@@ -225,27 +225,11 @@ export declare class ChordDiagram extends FlowDiagram {
      */
     constructor();
     /**
-     * Updates a cummulative value of the node.
-     *
-     * A node's value is determined by summing values of all of the incoming
-     * links or all of the outgoing links, whichever results in bigger number.
-     *
-     * @param {FlowDiagramNode}  node  Node value
-     */
-    protected getNodeValue(node: ChordNode): void;
-    /**
      * Redraws the chart.
      *
      * @ignore Exclude from docs
      */
     validate(): void;
-    /**
-     * [appear description]
-     *
-     * @ignore Exclude from docs
-     * @todo Description
-     */
-    appear(): void;
     /**
      * Sets defaults that instantiate some objects that rely on parent, so they
      * cannot be set in constructor.

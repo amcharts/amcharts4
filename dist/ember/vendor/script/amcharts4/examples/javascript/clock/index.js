@@ -24,7 +24,7 @@ axis.renderer.ticks.template.strokeOpacity = 1;
 
 // serves as a clock face fill
 var range = axis.axisRanges.create();
-range.startValue = 0;
+range.value = 0;
 range.endValue = 12;
 range.grid.visible = false;
 range.tick.visible = false;

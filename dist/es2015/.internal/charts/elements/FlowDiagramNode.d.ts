@@ -29,11 +29,23 @@ export interface IFlowDiagramNodeProperties extends IContainerProperties {
      */
     name?: string;
     /**
-     * Node's numeric value.
+     * Sum of all incomming+outgoing link values
      *
      * @type {number}
      */
-    value?: number;
+    total?: number;
+    /**
+     * Sum of all incoming link values
+     *
+     * @type {number}
+     */
+    totalIncoming?: number;
+    /**
+     * Sum of all outgoing link values
+     *
+     * @type {number}
+     */
+    totalOutgoing?: number;
     /**
      * Node's color.
      *
@@ -72,6 +84,10 @@ export interface IFlowDiagramNodeAdapters extends IContainerAdapters, IFlowDiagr
  * @important
  */
 export declare class FlowDiagramNode extends Container {
+    /**
+     * total ajusted taken in mind chart.minNodeSize
+     */
+    adjustedTotal: number;
     /**
      * Defines available properties.
      *
@@ -177,11 +193,29 @@ export declare class FlowDiagramNode extends Container {
      * @return {number} Value
      */
     /**
-     * Node's numeric value.
+     * Sum of all incoming+outgoing link values
      *
      * @param {number}  value  Value
      */
-    value: number;
+    total: number;
+    /**
+     * @return {number} Value
+     */
+    /**
+     * Sum of all incomming link values.
+     *
+     * @param {number}  value  Value
+     */
+    totalIncoming: number;
+    /**
+     * @return {number} Value
+     */
+    /**
+     * Sum of all outgoing link values.
+     *
+     * @param {number}  value  Value
+     */
+    totalOutgoing: number;
     /**
      * @return {Color} Color
      */

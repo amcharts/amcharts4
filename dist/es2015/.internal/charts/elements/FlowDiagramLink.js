@@ -41,13 +41,6 @@ var FlowDiagramLink = /** @class */ (function (_super) {
      */
     function FlowDiagramLink() {
         var _this = _super.call(this) || this;
-        /**
-         * A gradiend instance that is used to provided colored gradient fills for
-         * the Flow link.
-         *
-         * @type {LinearGradient}
-         */
-        _this.gradient = new LinearGradient();
         _this.className = "FlowDiagramLink";
         var interfaceColors = new InterfaceColorSet();
         _this.maskBullets = false;
@@ -65,14 +58,9 @@ var FlowDiagramLink = /** @class */ (function (_super) {
         _this.link = _this.createChild(Sprite);
         _this.link.shouldClone = false;
         _this.link.element = _this.paper.add("path");
+        _this.link.isMeasured = false;
         _this.fillOpacity = 0.2;
         _this.fill = interfaceColors.getFor("alternativeBackground");
-        _this.bulletsContainer = _this.createChild(Container);
-        _this.bulletsContainer.shouldClone = false;
-        _this.bulletsContainer.layout = "none";
-        _this.bulletsMask = _this.createChild(Sprite);
-        _this.bulletsMask.shouldClone = false;
-        _this.bulletsMask.element = _this.paper.add("path");
         _this.applyTheme();
         return _this;
     }
@@ -87,6 +75,41 @@ var FlowDiagramLink = /** @class */ (function (_super) {
             _this.positionBullet(bullet);
         });
     };
+    Object.defineProperty(FlowDiagramLink.prototype, "bulletsContainer", {
+        /**
+         * Bullets container
+         * @type Container
+         */
+        get: function () {
+            if (!this._bulletsContainer) {
+                var bulletsContainer = this.createChild(Container);
+                bulletsContainer.shouldClone = false;
+                bulletsContainer.layout = "none";
+                this._bulletsContainer = bulletsContainer;
+            }
+            return this._bulletsContainer;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(FlowDiagramLink.prototype, "bulletsMask", {
+        /**
+         * Bullets mask spite
+         * @type Sprite
+         */
+        get: function () {
+            if (!this._bulletsMask) {
+                var bulletsMask = this.createChild(Sprite);
+                bulletsMask.shouldClone = false;
+                bulletsMask.element = this.paper.add("path");
+                bulletsMask.isMeasured = false;
+                this._bulletsMask = bulletsMask;
+            }
+            return this._bulletsMask;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Positions bullets at relative bullet.locationX position on the link.
      * @ignore
@@ -165,6 +188,12 @@ var FlowDiagramLink = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (value == "gradient") {
+                var color_1 = this.fill;
+                this.gradient.stops.clear();
+                if (color_1 instanceof Color) {
+                    this.gradient.addColor(color_1);
+                    this.gradient.addColor(color_1);
+                }
                 this.fill = this.gradient;
                 this.stroke = this.gradient;
             }
@@ -218,10 +247,11 @@ var FlowDiagramLink = /** @class */ (function (_super) {
      */
     FlowDiagramLink.prototype.setFill = function (value) {
         _super.prototype.setFill.call(this, value);
-        if (value instanceof Color) {
-            this.gradient.stops.clear();
-            this.gradient.addColor(value);
-            this.gradient.addColor(value);
+        var gradient = this._gradient;
+        if (gradient && value instanceof Color) {
+            gradient.stops.clear();
+            gradient.addColor(value);
+            gradient.addColor(value);
         }
     };
     /**
@@ -293,6 +323,22 @@ var FlowDiagramLink = /** @class */ (function (_super) {
             return this.middleLine.positionToPoint(this.tooltipLocation).y;
         }
     };
+    Object.defineProperty(FlowDiagramLink.prototype, "gradient", {
+        /**
+         * A gradiend instance that is used to provided colored gradient fills for
+         * the Flow link.
+         *
+         * @type {LinearGradient}
+         */
+        get: function () {
+            if (!this._gradient) {
+                this._gradient = new LinearGradient();
+            }
+            return this._gradient;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return FlowDiagramLink;
 }(Container));
 export { FlowDiagramLink };

@@ -22,6 +22,7 @@ import { options } from "../../core/Options";
 import { registry } from "../../core/Registry";
 import { Color } from "../../core/utils/Color";
 import * as $iter from "../../core/utils/Iterator";
+import * as $math from "../../core/utils/Math";
 import * as $ease from "../../core/utils/Ease";
 import * as $utils from "../../core/utils/Utils";
 import * as $object from "../../core/utils/Object";
@@ -208,6 +209,7 @@ var Series = /** @class */ (function (_super) {
         _this.events.once("beforevalidated", function () {
             if (_this.visible == false) {
                 _this.hide(0);
+                _this.appeared = true;
             }
             else {
                 _this.appear();
@@ -388,8 +390,8 @@ var Series = /** @class */ (function (_super) {
         var previous = {};
         var first = {};
         //let duration: number = 0; // todo: check if series uses selection.change or selection.change.percent and set duration to interpolationduration
-        var startIndex = this._workingStartIndex;
-        var endIndex = this._workingEndIndex;
+        var startIndex = $math.max(0, this._workingStartIndex);
+        var endIndex = $math.min(this._workingEndIndex, this.dataItems.length);
         if (!$type.isNumber(startIndex)) {
             startIndex = 0;
         }
@@ -728,6 +730,7 @@ var Series = /** @class */ (function (_super) {
         if (!this._disposed) {
             _super.prototype.dispose.call(this);
             this.removeDispose(this.bulletsContainer);
+            this.dataItem.dispose();
         }
     };
     /**

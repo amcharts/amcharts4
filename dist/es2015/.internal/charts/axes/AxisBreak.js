@@ -200,16 +200,23 @@ var AxisBreak = /** @class */ (function (_super) {
     });
     Object.defineProperty(AxisBreak.prototype, "breakSize", {
         /**
-         * @return {number} [description]
+         * @return {number} Relative axis break
          */
         get: function () {
             return this.getPropertyValue("breakSize");
         },
         /**
-         * [breakSize description]
+         * A size of the break relative to the actual size of the scope break spans.
          *
-         * @todo Description
-         * @param {number} value [description]
+         * For example, if `breakSize = 0.1` and unbroken scope of balues it spans
+         * would be 100 pixels, the break would be 10 pixels wide.
+         *
+         * 0 means the break will completely collapse and hide the values.
+         * 1 means break would be not collapse at all, which would make it
+         * effectively useless.
+         *
+         * @default 0.01
+         * @param {number}  value  Relative axis break
          */
         set: function (value) {
             if (this.setPropertyValue("breakSize", value)) {

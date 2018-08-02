@@ -25,7 +25,6 @@ import { percent, isPercent } from "./Percent";
  */
 export function isNaN(value) {
     return Number(value) !== value;
-    //return value !== value;
 }
 /**
  * Returns a type of the value.

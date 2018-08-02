@@ -396,17 +396,17 @@ var ColumnSeries = /** @class */ (function (_super) {
             }
             t = this.yAxis.getY(dataItem, yOpenField, startLocation);
             b = this.yAxis.getY(dataItem, yField, endLocation);
-            // in case width is set in pixels
+            // in case height is set in pixels
             if ($type.isNaN(percentHeight)) {
                 var offset = ((b - t) - pixelHeight) / 2;
-                b += offset;
-                t -= offset;
+                b -= offset;
+                t += offset;
             }
-            // in case width is set in pixels
+            // in case height is set in pixels
             if (!$type.isNaN(maxHeight)) {
                 var offset = ((b - t) - maxHeight) / 2;
-                b += offset;
-                t -= offset;
+                b -= offset;
+                t += offset;
             }
             var rightLocation = dataItem.locations[xField];
             var leftLocation = dataItem.locations[xOpenField];

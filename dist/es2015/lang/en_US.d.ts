@@ -1,1 +1,1 @@
-export { default } from "../.internal/lang/en_US";
+export { default } from "../.internal/git/amcharts4-lang/src/en_US";

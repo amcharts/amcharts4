@@ -26,6 +26,8 @@ import { color } from "./Color";
  *
  * This way, every element in the UI can extract an exact color theme author
  * meant for the specific purpose, like strokes, backgrounds, etc.
+ *
+ * @see {@link https://www.amcharts.com/docs/v4/concepts/colors/} for color-related info
  */
 var InterfaceColorSet = /** @class */ (function (_super) {
     tslib_1.__extends(InterfaceColorSet, _super);
@@ -79,7 +81,7 @@ var InterfaceColorSet = /** @class */ (function (_super) {
      * console.log(uicolors.getFor("stroke"));
      * ```
      *
-     * @param  {keyof ColorPurpose}  purpose  Color use purpuse
+     * @param  {keyof IColorPurpose}  purpose  Color use purpuse
      * @return {Color}                        Color
      */
     InterfaceColorSet.prototype.getFor = function (purpose) {
@@ -88,7 +90,7 @@ var InterfaceColorSet = /** @class */ (function (_super) {
     /**
      * Sets color to be used for the specific purpose.
      *
-     * @param {keyof ColorPurpose}  purpose  Color use purpose
+     * @param {keyof IColorPurpose}  purpose  Color use purpose
      * @param {Color}               color    Color
      */
     InterfaceColorSet.prototype.setFor = function (purpose, color) {

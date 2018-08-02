@@ -5,6 +5,27 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.40] - 2018-08-02
+
+### Added
+- German translation. (de_DE)
+
+### Changed
+- [`XYChart.getUpdatedRange()`](https://www.amcharts.com/docs/v4/reference/xychart/#getUpdatedRange_method) method is now public so you can use it to recalculate absolute axis range into a relative that takes current zoom and inversion into account.
+- `Language` now supports `null` in trasnaltions which means an empty string.
+- Interface `iColorSetStepOptions` was renamed to `IColorSetStepOptions` to maintain consistency.
+- Interface `ColorPurpose` was renamed to `IColorPurpose` to maintain consistency.
+- `FlowDiagramNode` `value` property renamed to `total`, added `totalIncoming` and `totalOutgoing` properties which hold sum of all incoming/outgoing links.
+- Removed aliases `startCategory`, `startValue`, and `startDate` from Axes data items. (use `category`, `value`, and `date` respectively)
+
+### Fixed
+- Improved performance of Sankey/Chord Diagrams.
+- Elements of `TreeMapChart` were not respecting locale.
+- Fixed-height bars were drawn incorrectly.
+- Pre-hidden series were not taken into account when calculating min/max of value axes in some cases.
+- Setting chart data with less data items then there were before resulted in an error.
+
+
 ## [4.0.0-beta.39] - 2018-07-27
 
 ### Added

@@ -373,7 +373,7 @@ lineSeries.tooltip.pointerOrientation = "vertical";
 lineSeries.tensionX = 0.7;
 
 let negativeRange = valueAxis.createSeriesRange(lineSeries);
-negativeRange.startValue = 0;
+negativeRange.value = 0;
 negativeRange.endValue = - 100;
 negativeRange.contents.stroke = am4core.color("#84279a");
 negativeRange.contents.fill = negativeRange.contents.stroke;
@@ -392,7 +392,7 @@ chart.events.on("inited", () => {
 let slider;
 
 let alertStart = dateAxis.axisRanges.create();
-alertStart.startDate = new Date(alertTime);
+alertStart.date = new Date(alertTime);
 alertStart.grid.stroke = am4core.color("#ffffff");
 alertStart.grid.strokeWidth = 1;
 alertStart.grid.strokeOpacity = 0.5;
@@ -403,7 +403,7 @@ alertStart.label.fillOpacity = 0.7;
 alertStart.label.dy = -215;
 
 let alertCanceled = dateAxis.axisRanges.create();
-alertCanceled.startDate = new Date(cancelTime);
+alertCanceled.date = new Date(cancelTime);
 alertCanceled.grid.stroke = am4core.color("#ffffff");
 alertCanceled.grid.strokeOpacity = 0.5;
 alertCanceled.grid.strokeDasharray = undefined;

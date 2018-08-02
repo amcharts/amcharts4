@@ -599,13 +599,13 @@ export declare class XYChart extends SerialChart {
      */
     showAxisTooltip(axes: List<Axis>, position: number): void;
     /**
-     * Recalculates the value range for the axis.
+     * Recalculates the value range for the axis taking into account zoom level & inversed.
      *
      * @param  {Axis}    axis   Axis
      * @param  {IRange}  range  Range
      * @return {IRange}         Modified range
      */
-    protected getUpdatedRange(axis: Axis, range: IRange): IRange;
+    getUpdatedRange(axis: Axis, range: IRange): IRange;
     /**
      * Performs zoom and other operations when user finishes zooming using chart
      * cursor, e.g. zooms axes.

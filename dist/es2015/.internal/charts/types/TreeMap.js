@@ -340,7 +340,6 @@ var TreeMap = /** @class */ (function (_super) {
         _this.className = "TreeMap";
         _this.maxLevels = 2;
         _this.currentLevel = 0;
-        _this.homeText = _this.language.translate("Home");
         _this.colors = new ColorSet();
         _this.sorting = "descending";
         // create two value axes for the chart
@@ -663,6 +662,7 @@ var TreeMap = /** @class */ (function (_super) {
         if (!$type.hasValue(this.readerTitle)) {
             this.readerTitle = this.language.translate("TreeMap chart");
         }
+        this.homeText = this.language.translate("Home");
     };
     /**
      * Returns a new/empty DataItem of the type appropriate for this object.

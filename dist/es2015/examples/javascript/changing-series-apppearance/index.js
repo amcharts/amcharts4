@@ -95,7 +95,7 @@ lineSeries.strokeWidth = 2;
 
 // second way - add axis range.
 let lineSeriesRange = categoryAxis.createSeriesRange(lineSeries);
-lineSeriesRange.startCategory = "2018";
+lineSeriesRange.category = "2018";
 lineSeriesRange.endCategory = "2019";
 lineSeriesRange.contents.strokeDasharray = "3,3";
 lineSeriesRange.locations.category = 0.5;

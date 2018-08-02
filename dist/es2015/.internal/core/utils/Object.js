@@ -24,7 +24,7 @@ export function entries(object) {
     return function (push) {
         // TODO make this more efficient ?
         for (var key in object) {
-            if (hasKey(object, key)) {
+            if (typeof key === "string" && hasKey(object, key)) {
                 if (!push([key, object[key]])) {
                     break;
                 }
@@ -83,7 +83,7 @@ export function getKey(object, key) {
  */
 export function eachContinue(object, fn) {
     for (var key in object) {
-        if (hasKey(object, key)) {
+        if (typeof key === "string" && hasKey(object, key)) {
             if (!fn(key, object[key])) {
                 break;
             }

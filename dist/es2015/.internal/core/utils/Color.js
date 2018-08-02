@@ -26,6 +26,8 @@ import * as $type from "./Type";
  * am4core.color({ r: 255, g: 0, b: 0 });
  * am4core.color("red");
  * ```
+ *
+ * @see {@link https://www.amcharts.com/docs/v4/concepts/colors/} for color-related info
  */
 var Color = /** @class */ (function () {
     /**
@@ -157,7 +159,7 @@ var Color = /** @class */ (function () {
         return this.alpha < 1 ? this.rgba : this.hex;
     };
     /**
-     * Returns a new [[Color]] which is percent lighter (positivive value),
+     * Returns a new [[Color]] which is percent lighter (positive value),
      * or darker (negative value).
      *
      * Parameter is in the scale of -1 to 1.
@@ -169,7 +171,7 @@ var Color = /** @class */ (function () {
         return new Color($colors.lighten(this.rgb, percent));
     };
     /**
-     * Returns a new [[Color]] which is percent brighter (positivive value),
+     * Returns a new [[Color]] which is percent brighter (positive value),
      * or darker (negative value).
      *
      * Parameter is in the scale of -1 to 1.

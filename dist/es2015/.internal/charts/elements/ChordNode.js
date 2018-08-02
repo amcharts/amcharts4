@@ -49,10 +49,19 @@ var ChordNode = /** @class */ (function (_super) {
         _this.label.text = "{name}";
         _this.label.zIndex = 1;
         _this.label.shouldClone = false;
+        _this.layout = "none";
         _this.events.on("positionchanged", _this.updateRotation, _this);
+        _this.isMeasured = false;
         _this.slice = _this.createChild(Slice);
+        _this.slice.isMeasured = false;
         var activeState = _this.states.create("active");
         activeState.properties.fill = new InterfaceColorSet().getFor("disabledBackground");
+        _this.adapter.add("tooltipX", function (tooltipX, target) {
+            return target.slice.ix * (target.slice.radius - (target.slice.radius - target.slice.innerRadius) / 2);
+        });
+        _this.adapter.add("tooltipY", function (tooltipY, target) {
+            return target.slice.iy * (target.slice.radius - (target.slice.radius - target.slice.innerRadius) / 2);
+        });
         return _this;
     }
     /**
@@ -67,17 +76,7 @@ var ChordNode = /** @class */ (function (_super) {
         var slice = this.slice;
         var chart = this.chart;
         if (chart && slice) {
-            var sum_1 = 0;
-            if (this._outgoingSorted) {
-                $iter.each(this._outgoingSorted, function (dataItem) {
-                    sum_1 += dataItem.getWorkingValue("value");
-                });
-            }
-            if (this._incomingSorted) {
-                $iter.each(this._incomingSorted, function (dataItem) {
-                    sum_1 += dataItem.getWorkingValue("value");
-                });
-            }
+            var sum = this.total;
             var arc_1 = slice.arc;
             this.children.each(function (child) {
                 if (child instanceof Bullet) {
@@ -96,40 +95,42 @@ var ChordNode = /** @class */ (function (_super) {
                 }
             });
             var labelAngle = slice.startAngle + arc_1 * label.location;
-            var startAngle = slice.startAngle + (1 - sum_1 / this.value) * arc_1 * 0.5; // if value of a node is > then sum of the links, add to center link
+            var startAngle = slice.startAngle + (1 - sum / this.adjustedTotal) * arc_1 * 0.5; // if value of a node is > then sum of the links, add to center link
             if ($type.isNaN(startAngle)) {
                 startAngle = slice.startAngle;
             }
-            var x = (slice.radius + label.radius) * $math.cos(labelAngle);
-            var y = (slice.radius + label.radius) * $math.sin(labelAngle);
+            var x = slice.radius * $math.cos(labelAngle);
+            var y = slice.radius * $math.sin(labelAngle);
             var point = { x: x, y: y };
-            label.moveTo(point);
             label.fixPoint(point, slice.radius);
+            label.moveTo(point);
             this.nextAngle = startAngle;
             if (this._outgoingSorted) {
                 $iter.each(this._outgoingSorted, function (dataItem) {
                     var link = dataItem.link;
                     link.parent = _this.chart.linksContainer;
                     var value = dataItem.getWorkingValue("value");
-                    if (chart.nonRibbon) {
-                        var percentWidth = link.percentWidth;
-                        if (!$type.isNumber(percentWidth)) {
-                            percentWidth = 5;
+                    if ($type.isNumber(value)) {
+                        if (chart.nonRibbon) {
+                            var percentWidth = link.percentWidth;
+                            if (!$type.isNumber(percentWidth)) {
+                                percentWidth = 5;
+                            }
+                            percentWidth = percentWidth / 100;
+                            link.startAngle = slice.startAngle + arc_1 / 2 - arc_1 / 2 * percentWidth;
+                            link.arc = arc_1 * percentWidth;
                         }
-                        percentWidth = percentWidth / 100;
-                        link.startAngle = slice.startAngle + arc_1 / 2 - arc_1 / 2 * percentWidth;
-                        link.arc = arc_1 * percentWidth;
+                        else {
+                            link.arc = value * chart.valueAngle;
+                            link.startAngle = _this.nextAngle;
+                            _this.nextAngle += link.arc;
+                        }
+                        if (!dataItem.toNode) {
+                            link.endAngle = link.startAngle;
+                        }
+                        link.radius = slice.innerRadius;
                     }
-                    else {
-                        link.arc = value * chart.valueAngle;
-                        link.startAngle = _this.nextAngle;
-                        _this.nextAngle += link.arc;
-                    }
-                    if (!dataItem.toNode) {
-                        link.endAngle = link.startAngle;
-                    }
-                    link.radius = slice.innerRadius;
-                    link.validate();
+                    //link.validate();
                 });
             }
             if (this._incomingSorted) {
@@ -147,13 +148,16 @@ var ChordNode = /** @class */ (function (_super) {
                     }
                     else {
                         link.endAngle = _this.nextAngle;
-                        link.arc = dataItem.getWorkingValue("value") * chart.valueAngle; // yes, this is needed
-                        _this.nextAngle += link.arc;
+                        var value = dataItem.getWorkingValue("value");
+                        if ($type.isNumber(value)) {
+                            link.arc = value * chart.valueAngle; // yes, this is needed
+                            _this.nextAngle += link.arc;
+                        }
                     }
                     if (!dataItem.fromNode) {
                         link.startAngle = link.endAngle;
                     }
-                    link.validate();
+                    //link.validate();
                 });
             }
         }

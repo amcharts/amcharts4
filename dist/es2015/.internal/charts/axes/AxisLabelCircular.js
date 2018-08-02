@@ -35,6 +35,7 @@ var AxisLabelCircular = /** @class */ (function (_super) {
         _this.padding(0, 0, 0, 0);
         _this.location = 0.5;
         _this.radius = 0;
+        _this.isMeasured = false;
         _this.applyTheme();
         return _this;
     }
@@ -106,9 +107,25 @@ var AxisLabelCircular = /** @class */ (function (_super) {
         this.dx = -this.measuredWidth * (1 - (point.x + axisRadius) / (2 * axisRadius));
         var labelRadius = this.radius * sign;
         if ($type.isNumber(relativeRotation)) {
-            this.rotation = relativeRotation + angle + 90;
             var pixelWidth = this.bbox.width;
             var pixelHeight = this.bbox.height;
+            if (angle > 90 || angle < -90) {
+                if (relativeRotation == -90) {
+                    relativeRotation = 90;
+                    pixelWidth = 0;
+                }
+            }
+            else {
+                if (relativeRotation == -90) {
+                    pixelHeight = -pixelHeight;
+                }
+                if (relativeRotation == 90) {
+                    relativeRotation = -90;
+                    pixelWidth = 0;
+                    pixelHeight = -pixelHeight;
+                }
+            }
+            this.rotation = relativeRotation + angle + 90;
             var dH = $math.sin(relativeRotation) / 2;
             var dW = $math.cos(relativeRotation) / 2;
             var rotation = this.rotation;

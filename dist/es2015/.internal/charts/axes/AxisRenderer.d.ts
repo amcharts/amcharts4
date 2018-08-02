@@ -174,7 +174,6 @@ export declare class AxisRenderer extends Container {
     /**
      * A related chart.
      *
-     * @todo Description
      * @type {MutableValueDisposer}
      */
     protected _chart: MutableValueDisposer<Chart>;
@@ -287,7 +286,6 @@ export declare class AxisRenderer extends Container {
     /**
      * Converts relative position (0-1) on axis to a pixel coordinate.
      *
-     * @todo Description (review)
      * @param  {number}  position  Position (0-1)
      * @return {number}            Coordinate (px)
      */
@@ -297,7 +295,6 @@ export declare class AxisRenderer extends Container {
     /**
      * Converts a coordinate in pixels to a relative position. (0-1)
      *
-     * @todo Description (review)
      * @param  {number}  coordinate  Coordinate (px)
      * @return {number}              Position (0-1)
      */
