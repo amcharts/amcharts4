@@ -534,7 +534,7 @@ export declare class XYChart extends SerialChart {
      * @ignore Exclude from docs
      * @param {IListEvents<XYSeries>["inserted"]}  event  Event
      */
-    processSeries(event: IListEvents<XYSeries>["inserted"]): void;
+    handleSeriesAdded(event: IListEvents<XYSeries>["inserted"]): void;
     /**
      * @return {XYCursor} Cursor
      */

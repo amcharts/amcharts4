@@ -183,10 +183,17 @@ var MapSeries = /** @class */ (function (_super) {
             return this.getPropertyValue("useGeodata");
         },
         /**
-         * Should the map extract all the data about element, such as title, from
-         * GeoJSON format?
-         * @todo: review description, this is more about polygons/lines/points and not about titles. if a mapPolygonSeries doesn't have this set to true, it won't show any areas unless you pass data directly to the series
+         * Should the map extract all the data about element from the GeoJSON?
          *
+         * This is especially relevant for [[MapPolygonSeries]]. If not set to `true`
+         * polygon series will need to contain geographical data in itself in order
+         * to be drawn.
+         *
+         * If this is set to `true`, series will try to extract data for its objects
+         * from either chart-level `geodata` or from series' `geodata` which holds
+         * map infor in GeoJSON format.
+         *
+         * @default false
          * @param {boolean}  value  Use GeoJSON data?
          */
         set: function (value) {
@@ -269,6 +276,66 @@ var MapSeries = /** @class */ (function (_super) {
         mapObject.parent = this;
         mapObject.series = this;
     };
+    Object.defineProperty(MapSeries.prototype, "geodata", {
+        /**
+         * @return {Object} GeoJSON data
+         */
+        get: function () {
+            return this._geodata;
+        },
+        /**
+         * Map data in GeoJSON format.
+         *
+         * The series supports the following GeoJSON objects: `Point`, `LineString`,
+         * `Polygon`, `MultiPoint`, `MultiLineString`, and `MultiPolygon`.
+         *
+         * @see {@link http://geojson.org/} Official GeoJSON format specification
+         * @param {Object} geoJSON GeoJSON data
+         */
+        set: function (geodata) {
+            if (geodata != this._geodata) {
+                this._geodata = geodata;
+                this.invalidateData();
+                $iter.each(this._dataUsers.iterator(), function (x) {
+                    x.invalidateData();
+                });
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MapSeries.prototype, "geodataSource", {
+        /**
+         * Returns a [[DataSource]] specifically for loading Component's data.
+         *
+         * @return {DataSource} Data source
+         */
+        get: function () {
+            if (!this._dataSources["geodata"]) {
+                this.getDataSource("geodata");
+            }
+            return this._dataSources["geodata"];
+        },
+        /**
+         * Sets a [[DataSource]] to be used for loading Component's data.
+         *
+         * @param {DataSource} value Data source
+         */
+        set: function (value) {
+            var _this = this;
+            if (this._dataSources["geodata"]) {
+                this.removeDispose(this._dataSources["geodata"]);
+            }
+            this._dataSources["geodata"] = value;
+            this._dataSources["geodata"].component = this;
+            this.events.on("inited", function () {
+                _this.loadData("geodata");
+            }, this);
+            this.setDataSourceEvents(value, "geodata");
+        },
+        enumerable: true,
+        configurable: true
+    });
     return MapSeries;
 }(Series));
 export { MapSeries };

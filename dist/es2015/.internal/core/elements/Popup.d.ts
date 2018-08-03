@@ -114,6 +114,7 @@ export interface IPopupAdapters {
 /**
  * Shows an HTML popup which covers window or a chart area.
  *
+ * @see {@link https://www.amcharts.com/docs/v4/concepts/popups-and-modals/} For examples and docs on Popups and Modals.
  * @todo Positioning over whole window
  */
 export declare class Popup extends BaseObject {

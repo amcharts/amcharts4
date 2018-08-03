@@ -6671,7 +6671,11 @@ var Sprite = /** @class */ (function (_super) {
                 }
                 // Set accessibility option
                 tooltip.readerDescribedBy = this.uidAttr();
-                if (text != undefined && text != "") {
+                // make label to render to be able to check currentText
+                if (tooltip.label.currentText == undefined) {
+                    tooltip.label.validate();
+                }
+                if (text != undefined && text != "" && tooltip.label.currentText != "") {
                     //@todo: think of how to solve this better
                     if (tooltip && !tooltip.parent) {
                         tooltip.parent = this.tooltipContainer;

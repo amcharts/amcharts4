@@ -157,9 +157,8 @@ export declare class SerialChart extends Chart {
      *
      * @ignore Exclude from docs
      * @param {IListEvents<Series>["inserted"]}  event  Event
-     * @todo Consider renaming to "handle*" as it would suit event handler better
      */
-    processSeries(event: IListEvents<Series>["inserted"]): void;
+    handleSeriesAdded(event: IListEvents<Series>["inserted"]): void;
     /**
      * Setups the legend to use the chart's data.
      */

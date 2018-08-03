@@ -13,7 +13,7 @@ import { Adapter } from "../utils/Adapter";
 /**
  * Shows an HTML modal which covers window or a chart area.
  *
- * @todo Positioning over whole window
+ * @see {@link https://www.amcharts.com/docs/v4/concepts/popups-and-modals/} For examples and docs on Popups and Modals.
  */
 var Modal = /** @class */ (function (_super) {
     tslib_1.__extends(Modal, _super);

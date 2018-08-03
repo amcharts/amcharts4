@@ -1080,9 +1080,9 @@ var XYSeries = /** @class */ (function (_super) {
      * @param {this["_dataItem"]}  dataItem  Data item
      */
     XYSeries.prototype.getStackValue = function (dataItem, working) {
-        var _this = this;
         // todo: here wer stack x and y values only. question is - what should we do with other values, like openX, openY?
         // if this series is not stacked or new stack begins, return.
+        var _this = this;
         if (!this.stacked) {
             return;
         }
@@ -1097,6 +1097,8 @@ var XYSeries = /** @class */ (function (_super) {
             if (this.yAxis != this.baseAxis && this.yAxis instanceof ValueAxis) {
                 field_1 = this.yField;
             }
+            //this is good for removing series, otherwise stack values will remain the same and chart won't pay atention when adding/removing series
+            dataItem.setCalculatedValue(field_1, 0, "stack");
             $iter.eachContinue(chart.series.range(0, index).backwards().iterator(), function (prevSeries) {
                 // stacking is only possible if both axes are the same
                 if (prevSeries.xAxis == _this.xAxis && prevSeries.yAxis == _this.yAxis) {

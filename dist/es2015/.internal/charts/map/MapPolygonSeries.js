@@ -297,8 +297,11 @@ var MapPolygonSeries = /** @class */ (function (_super) {
         this.north = null;
         this.south = null;
         // process geoJSON and created map objects
-        if (this.useGeodata) {
+        if (this.useGeodata || this.geodata) {
             var geoJSON = this.chart.geodata;
+            if (this.geodata) {
+                geoJSON = this.geodata;
+            }
             if (geoJSON) {
                 var features = void 0;
                 if (geoJSON.type == "FeatureCollection") {

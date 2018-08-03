@@ -51,9 +51,10 @@ var Tooltip = /** @class */ (function (_super) {
          */
         _this._pointTo = { x: 0, y: 0 };
         /**
-         * [fitPointerToBounds description]
+         * If set to `true` the pointer/stem of the Tooltip will not go outside
+         * Tooltip's width or height depending on pointer's orientation.
          *
-         * @todo Description
+         * @default false
          * @type {boolean}
          */
         _this.fitPointerToBounds = false;
@@ -61,7 +62,6 @@ var Tooltip = /** @class */ (function (_super) {
          * If tooltipOrientation is vertical, it can be drawn below or above point. We need to know this when solving overlapping
          *
          * @type "up" | "down"
-         * @ignore
          */
         _this._verticalOrientation = "up";
         _this.className = "Tooltip";
@@ -151,8 +151,6 @@ var Tooltip = /** @class */ (function (_super) {
             return this.getPropertyValue("autoTextColor");
         },
         /**
-         * Specifies if text color should be chosen automatically for a better readability.
-         *
          * @param {value} value boolean
          */
         set: function (value) {
@@ -172,8 +170,6 @@ var Tooltip = /** @class */ (function (_super) {
             return this.getPropertyValue("getFillFromObject");
         },
         /**
-         * Specifies if tooltip background should get fill color from the sprite it is pointing to.
-         *
          * @param {value} value boolean
          */
         set: function (value) {
@@ -220,6 +216,7 @@ var Tooltip = /** @class */ (function (_super) {
         /**
          * Duration in milliseconds for the animation to take place when the tolltip
          * is moving from one place to another.
+         *
          * @default 0
          * @param {number}  value  number
          */
@@ -237,8 +234,8 @@ var Tooltip = /** @class */ (function (_super) {
             return this.getPropertyValue("animationEasing");
         },
         /**
-         * Tooltip animation easing function.
-         * @todo: review description and default
+         * Tooltip animation (moving from one place to another) easing function.
+         *
          * @default $ease.cubicOut
          * @param {Function}  value (value: number) => number
          */
@@ -473,7 +470,10 @@ var Tooltip = /** @class */ (function (_super) {
     };
     Object.defineProperty(Tooltip.prototype, "verticalOrientation", {
         /**
-         * If tooltipOrientation is vertical, it can be drawn below or above point. We need to know this when solving overlapping
+         * If tooltipOrientation is vertical, it can be drawn below or above point.
+         * We need to know this when solving overlapping.
+         *
+         * @ignore Exclude from docs
          * @return "up" | "down"
          */
         get: function () {

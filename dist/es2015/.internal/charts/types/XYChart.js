@@ -646,9 +646,9 @@ var XYChart = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      * @param {IListEvents<XYSeries>["inserted"]}  event  Event
      */
-    XYChart.prototype.processSeries = function (event) {
+    XYChart.prototype.handleSeriesAdded = function (event) {
         try {
-            _super.prototype.processSeries.call(this, event);
+            _super.prototype.handleSeriesAdded.call(this, event);
             var series = event.newValue;
             series.xAxis; // this is enough to get axis, handled in getter
             series.yAxis; // this is enough to get axis, handled in getter

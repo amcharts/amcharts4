@@ -19,6 +19,7 @@ import * as $object from "../utils/Object";
 /**
  * Shows an HTML popup which covers window or a chart area.
  *
+ * @see {@link https://www.amcharts.com/docs/v4/concepts/popups-and-modals/} For examples and docs on Popups and Modals.
  * @todo Positioning over whole window
  */
 var Popup = /** @class */ (function (_super) {
@@ -210,6 +211,7 @@ var Popup = /** @class */ (function (_super) {
                 _this._elements.wrapper.style.opacity = "0.01";
                 _this._elements.wrapper.style.left = "0";
                 _this._elements.wrapper.style.top = "0";
+                _this._elements.wrapper.style.margin = "0 0 0 0";
                 // Size the element, but only for the first time
                 if (!_this._elements.wrapper.style.width) {
                     var bbox = _this._elements.wrapper.getBoundingClientRect();

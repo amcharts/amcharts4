@@ -630,8 +630,9 @@ var DateFormatter = /** @class */ (function (_super) {
                     parsedIndexes.zone = index;
                     break;
                 case "i":
-                    reg += "([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{3}Z)";
+                    reg += "([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\.([0-9]{3})Z";
                     parsedIndexes.iso = index;
+                    indexAdjust += 6;
                     break;
                 case "G":
                 case "YYYY":
@@ -892,7 +893,7 @@ var DateFormatter = /** @class */ (function (_super) {
             }
             // ISO
             if (parsedIndexes.iso > -1) {
-                res = new Date(matches[parsedIndexes.iso]);
+                res = new Date($type.toNumber(matches[parsedIndexes.iso + 0]), $type.toNumber(matches[parsedIndexes.iso + 1]) - 1, $type.toNumber(matches[parsedIndexes.iso + 2]), $type.toNumber(matches[parsedIndexes.iso + 3]), $type.toNumber(matches[parsedIndexes.iso + 4]), $type.toNumber(matches[parsedIndexes.iso + 5]), $type.toNumber(matches[parsedIndexes.iso + 6]));
             }
         }
         else {

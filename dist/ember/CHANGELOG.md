@@ -5,6 +5,26 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+
+## [4.0.0-beta.41] - 2018-08-03
+
+### Added
+- `MapSeries` now has `geodata` and `geodataSource`. This allows setting separate maps to each separate map series, which no longer rely on single chart-wide `geodata`. Also, setting `geodata` for `MapSeries` will automatically set `useGeodata = true`, so no need to set it manually.
+
+### Changed
+- Removed unused `boldUnitChange` from `DateAxis`.
+- Labels on `DateAxis` will now pay attention to `label.location` if label represents full time period between grids. It no longer will force labels to be in the middle.
+- `label.currentText` is now public.
+
+### Fixed
+- Fixed parsing of string dates in ISO format (`"i"`).
+- Legend marker was not aligned with the text (when marker was smaller).
+- Solved legend error which happens if you show/hide series after series was added/removed.
+- Dynamically adding series was not automatically adjusting axis scales.
+- Vertical `CategoryAxis` was not paying attention to `grid.location`.
+- Map issues at `minZoomLevel < 1` fixed.
+
+
 ## [4.0.0-beta.40] - 2018-08-02
 
 ### Added

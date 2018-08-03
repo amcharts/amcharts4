@@ -1093,7 +1093,7 @@ var ValueAxis = /** @class */ (function (_super) {
         var selectionMax;
         var allHidden = true;
         $iter.each(this.series.iterator(), function (series) {
-            if (!series.ignoreMinMax && series.appeared) {
+            if (!series.ignoreMinMax) { // && series.appeared) {
                 if (series.visible && !series.isHiding) {
                     allHidden = false;
                 }

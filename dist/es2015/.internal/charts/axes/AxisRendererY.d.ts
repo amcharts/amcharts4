@@ -8,9 +8,9 @@
  * @hidden
  */
 import { AxisRenderer, IAxisRendererProperties, IAxisRendererAdapters, IAxisRendererEvents } from "./AxisRenderer";
-import { Sprite } from "../../core/Sprite";
 import { IPoint } from "../../core/defs/IPoint";
 import { Axis } from "./Axis";
+import { Grid } from "./Grid";
 import { AxisTick } from "./AxisTick";
 import { AxisLabel } from "./AxisLabel";
 import { AxisBreak } from "./AxisBreak";
@@ -141,7 +141,7 @@ export declare class AxisRendererY extends AxisRenderer {
      * @param {number}  position     Starting position
      * @param {number}  endPosition  End position
      */
-    updateGridElement(grid: Sprite, position: number, endPosition: number): void;
+    updateGridElement(grid: Grid, position: number, endPosition: number): void;
     /**
      * Updates and positions a tick element.
      *

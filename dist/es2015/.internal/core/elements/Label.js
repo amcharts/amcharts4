@@ -154,8 +154,8 @@ var Label = /** @class */ (function (_super) {
             text = this.adapter.apply("textOutput", text);
         }
         // Update the text
-        var changed = text != this._currentText || output != this._currentFormat;
-        this._currentText = text;
+        var changed = text != this.currentText || output != this._currentFormat;
+        this.currentText = text;
         this._currentFormat = output;
         return changed;
     };
@@ -182,7 +182,7 @@ var Label = /** @class */ (function (_super) {
         this.isOversized = false;
         // Determine output format
         var output = this._currentFormat;
-        var text = this._currentText;
+        var text = this.currentText;
         // Empty string
         if (!$type.hasValue(text) || text == "") {
             this.element.attr({ display: "none" });

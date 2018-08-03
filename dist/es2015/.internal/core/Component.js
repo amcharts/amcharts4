@@ -741,6 +741,13 @@ var Component = /** @class */ (function (_super) {
         this.dataItemsInvalid = false;
         this.invalidateDataRange();
         this.dispatch("valueschanged");
+        /*
+         this is needed in this scenario: chart has some series, then one is hidden. then data is validated (for example add some more series)
+         then data is processed, working values are not set to 0 but the series is still not visibleand this then this results problems with stacked series.
+         */
+        if (!this.visible) {
+            this.hide();
+        }
     };
     Object.defineProperty(Component.prototype, "data", {
         /**

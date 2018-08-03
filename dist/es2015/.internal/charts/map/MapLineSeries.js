@@ -248,7 +248,7 @@ var MapLineSeries = /** @class */ (function (_super) {
             this.mapLines.clear();
         }
         // process geoJSON and created map objects
-        if (this.useGeodata) {
+        if (this.useGeodata || this.geodata) {
             var geoJSON = this.chart.geodata;
             if (geoJSON) {
                 var features = void 0;

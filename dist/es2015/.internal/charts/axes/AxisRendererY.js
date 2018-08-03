@@ -179,6 +179,7 @@ var AxisRendererY = /** @class */ (function (_super) {
      * @param {number}  endPosition  End position
      */
     AxisRendererY.prototype.updateGridElement = function (grid, position, endPosition) {
+        position = position + (endPosition - position) * grid.location;
         var point = this.positionToPoint(position);
         if (grid.element) {
             grid.element.attr({ "d": $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: this.getWidth(), y: 0 }) });

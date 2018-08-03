@@ -73,7 +73,6 @@ export interface IDateAxisDataFields extends IValueAxisDataFields {
     /**
      * Date.
      *
-     * @todo string?
      * @type {string}
      */
     date?: string;
@@ -176,9 +175,54 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      */
     _axisBreak: DateAxisBreak;
     /**
-     * [gridIntervals description]
+     * A list of date/time intervals for Date axis.
      *
-     * @todo Description
+     * This define various granularities available for the axis. For example
+     * if you have an axis spanning an hour, and space for 6 grid lines / labels
+     * the axis will choose the granularity of 10 minutes, displaying a label
+     * every 10 minutes.
+     *
+     * Default intervals:
+     *
+     * ```JSON
+     * [
+     *  { timeUnit: "millisecond", count: 1 },
+     *  { timeUnit: "millisecond", count: 5 },
+     *  { timeUnit: "millisecond", count: 10 },
+     *  { timeUnit: "millisecond", count: 50 },
+     *  { timeUnit: "millisecond", count: 100 },
+     *  { timeUnit: "millisecond", count: 500 },
+     *  { timeUnit: "second", count: 1 },
+     *  { timeUnit: "second", count: 5 },
+     *  { timeUnit: "second", count: 10 },
+     *  { timeUnit: "second", count: 30 },
+     *  { timeUnit: "minute", count: 1 },
+     *  { timeUnit: "minute", count: 5 },
+     *  { timeUnit: "minute", count: 10 },
+     *  { timeUnit: "minute", count: 30 },
+     *  { timeUnit: "hour", count: 1 },
+     *  { timeUnit: "hour", count: 3 },
+     *  { timeUnit: "hour", count: 6 },
+     *  { timeUnit: "hour", count: 12 },
+     *  { timeUnit: "day", count: 1 },
+     *  { timeUnit: "day", count: 2 },
+     *  { timeUnit: "day", count: 3 },
+     *  { timeUnit: "day", count: 4 },
+     *  { timeUnit: "day", count: 5 },
+     *  { timeUnit: "week", count: 1 },
+     *  { timeUnit: "month", count: 1 },
+     *  { timeUnit: "month", count: 2 },
+     *  { timeUnit: "month", count: 3 },
+     *  { timeUnit: "month", count: 6 },
+     *  { timeUnit: "year", count: 1 },
+     *  { timeUnit: "year", count: 2 },
+     *  { timeUnit: "year", count: 5 },
+     *  { timeUnit: "year", count: 10 },
+     *  { timeUnit: "year", count: 50 },
+     *  { timeUnit: "year", count: 100 }
+     * ]
+     * ```
+     *
      * @type {List<ITimeInterval>}
      */
     gridIntervals: List<ITimeInterval>;
@@ -247,12 +291,6 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @type {boolean}
      */
     protected _markUnitChange: boolean;
-    /**
-     * Make labels for the first label in bigger time unit bold.
-     *
-     * @type {boolean}
-     */
-    protected _boldUnitChange: boolean;
     /**
      * At which intervals grid elements are displayed.
      *
@@ -327,9 +365,14 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      */
     protected _minSeriesDifference: number;
     /**
-     * A function which applies fills to alternating cells.
+     * A function which applies fills to axis cells.
      *
-     * @todo Description
+     * Default function fills every second fill. You can set this to a function
+     * that follows some other logic.
+     *
+     * Function should accept a [[DateAxisDataItem]] and modify its `axisFill`
+     * property accordingly.
+     *
      * @type {function}
      */
     fillRule: (dataItem: DateAxisDataItem) => any;
@@ -687,16 +730,6 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @param {boolean}  value  Use different format for period beginning?
      */
     markUnitChange: boolean;
-    /**
-     * @return {boolean} Use bold for period beginning?
-     */
-    /**
-     * Make labels for the first label in bigger time unit bold.
-     *
-     * @default true
-     * @param {boolean}  value  Use bold for period beginning?
-     */
-    boldUnitChange: boolean;
     /**
      * Returns text to show in a tooltip, based on specific relative position within axis.
      *

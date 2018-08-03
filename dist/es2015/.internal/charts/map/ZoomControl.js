@@ -198,7 +198,7 @@ var ZoomControl = /** @class */ (function (_super) {
             var thumb = this.thumb;
             if (this.layout == "vertical") {
                 thumb.minHeight = Math.min(this.slider.pixelHeight, 20);
-                thumb.height = slider.pixelHeight / (chart.maxZoomLevel - chart.minZoomLevel);
+                thumb.height = slider.pixelHeight / this.stepCount;
                 thumb.maxY = slider.pixelHeight - thumb.pixelHeight;
                 if (thumb.pixelHeight <= 1) {
                     thumb.visible = false;
@@ -209,7 +209,7 @@ var ZoomControl = /** @class */ (function (_super) {
             }
             else {
                 thumb.minWidth = Math.min(this.slider.pixelWidth, 20);
-                thumb.width = slider.pixelWidth / (chart.maxZoomLevel - chart.minZoomLevel);
+                thumb.width = slider.pixelWidth / this.stepCount;
                 thumb.maxX = slider.pixelWidth - thumb.pixelWidth;
                 if (thumb.pixelWidth <= 1) {
                     thumb.visible = false;
@@ -230,7 +230,7 @@ var ZoomControl = /** @class */ (function (_super) {
         var chart = this.chart;
         var thumb = this.thumb;
         if (!thumb.isDown) {
-            var step = Math.log(chart.zoomLevel) / Math.LN2;
+            var step = (Math.log(chart.zoomLevel) - Math.log(this.chart.minZoomLevel)) / Math.LN2;
             if (this.layout == "vertical") {
                 thumb.y = slider.pixelHeight - (slider.pixelHeight - thumb.pixelHeight) * (step + 1) / this.stepCount;
             }
@@ -249,12 +249,14 @@ var ZoomControl = /** @class */ (function (_super) {
         var chart = this.chart;
         var thumb = this.thumb;
         var step;
+        var minStep = Math.log(this.chart.minZoomLevel) / Math.LN2;
         if (this.layout == "vertical") {
-            step = this.stepCount * (slider.pixelHeight - thumb.pixelY - thumb.pixelHeight) / (slider.pixelHeight - thumb.pixelHeight) - 1;
+            step = this.stepCount * (slider.pixelHeight - thumb.pixelY - thumb.pixelHeight) / (slider.pixelHeight - thumb.pixelHeight);
         }
         else {
             step = this.stepCount * thumb.pixelX / slider.pixelWidth;
         }
+        step = minStep + step;
         var zoomLevel = Math.pow(2, step);
         chart.zoomToGeoPoint(undefined, zoomLevel, false, 0);
     };

@@ -144,9 +144,11 @@ var Legend = /** @class */ (function (_super) {
         marker.background.fillOpacity = 0;
         marker.background.strokeOpacity = 0;
         marker.propertyFields.fill = "fill";
+        marker.valign = "middle";
         var disabledColor = interfaceColors.getFor("disabledBackground");
         marker.events.on("childadded", function (event) {
-            var activeState = event.newValue.states.create("active");
+            var child = event.newValue;
+            var activeState = child.states.create("active");
             activeState.properties.stroke = disabledColor;
             activeState.properties.fill = disabledColor;
         });
@@ -237,10 +239,10 @@ var Legend = /** @class */ (function (_super) {
             // dataContext, yet
             var sprite = dataItem.dataContext;
             if (sprite instanceof Sprite) {
-                sprite.events.on("visibilitychanged", function (ev) {
+                container.addDisposer(sprite.events.on("visibilitychanged", function (ev) {
                     container.readerChecked = ev.visible;
                     container.isActive = !ev.visible;
-                });
+                }));
             }
         }
         // Set parent and update current state

@@ -99,8 +99,8 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         get: function () {
             if (!this._series) {
                 this._series = new List();
-                this._series.events.on("inserted", this.handleSeriesAdded, this);
-                this._series.events.on("removed", this.handleSeriesRemoved, this);
+                this._disposers.push(this._series.events.on("inserted", this.handleSeriesAdded, this));
+                this._disposers.push(this._series.events.on("removed", this.handleSeriesRemoved, this));
             }
             return this._series;
         },
@@ -182,7 +182,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         series.rangeChangeDuration = 0;
         series.interpolationDuration = 0;
         series.defaultState.transitionDuration = 0;
-        series.events.on("validated", this.zoomOutAxes, this);
+        this._disposers.push(series.events.on("validated", this.zoomOutAxes, this));
         series.defaultState.properties.visible = true;
         series.filters.push(new DesaturateFilter());
         scrollbarChart.series.push(series);

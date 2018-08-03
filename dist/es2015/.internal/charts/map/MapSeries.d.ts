@@ -12,6 +12,7 @@ import { MapChart } from "../types/MapChart";
 import { MapObject } from "./MapObject";
 import { IListEvents } from "../../core/utils/List";
 import { IGeoPoint } from "../../core/defs/IGeoPoint";
+import { DataSource } from "../../core/data/DataSource";
 /**
  * ============================================================================
  * DATA ITEM
@@ -111,6 +112,7 @@ export interface IMapSeriesProperties extends ISeriesProperties {
     /**
      * A flag telling if the series should get data from `geodata` or not
      *
+     * @default false
      * @type {boolean}
      */
     useGeodata?: boolean;
@@ -219,6 +221,13 @@ export declare class MapSeries extends Series {
      */
     chart: MapChart;
     /**
+     * Map data in GeoJSON format.
+     *
+     * @see {@link http://geojson.org/} GeoJSON official specification
+     * @type {Object}
+     */
+    protected _geodata: Object;
+    /**
      * Constructor
      */
     constructor();
@@ -249,10 +258,17 @@ export declare class MapSeries extends Series {
      * @return {boolean} Use GeoJSON data?
      */
     /**
-     * Should the map extract all the data about element, such as title, from
-     * GeoJSON format?
-     * @todo: review description, this is more about polygons/lines/points and not about titles. if a mapPolygonSeries doesn't have this set to true, it won't show any areas unless you pass data directly to the series
+     * Should the map extract all the data about element from the GeoJSON?
      *
+     * This is especially relevant for [[MapPolygonSeries]]. If not set to `true`
+     * polygon series will need to contain geographical data in itself in order
+     * to be drawn.
+     *
+     * If this is set to `true`, series will try to extract data for its objects
+     * from either chart-level `geodata` or from series' `geodata` which holds
+     * map infor in GeoJSON format.
+     *
+     * @default false
      * @param {boolean}  value  Use GeoJSON data?
      */
     useGeodata: boolean;
@@ -299,4 +315,28 @@ export declare class MapSeries extends Series {
      * @param {IListEvents<MapObject>["inserted"]} event [description]
      */
     protected handleObjectAdded(event: IListEvents<MapObject>["inserted"]): void;
+    /**
+     * @return {Object} GeoJSON data
+     */
+    /**
+     * Map data in GeoJSON format.
+     *
+     * The series supports the following GeoJSON objects: `Point`, `LineString`,
+     * `Polygon`, `MultiPoint`, `MultiLineString`, and `MultiPolygon`.
+     *
+     * @see {@link http://geojson.org/} Official GeoJSON format specification
+     * @param {Object} geoJSON GeoJSON data
+     */
+    geodata: Object;
+    /**
+     * Returns a [[DataSource]] specifically for loading Component's data.
+     *
+     * @return {DataSource} Data source
+     */
+    /**
+     * Sets a [[DataSource]] to be used for loading Component's data.
+     *
+     * @param {DataSource} value Data source
+     */
+    geodataSource: DataSource;
 }

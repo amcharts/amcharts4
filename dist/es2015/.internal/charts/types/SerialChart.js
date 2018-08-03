@@ -115,9 +115,15 @@ var SerialChart = /** @class */ (function (_super) {
             var _this = this;
             if (!this._series) {
                 this._series = new ListTemplate(this.createSeries());
-                this._series.events.on("inserted", this.processSeries, this);
+                this._series.events.on("inserted", function (event) {
+                    _this.handleSeriesAdded(event);
+                });
                 this._series.events.on("removed", function (event) {
                     _this.dataUsers.removeValue(event.oldValue);
+                    _this.dataUsers.each(function (dataUser) {
+                        dataUser.invalidateDataItems();
+                    });
+                    _this.feedLegend();
                 });
                 this._disposers.push(new ListDisposer(this._series));
                 this._disposers.push(this._series.template);
@@ -133,9 +139,8 @@ var SerialChart = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @param {IListEvents<Series>["inserted"]}  event  Event
-     * @todo Consider renaming to "handle*" as it would suit event handler better
      */
-    SerialChart.prototype.processSeries = function (event) {
+    SerialChart.prototype.handleSeriesAdded = function (event) {
         var series = event.newValue;
         series.chart = this;
         series.parent = this.seriesContainer;

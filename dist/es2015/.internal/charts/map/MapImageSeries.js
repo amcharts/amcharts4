@@ -151,8 +151,8 @@ var MapImageSeries = /** @class */ (function (_super) {
         }
         // process geoJSON and created map objects
         if (this.useGeodata) {
-            var geoJSON = this.chart.geodata;
-            if (geoJSON) {
+            if (this.useGeodata || this.geodata) {
+                var geoJSON = this.chart.geodata;
                 var features = void 0;
                 if (geoJSON.type == "FeatureCollection") {
                     features = geoJSON.features;

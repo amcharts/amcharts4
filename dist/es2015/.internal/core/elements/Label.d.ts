@@ -200,12 +200,11 @@ export declare class Label extends Container {
      */
     isOversized: boolean;
     /**
-     * Currently formatted text. This is used to verifying if text element needs
-     * to be redrawn.
+     * Currently formatted text, read only.
      *
      * @type {string}
      */
-    protected _currentText: string;
+    currentText: string;
     /**
      * Current format to be used for outputing text.
      *

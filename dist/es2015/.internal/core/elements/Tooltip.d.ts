@@ -157,9 +157,10 @@ export declare class Tooltip extends Container {
      */
     protected _pointTo: IPoint;
     /**
-     * [fitPointerToBounds description]
+     * If set to `true` the pointer/stem of the Tooltip will not go outside
+     * Tooltip's width or height depending on pointer's orientation.
      *
-     * @todo Description
+     * @default false
      * @type {boolean}
      */
     fitPointerToBounds: boolean;
@@ -167,12 +168,10 @@ export declare class Tooltip extends Container {
      * If tooltipOrientation is vertical, it can be drawn below or above point. We need to know this when solving overlapping
      *
      * @type "up" | "down"
-     * @ignore
      */
     protected _verticalOrientation: "up" | "down";
     /**
      * Position animation of a tooltip
-     * @ignore
      */
     protected _animation: Animation;
     /**
@@ -198,8 +197,6 @@ export declare class Tooltip extends Container {
      * @default true
      */
     /**
-     * Specifies if text color should be chosen automatically for a better readability.
-     *
      * @param {value} value boolean
      */
     autoTextColor: boolean;
@@ -210,8 +207,6 @@ export declare class Tooltip extends Container {
      * @default true
      */
     /**
-     * Specifies if tooltip background should get fill color from the sprite it is pointing to.
-     *
      * @param {value} value boolean
      */
     getFillFromObject: boolean;
@@ -238,6 +233,7 @@ export declare class Tooltip extends Container {
     /**
      * Duration in milliseconds for the animation to take place when the tolltip
      * is moving from one place to another.
+     *
      * @default 0
      * @param {number}  value  number
      */
@@ -246,8 +242,8 @@ export declare class Tooltip extends Container {
      * @return {Function}
      */
     /**
-     * Tooltip animation easing function.
-     * @todo: review description and default
+     * Tooltip animation (moving from one place to another) easing function.
+     *
      * @default $ease.cubicOut
      * @param {Function}  value (value: number) => number
      */
@@ -323,7 +319,10 @@ export declare class Tooltip extends Container {
      */
     protected updateBounds(): void;
     /**
-     * If tooltipOrientation is vertical, it can be drawn below or above point. We need to know this when solving overlapping
+     * If tooltipOrientation is vertical, it can be drawn below or above point.
+     * We need to know this when solving overlapping.
+     *
+     * @ignore Exclude from docs
      * @return "up" | "down"
      */
     readonly verticalOrientation: "up" | "down";

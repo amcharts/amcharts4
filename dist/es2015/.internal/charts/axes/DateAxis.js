@@ -9,7 +9,6 @@ import * as tslib_1 from "tslib";
  * @hidden
  */
 import { ValueAxis, ValueAxisDataItem } from "./ValueAxis";
-import { AxisItemLocation } from "./Axis";
 import { List } from "../../core/utils/List";
 import { Dictionary } from "../../core/utils/Dictionary";
 import { DateAxisBreak } from "./DateAxisBreak";
@@ -130,9 +129,54 @@ var DateAxis = /** @class */ (function (_super) {
         // Init
         _super.call(this) || this;
         /**
-         * [gridIntervals description]
+         * A list of date/time intervals for Date axis.
          *
-         * @todo Description
+         * This define various granularities available for the axis. For example
+         * if you have an axis spanning an hour, and space for 6 grid lines / labels
+         * the axis will choose the granularity of 10 minutes, displaying a label
+         * every 10 minutes.
+         *
+         * Default intervals:
+         *
+         * ```JSON
+         * [
+         *  { timeUnit: "millisecond", count: 1 },
+         *  { timeUnit: "millisecond", count: 5 },
+         *  { timeUnit: "millisecond", count: 10 },
+         *  { timeUnit: "millisecond", count: 50 },
+         *  { timeUnit: "millisecond", count: 100 },
+         *  { timeUnit: "millisecond", count: 500 },
+         *  { timeUnit: "second", count: 1 },
+         *  { timeUnit: "second", count: 5 },
+         *  { timeUnit: "second", count: 10 },
+         *  { timeUnit: "second", count: 30 },
+         *  { timeUnit: "minute", count: 1 },
+         *  { timeUnit: "minute", count: 5 },
+         *  { timeUnit: "minute", count: 10 },
+         *  { timeUnit: "minute", count: 30 },
+         *  { timeUnit: "hour", count: 1 },
+         *  { timeUnit: "hour", count: 3 },
+         *  { timeUnit: "hour", count: 6 },
+         *  { timeUnit: "hour", count: 12 },
+         *  { timeUnit: "day", count: 1 },
+         *  { timeUnit: "day", count: 2 },
+         *  { timeUnit: "day", count: 3 },
+         *  { timeUnit: "day", count: 4 },
+         *  { timeUnit: "day", count: 5 },
+         *  { timeUnit: "week", count: 1 },
+         *  { timeUnit: "month", count: 1 },
+         *  { timeUnit: "month", count: 2 },
+         *  { timeUnit: "month", count: 3 },
+         *  { timeUnit: "month", count: 6 },
+         *  { timeUnit: "year", count: 1 },
+         *  { timeUnit: "year", count: 2 },
+         *  { timeUnit: "year", count: 5 },
+         *  { timeUnit: "year", count: 10 },
+         *  { timeUnit: "year", count: 50 },
+         *  { timeUnit: "year", count: 100 }
+         * ]
+         * ```
+         *
          * @type {List<ITimeInterval>}
          */
         _this.gridIntervals = new List();
@@ -194,12 +238,6 @@ var DateAxis = /** @class */ (function (_super) {
          */
         _this._markUnitChange = true;
         /**
-         * Make labels for the first label in bigger time unit bold.
-         *
-         * @type {boolean}
-         */
-        _this._boldUnitChange = true;
-        /**
          * Actual interval (granularity) derived from the actual data.
          *
          * @type {ITimeInterval}
@@ -240,9 +278,14 @@ var DateAxis = /** @class */ (function (_super) {
          */
         _this._minSeriesDifference = Number.MAX_VALUE;
         /**
-         * A function which applies fills to alternating cells.
+         * A function which applies fills to axis cells.
          *
-         * @todo Description
+         * Default function fills every second fill. You can set this to a function
+         * that follows some other logic.
+         *
+         * Function should accept a [[DateAxisDataItem]] and modify its `axisFill`
+         * property accordingly.
+         *
          * @type {function}
          */
         _this.fillRule = function (dataItem) {
@@ -261,7 +304,6 @@ var DateAxis = /** @class */ (function (_super) {
         // Translatable defaults are applied in `applyInternalDefaults()`
         // ...
         // Define default intervals
-        // @todo: will this be visible in docs?
         _this.gridIntervals.pushAll([
             { timeUnit: "millisecond", count: 1 },
             { timeUnit: "millisecond", count: 5 },
@@ -747,7 +789,7 @@ var DateAxis = /** @class */ (function (_super) {
                 // we don't do that through label.location because it would reset the setting
                 /// and we do not do that to axis ranges
                 if (this._gridInterval.count == 1 && this._gridInterval.timeUnit != "week" && !dataItem.isRange) {
-                    position = position + (endPosition - position) / 2;
+                    position = position + (endPosition - position) * label.location;
                     endPosition = position;
                 }
                 renderer.updateLabelElement(label, position, endPosition);
@@ -1199,28 +1241,6 @@ var DateAxis = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(DateAxis.prototype, "boldUnitChange", {
-        /**
-         * @return {boolean} Use bold for period beginning?
-         */
-        get: function () {
-            return this._boldUnitChange;
-        },
-        /**
-         * Make labels for the first label in bigger time unit bold.
-         *
-         * @default true
-         * @param {boolean}  value  Use bold for period beginning?
-         */
-        set: function (value) {
-            if (this._boldUnitChange != value) {
-                this._boldUnitChange = value;
-                this.invalidateData();
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
     /**
      * Returns text to show in a tooltip, based on specific relative position within axis.
      *
@@ -1343,9 +1363,9 @@ var DateAxis = /** @class */ (function (_super) {
         var renderer = this.renderer;
         if (renderer) {
             // Set defaults
-            renderer.ticks.template.location = AxisItemLocation.Start;
-            renderer.grid.template.location = AxisItemLocation.Start;
-            renderer.labels.template.location = AxisItemLocation.Start;
+            renderer.ticks.template.location = 0;
+            renderer.grid.template.location = 0;
+            renderer.labels.template.location = 0.5;
             renderer.baseGrid.disabled = true;
         }
     };
