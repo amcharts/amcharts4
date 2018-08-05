@@ -4575,7 +4575,7 @@ var Sprite = /** @class */ (function (_super) {
      * Closes all currently open popup windows
      */
     Sprite.prototype.closeAllPopups = function () {
-        $iter.each(this.popups.iterator(), function (popup) {
+        this.popups.each(function (popup) {
             popup.close();
         });
     };

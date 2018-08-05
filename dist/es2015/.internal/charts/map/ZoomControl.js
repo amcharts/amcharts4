@@ -232,7 +232,7 @@ var ZoomControl = /** @class */ (function (_super) {
         if (!thumb.isDown) {
             var step = (Math.log(chart.zoomLevel) - Math.log(this.chart.minZoomLevel)) / Math.LN2;
             if (this.layout == "vertical") {
-                thumb.y = slider.pixelHeight - (slider.pixelHeight - thumb.pixelHeight) * (step + 1) / this.stepCount;
+                thumb.y = slider.pixelHeight - (slider.pixelHeight - thumb.pixelHeight) * step / this.stepCount - thumb.pixelHeight;
             }
             else {
                 thumb.x = slider.pixelWidth * step / this.stepCount;

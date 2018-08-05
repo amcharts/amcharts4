@@ -46,6 +46,8 @@ export default function (prefix) {
                 "background-color": "rgba(255, 255, 255, 0.8)",
                 "display": "inline-block",
                 "position": "absolute",
+                "top": "0",
+                "left": "0",
                 "max-width": "90%",
                 "max-height": "90%",
                 "overflow": "auto",

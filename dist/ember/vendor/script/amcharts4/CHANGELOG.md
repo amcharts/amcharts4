@@ -6,6 +6,13 @@ Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
 
+## [4.0.0-beta.42] - 2018-08-05
+
+### Fixed
+- Updated default Popup CSS to eliminate a rare scrollbar flashing issue.
+- Fixed an error with PDF exporting.
+
+
 ## [4.0.0-beta.41] - 2018-08-03
 
 ### Added
@@ -32,7 +39,7 @@ adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
 ### Changed
 - [`XYChart.getUpdatedRange()`](https://www.amcharts.com/docs/v4/reference/xychart/#getUpdatedRange_method) method is now public so you can use it to recalculate absolute axis range into a relative that takes current zoom and inversion into account.
-- `Language` now supports `null` in trasnaltions which means an empty string.
+- `Language` now supports `null` in translations which means an empty string.
 - Interface `iColorSetStepOptions` was renamed to `IColorSetStepOptions` to maintain consistency.
 - Interface `ColorPurpose` was renamed to `IColorPurpose` to maintain consistency.
 - `FlowDiagramNode` `value` property renamed to `total`, added `totalIncoming` and `totalOutgoing` properties which hold sum of all incoming/outgoing links.

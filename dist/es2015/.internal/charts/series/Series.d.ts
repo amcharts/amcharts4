@@ -360,7 +360,7 @@ export declare class Series extends Component {
      * flag which is set to true when initial animation is finished
      * @ignore
      */
-    appeared: boolean;
+    protected _appeared: boolean;
     protected _heatRules: List<IHeatRule>;
     /**
      * As calculating totals is expensive operation and not often needed, by default we do not do it. In case you use percent for your charts, you must set this to true.
@@ -647,6 +647,11 @@ export declare class Series extends Component {
     processConfig(config?: {
         [index: string]: any;
     }): void;
+    /**
+     * flag which is set to true when initial animation is finished. If you set it to false, the series will animate on next validate.
+     * @ignore
+     */
+    appeared: boolean;
     /**
      * This function is used to sort element's JSON config properties, so that
      * some properties that absolutely need to be processed last, can be put at

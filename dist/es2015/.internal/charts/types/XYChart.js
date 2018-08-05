@@ -324,6 +324,9 @@ var XYChart = /** @class */ (function (_super) {
                 axis.dataChangeUpdate();
             });
         }
+        //$iter.each(this.series.iterator(), (series) => {
+        //	series.appeared = false;
+        //});		
         _super.prototype.validateData.call(this);
         if (this.cursor) {
             if (this.data.length > 0) {

@@ -2288,7 +2288,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype._pdfmake = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var a, pdfmake, vfs_fonts;
+            var a, pdfmake, vfs_fonts, global;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, Promise.all([
@@ -2297,9 +2297,11 @@ var Export = /** @class */ (function (_super) {
                         ])];
                     case 1:
                         a = _a.sent();
-                        console.log(a);
                         pdfmake = a[0];
                         vfs_fonts = a[1];
+                        global = window;
+                        global.pdfMake = global.pdfMake || {};
+                        global.pdfMake.vfs = vfs_fonts.default;
                         pdfmake.vfs = vfs_fonts.default;
                         return [2 /*return*/, pdfmake];
                 }

@@ -463,6 +463,8 @@ var Component = /** @class */ (function (_super) {
                         dataItem.dispose();
                     }
                 });
+                this.data.shift();
+                this._parseDataFrom--;
                 count--;
             }
         }

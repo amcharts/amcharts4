@@ -175,7 +175,7 @@ var Series = /** @class */ (function (_super) {
          * flag which is set to true when initial animation is finished
          * @ignore
          */
-        _this.appeared = false;
+        _this._appeared = false;
         /**
          * As calculating totals is expensive operation and not often needed, by default we do not do it. In case you use percent for your charts, you must set this to true.
          * Pie chart, which uses percent sets this to true by default.
@@ -206,15 +206,7 @@ var Series = /** @class */ (function (_super) {
         _this.dataItem.component = _this;
         // Apply accessibility
         _this.role = "group";
-        _this.events.once("beforevalidated", function () {
-            if (_this.visible == false) {
-                _this.hide(0);
-                _this.appeared = true;
-            }
-            else {
-                _this.appear();
-            }
-        }, _this);
+        _this.appeared = false;
         _this.applyTheme();
         return _this;
     }
@@ -262,7 +254,7 @@ var Series = /** @class */ (function (_super) {
      */
     Series.prototype.appear = function () {
         var _this = this;
-        this.appeared = false;
+        this._appeared = false;
         this.hide(0);
         var animation = this.show();
         if (animation && !animation.isDisposed()) {
@@ -1105,6 +1097,32 @@ var Series = /** @class */ (function (_super) {
             });
         }
     };
+    Object.defineProperty(Series.prototype, "appeared", {
+        get: function () {
+            return this._appeared;
+        },
+        /**
+         * flag which is set to true when initial animation is finished. If you set it to false, the series will animate on next validate.
+         * @ignore
+         */
+        set: function (value) {
+            var _this = this;
+            if (value === false) {
+                this.events.once("beforevalidated", function () {
+                    if (_this.visible == false) {
+                        _this.hide(0);
+                        _this.appeared = true;
+                    }
+                    else {
+                        _this.appear();
+                    }
+                }, this);
+            }
+            this._appeared = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * This function is used to sort element's JSON config properties, so that
      * some properties that absolutely need to be processed last, can be put at
