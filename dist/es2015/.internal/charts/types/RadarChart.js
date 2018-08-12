@@ -396,7 +396,9 @@ var RadarChart = /** @class */ (function (_super) {
      */
     RadarChart.prototype.updateXAxis = function (renderer) {
         //do not call super!
-        renderer.axis.initRenderer();
+        if (renderer) {
+            renderer.processRenderer();
+        }
     };
     /**
      * Triggers (re)rendering of the vertical (Y) axis.
@@ -406,7 +408,9 @@ var RadarChart = /** @class */ (function (_super) {
      */
     RadarChart.prototype.updateYAxis = function (renderer) {
         // do not call super!
-        renderer.axis.initRenderer();
+        if (renderer) {
+            renderer.processRenderer();
+        }
     };
     return RadarChart;
 }(XYChart));

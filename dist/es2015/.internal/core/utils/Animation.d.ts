@@ -233,7 +233,7 @@ export declare class Animation extends BaseObjectEvents implements IAnimationObj
      *
      * @type {IDisposer}
      */
-    protected _delayTimeout: $type.Optional<IDisposer>;
+    protected _delayTimeout: IDisposer | null;
     /**
      * A timestamp of when animation started playing.
      *
@@ -245,7 +245,7 @@ export declare class Animation extends BaseObjectEvents implements IAnimationObj
      *
      * @type {number}
      */
-    protected _time: $type.Optional<number>;
+    protected _time: number;
     protected debug(): void;
     /**
      * Constructor

@@ -826,7 +826,7 @@ export function svgPointToDocument(point, svgContainer) {
  * @return {IPoint}          Sprite coordinates
  */
 export function documentPointToSprite(point, sprite) {
-    var svgPoint = documentPointToSvg(point, sprite.htmlContainer);
+    var svgPoint = documentPointToSvg(point, $type.getValue(sprite.htmlContainer));
     return svgPointToSprite(svgPoint, sprite);
 }
 /**
@@ -838,7 +838,7 @@ export function documentPointToSprite(point, sprite) {
  */
 export function spritePointToDocument(point, sprite) {
     var svgPoint = spritePointToSvg(point, sprite);
-    return svgPointToDocument(svgPoint, sprite.htmlContainer);
+    return svgPointToDocument(svgPoint, $type.getValue(sprite.htmlContainer));
 }
 /**
  * ============================================================================

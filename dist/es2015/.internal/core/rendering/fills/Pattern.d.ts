@@ -129,6 +129,12 @@ export declare class Pattern extends BaseObject implements IAnimatable {
      */
     removeElement(element: AMElement): void;
     /**
+     * Returns the list of SVG elements comprising the pattern.
+     *
+     * @return {List<AMElement>} Pattern elements
+     */
+    readonly elements: List<AMElement>;
+    /**
      * @return {number} Opacity (0-1)
      */
     /**
@@ -276,4 +282,13 @@ export declare class Pattern extends BaseObject implements IAnimatable {
      * @return {Array<Animation>} Animation list
      */
     readonly animations: Array<Animation>;
+    /**
+     * Processes JSON-based config before it is applied to the object.
+     *
+     * @ignore Exclude from docs
+     * @param {object}  config  Config
+     */
+    processConfig(config?: {
+        [index: string]: any;
+    }): void;
 }

@@ -205,11 +205,11 @@ var XYChart = /** @class */ (function (_super) {
         //this.margin(10, 10, 10, 10);
         _this.maskBullets = true;
         // Create main chart container
-        var chartCont = _this.chartContainer;
-        chartCont.layout = "vertical";
+        var chartContainer = _this.chartContainer;
+        chartContainer.layout = "vertical";
         _this.padding(15, 15, 15, 15);
         // Create top axes container
-        var topAxesCont = chartCont.createChild(Container);
+        var topAxesCont = chartContainer.createChild(Container);
         topAxesCont.shouldClone = false;
         topAxesCont.layout = "vertical";
         topAxesCont.width = percent(100);
@@ -219,7 +219,7 @@ var XYChart = /** @class */ (function (_super) {
         // Plot area and vertical axes share the whole width of the chart,
         // so we need to put then into a separate container so that layouting
         // engine takes care of the positioning
-        var yAxesAndPlotCont = chartCont.createChild(Container);
+        var yAxesAndPlotCont = chartContainer.createChild(Container);
         yAxesAndPlotCont.shouldClone = false;
         yAxesAndPlotCont.layout = "horizontal";
         yAxesAndPlotCont.width = percent(100);
@@ -227,7 +227,7 @@ var XYChart = /** @class */ (function (_super) {
         yAxesAndPlotCont.zIndex = 0;
         _this.yAxesAndPlotContainer = yAxesAndPlotCont;
         // Create a container for bottom axes
-        var bottomAxesCont = chartCont.createChild(Container);
+        var bottomAxesCont = chartContainer.createChild(Container);
         bottomAxesCont.shouldClone = false;
         bottomAxesCont.width = percent(100);
         bottomAxesCont.layout = "vertical";
@@ -567,7 +567,9 @@ var XYChart = /** @class */ (function (_super) {
             axis.parent = this.bottomAxesContainer;
             axis.toBack();
         }
-        axis.initRenderer();
+        if (axis.renderer) {
+            axis.renderer.processRenderer();
+        }
     };
     /**
      * Triggers (re)rendering of the vertical (Y) axis.
@@ -585,7 +587,9 @@ var XYChart = /** @class */ (function (_super) {
             axis.parent = this.leftAxesContainer;
             axis.toFront();
         }
-        axis.initRenderer();
+        if (axis.renderer) {
+            axis.renderer.processRenderer();
+        }
     };
     /**
      * Decorates an Axis for use with this chart, e.g. sets proper renderer
@@ -603,7 +607,7 @@ var XYChart = /** @class */ (function (_super) {
         renderer.gridContainer.toBack();
         renderer.breakContainer.parent = this.plotContainer;
         renderer.breakContainer.toFront();
-        renderer.breakContainer.zIndex = 1;
+        renderer.breakContainer.zIndex = 10;
         this.plotContainer.events.on("maxsizechanged", function (event) {
             axis.invalidateDataItems();
         });

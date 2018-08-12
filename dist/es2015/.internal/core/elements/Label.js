@@ -105,14 +105,16 @@ var Label = /** @class */ (function (_super) {
             }
         });
         // trying to solve strange bug when text is measured as 0x0
-        _this.events.once("validated", function () {
-            if (_this.text && (_this.bbox.width == 0 || _this.bbox.height == 0)) {
-                registry.events.once("exitframe", function () {
-                    _this._prevStatus = "";
-                    _this.invalidate();
-                });
+        /*
+        this.events.once("validated", () => {
+
+            if (this.text && (this.bbox.width == 0 || this.bbox.height == 0)) {
+                registry.events.once("exitframe", () => {
+                    this._prevStatus = "";
+                    this.invalidate();
+                })
             }
-        });
+        })*/
         // Aply theme
         _this.applyTheme();
         return _this;

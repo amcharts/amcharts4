@@ -482,6 +482,17 @@ var BaseObject = /** @class */ (function () {
                                     // Template is a BaseObject. Let it deal with its own config.
                                     item_1.template[entryKey].config = entryValue;
                                 }
+                                else if ($type.isObject(entryValue) && $type.hasValue(entryValue["type"])) {
+                                    if (listItem = _this.createClassInstance(entryValue["type"])) {
+                                        if (listItem instanceof BaseObject) {
+                                            listItem.config = entryValue;
+                                        }
+                                        item_1.template[entryKey] = listItem;
+                                    }
+                                    else {
+                                        item_1.template[entryKey] = entryValue;
+                                    }
+                                }
                                 else {
                                     // Aything else. Just assing and be done with it.
                                     item_1.template[entryKey] = entryValue;

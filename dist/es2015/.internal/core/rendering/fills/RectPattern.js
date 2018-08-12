@@ -9,6 +9,7 @@ import * as tslib_1 from "tslib";
  * @hidden
  */
 import { Pattern } from "./Pattern";
+import { registry } from "../../Registry";
 ;
 /**
  * ============================================================================
@@ -91,4 +92,11 @@ var RectPattern = /** @class */ (function (_super) {
     return RectPattern;
 }(Pattern));
 export { RectPattern };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["RectPattern"] = RectPattern;
 //# sourceMappingURL=RectPattern.js.map

@@ -1005,6 +1005,9 @@ var DateAxis = /** @class */ (function (_super) {
      * @return {number}                      [description]
      */
     DateAxis.prototype.getTimeByLocation = function (dataItem, key, location) {
+        if (!$type.hasValue(key)) {
+            return;
+        }
         if (!$type.isNumber(location)) {
             location = dataItem.workingLocations[key];
             if (!$type.isNumber(location)) {

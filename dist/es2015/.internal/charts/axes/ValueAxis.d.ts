@@ -191,7 +191,7 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      */
     chart: SerialChart;
     /**
-     * A list of Series that are using this Value Axis.
+     * A list of Series that are using this Axis.
      *
      * @type {List<XYSeries>}
      */
@@ -334,15 +334,24 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
     protected _finalMin: number;
     protected _finalMax: number;
     /**
-     * A function which applies fills to alternating cells.
+     * Holds reference to a function that accepts a DataItem as parameter.
      *
-     * @todo Description
+     * It can either return a fill opacity for a fill, or manipulate data item
+     * directly, to create various highlighting scenarios.
+     *
      * @type {function}
      */
     fillRule: (dataItem: ValueAxisDataItem) => any;
     /**
-     * As calculating totals is expensive operation and not often needed, by default we do not do it. In case you use totalPercent or total for your charts, you must set this to true
-     * @todo review description
+     * As calculating totals is expensive operation and not often needed, we
+     * don't do it by default.
+     *
+     * In case you use `totalPercent` or `total` in your charts, this must be set
+     * to `true.
+     *
+     * @default false
+     * @see {@link https://www.amcharts.com/docs/v4/chart-types/xy-chart/#100_stacks} For using `calculateTotals` for 100% stacked series.
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-strings/#Placeholders_for_numeric_values} For using `calculateTotals` in labels.
      * @type {boolean}
      */
     calculateTotals: boolean;
@@ -562,9 +571,12 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      */
     min: number;
     /**
-     * [step description]
+     * Current calculated delta in values between two adjacent grid lines (step).
      *
-     * @todo Description
+     * This is a read-only value and cannot be used to set ctual step.
+     *
+     * @readonly
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/#Setting_the_density_of_the_the_grid_labels} For more information about modifying density of labels
      * @return {number} [description]
      */
     readonly step: number;

@@ -407,8 +407,7 @@ var Axis = /** @class */ (function (_super) {
          * For example, you can set it up to highlight only weekends on a
          * [[DateAxis]].
          *
-         * @param {AxisDataItem} dataItem [description]
-         * @param {number}       index    [description]
+         * @type {function}
          */
         _this.fillRule = function (dataItem, index) {
             if (!$type.isNumber(index)) {
@@ -509,9 +508,6 @@ var Axis = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Axis.prototype.initRenderer = function () {
-        if (this.renderer) {
-            this.renderer.processRenderer();
-        }
     };
     /**
      * Appends data items.
@@ -558,6 +554,7 @@ var Axis = /** @class */ (function (_super) {
             axisRange.grid.validate();
             axisRange.tick.validate();
             axisRange.axisFill.validate();
+            axisRange.label.validate();
         });
     };
     /**
@@ -635,12 +632,14 @@ var Axis = /** @class */ (function (_super) {
          * @param {T}  renderer  Renderer
          */
         set: function (renderer) {
-            this._renderer = renderer;
-            renderer.chart = this.chart;
-            renderer.axis = this;
-            renderer.parent = this;
-            this.title.parent = this; // we add title to axis and set layout in renderer to avoid one extra container, as otherwise axis container would be used for holding renderer only
-            this.initRenderer();
+            if (renderer != this._renderer) {
+                this._renderer = renderer;
+                renderer.chart = this.chart;
+                renderer.axis = this;
+                renderer.parent = this;
+                this.title.parent = this; // we add title to axis and set layout in renderer to avoid one extra container, as otherwise axis container would be used for holding renderer only
+                this.initRenderer();
+            }
         },
         enumerable: true,
         configurable: true

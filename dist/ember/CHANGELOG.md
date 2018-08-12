@@ -6,12 +6,31 @@ Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
 
+## [4.0.0-beta.43] - 2018-08-12
+
+### Changed
+- `$net.load()` options parameter now supports `responseType`. If set to `"blob"` will return response as `Blob` object in `result.blob`.
+
+### Fixed
+- Value axis min/max calculation algorithm adjusted. Fixed an issue with `strictMinMax = true` and issue with min/max when axis size was very small.
+- Export now correctly uses external fonts included via `@import`, such as Google Fonts.
+- Non-clickable columns in `ColumnSeries` will no longer gain focus on click/tap, unless its `hitOptions.noFocus` is set to `false`.
+- Noon was incorrectly formatted as "AM", instead of "PM".
+- `TextFormatter` was producing invalid `style` value on empty formatting blocks (`"[]"`).
+- `parent` was not being set for a `Sprite` that was pushed directly to `Container.children`.
+- If axis labels were disabled, ranges labels were not visible.
+- Axis used to reset some of the user-set values when initing renderer, e.g. `dateAxis.renderer.grid.template.location = 0.5` was not working.
+- `XYChart` with category axis + date axis was not working properly.
+- Stacked chart with logarithmic axis was not working properly.
+- JSON: local formatter instances were not being instantiated properly, so all children objects were reusing chart's main formatters.
+- JSON: Patterns are now supported.
+
+
 ## [4.0.0-beta.42] - 2018-08-05
 
 ### Fixed
 - Updated default Popup CSS to eliminate a rare scrollbar flashing issue.
 - Fixed an error with PDF exporting.
-
 
 ## [4.0.0-beta.41] - 2018-08-03
 

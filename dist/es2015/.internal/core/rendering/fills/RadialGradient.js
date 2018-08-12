@@ -221,4 +221,11 @@ var RadialGradient = /** @class */ (function (_super) {
     return RadialGradient;
 }(BaseObject));
 export { RadialGradient };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["RadialGradient"] = RadialGradient;
 //# sourceMappingURL=RadialGradient.js.map

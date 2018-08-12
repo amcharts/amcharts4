@@ -64,12 +64,12 @@ export declare function pad2(c: string): string;
  * resulting color will be closest to the first reference color.
  *
  * @ignore Exclude from docs
- * @param  {iRGB}    color1   First reference color
- * @param  {iRGB}    color2   Second reference color
- * @param  {number}  percent  Relative position (0-1)
- * @return {iRGB}             Interpolated color
+ * @param  {Optional<iRGB>}    color1   First reference color
+ * @param  {Optional<iRGB>}    color2   Second reference color
+ * @param  {number}            percent  Relative position (0-1)
+ * @return {Optional<iRGB>}             Interpolated color
  */
-export declare function interpolate(rgb1: iRGB, rgb2: iRGB, percent: number): iRGB;
+export declare function interpolate(rgb1: $type.Optional<iRGB>, rgb2: $type.Optional<iRGB>, percent: number): $type.Optional<iRGB>;
 /**
  * Returns a color that is `percent` brighter than the reference color.
  *

@@ -296,13 +296,6 @@ export declare class XYChart extends SerialChart {
      */
     rightAxesContainer: Container;
     /**
-     * A container that holds series (graphs/plots).
-     *
-     * @ignore Exclude from docs
-     * @type {Container}
-     */
-    seriesContainer: Container;
-    /**
      * A container for plot area.
      *
      * @type {Container}

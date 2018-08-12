@@ -13,11 +13,17 @@ export interface INetLoadResult<A> {
      *
      * @type {string}
      */
-    response: string;
+    response?: string;
+    /**
+     * Request response as Blob. (if set `responseType = "blob"`)
+     *
+     * @type {Blob}
+     */
+    blob?: Blob;
     /**
      * Response `Content-Type`.
      *
-     * @type {string}
+     * @type {string | null}
      */
     type: string | null;
     /**
@@ -41,6 +47,13 @@ export interface INetRequestOptions {
         key: string;
         value: string;
     }[];
+    /**
+     * Specify expected response type.
+     *
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/responseType} for more info
+     * @type {XMLHttpRequestResponseType}
+     */
+    responseType?: XMLHttpRequestResponseType;
 }
 /**
  * Loads an external file via its URL.

@@ -512,7 +512,10 @@ var CategoryAxis = /** @class */ (function (_super) {
      * @return {number}                    X coordinate (px)
      */
     CategoryAxis.prototype.getX = function (dataItem, key, location) {
-        var position = this.categoryToPosition(dataItem.categories[key], location);
+        var position;
+        if ($type.hasValue(key)) {
+            position = this.categoryToPosition(dataItem.categories[key], location);
+        }
         if ($type.isNaN(position)) {
             return this.basePoint.x;
         }
@@ -531,7 +534,10 @@ var CategoryAxis = /** @class */ (function (_super) {
      * @return {number}                    Y coordinate (px)
      */
     CategoryAxis.prototype.getY = function (dataItem, key, location) {
-        var position = this.categoryToPosition(dataItem.categories[key], location);
+        var position;
+        if ($type.hasValue(key)) {
+            position = this.categoryToPosition(dataItem.categories[key], location);
+        }
         if ($type.isNaN(position)) {
             return this.basePoint.y;
         }

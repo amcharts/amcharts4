@@ -121,6 +121,7 @@ var Container = /** @class */ (function (_super) {
             child._childAddedDisposer = child.events.on("transformed", this.handleChildTransform, this);
             //@todo: temporary commenting this because of error it causes when I add contents Container in AxisRange constructor. this._disposers.push((<any>child)._childAddedDisposer);
         }
+        child.parent = this;
         this.dispatchImmediately("childadded", { type: "childadded", newValue: child });
         this.invalidate();
         this.invalidateLayout();

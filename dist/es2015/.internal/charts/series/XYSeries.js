@@ -468,7 +468,7 @@ var XYSeries = /** @class */ (function (_super) {
         if (!this.dataFields[yOpenField] && this.baseAxis == this.yAxis) {
             this._yOpenField = yField;
         }
-        if (!this.dataFields[this._xOpenField] && this.baseAxis == this.xAxis) {
+        if (!this.dataFields[xOpenField] && this.baseAxis == this.xAxis) {
             this._xOpenField = xField;
         }
         if (this.stacked && this.baseAxis == this.xAxis) {

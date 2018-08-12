@@ -187,6 +187,7 @@ series1.dataItems.template.locations.categoryX = 0.5;
 series1.sequencedInterpolation = true;
 series1.sequencedInterpolationDelay = 50;
 series1.defaultState.transitionDuration = 1500;
+series1.hiddenState.transitionDuration = 3000;
 
 let series2 = chart.series.push(new am4charts.RadarSeries());
 series2.name = "TOTAL CASH PILE";
@@ -206,6 +207,7 @@ series2.tooltip.pointerOrientation = "vertical";
 series2.tooltip.label.fill = am4core.color("#ffffff");
 series2.tooltip.label.fontSize = "0.8em";
 series2.tooltip.autoTextColor = false;
+series2.hiddenState.transitionDuration = 3000;
 
 chart.seriesContainer.zIndex = -1;
 chart.scrollbarX = new am4core.Scrollbar();

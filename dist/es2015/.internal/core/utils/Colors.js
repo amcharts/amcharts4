@@ -300,10 +300,10 @@ export function pad2(c) {
  * resulting color will be closest to the first reference color.
  *
  * @ignore Exclude from docs
- * @param  {iRGB}    color1   First reference color
- * @param  {iRGB}    color2   Second reference color
- * @param  {number}  percent  Relative position (0-1)
- * @return {iRGB}             Interpolated color
+ * @param  {Optional<iRGB>}    color1   First reference color
+ * @param  {Optional<iRGB>}    color2   Second reference color
+ * @param  {number}            percent  Relative position (0-1)
+ * @return {Optional<iRGB>}             Interpolated color
  */
 export function interpolate(rgb1, rgb2, percent) {
     percent = $math.fitToRange(percent, 0, 1);

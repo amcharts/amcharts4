@@ -260,6 +260,18 @@ var Animation = /** @class */ (function (_super) {
          * @type {boolean}
          */
         _this._pause = false;
+        /**
+         * Holds reference to timeout for delayed play.
+         *
+         * @type {IDisposer}
+         */
+        _this._delayTimeout = null;
+        /**
+         * Elapsed time in currently playing animation.
+         *
+         * @type {number}
+         */
+        _this._time = 0;
         _this.className = "Animation";
         // Set parameters
         _this.object = object;
@@ -531,12 +543,14 @@ var Animation = /** @class */ (function (_super) {
         var _this = this;
         this._time = this.duration * progress; // just in case we call this from outside
         $array.each(this.animationOptions, function (options) {
-            var value = options.updateMethod(progress, options.from, options.to);
-            if (options.childObject) {
-                options.childObject[options.property] = value;
-            }
-            else {
-                _this.object[options.property] = value;
+            if (options.updateMethod) {
+                var value = options.updateMethod(progress, options.from, options.to);
+                if (options.childObject) {
+                    options.childObject[options.property] = value;
+                }
+                else {
+                    _this.object[options.property] = value;
+                }
             }
         });
         this.progress = progress;

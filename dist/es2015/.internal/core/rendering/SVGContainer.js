@@ -81,7 +81,7 @@ var SVGContainer = /** @class */ (function () {
     };
     Object.defineProperty(SVGContainer.prototype, "container", {
         /**
-         * @return {Container} Container
+         * @return {Optional<Container>} Container
          */
         get: function () {
             return this._container;
@@ -89,7 +89,7 @@ var SVGContainer = /** @class */ (function () {
         /**
          * A [[Container]] element which is placed into container.
          *
-         * @param {Container}  container  Container
+         * @param {Optional<Container>}  container  Container
          */
         set: function (container) {
             this._container = container;

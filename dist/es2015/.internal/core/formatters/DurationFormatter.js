@@ -5,6 +5,7 @@ import * as tslib_1 from "tslib";
 import { Language } from "../utils/Language";
 import { BaseObject } from "../Base";
 import { getTextFormatter } from "../formatters/TextFormatter";
+import { registry } from "../Registry";
 import * as $strings from "../utils/Strings";
 import * as $object from "../utils/Object";
 import * as $utils from "../utils/Utils";
@@ -404,4 +405,11 @@ var DurationFormatter = /** @class */ (function (_super) {
     return DurationFormatter;
 }(BaseObject));
 export { DurationFormatter };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["DurationFormatter"] = DurationFormatter;
 //# sourceMappingURL=DurationFormatter.js.map

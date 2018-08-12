@@ -9,6 +9,7 @@
  */
 import { Container } from "../Container";
 import { IDisposer } from "../utils/Disposer";
+import * as $type from "../utils/Type";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -38,21 +39,21 @@ export declare class SVGContainer implements IDisposer {
     /**
      * Width of HTML element.
      *
-     * @type {number}
+     * @type {Optional<number>}
      */
-    width: number;
+    width: $type.Optional<number>;
     /**
      * Height of HTML element.
      *
-     * @type {number}
+     * @type {Optional<number>}
      */
-    height: number;
+    height: $type.Optional<number>;
     /**
      * A [[Container]] element which is placed into container.
      *
-     * @type {Container}
+     * @type {Optional<Container>}
      */
-    protected _container: Container;
+    protected _container: $type.Optional<Container>;
     /**
      * A parent HTML container that SVG wrapper element is placed in.
      *
@@ -85,14 +86,14 @@ export declare class SVGContainer implements IDisposer {
      */
     measure(): void;
     /**
-     * @return {Container} Container
+     * @return {Optional<Container>} Container
      */
     /**
      * A [[Container]] element which is placed into container.
      *
-     * @param {Container}  container  Container
+     * @param {Optional<Container>}  container  Container
      */
-    container: Container;
+    container: $type.Optional<Container>;
     /**
      * Returns if this object has been already been disposed.
      *

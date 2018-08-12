@@ -240,6 +240,9 @@ var TextFormatter = /** @class */ (function (_super) {
      * @todo Implement actual translation
      */
     TextFormatter.prototype.translateStyleShortcuts = function (style) {
+        if (style == "[ ]") {
+            return "";
+        }
         // Get style parts
         var b = style.match(/([\w\-]*:[\s]?[^;\s\]]*)|(\#[\w]{1,6})|([\w]+)|(\/)/gi);
         // Empty?
@@ -393,4 +396,11 @@ export function getTextFormatter() {
     }
     return formatter;
 }
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["TextFormatter"] = TextFormatter;
 //# sourceMappingURL=TextFormatter.js.map

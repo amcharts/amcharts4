@@ -1,7 +1,6 @@
 /**
  * A collection of network-related functions
  */
-import * as tslib_1 from "tslib";
 /**
  * ============================================================================
  * IMPORTS
@@ -42,52 +41,64 @@ import * as $type from "./Type";
  * @return {Promise<INetLoadResult<A>>}           Result (Promise)
  */
 export function load(url, target, options) {
-    return tslib_1.__awaiter(this, void 0, void 0, function () {
-        return tslib_1.__generator(this, function (_a) {
-            return [2 /*return*/, new Promise(function (success, error) {
-                    // Create request and set up handlers
-                    var xhr = new XMLHttpRequest();
-                    xhr.onload = function () {
-                        if (xhr.status === 200) {
-                            var response = xhr.responseText || xhr.response;
-                            success({
-                                xhr: xhr,
-                                error: false,
-                                response: response,
-                                type: xhr.getResponseHeader("Content-Type"),
-                                target: target
-                            });
-                        }
-                        else {
-                            error({
-                                xhr: xhr,
-                                error: true,
-                                type: xhr.getResponseHeader("Content-Type"),
-                                target: target
-                            });
-                        }
-                    };
-                    xhr.onerror = function () {
-                        error({
-                            xhr: xhr,
-                            error: true,
-                            type: xhr.getResponseHeader("Content-Type"),
-                            target: target
-                        });
-                    };
-                    // Open request
-                    xhr.open("GET", url);
-                    // Process options
-                    if ($type.hasValue(options) && $type.hasValue(options.requestHeaders)) {
-                        for (var i = 0; i < options.requestHeaders.length; i++) {
-                            var header = options.requestHeaders[i];
-                            xhr.setRequestHeader(header.key, header.value);
-                        }
-                    }
-                    // Send request
-                    xhr.send();
-                })];
-        });
+    return new Promise(function (success, error) {
+        // Is return type Blob?
+        var isBlob = $type.hasValue(options) && options.responseType == "blob";
+        // Create request and set up handlers
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                var response = void 0;
+                var blob = void 0;
+                if (isBlob) {
+                    blob = xhr.response;
+                }
+                else {
+                    response = xhr.responseText || xhr.response;
+                }
+                var output = {
+                    xhr: xhr,
+                    error: false,
+                    response: response,
+                    blob: blob,
+                    type: xhr.getResponseHeader("Content-Type"),
+                    target: target
+                };
+                success(output);
+            }
+            else {
+                error({
+                    xhr: xhr,
+                    error: true,
+                    type: xhr.getResponseHeader("Content-Type"),
+                    target: target
+                });
+            }
+        };
+        xhr.onerror = function () {
+            error({
+                xhr: xhr,
+                error: true,
+                type: xhr.getResponseHeader("Content-Type"),
+                target: target
+            });
+        };
+        // Open request
+        xhr.open("GET", url);
+        // Process options
+        if ($type.hasValue(options)) {
+            if ($type.hasValue(options.requestHeaders)) {
+                for (var i = 0; i < options.requestHeaders.length; i++) {
+                    var header = options.requestHeaders[i];
+                    xhr.setRequestHeader(header.key, header.value);
+                }
+            }
+            if ($type.hasValue(options.responseType)) {
+                xhr.responseType = options.responseType;
+            }
+        }
+        // Send request
+        xhr.send();
     });
 }
 //# sourceMappingURL=Net.js.map

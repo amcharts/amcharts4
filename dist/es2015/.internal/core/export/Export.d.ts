@@ -845,6 +845,14 @@ export declare class Export extends Validatable {
      */
     imagesToDataURI(el: SVGSVGElement, options?: IExportImageOptions): Promise<void>;
     /**
+     * Converts all document external fonts to data uris.
+     *
+     * @ignore Exclude from docs
+     * @return {Promise<void>} [description]
+     */
+    fontsToDataURI(): Promise<string>;
+    fontToDataURI(url: string): Promise<any>;
+    /**
      * `foreignObject` elements cannot be exported. This function hides them
      * temprarily. In the future it might try to convert them to SVG to make them
      * exportable.
@@ -951,10 +959,11 @@ export declare class Export extends Validatable {
      * @param  {number}             height    Height of the SVG viewport
      * @param  {string}             font      Font family to use as a base
      * @param  {string}             fontSize  Font size to use as a base
+     * @param  {string}             styles    A string to add to <style>
      * @return {string}                       Output SVG
      * @todo Add style params to existing <svg>
      */
-    normalizeSVG(svg: string, options?: IExportSVGOptions, width?: number, height?: number, font?: string, fontSize?: string): string;
+    normalizeSVG(svg: string, options?: IExportSVGOptions, width?: number, height?: number, font?: string, fontSize?: string, styles?: string): string;
     /**
      * Serializes an element and returns its contents.
      *

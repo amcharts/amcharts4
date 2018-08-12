@@ -175,4 +175,11 @@ var LinearGradient = /** @class */ (function (_super) {
     return LinearGradient;
 }(BaseObject));
 export { LinearGradient };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["LinearGradient"] = LinearGradient;
 //# sourceMappingURL=LinearGradient.js.map

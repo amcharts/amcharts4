@@ -168,9 +168,11 @@ var ValueAxis = /** @class */ (function (_super) {
          */
         _this._positionToValue = {};
         /**
-         * A function which applies fills to alternating cells.
+         * Holds reference to a function that accepts a DataItem as parameter.
          *
-         * @todo Description
+         * It can either return a fill opacity for a fill, or manipulate data item
+         * directly, to create various highlighting scenarios.
+         *
          * @type {function}
          */
         _this.fillRule = function (dataItem) {
@@ -184,8 +186,15 @@ var ValueAxis = /** @class */ (function (_super) {
             }
         };
         /**
-         * As calculating totals is expensive operation and not often needed, by default we do not do it. In case you use totalPercent or total for your charts, you must set this to true
-         * @todo review description
+         * As calculating totals is expensive operation and not often needed, we
+         * don't do it by default.
+         *
+         * In case you use `totalPercent` or `total` in your charts, this must be set
+         * to `true.
+         *
+         * @default false
+         * @see {@link https://www.amcharts.com/docs/v4/chart-types/xy-chart/#100_stacks} For using `calculateTotals` for 100% stacked series.
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-strings/#Placeholders_for_numeric_values} For using `calculateTotals` in labels.
          * @type {boolean}
          */
         _this.calculateTotals = false;
@@ -567,7 +576,12 @@ var ValueAxis = /** @class */ (function (_super) {
          * @return {number} base value
          */
         get: function () {
-            return this._baseValue;
+            if (this.logarithmic) {
+                return this.min;
+            }
+            else {
+                return this._baseValue;
+            }
         },
         /**
          * A base value.
@@ -801,6 +815,11 @@ var ValueAxis = /** @class */ (function (_super) {
                 }
             });
         }
+        if (this.logarithmic) {
+            if (min <= 0) {
+                throw Error("Logarithmic value axis can not have vales <= 0.");
+            }
+        }
         if (min == 0 && max == 0) {
             max = 0.9;
             min = -0.9;
@@ -826,9 +845,10 @@ var ValueAxis = /** @class */ (function (_super) {
         var dif = this.adjustDifference(min, max); // previously it was max-min, but not worked well
         min = this.fixMin(min);
         max = this.fixMax(max);
-        var minMaxStep = this.adjustMinMax(min, max, dif, this._gridCount);
+        var minMaxStep = this.adjustMinMax(min, max, dif, this._gridCount, this.strictMinMax);
         min = minMaxStep.min;
         max = minMaxStep.max;
+        dif = max - min; //new
         // do it for the second time (importat!)
         minMaxStep = this.adjustMinMax(min, max, max - min, this._gridCount, true);
         min = minMaxStep.min;
@@ -918,9 +938,10 @@ var ValueAxis = /** @class */ (function (_super) {
      */
     ValueAxis.prototype.adjustMinMax = function (min, max, difference, gridCount, strictMode) {
         // will fail if 0
-        if (gridCount <= 0) {
+        if (gridCount <= 1) {
             gridCount = 1;
         }
+        gridCount = Math.round(gridCount);
         var initialMin = min;
         var initialMax = max;
         // in case min and max is the same, use max
@@ -960,13 +981,31 @@ var ValueAxis = /** @class */ (function (_super) {
         }
         else {
             if (min <= 0) {
-                throw Error("Logarithmic value axis can not have vales <= 0.");
+                //throw Error("Logarithmic value axis can not have vales <= 0.");
+                min = this.baseValue;
+            }
+            // @todo: think of a better way or to restrict zooming when no series are selected
+            if (min == Infinity) {
+                min = 1;
+            }
+            if (max == -Infinity) {
+                max = 10;
             }
             min = Math.pow(10, Math.floor(Math.log(Math.abs(min)) * Math.LOG10E));
             max = Math.pow(10, Math.ceil(Math.log(Math.abs(max)) * Math.LOG10E));
         }
         // repeat diff, exponent and power again with rounded values
         //difference = this.adjustDifference(min, max);
+        /*
+        
+                if(min > initialMin){
+                    min = initialMin;
+                }
+        
+                if(max < initialMax){
+                    max = initialMax;
+                }
+        */
         exponent = Math.log(Math.abs(difference)) * Math.LOG10E;
         power = Math.pow(10, Math.floor(exponent));
         power = power / 10;
@@ -994,8 +1033,25 @@ var ValueAxis = /** @class */ (function (_super) {
         }
         if (!this.logarithmic) {
             // final min and max
-            min = $math.round(step * Math.floor(min / step), decCount);
-            max = $math.round(step * Math.ceil(max / step), decCount);
+            var minCount = Math.floor(min / step);
+            min = $math.round(step * minCount, decCount);
+            var maxCount = void 0;
+            if (!strictMode) {
+                maxCount = Math.ceil(max / step);
+            }
+            else {
+                maxCount = Math.floor(max / step);
+            }
+            if (maxCount == minCount) {
+                maxCount++;
+            }
+            max = $math.round(step * maxCount, decCount);
+            if (max < initialMax) {
+                max = max + step;
+            }
+            if (min > initialMin) {
+                min = min - step;
+            }
         }
         return { min: min, max: max, step: step };
     };
@@ -1026,9 +1082,12 @@ var ValueAxis = /** @class */ (function (_super) {
     });
     Object.defineProperty(ValueAxis.prototype, "step", {
         /**
-         * [step description]
+         * Current calculated delta in values between two adjacent grid lines (step).
          *
-         * @todo Description
+         * This is a read-only value and cannot be used to set ctual step.
+         *
+         * @readonly
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/#Setting_the_density_of_the_the_grid_labels} For more information about modifying density of labels
          * @return {number} [description]
          */
         get: function () {
@@ -1236,6 +1295,11 @@ var ValueAxis = /** @class */ (function (_super) {
         var stack = dataItem.getValue(stackKey, "stack");
         if (!$type.isNumber(value)) {
             value = this.baseValue;
+            if (this.logarithmic) {
+                if (stack > 0) {
+                    value = 0;
+                }
+            }
         }
         return this.renderer.positionToPoint(this.valueToPosition(value + stack)).x;
     };
@@ -1258,6 +1322,11 @@ var ValueAxis = /** @class */ (function (_super) {
         var stack = dataItem.getValue(stackKey, "stack");
         if (!$type.isNumber(value)) {
             value = this.baseValue;
+            if (this.logarithmic) {
+                if (stack > 0) {
+                    value = 0;
+                }
+            }
         }
         return this.renderer.positionToPoint(this.valueToPosition(value + stack)).y;
     };

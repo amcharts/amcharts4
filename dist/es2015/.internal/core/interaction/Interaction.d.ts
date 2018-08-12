@@ -337,6 +337,15 @@ export declare class Interaction extends BaseObjectEvents {
      */
     handleFocus(io: InteractionObject, ev: FocusEvent): void;
     /**
+     * Used by regular click events to prevent focus if "noFocus" is set.
+     *
+     * This should not be called by "focus" handlers.
+     *
+     * @param {InteractionObject}  io  Element
+     * @param {MouseEvent | TouchEvent}         ev  Original event
+     */
+    private handleFocusBlur(io, ev);
+    /**
      * Dispatches "blur" event when element loses focus.
      *
      * @ignore Exclude from docs

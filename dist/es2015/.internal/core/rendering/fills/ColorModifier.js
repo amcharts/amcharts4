@@ -6,6 +6,7 @@ import * as tslib_1 from "tslib";
  * @hidden
  */
 import { BaseObject } from "../../Base";
+import { registry } from "../../Registry";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -41,4 +42,11 @@ var ColorModifier = /** @class */ (function (_super) {
     return ColorModifier;
 }(BaseObject));
 export { ColorModifier };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["ColorModifier"] = ColorModifier;
 //# sourceMappingURL=ColorModifier.js.map

@@ -5,6 +5,7 @@ import * as tslib_1 from "tslib";
 import { Language } from "../utils/Language";
 import { BaseObject } from "../Base";
 import { getTextFormatter } from "../formatters/TextFormatter";
+import { registry } from "../Registry";
 import * as $strings from "../utils/Strings";
 import * as $utils from "../utils/Utils";
 import * as $type from "../utils/Type";
@@ -315,10 +316,7 @@ var DateFormatter = /** @class */ (function (_super) {
                     }
                     break;
                 case "a":
-                    if (hours > 12) {
-                        value = language.translate("PM");
-                    }
-                    else if (hours === 12 && (minutes > 0)) {
+                    if (hours >= 12) {
                         value = language.translate("PM");
                     }
                     else {
@@ -326,10 +324,7 @@ var DateFormatter = /** @class */ (function (_super) {
                     }
                     break;
                 case "aa":
-                    if (hours > 12) {
-                        value = language.translate("P.M.");
-                    }
-                    else if (hours === 12 && (minutes > 0)) {
+                    if (hours >= 12) {
                         value = language.translate("P.M.");
                     }
                     else {
@@ -337,10 +332,7 @@ var DateFormatter = /** @class */ (function (_super) {
                     }
                     break;
                 case "aaa":
-                    if (hours > 12) {
-                        value = language.translate("P");
-                    }
-                    else if (hours === 12 && (minutes > 0)) {
+                    if (hours >= 12) {
                         value = language.translate("P");
                     }
                     else {
@@ -1095,4 +1087,11 @@ var DateFormatter = /** @class */ (function (_super) {
     return DateFormatter;
 }(BaseObject));
 export { DateFormatter };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["DateFormatter"] = DateFormatter;
 //# sourceMappingURL=DateFormatter.js.map

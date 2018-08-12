@@ -16,6 +16,7 @@ import { registry } from "../../Registry";
 import { InterfaceColorSet } from "../../utils/InterfaceColorSet";
 import * as $iter from "../../utils/Iterator";
 import * as $object from "../../utils/Object";
+import * as $type from "../../utils/Type";
 ;
 /**
  * ============================================================================
@@ -130,6 +131,18 @@ var Pattern = /** @class */ (function (_super) {
         this._elements.removeValue(element);
         this.removeDispose(element);
     };
+    Object.defineProperty(Pattern.prototype, "elements", {
+        /**
+         * Returns the list of SVG elements comprising the pattern.
+         *
+         * @return {List<AMElement>} Pattern elements
+         */
+        get: function () {
+            return this._elements;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Pattern.prototype, "fillOpacity", {
         /**
          * @return {number} Opacity (0-1)
@@ -450,7 +463,40 @@ var Pattern = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Processes JSON-based config before it is applied to the object.
+     *
+     * @ignore Exclude from docs
+     * @param {object}  config  Config
+     */
+    Pattern.prototype.processConfig = function (config) {
+        if (config) {
+            // Set up series
+            if ($type.hasValue(config.elements) && $type.isArray(config.elements)) {
+                for (var i = 0, len = config.elements.length; i < len; i++) {
+                    var element = config.elements[i];
+                    if ($type.hasValue(element["type"])) {
+                        var sprite = this.createEntryInstance(element);
+                        if (sprite instanceof BaseObject) {
+                            sprite.config = element;
+                        }
+                        this.addElement($type.hasValue(element["typeProperty"])
+                            ? sprite[element["typeProperty"]]
+                            : sprite.element);
+                    }
+                }
+            }
+        }
+        _super.prototype.processConfig.call(this, config);
+    };
     return Pattern;
 }(BaseObject));
 export { Pattern };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["Pattern"] = Pattern;
 //# sourceMappingURL=Pattern.js.map

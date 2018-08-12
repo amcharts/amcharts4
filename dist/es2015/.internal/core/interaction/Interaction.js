@@ -439,7 +439,9 @@ var Interaction = /** @class */ (function (_super) {
             if (!io.eventDisposers.hasKey("focusable")) {
                 io.eventDisposers.setKey("focusable", new MultiDisposer([
                     addEventListener(io.element, "focus", function (e) { return _this.handleFocus(io, e); }),
-                    addEventListener(io.element, "blur", function (e) { return _this.handleBlur(io, e); })
+                    addEventListener(io.element, "blur", function (e) { return _this.handleBlur(io, e); }),
+                    addEventListener(io.element, this._pointerEvents.pointerdown, function (e) { return _this.handleFocusBlur(io, e); }),
+                    addEventListener(io.element, "touchstart", function (e) { return _this.handleFocusBlur(io, e); }, this._passiveSupported ? { passive: false } : false)
                 ]));
             }
         }
@@ -506,6 +508,20 @@ var Interaction = /** @class */ (function (_super) {
                 event: ev
             };
             io.events.dispatchImmediately("focus", imev);
+        }
+    };
+    /**
+     * Used by regular click events to prevent focus if "noFocus" is set.
+     *
+     * This should not be called by "focus" handlers.
+     *
+     * @param {InteractionObject}  io  Element
+     * @param {MouseEvent | TouchEvent}         ev  Original event
+     */
+    Interaction.prototype.handleFocusBlur = function (io, ev) {
+        if (io.focusable !== false && this.getHitOption(io, "noFocus")) {
+            ev.preventDefault();
+            $dom.blur();
         }
     };
     /**

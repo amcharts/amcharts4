@@ -488,7 +488,6 @@ var ColumnSeries = /** @class */ (function (_super) {
             dataItem.column.width = 0;
             dataItem.column.height = 0;
             dataItem.column.__disabled = true;
-            //dataItem.column.removeTemporary();
         }
         $iter.each(this.axisRanges.iterator(), function (axisRange) {
             var rangeColumn = dataItem.rangesColumns.getKey(axisRange.uid);
@@ -497,7 +496,6 @@ var ColumnSeries = /** @class */ (function (_super) {
                 rangeColumn.width = 0;
                 rangeColumn.height = 0;
                 rangeColumn.__disabled = true;
-                //rangeColumn.removeTemporary();
             }
         });
     };
@@ -515,14 +513,18 @@ var ColumnSeries = /** @class */ (function (_super) {
             var value = void 0;
             var change = void 0;
             if (this.baseAxis == this.yAxis) {
-                open_1 = dataItem.getValue(this.xOpenField);
-                value = dataItem.getValue(this.xField);
-                change = dataItem.getValue(this.xAxis.axisFieldName + "X", "previousChange");
+                if (this.xOpenField && this.xField) {
+                    open_1 = dataItem.getValue(this.xOpenField);
+                    value = dataItem.getValue(this.xField);
+                    change = dataItem.getValue(this.xAxis.axisFieldName + "X", "previousChange");
+                }
             }
             else {
-                open_1 = dataItem.getValue(this.yOpenField);
-                value = dataItem.getValue(this.yField);
-                change = dataItem.getValue(this.yAxis.axisFieldName + "Y", "previousChange");
+                if (this.yOpenField && this.yField) {
+                    open_1 = dataItem.getValue(this.yOpenField);
+                    value = dataItem.getValue(this.yField);
+                    change = dataItem.getValue(this.yAxis.axisFieldName + "Y", "previousChange");
+                }
             }
             if (value < open_1) {
                 dataItem.droppedFromOpen = true;

@@ -6,6 +6,7 @@ import * as tslib_1 from "tslib";
  * @hidden
  */
 import { Pattern } from "./Pattern";
+import { registry } from "../../Registry";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -38,4 +39,11 @@ var LinePattern = /** @class */ (function (_super) {
     return LinePattern;
 }(Pattern));
 export { LinePattern };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["LinePattern"] = LinePattern;
 //# sourceMappingURL=LinePattern.js.map

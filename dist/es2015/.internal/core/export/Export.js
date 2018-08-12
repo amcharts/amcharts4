@@ -480,14 +480,14 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getImage = function (type, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var background, width, height, font, fontSize, canvas, ctx, DOMURL, data, svg, url, img, uri, e_1;
+            var background, width, height, font, fontSize, canvas, ctx, DOMURL, styles, data, svg, url, img, uri, e_1;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         background = this.backgroundColor || this.findBackgroundColor(this.sprite.dom);
                         return [4 /*yield*/, this.simplifiedImageExport()];
                     case 1:
-                        if (!_a.sent()) return [3 /*break*/, 8];
+                        if (!_a.sent()) return [3 /*break*/, 9];
                         width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = this.findFont(this.sprite.dom), fontSize = this.findFontSize(this.sprite.dom);
                         canvas = document.createElement("canvas");
                         canvas.width = width;
@@ -507,14 +507,17 @@ var Export = /** @class */ (function (_super) {
                     case 2:
                         // Do prepareations on a document
                         _a.sent();
-                        data = this.normalizeSVG(this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, font, fontSize);
+                        return [4 /*yield*/, this.fontsToDataURI()];
+                    case 3:
+                        styles = _a.sent();
+                        data = this.normalizeSVG(this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, font, fontSize, styles);
                         svg = new Blob([data], { type: "image/svg+xml" });
                         url = DOMURL.createObjectURL(svg);
-                        _a.label = 3;
-                    case 3:
-                        _a.trys.push([3, 5, , 7]);
-                        return [4 /*yield*/, this.loadNewImage(url, width, height, "anonymous")];
+                        _a.label = 4;
                     case 4:
+                        _a.trys.push([4, 6, , 8]);
+                        return [4 /*yield*/, this.loadNewImage(url, width, height, "anonymous")];
+                    case 5:
                         img = _a.sent();
                         // Draw image on canvas
                         ctx.drawImage(img, 0, 0);
@@ -528,20 +531,20 @@ var Export = /** @class */ (function (_super) {
                         this.restoreRemovedObjects();
                         // Return value
                         return [2 /*return*/, uri];
-                    case 5:
+                    case 6:
                         e_1 = _a.sent();
                         return [4 /*yield*/, this.getImageAdvanced(type, options)];
-                    case 6: 
+                    case 7: 
                     // An error occurred, let's try advanced method
                     return [2 /*return*/, _a.sent()];
-                    case 7: return [3 /*break*/, 10];
-                    case 8: return [4 /*yield*/, this.getImageAdvanced(type, options)];
-                    case 9: 
+                    case 8: return [3 /*break*/, 11];
+                    case 9: return [4 /*yield*/, this.getImageAdvanced(type, options)];
+                    case 10: 
                     /**
                      * Going the hard way. Converting to canvas from each node
                      */
                     return [2 /*return*/, _a.sent()];
-                    case 10: return [2 /*return*/];
+                    case 11: return [2 /*return*/];
                 }
             });
         });
@@ -670,6 +673,92 @@ var Export = /** @class */ (function (_super) {
                         return [2 /*return*/];
                     case 2: return [2 /*return*/];
                 }
+            });
+        });
+    };
+    /**
+     * Converts all document external fonts to data uris.
+     *
+     * @ignore Exclude from docs
+     * @return {Promise<void>} [description]
+     */
+    Export.prototype.fontsToDataURI = function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var style, promises, i, sheet, x, rule, font;
+            return tslib_1.__generator(this, function (_a) {
+                style = [];
+                promises = [];
+                for (i = 0; i < document.styleSheets.length; i++) {
+                    sheet = document.styleSheets[i];
+                    for (x = 0; x < sheet.cssRules.length; x++) {
+                        rule = sheet.cssRules[x];
+                        if (rule.href) {
+                            font = this.fontToDataURI(rule.href);
+                            promises.push(font);
+                            font.then(function (res) {
+                                style = style.concat(res);
+                            });
+                        }
+                    }
+                }
+                return [2 /*return*/, Promise.all(promises).then(function () {
+                        return style.join("\n");
+                    })];
+            });
+        });
+    };
+    Export.prototype.fontToDataURI = function (url) {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return tslib_1.__generator(this, function (_a) {
+                return [2 /*return*/, $net.load(url).then(function (res) {
+                        // Init
+                        var promises = [];
+                        // Creating a remporary style sheet with our loaded definition
+                        var s = document.createElement('style');
+                        s.innerHTML = res.response;
+                        document.head.appendChild(s);
+                        var sheet = s.sheet; // using <any> because no all support `cssRules`
+                        var _loop_1 = function (i) {
+                            var rule = sheet.cssRules[i];
+                            var src = rule.style.getPropertyValue('src');
+                            if (!src && rule.style.cssText.match(/url\(.*?\)/g)) {
+                                src = rule.style.cssText.match(/url\(.*?\)/g)[0];
+                            }
+                            if (!src && rule.cssText.match(/url\(.*?\)/g)) {
+                                src = rule.cssText.match(/url\(.*?\)/g)[0];
+                            }
+                            if (src) {
+                                // Get font url
+                                var url_1 = src.split('url(')[1].split(')')[0].replace(/\"/g, '');
+                                // Load and create data uri
+                                promises.push($net.load(url_1, _this, { responseType: "blob" })
+                                    .then(function (res) {
+                                    return res.blob;
+                                    //return new Blob([res.response], { type: res.type });
+                                })
+                                    .then(function (blob) {
+                                    return new Promise(function (resolve) {
+                                        var f = new FileReader();
+                                        f.onload = function (e) {
+                                            resolve(f.result);
+                                        };
+                                        f.readAsDataURL(blob);
+                                    });
+                                })
+                                    .then(function (dataURL) {
+                                    return rule.cssText.replace(url_1, dataURL);
+                                }));
+                            }
+                        };
+                        // Iterate through all of the CSS rules we've just created in our
+                        // temporary stylesheet
+                        for (var i = 0; i < sheet.cssRules.length; i++) {
+                            _loop_1(i);
+                        }
+                        document.head.removeChild(s); // clean up
+                        return Promise.all(promises); // wait for all this has been done
+                    })];
             });
         });
     };
@@ -1031,10 +1120,11 @@ var Export = /** @class */ (function (_super) {
      * @param  {number}             height    Height of the SVG viewport
      * @param  {string}             font      Font family to use as a base
      * @param  {string}             fontSize  Font size to use as a base
+     * @param  {string}             styles    A string to add to <style>
      * @return {string}                       Output SVG
      * @todo Add style params to existing <svg>
      */
-    Export.prototype.normalizeSVG = function (svg, options, width, height, font, fontSize) {
+    Export.prototype.normalizeSVG = function (svg, options, width, height, font, fontSize, styles) {
         // Construct width/height params
         var dimParams = "";
         if (width) {
@@ -1046,7 +1136,11 @@ var Export = /** @class */ (function (_super) {
         // Apply font settings
         var styleParams = "";
         if (font) {
-            styleParams += "font-family: " + font.replace(/"/g, "") + ";";
+            var fonts = font.split(",");
+            for (var i = 0; i < fonts.length; i++) {
+                fonts[i] = "'" + $utils.trim(fonts[i].replace(/"/g, "")) + "'";
+            }
+            styleParams += "font-family: " + fonts.join(",") + ";";
         }
         if (fontSize) {
             styleParams += "font-size: " + fontSize + ";";
@@ -1071,6 +1165,15 @@ var Export = /** @class */ (function (_super) {
                 // Add new params
                 svg = svg.replace(/(<svg)/, "$1" + dimParams);
             }*/
+        }
+        // Add <style> block
+        if (styles) {
+            // Check if there's <defs> section
+            if (!svg.match(/<defs[^>]*>/)) {
+                svg = svg.replace(/(<svg[^>]*>)/, "$1<defs></defs>");
+            }
+            // Add styles
+            svg = svg.replace(/(<defs[^>]*>)/, "$1<style>" + styles + "</style>");
         }
         svg = this.adapter.apply("normalizeSVG", {
             data: svg,
