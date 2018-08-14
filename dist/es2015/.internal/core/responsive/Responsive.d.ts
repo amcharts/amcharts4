@@ -321,6 +321,7 @@ export declare class Responsive extends BaseObjectEvents {
      * @param {IResponsiveRule}  rule    Responsive rule
      * @param {any}              target  Target element
      * @deprecated
+     * @hidden
      */
     /**
      * Returns a relative state for the rule/target, or `null` if no state is

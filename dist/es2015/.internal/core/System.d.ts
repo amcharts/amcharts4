@@ -25,24 +25,6 @@ export declare class System {
      */
     static VERSION: string;
     /**
-     * Invalid sizes
-     * @rodo Remove commented code
-     */
-    /**
-     * Number of times per second charts will be updated.
-     *
-     * This means that each time an element is invalidated it will wait for the
-     * next cycle to be re-validated, and possibly redrawn.
-     *
-     * This happens every `1000 / frameRate` milliseconds.
-     *
-     * Reducing this number may reduce the load on the CPU, but might slightly
-     * reduce smoothness of the animations.
-     *
-     * @type {number}
-     * @deprecated Moved to [[Registry]]
-     */
-    /**
      * Number of times per second component container is measured.
      *
      * It is not wise to measure container as often as `frameRate`, as this would

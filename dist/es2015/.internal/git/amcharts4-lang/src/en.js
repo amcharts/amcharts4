@@ -119,6 +119,15 @@ export default {
     // in both long and short forms, while in other languages it may not be the
     // case. Translate "May" to full word, while "May(short)" to shortened
     // version.
+    // 
+    // Should month names and weekdays be capitalized or not?
+    // 
+    // Rule of thumb is this: if the names should always be capitalized,
+    // regardless of name position within date ("January", "21st January 2018",
+    // etc.) use capitalized names. Otherwise enter all lowercase.
+    // 
+    // The date formatter will automatically capitalize names if they are the
+    // first (or only) word in resulting date.
     "January": "",
     "February": "",
     "March": "",

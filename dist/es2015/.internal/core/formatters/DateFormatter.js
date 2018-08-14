@@ -89,6 +89,13 @@ var DateFormatter = /** @class */ (function (_super) {
          * @type {string}
          */
         _this._outputFormat = "svg";
+        /**
+         * Should the first letter of the formatted date be capitalized?
+         *
+         * @default true
+         * @type {boolean}
+         */
+        _this.capitalize = true;
         _this.className = "DateFormatter";
         _this.applyTheme();
         return _this;
@@ -128,6 +135,10 @@ var DateFormatter = /** @class */ (function (_super) {
         }
         // Apply format
         var formatted = this.applyFormat(date, info, this.language);
+        // Capitalize
+        if (this.capitalize) {
+            formatted = formatted.replace(/^.{1}/, formatted.substr(0, 1).toUpperCase());
+        }
         // We're done
         return formatted;
     };

@@ -104,13 +104,6 @@ export declare class InteractionObject extends BaseObjectEvents {
      */
     _originalScale: $type.Optional<number>;
     /**
-     * Coordinates of the primary cursor position.
-     *
-     * @type {IPoint}
-     * @deprecated
-     * @todo Remove
-     */
-    /**
      * List of pointers current over element.
      *
      * @type {Optional<List<IPointer>>}

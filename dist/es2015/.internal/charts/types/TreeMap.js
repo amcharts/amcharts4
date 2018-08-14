@@ -61,7 +61,7 @@ var TreeMapDataItem = /** @class */ (function (_super) {
          * @return {number} Value
          */
         get: function () {
-            var value = this.values["value"].value;
+            var value = this.values["value"].workingValue;
             if (!$type.isNumber(value)) {
                 value = 0;
                 if (this.children) {
@@ -323,6 +323,7 @@ var TreeMap = /** @class */ (function (_super) {
          * }
          * ```
          *
+         * @see {@link https://www.amcharts.com/docs/v4/chart-types/treemap/#Area_division_methods} For more info and examples.
          * @default squarify
          * @type {function}
          */
@@ -558,6 +559,8 @@ var TreeMap = /** @class */ (function (_super) {
             else {
                 series = this.series.create();
             }
+            series.name = dataItem.name;
+            series.parentDataItem = dataItem;
             dataItem.series = series;
             var level = dataItem.level;
             series.level = level;
@@ -567,6 +570,7 @@ var TreeMap = /** @class */ (function (_super) {
             }
             this.dataUsers.removeValue(series); // series do not use data directly, that's why we remove it
             series.data = dataItem.children.values;
+            series.fill = dataItem.color;
             series.columns.template.adapter.add("fill", function (fill, target) {
                 var dataItem = target.dataItem;
                 if (dataItem) {
@@ -606,10 +610,10 @@ var TreeMap = /** @class */ (function (_super) {
         // hide all series which are not in tempSeries
         $iter.each(this.series.iterator(), function (series) {
             if (_this._tempSeries.indexOf(series) == -1) {
-                series.hide();
+                series.hideReal(duration);
             }
             else {
-                series.show();
+                series.showReal(duration);
                 if (series.level > _this.currentLevel + _this.maxLevels - 1) {
                     series.bulletsContainer.hide(duration);
                 }
@@ -639,6 +643,7 @@ var TreeMap = /** @class */ (function (_super) {
             this.xAxis.zoomToValues(dataItem.x0, dataItem.x1);
             this.yAxis.zoomToValues(dataItem.y0, dataItem.y1);
             this.currentLevel = dataItem.level;
+            this.currentlyZoomed = dataItem;
             this.createTreeSeries(dataItem);
             var rangeChangeAnimation = this.xAxis.rangeChangeAnimation || this.yAxis.rangeChangeAnimation;
             if (rangeChangeAnimation) {
@@ -800,9 +805,36 @@ var TreeMap = /** @class */ (function (_super) {
             _super.prototype.processConfig.call(this, config);
         }
     };
+    /**
+     * [handleDataItemValueChange description]
+     *
+     * @ignore Exclude from docs
+     * @todo Description
+     */
     TreeMap.prototype.handleDataItemValueChange = function () {
         this.invalidateDataItems();
     };
+    //protected handleDataItemWorkingValueChange(event: AMEvent<TreeMapDataItem, IDataItemEvents>["workingvaluechanged"]): void {
+    //if(event.property == "value"){
+    //	this.invalidateLayout();
+    //}
+    //}
+    /**
+     * Measures the size of container and informs its children of how much size
+     * they can occupy, by setting their relative `maxWidth` and `maxHeight`
+     * properties.
+     *
+     * @ignore Exclude from docs
+     */
+    TreeMap.prototype.validateLayout = function () {
+        _super.prototype.validateLayout.call(this);
+        this.layoutItems(this.currentlyZoomed);
+    };
+    /**
+     * Validates (processes) data items.
+     *
+     * @ignore Exclude from docs
+     */
     TreeMap.prototype.validateDataItems = function () {
         _super.prototype.validateDataItems.call(this);
         this.layoutItems(this._homeDataItem);
@@ -1008,6 +1040,23 @@ var TreeMap = /** @class */ (function (_super) {
                 this.slice(row);
             }
             value -= sumValue, i0 = i1;
+        }
+    };
+    /**
+     * Setups the legend to use the chart's data.
+     */
+    TreeMap.prototype.feedLegend = function () {
+        var legend = this.legend;
+        if (legend) {
+            var legendData_1 = [];
+            $iter.each(this.series.iterator(), function (series) {
+                if (series.level == 1) {
+                    legendData_1.push(series);
+                }
+            });
+            legend.dataFields.name = "name";
+            legend.itemContainers.template.propertyFields.disabled = "hiddenInLegend";
+            legend.data = legendData_1;
         }
     };
     return TreeMap;

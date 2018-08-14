@@ -6,6 +6,7 @@ import * as $type from "./Type";
  * @param  {string}  value  Color name
  * @return {string}         Color
  * @deprecated
+ * @hidden
  */
 /**
  * Converts a proper color hex code (i.e. "#FF5500") or named color (i.e. "red")

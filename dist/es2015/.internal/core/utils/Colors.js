@@ -171,6 +171,7 @@ var namedColors = {
  * @param  {string}  value  Color name
  * @return {string}         Color
  * @deprecated
+ * @hidden
  */
 /*export function resolveNamedColor(value: string): Color {
     return (<any>namedColors)[value] ? (<any>namedColors)[value] : undefined;

@@ -305,12 +305,6 @@ export declare class Legend extends Component {
      */
     _dataItem: LegendDataItem<DataItem, IDataItemEvents>;
     /**
-     * Position of the legend.
-     *
-     * @type {LegendPosition}
-     * @deprecated Moved to prroperties
-     */
-    /**
      * List of legend Item containers. Legend item containers contain marker, title label and value label.
      *
      * @type {ListTemplate<Container>}

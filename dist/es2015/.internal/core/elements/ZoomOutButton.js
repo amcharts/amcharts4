@@ -29,13 +29,6 @@ import * as $type from "../../core/utils/Type";
 var ZoomOutButton = /** @class */ (function (_super) {
     tslib_1.__extends(ZoomOutButton, _super);
     /**
-     * Orientation of the resize direction.
-     *
-     * @deprecated Not used
-     * @type {Orientation}
-     */
-    //protected _orientation: Orientation;
-    /**
      * Constructor
      */
     function ZoomOutButton() {

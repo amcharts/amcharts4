@@ -543,7 +543,7 @@ var Animation = /** @class */ (function (_super) {
         var _this = this;
         this._time = this.duration * progress; // just in case we call this from outside
         $array.each(this.animationOptions, function (options) {
-            if (options.updateMethod) {
+            if (options.updateMethod && $type.hasValue(options.from)) {
                 var value = options.updateMethod(progress, options.from, options.to);
                 if (options.childObject) {
                     options.childObject[options.property] = value;

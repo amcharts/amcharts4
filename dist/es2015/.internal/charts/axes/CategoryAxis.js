@@ -239,6 +239,7 @@ var CategoryAxis = /** @class */ (function (_super) {
                 }
                 else {
                     //previously we disabled all before, but this is better for cpu
+                    this.validateDataElement(dataItem, itemIndex); // helps to solve shrinking
                     dataItem.__disabled = true;
                 }
             }

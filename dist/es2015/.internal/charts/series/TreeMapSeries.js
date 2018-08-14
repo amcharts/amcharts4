@@ -9,9 +9,13 @@ import * as tslib_1 from "tslib";
  * @hidden
  */
 import { ColumnSeries, ColumnSeriesDataItem } from "./ColumnSeries";
+import { visualProperties } from "../../core/Sprite";
 import { registry } from "../../core/Registry";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $type from "../../core/utils/Type";
+import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
+import * as $object from "../../core/utils/Object";
+import * as $iter from "../../core/utils/Iterator";
 /**
  * ============================================================================
  * DATA ITEM
@@ -125,7 +129,7 @@ var TreeMapSeries = /** @class */ (function (_super) {
         _this.columns.template.tooltipText = "{parentName} {name}: {value}"; //@todo add format number?
         _this.columns.template.configField = "config";
         var interfaceColors = new InterfaceColorSet();
-        _this.stroke = interfaceColors.getFor("stroke");
+        _this.stroke = interfaceColors.getFor("background");
         _this.dataFields.openValueX = "x0";
         _this.dataFields.valueX = "x1";
         _this.dataFields.openValueY = "y0";
@@ -162,7 +166,23 @@ var TreeMapSeries = /** @class */ (function (_super) {
      * @return {Animation}            Animation
      */
     TreeMapSeries.prototype.show = function (duration) {
-        return this.showReal(duration);
+        var _this = this;
+        $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
+            var i = a[0];
+            var dataItem = a[1];
+            var interpolationDuration = _this.interpolationDuration;
+            return dataItem.treeMapDataItem.setWorkingValue("value", dataItem.treeMapDataItem.getValue("value"), interpolationDuration);
+        });
+        var animation = _super.prototype.showReal.call(this, duration);
+        if (animation && !animation.isDisposed()) {
+            animation.events.on("animationended", function () {
+                _this.chart.invalidateLayout();
+            });
+        }
+        else {
+            this.chart.invalidateLayout();
+        }
+        return animation;
     };
     /**
      * Hides series.
@@ -171,7 +191,25 @@ var TreeMapSeries = /** @class */ (function (_super) {
      * @return {Animation}            Animation
      */
     TreeMapSeries.prototype.hide = function (duration) {
-        return this.hideReal(duration);
+        var _this = this;
+        $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
+            var i = a[0];
+            var dataItem = a[1];
+            var interpolationDuration = _this.interpolationDuration;
+            dataItem.treeMapDataItem.setWorkingValue("value", 0, interpolationDuration);
+        });
+        var animation = _super.prototype.hideReal.call(this, duration);
+        if (animation && !animation.isDisposed()) {
+            animation.events.on("animationended", function () {
+                _this.chart.invalidateLayout();
+            });
+        }
+        else {
+            this.chart.invalidateLayout();
+        }
+        return animation;
+    };
+    TreeMapSeries.prototype.appear = function () {
     };
     /**
      * Process values.
@@ -196,6 +234,25 @@ var TreeMapSeries = /** @class */ (function (_super) {
             }
         }
         _super.prototype.processConfig.call(this, config);
+    };
+    /**
+     * Creates elements in related legend container, that mimics the look of this
+     * Series.
+     *
+     * @ignore Exclude from docs
+     * @param {Container}  marker  Legend item container
+     */
+    TreeMapSeries.prototype.createLegendMarker = function (marker) {
+        var w = marker.pixelWidth;
+        var h = marker.pixelHeight;
+        marker.removeChildren();
+        var column = marker.createChild(RoundedRectangle);
+        column.shouldClone = false;
+        $object.copyProperties(this, column, visualProperties);
+        //column.copyFrom(<any>this.columns.template);
+        column.padding(0, 0, 0, 0); // if columns will have padding (which is often), legend marker will be very narrow
+        column.width = w;
+        column.height = h;
     };
     return TreeMapSeries;
 }(ColumnSeries));

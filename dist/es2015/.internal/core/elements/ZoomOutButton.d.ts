@@ -66,12 +66,6 @@ export declare class ZoomOutButton extends Button {
      */
     _events: IZoomOutButtonEvents;
     /**
-     * Orientation of the resize direction.
-     *
-     * @deprecated Not used
-     * @type {Orientation}
-     */
-    /**
      * Constructor
      */
     constructor();

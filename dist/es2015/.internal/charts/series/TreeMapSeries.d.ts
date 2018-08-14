@@ -10,6 +10,7 @@
 import { ColumnSeries, IColumnSeriesProperties, IColumnSeriesDataFields, IColumnSeriesAdapters, IColumnSeriesEvents, ColumnSeriesDataItem } from "./ColumnSeries";
 import { TreeMap, TreeMapDataItem } from "../types/TreeMap";
 import { Animation } from "../../core/utils/Animation";
+import { Container } from "../../core/Container";
 /**
  * ============================================================================
  * DATA ITEM
@@ -159,6 +160,7 @@ export declare class TreeMapSeries extends ColumnSeries {
      * @type {TreeMap}
      */
     _chart: TreeMap;
+    parentDataItem: TreeMapDataItem;
     /**
      * Constructor
      */
@@ -192,6 +194,7 @@ export declare class TreeMapSeries extends ColumnSeries {
      * @return {Animation}            Animation
      */
     hide(duration?: number): Animation;
+    appear(): void;
     /**
      * Process values.
      *
@@ -207,4 +210,12 @@ export declare class TreeMapSeries extends ColumnSeries {
     processConfig(config?: {
         [index: string]: any;
     }): void;
+    /**
+     * Creates elements in related legend container, that mimics the look of this
+     * Series.
+     *
+     * @ignore Exclude from docs
+     * @param {Container}  marker  Legend item container
+     */
+    createLegendMarker(marker: Container): void;
 }

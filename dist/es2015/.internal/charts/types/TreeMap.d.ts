@@ -351,6 +351,7 @@ export declare class TreeMap extends XYChart {
      * }
      * ```
      *
+     * @see {@link https://www.amcharts.com/docs/v4/chart-types/treemap/#Area_division_methods} For more info and examples.
      * @default squarify
      * @type {function}
      */
@@ -417,6 +418,12 @@ export declare class TreeMap extends XYChart {
      * @type {NavigationBar}
      */
     protected _navigationBar: NavigationBar;
+    /**
+     * Currently selected data item.
+     * @type {TreeMapDataItem}
+     * @readonly
+     */
+    currentlyZoomed: TreeMapDataItem;
     /**
      * Constructor
      */
@@ -560,7 +567,26 @@ export declare class TreeMap extends XYChart {
     processConfig(config?: {
         [index: string]: any;
     }): void;
+    /**
+     * [handleDataItemValueChange description]
+     *
+     * @ignore Exclude from docs
+     * @todo Description
+     */
     protected handleDataItemValueChange(): void;
+    /**
+     * Measures the size of container and informs its children of how much size
+     * they can occupy, by setting their relative `maxWidth` and `maxHeight`
+     * properties.
+     *
+     * @ignore Exclude from docs
+     */
+    validateLayout(): void;
+    /**
+     * Validates (processes) data items.
+     *
+     * @ignore Exclude from docs
+     */
     validateDataItems(): void;
     /**
      * ==========================================================================
@@ -637,4 +663,8 @@ export declare class TreeMap extends XYChart {
      * @param {TreeMapDataItem}  parent  Data item
      */
     squarify(parent: TreeMapDataItem): void;
+    /**
+     * Setups the legend to use the chart's data.
+     */
+    protected feedLegend(): void;
 }

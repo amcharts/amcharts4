@@ -48,13 +48,6 @@ export declare class RectPattern extends Pattern {
      */
     _properties: RectPatternProperties;
     /**
-     * Collection of property values for the pattern
-     *
-     * @todo Remove?
-     * @deprecated
-     * @type {Dictionary<RectPatternProperties, any>}
-     */
-    /**
      * Constructor
      */
     constructor();

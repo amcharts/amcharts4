@@ -29,13 +29,6 @@ import * as $type from "../../core/utils/Type";
 var PlayButton = /** @class */ (function (_super) {
     tslib_1.__extends(PlayButton, _super);
     /**
-     * Orientation of the resize direction.
-     *
-     * @deprecated Not used
-     * @type {Orientation}
-     */
-    //protected _orientation: Orientation;
-    /**
      * Constructor
      */
     function PlayButton() {

@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.44] - 2018-08-14
+
+### Added
+- `TreeMap` now supports legend. Legend will be displayed if a) `TreeMap` data is at least two levels deep (legend displays items from a second level); b) `chart.maxLevels` is set to `2` (without setting it no second-level series are created so legend does not have anything to build itself from). [More info](https://www.amcharts.com/docs/v4/chart-types/treemap/#Legend).
+- Swedish translation.
+
+### Changed
+- `DateFormatter` will now automatically capitalize month/weekday name if it's the first (or only) word in resulting formatted date. This can be turned off by setting formatter's [`capitalize`](https://www.amcharts.com/docs/v4/reference/dateformatter/#capitalize_property) to `false`.
+
+### Fixed
+- Removed `@deprecated` commented out methods/properties that were confusing tslint.
+- Issue that caused the chart to shrink was fixed.
+
 
 ## [4.0.0-beta.43] - 2018-08-12
 

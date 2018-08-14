@@ -66,12 +66,6 @@ export declare class PlayButton extends Button {
      */
     _events: IPlayButtonEvents;
     /**
-     * Orientation of the resize direction.
-     *
-     * @deprecated Not used
-     * @type {Orientation}
-     */
-    /**
      * Constructor
      */
     constructor();

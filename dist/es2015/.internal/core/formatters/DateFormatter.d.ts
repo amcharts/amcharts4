@@ -129,6 +129,13 @@ export declare class DateFormatter extends BaseObject {
      */
     language: $type.Optional<Language>;
     /**
+     * Should the first letter of the formatted date be capitalized?
+     *
+     * @default true
+     * @type {boolean}
+     */
+    capitalize: boolean;
+    /**
      * Constructor
      */
     constructor();

@@ -361,6 +361,7 @@ var Responsive = /** @class */ (function (_super) {
      * @param {IResponsiveRule}  rule    Responsive rule
      * @param {any}              target  Target element
      * @deprecated
+     * @hidden
      */
     /*	public applyRule(rule: IResponsiveRule, target: any): void {
 

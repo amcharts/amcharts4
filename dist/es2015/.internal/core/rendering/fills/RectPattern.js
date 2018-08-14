@@ -23,14 +23,6 @@ import { registry } from "../../Registry";
 var RectPattern = /** @class */ (function (_super) {
     tslib_1.__extends(RectPattern, _super);
     /**
-     * Collection of property values for the pattern
-     *
-     * @todo Remove?
-     * @deprecated
-     * @type {Dictionary<RectPatternProperties, any>}
-     */
-    //public propertyValues: Dictionary<RectPatternProperties, any>;
-    /**
      * Constructor
      */
     function RectPattern() {
