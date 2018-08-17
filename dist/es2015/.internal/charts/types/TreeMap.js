@@ -370,6 +370,9 @@ var TreeMap = /** @class */ (function (_super) {
         yRenderer.line.disabled = true;
         yRenderer.baseGrid.disabled = true;
         yRenderer.inversed = true;
+        _this.events.on("maxsizechanged", function () {
+            _this.invalidateData();
+        });
         // shortcuts
         _this.xAxis = xAxis;
         _this.yAxis = yAxis;
@@ -439,7 +442,7 @@ var TreeMap = /** @class */ (function (_super) {
         homeDataItem.y0 = 0;
         homeDataItem.name = this._homeText;
         var maxX = 1000;
-        var maxY = maxX * this.pixelHeight / this.pixelWidth;
+        var maxY = (maxX * this.pixelHeight / this.pixelWidth) || 1000;
         homeDataItem.x1 = maxX;
         homeDataItem.y1 = maxY;
         this.xAxis.min = 0;

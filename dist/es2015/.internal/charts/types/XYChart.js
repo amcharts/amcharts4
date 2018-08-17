@@ -859,7 +859,7 @@ var XYChart = /** @class */ (function (_super) {
     XYChart.prototype.showAxisTooltip = function (axes, position) {
         var _this = this;
         $iter.each(axes.iterator(), function (axis) {
-            if (_this.dataItems.length > 0) {
+            if (_this.dataItems.length > 0 || axis.dataItems.length > 0) {
                 axis.showTooltipAtPosition(position);
             }
         });

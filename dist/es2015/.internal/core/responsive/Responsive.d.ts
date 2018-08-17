@@ -324,7 +324,7 @@ export declare class Responsive extends BaseObjectEvents {
      * @hidden
      */
     /**
-     * Returns a relative state for the rule/target, or `null` if no state is
+     * Returns a relative state for the rule/target, or `undefined` if no state is
      * needed.
      *
      * @param  {IResponsiveRule}  rule    [description]

@@ -102,6 +102,20 @@ export interface IDataSourceAdapters {
      */
     incremental: boolean;
     /**
+     * Applied to `incrementalParams` setting.
+     *
+     * @type {string}
+     */
+    incrementalParams: {
+        [index: string]: string;
+    };
+    /**
+     * Applied to `keepCount` setting.
+     *
+     * @type {boolean}
+     */
+    keepCount: boolean;
+    /**
      * Applied to parser options.
      *
      * @type {any}
@@ -233,9 +247,32 @@ export declare class DataSource extends BaseObjectEvents {
      * (containing only new data points that are supposed to be added to existing
      * data).
      *
+     * NOTE: this setting works only with element's `data` property. It won't
+     * work with any other externally-loadable data property.
+     *
+     * @default false
      * @type {boolean}
      */
     protected _incremental: boolean;
+    /**
+     * A collection of key/value pairs to attach to a data source URL when making
+     * an incremental request.
+     */
+    protected _incrementalParams: {
+        [index: string]: string;
+    };
+    /**
+     * This setting is used only when `incremental = true`. If set to `true`,
+     * it will try to retain the same number of data items across each load.
+     *
+     * E.g. if incremental load yeilded 5 new records, then 5 items from the
+     * beginning of data will be removed so that we end up with the same number
+     * of data items.
+     *
+     * @default false
+     * @type {boolean}
+     */
+    protected _keepCount: boolean;
     /**
      * Holds the date of the last load.
      *
@@ -375,10 +412,42 @@ export declare class DataSource extends BaseObjectEvents {
      * If `incremental = false` the loader will replace all of the target's
      * data with each load.
      *
+     * This setting does not have any effect trhe first time data is loaded.
+     *
+     * NOTE: this setting works only with element's `data` property. It won't
+     * work with any other externally-loadable data property.
+     *
      * @default false
      * @param {boolean} Incremental load?
      */
     incremental: boolean;
+    /**
+     * @return {object} Incremental request parameters
+     */
+    /**
+     * An object consisting of key/value pairs to apply to an URL when data
+     * source is making an incremental request.
+     *
+     * @param {object}  value  Incremental request parameters
+     */
+    incrementalParams: {
+        [index: string]: string;
+    };
+    /**
+     * @return {boolean} keepCount load?
+     */
+    /**
+     * This setting is used only when `incremental = true`. If set to `true`,
+     * it will try to retain the same number of data items across each load.
+     *
+     * E.g. if incremental load yeilded 5 new records, then 5 items from the
+     * beginning of data will be removed so that we end up with the same number
+     * of data items.
+     *
+     * @default false
+     * @param {boolean} Keep record count?
+     */
+    keepCount: boolean;
     /**
      * @return {Language} A [[Language]] instance to be used
      */
@@ -421,6 +490,9 @@ export declare class DataSource extends BaseObjectEvents {
      * Use DataSource's events to watch for loaded data and errors.
      */
     load(): void;
+    addUrlParams(url: string, params: {
+        [index: string]: string;
+    }): string;
     /**
      * Processes JSON-based config before it is applied to the object.
      *

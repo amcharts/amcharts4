@@ -127,7 +127,7 @@ var DataParser = /** @class */ (function () {
          * @see {@link DateFormatter}
          */
         get: function () {
-            return this.options.dateFormat || this.dateFormatter.dateFormat;
+            return this.options.dateFormat || this.dateFormatter.inputDateFormat;
         },
         enumerable: true,
         configurable: true

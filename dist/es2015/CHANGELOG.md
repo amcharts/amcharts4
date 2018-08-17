@@ -5,6 +5,30 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.45] - 2018-08-17
+
+### Added
+- New hardcoded `Sprite` state name added `"hoverActive"` which (if defined) is applied on active elements on hover. This state is applied last in the chain.
+- New property on `DataSource`: `keepCount`. If set to `true` incremental updates will remove data items from the beginning of the current dataset, when adding the newly-loaded ones.
+- New property on `DataSource`: `incrementalParams`. It's an object whose key/value pairs will be added to URL as parameters when DataSource is making an incremental load request.
+- `Popup` (and `Modal`) now have an event dispatcher (`events`) with two events: `"opened"` and `"closed"`. ([more info](https://www.amcharts.com/docs/v4/concepts/popups-and-modals/#Event_handlers))
+
+### Changed
+- Legend now respects `itemContainers.template.togglable = false`, which disables default functionality of toggling items when clicked in legend, allowing users to attach their own funcitonality to legend item clicks.
+- Toggling of items in Legend can now be disabled by setting `chart.legend.itemContainers.template.togglable = false`.
+- In `XYChart` with a `DateAxis`, cursor and data at irregular intervals will now display a Tooltip for nearest available series' data item.
+- `zoomToCategories` method of `CategoryAxis` now zooms to the end of the "to" category.
+- Default `urlTarget` of amCharts logo is now `"_blank"`.
+
+### Fixed
+- In `DataSource` the formatters `inputDateFormat` was ignored.
+- Incremental data load via `DataSource` was not working.
+- Tooltip used to flicker ar 0,0 position in some cases when hovering over elements.
+- Fixed issue which caused chart to gradually shrink to invisibility under some conditions.
+- Fixed rendering errors for charts that were initialized in hidden containers.
+- `XYCursor` lines and axis tooltips were not shown if chart did not have any data (data was set directly on axis/series).
+
+
 ## [4.0.0-beta.44] - 2018-08-14
 
 ### Added

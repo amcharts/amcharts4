@@ -6,6 +6,7 @@
  */
 import { AMElement } from "./AMElement";
 import { List } from "../utils/List";
+import * as $type from "../utils/Type";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -60,15 +61,15 @@ export declare class Group extends AMElement {
     /**
      * First element in the group.
      *
-     * @return {AMElement} First element
+     * @return {Optional<AMElement>} First element
      */
-    readonly firstChild: AMElement;
+    readonly firstChild: $type.Optional<AMElement>;
     /**
      * Last element in the group.
      *
-     * @return {AMElement} Last element
+     * @return {Optional<AMElement>} Last element
      */
-    readonly lastChild: AMElement;
+    readonly lastChild: $type.Optional<AMElement>;
     /**
      * @return {string} SVG markup
      */

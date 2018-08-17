@@ -30,7 +30,6 @@ var theme = function (object) {
         object.thumb.background.fillOpacity = 0.5;
     }
     if (object instanceof AmChartsLogo) {
-        object.urlTarget = "_self";
         object.align = "left";
         object.valign = "bottom";
     }

@@ -36,18 +36,8 @@ function createChild(htmlElement, classType) {
     var htmlContainer = $dom.getElement(htmlElement);
     if (htmlContainer) {
         htmlContainer.innerHTML = "";
-        // we need to create another div with position:absolute in order div elements added inside could be positioned relatively
-        /*
-        let innerContainer = document.createElement("div");
-        let style = innerContainer.style;
-        style.width = "100%";
-        style.height = "100%";
-        style.position = "relative";
-*/
-        //	htmlContainer.appendChild(innerContainer);
         var svgDiv = new SVGContainer(htmlContainer);
-        var paper = new Paper(svgDiv.SVGContainer);
-        paper.id = "svg-" + (svgContainers.length - 1);
+        var paper = new Paper(svgDiv.SVGContainer, "svg-" + (svgContainers.length - 1));
         // the approach with masks is chosen because overflow:visible is set on SVG element in order tooltips could go outside
         // svg area - this is often needed when working with small charts.
         // main container which holds content container and tooltips container

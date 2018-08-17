@@ -134,7 +134,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
          * @return {number} Outer radius (px)
          */
         get: function () {
-            return $utils.relativeRadiusToValue(this.radius, this.pixelRadiusReal);
+            return $utils.relativeRadiusToValue(this.radius, this.pixelRadiusReal) || 0;
         },
         enumerable: true,
         configurable: true

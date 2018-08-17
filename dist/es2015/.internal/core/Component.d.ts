@@ -718,6 +718,12 @@ export declare class Component extends Container {
      * The range uses relative values from 0 to 1, with 0 marking beginning and 1
      * marking end of the available data range.
      *
+     * This method will not have any effect when called on a chart object.
+     * Since the chart can have a number of axes and series, each with its own
+     * data, the meaning of "range" is very ambiguous.
+     *
+     * To zoom the chart use `zoom*` methods on its respective axes.
+     *
      * @param  {IRange}  range          Range
      * @param  {boolean} skipRangeEvent Should rangechanged event not be triggered?
      * @param  {boolean} instantly      Do not animate?
@@ -726,6 +732,12 @@ export declare class Component extends Container {
     zoom(range: IRange, skipRangeEvent?: boolean, instantly?: boolean): IRange;
     /**
      * Zooms to specific data items using their index in data.
+     *
+     * This method will not have any effect when called on a chart object.
+     * Since the chart can have a number of axes and series, each with its own
+     * data, the meaning of "index" is very ambiguous.
+     *
+     * To zoom the chart use `zoom*` methods on its respective axes.
      *
      * @param {number}  startIndex     Index of the starting data item
      * @param {number}  endIndex       Index of the ending data item

@@ -149,12 +149,6 @@ export declare class RadarColumnSeries extends ColumnSeries {
      */
     validateDataElementReal(dataItem: this["_dataItem"]): void;
     /**
-     * Returnsan SVG path that is used as mask for the series.
-     *
-     * @return {string} SVG path
-     */
-    protected getMaskPath(): string;
-    /**
      * [getPoint description]
      *
      * @todo Description
@@ -170,4 +164,10 @@ export declare class RadarColumnSeries extends ColumnSeries {
         x: number;
         y: number;
     };
+    /**
+     * Returns an SVG path to be used as a mask for the series.
+     *
+     * @return {string} SVG path
+     */
+    protected getMaskPath(): string;
 }

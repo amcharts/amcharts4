@@ -39,7 +39,6 @@ var theme = function (object) {
         object.reuse = true;
     }
     if (object instanceof AmChartsLogo) {
-        object.urlTarget = "_self";
         object.align = "left";
         object.valign = "bottom";
     }

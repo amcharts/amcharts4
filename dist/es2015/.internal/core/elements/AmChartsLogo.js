@@ -44,6 +44,7 @@ var AmChartsLogo = /** @class */ (function (_super) {
         _this.opacity = 0.3;
         _this.defaultState.properties.opacity = 0.4;
         _this.url = "https://www.amcharts.com/";
+        _this.urlTarget = "_blank";
         _this.showSystemTooltip = true;
         _this.readerTitle = "chart created using amCharts library";
         _this.width = 220 * d;
@@ -83,8 +84,6 @@ var AmChartsLogo = /** @class */ (function (_super) {
         var hoverState = _this.states.create("hover");
         hoverState.properties.opacity = 1;
         hoverState.filters.push(desaturateFilterHover);
-        // temp
-        //this.scale = 0.001;
         // Apply theme
         _this.applyTheme();
         return _this;

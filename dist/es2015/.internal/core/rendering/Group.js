@@ -92,7 +92,7 @@ var Group = /** @class */ (function (_super) {
         /**
          * First element in the group.
          *
-         * @return {AMElement} First element
+         * @return {Optional<AMElement>} First element
          */
         get: function () {
             if (this.children.length) {
@@ -107,7 +107,7 @@ var Group = /** @class */ (function (_super) {
         /**
          * Last element in the group.
          *
-         * @return {AMElement} Last element
+         * @return {Optional<AMElement>} Last element
          */
         get: function () {
             var len;

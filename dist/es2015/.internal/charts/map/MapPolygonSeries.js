@@ -375,7 +375,6 @@ var MapPolygonSeries = /** @class */ (function (_super) {
      */
     MapPolygonSeries.prototype.validate = function () {
         _super.prototype.validate.call(this);
-        //console.log(this.uid, this.mapPolygons.length);
         $iter.each(this.mapPolygons.iterator(), function (mapPolygon) {
             mapPolygon.validate();
         });

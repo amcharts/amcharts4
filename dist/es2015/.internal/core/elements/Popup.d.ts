@@ -1,5 +1,5 @@
 import { Adapter } from "../utils/Adapter";
-import { BaseObject } from "../Base";
+import { BaseObjectEvents } from "../Base";
 import { Sprite } from "../Sprite";
 import { InteractionObject } from "../interaction/InteractionObject";
 import { Percent } from "../utils/Percent";
@@ -112,12 +112,32 @@ export interface IPopupAdapters {
     };
 }
 /**
+ * Defines events for Popup.
+ */
+export interface IPopupEvents {
+    /**
+     * Invoked when Popup is opened.
+     */
+    opened: {};
+    /**
+     * Invoked when Popup is closed.
+     */
+    closed: {};
+}
+/**
  * Shows an HTML popup which covers window or a chart area.
  *
  * @see {@link https://www.amcharts.com/docs/v4/concepts/popups-and-modals/} For examples and docs on Popups and Modals.
  * @todo Positioning over whole window
  */
-export declare class Popup extends BaseObject {
+export declare class Popup extends BaseObjectEvents {
+    /**
+     * Defines available events.
+     *
+     * @type {IPopupEvents}
+     * @ignore Exclude from docs
+     */
+    _events: IPopupEvents;
     /**
      * Defines available adapters.
      *

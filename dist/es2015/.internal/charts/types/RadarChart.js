@@ -219,7 +219,7 @@ var RadarChart = /** @class */ (function (_super) {
         // @todo handle this when innerRadius set in pixels (do it for pie also)
         rect = $math.getCommonRectangle([rect, innerRect]);
         var maxRadius = Math.min(plotContainer.innerWidth / rect.width, plotContainer.innerHeight / rect.height);
-        var diameter = $utils.relativeRadiusToValue(this.radius, maxRadius) * 2;
+        var diameter = $utils.relativeRadiusToValue(this.radius, maxRadius) * 2 || 0;
         var radius = diameter / 2;
         var startAngle = this.startAngle;
         var endAngle = this.endAngle;

@@ -136,8 +136,8 @@ var ChordDiagram = /** @class */ (function (_super) {
             slice.arc = arc;
             slice.startAngle = startAngle;
             node.trueStartAngle = startAngle;
-            node.invalidate();
             node.parent = _this.nodesContainer;
+            node.invalidate();
             startAngle += arc + _this.nodePadding;
         });
         this.chordContainer.definedBBox = { x: radius * rect.x, y: radius * rect.y, width: radius * rect.width, height: radius * rect.height };

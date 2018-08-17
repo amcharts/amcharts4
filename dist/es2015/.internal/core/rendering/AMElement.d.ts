@@ -10,6 +10,7 @@
 import { IRectangle } from "../defs/IRectangle";
 import { IDisposer } from "../utils/Disposer";
 import { IPoint } from "../defs/IPoint";
+import * as $type from "../utils/Type";
 /**
  * ============================================================================
  * REQUISITES
@@ -368,9 +369,9 @@ export declare class AMElement implements IDisposer {
      * Returns `transform` attribute of the element.
      *
      * @ignore Exclude from docs
-     * @return {string} Transform attribute value
+     * @return {Optional<string>} Transform attribute value
      */
-    readonly transformString: string;
+    readonly transformString: $type.Optional<string>;
     /**
      * Appply position, rotation and scale properties via elemen's `transform`
      * property
@@ -469,10 +470,10 @@ export declare class AMElement implements IDisposer {
     /**
      * Returns a value of a node attribute.
      *
-     * @param  {string}  attribute  Attribute name
-     * @return {string}             Attribute value
+     * @param  {string}         attribute  Attribute name
+     * @return {string | null}             Attribute value
      */
-    getAttr(attribute: string): string;
+    getAttr(attribute: string): string | null;
     /**
      * Sets a single attribute of the element's node using namesspace.
      *

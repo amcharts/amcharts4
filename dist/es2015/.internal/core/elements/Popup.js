@@ -10,7 +10,7 @@ import * as tslib_1 from "tslib";
  */
 import popupCSS from "./PopupCSS";
 import { Adapter } from "../utils/Adapter";
-import { BaseObject } from "../Base";
+import { BaseObjectEvents } from "../Base";
 import { getInteraction } from "../interaction/Interaction";
 import { keyboard } from "../utils/Keyboard";
 import { MultiDisposer } from "../utils/Disposer";
@@ -170,6 +170,7 @@ var Popup = /** @class */ (function (_super) {
                 this.showCurtain = this.showCurtain;
             }
             this.positionElement();
+            this.dispatchImmediately("opened");
         }
     };
     /**
@@ -186,6 +187,7 @@ var Popup = /** @class */ (function (_super) {
                 this._elements.curtain.parentElement.removeChild(this._elements.curtain);
             }
         }
+        this.dispatchImmediately("closed");
         this._releasePointers();
     };
     /**
@@ -875,6 +877,6 @@ var Popup = /** @class */ (function (_super) {
         this.adapter.copyFrom(source.adapter);
     };
     return Popup;
-}(BaseObject));
+}(BaseObjectEvents));
 export { Popup };
 //# sourceMappingURL=Popup.js.map

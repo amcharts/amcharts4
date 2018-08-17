@@ -68,14 +68,24 @@ var SVGContainer = /** @class */ (function () {
     SVGContainer.prototype.measure = function () {
         var width = $utils.width(this.htmlElement);
         var height = $utils.height(this.htmlElement);
-        if (this.container) {
+        var container = this.container;
+        if (container) {
             if (this.width != width || this.height != height) {
                 this.width = width;
                 this.height = height;
-                var container = this.container;
-                container.maxWidth = width;
-                container.maxHeight = height;
+                if (width > 0) {
+                    container.maxWidth = width;
+                }
+                if (height > 0) {
+                    container.maxHeight = height;
+                }
                 $dom.fixPixelPerfect(this.SVGContainer);
+            }
+            if (!container.maxWidth) {
+                container.maxWidth = 0;
+            }
+            if (!container.maxHeight) {
+                container.maxHeight = 0;
             }
         }
     };

@@ -65,7 +65,7 @@ export function relativeToValue(percent, full) {
     if ($type.isNumber(percent)) {
         return percent;
     }
-    else if (percent != null && $type.isNumber(percent.value)) {
+    else if (percent != null && $type.isNumber(percent.value) && $type.isNumber(full)) {
         return full * percent.value;
     }
     else {

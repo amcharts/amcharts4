@@ -56,15 +56,15 @@ var ColorizeFilter = /** @class */ (function (_super) {
         var g;
         var b;
         var color = this.color;
-        if (!color) {
-            r = 0;
-            g = 0;
-            b = 0;
-        }
-        else {
+        if (color && color.rgb) {
             r = color.rgb.r / 255 * i;
             g = color.rgb.g / 255 * i;
             b = color.rgb.b / 255 * i;
+        }
+        else {
+            r = 0;
+            g = 0;
+            b = 0;
         }
         this.feColorMatrix.attr({ "values": ii + " 0 0 0 " + r + " 0 " + ii + " 0 0 " + g + " 0 0 " + ii + " 0 " + b + " 0 0 0 1 0" });
     };

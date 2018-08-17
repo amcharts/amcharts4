@@ -36,9 +36,10 @@ var Paper = /** @class */ (function () {
      *
      * @param {HTMLElement} container A reference to HTML element to create `<svg>` in
      */
-    function Paper(container) {
+    function Paper(container, id) {
         // Store container reference
         this.container = container;
+        this.id = id;
         // Create SVG element
         var svg = document.createElementNS($dom.SVGNS, "svg");
         svg.setAttribute("version", "1.1");
@@ -135,8 +136,7 @@ export function getGhostPaper() {
         ghostDiv.hidden = true;
         document.body.appendChild(ghostDiv);
         var ghostSvgContainer = new SVGContainer(ghostDiv);
-        ghostPaper = new Paper(ghostSvgContainer.SVGContainer);
-        ghostPaper.id = "ghost";
+        ghostPaper = new Paper(ghostSvgContainer.SVGContainer, "ghost");
     }
     return ghostPaper;
 }

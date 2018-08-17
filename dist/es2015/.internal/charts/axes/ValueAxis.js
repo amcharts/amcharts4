@@ -320,6 +320,9 @@ var ValueAxis = /** @class */ (function (_super) {
      * @todo Description (review)
      */
     ValueAxis.prototype.validate = function () {
+        if (this.axisLength <= 0) {
+            return;
+        }
         // this is moved to a separate method because it differs in DateAxis
         this.validateAxisElements();
         _super.prototype.validate.call(this);

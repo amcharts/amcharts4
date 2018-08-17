@@ -71,7 +71,7 @@ export declare class Paper {
      *
      * @param {HTMLElement} container A reference to HTML element to create `<svg>` in
      */
-    constructor(container: HTMLElement);
+    constructor(container: HTMLElement, id: string);
     /**
      * Creates and returns a new element. Does not attach it to Paper yet.
      *

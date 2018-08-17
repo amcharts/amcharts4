@@ -44,7 +44,6 @@ export default [
                 state.properties.maxLabelPosition = 0;
                 return state;
             }
-            return null;
         }
     },
     /**
@@ -97,7 +96,6 @@ export default [
                 state.properties.position = "bottom";
                 return state;
             }
-            return null;
         }
     },
     /**
@@ -150,7 +148,6 @@ export default [
                 state.properties.position = "right";
                 return state;
             }
-            return null;
         }
     },
     /**
@@ -177,7 +174,6 @@ export default [
                 state.properties.disabled = true;
                 return state;
             }
-            return null;
         }
     }
 ];

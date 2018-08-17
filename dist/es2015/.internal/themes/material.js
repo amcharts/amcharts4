@@ -40,7 +40,6 @@ var theme = function (object) {
         object.animationDuration = 800;
     }
     if (object instanceof AmChartsLogo) {
-        object.urlTarget = "_self";
         object.align = "left";
         object.valign = "bottom";
     }

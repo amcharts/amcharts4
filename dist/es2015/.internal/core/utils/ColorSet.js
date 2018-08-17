@@ -246,7 +246,7 @@ var ColorSet = /** @class */ (function (_super) {
     ColorSet.prototype.generate = function (count) {
         // Init
         var curColor = this.currentColor;
-        var hsl = $colors.rgbToHsl(curColor.rgb);
+        var hsl = $colors.rgbToHsl($type.getValue(curColor.rgb));
         var hueStep = $type.hasValue(this.stepOptions.hue) ? this.stepOptions.hue : 1 / count;
         var mods = {
             brighten: 0,

@@ -1335,6 +1335,45 @@ var DateAxis = /** @class */ (function (_super) {
         var date = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count);
         var dataItem = series.dataItemsByAxis.getKey(this.uid).getKey(date.getTime().toString());
         // todo:  alternatively we can find closiest here
+        if (!dataItem) {
+            // to the left
+            var leftCount = 0;
+            var leftDataItem = void 0;
+            var leftDate = new Date(date.getTime());
+            while (date.getTime() > this.minZoomed) {
+                leftDate = $time.add(leftDate, this.baseInterval.timeUnit, -this.baseInterval.count);
+                leftDataItem = series.dataItemsByAxis.getKey(this.uid).getKey(leftDate.getTime().toString());
+                if (leftDataItem) {
+                    break;
+                }
+                leftCount++;
+            }
+            var rightCount = 0;
+            var rightDataItem = void 0;
+            var rightDate = new Date(date.getTime());
+            while (date.getTime() < this.maxZoomed) {
+                rightDate = $time.add(rightDate, this.baseInterval.timeUnit, this.baseInterval.count);
+                rightDataItem = series.dataItemsByAxis.getKey(this.uid).getKey(rightDate.getTime().toString());
+                if (rightDataItem) {
+                    break;
+                }
+                rightCount++;
+            }
+            if (leftDataItem && !rightDataItem) {
+                return leftDataItem;
+            }
+            else if (!leftDataItem && rightDataItem) {
+                return rightDataItem;
+            }
+            else if (leftDataItem && rightDataItem) {
+                if (leftCount < rightCount) {
+                    return leftDataItem;
+                }
+                else {
+                    return rightDataItem;
+                }
+            }
+        }
         return dataItem;
     };
     /**

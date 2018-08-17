@@ -265,7 +265,10 @@ var XYChartScrollbar = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     XYChartScrollbar.prototype.handleDataChanged = function () {
-        this.scrollbarChart.data = this.chart.data;
+        //@todo: what if raw data changed?
+        if (this.chart.data != this.scrollbarChart.data) {
+            this.scrollbarChart.data = this.chart.data;
+        }
     };
     /**
      * Zooms out all axes on the internal chart.
@@ -286,11 +289,11 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         _super.prototype.updateThumb.call(this);
         if (this._unselectedOverlay) {
             var thumb = this.thumb;
-            var x = thumb.pixelX;
-            var y = thumb.pixelY;
-            var w = thumb.pixelWidth;
-            var h = thumb.pixelHeight;
-            var path = void 0;
+            var x = thumb.pixelX || 0;
+            var y = thumb.pixelY || 0;
+            var w = thumb.pixelWidth || 0;
+            var h = thumb.pixelHeight || 0;
+            var path = "";
             if (this.orientation == "horizontal") {
                 path = $path.rectToPath({
                     x: -1,
@@ -301,7 +304,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
                 path += $path.rectToPath({
                     x: x + w,
                     y: 0,
-                    width: this.pixelWidth - x - w,
+                    width: (this.pixelWidth || 0) - x - w,
                     height: h
                 });
             }
@@ -316,7 +319,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
                     x: 0,
                     y: y + h,
                     width: w,
-                    height: this.pixelHeight - y - h
+                    height: (this.pixelHeight || 0) - y - h
                 });
             }
             this._unselectedOverlay.element.attr({ "d": path });

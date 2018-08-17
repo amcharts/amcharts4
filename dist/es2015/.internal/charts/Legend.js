@@ -110,10 +110,11 @@ var Legend = /** @class */ (function (_super) {
         itemContainer.clickable = true;
         itemContainer.focusable = true;
         itemContainer.role = "checkbox";
+        itemContainer.togglable = true;
         itemContainer.background.fillOpacity = 0; // creates hit area
         // Add click/tap event to toggle item
         // not good to listen to "toggled" as we will get to stackoverflow
-        itemContainer.events.on("hit", function (ev) {
+        itemContainer.events.on("toggled", function (ev) {
             _this.toggleDataItem(ev.target.dataItem);
         }, _this);
         // Add focus event so that we can track which object is currently in focus
@@ -238,10 +239,12 @@ var Legend = /** @class */ (function (_super) {
             // We cannot do this on a template since template does not have
             // dataContext, yet
             var sprite = dataItem.dataContext;
-            if (sprite instanceof Sprite) {
+            if (sprite instanceof Sprite || sprite instanceof DataItem) {
                 container.addDisposer(sprite.events.on("visibilitychanged", function (ev) {
                     container.readerChecked = ev.visible;
+                    container.events.disableType("toggled");
                     container.isActive = !ev.visible;
+                    container.events.enableType("toggled");
                 }));
             }
         }
@@ -274,6 +277,9 @@ var Legend = /** @class */ (function (_super) {
         var valueLabel = dataItem.valueLabel;
         if (!valueLabel) {
             valueLabel = this.valueLabels.create();
+            if (!valueLabel.text) {
+                valueLabel.width = undefined;
+            }
             valueLabel.parent = container;
             dataItem.valueLabel = valueLabel;
         }
@@ -285,7 +291,9 @@ var Legend = /** @class */ (function (_super) {
         }
         visible = $type.toBoolean(visible);
         dataItem.dataContext.visible = visible;
+        container.events.disableType("toggled");
         container.isActive = !visible;
+        container.events.enableType("toggled");
         // this is needed as in case custom items were created in series the color might not be active
         marker.children.each(function (child) {
             child.isActive = !visible;

@@ -207,6 +207,9 @@ var CategoryAxis = /** @class */ (function (_super) {
     CategoryAxis.prototype.validate = function () {
         var _this = this;
         _super.prototype.validate.call(this);
+        if (this.axisLength <= 0) {
+            return;
+        }
         this.maxZoomFactor = this.dataItems.length;
         if (this.dataItems.length <= 0) {
             this.maxZoomFactor = 1;
@@ -461,7 +464,7 @@ var CategoryAxis = /** @class */ (function (_super) {
      * @param {string}  endCategory    End category
      */
     CategoryAxis.prototype.zoomToCategories = function (startCategory, endCategory) {
-        this.zoomToIndexes(this.categoryToIndex(startCategory), this.categoryToIndex(endCategory));
+        this.zoomToIndexes(this.categoryToIndex(startCategory), this.categoryToIndex(endCategory) + 1);
     };
     /**
      * [getAnyRangePath description]

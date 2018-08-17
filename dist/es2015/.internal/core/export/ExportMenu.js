@@ -208,7 +208,7 @@ var ExportMenu = /** @class */ (function (_super) {
             this._element.style.display = "none";
         }
         // Append to container
-        this._container.appendChild(this._element);
+        $type.getValue(this._container).appendChild(this._element);
         // Apply adapter to menu items before processing
         this._items = this.adapter.apply("items", {
             items: this._items
@@ -319,17 +319,20 @@ var ExportMenu = /** @class */ (function (_super) {
                 }
             });
         }
-        // Add ENTER event to open sub-menus
-        if (this.hasSubMenu(branch)) {
-            // TODO clean this up when it's disposed
-            branch.interactions.events.on("keyup", function (ev) {
-                if (keyboard.isKey(ev.event, "enter")) {
-                    // This is item has sub-menu, activate the first child on ENTER
-                    _this.selectBranch(branch.menu[0]);
-                    // Attempt to set focus
-                    _this.setFocus(branch.menu[0]);
-                }
-            });
+        {
+            var submenu_1 = this.getSubMenu(branch);
+            // Add ENTER event to open sub-menus
+            if (submenu_1 != null) {
+                // TODO clean this up when it's disposed
+                branch.interactions.events.on("keyup", function (ev) {
+                    if (keyboard.isKey(ev.event, "enter")) {
+                        // This is item has sub-menu, activate the first child on ENTER
+                        _this.selectBranch(submenu_1[0]);
+                        // Attempt to set focus
+                        _this.setFocus(submenu_1[0]);
+                    }
+                });
+            }
         }
         // Add events
         // TODO clean this up when it's disposed
@@ -378,11 +381,12 @@ var ExportMenu = /** @class */ (function (_super) {
         if (branch.menu) {
             var submenu = this.createMenuElement(local_level);
             for (var len = branch.menu.length, i = 0; i < len; i++) {
-                branch.menu[i].ascendants = new List();
+                var ascendants = new List();
+                branch.menu[i].ascendants = ascendants;
                 if (branch.ascendants.length) {
-                    branch.menu[i].ascendants.copyFrom(branch.ascendants);
+                    ascendants.copyFrom(branch.ascendants);
                 }
-                branch.menu[i].ascendants.push(branch);
+                ascendants.push(branch);
                 this.drawBranch(submenu, branch.menu[i], local_level);
             }
             // Sub-menu is empty (all items are not supported)
@@ -511,6 +515,18 @@ var ExportMenu = /** @class */ (function (_super) {
         return (branch.menu && branch.menu.length) ? true : false;
     };
     /**
+     * Returns sub-items (if they exist).
+     *
+     * @ignore Exclude from docs
+     * @param  {IExportMenuItem}                   branch  A menu item
+     * @return {Optional<Array<IExportMenuItem>>}          Submenus
+     */
+    ExportMenu.prototype.getSubMenu = function (branch) {
+        if (branch.menu && branch.menu.length) {
+            return branch.menu;
+        }
+    };
+    /**
      * Generates and returns an applicable label to be used for screen readers.
      *
      * @ignore Exclude from docs
@@ -529,7 +545,7 @@ var ExportMenu = /** @class */ (function (_super) {
             label = this.language.translate("Click, tap or press ENTER to print.");
         }
         else if (this.typeClickable(branch.type)) {
-            label = this.language.translate("Click, tap or press ENTER to export as %1.", null, label);
+            label = this.language.translate("Click, tap or press ENTER to export as %1.", undefined, label);
         }
         return this.adapter.apply("rederLabel", {
             label: label,
@@ -552,7 +568,7 @@ var ExportMenu = /** @class */ (function (_super) {
          * A container must be an HTML element, because menu itself is HTML, and
          * cannot be placed into SVG.
          *
-         * @param {HTMLElement} container Reference to container element
+         * @param {Optional<HTMLElement>} container Reference to container element
          * @todo Check if menu is already build. If it is, just move it to a new container
          */
         set: function (container) {
@@ -748,7 +764,9 @@ var ExportMenu = /** @class */ (function (_super) {
      */
     ExportMenu.prototype.loadDefaultCSS = function () {
         this._disposers.push(exportCSS(this.classPrefix));
-        this._element.style.display = "";
+        if (this._element) {
+            this._element.style.display = "";
+        }
     };
     Object.defineProperty(ExportMenu.prototype, "tabindex", {
         /**
@@ -824,10 +842,12 @@ var ExportMenu = /** @class */ (function (_super) {
             this.setBlur(this._currentSelection);
             this._currentSelection = undefined;
         }
-        var items = this._element.getElementsByClassName("active");
-        for (var len = items.length, i = len - 1; i >= 0; i--) {
-            if (items[i]) {
-                $dom.removeClass(items[i], "active");
+        if (this._element) {
+            var items = this._element.getElementsByClassName("active");
+            for (var len = items.length, i = len - 1; i >= 0; i--) {
+                if (items[i]) {
+                    $dom.removeClass(items[i], "active");
+                }
             }
         }
         this.events.dispatchImmediately("closed", {
@@ -848,12 +868,12 @@ var ExportMenu = /** @class */ (function (_super) {
         // Cancel previous closure
         if (branch.closeTimeout) {
             this.removeDispose(branch.closeTimeout);
-            branch.closeTimeout = null;
+            branch.closeTimeout = undefined;
         }
         // Add active class
         $dom.addClass(branch.interactions.element.parentElement, "active");
         // Remove current selection
-        if (this._currentSelection && this._currentSelection !== branch) {
+        if (this._currentSelection && this._currentSelection !== branch && this._currentSelection.ascendants) {
             $iter.each($iter.concat($iter.fromArray([this._currentSelection]), this._currentSelection.ascendants.iterator()), function (ascendant) {
                 if (!branch.ascendants.contains(ascendant) && branch !== ascendant) {
                     _this.unselectBranch(ascendant, true);
@@ -864,7 +884,7 @@ var ExportMenu = /** @class */ (function (_super) {
         $iter.each(branch.ascendants.iterator(), function (ascendant) {
             if (ascendant.closeTimeout) {
                 _this.removeDispose(ascendant.closeTimeout);
-                ascendant.closeTimeout = null;
+                ascendant.closeTimeout = undefined;
             }
             $dom.addClass(ascendant.interactions.element.parentElement, "active");
         });
@@ -917,7 +937,7 @@ var ExportMenu = /** @class */ (function (_super) {
         // Schedule branch unselection
         if (branch.closeTimeout) {
             this.removeDispose(branch.closeTimeout);
-            branch.closeTimeout = null;
+            branch.closeTimeout = undefined;
         }
         branch.closeTimeout = this.setTimeout(function () {
             _this.unselectBranch(branch, simple);
@@ -927,7 +947,7 @@ var ExportMenu = /** @class */ (function (_super) {
         // that all items will be closed.
         // In case we're jumping to other menu item, those delayed unselections will
         // be cancelled by `selectBranch`
-        if (simple !== true) {
+        if (simple !== true && branch.ascendants) {
             $iter.each(branch.ascendants.iterator(), function (ascendant) {
                 _this.delayUnselectBranch(ascendant, true);
             });
@@ -956,9 +976,10 @@ var ExportMenu = /** @class */ (function (_super) {
             newSelection = this.getNextSibling(this._currentSelection);
         }
         else if ((key == "left" && this.align == "right") || (key == "right" && this.align == "left")) {
+            var menu = this.getSubMenu(this._currentSelection);
             // Go one level-deeper
-            if (this.hasSubMenu(this._currentSelection)) {
-                newSelection = this._currentSelection.menu[0];
+            if (menu != null) {
+                newSelection = menu[0];
             }
         }
         else if ((key == "right" && this.align == "right") || (key == "left" && this.align == "left")) {
@@ -980,17 +1001,22 @@ var ExportMenu = /** @class */ (function (_super) {
      */
     ExportMenu.prototype.getSiblings = function (branch) {
         var parent = this.getParentItem(branch);
-        return parent ? parent.menu : [];
+        if (parent && parent.menu) {
+            return parent.menu;
+        }
+        else {
+            return [];
+        }
     };
     /**
      * Returns menu items parent item.
      *
      * @ignore Exclude from docs
-     * @param  {IExportMenuItem}  branch  Menu item
-     * @return {IExportMenuItem}          Parent menu item
+     * @param  {IExportMenuItem}            branch  Menu item
+     * @return {Optional<IExportMenuItem>}          Parent menu item
      */
     ExportMenu.prototype.getParentItem = function (branch) {
-        if (branch.ascendants.length) {
+        if (branch.ascendants && branch.ascendants.length) {
             return branch.ascendants.getIndex(branch.ascendants.length - 1);
         }
         else {
@@ -1044,7 +1070,9 @@ var ExportMenu = /** @class */ (function (_super) {
      * @param {IExportMenuItem} branch Menu item
      */
     ExportMenu.prototype.setFocus = function (branch) {
-        branch.interactions.element.focus();
+        if (branch.interactions) {
+            branch.interactions.element.focus();
+        }
     };
     /**
      * Attempts to remove focus from the menu element.
@@ -1053,7 +1081,9 @@ var ExportMenu = /** @class */ (function (_super) {
      * @param {IExportMenuItem} branch Menu item
      */
     ExportMenu.prototype.setBlur = function (branch) {
-        branch.interactions.element.blur();
+        if (branch.interactions) {
+            branch.interactions.element.blur();
+        }
     };
     return ExportMenu;
 }(Validatable));

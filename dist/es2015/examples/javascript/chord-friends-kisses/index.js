@@ -16,7 +16,6 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
  */
 
 
-let time = Date.now();
 am4core.useTheme(am4themes_animated);
 var chart = am4core.create("chartdiv", am4charts.ChordDiagram);
 

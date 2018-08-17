@@ -307,7 +307,7 @@ var Container = /** @class */ (function (_super) {
                 if ($type.isNumber(this.relativeWidth)) {
                     this.invalidateLayout();
                 }
-                this.dispatchImmediately("maxsizechanged");
+                this.dispatch("maxsizechanged");
             }
         },
         enumerable: true,
@@ -337,7 +337,7 @@ var Container = /** @class */ (function (_super) {
                 if ($type.isNumber(this.relativeHeight)) {
                     this.invalidateLayout();
                 }
-                this.dispatchImmediately("maxsizechanged");
+                this.dispatch("maxsizechanged");
             }
         },
         enumerable: true,
@@ -595,6 +595,15 @@ var Container = /** @class */ (function (_super) {
         var _this = this;
         $array.remove(registry.invalidLayouts, this);
         this.layoutInvalid = false;
+        var topParent = this.topParent;
+        if (topParent) {
+            if (!topParent.maxWidth || !topParent.maxHeight) {
+                topParent.events.once("maxsizechanged", function () {
+                    _this.invalidateLayout();
+                });
+                //return; // not good for labels
+            }
+        }
         this._availableWidth = this.innerWidth;
         this._availableHeight = this.innerHeight;
         var measuredWidth = 0;

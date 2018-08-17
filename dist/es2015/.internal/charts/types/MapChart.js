@@ -134,7 +134,7 @@ var MapChart = /** @class */ (function (_super) {
         // Set up main chart container, e.g. set backgrounds and events to monitor
         // size changes, etc.
         var chartContainer = _this.chartContainer;
-        chartContainer.events.on("maxsizechanged", _this.udpateScaleRatio, _this);
+        seriesContainer.events.on("maxsizechanged", _this.udpateScaleRatio, _this);
         var chartContainerBg = chartContainer.background;
         chartContainerBg.fillOpacity = 0;
         chartContainerBg.events.on("down", function (e) { _this.seriesContainer.dragStart(e.target.interactions.downPointers.getIndex(0)); }, _this);

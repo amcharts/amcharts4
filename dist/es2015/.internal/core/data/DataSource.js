@@ -14,6 +14,7 @@ import { Language } from "../utils/Language";
 import { DateFormatter } from "../formatters/DateFormatter";
 import { registry } from "../Registry";
 import * as $type from "../utils/Type";
+import * as $object from "../utils/Object";
 ;
 ;
 /**
@@ -69,6 +70,35 @@ var DataSource = /** @class */ (function (_super) {
          * @type {INetRequestOptions}
          */
         _this._requestOptions = {};
+        /**
+         * If set to `true`, any subsequent data loads will be considered incremental
+         * (containing only new data points that are supposed to be added to existing
+         * data).
+         *
+         * NOTE: this setting works only with element's `data` property. It won't
+         * work with any other externally-loadable data property.
+         *
+         * @default false
+         * @type {boolean}
+         */
+        _this._incremental = false;
+        /**
+         * A collection of key/value pairs to attach to a data source URL when making
+         * an incremental request.
+         */
+        _this._incrementalParams = {};
+        /**
+         * This setting is used only when `incremental = true`. If set to `true`,
+         * it will try to retain the same number of data items across each load.
+         *
+         * E.g. if incremental load yeilded 5 new records, then 5 items from the
+         * beginning of data will be removed so that we end up with the same number
+         * of data items.
+         *
+         * @default false
+         * @type {boolean}
+         */
+        _this._keepCount = false;
         /**
          * Will show loading indicator when loading files.
          *
@@ -145,18 +175,8 @@ var DataSource = /** @class */ (function (_super) {
         this.dispatchImmediately("done", {
             "data": this.data
         });
-        // Update component
-        /*if (this.component) {
-
-            // Set new data
-            if (this.data && this.incremental) {
-                this.component.addData(this.data);
-            }
-            else {
-                this.component.data = this.data;
-            }
-
-        }*/
+        // The component is responsible for updating its own data vtriggered via
+        // events.
         // Update last data load
         this.lastLoad = new Date();
         // Should we schedule a reload?
@@ -171,9 +191,15 @@ var DataSource = /** @class */ (function (_super) {
          * @return {string} URL
          */
         get: function () {
-            return this.adapter.apply("url", this.disableCache
+            // Get URL
+            var url = this.disableCache
                 ? this.timestampUrl(this._url)
-                : this._url);
+                : this._url;
+            // Add incremental params
+            if (this.incremental && this.component.data.length) {
+                url = this.addUrlParams(url, this.incrementalParams);
+            }
+            return this.adapter.apply("url", url);
         },
         /**
          * URL of the data source.
@@ -313,11 +339,59 @@ var DataSource = /** @class */ (function (_super) {
          * If `incremental = false` the loader will replace all of the target's
          * data with each load.
          *
+         * This setting does not have any effect trhe first time data is loaded.
+         *
+         * NOTE: this setting works only with element's `data` property. It won't
+         * work with any other externally-loadable data property.
+         *
          * @default false
          * @param {boolean} Incremental load?
          */
         set: function (value) {
             this._incremental = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DataSource.prototype, "incrementalParams", {
+        /**
+         * @return {object} Incremental request parameters
+         */
+        get: function () {
+            return this.adapter.apply("incrementalParams", this._incrementalParams);
+        },
+        /**
+         * An object consisting of key/value pairs to apply to an URL when data
+         * source is making an incremental request.
+         *
+         * @param {object}  value  Incremental request parameters
+         */
+        set: function (value) {
+            this._incrementalParams = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DataSource.prototype, "keepCount", {
+        /**
+         * @return {boolean} keepCount load?
+         */
+        get: function () {
+            return this.adapter.apply("keepCount", this._keepCount);
+        },
+        /**
+         * This setting is used only when `incremental = true`. If set to `true`,
+         * it will try to retain the same number of data items across each load.
+         *
+         * E.g. if incremental load yeilded 5 new records, then 5 items from the
+         * beginning of data will be removed so that we end up with the same number
+         * of data items.
+         *
+         * @default false
+         * @param {boolean} Keep record count?
+         */
+        set: function (value) {
+            this._keepCount = value;
         },
         enumerable: true,
         configurable: true
@@ -385,14 +459,10 @@ var DataSource = /** @class */ (function (_super) {
      * @return {string}       Timestamped URL
      */
     DataSource.prototype.timestampUrl = function (url) {
-        var p = url.split("?"), tstamp = new Date().getTime().toString();
-        if (1 === p.length) {
-            p[1] = tstamp;
-        }
-        else {
-            p[1] += "&" + tstamp;
-        }
-        return p.join("?");
+        var tstamp = new Date().getTime().toString();
+        var params = {};
+        params[tstamp] = "";
+        return this.addUrlParams(url, params);
     };
     /**
      * Disposes of this object.
@@ -413,6 +483,22 @@ var DataSource = /** @class */ (function (_super) {
      */
     DataSource.prototype.load = function () {
         dataLoader.load(this);
+    };
+    DataSource.prototype.addUrlParams = function (url, params) {
+        var join = url.match(/\?/) ? "&" : "?";
+        var add = [];
+        $object.each(params, function (key, value) {
+            if (value != "") {
+                add.push(key + "=" + encodeURIComponent(value));
+            }
+            else {
+                add.push(key);
+            }
+        });
+        if (add.length) {
+            return url + join + add.join("&");
+        }
+        return url;
     };
     /**
      * Processes JSON-based config before it is applied to the object.

@@ -850,6 +850,15 @@ var BaseObjectEvents = /** @class */ (function (_super) {
             }
         }
     };
+    /**
+     * Copies all parameters from another [[Sprite]].
+     *
+     * @param {BaseObjectEvents} source Source object
+     */
+    BaseObjectEvents.prototype.copyFrom = function (source) {
+        _super.prototype.copyFrom.call(this, source);
+        this.events.copyFrom(source.events);
+    };
     return BaseObjectEvents;
 }(BaseObject));
 export { BaseObjectEvents };

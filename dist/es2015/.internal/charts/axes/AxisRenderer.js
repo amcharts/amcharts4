@@ -211,20 +211,20 @@ var AxisRenderer = /** @class */ (function (_super) {
         if (axis && axis.chart) {
             var chart = this.axis.chart;
             if (chart.plotContainer) {
-                return chart.plotContainer.pixelHeight;
+                return chart.plotContainer.pixelHeight || 0;
             }
         }
-        return this.gridContainer.pixelHeight;
+        return this.gridContainer.pixelHeight || 0;
     };
     AxisRenderer.prototype.getWidth = function () {
         var axis = this.axis;
         if (axis && axis.chart) {
             var chart = this.axis.chart;
             if (chart.plotContainer) {
-                return chart.plotContainer.pixelWidth;
+                return chart.plotContainer.pixelWidth || 0;
             }
         }
-        return this.gridContainer.pixelWidth;
+        return this.gridContainer.pixelWidth || 0;
     };
     /**
      * Converts a coordinate in pixels to a relative position. (0-1)

@@ -104,17 +104,6 @@ var Label = /** @class */ (function (_super) {
                 _this.alignSVGText();
             }
         });
-        // trying to solve strange bug when text is measured as 0x0
-        /*
-        this.events.once("validated", () => {
-
-            if (this.text && (this.bbox.width == 0 || this.bbox.height == 0)) {
-                registry.events.once("exitframe", () => {
-                    this._prevStatus = "";
-                    this.invalidate();
-                })
-            }
-        })*/
         // Aply theme
         _this.applyTheme();
         return _this;
@@ -167,8 +156,19 @@ var Label = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Label.prototype.draw = function () {
+        var _this = this;
         // Draw super
         _super.prototype.draw.call(this);
+        var topParent = this.topParent;
+        if (topParent) {
+            if (!topParent.maxWidth || !topParent.maxHeight) {
+                topParent.events.once("maxsizechanged", function () {
+                    _this._prevStatus = "";
+                    _this.invalidate();
+                });
+                return;
+            }
+        }
         // Calculate max width and height
         var maxWidth = $math.max(this.availableWidth - this.pixelPaddingLeft - this.pixelPaddingRight, 0);
         var maxHeight = $math.max(this.availableHeight - this.pixelPaddingTop - this.pixelPaddingBottom, 0);

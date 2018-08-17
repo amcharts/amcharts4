@@ -127,13 +127,13 @@ export function checkChange(dateOne, dateTwo, unit) {
     }
 }
 /**
- * Adds `count` of time `unit` to the source date. Returns a new `Date` object.
+ * Adds `count` of time `unit` to the source date. Returns a modified `Date` object.
  *
  * @ignore Exclude from docs
  * @param  {Date}      date   Source date
  * @param  {TimeUnit}  unit   Time unit
  * @param  {number}    count  Number of units to add
- * @return {Date}             New date
+ * @return {Date}             Modified date
  */
 export function add(date, unit, count) {
     var year = date.getFullYear();

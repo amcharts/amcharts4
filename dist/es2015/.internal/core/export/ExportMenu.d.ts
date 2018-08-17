@@ -8,6 +8,7 @@ import { IDisposer, MutableValueDisposer } from "../utils/Disposer";
 import { Language } from "../utils/Language";
 import { Validatable } from "../utils/Validatable";
 import { KeyboardKeys } from "../utils/Keyboard";
+import * as $type from "../utils/Type";
 /**
  * ============================================================================
  * REQUISITES
@@ -167,12 +168,12 @@ export interface IExportMenuAdapters {
     itemClass: {
         className: string;
         level: number;
-        type: keyof IExportOptions;
+        type?: keyof IExportOptions;
     };
     labelClass: {
         className: string;
         level: number;
-        type: keyof IExportOptions;
+        type?: keyof IExportOptions;
     };
     menuTag: {
         tag: string;
@@ -266,23 +267,23 @@ export declare class ExportMenu extends Validatable {
      * Reference to DOM element that holds Export menu.
      *
      * @ignore Exclude from docs
-     * @type {HTMLElement}
+     * @type {Optional<HTMLElement>}
      */
-    protected _container: HTMLElement;
+    protected _container: $type.Optional<HTMLElement>;
     /**
      * Menu element.
      *
      * @ignore Exclude from docs
-     * @type {HTMLElement}
+     * @type {Optional<HTMLElement>}
      */
-    protected _element: HTMLElement;
+    protected _element: $type.Optional<HTMLElement>;
     /**
      * Currently selected menu item.
      *
      * @ignore Exclude from docs
-     * @type {IExportMenuItem}
+     * @type {Optional<IExportMenuItem>}
      */
-    protected _currentSelection: IExportMenuItem;
+    protected _currentSelection: $type.Optional<IExportMenuItem>;
     /**
      * What HTML tags to use to build menu.
      *
@@ -439,6 +440,14 @@ export declare class ExportMenu extends Validatable {
      */
     hasSubMenu(branch: IExportMenuItem): boolean;
     /**
+     * Returns sub-items (if they exist).
+     *
+     * @ignore Exclude from docs
+     * @param  {IExportMenuItem}                   branch  A menu item
+     * @return {Optional<Array<IExportMenuItem>>}          Submenus
+     */
+    getSubMenu(branch: IExportMenuItem): $type.Optional<Array<IExportMenuItem>>;
+    /**
      * Generates and returns an applicable label to be used for screen readers.
      *
      * @ignore Exclude from docs
@@ -459,10 +468,10 @@ export declare class ExportMenu extends Validatable {
      * A container must be an HTML element, because menu itself is HTML, and
      * cannot be placed into SVG.
      *
-     * @param {HTMLElement} container Reference to container element
+     * @param {Optional<HTMLElement>} container Reference to container element
      * @todo Check if menu is already build. If it is, just move it to a new container
      */
-    container: HTMLElement;
+    container: $type.Optional<HTMLElement>;
     /**
      * @return {Array<IExportMenuItem>} Menu items
      */
@@ -630,10 +639,10 @@ export declare class ExportMenu extends Validatable {
      * Returns menu items parent item.
      *
      * @ignore Exclude from docs
-     * @param  {IExportMenuItem}  branch  Menu item
-     * @return {IExportMenuItem}          Parent menu item
+     * @param  {IExportMenuItem}            branch  Menu item
+     * @return {Optional<IExportMenuItem>}          Parent menu item
      */
-    getParentItem(branch: IExportMenuItem): IExportMenuItem;
+    getParentItem(branch: IExportMenuItem): $type.Optional<IExportMenuItem>;
     /**
      * Returns next sibling in the same menu branch. If there is no next sibling,
      * the first one is returned. If there is just one item, that item is

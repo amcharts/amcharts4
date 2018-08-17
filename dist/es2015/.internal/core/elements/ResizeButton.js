@@ -54,6 +54,8 @@ var ResizeButton = /** @class */ (function (_super) {
         icon.pixelPerfect = true;
         icon.padding(0, 4, 0, 4);
         icon.stroke = new InterfaceColorSet().getFor("alternativeText");
+        //icon.width = 12;
+        //icon.height = 12;
         icon.strokeOpacity = 0.7;
         //icon.align = "center";
         //icon.valign = "middle";

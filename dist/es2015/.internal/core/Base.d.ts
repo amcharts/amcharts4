@@ -381,4 +381,10 @@ export declare class BaseObjectEvents extends BaseObject {
      * @param {any}    data      Data to pass into event handler(s)
      */
     dispatchImmediately<Key extends keyof this["_events"]>(eventType: Key, data?: any): void;
+    /**
+     * Copies all parameters from another [[Sprite]].
+     *
+     * @param {BaseObjectEvents} source Source object
+     */
+    copyFrom(source: this): void;
 }

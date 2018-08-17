@@ -381,7 +381,7 @@ var Responsive = /** @class */ (function (_super) {
 
         }*/
     /**
-     * Returns a relative state for the rule/target, or `null` if no state is
+     * Returns a relative state for the rule/target, or `undefined` if no state is
      * needed.
      *
      * @param  {IResponsiveRule}  rule    [description]
@@ -392,7 +392,7 @@ var Responsive = /** @class */ (function (_super) {
         var stateId = "responsive-" + rule.id;
         var tmpId = target.uid + "_" + stateId;
         if ($array.indexOf(this._noStates, tmpId) !== -1) {
-            return null;
+            return;
         }
         else if (!target.states.hasKey(stateId)) {
             var state = rule.state(target, stateId);

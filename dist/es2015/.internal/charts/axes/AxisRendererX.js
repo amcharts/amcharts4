@@ -144,7 +144,7 @@ var AxisRendererX = /** @class */ (function (_super) {
          */
         get: function () {
             var axis = this.axis;
-            return axis.measuredWidth - axis.pixelPaddingRight - axis.pixelPaddingLeft;
+            return (axis.measuredWidth - axis.pixelPaddingRight - axis.pixelPaddingLeft) || 0;
         },
         enumerable: true,
         configurable: true
@@ -255,7 +255,7 @@ var AxisRendererX = /** @class */ (function (_super) {
         var point = this.positionToPoint(position);
         var tickLength = tick.length;
         if (this.opposite) {
-            point.y = this.pixelHeight;
+            point.y = this.measuredHeight;
             tickLength *= (tick.inside ? 1 : -1);
         }
         else {

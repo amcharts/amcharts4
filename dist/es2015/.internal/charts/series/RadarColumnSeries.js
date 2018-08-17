@@ -186,15 +186,6 @@ var RadarColumnSeries = /** @class */ (function (_super) {
         }
     };
     /**
-     * Returnsan SVG path that is used as mask for the series.
-     *
-     * @return {string} SVG path
-     */
-    RadarColumnSeries.prototype.getMaskPath = function () {
-        var renderer = this.yAxis.renderer;
-        return $path.arc(renderer.startAngle, renderer.endAngle - renderer.startAngle, renderer.pixelRadius, renderer.pixelInnerRadius);
-    };
-    /**
      * [getPoint description]
      *
      * @todo Description
@@ -218,6 +209,15 @@ var RadarColumnSeries = /** @class */ (function (_super) {
         var radius = $math.getDistance({ x: x, y: y });
         var angle = this.xAxis.getAngle(dataItem, xKey, locationX, stackKeyX);
         return { x: radius * $math.cos(angle), y: radius * $math.sin(angle) };
+    };
+    /**
+     * Returns an SVG path to be used as a mask for the series.
+     *
+     * @return {string} SVG path
+     */
+    RadarColumnSeries.prototype.getMaskPath = function () {
+        var renderer = this.yAxis.renderer;
+        return $path.arc(renderer.startAngle, renderer.endAngle - renderer.startAngle, renderer.pixelRadius, renderer.pixelInnerRadius);
     };
     return RadarColumnSeries;
 }(ColumnSeries));

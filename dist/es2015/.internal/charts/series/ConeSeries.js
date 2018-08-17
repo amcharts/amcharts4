@@ -88,18 +88,20 @@ var ConeSeries = /** @class */ (function (_super) {
         var dx = 0;
         var dy = 0;
         var column = this.columns.getIndex(0);
-        if (this.baseAxis == this.xAxis) {
-            dy = column.coneColumn.bottom.radiusY + 1;
+        if (column) {
+            if (this.baseAxis == this.xAxis) {
+                dy = column.coneColumn.bottom.radiusY + 1;
+            }
+            else {
+                dx = column.coneColumn.bottom.radiusY + 1;
+            }
+            return $path.rectToPath({
+                x: -dx,
+                y: 0,
+                width: this.xAxis.axisLength + dx,
+                height: this.yAxis.axisLength + dy
+            });
         }
-        else {
-            dx = column.coneColumn.bottom.radiusY + 1;
-        }
-        return $path.rectToPath({
-            x: -dx,
-            y: 0,
-            width: this.xAxis.axisLength + dx,
-            height: this.yAxis.axisLength + dy
-        });
     };
     /**
      * Validates data item's elements.
@@ -109,13 +111,16 @@ var ConeSeries = /** @class */ (function (_super) {
      */
     ConeSeries.prototype.validateDataElementReal = function (dataItem) {
         _super.prototype.validateDataElementReal.call(this, dataItem);
-        var coneColumn = dataItem.column.coneColumn;
-        coneColumn.fill = dataItem.column.fill;
-        if (this.baseAxis == this.yAxis) {
-            coneColumn.orientation = "horizontal";
-        }
-        else {
-            coneColumn.orientation = "vertical";
+        var column = dataItem.column;
+        if (column) {
+            var coneColumn = dataItem.column.coneColumn;
+            coneColumn.fill = dataItem.column.fill;
+            if (this.baseAxis == this.yAxis) {
+                coneColumn.orientation = "horizontal";
+            }
+            else {
+                coneColumn.orientation = "vertical";
+            }
         }
     };
     return ConeSeries;

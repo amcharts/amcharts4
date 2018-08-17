@@ -73,11 +73,14 @@ var AMElement = /** @class */ (function () {
          * Returns `transform` attribute of the element.
          *
          * @ignore Exclude from docs
-         * @return {string} Transform attribute value
+         * @return {Optional<string>} Transform attribute value
          */
         get: function () {
             if (this.node) {
-                return this.node.getAttribute("transform");
+                var value = this.node.getAttribute("transform");
+                if (value !== null) {
+                    return value;
+                }
             }
         },
         enumerable: true,
@@ -303,8 +306,8 @@ var AMElement = /** @class */ (function () {
     /**
      * Returns a value of a node attribute.
      *
-     * @param  {string}  attribute  Attribute name
-     * @return {string}             Attribute value
+     * @param  {string}         attribute  Attribute name
+     * @return {string | null}             Attribute value
      */
     AMElement.prototype.getAttr = function (attribute) {
         return this.node.getAttribute(attribute);

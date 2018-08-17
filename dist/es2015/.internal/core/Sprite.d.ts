@@ -3446,8 +3446,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * @see {@link Tooltip}
      * @return {boolean} returns true if the tooltip was shown and false if it wasn't (no text was found)
+     * @param {point} optional point (sprite-related) to which tooltip must point.
      */
-    showTooltip(): boolean;
+    showTooltip(point?: IPoint): boolean;
     /**
      * Sets the point the [[Tooltip]] should point to.
      *

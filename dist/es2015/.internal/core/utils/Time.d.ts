@@ -56,13 +56,13 @@ export declare function copy(date: Date): Date;
  */
 export declare function checkChange(dateOne: Date, dateTwo: Date, unit: TimeUnit): boolean;
 /**
- * Adds `count` of time `unit` to the source date. Returns a new `Date` object.
+ * Adds `count` of time `unit` to the source date. Returns a modified `Date` object.
  *
  * @ignore Exclude from docs
  * @param  {Date}      date   Source date
  * @param  {TimeUnit}  unit   Time unit
  * @param  {number}    count  Number of units to add
- * @return {Date}             New date
+ * @return {Date}             Modified date
  */
 export declare function add(date: Date, unit: TimeUnit, count: number): Date;
 /**

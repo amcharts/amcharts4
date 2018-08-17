@@ -453,7 +453,16 @@ var Sprite = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Sprite.prototype.validate = function () {
+        var _this = this;
         this.dispatchImmediately("beforevalidated");
+        var topParent = this.topParent;
+        if (topParent) {
+            if (!topParent.maxWidth || !topParent.maxHeight) {
+                topParent.events.once("maxsizechanged", function () {
+                    _this.invalidate();
+                });
+            }
+        }
         this.renderingFrame = this.renderingFrequency;
         // Set internal defaults
         if (!this._internalDefaultsApplied) {
@@ -1397,8 +1406,8 @@ var Sprite = /** @class */ (function (_super) {
             var pixelPaddingTop = this.pixelPaddingTop;
             var pixelPaddingBottom = this.pixelPaddingBottom;
             // add padding to the measured size
-            var measuredWidth = bbox.width + this.pixelPaddingLeft + this.pixelPaddingRight;
-            var measuredHeight = bbox.height + this.pixelPaddingTop + this.pixelPaddingBottom;
+            var measuredWidth = $math.max(bbox.width + this.pixelPaddingLeft + this.pixelPaddingRight, this.pixelWidth);
+            var measuredHeight = $math.max(bbox.height + this.pixelPaddingTop + this.pixelPaddingBottom, this.pixelHeight);
             // extremes
             var left = bbox.x;
             var right = bbox.x + measuredWidth;
@@ -2042,6 +2051,9 @@ var Sprite = /** @class */ (function (_super) {
         this.isFocused = this.isFocused;
         if (this.isActive) {
             animation = this.setState("active", duration);
+            if (this.states.hasKey("hoverActive")) {
+                animation = this.setState("hoverActive", duration);
+            }
         }
         return animation;
     };
@@ -3765,7 +3777,11 @@ var Sprite = /** @class */ (function (_super) {
                 // This will check `isHover` and will set "hover" state
                 this.applyCurrentState();
             }
-            this.showTooltip();
+            var point = void 0;
+            if (ev && ev.pointer) {
+                point = $utils.documentPointToSvg(ev.pointer.point, this.svgContainer.SVGContainer);
+            }
+            this.showTooltip(point);
         }
         else {
             this.hideTooltip();
@@ -6569,9 +6585,18 @@ var Sprite = /** @class */ (function (_super) {
      *
      * @see {@link Tooltip}
      * @return {boolean} returns true if the tooltip was shown and false if it wasn't (no text was found)
+     * @param {point} optional point (sprite-related) to which tooltip must point.
      */
-    Sprite.prototype.showTooltip = function () {
+    Sprite.prototype.showTooltip = function (point) {
         var _this = this;
+        // do not show if hidden
+        var sprite = this;
+        while (sprite != undefined) {
+            if (!sprite.visible || sprite.disabled || sprite.__disabled) {
+                return;
+            }
+            sprite = sprite.parent;
+        }
         if ($type.hasValue(this.tooltipText) || $type.hasValue(this.tooltipHTML)) {
             var tooltip = this.tooltip;
             var tooltipDataItem = this.tooltipDataItem;
@@ -6668,6 +6693,9 @@ var Sprite = /** @class */ (function (_super) {
                         "y": this.tooltipY
                     }, this);
                     this.pointTooltipTo(globalPoint);
+                }
+                if (point) {
+                    //this.pointTooltipTo(point, true);
                 }
                 // Set accessibility option
                 tooltip.readerDescribedBy = this.uidAttr();
