@@ -216,7 +216,7 @@ var Scrollbar = /** @class */ (function (_super) {
         if (this._unbusyTimeout) {
             this.removeDispose(this._unbusyTimeout);
         }
-        this._unbusyTimeout = null;
+        this._unbusyTimeout = undefined;
         this.stopAnimations();
     };
     /**

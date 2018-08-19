@@ -328,11 +328,6 @@ var XYChart = /** @class */ (function (_super) {
         //	series.appeared = false;
         //});		
         _super.prototype.validateData.call(this);
-        if (this.cursor) {
-            if (this.data.length > 0) {
-                this.cursor.__disabled = false;
-            }
-        }
         // reset minimums
         this.leftAxesContainer.minWidth = undefined;
         this.rightAxesContainer.minWidth = undefined;
@@ -702,9 +697,6 @@ var XYChart = /** @class */ (function (_super) {
                     cursor.events.on("behaviorcanceled", this.handleCursorCanceled, this);
                     cursor.events.on("hidden", this.handleHideCursor, this);
                     cursor.zIndex = Number.MAX_SAFE_INTEGER - 1;
-                    if (this.data.length == 0) {
-                        cursor.__disabled = true;
-                    }
                 }
             }
         },

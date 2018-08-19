@@ -13,6 +13,7 @@ import { IPoint } from "../defs/IPoint";
 import { Label } from "../elements/Label";
 import { Animation } from "../utils/Animation";
 import { IRectangle } from "../defs/IRectangle";
+import * as $type from "../utils/Type";
 /**
  * ============================================================================
  * REQUISITES
@@ -173,7 +174,7 @@ export declare class Tooltip extends Container {
     /**
      * Position animation of a tooltip
      */
-    protected _animation: Animation;
+    protected _animation: $type.Optional<Animation>;
     /**
      * Constructor
      */

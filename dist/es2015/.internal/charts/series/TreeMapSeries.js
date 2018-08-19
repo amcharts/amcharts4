@@ -182,6 +182,7 @@ var TreeMapSeries = /** @class */ (function (_super) {
         else {
             this.chart.invalidateLayout();
         }
+        this.chart.invalidateLayout();
         return animation;
     };
     /**
@@ -207,6 +208,7 @@ var TreeMapSeries = /** @class */ (function (_super) {
         else {
             this.chart.invalidateLayout();
         }
+        this.chart.invalidateLayout();
         return animation;
     };
     TreeMapSeries.prototype.appear = function () {

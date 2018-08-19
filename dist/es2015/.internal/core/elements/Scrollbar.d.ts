@@ -16,6 +16,7 @@ import { Button } from "../elements/Button";
 import { RoundedRectangle } from "../elements/RoundedRectangle";
 import { Animation } from "../utils/Animation";
 import { IDisposer } from "../utils/Disposer";
+import * as $type from "../utils/Type";
 /**
  * ============================================================================
  * REQUISITES
@@ -107,9 +108,9 @@ export declare class Scrollbar extends Container {
      * two selection grips. It can be used to pan the selection maintaining the
      * distance between start and end grips.
      *
-     * @type {Button}
+     * @type {Optional<Button>}
      */
-    protected _thumb: Button;
+    protected _thumb: $type.Optional<Button>;
     /**
      * Orientation of the scrollbar.
      *
@@ -143,15 +144,15 @@ export declare class Scrollbar extends Container {
     /**
      * Previously selected lower (start) value.
      *
-     * @type {number}
+     * @type {Optional<number>}
      */
-    protected _previousStart: number;
+    protected _previousStart: $type.Optional<number>;
     /**
      * Previously selected upper (end) value.
      *
-     * @type {number}
+     * @type {Optional<number>}
      */
-    protected _previousEnd: number;
+    protected _previousEnd: $type.Optional<number>;
     /**
      * An [[Animation]] instance that moves "thumb".
      *
@@ -161,9 +162,9 @@ export declare class Scrollbar extends Container {
     /**
      * An [[Animation]] instance that moves zoom grip buttons.
      *
-     * @type {Animation}
+     * @type {Optional<Animation>}
      */
-    protected _zoomAnimation: Animation;
+    protected _zoomAnimation: $type.Optional<Animation>;
     /**
      * A value of previously selected lower value, used for doubleclick function.
      *
@@ -193,9 +194,9 @@ export declare class Scrollbar extends Container {
     /**
      * Holds timeout reference that resets "busy" status.
      *
-     * @type {IDisposer}
+     * @type {Optional<IDisposer>}
      */
-    protected _unbusyTimeout: IDisposer;
+    protected _unbusyTimeout: $type.Optional<IDisposer>;
     /**
      * [undefined description]
      *
@@ -220,15 +221,15 @@ export declare class Scrollbar extends Container {
     /**
      * A disposer for the hover event.
      *
-     * @type {IDisposer}
+     * @type {Optional<IDisposer>}
      */
-    protected _overDisposer: IDisposer;
+    protected _overDisposer: $type.Optional<IDisposer>;
     /**
      * A disposer for the out event.
      *
-     * @type {IDisposer}
+     * @type {Optional<IDisposer>}
      */
-    protected _outDisposer: IDisposer;
+    protected _outDisposer: $type.Optional<IDisposer>;
     /**
      * Update the selection when dragging the grips.
      *

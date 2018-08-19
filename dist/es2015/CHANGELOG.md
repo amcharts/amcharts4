@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.46] - 2018-08-19
+
+### Fixed
+- `TreeMap.homeText` was not working.
+- `TreeMap` used to display upper level bullets/labels when drilled-down.
+- `TreeMap` had issues with hiding items using legend (when not using animated state).
+- Chart cursor was not visible if data was set directly on axis/series but not on chart.
+
+
 ## [4.0.0-beta.45] - 2018-08-17
 
 ### Added

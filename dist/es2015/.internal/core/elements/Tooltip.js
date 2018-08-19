@@ -412,7 +412,7 @@ var Tooltip = /** @class */ (function (_super) {
                 }
             }
             else {
-                // helps to avoid flicker on top/left corner				
+                // helps to avoid flicker on top/left corner
                 if (this.pixelX == 0 && this.pixelY == 0) {
                     this.moveTo(this._pointTo);
                 }

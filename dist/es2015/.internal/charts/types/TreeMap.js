@@ -371,7 +371,7 @@ var TreeMap = /** @class */ (function (_super) {
         yRenderer.baseGrid.disabled = true;
         yRenderer.inversed = true;
         _this.events.on("maxsizechanged", function () {
-            _this.invalidateData();
+            _this.invalidateLayout();
         });
         // shortcuts
         _this.xAxis = xAxis;
@@ -613,15 +613,16 @@ var TreeMap = /** @class */ (function (_super) {
         // hide all series which are not in tempSeries
         $iter.each(this.series.iterator(), function (series) {
             if (_this._tempSeries.indexOf(series) == -1) {
-                series.hideReal(duration);
+                //series.hideReal(duration);
+                series.columns.template.hide(duration);
+                series.bulletsContainer.hide(duration);
             }
             else {
-                series.showReal(duration);
-                if (series.level > _this.currentLevel + _this.maxLevels - 1) {
+                //series.showReal(duration);
+                series.columns.template.show(duration);
+                series.bulletsContainer.show(duration);
+                if (series.level < _this.currentLevel) {
                     series.bulletsContainer.hide(duration);
-                }
-                else {
-                    series.bulletsContainer.show(duration);
                 }
             }
         });
@@ -670,7 +671,7 @@ var TreeMap = /** @class */ (function (_super) {
         if (!$type.hasValue(this.readerTitle)) {
             this.readerTitle = this.language.translate("TreeMap chart");
         }
-        this.homeText = this.language.translate("Home");
+        //this.homeText = this.language.translate("Home");
     };
     /**
      * Returns a new/empty DataItem of the type appropriate for this object.

@@ -265,7 +265,7 @@ var AxisRendererY = /** @class */ (function (_super) {
             }
             if (label.inside) {
                 if (label.align == "left") {
-                    deltaX = -this.maxWidth + this.measuredWidth;
+                    deltaX = -this.gridContainer.maxWidth;
                     horizontalCenter = "left";
                 }
             }
@@ -280,7 +280,7 @@ var AxisRendererY = /** @class */ (function (_super) {
             }
             if (label.inside) {
                 if (label.align == "right") {
-                    deltaX = this.maxWidth - this.measuredWidth;
+                    deltaX = this.gridContainer.maxWidth;
                     horizontalCenter = "right";
                 }
             }
