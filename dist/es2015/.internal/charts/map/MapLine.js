@@ -172,6 +172,8 @@ var MapLine = /** @class */ (function (_super) {
                         }
                         newGeoLine.push(intermediatePoint);
                     }
+                    // add last point to avoid gap
+                    newGeoLine.push(geoPointB);
                 }
                 newMultiGeoLine.push(newGeoLine);
             }

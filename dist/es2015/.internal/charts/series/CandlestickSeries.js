@@ -224,6 +224,9 @@ var CandlestickSeries = /** @class */ (function (_super) {
      */
     CandlestickSeries.prototype.validateDataElementReal = function (dataItem) {
         _super.prototype.validateDataElementReal.call(this, dataItem);
+        this.validateCandlestick(dataItem);
+    };
+    CandlestickSeries.prototype.validateCandlestick = function (dataItem) {
         var column = dataItem.column;
         if (column) {
             var lowLine_1 = column.lowLine;
@@ -409,6 +412,8 @@ var CandlestickSeries = /** @class */ (function (_super) {
         column.height = ch;
         $object.copyProperties(this, marker, visualProperties);
         $object.copyProperties(this.columns.template, column, visualProperties);
+        column.stroke = this.riseFromOpenState.properties.stroke;
+        column.fill = column.stroke;
     };
     /**
      * Returns an element to use for Candlestick

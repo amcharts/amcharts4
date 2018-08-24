@@ -41,6 +41,14 @@ export declare function toNumberRange(value: any, min: number, max: number): num
  */
 export declare function round(value: number, precision?: number): number;
 /**
+ * Ceils the numeric value to whole number or specific precision of set.
+ *
+ * @param  {number} value      Value
+ * @param  {number} precision  Precision (number of decimal points)
+ * @return {number}            Rounded value
+ */
+export declare function ceil(value: number, precision?: number): number;
+/**
  * Stretches `t` so that it will always be between `from` and `to`.
  *
  * @param  {number} t     Number from 0 to 1

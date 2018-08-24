@@ -7,7 +7,7 @@ var data = [];
 var visits = 10;
 for (var i = 1; i < 366; i++) {
 	visits += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
-	data.push({ date: new Date(2018, 0, i), name: "name" + i, value: visits });
+	data.push({ date: new Date(2018, 0, i), value: visits });
 }
 
 chart.data = data;

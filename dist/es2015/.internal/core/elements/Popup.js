@@ -117,7 +117,7 @@ var Popup = /** @class */ (function (_super) {
          *
          * @type {string}
          */
-        _this.readerTitle = "";
+        _this._readerTitle = "";
         /**
          * Is popup closable?
          *
@@ -188,7 +188,7 @@ var Popup = /** @class */ (function (_super) {
             }
         }
         this.dispatchImmediately("closed");
-        this._releasePointers();
+        this.releasePointers();
     };
     /**
      * Destroy (dispose) popup.
@@ -413,8 +413,8 @@ var Popup = /** @class */ (function (_super) {
         this._IOs.wrapper = getInteraction().getInteraction(wrapper);
         this._disposers.push(this._IOs.wrapper);
         // Set hover/out events
-        this._IOs.wrapper.events.on("over", this._disablePointers, this);
-        this._IOs.wrapper.events.on("out", this._releasePointers, this);
+        this._IOs.wrapper.events.on("over", this.disablePointers, this);
+        this._IOs.wrapper.events.on("out", this.releasePointers, this);
         // Create an InteractionObject for close
         this._IOs.close = getInteraction().getInteraction(close);
         this._disposers.push(this._IOs.close);
@@ -422,7 +422,6 @@ var Popup = /** @class */ (function (_super) {
         close.style.visibility = "hidden";
         // Add accessible stuff
         wrapper.setAttribute("role", "dialog");
-        wrapper.setAttribute("aria-label", this.adapter.apply("readerTitle", this.readerTitle));
         // Add to wrapper
         wrapper.appendChild(close);
         wrapper.appendChild(title);
@@ -440,22 +439,24 @@ var Popup = /** @class */ (function (_super) {
         // Create curtain as well
         this.createCurtainElement();
         // Apply events
-        this._applyEvents();
+        this.applyEvents();
+        this.applyReaderSettings();
         // Draggable?
         this.setupDragging();
     };
     Object.defineProperty(Popup.prototype, "title", {
         /**
-         * @return {string} Popup content
+         * @return {string} Popup title
          */
         get: function () {
             return this.adapter.apply("title", this._title);
         },
         /**
-         * Popup ttile.
+         * Popup title.
          *
          * Popup title can be any valid HTML, including CSS.
-         * @param {string} value Popup content
+         *
+         * @param {string}  value  Popup title
          */
         set: function (value) {
             if (this._title != value) {
@@ -465,6 +466,30 @@ var Popup = /** @class */ (function (_super) {
                 }
                 this._elements.title.innerHTML = value;
                 this.positionElement();
+                this.applyReaderSettings();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Popup.prototype, "readerTitle", {
+        /**
+         * @return {string} Popup content
+         */
+        get: function () {
+            return this.adapter.apply("readerTitle", this._readerTitle != "" ? this._readerTitle : this.title);
+        },
+        /**
+         * A title for screen readers. It is very highly recommended to set that title
+         * so that people using screen reader tools can get an immediate summary of
+         * the information in the popup.
+         *
+         * @param {string}  value  Reader title
+         */
+        set: function (value) {
+            if (this._readerTitle != value) {
+                this._readerTitle = value;
+                this.applyReaderSettings();
             }
         },
         enumerable: true,
@@ -490,7 +515,7 @@ var Popup = /** @class */ (function (_super) {
         set: function (value) {
             if (value !== this._closable) {
                 this._closable = value;
-                this._applyEvents();
+                this.applyEvents();
             }
         },
         enumerable: true,
@@ -588,8 +613,8 @@ var Popup = /** @class */ (function (_super) {
         // Add Curtain IO to disposers
         this._disposers.push(this._IOs.curtain);
         // Set events to disable underlying interactivity
-        this._IOs.curtain.events.on("over", this._disablePointers, this);
-        this._IOs.curtain.events.on("out", this._releasePointers, this);
+        this._IOs.curtain.events.on("over", this.disablePointers, this);
+        this._IOs.curtain.events.on("out", this.releasePointers, this);
         // Hide it?
         curtain.style.display = this.showCurtain ? "block" : "none";
         // Save for later
@@ -810,7 +835,7 @@ var Popup = /** @class */ (function (_super) {
     /**
      * If popup is closable, this method adds various events to popup elements.
      */
-    Popup.prototype._applyEvents = function () {
+    Popup.prototype.applyEvents = function () {
         var _this = this;
         if (this._IOs.close) {
             if (this.closable) {
@@ -840,18 +865,26 @@ var Popup = /** @class */ (function (_super) {
     /**
      * Disables interactivity on parent chart.
      */
-    Popup.prototype._disablePointers = function () {
-        this._spriteInteractionsEnabled = this.sprite.interactionsEnabled;
-        this.sprite.interactionsEnabled = false;
+    Popup.prototype.disablePointers = function () {
+        if (this.sprite) {
+            this._spriteInteractionsEnabled = this.sprite.interactionsEnabled;
+            this.sprite.interactionsEnabled = false;
+        }
     };
     /**
      * Releases temporarily disabled pointers on parent chart.
      */
-    Popup.prototype._releasePointers = function () {
+    Popup.prototype.releasePointers = function () {
         if ($type.hasValue(this._spriteInteractionsEnabled)) {
             this.sprite.interactionsEnabled = this._spriteInteractionsEnabled;
             this._spriteInteractionsEnabled = undefined;
         }
+    };
+    /**
+     * Sets screen reader related settings.
+     */
+    Popup.prototype.applyReaderSettings = function () {
+        this.elements.wrapper.setAttribute("aria-label", this.readerTitle);
     };
     /**
      * Copies all properties and related data from different element.

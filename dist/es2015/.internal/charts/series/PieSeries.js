@@ -146,8 +146,12 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._legendDataItem = value;
-            value.label.dataItem = this;
-            value.valueLabel.dataItem = this;
+            if (value.label) {
+                value.label.dataItem = this;
+            }
+            if (value.valueLabel) {
+                value.valueLabel.dataItem = this;
+            }
         },
         enumerable: true,
         configurable: true

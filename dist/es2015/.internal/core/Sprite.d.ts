@@ -516,6 +516,13 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     protected _parent: Container;
     /**
+     * Sprite's "virtual" parent.
+     *
+     * @ignore Exclude from docs
+     * @type {Sprite}
+     */
+    protected _virtualParent: Sprite;
+    /**
      * Defines bounding box (square) for this element.
      *
      * @ignore Exclude from docs
@@ -958,6 +965,25 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {Optional<Container>}  parent  Parent container
      */
     parent: Optional<Container>;
+    /**
+     * @return {Optional<Container>} Virtual parent
+     */
+    /**
+     * Element's "virtual" parent.
+     *
+     * This is required in ordere to maintain proper inheritance (like
+     * formatters).
+     *
+     * Sometimes an element is a "logical" parent, even though it's not a direct
+     * ascendant.
+     *
+     * Example: a bullet is not a child of the axis, but it would make sense
+     * for it to inherit series' formatters.
+     *
+     * @ignore Exclude from docs
+     * @param {Sprite}  value  Virtual parent
+     */
+    virtualParent: Sprite;
     /**
      * Moves `<defs>` to correct place in DOM.
      *

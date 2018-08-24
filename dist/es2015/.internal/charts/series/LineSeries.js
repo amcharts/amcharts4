@@ -78,7 +78,7 @@ var LineSeries = /** @class */ (function (_super) {
          * @type {number}
          */
         _this.minDistance = 0.5;
-        _this.segments = new ListTemplate(new LineSeriesSegment());
+        _this.segments = new ListTemplate(_this.createSegment());
         _this.segments.template.applyOnClones = true;
         _this._disposers.push(new ListDisposer(_this.segments));
         _this._disposers.push(_this.segments.template);
@@ -108,6 +108,12 @@ var LineSeries = /** @class */ (function (_super) {
         if (!$type.hasValue(this.readerTitle)) {
             this.readerTitle = this.language.translate("Line Series");
         }
+    };
+    /**
+     * @ignore
+     */
+    LineSeries.prototype.createSegment = function () {
+        return new LineSeriesSegment();
     };
     /**
      * Returns a new/empty DataItem of the type appropriate for this object.

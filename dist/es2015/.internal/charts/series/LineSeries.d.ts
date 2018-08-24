@@ -154,9 +154,13 @@ export declare class LineSeries extends XYSeries {
      * * When we want to change the appearance of a part of the line series;
      * * When we have an axis range.
      *
-     * @type {ListTemplate<LineSeriesSegment>}
+     * @type {ListTemplate<this["_segment"]>}
      */
-    segments: ListTemplate<LineSeriesSegment>;
+    segments: ListTemplate<this["_segment"]>;
+    /**
+     * @ignore
+     */
+    _segment: LineSeriesSegment;
     /**
      * A container for segment elements.
      *
@@ -180,7 +184,7 @@ export declare class LineSeries extends XYSeries {
      *
      * @type {ListIterator<LineSeriesSegment>}
      */
-    protected _segmentsIterator: $iter.ListIterator<LineSeriesSegment>;
+    protected _segmentsIterator: $iter.ListIterator<this["_segment"]>;
     /**
      * Constructor
      */
@@ -190,6 +194,10 @@ export declare class LineSeries extends XYSeries {
      * cannot be set in constructor.
      */
     protected applyInternalDefaults(): void;
+    /**
+     * @ignore
+     */
+    protected createSegment(): this["_segment"];
     /**
      * Returns a new/empty DataItem of the type appropriate for this object.
      *

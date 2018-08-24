@@ -73,10 +73,10 @@ var Cursor = /** @class */ (function (_super) {
      * Handle pointer movement in document and update cursor position as needed.
      *
      * @ignore Exclude from docs
-     * @param {IInteractionEvents["track"]} event Event
+     * @param {IInteractionObjectEvents["track"]} event Event
      */
     Cursor.prototype.handleCursorMove = function (event) {
-        if (!this.interactionsEnabled) {
+        if (!this.interactionsEnabled || !getInteraction().isLocalElement(event.pointer, this.paper.svg)) {
             return;
         }
         var local = $utils.documentPointToSprite(event.pointer.point, this);

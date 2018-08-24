@@ -843,7 +843,7 @@ export declare class Export extends Validatable {
      * @param  {IExportImageOptions}  options  Options
      * @return {Promise<void>}                 Promise
      */
-    imagesToDataURI(el: SVGSVGElement, options?: IExportImageOptions): Promise<void>;
+    imagesToDataURI(el: SVGSVGElement, options: IExportImageOptions): Promise<void>;
     /**
      * Converts all document external fonts to data uris.
      *
@@ -877,7 +877,7 @@ export declare class Export extends Validatable {
      * @param {SVGImageElement}     el       SVG element
      * @param {IExportImageOptions} options  Options
      */
-    imageToDataURI(el: SVGImageElement, options?: IExportImageOptions): Promise<string>;
+    imageToDataURI(el: SVGImageElement, options: IExportImageOptions): Promise<$type.Optional<string>>;
     /**
      * Converts `<image>` with external SVG source to data uri. Loads external SVG
      * file, then converts it to data uri and replaces the `xlink:href` parameter.
@@ -889,7 +889,7 @@ export declare class Export extends Validatable {
      * @param {SVGImageElement}     el        An SVG element
      * @param {IExportImageOptions} options   Options
      */
-    svgToDataURI(el: SVGImageElement, options?: IExportImageOptions): Promise<string>;
+    svgToDataURI(el: SVGImageElement, options?: IExportImageOptions): Promise<$type.Optional<string>>;
     /**
      * Temporarily removes element from DOM, and replaces it with a dummy
      * placeholder, as well as stores it for later restoration.
@@ -984,7 +984,7 @@ export declare class Export extends Validatable {
      * @async
      * @todo Account for header when calculating vertical fit
      */
-    getPDF(type: "pdf", options?: IExportPDFOptions): Promise<string>;
+    getPDF(type: "pdf", options: IExportPDFOptions): Promise<string>;
     /**
      * Returns fit dimensions for available page sizes.
      *
@@ -992,7 +992,7 @@ export declare class Export extends Validatable {
      * @param  {pageSizes} pageSize Page size
      * @return {number[]}           `[width, height]` in pixels
      */
-    getPageSizeFit(pageSize: pageSizes, margins?: number | number[]): number[];
+    getPageSizeFit(pageSize: pageSizes, margins: number | number[]): number[];
     /**
      * Returns an Excel file of chart's data.
      *
@@ -1006,7 +1006,7 @@ export declare class Export extends Validatable {
      * @todo Handle dates
      * @todo Support for multi-sheet
      */
-    getExcel(type: "xlsx", options?: IExportExcelOptions): Promise<string>;
+    getExcel(type: "xlsx", options: IExportExcelOptions): Promise<string>;
     /**
      * This is needed to work around Excel limitations.
      *
@@ -1022,7 +1022,7 @@ export declare class Export extends Validatable {
      * @param  {IExportExcelOptions}  options  Options
      * @return {any[]}                         Array of values
      */
-    getExcelRow(row: any, options?: IExportExcelOptions): any[];
+    getExcelRow(row: any, options: IExportExcelOptions): any[];
     /**
      * Returns chart's data formatted as CSV.
      *
@@ -1034,7 +1034,7 @@ export declare class Export extends Validatable {
      * @return {Promise<string>}            Promise
      * @async
      */
-    getCSV(type: "csv", options?: IExportCSVOptions): Promise<string>;
+    getCSV(type: "csv", options: IExportCSVOptions): Promise<string>;
     /**
      * Formats a row of CSV data.
      *
@@ -1043,7 +1043,7 @@ export declare class Export extends Validatable {
      * @param  {IExportCSVOptions} options Options
      * @return {string}                    Formated CSV line
      */
-    getCSVRow(row: any, options?: IExportCSVOptions): string;
+    getCSVRow(row: any, options: IExportCSVOptions): string;
     /**
      * Returns chart's data in JSON format.
      *
@@ -1055,7 +1055,7 @@ export declare class Export extends Validatable {
      * @return {Promise<string>}             Promise
      * @async
      */
-    getJSON(type: "json", options?: IExportJSONOptions): Promise<string>;
+    getJSON(type: "json", options: IExportJSONOptions): Promise<string>;
     /**
      * Converts the value to proper date format.
      *
@@ -1065,7 +1065,7 @@ export declare class Export extends Validatable {
      * @param  {IExportCSVOptions | IExportJSONOptions}  options  Options
      * @return {any}                                              Formatted date value or unmodified value
      */
-    convertDateValue<Key extends "json" | "csv" | "xlsx">(field: string, value: any, options?: IExportOptions[Key]): any;
+    convertDateValue<Key extends "json" | "csv" | "xlsx">(field: string, value: any, options: IExportOptions[Key]): any;
     /**
      * Triggers download of the file.
      *
@@ -1118,9 +1118,9 @@ export declare class Export extends Validatable {
      * @return {Promise<boolean>}             Promise
      * @async
      */
-    print(data: string, options?: IExportPrintOptions, title?: string): Promise<boolean>;
-    protected printViaCSS(data: string, options?: IExportPrintOptions, title?: string): Promise<boolean>;
-    protected printViaIframe(data: string, options?: IExportPrintOptions, title?: string): Promise<boolean>;
+    print(data: string, options: IExportPrintOptions, title?: string): Promise<boolean>;
+    protected printViaCSS(data: string, options: IExportPrintOptions, title?: string): Promise<boolean>;
+    protected printViaIframe(data: string, options: IExportPrintOptions, title?: string): Promise<boolean>;
     /**
      * Finds a background color for the element. If element is transparent it goes
      * up the DOM hierarchy to find a parent element that does.
@@ -1136,18 +1136,18 @@ export declare class Export extends Validatable {
      *
      * @ignore Exclude from docs
      * @param  {Element}  element  Element
-     * @return {string}            Font family
+     * @return {Optional<string>}  Font family
      */
-    findFont(element: Element): string;
+    findFont(element: Element): $type.Optional<string>;
     /**
      * Returns a font fmaily name for the element (directly set or
      * computed/inherited).
      *
      * @ignore Exclude from docs
      * @param  {Element}  element  Element
-     * @return {string}            Font family
+     * @return {Optional<string>}  Font family
      */
-    findFontSize(element: Element): string;
+    findFontSize(element: Element): $type.Optional<string>;
     /**
      * @return {HTMLElement} Reference
      */
@@ -1392,7 +1392,7 @@ export declare class Export extends Validatable {
     /**
      * Returns current options for a format.
      */
-    getFormatOptions<Key extends keyof IExportOptions>(type: Key): IExportOptions[Key];
+    getFormatOptions<Key extends keyof IExportOptions>(type: Key): $type.Optional<IExportOptions[Key]>;
     /**
  * Disables interactivity on parent chart.
  */

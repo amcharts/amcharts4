@@ -275,7 +275,7 @@ export declare class Popup extends BaseObjectEvents {
      *
      * @type {string}
      */
-    readerTitle: string;
+    _readerTitle: string;
     /**
      * Is popup closable?
      *
@@ -301,7 +301,7 @@ export declare class Popup extends BaseObjectEvents {
      * Used to log original value of `interactionsEnabled` so that it can be restored
      * after temporarily disabling it.
      *
-     * @type {boolean}
+     * @type {Optional<boolean>}
      */
     private _spriteInteractionsEnabled;
     /**
@@ -322,7 +322,7 @@ export declare class Popup extends BaseObjectEvents {
     /**
      * Cached bounding rectangle info.
      *
-     * @type {DOMRect | ClientRect}
+     * @type {Optional<DOMRect | ClientRect>}
      */
     private _bbox;
     /**
@@ -348,7 +348,7 @@ export declare class Popup extends BaseObjectEvents {
      */
     positionElement(forceResize?: boolean): void;
     protected setupDragging(): void;
-    protected toStyle(value: number | Percent): string;
+    protected toStyle(value: number | Percent): string | null;
     /**
      * A prefix that is applied to class names of various popup elements.
      *
@@ -388,15 +388,27 @@ export declare class Popup extends BaseObjectEvents {
      */
     protected createContentElement(): void;
     /**
+     * @return {string} Popup title
+     */
+    /**
+     * Popup title.
+     *
+     * Popup title can be any valid HTML, including CSS.
+     *
+     * @param {string}  value  Popup title
+     */
+    title: string;
+    /**
      * @return {string} Popup content
      */
     /**
-     * Popup ttile.
+     * A title for screen readers. It is very highly recommended to set that title
+     * so that people using screen reader tools can get an immediate summary of
+     * the information in the popup.
      *
-     * Popup title can be any valid HTML, including CSS.
-     * @param {string} value Popup content
+     * @param {string}  value  Reader title
      */
-    title: string;
+    readerTitle: string;
     /**
      * @return {boolean} Closable?
      */
@@ -572,15 +584,19 @@ export declare class Popup extends BaseObjectEvents {
     /**
      * If popup is closable, this method adds various events to popup elements.
      */
-    protected _applyEvents(): void;
+    protected applyEvents(): void;
     /**
      * Disables interactivity on parent chart.
      */
-    protected _disablePointers(): void;
+    protected disablePointers(): void;
     /**
      * Releases temporarily disabled pointers on parent chart.
      */
-    protected _releasePointers(): void;
+    protected releasePointers(): void;
+    /**
+     * Sets screen reader related settings.
+     */
+    protected applyReaderSettings(): void;
     /**
      * Copies all properties and related data from different element.
      *

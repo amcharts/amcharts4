@@ -184,6 +184,9 @@ export interface IMapChartProperties extends ISerialChartProperties {
      * @type {number}
      */
     deltaLongitude?: number;
+    maxPanOut?: number;
+    homeGeoPoint?: IGeoPoint;
+    homeZoomLevel?: number;
 }
 /**
  * Defines events for [[MapChart]].
@@ -320,6 +323,13 @@ export declare class MapChart extends SerialChart {
      */
     southPoint: IPoint;
     /**
+     * Geo point of map center
+     *
+     * @readonly
+     * @type {IPoint}
+     */
+    centerGeoPoint: IGeoPoint;
+    /**
      * Width of the actual map objects (px).
      *
      * @type {number}
@@ -420,6 +430,11 @@ export declare class MapChart extends SerialChart {
      */
     constructor();
     /**
+     * Prevents map to be dragged out of the container area
+     * @ignore
+     */
+    protected handleDrag(): void;
+    /**
      * Sets defaults that instantiate some objects that rely on parent, so they
      * cannot be set in constructor.
      */
@@ -519,10 +534,6 @@ export declare class MapChart extends SerialChart {
      * @return {IPoint}            Point
      */
     geoPointToSeries(point: IGeoPoint): IPoint;
-    /**
-     * Performs after-draw tasks, e.g. centers the map.
-     */
-    protected afterDraw(): void;
     /**
      * @return {Object} GeoJSON data
      */
@@ -704,6 +715,31 @@ export declare class MapChart extends SerialChart {
      */
     deltaLongitude: number;
     /**
+     * @return {number} Max pan out
+     */
+    /**
+     * Max pan out
+     *
+     * @param {number} Max pan out
+     */
+    maxPanOut: number;
+    /**
+     * @return {IGeoPoint} Home geo point
+     */
+    /**
+     * Geo point of initial map view
+     * @param {IGeoPoint}
+     */
+    homeGeoPoint: IGeoPoint;
+    /**
+     * @return {number} Home zoom level
+     */
+    /**
+     * Zoom level of initial map view
+     * @param {number}
+     */
+    homeZoomLevel: number;
+    /**
      * Invalidates projection, causing all series to be redrawn.
      */
     protected invalidateProjection(): void;
@@ -745,4 +781,8 @@ export declare class MapChart extends SerialChart {
      * @return {boolean}         Assign as is?
      */
     protected asIs(field: string): boolean;
+    /**
+     * zooms out and moves map to the center
+     */
+    goHome(duration?: number): void;
 }

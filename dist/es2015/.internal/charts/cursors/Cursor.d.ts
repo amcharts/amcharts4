@@ -9,6 +9,7 @@
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
 import { IInteractionEvents } from "../../core/interaction/Interaction";
+import { IInteractionObjectEvents } from "../../core/interaction/InteractionObjectEvents";
 import { IPoint } from "../../core/defs/IPoint";
 import { Chart } from "../Chart";
 /**
@@ -171,9 +172,9 @@ export declare class Cursor extends Container {
      * Handle pointer movement in document and update cursor position as needed.
      *
      * @ignore Exclude from docs
-     * @param {IInteractionEvents["track"]} event Event
+     * @param {IInteractionObjectEvents["track"]} event Event
      */
-    handleCursorMove(event: IInteractionEvents["track"]): IPoint;
+    handleCursorMove(event: IInteractionObjectEvents["track"]): IPoint;
     /**
      * Places the cursor at specific point.
      *

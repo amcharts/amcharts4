@@ -5,6 +5,33 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.47] - 2018-08-24
+
+### Added
+- New series type: `OHLCSeries`.
+- `goHome()` method added to `MapChart`. Calling it will reset map to `homeZoomLevel` and `homeGeoPoint`.
+- `homeGeoPoint` added to `MapChart`. Allows setting initial `geoPoint` at which map will be centered.
+- `homeZoomLevel` added to `MapChart`. Allows setting initial `zoomLevel`.
+- `maxPanOut` property added to `MapChart`, with default value `0.7`. It prevents map to be dragged out of the chart area.
+- `noRisers` property added to `StepLineSeries`. It allows step line chart without vertical (or horizontal, depending on orientation) lines.
+- Step line without risers now allows making Waterfall chart. Example added.
+- `startLocation` and `endLocation` added to `StepLineSeries`, that allow controling locations at which step should start/end.
+- `maxPrecision` added for `ValueAxis`. Use it to restrict Value axis to show value labels with less than desired precision (set 0 if you only want integers).
+- Portugese (Portugal) translation added.
+
+### Changed
+- `Cursor` will now not move if there's some element obstructing the chart's plot area, e.g. a popup or some other element outside the chart.
+
+### Fixed
+- Series' and axes' tooltips will now correctly inherit formatters.
+- Errors when hovering mouse cursor over open Modal.
+- JSON: `children` property of `Container`-type objects was not being processed correctly.
+- Popup/Modal now sets `aria-label` automatically if title is set.
+- Removing bullet template from series or disposing it will remove/dispose all the bullets created from it.
+- Tooltips were overlapping each other, fixed for the most part, but might still be some situations where they overlap.
+- Changing data for `MapImageSeries` and `MapLineSeries` used to result runtime error.
+
+
 ## [4.0.0-beta.46] - 2018-08-19
 
 ### Fixed

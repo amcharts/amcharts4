@@ -258,6 +258,8 @@ var Legend = /** @class */ (function (_super) {
             marker.parent = container;
             dataItem.marker = marker;
         }
+        // Tell series its legend data item
+        dataItem.dataContext.legendDataItem = dataItem;
         // If we are not using default markers, create a unique legend marker based
         // on the data item type
         if (dataItem.dataContext.createLegendMarker && !this.useDefaultMarker) {
@@ -283,8 +285,6 @@ var Legend = /** @class */ (function (_super) {
             valueLabel.parent = container;
             dataItem.valueLabel = valueLabel;
         }
-        // Tell series its legend data item
-        dataItem.dataContext.legendDataItem = dataItem;
         var visible = dataItem.dataContext.visible;
         if (visible === undefined) {
             visible = true;

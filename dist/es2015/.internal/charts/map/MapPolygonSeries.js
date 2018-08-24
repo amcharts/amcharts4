@@ -364,6 +364,7 @@ var MapPolygonSeries = /** @class */ (function (_super) {
         }
         _super.prototype.validateData.call(this);
         // if data is parsed in chunks, polygon list is corrupted, fix it here
+        // !important this should go after super!
         $iter.each(this.dataItems.iterator(), function (dataItem) {
             _this.mapPolygons.moveValue(dataItem.mapPolygon);
         });

@@ -102,9 +102,10 @@ var AxisLabelCircular = /** @class */ (function (_super) {
         // we don't use valign for labels because then they would jump while animating. instead we modify dy depending on a y position
         // this math makes dy to be 1 at the top of the circle, 0.5 at the middle and 1 at the bottom
         // @todo with this math doesn't work well with inside = true
-        this.dy = -this.measuredHeight * (1 - (point.y + axisRadius) / (2 * axisRadius));
+        this.dy = -this._measuredHeight * (1 - (point.y + axisRadius) / (2 * axisRadius));
         // simmilar with dx
-        this.dx = -this.measuredWidth * (1 - (point.x + axisRadius) / (2 * axisRadius));
+        this.dx = -this._measuredWidth * (1 - (point.x + axisRadius) / (2 * axisRadius));
+        //console.log(this.measuredWidth, this._measuredHeight, this.text, this.bbox.width)
         var labelRadius = this.radius * sign;
         if ($type.isNumber(relativeRotation)) {
             var pixelWidth = this.bbox.width;

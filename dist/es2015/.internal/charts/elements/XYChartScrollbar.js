@@ -186,6 +186,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         series.defaultState.properties.visible = true;
         series.filters.push(new DesaturateFilter());
         scrollbarChart.series.push(series);
+        this.updateByOrientation();
     };
     /**
      * @ignore

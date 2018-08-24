@@ -208,11 +208,12 @@ var MapImageSeries = /** @class */ (function (_super) {
                 }
             }
         }
+        _super.prototype.validateData.call(this);
+        // important! this should go after super.validateData
         // if data is parsed in chunks, images list is corrupted, fix it here
         $iter.each(this.dataItems.iterator(), function (dataItem) {
             _this.mapImages.moveValue(dataItem.mapImage);
         });
-        _super.prototype.validateData.call(this);
     };
     Object.defineProperty(MapImageSeries.prototype, "mapImages", {
         /**

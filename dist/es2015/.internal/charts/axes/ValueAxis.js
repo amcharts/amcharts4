@@ -190,7 +190,7 @@ var ValueAxis = /** @class */ (function (_super) {
          * don't do it by default.
          *
          * In case you use `totalPercent` or `total` in your charts, this must be set
-         * to `true.
+         * to `true`.
          *
          * @default false
          * @see {@link https://www.amcharts.com/docs/v4/chart-types/xy-chart/#100_stacks} For using `calculateTotals` for 100% stacked series.
@@ -203,6 +203,7 @@ var ValueAxis = /** @class */ (function (_super) {
         _this.axisFieldName = "value";
         // Set defaults
         _this.maxZoomFactor = 1000;
+        _this.maxPrecision = Number.MAX_VALUE;
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -1026,6 +1027,9 @@ var ValueAxis = /** @class */ (function (_super) {
         }
         // now get real step
         step = Math.ceil(step / (stepPower * stepDivisor)) * stepPower * stepDivisor;
+        if (this.maxPrecision < Number.MAX_VALUE && step != $math.ceil(step, this.maxPrecision)) {
+            step = $math.ceil(step, this.maxPrecision);
+        }
         var decCount = 0;
         // in case numbers are smaller than 1
         if (stepPower < 1) {
@@ -1242,8 +1246,9 @@ var ValueAxis = /** @class */ (function (_super) {
          * @param {boolean} value Use exact values?
          */
         set: function (value) {
-            this.setPropertyValue("strictMinMax", value);
-            this.invalidateDataRange();
+            if (this.setPropertyValue("strictMinMax", value)) {
+                this.invalidateDataRange();
+            }
         },
         enumerable: true,
         configurable: true
@@ -1267,8 +1272,32 @@ var ValueAxis = /** @class */ (function (_super) {
          * @param {boolean} value Logarithmic scale?
          */
         set: function (value) {
-            this.setPropertyValue("logarithmic", value);
-            this.invalidateDataRange();
+            if (this.setPropertyValue("logarithmic", value)) {
+                this.invalidateDataRange();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ValueAxis.prototype, "maxPrecision", {
+        /**
+         * @return {boolean} max precision
+         */
+        get: function () {
+            return this.getPropertyValue("maxPrecision");
+        },
+        /**
+         * Maximum number of decimals to allow when placing grid lines and labels
+         * on axis.
+         *
+         * Set it to `0` (zero) to force integer-only axis labels.
+         *
+         * @param {number}
+         */
+        set: function (value) {
+            if (this.setPropertyValue("maxPrecision", value)) {
+                this.invalidateDataRange();
+            }
         },
         enumerable: true,
         configurable: true

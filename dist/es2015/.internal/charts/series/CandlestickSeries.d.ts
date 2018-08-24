@@ -8,8 +8,6 @@
  * @hidden
  */
 import { ColumnSeries, ColumnSeriesDataItem, IColumnSeriesDataFields, IColumnSeriesProperties, IColumnSeriesAdapters, IColumnSeriesEvents } from "./ColumnSeries";
-import { Line } from "../../core/elements/Line";
-import { ListTemplate } from "../../core/utils/List";
 import { Container } from "../../core/Container";
 import { Candlestick } from "../elements/Candlestick";
 /**
@@ -245,18 +243,6 @@ export declare class CandlestickSeries extends ColumnSeries {
      */
     protected _yHighField: keyof this["_dataFields"];
     /**
-     * List of "low" line elements.
-     *
-     * @type {ListTemplate<Line>}
-     */
-    protected _lowLines: ListTemplate<Line>;
-    /**
-     * List of "high" line elements.
-     *
-     * @type {ListTemplate<Line>}
-     */
-    protected _highLines: ListTemplate<Line>;
-    /**
      * Constructor
      */
     constructor();
@@ -279,6 +265,7 @@ export declare class CandlestickSeries extends ColumnSeries {
      * @param {CandlestickSeriesDataItem}  dataItem  Data item
      */
     validateDataElementReal(dataItem: this["_dataItem"]): void;
+    protected validateCandlestick(dataItem: this["dataItem"]): void;
     /**
      * A data field to look for "low" value for horizontal axis.
      *

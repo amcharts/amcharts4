@@ -164,7 +164,7 @@ export default {
     "Press ENTER to zoom in": "Pressione ENTER para aumentar o zoom",
     "Press ENTER to zoom out": "Pressione ENTER para diminuir o zoom",
     "Use arrow keys to zoom in and out": "Use as setas para diminuir ou aumentar o zoom",
-    "Use plus and minus keys on your keyboard to zoom in and out": "Use as teclas de mais ou menos no seu teclado para diminuir ou aumentar o zoom",
+    "Use plus and minus keys on your keyboard to zoom in and out": "Use as teclas mais ou menos no seu teclado para diminuir ou aumentar o zoom",
     // Export-related stuff.
     // These prompts are used in Export menu labels.
     // 
@@ -211,9 +211,9 @@ export default {
     "Use left and right arrows to move left selection": "Use as setas para a esquerda ou direita para mover a seleção da esquerda",
     "Use left and right arrows to move right selection": "Use as setas para a esquerda ou direita para mover a seleção da direita",
     "Use TAB select grip buttons or up and down arrows to change selection": "Use TAB para selecionar os botões ou setas para cima ou para baixo para mudar a seleção",
-    "Use up and down arrows to move selection": "Use setas para cima ou para baixo para mover a seleção",
-    "Use up and down arrows to move lower selection": "Use setas para cima ou para baixo para mover a seleção de baixo",
-    "Use up and down arrows to move upper selection": "Use setas para cima ou para baixo para mover a seleção de cima",
+    "Use up and down arrows to move selection": "Use as setas para cima ou para baixo para mover a seleção",
+    "Use up and down arrows to move lower selection": "Use as setas para cima ou para baixo para mover a seleção de baixo",
+    "Use up and down arrows to move upper selection": "Use as setas para cima ou para baixo para mover a seleção de cima",
     "From %1 to %2": "De %1 para %2",
     "From %1": "De %1",
     "To %1": "Para %1",

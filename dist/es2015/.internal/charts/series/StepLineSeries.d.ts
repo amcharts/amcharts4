@@ -8,6 +8,7 @@
  * @hidden
  */
 import { LineSeries, LineSeriesDataItem, ILineSeriesDataFields, ILineSeriesProperties, ILineSeriesAdapters, ILineSeriesEvents } from "./LineSeries";
+import { StepLineSeriesSegment } from "./StepLineSeriesSegment";
 import { IPoint } from "../../core/defs/IPoint";
 /**
  * ============================================================================
@@ -48,6 +49,9 @@ export interface IStepLineSeriesDataFields extends ILineSeriesDataFields {
  * Defines properties for [[StepLineSeries]].
  */
 export interface IStepLineSeriesProperties extends ILineSeriesProperties {
+    noRisers?: boolean;
+    startLocation?: number;
+    endLocation?: number;
 }
 /**
  * Defines events for [[StepLineSeries]].
@@ -133,4 +137,48 @@ export declare class StepLineSeries extends LineSeries {
      * @param {boolean}            backwards  [description]
      */
     protected addPoints(points: IPoint[], dataItem: this["_dataItem"], xField: string, yField: string, backwards?: boolean): void;
+    /**
+     * Draws the line segment.
+     *
+     * @param {LineSeriesSegment}  segment     Segment
+     * @param {IPoint[]}           points      Segment points
+     * @param {IPoint[]}           closePoints Segment close points
+     */
+    protected drawSegment(segment: StepLineSeriesSegment, points: IPoint[], closePoints: IPoint[]): void;
+    /**
+     * @ignore
+     */
+    protected createSegment(): this["_segment"];
+    /**
+     * @return {boolean} No risers
+     */
+    /**
+     * Specifies if step line series should draw only horizontal (or only vertical, depending on base axis) lines,
+     * instead of connecting them with vertical(horizontal) lines.
+     *
+     *
+     * @default false
+     * @param {boolean}  value No risers
+     */
+    noRisers: boolean;
+    /**
+     * @return {number} Location (0-1)
+     */
+    /**
+     * start location of the step
+     *
+     * @param {number} value Location (0-1)
+     * @default 0
+     */
+    startLocation: number;
+    /**
+     * @return {number} Location (0-1)
+     */
+    /**
+     * Step end location.
+     *
+     * @param {number} value Location (0-1)
+     * #default 1
+     */
+    endLocation: number;
 }

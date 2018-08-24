@@ -27,8 +27,9 @@ export { IHeatLegendProperties, IHeatLegendEvents, IHeatLegendAdapters, HeatLege
 export { SeriesDataItem, ISeriesDataFields, ISeriesProperties, ISeriesEvents, ISeriesAdapters, Series } from "./.internal/charts/series/Series";
 export { XYSeriesDataItem, IXYSeriesDataFields, IXYSeriesProperties, IXYSeriesEvents, IXYSeriesAdapters, XYSeries } from "./.internal/charts/series/XYSeries";
 export { LineSeriesDataItem, ILineSeriesDataFields, ILineSeriesProperties, ILineSeriesEvents, ILineSeriesAdapters, LineSeries } from "./.internal/charts/series/LineSeries";
-export { ILineSeriesSegmentPropertiess, ILineSeriesSegmentEvents, ILineSeriesSegmentAdapters, LineSeriesSegment } from "./.internal/charts/series/LineSeriesSegment";
+export { ILineSeriesSegmentProperties, ILineSeriesSegmentEvents, ILineSeriesSegmentAdapters, LineSeriesSegment } from "./.internal/charts/series/LineSeriesSegment";
 export { CandlestickSeriesDataItem, ICandlestickSeriesDataFields, ICandlestickSeriesProperties, ICandlestickSeriesEvents, ICandlestickSeriesAdapters, CandlestickSeries } from "./.internal/charts/series/CandlestickSeries";
+export { OHLCSeriesDataItem, IOHLCSeriesDataFields, IOHLCSeriesProperties, IOHLCSeriesEvents, IOHLCSeriesAdapters, OHLCSeries } from "./.internal/charts/series/OHLCSeries";
 export { ColumnSeriesDataItem, IColumnSeriesDataFields, IColumnSeriesProperties, IColumnSeriesEvents, IColumnSeriesAdapters, ColumnSeries } from "./.internal/charts/series/ColumnSeries";
 export { StepLineSeriesDataItem, IStepLineSeriesDataFields, IStepLineSeriesProperties, IStepLineSeriesEvents, IStepLineSeriesAdapters, StepLineSeries } from "./.internal/charts/series/StepLineSeries";
 export { RadarSeriesDataItem, IRadarSeriesDataFields, IRadarSeriesProperties, IRadarSeriesEvents, IRadarSeriesAdapters, RadarSeries } from "./.internal/charts/series/RadarSeries";
@@ -83,6 +84,7 @@ export { IChordLinkProperties, IChordLinkEvents, IChordLinkAdapters, ChordLink }
 export { NavigationBarDataItem, INavigationBarDataFields, INavigationBarProperties, INavigationBarEvents, INavigationBarAdapters, NavigationBar } from "./.internal/charts/elements/NavigationBar";
 export { Column, IColumnAdapters, IColumnEvents, IColumnProperties } from "./.internal/charts/elements/Column";
 export { Candlestick, ICandlestickAdapters, ICandlestickEvents, ICandlestickProperties } from "./.internal/charts/elements/Candlestick";
+export { OHLC, IOHLCAdapters, IOHLCEvents, IOHLCProperties } from "./.internal/charts/elements/OHLC";
 export { RadarColumn, IRadarColumnAdapters, IRadarColumnEvents, IRadarColumnProperties } from "./.internal/charts/elements/RadarColumn";
 export { Column3D, IColumn3DAdapters, IColumn3DEvents, IColumn3DProperties } from "./.internal/charts/elements/Column3D";
 export { ConeColumn, IConeColumnAdapters, IConeColumnEvents, IConeColumnProperties } from "./.internal/charts/elements/ConeColumn";

@@ -115,6 +115,7 @@ export interface ILocaleProperties {
     "TreeMap chart"?: string;
     "Series"?: string;
     "Candlestick Series"?: string;
+    "OHLC Series"?: string;
     "Column Series"?: string;
     "Line Series"?: string;
     "Pie Slice Series"?: string;

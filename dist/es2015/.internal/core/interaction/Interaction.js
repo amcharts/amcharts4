@@ -2013,6 +2013,18 @@ var Interaction = /** @class */ (function (_super) {
         window.removeEventListener(this._pointerEvents.wheel, this.wheelLockEvent);
     };
     /**
+     * Checks if top element at pointer's position belongs to the SVG.
+     *
+     * @ignore Exlude from docs
+     * @param  {IPointer}       pointer  Pointer
+     * @param  {SVGSVGElement}  svg      The <svg> element
+     * @return {boolean}                 Belongs to SVG/
+     */
+    Interaction.prototype.isLocalElement = function (pointer, svg) {
+        var target = document.elementFromPoint(pointer.point.x, pointer.point.y);
+        return target && (svg === target || svg.contains(target));
+    };
+    /**
      * A function that cancels mouse wheel scroll.
      *
      * @ignore Exclude from docs

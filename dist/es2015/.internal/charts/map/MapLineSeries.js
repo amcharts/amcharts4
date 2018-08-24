@@ -306,11 +306,12 @@ var MapLineSeries = /** @class */ (function (_super) {
                 }
             }
         }
+        _super.prototype.validateData.call(this);
+        // important! this should go after super
         // if data is parsed in chunks, lines list is corrupted, fix it here
         $iter.each(this.dataItems.iterator(), function (dataItem) {
             _this.mapLines.moveValue(dataItem.mapLine);
         });
-        _super.prototype.validateData.call(this);
     };
     Object.defineProperty(MapLineSeries.prototype, "mapLines", {
         /**

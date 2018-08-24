@@ -821,7 +821,7 @@ var XYChart = /** @class */ (function (_super) {
                 }
                 tooltip.toBack();
                 //@labeltodo
-                nextY = $utils.spritePointToSvg({ x: 0, y: tooltip.label.pixelY + tooltip.label.pixelHeight - tooltip.pixelY + pointY + tooltip.pixelMarginBottom }, tooltip).y;
+                nextY = $utils.spritePointToSvg({ x: 0, y: tooltip.label.pixelY + tooltip.label.measuredHeight - tooltip.pixelY + pointY + tooltip.pixelMarginBottom }, tooltip).y;
             }
             var nextHeight = bottom;
             for (var i = botSeriesPoints.length - 1; i >= 0; i--) {

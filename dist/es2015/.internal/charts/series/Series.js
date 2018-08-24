@@ -199,6 +199,7 @@ var Series = /** @class */ (function (_super) {
         _this.bulletsContainer.shouldClone = false;
         _this.bulletsContainer.layout = "none";
         _this.tooltip = new Tooltip();
+        _this.tooltip.virtualParent = _this;
         _this._disposers.push(_this.tooltip);
         _this.hiddenState.transitionEasing = $ease.cubicIn;
         // this data item holds sums, averages, etc
@@ -304,14 +305,26 @@ var Series = /** @class */ (function (_super) {
      */
     Series.prototype.processBullet = function (event) {
         var bullet = event.newValue;
-        // create list and iterator
-        var bulletsList = new ListTemplate(bullet);
-        this.bulletsLists.setKey(bullet.uid, bulletsList);
         // Add accessibility options to bullet
         // If there are relatively few bullets, make them focusable
         if (this.itemsFocusable()) {
             bullet.focusable = true;
         }
+    };
+    /**
+     * removes bullets
+     *
+     * @param {IListEvents<Bullet>["inserted"]}  event  List event
+     */
+    Series.prototype.removeBullet = function (event) {
+        var bullet = event.oldValue;
+        this.dataItems.each(function (dataItem) {
+            var eachBullet = dataItem.bullets.getKey(bullet.uid);
+            if (eachBullet) {
+                eachBullet.dispose();
+            }
+        });
+        this.invalidate();
     };
     /**
      * Validates data items.
@@ -705,8 +718,9 @@ var Series = /** @class */ (function (_super) {
         get: function () {
             if (!this._bullets) {
                 this._bullets = new ListTemplate(new Bullet());
+                this._bullets.template.virtualParent = this;
                 this._bullets.events.on("inserted", this.processBullet, this);
-                this.bulletsLists = new Dictionary();
+                this._bullets.events.on("removed", this.removeBullet, this);
                 this._disposers.push(new ListDisposer(this._bullets));
                 this._disposers.push(this._bullets.template);
             }
@@ -852,25 +866,33 @@ var Series = /** @class */ (function (_super) {
             var valueLabel = legendDataItem.valueLabel;
             // update legend
             if (dataItem) {
-                if (legendSettings.itemValueText) {
-                    valueLabel.text = legendSettings.itemValueText;
+                if (valueLabel) {
+                    if (legendSettings.itemValueText) {
+                        valueLabel.text = legendSettings.itemValueText;
+                    }
+                    valueLabel.dataItem = dataItem;
                 }
-                if (legendSettings.itemLabelText) {
-                    label.text = legendSettings.itemLabelText;
+                if (label) {
+                    if (legendSettings.itemLabelText) {
+                        label.text = legendSettings.itemLabelText;
+                    }
+                    label.dataItem = this.dataItem;
                 }
-                valueLabel.dataItem = dataItem;
-                label.dataItem = this.dataItem;
             }
             else {
-                // if itemLabelText is set, means we have to reset label even if labelText is not set
-                if (legendSettings.labelText || legendSettings.itemLabelText != undefined) {
-                    label.text = legendSettings.labelText;
+                if (label) {
+                    // if itemLabelText is set, means we have to reset label even if labelText is not set
+                    if (legendSettings.labelText || legendSettings.itemLabelText != undefined) {
+                        label.text = legendSettings.labelText;
+                    }
+                    label.dataItem = this.dataItem;
                 }
-                if (legendSettings.valueText || legendSettings.itemValueText != undefined) {
-                    valueLabel.text = legendSettings.valueText;
+                if (valueLabel) {
+                    if (legendSettings.valueText || legendSettings.itemValueText != undefined) {
+                        valueLabel.text = legendSettings.valueText;
+                    }
+                    valueLabel.dataItem = this.dataItem;
                 }
-                label.dataItem = this.dataItem;
-                valueLabel.dataItem = this.dataItem;
             }
         }
     };

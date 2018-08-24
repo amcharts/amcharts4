@@ -9,6 +9,7 @@ import * as tslib_1 from "tslib";
  * @hidden
  */
 import { LineSeries, LineSeriesDataItem } from "./LineSeries";
+import { StepLineSeriesSegment } from "./StepLineSeriesSegment";
 import { registry } from "../../core/Registry";
 import * as $math from "../../core/utils/Math";
 /**
@@ -59,6 +60,8 @@ var StepLineSeries = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.className = "StepLineSeries";
         _this.applyTheme();
+        _this.startLocation = 0;
+        _this.endLocation = 1;
         return _this;
     }
     /**
@@ -81,10 +84,12 @@ var StepLineSeries = /** @class */ (function (_super) {
      * @param {boolean}            backwards  [description]
      */
     StepLineSeries.prototype.addPoints = function (points, dataItem, xField, yField, backwards) {
-        var x0 = this.xAxis.getX(dataItem, xField, 0);
-        var y0 = this.yAxis.getY(dataItem, yField, 0);
-        var x1 = this.xAxis.getX(dataItem, xField, 1);
-        var y1 = this.yAxis.getY(dataItem, yField, 1);
+        var startLocation = this.startLocation;
+        var endLocation = this.endLocation;
+        var x0 = this.xAxis.getX(dataItem, xField, startLocation);
+        var y0 = this.yAxis.getY(dataItem, yField, startLocation);
+        var x1 = this.xAxis.getX(dataItem, xField, endLocation);
+        var y1 = this.yAxis.getY(dataItem, yField, endLocation);
         x0 = $math.fitToRange(x0, -20000, 20000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
         y0 = $math.fitToRange(y0, -20000, 20000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
         x1 = $math.fitToRange(x1, -20000, 20000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
@@ -120,6 +125,91 @@ var StepLineSeries = /** @class */ (function (_super) {
             points.push(point0, point1);
         }
     };
+    /**
+     * Draws the line segment.
+     *
+     * @param {LineSeriesSegment}  segment     Segment
+     * @param {IPoint[]}           points      Segment points
+     * @param {IPoint[]}           closePoints Segment close points
+     */
+    StepLineSeries.prototype.drawSegment = function (segment, points, closePoints) {
+        var vertical = false;
+        if (this.yAxis == this.baseAxis) {
+            vertical = true;
+        }
+        segment.drawSegment(points, closePoints, this.tensionX, this.tensionY, this.noRisers, vertical);
+    };
+    /**
+     * @ignore
+     */
+    StepLineSeries.prototype.createSegment = function () {
+        return new StepLineSeriesSegment();
+    };
+    Object.defineProperty(StepLineSeries.prototype, "noRisers", {
+        /**
+         * @return {boolean} No risers
+         */
+        get: function () {
+            return this.getPropertyValue("noRisers");
+        },
+        /**
+         * Specifies if step line series should draw only horizontal (or only vertical, depending on base axis) lines,
+         * instead of connecting them with vertical(horizontal) lines.
+         *
+         *
+         * @default false
+         * @param {boolean}  value No risers
+         */
+        set: function (value) {
+            if (this.setPropertyValue("noRisers", value)) {
+                this.invalidateDataRange();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(StepLineSeries.prototype, "startLocation", {
+        /**
+         * @return {number} Location (0-1)
+         */
+        get: function () {
+            return this.getPropertyValue("startLocation");
+        },
+        /**
+         * start location of the step
+         *
+         * @param {number} value Location (0-1)
+         * @default 0
+         */
+        set: function (value) {
+            if (this.setPropertyValue("startLocation", value)) {
+                this.invalidateDataRange();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(StepLineSeries.prototype, "endLocation", {
+        /**
+         * @return {number} Location (0-1)
+         */
+        get: function () {
+            return this.getPropertyValue("endLocation");
+        },
+        /**
+         * Step end location.
+         *
+         * @param {number} value Location (0-1)
+         * #default 1
+         */
+        set: function (value) {
+            if (this.setPropertyValue("endLocation", value)) {
+                this.invalidateDataRange();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     return StepLineSeries;
 }(LineSeries));
 export { StepLineSeries };

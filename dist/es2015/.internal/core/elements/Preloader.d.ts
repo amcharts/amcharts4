@@ -12,6 +12,7 @@
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
 import { Slice } from "./Slice";
 import { Label } from "./Label";
+import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
  * REQUISITES
@@ -121,9 +122,9 @@ export declare class Preloader extends Container {
      * delay showing of the Preloader so for quick operations it does not even
      * appear on screen.
      *
-     * @type {number}
+     * @type {Optional<number>}
      */
-    protected _started: number;
+    protected _started: $type.Optional<number>;
     /**
      * Constructor
      */

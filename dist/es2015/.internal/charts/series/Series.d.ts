@@ -260,13 +260,6 @@ export declare class Series extends Component {
      */
     protected _bullets: ListTemplate<Bullet>;
     /**
-     * Series' bullets by id.
-     *
-     * @ignore Exclude from docs
-     * @type {Dictionary<string, List<Bullet>>}
-     */
-    bulletsLists: Dictionary<string, List<Bullet>>;
-    /**
      * Container bullets are placed in.
      *
      * @ignore Exclude from docs
@@ -429,6 +422,12 @@ export declare class Series extends Component {
      * @todo investigate why itemReaderText is undefined
      */
     protected processBullet(event: IListEvents<Bullet>["inserted"]): void;
+    /**
+     * removes bullets
+     *
+     * @param {IListEvents<Bullet>["inserted"]}  event  List event
+     */
+    protected removeBullet(event: IListEvents<Bullet>["removed"]): void;
     /**
      * Validates data items.
      *

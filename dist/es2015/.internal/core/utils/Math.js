@@ -46,6 +46,22 @@ export function round(value, precision) {
     }
 }
 /**
+ * Ceils the numeric value to whole number or specific precision of set.
+ *
+ * @param  {number} value      Value
+ * @param  {number} precision  Precision (number of decimal points)
+ * @return {number}            Rounded value
+ */
+export function ceil(value, precision) {
+    if (!$type.isNumber(precision) || precision <= 0) {
+        return Math.ceil(value);
+    }
+    else {
+        var d = Math.pow(10, precision);
+        return Math.ceil(value * d) / d;
+    }
+}
+/**
  * Stretches `t` so that it will always be between `from` and `to`.
  *
  * @param  {number} t     Number from 0 to 1

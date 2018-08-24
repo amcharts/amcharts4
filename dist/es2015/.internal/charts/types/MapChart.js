@@ -120,6 +120,8 @@ var MapChart = /** @class */ (function (_super) {
         // Set default projection
         _this.projection = new Projection();
         _this.deltaLongitude = 0;
+        _this.maxPanOut = 0.7;
+        _this.homeZoomLevel = 1;
         // Set padding
         _this.padding(0, 0, 0, 0);
         // Create a container for map series
@@ -129,6 +131,7 @@ var MapChart = /** @class */ (function (_super) {
         seriesContainer.resizable = true;
         seriesContainer.events.on("transformed", _this.handleMapTransform, _this);
         seriesContainer.events.on("doublehit", _this.handleDoubleHit, _this);
+        seriesContainer.events.on("drag", _this.handleDrag, _this);
         // Set up events
         _this.events.on("datavalidated", _this.updateExtremes, _this);
         // Set up main chart container, e.g. set backgrounds and events to monitor
@@ -169,6 +172,35 @@ var MapChart = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    /**
+     * Prevents map to be dragged out of the container area
+     * @ignore
+     */
+    MapChart.prototype.handleDrag = function () {
+        // not good doing it with adapters.
+        var ww = this.seriesWidth * this.zoomLevel * this.scaleRatio;
+        var hh = this.seriesHeight * this.zoomLevel * this.scaleRatio;
+        var x = this.seriesContainer.pixelX;
+        var y = this.seriesContainer.pixelY;
+        var maxPanOut = this.maxPanOut;
+        var minX = Math.min(this.maxWidth * (1 - maxPanOut) - ww / 2, -ww * (maxPanOut - 0.5));
+        if (x < minX) {
+            x = minX;
+        }
+        var maxX = Math.max(this.maxWidth * maxPanOut + ww / 2, this.maxWidth + ww * (maxPanOut - 0.5));
+        if (x > maxX) {
+            x = maxX;
+        }
+        var minY = Math.min(this.maxHeight * (1 - maxPanOut) - hh / 2, -hh * (maxPanOut - 0.5));
+        if (y < minY) {
+            y = minY;
+        }
+        var maxY = Math.max(this.maxHeight * maxPanOut + hh / 2, this.maxHeight + hh * (maxPanOut - 0.5));
+        if (y > maxY) {
+            y = maxY;
+        }
+        this.seriesContainer.moveTo({ x: x, y: y }, undefined, undefined, true);
+    };
     /**
      * Sets defaults that instantiate some objects that rely on parent, so they
      * cannot be set in constructor.
@@ -314,6 +346,12 @@ var MapChart = /** @class */ (function (_super) {
         this.seriesWidth = seriesWidth * scaleRatio;
         this.seriesHeight = seriesHeight * scaleRatio;
         this.udpateScaleRatio();
+        var seriesContainer = this.seriesContainer;
+        var chartContainer = this.chartContainer;
+        seriesContainer.x = chartContainer.pixelWidth / 2;
+        seriesContainer.y = chartContainer.pixelHeight / 2;
+        this.centerGeoPoint = this.svgPointToGeo({ x: this.maxWidth / 2, y: this.maxHeight / 2 });
+        this.goHome();
     };
     /**
      * (Re)calculates a ratio which should be used to scale the actual map so
@@ -391,16 +429,6 @@ var MapChart = /** @class */ (function (_super) {
     MapChart.prototype.geoPointToSeries = function (point) {
         return this.projection.convert(point);
     };
-    /**
-     * Performs after-draw tasks, e.g. centers the map.
-     */
-    MapChart.prototype.afterDraw = function () {
-        _super.prototype.afterDraw.call(this);
-        var seriesContainer = this.seriesContainer;
-        var chartContainer = this.chartContainer;
-        seriesContainer.x = chartContainer.pixelWidth / 2;
-        seriesContainer.y = chartContainer.pixelHeight / 2;
-    };
     Object.defineProperty(MapChart.prototype, "geodata", {
         /**
          * @return {Object} GeoJSON data
@@ -448,8 +476,8 @@ var MapChart = /** @class */ (function (_super) {
         var svgPoint = this.geoPointToSVG(point);
         if (center) {
             svgPoint = {
-                x: this.pixelWidth / 2,
-                y: this.pixelHeight / 2
+                x: this.maxWidth / 2,
+                y: this.maxHeight / 2
             };
         }
         if (!$type.isNumber(duration)) {
@@ -716,8 +744,61 @@ var MapChart = /** @class */ (function (_super) {
          * @param {number}  value  Map center shift
          */
         set: function (value) {
-            this.setPropertyValue("deltaLongitude", $geo.wrapAngleTo180(value));
-            this.invalidateProjection();
+            if (this.setPropertyValue("deltaLongitude", $geo.wrapAngleTo180(value))) {
+                this.invalidateProjection();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MapChart.prototype, "maxPanOut", {
+        /**
+         * @return {number} Max pan out
+         */
+        get: function () {
+            return this.getPropertyValue("maxPanOut");
+        },
+        /**
+         * Max pan out
+         *
+         * @param {number} Max pan out
+         */
+        set: function (value) {
+            this.setPropertyValue("maxPanOut", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MapChart.prototype, "homeGeoPoint", {
+        /**
+         * @return {IGeoPoint} Home geo point
+         */
+        get: function () {
+            return this.getPropertyValue("homeGeoPoint");
+        },
+        /**
+         * Geo point of initial map view
+         * @param {IGeoPoint}
+         */
+        set: function (value) {
+            this.setPropertyValue("homeGeoPoint", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MapChart.prototype, "homeZoomLevel", {
+        /**
+         * @return {number} Home zoom level
+         */
+        get: function () {
+            return this.getPropertyValue("homeZoomLevel");
+        },
+        /**
+         * Zoom level of initial map view
+         * @param {number}
+         */
+        set: function (value) {
+            this.setPropertyValue("homeZoomLevel", value);
         },
         enumerable: true,
         configurable: true
@@ -824,6 +905,18 @@ var MapChart = /** @class */ (function (_super) {
      */
     MapChart.prototype.asIs = function (field) {
         return field == "projection" || _super.prototype.asIs.call(this, field);
+    };
+    /**
+     * zooms out and moves map to the center
+     */
+    MapChart.prototype.goHome = function (duration) {
+        var homeGeoPoint = this.homeGeoPoint;
+        if (!homeGeoPoint) {
+            homeGeoPoint = this.centerGeoPoint;
+        }
+        if (homeGeoPoint) {
+            this.zoomToGeoPoint(homeGeoPoint, this.homeZoomLevel, true, duration);
+        }
     };
     return MapChart;
 }(SerialChart));

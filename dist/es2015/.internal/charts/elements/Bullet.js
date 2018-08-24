@@ -36,6 +36,7 @@ var Bullet = /** @class */ (function (_super) {
         _this.tooltipX = 0;
         _this.tooltipY = 0;
         _this.layout = "none";
+        _this.applyOnClones = true;
         _this.copyToLegendMarker = true;
         return _this;
     }

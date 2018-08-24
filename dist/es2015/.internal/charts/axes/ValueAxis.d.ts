@@ -83,6 +83,7 @@ export interface IValueAxisDataFields extends IAxisDataFields {
 export interface IValueAxisProperties extends IAxisProperties {
     strictMinMax?: boolean;
     logarithmic?: boolean;
+    maxPrecision?: number;
 }
 /**
  * Defines events for [[ValueAxis]].
@@ -347,7 +348,7 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * don't do it by default.
      *
      * In case you use `totalPercent` or `total` in your charts, this must be set
-     * to `true.
+     * to `true`.
      *
      * @default false
      * @see {@link https://www.amcharts.com/docs/v4/chart-types/xy-chart/#100_stacks} For using `calculateTotals` for 100% stacked series.
@@ -642,6 +643,18 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @param {boolean} value Logarithmic scale?
      */
     logarithmic: boolean;
+    /**
+     * @return {boolean} max precision
+     */
+    /**
+     * Maximum number of decimals to allow when placing grid lines and labels
+     * on axis.
+     *
+     * Set it to `0` (zero) to force integer-only axis labels.
+     *
+     * @param {number}
+     */
+    maxPrecision: number;
     /**
      * Invalidates axis data items when series extremes change
      */

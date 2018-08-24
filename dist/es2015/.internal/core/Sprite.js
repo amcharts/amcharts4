@@ -458,9 +458,9 @@ var Sprite = /** @class */ (function (_super) {
         var topParent = this.topParent;
         if (topParent) {
             if (!topParent.maxWidth || !topParent.maxHeight) {
-                topParent.events.once("maxsizechanged", function () {
+                this._disposers.push(topParent.events.once("maxsizechanged", function () {
                     _this.invalidate();
-                });
+                }));
             }
         }
         this.renderingFrame = this.renderingFrequency;
@@ -661,6 +661,7 @@ var Sprite = /** @class */ (function (_super) {
         // this.numberFormatter = source.numberFormatter; // todo: this creates loose number formatter and copies it to all clones. somehow we need to know if source had numberFormatter explicitly created and not just because a getter was called.
         //this.mask = source.mask; need to think about this, generally this causes a lot of problems
         this.disabled = source.disabled;
+        this.virtualParent = source.virtualParent;
         //@todo: create tooltip if it's on source but not on this?
         var tooltip = this._tooltip;
         if (tooltip) {
@@ -693,6 +694,14 @@ var Sprite = /** @class */ (function (_super) {
             }*/
         }
         _super.prototype.dispose.call(this);
+        if (this.applyOnClones) {
+            if (this._clones) {
+                for (var i = this._clones.length - 1; i >= 0; i--) {
+                    var clone = this._clones.getIndex(i);
+                    clone.dispose();
+                }
+            }
+        }
         if (this._svgContainer) {
             this._svgContainer.dispose();
         }
@@ -877,6 +886,34 @@ var Sprite = /** @class */ (function (_super) {
                     }
                 }
             }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Sprite.prototype, "virtualParent", {
+        /**
+         * @return {Optional<Container>} Virtual parent
+         */
+        get: function () {
+            return this._virtualParent;
+        },
+        /**
+         * Element's "virtual" parent.
+         *
+         * This is required in ordere to maintain proper inheritance (like
+         * formatters).
+         *
+         * Sometimes an element is a "logical" parent, even though it's not a direct
+         * ascendant.
+         *
+         * Example: a bullet is not a child of the axis, but it would make sense
+         * for it to inherit series' formatters.
+         *
+         * @ignore Exclude from docs
+         * @param {Sprite}  value  Virtual parent
+         */
+        set: function (value) {
+            this._virtualParent = value;
         },
         enumerable: true,
         configurable: true
@@ -2324,6 +2361,9 @@ var Sprite = /** @class */ (function (_super) {
         }
     };
     Object.defineProperty(Sprite.prototype, "__disabled", {
+        get: function () {
+            return this._internalDisabled;
+        },
         /**
          * Internal disable method.
          *
@@ -2349,6 +2389,9 @@ var Sprite = /** @class */ (function (_super) {
         get: function () {
             if (this._numberFormatter) {
                 return this._numberFormatter;
+            }
+            else if (this.virtualParent) {
+                return this.virtualParent.numberFormatter;
             }
             else if (this.parent) {
                 return this.parent.numberFormatter;
@@ -2407,6 +2450,9 @@ var Sprite = /** @class */ (function (_super) {
             if (this._dateFormatter) {
                 return this._dateFormatter;
             }
+            else if (this.virtualParent) {
+                return this.virtualParent.dateFormatter;
+            }
             else if (this.parent) {
                 return this.parent.dateFormatter;
             }
@@ -2457,6 +2503,9 @@ var Sprite = /** @class */ (function (_super) {
             if (this._durationFormatter) {
                 return this._durationFormatter;
             }
+            else if (this.virtualParent) {
+                return this.virtualParent.durationFormatter;
+            }
             else if (this.parent) {
                 return this.parent.durationFormatter;
             }
@@ -2492,6 +2541,9 @@ var Sprite = /** @class */ (function (_super) {
             var language = this._language.get();
             if (language) {
                 return language;
+            }
+            else if (this.virtualParent) {
+                return this.virtualParent.language;
             }
             else if (this.parent) {
                 return this.parent.language;
@@ -3506,6 +3558,9 @@ var Sprite = /** @class */ (function (_super) {
             var index = this._tabindex;
             if (index != null) {
                 return index;
+            }
+            else if (this.virtualParent) {
+                return this.virtualParent.tabindex;
             }
             else if (this.parent) {
                 return this.parent.tabindex;
@@ -6221,6 +6276,9 @@ var Sprite = /** @class */ (function (_super) {
         get: function () {
             if ($type.hasValue(this._rtl)) {
                 return this._rtl;
+            }
+            else if (this.virtualParent) {
+                return this.virtualParent.rtl;
             }
             else if (this.parent) {
                 return this.parent.rtl;

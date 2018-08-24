@@ -493,6 +493,10 @@ var BaseObject = /** @class */ (function () {
                                         item_1.template[entryKey] = entryValue;
                                     }
                                 }
+                                else if (listItem instanceof List) {
+                                    // It's List, process it
+                                    _this.processList(entryValue, listItem);
+                                }
                                 else {
                                     // Aything else. Just assing and be done with it.
                                     item_1.template[entryKey] = entryValue;
@@ -508,56 +512,7 @@ var BaseObject = /** @class */ (function () {
                 else if (item_1 instanceof List) {
                     // ... a list
                     // ------------------------------------------------------------------
-                    // Convert to array if necessary
-                    if (!$type.isArray(configValue)) {
-                        configValue = [configValue];
-                    }
-                    // It's an array
-                    // Create a list item for entry
-                    $array.each(configValue, function (entry, index) {
-                        if ($type.isObject(entry)) {
-                            // An object.
-                            //
-                            // Let's see if we can instantiate a class out of it, or we need
-                            // to push it into list as it is.
-                            //
-                            // If there are items already at the specified index in the list,
-                            // apply properties rather than create a new one.
-                            var listItem = void 0;
-                            if (item_1.hasIndex(index)) {
-                                listItem = item_1.getIndex(index);
-                            }
-                            else if (entry instanceof BaseObject) {
-                                // Item is already a BaseObject, no need to process it further
-                                item_1.push(entry);
-                                return;
-                            }
-                            else {
-                                listItem = _this.createEntryInstance(entry);
-                                item_1.push(listItem);
-                            }
-                            // If the list item is BaseObject, we just need to let it
-                            // deal if its own config
-                            if (listItem instanceof BaseObject) {
-                                listItem.config = entry;
-                            }
-                        }
-                        else {
-                            // Basic value.
-                            // Just push it into list, or override existing value
-                            if (item_1.hasIndex(index)) {
-                                item_1.setIndex(index, entry);
-                            }
-                            else {
-                                item_1.push(entry);
-                            }
-                        }
-                    });
-                    // Truncate the list if it contains less items than the config
-                    // array
-                    while (configValue.length > item_1.length) {
-                        item_1.pop();
-                    }
+                    _this.processList(configValue, item_1);
                 }
                 else if (item_1 instanceof DictionaryTemplate) {
                     // ... a dictionary with template
@@ -676,6 +631,65 @@ var BaseObject = /** @class */ (function () {
                     listItem.setKey(entryKey, entryValue);
                 }
             });
+        }
+    };
+    /**
+     * Processes [[List]].
+     *
+     * @param {any}        configValue  Config value
+     * @param {List<any>}  item         Item
+     */
+    BaseObject.prototype.processList = function (configValue, item) {
+        var _this = this;
+        // Convert to array if necessary
+        if (!$type.isArray(configValue)) {
+            configValue = [configValue];
+        }
+        // It's an array
+        // Create a list item for entry
+        $array.each(configValue, function (entry, index) {
+            if ($type.isObject(entry)) {
+                // An object.
+                //
+                // Let's see if we can instantiate a class out of it, or we need
+                // to push it into list as it is.
+                //
+                // If there are items already at the specified index in the list,
+                // apply properties rather than create a new one.
+                var listItem = void 0;
+                if (item.hasIndex(index)) {
+                    listItem = item.getIndex(index);
+                }
+                else if (entry instanceof BaseObject) {
+                    // Item is already a BaseObject, no need to process it further
+                    item.push(entry);
+                    return;
+                }
+                else {
+                    listItem = _this.createEntryInstance(entry);
+                    item.push(listItem);
+                }
+                // If the list item is BaseObject, we just need to let it
+                // deal if its own config
+                if (listItem instanceof BaseObject) {
+                    listItem.config = entry;
+                }
+            }
+            else {
+                // Basic value.
+                // Just push it into list, or override existing value
+                if (item.hasIndex(index)) {
+                    item.setIndex(index, entry);
+                }
+                else {
+                    item.push(entry);
+                }
+            }
+        });
+        // Truncate the list if it contains less items than the config
+        // array
+        while (configValue.length > item.length) {
+            item.pop();
         }
     };
     /**

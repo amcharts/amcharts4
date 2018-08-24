@@ -440,6 +440,9 @@ var Axis = /** @class */ (function (_super) {
         tooltip.background.pointerLength = 5;
         tooltip.fitPointerToBounds = true;
         tooltip.filters.clear();
+        // Set virtual parentfor the tooltip so that it can properly inheirt 
+        // formatters from the axis.
+        tooltip.virtualParent = _this;
         // Create background element for the tooltip
         var background = tooltip.background;
         background.cornerRadius = 0;

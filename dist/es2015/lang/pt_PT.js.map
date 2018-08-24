@@ -1,0 +1,1 @@
+{"version":3,"file":"pt_PT.js","sourceRoot":"","sources":["../../../src/lang/pt_PT.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,OAAO,EAAE,MAAM,2CAA2C,CAAC","sourcesContent":["export { default } from \"../.internal/git/amcharts4-lang/src/pt_PT\";"]}

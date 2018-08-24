@@ -102,29 +102,34 @@ var Container = /** @class */ (function (_super) {
     Container.prototype.handleChildAdded = function (event) {
         var _this = this;
         var child = event.newValue;
-        this._disposers.push(child.events.on("zIndexChanged", function () {
-            _this.sortChildren();
-            _this.addChildren();
-        }));
-        // Do not add disposed objects
-        if (child.isDisposed()) {
-            console.log("Added to children a disposed object!");
-            return;
+        if (!child.isDisposed()) {
+            this._disposers.push(child.events.on("zIndexChanged", function () {
+                _this.sortChildren();
+                _this.addChildren();
+            }));
+            // Do not add disposed objects
+            if (child.isDisposed()) {
+                console.log("Added to children a disposed object!");
+                return;
+            }
+            if (this.element) {
+                var group = this.element;
+                group.add(child.group);
+            }
+            // TODO this is hacky
+            if (!$type.hasValue(child._childAddedDisposer)) {
+                // it's not enough to listen to POSITION_CHANGED only, as some extra redrawals will happen.
+                child._childAddedDisposer = child.events.on("transformed", this.handleChildTransform, this);
+                //@todo: temporary commenting this because of error it causes when I add contents Container in AxisRange constructor. this._disposers.push((<any>child)._childAddedDisposer);
+            }
+            child.parent = this;
+            this.dispatchImmediately("childadded", { type: "childadded", newValue: child });
+            this.invalidate();
+            this.invalidateLayout();
         }
-        if (this.element) {
-            var group = this.element;
-            group.add(child.group);
+        else {
+            throw Error("child is disposed");
         }
-        // TODO this is hacky
-        if (!$type.hasValue(child._childAddedDisposer)) {
-            // it's not enough to listen to POSITION_CHANGED only, as some extra redrawals will happen.
-            child._childAddedDisposer = child.events.on("transformed", this.handleChildTransform, this);
-            //@todo: temporary commenting this because of error it causes when I add contents Container in AxisRange constructor. this._disposers.push((<any>child)._childAddedDisposer);
-        }
-        child.parent = this;
-        this.dispatchImmediately("childadded", { type: "childadded", newValue: child });
-        this.invalidate();
-        this.invalidateLayout();
     };
     /**
      * Handles child removal. Changing size of the child may change the
@@ -598,9 +603,9 @@ var Container = /** @class */ (function (_super) {
         var topParent = this.topParent;
         if (topParent) {
             if (!topParent.maxWidth || !topParent.maxHeight) {
-                topParent.events.once("maxsizechanged", function () {
+                this._disposers.push(topParent.events.once("maxsizechanged", function () {
                     _this.invalidateLayout();
-                });
+                }));
                 //return; // not good for labels
             }
         }

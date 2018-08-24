@@ -20,7 +20,7 @@ import { IPoint } from "../../core/defs/IPoint";
 /**
  * Defines properties for [[LineSeriesSegment]].
  */
-export interface ILineSeriesSegmentPropertiess extends IContainerProperties {
+export interface ILineSeriesSegmentProperties extends IContainerProperties {
 }
 /**
  * Defines events for [[LineSeriesSegment]].
@@ -32,7 +32,7 @@ export interface ILineSeriesSegmentEvents extends IContainerEvents {
  *
  * @see {@link Adapter}
  */
-export interface ILineSeriesSegmentAdapters extends IContainerAdapters, ILineSeriesSegmentPropertiess {
+export interface ILineSeriesSegmentAdapters extends IContainerAdapters, ILineSeriesSegmentProperties {
 }
 /**
  * ============================================================================
@@ -57,7 +57,7 @@ export declare class LineSeriesSegment extends Container {
      * @ignore Exclude from docs
      * @type {ILineSeriesSegmentPropertiess}
      */
-    _properties: ILineSeriesSegmentPropertiess;
+    _properties: ILineSeriesSegmentProperties;
     /**
      * Defines available adapters.
      *

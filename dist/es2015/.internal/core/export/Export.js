@@ -217,38 +217,46 @@ var Export = /** @class */ (function (_super) {
                 this.removeDispose(this._menu);
             }
             this._menu = menu;
-            // Set container and language
-            this._menu.container = this.container;
-            this._menu.language = this._language;
-            // Add adapter to check for browser support
-            this._menu.adapter.add("branch", function (arg) {
-                arg.branch.unsupported = !_this.typeSupported(arg.branch.type);
-                return arg;
-            });
-            // Add click events
-            this._menu.events.on("hit", function (ev) {
-                _this.export(ev.branch.type, ev.branch.options);
-                _this.menu.close();
-            });
-            this._menu.events.on("enter", function (ev) {
-                _this.export(ev.branch.type, ev.branch.options);
-                _this.menu.close();
-            });
-            this._menu.events.on("over", function (ev) {
-                _this._disablePointers();
-            });
-            this._menu.events.on("out", function (ev) {
-                _this._releasePointers();
-            });
-            // Dispatch event
-            this.dispatchImmediately("menucreated");
-            // Prefix with Sprite's class name
-            this._menu.adapter.add("classPrefix", function (obj) {
-                obj.classPrefix = options.classNamePrefix + obj.classPrefix;
-                return obj;
-            });
-            // Add menu to disposers so that it's destroyed when Export is disposed
-            this._disposers.push(this._menu);
+            if (menu) {
+                // Set container and language
+                menu.container = this.container;
+                menu.language = this._language;
+                // Add adapter to check for browser support
+                menu.adapter.add("branch", function (arg) {
+                    arg.branch.unsupported = !_this.typeSupported(arg.branch.type);
+                    return arg;
+                });
+                // Add click events
+                menu.events.on("hit", function (ev) {
+                    _this.export(ev.branch.type, ev.branch.options);
+                    var menu = _this.menu;
+                    if (menu) {
+                        menu.close();
+                    }
+                });
+                menu.events.on("enter", function (ev) {
+                    _this.export(ev.branch.type, ev.branch.options);
+                    var menu = _this.menu;
+                    if (menu) {
+                        menu.close();
+                    }
+                });
+                menu.events.on("over", function (ev) {
+                    _this._disablePointers();
+                });
+                menu.events.on("out", function (ev) {
+                    _this._releasePointers();
+                });
+                // Dispatch event
+                this.dispatchImmediately("menucreated");
+                // Prefix with Sprite's class name
+                menu.adapter.add("classPrefix", function (obj) {
+                    obj.classPrefix = options.classNamePrefix + obj.classPrefix;
+                    return obj;
+                });
+                // Add menu to disposers so that it's destroyed when Export is disposed
+                this._disposers.push(menu);
+            }
         },
         enumerable: true,
         configurable: true
@@ -953,7 +961,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.restoreRemovedObjects = function () {
         var obj;
-        while (obj = this._removedObjects.pop()) {
+        while ((obj = this._removedObjects.pop())) {
             //obj.element.setAttribute("href", obj.originalHref);
             var parent_1 = obj.placeholder.parentElement || obj.placeholder.parentNode;
             parent_1.insertBefore(obj.element, obj.placeholder);
@@ -1589,7 +1597,7 @@ var Export = /** @class */ (function (_super) {
                 }
                 else if ($type.hasValue(window.navigator.msSaveBlob)) {
                     parts = uri.split(";");
-                    contentType = parts.shift().replace(/data:/, "");
+                    contentType = $type.getValue(parts.shift()).replace(/data:/, "");
                     uri = decodeURIComponent(parts.join(";").replace(/^[^,]*,/, ""));
                     // Check if we need to Base64-decode
                     if (["image/svg+xml", "application/json", "text/csv"].indexOf(contentType) == -1) {
@@ -1612,7 +1620,7 @@ var Export = /** @class */ (function (_super) {
                 }
                 else if (this.legacyIE()) {
                     parts = uri.match(/^data:(.*);[ ]*([^,]*),(.*)$/);
-                    if (parts.length === 4) {
+                    if (parts != null && parts.length === 4) {
                         // Base64-encoded or text-based stuff?
                         if (parts[2] == "base64") {
                             // Base64-encoded - probably an image
@@ -1639,7 +1647,7 @@ var Export = /** @class */ (function (_super) {
                             iframe.height = "1px";
                             iframe.style.display = "none";
                             document.body.appendChild(iframe);
-                            idoc = iframe.contentDocument;
+                            idoc = $type.getValue(iframe.contentDocument);
                             idoc.open(contentType, "replace");
                             idoc.charset = parts[2].replace(/charset=/, "");
                             idoc.write(decodeURIComponent(parts[3]));
@@ -1874,7 +1882,7 @@ var Export = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @param  {Element}  element  Element
-     * @return {string}            Font family
+     * @return {Optional<string>}  Font family
      */
     Export.prototype.findFont = function (element) {
         // Check if element has styles set
@@ -1905,7 +1913,7 @@ var Export = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @param  {Element}  element  Element
-     * @return {string}            Font family
+     * @return {Optional<string>}  Font family
      */
     Export.prototype.findFontSize = function (element) {
         // Check if element has styles set
@@ -2273,7 +2281,7 @@ var Export = /** @class */ (function (_super) {
     Export.prototype.hideTimeout = function () {
         if (this._timeoutTimeout) {
             this.removeDispose(this._timeoutTimeout);
-            this._timeoutTimeout = null;
+            this._timeoutTimeout = undefined;
         }
         this.hideModal();
     };
