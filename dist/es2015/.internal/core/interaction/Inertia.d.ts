@@ -64,7 +64,7 @@ export declare class Inertia extends BaseObject implements IAnimatable {
     /**
      * Constructor
      */
-    constructor();
+    constructor(interaction: InteractionObject, type: InertiaTypes, point: IPoint, startPoint: IPoint);
     /**
      * Returns current X coordinate.
      *

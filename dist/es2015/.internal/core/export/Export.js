@@ -3,9 +3,9 @@
  *
  * Parts of Export functionality rely on the following third party libraries:
  *
- * [Fabric.js](http://fabricjs.com/)
- * Copyright (c) Printio (Juriy Zaytsev, Maxim Chernyak)
- * Licensed under [MIT](https://github.com/kangax/fabric.js/blob/master/LICENSE)
+ * [canvg.js](https://github.com/canvg/canvg)
+ * Copyright (c) Gabe Lerner
+ * Licensed under [MIT](https://github.com/canvg/canvg/blob/master/LICENSE)
  *
  * [pdfmake](http://pdfmake.org/)
  * Copyright (c) 2014 bpampuch
@@ -41,6 +41,109 @@ import * as $object from "../utils/Object";
 import * as $net from "../utils/Net";
 import * as $type from "../utils/Type";
 import * as $utils from "../utils/Utils";
+import * as $array from "../utils/Array";
+// TODO better parsing
+var fontFamilySrcRegexp = /src: ([^;]+);/;
+// TODO better checks
+function supportsBlobUri() {
+    return window.navigator.msSaveOrOpenBlob != null;
+}
+// TODO move into utils or something ?
+function blobToDataUri(blob) {
+    return new Promise(function (resolve, reject) {
+        // TODO handle abort ?
+        var f = new FileReader();
+        f.onload = function (e) { resolve(f.result); };
+        f.onerror = function (e) { reject(e); };
+        f.readAsDataURL(blob);
+    });
+}
+// This loads a stylesheet by URL and then calls the function with it
+// TODO this should be moved into utils or something
+function loadStylesheet(url, f) {
+    return tslib_1.__awaiter(this, void 0, void 0, function () {
+        var response, s;
+        return tslib_1.__generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, $net.load(url)];
+                case 1:
+                    response = _a.sent();
+                    s = document.createElement("style");
+                    s.textContent = response.response;
+                    document.head.appendChild(s);
+                    _a.label = 2;
+                case 2:
+                    _a.trys.push([2, , 4, 5]);
+                    return [4 /*yield*/, f(s.sheet)];
+                case 3: return [2 /*return*/, _a.sent()];
+                case 4:
+                    document.head.removeChild(s);
+                    return [7 /*endfinally*/];
+                case 5: return [2 /*return*/];
+            }
+        });
+    });
+}
+// This calls a function for each CSSRule inside of a CSSStyleSheet.
+// If the CSSStyleSheet has any @import, then it will recursively call the function for those CSSRules too.
+// TODO this should be moved into utils or something
+function eachStylesheet(topUrl, sheet, f) {
+    return tslib_1.__awaiter(this, void 0, void 0, function () {
+        var promises, _loop_1, i;
+        return tslib_1.__generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    promises = [];
+                    _loop_1 = function (i) {
+                        var rule = sheet.cssRules[i];
+                        if (rule.type === CSSRule.IMPORT_RULE) {
+                            var url_1 = rule.href;
+                            if (url_1) {
+                                url_1 = $utils.joinUrl(topUrl, url_1);
+                                promises.push(loadStylesheet(url_1, function (sheet) { return eachStylesheet(url_1, sheet, f); }));
+                            }
+                        }
+                        else {
+                            f(topUrl, rule);
+                        }
+                    };
+                    for (i = 0; i < sheet.cssRules.length; i++) {
+                        _loop_1(i);
+                    }
+                    if (!promises.length) return [3 /*break*/, 2];
+                    return [4 /*yield*/, Promise.all(promises)];
+                case 1:
+                    _a.sent();
+                    _a.label = 2;
+                case 2: return [2 /*return*/];
+            }
+        });
+    });
+}
+// This calls a function for each CSSRule for all of the stylesheets in the page.
+// If the CSSStyleSheet has any @import, then it will recursively call the function for those CSSRules too.
+// TODO this should be moved into utils or something
+function eachStylesheets(f) {
+    return tslib_1.__awaiter(this, void 0, void 0, function () {
+        return tslib_1.__generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, Promise.all($array.map(document.styleSheets, function (sheet) {
+                        var url = sheet.href;
+                        if (url == null) {
+                            return eachStylesheet(location.href, sheet, f);
+                        }
+                        else {
+                            url = $utils.joinUrl(location.href, url);
+                            return loadStylesheet(url, function (sheet) { return eachStylesheet(url, sheet, f); });
+                        }
+                    }))];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
 /**
  * ============================================================================
  * MAIN CLASS
@@ -131,6 +234,34 @@ var Export = /** @class */ (function (_super) {
          */
         _this._filePrefix = "amCharts";
         /**
+         * If you are using web fonts (such as Google Fonts), your chart might be
+         * using them as well.
+         *
+         * Normally, exporting to image will require to download these fonts so the
+         * are carried over to exported image.
+         *
+         * This setting can be used to disable or enable this functionality.
+         *
+         * @default true
+         * @type {boolean}
+         */
+        _this.useWebFonts = true;
+        /**
+         * Many modern displays have use more actual pixels per displayed pixel. This
+         * results in sharper images on screen. Unfortunately, when exported to a
+         * bitmap image of the sam width/height size it will lose those extra pixels,
+         * resulting in somewhat blurry image.
+         *
+         * This is why we are going to export images larger than they are, so that we
+         * don't lose any details.
+         *
+         * If you'd rather export images without change in size, set this to `false`.
+         *
+         * @default true
+         * @type {boolean}
+         */
+        _this.useRetina = true;
+        /**
          * If export operation takes longer than milliseconds in this second, we will
          * show a modal saying export operation took longer than expected.
          *
@@ -217,46 +348,38 @@ var Export = /** @class */ (function (_super) {
                 this.removeDispose(this._menu);
             }
             this._menu = menu;
-            if (menu) {
-                // Set container and language
-                menu.container = this.container;
-                menu.language = this._language;
-                // Add adapter to check for browser support
-                menu.adapter.add("branch", function (arg) {
-                    arg.branch.unsupported = !_this.typeSupported(arg.branch.type);
-                    return arg;
-                });
-                // Add click events
-                menu.events.on("hit", function (ev) {
-                    _this.export(ev.branch.type, ev.branch.options);
-                    var menu = _this.menu;
-                    if (menu) {
-                        menu.close();
-                    }
-                });
-                menu.events.on("enter", function (ev) {
-                    _this.export(ev.branch.type, ev.branch.options);
-                    var menu = _this.menu;
-                    if (menu) {
-                        menu.close();
-                    }
-                });
-                menu.events.on("over", function (ev) {
-                    _this._disablePointers();
-                });
-                menu.events.on("out", function (ev) {
-                    _this._releasePointers();
-                });
-                // Dispatch event
-                this.dispatchImmediately("menucreated");
-                // Prefix with Sprite's class name
-                menu.adapter.add("classPrefix", function (obj) {
-                    obj.classPrefix = options.classNamePrefix + obj.classPrefix;
-                    return obj;
-                });
-                // Add menu to disposers so that it's destroyed when Export is disposed
-                this._disposers.push(menu);
-            }
+            // Set container and language
+            this._menu.container = this.container;
+            this._menu.language = this._language;
+            // Add adapter to check for browser support
+            this._menu.adapter.add("branch", function (arg) {
+                arg.branch.unsupported = !_this.typeSupported(arg.branch.type);
+                return arg;
+            });
+            // Add click events
+            this._menu.events.on("hit", function (ev) {
+                _this.export(ev.branch.type, ev.branch.options);
+                _this.menu.close();
+            });
+            this._menu.events.on("enter", function (ev) {
+                _this.export(ev.branch.type, ev.branch.options);
+                _this.menu.close();
+            });
+            this._menu.events.on("over", function (ev) {
+                _this._disablePointers();
+            });
+            this._menu.events.on("out", function (ev) {
+                _this._releasePointers();
+            });
+            // Dispatch event
+            this.dispatchImmediately("menucreated");
+            // Prefix with Sprite's class name
+            this._menu.adapter.add("classPrefix", function (obj) {
+                obj.classPrefix = options.classNamePrefix + obj.classPrefix;
+                return obj;
+            });
+            // Add menu to disposers so that it's destroyed when Export is disposed
+            this._disposers.push(this._menu);
         },
         enumerable: true,
         configurable: true
@@ -455,6 +578,91 @@ var Export = /** @class */ (function (_super) {
         });
     };
     /**
+     * A function that returns data: URI encoded @font-family, so that way it can be embedded into SVG.
+     *
+     * @ignore Exclude from docs
+     * @return {Promise<string>} String which can be embedded directly into a <style> element.
+     * @async
+     */
+    Export.prototype.getFontFamilies = function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var DOMURL, blobs, promises, a;
+            return tslib_1.__generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        DOMURL = this.getDOMURL();
+                        blobs = [];
+                        promises = [];
+                        return [4 /*yield*/, eachStylesheets(function (topUrl, rule) {
+                                if (rule.type === CSSRule.FONT_FACE_RULE) {
+                                    var cssText_1 = rule.cssText;
+                                    // TODO this is necessary because Edge doesn't let you access the src using getPropertyValue
+                                    var src = fontFamilySrcRegexp.exec(cssText_1);
+                                    if (src !== null) {
+                                        // TODO make this faster (don't create Promises for non-url stuff)
+                                        var urls = src[1].split(/ *, */).map(function (url) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+                                            var a, after, fullUrl, response, url_2, e_1;
+                                            return tslib_1.__generator(this, function (_a) {
+                                                switch (_a.label) {
+                                                    case 0:
+                                                        a = /^url\(["']?([^"'\)]+)["']?\)([^,]*)$/.exec(url);
+                                                        if (!(a === null)) return [3 /*break*/, 1];
+                                                        return [2 /*return*/, url];
+                                                    case 1:
+                                                        after = a[2];
+                                                        fullUrl = $utils.joinUrl(topUrl, a[1]);
+                                                        _a.label = 2;
+                                                    case 2:
+                                                        _a.trys.push([2, 7, , 8]);
+                                                        return [4 /*yield*/, $net.load(fullUrl, undefined, { responseType: "blob" })];
+                                                    case 3:
+                                                        response = _a.sent();
+                                                        if (!supportsBlobUri()) return [3 /*break*/, 4];
+                                                        url_2 = DOMURL.createObjectURL(response.blob);
+                                                        blobs.push(url_2);
+                                                        return [3 /*break*/, 6];
+                                                    case 4: return [4 /*yield*/, blobToDataUri(response.blob)];
+                                                    case 5:
+                                                        url_2 = _a.sent();
+                                                        _a.label = 6;
+                                                    case 6: 
+                                                    // TODO should it should escape the URI ?
+                                                    return [2 /*return*/, "url(\"" + url_2 + "\")" + after];
+                                                    case 7:
+                                                        e_1 = _a.sent();
+                                                        console.error("Failed to load font", fullUrl, e_1);
+                                                        return [2 /*return*/, null];
+                                                    case 8: return [2 /*return*/];
+                                                }
+                                            });
+                                        }); });
+                                        promises.push(Promise.all(urls).then(function (a) {
+                                            a = a.filter(function (x) { return x != null; });
+                                            if (a.length === 0) {
+                                                return "";
+                                            }
+                                            else {
+                                                return cssText_1.replace(fontFamilySrcRegexp, "src: " + a.join(", ") + ";");
+                                            }
+                                        }));
+                                    }
+                                }
+                            })];
+                    case 1:
+                        _a.sent();
+                        return [4 /*yield*/, Promise.all(promises)];
+                    case 2:
+                        a = _a.sent();
+                        return [2 /*return*/, {
+                                blobs: blobs,
+                                cssText: a.filter(function (x) { return !!x; }).join("\n")
+                            }];
+                }
+            });
+        });
+    };
+    /**
      * Produces image output from the element.
      *
      * Converts to a `Canvas` first, then produces an image to download.
@@ -488,63 +696,82 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getImage = function (type, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var background, width, height, font, fontSize, canvas, ctx, DOMURL, styles, data, svg, url, img, uri, e_1;
+            var background, DOMURL_1, url, blobs_1, width, height, font, fontSize, canvas, pixelRatio, ctx, promises, a, data, svg, img, uri, e_2;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        background = this.backgroundColor || this.findBackgroundColor(this.sprite.dom);
-                        return [4 /*yield*/, this.simplifiedImageExport()];
+                    case 0: return [4 /*yield*/, this.simplifiedImageExport()];
                     case 1:
                         if (!_a.sent()) return [3 /*break*/, 9];
+                        background = this.backgroundColor || this.findBackgroundColor(this.sprite.dom);
+                        DOMURL_1 = this.getDOMURL();
+                        url = null;
+                        blobs_1 = null;
+                        _a.label = 2;
+                    case 2:
+                        _a.trys.push([2, 5, 7, 8]);
                         width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = this.findFont(this.sprite.dom), fontSize = this.findFontSize(this.sprite.dom);
-                        canvas = document.createElement("canvas");
-                        canvas.width = width;
-                        canvas.height = height;
+                        canvas = this.getDisposableCanvas();
+                        pixelRatio = this.getPixelRatio();
+                        canvas.style.width = width + 'px';
+                        canvas.style.height = height + 'px';
+                        canvas.width = width * pixelRatio;
+                        canvas.height = height * pixelRatio;
                         ctx = canvas.getContext("2d");
+                        if (pixelRatio != 1) {
+                            ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+                        }
                         // Add background if necessary
                         if (background) {
                             ctx.fillStyle = background.toString();
                             ctx.fillRect(0, 0, width, height);
                         }
-                        DOMURL = this.getDOMURL();
-                        // Do prepareations on a document
-                        return [4 /*yield*/, Promise.all([
-                                this.imagesToDataURI(this.sprite.dom, options),
-                                this.prepForeignObjects(this.sprite.dom, options)
-                            ])];
-                    case 2:
-                        // Do prepareations on a document
-                        _a.sent();
-                        return [4 /*yield*/, this.fontsToDataURI()];
+                        promises = [];
+                        if (this.useWebFonts) {
+                            // TODO what if one of the other things errors before it's been able to set `blobs` ?
+                            promises.push(this.getFontFamilies().then(function (fonts) {
+                                blobs_1 = fonts.blobs;
+                                return fonts.cssText;
+                            }));
+                        }
+                        promises.push(this.imagesToDataURI(this.sprite.dom, options));
+                        promises.push(this.prepForeignObjects(this.sprite.dom, options));
+                        return [4 /*yield*/, Promise.all(promises)];
                     case 3:
-                        styles = _a.sent();
-                        data = this.normalizeSVG(this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, font, fontSize, styles);
+                        a = _a.sent();
+                        data = this.normalizeSVG("<style>" + a[0] + "</style>" + this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, font, fontSize);
                         svg = new Blob([data], { type: "image/svg+xml" });
-                        url = DOMURL.createObjectURL(svg);
-                        _a.label = 4;
-                    case 4:
-                        _a.trys.push([4, 6, , 8]);
+                        url = DOMURL_1.createObjectURL(svg);
                         return [4 /*yield*/, this.loadNewImage(url, width, height, "anonymous")];
-                    case 5:
+                    case 4:
                         img = _a.sent();
                         // Draw image on canvas
                         ctx.drawImage(img, 0, 0);
-                        DOMURL.revokeObjectURL(url);
                         // Options are set?
                         if (!$type.hasValue(options)) {
                             options = {};
                         }
                         uri = canvas.toDataURL(this.getContentType(type), options.quality);
-                        // Restore replaced tainted images in DOM
-                        this.restoreRemovedObjects();
-                        // Return value
+                        // Get rid of the canvas
+                        this.disposeCanvas(canvas);
                         return [2 /*return*/, uri];
-                    case 6:
-                        e_1 = _a.sent();
+                    case 5:
+                        e_2 = _a.sent();
                         return [4 /*yield*/, this.getImageAdvanced(type, options)];
-                    case 7: 
+                    case 6: 
                     // An error occurred, let's try advanced method
                     return [2 /*return*/, _a.sent()];
+                    case 7:
+                        if (url !== null) {
+                            DOMURL_1.revokeObjectURL(url);
+                        }
+                        if (blobs_1 !== null) {
+                            $array.each(blobs_1, function (url) {
+                                DOMURL_1.revokeObjectURL(url);
+                            });
+                        }
+                        // Restore replaced tainted images in DOM
+                        this.restoreRemovedObjects();
+                        return [7 /*endfinally*/];
                     case 8: return [3 /*break*/, 11];
                     case 9: return [4 /*yield*/, this.getImageAdvanced(type, options)];
                     case 10: 
@@ -558,8 +785,8 @@ var Export = /** @class */ (function (_super) {
         });
     };
     /**
-     * Tries to dynamically load [Fabric.js](http://fabricjs.com/) and export it
-     * using its functions.
+     * Tries to dynamically load [canvg.js](https://github.com/canvg/canvg) and
+     * export an image using its functions.
      *
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
@@ -567,74 +794,86 @@ var Export = /** @class */ (function (_super) {
      * @param {string}               type     Image format
      * @param {IExportImageOptions}  options  Options
      * @return {Promise<string>}              Data uri
-     * @todo Is toDataURL a Promise?
      */
     Export.prototype.getImageAdvanced = function (type, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            var fpromise, fabric, width, height, font, fontSize, data, canvas, background, uri;
+            var background, canvg, width, height, font, fontSize, data, canvas, pixelRatio, config, res, uri;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: 
+                    //console.warn("Falling back to canvg for exporting");
                     // Convert external images to data uris
                     return [4 /*yield*/, this.imagesToDataURI(this.sprite.dom, options)];
                     case 1:
+                        //console.warn("Falling back to canvg for exporting");
                         // Convert external images to data uris
                         _a.sent();
-                        return [4 /*yield*/, this.fabric];
-                    case 2:
-                        fpromise = _a.sent();
-                        fabric = fpromise.fabric;
-                        width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = this.findFont(this.sprite.dom), fontSize = this.findFontSize(this.sprite.dom);
-                        data = this.normalizeSVG(this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, font, fontSize);
-                        canvas = new fabric.StaticCanvas();
-                        canvas.setDimensions({
-                            width: width,
-                            height: height
-                        });
                         background = this.backgroundColor || this.findBackgroundColor(this.sprite.dom);
-                        if (background) {
-                            canvas.setBackgroundColor(background.toString());
+                        return [4 /*yield*/, this.canvg];
+                    case 2:
+                        canvg = _a.sent();
+                        width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = this.findFont(this.sprite.dom), fontSize = this.findFontSize(this.sprite.dom);
+                        data = this.normalizeSVG(this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, font, fontSize, background);
+                        console.log(data);
+                        canvas = this.getDisposableCanvas();
+                        pixelRatio = this.getPixelRatio();
+                        canvas.style.width = (width * pixelRatio) + 'px';
+                        canvas.style.height = (height * pixelRatio) + 'px';
+                        canvas.width = width * pixelRatio;
+                        canvas.height = height * pixelRatio;
+                        config = {
+                            //ignoreDimensions: true,
+                            useCORS: true
+                        };
+                        if (pixelRatio != 1) {
+                            config.ignoreDimensions = true;
+                            config.scaleWidth = width * pixelRatio;
+                            config.scaleHeight = height * pixelRatio;
                         }
-                        return [4 /*yield*/, new Promise(function (success, error) {
-                                fabric.loadSVGFromString(data, function (objects, fabricOptions) {
-                                    var obj = fabric.util.groupSVGElements(objects, fabricOptions);
-                                    canvas.add(obj).renderAll();
-                                    success(canvas.toDataURL({
-                                        "type": type,
-                                        "multiplier": 1,
-                                        "quality": (options && options.quality) || 1,
-                                        "enableRetina": false
-                                    }));
-                                }, _this.prepFabricElement, {
-                                    "crossOrigin": "anonymous"
-                                });
-                            })];
-                    case 3:
-                        uri = _a.sent();
+                        res = canvg(canvas, data, config);
+                        // Options are set?
+                        if (!$type.hasValue(options)) {
+                            options = {};
+                        }
+                        uri = canvas.toDataURL(this.getContentType(type), options.quality);
+                        // Get rid of the canvas
+                        this.disposeCanvas(canvas);
                         return [2 /*return*/, uri];
                 }
             });
         });
     };
     /**
-     * Preps objects used by FabricJS before the export.
+     * Creates a `<canvas>` element and returns it.
      *
-     * It performs removal of embedded SVG images, since those would trigger
-     * security error on older browsers. Newer browsers are fine, but they do not
-     * use Fabric, so we can safely assume that if we got to this function, we
-     * have an old browser on our hands.
-     *
-     * @ignore Exclude from docs
-     * @param {any} el  Element
-     * @param {any} obj Fabric element object
-     * @todo Check if we can somehow apply text formatting to `<tspan>` elements that is otherwise ignored by Fabric
+     * @return {HTMLCanvasElement} Canvas element
      */
-    Export.prototype.prepFabricElement = function (el, obj) {
-        // Remove in-line SVG images so they don't cause security error
-        if (obj.type == "image" && obj["xlink:href"] && obj["xlink:href"].match(/^data:image\/svg\+xml/)) {
-            obj.visible = false;
+    Export.prototype.getDisposableCanvas = function () {
+        var canvas = document.createElement("canvas");
+        canvas.style.position = "fixed";
+        canvas.style.top = "-10000px";
+        document.body.appendChild(canvas);
+        return canvas;
+    };
+    /**
+     * Removes canvas.
+     *
+     * @param {HTMLCanvasElement}  canvas  Canvas element
+     */
+    Export.prototype.disposeCanvas = function (canvas) {
+        document.body.removeChild(canvas);
+    };
+    /**
+     * Returns pixel ratio for retina displays.
+     *
+     * @return {number} Pixel ratio
+     */
+    Export.prototype.getPixelRatio = function () {
+        var ratio = window.devicePixelRatio || 1;
+        if (!this.useRetina) {
+            ratio = 1;
         }
+        return ratio;
     };
     /**
      * Converts all `<image>` tags in SVG to use data uris instead of external
@@ -685,92 +924,6 @@ var Export = /** @class */ (function (_super) {
         });
     };
     /**
-     * Converts all document external fonts to data uris.
-     *
-     * @ignore Exclude from docs
-     * @return {Promise<void>} [description]
-     */
-    Export.prototype.fontsToDataURI = function () {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var style, promises, i, sheet, x, rule, font;
-            return tslib_1.__generator(this, function (_a) {
-                style = [];
-                promises = [];
-                for (i = 0; i < document.styleSheets.length; i++) {
-                    sheet = document.styleSheets[i];
-                    for (x = 0; x < sheet.cssRules.length; x++) {
-                        rule = sheet.cssRules[x];
-                        if (rule.href) {
-                            font = this.fontToDataURI(rule.href);
-                            promises.push(font);
-                            font.then(function (res) {
-                                style = style.concat(res);
-                            });
-                        }
-                    }
-                }
-                return [2 /*return*/, Promise.all(promises).then(function () {
-                        return style.join("\n");
-                    })];
-            });
-        });
-    };
-    Export.prototype.fontToDataURI = function (url) {
-        return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            return tslib_1.__generator(this, function (_a) {
-                return [2 /*return*/, $net.load(url).then(function (res) {
-                        // Init
-                        var promises = [];
-                        // Creating a remporary style sheet with our loaded definition
-                        var s = document.createElement('style');
-                        s.innerHTML = res.response;
-                        document.head.appendChild(s);
-                        var sheet = s.sheet; // using <any> because no all support `cssRules`
-                        var _loop_1 = function (i) {
-                            var rule = sheet.cssRules[i];
-                            var src = rule.style.getPropertyValue('src');
-                            if (!src && rule.style.cssText.match(/url\(.*?\)/g)) {
-                                src = rule.style.cssText.match(/url\(.*?\)/g)[0];
-                            }
-                            if (!src && rule.cssText.match(/url\(.*?\)/g)) {
-                                src = rule.cssText.match(/url\(.*?\)/g)[0];
-                            }
-                            if (src) {
-                                // Get font url
-                                var url_1 = src.split('url(')[1].split(')')[0].replace(/\"/g, '');
-                                // Load and create data uri
-                                promises.push($net.load(url_1, _this, { responseType: "blob" })
-                                    .then(function (res) {
-                                    return res.blob;
-                                    //return new Blob([res.response], { type: res.type });
-                                })
-                                    .then(function (blob) {
-                                    return new Promise(function (resolve) {
-                                        var f = new FileReader();
-                                        f.onload = function (e) {
-                                            resolve(f.result);
-                                        };
-                                        f.readAsDataURL(blob);
-                                    });
-                                })
-                                    .then(function (dataURL) {
-                                    return rule.cssText.replace(url_1, dataURL);
-                                }));
-                            }
-                        };
-                        // Iterate through all of the CSS rules we've just created in our
-                        // temporary stylesheet
-                        for (var i = 0; i < sheet.cssRules.length; i++) {
-                            _loop_1(i);
-                        }
-                        document.head.removeChild(s); // clean up
-                        return Promise.all(promises); // wait for all this has been done
-                    })];
-            });
-        });
-    };
-    /**
      * `foreignObject` elements cannot be exported. This function hides them
      * temprarily. In the future it might try to convert them to SVG to make them
      * exportable.
@@ -811,7 +964,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.imageToDataURI = function (el, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var img, canvas, uri, e_2;
+            var img, canvas, uri, e_3;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -847,7 +1000,7 @@ var Export = /** @class */ (function (_super) {
                         }
                         return [3 /*break*/, 3];
                     case 2:
-                        e_2 = _a.sent();
+                        e_3 = _a.sent();
                         // Give up and temporarily remove the element's href
                         if (!options || options.keepTainted !== false) {
                             /*this._removedObjects.push({
@@ -876,7 +1029,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.svgToDataURI = function (el, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var href, data, charset, uri, e_3;
+            var href, data, charset, uri, e_4;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -899,7 +1052,7 @@ var Export = /** @class */ (function (_super) {
                         el.setAttributeNS(Export.XLINK, "href", uri);
                         return [2 /*return*/, uri];
                     case 3:
-                        e_3 = _a.sent();
+                        e_4 = _a.sent();
                         // Disable temporarily
                         if (!options || options.keepTainted !== false) {
                             /*this._removedObjects.push({
@@ -961,7 +1114,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.restoreRemovedObjects = function () {
         var obj;
-        while ((obj = this._removedObjects.pop())) {
+        while (obj = this._removedObjects.pop()) {
             //obj.element.setAttribute("href", obj.originalHref);
             var parent_1 = obj.placeholder.parentElement || obj.placeholder.parentNode;
             parent_1.insertBefore(obj.element, obj.placeholder);
@@ -980,7 +1133,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.simplifiedImageExport = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var cache, canvas, ctx, DOMURL, svg, url, img, e_4;
+            var cache, canvas, ctx, DOMURL, svg, url, img, e_5;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -1014,7 +1167,7 @@ var Export = /** @class */ (function (_super) {
                         }
                         return [3 /*break*/, 4];
                     case 3:
-                        e_4 = _a.sent();
+                        e_5 = _a.sent();
                         registry.setCache("simplifiedImageExport", false);
                         return [2 /*return*/, false];
                     case 4: return [2 /*return*/];
@@ -1046,7 +1199,7 @@ var Export = /** @class */ (function (_super) {
             if (crossOrigin) {
                 image.setAttribute("crossOrigin", crossOrigin);
             }
-            // Rrport success on load
+            // Report success on load
             image.onload = function () {
                 success(image);
             };
@@ -1128,11 +1281,10 @@ var Export = /** @class */ (function (_super) {
      * @param  {number}             height    Height of the SVG viewport
      * @param  {string}             font      Font family to use as a base
      * @param  {string}             fontSize  Font size to use as a base
-     * @param  {string}             styles    A string to add to <style>
      * @return {string}                       Output SVG
      * @todo Add style params to existing <svg>
      */
-    Export.prototype.normalizeSVG = function (svg, options, width, height, font, fontSize, styles) {
+    Export.prototype.normalizeSVG = function (svg, options, width, height, font, fontSize, background) {
         // Construct width/height params
         var dimParams = "";
         if (width) {
@@ -1144,11 +1296,7 @@ var Export = /** @class */ (function (_super) {
         // Apply font settings
         var styleParams = "";
         if (font) {
-            var fonts = font.split(",");
-            for (var i = 0; i < fonts.length; i++) {
-                fonts[i] = "'" + $utils.trim(fonts[i].replace(/"/g, "")) + "'";
-            }
-            styleParams += "font-family: " + fonts.join(",") + ";";
+            styleParams += "font-family: " + font.replace(/"/g, "") + ";";
         }
         if (fontSize) {
             styleParams += "font-size: " + fontSize + ";";
@@ -1174,14 +1322,9 @@ var Export = /** @class */ (function (_super) {
                 svg = svg.replace(/(<svg)/, "$1" + dimParams);
             }*/
         }
-        // Add <style> block
-        if (styles) {
-            // Check if there's <defs> section
-            if (!svg.match(/<defs[^>]*>/)) {
-                svg = svg.replace(/(<svg[^>]*>)/, "$1<defs></defs>");
-            }
-            // Add styles
-            svg = svg.replace(/(<defs[^>]*>)/, "$1<style>" + styles + "</style>");
+        if (background) {
+            svg = svg.replace(/(<svg[^>]*>)/, "$1<rect width=\"100%\" height=\"100%\" fill=\"" + background.rgba + "\"/>");
+            //svg = svg.replace(/<\/svg>/, "<rect width=\"100%\" height=\"100%\" fill=\"" + background.rgba + "\"/></svg>");
         }
         svg = this.adapter.apply("normalizeSVG", {
             data: svg,
@@ -1597,7 +1740,7 @@ var Export = /** @class */ (function (_super) {
                 }
                 else if ($type.hasValue(window.navigator.msSaveBlob)) {
                     parts = uri.split(";");
-                    contentType = $type.getValue(parts.shift()).replace(/data:/, "");
+                    contentType = parts.shift().replace(/data:/, "");
                     uri = decodeURIComponent(parts.join(";").replace(/^[^,]*,/, ""));
                     // Check if we need to Base64-decode
                     if (["image/svg+xml", "application/json", "text/csv"].indexOf(contentType) == -1) {
@@ -1620,7 +1763,7 @@ var Export = /** @class */ (function (_super) {
                 }
                 else if (this.legacyIE()) {
                     parts = uri.match(/^data:(.*);[ ]*([^,]*),(.*)$/);
-                    if (parts != null && parts.length === 4) {
+                    if (parts.length === 4) {
                         // Base64-encoded or text-based stuff?
                         if (parts[2] == "base64") {
                             // Base64-encoded - probably an image
@@ -1647,7 +1790,7 @@ var Export = /** @class */ (function (_super) {
                             iframe.height = "1px";
                             iframe.style.display = "none";
                             document.body.appendChild(iframe);
-                            idoc = $type.getValue(iframe.contentDocument);
+                            idoc = iframe.contentDocument;
                             idoc.open(contentType, "replace");
                             idoc.charset = parts[2].replace(/charset=/, "");
                             idoc.write(decodeURIComponent(parts[3]));
@@ -1882,7 +2025,7 @@ var Export = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @param  {Element}  element  Element
-     * @return {Optional<string>}  Font family
+     * @return {string}            Font family
      */
     Export.prototype.findFont = function (element) {
         // Check if element has styles set
@@ -1913,7 +2056,7 @@ var Export = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      * @param  {Element}  element  Element
-     * @return {Optional<string>}  Font family
+     * @return {string}            Font family
      */
     Export.prototype.findFontSize = function (element) {
         // Check if element has styles set
@@ -2281,7 +2424,7 @@ var Export = /** @class */ (function (_super) {
     Export.prototype.hideTimeout = function () {
         if (this._timeoutTimeout) {
             this.removeDispose(this._timeoutTimeout);
-            this._timeoutTimeout = undefined;
+            this._timeoutTimeout = null;
         }
         this.hideModal();
     };
@@ -2355,34 +2498,34 @@ var Export = /** @class */ (function (_super) {
         }
     };
     /**
-     * Loads Fabric dynamic module.
+     * Loads canvg dynamic module.
      *
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
      * @ignore Exclude from docs
-     * @return {Promise<any>} Instance of Fabric
+     * @return {Promise<any>} Instance of canvg
      * @async
      */
-    Export.prototype._fabric = function () {
+    Export.prototype._canvg = function () {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, import(/* webpackChunkName: "fabric" */ "../../fabric/fabric")];
+                    case 0: return [4 /*yield*/, import(/* webpackChunkName: "canvg" */ "canvg")];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    Object.defineProperty(Export.prototype, "fabric", {
+    Object.defineProperty(Export.prototype, "canvg", {
         /**
-         * Returns Fabric instance.
+         * Returns canvg instance.
          *
          * @ignore Exclude from docs
-         * @return {Promise<any>} Instance of Fabric
+         * @return {Promise<any>} Instance of canvg
          */
         get: function () {
-            return this._fabric();
+            return this._canvg();
         },
         enumerable: true,
         configurable: true

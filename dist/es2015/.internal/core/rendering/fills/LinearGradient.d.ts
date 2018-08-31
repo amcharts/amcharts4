@@ -34,15 +34,15 @@ export interface IGradientStop {
      * from 0 to 1 are possible with 0 meaning start, 0.5 half-way through the
      * gradient, etc.
      *
-     * @type {number}
+     * @type {Optional<number>}
      */
-    offset: number;
+    offset?: number;
     /**
      * Transparency of the color. 0 - completely transparent, 1 - fully opaque.
      *
-     * @type {number}
+     * @type {Optional<number>}
      */
-    opacity: number;
+    opacity?: number;
 }
 /**
  * ============================================================================

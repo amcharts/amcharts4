@@ -777,8 +777,12 @@ var MapChart = /** @class */ (function (_super) {
             return this.getPropertyValue("homeGeoPoint");
         },
         /**
-         * Geo point of initial map view
-         * @param {IGeoPoint}
+         * The geographical point to center map on when it is first loaded.
+         *
+         * The map will also be centered to this point when you call `goHome()`
+         * method.
+         *
+         * @param {IGeoPoint}  value  Home geo point
          */
         set: function (value) {
             this.setPropertyValue("homeGeoPoint", value);
@@ -794,8 +798,12 @@ var MapChart = /** @class */ (function (_super) {
             return this.getPropertyValue("homeZoomLevel");
         },
         /**
-         * Zoom level of initial map view
-         * @param {number}
+         * The zoom level to put the map in when it is first loaded.
+         *
+         * The map will also be set to this zoom level when you call `goHome()`
+         * method.
+         *
+         * @param {number}  value  Home zoom level
          */
         set: function (value) {
             this.setPropertyValue("homeZoomLevel", value);
@@ -907,7 +915,7 @@ var MapChart = /** @class */ (function (_super) {
         return field == "projection" || _super.prototype.asIs.call(this, field);
     };
     /**
-     * zooms out and moves map to the center
+     * Resets the map to its original position and zoom level.
      */
     MapChart.prototype.goHome = function (duration) {
         var homeGeoPoint = this.homeGeoPoint;

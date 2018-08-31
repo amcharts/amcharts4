@@ -80,8 +80,11 @@ var SankeyNode = /** @class */ (function (_super) {
         //valueLabel.label.text = "{value}";
         valueLabel.label.horizontalCenter = "middle";
         _this.valueLabel = valueLabel;
-        var activeState = _this.background.states.create("active");
-        activeState.properties.fill = new InterfaceColorSet().getFor("disabledBackground");
+        var hiddenState = _this.hiddenState;
+        hiddenState.properties.fill = new InterfaceColorSet().getFor("disabledBackground");
+        hiddenState.properties.opacity = 0.5;
+        hiddenState.properties.visible = true;
+        _this.background.hiddenState.copyFrom(hiddenState);
         return _this;
     }
     /**

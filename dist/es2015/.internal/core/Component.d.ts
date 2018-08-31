@@ -10,6 +10,7 @@ import { List, IListEvents } from "./utils/List";
 import { OrderedListTemplate } from "./utils/SortedList";
 import { Animation } from "./utils/Animation";
 import { Dictionary } from "./utils/Dictionary";
+import { IDisposer } from "./utils/Disposer";
 import { Export } from "./export/Export";
 import { DataSource } from "./data/DataSource";
 import { Responsive } from "./responsive/Responsive";
@@ -195,6 +196,13 @@ export declare class Component extends Container {
      * @type {List<Component>}
      */
     protected _dataUsers: List<Component>;
+    /**
+     * Holds the disposers for the dataItems and dataUsers
+     *
+     * @ignore Exclude from docs
+     * @type {Array<IDisposer>}
+     */
+    protected _dataDisposers: Array<IDisposer>;
     /**
      *
      * @ignore Exclude from docs

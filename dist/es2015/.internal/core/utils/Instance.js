@@ -53,13 +53,13 @@ function createChild(htmlElement, classType) {
         svgDiv.container = container;
         // content container
         // setting mask directly on classType object would result mask to shift together with object transformations
-        var contentContainer_1 = container.createChild(Container);
-        contentContainer_1.width = percent(100);
-        contentContainer_1.height = percent(100);
+        var contentContainer = container.createChild(Container);
+        contentContainer.width = percent(100);
+        contentContainer.height = percent(100);
         // content mask
-        contentContainer_1.mask = contentContainer_1.background;
+        contentContainer.mask = contentContainer.background;
         // creating classType instance
-        var sprite_1 = contentContainer_1.createChild(classType);
+        var sprite_1 = contentContainer.createChild(classType);
         sprite_1.isBaseSprite = true;
         sprite_1.focusFilter = new FocusFilter();
         // TODO figure out a better way of doing this
@@ -69,7 +69,7 @@ function createChild(htmlElement, classType) {
         tooltipContainer_1.width = percent(100);
         tooltipContainer_1.height = percent(100);
         tooltipContainer_1.isMeasured = false;
-        contentContainer_1.tooltipContainer = tooltipContainer_1;
+        contentContainer.tooltipContainer = tooltipContainer_1;
         sprite_1.tooltip = new Tooltip();
         sprite_1.tooltip.hide(0);
         sprite_1.tooltip.setBounds({ x: 0, y: 0, width: tooltipContainer_1.maxWidth, height: tooltipContainer_1.maxHeight });
@@ -77,21 +77,31 @@ function createChild(htmlElement, classType) {
             $type.getValue(sprite_1.tooltip).setBounds({ x: 0, y: 0, width: tooltipContainer_1.maxWidth, height: tooltipContainer_1.maxHeight });
         });
         //@todo: maybe we don't need to create one by default but only on request?
-        contentContainer_1.preloader = new Preloader();
-        contentContainer_1.preloader.events.on("inited", function () {
-            contentContainer_1.preloader.__disabled = true;
+        var preloader_1 = new Preloader();
+        preloader_1.events.on("inited", function () {
+            preloader_1.__disabled = true;
         });
+        contentContainer.preloader = preloader_1;
         if (!options.commercialLicense) {
-            tooltipContainer_1.createChild(AmChartsLogo);
+            var logo_1 = tooltipContainer_1.createChild(AmChartsLogo);
+            tooltipContainer_1.events.on("maxsizechanged", function (ev) {
+                if ((tooltipContainer_1.maxWidth <= 100) || (tooltipContainer_1.maxHeight <= 50)) {
+                    logo_1.hide();
+                }
+                else if (logo_1.isHidden || logo_1.isHiding) {
+                    logo_1.show();
+                }
+            });
         }
         sprite_1.numberFormatter; // need to create one.
         // Set this as an autonomouse instance
         // Controls like Preloader, Export will use this.
-        contentContainer_1.isStandaloneInstance = true;
+        contentContainer.isStandaloneInstance = true;
         return sprite_1;
     }
     else {
         system.log("html container not found");
+        throw new Error("html container not found");
     }
 }
 /**
@@ -131,7 +141,6 @@ export function create(htmlElement, classType) {
         else {
             classType = registry.registeredClasses["Container"];
             classError = new Error("Class [" + classType + "] is not loaded.");
-            return;
         }
     }
     // Create the chart

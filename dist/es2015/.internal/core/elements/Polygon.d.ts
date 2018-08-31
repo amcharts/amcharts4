@@ -11,6 +11,7 @@ import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../Sp
 import { IPoint } from "../defs/IPoint";
 import { Morpher } from "../utils/Morpher";
 import { IMorphable } from "../defs/IMorphable";
+import * as $type from "../utils/Type";
 /**
  * ============================================================================
  * REQUISITES
@@ -75,15 +76,9 @@ export declare class Polygon extends Sprite implements IMorphable {
     /**
      * A morpher instance that is used to morph polygon into some other shape.
      *
-     * @type {Morpher}
+     * @type {Optional<Morpher>}
      */
-    protected _morpher: Morpher;
-    /**
-     * A set of points used for morpher.
-     *
-     * @type {IPoint[][][]}
-     */
-    protected _morphPoints: IPoint[][][];
+    protected _morpher: $type.Optional<Morpher>;
     /**
      * Current points that morpher uses. This is needed so that we don't
      * overwrite polygons original points.
@@ -91,16 +86,6 @@ export declare class Polygon extends Sprite implements IMorphable {
      * @type {IPoint[][][]}
      */
     protected _currentPoints: IPoint[][][];
-    /**
-     * @deprecated Not used
-     * @type {number}
-     */
-    protected _centerX: number;
-    /**
-     * @deprecated Not used
-     * @type {number}
-     */
-    protected _centerY: number;
     /**
      * Constructor
      */

@@ -153,12 +153,12 @@ export declare class StepLineSeries extends LineSeries {
      * @return {boolean} No risers
      */
     /**
-     * Specifies if step line series should draw only horizontal (or only vertical, depending on base axis) lines,
-     * instead of connecting them with vertical(horizontal) lines.
-     *
+     * Specifies if step line series should draw only horizontal (or only
+     * vertical, depending on base axis) lines, instead of connecting them with
+     * vertical (or horizontal) lines.
      *
      * @default false
-     * @param {boolean}  value No risers
+     * @param {boolean}  value  No risers
      */
     noRisers: boolean;
     /**

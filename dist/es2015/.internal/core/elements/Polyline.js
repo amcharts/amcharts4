@@ -32,6 +32,13 @@ var Polyline = /** @class */ (function (_super) {
      */
     function Polyline() {
         var _this = _super.call(this) || this;
+        /**
+         * [_distance description]
+         *
+         * @todo Description
+         * @type {number}
+         */
+        _this._distance = 0;
         _this.className = "Polyline";
         _this.element = _this.paper.add("path");
         _this.shapeRendering = "auto";
@@ -67,7 +74,7 @@ var Polyline = /** @class */ (function (_super) {
     };
     Object.defineProperty(Polyline.prototype, "segments", {
         /**
-         * @return {IPoint[]} Segments
+         * @return {Optional<IPoint[]>} Segments
          */
         get: function () {
             return this.getPropertyValue("segments");
@@ -76,7 +83,7 @@ var Polyline = /** @class */ (function (_super) {
          * A list of segment coordinates for the multi-part line.
          *
          * @todo Example
-         * @param {IPoint[][]}  segments  Segments
+         * @param {Optional<IPoint[][]>}  segments  Segments
          */
         set: function (segments) {
             this.setPropertyValue("segments", segments);

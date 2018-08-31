@@ -7,6 +7,7 @@ import * as $type from "../utils/Type";
 import * as $string from "./String";
 import * as $strings from "./Strings";
 import * as $object from "./Object";
+import * as $array from "./Array";
 /**
  * ============================================================================
  * MISC FUNCTIONS
@@ -882,5 +883,70 @@ export function decimalPlaces(number) {
         return 0;
     }
     return Math.max(0, (match[1] ? match[1].length : 0) - (match[2] ? +match[2] : 0));
+}
+var urlRegexp = /^([a-zA-Z][a-zA-Z0-9\+\.\-]*:)?(?:(\/\/)([^\@]+\@)?([^\/\?\#\:]*)(\:[0-9]+)?)?([^\?\#]*)(\?[^\#]*)?(\#.*)?$/;
+/**
+ * Parses a URL
+ *
+ * @ignore Exclude from docs
+ */
+// TODO test this
+export function parseUrl(url) {
+    var match = urlRegexp.exec(url);
+    return {
+        protocol: match[1] || "",
+        separator: match[2] || "",
+        authority: match[3] || "",
+        domain: match[4] || "",
+        port: match[5] || "",
+        path: match[6] || "",
+        query: match[7] || "",
+        hash: match[8] || ""
+    };
+}
+/**
+ * Serializes a Url into a string
+ *
+ * @ignore Exclude from docs
+ */
+export function serializeUrl(url) {
+    return url.protocol + url.separator + url.authority + url.domain + url.port + url.path + url.query + url.hash;
+}
+/**
+ * Checks whether a Url is relative or not
+ *
+ * @ignore Exclude from docs
+ */
+// TODO is this correct ?
+export function isRelativeUrl(url) {
+    return url.protocol === "" &&
+        url.separator === "" &&
+        url.authority === "" &&
+        url.domain === "" &&
+        url.port === "";
+}
+/**
+ * Joins together two URLs, resolving relative URLs correctly
+ *
+ * @ignore Exclude from docs
+ */
+// TODO test this
+export function joinUrl(left, right) {
+    var parsedLeft = parseUrl(left);
+    var parsedRight = parseUrl(right);
+    if (isRelativeUrl(parsedRight)) {
+        parsedRight.protocol = parsedLeft.protocol;
+        parsedRight.separator = parsedLeft.separator;
+        parsedRight.authority = parsedLeft.authority;
+        parsedRight.domain = parsedLeft.domain;
+        parsedRight.port = parsedLeft.port;
+        var rightPath = parsedRight.path.split(/\//);
+        if (rightPath[0] === "..") {
+            var leftPath = parsedLeft.path.split(/\//);
+            $array.pushAll(leftPath, rightPath);
+            parsedRight.path = leftPath.join("/");
+        }
+    }
+    return serializeUrl(parsedRight);
 }
 //# sourceMappingURL=Utils.js.map

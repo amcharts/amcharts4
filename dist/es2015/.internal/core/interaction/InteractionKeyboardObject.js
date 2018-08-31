@@ -22,7 +22,7 @@ var InteractionKeyboardObject = /** @class */ (function () {
      *
      * @param {InteractionObject} io An InteractionObject
      */
-    function InteractionKeyboardObject(io) {
+    function InteractionKeyboardObject(io, ev) {
         /**
          * Indicates if this object has already been deleted. Any
          * destruction/disposal code should take this into account when deciding
@@ -51,6 +51,7 @@ var InteractionKeyboardObject = /** @class */ (function () {
          */
         this.directionY = 0;
         this.interaction = io;
+        this.keyboardEvent = ev;
         this._startedOn = new Date().getTime();
         getInteraction().processDragStart(io);
         animations.push(this);

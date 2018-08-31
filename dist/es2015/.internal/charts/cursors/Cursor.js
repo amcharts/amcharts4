@@ -77,6 +77,9 @@ var Cursor = /** @class */ (function (_super) {
      */
     Cursor.prototype.handleCursorMove = function (event) {
         if (!this.interactionsEnabled || !getInteraction().isLocalElement(event.pointer, this.paper.svg)) {
+            if (!this.isHidden || !this.isHiding) {
+                this.hide();
+            }
             return;
         }
         var local = $utils.documentPointToSprite(event.pointer.point, this);
@@ -211,7 +214,7 @@ var Cursor = /** @class */ (function (_super) {
      * @param {IInteractionEvents["down"]} event Original event
      */
     Cursor.prototype.handleCursorDown = function (event) {
-        if (!this.interactionsEnabled) {
+        if (!this.interactionsEnabled || !getInteraction().isLocalElement(event.pointer, this.paper.svg)) {
             return;
         }
         // Get local point
@@ -237,7 +240,7 @@ var Cursor = /** @class */ (function (_super) {
      * @param {IInteractionEvents["up"]} event Original event
      */
     Cursor.prototype.handleCursorUp = function (event) {
-        if (!this.interactionsEnabled) {
+        if (!this.interactionsEnabled || !getInteraction().isLocalElement(event.pointer, this.paper.svg)) {
             this.downPoint = undefined;
             return;
         }

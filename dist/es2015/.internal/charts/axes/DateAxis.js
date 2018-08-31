@@ -1340,7 +1340,7 @@ var DateAxis = /** @class */ (function (_super) {
             var leftCount = 0;
             var leftDataItem = void 0;
             var leftDate = new Date(date.getTime());
-            while (date.getTime() > this.minZoomed) {
+            while (leftDate.getTime() > this.minZoomed) {
                 leftDate = $time.add(leftDate, this.baseInterval.timeUnit, -this.baseInterval.count);
                 leftDataItem = series.dataItemsByAxis.getKey(this.uid).getKey(leftDate.getTime().toString());
                 if (leftDataItem) {
@@ -1351,7 +1351,7 @@ var DateAxis = /** @class */ (function (_super) {
             var rightCount = 0;
             var rightDataItem = void 0;
             var rightDate = new Date(date.getTime());
-            while (date.getTime() < this.maxZoomed) {
+            while (rightDate.getTime() < this.maxZoomed) {
                 rightDate = $time.add(rightDate, this.baseInterval.timeUnit, this.baseInterval.count);
                 rightDataItem = series.dataItemsByAxis.getKey(this.uid).getKey(rightDate.getTime().toString());
                 if (rightDataItem) {

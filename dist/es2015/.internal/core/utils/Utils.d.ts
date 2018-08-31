@@ -449,3 +449,42 @@ export declare function height(element: HTMLElement): number;
  * @return {number}          Number of decimals
  */
 export declare function decimalPlaces(number: number): number;
+/**
+ * A parsed URL
+ *
+ * @ignore Exclude from docs
+ */
+export interface Url {
+    protocol: string;
+    separator: string;
+    authority: string;
+    domain: string;
+    port: string;
+    path: string;
+    query: string;
+    hash: string;
+}
+/**
+ * Parses a URL
+ *
+ * @ignore Exclude from docs
+ */
+export declare function parseUrl(url: string): Url;
+/**
+ * Serializes a Url into a string
+ *
+ * @ignore Exclude from docs
+ */
+export declare function serializeUrl(url: Url): string;
+/**
+ * Checks whether a Url is relative or not
+ *
+ * @ignore Exclude from docs
+ */
+export declare function isRelativeUrl(url: Url): boolean;
+/**
+ * Joins together two URLs, resolving relative URLs correctly
+ *
+ * @ignore Exclude from docs
+ */
+export declare function joinUrl(left: string, right: string): string;

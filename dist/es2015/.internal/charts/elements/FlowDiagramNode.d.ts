@@ -12,6 +12,8 @@ import { FlowDiagram, FlowDiagramDataItem } from "../types/FlowDiagram";
 import { List } from "../../core/utils/List";
 import { Color } from "../../core/utils/Color";
 import * as $iter from "../../core/utils/Iterator";
+import { LegendSettings, LegendDataItem } from "../Legend";
+import { Animation } from "../../core/utils/Animation";
 /**
  * ============================================================================
  * REQUISITES
@@ -151,9 +153,33 @@ export declare class FlowDiagramNode extends Container {
      */
     _dataItem: FlowDiagramDataItem;
     /**
+     * Settings for the appearance of the related legend items.
+     */
+    legendSettings: LegendSettings;
+    /**
+     * A reference to the legend data item related to this node.
+     *
+     * @type {LegendDataItem<Series, ISeriesEvents>}
+     */
+    protected _legendDataItem: LegendDataItem;
+    /**
      * Constructor
      */
     constructor();
+    /**
+     * Shows hidden bide.
+     *
+     * @param  {number}     duration  Duration of reveal animation (ms)
+     * @return {Animation}            Animation
+     */
+    show(duration?: number): Animation;
+    /**
+     * Hides node.
+     *
+     * @param  {number}     duration  Duration of hiding animation (ms)
+     * @return {Animation}            Animation
+     */
+    hide(duration?: number): Animation;
     /**
      * Marks node as invalid, for redrawal in the next update cycle.
      *
@@ -225,4 +251,21 @@ export declare class FlowDiagramNode extends Container {
      * @param {Color}  value  Color
      */
     color: Color;
+    /**
+     * Creates elements in related legend container, that mimics the look of this
+     * Series.
+     *
+     * @ignore Exclude from docs
+     * @param {Container}  marker  Legend item container
+     */
+    createLegendMarker(marker: Container): void;
+    /**
+     * @return {LegendDataItem<Series, ISeriesEvents>} Data item
+     */
+    /**
+     * Legend data item that corresponds to this series.
+     *
+     * @param {LegendDataItem<Series, ISeriesEvents>}  value  Data item
+     */
+    legendDataItem: LegendDataItem;
 }

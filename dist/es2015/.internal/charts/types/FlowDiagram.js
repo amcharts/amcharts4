@@ -278,12 +278,16 @@ var FlowDiagram = /** @class */ (function (_super) {
             if (node.dataItem.color != undefined) {
                 node.color = node.dataItem.color;
             }
+            if (!node.dataItem.visible) {
+                node.hide(0);
+            }
             _this.getNodeValue(node);
         });
         this.sortNodes();
         if (this.interpolationDuration > 0) {
             this.events.once("validated", this.appear, this);
         }
+        this.feedLegend();
     };
     FlowDiagram.prototype.handleDataItemWorkingValueChange = function (event) {
         this.invalidateDataRange();
@@ -474,6 +478,21 @@ var FlowDiagram = /** @class */ (function (_super) {
         var link = new FlowDiagramLink();
         this._disposers.push(link);
         return link;
+    };
+    /**
+     * Setups the legend to use the chart's data.
+     */
+    FlowDiagram.prototype.feedLegend = function () {
+        var legend = this.legend;
+        if (legend) {
+            var legendData_1 = [];
+            this.nodes.each(function (key, node) {
+                legendData_1.push(node);
+            });
+            legend.data = legendData_1;
+            legend.dataFields.name = "name";
+            legend.itemContainers.template.propertyFields.disabled = "hiddenInLegend";
+        }
     };
     return FlowDiagram;
 }(Chart));

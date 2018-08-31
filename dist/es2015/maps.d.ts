@@ -1,7 +1,7 @@
 /**
  * Duplicated
  */
-export { LegendDataItem, LegendPosition, ILegendDataFields, ILegendProperties, ILegendEvents, ILegendAdapters, ILegendItem, Legend, LegendSettings } from "./.internal/charts/Legend";
+export { LegendDataItem, LegendPosition, ILegendDataFields, ILegendProperties, ILegendEvents, ILegendAdapters, Legend, LegendSettings } from "./.internal/charts/Legend";
 export { IHeatLegendProperties, IHeatLegendEvents, IHeatLegendAdapters, HeatLegend } from "./.internal/charts/elements/HeatLegend";
 /**
  * Maps

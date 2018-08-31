@@ -579,9 +579,8 @@ var Interaction = /** @class */ (function (_super) {
                     return;
                 }
                 // Create a keyboard mover
-                var ko = new InteractionKeyboardObject(io);
+                var ko = new InteractionKeyboardObject(io, ev);
                 io.eventDisposers.setKey(disposerKey, ko);
-                ko.keyboardEvent = ev;
                 switch (keyboard.getEventKey(ev)) {
                     case "up":
                         ko.directionY = -1;
@@ -1538,18 +1537,18 @@ var Interaction = /** @class */ (function (_super) {
      * @param {IPointer}           pointer  Pointer
      */
     Interaction.prototype.handleMoveInertia = function (io, pointer) {
-        // Init inertia object
-        var inertia = new Inertia();
-        inertia.interaction = io;
-        inertia.type = "move";
-        inertia.point = {
+        var interaction = io;
+        var type = "move";
+        var point = {
             "x": pointer.point.x,
             "y": pointer.point.y
         };
-        inertia.startPoint = {
+        var startPoint = {
             "x": pointer.startPoint.x,
             "y": pointer.startPoint.y
         };
+        // Init inertia object
+        var inertia = new Inertia(interaction, type, point, startPoint);
         // Get inertia data
         var ref = this.getTrailPoint(pointer, new Date().getTime() - this.getInertiaOption(io, "move", "time"));
         if (typeof ref === "undefined") {
@@ -2022,7 +2021,7 @@ var Interaction = /** @class */ (function (_super) {
      */
     Interaction.prototype.isLocalElement = function (pointer, svg) {
         var target = document.elementFromPoint(pointer.point.x, pointer.point.y);
-        return target && (svg === target || svg.contains(target));
+        return target && (svg === target || $dom.contains(svg, target));
     };
     /**
      * A function that cancels mouse wheel scroll.
@@ -2298,9 +2297,10 @@ var Interaction = /** @class */ (function (_super) {
      * @param {Array<IStyleProperty> | IStyleProperty}  style  Style definitions
      */
     Interaction.prototype.setGlobalStyle = function (style) {
+        var body = getInteraction().body;
         var styles = ($type.isArray(style) ? style : [style]);
         for (var i = 0; i < styles.length; i++) {
-            this.setTemporaryStyle(interaction.body, styles[i].property, styles[i].value);
+            this.setTemporaryStyle(body, styles[i].property, styles[i].value);
         }
     };
     /**
@@ -2310,9 +2310,10 @@ var Interaction = /** @class */ (function (_super) {
      * @param {Array<IStyleProperty> | IStyleProperty}  style  Style definitions
      */
     Interaction.prototype.restoreGlobalStyle = function (style) {
+        var body = getInteraction().body;
         var styles = ($type.isArray(style) ? style : [style]);
         for (var i = 0; i < styles.length; i++) {
-            this.restoreStyle(interaction.body, styles[i].property);
+            this.restoreStyle(body, styles[i].property);
         }
     };
     /**

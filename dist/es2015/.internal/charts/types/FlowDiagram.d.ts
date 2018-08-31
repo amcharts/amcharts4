@@ -140,6 +140,12 @@ export interface IFlowDiagramDataFields extends IChartDataFields {
      * @type {string}
      */
     color?: string;
+    /**
+     * Visibility of a node
+     *
+     * @type {string}
+     */
+    visible?: string;
 }
 /**
  * Defines properties for [[FlowDiagram]]
@@ -367,4 +373,8 @@ export declare class FlowDiagram extends Chart {
      * @ignore
      */
     createLink(): this["_link"];
+    /**
+     * Setups the legend to use the chart's data.
+     */
+    protected feedLegend(): void;
 }

@@ -25,11 +25,11 @@ import { Color, iHSL } from "./Color";
  * properties, like hue, or saturation with each subsequent generated color.
  */
 export interface IColorSetStepOptions {
-    hue?: number;
-    brighten?: number;
-    lighten?: number;
-    lightness?: number;
-    saturation?: number;
+    hue: number;
+    brighten: number;
+    lighten: number;
+    lightness: number;
+    saturation: number;
 }
 /**
  * ============================================================================
@@ -75,18 +75,18 @@ export declare class ColorSet extends BaseObject {
     /**
      * Modifications to apply with each new generated color.
      *
-     * @type {IColorSetStepOptions}
+     * @type {Partial<IColorSetStepOptions>}
      */
-    stepOptions: IColorSetStepOptions;
+    stepOptions: Partial<IColorSetStepOptions>;
     /**
      * Modifications to apply on top of `stepOptions` for each "pass" of the
      * color generation.
      *
      * A "pass" is when ColorSet generates `minColors` number of colors.
      *
-     * @type {IColorSetStepOptions}
+     * @type {Partial<IColorSetStepOptions>}
      */
-    passOptions: IColorSetStepOptions;
+    passOptions: Partial<IColorSetStepOptions>;
     /**
      * An index increment to use when iterating through color list.
      *

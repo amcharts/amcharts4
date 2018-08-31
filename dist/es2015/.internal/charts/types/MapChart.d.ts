@@ -727,16 +727,24 @@ export declare class MapChart extends SerialChart {
      * @return {IGeoPoint} Home geo point
      */
     /**
-     * Geo point of initial map view
-     * @param {IGeoPoint}
+     * The geographical point to center map on when it is first loaded.
+     *
+     * The map will also be centered to this point when you call `goHome()`
+     * method.
+     *
+     * @param {IGeoPoint}  value  Home geo point
      */
     homeGeoPoint: IGeoPoint;
     /**
      * @return {number} Home zoom level
      */
     /**
-     * Zoom level of initial map view
-     * @param {number}
+     * The zoom level to put the map in when it is first loaded.
+     *
+     * The map will also be set to this zoom level when you call `goHome()`
+     * method.
+     *
+     * @param {number}  value  Home zoom level
      */
     homeZoomLevel: number;
     /**
@@ -782,7 +790,7 @@ export declare class MapChart extends SerialChart {
      */
     protected asIs(field: string): boolean;
     /**
-     * zooms out and moves map to the center
+     * Resets the map to its original position and zoom level.
      */
     goHome(duration?: number): void;
 }

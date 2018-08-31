@@ -322,7 +322,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * @type {boolean}
      */
-    isHidden: boolean;
+    protected _isHidden: boolean;
     /**
      * This property indicates if Sprite is currently being revealed from hidden
      * state. This is used to prevent multiple calls to `sprite.show()` to
@@ -3181,17 +3181,17 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * Element's fill color or pattern.
      *
-     * @param {Color | Pattern | LinearGradient | RadialGradient}  value  Fill
+     * @param {Optional<Color | Pattern | LinearGradient | RadialGradient>}  value  Fill
      */
-    fill: Color | Pattern | LinearGradient | RadialGradient;
+    fill: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>;
     /**
      * Sets actual `fill` property on the SVG element, including applicable color
      * modifiers.
      *
      * @ignore Exclude from docs
-     * @param {Color | Pattern | LinearGradient | RadialGradient}  value  Fill
+     * @param {Optional<Color | Pattern | LinearGradient | RadialGradient>}  value  Fill
      */
-    protected setFill(value: Color | Pattern | LinearGradient | RadialGradient): void;
+    protected setFill(value: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>): void;
     /**
      * @return {number} Opacity (0-1)
      */
@@ -3607,4 +3607,12 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @return {Ordering}   Sorting number
      */
     protected configOrder(a: string, b: string): Ordering;
+    /**
+     * If `sprite.hide()` is called, we set isHidden to true when sprite is hidden.
+     * This was added becaus hidden state might have visibility set to true and so
+     * there would not be possible to find out if a sprite is technically hidden or not.
+     *
+     * @type {boolean}
+     */
+    readonly isHidden: boolean;
 }

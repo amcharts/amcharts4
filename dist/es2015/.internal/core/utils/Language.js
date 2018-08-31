@@ -115,7 +115,9 @@ var Language = /** @class */ (function (_super) {
         }
         else if ($type.hasValue(value)) {
             // It might be an empty string
-            translation = value || prompt;
+            if (value) {
+                translation = value;
+            }
         }
         else if (locale !== this._defaultLocale) {
             // Try to look in default language

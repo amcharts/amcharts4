@@ -144,6 +144,18 @@ export function setIndex(array, element, index) {
     insert(array, element, index);
 }
 /**
+ * Pushes all of the elements from `input` into `array`.
+ *
+ * @param {ArrayLike<A>}  array  Output array
+ * @param {ArrayLike<A>}  input  Input array
+ */
+export function pushAll(array, input) {
+    var length = input.length;
+    for (var i = 0; i < length; ++i) {
+        array.push(input[i]);
+    }
+}
+/**
  * Removes `element` from `array`.
  *
  * If there are multiple copies of `element`, they are all removed.

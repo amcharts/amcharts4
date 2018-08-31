@@ -5,6 +5,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.48] - 2018-08-31
+
+### Added
+- `useWebFonts` setting in `Export`. Allows disabling of download of web fonts when exporting.
+- `useRetina` setting in `Export`. Images are now exported scaled up on retina displays by default. Set `useRetina = false` to disable.
+
+### Changed
+- Export fallback mechanism for older browsers changed from FabricJS to canvg, which is much lighter and has better text formatting support.
+- On retina displays images will now export supersized in order not to lose quality. Set `useRetina = false` to disable.
+- amCharts logo will now auto-hide on supersmall chart sizes.
+
+### Fixed
+- Cursor was zooming the chart even if drag motion was performed on an external element positioned over the chart.
+- Cursor was not hidden when it was no longer hovering the chart area if chart had no padding.
+- `urlTarget` was not carried over from `ListTemplate` template to new items.
+- Cursor could cause chart to freeze up on a DateAxis with empty cells in the axis' beginning or end.
+- Export will now correctly handle web fonts, such as Google Fonts. Please note that FontAwesome is not supported, since they forbit any kind of usage, except inclusion via CSS.
+
+
 ## [4.0.0-beta.47] - 2018-08-24
 
 ### Added

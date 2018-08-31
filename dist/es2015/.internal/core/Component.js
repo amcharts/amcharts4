@@ -9,6 +9,7 @@ import { Container } from "./Container";
 import { List, ListDisposer } from "./utils/List";
 import { OrderedListTemplate } from "./utils/SortedList";
 import { Dictionary } from "./utils/Dictionary";
+import { MultiDisposer } from "./utils/Disposer";
 import { DataSource } from "./data/DataSource";
 import { Responsive } from "./responsive/Responsive";
 import { DataItem } from "./DataItem";
@@ -76,6 +77,13 @@ var Component = /** @class */ (function (_super) {
          * @type {List<Component>}
          */
         _this._dataUsers = new List();
+        /**
+         * Holds the disposers for the dataItems and dataUsers
+         *
+         * @ignore Exclude from docs
+         * @type {Array<IDisposer>}
+         */
+        _this._dataDisposers = [];
         /**
          * [_start description]
          *
@@ -221,6 +229,7 @@ var Component = /** @class */ (function (_super) {
         _this.dataUsers.events.on("inserted", _this.handleDataUserAdded, _this);
         // Set up disposers
         _this._disposers.push(new ListDisposer(_this.dataItems));
+        _this._disposers.push(new MultiDisposer(_this._dataDisposers));
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -317,7 +326,7 @@ var Component = /** @class */ (function (_super) {
                         var children = new OrderedListTemplate(_this.createDataItem());
                         children.events.on("inserted", _this.handleDataItemAdded, _this);
                         children.events.on("removed", _this.handleDataItemRemoved, _this);
-                        _this._disposers.push(new ListDisposer(children));
+                        _this._dataDisposers.push(new ListDisposer(children));
                         for (var i = 0; i < value.length; i++) {
                             var rawDataItem = value[i];
                             var childDataItem = children.create();
@@ -342,12 +351,12 @@ var Component = /** @class */ (function (_super) {
                     dataItem.setProperty(f, value);
                 }
             });
-            this._disposers.push(dataItem.events.on("valuechanged", this.handleDataItemValueChange, this));
-            this._disposers.push(dataItem.events.on("workingvaluechanged", this.handleDataItemWorkingValueChange, this));
-            this._disposers.push(dataItem.events.on("calculatedvaluechanged", this.handleDataItemCalculatedValueChange, this));
-            this._disposers.push(dataItem.events.on("propertychanged", this.handleDataItemPropertyChange, this));
-            this._disposers.push(dataItem.events.on("locationchanged", this.handleDataItemValueChange, this));
-            this._disposers.push(dataItem.events.on("workinglocationchanged", this.handleDataItemWorkingLocationChange, this));
+            this._dataDisposers.push(dataItem.events.on("valuechanged", this.handleDataItemValueChange, this));
+            this._dataDisposers.push(dataItem.events.on("workingvaluechanged", this.handleDataItemWorkingValueChange, this));
+            this._dataDisposers.push(dataItem.events.on("calculatedvaluechanged", this.handleDataItemCalculatedValueChange, this));
+            this._dataDisposers.push(dataItem.events.on("propertychanged", this.handleDataItemPropertyChange, this));
+            this._dataDisposers.push(dataItem.events.on("locationchanged", this.handleDataItemValueChange, this));
+            this._dataDisposers.push(dataItem.events.on("workinglocationchanged", this.handleDataItemWorkingLocationChange, this));
         }
     };
     /**
@@ -658,6 +667,10 @@ var Component = /** @class */ (function (_super) {
             var preloader = this.preloader;
             // data items array is reset only if all data is validated, if _parseDataFrom is not 0, we append new data only
             if (this._parseDataFrom === 0) {
+                $array.each(this._dataDisposers, function (x) {
+                    x.dispose();
+                });
+                this._dataDisposers.length = 0;
                 // dispose old
                 $iter.each(this.dataItems.iterator(), function (dataItem) {
                     dataItem.dispose();

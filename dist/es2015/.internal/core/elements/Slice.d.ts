@@ -9,7 +9,6 @@
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
 import { Sprite } from "../Sprite";
-import { IPoint } from "../defs/IPoint";
 import { IRectangle } from "../defs/IRectangle";
 /**
  * ============================================================================
@@ -134,42 +133,6 @@ export declare class Slice extends Container {
      * @type {Sprite}
      */
     slice: Sprite;
-    /**
-     * [_a description]
-     *
-     * Used for 3D slice.
-     *
-     * @todo Description
-     * @type {IPoint}
-     */
-    protected _a: IPoint;
-    /**
-     * [_b description]
-     *
-     * Used for 3D slice.
-     *
-     * @todo Description
-     * @type {IPoint}
-     */
-    protected _b: IPoint;
-    /**
-     * [_c description]
-     *
-     * Used for 3D slice.
-     *
-     * @todo Description
-     * @type {IPoint}
-     */
-    protected _c: IPoint;
-    /**
-     * [_d description]
-     *
-     * Used for 3D slice.
-     *
-     * @todo Description
-     * @type {IPoint}
-     */
-    protected _d: IPoint;
     /**
      * Constructor
      */

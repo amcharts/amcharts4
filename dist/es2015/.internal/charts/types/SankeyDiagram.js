@@ -376,10 +376,12 @@ var SankeyDiagram = /** @class */ (function (_super) {
             this.setPropertyValue("orientation", value, true);
             var nameLabel = this.nodes.template.nameLabel;
             if (value == "vertical") {
+                this.nodes.template.width = undefined;
                 nameLabel.label.horizontalCenter = "middle";
                 nameLabel.locationX = 0.5;
             }
             else {
+                this.nodes.template.height = undefined;
                 nameLabel.label.horizontalCenter = "left";
                 nameLabel.locationX = 1;
             }

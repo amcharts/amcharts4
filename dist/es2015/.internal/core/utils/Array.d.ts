@@ -98,6 +98,13 @@ export declare function insert<A>(array: Array<A>, element: A, index: number): v
  */
 export declare function setIndex<A>(array: Array<A>, element: A, index: number): void;
 /**
+ * Pushes all of the elements from `input` into `array`.
+ *
+ * @param {ArrayLike<A>}  array  Output array
+ * @param {ArrayLike<A>}  input  Input array
+ */
+export declare function pushAll<A>(array: Array<A>, input: Array<A>): void;
+/**
  * Removes `element` from `array`.
  *
  * If there are multiple copies of `element`, they are all removed.

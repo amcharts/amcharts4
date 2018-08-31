@@ -11,6 +11,7 @@ import { Container, IContainerProperties, IContainerAdapters, IContainerEvents }
 import { Sprite } from "../Sprite";
 import { Label } from "./Label";
 import { RoundedRectangle } from "../elements/RoundedRectangle";
+import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
  * REQUISITES
@@ -86,9 +87,9 @@ export declare class Button extends Container {
     /**
      * [[Label]] element for button content.
      *
-     * @type {Label}
+     * @type {Optional<Label>}
      */
-    protected _label: Label;
+    protected _label: $type.Optional<Label>;
     /**
      * A type for background.
      *
@@ -120,14 +121,14 @@ export declare class Button extends Container {
      */
     iconPosition: "left" | "right";
     /**
-     * @return {Label} Label element
+     * @return {Optional<Label>} Label element
      */
     /**
      * [[Label]] element to be used for text.
      *
-     * @param {Label}  label element
+     * @param {Optional<Label>}  label element
      */
-    label: Label;
+    label: $type.Optional<Label>;
     /**
      * Creates a background element for the button.
      *

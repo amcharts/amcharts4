@@ -13,10 +13,9 @@ import { Slice } from "../../core/elements/Slice";
 import { AxisLabelCircular } from "../axes/AxisLabelCircular";
 import { PieTick } from "./PieTick";
 import { ListTemplate } from "../../core/utils/List";
-import { DataItem, IDataItemEvents } from "../../core/DataItem";
 import { Container } from "../../core/Container";
 import { Animation } from "../../core/utils/Animation";
-import { LegendDataItem, ILegendItem, LegendSettings } from "../../charts/Legend";
+import { LegendDataItem, LegendSettings } from "../../charts/Legend";
 import { Bullet } from "../elements/Bullet";
 import { ColorSet } from "../../core/utils/ColorSet";
 import { IRectangle } from "../../core/defs/IRectangle";
@@ -32,7 +31,7 @@ import { PieChart } from "../types/PieChart";
  *
  * @see {@link DataItem}
  */
-export declare class PieSeriesDataItem extends SeriesDataItem implements ILegendItem<DataItem, IDataItemEvents> {
+export declare class PieSeriesDataItem extends SeriesDataItem {
     /**
      * A type of slice used for this series.
      *
@@ -57,7 +56,7 @@ export declare class PieSeriesDataItem extends SeriesDataItem implements ILegend
      *
      * @type {LegendDataItem<DataItem, IDataItemEvents>}
      */
-    protected _legendDataItem: LegendDataItem<DataItem, IDataItemEvents>;
+    protected _legendDataItem: LegendDataItem;
     /**
      * Custom settings for the legend item.
      * Not used, only added to sattisfy LegendDataItem
@@ -139,7 +138,7 @@ export declare class PieSeriesDataItem extends SeriesDataItem implements ILegend
      *
      * @param {LegendDataItem<DataItem, IDataItemEvents>}  value  Legend data item
      */
-    legendDataItem: LegendDataItem<DataItem, IDataItemEvents>;
+    legendDataItem: LegendDataItem;
     /**
      * A Pie Tick element, related to this data item. (slice)
      *

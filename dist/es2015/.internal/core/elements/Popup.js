@@ -209,6 +209,9 @@ var Popup = /** @class */ (function (_super) {
             return;
         }
         setTimeout(function () {
+            if (!_this._elements.wrapper) {
+                return;
+            }
             if (forceResize || !_this._sized) {
                 _this._elements.wrapper.style.opacity = "0.01";
                 _this._elements.wrapper.style.left = "0";
@@ -223,6 +226,9 @@ var Popup = /** @class */ (function (_super) {
                 _this._sized = true;
             }
             setTimeout(function () {
+                if (!_this._elements.wrapper) {
+                    return;
+                }
                 var bbox;
                 if ((forceResize || !_this._sized) && _this._bbox) {
                     bbox = _this._bbox;

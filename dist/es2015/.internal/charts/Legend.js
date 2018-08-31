@@ -239,13 +239,27 @@ var Legend = /** @class */ (function (_super) {
             // We cannot do this on a template since template does not have
             // dataContext, yet
             var sprite = dataItem.dataContext;
-            if (sprite instanceof Sprite || sprite instanceof DataItem) {
+            if (sprite instanceof DataItem) {
                 container.addDisposer(sprite.events.on("visibilitychanged", function (ev) {
                     container.readerChecked = ev.visible;
                     container.events.disableType("toggled");
                     container.isActive = !ev.visible;
                     container.events.enableType("toggled");
                 }));
+                if (sprite instanceof Sprite) {
+                    container.addDisposer(sprite.events.on("hidden", function (ev) {
+                        container.readerChecked = true;
+                        container.events.disableType("toggled");
+                        container.isActive = true;
+                        container.events.enableType("toggled");
+                    }));
+                    container.addDisposer(sprite.events.on("shown", function (ev) {
+                        container.readerChecked = false;
+                        container.events.disableType("toggled");
+                        container.isActive = false;
+                        container.events.enableType("toggled");
+                    }));
+                }
             }
         }
         // Set parent and update current state
@@ -368,7 +382,7 @@ var Legend = /** @class */ (function (_super) {
      */
     Legend.prototype.toggleDataItem = function (item) {
         var dataContext = item.dataContext;
-        if (!dataContext.visible || dataContext.isHiding) {
+        if (!dataContext.visible || dataContext.isHiding || (dataContext instanceof Sprite && dataContext.isHidden)) {
             item.itemContainer.isActive = false;
             if (dataContext.show) {
                 dataContext.show();

@@ -54,6 +54,12 @@ export interface INetRequestOptions {
      * @type {XMLHttpRequestResponseType}
      */
     responseType?: XMLHttpRequestResponseType;
+    /**
+     * Specify whether to send CORS credentials (defaults to `false`).
+     *
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials} for more info
+     */
+    withCredentials?: boolean;
 }
 /**
  * Loads an external file via its URL.

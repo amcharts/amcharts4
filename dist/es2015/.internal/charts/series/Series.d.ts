@@ -231,7 +231,7 @@ export declare class Series extends Component {
      *
      * @type {LegendDataItem<Series, ISeriesEvents>}
      */
-    protected _legendDataItem: LegendDataItem<Series, ISeriesEvents>;
+    protected _legendDataItem: LegendDataItem;
     /**
      * Should this series excluded from the axis scale calculations?
      *
@@ -606,7 +606,7 @@ export declare class Series extends Component {
      *
      * @param {LegendDataItem<Series, ISeriesEvents>}  value  Data item
      */
-    legendDataItem: LegendDataItem<Series, ISeriesEvents>;
+    legendDataItem: LegendDataItem;
     /**
      * Updates corresponding legend data item with current values.
      *

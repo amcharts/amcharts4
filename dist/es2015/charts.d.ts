@@ -19,7 +19,7 @@ export { XYChart3DDataItem, IXYChart3DDataFields, IXYChart3DProperties, IXYChart
  * Elements: charts
  */
 export { ChartDataItem, IChartDataFields, IChartProperties, IChartEvents, IChartAdapters, Chart } from "./.internal/charts/Chart";
-export { LegendDataItem, LegendPosition, ILegendDataFields, ILegendProperties, ILegendEvents, ILegendAdapters, ILegendItem, Legend, LegendSettings } from "./.internal/charts/Legend";
+export { LegendDataItem, LegendPosition, ILegendDataFields, ILegendProperties, ILegendEvents, ILegendAdapters, Legend, LegendSettings } from "./.internal/charts/Legend";
 export { IHeatLegendProperties, IHeatLegendEvents, IHeatLegendAdapters, HeatLegend } from "./.internal/charts/elements/HeatLegend";
 /**
  * Elements: series

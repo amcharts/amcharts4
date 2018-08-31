@@ -9,6 +9,7 @@
  */
 import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../Sprite";
 import { IPoint, IOrientationPoint } from "../defs/IPoint";
+import * as $type from "../utils/Type";
 /**
  * ============================================================================
  * REQUISITES
@@ -83,9 +84,9 @@ export declare class Polyline extends Sprite {
      * [_realSegments]
      *
      * @todo Description
-     * @type {IPoint[][]}
+     * @type {Optional<IPoint[][]>}
      */
-    protected _realSegments: IPoint[][];
+    protected _realSegments: $type.Optional<IPoint[][]>;
     /**
      * Constructor
      */
@@ -97,15 +98,15 @@ export declare class Polyline extends Sprite {
      */
     makePath(): void;
     /**
-     * @return {IPoint[]} Segments
+     * @return {Optional<IPoint[]>} Segments
      */
     /**
      * A list of segment coordinates for the multi-part line.
      *
      * @todo Example
-     * @param {IPoint[][]}  segments  Segments
+     * @param {Optional<IPoint[][]>}  segments  Segments
      */
-    segments: IPoint[][];
+    segments: $type.Optional<IPoint[][]>;
     /**
      * [distance description]
      *

@@ -13,6 +13,7 @@ import { List } from "../../utils/List";
 import { getGhostPaper } from "../Paper";
 import { registry } from "../../Registry";
 import * as $iter from "../../utils/Iterator";
+import * as $type from "../../utils/Type";
 import { Percent } from "../../utils/Percent";
 /**
  * ============================================================================
@@ -82,15 +83,15 @@ var RadialGradient = /** @class */ (function (_super) {
             var i = a[0];
             var stop = a[1];
             var offset = stop.offset;
-            if (isNaN(offset)) {
+            if (!$type.isNumber(offset)) {
                 offset = i / (_this._stops.length - 1);
             }
             var gradientStop = _this.paper.add("stop");
             gradientStop.attr({ "stop-color": stop.color });
-            if (!isNaN(stop.opacity)) {
+            if ($type.isNumber(stop.opacity)) {
                 gradientStop.attr({ "stop-opacity": stop.opacity });
             }
-            if (!isNaN(offset)) {
+            if ($type.isNumber(offset)) {
                 gradientStop.attr({ "offset": offset });
             }
             gradientElement.add(gradientStop);

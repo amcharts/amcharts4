@@ -130,7 +130,7 @@ var Button = /** @class */ (function (_super) {
     });
     Object.defineProperty(Button.prototype, "label", {
         /**
-         * @return {Label} Label element
+         * @return {Optional<Label>} Label element
          */
         get: function () {
             return this._label;
@@ -138,15 +138,15 @@ var Button = /** @class */ (function (_super) {
         /**
          * [[Label]] element to be used for text.
          *
-         * @param {Label}  label element
+         * @param {Optional<Label>}  label element
          */
         set: function (label) {
             if (this._label) {
                 //this._label.dispose();
                 this.removeDispose(this._label);
             }
+            this._label = label;
             if (label) {
-                this._label = label;
                 label.parent = this;
                 label.interactionsEnabled = false;
                 this._disposers.push(this._label);

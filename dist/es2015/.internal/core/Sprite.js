@@ -136,7 +136,7 @@ var Sprite = /** @class */ (function (_super) {
          *
          * @type {boolean}
          */
-        _this.isHidden = false;
+        _this._isHidden = false;
         /**
          * This property indicates if Sprite is currently being revealed from hidden
          * state. This is used to prevent multiple calls to `sprite.show()` to
@@ -662,6 +662,7 @@ var Sprite = /** @class */ (function (_super) {
         //this.mask = source.mask; need to think about this, generally this causes a lot of problems
         this.disabled = source.disabled;
         this.virtualParent = source.virtualParent;
+        this.urlTarget = source.urlTarget;
         //@todo: create tooltip if it's on source but not on this?
         var tooltip = this._tooltip;
         if (tooltip) {
@@ -2047,6 +2048,9 @@ var Sprite = /** @class */ (function (_super) {
         //this._transition.stop();
         //}
         if (state.name == "hover") {
+            if (this.isHidden) {
+                return;
+            }
             this.isHover = true;
         }
         if (state.name == "hidden") {
@@ -5969,7 +5973,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Element's fill color or pattern.
          *
-         * @param {Color | Pattern | LinearGradient | RadialGradient}  value  Fill
+         * @param {Optional<Color | Pattern | LinearGradient | RadialGradient>}  value  Fill
          */
         set: function (value) {
             this.setFill(value);
@@ -5982,7 +5986,7 @@ var Sprite = /** @class */ (function (_super) {
      * modifiers.
      *
      * @ignore Exclude from docs
-     * @param {Color | Pattern | LinearGradient | RadialGradient}  value  Fill
+     * @param {Optional<Color | Pattern | LinearGradient | RadialGradient>}  value  Fill
      */
     Sprite.prototype.setFill = function (value) {
         if (!$type.isObject(value)) {
@@ -6334,7 +6338,7 @@ var Sprite = /** @class */ (function (_super) {
             if (!$type.isNumber(duration)) {
                 duration = this.defaultState.transitionDuration;
             }
-            this.isHidden = false;
+            this._isHidden = false;
             this.isHiding = false;
             this.isShowing = true;
             if (this._hideAnimation) {
@@ -6421,7 +6425,7 @@ var Sprite = /** @class */ (function (_super) {
                     this._hideAnimation = transition;
                     this._showHideDisposer = transition.events.on("animationended", function () {
                         _this.isHiding = false;
-                        _this.isHidden = true;
+                        _this._isHidden = true;
                     }, this);
                     this._disposers.push(this._showHideDisposer);
                     // Thrown everything into `_disposers` just in case Sprite gets
@@ -6429,7 +6433,7 @@ var Sprite = /** @class */ (function (_super) {
                     this._disposers.push(transition);
                     if (transition.progress == 1) {
                         this.isHiding = false;
-                        this.isHidden = true;
+                        this._isHidden = true;
                     }
                 }
             }
@@ -6437,7 +6441,7 @@ var Sprite = /** @class */ (function (_super) {
                 // No hidden state, let's just set `visible` and call it a day
                 this.visible = false;
                 this.isHiding = false;
-                this.isHidden = true;
+                this._isHidden = true;
             }
             // Dispach "hidden" event
             this.dispatchImmediately("hidden");
@@ -7031,6 +7035,26 @@ var Sprite = /** @class */ (function (_super) {
             return _super.prototype.configOrder.call(this, a, b);
         }
     };
+    Object.defineProperty(Sprite.prototype, "isHidden", {
+        /**
+         * If `sprite.hide()` is called, we set isHidden to true when sprite is hidden.
+         * This was added becaus hidden state might have visibility set to true and so
+         * there would not be possible to find out if a sprite is technically hidden or not.
+         *
+         * @type {boolean}
+         */
+        get: function () {
+            if (this._isHidden) {
+                return this._isHidden;
+            }
+            else if (this._parent) {
+                return this._parent.isHidden;
+            }
+            return false;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Sprite;
 }(BaseObjectEvents));
 export { Sprite };

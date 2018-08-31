@@ -3,9 +3,9 @@
  *
  * Parts of Export functionality rely on the following third party libraries:
  *
- * [Fabric.js](http://fabricjs.com/)
- * Copyright (c) Printio (Juriy Zaytsev, Maxim Chernyak)
- * Licensed under [MIT](https://github.com/kangax/fabric.js/blob/master/LICENSE)
+ * [canvg.js](https://github.com/canvg/canvg)
+ * Copyright (c) Gabe Lerner
+ * Licensed under [MIT](https://github.com/canvg/canvg/blob/master/LICENSE)
  *
  * [pdfmake](http://pdfmake.org/)
  * Copyright (c) 2014 bpampuch
@@ -72,6 +72,7 @@ export interface IExportImageOptions {
      *
      * Number bigger than 1 will scale up the image.
      *
+     * @default 1
      * @type {number}
      */
     scale?: number;
@@ -85,6 +86,7 @@ export interface IExportImageOptions {
      * security restrictions in browser and prevent the whole export operation,
      * so use with caution.
      *
+     * @default false
      * @type {boolean}
      */
     keepTainted?: boolean;
@@ -671,6 +673,34 @@ export declare class Export extends Validatable {
      */
     protected _title: $type.Optional<string>;
     /**
+     * If you are using web fonts (such as Google Fonts), your chart might be
+     * using them as well.
+     *
+     * Normally, exporting to image will require to download these fonts so the
+     * are carried over to exported image.
+     *
+     * This setting can be used to disable or enable this functionality.
+     *
+     * @default true
+     * @type {boolean}
+     */
+    useWebFonts: boolean;
+    /**
+     * Many modern displays have use more actual pixels per displayed pixel. This
+     * results in sharper images on screen. Unfortunately, when exported to a
+     * bitmap image of the sam width/height size it will lose those extra pixels,
+     * resulting in somewhat blurry image.
+     *
+     * This is why we are going to export images larger than they are, so that we
+     * don't lose any details.
+     *
+     * If you'd rather export images without change in size, set this to `false`.
+     *
+     * @default true
+     * @type {boolean}
+     */
+    useRetina: boolean;
+    /**
      * If export operation takes longer than milliseconds in this second, we will
      * show a modal saying export operation took longer than expected.
      *
@@ -772,6 +802,17 @@ export declare class Export extends Validatable {
      */
     getPrint(type: string, options?: IExportPrintOptions): Promise<string>;
     /**
+     * A function that returns data: URI encoded @font-family, so that way it can be embedded into SVG.
+     *
+     * @ignore Exclude from docs
+     * @return {Promise<string>} String which can be embedded directly into a <style> element.
+     * @async
+     */
+    getFontFamilies(): Promise<{
+        blobs: Array<string>;
+        cssText: string;
+    }>;
+    /**
      * Produces image output from the element.
      *
      * Converts to a `Canvas` first, then produces an image to download.
@@ -805,8 +846,8 @@ export declare class Export extends Validatable {
      */
     getImage<Key extends imageFormats>(type: Key, options?: IExportImageOptions): Promise<string>;
     /**
-     * Tries to dynamically load [Fabric.js](http://fabricjs.com/) and export it
-     * using its functions.
+     * Tries to dynamically load [canvg.js](https://github.com/canvg/canvg) and
+     * export an image using its functions.
      *
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
@@ -814,23 +855,26 @@ export declare class Export extends Validatable {
      * @param {string}               type     Image format
      * @param {IExportImageOptions}  options  Options
      * @return {Promise<string>}              Data uri
-     * @todo Is toDataURL a Promise?
      */
     getImageAdvanced(type: imageFormats, options?: IExportImageOptions): Promise<string>;
     /**
-     * Preps objects used by FabricJS before the export.
+     * Creates a `<canvas>` element and returns it.
      *
-     * It performs removal of embedded SVG images, since those would trigger
-     * security error on older browsers. Newer browsers are fine, but they do not
-     * use Fabric, so we can safely assume that if we got to this function, we
-     * have an old browser on our hands.
-     *
-     * @ignore Exclude from docs
-     * @param {any} el  Element
-     * @param {any} obj Fabric element object
-     * @todo Check if we can somehow apply text formatting to `<tspan>` elements that is otherwise ignored by Fabric
+     * @return {HTMLCanvasElement} Canvas element
      */
-    prepFabricElement(el: any, obj: any): void;
+    protected getDisposableCanvas(): HTMLCanvasElement;
+    /**
+     * Removes canvas.
+     *
+     * @param {HTMLCanvasElement}  canvas  Canvas element
+     */
+    protected disposeCanvas(canvas: HTMLCanvasElement): void;
+    /**
+     * Returns pixel ratio for retina displays.
+     *
+     * @return {number} Pixel ratio
+     */
+    protected getPixelRatio(): number;
     /**
      * Converts all `<image>` tags in SVG to use data uris instead of external
      * URLs
@@ -843,15 +887,7 @@ export declare class Export extends Validatable {
      * @param  {IExportImageOptions}  options  Options
      * @return {Promise<void>}                 Promise
      */
-    imagesToDataURI(el: SVGSVGElement, options: IExportImageOptions): Promise<void>;
-    /**
-     * Converts all document external fonts to data uris.
-     *
-     * @ignore Exclude from docs
-     * @return {Promise<void>} [description]
-     */
-    fontsToDataURI(): Promise<string>;
-    fontToDataURI(url: string): Promise<any>;
+    imagesToDataURI(el: SVGSVGElement, options?: IExportImageOptions): Promise<void>;
     /**
      * `foreignObject` elements cannot be exported. This function hides them
      * temprarily. In the future it might try to convert them to SVG to make them
@@ -877,7 +913,7 @@ export declare class Export extends Validatable {
      * @param {SVGImageElement}     el       SVG element
      * @param {IExportImageOptions} options  Options
      */
-    imageToDataURI(el: SVGImageElement, options: IExportImageOptions): Promise<$type.Optional<string>>;
+    imageToDataURI(el: SVGImageElement, options?: IExportImageOptions): Promise<string>;
     /**
      * Converts `<image>` with external SVG source to data uri. Loads external SVG
      * file, then converts it to data uri and replaces the `xlink:href` parameter.
@@ -889,7 +925,7 @@ export declare class Export extends Validatable {
      * @param {SVGImageElement}     el        An SVG element
      * @param {IExportImageOptions} options   Options
      */
-    svgToDataURI(el: SVGImageElement, options?: IExportImageOptions): Promise<$type.Optional<string>>;
+    svgToDataURI(el: SVGImageElement, options?: IExportImageOptions): Promise<string>;
     /**
      * Temporarily removes element from DOM, and replaces it with a dummy
      * placeholder, as well as stores it for later restoration.
@@ -959,11 +995,10 @@ export declare class Export extends Validatable {
      * @param  {number}             height    Height of the SVG viewport
      * @param  {string}             font      Font family to use as a base
      * @param  {string}             fontSize  Font size to use as a base
-     * @param  {string}             styles    A string to add to <style>
      * @return {string}                       Output SVG
      * @todo Add style params to existing <svg>
      */
-    normalizeSVG(svg: string, options?: IExportSVGOptions, width?: number, height?: number, font?: string, fontSize?: string, styles?: string): string;
+    normalizeSVG(svg: string, options?: IExportSVGOptions, width?: number, height?: number, font?: string, fontSize?: string, background?: Color): string;
     /**
      * Serializes an element and returns its contents.
      *
@@ -984,7 +1019,7 @@ export declare class Export extends Validatable {
      * @async
      * @todo Account for header when calculating vertical fit
      */
-    getPDF(type: "pdf", options: IExportPDFOptions): Promise<string>;
+    getPDF(type: "pdf", options?: IExportPDFOptions): Promise<string>;
     /**
      * Returns fit dimensions for available page sizes.
      *
@@ -992,7 +1027,7 @@ export declare class Export extends Validatable {
      * @param  {pageSizes} pageSize Page size
      * @return {number[]}           `[width, height]` in pixels
      */
-    getPageSizeFit(pageSize: pageSizes, margins: number | number[]): number[];
+    getPageSizeFit(pageSize: pageSizes, margins?: number | number[]): number[];
     /**
      * Returns an Excel file of chart's data.
      *
@@ -1006,7 +1041,7 @@ export declare class Export extends Validatable {
      * @todo Handle dates
      * @todo Support for multi-sheet
      */
-    getExcel(type: "xlsx", options: IExportExcelOptions): Promise<string>;
+    getExcel(type: "xlsx", options?: IExportExcelOptions): Promise<string>;
     /**
      * This is needed to work around Excel limitations.
      *
@@ -1022,7 +1057,7 @@ export declare class Export extends Validatable {
      * @param  {IExportExcelOptions}  options  Options
      * @return {any[]}                         Array of values
      */
-    getExcelRow(row: any, options: IExportExcelOptions): any[];
+    getExcelRow(row: any, options?: IExportExcelOptions): any[];
     /**
      * Returns chart's data formatted as CSV.
      *
@@ -1034,7 +1069,7 @@ export declare class Export extends Validatable {
      * @return {Promise<string>}            Promise
      * @async
      */
-    getCSV(type: "csv", options: IExportCSVOptions): Promise<string>;
+    getCSV(type: "csv", options?: IExportCSVOptions): Promise<string>;
     /**
      * Formats a row of CSV data.
      *
@@ -1043,7 +1078,7 @@ export declare class Export extends Validatable {
      * @param  {IExportCSVOptions} options Options
      * @return {string}                    Formated CSV line
      */
-    getCSVRow(row: any, options: IExportCSVOptions): string;
+    getCSVRow(row: any, options?: IExportCSVOptions): string;
     /**
      * Returns chart's data in JSON format.
      *
@@ -1055,7 +1090,7 @@ export declare class Export extends Validatable {
      * @return {Promise<string>}             Promise
      * @async
      */
-    getJSON(type: "json", options: IExportJSONOptions): Promise<string>;
+    getJSON(type: "json", options?: IExportJSONOptions): Promise<string>;
     /**
      * Converts the value to proper date format.
      *
@@ -1065,7 +1100,7 @@ export declare class Export extends Validatable {
      * @param  {IExportCSVOptions | IExportJSONOptions}  options  Options
      * @return {any}                                              Formatted date value or unmodified value
      */
-    convertDateValue<Key extends "json" | "csv" | "xlsx">(field: string, value: any, options: IExportOptions[Key]): any;
+    convertDateValue<Key extends "json" | "csv" | "xlsx">(field: string, value: any, options?: IExportOptions[Key]): any;
     /**
      * Triggers download of the file.
      *
@@ -1118,9 +1153,9 @@ export declare class Export extends Validatable {
      * @return {Promise<boolean>}             Promise
      * @async
      */
-    print(data: string, options: IExportPrintOptions, title?: string): Promise<boolean>;
-    protected printViaCSS(data: string, options: IExportPrintOptions, title?: string): Promise<boolean>;
-    protected printViaIframe(data: string, options: IExportPrintOptions, title?: string): Promise<boolean>;
+    print(data: string, options?: IExportPrintOptions, title?: string): Promise<boolean>;
+    protected printViaCSS(data: string, options?: IExportPrintOptions, title?: string): Promise<boolean>;
+    protected printViaIframe(data: string, options?: IExportPrintOptions, title?: string): Promise<boolean>;
     /**
      * Finds a background color for the element. If element is transparent it goes
      * up the DOM hierarchy to find a parent element that does.
@@ -1136,18 +1171,18 @@ export declare class Export extends Validatable {
      *
      * @ignore Exclude from docs
      * @param  {Element}  element  Element
-     * @return {Optional<string>}  Font family
+     * @return {string}            Font family
      */
-    findFont(element: Element): $type.Optional<string>;
+    findFont(element: Element): string;
     /**
      * Returns a font fmaily name for the element (directly set or
      * computed/inherited).
      *
      * @ignore Exclude from docs
      * @param  {Element}  element  Element
-     * @return {Optional<string>}  Font family
+     * @return {string}            Font family
      */
-    findFontSize(element: Element): $type.Optional<string>;
+    findFontSize(element: Element): string;
     /**
      * @return {HTMLElement} Reference
      */
@@ -1330,23 +1365,23 @@ export declare class Export extends Validatable {
      */
     hideModal(): void;
     /**
-     * Loads Fabric dynamic module.
+     * Loads canvg dynamic module.
      *
      * This is an asynchronous function. Check the description of `getImage()`
      * for description and example usage.
      *
      * @ignore Exclude from docs
-     * @return {Promise<any>} Instance of Fabric
+     * @return {Promise<any>} Instance of canvg
      * @async
      */
-    private _fabric();
+    private _canvg();
     /**
-     * Returns Fabric instance.
+     * Returns canvg instance.
      *
      * @ignore Exclude from docs
-     * @return {Promise<any>} Instance of Fabric
+     * @return {Promise<any>} Instance of canvg
      */
-    readonly fabric: Promise<any>;
+    readonly canvg: Promise<any>;
     /**
      * Loads pdfmake dynamic module
      *
@@ -1392,7 +1427,7 @@ export declare class Export extends Validatable {
     /**
      * Returns current options for a format.
      */
-    getFormatOptions<Key extends keyof IExportOptions>(type: Key): $type.Optional<IExportOptions[Key]>;
+    getFormatOptions<Key extends keyof IExportOptions>(type: Key): IExportOptions[Key];
     /**
  * Disables interactivity on parent chart.
  */

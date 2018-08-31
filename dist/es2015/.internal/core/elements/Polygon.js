@@ -105,16 +105,16 @@ var Polygon = /** @class */ (function (_super) {
                     for (var s = 0; s < surface.length; s++) {
                         point = surface[s];
                         path += $path.lineTo(point);
-                        if ((right < point.x) || !$type.isNumber(right)) {
+                        if (!$type.isNumber(right) || (right < point.x)) {
                             right = point.x;
                         }
-                        if ((left > point.x) || !$type.isNumber(left)) {
+                        if (!$type.isNumber(left) || (left > point.x)) {
                             left = point.x;
                         }
-                        if ((top > point.y) || !$type.isNumber(top)) {
+                        if (!$type.isNumber(top) || (top > point.y)) {
                             top = point.y;
                         }
-                        if ((bottom < point.y) || !$type.isNumber(bottom)) {
+                        if (!$type.isNumber(bottom) || (bottom < point.y)) {
                             bottom = point.y;
                         }
                     }

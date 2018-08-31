@@ -59,7 +59,7 @@ export declare class InteractionKeyboardObject implements IAnimationObject, IDis
      *
      * @param {InteractionObject} io An InteractionObject
      */
-    constructor(io: InteractionObject);
+    constructor(io: InteractionObject, ev: KeyboardEvent);
     /**
      * It's an update method which is called by the system if
      * [[InteractionObject]] is used as animation.

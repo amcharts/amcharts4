@@ -683,10 +683,10 @@ var PieSeries = /** @class */ (function (_super) {
         $iter.each(marker.children.iterator(), function (child) {
             var slice = dataItem.slice;
             // todo: make an easy possibility to bind visual properties
-            //child.bind("fill", slice);
-            //child.bind("stroke", slice);
-            //child.bind("fillOpacity", slice);
-            //child.bind("strokeOpacity", slice);
+            child.bind("fill", slice);
+            child.bind("stroke", slice);
+            child.bind("fillOpacity", slice);
+            child.bind("strokeOpacity", slice);
             slice.events.on("propertychanged", function (ev) {
                 child.defaultState.properties.fill = slice.fill;
                 child.defaultState.properties.stroke = slice.stroke;

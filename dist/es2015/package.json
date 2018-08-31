@@ -1,6 +1,6 @@
 {
   "name": "@amcharts/amcharts4",
-  "version": "4.0.0-beta.47",
+  "version": "4.0.0-beta.48",
   "author": "amCharts <contact@amcharts.com> (https://www.amcharts.com/)",
   "description": "AmCharts v4",
   "homepage": "https://www.amcharts.com/",
@@ -31,6 +31,7 @@
     "url": false
   },
   "dependencies": {
+    "canvg": "^1.5.2",
     "pdfmake": "^0.1.36",
     "xlsx": "^0.12.8",
     "tslib": "^1.9.3"

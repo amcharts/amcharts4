@@ -67,7 +67,7 @@ var ColorSet = /** @class */ (function (_super) {
         /**
          * Modifications to apply with each new generated color.
          *
-         * @type {IColorSetStepOptions}
+         * @type {Partial<IColorSetStepOptions>}
          */
         _this.stepOptions = {};
         /**
@@ -76,7 +76,7 @@ var ColorSet = /** @class */ (function (_super) {
          *
          * A "pass" is when ColorSet generates `minColors` number of colors.
          *
-         * @type {IColorSetStepOptions}
+         * @type {Partial<IColorSetStepOptions>}
          */
         _this.passOptions = {
             brighten: -0.2
@@ -251,6 +251,7 @@ var ColorSet = /** @class */ (function (_super) {
         var mods = {
             brighten: 0,
             lighten: 0,
+            hue: hsl.h,
             lightness: hsl.l,
             saturation: hsl.s
         };
@@ -258,7 +259,7 @@ var ColorSet = /** @class */ (function (_super) {
         var hues = [];
         if (this.reuse) {
             for (var i = 0; i < count; i++) {
-                hues.push($colors.rgbToHsl(this._list[i].rgb).h);
+                hues.push($colors.rgbToHsl($type.getValue(this._list[i].rgb)).h);
             }
         }
         else {
@@ -280,7 +281,7 @@ var ColorSet = /** @class */ (function (_super) {
         for (var i = 0; i < count; i++) {
             // Update hue
             if (this.reuse) {
-                hsl = $colors.rgbToHsl(this._list[i].rgb);
+                hsl = $colors.rgbToHsl($type.getValue(this._list[i].rgb));
             }
             else {
                 hsl.h = hues.shift();

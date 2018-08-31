@@ -29,7 +29,7 @@ var Inertia = /** @class */ (function (_super) {
     /**
      * Constructor
      */
-    function Inertia() {
+    function Inertia(interaction, type, point, startPoint) {
         var _this = 
         // Init
         _super.call(this) || this;
@@ -40,6 +40,10 @@ var Inertia = /** @class */ (function (_super) {
          */
         _this.animations = [];
         _this.className = "Inertia";
+        _this.interaction = interaction;
+        _this.type = type;
+        _this.point = point;
+        _this.startPoint = startPoint;
         // Make animations disposable
         _this._disposers.push(new AnimationDisposer(_this.animations));
         return _this;

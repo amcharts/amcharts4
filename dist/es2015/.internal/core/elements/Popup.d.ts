@@ -7,6 +7,7 @@ import { Align } from "../defs/Align";
 import { VerticalAlign } from "../defs/VerticalAlign";
 import { IPoint } from "../defs/IPoint";
 import { Optional } from "../utils/Type";
+import * as $type from "../utils/Type";
 /**
  * Represents a list of available adapters for Export.
  */
@@ -155,15 +156,15 @@ export declare class Popup extends BaseObjectEvents {
      * A reference to an HTML element to be used for container. If not set, popup
      * will cover the whole window.
      *
-     * @type {HTMLElement}
+     * @type {Optional<HTMLElement>}
      */
-    container: HTMLElement | Document;
+    container: $type.Optional<HTMLElement | Document>;
     /**
      * A parent element this Popup belongs to.
      *
-     * @type {Sprite}
+     * @type {Optional<Sprite>}
      */
-    sprite: Sprite;
+    sprite: $type.Optional<Sprite>;
     /**
      * Holds references to various HTML elements, Popup consists of.
      */

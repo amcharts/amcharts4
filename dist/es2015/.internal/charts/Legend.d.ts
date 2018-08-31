@@ -8,8 +8,7 @@
  * @hidden
  */
 import { Component, IComponentProperties, IComponentDataFields, IComponentAdapters, IComponentEvents } from "../core/Component";
-import { EventDispatcher, AMEvent } from "../core/utils/EventDispatcher";
-import { DataItem, IDataItemEvents } from "../core/DataItem";
+import { DataItem } from "../core/DataItem";
 import { ListTemplate } from "../core/utils/List";
 import { Container } from "../core/Container";
 import { Label } from "../core/elements/Label";
@@ -26,7 +25,7 @@ import { Preloader } from "../core/elements/Preloader";
  *
  * @see {@link DataItem}
  */
-export declare class LegendDataItem<T, E extends ILegendItemEvents> extends DataItem {
+export declare class LegendDataItem extends DataItem {
     /**
      * A container data item's elements will be placed in.
      *
@@ -52,12 +51,11 @@ export declare class LegendDataItem<T, E extends ILegendItemEvents> extends Data
      */
     valueLabel: Label;
     /**
-     * A data context for legend item. It could be any object that implementes
-     * [[ILegendItem]] interface, i.e. Series, Pie slice, etc.
+     * A data context for legend item.
      *
-     * @type {ILegendItem}
+     * @type {any}
      */
-    dataContext: ILegendItem<T, E>;
+    dataContext: any;
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
@@ -193,69 +191,6 @@ export interface ILegendItemEvents {
     };
 }
 /**
- * Represents a an interface for leged item.
- */
-export interface ILegendItem<T, E extends ILegendItemEvents> {
-    /**
-     * Legend item needs to have an EventDispatcher so that legend can monitor
-     * changes in its properties, i.e. `visible`
-     *
-     * @type {EventDispatcher}
-     */
-    events: EventDispatcher<AMEvent<T, E>>;
-    /**
-     * Method that creates a legend marker for the item.
-     *
-     * @type {any}
-     * @todo Better type
-     */
-    createLegendMarker: (container: Container) => any;
-    /**
-     * Settings that should be applied to legend item.
-     *
-     * @type {LegendSettings}
-     */
-    legendSettings: LegendSettings;
-    /**
-     * A [[DataItem]] that will be used to extract value for the legend.
-     *
-     * @type {DataItem}
-     */
-    legendDataItem: DataItem;
-    /**
-     * Is the item currently visible or turned off?
-     *
-     * @type {boolean}
-     */
-    visible: boolean;
-    /**
-     * Is the item currently being hidden. (hide animation is being played)
-     *
-     * @type {boolean}
-     */
-    isHiding?: boolean;
-    /**
-     * Legend item needs to return a unique id of its element while and ensure
-     * the `id` attribute is set on the actual node so that it can be referenced
-     * to.
-     *
-     * @type {Function}
-     */
-    uidAttr: () => string;
-    /**
-     * Legend item's event to show it when it's toggled on in legend.
-     *
-     * @type {function}
-     */
-    show: () => void;
-    /**
-     * Legend item's event to hide it when it's toggled off in legend
-     *
-     * @type {function}
-     */
-    hide: () => void;
-}
-/**
  * ============================================================================
  * MAIN CLASS
  * ============================================================================
@@ -303,7 +238,7 @@ export declare class Legend extends Component {
      * @ignore Exclude from docs
      * @type {LegendDataItem<DataItem, IDataItemEvents>}
      */
-    _dataItem: LegendDataItem<DataItem, IDataItemEvents>;
+    _dataItem: LegendDataItem;
     /**
      * List of legend Item containers. Legend item containers contain marker, title label and value label.
      *

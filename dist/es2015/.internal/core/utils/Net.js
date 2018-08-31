@@ -84,7 +84,10 @@ export function load(url, target, options) {
             });
         };
         // Open request
-        xhr.open("GET", url);
+        xhr.open("GET", url, true);
+        if (options && options.withCredentials) {
+            xhr.withCredentials = true;
+        }
         // Process options
         if ($type.hasValue(options)) {
             if ($type.hasValue(options.requestHeaders)) {

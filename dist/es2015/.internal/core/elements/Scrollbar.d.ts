@@ -156,9 +156,9 @@ export declare class Scrollbar extends Container {
     /**
      * An [[Animation]] instance that moves "thumb".
      *
-     * @type {Animation}
+     * @type {Optional<Animation>}
      */
-    protected _thumbAnimation: Animation;
+    protected _thumbAnimation: $type.Optional<Animation>;
     /**
      * An [[Animation]] instance that moves zoom grip buttons.
      *
