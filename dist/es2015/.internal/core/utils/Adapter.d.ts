@@ -245,4 +245,8 @@ export declare class Adapter<Target, T> {
      * @param {Adapter<Target, T>}  source  An Adapter to copy items from
      */
     copyFrom(source: this): void;
+    /**
+     * Clears all callbacks from this Adapter.
+     */
+    clear(): void;
 }

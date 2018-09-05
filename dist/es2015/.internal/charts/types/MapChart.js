@@ -144,7 +144,6 @@ var MapChart = /** @class */ (function (_super) {
         chartContainerBg.events.on("up", function (e) { _this.seriesContainer.dragStop(); }, _this);
         chartContainerBg.events.on("doublehit", _this.handleDoubleHit, _this);
         chartContainerBg.focusable = true;
-        chartContainer.events.on("wheel", _this.handleWheel, _this);
         chartContainer.events.on("down", _this.handleMapDown, _this);
         // Add description to background
         _this.background.fillOpacity = 0;
@@ -168,6 +167,7 @@ var MapChart = /** @class */ (function (_super) {
                 }
             }
         }, _this));
+        _this.mouseWheelBehavior = "zoom";
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -251,6 +251,36 @@ var MapChart = /** @class */ (function (_super) {
             this.zoomOut(geoPoint);
         }
     };
+    Object.defineProperty(MapChart.prototype, "mouseWheelBehavior", {
+        /**
+         * @return { "zoom" | "none"}  mouse wheel behavior
+         */
+        get: function () {
+            return this.getPropertyValue("mouseWheelBehavior");
+        },
+        /**
+         * Specifies what should chart do if when mouse wheel is rotated.
+         *
+         * @param {"zoom" | "none"} mouse wheel behavior
+         * @default zoomX
+         */
+        set: function (value) {
+            if (this.setPropertyValue("mouseWheelBehavior", value)) {
+                if (value != "none") {
+                    this._mouseWheelDisposer = this.chartContainer.events.on("wheel", this.handleWheel, this);
+                    this._disposers.push(this._mouseWheelDisposer);
+                }
+                else {
+                    if (this._mouseWheelDisposer) {
+                        this._mouseWheelDisposer.dispose();
+                    }
+                    this.chartContainer.wheelable = false;
+                }
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(MapChart.prototype, "projection", {
         /**
          * @return {Projection} Projection

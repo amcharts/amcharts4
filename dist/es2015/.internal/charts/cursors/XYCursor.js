@@ -181,8 +181,13 @@ var XYCursor = /** @class */ (function (_super) {
         point.y = Math.min(this.pixelHeight, point.y);
         return point;
     };
-    XYCursor.prototype.triggerMoveReal = function (point, triggeredByPointer) {
-        _super.prototype.triggerMoveReal.call(this, point, triggeredByPointer);
+    /**
+     * Places the cursor at specific point.
+     *
+     * @param {IPoint}   point Point to place cursor at
+     */
+    XYCursor.prototype.triggerMoveReal = function (point) {
+        _super.prototype.triggerMoveReal.call(this, point);
         this.updateLinePositions(point);
         if (this.downPoint) {
             if (this._generalBehavior == "pan") {
@@ -205,7 +210,7 @@ var XYCursor = /** @class */ (function (_super) {
         }
         this.updateSelection();
     };
-    XYCursor.prototype.triggerDownReal = function (point, triggeredByPointer) {
+    XYCursor.prototype.triggerDownReal = function (point) {
         if (this.visible && !this.isHiding) {
             if (this.fitsToBounds(point)) {
                 this.downPoint = point;
@@ -222,7 +227,7 @@ var XYCursor = /** @class */ (function (_super) {
                     selection.element.attr({ "d": "" });
                     selection.show();
                 }
-                _super.prototype.triggerDownReal.call(this, point, triggeredByPointer);
+                _super.prototype.triggerDownReal.call(this, point);
             }
             else {
                 this.downPoint = undefined;
@@ -244,7 +249,7 @@ var XYCursor = /** @class */ (function (_super) {
             point.y = this.lineY.pixelY;
         }
     };
-    XYCursor.prototype.triggerUpReal = function (point, triggeredByPointer) {
+    XYCursor.prototype.triggerUpReal = function (point) {
         if (this.downPoint) {
             this.upPoint = point;
             this.updatePoint(this.upPoint);
@@ -255,7 +260,7 @@ var XYCursor = /** @class */ (function (_super) {
             else {
                 this.selection.hide();
             }
-            _super.prototype.triggerUpReal.call(this, point, triggeredByPointer);
+            _super.prototype.triggerUpReal.call(this, point);
         }
         this.downPoint = undefined;
         this.updateSelection();

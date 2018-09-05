@@ -16,6 +16,7 @@ import * as $array from "../../core/utils/Array";
 import * as $mapUtils from "./MapUtils";
 import * as $utils from "../../core/utils/Utils";
 import * as $iter from "../../core/utils/Iterator";
+import { Disposer } from "../../core/utils/Disposer";
 /**
  * ============================================================================
  * DATA ITEM
@@ -44,9 +45,15 @@ var MapImageSeriesDataItem = /** @class */ (function (_super) {
          * @return {MapImage} Element
          */
         get: function () {
+            var _this = this;
             if (!this._mapImage) {
-                this._mapImage = this.component.mapImages.create();
-                this.addSprite(this._mapImage);
+                var mapImage_1 = this.component.mapImages.create();
+                this.addSprite(mapImage_1);
+                this._mapImage = mapImage_1;
+                this._disposers.push(mapImage_1);
+                this._disposers.push(new Disposer(function () {
+                    _this.component.mapImages.removeValue(mapImage_1);
+                }));
             }
             return this._mapImage;
         },

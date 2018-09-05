@@ -695,6 +695,8 @@ var Sprite = /** @class */ (function (_super) {
             }*/
         }
         _super.prototype.dispose.call(this);
+        // Clear adapters
+        this.adapter.clear();
         if (this.applyOnClones) {
             if (this._clones) {
                 for (var i = this._clones.length - 1; i >= 0; i--) {
@@ -4003,7 +4005,7 @@ var Sprite = /** @class */ (function (_super) {
          * @return {Optional<string>} URL
          */
         get: function () {
-            return this._url;
+            return this.adapter.apply("url", this._url);
         },
         /**
          * Click-through URL for this element.
@@ -4037,7 +4039,7 @@ var Sprite = /** @class */ (function (_super) {
          * @return {string} URL target
          */
         get: function () {
-            return this._urlTarget;
+            return this.adapter.apply("urlTarget", this._urlTarget);
         },
         /**
          * Target to use for URL clicks:

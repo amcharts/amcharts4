@@ -391,6 +391,12 @@ var Adapter = /** @class */ (function () {
             _this.add(x.key, x.callback, x.priority, x.scope);
         });
     };
+    /**
+     * Clears all callbacks from this Adapter.
+     */
+    Adapter.prototype.clear = function () {
+        this._callbacks.clear();
+    };
     return Adapter;
 }());
 export { Adapter };

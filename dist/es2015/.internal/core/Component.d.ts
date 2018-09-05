@@ -193,9 +193,9 @@ export declare class Component extends Container {
      *
      * @ignore Exclude from docs
      * @todo Description
-     * @type {List<Component>}
+     * @type {Optional<List<Component>>}
      */
-    protected _dataUsers: List<Component>;
+    protected _dataUsers: $type.Optional<List<Component>>;
     /**
      * Holds the disposers for the dataItems and dataUsers
      *
@@ -618,6 +618,10 @@ export declare class Component extends Container {
      * @ignore
      */
     validateRawData(): void;
+    /**
+     * @ignore
+     */
+    disposeData(): void;
     /**
      * Validates (processes) data.
      *

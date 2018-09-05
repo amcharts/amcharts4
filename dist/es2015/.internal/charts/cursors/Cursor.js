@@ -48,6 +48,10 @@ var Cursor = /** @class */ (function (_super) {
          * @todo Better description
          */
         _this.point = { x: 0, y: 0 };
+        /**
+         * Specifies the rules when cursor needs to be moved or hidden.
+         */
+        _this._stick = "none";
         _this.className = "Cursor";
         // Set defaults
         //this.background.fillOpacity = 0.5;
@@ -83,29 +87,63 @@ var Cursor = /** @class */ (function (_super) {
             return;
         }
         var local = $utils.documentPointToSprite(event.pointer.point, this);
-        this.triggerMove(local, true);
+        if (this._stick == "hard" && this._stickPoint) {
+            local = this._stickPoint;
+        }
+        if (this._stick == "soft" && this._stickPoint) {
+            if (!this.fitsToBounds(local)) {
+                local = this._stickPoint;
+            }
+        }
+        this.triggerMove(local);
         return local;
     };
     /**
-     * Places the cursor at specific point.
+     * Hides actual SVG elements and handles hiding animations.
      *
-     * If `triggeredByPointer == false` the cursor will stay there, regardless
-     * movement of the actual pointer(s). This is useful when you want to
-     * manually place cursor.
-     *
-     * @param {IPoint}   point               Point to place cursor at
-     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
+     * @param  {number}  duration  Fade out duration (ms)
+     * @return {Animation}            Fade out duration (ms)
+     * @ignore
      */
-    Cursor.prototype.triggerMove = function (point, triggeredByPointer) {
-        this.triggerMoveReal(point, triggeredByPointer);
+    Cursor.prototype.hideReal = function (duration) {
+        if ((this._stick == "hard" || this._stick == "soft") && this._stickPoint) {
+            return;
+        }
+        return _super.prototype.hideReal.call(this, duration);
     };
     /**
      * Places the cursor at specific point.
      *
-     * @param {IPoint}   point               Point to place cursor at
-     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
+     * The second parameter has following options:
+     *
+     * `"none"` - placed cursor will only be there until mouse/touch moves, then
+     * it either moves to a new place (if pointer over plot area) or is hidden.
+     *
+     * `"soft"` - cursor will stay in the place if mouse/touch is happening
+     * outside chart, but will move to a new place whe plot area is hovered or
+     * touched.
+     *
+     * `"hard"` - cursor will stay in place no matter what, until it is moved by
+     * another `triggerMove()` call.
+     *
+     * @param {IPoint}                    point  Point to place cursor at
+     * @param {"hard" | "soft" | "none"}  stick  Level of cursor stickiness to the place
      */
-    Cursor.prototype.triggerMoveReal = function (point, triggeredByPointer) {
+    Cursor.prototype.triggerMove = function (point, stick) {
+        if (stick) {
+            this._stick = stick;
+        }
+        if (stick == "hard" || stick == "soft") {
+            this._stickPoint = point;
+        }
+        this.triggerMoveReal(point);
+    };
+    /**
+     * Places the cursor at specific point.
+     *
+     * @param {IPoint}  point Point to place cursor at
+     */
+    Cursor.prototype.triggerMoveReal = function (point) {
         if (this.point.x != point.x || this.point.y != point.y) {
             // hide cursor if it's out of bounds
             if (this.fitsToBounds(point)) {
@@ -128,18 +166,16 @@ var Cursor = /** @class */ (function (_super) {
      * Simulates pressing down (click/touch) action by a cursor.
      *
      * @param {IPoint}   point               Point of action
-     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
      */
-    Cursor.prototype.triggerDown = function (point, triggeredByPointer) {
-        this.triggerDownReal(point, triggeredByPointer);
+    Cursor.prototype.triggerDown = function (point) {
+        this.triggerDownReal(point);
     };
     /**
      * Simulates pressing down (click/touch) action by a cursor.
      *
      * @param {IPoint}   point               Point of action
-     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
      */
-    Cursor.prototype.triggerDownReal = function (point, triggeredByPointer) {
+    Cursor.prototype.triggerDownReal = function (point) {
         switch (this._generalBehavior) {
             case "zoom":
                 this.dispatchImmediately("zoomstarted");
@@ -157,18 +193,16 @@ var Cursor = /** @class */ (function (_super) {
      * Simulates the action of release of the mouse down / touch.
      *
      * @param {IPoint}   point               Point of action
-     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
      */
-    Cursor.prototype.triggerUp = function (point, triggeredByPointer) {
-        this.triggerUpReal(point, triggeredByPointer);
+    Cursor.prototype.triggerUp = function (point) {
+        this.triggerUpReal(point);
     };
     /**
      * Simulates the action of release of the mouse down / touch.
      *
      * @param {IPoint}   point               Point of action
-     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
      */
-    Cursor.prototype.triggerUpReal = function (point, triggeredByPointer) {
+    Cursor.prototype.triggerUpReal = function (point) {
         this.updatePoint(this.upPoint);
         var interaction = getInteraction();
         if ($math.getDistance(this.upPoint, this.downPoint) > interaction.getHitOption(this.interactions, "hitTolerance")) {
@@ -224,8 +258,8 @@ var Cursor = /** @class */ (function (_super) {
             event.event.preventDefault();
         }
         // Make this happen
-        this.triggerMove(local, true);
-        this.triggerDown(local, true);
+        this.triggerMove(local);
+        this.triggerDown(local);
     };
     /**
      * Updates the coordinates of where pointer down event occurred
@@ -241,12 +275,16 @@ var Cursor = /** @class */ (function (_super) {
      */
     Cursor.prototype.handleCursorUp = function (event) {
         if (!this.interactionsEnabled || !getInteraction().isLocalElement(event.pointer, this.paper.svg)) {
-            this.downPoint = undefined;
+            if (this._generalBehavior == "pan" && this.downPoint) {
+                this.dispatchImmediately("panended");
+                getInteraction().setGlobalStyle(MouseCursorStyle.default);
+                this.downPoint = undefined;
+            }
             return;
         }
         var local = $utils.documentPointToSprite(event.pointer.point, this);
-        this.triggerMove(local, true);
-        this.triggerUp(local, true);
+        this.triggerMove(local);
+        this.triggerUp(local);
     };
     Object.defineProperty(Cursor.prototype, "chart", {
         /**

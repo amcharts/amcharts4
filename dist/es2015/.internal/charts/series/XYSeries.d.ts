@@ -552,6 +552,10 @@ export declare class XYSeries extends Series {
      */
     protected setInitialWorkingValues(dataItem: this["_dataItem"]): void;
     /**
+     * @ignore
+     */
+    disposeData(): void;
+    /**
      * Sets up which data fields to use for data access.
      */
     protected defineFields(): void;

@@ -317,6 +317,7 @@ var DataItem = /** @class */ (function (_super) {
         $array.each(this.sprites, function (sprite) {
             sprite.dispose();
         });
+        this.sprites = [];
     };
     /**
      * Hides the Data Item and related visual elements.

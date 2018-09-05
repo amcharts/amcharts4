@@ -531,7 +531,7 @@ export declare class Interaction extends BaseObjectEvents {
      * @param {IPointer}                 pointer  Pointer
      * @param {MouseEvent | TouchEvent}  ev       Original event
      */
-    handleDown(io: InteractionObject, pointer: IPointer, ev: MouseEvent | TouchEvent): void;
+    handleDown(io: InteractionObject, pointer: IPointer, ev: MouseEvent | TouchEvent | undefined): void;
     /**
      * Handles pointer move.
      *
@@ -557,7 +557,7 @@ export declare class Interaction extends BaseObjectEvents {
      * @param {IPointer}                 pointer  Pointer
      * @param {MouseEvent | TouchEvent}  ev       Original event
      */
-    handleUp(pointer: IPointer, ev: MouseEvent | TouchEvent): void;
+    handleUp(pointer: IPointer, ev: MouseEvent | TouchEvent | undefined): void;
     /**
      * Handles swipe action.
      *

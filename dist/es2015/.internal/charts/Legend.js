@@ -21,6 +21,7 @@ import { percent } from "../core/utils/Percent";
 import { InterfaceColorSet } from "../core/utils/InterfaceColorSet";
 import * as $type from "../core/utils/Type";
 import { Sprite } from "../core/Sprite";
+import { Disposer } from "../core/utils/Disposer";
 /**
  * ============================================================================
  * DATA ITEM
@@ -47,6 +48,104 @@ var LegendDataItem = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    Object.defineProperty(LegendDataItem.prototype, "label", {
+        get: function () {
+            var _this = this;
+            if (!this._label) {
+                var label_1 = this.component.labels.create();
+                this._label = label_1;
+                this.addSprite(label_1);
+                this._disposers.push(label_1);
+                label_1.parent = this.itemContainer;
+                this._disposers.push(new Disposer(function () {
+                    _this.component.labels.removeValue(label_1);
+                }));
+            }
+            return this._label;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(LegendDataItem.prototype, "valueLabel", {
+        get: function () {
+            var _this = this;
+            if (!this._valueLabel) {
+                var valueLabel_1 = this.component.valueLabels.create();
+                this._valueLabel = valueLabel_1;
+                this.addSprite(valueLabel_1);
+                this._disposers.push(valueLabel_1);
+                valueLabel_1.parent = this.itemContainer;
+                this._disposers.push(new Disposer(function () {
+                    _this.component.valueLabels.removeValue(valueLabel_1);
+                }));
+            }
+            return this._valueLabel;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(LegendDataItem.prototype, "itemContainer", {
+        get: function () {
+            var _this = this;
+            if (!this._itemContainer) {
+                var itemContainer_1 = this.component.itemContainers.create();
+                this._itemContainer = itemContainer_1;
+                this.addSprite(itemContainer_1);
+                this._disposers.push(itemContainer_1);
+                this._disposers.push(new Disposer(function () {
+                    _this.component.itemContainers.removeValue(itemContainer_1);
+                }));
+                if (this.dataContext.uidAttr) {
+                    itemContainer_1.readerControls = this.dataContext.uidAttr();
+                    itemContainer_1.readerLabelledBy = this.dataContext.uidAttr();
+                }
+                var sprite = this.dataContext;
+                if (sprite instanceof DataItem) {
+                    itemContainer_1.addDisposer(sprite.events.on("visibilitychanged", function (ev) {
+                        itemContainer_1.readerChecked = ev.visible;
+                        itemContainer_1.events.disableType("toggled");
+                        itemContainer_1.isActive = !ev.visible;
+                        itemContainer_1.events.enableType("toggled");
+                    }));
+                    if (sprite instanceof Sprite) {
+                        itemContainer_1.addDisposer(sprite.events.on("hidden", function (ev) {
+                            itemContainer_1.readerChecked = true;
+                            itemContainer_1.events.disableType("toggled");
+                            itemContainer_1.isActive = true;
+                            itemContainer_1.events.enableType("toggled");
+                        }));
+                        itemContainer_1.addDisposer(sprite.events.on("shown", function (ev) {
+                            itemContainer_1.readerChecked = false;
+                            itemContainer_1.events.disableType("toggled");
+                            itemContainer_1.isActive = false;
+                            itemContainer_1.events.enableType("toggled");
+                        }));
+                    }
+                }
+            }
+            return this._itemContainer;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(LegendDataItem.prototype, "marker", {
+        get: function () {
+            var _this = this;
+            if (!this._marker) {
+                var marker_1 = this.component.markers.create();
+                this._marker = marker_1;
+                marker_1.parent = this.itemContainer;
+                this.addSprite(marker_1);
+                this._disposers.push(marker_1);
+                this._disposers.push(new Disposer(function () {
+                    _this.component.markers.removeValue(marker_1);
+                }));
+            }
+            return this._marker;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return LegendDataItem;
 }(DataItem));
 export { LegendDataItem };
@@ -223,55 +322,14 @@ var Legend = /** @class */ (function (_super) {
      */
     Legend.prototype.validateDataElement = function (dataItem) {
         _super.prototype.validateDataElement.call(this, dataItem);
-        // Get data item (legend item's) container and assign it to legend container
+        // Get data item (legend item's) container
         var container = dataItem.itemContainer;
-        if (!container) {
-            // Create new container for the data item
-            container = this.itemContainers.create();
-            dataItem.addSprite(container);
-            container.readerTitle = this.language.translate("Click, tap or press ENTER to toggle");
-            if (dataItem.dataContext.uidAttr) {
-                container.readerControls = dataItem.dataContext.uidAttr();
-                container.readerLabelledBy = dataItem.dataContext.uidAttr();
-            }
-            dataItem.itemContainer = container;
-            // Add an event to check for item's properties
-            // We cannot do this on a template since template does not have
-            // dataContext, yet
-            var sprite = dataItem.dataContext;
-            if (sprite instanceof DataItem) {
-                container.addDisposer(sprite.events.on("visibilitychanged", function (ev) {
-                    container.readerChecked = ev.visible;
-                    container.events.disableType("toggled");
-                    container.isActive = !ev.visible;
-                    container.events.enableType("toggled");
-                }));
-                if (sprite instanceof Sprite) {
-                    container.addDisposer(sprite.events.on("hidden", function (ev) {
-                        container.readerChecked = true;
-                        container.events.disableType("toggled");
-                        container.isActive = true;
-                        container.events.enableType("toggled");
-                    }));
-                    container.addDisposer(sprite.events.on("shown", function (ev) {
-                        container.readerChecked = false;
-                        container.events.disableType("toggled");
-                        container.isActive = false;
-                        container.events.enableType("toggled");
-                    }));
-                }
-            }
-        }
+        var marker = dataItem.marker;
+        var label = dataItem.label;
+        var valueLabel = dataItem.valueLabel;
         // Set parent and update current state
         container.parent = this;
         container.readerChecked = dataItem.dataContext.visible;
-        // Create a marker for legend item
-        var marker = dataItem.marker;
-        if (!marker) {
-            marker = this.markers.create();
-            marker.parent = container;
-            dataItem.marker = marker;
-        }
         // Tell series its legend data item
         dataItem.dataContext.legendDataItem = dataItem;
         // If we are not using default markers, create a unique legend marker based
@@ -282,22 +340,8 @@ var Legend = /** @class */ (function (_super) {
                 dataItem.childrenCreated = true;
             }
         }
-        // Create label
-        var label = dataItem.label;
-        if (!label) {
-            label = this.labels.create();
-            label.parent = container;
-            dataItem.label = label;
-        }
-        // Create value label
-        var valueLabel = dataItem.valueLabel;
-        if (!valueLabel) {
-            valueLabel = this.valueLabels.create();
-            if (!valueLabel.text) {
-                valueLabel.width = undefined;
-            }
-            valueLabel.parent = container;
-            dataItem.valueLabel = valueLabel;
+        if (!valueLabel.text) {
+            valueLabel.width = undefined;
         }
         var visible = dataItem.dataContext.visible;
         if (visible === undefined) {

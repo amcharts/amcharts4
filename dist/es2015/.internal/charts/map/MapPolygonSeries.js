@@ -16,6 +16,7 @@ import * as $mapUtils from "./MapUtils";
 import * as $array from "../../core/utils/Array";
 import * as $utils from "../../core/utils/Utils";
 import * as $iter from "../../core/utils/Iterator";
+import { Disposer } from "../../core/utils/Disposer";
 /**
  * ============================================================================
  * DATA ITEM
@@ -45,9 +46,15 @@ var MapPolygonSeriesDataItem = /** @class */ (function (_super) {
          * @return {MapPolygon} Element
          */
         get: function () {
+            var _this = this;
             if (!this._mapPolygon) {
-                this._mapPolygon = this.component.mapPolygons.create();
-                this.addSprite(this._mapPolygon);
+                var mapPolygon_1 = this.component.mapPolygons.create();
+                this._mapPolygon = mapPolygon_1;
+                this.addSprite(mapPolygon_1);
+                this._disposers.push(mapPolygon_1);
+                this._disposers.push(new Disposer(function () {
+                    _this.component.mapPolygons.removeValue(mapPolygon_1);
+                }));
             }
             return this._mapPolygon;
         },
@@ -244,7 +251,7 @@ var MapPolygonSeries = /** @class */ (function (_super) {
         var _this = 
         // Init
         _super.call(this) || this;
-        _this.parsingStepDuration = 5000; // to avoid some extra redrawing
+        _this.parsingStepDuration = 1000; // to avoid some extra redrawing
         _this.className = "MapPolygonSeries";
         // Set data fields
         _this.dataFields.multiPolygon = "multiPolygon";
@@ -267,18 +274,8 @@ var MapPolygonSeries = /** @class */ (function (_super) {
     /**
      * @ignore
      */
-    MapPolygonSeries.prototype.clearPolygons = function () {
-        $iter.each(this.mapPolygons.iterator(), function (mapPolygon) {
-            mapPolygon.polygon.dispose();
-            mapPolygon.dispose();
-        });
-        this.mapPolygons.clear();
-    };
-    /**
-     * @ignore
-     */
     MapPolygonSeries.prototype.processIncExc = function () {
-        this.clearPolygons();
+        this.mapPolygons.clear();
         _super.prototype.processIncExc.call(this);
     };
     /**
@@ -290,7 +287,7 @@ var MapPolygonSeries = /** @class */ (function (_super) {
     MapPolygonSeries.prototype.validateData = function () {
         var _this = this;
         if (this.data.length > 0 && this._parseDataFrom == 0) {
-            this.clearPolygons();
+            this.mapPolygons.clear();
         }
         this.west = null;
         this.east = null;

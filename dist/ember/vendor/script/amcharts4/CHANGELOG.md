@@ -5,6 +5,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.49] - 2018-09-05
+
+### Added
+- JSON config: added `callback` property, which if it holds a reference to function will call it within the scope of the object being prepared.
+- Adapters for `url` and `urlTarget` properties.
+- Chart can now be panned or zoomed using mouse wheel. To set what it does use `mouseWheelBehavior` on `XYChart` (see next point)
+- [`mouseWheelBehavior`](https://www.amcharts.com/docs/v4/reference/xychart/#mouseWheelBehavior_property) added to `XYChart`. Options: `"zoomX"` (default), `"zoomY"`, `"zoomXY"`, `"panX"`, `"panY"`, `"panXY"`, `"none"`.
+- [`mouseWheelBehavior`](https://www.amcharts.com/docs/v4/reference/mapchart/#mouseWheelBehavior_property) added to `MapChart`. Options: `"zoom"` (default), `"none"`.
+
+### Changed
+- Second parameter to `Cursor`'s [`triggerMove()`](https://www.amcharts.com/docs/v4/reference/cursor/#triggerMove_method) method was changed from boolean to enumeration of "stickiness" level: `"hard"`, `"soft"`, `"none"` (default).
+
+### Fixed
+- Error fixed when `Popup` object was being disposed.
+- Over-panning of an `XYChart` did not disappear after mouse button was released outside chart.
+- Multiple memory leaks fixed.
+- `MapChart` was rounding lat/long coordinates too much which was resulting in pixelated maps for small-area maps.
+
+
 ## [4.0.0-beta.48] - 2018-08-31
 
 ### Added

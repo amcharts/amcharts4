@@ -366,6 +366,10 @@ var BaseObject = /** @class */ (function () {
         // Iterate through all of the items
         $object.eachOrdered(config, function (configKey, value) {
             var configValue = value;
+            // Is this a callback?
+            if (configKey == "callback" && typeof value == "function") {
+                value.call(target);
+            }
             // Check if there's a property in target
             if (_this.hasProperty(configKey)) {
                 var item_1;

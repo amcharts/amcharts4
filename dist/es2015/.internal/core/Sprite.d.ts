@@ -184,6 +184,8 @@ export interface ISpriteAdapters extends ISpriteProperties {
     pixelY: number;
     relativeY: number;
     mask: Sprite;
+    url: string;
+    urlTarget: string;
 }
 /**
  * ============================================================================

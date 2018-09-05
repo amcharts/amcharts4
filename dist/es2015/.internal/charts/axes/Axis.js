@@ -53,10 +53,14 @@ var AxisDataItem = /** @class */ (function (_super) {
          */
         get: function () {
             if (!this._grid) {
-                var component = this.component;
-                if (component) {
-                    this.grid = component.renderer.grid.create();
-                    this._disposers.push(this._grid);
+                var component_1 = this.component;
+                if (component_1) {
+                    var grid_1 = component_1.renderer.grid.create();
+                    this.grid = grid_1;
+                    this._disposers.push(grid_1);
+                    this._disposers.push(new Disposer(function () {
+                        component_1.renderer.grid.removeValue(grid_1);
+                    }));
                 }
             }
             return this._grid;
@@ -92,10 +96,14 @@ var AxisDataItem = /** @class */ (function (_super) {
          */
         get: function () {
             if (!this._tick) {
-                var component = this.component;
-                if (component) {
-                    this.tick = component.renderer.ticks.create();
-                    this._disposers.push(this._tick);
+                var component_2 = this.component;
+                if (component_2) {
+                    var tick_1 = component_2.renderer.ticks.create();
+                    this.tick = tick_1;
+                    this._disposers.push(tick_1);
+                    this._disposers.push(new Disposer(function () {
+                        component_2.renderer.ticks.removeValue(tick_1);
+                    }));
                 }
             }
             return this._tick;
@@ -131,10 +139,14 @@ var AxisDataItem = /** @class */ (function (_super) {
          */
         get: function () {
             if (!this._label) {
-                var component = this.component;
-                if (component) {
-                    this.label = component.renderer.labels.create();
-                    this._disposers.push(this._label);
+                var component_3 = this.component;
+                if (component_3) {
+                    var label_1 = component_3.renderer.labels.create();
+                    this._disposers.push(label_1);
+                    this.label = label_1;
+                    this._disposers.push(new Disposer(function () {
+                        component_3.renderer.labels.removeValue(label_1);
+                    }));
                 }
             }
             return this._label;
@@ -170,10 +182,14 @@ var AxisDataItem = /** @class */ (function (_super) {
          */
         get: function () {
             if (!this._axisFill) {
-                var component = this.component;
-                if (component) {
-                    this.axisFill = component.renderer.axisFills.create();
-                    this._disposers.push(this._axisFill);
+                var component_4 = this.component;
+                if (component_4) {
+                    var axisFill_1 = component_4.renderer.axisFills.create();
+                    this.axisFill = axisFill_1;
+                    this._disposers.push(axisFill_1);
+                    this._disposers.push(new Disposer(function () {
+                        component_4.renderer.axisFills.removeValue(axisFill_1);
+                    }));
                 }
             }
             return this._axisFill;
@@ -440,7 +456,7 @@ var Axis = /** @class */ (function (_super) {
         tooltip.background.pointerLength = 5;
         tooltip.fitPointerToBounds = true;
         tooltip.filters.clear();
-        // Set virtual parentfor the tooltip so that it can properly inheirt 
+        // Set virtual parentfor the tooltip so that it can properly inheirt
         // formatters from the axis.
         tooltip.virtualParent = _this;
         // Create background element for the tooltip

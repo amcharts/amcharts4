@@ -182,19 +182,24 @@ export declare class XYCursor extends Cursor {
      * @ignore Exclude from docs
      */
     protected fixPoint(point: IPoint): IPoint;
-    protected triggerMoveReal(point: IPoint, triggeredByPointer?: boolean): void;
+    /**
+     * Places the cursor at specific point.
+     *
+     * @param {IPoint}   point Point to place cursor at
+     */
+    protected triggerMoveReal(point: IPoint): void;
     /**
      *
      * @ignore Exclude from docs
      */
     protected updateLinePositions(point: IPoint): void;
-    protected triggerDownReal(point: IPoint, triggeredByPointer?: boolean): void;
+    protected triggerDownReal(point: IPoint): void;
     /**
      * Updates the coordinates of where pointer down event occurred
      * (was pressed).
      */
     protected updatePoint(point: IPoint): void;
-    protected triggerUpReal(point: IPoint, triggeredByPointer?: boolean): void;
+    protected triggerUpReal(point: IPoint): void;
     /**
      * [getRanges description]
      *

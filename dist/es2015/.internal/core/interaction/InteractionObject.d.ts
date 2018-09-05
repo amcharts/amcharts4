@@ -432,4 +432,8 @@ export declare class InteractionObject extends BaseObjectEvents {
      * @ignore Exclude from docs
      */
     setEventDisposer(key: string, value: boolean, f: () => IDisposer): void;
+    /**
+     * Disposes object.
+     */
+    dispose(): void;
 }

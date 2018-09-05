@@ -12,6 +12,8 @@ import * as tslib_1 from "tslib";
 import { Sprite } from "./Sprite";
 import { SpriteState } from "./SpriteState";
 import { List } from "./utils/List";
+import { MultiDisposer } from "./utils/Disposer";
+import { Dictionary, DictionaryDisposer } from "./utils/Dictionary";
 import { Rectangle } from "./elements/Rectangle";
 import { Percent } from "./utils/Percent";
 import { registry } from "./Registry";
@@ -51,6 +53,13 @@ var Container = /** @class */ (function (_super) {
          */
         _this._childrenByLayout = [];
         /**
+         * Container's disposers for its child elements.
+         *
+         * @ignore Exclude from docs
+         * @type {Dictionary<string, IDisposer>}
+         */
+        _this._childrenDisposers = new Dictionary();
+        /**
          * Indicates if this container contains any focused elements, including
          * itself.
          *
@@ -86,6 +95,7 @@ var Container = /** @class */ (function (_super) {
         _this._fixedWidthGrid = false;
         _this.verticalCenter = "none";
         _this.horizontalCenter = "none";
+        _this._disposers.push(new DictionaryDisposer(_this._childrenDisposers));
         _this.children.events.on("inserted", _this.handleChildAdded, _this);
         _this.children.events.on("removed", _this.handleChildRemoved, _this);
         _this.applyTheme();
@@ -102,34 +112,22 @@ var Container = /** @class */ (function (_super) {
     Container.prototype.handleChildAdded = function (event) {
         var _this = this;
         var child = event.newValue;
-        if (!child.isDisposed()) {
-            this._disposers.push(child.events.on("zIndexChanged", function () {
+        this._childrenDisposers.insertKey(child.uid, new MultiDisposer([
+            // it's not enough to listen to POSITION_CHANGED only, as some extra redrawals will happen.
+            child.events.on("transformed", this.handleChildTransform, this),
+            child.events.on("zIndexChanged", function () {
                 _this.sortChildren();
                 _this.addChildren();
-            }));
-            // Do not add disposed objects
-            if (child.isDisposed()) {
-                console.log("Added to children a disposed object!");
-                return;
-            }
-            if (this.element) {
-                var group = this.element;
-                group.add(child.group);
-            }
-            // TODO this is hacky
-            if (!$type.hasValue(child._childAddedDisposer)) {
-                // it's not enough to listen to POSITION_CHANGED only, as some extra redrawals will happen.
-                child._childAddedDisposer = child.events.on("transformed", this.handleChildTransform, this);
-                //@todo: temporary commenting this because of error it causes when I add contents Container in AxisRange constructor. this._disposers.push((<any>child)._childAddedDisposer);
-            }
-            child.parent = this;
-            this.dispatchImmediately("childadded", { type: "childadded", newValue: child });
-            this.invalidate();
-            this.invalidateLayout();
+            })
+        ]));
+        if (this.element) {
+            var group = this.element;
+            group.add(child.group);
         }
-        else {
-            throw Error("child is disposed");
-        }
+        child.parent = this;
+        this.dispatchImmediately("childadded", { type: "childadded", newValue: child });
+        this.invalidate();
+        this.invalidateLayout();
     };
     /**
      * Handles child removal. Changing size of the child may change the
@@ -140,13 +138,8 @@ var Container = /** @class */ (function (_super) {
      */
     Container.prototype.handleChildRemoved = function (event) {
         var child = event.oldValue;
-        // TODO figure out why this is sometimes undefined
-        // TODO this is hacky
-        if ($type.hasValue(child._childAddedDisposer)) {
-            this.removeDispose(child._childAddedDisposer);
-            //(<any>child)._childAddedDisposer.dispose();
-            delete child._childAddedDisposer;
-        }
+        // TODO figure out why the key sometimes doesn't exist
+        this._childrenDisposers.removeKey(child.uid);
         if (this.element) {
             var group = this.element;
             group.removeElement(child.group);
@@ -1481,6 +1474,9 @@ var Container = /** @class */ (function (_super) {
      * Disposes (destroys) the element and all its children.
      */
     Container.prototype.dispose = function () {
+        if (this._background) {
+            this._background.dispose();
+        }
         this.disposeChildren();
         _super.prototype.dispose.call(this);
     };

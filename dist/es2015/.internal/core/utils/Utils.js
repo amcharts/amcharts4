@@ -894,14 +894,14 @@ var urlRegexp = /^([a-zA-Z][a-zA-Z0-9\+\.\-]*:)?(?:(\/\/)([^\@]+\@)?([^\/\?\#\:]
 export function parseUrl(url) {
     var match = urlRegexp.exec(url);
     return {
-        protocol: match[1] || "",
-        separator: match[2] || "",
-        authority: match[3] || "",
-        domain: match[4] || "",
-        port: match[5] || "",
-        path: match[6] || "",
-        query: match[7] || "",
-        hash: match[8] || ""
+        protocol: (match && match[1]) || "",
+        separator: (match && match[2]) || "",
+        authority: (match && match[3]) || "",
+        domain: (match && match[4]) || "",
+        port: (match && match[5]) || "",
+        path: (match && match[6]) || "",
+        query: (match && match[7]) || "",
+        hash: (match && match[8]) || ""
     };
 }
 /**

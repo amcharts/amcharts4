@@ -13,6 +13,8 @@ import { SpriteState } from "./SpriteState";
 import { Animation } from "./utils/Animation";
 import { List, IListEvents } from "./utils/List";
 import { VerticalAlign } from "./defs/VerticalAlign";
+import { IDisposer } from "./utils/Disposer";
+import { Dictionary } from "./utils/Dictionary";
 import { Align } from "./defs/Align";
 import { IPoint } from "./defs/IPoint";
 import { Preloader } from "./elements/Preloader";
@@ -185,6 +187,13 @@ export declare class Container extends Sprite {
      * @type {Optional<List<Sprite>>}
      */
     protected _children: $type.Optional<List<Sprite>>;
+    /**
+     * Container's disposers for its child elements.
+     *
+     * @ignore Exclude from docs
+     * @type {Dictionary<string, IDisposer>}
+     */
+    protected _childrenDisposers: Dictionary<string, IDisposer>;
     /**
      * Horizontal alignment of Container's items
      * @ignore Exclude from docs

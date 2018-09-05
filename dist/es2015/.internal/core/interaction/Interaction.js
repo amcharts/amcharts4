@@ -357,7 +357,12 @@ var Interaction = /** @class */ (function (_super) {
     Interaction.prototype.processTrackable = function (io) {
         this.processHoverable(io);
         this.processMovable(io);
-        this.trackedObjects.moveValue(io);
+        if (io.trackable) {
+            this.trackedObjects.moveValue(io);
+        }
+        else {
+            this.trackedObjects.removeValue(io);
+        }
     };
     /**
      * Checks if [[InteractionObject]] is draggable.
@@ -938,7 +943,7 @@ var Interaction = /** @class */ (function (_super) {
     Interaction.prototype.handleHit = function (io, pointer, ev) {
         // Check if this is a double-hit
         var now = new Date().getTime();
-        if (io.lastHit >= (now - this.getHitOption(io, "doubleHitTime"))) {
+        if (io.lastHit && (io.lastHit >= (now - this.getHitOption(io, "doubleHitTime")))) {
             // Yup - it's a double-hit
             // Cancel the hit
             //clearTimeout(io.lastHitPointer.hitTimeout);
@@ -1248,7 +1253,7 @@ var Interaction = /** @class */ (function (_super) {
                 if (io.overPointers.contains(pointer) && io.hoverable) {
                     // Check if the element is still hovered
                     var reset = false;
-                    if (io.element) {
+                    if (io.element && pointer.lastEvent) {
                         if (!$dom.contains(io.element, pointer.lastEvent.target)) {
                             reset = true;
                         }
@@ -1612,15 +1617,19 @@ var Interaction = /** @class */ (function (_super) {
     Interaction.prototype.handleTransform = function (io, ev) {
         // Get primary pointer and its respective points
         var pointer1 = io.downPointers.getIndex(0);
-        var point1 = pointer1.point;
-        var startPoint1 = pointer1.startPoint;
+        var point1 = null;
+        var startPoint1 = null;
+        if (pointer1) {
+            point1 = pointer1.point;
+            startPoint1 = pointer1.startPoint;
+        }
         // Init secondary pointer
         var pointer2 = io.downPointers.getIndex(1);
         var point2;
         var startPoint2;
         // Determine if it's a sinngle pointer or multi
         var singlePoint = true;
-        if (io.downPointers.length > 1) {
+        if ((io.downPointers.length > 1) && pointer2) {
             // Several pointers down
             singlePoint = false;
             // Get second pointer
@@ -1638,9 +1647,9 @@ var Interaction = /** @class */ (function (_super) {
             startPoint2 = point2;
         }
         // Primary touch point moved?
-        var pointer1Moved = this.moved(pointer1, 0);
+        var pointer1Moved = pointer1 && this.moved(pointer1, 0);
         // Report DRAG_START if necessary
-        if (io.draggable && pointer1.dragStartEvents.length && pointer1Moved) {
+        if (io.draggable && pointer1 && pointer1.dragStartEvents && pointer1.dragStartEvents.length && pointer1Moved) {
             if (io.events.isEnabled("dragstart")) {
                 io.events.dispatchImmediately("dragstart", pointer1.dragStartEvents.shift());
             }
@@ -1654,7 +1663,7 @@ var Interaction = /** @class */ (function (_super) {
         }
         else {
             // Check if second touch point moved
-            var pointer2Moved = this.moved(pointer2, 0);
+            var pointer2Moved = pointer2 && this.moved(pointer2, 0);
             if (io.draggable && io.resizable && io.rotatable) {
                 //this.handleTransformAll(io, point1, startPoint1, point2, startPoint2, ev, pointer1Moved && pointer2Moved);
                 this.handleTransformMove(io, point1, startPoint1, ev, pointer1Moved && pointer2Moved);
@@ -1772,10 +1781,10 @@ var Interaction = /** @class */ (function (_super) {
         };
         /**
          * If pointer is set we will not fire the event until the pointer has
-         * actually move. If it's not set we don't have to wait for anything, so we
+         * actually moved. If it's not set we don't have to wait for anything, so we
          * just fire off the event right away.
          */
-        if (pointer) {
+        if (pointer && pointer.dragStartEvents) {
             pointer.dragStartEvents.push(imev);
         }
         else {

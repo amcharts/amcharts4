@@ -9,7 +9,7 @@ import { Container } from "./Container";
 import { List, ListDisposer } from "./utils/List";
 import { OrderedListTemplate } from "./utils/SortedList";
 import { Dictionary } from "./utils/Dictionary";
-import { MultiDisposer } from "./utils/Disposer";
+import { Disposer, MultiDisposer } from "./utils/Disposer";
 import { DataSource } from "./data/DataSource";
 import { Responsive } from "./responsive/Responsive";
 import { DataItem } from "./DataItem";
@@ -70,13 +70,6 @@ var Component = /** @class */ (function (_super) {
          * @type {number}
          */
         _this._parseDataFrom = 0;
-        /**
-         *
-         * @ignore Exclude from docs
-         * @todo Description
-         * @type {List<Component>}
-         */
-        _this._dataUsers = new List();
         /**
          * Holds the disposers for the dataItems and dataUsers
          *
@@ -228,7 +221,6 @@ var Component = /** @class */ (function (_super) {
         // TODO what about remove ?
         _this.dataUsers.events.on("inserted", _this.handleDataUserAdded, _this);
         // Set up disposers
-        _this._disposers.push(new ListDisposer(_this.dataItems));
         _this._disposers.push(new MultiDisposer(_this._dataDisposers));
         // Apply theme
         _this.applyTheme();
@@ -463,13 +455,11 @@ var Component = /** @class */ (function (_super) {
                 var dataItem = this.dataItems.getIndex(0);
                 if (dataItem) {
                     this.dataItems.remove(dataItem);
-                    dataItem.dispose();
                 }
-                $iter.each(this._dataUsers.iterator(), function (dataUser) {
+                $iter.each(this.dataUsers.iterator(), function (dataUser) {
                     var dataItem = dataUser.dataItems.getIndex(0);
                     if (dataItem) {
                         dataUser.dataItems.remove(dataItem);
-                        dataItem.dispose();
                     }
                 });
                 this.data.shift();
@@ -490,7 +480,7 @@ var Component = /** @class */ (function (_super) {
         //if(!this.dataInvalid){
         $array.move(registry.invalidDatas, this);
         this.dataInvalid = true;
-        $iter.each(this._dataUsers.iterator(), function (x) {
+        $iter.each(this.dataUsers.iterator(), function (x) {
             x.invalidateDataItems();
         });
         //}
@@ -502,7 +492,7 @@ var Component = /** @class */ (function (_super) {
      * @todo Description
      */
     Component.prototype.invalidateDataUsers = function () {
-        $iter.each(this._dataUsers.iterator(), function (x) {
+        $iter.each(this.dataUsers.iterator(), function (x) {
             x.invalidate();
         });
     };
@@ -519,7 +509,7 @@ var Component = /** @class */ (function (_super) {
         //if(!this.dataItemsInvalid){
         $array.move(registry.invalidDataItems, this);
         this.dataItemsInvalid = true;
-        $iter.each(this._dataUsers.iterator(), function (x) {
+        $iter.each(this.dataUsers.iterator(), function (x) {
             x.invalidateDataItems();
         });
         //}
@@ -626,7 +616,7 @@ var Component = /** @class */ (function (_super) {
         //if(!this.rawDataInvalid){
         $array.move(registry.invalidRawDatas, this);
         this.rawDataInvalid = true;
-        $iter.each(this._dataUsers.iterator(), function (x) {
+        $iter.each(this.dataUsers.iterator(), function (x) {
             x.invalidateRawData();
         });
         //}
@@ -642,6 +632,17 @@ var Component = /** @class */ (function (_super) {
                 _this.updateDataItem(dataItem);
             }
         });
+    };
+    /**
+     * @ignore
+     */
+    Component.prototype.disposeData = function () {
+        $array.each(this._dataDisposers, function (x) {
+            x.dispose();
+        });
+        this._dataDisposers.length = 0;
+        // dispose old
+        this.dataItems.clear();
     };
     /**
      * Validates (processes) data.
@@ -667,28 +668,17 @@ var Component = /** @class */ (function (_super) {
             var preloader = this.preloader;
             // data items array is reset only if all data is validated, if _parseDataFrom is not 0, we append new data only
             if (this._parseDataFrom === 0) {
-                $array.each(this._dataDisposers, function (x) {
-                    x.dispose();
-                });
-                this._dataDisposers.length = 0;
-                // dispose old
-                $iter.each(this.dataItems.iterator(), function (dataItem) {
-                    dataItem.dispose();
-                });
-                this.dataItems.clear();
+                this.disposeData();
                 // and for all components
-                $iter.each(this._dataUsers.iterator(), function (dataUser) {
-                    $iter.each(dataUser.dataItems.iterator(), function (dataItem) {
-                        dataItem.dispose();
-                    });
-                    dataUser.dataItems.clear();
+                $iter.each(this.dataUsers.iterator(), function (dataUser) {
+                    dataUser.disposeData();
                     // todo: this needs some overthinking, maybe some extra settings like zoomOUtonDataupdate like in v3 or so. some charts like pie chart probably should act like this always
                     dataUser._startIndex = undefined;
                     dataUser._endIndex = undefined;
                 });
             }
             // and for all components
-            $iter.each(this._dataUsers.iterator(), function (dataUser) {
+            $iter.each(this.dataUsers.iterator(), function (dataUser) {
                 // todo: this needs some overthinking, maybe some extra settings like zoomOUtonDataupdate like in v3 or so. some charts like pie chart probably should act like this always
                 dataUser._startIndex = undefined;
                 dataUser._endIndex = undefined;
@@ -702,7 +692,7 @@ var Component = /** @class */ (function (_super) {
                 var rawDataItem = this_1.data[i];
                 var dataItem = this_1.dataItems.create();
                 this_1.processDataItem(dataItem, rawDataItem);
-                $iter.each(this_1._dataUsers.iterator(), function (dataUser) {
+                $iter.each(this_1.dataUsers.iterator(), function (dataUser) {
                     var dataUserDataItem = dataUser.dataItems.create();
                     dataUser.processDataItem(dataUserDataItem, rawDataItem);
                 });
@@ -1371,6 +1361,18 @@ var Component = /** @class */ (function (_super) {
          * @return {List<Component>} [description]
          */
         get: function () {
+            var _this = this;
+            if (!this._dataUsers) {
+                this._dataUsers = new List();
+                //this._disposers.push(new ListDisposer(this._dataUsers));
+                // TODO better way of handling this? e.g. move into another module ?
+                this._disposers.push(new Disposer(function () {
+                    // TODO clear the list ?
+                    $iter.each(_this._dataUsers.iterator(), function (x) {
+                        x.dispose();
+                    });
+                }));
+            }
             return this._dataUsers;
         },
         enumerable: true,

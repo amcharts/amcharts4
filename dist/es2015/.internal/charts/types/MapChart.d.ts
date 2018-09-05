@@ -9,6 +9,7 @@
  */
 import { SerialChart, ISerialChartProperties, ISerialChartDataFields, ISerialChartAdapters, ISerialChartEvents, SerialChartDataItem } from "./SerialChart";
 import { Sprite, ISpriteEvents, AMEvent } from "../../core/Sprite";
+import { IDisposer } from "../../core/utils/Disposer";
 import { ListTemplate } from "../../core/utils/List";
 import { MapSeries } from "../map/MapSeries";
 import { MapObject } from "../map/MapObject";
@@ -187,6 +188,10 @@ export interface IMapChartProperties extends ISerialChartProperties {
     maxPanOut?: number;
     homeGeoPoint?: IGeoPoint;
     homeZoomLevel?: number;
+    /**
+     * Specifies what should chart do if when mouse wheel is rotated.
+     */
+    mouseWheelBehavior?: "zoom" | "none";
 }
 /**
  * Defines events for [[MapChart]].
@@ -425,6 +430,7 @@ export declare class MapChart extends SerialChart {
      * @type {Animation}
      */
     protected _mapAnimation: Animation;
+    protected _mouseWheelDisposer: IDisposer;
     /**
      * Constructor
      */
@@ -460,6 +466,16 @@ export declare class MapChart extends SerialChart {
      * @param {AMEvent<Sprite, ISpriteEvents>["wheel"]}  event  Original event
      */
     protected handleWheel(event: AMEvent<Sprite, ISpriteEvents>["wheel"]): void;
+    /**
+     * @return { "zoom" | "none"}  mouse wheel behavior
+     */
+    /**
+     * Specifies what should chart do if when mouse wheel is rotated.
+     *
+     * @param {"zoom" | "none"} mouse wheel behavior
+     * @default zoomX
+     */
+    mouseWheelBehavior: "zoom" | "none";
     /**
      * @return {Projection} Projection
      */

@@ -12,6 +12,8 @@ import { IInteractionEvents } from "../../core/interaction/Interaction";
 import { IInteractionObjectEvents } from "../../core/interaction/InteractionObjectEvents";
 import { IPoint } from "../../core/defs/IPoint";
 import { Chart } from "../Chart";
+import * as $type from "../../core/utils/Type";
+import { Animation } from "../../core/utils/Animation";
 /**
  * ============================================================================
  * REQUISITES
@@ -165,6 +167,16 @@ export declare class Cursor extends Container {
      */
     _chart: Chart;
     /**
+     * Specifies the rules when cursor needs to be moved or hidden.
+     */
+    protected _stick: "hard" | "soft" | "none";
+    /**
+     * A screen point that cursor is "stuck" to.
+     *
+     * @type {IPoint}
+     */
+    protected _stickPoint: IPoint;
+    /**
      * Constructor
      */
     constructor();
@@ -176,51 +188,62 @@ export declare class Cursor extends Container {
      */
     handleCursorMove(event: IInteractionObjectEvents["track"]): IPoint;
     /**
-     * Places the cursor at specific point.
+     * Hides actual SVG elements and handles hiding animations.
      *
-     * If `triggeredByPointer == false` the cursor will stay there, regardless
-     * movement of the actual pointer(s). This is useful when you want to
-     * manually place cursor.
-     *
-     * @param {IPoint}   point               Point to place cursor at
-     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
+     * @param  {number}  duration  Fade out duration (ms)
+     * @return {Animation}            Fade out duration (ms)
+     * @ignore
      */
-    triggerMove(point: IPoint, triggeredByPointer?: boolean): void;
+    protected hideReal(duration?: number): $type.Optional<Animation>;
     /**
      * Places the cursor at specific point.
      *
-     * @param {IPoint}   point               Point to place cursor at
-     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
+     * The second parameter has following options:
+     *
+     * `"none"` - placed cursor will only be there until mouse/touch moves, then
+     * it either moves to a new place (if pointer over plot area) or is hidden.
+     *
+     * `"soft"` - cursor will stay in the place if mouse/touch is happening
+     * outside chart, but will move to a new place whe plot area is hovered or
+     * touched.
+     *
+     * `"hard"` - cursor will stay in place no matter what, until it is moved by
+     * another `triggerMove()` call.
+     *
+     * @param {IPoint}                    point  Point to place cursor at
+     * @param {"hard" | "soft" | "none"}  stick  Level of cursor stickiness to the place
      */
-    protected triggerMoveReal(point: IPoint, triggeredByPointer?: boolean): void;
+    triggerMove(point: IPoint, stick?: "hard" | "soft" | "none"): void;
+    /**
+     * Places the cursor at specific point.
+     *
+     * @param {IPoint}  point Point to place cursor at
+     */
+    protected triggerMoveReal(point: IPoint): void;
     /**
      * Simulates pressing down (click/touch) action by a cursor.
      *
      * @param {IPoint}   point               Point of action
-     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
      */
-    triggerDown(point: IPoint, triggeredByPointer?: boolean): void;
+    triggerDown(point: IPoint): void;
     /**
      * Simulates pressing down (click/touch) action by a cursor.
      *
      * @param {IPoint}   point               Point of action
-     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
      */
-    protected triggerDownReal(point: IPoint, triggeredByPointer?: boolean): void;
+    protected triggerDownReal(point: IPoint): void;
     /**
      * Simulates the action of release of the mouse down / touch.
      *
      * @param {IPoint}   point               Point of action
-     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
      */
-    triggerUp(point: IPoint, triggeredByPointer?: boolean): void;
+    triggerUp(point: IPoint): void;
     /**
      * Simulates the action of release of the mouse down / touch.
      *
      * @param {IPoint}   point               Point of action
-     * @param {boolean}  triggeredByPointer  Was this triggered by actual pointer?
      */
-    protected triggerUpReal(point: IPoint, triggeredByPointer?: boolean): void;
+    protected triggerUpReal(point: IPoint): void;
     /**
      * Updates selection dimensions on size change.
      *

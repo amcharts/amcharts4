@@ -248,6 +248,8 @@ var XYChart = /** @class */ (function (_super) {
         plotCont.height = percent(100);
         plotCont.width = percent(100);
         _this.plotContainer = plotCont;
+        // must go below plot container
+        _this.mouseWheelBehavior = "zoomX";
         _this._cursorContainer = plotCont;
         // Create a container for right-side axes
         var rightAxesCont = yAxesAndPlotCont.createChild(Container);
@@ -1171,6 +1173,95 @@ var XYChart = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("maskBullets", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Handles mouse wheel event.
+     *
+     * @param {AMEvent<Sprite, ISpriteEvents>["wheel"]}  event  Original event
+     */
+    XYChart.prototype.handleWheel = function (event) {
+        var plotContainer = this.plotContainer;
+        var svgPoint = $utils.documentPointToSvg(event.point, this.htmlContainer);
+        var plotPoint = $utils.svgPointToSprite(svgPoint, plotContainer);
+        var shift = event.shift.y;
+        var rangeX = this.getCommonAxisRange(this.xAxes);
+        var rangeY = this.getCommonAxisRange(this.yAxes);
+        var shiftStep = 0.05;
+        var maxPanOut = 0;
+        var mouseWheelBehavior = this.mouseWheelBehavior;
+        if (mouseWheelBehavior == "panX" || mouseWheelBehavior == "panXY") {
+            var differenceX = rangeX.end - rangeX.start;
+            var newStartX = Math.max(-maxPanOut, rangeX.start + shiftStep * shift / 100);
+            var newEndX = Math.min(rangeX.end + shiftStep * shift / 100, 1 + maxPanOut);
+            if (newStartX <= 0) {
+                newEndX = newStartX + differenceX;
+            }
+            if (newEndX >= 1) {
+                newStartX = newEndX - differenceX;
+            }
+            this.zoomAxes(this.xAxes, { start: newStartX, end: newEndX });
+        }
+        if (mouseWheelBehavior == "panY" || mouseWheelBehavior == "panXY") {
+            shift *= -1;
+            var differenceY = rangeY.end - rangeY.start;
+            var newStartY = Math.max(-maxPanOut, rangeY.start + shiftStep * shift / 100);
+            var newEndY = Math.min(rangeY.end + shiftStep * shift / 100, 1 + maxPanOut);
+            if (newStartY <= 0) {
+                newEndY = newStartY + differenceY;
+            }
+            if (newEndY >= 1) {
+                newStartY = newEndY - differenceY;
+            }
+            this.zoomAxes(this.yAxes, { start: newStartY, end: newEndY });
+        }
+        if (mouseWheelBehavior == "zoomX" || mouseWheelBehavior == "zoomXY") {
+            var locationX = plotPoint.x / plotContainer.maxWidth;
+            var newStartX = Math.max(-maxPanOut, rangeX.start - shiftStep * shift / 100 * locationX);
+            newStartX = Math.min(newStartX, locationX);
+            var newEndX = Math.min(rangeX.end + shiftStep * shift / 100 * (1 - locationX), 1 + maxPanOut);
+            newEndX = Math.max(newEndX, locationX);
+            this.zoomAxes(this.xAxes, { start: newStartX, end: newEndX });
+        }
+        if (mouseWheelBehavior == "zoomY" || mouseWheelBehavior == "zoomXY") {
+            var locationY = plotPoint.y / plotContainer.maxHeight;
+            var newStartY = Math.max(-maxPanOut, rangeY.start - shiftStep * shift / 100 * (1 - locationY));
+            newStartY = Math.min(newStartY, locationY);
+            var newEndY = Math.min(rangeY.end + shiftStep * shift / 100 * locationY, 1 + maxPanOut);
+            newEndY = Math.max(newEndY, locationY);
+            this.zoomAxes(this.yAxes, { start: newStartY, end: newEndY });
+        }
+    };
+    Object.defineProperty(XYChart.prototype, "mouseWheelBehavior", {
+        /**
+         * @return {"zoomX" | "zoomY" | "zoomXY" | "panX" | "panY"  | "panXY" | "none"}  mouse wheel behavior
+         */
+        get: function () {
+            return this.getPropertyValue("mouseWheelBehavior");
+        },
+        /**
+         * Specifies action for when mouse wheel is used when over the chart.
+         *
+         * Options: Options: `"zoomX"` (default), `"zoomY"`, `"zoomXY"`, `"panX"`, `"panY"`, `"panXY"`, `"none"`.
+         *
+         * @default "zoomX"
+         * @param {"zoomX" | "zoomY" | "zoomXY" | "panX" | "panY"  | "panXY" | "none"} mouse wheel behavior
+         * @default zoomX
+         */
+        set: function (value) {
+            if (this.setPropertyValue("mouseWheelBehavior", value)) {
+                if (value != "none") {
+                    this._mouseWheelDisposer = this.plotContainer.events.on("wheel", this.handleWheel, this);
+                    this._disposers.push(this._mouseWheelDisposer);
+                }
+                else {
+                    if (this._mouseWheelDisposer) {
+                        this._mouseWheelDisposer.dispose();
+                    }
+                }
+            }
         },
         enumerable: true,
         configurable: true

@@ -22,6 +22,7 @@ import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import * as $number from "../../core/utils/Number";
 import * as $order from "../../core/utils/Order";
+import { Disposer } from "../../core/utils/Disposer";
 /**
  * ============================================================================
  * DATA ITEM
@@ -129,9 +130,14 @@ var FlowDiagramDataItem = /** @class */ (function (_super) {
          * @return {FlowDiagramLink} Link element
          */
         get: function () {
+            var _this = this;
             if (!this._link) {
-                this._link = this.component.links.create();
-                this.addSprite(this._link);
+                var link_1 = this.component.links.create();
+                this._link = link_1;
+                this.addSprite(link_1);
+                this._disposers.push(new Disposer(function () {
+                    _this.component.links.removeValue(link_1);
+                }));
             }
             return this._link;
         },
@@ -205,9 +211,9 @@ var FlowDiagram = /** @class */ (function (_super) {
         var _this = this;
         if (this._parseDataFrom == 0) {
             this.nodes.clear();
-            this.links.clear();
         }
         this.sortNodes();
+        this.colors.reset();
         _super.prototype.validateData.call(this);
         var sum = 0;
         var count = 0;

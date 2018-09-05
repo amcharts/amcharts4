@@ -139,11 +139,13 @@ export function arc(startAngle, arc, radius, innerRadius, radiusY, cornerRadius,
     if (arc == 0 || radius <= 0) {
         return "";
     }
-    if (radius < innerRadius) {
+    if (innerRadius && (radius < innerRadius)) {
         var temp = radius;
         radius = innerRadius;
         innerRadius = temp;
-        radiusY = radiusY / innerRadius * radius;
+        if (radiusY) {
+            radiusY = radiusY / innerRadius * radius;
+        }
     }
     arc = $math.min(arc, 360);
     if (arc == 360) {

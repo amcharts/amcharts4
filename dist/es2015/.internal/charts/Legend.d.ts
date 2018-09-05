@@ -31,25 +31,25 @@ export declare class LegendDataItem extends DataItem {
      *
      * @type {Container}
      */
-    itemContainer: Container;
+    protected _itemContainer: Container;
     /**
      * A [[Label]] element for the item label.
      *
      * @type {Container}
      */
-    label: Label;
+    protected _label: Label;
     /**
      * A [[Container]] for legend item marker.
      *
      * @type {Container}
      */
-    marker: Container;
+    protected _marker: Container;
     /**
      * A [[Label]] element for the value label.
      *
      * @type {Label}
      */
-    valueLabel: Label;
+    protected _valueLabel: Label;
     /**
      * A data context for legend item.
      *
@@ -71,6 +71,10 @@ export declare class LegendDataItem extends DataItem {
      * Constructor
      */
     constructor();
+    readonly label: Label;
+    readonly valueLabel: Label;
+    readonly itemContainer: Container;
+    readonly marker: Container;
 }
 /**
  * ============================================================================

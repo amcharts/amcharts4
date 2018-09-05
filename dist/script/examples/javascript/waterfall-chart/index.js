@@ -41,7 +41,6 @@ var stepSeries = chart.series.push(new am4charts.StepLineSeries());
 stepSeries.dataFields.categoryX = "category";
 stepSeries.dataFields.valueY = "stepValue";
 stepSeries.noRisers = true;
-stepSeries.dataItems.template.locations.categoryX = 0.8;
 stepSeries.stroke = am4core.color("#ffffff");
 stepSeries.strokeDasharray = "3,3";
 stepSeries.interpolationDuration = 3000;

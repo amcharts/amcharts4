@@ -24,6 +24,7 @@ import * as $object from "../../core/utils/Object";
 import * as $iter from "../../core/utils/Iterator";
 import * as $array from "../../core/utils/Array";
 import * as $type from "../../core/utils/Type";
+import { Disposer } from "../../core/utils/Disposer";
 /**
  * ============================================================================
  * DATA ITEM
@@ -69,6 +70,7 @@ var ColumnSeriesDataItem = /** @class */ (function (_super) {
         configurable: true
     });
     ColumnSeriesDataItem.prototype.setColumn = function (column) {
+        var _this = this;
         if (this._column && column != this._column) {
             $array.remove(this.sprites, this._column);
         }
@@ -79,6 +81,9 @@ var ColumnSeriesDataItem = /** @class */ (function (_super) {
                 prevDataItem.column = undefined;
             }
             this.addSprite(column);
+            this._disposers.push(new Disposer(function () {
+                _this.component.columns.removeValue(column);
+            }));
         }
     };
     Object.defineProperty(ColumnSeriesDataItem.prototype, "rangesColumns", {

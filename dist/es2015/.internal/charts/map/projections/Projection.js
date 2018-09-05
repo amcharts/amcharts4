@@ -174,8 +174,8 @@ var Projection = /** @class */ (function () {
         geoPoint = this.rotate(geoPoint, this.deltaLongitude, this.deltaLatitude, this.deltaGama);
         var pointInRadians = this.project(geoPoint.longitude * $math.RADIANS, geoPoint.latitude * $math.RADIANS);
         return {
-            x: $math.round(pointInRadians.x * $math.DEGREES - this.centerPoint.x, 2) * this.scale,
-            y: $math.round(-pointInRadians.y * $math.DEGREES - this.centerPoint.y, 2) * this.scale
+            x: $math.round(pointInRadians.x * $math.DEGREES - this.centerPoint.x, 4) * this.scale,
+            y: $math.round(-pointInRadians.y * $math.DEGREES - this.centerPoint.y, 4) * this.scale
         };
     };
     /**

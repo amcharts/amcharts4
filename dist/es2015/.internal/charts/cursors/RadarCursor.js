@@ -88,7 +88,7 @@ var RadarCursor = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    RadarCursor.prototype.triggerMoveReal = function (point, triggeredByPointer) {
+    RadarCursor.prototype.triggerMoveReal = function (point) {
         if (!this.xAxis || (this.xAxis && (!this.xAxis.cursorTooltipEnabled || this.xAxis.tooltip.disabled))) {
             this.updateLineX(this.point);
         }
@@ -96,7 +96,7 @@ var RadarCursor = /** @class */ (function (_super) {
             this.updateLineY(this.point);
         }
         this.updateSelection();
-        _super.prototype.triggerMoveReal.call(this, point, triggeredByPointer);
+        _super.prototype.triggerMoveReal.call(this, point);
     };
     /**
      * (Re)draws the horizontal (circular) cursor's line.

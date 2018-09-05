@@ -634,6 +634,21 @@ var InteractionObject = /** @class */ (function (_super) {
             }
         }
     };
+    /**
+     * Disposes object.
+     */
+    InteractionObject.prototype.dispose = function () {
+        _super.prototype.dispose.call(this);
+        // Remove from all interaction registries
+        var interaction = getInteraction();
+        interaction.overObjects.removeValue(this);
+        interaction.downObjects.removeValue(this);
+        interaction.trackedObjects.removeValue(this);
+        interaction.transformedObjects.removeValue(this);
+        if (interaction.focusedObject === this) {
+            interaction.focusedObject = undefined;
+        }
+    };
     return InteractionObject;
 }(BaseObjectEvents));
 export { InteractionObject };

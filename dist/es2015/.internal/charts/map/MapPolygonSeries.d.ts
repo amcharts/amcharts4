@@ -315,10 +315,6 @@ export declare class MapPolygonSeries extends MapSeries {
     /**
      * @ignore
      */
-    clearPolygons(): void;
-    /**
-     * @ignore
-     */
     protected processIncExc(): void;
     /**
      * (Re)validates series data, effectively causing the whole series to be

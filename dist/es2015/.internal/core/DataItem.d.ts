@@ -257,7 +257,7 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      *
      * @type {Sprite[]}
      */
-    readonly sprites: Sprite[];
+    sprites: Sprite[];
     /**
      * Identifies if this object is a "template" and should not be treated as
      * real object that is drawn or actually used in the chart.

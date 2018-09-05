@@ -16,6 +16,7 @@ import * as $mapUtils from "./MapUtils";
 import * as $array from "../../core/utils/Array";
 import * as $utils from "../../core/utils/Utils";
 import * as $iter from "../../core/utils/Iterator";
+import { Disposer } from "../../core/utils/Disposer";
 /**
  * ============================================================================
  * DATA ITEM
@@ -45,9 +46,15 @@ var MapLineSeriesDataItem = /** @class */ (function (_super) {
          * @return {MapLine} Element
          */
         get: function () {
+            var _this = this;
             if (!this._mapLine) {
-                this._mapLine = this.component.mapLines.create(MapLine);
-                this.addSprite(this._mapLine);
+                var mapLine_1 = this.component.mapLines.create(MapLine);
+                this._mapLine = mapLine_1;
+                this.addSprite(mapLine_1);
+                this._disposers.push(mapLine_1);
+                this._disposers.push(new Disposer(function () {
+                    _this.component.mapLines.removeValue(mapLine_1);
+                }));
             }
             return this._mapLine;
         },

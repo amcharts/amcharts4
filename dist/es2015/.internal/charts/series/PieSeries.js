@@ -20,6 +20,7 @@ import * as $math from "../../core/utils/Math";
 import * as $iter from "../../core/utils/Iterator";
 import * as $ease from "../../core/utils/Ease";
 import * as $type from "../../core/utils/Type";
+import { Disposer } from "../../core/utils/Disposer";
 /**
  * ============================================================================
  * DATA ITEM
@@ -164,13 +165,18 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
          * @return {PieTick} Tick element
          */
         get: function () {
+            var _this = this;
             if (!this._tick) {
-                this._tick = this.component.ticks.create();
-                this._disposers.push(this._tick);
-                this.addSprite(this._tick);
-                this._tick.slice = this.slice;
-                this._tick.label = this.label;
-                this._tick.visible = this.visible;
+                var tick_1 = this.component.ticks.create();
+                this._tick = tick_1;
+                this._disposers.push(tick_1);
+                this._disposers.push(new Disposer(function () {
+                    _this.component.ticks.removeValue(tick_1);
+                }));
+                this.addSprite(tick_1);
+                tick_1.slice = this.slice;
+                tick_1.label = this.label;
+                tick_1.visible = this.visible;
             }
             return this._tick;
         },
@@ -185,11 +191,16 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
          * @return {AxisLabelCircular} Label element
          */
         get: function () {
+            var _this = this;
             if (!this._label) {
-                this._label = this.component.labels.create();
-                this._disposers.push(this._label);
-                this.addSprite(this._label);
-                this._label.visible = this.visible;
+                var label_1 = this.component.labels.create();
+                this._label = label_1;
+                this._disposers.push(label_1);
+                this._disposers.push(new Disposer(function () {
+                    _this.component.labels.removeValue(label_1);
+                }));
+                this.addSprite(label_1);
+                label_1.visible = this.visible;
             }
             return this._label;
         },
@@ -204,11 +215,16 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
          * @return {Slice} Slice element
          */
         get: function () {
+            var _this = this;
             if (!this._slice) {
-                this._slice = this.component.slices.create();
-                this._disposers.push(this._slice);
-                this.addSprite(this._slice);
-                this._slice.visible = this.visible;
+                var slice_1 = this.component.slices.create();
+                this._slice = slice_1;
+                this._disposers.push(slice_1);
+                this._disposers.push(new Disposer(function () {
+                    _this.component.slices.removeValue(slice_1);
+                }));
+                this.addSprite(slice_1);
+                slice_1.visible = this.visible;
             }
             return this._slice;
         },
@@ -414,21 +430,21 @@ var PieSeries = /** @class */ (function (_super) {
         if (this.radius > 0) {
             var percent = dataItem.values.value.percent;
             // SLICE
-            var slice_1 = dataItem.slice;
-            slice_1.parent = this.slicesContainer;
-            slice_1.radius = this.radius;
+            var slice_2 = dataItem.slice;
+            slice_2.parent = this.slicesContainer;
+            slice_2.radius = this.radius;
             if ($type.isNumber(dataItem.radiusValue)) {
-                slice_1.radius *= dataItem.values.radiusValue.percent / this._maxRadiusPercent;
+                slice_2.radius *= dataItem.values.radiusValue.percent / this._maxRadiusPercent;
             }
-            slice_1.innerRadius = this.innerRadius;
-            slice_1.startAngle = this._currentStartAngle;
-            slice_1.arc = dataItem.values.value.percent * (this.endAngle - this.startAngle) / 100;
+            slice_2.innerRadius = this.innerRadius;
+            slice_2.startAngle = this._currentStartAngle;
+            slice_2.arc = dataItem.values.value.percent * (this.endAngle - this.startAngle) / 100;
             // LABEL
             var label = dataItem.label;
             label.parent = this.labelsContainer;
             var tick = dataItem.tick;
             tick.parent = this.ticksContainer;
-            var normalizedMiddleAngle = (slice_1.middleAngle + 360) % 360; // force angle to be 0 - 360;
+            var normalizedMiddleAngle = (slice_2.middleAngle + 360) % 360; // force angle to be 0 - 360;
             var point = void 0;
             if (this.alignLabels) {
                 var x = tick.length + label.radius;
@@ -448,46 +464,46 @@ var PieSeries = /** @class */ (function (_super) {
                     x *= -1;
                 }
                 var distance = this.radius + tick.length + label.radius;
-                point = { x: x, y: slice_1.iy * distance };
+                point = { x: x, y: slice_2.iy * distance };
             }
             else {
-                var x = slice_1.ix * slice_1.radius;
-                var y = slice_1.iy * slice_1.radiusY;
-                point = label.fixPoint({ x: x, y: y }, slice_1.radius);
+                var x = slice_2.ix * slice_2.radius;
+                var y = slice_2.iy * slice_2.radiusY;
+                point = label.fixPoint({ x: x, y: y }, slice_2.radius);
             }
             label.moveTo(point);
-            this._currentStartAngle += slice_1.arc;
+            this._currentStartAngle += slice_2.arc;
             // Apply accessibility
             if (this.itemsFocusable()) {
-                slice_1.role = "menuitem";
-                slice_1.focusable = true;
+                slice_2.role = "menuitem";
+                slice_2.focusable = true;
             }
             else {
-                slice_1.role = "listitem";
-                slice_1.focusable = false;
+                slice_2.role = "listitem";
+                slice_2.focusable = false;
             }
             // Apply screen reader label
-            if (slice_1.focusable) {
-                slice_1.events.once("focus", function (ev) {
-                    slice_1.readerTitle = _this.populateString(_this.itemReaderText, dataItem);
+            if (slice_2.focusable) {
+                slice_2.events.once("focus", function (ev) {
+                    slice_2.readerTitle = _this.populateString(_this.itemReaderText, dataItem);
                 });
-                slice_1.events.once("blur", function (ev) {
-                    slice_1.readerTitle = "";
-                });
-            }
-            if (slice_1.hoverable) {
-                slice_1.events.once("over", function (ev) {
-                    slice_1.readerTitle = _this.populateString(_this.itemReaderText, dataItem);
-                });
-                slice_1.events.once("out", function (ev) {
-                    slice_1.readerTitle = "";
+                slice_2.events.once("blur", function (ev) {
+                    slice_2.readerTitle = "";
                 });
             }
-            if (slice_1.fill == undefined) {
-                slice_1.fill = this.colors.getIndex(dataItem.index * this.colors.step);
+            if (slice_2.hoverable) {
+                slice_2.events.once("over", function (ev) {
+                    slice_2.readerTitle = _this.populateString(_this.itemReaderText, dataItem);
+                });
+                slice_2.events.once("out", function (ev) {
+                    slice_2.readerTitle = "";
+                });
             }
-            if (slice_1.stroke == undefined) {
-                slice_1.stroke = this.colors.getIndex(dataItem.index * this.colors.step);
+            if (slice_2.fill == undefined) {
+                slice_2.fill = this.colors.getIndex(dataItem.index * this.colors.step);
+            }
+            if (slice_2.stroke == undefined) {
+                slice_2.stroke = this.colors.getIndex(dataItem.index * this.colors.step);
             }
             // do this at the end, otherwise bullets won't be positioned properly
             _super.prototype.validateDataElement.call(this, dataItem);
@@ -504,16 +520,14 @@ var PieSeries = /** @class */ (function (_super) {
             var dataItem = dataItems[i];
             var label = dataItem.label;
             if (label) {
-                if (i < dataItems.length - 1) {
-                    var nextLabel = this.getNextLabel(i + 1, dataItems);
-                    if (label.invalid) {
-                        label.validate();
-                    }
-                    var bottom = label.pixelY + label.measuredHeight;
-                    if (nextLabel) {
-                        if (nextLabel.y < bottom) {
-                            nextLabel.y = bottom;
-                        }
+                var nextLabel = this.getNextLabel(i + 1, dataItems);
+                if (label.invalid) {
+                    label.validate();
+                }
+                var bottom = label.pixelY + label.measuredHeight;
+                if (nextLabel) {
+                    if (nextLabel.y < bottom) {
+                        nextLabel.y = bottom;
                     }
                 }
             }

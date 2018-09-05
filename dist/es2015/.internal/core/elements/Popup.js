@@ -194,8 +194,8 @@ var Popup = /** @class */ (function (_super) {
      * Destroy (dispose) popup.
      */
     Popup.prototype.dispose = function () {
-        _super.prototype.dispose.call(this);
         this.close();
+        _super.prototype.dispose.call(this);
     };
     /**
      * Positions content element in the center of popup based on its actual size.

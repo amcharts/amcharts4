@@ -446,6 +446,24 @@ var XYSeries = /** @class */ (function (_super) {
     XYSeries.prototype.setInitialWorkingValues = function (dataItem) {
     };
     /**
+     * @ignore
+     */
+    XYSeries.prototype.disposeData = function () {
+        _super.prototype.disposeData.call(this);
+        if (this.xAxis) {
+            var dataItemsX = this.dataItemsByAxis.getKey(this.xAxis.uid);
+            if (dataItemsX) {
+                dataItemsX.clear();
+            }
+        }
+        if (this.yAxis) {
+            var dataItemsY = this.dataItemsByAxis.getKey(this.yAxis.uid);
+            if (dataItemsY) {
+                dataItemsY.clear();
+            }
+        }
+    };
+    /**
      * Sets up which data fields to use for data access.
      */
     XYSeries.prototype.defineFields = function () {

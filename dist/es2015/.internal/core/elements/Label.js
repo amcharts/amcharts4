@@ -66,7 +66,6 @@ var Label = /** @class */ (function (_super) {
          * @type {boolean}
          */
         _this.isOversized = false;
-        _this._svgLines = [];
         // Set this class name
         _this.className = "Label";
         _this.fill = new InterfaceColorSet().getFor("text");
@@ -197,6 +196,7 @@ var Label = /** @class */ (function (_super) {
         //let measure: boolean = true;// (lines.length > 1) || this.wrap;
         this._prevStatus = status;
         this.textAlign = this.textAlign;
+        // need this to measure
         var display = this.group.getAttr("display");
         if (display == "none") {
             this.group.removeAttr("display");
@@ -256,6 +256,7 @@ var Label = /** @class */ (function (_super) {
                     group.add(lineInfo.element);
                 }
                 lineInfo.element.removeAttr("display");
+                lineInfo.element.removeChildren(); // memory leak without this
                 if (this.rtl) {
                     chunks.reverse();
                 }

@@ -21,6 +21,7 @@ import { Scrollbar, IScrollbarEvents } from "../../core/elements/Scrollbar";
 import { IRange } from "../../core/defs/IRange";
 import { XYCursor, IXYCursorEvents } from "../cursors/XYCursor";
 import { IPoint } from "../../core/defs/IPoint";
+import { IDisposer } from "../../core/utils/Disposer";
 import { Button } from "../../core/elements/Button";
 import { Ordering } from "../../core/utils/Order";
 /**
@@ -68,6 +69,12 @@ export interface IXYChartProperties extends ISerialChartProperties {
      * @type {[type]}
      */
     maskBullets?: boolean;
+    /**
+     * Specifies what should chart do if when mouse wheel is rotated.
+     *
+     * @default "zoomX"
+     */
+    mouseWheelBehavior?: "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none";
 }
 /**
  * Defines events for [[XYChart]].
@@ -368,6 +375,7 @@ export declare class XYChart extends SerialChart {
     protected _panStartYRange: IRange;
     protected _panEndXRange: IRange;
     protected _panEndYRange: IRange;
+    protected _mouseWheelDisposer: IDisposer;
     /**
      * Constructor
      */
@@ -686,6 +694,25 @@ export declare class XYChart extends SerialChart {
      * @param {boolean} value Mask bullet container?
      */
     maskBullets: boolean;
+    /**
+     * Handles mouse wheel event.
+     *
+     * @param {AMEvent<Sprite, ISpriteEvents>["wheel"]}  event  Original event
+     */
+    protected handleWheel(event: AMEvent<Sprite, ISpriteEvents>["wheel"]): void;
+    /**
+     * @return {"zoomX" | "zoomY" | "zoomXY" | "panX" | "panY"  | "panXY" | "none"}  mouse wheel behavior
+     */
+    /**
+     * Specifies action for when mouse wheel is used when over the chart.
+     *
+     * Options: Options: `"zoomX"` (default), `"zoomY"`, `"zoomXY"`, `"panX"`, `"panY"`, `"panXY"`, `"none"`.
+     *
+     * @default "zoomX"
+     * @param {"zoomX" | "zoomY" | "zoomXY" | "panX" | "panY"  | "panXY" | "none"} mouse wheel behavior
+     * @default zoomX
+     */
+    mouseWheelBehavior: "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none";
     /**
      * This function is called by the [[DataSource]]'s `dateFields` adapater
      * so that particular chart types can popuplate this setting with their

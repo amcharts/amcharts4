@@ -219,7 +219,6 @@ export declare class Label extends Container {
      */
     protected _sourceDataItemEvents: MultiDisposer;
     protected _prevStatus: string;
-    protected _svgLines: Group[];
     /**
      * Constructor
      */
