@@ -100,28 +100,32 @@ var Dictionary = /** @class */ (function () {
      *
      * If the key already exists, the old value will be overwritten.
      *
+     * If the new value is exactly the same as the old value (using ===), it won't do anything.
+     *
      * @param  {Key}  key    Key
      * @param  {T}    value  Value
      */
     Dictionary.prototype.setKey = function (key, value) {
         if ($object.hasKey(this._dictionary, key)) {
             var oldValue = this._dictionary[key];
-            this._dictionary[key] = value;
-            if (this.events.isEnabled("setKey")) {
-                this.events.dispatchImmediately("setKey", {
-                    type: "setKey",
-                    target: this,
-                    key: key,
-                    oldValue: oldValue,
-                    newValue: value
-                });
-            }
-            if (this.events.isEnabled("removed")) {
-                this.events.dispatchImmediately("removed", {
-                    type: "removed",
-                    target: this,
-                    oldValue: oldValue
-                });
+            if (oldValue !== value) {
+                this._dictionary[key] = value;
+                if (this.events.isEnabled("setKey")) {
+                    this.events.dispatchImmediately("setKey", {
+                        type: "setKey",
+                        target: this,
+                        key: key,
+                        oldValue: oldValue,
+                        newValue: value
+                    });
+                }
+                if (this.events.isEnabled("removed")) {
+                    this.events.dispatchImmediately("removed", {
+                        type: "removed",
+                        target: this,
+                        oldValue: oldValue
+                    });
+                }
             }
         }
         else {
@@ -142,6 +146,8 @@ var Dictionary = /** @class */ (function () {
      * Passes in current value into the function, and uses its output as a new
      * value.
      *
+     * If the new value is exactly the same as the old value (using ===), it won't do anything.
+     *
      * @ignore Exclude from docs
      * @param {Key}       key  Key
      * @param {function}  fn   Function to transform the value
@@ -150,22 +156,24 @@ var Dictionary = /** @class */ (function () {
         if ($object.hasKey(this._dictionary, key)) {
             var oldValue = this._dictionary[key];
             var newValue = fn(oldValue);
-            this._dictionary[key] = newValue;
-            if (this.events.isEnabled("setKey")) {
-                this.events.dispatchImmediately("setKey", {
-                    type: "setKey",
-                    target: this,
-                    key: key,
-                    oldValue: oldValue,
-                    newValue: newValue
-                });
-            }
-            if (this.events.isEnabled("removed")) {
-                this.events.dispatchImmediately("removed", {
-                    type: "removed",
-                    target: this,
-                    oldValue: oldValue
-                });
+            if (oldValue !== newValue) {
+                this._dictionary[key] = newValue;
+                if (this.events.isEnabled("setKey")) {
+                    this.events.dispatchImmediately("setKey", {
+                        type: "setKey",
+                        target: this,
+                        key: key,
+                        oldValue: oldValue,
+                        newValue: newValue
+                    });
+                }
+                if (this.events.isEnabled("removed")) {
+                    this.events.dispatchImmediately("removed", {
+                        type: "removed",
+                        target: this,
+                        oldValue: oldValue
+                    });
+                }
             }
         }
         else {

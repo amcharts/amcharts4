@@ -155,6 +155,8 @@ export declare class Dictionary<Key extends string, T> {
      *
      * If the key already exists, the old value will be overwritten.
      *
+     * If the new value is exactly the same as the old value (using ===), it won't do anything.
+     *
      * @param  {Key}  key    Key
      * @param  {T}    value  Value
      */
@@ -164,6 +166,8 @@ export declare class Dictionary<Key extends string, T> {
      *
      * Passes in current value into the function, and uses its output as a new
      * value.
+     *
+     * If the new value is exactly the same as the old value (using ===), it won't do anything.
      *
      * @ignore Exclude from docs
      * @param {Key}       key  Key

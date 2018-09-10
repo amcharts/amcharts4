@@ -53,6 +53,9 @@ var HeatLegend = /** @class */ (function (_super) {
         _this.markers = new ListTemplate(marker);
         _this._disposers.push(new ListDisposer(_this.markers));
         _this._disposers.push(_this.markers.template);
+        _this._disposers.push(_this.events.on("maxsizechanged", function () {
+            _this.invalidate();
+        }));
         _this.applyTheme();
         return _this;
     }
@@ -178,10 +181,10 @@ var HeatLegend = /** @class */ (function (_super) {
                 renderer.minGridDistance = this.measuredHeight / this.markerCount;
             }
         }
+        this.valueAxis.invalidateDataRange();
         for (var i = this.markerCount; i < this.markers.length; i++) {
             this.markers.getIndex(i).parent = undefined;
         }
-        //}
     };
     Object.defineProperty(HeatLegend.prototype, "minColor", {
         /**

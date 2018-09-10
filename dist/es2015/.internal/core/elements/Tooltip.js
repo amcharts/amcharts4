@@ -482,6 +482,17 @@ var Tooltip = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Tooltip.prototype, "tooltip", {
+        /**
+         * To avoid stackoverflow
+         * @ignore
+         */
+        get: function () {
+            return undefined;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Tooltip;
 }(Container));
 export { Tooltip };

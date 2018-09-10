@@ -307,10 +307,20 @@ var Animation = /** @class */ (function (_super) {
      * @return {Animation}         Animation
      */
     Animation.prototype.delay = function (delay) {
+        var _this = this;
         //@todo Maybe not use `bind()`
         if (delay > 0) {
             this.pause();
-            this._delayTimeout = this.setTimeout(this.start.bind(this), delay);
+            // This is so that it will get disposed if `this.object` is disposed
+            // TODO hacky, figure out a better way
+            $array.move(this.object.animations, this);
+            var id_1 = setTimeout(function () {
+                _this._delayTimeout = null;
+                _this.start();
+            }, delay);
+            this._delayTimeout = new Disposer(function () {
+                clearTimeout(id_1);
+            });
         }
         return this;
     };

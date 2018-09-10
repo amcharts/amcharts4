@@ -85,6 +85,12 @@ export interface IContainerProperties extends ISpriteProperties {
      */
     fontSize?: number;
     /**
+     * Font family for the text.
+     *
+     * @type {string}
+     */
+    fontFamily?: string;
+    /**
      * Default font decoration.
      *
      * @default "none"
@@ -283,9 +289,13 @@ export declare class Container extends Sprite {
      */
     invalidateLayout(): void;
     /**
-     * Invalidates the whole element, including layout.
+     * Invalidates element.
      *
-     * @ignore Exclude from docs
+     * Object will be redrawn during the next update cycle.
+     *
+     * Please note that in most cases elements will auto-invalidate when needed. If
+     * everything works, DO NOT use this method. Use it only if some changes do
+     * not take otherwise.
      */
     invalidate(): void;
     /**
@@ -575,6 +585,17 @@ export declare class Container extends Sprite {
      * @return {number} Y (px)
      */
     protected getTooltipY(): number;
+    /**
+     * @return {any} Font family
+     */
+    /**
+     * Font family to be used for the text.
+     *
+     * Parts of the text may override this setting using in-line formatting.
+     *
+     * @param {string} value Font family value
+     */
+    fontFamily: string;
     /**
      * @return {any} Font size
      */

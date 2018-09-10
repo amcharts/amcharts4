@@ -546,10 +546,6 @@ export declare class Series extends Component {
      */
     readonly bullets: ListTemplate<Bullet>;
     /**
-     * Destroys series and related elements.
-     */
-    dispose(): void;
-    /**
      * Binds related legend data item's visual settings to this series' visual
      * settings.
      *

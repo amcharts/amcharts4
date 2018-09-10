@@ -20,6 +20,7 @@ import { Bullet } from "../elements/Bullet";
 import { ColorSet } from "../../core/utils/ColorSet";
 import { IRectangle } from "../../core/defs/IRectangle";
 import { PieChart } from "../types/PieChart";
+import { Percent } from "../../core/utils/Percent";
 /**
  * ============================================================================
  * DATA ITEM
@@ -215,17 +216,17 @@ export interface IPieSeriesProperties extends ISeriesProperties {
      *
      * @ignore Exclude from docs
      * @todo Redo so that users can set it
-     * @type {number}
+     * @type {number | Percent}
      */
-    radius?: number;
+    radius?: number | Percent;
     /**
      * Inner radius for the series' slices in pixels.
      *
      * @ignore Exclude from docs
      * @todo Redo so that users can set it
-     * @type {number}
+     * @type {number | Percent}
      */
-    innerRadius?: number;
+    innerRadius?: number | Percent;
     /**
      * Start angle for the series' slices in degrees. (0-360)
      *
@@ -390,6 +391,20 @@ export declare class PieSeries extends Series {
      */
     protected _maxRadiusPercent: number;
     /**
+     * [_pixelRadius description]
+     *
+     * @ignore this is set by pie chart, not by user
+     * @type {number}
+     */
+    protected _pixelRadius: number;
+    /**
+     * [_pixelInnerRadius description]
+     *
+     * @ignore this is set by pie chart, not by user
+     * @type {number}
+     */
+    protected _pixelInnerRadius: number;
+    /**
      * Constructor
      */
     constructor();
@@ -441,29 +456,42 @@ export declare class PieSeries extends Series {
      */
     protected getNextLabel(index: number, dataItems: this["_dataItem"][]): AxisLabelCircular;
     /**
-     * @ignore Exclude from docs
-     * @return {number} Radius
+     * @return {number | Percent} Radius
      */
     /**
      * Outer radius for the series' slices in pixels.
      *
-     * @ignore Exclude from docs
-     * @todo Redo so that users can set it
-     * @param {number}  value  Radius
+     * @param {number | Percent}  value  Radius
      */
-    radius: number;
+    radius: number | Percent;
+    /**
+     * @return {number} Radius
+     * @ignore
+     */
+    /**
+     * @ignore
+     */
+    pixelRadius: number;
+    /**
+     * @return {number} Pixel inner radius
+     * @ignore
+     */
+    /**
+     * @ignore
+     */
+    pixelInnerRadius: number;
     /**
      * @ignore Exclude from docs
-     * @return {number} Radius
+     * @return {number | Percent} Radius
      */
     /**
      * Inner radius for the series' slices in pixels.
      *
      * @ignore Exclude from docs
      * @todo Redo so that users can set it
-     * @param {number}  value  Radius
+     * @param {number | Percent}  value  Radius
      */
-    innerRadius: number;
+    innerRadius: number | Percent;
     /**
      * @ignore Exclude from docs
      * @return {number} Angle

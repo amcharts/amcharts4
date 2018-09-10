@@ -26,9 +26,10 @@ export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
     /**
      * A [[MapLine]] element related to this data item.
      *
+     * @ignore
      * @type {MapLine}
      */
-    protected _mapLine: MapLine;
+    _mapLine: MapLine;
     /**
      * A collection of X/Y coordinates for a single-segment line.
      *
@@ -68,7 +69,7 @@ export declare class MapLineSeriesDataItem extends MapSeriesDataItem {
      * @readonly
      * @return {MapLine} Element
      */
-    readonly mapLine: MapLine;
+    readonly mapLine: this["_mapLine"];
     /**
      * @return {number[]} Coordinates
      */

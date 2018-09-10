@@ -212,16 +212,23 @@ var PieChart = /** @class */ (function (_super) {
         // @todo handle this when innerRadius set in pixels (do it for radar also)
         rect = $math.getCommonRectangle([rect, innerRect]);
         var maxRadius = Math.min(chartCont.innerWidth / rect.width, chartCont.innerHeight / rect.height);
-        var radius = $utils.relativeRadiusToValue(this.radius, maxRadius);
-        var pixelInnerRadius = $utils.relativeRadiusToValue(this.innerRadius, maxRadius);
-        var seriesRadius = (radius - pixelInnerRadius) / this.series.length;
+        var chartRadius = $utils.relativeRadiusToValue(this.radius, maxRadius);
+        var chartPixelInnerRadius = $utils.relativeRadiusToValue(this.innerRadius, maxRadius);
+        var seriesRadius = (chartRadius - chartPixelInnerRadius) / this.series.length;
         //@todo: make it possible to set series radius in percent
         $iter.each($iter.indexed(this.series.iterator()), function (a) {
             var i = a[0];
             var series = a[1];
-            // todo: set this on default state instead?
-            series.radius = pixelInnerRadius + seriesRadius * (i + 1);
-            series.innerRadius = pixelInnerRadius + seriesRadius * i;
+            var radius = chartPixelInnerRadius + $utils.relativeRadiusToValue(series.radius, chartRadius - chartPixelInnerRadius);
+            var innerRadius = chartPixelInnerRadius + $utils.relativeRadiusToValue(series.innerRadius, chartRadius - chartPixelInnerRadius);
+            if (!$type.isNumber(radius)) {
+                radius = chartPixelInnerRadius + seriesRadius * (i + 1);
+            }
+            if (!$type.isNumber(innerRadius)) {
+                innerRadius = chartPixelInnerRadius + seriesRadius * i;
+            }
+            series.pixelRadius = radius;
+            series.pixelInnerRadius = innerRadius;
             series.startAngle = _this.startAngle;
             series.endAngle = _this.endAngle;
         });

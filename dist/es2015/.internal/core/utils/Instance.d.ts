@@ -135,3 +135,8 @@ export declare function useTheme(value: ITheme): void;
  * @param {ITheme}  value  A reference to a theme
  */
 export declare function unuseTheme(value: ITheme): void;
+/**
+ * Removes all "active" themes. Any charts created subsequently will not have
+ * any theme applied to them.
+ */
+export declare function unuseAllThemes(): void;

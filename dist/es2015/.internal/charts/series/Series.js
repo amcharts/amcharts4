@@ -12,7 +12,7 @@ import * as tslib_1 from "tslib";
 import { Component } from "../../core/Component";
 import { Sprite } from "../../core/Sprite";
 import { List, ListTemplate, ListDisposer } from "../../core/utils/List";
-import { Dictionary } from "../../core/utils/Dictionary";
+import { Dictionary, DictionaryDisposer } from "../../core/utils/Dictionary";
 import { DataItem } from "../../core/DataItem";
 import { Container } from "../../core/Container";
 import { Tooltip } from "../../core/elements/Tooltip";
@@ -57,7 +57,7 @@ var SeriesDataItem = /** @class */ (function (_super) {
         _this.bullets = new Dictionary();
         _this.className = "SeriesDataItem";
         //@todo Should we make `bullets` list disposable?
-        //this._disposers.push(new DictionaryDisposer(this.bullets));
+        _this._disposers.push(new DictionaryDisposer(_this.bullets));
         _this.values.value = {};
         _this.values.value = {};
         _this.applyTheme();
@@ -195,15 +195,19 @@ var Series = /** @class */ (function (_super) {
         _this.mainContainer.mask = _this.createChild(Sprite);
         _this._disposers.push(_this.mainContainer);
         // all bullets should go on top of lines/fills. So we add a separate container for bullets and later set it's parent to chart.bulletsContainer
-        _this.bulletsContainer = _this.mainContainer.createChild(Container);
-        _this.bulletsContainer.shouldClone = false;
-        _this.bulletsContainer.layout = "none";
+        var bulletsContainer = _this.mainContainer.createChild(Container);
+        bulletsContainer.shouldClone = false;
+        bulletsContainer.layout = "none";
+        bulletsContainer.virtualParent = _this;
+        _this._disposers.push(bulletsContainer);
+        _this.bulletsContainer = bulletsContainer;
         _this.tooltip = new Tooltip();
         _this.tooltip.virtualParent = _this;
         _this._disposers.push(_this.tooltip);
         _this.hiddenState.transitionEasing = $ease.cubicIn;
         // this data item holds sums, averages, etc
         _this.dataItem = _this.createDataItem();
+        _this._disposers.push(_this.dataItem);
         _this.dataItem.component = _this;
         // Apply accessibility
         _this.role = "group";
@@ -305,6 +309,7 @@ var Series = /** @class */ (function (_super) {
      */
     Series.prototype.processBullet = function (event) {
         var bullet = event.newValue;
+        bullet.isTemplate = true;
         // Add accessibility options to bullet
         // If there are relatively few bullets, make them focusable
         if (this.itemsFocusable()) {
@@ -729,16 +734,6 @@ var Series = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    /**
-     * Destroys series and related elements.
-     */
-    Series.prototype.dispose = function () {
-        if (!this._disposed) {
-            _super.prototype.dispose.call(this);
-            this.removeDispose(this.bulletsContainer);
-            this.dataItem.dispose();
-        }
-    };
     /**
      * Binds related legend data item's visual settings to this series' visual
      * settings.

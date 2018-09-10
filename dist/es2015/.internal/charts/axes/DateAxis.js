@@ -244,26 +244,6 @@ var DateAxis = /** @class */ (function (_super) {
          */
         _this._baseIntervalReal = { timeUnit: "day", count: 1 };
         /**
-         * Axis start location.
-         *
-         * * 0 - Full first cell is shown.
-         * * 0.5 - Half of first cell is shown.
-         * * 1 - None of the first cell is visible. (you probably don't want that)
-         *
-         * @param {number} value Location (0-1)
-         */
-        _this._startLocation = 0;
-        /**
-         * Axis end location.
-         *
-         * * 0 - None of the last cell is shown. (don't do that)
-         * * 0.5 - Half of the last cell is shown.
-         * * 1 - Full last cell is shown.
-         *
-         * @param {number} value Location (0-1)
-         */
-        _this._endLocation = 1;
-        /**
          * A collection of timestamps of previously processed data items. Used
          * internally to track distance between data items when processing data.
          *
@@ -495,7 +475,18 @@ var DateAxis = /** @class */ (function (_super) {
         _super.prototype.dataChangeUpdate.call(this);
         this._minSeriesDifference = Number.MAX_VALUE;
         // use day duration if only one item. as this method is called before data is processed, we check data.length and not dataItems.length
-        if (this.chart.data.length <= 1) {
+        var hasMoreThanOne = false;
+        if (this.chart.data.length > 1) {
+            return;
+        }
+        else {
+            this.series.each(function (series) {
+                if (series.data.length > 1) {
+                    hasMoreThanOne = true;
+                }
+            });
+        }
+        if (!hasMoreThanOne) {
             this._minSeriesDifference = $time.getDuration("day");
         }
     };
@@ -1103,56 +1094,6 @@ var DateAxis = /** @class */ (function (_super) {
          */
         set: function (timeInterval) {
             this._baseInterval = timeInterval;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(DateAxis.prototype, "startLocation", {
-        /**
-         * @return {number} Location (0-1)
-         */
-        get: function () {
-            return this._startLocation;
-        },
-        /**
-         * Axis start location.
-         *
-         * * 0 - Full first cell is shown.
-         * * 0.5 - Half of first cell is shown.
-         * * 1 - None of the first cell is visible. (you probably don't want that)
-         *
-         * @param {number} value Location (0-1)
-         */
-        set: function (value) {
-            if (this._startLocation != value) {
-                this._startLocation = value;
-                this.invalidate();
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(DateAxis.prototype, "endLocation", {
-        /**
-         * @return {number} Location (0-1)
-         */
-        get: function () {
-            return this._endLocation;
-        },
-        /**
-         * Axis end location.
-         *
-         * * 0 - None of the last cell is shown. (don't do that)
-         * * 0.5 - Half of the last cell is shown.
-         * * 1 - Full last cell is shown.
-         *
-         * @param {number} value Location (0-1)
-         */
-        set: function (value) {
-            if (this._endLocation != value) {
-                this._endLocation = value;
-                this.invalidate();
-            }
         },
         enumerable: true,
         configurable: true

@@ -331,26 +331,6 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      */
     protected _baseIntervalReal: ITimeInterval;
     /**
-     * Axis start location.
-     *
-     * * 0 - Full first cell is shown.
-     * * 0.5 - Half of first cell is shown.
-     * * 1 - None of the first cell is visible. (you probably don't want that)
-     *
-     * @param {number} value Location (0-1)
-     */
-    protected _startLocation: AxisItemLocation;
-    /**
-     * Axis end location.
-     *
-     * * 0 - None of the last cell is shown. (don't do that)
-     * * 0.5 - Half of the last cell is shown.
-     * * 1 - Full last cell is shown.
-     *
-     * @param {number} value Location (0-1)
-     */
-    protected _endLocation: AxisItemLocation;
-    /**
      * A collection of timestamps of previously processed data items. Used
      * internally to track distance between data items when processing data.
      *
@@ -658,32 +638,6 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @param {ITimeInterval} timeInterval base interval
      */
     baseInterval: ITimeInterval;
-    /**
-     * @return {number} Location (0-1)
-     */
-    /**
-     * Axis start location.
-     *
-     * * 0 - Full first cell is shown.
-     * * 0.5 - Half of first cell is shown.
-     * * 1 - None of the first cell is visible. (you probably don't want that)
-     *
-     * @param {number} value Location (0-1)
-     */
-    startLocation: number;
-    /**
-     * @return {number} Location (0-1)
-     */
-    /**
-     * Axis end location.
-     *
-     * * 0 - None of the last cell is shown. (don't do that)
-     * * 0.5 - Half of the last cell is shown.
-     * * 1 - Full last cell is shown.
-     *
-     * @param {number} value Location (0-1)
-     */
-    endLocation: number;
     /**
      * @return {boolean} Remove empty stretches of time?
      */

@@ -165,6 +165,15 @@ export declare class Registry {
      * @type {Array<Container>}
      */
     invalidLayouts: Array<Container>;
+    /**
+     * An array holding all active (non-disposed) top level elemens.
+     *
+     * When, for example, a new chart is created, its instance will be added to
+     * this array, and will be removed when the chart is disposed.
+     *
+     * @type {Array<Sprite>}
+     */
+    baseSprites: Array<Sprite>;
     constructor();
     /**
      * Generates a unique chart system-wide ID.

@@ -54,6 +54,7 @@ var ZoomControl = /** @class */ (function (_super) {
         plusButton.label.text = "+";
         plusButton.width = percent(100);
         plusButton.padding(5, 5, 5, 5);
+        plusButton.fontFamily = "Verdana";
         _this.plusButton = plusButton;
         var slider = _this.createChild(Container);
         slider.shouldClone = false;
@@ -73,6 +74,7 @@ var ZoomControl = /** @class */ (function (_super) {
         minusButton.shouldClone = false;
         minusButton.label.text = "-";
         minusButton.padding(5, 5, 5, 5);
+        minusButton.fontFamily = "Verdana";
         _this.minusButton = minusButton;
         // Set roles
         _this.thumb.role = "slider";

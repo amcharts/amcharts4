@@ -446,6 +446,8 @@ var Axis = /** @class */ (function (_super) {
         _this.title = new Label();
         _this.title.shouldClone = false;
         _this._disposers.push(_this.title);
+        _this.setPropertyValue("startLocation", 0);
+        _this.setPropertyValue("endLocation", 1);
         // Data item iterator
         _this._dataItemsIterator = new $iter.ListIterator(_this.dataItems, function () { return _this.dataItems.create(); });
         _this._dataItemsIterator.createNewItems = true;
@@ -1328,6 +1330,50 @@ var Axis = /** @class */ (function (_super) {
         }
         _super.prototype.processConfig.call(this, config);
     };
+    Object.defineProperty(Axis.prototype, "startLocation", {
+        /**
+         * @return {number} Location (0-1)
+         */
+        get: function () {
+            return this.getPropertyValue("startLocation");
+        },
+        /**
+         * Axis start location. Works on Date/Category axis, doesn't work on Value axis.
+         *
+         * * 0 - Full first cell is shown.
+         * * 0.5 - Half of first cell is shown.
+         * * 1 - None of the first cell is visible. (you probably don't want that)
+         *
+         * @param {number} value Location (0-1)
+         */
+        set: function (value) {
+            this.setPropertyValue("startLocation", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Axis.prototype, "endLocation", {
+        /**
+         * @return {number} Location (0-1)
+         */
+        get: function () {
+            return this.getPropertyValue("endLocation");
+        },
+        /**
+         * Axis end location. Works on Date/Category axis, doesn't work on Value axis.
+         *
+         * * 0 - None of the last cell is shown. (don't do that)
+         * * 0.5 - Half of the last cell is shown.
+         * * 1 - Full last cell is shown.
+         *
+         * @param {number} value Location (0-1)
+         */
+        set: function (value) {
+            this.setPropertyValue("endLocation", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Axis;
 }(Component));
 export { Axis };

@@ -24,8 +24,9 @@ export declare class MapSplineSeriesDataItem extends MapLineSeriesDataItem {
      * A [[MapSpline]] element related to this data item.
      *
      * @type {MapSpline}
+     * @ignore
      */
-    protected _mapLine: MapSpline;
+    _mapLine: MapSpline;
     /**
      * Defines a type of [[Component]] this data item is used for
      * @type {Component}
@@ -35,12 +36,6 @@ export declare class MapSplineSeriesDataItem extends MapLineSeriesDataItem {
      * Constructor
      */
     constructor();
-    /**
-     * A [[MapSpline]] element related to this data item.
-     *
-     * @return {MapSpline} Element
-     */
-    readonly mapLine: MapSpline;
 }
 /**
  * ============================================================================

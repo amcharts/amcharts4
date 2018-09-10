@@ -814,7 +814,6 @@ var Export = /** @class */ (function (_super) {
                         canvg = _a.sent();
                         width = this.sprite.pixelWidth, height = this.sprite.pixelHeight, font = this.findFont(this.sprite.dom), fontSize = this.findFontSize(this.sprite.dom);
                         data = this.normalizeSVG(this.serializeElement(this.sprite.paper.defs) + this.serializeElement(this.sprite.dom), options, width, height, font, fontSize, background);
-                        console.log(data);
                         canvas = this.getDisposableCanvas();
                         pixelRatio = this.getPixelRatio();
                         canvas.style.width = (width * pixelRatio) + 'px';

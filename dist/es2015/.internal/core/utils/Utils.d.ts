@@ -28,6 +28,15 @@ import * as $type from "../utils/Type";
  */
 export declare function copyProperties(source: Object, target: Object): Object;
 /**
+ * Copies all properties of one object to the other, omitting undefined, but only if property in target object doesn't have a value set.
+ *
+ * @param  {Object}   fromObject  Source object
+ * @param  {Object}   toObject    Target object
+ * @return {Object}               Updated target object
+ * @todo Maybe consolidate with utils.copy?
+ */
+export declare function softCopyProperties(source: Object, target: Object): Object;
+/**
  * Copies all properties of one object to the other.
  *
  * @param  {Object}  source     Source object

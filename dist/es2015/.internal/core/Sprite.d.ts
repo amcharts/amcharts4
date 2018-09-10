@@ -270,7 +270,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @ignore Exclude from docs
      * @type {Optional<boolean>}
      */
-    protected _isTemplate: $type.Optional<boolean>;
+    protected _isTemplate: boolean;
     /**
      * Holds collection of Sprite States.
      *
@@ -841,7 +841,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * Object will be redrawn during the next update cycle.
      *
-     * @ignore Exclude from docs
+     * Please note that in most cases elements will auto-invalidate when needed. If
+     * everything works, DO NOT use this method. Use it only if some changes do
+     * not take otherwise.
      */
     invalidate(): void;
     /**

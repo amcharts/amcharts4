@@ -114,6 +114,14 @@ var Sprite = /** @class */ (function (_super) {
          */
         _this._bindings = {};
         /**
+         * Holds indicator if this Sprite is a "template" to be used for creating
+         * other Sprites from and should not be treated as full-fledged element.
+         *
+         * @ignore Exclude from docs
+         * @type {Optional<boolean>}
+         */
+        _this._isTemplate = false;
+        /**
          * Holds indicator whether this sprite was already initialized.
          *
          * @ignore Exclude from docs
@@ -431,7 +439,9 @@ var Sprite = /** @class */ (function (_super) {
      *
      * Object will be redrawn during the next update cycle.
      *
-     * @ignore Exclude from docs
+     * Please note that in most cases elements will auto-invalidate when needed. If
+     * everything works, DO NOT use this method. Use it only if some changes do
+     * not take otherwise.
      */
     Sprite.prototype.invalidate = function () {
         if (this.disabled || this.isTemplate) {
@@ -667,6 +677,9 @@ var Sprite = /** @class */ (function (_super) {
         var tooltip = this._tooltip;
         if (tooltip) {
             tooltip.copyFrom(source.tooltip);
+        }
+        if (source["_tooltip"] && !this._tooltip) {
+            this._tooltip = source["_tooltip"];
         }
         this._showSystemTooltip = source.showSystemTooltip;
         $utils.copyProperties(source.propertyFields, this.propertyFields);
@@ -2319,6 +2332,9 @@ var Sprite = /** @class */ (function (_super) {
                 return current;
             }
             else {
+                if (this.virtualParent) {
+                    return this.virtualParent.disabled;
+                }
                 if (this.parent) {
                     return this.parent.disabled;
                 }
@@ -2824,6 +2840,9 @@ var Sprite = /** @class */ (function (_super) {
          */
         get: function () {
             if (!this._dataItem) {
+                if (this.virtualParent) {
+                    return this.virtualParent.dataItem;
+                }
                 if (this.parent) {
                     return this.parent.dataItem;
                 }
@@ -3329,6 +3348,9 @@ var Sprite = /** @class */ (function (_super) {
          */
         get: function () {
             if (!this.interactions.keyboardOptions) {
+                if (this.virtualParent) {
+                    return this.virtualParent.keyboardOptions;
+                }
                 if (this.parent) {
                     return this.parent.keyboardOptions;
                 }
@@ -3510,6 +3532,9 @@ var Sprite = /** @class */ (function (_super) {
             var focusFilter = this._focusFilter;
             if (focusFilter) {
                 return focusFilter;
+            }
+            if (this.virtualParent) {
+                return this.virtualParent.focusFilter;
             }
             else if (this.parent) {
                 return this.parent.focusFilter;
@@ -3779,6 +3804,9 @@ var Sprite = /** @class */ (function (_super) {
          */
         get: function () {
             if (!this.interactions.hoverOptions) {
+                if (this.virtualParent) {
+                    return this.virtualParent.hoverOptions;
+                }
                 if (this.parent) {
                     return this.parent.hoverOptions;
                 }
@@ -3885,6 +3913,9 @@ var Sprite = /** @class */ (function (_super) {
          */
         get: function () {
             if (!this.interactions.hitOptions) {
+                if (this.virtualParent) {
+                    return this.virtualParent.hitOptions;
+                }
                 if (this.parent) {
                     return this.parent.hitOptions;
                 }
@@ -4092,6 +4123,9 @@ var Sprite = /** @class */ (function (_super) {
          */
         get: function () {
             if (!this.interactions.swipeOptions) {
+                if (this.virtualParent) {
+                    return this.virtualParent.swipeOptions;
+                }
                 if (this.parent) {
                     return this.parent.swipeOptions;
                 }
@@ -4364,6 +4398,9 @@ var Sprite = /** @class */ (function (_super) {
          */
         get: function () {
             if (!this.interactions.cursorOptions) {
+                if (this.virtualParent) {
+                    return this.virtualParent.cursorOptions;
+                }
                 if (this.parent) {
                     return this.parent.cursorOptions;
                 }
@@ -4425,6 +4462,9 @@ var Sprite = /** @class */ (function (_super) {
             var value = this.getPropertyValue("interactionsEnabled");
             if (value === false) {
                 return false;
+            }
+            if (this.virtualParent) {
+                return this.virtualParent.interactionsEnabled;
             }
             if (this.parent) {
                 return this.parent.interactionsEnabled;
@@ -5487,11 +5527,9 @@ var Sprite = /** @class */ (function (_super) {
                 value = 0;
             }
             if (value != this.getPropertyValue("scale")) {
+                this.setPropertyValue("scale", value, false, true);
                 this.handleGlobalScale();
             }
-            this.setPropertyValue("scale", value, false, true);
-            this.strokeWidth = this.strokeWidth; // to handle nonScalingStroke
-            this.updateFilterScale();
         },
         enumerable: true,
         configurable: true
@@ -6562,6 +6600,9 @@ var Sprite = /** @class */ (function (_super) {
         get: function () {
             if (this._tooltip) {
                 return this._tooltip;
+            }
+            else if (this.virtualParent) {
+                return this.virtualParent.tooltip;
             }
             else if (this.parent) {
                 return this.parent.tooltip;

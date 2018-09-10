@@ -312,7 +312,10 @@ var CategoryAxis = /** @class */ (function (_super) {
         }
         var label = dataItem.label;
         if (label) {
-            dataItem.text = dataItem.text; //@todo if this is left, kills custom data item text. this.adapter.apply("label", dataItem.category);
+            // theorethically this might result problems if category text changes, the range text won't change. But otherwise range.label.text = "custom text" wont' work, which is not intuitive.
+            if (!dataItem.isRange || label.text == undefined) {
+                dataItem.text = dataItem.text;
+            }
             renderer.updateLabelElement(label, position, endPosition);
         }
         var fill = dataItem.axisFill;
@@ -361,10 +364,10 @@ var CategoryAxis = /** @class */ (function (_super) {
         var startIndex = this.startIndex;
         var endIndex = this.endIndex;
         var difference = this.adjustDifference(startIndex, endIndex);
-        var cellStartLocation = this.renderer.cellStartLocation;
-        var cellEndLocation = this.renderer.cellEndLocation;
-        difference -= cellStartLocation;
-        difference -= (1 - cellEndLocation);
+        var startLocation = this.startLocation;
+        var endLocation = this.endLocation;
+        difference -= startLocation;
+        difference -= (1 - endLocation);
         var axisBreaks = this.axisBreaks;
         $iter.eachContinue(axisBreaks.iterator(), function (axisBreak) {
             var breakStartIndex = axisBreak.adjustedStartValue;
@@ -390,7 +393,7 @@ var CategoryAxis = /** @class */ (function (_super) {
             }
             return true;
         });
-        return $math.round((index + location - cellStartLocation - startIndex) / difference, 5);
+        return $math.round((index + location - startLocation - startIndex) / difference, 5);
     };
     /**
      * Converts a string category name to relative position on axis.

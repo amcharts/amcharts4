@@ -13,6 +13,7 @@ import { FocusFilter } from "../rendering/filters/FocusFilter";
 import { Preloader } from "../elements/Preloader";
 import { AmChartsLogo } from "../elements/AmChartsLogo";
 import { Tooltip } from "../elements/Tooltip";
+import { Disposer } from "../utils/Disposer";
 import { percent } from "./Percent";
 import { options } from "../Options";
 import * as $array from "./Array";
@@ -62,6 +63,10 @@ function createChild(htmlElement, classType) {
         var sprite_1 = contentContainer.createChild(classType);
         sprite_1.isBaseSprite = true;
         sprite_1.focusFilter = new FocusFilter();
+        registry.baseSprites.push(sprite_1);
+        sprite_1.addDisposer(new Disposer(function () {
+            $array.remove(registry.baseSprites, sprite_1);
+        }));
         // TODO figure out a better way of doing this
         sprite_1.addDisposer(container);
         // tooltip container
@@ -310,5 +315,12 @@ export function useTheme(value) {
  */
 export function unuseTheme(value) {
     $array.remove(registry.themes, value);
+}
+/**
+ * Removes all "active" themes. Any charts created subsequently will not have
+ * any theme applied to them.
+ */
+export function unuseAllThemes() {
+    registry.themes = [];
 }
 //# sourceMappingURL=Instance.js.map

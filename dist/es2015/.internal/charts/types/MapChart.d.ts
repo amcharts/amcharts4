@@ -431,6 +431,7 @@ export declare class MapChart extends SerialChart {
      */
     protected _mapAnimation: Animation;
     protected _mouseWheelDisposer: IDisposer;
+    protected _zoomGeoPointReal: IGeoPoint;
     /**
      * Constructor
      */
@@ -517,7 +518,7 @@ export declare class MapChart extends SerialChart {
      * that it fits perfectly into available space. Helps to avoid redrawing of all the map if container size changes
      * @ignore
      */
-    protected udpateScaleRatio(): void;
+    protected updateScaleRatio(): void;
     /**
      * Converts a point within map container to geographical (lat/long)
      * coordinates.

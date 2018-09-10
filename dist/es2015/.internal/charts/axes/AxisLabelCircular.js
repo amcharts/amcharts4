@@ -105,7 +105,6 @@ var AxisLabelCircular = /** @class */ (function (_super) {
         this.dy = -this._measuredHeight * (1 - (point.y + axisRadius) / (2 * axisRadius));
         // simmilar with dx
         this.dx = -this._measuredWidth * (1 - (point.x + axisRadius) / (2 * axisRadius));
-        //console.log(this.measuredWidth, this._measuredHeight, this.text, this.bbox.width)
         var labelRadius = this.radius * sign;
         if ($type.isNumber(relativeRotation)) {
             var pixelWidth = this.bbox.width;

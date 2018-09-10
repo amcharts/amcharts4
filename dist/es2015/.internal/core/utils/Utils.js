@@ -32,6 +32,23 @@ export function copyProperties(source, target) {
     return target;
 }
 /**
+ * Copies all properties of one object to the other, omitting undefined, but only if property in target object doesn't have a value set.
+ *
+ * @param  {Object}   fromObject  Source object
+ * @param  {Object}   toObject    Target object
+ * @return {Object}               Updated target object
+ * @todo Maybe consolidate with utils.copy?
+ */
+export function softCopyProperties(source, target) {
+    $object.each(source, function (key, value) {
+        // only if value is set
+        if ($type.hasValue(value) && !($type.hasValue(target[key]))) {
+            target[key] = value;
+        }
+    });
+    return target;
+}
+/**
  * Copies all properties of one object to the other.
  *
  * @param  {Object}  source     Source object

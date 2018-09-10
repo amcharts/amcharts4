@@ -5,6 +5,32 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.50] - 2018-09-10
+
+### Added
+- `am4core.unuseAllThemes()` method added. Any chart created after this method call will not have any theme applied to it.
+- New property `am4core.registry.baseSprites` will now hold all active (non-disposed) instances of top-level elements, such as charts.
+- `startLocation`/`endLocation` properties added to `CategoryAxis` (previously available on `DateAxis` only). Allows to specify location the first and last cells of the axis should start on respectively.
+- `innerRadius` of a Slice can now be set as `Percent` (e.g. `am4core.percent(50)`).
+- You can now set custom radii (`radius` property) on Pie series (if you have more than one, you might want one to be larger and another smaller).
+
+### Changed
+- [`MapLine.imagesToConnect`](https://www.amcharts.com/docs/v4/reference/mapline/#imagesToConnect_property) now accepts an array of string IDs that can reference images by their `id` property.
+- Changed `tooltip` inheritance so that it checks for `virtualParent` rather than direct `parent`. E.g. series' bullets use series' tooltip and not chart tooltip as it was before.
+
+### Fixed
+- Map polygon stroke thickness could be rendered incorrectly when zooming quickly. (Issue #175)
+- Calling `addData()` more than once before data was validated resulted only last data item to be added. (Issue #222)
+- `DateAxis.baseInterval` was ignored if data was set directly on series.
+- `MapLine` was not paying attention to the properties set on template.
+- `HeatLegend` was not updating its label count after its size changed. This could have been resulting in very few labels if initial container (div) size was small.
+- The map portion of `MapChart` was incorrectly positioned after container (div) resize.
+- Object properties, like `"name"` in GeoJSON were overriding same properties in `MapSeries` data. Now, the values specified in data are used over ones in GeoJSON. (Issue #307)
+- Axis ranges used to reset `axisRange.label.text`. (Issue #308)
+- Fixed issues with disposing series and charts.
+- Updated to [canvg 1.5.3](https://github.com/canvg/canvg/releases/tag/v1.5.3) to fix em/rem text issue for epoxrt fallbacks.
+
+
 ## [4.0.0-beta.49] - 2018-09-05
 
 ### Added

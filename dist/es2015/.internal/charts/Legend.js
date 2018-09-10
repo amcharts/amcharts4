@@ -107,6 +107,11 @@ var LegendDataItem = /** @class */ (function (_super) {
                         itemContainer_1.isActive = !ev.visible;
                         itemContainer_1.events.enableType("toggled");
                     }));
+                    sprite.addDisposer(new Disposer(function () {
+                        if (_this.component) {
+                            _this.component.dataItems.remove(_this);
+                        }
+                    }));
                     if (sprite instanceof Sprite) {
                         itemContainer_1.addDisposer(sprite.events.on("hidden", function (ev) {
                             itemContainer_1.readerChecked = true;

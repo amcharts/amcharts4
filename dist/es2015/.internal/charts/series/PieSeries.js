@@ -20,6 +20,7 @@ import * as $math from "../../core/utils/Math";
 import * as $iter from "../../core/utils/Iterator";
 import * as $ease from "../../core/utils/Ease";
 import * as $type from "../../core/utils/Type";
+import { Percent } from "../../core/utils/Percent";
 import { Disposer } from "../../core/utils/Disposer";
 /**
  * ============================================================================
@@ -378,6 +379,7 @@ var PieSeries = /** @class */ (function (_super) {
         hiddenState.properties.opacity = 1;
         // Create slices list
         this.slices = new ListTemplate(slice);
+        this.slices.template.applyOnClones = true;
         this._disposers.push(new ListDisposer(this.slices));
         this._disposers.push(this.slices.template);
         return slice;
@@ -427,16 +429,19 @@ var PieSeries = /** @class */ (function (_super) {
      */
     PieSeries.prototype.validateDataElement = function (dataItem) {
         var _this = this;
-        if (this.radius > 0) {
-            var percent = dataItem.values.value.percent;
+        if (this.pixelRadius > 0) {
+            var percent_1 = dataItem.values.value.percent;
             // SLICE
             var slice_2 = dataItem.slice;
+            slice_2.radius = this.pixelRadius;
             slice_2.parent = this.slicesContainer;
-            slice_2.radius = this.radius;
+            //slice.radius = this.radius;
             if ($type.isNumber(dataItem.radiusValue)) {
                 slice_2.radius *= dataItem.values.radiusValue.percent / this._maxRadiusPercent;
             }
-            slice_2.innerRadius = this.innerRadius;
+            if (!(slice_2.innerRadius instanceof Percent)) {
+                slice_2.innerRadius = this.pixelInnerRadius;
+            }
             slice_2.startAngle = this._currentStartAngle;
             slice_2.arc = dataItem.values.value.percent * (this.endAngle - this.startAngle) / 100;
             // LABEL
@@ -452,18 +457,18 @@ var PieSeries = /** @class */ (function (_super) {
                 var arcRect = this._arcRect;
                 // right half
                 if (normalizedMiddleAngle >= 270 || normalizedMiddleAngle <= 91) { // 91 makes less chances for flickering
-                    x += (arcRect.width + arcRect.x) * this.radius;
+                    x += (arcRect.width + arcRect.x) * this.pixelRadius;
                     label.horizontalCenter = "left";
                     this._rightItems.push(dataItem);
                 }
                 // left half
                 else {
-                    x -= arcRect.x * this.radius;
+                    x -= arcRect.x * this.pixelRadius;
                     label.horizontalCenter = "right";
                     this._leftItems.push(dataItem);
                     x *= -1;
                 }
-                var distance = this.radius + tick.length + label.radius;
+                var distance = slice_2.radius + tick.length + label.radius;
                 point = { x: x, y: slice_2.iy * distance };
             }
             else {
@@ -555,8 +560,7 @@ var PieSeries = /** @class */ (function (_super) {
     };
     Object.defineProperty(PieSeries.prototype, "radius", {
         /**
-         * @ignore Exclude from docs
-         * @return {number} Radius
+         * @return {number | Percent} Radius
          */
         get: function () {
             return this.getPropertyValue("radius");
@@ -564,9 +568,7 @@ var PieSeries = /** @class */ (function (_super) {
         /**
          * Outer radius for the series' slices in pixels.
          *
-         * @ignore Exclude from docs
-         * @todo Redo so that users can set it
-         * @param {number}  value  Radius
+         * @param {number | Percent}  value  Radius
          */
         set: function (value) {
             this.setPropertyValue("radius", value, true);
@@ -574,10 +576,44 @@ var PieSeries = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(PieSeries.prototype, "pixelRadius", {
+        /**
+         * @return {number} Radius
+         * @ignore
+         */
+        get: function () {
+            return this._pixelRadius;
+        },
+        /**
+         * @ignore
+         */
+        set: function (value) {
+            this._pixelRadius = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PieSeries.prototype, "pixelInnerRadius", {
+        /**
+         * @return {number} Pixel inner radius
+         * @ignore
+         */
+        get: function () {
+            return this._pixelInnerRadius;
+        },
+        /**
+         * @ignore
+         */
+        set: function (value) {
+            this._pixelInnerRadius = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(PieSeries.prototype, "innerRadius", {
         /**
          * @ignore Exclude from docs
-         * @return {number} Radius
+         * @return {number | Percent} Radius
          */
         get: function () {
             return this.getPropertyValue("innerRadius");
@@ -587,7 +623,7 @@ var PieSeries = /** @class */ (function (_super) {
          *
          * @ignore Exclude from docs
          * @todo Redo so that users can set it
-         * @param {number}  value  Radius
+         * @param {number | Percent}  value  Radius
          */
         set: function (value) {
             this.setPropertyValue("innerRadius", value, true);
@@ -787,10 +823,10 @@ var PieSeries = /** @class */ (function (_super) {
     PieSeries.prototype.getContainerBBox = function () {
         var chart = this.chart;
         if (chart) {
-            return $math.getArcRect(chart.startAngle, chart.endAngle, this.radius);
+            return $math.getArcRect(chart.startAngle, chart.endAngle, this.pixelRadius);
         }
         else {
-            return $math.getArcRect(this.startAngle, this.endAngle, this.radius);
+            return $math.getArcRect(this.startAngle, this.endAngle, this.pixelRadius);
         }
     };
     return PieSeries;

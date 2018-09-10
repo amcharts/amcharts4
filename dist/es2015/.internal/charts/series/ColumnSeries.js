@@ -453,6 +453,7 @@ var ColumnSeries = /** @class */ (function (_super) {
             column.x = x;
             column.y = y;
             column.parent = this.columnsContainer;
+            column.virtualParent = this;
             this.setColumnStates(column);
             if (column.invalid) {
                 column.validate(); // validate as if it was used previously, it will flicker with previous dimensions

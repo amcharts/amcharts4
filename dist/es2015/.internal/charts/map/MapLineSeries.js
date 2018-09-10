@@ -48,7 +48,7 @@ var MapLineSeriesDataItem = /** @class */ (function (_super) {
         get: function () {
             var _this = this;
             if (!this._mapLine) {
-                var mapLine_1 = this.component.mapLines.create(MapLine);
+                var mapLine_1 = this.component.mapLines.create();
                 this._mapLine = mapLine_1;
                 this.addSprite(mapLine_1);
                 this._disposers.push(mapLine_1);
@@ -302,7 +302,7 @@ var MapLineSeries = /** @class */ (function (_super) {
                                     }
                                 }
                                 // copy properties data to datacontext
-                                $utils.copyProperties(feature.properties, dataObject);
+                                $utils.softCopyProperties(feature.properties, dataObject);
                             }
                         }
                     };

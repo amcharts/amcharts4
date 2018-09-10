@@ -253,6 +253,26 @@ export interface IAxisDataFields extends IComponentDataFields {
  * Defines properties for [[Axis]].
  */
 export interface IAxisProperties extends IComponentProperties {
+    /**
+     * Axis start location.
+     *
+     * * 0 - None of the first cell is shown. (don't do that)
+     * * 0.5 - Half of the first cell is shown.
+     * * 1 - Full first cell is shown.
+     *
+     * @param {number} value Location (0-1)
+     */
+    startLocation?: number;
+    /**
+     * Axis end location.
+     *
+     * * 0 - None of the last cell is shown. (don't do that)
+     * * 0.5 - Half of the last cell is shown.
+     * * 1 - Full last cell is shown.
+     *
+     * @param {number} value Location (0-1)
+     */
+    endLocation?: number;
 }
 /**
  * Defines events for [[Axis]].
@@ -927,4 +947,30 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
     processConfig(config?: {
         [index: string]: any;
     }): void;
+    /**
+     * @return {number} Location (0-1)
+     */
+    /**
+     * Axis start location. Works on Date/Category axis, doesn't work on Value axis.
+     *
+     * * 0 - Full first cell is shown.
+     * * 0.5 - Half of first cell is shown.
+     * * 1 - None of the first cell is visible. (you probably don't want that)
+     *
+     * @param {number} value Location (0-1)
+     */
+    startLocation: number;
+    /**
+     * @return {number} Location (0-1)
+     */
+    /**
+     * Axis end location. Works on Date/Category axis, doesn't work on Value axis.
+     *
+     * * 0 - None of the last cell is shown. (don't do that)
+     * * 0.5 - Half of the last cell is shown.
+     * * 1 - Full last cell is shown.
+     *
+     * @param {number} value Location (0-1)
+     */
+    endLocation: number;
 }

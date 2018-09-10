@@ -160,11 +160,15 @@ export declare class MapLine extends MapObject {
      * @return {MapImages[]}
      */
     /**
-     * Instead of setting longitudes/latitudes you can set an array of images which will be connected by the line
+     * Instead of setting longitudes/latitudes you can set an array of images
+     * which will be connected by the line.
      *
-     * @param {MapImages[]} images
+     * Parameter is an array that can hold string `id`'s to of the images, or
+     * references to actual [[MapImage]] objects.
+     *
+     * @param {MapImages[]}  images  Images
      */
-    imagesToConnect: MapImage[];
+    imagesToConnect: MapImage[] | string[];
     /**
      * (Re)validates the line, effectively forcing it to redraw.
      *

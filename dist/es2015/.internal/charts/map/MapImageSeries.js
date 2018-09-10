@@ -204,7 +204,7 @@ var MapImageSeries = /** @class */ (function (_super) {
                                     }
                                 }
                                 // copy properties data to datacontext
-                                $utils.copyProperties(feature.properties, dataObject);
+                                $utils.softCopyProperties(feature.properties, dataObject);
                             }
                         }
                     };

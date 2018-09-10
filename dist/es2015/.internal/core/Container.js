@@ -177,9 +177,13 @@ var Container = /** @class */ (function (_super) {
         }
     };
     /**
-     * Invalidates the whole element, including layout.
+     * Invalidates element.
      *
-     * @ignore Exclude from docs
+     * Object will be redrawn during the next update cycle.
+     *
+     * Please note that in most cases elements will auto-invalidate when needed. If
+     * everything works, DO NOT use this method. Use it only if some changes do
+     * not take otherwise.
      */
     Container.prototype.invalidate = function () {
         _super.prototype.invalidate.call(this);
@@ -1406,6 +1410,27 @@ var Container = /** @class */ (function (_super) {
     Container.prototype.getTooltipY = function () {
         return _super.prototype.getTooltipY.call(this);
     };
+    Object.defineProperty(Container.prototype, "fontFamily", {
+        /**
+         * @return {any} Font family
+         */
+        get: function () {
+            return this.getPropertyValue("fontFamily");
+        },
+        /**
+         * Font family to be used for the text.
+         *
+         * Parts of the text may override this setting using in-line formatting.
+         *
+         * @param {string} value Font family value
+         */
+        set: function (value) {
+            this.setPropertyValue("fontFamily", value, true);
+            this.setSVGAttribute({ "font-family": value });
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Container.prototype, "fontSize", {
         /**
          * @return {any} Font size

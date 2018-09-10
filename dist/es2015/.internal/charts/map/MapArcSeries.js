@@ -33,22 +33,6 @@ var MapArcSeriesDataItem = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
-    Object.defineProperty(MapArcSeriesDataItem.prototype, "mapLine", {
-        /**
-         * A [[MapArc]] element related to this data item.
-         *
-         * @return {MapArc} Element
-         */
-        get: function () {
-            if (!this._mapLine) {
-                this._mapLine = this.component.mapLines.create(MapArc);
-                this.addSprite(this._mapLine);
-            }
-            return this._mapLine;
-        },
-        enumerable: true,
-        configurable: true
-    });
     return MapArcSeriesDataItem;
 }(MapLineSeriesDataItem));
 export { MapArcSeriesDataItem };

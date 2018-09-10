@@ -327,4 +327,9 @@ export declare class Tooltip extends Container {
      * @return "up" | "down"
      */
     readonly verticalOrientation: "up" | "down";
+    /**
+     * To avoid stackoverflow
+     * @ignore
+     */
+    readonly tooltip: Tooltip;
 }

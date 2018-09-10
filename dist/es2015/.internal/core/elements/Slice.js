@@ -14,6 +14,7 @@ import { registry } from "../Registry";
 import * as $math from "../utils/Math";
 import * as $path from "../rendering/Path";
 import * as $type from "../utils/Type";
+import * as $utils from "../utils/Utils";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -63,7 +64,7 @@ var Slice = /** @class */ (function (_super) {
      */
     Slice.prototype.draw = function () {
         _super.prototype.draw.call(this);
-        this.slice.element.attr({ "d": $path.arc(this.startAngle, this.arc, this.radius, this.innerRadius, this.radiusY, this.cornerRadius, this.innerCornerRadius) });
+        this.slice.element.attr({ "d": $path.arc(this.startAngle, this.arc, this.radius, this.pixelInnerRadius, this.radiusY, this.cornerRadius, this.innerCornerRadius) });
         this.slice.invalidate();
         this.shiftRadius = this.shiftRadius;
     };
@@ -161,7 +162,7 @@ var Slice = /** @class */ (function (_super) {
     });
     Object.defineProperty(Slice.prototype, "innerRadius", {
         /**
-         * @return {number} Radius (px)
+         * @return {number | Percent} Radius (px or %)
          */
         get: function () {
             return this.getPropertyValue("innerRadius");
@@ -170,10 +171,20 @@ var Slice = /** @class */ (function (_super) {
          * Inner radius of the slice for creating cut out (donut) slices.
          *
          * @default 0
-         * @param {number}  value  Radius (px)
+         * @param {number | Percent}  value  Radius (px or %)
          */
         set: function (value) {
             this.setPropertyValue("innerRadius", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Slice.prototype, "pixelInnerRadius", {
+        /**
+         * @return {number} Radius px
+         */
+        get: function () {
+            return $utils.relativeToValue(this.innerRadius, this.radius);
         },
         enumerable: true,
         configurable: true
@@ -293,7 +304,8 @@ var Slice = /** @class */ (function (_super) {
     Slice.prototype.getTooltipX = function () {
         var value = this.getPropertyValue("tooltipX");
         if (!$type.isNumber(value)) {
-            value = this.ix * (this.innerRadius + (this.radius - this.innerRadius) / 2);
+            var innerRadius = $utils.relativeToValue(this.innerRadius, this.radius);
+            value = this.ix * (innerRadius + (this.radius - innerRadius) / 2);
         }
         return value;
     };
@@ -305,7 +317,8 @@ var Slice = /** @class */ (function (_super) {
     Slice.prototype.getTooltipY = function () {
         var value = this.getPropertyValue("tooltipY");
         if (!$type.isNumber(value)) {
-            value = this.iy * (this.innerRadius + (this.radius - this.innerRadius) / 2);
+            var innerRadius = $utils.relativeToValue(this.innerRadius, this.radius);
+            value = this.iy * (innerRadius + (this.radius - innerRadius) / 2);
         }
         return value;
     };

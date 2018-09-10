@@ -302,8 +302,11 @@ var DataItem = /** @class */ (function (_super) {
         }
         $array.each(this.sprites, function (sprite) {
             var animation = sprite.show(duration);
-            if (delay != null && delay > 0 && animation != null && !animation.isDisposed()) {
-                animation.delay(delay);
+            if (animation != null && !animation.isDisposed()) {
+                _this._disposers.push(animation);
+                if (delay != null && delay > 0) {
+                    animation.delay(delay);
+                }
             }
         });
         this._visible = true;
@@ -332,8 +335,11 @@ var DataItem = /** @class */ (function (_super) {
         this.isHiding = true;
         $array.each(this.sprites, function (sprite) {
             var animation = sprite.hide(duration);
-            if (delay != null && delay > 0 && animation != null && !animation.isDisposed()) {
-                animation.delay(delay);
+            if (animation != null && !animation.isDisposed()) {
+                _this._disposers.push(animation);
+                if (delay != null && delay > 0) {
+                    animation.delay(delay);
+                }
             }
         });
         if ($type.isNumber(toValue) && fields) {

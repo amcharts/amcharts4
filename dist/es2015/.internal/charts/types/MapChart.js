@@ -124,6 +124,9 @@ var MapChart = /** @class */ (function (_super) {
         _this.homeZoomLevel = 1;
         // Set padding
         _this.padding(0, 0, 0, 0);
+        // so that the map would render in a hidden div too
+        _this.minWidth = 10;
+        _this.minHeight = 10;
         // Create a container for map series
         var seriesContainer = _this.seriesContainer;
         seriesContainer.draggable = true;
@@ -137,7 +140,16 @@ var MapChart = /** @class */ (function (_super) {
         // Set up main chart container, e.g. set backgrounds and events to monitor
         // size changes, etc.
         var chartContainer = _this.chartContainer;
-        seriesContainer.events.on("maxsizechanged", _this.udpateScaleRatio, _this);
+        _this._disposers.push(seriesContainer.events.on("maxsizechanged", function () {
+            if (_this._mapAnimation) {
+                _this._mapAnimation.stop();
+            }
+            _this.updateScaleRatio();
+            _this.zoomToGeoPoint(_this._zoomGeoPointReal, _this.zoomLevel, true, 0);
+            _this.series.each(function (series) {
+                series.updateTooltipBounds();
+            });
+        }));
         var chartContainerBg = chartContainer.background;
         chartContainerBg.fillOpacity = 0;
         chartContainerBg.events.on("down", function (e) { _this.seriesContainer.dragStart(e.target.interactions.downPointers.getIndex(0)); }, _this);
@@ -200,6 +212,7 @@ var MapChart = /** @class */ (function (_super) {
             y = maxY;
         }
         this.seriesContainer.moveTo({ x: x, y: y }, undefined, undefined, true);
+        this._zoomGeoPointReal = this.zoomGeoPoint;
     };
     /**
      * Sets defaults that instantiate some objects that rely on parent, so they
@@ -375,12 +388,12 @@ var MapChart = /** @class */ (function (_super) {
         this.projection.scale = scaleRatio;
         this.seriesWidth = seriesWidth * scaleRatio;
         this.seriesHeight = seriesHeight * scaleRatio;
-        this.udpateScaleRatio();
+        this.updateScaleRatio();
         var seriesContainer = this.seriesContainer;
         var chartContainer = this.chartContainer;
         seriesContainer.x = chartContainer.pixelWidth / 2;
         seriesContainer.y = chartContainer.pixelHeight / 2;
-        this.centerGeoPoint = this.svgPointToGeo({ x: this.maxWidth / 2, y: this.maxHeight / 2 });
+        this.centerGeoPoint = this.svgPointToGeo({ x: this.measuredWidth / 2, y: this.measuredHeight / 2 });
         this.goHome();
     };
     /**
@@ -388,7 +401,7 @@ var MapChart = /** @class */ (function (_super) {
      * that it fits perfectly into available space. Helps to avoid redrawing of all the map if container size changes
      * @ignore
      */
-    MapChart.prototype.udpateScaleRatio = function () {
+    MapChart.prototype.updateScaleRatio = function () {
         var _this = this;
         var scaleRatio;
         var vScale = this.chartContainer.innerWidth / this.seriesWidth;
@@ -498,9 +511,13 @@ var MapChart = /** @class */ (function (_super) {
      * @return {Animation}             Zoom animation
      */
     MapChart.prototype.zoomToGeoPoint = function (point, zoomLevel, center, duration) {
+        //let svgPoint: IPoint = $utils.documentPointToSvg(event.point, this.htmlContainer);
+        //let geoPoint: IGeoPoint = this.svgPointToGeo(svgPoint);
+        var _this = this;
         if (!point) {
             point = this.zoomGeoPoint;
         }
+        this._zoomGeoPointReal = point;
         zoomLevel = $math.fitToRange(zoomLevel, this.minZoomLevel, this.maxZoomLevel);
         var seriesPoint = this.projection.convert(point);
         var svgPoint = this.geoPointToSVG(point);
@@ -523,6 +540,10 @@ var MapChart = /** @class */ (function (_super) {
                 property: "y",
                 to: svgPoint.y - seriesPoint.y * zoomLevel * this.scaleRatio - this.pixelPaddingTop
             }], duration, this.zoomEasing);
+        this._disposers.push(this._mapAnimation.events.on("animationended", function () {
+            _this._zoomGeoPointReal = _this.zoomGeoPoint;
+        }));
+        this.seriesContainer.validatePosition();
         return this._mapAnimation;
     };
     /**

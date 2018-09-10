@@ -25,8 +25,9 @@ export declare class MapArcSeriesDataItem extends MapLineSeriesDataItem {
      * A [[MapArc]] element related to this data item.
      *
      * @type {MapArc}
+     * @ignore
      */
-    protected _mapLine: MapArc;
+    _mapLine: MapArc;
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
@@ -37,12 +38,6 @@ export declare class MapArcSeriesDataItem extends MapLineSeriesDataItem {
      * Constructor
      */
     constructor();
-    /**
-     * A [[MapArc]] element related to this data item.
-     *
-     * @return {MapArc} Element
-     */
-    readonly mapLine: MapArc;
 }
 /**
  * ============================================================================

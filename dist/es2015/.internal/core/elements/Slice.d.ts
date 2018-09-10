@@ -9,6 +9,7 @@
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../Container";
 import { Sprite } from "../Sprite";
+import { Percent } from "../utils/Percent";
 import { IRectangle } from "../defs/IRectangle";
 /**
  * ============================================================================
@@ -36,11 +37,11 @@ export interface ISliceProperties extends IContainerProperties {
      */
     radiusY?: number;
     /**
-     * Inner radius of the slice for creating cut out (donut) slices.
+     * Inner radius of the slice for creating cut out (donut) slices, in px or %
      *
      * @type {number}
      */
-    innerRadius?: number | string;
+    innerRadius?: number | Percent;
     /**
      * The angle at which left edge of the slice is drawn. (0-360)
      *
@@ -187,15 +188,19 @@ export declare class Slice extends Container {
      */
     radiusY: number;
     /**
-     * @return {number} Radius (px)
+     * @return {number | Percent} Radius (px or %)
      */
     /**
      * Inner radius of the slice for creating cut out (donut) slices.
      *
      * @default 0
-     * @param {number}  value  Radius (px)
+     * @param {number | Percent}  value  Radius (px or %)
      */
-    innerRadius: number;
+    innerRadius: number | Percent;
+    /**
+     * @return {number} Radius px
+     */
+    readonly pixelInnerRadius: number;
     /**
      * @return {number} Radius (px)
      */

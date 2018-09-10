@@ -17,6 +17,7 @@ import { registry } from "../../core/Registry";
 import { color } from "../../core/utils/Color";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import { percent } from "../../core/utils/Percent";
+import * as $type from "../../core/utils/Type";
 import * as $iter from "../../core/utils/Iterator";
 import * as $geo from "./Geo";
 /**
@@ -94,32 +95,35 @@ var MapLine = /** @class */ (function (_super) {
             return this.getPropertyValue("imagesToConnect");
         },
         /**
-         * Instead of setting longitudes/latitudes you can set an array of images which will be connected by the line
+         * Instead of setting longitudes/latitudes you can set an array of images
+         * which will be connected by the line.
          *
-         * @param {MapImages[]} images
+         * Parameter is an array that can hold string `id`'s to of the images, or
+         * references to actual [[MapImage]] objects.
+         *
+         * @param {MapImages[]}  images  Images
          */
         set: function (images) {
             var _this = this;
-            try {
-                //@todo dispose listeners if previous imagesToConnect exists
-                for (var images_1 = tslib_1.__values(images), images_1_1 = images_1.next(); !images_1_1.done; images_1_1 = images_1.next()) {
-                    var image = images_1_1.value;
-                    image.events.on("propertychanged", function (event) {
-                        if (event.property == "longitude" || event.property == "latitude") {
-                            _this.invalidate();
-                        }
-                    }, this);
+            //@todo dispose listeners if previous imagesToConnect exists
+            for (var i = 0; i < images.length; i++) {
+                var image = images[i];
+                if ($type.isString(image)) {
+                    if (this.map.hasKey(image)) {
+                        image = this.map.getKey(image);
+                        images[i] = image;
+                    }
+                    else {
+                        continue;
+                    }
                 }
-            }
-            catch (e_1_1) { e_1 = { error: e_1_1 }; }
-            finally {
-                try {
-                    if (images_1_1 && !images_1_1.done && (_a = images_1.return)) _a.call(images_1);
-                }
-                finally { if (e_1) throw e_1.error; }
+                image.events.on("propertychanged", function (event) {
+                    if (event.property == "longitude" || event.property == "latitude") {
+                        _this.invalidate();
+                    }
+                }, this);
             }
             this.setPropertyValue("imagesToConnect", images);
-            var e_1, _a;
         },
         enumerable: true,
         configurable: true
@@ -142,12 +146,12 @@ var MapLine = /** @class */ (function (_super) {
                     segment.push({ longitude: image.longitude, latitude: image.latitude });
                 }
             }
-            catch (e_2_1) { e_2 = { error: e_2_1 }; }
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
             finally {
                 try {
                     if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
                 }
-                finally { if (e_2) throw e_2.error; }
+                finally { if (e_1) throw e_1.error; }
             }
         }
         if (this.shortestDistance) {
@@ -188,7 +192,7 @@ var MapLine = /** @class */ (function (_super) {
         });
         this.line.parent = this;
         _super.prototype.validate.call(this);
-        var e_2, _c;
+        var e_1, _c;
     };
     /**
      * @ignore Exclude from docs
@@ -297,6 +301,7 @@ var MapLine = /** @class */ (function (_super) {
      */
     MapLine.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
+        this.line.copyFrom(source.line);
         this.lineObjects.copyFrom(source.lineObjects);
         if (source._arrow) {
             this.arrow = source.arrow.clone();

@@ -32,22 +32,6 @@ var MapSplineSeriesDataItem = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
-    Object.defineProperty(MapSplineSeriesDataItem.prototype, "mapLine", {
-        /**
-         * A [[MapSpline]] element related to this data item.
-         *
-         * @return {MapSpline} Element
-         */
-        get: function () {
-            if (!this._mapLine) {
-                this._mapLine = this.component.mapLines.create(MapSpline);
-                this.addSprite(this._mapLine);
-            }
-            return this._mapLine;
-        },
-        enumerable: true,
-        configurable: true
-    });
     return MapSplineSeriesDataItem;
 }(MapLineSeriesDataItem));
 export { MapSplineSeriesDataItem };

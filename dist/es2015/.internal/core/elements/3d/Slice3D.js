@@ -105,17 +105,14 @@ var Slice3D = /** @class */ (function (_super) {
             this.edge.show(0);
             var startAngle = this.startAngle;
             var arc = this.arc;
-            var innerRadius = this.innerRadius;
-            var radiusY = this.radiusY;
-            var cornerRadius = this.cornerRadius;
+            var innerRadius = this.pixelInnerRadius || 0;
+            var radiusY = this.radiusY || 0;
+            var cornerRadius = this.cornerRadius || 0;
             var innerCornerRadius = this.innerCornerRadius;
             var radius = this.radius;
             // this is code duplicate with $path.arc. @todo to think how to avoid it
             var endAngle = startAngle + arc;
             var crSin = $math.sin($math.min(arc, 45) / 2);
-            innerRadius = innerRadius || 0;
-            radiusY = radiusY || radius;
-            cornerRadius = cornerRadius || 0;
             innerCornerRadius = innerCornerRadius || cornerRadius;
             var innerRadiusY = (radiusY / radius) * innerRadius;
             var cornerRadiusY = (radiusY / radius) * cornerRadius;

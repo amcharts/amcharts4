@@ -59,10 +59,10 @@ var ChordNode = /** @class */ (function (_super) {
         hiddenState.properties.opacity = 0.5;
         hiddenState.properties.visible = true;
         _this.adapter.add("tooltipX", function (tooltipX, target) {
-            return target.slice.ix * (target.slice.radius - (target.slice.radius - target.slice.innerRadius) / 2);
+            return target.slice.ix * (target.slice.radius - (target.slice.radius - target.slice.pixelInnerRadius) / 2);
         });
         _this.adapter.add("tooltipY", function (tooltipY, target) {
-            return target.slice.iy * (target.slice.radius - (target.slice.radius - target.slice.innerRadius) / 2);
+            return target.slice.iy * (target.slice.radius - (target.slice.radius - target.slice.pixelInnerRadius) / 2);
         });
         return _this;
     }
@@ -130,7 +130,7 @@ var ChordNode = /** @class */ (function (_super) {
                         if (!dataItem.toNode) {
                             link.endAngle = link.startAngle;
                         }
-                        link.radius = slice.innerRadius;
+                        link.radius = slice.pixelInnerRadius;
                     }
                     //link.validate();
                 });
@@ -138,7 +138,7 @@ var ChordNode = /** @class */ (function (_super) {
             if (this._incomingSorted) {
                 $iter.each(this._incomingSorted, function (dataItem) {
                     var link = dataItem.link;
-                    link.radius = slice.innerRadius;
+                    link.radius = slice.pixelInnerRadius;
                     if (chart.nonRibbon) {
                         var percentWidth = link.percentWidth;
                         if (!$type.isNumber(percentWidth)) {

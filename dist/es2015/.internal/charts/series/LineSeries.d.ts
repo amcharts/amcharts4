@@ -283,6 +283,14 @@ export declare class LineSeries extends XYSeries {
     /**
      * Connect the lines over empty data points?
      *
+     * If set to `true` the line will connect two adjacent data points by a
+     * straight line. Even if there are data points with missing values
+     * in-between.
+     *
+     * If you set this to `false`, the line will break when there are missing
+     * values.
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/chart-types/xy-chart/#Line_series_with_gaps} for more information about this feature
      * @default true
      * @param {boolean}  value  Connect?
      */
