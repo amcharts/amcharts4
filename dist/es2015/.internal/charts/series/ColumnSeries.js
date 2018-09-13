@@ -223,13 +223,12 @@ var ColumnSeries = /** @class */ (function (_super) {
         var cellEndLocation = renderer.cellEndLocation;
         this._startLocation = cellStartLocation + (index / clusterCount) * (cellEndLocation - cellStartLocation);
         this._endLocation = cellStartLocation + (index + 1) / clusterCount * (cellEndLocation - cellStartLocation);
-        // can't use columnsContainer.removeChildren() because with 3d columns we use one container for all columns
-        $iter.each(this.columns.iterator(), function (column) {
-            if (column.dataItem.index < _this.startIndex || column.dataItem.index >= _this.endIndex) {
-                column.__disabled = true;
+        _super.prototype.validate.call(this);
+        this.dataItems.each(function (dataItem) {
+            if (dataItem.index < _this.startIndex || dataItem.index >= _this.endIndex) {
+                _this.disableUnusedColumns(dataItem);
             }
         });
-        _super.prototype.validate.call(this);
     };
     /**
      * Validates data item's element, effectively redrawing it.

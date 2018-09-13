@@ -51,14 +51,12 @@ export declare class ConeColumn extends Column {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IConeColumnProperties}
      */
     _properties: IConeColumnProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IConeColumnAdapters}
      */
     _adapter: IConeColumnAdapters;
@@ -66,7 +64,6 @@ export declare class ConeColumn extends Column {
      * Defines available events.
      *
      * @type {IConeColumnEvents}
-     * @ignore Exclude from docs
      */
     _events: IConeColumnEvents;
     /**

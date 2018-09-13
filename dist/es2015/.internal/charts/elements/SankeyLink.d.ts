@@ -91,14 +91,12 @@ export declare class SankeyLink extends FlowDiagramLink {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ISankeyLinkProperties}
      */
     _properties: ISankeyLinkProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ISankeyLinkAdapters}
      */
     _adapter: ISankeyLinkAdapters;
@@ -106,13 +104,11 @@ export declare class SankeyLink extends FlowDiagramLink {
      * Defines available events.
      *
      * @type {ISankeyLinkEvents}
-     * @ignore Exclude from docs
      */
     _events: ISankeyLinkEvents;
     /**
      * Defines a type of data item used by this class.
      *
-     * @ignore Exclude from docs
      * @type {SankeyDiagramDataItem}
      */
     _dataItem: SankeyDiagramDataItem;

@@ -26,7 +26,6 @@ export declare class TreeMapSeriesDataItem extends ColumnSeriesDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
-     * @ignore Exclude from docs
      * @type {TreeMapSeries}
      */
     _component: TreeMapSeries;
@@ -115,21 +114,18 @@ export declare class TreeMapSeries extends ColumnSeries {
     /**
      * Defines the type of data fields used for the series.
      *
-     * @ignore Exclude from docs
      * @type {ITreeMapSeriesDataFields}
      */
     _dataFields: ITreeMapSeriesDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ITreeMapSeriesProperties}
      */
     _properties: ITreeMapSeriesProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ITreeMapSeriesAdapters}
      */
     _adapter: ITreeMapSeriesAdapters;
@@ -137,7 +133,6 @@ export declare class TreeMapSeries extends ColumnSeries {
      * Defines available events.
      *
      * @type {ITreeMapSeriesEvents}
-     * @ignore Exclude from docs
      */
     _events: ITreeMapSeriesEvents;
     /**
@@ -149,14 +144,12 @@ export declare class TreeMapSeries extends ColumnSeries {
     /**
      * Type of the data item used by series.
      *
-     * @ignore Exclude from docs
      * @type {TreeMapSeriesDataItem}
      */
     _dataItem: TreeMapSeriesDataItem;
     /**
      * A chart series belongs to.
      *
-     * @ignore Exclude from docs
      * @type {TreeMap}
      */
     _chart: TreeMap;
@@ -201,6 +194,10 @@ export declare class TreeMapSeries extends ColumnSeries {
      * @ignore Exclude from docs
      */
     processValues(): void;
+    /**
+     * @ignore
+     */
+    dataChangeUpdate(): void;
     /**
      * Processes JSON-based config before it is applied to the object.
      *

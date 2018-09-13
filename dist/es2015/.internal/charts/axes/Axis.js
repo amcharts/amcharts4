@@ -498,6 +498,9 @@ var Axis = /** @class */ (function (_super) {
      * Override to cancel super call for data element validation.
      */
     Axis.prototype.validateDataElements = function () {
+        if (this.ghostLabel) {
+            this.renderer.updateLabelElement(this.ghostLabel, this.start, this.end);
+        }
     };
     /**
      * Recalculates the number of grid items on the axis.
@@ -663,6 +666,14 @@ var Axis = /** @class */ (function (_super) {
                 renderer.parent = this;
                 this.title.parent = this; // we add title to axis and set layout in renderer to avoid one extra container, as otherwise axis container would be used for holding renderer only
                 this.initRenderer();
+                var ghostLabel = this.renderer.labels.create();
+                this._disposers.push(ghostLabel);
+                ghostLabel.text = "|";
+                ghostLabel.parent = this.renderer;
+                ghostLabel.fillOpacity = 0;
+                ghostLabel.opacity = 0;
+                ghostLabel.strokeOpacity = 0;
+                this.ghostLabel = ghostLabel;
             }
         },
         enumerable: true,

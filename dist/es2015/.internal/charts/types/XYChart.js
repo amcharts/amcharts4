@@ -319,20 +319,18 @@ var XYChart = /** @class */ (function (_super) {
     XYChart.prototype.validateData = function () {
         // tell axes that data changed
         if (this._parseDataFrom == 0) {
-            $iter.each(this.xAxes.iterator(), function (axis) {
-                axis.dataChangeUpdate();
-            });
-            $iter.each(this.yAxes.iterator(), function (axis) {
-                axis.dataChangeUpdate();
+            // commented, because series does this.
+            //$iter.each(this.xAxes.iterator(), (axis) => {
+            //axis.dataChangeUpdate();
+            //});
+            //$iter.each(this.yAxes.iterator(), (axis) => {
+            //axis.dataChangeUpdate();
+            //});
+            $iter.each(this.series.iterator(), function (series) {
+                series.dataChangeUpdate();
             });
         }
-        //$iter.each(this.series.iterator(), (series) => {
-        //	series.appeared = false;
-        //});		
         _super.prototype.validateData.call(this);
-        // reset minimums
-        this.leftAxesContainer.minWidth = undefined;
-        this.rightAxesContainer.minWidth = undefined;
     };
     /**
      * Updates margins for horizontal axes based on settings and available space.

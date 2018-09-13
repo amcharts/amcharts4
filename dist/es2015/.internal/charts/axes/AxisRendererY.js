@@ -16,6 +16,7 @@ import { percent } from "../../core/utils/Percent";
 import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
 import * as $utils from "../../core/utils/Utils";
+import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -181,9 +182,7 @@ var AxisRendererY = /** @class */ (function (_super) {
     AxisRendererY.prototype.updateGridElement = function (grid, position, endPosition) {
         position = position + (endPosition - position) * grid.location;
         var point = this.positionToPoint(position);
-        if (grid.element) {
-            grid.element.attr({ "d": $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: this.getWidth(), y: 0 }) });
-        }
+        grid.path = $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: this.getWidth(), y: 0 });
         this.positionItem(grid, point);
         this.toggleVisibility(grid, position, 0, 1);
     };
@@ -205,7 +204,7 @@ var AxisRendererY = /** @class */ (function (_super) {
         else {
             tickLength *= (tick.inside ? -1 : 1);
         }
-        tick.element.attr({ "d": $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: tickLength, y: 0 }) });
+        tick.path = $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: tickLength, y: 0 });
         this.positionItem(tick, point);
         this.toggleVisibility(tick, position, 0, 1);
     };
@@ -215,10 +214,7 @@ var AxisRendererY = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     AxisRendererY.prototype.updateAxisLine = function () {
-        var element = this.line.element;
-        if (element) {
-            element.attr({ "d": $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: 0, y: this.axisLength }) });
-        }
+        this.line.path = $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: 0, y: this.axisLength });
     };
     /**
      * Updates and positions the base grid element.
@@ -237,7 +233,7 @@ var AxisRendererY = /** @class */ (function (_super) {
         }
         else {
             var x = $utils.spritePointToSprite({ x: 0, y: 0 }, this.gridContainer, baseGrid.parent).x;
-            baseGrid.element.attr({ "d": $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: w, y: 0 }) });
+            baseGrid.path = $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: w, y: 0 });
             baseGrid.moveTo({ x: x, y: y });
             baseGrid.show(0);
         }
@@ -250,8 +246,11 @@ var AxisRendererY = /** @class */ (function (_super) {
      * @param {number}     position     Starting position
      * @param {number}     endPosition  Ending position
      */
-    AxisRendererY.prototype.updateLabelElement = function (label, position, endPosition) {
-        position = position + (endPosition - position) * label.location;
+    AxisRendererY.prototype.updateLabelElement = function (label, position, endPosition, location) {
+        if (!$type.hasValue(location)) {
+            location = label.location;
+        }
+        position = position + (endPosition - position) * location;
         label.isMeasured = !label.inside;
         var point = this.positionToPoint(position);
         var horizontalCenter;

@@ -51,14 +51,12 @@ export declare class AxisRendererY3D extends AxisRendererY {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IAxisRendererY3DProperties}
      */
     _properties: IAxisRendererY3DProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IAxisRendererY3DAdapters}
      */
     _adapter: IAxisRendererY3DAdapters;
@@ -66,7 +64,6 @@ export declare class AxisRendererY3D extends AxisRendererY {
      * Defines available events.
      *
      * @type {IAxisRendererY3DEvents}
-     * @ignore Exclude from docs
      */
     _events: IAxisRendererY3DEvents;
     /**

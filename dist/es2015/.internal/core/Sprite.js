@@ -2097,21 +2097,23 @@ var Sprite = /** @class */ (function (_super) {
      * @return {Optional<Animation>}  [[Animation]] object which is handling the transition
      */
     Sprite.prototype.applyCurrentState = function (duration) {
-        var animation = this.setState(this.defaultState, duration);
-        if (this.isHover) {
-            animation = this.setState("hover", duration);
-        }
-        if (this.isDown && this.interactions.downPointers.length) {
-            animation = this.setState("down", duration);
-        }
-        this.isFocused = this.isFocused;
-        if (this.isActive) {
-            animation = this.setState("active", duration);
-            if (this.states.hasKey("hoverActive")) {
-                animation = this.setState("hoverActive", duration);
+        if (!this.isHidden) {
+            var animation = this.setState(this.defaultState, duration);
+            if (this.isHover) {
+                animation = this.setState("hover", duration);
             }
+            if (this.isDown && this.interactions.downPointers.length) {
+                animation = this.setState("down", duration);
+            }
+            this.isFocused = this.isFocused;
+            if (this.isActive) {
+                animation = this.setState("active", duration);
+                if (this.isHover && this.states.hasKey("hoverActive")) {
+                    animation = this.setState("hoverActive", duration);
+                }
+            }
+            return animation;
         }
-        return animation;
     };
     /**
      * Starts an [[Animation]] of the properties to specific values as they are
@@ -2312,6 +2314,9 @@ var Sprite = /** @class */ (function (_super) {
             this._isActive = value;
             if (value && this.states.hasKey("active")) {
                 this.setState("active");
+                if (this.isHover && this.states.hasKey("hoverActive")) {
+                    this.setState("hoverActive");
+                }
             }
             else {
                 this.applyCurrentState();
@@ -2916,6 +2921,15 @@ var Sprite = /** @class */ (function (_super) {
             propValue = this.adapter.apply(propertyName, propValue);
         }
         return propValue;
+    };
+    Sprite.prototype.setColorProperty = function (property, value) {
+        var currentValue = this.properties[property];
+        if (value instanceof Color && currentValue instanceof Color && value.hex == currentValue.hex) {
+            return false;
+        }
+        else {
+            return this.setPropertyValue(property, value);
+        }
     };
     /**
      * Sets elements's property value. Will also propagate the same property value
@@ -5936,12 +5950,13 @@ var Sprite = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Sprite.prototype, "fillModifier", {
+    Object.defineProperty(Sprite.prototype, "path", {
         /**
-         * @return {ColorModifier} Fill color modifier
+         * Path of a tick element
+         * @type {string}
          */
         get: function () {
-            return this.getPropertyValue("fillModifier");
+            return this.getPropertyValue("path");
         },
         /**
          * ==========================================================================
@@ -5949,6 +5964,27 @@ var Sprite = /** @class */ (function (_super) {
          * ==========================================================================
          * @hidden
          */
+        /**
+         * Path of a sprite element
+         * @type {string}
+         */
+        set: function (value) {
+            if (this.setPropertyValue("path", value)) {
+                if (this.element) {
+                    this.element.attr({ "d": value });
+                }
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Sprite.prototype, "fillModifier", {
+        /**
+         * @return {ColorModifier} Fill color modifier
+         */
+        get: function () {
+            return this.getPropertyValue("fillModifier");
+        },
         /**
          * [[ColorModifier]] that can be used to modify color and pattern of the
          * element's fill, e.g. create gradients.
@@ -6032,7 +6068,7 @@ var Sprite = /** @class */ (function (_super) {
         if (!$type.isObject(value)) {
             value = toColor(value);
         }
-        if (this.setPropertyValue("fill", value) || this.fillModifier) {
+        if (this.setColorProperty("fill", value) || this.fillModifier) {
             // this can not go into next if, as value is turned to Gradient
             if (value instanceof Color) {
                 if (this.fillModifier) {
@@ -6115,7 +6151,7 @@ var Sprite = /** @class */ (function (_super) {
         if (!$type.isObject(value)) {
             value = toColor(value);
         }
-        if (this.setPropertyValue("stroke", value) || this.strokeModifier) {
+        if (this.setColorProperty("stroke", value) || this.strokeModifier) {
             // this can not go into next if, as value is turned to Gradient
             if (value instanceof Color) {
                 if (this.strokeModifier) {
@@ -6178,7 +6214,9 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = $type.toBoolean(value);
-            this.setPropertyValue("nonScalingStroke", value);
+            if (this.setPropertyValue("nonScalingStroke", value)) {
+                this.strokeWidth = this.strokeWidth;
+            }
         },
         enumerable: true,
         configurable: true
@@ -6199,7 +6237,7 @@ var Sprite = /** @class */ (function (_super) {
         set: function (value) {
             // @todo Description (review)
             value = $type.toBoolean(value);
-            this.setPropertyValue("nonScaling", value);
+            this.setPropertyValue("nonScaling", value, false, true);
         },
         enumerable: true,
         configurable: true

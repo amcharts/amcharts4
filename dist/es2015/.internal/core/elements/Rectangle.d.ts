@@ -47,14 +47,12 @@ export declare class Rectangle extends Sprite {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IRectangleProperties}
      */
     _properties: IRectangleProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IRectangleAdapters}
      */
     _adapter: IRectangleAdapters;
@@ -62,7 +60,6 @@ export declare class Rectangle extends Sprite {
      * Defines available events.
      *
      * @type {IRectangleEvents}
-     * @ignore Exclude from docs
      */
     _events: IRectangleEvents;
     /**

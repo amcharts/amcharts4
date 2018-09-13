@@ -260,6 +260,7 @@ var Series = /** @class */ (function (_super) {
     Series.prototype.appear = function () {
         var _this = this;
         this._appeared = false;
+        this.events.disableType("hidden");
         this.hide(0);
         var animation = this.show();
         if (animation && !animation.isDisposed()) {
@@ -270,6 +271,7 @@ var Series = /** @class */ (function (_super) {
         else {
             this.appeared = true;
         }
+        this.events.enableType("hidden");
     };
     /**
      * Fades in bullet container and related elements.
@@ -408,13 +410,6 @@ var Series = /** @class */ (function (_super) {
         if (!$type.isNumber(endIndex)) {
             endIndex = this.dataItems.length;
         }
-        this.bulletsContainer.children.each(function (sprite) {
-            sprite.__disabled = true;
-        });
-        // it's ok, we loop trough all the data and check if i is within start/end index later
-        //$iter.each($iter.indexed(dataItems.iterator()), (a) => {
-        //	let i = a[0];
-        //	let dataItem = a[1];
         for (var i = startIndex; i < endIndex; i++) {
             var dataItem_1 = dataItems.getIndex(i);
             for (var key in dataItem_1.values) {
@@ -532,6 +527,7 @@ var Series = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Series.prototype.validate = function () {
+        var _this = this;
         $iter.each(this.axisRanges.iterator(), function (axisRange) {
             //axisRange.contents.disposeChildren(); // not good for columns, as they are reused
             //			axisRange.appendChildren();
@@ -540,6 +536,13 @@ var Series = /** @class */ (function (_super) {
         _super.prototype.validate.call(this);
         this.bulletsContainer.fill = this.fill;
         this.bulletsContainer.stroke = this.stroke;
+        $iter.each(this.dataItems.iterator(), function (dataItem) {
+            if (dataItem.index < _this.startIndex || dataItem.index >= _this.endIndex) {
+                dataItem.bullets.each(function (key, bullet) {
+                    bullet.__disabled = true;
+                });
+            }
+        });
         this.updateTooltipBounds();
     };
     /**

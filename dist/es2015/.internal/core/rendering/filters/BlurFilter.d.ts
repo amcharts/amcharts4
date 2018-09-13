@@ -76,7 +76,6 @@ export declare class BlurFilter extends Filter {
     /**
      * Defines property types.
      *
-     * @ignore Exclude from docs
      * @type {BlurFilterProperties}
      */
     _properties: BlurFilterProperties;

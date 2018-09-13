@@ -165,7 +165,6 @@ axis.renderer.line.strokeOpacity = 0.2;
 axis.renderer.minLabelPosition = 0.05; // hides 0 label
 axis.renderer.inside = true;
 axis.renderer.labels.template.radius = 23;
-axis.renderer.axisFills.template.disabled = true;
 axis.renderer.grid.template.disabled = true;
 axis.renderer.minGridDistance = 20;
 axis.renderer.ticks.template.length = 4;
@@ -370,6 +369,7 @@ lineSeries.tooltip.autoTextColor = false;
 lineSeries.tooltip.label.fill = am4core.color("#ffffff");
 lineSeries.tooltip.filters.clear();
 lineSeries.tooltip.pointerOrientation = "vertical";
+lineSeries.strokeWidth = 2;
 lineSeries.tensionX = 0.7;
 
 let negativeRange = valueAxis.createSeriesRange(lineSeries);

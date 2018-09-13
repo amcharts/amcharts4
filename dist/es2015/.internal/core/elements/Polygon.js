@@ -137,7 +137,7 @@ var Polygon = /** @class */ (function (_super) {
             this.bbox.width = right - left;
             this.bbox.height = bottom - top;
         }
-        this.element.attr({ "d": path });
+        this.path = path;
     };
     /**
      * Measures element

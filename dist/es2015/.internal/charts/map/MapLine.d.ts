@@ -69,14 +69,12 @@ export declare class MapLine extends MapObject {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IMapLineProperties}
      */
     _properties: IMapLineProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IMapLineAdapters}
      */
     _adapter: IMapLineAdapters;
@@ -84,7 +82,6 @@ export declare class MapLine extends MapObject {
      * Defines available events.
      *
      * @type {IMapLineEvents}
-     * @ignore Exclude from docs
      */
     _events: IMapLineEvents;
     /**
@@ -117,7 +114,6 @@ export declare class MapLine extends MapObject {
     /**
      * Related data item.
      *
-     * @ignore Exclude from docs
      * @type {MapLineSeriesDataItem}
      */
     _dataItem: MapLineSeriesDataItem;

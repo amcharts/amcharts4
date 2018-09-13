@@ -93,14 +93,12 @@ export declare class FlowDiagramNode extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IFlowDiagramNodeProperties}
      */
     _properties: IFlowDiagramNodeProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IFlowDiagramNodeAdapters}
      */
     _adapter: IFlowDiagramNodeAdapters;
@@ -108,7 +106,6 @@ export declare class FlowDiagramNode extends Container {
      * Defines available events.
      *
      * @type {IFlowDiagramNodeEvents}
-     * @ignore Exclude from docs
      */
     _events: IFlowDiagramNodeEvents;
     /**
@@ -148,7 +145,6 @@ export declare class FlowDiagramNode extends Container {
     /**
      * Defines the type of the [[FlowDiagramDataItem]] used in the class.
      *
-     * @ignore Exclude from docs
      * @type {FlowDiagramDataItem}
      */
     _dataItem: FlowDiagramDataItem;

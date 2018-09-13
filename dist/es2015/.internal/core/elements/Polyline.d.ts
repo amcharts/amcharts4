@@ -55,14 +55,12 @@ export declare class Polyline extends Sprite {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IPolylineProperties}
      */
     _properties: IPolylineProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IPolylineAdapters}
      */
     _adapter: IPolylineAdapters;
@@ -70,7 +68,6 @@ export declare class Polyline extends Sprite {
      * Defines available events.
      *
      * @type {IPolylineEvents}
-     * @ignore Exclude from docs
      */
     _events: IPolylineEvents;
     /**

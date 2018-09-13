@@ -218,7 +218,7 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      * @param {string}  key    Key
      * @param {any}     value  Value
      */
-    setCache(key: string, value: any): void;
+    setCache(key: string, value: any, ttl?: number): void;
     /**
      * Retrieves cached value.
      *

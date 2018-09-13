@@ -50,7 +50,7 @@ var ResizeButton = /** @class */ (function (_super) {
         path += $path.lineTo({ x: -2, y: 6 });
         path += $path.moveTo({ x: 2, y: -6 });
         path += $path.lineTo({ x: 2, y: 6 });
-        icon.element.attr({ "d": path });
+        icon.path = path;
         icon.pixelPerfect = true;
         icon.padding(0, 4, 0, 4);
         icon.stroke = new InterfaceColorSet().getFor("alternativeText");

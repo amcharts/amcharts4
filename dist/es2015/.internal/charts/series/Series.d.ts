@@ -77,7 +77,6 @@ export declare class SeriesDataItem extends DataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
-     * @ignore Exclude from docs
      * @type {Series}
      */
     _component: Series;
@@ -188,21 +187,18 @@ export declare class Series extends Component {
     /**
      * Defines the type of data fields used for the series.
      *
-     * @ignore Exclude from docs
      * @type {ISeriesDataFields}
      */
     _dataFields: ISeriesDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IComponentProperties}
      */
     _properties: ISeriesProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ISeriesAdapters}
      */
     _adapter: ISeriesAdapters;
@@ -210,13 +206,11 @@ export declare class Series extends Component {
      * Defines available events.
      *
      * @type {ISeriesEvents}
-     * @ignore Exclude from docs
      */
     _events: ISeriesEvents;
     /**
      * Defines a type of data item used for the series.
      *
-     * @ignore Exclude from docs
      * @type {SeriesDataItem}
      */
     _dataItem: SeriesDataItem;
@@ -269,7 +263,6 @@ export declare class Series extends Component {
     /**
      * A chart series belongs to.
      *
-     * @ignore Exclude from docs
      * @type {SerialChart}
      */
     _chart: SerialChart;

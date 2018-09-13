@@ -223,21 +223,18 @@ export declare class XYChart extends SerialChart {
     /**
      * Defines available data fields.
      *
-     * @ignore Exclude from docs
      * @type {IXYChartDataFields}
      */
     _dataFields: IXYChartDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IXYChartProperties}
      */
     _properties: IXYChartProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IXYChartAdapters}
      */
     _adapter: IXYChartAdapters;
@@ -245,13 +242,11 @@ export declare class XYChart extends SerialChart {
      * Defines available events.
      *
      * @type {IXYChartEvents}
-     * @ignore Exclude from docs
      */
     _events: IXYChartEvents;
     /**
      * Defines a type of series that this chart uses.
      *
-     * @ignore Exclude from docs
      * @type {XYSeries}
      */
     _seriesType: XYSeries;
@@ -347,14 +342,12 @@ export declare class XYChart extends SerialChart {
     /**
      * Defines the type horizontal axis renderer.
      *
-     * @ignore Exclude from docs
      * @type {AxisRendererX}
      */
     _xAxisRendererType: AxisRendererX;
     /**
      * Defines the type of vertical axis renderer.
      *
-     * @ignore Exclude from docs
      * @type {AxisRendererY}
      */
     _yAxisRendererType: AxisRendererY;

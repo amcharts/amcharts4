@@ -137,13 +137,11 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      * Defines available events.
      *
      * @type {IDataItemEvents}
-     * @ignore Exclude from docs
      */
     _events: IDataItemEvents;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IExportAdapters}
      */
     _adapter: IDataItemAdapters;
@@ -156,7 +154,6 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
     /**
      * Defines a type of [[Component]] this Data Item is used for.
      *
-     * @ignore Exclude from docs
      * @type {Component}
      */
     _component: Component;

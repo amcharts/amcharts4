@@ -48,14 +48,12 @@ export declare class MapObject extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IMapObjectProperties}
      */
     _properties: IMapObjectProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IMapObjectAdapters}
      */
     _adapter: IMapObjectAdapters;
@@ -63,7 +61,6 @@ export declare class MapObject extends Container {
      * Defines available events.
      *
      * @type {IMapObjectEvents}
-     * @ignore Exclude from docs
      */
     _events: IMapObjectEvents;
     /**

@@ -80,7 +80,7 @@ var Label = /** @class */ (function (_super) {
         _this.textAlign = "start";
         _this.textValign = "top";
         _this.layout = "absolute";
-        _this.renderingFrequency = 1;
+        _this.renderingFrequency = 2;
         // Set up adapters for manipulating accessibility
         _this.adapter.add("readerTitle", function (arg) {
             if (!arg) {
@@ -150,6 +150,13 @@ var Label = /** @class */ (function (_super) {
         return changed;
     };
     /**
+     * Hard invalidate means the text will be redrawn even if it hasn't changed. This is used when we change fontSize of fontFamily or for some other reasons.
+     */
+    Label.prototype.hardInvalidate = function () {
+        this._prevStatus = "";
+        this.invalidate();
+    };
+    /**
      * Draws the textual label.
      *
      * @ignore Exclude from docs
@@ -162,8 +169,7 @@ var Label = /** @class */ (function (_super) {
         if (topParent) {
             if (!topParent.maxWidth || !topParent.maxHeight) {
                 topParent.events.once("maxsizechanged", function () {
-                    _this._prevStatus = "";
-                    _this.invalidate();
+                    _this.hardInvalidate();
                 });
                 return;
             }
@@ -456,7 +462,7 @@ var Label = /** @class */ (function (_super) {
                         }
                         // commented to avoid bug (seen on sankey link) where text is incorrectly aligned
                         //if (this.bbox.x > lineInfo.bbox.x) {
-                        //this.bbox.x = lineInfo.bbox.x; 
+                        //this.bbox.x = lineInfo.bbox.x;
                         //}
                         this.bbox.height = currentHeight + currentLineHeight;
                         // Position current line
@@ -988,8 +994,8 @@ var Label = /** @class */ (function (_super) {
      * Checks if line cache is initialized and initializes it.
      */
     Label.prototype.initLineCache = function () {
-        if (!this.getCache("lineInfo")) {
-            this.setCache("lineInfo", []);
+        if (!$type.hasValue(this.getCache("lineInfo"))) {
+            this.setCache("lineInfo", [], 0);
         }
     };
     /**

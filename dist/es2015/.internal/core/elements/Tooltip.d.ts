@@ -107,14 +107,12 @@ export declare class Tooltip extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ITooltipProperties}
      */
     _properties: ITooltipProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ITooltipAdapters}
      */
     _adapter: ITooltipAdapters;
@@ -122,13 +120,11 @@ export declare class Tooltip extends Container {
      * Defines available events.
      *
      * @type {ITooltipEvents}
-     * @ignore Exclude from docs
      */
     _events: ITooltipEvents;
     /**
      * A type for the background element.
      *
-     * @ignore Exclude from docs
      * @type {PointedRectangle}
      */
     _background: PointedRectangle;

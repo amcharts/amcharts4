@@ -63,14 +63,12 @@ export declare class Polyarc extends Polyline {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IPolyarcProperties}
      */
     _properties: IPolyarcProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IPolyarcAdapters}
      */
     _adapter: IPolyarcAdapters;
@@ -78,7 +76,6 @@ export declare class Polyarc extends Polyline {
      * Defines available events.
      *
      * @type {IPolyarcEvents}
-     * @ignore Exclude from docs
      */
     _events: IPolyarcEvents;
     /**

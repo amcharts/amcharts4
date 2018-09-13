@@ -110,12 +110,12 @@ var Rectangle3D = /** @class */ (function (_super) {
         var bh = { x: depth * cos + w, y: -depth * sin };
         var ch = { x: depth * cos + w, y: -depth * sin + h };
         var dh = { x: depth * cos, y: -depth * sin + h };
-        this.sideFront.element.attr({ "d": $path.moveTo(a) + $path.lineTo(b) + $path.lineTo(c) + $path.lineTo(d) + $path.closePath() });
-        this.sideBack.element.attr({ "d": $path.moveTo(ah) + $path.lineTo(bh) + $path.lineTo(ch) + $path.lineTo(dh) + $path.closePath() });
-        this.sideLeft.element.attr({ "d": $path.moveTo(a) + $path.lineTo(ah) + $path.lineTo(dh) + $path.lineTo(d) + $path.closePath() });
-        this.sideRight.element.attr({ "d": $path.moveTo(b) + $path.lineTo(bh) + $path.lineTo(ch) + $path.lineTo(c) + $path.closePath() });
-        this.sideBottom.element.attr({ "d": $path.moveTo(d) + $path.lineTo(dh) + $path.lineTo(ch) + $path.lineTo(c) + $path.closePath() });
-        this.sideTop.element.attr({ "d": $path.moveTo(a) + $path.lineTo(ah) + $path.lineTo(bh) + $path.lineTo(b) + $path.closePath() });
+        this.sideFront.path = $path.moveTo(a) + $path.lineTo(b) + $path.lineTo(c) + $path.lineTo(d) + $path.closePath();
+        this.sideBack.path = $path.moveTo(ah) + $path.lineTo(bh) + $path.lineTo(ch) + $path.lineTo(dh) + $path.closePath();
+        this.sideLeft.path = $path.moveTo(a) + $path.lineTo(ah) + $path.lineTo(dh) + $path.lineTo(d) + $path.closePath();
+        this.sideRight.path = $path.moveTo(b) + $path.lineTo(bh) + $path.lineTo(ch) + $path.lineTo(c) + $path.closePath();
+        this.sideBottom.path = $path.moveTo(d) + $path.lineTo(dh) + $path.lineTo(ch) + $path.lineTo(c) + $path.closePath();
+        this.sideTop.path = $path.moveTo(a) + $path.lineTo(ah) + $path.lineTo(bh) + $path.lineTo(b) + $path.closePath();
     };
     Object.defineProperty(Rectangle3D.prototype, "depth", {
         /**

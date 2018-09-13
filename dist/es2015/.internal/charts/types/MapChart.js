@@ -359,42 +359,44 @@ var MapChart = /** @class */ (function (_super) {
                 _this.south = series.south;
             }
         });
-        // must reset
-        this.projection.centerPoint = { x: 0, y: 0 };
-        this.projection.scale = 1;
-        // temporary setting deltaLongitude to 0 in order to measure w/h correctly
-        var deltaLongitude = this.projection.deltaLongitude;
-        this.projection.deltaLongitude = 0;
-        var westPoint = this.projection.convert({ longitude: this.west, latitude: (this.south - this.north) / 2 });
-        var eastPoint = this.projection.convert({ longitude: this.east, latitude: (this.south - this.north) / 2 });
-        var northPoint = this.projection.convert({ longitude: (this.east - this.west) / 2, latitude: this.north });
-        var southPoint = this.projection.convert({ longitude: (this.east - this.west) / 2, latitude: this.south });
-        this.projection.deltaLongitude = deltaLongitude;
-        this.projection.centerPoint = { x: westPoint.x + (eastPoint.x - westPoint.x) / 2, y: northPoint.y + (southPoint.y - northPoint.y) / 2 };
-        var scaleRatio;
-        var seriesWidth = eastPoint.x - westPoint.x;
-        var seriesHeight = southPoint.y - northPoint.y;
-        var vScale = this.chartContainer.innerWidth / seriesWidth;
-        var hScale = this.chartContainer.innerHeight / seriesHeight;
-        if (vScale > hScale) {
-            scaleRatio = hScale;
+        if ($type.isNumber(this.east) && $type.isNumber(this.north)) {
+            // must reset
+            this.projection.centerPoint = { x: 0, y: 0 };
+            this.projection.scale = 1;
+            // temporary setting deltaLongitude to 0 in order to measure w/h correctly
+            var deltaLongitude = this.projection.deltaLongitude;
+            this.projection.deltaLongitude = 0;
+            var westPoint = this.projection.convert({ longitude: this.west, latitude: (this.south - this.north) / 2 });
+            var eastPoint = this.projection.convert({ longitude: this.east, latitude: (this.south - this.north) / 2 });
+            var northPoint = this.projection.convert({ longitude: (this.east - this.west) / 2, latitude: this.north });
+            var southPoint = this.projection.convert({ longitude: (this.east - this.west) / 2, latitude: this.south });
+            this.projection.deltaLongitude = deltaLongitude;
+            this.projection.centerPoint = { x: westPoint.x + (eastPoint.x - westPoint.x) / 2, y: northPoint.y + (southPoint.y - northPoint.y) / 2 };
+            var scaleRatio = void 0;
+            var seriesWidth = eastPoint.x - westPoint.x;
+            var seriesHeight = southPoint.y - northPoint.y;
+            var vScale = this.chartContainer.innerWidth / seriesWidth;
+            var hScale = this.chartContainer.innerHeight / seriesHeight;
+            if (vScale > hScale) {
+                scaleRatio = hScale;
+            }
+            else {
+                scaleRatio = vScale;
+            }
+            if ($type.isNaN(scaleRatio) || scaleRatio == Infinity) {
+                scaleRatio = 1;
+            }
+            this.projection.scale = scaleRatio;
+            this.seriesWidth = seriesWidth * scaleRatio;
+            this.seriesHeight = seriesHeight * scaleRatio;
+            this.updateScaleRatio();
+            var seriesContainer = this.seriesContainer;
+            var chartContainer = this.chartContainer;
+            seriesContainer.x = chartContainer.pixelWidth / 2;
+            seriesContainer.y = chartContainer.pixelHeight / 2;
+            this.centerGeoPoint = this.svgPointToGeo({ x: this.measuredWidth / 2, y: this.measuredHeight / 2 });
+            this.goHome();
         }
-        else {
-            scaleRatio = vScale;
-        }
-        if ($type.isNaN(scaleRatio) || scaleRatio == Infinity) {
-            scaleRatio = 1;
-        }
-        this.projection.scale = scaleRatio;
-        this.seriesWidth = seriesWidth * scaleRatio;
-        this.seriesHeight = seriesHeight * scaleRatio;
-        this.updateScaleRatio();
-        var seriesContainer = this.seriesContainer;
-        var chartContainer = this.chartContainer;
-        seriesContainer.x = chartContainer.pixelWidth / 2;
-        seriesContainer.y = chartContainer.pixelHeight / 2;
-        this.centerGeoPoint = this.svgPointToGeo({ x: this.measuredWidth / 2, y: this.measuredHeight / 2 });
-        this.goHome();
     };
     /**
      * (Re)calculates a ratio which should be used to scale the actual map so
@@ -567,7 +569,12 @@ var MapChart = /** @class */ (function (_super) {
         }
         if (mapObject instanceof MapPolygon) {
             var dataItem = mapObject.dataItem;
-            return this.zoomToRectangle(dataItem.north, dataItem.east, dataItem.south, dataItem.west, zoomLevel, center, duration);
+            if ($type.isNumber(zoomLevel)) {
+                return this.zoomToGeoPoint({ latitude: mapObject.latitude, longitude: mapObject.longitude }, zoomLevel, center, duration);
+            }
+            else {
+                return this.zoomToRectangle(dataItem.north, dataItem.east, dataItem.south, dataItem.west, null, center, duration);
+            }
         }
     };
     /**

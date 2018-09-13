@@ -62,14 +62,12 @@ export declare class MapLineObject extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IMapLineObjectProperties}
      */
     _properties: IMapLineObjectProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IMapLineObjectAdapters}
      */
     _adapter: IMapLineObjectAdapters;
@@ -77,7 +75,6 @@ export declare class MapLineObject extends Container {
      * Defines available events.
      *
      * @type {IMapLineObjectEvents}
-     * @ignore Exclude from docs
      */
     _events: IMapLineObjectEvents;
     /**

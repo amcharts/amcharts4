@@ -52,14 +52,12 @@ export declare class GridCircular extends Grid {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IGridCircularProperties}
      */
     _properties: IGridCircularProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IGridCircularAdapters}
      */
     _adapter: IGridCircularAdapters;
@@ -67,7 +65,6 @@ export declare class GridCircular extends Grid {
      * Defines available events.
      *
      * @type {IGridCircularEvents}
-     * @ignore Exclude from docs
      */
     _events: IGridCircularEvents;
     /**

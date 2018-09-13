@@ -24,7 +24,6 @@ import { OHLC } from "../elements/OHLC";
 export declare class OHLCSeriesDataItem extends CandlestickSeriesDataItem {
     /**
      * A sprite used to draw the OHLC elements.
-     * @ignore
      * @type {OHLC}
      */
     _column: OHLC;
@@ -84,32 +83,27 @@ export declare class OHLCSeries extends CandlestickSeries {
     /**
      * Defines the type of data item.
      *
-     * @ignore Exclude from docs
      * @type {OHLCSeriesDataItem}
      */
     _dataItem: OHLCSeriesDataItem;
     /**
-     * @ignore
      */
     _column: OHLC;
     /**
      * Defines available data fields.
      *
-     * @ignore Exclude from docs
      * @type {IOHLCSeriesDataFields}
      */
     _dataFields: IOHLCSeriesDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IOHLCSeriesProperties}
      */
     _properties: IOHLCSeriesProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IOHLCSeriesAdapters}
      */
     _adapter: IOHLCSeriesAdapters;
@@ -117,7 +111,6 @@ export declare class OHLCSeries extends CandlestickSeries {
      * Defines available events.
      *
      * @type {IOHLCSeriesEvents}
-     * @ignore Exclude from docs
      */
     _events: IOHLCSeriesEvents;
     /**

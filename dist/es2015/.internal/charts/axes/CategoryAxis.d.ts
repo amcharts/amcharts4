@@ -29,7 +29,6 @@ export declare class CategoryAxisDataItem extends AxisDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
-     * @ignore Exclude from docs
      * @type {CategoryAxis}
      */
     _component: CategoryAxis;
@@ -135,21 +134,18 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
     /**
      * Defines data fields.
      *
-     * @ignore Exclude from docs
      * @type {CategoryAxisDataFIelds}
      */
     _dataFields: ICategoryAxisDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ICategoryAxisProperties}
      */
     _properties: ICategoryAxisProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ICategoryAxisAdapters}
      */
     _adapter: ICategoryAxisAdapters;
@@ -157,20 +153,17 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      * Defines available events.
      *
      * @type {ICategoryAxisEvents}
-     * @ignore Exclude from docs
      */
     _events: ICategoryAxisEvents;
     /**
      * Defines the type of the Date Items.
      *
-     * @ignore Exclude from docs
      * @type {CategoryAxisDataItem}
      */
     _dataItem: CategoryAxisDataItem;
     /**
      * Defines the type of the axis breaks.
      *
-     * @ignore Exclude from docs
      * @type {CategoryAxisBreak}
      */
     _axisBreak: CategoryAxisBreak;

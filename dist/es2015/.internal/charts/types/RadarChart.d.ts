@@ -113,21 +113,18 @@ export declare class RadarChart extends XYChart {
     /**
      * Defines available data fields.
      *
-     * @ignore Exclude from docs
      * @type {IRadarChartDataFields}
      */
     _dataFields: IRadarChartDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IRadarChartProperties}
      */
     _properties: IRadarChartProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {SeriesAdapters}
      */
     _adapter: IRadarChartAdapters;
@@ -135,20 +132,17 @@ export declare class RadarChart extends XYChart {
      * Defines available events.
      *
      * @type {IRadarChartEvents}
-     * @ignore Exclude from docs
      */
     _events: IRadarChartEvents;
     /**
      * Defines X axis renderer type.
      *
-     * @ignore Exclude from docs
      * @type {AxisRendererCircular}
      */
     _xAxisRendererType: AxisRendererCircular;
     /**
      * Defines Y axis renderer type.
      *
-     * @ignore Exclude from docs
      * @type {AxisRendererRadial}
      */
     _yAxisRendererType: AxisRendererRadial;
@@ -167,7 +161,6 @@ export declare class RadarChart extends XYChart {
     /**
      * [_cursor description]
      *
-     * @ignore Exclude from docs
      * @todo Description
      * @type {RadarCursor}
      */

@@ -61,14 +61,12 @@ export declare class AxisLabel extends Label {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IAxisLabelProperties}
      */
     _properties: IAxisLabelProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IAxisLabelAdapters}
      */
     _adapter: IAxisLabelAdapters;
@@ -76,7 +74,6 @@ export declare class AxisLabel extends Label {
      * Defines available events.
      *
      * @type {IAxisLabelEvents}
-     * @ignore Exclude from docs
      */
     _events: IAxisLabelEvents;
     /**

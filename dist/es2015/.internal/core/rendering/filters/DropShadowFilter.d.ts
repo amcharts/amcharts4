@@ -65,7 +65,6 @@ export declare class DropShadowFilter extends Filter {
     /**
      * Defines property types.
      *
-     * @ignore Exclude from docs
      * @type {DropShadowFilterProperties}
      */
     _properties: DropShadowFilterProperties;

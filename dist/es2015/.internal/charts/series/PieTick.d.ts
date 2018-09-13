@@ -50,14 +50,12 @@ export declare class PieTick extends Tick {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IPieTickProperties}
      */
     _properties: IPieTickProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IPieTickAdapters}
      */
     _adapter: IPieTickAdapters;
@@ -65,7 +63,6 @@ export declare class PieTick extends Tick {
      * Defines available events.
      *
      * @type {IPieTickEvents}
-     * @ignore Exclude from docs
      */
     _events: IPieTickEvents;
     /**

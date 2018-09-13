@@ -74,14 +74,12 @@ export declare class Preloader extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IPreloaderProperties}
      */
     _properties: IPreloaderProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IPreloaderAdapters}
      */
     _adapter: IPreloaderAdapters;
@@ -89,7 +87,6 @@ export declare class Preloader extends Container {
      * Defines available events.
      *
      * @type {IPreloaderEvents}
-     * @ignore Exclude from docs
      */
     _events: IPreloaderEvents;
     /**

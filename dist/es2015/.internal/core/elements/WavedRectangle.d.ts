@@ -69,14 +69,12 @@ export declare class WavedRectangle extends Rectangle implements IWavedShape {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IWavedRectangleProperties}
      */
     _properties: IWavedRectangleProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IWavedRectangleAdapters}
      */
     _adapter: IWavedRectangleAdapters;
@@ -84,7 +82,6 @@ export declare class WavedRectangle extends Rectangle implements IWavedShape {
      * Defines available events.
      *
      * @type {IWavedRectangleEvents}
-     * @ignore Exclude from docs
      */
     _events: IWavedRectangleEvents;
     /**

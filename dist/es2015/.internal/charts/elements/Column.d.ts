@@ -51,14 +51,12 @@ export declare class Column extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IColumnProperties}
      */
     _properties: IColumnProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IColumnAdapters}
      */
     _adapter: IColumnAdapters;
@@ -66,7 +64,6 @@ export declare class Column extends Container {
      * Defines available events.
      *
      * @type {IColumnEvents}
-     * @ignore Exclude from docs
      */
     _events: IColumnEvents;
     /**

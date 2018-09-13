@@ -82,14 +82,12 @@ export declare class Cone extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IConeProperties}
      */
     _properties: IConeProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IConeAdapters}
      */
     _adapter: IConeAdapters;
@@ -97,7 +95,6 @@ export declare class Cone extends Container {
      * Defines available events.
      *
      * @type {IConeEvents}
-     * @ignore Exclude from docs
      */
     _events: IConeEvents;
     /**

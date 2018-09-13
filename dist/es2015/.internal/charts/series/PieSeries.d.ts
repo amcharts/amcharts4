@@ -36,7 +36,6 @@ export declare class PieSeriesDataItem extends SeriesDataItem {
     /**
      * A type of slice used for this series.
      *
-     * @ignore Exclude from docs
      * @type {Slice}
      */
     _slice: Slice;
@@ -69,7 +68,6 @@ export declare class PieSeriesDataItem extends SeriesDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
-     * @ignore Exclude from docs
      * @type {PieSeries}
      */
     _component: PieSeries;
@@ -291,21 +289,18 @@ export declare class PieSeries extends Series {
     /**
      * Defines the type of data fields used for the series.
      *
-     * @ignore Exclude from docs
      * @type {IPieSeriesDataFields}
      */
     _dataFields: IPieSeriesDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IPieSeriesProperties}
      */
     _properties: IPieSeriesProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IPieSeriesAdapters}
      */
     _adapter: IPieSeriesAdapters;
@@ -313,13 +308,11 @@ export declare class PieSeries extends Series {
      * Defines available events.
      *
      * @type {IPieSeriesEvents}
-     * @ignore Exclude from docs
      */
     _events: IPieSeriesEvents;
     /**
      * Defines the type of data item.
      *
-     * @ignore Exclude from docs
      * @type {PieSeriesDataItem}
      */
     _dataItem: PieSeriesDataItem;
@@ -459,7 +452,7 @@ export declare class PieSeries extends Series {
      * @return {number | Percent} Radius
      */
     /**
-     * Outer radius for the series' slices in pixels.
+     * Outer radius for the series' slices in pixels or [[Percent]].
      *
      * @param {number | Percent}  value  Radius
      */

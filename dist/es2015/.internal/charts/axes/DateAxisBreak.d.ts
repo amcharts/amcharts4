@@ -68,14 +68,12 @@ export declare class DateAxisBreak extends ValueAxisBreak {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IDateAxisBreakProperties}
      */
     _properties: IDateAxisBreakProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IDateAxisBreakAdapters}
      */
     _adapter: IDateAxisBreakAdapters;
@@ -83,13 +81,11 @@ export declare class DateAxisBreak extends ValueAxisBreak {
      * Defines available events.
      *
      * @type {IDateAxisBreakEvents}
-     * @ignore Exclude from docs
      */
     _events: IDateAxisBreakEvents;
     /**
      * Defines the type of the Axis this break is used for.
      *
-     * @ignore Exclude from docs
      * @type {ValueAxis}
      */
     _axisType: DateAxis;

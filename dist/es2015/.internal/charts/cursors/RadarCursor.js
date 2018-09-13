@@ -146,7 +146,7 @@ var RadarCursor = /** @class */ (function (_super) {
                 if (!path) {
                     path = $path.moveTo({ x: innerRadius * $math.cos(angle), y: innerRadius * $math.sin(angle) }) + $path.lineTo({ x: radius * $math.cos(angle), y: radius * $math.sin(angle) });
                 }
-                this.lineX.element.attr({ "d": path });
+                this.lineX.path = path;
             }
         }
     };
@@ -179,7 +179,7 @@ var RadarCursor = /** @class */ (function (_super) {
                 if (!path) {
                     path = $path.moveTo({ x: radius * $math.cos(startAngle), y: radius * $math.sin(startAngle) }) + $path.arcTo(startAngle, endAngle - startAngle, radius);
                 }
-                this.lineY.element.attr({ "d": path });
+                this.lineY.path = path;
             }
         }
     };
@@ -219,7 +219,7 @@ var RadarCursor = /** @class */ (function (_super) {
                     else if (behavior == "zoomXY") {
                         path = $path.moveTo({ x: currentRadius * $math.cos(downAngle), y: currentRadius * $math.sin(downAngle) }) + $path.arcTo(downAngle, angle - downAngle, currentRadius) + $path.lineTo({ x: downRadius * $math.cos(angle), y: downRadius * $math.sin(angle) }) + $path.arcTo(angle, downAngle - angle, downRadius) + $path.closePath();
                     }
-                    this.selection.element.attr({ "d": path });
+                    this.selection.path = path;
                 }
                 this.selection.moveTo({ x: 0, y: 0 });
             }

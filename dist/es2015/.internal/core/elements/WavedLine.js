@@ -50,8 +50,7 @@ var WavedLine = /** @class */ (function (_super) {
         //super.draw();
         var p1 = { x: this.x1, y: this.y1 };
         var p2 = { x: this.x2, y: this.y2 };
-        var d = $path.moveTo(p1) + wavedLine(p1, p2, this.waveLength, this.waveHeight, this.tension, true);
-        this.element.attr({ "d": d });
+        this.path = $path.moveTo(p1) + wavedLine(p1, p2, this.waveLength, this.waveHeight, this.tension, true);
     };
     Object.defineProperty(WavedLine.prototype, "waveLength", {
         /**

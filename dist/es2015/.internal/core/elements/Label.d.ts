@@ -175,14 +175,12 @@ export declare class Label extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ILabelProperties}
      */
     _properties: ILabelProperties;
     /**
      * Defines Adapter type.
      *
-     * @ignore Exclude from docs
      * @type {ILabelAdapters}
      */
     _adapter: ILabelAdapters;
@@ -190,7 +188,6 @@ export declare class Label extends Container {
      * Defines available events.
      *
      * @type {ILabelEvents}
-     * @ignore Exclude from docs
      */
     _events: ILabelEvents;
     /**
@@ -237,6 +234,10 @@ export declare class Label extends Container {
      * @return {boolean} Text changed?
      */
     protected updateCurrentText(): boolean;
+    /**
+     * Hard invalidate means the text will be redrawn even if it hasn't changed. This is used when we change fontSize of fontFamily or for some other reasons.
+     */
+    hardInvalidate(): void;
     /**
      * Draws the textual label.
      *

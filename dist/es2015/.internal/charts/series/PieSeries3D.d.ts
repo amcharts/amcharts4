@@ -23,7 +23,6 @@ export declare class PieSeries3DDataItem extends PieSeriesDataItem {
     /**
      * Defines type of the slice represented by this data item.
      *
-     * @ignore Exclude from docs
      * @type {Slice3D}
      */
     _slice: Slice3D;
@@ -117,21 +116,18 @@ export declare class PieSeries3D extends PieSeries {
     /**
      * Defines the type of data fields used for the series.
      *
-     * @ignore Exclude from docs
      * @type {IPieSeries3DDataFields}
      */
     _dataFields: IPieSeries3DDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IPieSeries3DProperties}
      */
     _properties: IPieSeries3DProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IPieSeries3DAdapters}
      */
     _adapter: IPieSeries3DAdapters;
@@ -139,20 +135,17 @@ export declare class PieSeries3D extends PieSeries {
      * Defines available events.
      *
      * @type {IPieSeries3DEvents}
-     * @ignore Exclude from docs
      */
     _events: IPieSeries3DEvents;
     /**
      * Defines the type of data item.
      *
-     * @ignore Exclude from docs
      * @type {PieSeries3DDataItem}
      */
     _dataItem: PieSeries3DDataItem;
     /**
      * A chart series belongs to.
      *
-     * @ignore Exclude from docs
      * @type {PieChart3D}
      */
     _chart: PieChart3D;

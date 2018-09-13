@@ -179,9 +179,8 @@ var LineSeries = /** @class */ (function (_super) {
         this._segmentsIterator.reset();
         this.openSegment(this._workingStartIndex);
         $iter.each(this.axisRanges.iterator(), function (range) {
-            _this.openSegment(0, range);
+            _this.openSegment(_this._workingStartIndex, range);
         });
-        // can't use columnsContainer.removeChildren() because with 3d columns we use one container for all columns
         $iter.each(this._segmentsIterator.iterator(), function (segment) {
             segment.__disabled = true;
         });
@@ -248,7 +247,7 @@ var LineSeries = /** @class */ (function (_super) {
                 }
                 else {
                     // this time we only need to know if properties changed, so we don't pass segment
-                    propertiesChanged = this.updateSegmentProperties(dataItem.properties);
+                    propertiesChanged = this.updateSegmentProperties(dataItem.properties, segment, true);
                 }
             }
             if (dataItem.hasValue(this._xValueFields) && dataItem.hasValue(this._yValueFields)) {
@@ -356,19 +355,39 @@ var LineSeries = /** @class */ (function (_super) {
      * @param  {LineSeriesSegment}  segment         Segment
      * @return {boolean}                            Properties changed?
      */
-    LineSeries.prototype.updateSegmentProperties = function (itemProperties, segment) {
+    LineSeries.prototype.updateSegmentProperties = function (itemProperties, segment, checkOnly) {
         var changed = false;
         $object.each(itemProperties, function (propertyName, value) {
-            //for (let propertyName in itemProperties) {
-            //let value: any = itemProperties[propertyName];
+            // some value must be defined
             if ($type.hasValue(value)) {
-                if (segment) {
-                    if (segment.properties[propertyName] != value) {
-                        segment[propertyName] = value;
-                        changed = true;
+                var currentValue = segment[propertyName];
+                var currentValueStr = void 0;
+                // current value can be Color, number, anything. So we check if it has toString, otherwise just do String().
+                // toString() will return hex if it's color. The only problem is that it will return lowercased hex and if we have uppercase in data, it will think that it changed
+                if (currentValue) {
+                    if (currentValue.toString) {
+                        currentValueStr = currentValue.toString();
+                    }
+                    else {
+                        currentValueStr = currentValue; // not doing String(currentValue) as this will make all Objects the same
                     }
                 }
+                var valueStr = void 0;
+                if (value) {
+                    if (value.toString) {
+                        valueStr = value.toString();
+                    }
+                    else {
+                        valueStr = value; // not doing String(currentValue) as this will make all Objects the same
+                    }
+                }
+                if (currentValue == value || (currentValueStr != undefined && valueStr != undefined && currentValueStr == valueStr)) {
+                    // void
+                }
                 else {
+                    if (!checkOnly) {
+                        segment[propertyName] = value;
+                    }
                     changed = true;
                 }
             }

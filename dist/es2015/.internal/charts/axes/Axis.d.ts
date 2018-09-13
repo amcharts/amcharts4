@@ -102,7 +102,6 @@ export declare class AxisDataItem extends DataItem {
      * Defines a type of [[Component]] this data item is used for.
      *
      * @type {Axis}
-     * @ignore Exclude from docs
      */
     _component: Axis;
     /**
@@ -319,28 +318,24 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
     /**
      * Defines list of data fields.
      *
-     * @ignore Exclude from docs
      * @type {IAxisDataFields}
      */
     _dataFields: IAxisDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IAxisProperties}
      */
     _properties: IAxisProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IAxisAdapters}
      */
     _adapter: IAxisAdapters;
     /**
      * Defines the type of the [[DataItem]] used in the class.
      *
-     * @ignore Exclude from docs
      * @type {AxisDataItem}
      */
     _dataItem: AxisDataItem;
@@ -351,7 +346,6 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
     /**
      * Defines the type of the axis breaks.
      *
-     * @ignore Exclude from docs
      * @type {AxisBreak}
      */
     _axisBreak: AxisBreak;
@@ -359,7 +353,6 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * Defines available events.
      *
      * @type {IAxisEvents}
-     * @ignore Exclude from docs
      */
     _events: IAxisEvents;
     /**
@@ -456,7 +449,14 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @type {function}
      */
     fillRule: (dataItem: AxisDataItem, index?: number) => any;
+    /**
+     * Full length of the axis, in pixels
+     */
     axisFullLength: number;
+    /**
+     * Ghost label is used to prevent chart shrinking/expanding when zooming or when data is invalidated. You can set custom text on it so that it would be bigger/smaller
+     */
+    ghostLabel: AxisLabel;
     /**
      * Constructor
      */

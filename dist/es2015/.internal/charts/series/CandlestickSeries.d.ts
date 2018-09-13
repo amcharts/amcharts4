@@ -24,7 +24,6 @@ import { Candlestick } from "../elements/Candlestick";
 export declare class CandlestickSeriesDataItem extends ColumnSeriesDataItem {
     /**
      * A sprite used to draw the column.
-     * @ignore
      * @type {Candlestick}
      */
     _column: Candlestick;
@@ -190,32 +189,27 @@ export declare class CandlestickSeries extends ColumnSeries {
     /**
      * Defines the type of data item.
      *
-     * @ignore Exclude from docs
      * @type {CandlestickSeriesDataItem}
      */
     _dataItem: CandlestickSeriesDataItem;
     /**
-     * @ignore
      */
     _column: Candlestick;
     /**
      * Defines available data fields.
      *
-     * @ignore Exclude from docs
      * @type {ICandlestickSeriesDataFields}
      */
     _dataFields: ICandlestickSeriesDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ICandlestickSeriesProperties}
      */
     _properties: ICandlestickSeriesProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ICandlestickSeriesAdapters}
      */
     _adapter: ICandlestickSeriesAdapters;
@@ -223,7 +217,6 @@ export declare class CandlestickSeries extends ColumnSeries {
      * Defines available events.
      *
      * @type {ICandlestickSeriesEvents}
-     * @ignore Exclude from docs
      */
     _events: ICandlestickSeriesEvents;
     /**

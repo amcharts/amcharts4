@@ -42,7 +42,6 @@ export declare class InteractionObject extends BaseObjectEvents {
      * Defines available events.
      *
      * @type {IInteractionObjectEvents}
-     * @ignore Exclude from docs
      */
     _events: IInteractionObjectEvents;
     /**
@@ -87,14 +86,12 @@ export declare class InteractionObject extends BaseObjectEvents {
      * Original coordinates for the [[InteractionObject]]. (before application
      * of the drag)
      *
-     * @ignore Exclude from docs
      * @type {IPoint}
      */
     _originalPosition: Optional<IPoint>;
     /**
      * Original angle for the [[InteractionObject]]. (before rotation started)
      *
-     * @ignore Exclude from docs
      * @type {Optional<number>}
      */
     _originalAngle: $type.Optional<number>;

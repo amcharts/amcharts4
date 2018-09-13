@@ -53,14 +53,12 @@ export declare class CircleBullet extends Bullet {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ICircleBulletProperties}
      */
     _properties: ICircleBulletProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ICircleBulletAdapters}
      */
     _adapter: ICircleBulletAdapters;
@@ -68,7 +66,6 @@ export declare class CircleBullet extends Bullet {
      * Defines available events.
      *
      * @type {ICircleBulletEvents}
-     * @ignore Exclude from docs
      */
     _events: ICircleBulletEvents;
     /**

@@ -66,14 +66,12 @@ export declare class AxisFill extends Sprite {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IAxisFillProperties}
      */
     _properties: IAxisFillProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IAxisFillAdapters}
      */
     _adapter: IAxisFillAdapters;
@@ -81,7 +79,6 @@ export declare class AxisFill extends Sprite {
      * Defines available events.
      *
      * @type {IAxisFillEvents}
-     * @ignore Exclude from docs
      */
     _events: IAxisFillEvents;
     /**
@@ -103,7 +100,6 @@ export declare class AxisFill extends Sprite {
      *
      * Not sure what this is doing here?
      *
-     * @ignore Exclude from docs
      * @todo Description
      * @type {AxisDataItem}
      */

@@ -60,14 +60,12 @@ export declare class QuadraticCurve extends Line {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IQuadraticCurveProperties}
      */
     _properties: IQuadraticCurveProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IQuadraticCurveAdapters}
      */
     _adapter: IQuadraticCurveAdapters;
@@ -75,7 +73,6 @@ export declare class QuadraticCurve extends Line {
      * Defines available events.
      *
      * @type {IQuadraticCurveEvents}
-     * @ignore Exclude from docs
      */
     _events: IQuadraticCurveEvents;
     /**

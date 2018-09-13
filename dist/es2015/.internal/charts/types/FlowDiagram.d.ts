@@ -33,13 +33,11 @@ export declare class FlowDiagramDataItem extends ChartDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
-     * @ignore Exclude from docs
      * @type {FlowDiagram}
      */
     _component: FlowDiagram;
     /**
      * An a link element, connecting two nodes.
-     * @ignore
      * @type {FlowDiagramLink}
      */
     _link: FlowDiagramLink;
@@ -204,28 +202,24 @@ export declare class FlowDiagram extends Chart {
     /**
      * Defines a type for the DataItem.
      *
-     * @ignore Exclude from docs
      * @type {FlowDiagramDataItem}
      */
     _dataItem: FlowDiagramDataItem;
     /**
      * Defines available data fields.
      *
-     * @ignore Exclude from docs
      * @type {IFlowDiagramDataFields}
      */
     _dataFields: IFlowDiagramDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IFlowDiagramProperties}
      */
     _properties: IFlowDiagramProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {SeriesAdapters}
      */
     _adapter: IFlowDiagramAdapters;
@@ -233,11 +227,9 @@ export declare class FlowDiagram extends Chart {
      * Defines available events.
      *
      * @type {IFlowDiagramEvents}
-     * @ignore Exclude from docs
      */
     _events: IFlowDiagramEvents;
     /**
-     * @ignore
      */
     _node: FlowDiagramNode;
     /**
@@ -247,7 +239,6 @@ export declare class FlowDiagram extends Chart {
      */
     protected _nodes: DictionaryTemplate<string, this["_node"]>;
     /**
-     * @ignore
      */
     _link: FlowDiagramLink;
     /**

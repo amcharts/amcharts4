@@ -230,14 +230,11 @@ var AxisRendererCircular = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     AxisRendererCircular.prototype.updateAxisLine = function () {
-        var element = this.line.element;
-        // @todo Is this needed?
-        this.chart;
         var radius = this.pixelRadius;
         var startAngle = this.startAngle;
         var endAngle = this.endAngle;
         var arc = endAngle - startAngle;
-        element.attr({ "d": $path.moveTo({ x: radius * $math.cos(startAngle), y: radius * $math.sin(startAngle) }) + $path.arcTo(startAngle, arc, radius, radius) });
+        this.line.path = $path.moveTo({ x: radius * $math.cos(startAngle), y: radius * $math.sin(startAngle) }) + $path.arcTo(startAngle, arc, radius, radius);
     };
     /**
      * Updates and positions a grid element.
@@ -256,7 +253,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
             var gridInnerRadius = $utils.relativeRadiusToValue(grid.innerRadius, this.pixelRadius);
             grid.zIndex = 0;
             var innerRadius = $utils.relativeRadiusToValue($type.isNumber(gridInnerRadius) ? gridInnerRadius : this.innerRadius, this.pixelRadius, true);
-            grid.element.attr({ "d": $path.moveTo({ x: innerRadius * $math.cos(angle), y: innerRadius * $math.sin(angle) }) + $path.lineTo({ x: radius * $math.cos(angle), y: radius * $math.sin(angle) }) });
+            grid.path = $path.moveTo({ x: innerRadius * $math.cos(angle), y: innerRadius * $math.sin(angle) }) + $path.lineTo({ x: radius * $math.cos(angle), y: radius * $math.sin(angle) });
         }
         this.toggleVisibility(grid, position, 0, 1);
     };
@@ -279,7 +276,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
                 tickLength = -tickLength;
             }
             tick.zIndex = 1;
-            tick.element.attr({ "d": $path.moveTo({ x: radius * $math.cos(angle), y: radius * $math.sin(angle) }) + $path.lineTo({ x: (radius + tickLength) * $math.cos(angle), y: (radius + tickLength) * $math.sin(angle) }) });
+            tick.path = $path.moveTo({ x: radius * $math.cos(angle), y: radius * $math.sin(angle) }) + $path.lineTo({ x: (radius + tickLength) * $math.cos(angle), y: (radius + tickLength) * $math.sin(angle) });
         }
         this.toggleVisibility(tick, position, 0, 1);
     };
@@ -291,8 +288,11 @@ var AxisRendererCircular = /** @class */ (function (_super) {
      * @param {number}     position     Starting position
      * @param {number}     endPosition  Ending position
      */
-    AxisRendererCircular.prototype.updateLabelElement = function (label, position, endPosition) {
-        position = position + (endPosition - position) * label.location;
+    AxisRendererCircular.prototype.updateLabelElement = function (label, position, endPosition, location) {
+        if (!$type.hasValue(location)) {
+            location = label.location;
+        }
+        position = position + (endPosition - position) * location;
         var point = this.positionToPoint(position);
         label.fixPoint(point, this.pixelRadius);
         label.zIndex = 2;

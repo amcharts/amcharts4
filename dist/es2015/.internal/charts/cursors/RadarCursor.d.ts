@@ -74,26 +74,22 @@ export declare class RadarCursor extends XYCursor {
     /**
      * Defines available properties
      * @type {IRadarCursorProperties}
-     * @ignore
      */
     _properties: IRadarCursorProperties;
     /**
      * Defines available adapters
      * @type {IRadarCursorAdapters}
-     * @ignore
      */
     _adapter: IRadarCursorAdapters;
     /**
      * Defines available events.
      *
      * @type {IRadarCursorEvents}
-     * @ignore Exclude from docs
      */
     _events: IRadarCursorEvents;
     /**
      * A reference to chart cursor belongs to.
      *
-     * @ignore Exclude from docs
      * @type {Chart}
      */
     _chart: RadarChart;

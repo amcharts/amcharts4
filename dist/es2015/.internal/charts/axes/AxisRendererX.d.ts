@@ -53,14 +53,12 @@ export declare class AxisRendererX extends AxisRenderer {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IAxisRendererXProperties}
      */
     _properties: IAxisRendererXProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IAxisRendererXAdapters}
      */
     _adapter: IAxisRendererXAdapters;
@@ -68,7 +66,6 @@ export declare class AxisRendererX extends AxisRenderer {
      * Defines available events.
      *
      * @type {IAxisRendererXEvents}
-     * @ignore Exclude from docs
      */
     _events: IAxisRendererXEvents;
     /**
@@ -110,7 +107,7 @@ export declare class AxisRendererX extends AxisRenderer {
      * @param {number}     position     Starting position
      * @param {number}     endPosition  Ending position
      */
-    updateLabelElement(label: AxisLabel, position: number, endPosition: number): void;
+    updateLabelElement(label: AxisLabel, position: number, endPosition: number, location?: number): void;
     /**
      * Returns actual length of the Axis, in pixels.
      *

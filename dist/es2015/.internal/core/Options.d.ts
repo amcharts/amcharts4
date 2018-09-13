@@ -1,3 +1,19 @@
+/**
+ * Defines system-wide options for amCharts 4.
+ *
+ * Accessible via singleton object `am4core.options`.
+ *
+ * Options set here are will be applicable to all charts created afterwards.
+ *
+ * E.g.:
+ *
+ * ```TypeScript
+ * am4core.options.autoSetClassName = true;
+ * ```
+ * ```JavaScript
+ * am4core.options.autoSetClassName = true;
+ * ```
+ */
 export interface Options {
     /**
      * Console output enabled.

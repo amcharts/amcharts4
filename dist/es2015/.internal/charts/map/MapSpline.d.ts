@@ -49,14 +49,12 @@ export declare class MapSpline extends MapLine {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IMapSplineProperties}
      */
     _properties: IMapSplineProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IMapSplineAdapters}
      */
     _adapter: IMapSplineAdapters;
@@ -64,7 +62,6 @@ export declare class MapSpline extends MapLine {
      * Defines available events.
      *
      * @type {IMapSplineEvents}
-     * @ignore Exclude from docs
      */
     _events: IMapSplineEvents;
     /**
@@ -76,7 +73,6 @@ export declare class MapSpline extends MapLine {
     /**
      * A related data item.
      *
-     * @ignore Exclude from docs
      * @type {MapSplineSeriesDataItem}
      */
     _dataItem: MapSplineSeriesDataItem;

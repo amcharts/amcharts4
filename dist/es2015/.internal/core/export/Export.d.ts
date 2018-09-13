@@ -552,13 +552,11 @@ export declare class Export extends Validatable {
      * Defines available events.
      *
      * @type {IExportEvents}
-     * @ignore Exclude from docs
      */
     _events: IExportEvents;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IExportAdapters}
      */
     _adapter: IExportAdapters;

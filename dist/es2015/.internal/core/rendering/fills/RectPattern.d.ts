@@ -43,7 +43,6 @@ export declare class RectPattern extends Pattern {
     /**
      * Defines property types.
      *
-     * @ignore Exclude from docs
      * @type {RectPatternProperties}
      */
     _properties: RectPatternProperties;

@@ -85,14 +85,12 @@ export declare class AxisRendererCircular extends AxisRenderer {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IAxisRendererProperties}
      */
     _properties: IAxisRendererCircularProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IAxisRendererAdapters}
      */
     _adapter: IAxisRendererCircularAdapters;
@@ -100,27 +98,23 @@ export declare class AxisRendererCircular extends AxisRenderer {
      * Defines available events.
      *
      * @type {IAxisRendererCircularEvents}
-     * @ignore Exclude from docs
      */
     _events: IAxisRendererCircularEvents;
     /**
      * Defines type of the grid elements.
      *
-     * @ignore Exclude from docs
      * @type {GridCircular}
      */
     _gridType: GridCircular;
     /**
      * Defines type for the fill elements.
      *
-     * @ignore Exclude from docs
      * @type {AxisFillCircular}
      */
     _fillType: AxisFillCircular;
     /**
      * Defines type for the label elements.
      *
-     * @ignore Exclude from docs
      * @type {AxisLabelCircular}
      */
     _labelType: AxisLabelCircular;
@@ -241,7 +235,7 @@ export declare class AxisRendererCircular extends AxisRenderer {
      * @param {number}     position     Starting position
      * @param {number}     endPosition  Ending position
      */
-    updateLabelElement(label: this["_labelType"], position: number, endPosition: number): void;
+    updateLabelElement(label: this["_labelType"], position: number, endPosition: number, location?: number): void;
     /**
      * Checks if point is within bounds of a container.
      *

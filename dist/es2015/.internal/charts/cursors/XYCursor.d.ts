@@ -94,14 +94,12 @@ export declare class XYCursor extends Cursor {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IXYCursorProperties}
      */
     _properties: IXYCursorProperties;
     /**
      * Defines available adapters
      *
-     * @ignore Exclude from docs
      * @type {IXYCursorAdapters}
      */
     _adapter: IXYCursorAdapters;
@@ -109,7 +107,6 @@ export declare class XYCursor extends Cursor {
      * Defines available events.
      *
      * @type {IXYCursorEvents}
-     * @ignore Exclude from docs
      */
     _events: IXYCursorEvents;
     /**
@@ -157,7 +154,6 @@ export declare class XYCursor extends Cursor {
     /**
      * A reference to chart cursor belongs to.
      *
-     * @ignore Exclude from docs
      * @type {Chart}
      */
     _chart: XYChart;

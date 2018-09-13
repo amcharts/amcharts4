@@ -58,11 +58,15 @@ function makeChart() {
   dateAxis.renderer.labels.template.disabled = true;
   dateAxis.tooltip.animationDuration = 0; 
   dateAxis.cursorTooltipEnabled = false;
+  dateAxis.renderer.axisFills.template.disabled = true;
+  dateAxis.renderer.ticks.template.disabled = true;  
 
   let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
   valueAxis.tooltip.disabled = true;
   valueAxis.tooltip.disabled = true;
   valueAxis.renderer.minWidth = 60;
+  valueAxis.renderer.axisFills.template.disabled = true;
+  valueAxis.renderer.ticks.template.disabled = true;  
 
   let series = chart.series.push(new am4charts.LineSeries());
   series.dataFields.dateX = "date";

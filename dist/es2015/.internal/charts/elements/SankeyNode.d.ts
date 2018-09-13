@@ -61,14 +61,12 @@ export declare class SankeyNode extends FlowDiagramNode {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ISankeyNodeProperties}
      */
     _properties: ISankeyNodeProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ISankeyNodeAdapters}
      */
     _adapter: ISankeyNodeAdapters;
@@ -76,7 +74,6 @@ export declare class SankeyNode extends FlowDiagramNode {
      * Defines available events.
      *
      * @type {ISankeyNodeEvents}
-     * @ignore Exclude from docs
      */
     _events: ISankeyNodeEvents;
     /**
@@ -104,7 +101,6 @@ export declare class SankeyNode extends FlowDiagramNode {
     /**
      * Defines the type of the [[SankeyDiagramDataItem]] used in the class.
      *
-     * @ignore Exclude from docs
      * @type {SankeyDiagramDataItem}
      */
     _dataItem: SankeyDiagramDataItem;

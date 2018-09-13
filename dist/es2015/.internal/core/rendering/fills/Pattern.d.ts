@@ -86,7 +86,6 @@ export declare class Pattern extends BaseObject implements IAnimatable {
     /**
      * Defines property types.
      *
-     * @ignore Exclude from docs
      * @type {FilterProperties}
      */
     _properties: PatternProperties;

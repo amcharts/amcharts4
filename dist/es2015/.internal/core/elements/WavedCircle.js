@@ -61,7 +61,7 @@ var WavedCircle = /** @class */ (function (_super) {
             points.reverse();
             path += $path.moveTo(points[0]) + new $smoothing.Tension(this.tension, this.tension).smooth(points);
         }
-        this.element.attr({ "d": path });
+        this.path = path;
     };
     /**
      * Returns points that circle consists of.

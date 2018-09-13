@@ -1103,6 +1103,9 @@ var Container = /** @class */ (function (_super) {
             //}
             measuredWidth = $math.max(measuredWidth, this.minWidth);
             measuredHeight = $math.max(measuredHeight, this.minHeight);
+            // new
+            measuredWidth = $math.min(measuredWidth, this.maxWidth);
+            measuredHeight = $math.min(measuredHeight, this.maxHeight);
             this.bbox = this.getContainerBBox(left, top_1, measuredWidth, measuredHeight);
             var prevLeft = this.maxLeft;
             var prevTop = this.maxTop;
@@ -1425,8 +1428,10 @@ var Container = /** @class */ (function (_super) {
          * @param {string} value Font family value
          */
         set: function (value) {
-            this.setPropertyValue("fontFamily", value, true);
-            this.setSVGAttribute({ "font-family": value });
+            if (this.setPropertyValue("fontFamily", value, true)) {
+                this.setSVGAttribute({ "font-family": value });
+                this.invalidateLabels();
+            }
         },
         enumerable: true,
         configurable: true
@@ -1447,12 +1452,28 @@ var Container = /** @class */ (function (_super) {
          * @param {any} value Font size value
          */
         set: function (value) {
-            this.setPropertyValue("fontSize", value, true);
-            this.setSVGAttribute({ "font-size": value });
+            if (this.setPropertyValue("fontSize", value, true)) {
+                this.setSVGAttribute({ "font-size": value });
+                this.invalidateLabels();
+            }
         },
         enumerable: true,
         configurable: true
     });
+    /**
+     * When fontSize of fontFamily changes we need to hard-invalidate all Labels of this container to position them properly.
+     */
+    Container.prototype.invalidateLabels = function () {
+        this.children.each(function (child) {
+            // can't import Label because of Circular dependencies
+            if (child["hardInvalidate"]) {
+                child["hardInvalidate"]();
+            }
+            else if (child instanceof Container) {
+                child.invalidateLabels();
+            }
+        });
+    };
     Object.defineProperty(Container.prototype, "fontWeight", {
         /**
          * @return {FontWeight} Font weight

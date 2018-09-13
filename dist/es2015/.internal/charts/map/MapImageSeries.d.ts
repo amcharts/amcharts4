@@ -146,21 +146,18 @@ export declare class MapImageSeries extends MapSeries {
     /**
      * Defines available data fields.
      *
-     * @ignore Exclude from docs
      * @type {IMapImageSeriesDataFields}
      */
     _dataFields: IMapImageSeriesDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IMapImageSeriesProperties}
      */
     _properties: IMapImageSeriesProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IMapImageSeriesAdapters}
      */
     _adapter: IMapImageSeriesAdapters;
@@ -168,13 +165,11 @@ export declare class MapImageSeries extends MapSeries {
      * Defines available events.
      *
      * @type {IMapImageSeriesEvents}
-     * @ignore Exclude from docs
      */
     _events: IMapImageSeriesEvents;
     /**
      * Defines the type of data item.
      *
-     * @ignore Exclude from docs
      * @type {MapImageSeriesDataItem}
      */
     _dataItem: MapImageSeriesDataItem;

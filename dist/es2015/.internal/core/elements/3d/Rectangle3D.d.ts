@@ -61,14 +61,12 @@ export declare class Rectangle3D extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {Rectangle3DProperties}
      */
     _properties: Rectangle3DProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {Rectangle3DAdapters}
      */
     _adapter: Rectangle3DAdapters;
@@ -76,7 +74,6 @@ export declare class Rectangle3D extends Container {
      * Defines available events.
      *
      * @type {Rectangle3DEvents}
-     * @ignore Exclude from docs
      */
     _events: Rectangle3DEvents;
     /**

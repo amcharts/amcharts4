@@ -86,7 +86,7 @@ var Polyspline = /** @class */ (function (_super) {
                     }
                 }
             }
-            this.element.attr({ "d": path });
+            this.path = path;
         }
     };
     Object.defineProperty(Polyspline.prototype, "tensionX", {

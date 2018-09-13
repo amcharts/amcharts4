@@ -83,21 +83,18 @@ export declare class XYChart3D extends XYChart {
     /**
      * Available data fields.
      *
-     * @ignore Exclude from docs
      * @type {IXYChart3DDataFields}
      */
     _dataFields: IXYChart3DDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IXYChart3DProperties}
      */
     _properties: IXYChart3DProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IXYChart3DAdapters}
      */
     _adapter: IXYChart3DAdapters;
@@ -105,7 +102,6 @@ export declare class XYChart3D extends XYChart {
      * Defines available events.
      *
      * @type {IXYChart3DEvents}
-     * @ignore Exclude from docs
      */
     _events: IXYChart3DEvents;
     /**

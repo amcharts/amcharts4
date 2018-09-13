@@ -92,14 +92,12 @@ export declare class AxisRendererRadial extends AxisRendererY {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {AxisRendererProperties}
      */
     _properties: IAxisRendererRadialProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {AxisRendererAdapters}
      */
     _adapter: IAxisRendererRadialAdapters;
@@ -107,7 +105,6 @@ export declare class AxisRendererRadial extends AxisRendererY {
      * Defines available events.
      *
      * @type {IAxisRendererRadialEvents}
-     * @ignore Exclude from docs
      */
     _events: IAxisRendererRadialEvents;
     /**
@@ -213,7 +210,7 @@ export declare class AxisRendererRadial extends AxisRendererY {
      * @param {number}     position     Starting position
      * @param {number}     endPosition  Ending position
      */
-    updateLabelElement(label: this["_labelType"], position: number, endPosition: number): void;
+    updateLabelElement(label: this["_labelType"], position: number, endPosition: number, location?: number): void;
     /**
      * Updates and positions the base grid element.
      *

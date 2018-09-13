@@ -73,14 +73,12 @@ export declare class PointedShape extends Sprite {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IPointedShapeProperties}
      */
     _properties: IPointedShapeProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IPointedShapeAdapters}
      */
     _adapter: IPointedShapeAdapters;
@@ -88,7 +86,6 @@ export declare class PointedShape extends Sprite {
      * Defines available events.
      *
      * @type {IPointedShapeEvents}
-     * @ignore Exclude from docs
      */
     _events: IPointedShapeEvents;
     /**

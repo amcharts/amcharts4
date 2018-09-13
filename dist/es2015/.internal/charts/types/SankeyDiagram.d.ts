@@ -20,13 +20,11 @@ export declare class SankeyDiagramDataItem extends FlowDiagramDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
-     * @ignore Exclude from docs
      * @type {SankeyDiagram}
      */
     _component: SankeyDiagram;
     /**
      * An a link element, connecting two nodes.
-     * @ignore
      * @type {SankeyLink}
      */
     _link: SankeyLink;
@@ -129,28 +127,24 @@ export declare class SankeyDiagram extends FlowDiagram {
     /**
      * Defines a type for the DataItem.
      *
-     * @ignore Exclude from docs
      * @type {SankeyDiagramDataItem}
      */
     _dataItem: SankeyDiagramDataItem;
     /**
      * Defines available data fields.
      *
-     * @ignore Exclude from docs
      * @type {ISankeyDiagramDataFields}
      */
     _dataFields: ISankeyDiagramDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ISankeyDiagramProperties}
      */
     _properties: ISankeyDiagramProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {SeriesAdapters}
      */
     _adapter: ISankeyDiagramAdapters;
@@ -158,7 +152,6 @@ export declare class SankeyDiagram extends FlowDiagram {
      * Defines available events.
      *
      * @type {ISankeyDiagramEvents}
-     * @ignore Exclude from docs
      */
     _events: ISankeyDiagramEvents;
     /**
@@ -180,7 +173,6 @@ export declare class SankeyDiagram extends FlowDiagram {
         [index: number]: number;
     };
     /**
-     * @ignore
      */
     _node: SankeyNode;
     /**

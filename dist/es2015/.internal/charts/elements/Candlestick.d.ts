@@ -50,14 +50,12 @@ export declare class Candlestick extends Column {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ICandlestickProperties}
      */
     _properties: ICandlestickProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ICandlestickAdapters}
      */
     _adapter: ICandlestickAdapters;
@@ -65,7 +63,6 @@ export declare class Candlestick extends Column {
      * Defines available events.
      *
      * @type {ICandlestickEvents}
-     * @ignore Exclude from docs
      */
     _events: ICandlestickEvents;
     /**

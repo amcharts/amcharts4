@@ -57,14 +57,12 @@ export declare class Slice3D extends Slice {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ISlice3DProperties}
      */
     _properties: ISlice3DProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ISlice3DAdapters}
      */
     _adapter: ISlice3DAdapters;
@@ -72,7 +70,6 @@ export declare class Slice3D extends Slice {
      * Defines available events.
      *
      * @type {ISlice3DEvents}
-     * @ignore Exclude from docs
      */
     _events: ISlice3DEvents;
     /**

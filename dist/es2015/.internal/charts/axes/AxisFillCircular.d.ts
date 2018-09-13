@@ -65,14 +65,12 @@ export declare class AxisFillCircular extends AxisFill {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IAxisFillCircularProperties}
      */
     _properties: IAxisFillCircularProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IAxisFillCircularAdapters}
      */
     _adapter: IAxisFillCircularAdapters;
@@ -80,7 +78,6 @@ export declare class AxisFillCircular extends AxisFill {
      * Defines available events.
      *
      * @type {IAxisFillCircularEvents}
-     * @ignore Exclude from docs
      */
     _events: IAxisFillCircularEvents;
     /**

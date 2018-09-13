@@ -75,25 +75,25 @@ var StepLineSeriesSegment = /** @class */ (function (_super) {
                         }
                     }
                 }
-                this.strokeSprite.element.attr({ "d": path });
+                this.strokeSprite.path = path;
                 if (this.fillOpacity > 0 || this.fillSprite.fillOpacity > 0) { // helps to avoid drawing fill object if fill is not visible
                     path = $path.moveTo(points[0]) + $path.polyline(points);
                     path += $path.lineTo(closePoints[0]) + $path.polyline(closePoints);
                     path += $path.lineTo(points[0]);
                     path += $path.closePath();
-                    this.fillSprite.element.attr({ "d": path });
+                    this.fillSprite.path = path;
                 }
                 else {
                 }
             }
             else {
                 var path = $path.moveTo(points[0]) + $path.polyline(points);
-                this.strokeSprite.element.attr({ "d": path });
+                this.strokeSprite.path = path;
                 if (this.fillOpacity > 0 || this.fillSprite.fillOpacity > 0) { // helps to avoid drawing fill object if fill is not visible
                     path += $path.lineTo(closePoints[0]) + $path.polyline(closePoints);
                     path += $path.lineTo(points[0]);
                     path += $path.closePath();
-                    this.fillSprite.element.attr({ "d": path });
+                    this.fillSprite.path = path;
                 }
             }
         }

@@ -57,14 +57,12 @@ export declare class SmallMap extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {SmallMaPproperties}
      */
     _properties: ISmallMapProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ISmallMapAdapters}
      */
     _adapter: ISmallMapAdapters;
@@ -72,7 +70,6 @@ export declare class SmallMap extends Container {
      * Defines available events.
      *
      * @type {ISmallMapEvents}
-     * @ignore Exclude from docs
      */
     _events: ISmallMapEvents;
     /**

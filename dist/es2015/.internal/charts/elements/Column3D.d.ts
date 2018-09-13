@@ -51,14 +51,12 @@ export declare class Column3D extends Column {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IColumn3DProperties}
      */
     _properties: IColumn3DProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IColumn3DAdapters}
      */
     _adapter: IColumn3DAdapters;
@@ -66,7 +64,6 @@ export declare class Column3D extends Column {
      * Defines available events.
      *
      * @type {IColumn3DEvents}
-     * @ignore Exclude from docs
      */
     _events: IColumn3DEvents;
     /**

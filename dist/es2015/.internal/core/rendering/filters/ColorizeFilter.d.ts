@@ -48,7 +48,6 @@ export declare class ColorizeFilter extends Filter {
     /**
      * Defines property types.
      *
-     * @ignore Exclude from docs
      * @type {ColorizeFilterProperties}
      */
     _properties: ColorizeFilterProperties;

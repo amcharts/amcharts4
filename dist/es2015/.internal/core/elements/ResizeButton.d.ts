@@ -48,14 +48,12 @@ export declare class ResizeButton extends Button {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IResizeButtonProperties}
      */
     _properties: IResizeButtonProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IResizeButtonAdapters}
      */
     _adapter: IResizeButtonAdapters;
@@ -63,7 +61,6 @@ export declare class ResizeButton extends Button {
      * Defines available events.
      *
      * @type {IResizeButtonEvents}
-     * @ignore Exclude from docs
      */
     _events: IResizeButtonEvents;
     /**

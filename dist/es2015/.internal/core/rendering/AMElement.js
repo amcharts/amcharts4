@@ -77,10 +77,13 @@ var AMElement = /** @class */ (function () {
          */
         get: function () {
             if (this.node) {
-                var value = this.node.getAttribute("transform");
+                return this._transformString;
+                /*
+                const value = this.node.getAttribute("transform");
+    
                 if (value !== null) {
                     return value;
-                }
+                }*/
             }
         },
         enumerable: true,
@@ -101,6 +104,7 @@ var AMElement = /** @class */ (function () {
         if (this._rotation != 0) {
             transfromString += ((transfromString ? " " : "") + "rotate(" + this._rotation + ")");
         }
+        this._transformString = transfromString;
         this.node.setAttribute("transform", transfromString);
     };
     /**
@@ -298,6 +302,9 @@ var AMElement = /** @class */ (function () {
                 this.node.removeAttribute(attributeName);
             }
             else {
+                //if((<any>attributes)[attributeName] == this.node.getAttribute(attributeName)){
+                //console.log(attributeName, (<any>attributes)[attributeName])
+                //}
                 this.node.setAttribute(attributeName, attributes[attributeName]);
             }
         }

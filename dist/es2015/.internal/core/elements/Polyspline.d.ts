@@ -80,7 +80,6 @@ export declare class Polyspline extends Polyline {
      * Defines available events.
      *
      * @type {IPolysplineEvents}
-     * @ignore Exclude from docs
      */
     _events: IPolysplineEvents;
     /**

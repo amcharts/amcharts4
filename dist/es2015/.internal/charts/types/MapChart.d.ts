@@ -236,21 +236,18 @@ export declare class MapChart extends SerialChart {
     /**
      * Available data fields.
      *
-     * @ignore Exclude from docs
      * @type {IMapChartDataFields}
      */
     _dataFields: IMapChartDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IMapChartProperties}
      */
     _properties: IMapChartProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IMapChartAdapters}
      */
     _adapter: IMapChartAdapters;
@@ -258,7 +255,6 @@ export declare class MapChart extends SerialChart {
      * Defines available events.
      *
      * @type {IMapChartEvents}
-     * @ignore Exclude from docs
      */
     _events: IMapChartEvents;
     /**

@@ -54,14 +54,12 @@ export declare class MapPolygon extends MapObject {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IMapPolygonProperties}
      */
     _properties: IMapPolygonProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IMapPolygonAdapters}
      */
     _adapter: IMapPolygonAdapters;
@@ -69,7 +67,6 @@ export declare class MapPolygon extends MapObject {
      * Defines available events.
      *
      * @type {IMapPolygonEvents}
-     * @ignore Exclude from docs
      */
     _events: IMapPolygonEvents;
     /**
@@ -81,7 +78,6 @@ export declare class MapPolygon extends MapObject {
     /**
      * A related data item.
      *
-     * @ignore Exclude from docs
      * @type {MapPolygonSeriesDataItem}
      */
     _dataItem: MapPolygonSeriesDataItem;

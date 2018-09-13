@@ -39,7 +39,6 @@ export declare class LightenFilter extends Filter {
     /**
      * Defines property types.
      *
-     * @ignore Exclude from docs
      * @type {LightenFilterProperties}
      */
     _properties: LightenFilterProperties;

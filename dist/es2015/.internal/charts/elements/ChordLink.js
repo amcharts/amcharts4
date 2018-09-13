@@ -81,13 +81,13 @@ var ChordLink = /** @class */ (function (_super) {
                 path += $path.arcTo(endAngle, arc, radius);
                 path += $path.quadraticCurveTo({ x: x1, y: y1 }, cp);
                 if (arc > 0) {
-                    this.link.element.attr({ "d": path });
+                    this.link.path = path;
                 }
                 else {
-                    this.link.element.attr({ "d": "" });
+                    this.link.path = "";
                 }
                 if (this.maskBullets) {
-                    this.bulletsMask.element.attr({ "d": path });
+                    this.bulletsMask.path = path;
                     this.bulletsContainer.mask = this.bulletsMask;
                 }
                 this.positionBullets();

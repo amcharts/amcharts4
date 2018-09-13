@@ -66,14 +66,12 @@ export declare class ValueAxisBreak extends AxisBreak {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IValueAxisBreakProperties}
      */
     _properties: IValueAxisBreakProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IValueAxisBreakAdapters}
      */
     _adapter: IValueAxisBreakAdapters;
@@ -81,13 +79,11 @@ export declare class ValueAxisBreak extends AxisBreak {
      * Defines available events.
      *
      * @type {IValueAxisBreakEvents}
-     * @ignore Exclude from docs
      */
     _events: IValueAxisBreakEvents;
     /**
      * Defines the type of the Axis this break is used for.
      *
-     * @ignore Exclude from docs
      * @type {ValueAxis}
      */
     _axisType: ValueAxis;

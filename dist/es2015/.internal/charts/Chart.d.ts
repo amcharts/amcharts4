@@ -80,21 +80,18 @@ export declare class Chart extends Component {
     /**
      * Available data fields.
      *
-     * @ignore Exclude from docs
      * @type {IChartDataFields}
      */
     _dataFields: IChartDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IChartProperties}
      */
     _properties: IChartProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IChartAdapters}
      */
     _adapter: IChartAdapters;
@@ -102,7 +99,6 @@ export declare class Chart extends Component {
      * Defines available events.
      *
      * @type {IChartEvents}
-     * @ignore Exclude from docs
      */
     _events: IChartEvents;
     /**

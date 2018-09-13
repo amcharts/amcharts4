@@ -55,14 +55,12 @@ export declare class Polygon extends Sprite implements IMorphable {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IPolygonProperties}
      */
     _properties: IPolygonProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IPolygonAdapters}
      */
     _adapter: IPolygonAdapters;
@@ -70,7 +68,6 @@ export declare class Polygon extends Sprite implements IMorphable {
      * Defines available events.
      *
      * @type {IPolygonEvents}
-     * @ignore Exclude from docs
      */
     _events: IPolygonEvents;
     /**

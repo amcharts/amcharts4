@@ -2029,8 +2029,14 @@ var Interaction = /** @class */ (function (_super) {
      * @return {boolean}                 Belongs to SVG/
      */
     Interaction.prototype.isLocalElement = function (pointer, svg) {
+        var cached = this.getCache("local_pointer_" + pointer.id);
+        if ($type.hasValue(cached)) {
+            return cached;
+        }
         var target = document.elementFromPoint(pointer.point.x, pointer.point.y);
-        return target && (svg === target || $dom.contains(svg, target));
+        var local = target && (svg === target || $dom.contains(svg, target));
+        this.setCache("local_pointer_" + pointer.id, local, 100);
+        return local;
     };
     /**
      * A function that cancels mouse wheel scroll.

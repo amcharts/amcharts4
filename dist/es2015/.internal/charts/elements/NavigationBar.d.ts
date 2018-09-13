@@ -99,21 +99,18 @@ export declare class NavigationBar extends Component {
     /**
      * Defines data fields.
      *
-     * @ignore Exclude from docs
      * @type {NavigationBarDataFIelds}
      */
     _dataFields: INavigationBarDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {INavigationBarProperties}
      */
     _properties: INavigationBarProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {INavigationBarAdapters}
      */
     _adapter: INavigationBarAdapters;
@@ -121,7 +118,6 @@ export declare class NavigationBar extends Component {
      * Defines available events.
      *
      * @type {INavigationBarEvents}
-     * @ignore Exclude from docs
      */
     _events: INavigationBarEvents;
     /**

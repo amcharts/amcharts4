@@ -53,14 +53,12 @@ export declare class Image extends Sprite {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IImageProperties}
      */
     _properties: IImageProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IImageAdapters}
      */
     _adapter: IImageAdapters;
@@ -68,7 +66,6 @@ export declare class Image extends Sprite {
      * Defines available events.
      *
      * @type {IImageEvents}
-     * @ignore Exclude from docs
      */
     _events: IImageEvents;
     /**

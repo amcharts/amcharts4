@@ -57,14 +57,12 @@ export declare class Tick extends Sprite {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ITickProperties}
      */
     _properties: ITickProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ITickAdapters}
      */
     _adapter: ITickAdapters;
@@ -72,7 +70,6 @@ export declare class Tick extends Sprite {
      * Defines available events.
      *
      * @type {ITickEvents}
-     * @ignore Exclude from docs
      */
     _events: ITickEvents;
     /**

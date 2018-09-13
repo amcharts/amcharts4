@@ -566,7 +566,7 @@ var PieSeries = /** @class */ (function (_super) {
             return this.getPropertyValue("radius");
         },
         /**
-         * Outer radius for the series' slices in pixels.
+         * Outer radius for the series' slices in pixels or [[Percent]].
          *
          * @param {number | Percent}  value  Radius
          */

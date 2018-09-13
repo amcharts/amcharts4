@@ -51,14 +51,12 @@ export declare class RadarColumn extends Column {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IRadarColumnProperties}
      */
     _properties: IRadarColumnProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IRadarColumnAdapters}
      */
     _adapter: IRadarColumnAdapters;
@@ -66,7 +64,6 @@ export declare class RadarColumn extends Column {
      * Defines available events.
      *
      * @type {IRadarColumnEvents}
-     * @ignore Exclude from docs
      */
     _events: IRadarColumnEvents;
     /**

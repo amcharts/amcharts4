@@ -51,7 +51,7 @@ var QuadraticCurve = /** @class */ (function (_super) {
             var p2 = { x: this.x2, y: this.y2 };
             var cp = { x: this.cpx, y: this.cpy };
             var d = $path.moveTo(p1) + $path.quadraticCurveTo(p2, cp);
-            this.element.attr({ "d": d });
+            this.path = d;
         }
     };
     Object.defineProperty(QuadraticCurve.prototype, "cpx", {

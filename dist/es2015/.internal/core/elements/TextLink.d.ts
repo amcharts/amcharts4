@@ -47,14 +47,12 @@ export declare class TextLink extends Label {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ITextLinkProperties}
      */
     _properties: ITextLinkProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ITextLinkAdapters}
      */
     _adapter: ITextLinkAdapters;
@@ -62,7 +60,6 @@ export declare class TextLink extends Label {
      * Defines available events.
      *
      * @type {ITextLinkEvents}
-     * @ignore Exclude from docs
      */
     _events: ITextLinkEvents;
     /**

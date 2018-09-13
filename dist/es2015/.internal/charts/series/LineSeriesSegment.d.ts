@@ -54,14 +54,12 @@ export declare class LineSeriesSegment extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ILineSeriesSegmentPropertiess}
      */
     _properties: ILineSeriesSegmentProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ILineSeriesSegmentAdapters}
      */
     _adapter: ILineSeriesSegmentAdapters;
@@ -69,7 +67,6 @@ export declare class LineSeriesSegment extends Container {
      * Defines available events.
      *
      * @type {ILineSeriesSegmentEvents}
-     * @ignore Exclude from docs
      */
     _events: ILineSeriesSegmentEvents;
     /**

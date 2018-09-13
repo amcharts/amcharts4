@@ -79,21 +79,18 @@ export declare class GaugeChart extends RadarChart {
     /**
      * Defines available data fields.
      *
-     * @ignore Exclude from docs
      * @type {IGaugeChartDataFields}
      */
     _dataFields: IGaugeChartDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IGaugeChartProperties}
      */
     _properties: IGaugeChartProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IGaugeChartAdapters}
      */
     _adapter: IGaugeChartAdapters;
@@ -101,7 +98,6 @@ export declare class GaugeChart extends RadarChart {
      * Defines available events.
      *
      * @type {IGaugeChartEvents}
-     * @ignore Exclude from docs
      */
     _events: IGaugeChartEvents;
     /**

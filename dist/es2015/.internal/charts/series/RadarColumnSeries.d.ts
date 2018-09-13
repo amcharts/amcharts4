@@ -24,7 +24,6 @@ import { RadarColumn } from "../elements/RadarColumn";
 export declare class RadarColumnSeriesDataItem extends ColumnSeriesDataItem {
     /**
      * A sprite used to draw the column.
-     * @ignore
      * @type {Slice}
      */
     _column: RadarColumn;
@@ -83,31 +82,26 @@ export interface IRadarColumnSeriesAdapters extends IColumnSeriesAdapters, IRada
  */
 export declare class RadarColumnSeries extends ColumnSeries {
     /**
-     * @ignore
      */
     _dataItem: RadarColumnSeriesDataItem;
     /**
-     * @ignore
      */
     _column: RadarColumn;
     /**
      * Defines the type of data fields used for the series.
      *
-     * @ignore Exclude from docs
      * @type {IRadarColumnSeriesDataFields}
      */
     _dataFields: IRadarColumnSeriesDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IRadarColumnSeriesProperties}
      */
     _properties: IRadarColumnSeriesProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IRadarColumnSeriesAdapters}
      */
     _adapter: IRadarColumnSeriesAdapters;
@@ -115,13 +109,11 @@ export declare class RadarColumnSeries extends ColumnSeries {
      * Defines available events.
      *
      * @type {IRadarColumnSeriesEvents}
-     * @ignore Exclude from docs
      */
     _events: IRadarColumnSeriesEvents;
     /**
      * A chart series belongs to.
      *
-     * @ignore Exclude from docs
      * @type {RadarChart}
      */
     _chart: RadarChart;

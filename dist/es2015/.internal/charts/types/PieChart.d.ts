@@ -182,21 +182,18 @@ export declare class PieChart extends SerialChart {
     /**
      * Defines available data fields.
      *
-     * @ignore Exclude from docs
      * @type {IPieChartDataFields}
      */
     _dataFields: IPieChartDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IPieChartProperties}
      */
     _properties: IPieChartProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {SeriesAdapters}
      */
     _adapter: IPieChartAdapters;
@@ -204,13 +201,11 @@ export declare class PieChart extends SerialChart {
      * Defines available events.
      *
      * @type {IPieChartEvents}
-     * @ignore Exclude from docs
      */
     _events: IPieChartEvents;
     /**
      * Defines a type of series that this chart uses.
      *
-     * @ignore Exclude from docs
      * @type {PieSeries}
      */
     _seriesType: PieSeries;

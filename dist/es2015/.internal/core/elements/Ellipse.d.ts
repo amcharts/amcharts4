@@ -57,14 +57,12 @@ export declare class Ellipse extends Circle {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IEllipseProperties}
      */
     _properties: IEllipseProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IEllipseAdapters}
      */
     _adapter: IEllipseAdapters;
@@ -72,7 +70,6 @@ export declare class Ellipse extends Circle {
      * Defines available events.
      *
      * @type {IEllipseEvents}
-     * @ignore Exclude from docs
      */
     _events: IEllipseEvents;
     /**

@@ -59,14 +59,12 @@ export declare class CategoryAxisBreak extends AxisBreak {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ICategoryAxisBreakProperties}
      */
     _properties: ICategoryAxisBreakProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ICategoryAxisBreakAdapters}
      */
     _adapter: ICategoryAxisBreakAdapters;
@@ -74,13 +72,11 @@ export declare class CategoryAxisBreak extends AxisBreak {
      * Defines available events.
      *
      * @type {ICategoryAxisBreakEvents}
-     * @ignore Exclude from docs
      */
     _events: ICategoryAxisBreakEvents;
     /**
      * Defines the type of the Axis this break is used for.
      *
-     * @ignore Exclude from docs
      * @type {Axis}
      */
     _axisType: CategoryAxis;

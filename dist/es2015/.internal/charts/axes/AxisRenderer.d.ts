@@ -118,14 +118,12 @@ export declare class AxisRenderer extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IAxisRendererProperties}
      */
     _properties: IAxisRendererProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IAxisRendererAdapters}
      */
     _adapter: IAxisRendererAdapters;
@@ -133,7 +131,6 @@ export declare class AxisRenderer extends Container {
      * Defines available events.
      *
      * @type {IAxisRendererEvents}
-     * @ignore Exclude from docs
      */
     _events: IAxisRendererEvents;
     /**
@@ -180,28 +177,24 @@ export declare class AxisRenderer extends Container {
     /**
      * Defines type of the grid elements.
      *
-     * @ignore Exclude from docs
      * @type {Grid}
      */
     _gridType: Grid;
     /**
      * Defines type for the fill elements.
      *
-     * @ignore Exclude from docs
      * @type {AxisFill}
      */
     _fillType: AxisFill;
     /**
      * Defines type for tick elements.
      *
-     * @ignore Exclude from docs
      * @type {AxisTick}
      */
     _tickType: AxisTick;
     /**
      * Defines type for the label elements.
      *
-     * @ignore Exclude from docs
      * @type {AxisLabel}
      */
     _labelType: AxisLabel;
@@ -351,7 +344,7 @@ export declare class AxisRenderer extends Container {
      * @param {number}     position     Starting position
      * @param {number}     endPosition  Ending position
      */
-    updateLabelElement(label: AxisLabel, position: number, endPosition: number): void;
+    updateLabelElement(label: AxisLabel, position: number, endPosition: number, location?: number): void;
     /**
      * Updates and positions the axis line element.
      *

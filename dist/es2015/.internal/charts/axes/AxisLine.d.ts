@@ -47,14 +47,12 @@ export declare class AxisLine extends Sprite {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IAxisLineProperties}
      */
     _properties: IAxisLineProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IAxisLineAdapters}
      */
     _adapter: IAxisLineAdapters;
@@ -62,7 +60,6 @@ export declare class AxisLine extends Sprite {
      * Defines available events.
      *
      * @type {IAxisLineEvents}
-     * @ignore Exclude from docs
      */
     _events: IAxisLineEvents;
     /**

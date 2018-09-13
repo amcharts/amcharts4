@@ -39,7 +39,6 @@ export declare class DesaturateFilter extends Filter {
     /**
      * Defines property types.
      *
-     * @ignore Exclude from docs
      * @type {DesaturateFilterProperties}
      */
     _properties: DesaturateFilterProperties;

@@ -60,7 +60,7 @@ var AxisRendererX3D = /** @class */ (function (_super) {
             var dx = this.chart.dx3D;
             var dy = this.chart.dy3D;
             var h = this.getHeight();
-            grid.element.attr({ "d": $path.moveTo({ x: dx, y: dy }) + $path.lineTo({ x: dx, y: h + dy }) + $path.lineTo({ x: 0, y: h }) });
+            grid.path = $path.moveTo({ x: dx, y: dy }) + $path.lineTo({ x: dx, y: h + dy }) + $path.lineTo({ x: 0, y: h });
         }
         this.positionItem(grid, point);
         this.toggleVisibility(grid, position, 0, 1);
@@ -75,7 +75,7 @@ var AxisRendererX3D = /** @class */ (function (_super) {
         var h = this.getHeight();
         var dx = this.chart.dx3D;
         var dy = this.chart.dy3D;
-        this.baseGrid.element.attr({ "d": $path.moveTo({ x: dx, y: dy }) + $path.lineTo({ x: dx, y: h + dy }) + $path.lineTo({ x: 0, y: h }) });
+        this.baseGrid.path = $path.moveTo({ x: dx, y: dy }) + $path.lineTo({ x: dx, y: h + dy }) + $path.lineTo({ x: 0, y: h });
     };
     Object.defineProperty(AxisRendererX3D.prototype, "chart", {
         /**

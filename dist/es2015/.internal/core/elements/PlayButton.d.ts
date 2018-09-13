@@ -47,14 +47,12 @@ export declare class PlayButton extends Button {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IPlayButtonProperties}
      */
     _properties: IPlayButtonProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IPlayButtonAdapters}
      */
     _adapter: IPlayButtonAdapters;
@@ -62,7 +60,6 @@ export declare class PlayButton extends Button {
      * Defines available events.
      *
      * @type {IPlayButtonEvents}
-     * @ignore Exclude from docs
      */
     _events: IPlayButtonEvents;
     /**

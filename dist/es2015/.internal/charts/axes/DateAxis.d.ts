@@ -33,7 +33,6 @@ export declare class DateAxisDataItem extends ValueAxisDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
-     * @ignore Exclude from docs
      * @type {DateAxis}
      */
     _component: DateAxis;
@@ -135,21 +134,18 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
     /**
      * Defines data fields.
      *
-     * @ignore Exclude from docs
      * @type {IDateAxisDataFields}
      */
     _dataFields: IDateAxisDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IDateAxisProperties}
      */
     _properties: IDateAxisProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IDateAxisAdapters}
      */
     _adapter: IDateAxisAdapters;
@@ -157,20 +153,17 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * Defines available events.
      *
      * @type {IDateAxisEvents}
-     * @ignore Exclude from docs
      */
     _events: IDateAxisEvents;
     /**
      * Defines the type of the Date Items.
      *
-     * @ignore Exclude from docs
      * @type {DateAxisDataItem}
      */
     _dataItem: DateAxisDataItem;
     /**
      * Defines the type of the axis breaks.
      *
-     * @ignore Exclude from docs
      * @type {DateAxisBreak}
      */
     _axisBreak: DateAxisBreak;
@@ -767,4 +760,11 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @param {boolean}  instantly       Do not play zoom animations
      */
     zoomToDates(startDate: Date, endDate: Date, skipRangeEvent?: boolean, instantly?: boolean): void;
+    /**
+     * Adds `baseInterval` to "as is" fields.
+     *
+     * @param  {string}   field  Field name
+     * @return {boolean}         Assign as is?
+     */
+    protected asIs(field: string): boolean;
 }

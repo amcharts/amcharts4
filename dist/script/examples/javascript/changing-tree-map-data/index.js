@@ -144,4 +144,4 @@ setInterval(function () {
 			child.value = child.value + Math.round(child.value * Math.random() * 0.3 - 0.15);
 		}
 	}
-}, 3000)
+}, 2500)

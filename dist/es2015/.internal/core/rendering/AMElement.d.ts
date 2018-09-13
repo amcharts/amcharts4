@@ -356,6 +356,10 @@ export declare class AMElement implements IDisposer {
      */
     private _scale;
     /**
+     * current value of transfrom string
+     */
+    private _transformString;
+    /**
      * Constructor creates a new element or uses the one that was passed in.
      *
      * @param {string | SVGSVGElement} element Element reference node type

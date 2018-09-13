@@ -21,13 +21,11 @@ export declare class ChordDiagramDataItem extends FlowDiagramDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
-     * @ignore Exclude from docs
      * @type {ChordDiagram}
      */
     _component: ChordDiagram;
     /**
      * An a link element, connecting two nodes.
-     * @ignore
      * @type {ChordLink}
      */
     _link: ChordLink;
@@ -151,28 +149,24 @@ export declare class ChordDiagram extends FlowDiagram {
     /**
      * Defines a type for the DataItem.
      *
-     * @ignore Exclude from docs
      * @type {ChordDiagramDataItem}
      */
     _dataItem: ChordDiagramDataItem;
     /**
      * Defines available data fields.
      *
-     * @ignore Exclude from docs
      * @type {IChordDiagramDataFields}
      */
     _dataFields: IChordDiagramDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IChordDiagramProperties}
      */
     _properties: IChordDiagramProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {SeriesAdapters}
      */
     _adapter: IChordDiagramAdapters;
@@ -180,7 +174,6 @@ export declare class ChordDiagram extends FlowDiagram {
      * Defines available events.
      *
      * @type {IChordDiagramEvents}
-     * @ignore Exclude from docs
      */
     _events: IChordDiagramEvents;
     /**
@@ -217,7 +210,6 @@ export declare class ChordDiagram extends FlowDiagram {
      */
     chordContainer: Container;
     /**
-     * @ignore
      */
     _node: ChordNode;
     /**

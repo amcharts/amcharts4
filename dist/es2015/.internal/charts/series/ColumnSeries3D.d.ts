@@ -20,7 +20,6 @@ import { Column3D } from "../elements/Column3D";
 export declare class ColumnSeries3DDataItem extends ColumnSeriesDataItem {
     /**
      * A sprite used to draw the column.
-     * @ignore
      * @type {Column3D}
      */
     _column: Column3D;
@@ -87,31 +86,26 @@ export interface IColumnSeries3DAdapters extends IColumnSeriesAdapters, IColumnS
  */
 export declare class ColumnSeries3D extends ColumnSeries {
     /**
-     * @ignore
      */
     _dataItem: ColumnSeries3DDataItem;
     /**
-     * @ignore
      */
     _column: Column3D;
     /**
      * Defines the type for data fields.
      *
-     * @ignore Exclude from docs
      * @type {IColumnSeries3DDataFields}
      */
     _dataFields: IColumnSeries3DDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IColumnSeries3DProperties}
      */
     _properties: IColumnSeries3DProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IColumnSeries3DAdapters}
      */
     _adapter: IColumnSeries3DAdapters;
@@ -119,7 +113,6 @@ export declare class ColumnSeries3D extends ColumnSeries {
      * Defines available events.
      *
      * @type {IColumnSeries3DEvents}
-     * @ignore Exclude from docs
      */
     _events: IColumnSeries3DEvents;
     /**
@@ -134,7 +127,6 @@ export declare class ColumnSeries3D extends ColumnSeries {
     /**
      * A chart series belongs to.
      *
-     * @ignore Exclude from docs
      * @type {XYChart3D}
      */
     _chart: XYChart3D;

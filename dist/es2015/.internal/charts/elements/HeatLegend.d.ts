@@ -87,14 +87,12 @@ export declare class HeatLegend extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IHeatLegendProperties}
      */
     _properties: IHeatLegendProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IHeatLegendAdapters}
      */
     _adapter: IHeatLegendAdapters;
@@ -102,7 +100,6 @@ export declare class HeatLegend extends Container {
      * Defines available events.
      *
      * @type {IHeatLegendEvents}
-     * @ignore Exclude from docs
      */
     _events: IHeatLegendEvents;
     /**

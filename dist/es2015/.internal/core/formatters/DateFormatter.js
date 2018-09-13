@@ -149,8 +149,9 @@ var DateFormatter = /** @class */ (function (_super) {
      */
     DateFormatter.prototype.parseFormat = function (format) {
         // Check cache
-        if (typeof (this.getCache(format)) !== "undefined") {
-            return this.getCache(format);
+        var cached = this.getCache(format);
+        if ($type.hasValue(cached)) {
+            return cached;
         }
         // Init format parse info holder
         var info = {

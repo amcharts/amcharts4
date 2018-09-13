@@ -117,7 +117,6 @@ export declare class Component extends Container {
     /**
      * Defines available data fields.
      *
-     * @ignore Exclude from docs
      * @type {IComponentDataFields}
      */
     _dataFields: IComponentDataFields;
@@ -133,14 +132,12 @@ export declare class Component extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IComponentProperties}
      */
     _properties: IComponentProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IComponentAdapters}
      */
     _adapter: IComponentAdapters;
@@ -148,7 +145,6 @@ export declare class Component extends Container {
      * Defines available events.
      *
      * @type {IComponentEvents}
-     * @ignore Exclude from docs
      */
     _events: IComponentEvents;
     /**
@@ -214,7 +210,6 @@ export declare class Component extends Container {
     /**
      * Identifies the type of the [[DataItem]] used in this element.
      *
-     * @ignore Exclude from docs
      * @type {DataItem}
      */
     _dataItem: DataItem;

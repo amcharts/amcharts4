@@ -5,6 +5,29 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.51] - 2018-09-13
+
+### Changed
+- Changed `Label.renderingFrequency` to `2`, for better performance.
+
+### Fixed
+- Performance tweaking.
+- `DateAxis.baseInterval` was ignored in JSON-based configs.
+- `"hoverActive"` state was not always being correctly applied.
+- Better handling of cursor zoom and pan when outside chart area.
+- Fixed occasional error when formatting dates or numbers.
+- Line chart starts new segement only if properties (like `stroke`, `fill`, `strokeDashArray`, etc.) in data have changed. It used to start new segment if properties in data were defined resulting in reduced performance and disabled smoothed lines.
+- Labels were not updating their position if their `fontSize` changed.
+- `Sprite.nonScalingStroke = true` was ignored if set after `Sprite.strokeWidth`.
+- `LineSeries` could leave some garbage lines while zooming.
+- `ColumnSeries` could leave some garbage columns while zooming.
+- `DateAxis` with one date only in chart data was not rendered properly.
+- The chart was not zooming out after data validation.
+- Added `ghostLabel` to `Axis` which is an invisible label and it helps to avoid unwanted changes of axis widht/height when the scale changes, e.g. on zoom.
+- `zoomToMapObject`, if used with `MapPolygon` and custom `zoomLevel` was not working properly.
+- `"hidden"` event of Series was called on initial chart initialization.
+
+
 ## [4.0.0-beta.50] - 2018-09-10
 
 ### Added

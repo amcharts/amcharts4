@@ -48,14 +48,12 @@ export declare class Triangle extends Sprite {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ITriangleProperties}
      */
     _properties: ITriangleProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ITriangleAdapters}
      */
     _adapter: ITriangleAdapters;
@@ -63,7 +61,6 @@ export declare class Triangle extends Sprite {
      * Defines available events.
      *
      * @type {ITriangleEvents}
-     * @ignore Exclude from docs
      */
     _events: ITriangleEvents;
     /**

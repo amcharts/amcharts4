@@ -153,10 +153,8 @@ var Slice3D = /** @class */ (function (_super) {
             var bh = { x: b0.x, y: b0.y - h };
             var ch = { x: c0.x, y: c0.y - h };
             var dh = { x: d0.x, y: d0.y - h };
-            var pathA = $path.moveTo(a0) + $path.lineTo(b0) + $path.lineTo(bh) + $path.lineTo(ah) + $path.closePath();
-            this.sideA.element.attr({ "d": pathA });
-            var pathB = $path.moveTo(c0) + $path.lineTo(d0) + $path.lineTo(dh) + $path.lineTo(ch) + $path.closePath();
-            this.sideB.element.attr({ "d": pathB });
+            this.sideA.path = $path.moveTo(a0) + $path.lineTo(b0) + $path.lineTo(bh) + $path.lineTo(ah) + $path.closePath();
+            this.sideB.path = $path.moveTo(c0) + $path.lineTo(d0) + $path.lineTo(dh) + $path.lineTo(ch) + $path.closePath();
             if (this.startAngle < 90) {
                 this.sideA.toBack();
             }

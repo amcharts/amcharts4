@@ -49,20 +49,17 @@ export declare class AxisTick extends Tick {
     /**
      * Defines available properties
      * @type {AxisTicPkroperties}
-     * @ignore
      */
     _properties: IAxisTickProperties;
     /**
      * Defines available adapters
      * @type {IAxisTickAdapters}
-     * @ignore
      */
     _adapter: IAxisTickAdapters;
     /**
      * Defines available events.
      *
      * @type {IAxisTickEvents}
-     * @ignore Exclude from docs
      */
     _events: IAxisTickEvents;
     _dataItem: AxisDataItem;

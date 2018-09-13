@@ -69,14 +69,12 @@ export declare class WavedLine extends Line implements IWavedShape {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IWavedLineProperties}
      */
     _properties: IWavedLineProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IWavedLineAdapters}
      */
     _adapter: IWavedLineAdapters;
@@ -84,7 +82,6 @@ export declare class WavedLine extends Line implements IWavedShape {
      * Defines available events.
      *
      * @type {IWavedLineEvents}
-     * @ignore Exclude from docs
      */
     _events: IWavedLineEvents;
     /**

@@ -47,7 +47,7 @@ var AxisFillCircular = /** @class */ (function (_super) {
         if (this.axis) {
             var renderer = this.axis.renderer;
             this.fillPath = renderer.getPositionRangePath(this.startPosition, this.endPosition, this.radius, $type.hasValue(this.innerRadius) ? this.innerRadius : renderer.innerRadius, this.cornerRadius);
-            this.element.attr({ "d": this.fillPath });
+            this.path = this.fillPath;
         }
     };
     Object.defineProperty(AxisFillCircular.prototype, "innerRadius", {

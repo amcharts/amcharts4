@@ -56,14 +56,12 @@ export declare class Grid extends Sprite {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IGridProperties}
      */
     _properties: IGridProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IGridAdapters}
      */
     _adapter: IGridAdapters;
@@ -71,20 +69,11 @@ export declare class Grid extends Sprite {
      * Defines available events.
      *
      * @type {IGridEvents}
-     * @ignore Exclude from docs
      */
     _events: IGridEvents;
     /**
-     * A grid visual element.
-     *
-     * @ignore Exclude from docs
-     * @type {Sprite}
-     */
-    gridSprite: Sprite;
-    /**
      * An axis data item that corresponds to the this grid element.
      *
-     * @ignore Exclude from docs
      * @type {AxisDataItem}
      */
     _dataItem: AxisDataItem;

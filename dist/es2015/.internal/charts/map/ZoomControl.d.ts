@@ -53,14 +53,12 @@ export declare class ZoomControl extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IZoomControlProperties}
      */
     _properties: IZoomControlProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IZoomControlAdapters}
      */
     _adapter: IZoomControlAdapters;
@@ -68,7 +66,6 @@ export declare class ZoomControl extends Container {
      * Defines available events.
      *
      * @type {IZoomControlEvents}
-     * @ignore Exclude from docs
      */
     _events: IZoomControlEvents;
     /**
@@ -103,7 +100,6 @@ export declare class ZoomControl extends Container {
     /**
      * A type to use for the background element for zoom control.
      *
-     * @ignore Exclude from docs
      * @type {RoundedRectangle}
      */
     _background: RoundedRectangle;

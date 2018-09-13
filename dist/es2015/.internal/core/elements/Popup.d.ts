@@ -136,13 +136,11 @@ export declare class Popup extends BaseObjectEvents {
      * Defines available events.
      *
      * @type {IPopupEvents}
-     * @ignore Exclude from docs
      */
     _events: IPopupEvents;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IExportAdapters}
      */
     _adapter: IPopupAdapters;

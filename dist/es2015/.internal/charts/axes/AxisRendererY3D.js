@@ -59,7 +59,7 @@ var AxisRendererY3D = /** @class */ (function (_super) {
             var dx = this.chart.dx3D;
             var dy = this.chart.dy3D;
             var w = this.getWidth();
-            grid.element.attr({ "d": $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: dx, y: dy }) + $path.lineTo({ x: w + dx, y: dy }) });
+            grid.path = $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: dx, y: dy }) + $path.lineTo({ x: w + dx, y: dy });
         }
         this.positionItem(grid, point);
         this.toggleVisibility(grid, position, 0, 1);
@@ -72,11 +72,9 @@ var AxisRendererY3D = /** @class */ (function (_super) {
     AxisRendererY3D.prototype.updateBaseGridElement = function () {
         _super.prototype.updateBaseGridElement.call(this);
         var w = this.getWidth();
-        this.baseGrid.element.attr({
-            "d": $path.moveTo({ x: 0, y: 0 })
-                + $path.lineTo({ x: w, y: 0 })
-                + $path.lineTo({ x: w + this.chart.dx3D, y: this.chart.dy3D })
-        });
+        this.baseGrid.path = $path.moveTo({ x: 0, y: 0 })
+            + $path.lineTo({ x: w, y: 0 })
+            + $path.lineTo({ x: w + this.chart.dx3D, y: this.chart.dy3D });
     };
     Object.defineProperty(AxisRendererY3D.prototype, "chart", {
         /**

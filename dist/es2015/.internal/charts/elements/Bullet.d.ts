@@ -85,14 +85,12 @@ export declare class Bullet extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IBulletProperties}
      */
     _properties: IBulletProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IBulletAdapters}
      */
     _adapter: IBulletAdapters;
@@ -100,7 +98,6 @@ export declare class Bullet extends Container {
      * Defines available events.
      *
      * @type {IBulletEvents}
-     * @ignore Exclude from docs
      */
     _events: IBulletEvents;
     /**

@@ -29,7 +29,6 @@ export declare class LineSeriesDataItem extends XYSeriesDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
-     * @ignore Exclude from docs
      * @type {LineSeries}
      */
     _component: LineSeries;
@@ -114,21 +113,18 @@ export declare class LineSeries extends XYSeries {
     /**
      * Defines the type of data fields used for the series.
      *
-     * @ignore Exclude from docs
      * @type {ILineSeriesDataFields}
      */
     _dataFields: ILineSeriesDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ILineSeriesProperties}
      */
     _properties: ILineSeriesProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ILineSeriesAdapters}
      */
     _adapter: ILineSeriesAdapters;
@@ -136,13 +132,11 @@ export declare class LineSeries extends XYSeries {
      * Defines available events.
      *
      * @type {ILineSeriesEvents}
-     * @ignore Exclude from docs
      */
     _events: ILineSeriesEvents;
     /**
      * Defines the type of data item.
      *
-     * @ignore Exclude from docs
      * @type {LineSeriesDataItem}
      */
     _dataItem: LineSeriesDataItem;
@@ -158,7 +152,6 @@ export declare class LineSeries extends XYSeries {
      */
     segments: ListTemplate<this["_segment"]>;
     /**
-     * @ignore
      */
     _segment: LineSeriesSegment;
     /**
@@ -276,7 +269,7 @@ export declare class LineSeries extends XYSeries {
      */
     protected updateSegmentProperties(itemProperties: {
         [index: string]: any;
-    }, segment?: LineSeriesSegment): boolean;
+    }, segment: LineSeriesSegment, checkOnly?: boolean): boolean;
     /**
      * @return {boolean} Connect?
      */

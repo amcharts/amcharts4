@@ -276,8 +276,8 @@ var BaseObject = /** @class */ (function () {
      * @param {string}  key    Key
      * @param {any}     value  Value
      */
-    BaseObject.prototype.setCache = function (key, value) {
-        cache.set(this.uid, key, value);
+    BaseObject.prototype.setCache = function (key, value, ttl) {
+        cache.set(this.uid, key, value, ttl);
     };
     /**
      * Retrieves cached value.

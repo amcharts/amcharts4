@@ -77,14 +77,12 @@ export declare class WavedCircle extends Circle implements IWavedShape {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IWavedCircleProperties}
      */
     _properties: IWavedCircleProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IWavedCircleAdapters}
      */
     _adapter: IWavedCircleAdapters;
@@ -92,7 +90,6 @@ export declare class WavedCircle extends Circle implements IWavedShape {
      * Defines available events.
      *
      * @type {IWavedCircleEvents}
-     * @ignore Exclude from docs
      */
     _events: IWavedCircleEvents;
     /**

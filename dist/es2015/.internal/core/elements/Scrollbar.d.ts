@@ -85,14 +85,12 @@ export declare class Scrollbar extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {PointedRectangleProperties}
      */
     _properties: IScrollbarProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IScrollbarAdapters}
      */
     _adapter: IScrollbarAdapters;
@@ -100,7 +98,6 @@ export declare class Scrollbar extends Container {
      * Defines available events.
      *
      * @type {IScrollbarEvents}
-     * @ignore Exclude from docs
      */
     _events: IScrollbarEvents;
     /**
@@ -207,7 +204,6 @@ export declare class Scrollbar extends Container {
     /**
      * Sets the type of the element to use as background.
      *
-     * @ignore Exclude from docs
      * @type {RoundedRectangle}
      */
     _background: RoundedRectangle;

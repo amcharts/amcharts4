@@ -24,7 +24,6 @@ export declare class MapSplineSeriesDataItem extends MapLineSeriesDataItem {
      * A [[MapSpline]] element related to this data item.
      *
      * @type {MapSpline}
-     * @ignore
      */
     _mapLine: MapSpline;
     /**
@@ -82,21 +81,18 @@ export declare class MapSplineSeries extends MapLineSeries {
     /**
      * Defines available data fields.
      *
-     * @ignore Exclude from docs
      * @type {IMapSplineSeriesDataFields}
      */
     _dataFields: IMapSplineSeriesDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IMapSplineSeriesProperties}
      */
     _properties: IMapSplineSeriesProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IMapSplineSeriesAdapters}
      */
     _adapter: IMapSplineSeriesAdapters;
@@ -104,20 +100,17 @@ export declare class MapSplineSeries extends MapLineSeries {
      * Defines available events.
      *
      * @type {IMapSplineSeriesEvents}
-     * @ignore Exclude from docs
      */
     _events: IMapSplineSeriesEvents;
     /**
      * Defines the type of data item.
      *
-     * @ignore Exclude from docs
      * @type {MapSplineSeriesDataItem}
      */
     _dataItem: MapSplineSeriesDataItem;
     /**
      * Defines the type of the line items in this series.
      *
-     * @ignore Exclude from docs
      * @type {MapSpline}
      */
     _mapLine: MapSpline;

@@ -80,7 +80,11 @@ var Cursor = /** @class */ (function (_super) {
      * @param {IInteractionObjectEvents["track"]} event Event
      */
     Cursor.prototype.handleCursorMove = function (event) {
-        if (!this.interactionsEnabled || !getInteraction().isLocalElement(event.pointer, this.paper.svg)) {
+        if (!this.interactionsEnabled) {
+            return;
+        }
+        if (((this._generalBehavior != "zoom" && this._generalBehavior != "pan") || !this.downPoint) && !getInteraction().isLocalElement(event.pointer, this.paper.svg)) {
+            // We want to let zoom/pan continue even if cursor is outside chart area
             if (!this.isHidden || !this.isHiding) {
                 this.hide();
             }
@@ -274,12 +278,10 @@ var Cursor = /** @class */ (function (_super) {
      * @param {IInteractionEvents["up"]} event Original event
      */
     Cursor.prototype.handleCursorUp = function (event) {
-        if (!this.interactionsEnabled || !getInteraction().isLocalElement(event.pointer, this.paper.svg)) {
-            if (this._generalBehavior == "pan" && this.downPoint) {
-                this.dispatchImmediately("panended");
-                getInteraction().setGlobalStyle(MouseCursorStyle.default);
-                this.downPoint = undefined;
-            }
+        if (!this.interactionsEnabled) {
+            return;
+        }
+        if (((this._generalBehavior != "zoom" && this._generalBehavior != "pan") || !this.downPoint) && !getInteraction().isLocalElement(event.pointer, this.paper.svg)) {
             return;
         }
         var local = $utils.documentPointToSprite(event.pointer.point, this);

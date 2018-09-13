@@ -60,7 +60,6 @@ export declare class FocusFilter extends Filter {
     /**
      * Defines property types.
      *
-     * @ignore Exclude from docs
      * @type {FocusFilterProperties}
      */
     _properties: FocusFilterProperties;

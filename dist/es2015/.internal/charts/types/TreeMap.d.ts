@@ -34,7 +34,6 @@ export declare class TreeMapDataItem extends XYChartDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
-     * @ignore Exclude from docs
      * @type {TreeMap}
      */
     _component: TreeMap;
@@ -278,28 +277,24 @@ export declare class TreeMap extends XYChart {
     /**
      * Defines a type of the data item used for this chart.
      *
-     * @ignore Exclude from docs.
      * @type {TreeMapDataItem}
      */
     _dataItem: TreeMapDataItem;
     /**
      * Defines available data fields.
      *
-     * @ignore Exclude from docs.
      * @type {ITreeMapDataFields}
      */
     _dataFields: ITreeMapDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs.
      * @type {ITreeMapProperties}
      */
     _properties: ITreeMapProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs.
      * @type {SeriesAdapters}
      */
     _adapter: ITreeMapAdapters;
@@ -307,7 +302,6 @@ export declare class TreeMap extends XYChart {
      * Defines available events.
      *
      * @type {ITreeMapEvents}
-     * @ignore Exclude from docs
      */
     _events: ITreeMapEvents;
     /**
@@ -359,7 +353,6 @@ export declare class TreeMap extends XYChart {
     /**
      * Defines a type of series that this chart uses.
      *
-     * @ignore Exclude from docs
      * @type {PieSeries}
      */
     _seriesType: TreeMapSeries;

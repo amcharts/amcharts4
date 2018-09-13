@@ -224,7 +224,7 @@ var RadarChart = /** @class */ (function (_super) {
         var startAngle = this.startAngle;
         var endAngle = this.endAngle;
         this._pixelInnerRadius = $utils.relativeRadiusToValue(innerRadius, radius);
-        this._bulletMask.element.attr({ "d": $path.arc(startAngle, endAngle - startAngle, radius, this._pixelInnerRadius) });
+        this._bulletMask.path = $path.arc(startAngle, endAngle - startAngle, radius, this._pixelInnerRadius);
         $iter.each(this.xAxes.iterator(), function (axis) {
             if (axis.renderer.useChartAngles) {
                 axis.renderer.startAngle = startAngle;

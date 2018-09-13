@@ -75,14 +75,12 @@ export declare class RoundedRectangle extends Sprite {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IRoundedRectangleProperties}
      */
     _properties: IRoundedRectangleProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IRoundedRectangleAdapters}
      */
     _adapter: IRoundedRectangleAdapters;
@@ -90,7 +88,6 @@ export declare class RoundedRectangle extends Sprite {
      * Defines available events.
      *
      * @type {IRoundedRectangleEvents}
-     * @ignore Exclude from docs
      */
     _events: IRoundedRectangleEvents;
     /**

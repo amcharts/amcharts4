@@ -47,14 +47,12 @@ export declare class ZoomOutButton extends Button {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IZoomOutButtonProperties}
      */
     _properties: IZoomOutButtonProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IZoomOutButtonAdapters}
      */
     _adapter: IZoomOutButtonAdapters;
@@ -62,7 +60,6 @@ export declare class ZoomOutButton extends Button {
      * Defines available events.
      *
      * @type {IZoomOutButtonEvents}
-     * @ignore Exclude from docs
      */
     _events: IZoomOutButtonEvents;
     /**

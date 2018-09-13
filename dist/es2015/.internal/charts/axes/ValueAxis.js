@@ -178,11 +178,14 @@ var ValueAxis = /** @class */ (function (_super) {
         _this.fillRule = function (dataItem) {
             var value = dataItem.value;
             var axis = dataItem.component;
-            if (value / axis.step / 2 == Math.round(value / axis.step / 2)) {
-                dataItem.axisFill.__disabled = true;
-            }
-            else {
-                dataItem.axisFill.__disabled = false;
+            if (!dataItem.axisFill.disabled) {
+                // rounding in left to solve floating point number
+                if ($math.round(value / axis.step / 2, 5) == Math.round(value / axis.step / 2)) {
+                    dataItem.axisFill.__disabled = true;
+                }
+                else {
+                    dataItem.axisFill.__disabled = false;
+                }
             }
         };
         /**
@@ -243,6 +246,22 @@ var ValueAxis = /** @class */ (function (_super) {
                 this.zoomToValues(minZoomed, maxZoomed, true, true);
             }
         }
+    };
+    /**
+     * [dataChangeUpdate description]
+     *
+     * This is a placeholder to override for extending classes.
+     *
+     * @ignore Exclude from docs
+     * @todo Description
+     */
+    ValueAxis.prototype.dataChangeUpdate = function () {
+        this._start = 0;
+        this._end = 1;
+        this._maxZoomed = this._maxDefined;
+        this._minZoomed = this._minDefined;
+        this._maxAdjusted = this._maxDefined;
+        this._minAdjusted = this._minDefined;
     };
     /**
      * Processes data items of the related Series.
@@ -512,7 +531,7 @@ var ValueAxis = /** @class */ (function (_super) {
      */
     ValueAxis.prototype.validateDataElement = function (dataItem) {
         _super.prototype.validateDataElement.call(this, dataItem);
-        dataItem.__disabled = false;
+        //dataItem.__disabled = false;
         var renderer = this.renderer;
         var value = dataItem.value;
         var endValue = dataItem.endValue;
@@ -849,6 +868,11 @@ var ValueAxis = /** @class */ (function (_super) {
         var dif = this.adjustDifference(min, max); // previously it was max-min, but not worked well
         min = this.fixMin(min);
         max = this.fixMax(max);
+        // this happens if starLocation and endLocation are 0.5 and DateAxis has only one date
+        if (min == max) {
+            min -= 1;
+            max += 1;
+        }
         var minMaxStep = this.adjustMinMax(min, max, dif, this._gridCount, this.strictMinMax);
         min = minMaxStep.min;
         max = minMaxStep.max;
@@ -1001,11 +1025,11 @@ var ValueAxis = /** @class */ (function (_super) {
         // repeat diff, exponent and power again with rounded values
         //difference = this.adjustDifference(min, max);
         /*
-        
+
                 if(min > initialMin){
                     min = initialMin;
                 }
-        
+
                 if(max < initialMax){
                     max = initialMax;
                 }
@@ -1082,7 +1106,8 @@ var ValueAxis = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._minDefined = value;
-            this.getMinMax();
+            //this.getMinMax();
+            this.invalidateDataItems();
         },
         enumerable: true,
         configurable: true
@@ -1123,7 +1148,8 @@ var ValueAxis = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._maxDefined = value;
-            this.getMinMax();
+            //this.getMinMax();
+            this.invalidateDataItems();
         },
         enumerable: true,
         configurable: true
@@ -1307,6 +1333,18 @@ var ValueAxis = /** @class */ (function (_super) {
      */
     ValueAxis.prototype.handleExtremesChange = function () {
         this.getMinMax();
+        if (this.ghostLabel) {
+            var min = this.min;
+            var max = this.max;
+            var text = 0;
+            if ($type.isNumber(min) && $type.isNumber(max) && min.toString().length > max.toString().length) {
+                text = min;
+            }
+            else {
+                text = max;
+            }
+            this.ghostLabel.text = this.formatLabel(text);
+        }
     };
     /**
      * Returns the X coordinate for series' data item's value.

@@ -65,7 +65,6 @@ export declare class XYSeriesDataItem extends SeriesDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
-     * @ignore Exclude from docs
      * @type {XYSeries}
      */
     _component: XYSeries;
@@ -374,21 +373,18 @@ export declare class XYSeries extends Series {
     /**
      * Defines the type of data fields used for the series.
      *
-     * @ignore Exclude from docs
      * @type {IXYSeriesDataFields}
      */
     _dataFields: IXYSeriesDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IXYSeriesProperties}
      */
     _properties: IXYSeriesProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IXYSeriesAdapters}
      */
     _adapter: IXYSeriesAdapters;
@@ -396,13 +392,11 @@ export declare class XYSeries extends Series {
      * Defines available events.
      *
      * @type {IXYSeriesEvents}
-     * @ignore Exclude from docs
      */
     _events: IXYSeriesEvents;
     /**
      * Defines the type of data item.
      *
-     * @ignore Exclude from docs
      * @type {XYSeriesDataItem}
      */
     _dataItem: XYSeriesDataItem;
@@ -421,7 +415,6 @@ export declare class XYSeries extends Series {
     /**
      * A chart series belongs to.
      *
-     * @ignore Exclude from docs
      * @type {XYChart}
      */
     _chart: XYChart;
@@ -530,6 +523,10 @@ export declare class XYSeries extends Series {
      * @return {XYSeriesDataItem} Data Item
      */
     protected createDataItem(): this["_dataItem"];
+    /**
+     * @ignore
+     */
+    dataChangeUpdate(): void;
     /**
      * (Re)validates the series' data.
      *

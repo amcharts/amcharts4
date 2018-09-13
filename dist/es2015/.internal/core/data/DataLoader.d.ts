@@ -57,7 +57,6 @@ export declare class DataLoader {
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IExportAdapters}
      */
     _adapter: IDataLoaderAdapters;

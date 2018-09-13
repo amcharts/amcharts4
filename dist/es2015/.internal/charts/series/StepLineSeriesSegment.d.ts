@@ -54,14 +54,12 @@ export declare class StepLineSeriesSegment extends LineSeriesSegment {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IStepLineSeriesSegmentProperties}
      */
     _properties: IStepLineSeriesSegmentProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IStepLineSeriesSegmentAdapters}
      */
     _adapter: IStepLineSeriesSegmentAdapters;
@@ -69,7 +67,6 @@ export declare class StepLineSeriesSegment extends LineSeriesSegment {
      * Defines available events.
      *
      * @type {IStepLineSeriesSegmentEvents}
-     * @ignore Exclude from docs
      */
     _events: IStepLineSeriesSegmentEvents;
     /**

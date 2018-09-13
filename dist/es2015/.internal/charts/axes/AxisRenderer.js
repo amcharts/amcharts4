@@ -310,7 +310,7 @@ var AxisRenderer = /** @class */ (function (_super) {
      * @param {number}     position     Starting position
      * @param {number}     endPosition  Ending position
      */
-    AxisRenderer.prototype.updateLabelElement = function (label, position, endPosition) {
+    AxisRenderer.prototype.updateLabelElement = function (label, position, endPosition, location) {
         // This is a placeholder method for extending classes to override.
     };
     /**
@@ -411,11 +411,13 @@ var AxisRenderer = /** @class */ (function (_super) {
         var axis = this.axis;
         var updatedStart = axis.start + (axis.end - axis.start) * minPosition - 0.00001;
         var updatedEnd = axis.start + (axis.end - axis.start) * maxPosition + 0.00001;
-        if (position < updatedStart || position > updatedEnd) {
-            sprite.__disabled = true;
-        }
-        else {
-            sprite.__disabled = false;
+        if (!sprite.disabled) {
+            if (position < updatedStart || position > updatedEnd) {
+                sprite.__disabled = true;
+            }
+            else {
+                sprite.__disabled = false;
+            }
         }
     };
     /**

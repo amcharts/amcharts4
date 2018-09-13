@@ -155,9 +155,10 @@ var NumberFormatter = /** @class */ (function (_super) {
      */
     NumberFormatter.prototype.parseFormat = function (format, language) {
         var _this = this;
-        // check cache
-        if (typeof (this.getCache(format)) !== "undefined") {
-            return this.getCache(format);
+        // Check cache
+        var cached = this.getCache(format);
+        if ($type.hasValue(cached)) {
+            return cached;
         }
         // init format parse info holder
         var info = {

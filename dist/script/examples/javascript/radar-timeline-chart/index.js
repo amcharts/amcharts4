@@ -196,6 +196,7 @@ valueAxis.zIndex = 10;
 
 var valueAxisRenderer = valueAxis.renderer;
 valueAxisRenderer.axisFills.template.disabled = true;
+valueAxisRenderer.ticks.template.disabled = true;
 valueAxisRenderer.minGridDistance = 30;
 valueAxisRenderer.grid.template.strokeOpacity = 0.05;
 

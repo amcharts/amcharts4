@@ -71,16 +71,25 @@ var LineSeriesSegment = /** @class */ (function (_super) {
      * @param {number}    smoothnessY  Vertical bezier setting (?)
      */
     LineSeriesSegment.prototype.drawSegment = function (points, closePoints, smoothnessX, smoothnessY) {
-        if (points.length > 0 && closePoints.length > 0) {
-            var path = $path.moveTo(points[0]) + new $smoothing.Tension(smoothnessX, smoothnessY).smooth(points);
-            //if(this.strokeOpacity > 0 || this.strokeSprite.strokeOpacity > 0){ // not good, range stroke is not drawn then
-            this.strokeSprite.element.attr({ "d": path });
-            //}
-            if (this.fillOpacity > 0 || this.fillSprite.fillOpacity > 0) { // helps to avoid drawing fill object if fill is not visible
-                path += $path.lineTo(closePoints[0]) + new $smoothing.Tension(smoothnessX, smoothnessY).smooth(closePoints);
-                path += $path.lineTo(points[0]);
-                path += $path.closePath();
-                this.fillSprite.element.attr({ "d": path });
+        if (!this.disabled) {
+            if (points.length > 0 && closePoints.length > 0) {
+                var path = $path.moveTo(points[0]) + new $smoothing.Tension(smoothnessX, smoothnessY).smooth(points);
+                if (this.strokeOpacity == 0 || this.strokeSprite.strokeOpacity == 0) {
+                    // like this and not if != 0, otherwise ranges stroke won't be drawn.
+                }
+                else {
+                    this.strokeSprite.path = path;
+                }
+                if (this.fillOpacity > 0 || this.fillSprite.fillOpacity > 0) { // helps to avoid drawing fill object if fill is not visible
+                    path += $path.lineTo(closePoints[0]) + new $smoothing.Tension(smoothnessX, smoothnessY).smooth(closePoints);
+                    path += $path.lineTo(points[0]);
+                    path += $path.closePath();
+                    this.fillSprite.path = path;
+                }
+            }
+            else {
+                this.fillSprite.path = "";
+                this.strokeSprite.path = "";
             }
         }
     };

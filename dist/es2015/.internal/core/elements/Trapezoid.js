@@ -89,7 +89,7 @@ var Trapezoid = /** @class */ (function (_super) {
             + mb
             + $path.lineTo({ x: x3, y: y3 })
             + ml;
-        this.element.attr({ "d": path });
+        this.path = path;
     };
     Object.defineProperty(Trapezoid.prototype, "topSide", {
         /**

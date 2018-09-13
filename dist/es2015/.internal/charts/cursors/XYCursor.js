@@ -115,10 +115,10 @@ var XYCursor = /** @class */ (function (_super) {
      */
     XYCursor.prototype.updateSize = function () {
         if (this.lineX) {
-            this.lineX.element.attr({ "d": $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: 0, y: this.innerHeight }) });
+            this.lineX.path = $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: 0, y: this.innerHeight });
         }
         if (this.lineY) {
-            this.lineY.element.attr({ "d": $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: this.innerWidth, y: 0 }) });
+            this.lineY.path = $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: this.innerWidth, y: 0 });
         }
     };
     /**
@@ -162,7 +162,7 @@ var XYCursor = /** @class */ (function (_super) {
                 }
                 selection.x = x;
                 selection.y = y;
-                selection.element.attr({ "d": $path.rectangle(w, h) });
+                selection.path = $path.rectangle(w, h);
                 selection.validatePosition(); // otherwise Edge shoes some incorrect size rectangle
             }
             else {
@@ -224,7 +224,7 @@ var XYCursor = /** @class */ (function (_super) {
                 if (this._usesSelection) {
                     selection.x = selectionX;
                     selection.y = selectionY;
-                    selection.element.attr({ "d": "" });
+                    selection.path = "";
                     selection.show();
                 }
                 _super.prototype.triggerDownReal.call(this, point);
@@ -503,7 +503,7 @@ var XYCursor = /** @class */ (function (_super) {
             if (startPoint && endPoint) {
                 this.lineX.x = x;
                 var width = endPoint.x - startPoint.x;
-                this.lineX.element.attr({ "d": $path.rectangle(width, this.innerHeight, -width / 2) });
+                this.lineX.path = $path.rectangle(width, this.innerHeight, -width / 2);
             }
         }
     };
@@ -529,7 +529,7 @@ var XYCursor = /** @class */ (function (_super) {
             if (startPoint && endPoint) {
                 this.lineY.y = y;
                 var height = endPoint.y - startPoint.y;
-                this.lineY.element.attr({ "d": $path.rectangle(this.innerWidth, height, 0, -height / 2) });
+                this.lineY.path = $path.rectangle(this.innerWidth, height, 0, -height / 2);
             }
         }
     };

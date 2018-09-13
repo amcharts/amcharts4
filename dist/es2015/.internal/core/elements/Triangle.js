@@ -71,7 +71,7 @@ var Triangle = /** @class */ (function (_super) {
                     + $path.closePath();
                 break;
         }
-        this.element.attr({ "d": path });
+        this.path = path;
     };
     Object.defineProperty(Triangle.prototype, "direction", {
         /**

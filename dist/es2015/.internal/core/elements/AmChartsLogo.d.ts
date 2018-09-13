@@ -53,14 +53,12 @@ export declare class AmChartsLogo extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IAmChartsLogoProperties}
      */
     _properties: IAmChartsLogoProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IAmChartsLogoAdapters}
      */
     _adapter: IAmChartsLogoAdapters;
@@ -68,7 +66,6 @@ export declare class AmChartsLogo extends Container {
      * Defines available events.
      *
      * @type {IAmChartsLogoEvents}
-     * @ignore Exclude from docs
      */
     _events: IAmChartsLogoEvents;
     /**

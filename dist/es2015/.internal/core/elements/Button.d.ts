@@ -60,14 +60,12 @@ export declare class Button extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IButtonProperties}
      */
     _properties: IButtonProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IButtonAdapters}
      */
     _adapter: IButtonAdapters;
@@ -75,7 +73,6 @@ export declare class Button extends Container {
      * Defines available events.
      *
      * @type {IButtonEvents}
-     * @ignore Exclude from docs
      */
     _events: IButtonEvents;
     /**
@@ -93,7 +90,6 @@ export declare class Button extends Container {
     /**
      * A type for background.
      *
-     * @ignore Exclude from docs
      * @type {RoundedRectangle}
      */
     _background: RoundedRectangle;

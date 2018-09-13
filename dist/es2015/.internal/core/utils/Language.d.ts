@@ -219,7 +219,6 @@ export declare class Language extends BaseObjectEvents {
     /**
      * Defines type used in the Sprite.
      *
-     * @ignore Exclude from docs
      * @type {ILanguageAdapters}
      */
     _adapter: ILanguageAdapters;
@@ -227,7 +226,6 @@ export declare class Language extends BaseObjectEvents {
      * Defines available events.
      *
      * @type {ILanguageEvents}
-     * @ignore Exclude from docs
      */
     _events: ILanguageEvents;
     /**

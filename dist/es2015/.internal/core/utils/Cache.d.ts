@@ -29,11 +29,14 @@ export declare class Cache<A> {
     /**
      * Caches or updates cached value, resets TTL.
      *
+     * If `ttl` is set to zero, item will never expire.
+     *
      * @param {string}  owner  An id of the object that owns this cache
      * @param {string}  key    Index key
      * @param {A}       value  Value
+     * @param {number}  ttl    TTL of the cache to live in milliseconds
      */
-    set(owner: string, key: string, value: A): void;
+    set(owner: string, key: string, value: A, ttl?: number): void;
     /**
      * Rerturns cached item, respecting TTL.
      *

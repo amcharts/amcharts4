@@ -57,14 +57,12 @@ export declare class XYChartScrollbar extends Scrollbar {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IXYChartScrollbarProperties}
      */
     _properties: IXYChartScrollbarProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IXYChartScrollbarAdapters}
      */
     _adapter: IXYChartScrollbarAdapters;
@@ -72,7 +70,6 @@ export declare class XYChartScrollbar extends Scrollbar {
      * Defines available events.
      *
      * @type {IXYChartScrollbarEvents}
-     * @ignore Exclude from docs
      */
     _events: IXYChartScrollbarEvents;
     /**

@@ -60,14 +60,12 @@ export declare class MapImage extends MapObject {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IMapImageProperties}
      */
     _properties: IMapImageProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IMapImageAdapters}
      */
     _adapter: IMapImageAdapters;
@@ -75,13 +73,11 @@ export declare class MapImage extends MapObject {
      * Defines available events.
      *
      * @type {IMapImageEvents}
-     * @ignore Exclude from docs
      */
     _events: IMapImageEvents;
     /**
      * A related data item.
      *
-     * @ignore Exclude from docs
      * @type {MapImageSeriesDataItem}
      */
     _dataItem: MapImageSeriesDataItem;

@@ -66,6 +66,9 @@ categoryAxis.renderer.minGridDistance = 10;
 categoryAxis.interactionsEnabled = false;
 categoryAxis.tooltip.disabled = true;
 
+categoryAxis.renderer.ticks.template.disabled = true;
+categoryAxis.renderer.axisFills.template.disabled = true;
+
 var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
 dateAxis.renderer.labels.template.horizontalCenter = "left";
 dateAxis.strictMinMax = true;
@@ -76,7 +79,9 @@ dateAxis.max = new Date(2019, 0, 0, 0, 0, 0).getTime();
 dateAxis.interactionsEnabled = false;
 dateAxis.tooltip.disabled = true;
 dateAxis.periodChangeDateFormats.setKey("month", dateAxis.language.translate("_date_month"));
-dateAxis.baseInterval = {count:1, unit:"day"};
+dateAxis.baseInterval = { count: 1, timeUnit: "day" };
+dateAxis.renderer.ticks.template.disabled = true;
+dateAxis.renderer.axisFills.template.disabled = true;
 
 var series1 = chart.series.push(new am4charts.RadarColumnSeries());
 series1.name = "Series 1";

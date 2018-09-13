@@ -1044,7 +1044,7 @@ define('@amcharts/amcharts4-stock', [], function () {
   if (output != null) {
     return output;
   }
-  throw new Error("You must add 'stock' to the amcharts4.files array in your EmberApp.");
+  throw new Error("You must add 'stock/index' to the amcharts4.files array in your EmberApp.");
 });
 define('@amcharts/amcharts4/charts', [], function () {
   'use strict';

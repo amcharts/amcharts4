@@ -56,14 +56,12 @@ export declare class ChordLink extends FlowDiagramLink {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IChordLinkProperties}
      */
     _properties: IChordLinkProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IChordLinkAdapters}
      */
     _adapter: IChordLinkAdapters;
@@ -71,13 +69,11 @@ export declare class ChordLink extends FlowDiagramLink {
      * Defines available events.
      *
      * @type {IChordLinkEvents}
-     * @ignore Exclude from docs
      */
     _events: IChordLinkEvents;
     /**
      * Defines a type of data item used by this class.
      *
-     * @ignore Exclude from docs
      * @type {ChordDiagramDataItem}
      */
     _dataItem: ChordDiagramDataItem;

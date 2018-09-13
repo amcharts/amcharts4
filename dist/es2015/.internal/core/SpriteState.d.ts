@@ -96,14 +96,12 @@ export declare class SpriteState<P, A> extends BaseObject {
     /**
      * Defines property types.
      *
-     * @ignore Exclude from docs
      * @type {ISpriteProperties}
      */
     _properties: P;
     /**
      * Defines adapter types.
      *
-     * @ignore Exclude from docs
      * @type {SpriteAdapters}
      */
     _adapter: A;

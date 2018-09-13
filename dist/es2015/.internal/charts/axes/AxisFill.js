@@ -54,7 +54,7 @@ var AxisFill = /** @class */ (function (_super) {
         _super.prototype.draw.call(this);
         if (this.axis && $type.isNumber(this.startPosition) && $type.isNumber(this.endPosition)) {
             this.fillPath = this.axis.getPositionRangePath(this.startPosition, this.endPosition);
-            this.element.attr({ "d": this.fillPath });
+            this.path = this.fillPath;
         }
     };
     Object.defineProperty(AxisFill.prototype, "startPosition", {

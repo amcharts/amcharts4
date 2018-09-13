@@ -54,14 +54,12 @@ export declare class Circle extends Sprite {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ICircleProperties}
      */
     _properties: ICircleProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ICircleAdapters}
      */
     _adapter: ICircleAdapters;
@@ -69,7 +67,6 @@ export declare class Circle extends Sprite {
      * Defines available events.
      *
      * @type {ICircleEvents}
-     * @ignore Exclude from docs
      */
     _events: ICircleEvents;
     /**

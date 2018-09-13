@@ -80,7 +80,7 @@ var Polyarc = /** @class */ (function (_super) {
                     }
                 }
             }
-            this.element.attr({ "d": path });
+            this.path = path;
         }
     };
     Object.defineProperty(Polyarc.prototype, "controlPointPosition", {

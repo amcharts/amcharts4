@@ -54,14 +54,12 @@ export declare class PointedRectangle extends PointedShape {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IPointedRectangleProperties}
      */
     _properties: IPointedRectangleProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IPointedRectangleAdapters}
      */
     _adapter: IPointedRectangleAdapters;
@@ -69,7 +67,6 @@ export declare class PointedRectangle extends PointedShape {
      * Defines available events.
      *
      * @type {IPointedRectangleEvents}
-     * @ignore Exclude from docs
      */
     _events: IPointedRectangleEvents;
     /**

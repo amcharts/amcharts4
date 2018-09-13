@@ -188,7 +188,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     AxisRendererRadial.prototype.updateAxisLine = function () {
-        this.line.element.attr({ "d": $path.moveTo({ x: this.pixelInnerRadius * $math.cos(this.axisAngle), y: this.pixelInnerRadius * $math.sin(this.axisAngle) }) + $path.lineTo({ x: this.pixelRadius * $math.cos(this.axisAngle), y: this.pixelRadius * $math.sin(this.axisAngle) }) });
+        this.line.path = $path.moveTo({ x: this.pixelInnerRadius * $math.cos(this.axisAngle), y: this.pixelInnerRadius * $math.sin(this.axisAngle) }) + $path.lineTo({ x: this.pixelRadius * $math.cos(this.axisAngle), y: this.pixelRadius * $math.sin(this.axisAngle) });
         var title = this.axis.title;
         title.valign = "none";
         title.horizontalCenter = "middle";
@@ -244,7 +244,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
             else {
                 path = $path.moveTo({ x: radius * $math.cos(startAngle), y: radius * $math.sin(startAngle) }) + $path.arcTo(startAngle, endAngle - startAngle, radius, radius);
             }
-            grid.element.attr({ "d": path });
+            grid.path = path;
         }
         this.toggleVisibility(grid, position, 0, 1);
     };
@@ -256,8 +256,11 @@ var AxisRendererRadial = /** @class */ (function (_super) {
      * @param {number}     position     Starting position
      * @param {number}     endPosition  Ending position
      */
-    AxisRendererRadial.prototype.updateLabelElement = function (label, position, endPosition) {
-        position = position + (endPosition - position) * label.location;
+    AxisRendererRadial.prototype.updateLabelElement = function (label, position, endPosition, location) {
+        if (!$type.hasValue(location)) {
+            location = label.location;
+        }
+        position = position + (endPosition - position) * location;
         var point = this.positionToPoint(position);
         this.positionItem(label, point);
         this.toggleVisibility(label, position, this.minLabelPosition, this.maxLabelPosition);
@@ -492,7 +495,7 @@ var AxisRendererRadial = /** @class */ (function (_super) {
             if (tick.inside) {
                 tickLength *= -1;
             }
-            tick.element.attr({ "d": $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: tickLength * $math.cos(angle), y: tickLength * $math.sin(angle) }) });
+            tick.path = $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: tickLength * $math.cos(angle), y: tickLength * $math.sin(angle) });
         }
         this.positionItem(tick, point);
         this.toggleVisibility(tick, position, 0, 1);

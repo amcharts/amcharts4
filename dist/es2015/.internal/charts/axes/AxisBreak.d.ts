@@ -79,14 +79,12 @@ export declare class AxisBreak extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IAxisBreakProperties}
      */
     _properties: IAxisBreakProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IAxisBreakAdapters}
      */
     _adapter: IAxisBreakAdapters;
@@ -94,13 +92,11 @@ export declare class AxisBreak extends Container {
      * Defines available events.
      *
      * @type {IAxisBreakEvents}
-     * @ignore Exclude from docs
      */
     _events: IAxisBreakEvents;
     /**
      * Defines the type of the Axis this break is used for.
      *
-     * @ignore Exclude from docs
      * @type {Axis}
      */
     _axisType: Axis;

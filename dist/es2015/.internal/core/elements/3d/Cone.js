@@ -101,7 +101,7 @@ var Cone = /** @class */ (function (_super) {
         else {
             path = $path.moveTo({ x: w / 2 - top.radius, y: 0 }) + $path.arcTo(180, -180, top.radius, top.radiusY) + $path.lineTo({ x: w / 2 + bottom.radius, y: h }) + $path.arcTo(0, 180, bottom.radius, bottom.radiusY) + $path.closePath();
         }
-        this.body.element.attr({ "d": path });
+        this.body.path = path;
     };
     Object.defineProperty(Cone.prototype, "angle", {
         /**

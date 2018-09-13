@@ -166,21 +166,18 @@ export declare class PieChart3D extends PieChart {
     /**
      * Available data fields.
      *
-     * @ignore Exclude from docs
      * @type {IPieChart3DDataFields}
      */
     _dataFields: IPieChart3DDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IPieChart3DProperties}
      */
     _properties: IPieChart3DProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IPieChart3DAdapters}
      */
     _adapter: IPieChart3DAdapters;
@@ -188,13 +185,11 @@ export declare class PieChart3D extends PieChart {
      * Defines available events.
      *
      * @type {IPieChart3DEvents}
-     * @ignore Exclude from docs
      */
     _events: IPieChart3DEvents;
     /**
      * Defines a type of series that this chart uses.
      *
-     * @ignore Exclude from docs
      * @type {PieSeries3D}
      */
     _seriesType: PieSeries3D;

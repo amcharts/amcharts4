@@ -157,9 +157,10 @@ var DurationFormatter = /** @class */ (function (_super) {
      */
     DurationFormatter.prototype.parseFormat = function (format, base) {
         var _this = this;
-        // check cache
-        if (typeof (this.getCache(format)) !== "undefined") {
-            return this.getCache(format);
+        // Check cache
+        var cached = this.getCache(format);
+        if ($type.hasValue(cached)) {
+            return cached;
         }
         // no base unit?
         var baseUnit = base || this._baseUnit;

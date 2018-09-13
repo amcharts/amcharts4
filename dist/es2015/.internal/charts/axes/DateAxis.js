@@ -775,15 +775,16 @@ var DateAxis = /** @class */ (function (_super) {
             }
             var label = dataItem.label;
             if (label) {
-                //label.invalidate();
-                // when count == 1 this means label represents all the period between grid lines. so we center label because of that.
-                // we don't do that through label.location because it would reset the setting
-                /// and we do not do that to axis ranges
-                if (this._gridInterval.count == 1 && this._gridInterval.timeUnit != "week" && !dataItem.isRange) {
-                    position = position + (endPosition - position) * label.location;
-                    endPosition = position;
+                var location_1 = label.location;
+                if (location_1 == 0) {
+                    if (this._gridInterval.count == 1 && this._gridInterval.timeUnit != "week" && !dataItem.isRange) {
+                        location_1 = 0.5;
+                    }
+                    else {
+                        location_1 = 0;
+                    }
                 }
-                renderer.updateLabelElement(label, position, endPosition);
+                renderer.updateLabelElement(label, position, endPosition, location_1);
             }
         }
     };
@@ -1348,7 +1349,7 @@ var DateAxis = /** @class */ (function (_super) {
             // Set defaults
             renderer.ticks.template.location = 0;
             renderer.grid.template.location = 0;
-            renderer.labels.template.location = 0.5;
+            renderer.labels.template.location = 0;
             renderer.baseGrid.disabled = true;
         }
     };
@@ -1377,6 +1378,15 @@ var DateAxis = /** @class */ (function (_super) {
         startDate = this.dateFormatter.parse(startDate);
         endDate = this.dateFormatter.parse(endDate);
         this.zoomToValues(startDate.getTime(), endDate.getTime(), skipRangeEvent, instantly);
+    };
+    /**
+     * Adds `baseInterval` to "as is" fields.
+     *
+     * @param  {string}   field  Field name
+     * @return {boolean}         Assign as is?
+     */
+    DateAxis.prototype.asIs = function (field) {
+        return field == "baseInterval" || _super.prototype.asIs.call(this, field);
     };
     return DateAxis;
 }(ValueAxis));

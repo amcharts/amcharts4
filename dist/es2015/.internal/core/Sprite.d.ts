@@ -143,6 +143,7 @@ export interface ISpriteProperties {
     fillModifier?: ColorModifier;
     strokeModifier?: ColorModifier;
     hoverOnFocus?: boolean;
+    path?: string;
 }
 /**
  * Defines animation options
@@ -216,7 +217,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * Defines property types.
      *
-     * @ignore Exclude from docs
      * @type {ISpriteProperties}
      */
     _properties: ISpriteProperties;
@@ -229,7 +229,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * Defines type used in the Sprite.
      *
-     * @ignore Exclude from docs
      * @type {ISpriteAdapters}
      */
     _adapter: ISpriteAdapters;
@@ -241,7 +240,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Defines available events.
      *
      * @type {ISpriteEvents}
-     * @ignore Exclude from docs
      */
     _events: ISpriteEvents;
     /**
@@ -274,7 +272,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * Holds collection of Sprite States.
      *
-     * @ignore Exclude from docs
      * @type {Optional<DictionaryTemplate<string, SpriteState<this["_properties"], this["_adapter"]>>>}
      */
     _states: $type.Optional<DictionaryTemplate<string, SpriteState<this["_properties"], this["_adapter"]>>>;
@@ -506,7 +503,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Data item assigned to the sprite. It might contain information defining
      * some style properties.
      *
-     * @ignore Exclude from docs
      * @type {Optional<DataItem>}
      */
     _dataItem: $type.Optional<DataItem>;
@@ -1739,6 +1735,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @return {any}                              Property value
      */
     getPropertyValue(propertyName: keyof this["_properties"]): any;
+    protected setColorProperty<Key extends keyof this["properties"]>(property: Key, value: any): boolean;
     /**
      * Sets elements's property value. Will also propagate the same property value
      * on all element's clones.
@@ -3143,13 +3140,22 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     readonly relativePaddingBottom: number;
     /**
-     * @return {ColorModifier} Fill color modifier
+     * Path of a tick element
+     * @type {string}
      */
     /**
      * ==========================================================================
      * APPEARANCE-RELATED PROPERTIES AND RELATED STUFF
      * ==========================================================================
      * @hidden
+     */
+    /**
+     * Path of a sprite element
+     * @type {string}
+     */
+    path: string;
+    /**
+     * @return {ColorModifier} Fill color modifier
      */
     /**
      * [[ColorModifier]] that can be used to modify color and pattern of the

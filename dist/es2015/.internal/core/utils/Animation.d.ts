@@ -172,7 +172,6 @@ export declare class Animation extends BaseObjectEvents implements IAnimationObj
      * Defines available events.
      *
      * @type {IAnimationEvents}
-     * @ignore Exclude from docs
      */
     _events: IAnimationEvents;
     /**

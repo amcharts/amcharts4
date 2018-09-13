@@ -138,9 +138,9 @@ var SankeyLink = /** @class */ (function (_super) {
                 path += new $smoothing.Tension(tensionX, tensionY).smooth([{ x: xb1, y: yb1 }, { x: kxb1, y: kyb1 }, { x: kxb0, y: kyb0 }, { x: xb0, y: yb0 }]);
                 path += $path.closePath();
             }
-            this.link.element.attr({ "d": path });
+            this.link.path = path;
             if (this.maskBullets) {
-                this.bulletsMask.element.attr({ "d": path });
+                this.bulletsMask.path = path;
                 this.bulletsContainer.mask = this.bulletsMask;
             }
             this.positionBullets();

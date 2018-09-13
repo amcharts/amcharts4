@@ -86,7 +86,6 @@ export declare class Interaction extends BaseObjectEvents {
      * Defines available events.
      *
      * @type {IInteractionEvents}
-     * @ignore Exclude from docs
      * @deprecated Use inetraction.body.events instead
      */
     _events: IInteractionEvents;

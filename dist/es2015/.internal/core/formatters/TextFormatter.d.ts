@@ -49,7 +49,6 @@ export declare class TextFormatter extends BaseObject {
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IExportAdapters}
      */
     _adapter: ITextFormatterAdapters;

@@ -25,7 +25,6 @@ export declare class MapArcSeriesDataItem extends MapLineSeriesDataItem {
      * A [[MapArc]] element related to this data item.
      *
      * @type {MapArc}
-     * @ignore
      */
     _mapLine: MapArc;
     /**
@@ -84,21 +83,18 @@ export declare class MapArcSeries extends MapLineSeries {
     /**
      * Defines available data fields.
      *
-     * @ignore Exclude from docs
      * @type {IMapArcSeriesDataFields}
      */
     _dataFields: IMapArcSeriesDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IMapArcSeriesProperties}
      */
     _properties: IMapArcSeriesProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IMapArcSeriesAdapters}
      */
     _adapter: IMapArcSeriesAdapters;
@@ -106,20 +102,17 @@ export declare class MapArcSeries extends MapLineSeries {
      * Defines available events.
      *
      * @type {IMapArcSeriesEvents}
-     * @ignore Exclude from docs
      */
     _events: IMapArcSeriesEvents;
     /**
      * Defines the type of data item.
      *
-     * @ignore Exclude from docs
      * @type {MapArcSeriesDataItem}
      */
     _dataItem: MapArcSeriesDataItem;
     /**
      * Defines the type of the line items in this series.
      *
-     * @ignore Exclude from docs
      * @type {MapArc}
      */
     _mapLine: MapArc;

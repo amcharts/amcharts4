@@ -30,7 +30,6 @@ import { IDataItemEvents } from "../../core/DataItem";
 export declare class ColumnSeriesDataItem extends XYSeriesDataItem {
     /**
      * A Column Element
-     * @ignore
      * @type {Column}
      */
     _column: Column;
@@ -132,27 +131,23 @@ export interface IColumnSeriesAdapters extends IXYSeriesAdapters, IColumnSeriesP
  */
 export declare class ColumnSeries extends XYSeries {
     /**
-     * @ignore
      */
     _column: Column;
     /**
      * Defines available data fields.
      *
-     * @ignore Exclude from docs
      * @type {IColumnSeriesDataFields}
      */
     _dataFields: IColumnSeriesDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IColumnSeriesProperties}
      */
     _properties: IColumnSeriesProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IColumnSeriesAdapters}
      */
     _adapter: IColumnSeriesAdapters;
@@ -160,13 +155,11 @@ export declare class ColumnSeries extends XYSeries {
      * Defines available events.
      *
      * @type {IColumnSeriesEvents}
-     * @ignore Exclude from docs
      */
     _events: IColumnSeriesEvents;
     /**
      * Defines the type of data item.
      *
-     * @ignore Exclude from docs
      * @type {ColumnSeriesDataItem}
      */
     _dataItem: ColumnSeriesDataItem;

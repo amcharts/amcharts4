@@ -222,6 +222,11 @@ var TreeMapSeries = /** @class */ (function (_super) {
         // Just overriding so that inherited method does not kick in.
     };
     /**
+     * @ignore
+     */
+    TreeMapSeries.prototype.dataChangeUpdate = function () {
+    };
+    /**
      * Processes JSON-based config before it is applied to the object.
      *
      * @ignore Exclude from docs

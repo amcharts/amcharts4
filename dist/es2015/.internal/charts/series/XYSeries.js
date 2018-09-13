@@ -406,12 +406,31 @@ var XYSeries = /** @class */ (function (_super) {
         return new XYSeriesDataItem();
     };
     /**
+     * @ignore
+     */
+    XYSeries.prototype.dataChangeUpdate = function () {
+        this._tmin.clear();
+        this._tmax.clear();
+        this._smin.clear();
+        this._smax.clear();
+        this.appeared = false;
+        if (this.xAxis) {
+            this.xAxis.dataChangeUpdate();
+        }
+        if (this.yAxis) {
+            this.yAxis.dataChangeUpdate();
+        }
+    };
+    /**
      * (Re)validates the series' data.
      *
      * @ignore Exclude from docs
      */
     XYSeries.prototype.validateData = function () {
         this.defineFields();
+        if (this.data.length > 0) {
+            this.dataChangeUpdate();
+        }
         _super.prototype.validateData.call(this);
         if (!$type.hasValue(this.dataFields[this._xField]) || !$type.hasValue(this.dataFields[this._yField])) {
             throw Error("Data fields for series \"" + (this.name ? this.name : this.uid) + "\" are not properly defined.");
@@ -573,7 +592,7 @@ var XYSeries = /** @class */ (function (_super) {
                     path_1 += range.axisFill.fillPath;
                 }
             });
-            this.mainContainer.mask.element.attr({ "d": path_1 });
+            this.mainContainer.mask.path = path_1;
         }
     };
     /**

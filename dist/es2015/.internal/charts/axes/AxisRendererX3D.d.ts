@@ -51,20 +51,17 @@ export declare class AxisRendererX3D extends AxisRendererX {
     /**
      * Defines available properties
      * @type {IAxisRendererX3DProperties}
-     * @ignore
      */
     _properties: IAxisRendererX3DProperties;
     /**
      * Defines available adapters
      * @type {AxisRendererAdapters}
-     * @ignore
      */
     _adapter: IAxisRendererX3DAdapters;
     /**
      * Defines available events.
      *
      * @type {IAxisRendererX3DEvents}
-     * @ignore Exclude from docs
      */
     _events: IAxisRendererX3DEvents;
     /**

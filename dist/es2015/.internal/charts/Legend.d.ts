@@ -59,7 +59,6 @@ export declare class LegendDataItem extends DataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
-     * @ignore Exclude from docs
      * @type {Legend}
      */
     _component: Legend;
@@ -211,21 +210,18 @@ export declare class Legend extends Component {
     /**
      * Defines the type of the data fields.
      *
-     * @ignore Exclude from docs
      * @type {ILegendDataFields}
      */
     _dataFields: ILegendDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ILegendProperties}
      */
     _properties: ILegendProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ILegendAdapters}
      */
     _adapter: ILegendAdapters;
@@ -233,13 +229,11 @@ export declare class Legend extends Component {
      * Defines available events.
      *
      * @type {ILegendEvents}
-     * @ignore Exclude from docs
      */
     _events: ILegendEvents;
     /**
      * Defines data item type.
      *
-     * @ignore Exclude from docs
      * @type {LegendDataItem<DataItem, IDataItemEvents>}
      */
     _dataItem: LegendDataItem;

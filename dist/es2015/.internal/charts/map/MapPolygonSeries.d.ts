@@ -257,21 +257,18 @@ export declare class MapPolygonSeries extends MapSeries {
     /**
      * Defines available data fields.
      *
-     * @ignore Exclude from docs
      * @type {IMapPolygonSeriesDataFields}
      */
     _dataFields: IMapPolygonSeriesDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IMapPolygonSeriesProperties}
      */
     _properties: IMapPolygonSeriesProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IMapPolygonSeriesAdapters}
      */
     _adapter: IMapPolygonSeriesAdapters;
@@ -279,13 +276,11 @@ export declare class MapPolygonSeries extends MapSeries {
      * Defines available events.
      *
      * @type {IMapPolygonSeriesEvents}
-     * @ignore Exclude from docs
      */
     _events: IMapPolygonSeriesEvents;
     /**
      * Defines the type of data item.
      *
-     * @ignore Exclude from docs
      * @type {MapPolygonSeriesDataItem}
      */
     _dataItem: MapPolygonSeriesDataItem;

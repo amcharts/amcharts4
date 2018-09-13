@@ -140,21 +140,18 @@ export declare class Container extends Sprite {
      * Defines available properties.
      *
      * @type {IContainerProperties}
-     * @ignore Exclude from docs
      */
     _properties: IContainerProperties;
     /**
      * Defines available adapters.
      *
      * @type {IContainerAdapters}
-     * @ignore Exclude from docs
      */
     _adapter: IContainerAdapters;
     /**
      * Defines available events.
      *
      * @type {IContainerEvents}
-     * @ignore Exclude from docs
      */
     _events: IContainerEvents;
     /**
@@ -216,7 +213,6 @@ export declare class Container extends Sprite {
     /**
      * A [[Sprite]] instance to use as Container's background.
      *
-     * @ignore Exclude from docs
      * @todo Make it protected
      * @type {Sprite}
      */
@@ -608,6 +604,10 @@ export declare class Container extends Sprite {
      * @param {any} value Font size value
      */
     fontSize: any;
+    /**
+     * When fontSize of fontFamily changes we need to hard-invalidate all Labels of this container to position them properly.
+     */
+    invalidateLabels(): void;
     /**
      * @return {FontWeight} Font weight
      */

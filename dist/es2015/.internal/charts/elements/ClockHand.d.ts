@@ -93,14 +93,12 @@ export declare class ClockHand extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IClockHandProperties}
      */
     _properties: IClockHandProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IClockHandAdapters}
      */
     _adapter: IClockHandAdapters;
@@ -108,7 +106,6 @@ export declare class ClockHand extends Container {
      * Defines available events.
      *
      * @type {IClockHandEvents}
-     * @ignore Exclude from docs
      */
     _events: IClockHandEvents;
     /**

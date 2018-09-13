@@ -49,14 +49,12 @@ export declare class MapArc extends MapLine {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IMapArcProperties}
      */
     _properties: IMapArcProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IMapArcAdapters}
      */
     _adapter: IMapArcAdapters;
@@ -64,7 +62,6 @@ export declare class MapArc extends MapLine {
      * Defines available events.
      *
      * @type {IMapArcEvents}
-     * @ignore Exclude from docs
      */
     _events: IMapArcEvents;
     /**

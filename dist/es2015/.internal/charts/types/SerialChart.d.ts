@@ -87,21 +87,18 @@ export declare class SerialChart extends Chart {
     /**
      * Defines data fields.
      *
-     * @ignore Exclude from docs
      * @type {ISerialChartDataFields}
      */
     _dataFields: ISerialChartDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ISerialChartProperties}
      */
     _properties: ISerialChartProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ISerialChartAdapters}
      */
     _adapter: ISerialChartAdapters;
@@ -109,13 +106,11 @@ export declare class SerialChart extends Chart {
      * Defines available events.
      *
      * @type {ISerialChartEvents}
-     * @ignore Exclude from docs
      */
     _events: ISerialChartEvents;
     /**
      * Defines a type of series that this chart uses.
      *
-     * @ignore Exclude from docs
      * @type {Series}
      */
     _seriesType: Series;

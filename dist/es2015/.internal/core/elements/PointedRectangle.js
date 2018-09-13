@@ -116,8 +116,7 @@ var PointedRectangle = /** @class */ (function (_super) {
             var arcBR = " a" + crbr + "," + crbr + " 0 0 1 -" + crbr + "," + crbr;
             var arcBL = " a" + crbl + "," + crbl + " 0 0 1 -" + crbl + ",-" + crbl;
             var arcTL = " a" + crtl + "," + crtl + " 0 0 1 " + crtl + ",-" + crtl;
-            var path = lineT + arcTR + lineR + arcBR + lineB + arcBL + lineL + arcTL;
-            this.element.attr({ "d": path });
+            this.path = lineT + arcTR + lineR + arcBR + lineB + arcBL + lineL + arcTL;
         }
     };
     Object.defineProperty(PointedRectangle.prototype, "cornerRadius", {

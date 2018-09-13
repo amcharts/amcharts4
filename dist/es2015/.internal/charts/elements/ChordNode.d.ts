@@ -58,14 +58,12 @@ export declare class ChordNode extends FlowDiagramNode {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IChordNodeProperties}
      */
     _properties: IChordNodeProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IChordNodeAdapters}
      */
     _adapter: IChordNodeAdapters;
@@ -73,7 +71,6 @@ export declare class ChordNode extends FlowDiagramNode {
      * Defines available events.
      *
      * @type {IChordNodeEvents}
-     * @ignore Exclude from docs
      */
     _events: IChordNodeEvents;
     /**
@@ -113,7 +110,6 @@ export declare class ChordNode extends FlowDiagramNode {
     /**
      * Defines the type of the [[ChordDiagramDataItem]] used in the class.
      *
-     * @ignore Exclude from docs
      * @type {ChordDiagramDataItem}
      */
     _dataItem: ChordDiagramDataItem;

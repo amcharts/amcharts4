@@ -107,14 +107,12 @@ export declare class Slice extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ISliceProperties}
      */
     _properties: ISliceProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ISliceAdapters}
      */
     _adapter: ISliceAdapters;
@@ -122,7 +120,6 @@ export declare class Slice extends Container {
      * Defines available events.
      *
      * @type {ISliceEvents}
-     * @ignore Exclude from docs
      */
     _events: ISliceEvents;
     /**

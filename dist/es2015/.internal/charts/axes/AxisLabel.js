@@ -33,7 +33,6 @@ var AxisLabel = /** @class */ (function (_super) {
         _this.className = "AxisLabel";
         _this.isMeasured = false;
         _this.padding(10, 10, 10, 10);
-        _this.renderingFrequency = 1;
         _this.location = 0.5;
         _this.nonScaling = true;
         _this.applyTheme();

@@ -99,8 +99,7 @@ var WavedRectangle = /** @class */ (function (_super) {
             if (this._rwaved) {
                 rd = wavedLine(p4, p1, waveLength, waveHeight, this.tension, true);
             }
-            var d = $path.moveTo(p1) + td + $path.lineTo(p2) + ld + $path.lineTo(p3) + bd + $path.lineTo(p4) + rd + "z";
-            this.element.attr({ "d": d });
+            this.path = $path.moveTo(p1) + td + $path.lineTo(p2) + ld + $path.lineTo(p3) + bd + $path.lineTo(p4) + rd + "z";
         }
     };
     Object.defineProperty(WavedRectangle.prototype, "waveLength", {

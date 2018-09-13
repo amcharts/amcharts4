@@ -5,6 +5,7 @@
  * @hidden
  */
 import { Dictionary } from "./Dictionary";
+import * as $type from "./Type";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -37,17 +38,20 @@ var Cache = /** @class */ (function () {
     /**
      * Caches or updates cached value, resets TTL.
      *
+     * If `ttl` is set to zero, item will never expire.
+     *
      * @param {string}  owner  An id of the object that owns this cache
      * @param {string}  key    Index key
      * @param {A}       value  Value
+     * @param {number}  ttl    TTL of the cache to live in milliseconds
      */
-    Cache.prototype.set = function (owner, key, value) {
+    Cache.prototype.set = function (owner, key, value, ttl) {
         // Create if storage does not exist for this owner
         var ownerStorage = this._storage.insertKeyIfEmpty(owner, function () { return new Dictionary(); });
         // Create cache item
         var item = {
             "touched": new Date().getTime(),
-            "ttl": this.ttl,
+            "ttl": $type.isNumber(ttl) ? ttl : this.ttl,
             "value": value
         };
         // Set
@@ -66,7 +70,14 @@ var Cache = /** @class */ (function () {
             var ownerStorage = this._storage.getKey(owner);
             if (ownerStorage.hasKey(key)) {
                 var cacheItem = ownerStorage.getKey(key);
-                return cacheItem.expired === true ? undefined : cacheItem.value;
+                if (cacheItem.ttl && ((cacheItem.touched + cacheItem.ttl) < new Date().getTime())) {
+                    cacheItem.expired = true;
+                }
+                if (cacheItem.expired) {
+                    ownerStorage.removeKey(key);
+                    return undefined;
+                }
+                return cacheItem.value;
             }
             else {
                 return undefined;

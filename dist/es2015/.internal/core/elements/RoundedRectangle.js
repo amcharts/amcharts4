@@ -62,7 +62,7 @@ var RoundedRectangle = /** @class */ (function (_super) {
             var arcBL = " a" + crbl + "," + crbl + " 0 0 1 -" + crbl + ",-" + crbl;
             var arcTL = " a" + crtl + "," + crtl + " 0 0 1 " + crtl + ",-" + crtl;
             var path = lineT + arcTR + lineR + arcBR + lineB + arcBL + lineL + arcTL + " Z";
-            this.element.attr({ "d": path });
+            this.path = path;
         }
     };
     /**

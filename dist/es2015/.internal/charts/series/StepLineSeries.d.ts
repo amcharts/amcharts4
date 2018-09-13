@@ -25,7 +25,6 @@ export declare class StepLineSeriesDataItem extends LineSeriesDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
-     * @ignore Exclude from docs
      * @type {StepLineSeries}
      */
     _component: StepLineSeries;
@@ -83,21 +82,18 @@ export declare class StepLineSeries extends LineSeries {
     /**
      * Defines the type of data fields used for the series.
      *
-     * @ignore Exclude from docs
      * @type {IStepLineSeriesDataFields}
      */
     _dataFields: IStepLineSeriesDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IStepLineSeriesProperties}
      */
     _properties: IStepLineSeriesProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IStepLineSeriesAdapters}
      */
     _adapter: IStepLineSeriesAdapters;
@@ -105,13 +101,11 @@ export declare class StepLineSeries extends LineSeries {
      * Defines available events.
      *
      * @type {IStepLineSeriesEvents}
-     * @ignore Exclude from docs
      */
     _events: IStepLineSeriesEvents;
     /**
      * Defines the type of data item.
      *
-     * @ignore Exclude from docs
      * @type {StepLineSeriesDataItem}
      */
     _dataItem: StepLineSeriesDataItem;

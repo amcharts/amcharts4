@@ -53,14 +53,12 @@ export declare class LabelBullet extends Bullet {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ILabelBulletProperties}
      */
     _properties: ILabelBulletProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ILabelBulletAdapters}
      */
     _adapter: ILabelBulletAdapters;
@@ -68,7 +66,6 @@ export declare class LabelBullet extends Bullet {
      * Defines available events.
      *
      * @type {ILabelBulletEvents}
-     * @ignore Exclude from docs
      */
     _events: ILabelBulletEvents;
     /**

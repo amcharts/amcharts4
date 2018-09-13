@@ -88,21 +88,18 @@ export declare class RadarSeries extends LineSeries {
     /**
      * Defines the type of data fields used for the series.
      *
-     * @ignore Exclude from docs
      * @type {IRadarSeriesDataFields}
      */
     _dataFields: IRadarSeriesDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IRadarSeriesProperties}
      */
     _properties: IRadarSeriesProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IRadarSeriesAdapters}
      */
     _adapter: IRadarSeriesAdapters;
@@ -110,20 +107,17 @@ export declare class RadarSeries extends LineSeries {
      * Defines available events.
      *
      * @type {IRadarSeriesEvents}
-     * @ignore Exclude from docs
      */
     _events: IRadarSeriesEvents;
     /**
      * Defines the type of data item.
      *
-     * @ignore Exclude from docs
      * @type {RadarSeriesDataItem}
      */
     _dataItem: RadarSeriesDataItem;
     /**
      * A chart series belongs to.
      *
-     * @ignore Exclude from docs
      * @type {RadarChart}
      */
     _chart: RadarChart;

@@ -67,11 +67,15 @@ categoryAxis.dataFields.category = "category";
 categoryAxis.renderer.labels.template.location = 0.5;
 categoryAxis.renderer.tooltipLocation = 0.5;
 categoryAxis.renderer.grid.template.strokeOpacity = 0.1;
+categoryAxis.renderer.axisFills.template.disabled = true;
+categoryAxis.renderer.ticks.template.disabled = true;
 
 var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 valueAxis.tooltip.disabled = true;
 valueAxis.renderer.grid.template.strokeOpacity = 0.05;
 valueAxis.min = 0;
+valueAxis.renderer.axisFills.template.disabled = true;
+valueAxis.renderer.ticks.template.disabled = true;
 
 var series1 = chart.series.push(new am4charts.RadarColumnSeries());
 series1.columns.template.width = am4core.percent(80);

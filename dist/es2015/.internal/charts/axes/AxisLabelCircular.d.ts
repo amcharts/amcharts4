@@ -60,14 +60,12 @@ export declare class AxisLabelCircular extends AxisLabel {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IAxisLabelCircularProperties}
      */
     _properties: IAxisLabelCircularProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IAxisLabelCircularAdapters}
      */
     _adapter: IAxisLabelCircularAdapters;
@@ -75,13 +73,11 @@ export declare class AxisLabelCircular extends AxisLabel {
      * Defines available events.
      *
      * @type {IAxisLabelCircularEvents}
-     * @ignore Exclude from docs
      */
     _events: IAxisLabelCircularEvents;
     /**
      * Related data item.
      *
-     * @ignore Exclude from docs
      * @type {any}
      */
     _dataItem: any;

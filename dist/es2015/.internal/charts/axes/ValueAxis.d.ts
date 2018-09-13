@@ -31,7 +31,6 @@ export declare class ValueAxisDataItem extends AxisDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
-     * @ignore Exclude from docs
      * @type {ValueAxis}
      */
     _component: ValueAxis;
@@ -146,35 +145,30 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
     /**
      * Defines data fields.
      *
-     * @ignore Exclude from docs
      * @type {IValueAxisDataFields}
      */
     _dataFields: IValueAxisDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IValueAxisProperties}
      */
     _properties: IValueAxisProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IValueAxisAdapters}
      */
     _adapter: IValueAxisAdapters;
     /**
      * Defines the type of the Date Items.
      *
-     * @ignore Exclude from docs
      * @type {ValueAxisDataItem}
      */
     _dataItem: ValueAxisDataItem;
     /**
      * Defines the type of the axis breaks.
      *
-     * @ignore Exclude from docs
      * @type {ValueAxisBreak}
      */
     _axisBreak: ValueAxisBreak;
@@ -182,7 +176,6 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * Defines available events.
      *
      * @type {IValueAxisEvents}
-     * @ignore Exclude from docs
      */
     _events: IValueAxisEvents;
     /**
@@ -380,6 +373,15 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @ignore Exclude from docs
      */
     validateDataItems(): void;
+    /**
+     * [dataChangeUpdate description]
+     *
+     * This is a placeholder to override for extending classes.
+     *
+     * @ignore Exclude from docs
+     * @todo Description
+     */
+    dataChangeUpdate(): void;
     /**
      * Processes data items of the related Series.
      *

@@ -24,14 +24,12 @@ import { ConeColumn } from "../elements/ConeColumn";
 export declare class ConeSeriesDataItem extends ColumnSeriesDataItem {
     /**
      * A sprite used to draw the column.
-     * @ignore
      * @type {ConeColumn}
      */
     _column: ConeColumn;
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
-     * @ignore Exclude from docs
      * @type {ConeSeries}
      */
     _component: ConeSeries;
@@ -85,27 +83,23 @@ export interface IConeSeriesAdapters extends IColumnSeriesAdapters, IConeSeriesP
 export declare class ConeSeries extends ColumnSeries {
     _column: ConeColumn;
     /**
-     * @ignore
      */
     _dataItem: ConeSeriesDataItem;
     /**
      * Defines the type of data fields used for the series.
      *
-     * @ignore Exclude from docs
      * @type {IConeSeriesDataFields}
      */
     _dataFields: IConeSeriesDataFields;
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IConeSeriesProperties}
      */
     _properties: IConeSeriesProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IConeSeriesAdapters}
      */
     _adapter: IConeSeriesAdapters;
@@ -113,7 +107,6 @@ export declare class ConeSeries extends ColumnSeries {
      * Defines available events.
      *
      * @type {IConeSeriesEvents}
-     * @ignore Exclude from docs
      */
     _events: IConeSeriesEvents;
     /**

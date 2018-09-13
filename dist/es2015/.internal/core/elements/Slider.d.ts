@@ -47,14 +47,12 @@ export declare class Slider extends Scrollbar {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ISliderProperties}
      */
     _properties: ISliderProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ISliderAdapters}
      */
     _adapter: ISliderAdapters;
@@ -62,7 +60,6 @@ export declare class Slider extends Scrollbar {
      * Defines available events.
      *
      * @type {ISliderEvents}
-     * @ignore Exclude from docs
      */
     _events: ISliderEvents;
     /**

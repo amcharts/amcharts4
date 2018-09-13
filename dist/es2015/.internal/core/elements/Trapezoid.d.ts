@@ -92,14 +92,12 @@ export declare class Trapezoid extends Sprite {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ITrapezoidProperties}
      */
     _properties: ITrapezoidProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ITrapezoidAdapters}
      */
     _adapter: ITrapezoidAdapters;
@@ -107,7 +105,6 @@ export declare class Trapezoid extends Sprite {
      * Defines available events.
      *
      * @type {ITrapezoidEvents}
-     * @ignore Exclude from docs
      */
     _events: ITrapezoidEvents;
     /**

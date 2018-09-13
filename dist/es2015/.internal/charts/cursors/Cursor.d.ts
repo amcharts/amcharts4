@@ -95,14 +95,12 @@ export declare class Cursor extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ICursorProperties}
      */
     _properties: ICursorProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ICursorAdapters}
      */
     _adapter: ICursorAdapters;
@@ -110,7 +108,6 @@ export declare class Cursor extends Container {
      * Defines available events.
      *
      * @type {ICursorEvents}
-     * @ignore Exclude from docs
      */
     _events: ICursorEvents;
     /**
@@ -162,7 +159,6 @@ export declare class Cursor extends Container {
     /**
      * A reference to chart cursor belongs to.
      *
-     * @ignore Exclude from docs
      * @type {Chart}
      */
     _chart: Chart;

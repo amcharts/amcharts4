@@ -50,14 +50,12 @@ export declare class OHLC extends Candlestick {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IOHLCProperties}
      */
     _properties: IOHLCProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IOHLCAdapters}
      */
     _adapter: IOHLCAdapters;
@@ -65,7 +63,6 @@ export declare class OHLC extends Candlestick {
      * Defines available events.
      *
      * @type {IOHLCEvents}
-     * @ignore Exclude from docs
      */
     _events: IOHLCEvents;
     /**

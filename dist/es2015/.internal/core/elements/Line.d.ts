@@ -72,14 +72,12 @@ export declare class Line extends Sprite {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {ILineProperties}
      */
     _properties: ILineProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {ILineAdapters}
      */
     _adapter: ILineAdapters;
@@ -87,7 +85,6 @@ export declare class Line extends Sprite {
      * Defines available events.
      *
      * @type {ILineEvents}
-     * @ignore Exclude from docs
      */
     _events: ILineEvents;
     /**

@@ -142,14 +142,12 @@ export declare class FlowDiagramLink extends Container {
     /**
      * Defines available properties.
      *
-     * @ignore Exclude from docs
      * @type {IFlowDiagramLinkProperties}
      */
     _properties: IFlowDiagramLinkProperties;
     /**
      * Defines available adapters.
      *
-     * @ignore Exclude from docs
      * @type {IFlowDiagramLinkAdapters}
      */
     _adapter: IFlowDiagramLinkAdapters;
@@ -157,13 +155,11 @@ export declare class FlowDiagramLink extends Container {
      * Defines available events.
      *
      * @type {IFlowDiagramLinkEvents}
-     * @ignore Exclude from docs
      */
     _events: IFlowDiagramLinkEvents;
     /**
      * Defines a type of data item used by this class.
      *
-     * @ignore Exclude from docs
      * @type {FlowDiagramDataItem}
      */
     _dataItem: FlowDiagramDataItem;

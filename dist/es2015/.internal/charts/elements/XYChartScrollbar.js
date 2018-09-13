@@ -323,7 +323,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
                     height: (this.pixelHeight || 0) - y - h
                 });
             }
-            this._unselectedOverlay.element.attr({ "d": path });
+            this._unselectedOverlay.path = path;
         }
     };
     /**

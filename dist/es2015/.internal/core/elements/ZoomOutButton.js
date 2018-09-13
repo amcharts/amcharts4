@@ -53,7 +53,7 @@ var ZoomOutButton = /** @class */ (function (_super) {
         icon.element = _this.paper.add("path");
         var path = $path.moveTo({ x: 0, y: 0 });
         path += $path.lineTo({ x: 11, y: 0 });
-        icon.element.attr({ "d": path });
+        icon.path = path;
         icon.pixelPerfect = true;
         icon.padding(8, 3, 8, 3);
         icon.stroke = interfaceColors.getFor("primaryButtonText");
