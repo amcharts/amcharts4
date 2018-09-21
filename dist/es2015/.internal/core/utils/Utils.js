@@ -935,7 +935,7 @@ export function serializeUrl(url) {
  * @ignore Exclude from docs
  */
 // TODO is this correct ?
-export function isRelativeUrl(url) {
+function isRelativeUrl(url) {
     return url.protocol === "" &&
         url.separator === "" &&
         url.authority === "" &&
@@ -951,19 +951,42 @@ export function isRelativeUrl(url) {
 export function joinUrl(left, right) {
     var parsedLeft = parseUrl(left);
     var parsedRight = parseUrl(right);
-    if (isRelativeUrl(parsedRight)) {
-        parsedRight.protocol = parsedLeft.protocol;
-        parsedRight.separator = parsedLeft.separator;
-        parsedRight.authority = parsedLeft.authority;
-        parsedRight.domain = parsedLeft.domain;
-        parsedRight.port = parsedLeft.port;
-        var rightPath = parsedRight.path.split(/\//);
-        if (rightPath[0] === "..") {
-            var leftPath = parsedLeft.path.split(/\//);
-            $array.pushAll(leftPath, rightPath);
-            parsedRight.path = leftPath.join("/");
-        }
+    if (isRelativeUrl(parsedLeft)) {
+        throw new Error("Left URL is not absolute");
     }
-    return serializeUrl(parsedRight);
+    if (isRelativeUrl(parsedRight)) {
+        // TODO is this correct ?
+        if (parsedRight.path !== "") {
+            if (parsedRight.path[0] === "/") {
+                parsedLeft.path = parsedRight.path;
+                // TODO is this correct ?
+            }
+            else {
+                var leftPath = parsedLeft.path.split(/\//);
+                var rightPath = parsedRight.path.split(/\//);
+                // TODO is this correct ?
+                if (leftPath.length === 0) {
+                    if (rightPath.length !== 0) {
+                        leftPath.push("");
+                    }
+                }
+                else if (leftPath.length > 1) {
+                    leftPath.pop();
+                }
+                $array.pushAll(leftPath, rightPath);
+                parsedLeft.path = leftPath.join("/");
+                if (parsedLeft.path !== "" && parsedLeft.path[0] !== "/") {
+                    throw new Error("URL path must start with /");
+                }
+            }
+        }
+        // TODO is this correct ?
+        parsedLeft.query = parsedRight.query;
+        parsedLeft.hash = parsedRight.hash;
+        return serializeUrl(parsedLeft);
+    }
+    else {
+        return serializeUrl(parsedRight);
+    }
 }
 //# sourceMappingURL=Utils.js.map

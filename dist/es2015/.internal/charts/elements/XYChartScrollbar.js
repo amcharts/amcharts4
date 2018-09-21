@@ -183,6 +183,9 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         series.interpolationDuration = 0;
         series.defaultState.transitionDuration = 0;
         this._disposers.push(series.events.on("validated", this.zoomOutAxes, this));
+        this._disposers.push(sourceSeries.events.on("datavalidated", function () {
+            series.data = sourceSeries.data;
+        }));
         series.defaultState.properties.visible = true;
         series.filters.push(new DesaturateFilter());
         scrollbarChart.series.push(series);

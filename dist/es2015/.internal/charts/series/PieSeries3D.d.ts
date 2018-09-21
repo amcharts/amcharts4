@@ -7,7 +7,6 @@
 import { PieSeries, PieSeriesDataItem, IPieSeriesDataFields, IPieSeriesProperties, IPieSeriesAdapters, IPieSeriesEvents } from "../series/PieSeries";
 import { PieChart3D } from "../types/PieChart3D";
 import { Slice3D } from "../../core/elements/3d/Slice3D";
-import { ListTemplate } from "../../core/utils/List";
 /**
  * ============================================================================
  * DATA ITEM
@@ -149,12 +148,7 @@ export declare class PieSeries3D extends PieSeries {
      * @type {PieChart3D}
      */
     _chart: PieChart3D;
-    /**
-     * List of slice elements.
-     *
-     * @type {ListTemplate<Slice3D>}
-     */
-    slices: ListTemplate<Slice3D>;
+    _slice: Slice3D;
     /**
      * Constructor
      */
@@ -166,12 +160,9 @@ export declare class PieSeries3D extends PieSeries {
      */
     protected createDataItem(): this["_dataItem"];
     /**
-     * Creates and returns a new slice element.
-     *
-     * @param  {typeof Slice}  sliceType  Type of the slice element
-     * @return {Slice3D}                  Slice
+     * creates slice
      */
-    protected initSlice(sliceType: typeof Slice3D): Slice3D;
+    protected createSlice(): this["_slice"];
     /**
      * Validates data item's element, effectively redrawing it.
      *

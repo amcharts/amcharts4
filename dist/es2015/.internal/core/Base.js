@@ -275,6 +275,7 @@ var BaseObject = /** @class */ (function () {
      * @ignore Exclude from docs
      * @param {string}  key    Key
      * @param {any}     value  Value
+     * @param {number}  ttl    TTL in seconds
      */
     BaseObject.prototype.setCache = function (key, value, ttl) {
         cache.set(this.uid, key, value, ttl);
@@ -282,12 +283,17 @@ var BaseObject = /** @class */ (function () {
     /**
      * Retrieves cached value.
      *
+     * If optional second padarameter is specified, it will return that value
+     * if cache is not available or is expired.
+     *
      * @ignore Exclude from docs
-     * @param  {string}  key  Key
-     * @return {any}          Value
+     * @param  {string}  key    Key
+     * @param  {any}     value  Value to return if cache is not available
+     * @return {any}            Value
      */
-    BaseObject.prototype.getCache = function (key) {
-        return cache.get(this.uid, key);
+    BaseObject.prototype.getCache = function (key, value) {
+        if (value === void 0) { value = undefined; }
+        return cache.get(this.uid, key, value);
     };
     /**
      * Clears object's local cache.

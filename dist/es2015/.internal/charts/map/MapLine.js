@@ -136,7 +136,7 @@ var MapLine = /** @class */ (function (_super) {
     MapLine.prototype.validate = function () {
         var chart = this.series.chart;
         //let multiPoints: IPoint[][] = [];
-        var multiGeoLine = this.multiGeoLine;
+        var multiGeoLine = this.multiGeoLine || [];
         if (this.imagesToConnect) {
             var segment = [];
             multiGeoLine = [segment];

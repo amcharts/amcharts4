@@ -142,8 +142,6 @@ var Tooltip = /** @class */ (function (_super) {
     });
     Object.defineProperty(Tooltip.prototype, "autoTextColor", {
         /**
-         * Specifies if text color should be chosen automatically for a better readability.
-         *
          * @return {boolean}
          * @default true
          */
@@ -151,6 +149,17 @@ var Tooltip = /** @class */ (function (_super) {
             return this.getPropertyValue("autoTextColor");
         },
         /**
+         * Specifies if text color should be chosen automatically for a better
+         * readability.
+         *
+         * IMPORTANT: this feature is generally ignored, if `getFillFromObject = false`.
+         *
+         * If inheriting of `fill` color from object tooltip is displayed for is
+         * disabled, this feature will not work. If you are explicitly setting a
+         * color for tooltip background, you may set a color for its label as well
+         * using `tooltip.label.fill` property.
+         *
+         *
          * @param {value} value boolean
          */
         set: function (value) {

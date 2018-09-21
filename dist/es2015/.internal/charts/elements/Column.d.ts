@@ -72,6 +72,22 @@ export declare class Column extends Container {
      */
     column: RoundedRectangle;
     /**
+     * @ignore
+     */
+    realWidth: number;
+    /**
+     * @ignore
+     */
+    realHeight: number;
+    /**
+     * @ignore
+     */
+    realX: number;
+    /**
+     * @ignore
+     */
+    realY: number;
+    /**
      * Constructor
      */
     constructor();

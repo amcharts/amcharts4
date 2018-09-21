@@ -486,12 +486,6 @@ export declare function parseUrl(url: string): Url;
  */
 export declare function serializeUrl(url: Url): string;
 /**
- * Checks whether a Url is relative or not
- *
- * @ignore Exclude from docs
- */
-export declare function isRelativeUrl(url: Url): boolean;
-/**
  * Joins together two URLs, resolving relative URLs correctly
  *
  * @ignore Exclude from docs

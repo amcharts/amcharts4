@@ -81,6 +81,15 @@ export interface IDateAxisDataFields extends IValueAxisDataFields {
  */
 export interface IDateAxisProperties extends IValueAxisProperties {
     skipEmptyPeriods?: boolean;
+    markUnitChange?: boolean;
+    /**
+     * A special date format to apply axis tooltips.
+     *
+     * Will use same format as for labels, if not set.
+     *
+     * @type {string}
+     */
+    tooltipDateFormat?: string;
 }
 /**
  * Defines events for [[DateAxis]].
@@ -270,21 +279,6 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      */
     periodChangeDateFormats: Dictionary<TimeUnit, string>;
     /**
-     * A special date format to apply axis tooltips.
-     *
-     * Will use same format as for labels, if not set.
-     *
-     * @type {string}
-     */
-    protected _tooltipDateFormat: string;
-    /**
-     * Use `periodChangeDateFormats` to apply different formats to the first
-     * label in bigger time unit.
-     *
-     * @type {boolean}
-     */
-    protected _markUnitChange: boolean;
-    /**
      * At which intervals grid elements are displayed.
      *
      * @type {ITimeInterval}
@@ -324,12 +318,9 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      */
     protected _baseIntervalReal: ITimeInterval;
     /**
-     * A collection of timestamps of previously processed data items. Used
-     * internally to track distance between data items when processing data.
-     *
-     * @type {Dictionary<string, number>}
+     * @type {number}
      */
-    protected _prevSeriesTime: Dictionary<string, number>;
+    protected _prevSeriesTime: number;
     /**
      * [_minSeriesDifference description]
      *
@@ -606,7 +597,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @todo Description
      * @param {XYSeriesDataItem}  dataItem  Data item
      */
-    processSeriesDataItem(dataItem: XYSeriesDataItem): void;
+    processSeriesDataItem(dataItem: XYSeriesDataItem, axisLetter?: string): void;
     /**
      * [updateAxisBySeries description]
      *
@@ -767,4 +758,10 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @return {boolean}         Assign as is?
      */
     protected asIs(field: string): boolean;
+    /**
+     * Copies all properties and related data from a different instance of Axis.
+     *
+     * @param {this} source Source Axis
+     */
+    copyFrom(source: this): void;
 }

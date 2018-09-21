@@ -247,7 +247,7 @@ var Sprite = /** @class */ (function (_super) {
          */
         _this.propertyFields = {};
         /**
-         * Specifies if a property changes on this object should be propaged to the
+         * Specifies if property changes on this object should be propagated to the
          * objects cloned from this object.
          *
          * This setting affects property changes *after* cloning, since at the moment
@@ -315,8 +315,9 @@ var Sprite = /** @class */ (function (_super) {
          */
         _this.isBaseSprite = false;
         /**
-         * Whether this sprite should be cloned when cloning it's parent container. We set this to falsse in those cases when a sprite is created by the class, so that when cloning
-         * a duplicate sprite would not appear.
+         * Indicates whether this sprite should be cloned when cloning its parent
+         * container. We set this to `false` in those cases when a sprite is created
+         * by the class, so that when cloning a duplicate sprite would not appear.
          *
          * @type {boolean}
          */
@@ -4389,7 +4390,7 @@ var Sprite = /** @class */ (function (_super) {
      * @param {InteractionEvent} ev Event object
      */
     Sprite.prototype.handleRotate = function (ev) {
-        this.rotate(ev.angle + this.interactions.originalAngle);
+        this.rotation = ev.angle + this.interactions.originalAngle;
     };
     Object.defineProperty(Sprite.prototype, "cursorOptions", {
         /**
@@ -4997,17 +4998,6 @@ var Sprite = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    /**
-     * Rotates the element to certain `angle`.
-     *
-     * Set `rotation` property instead.
-     *
-     * @ignore Exclude from docs
-     * @param {number} angle Rotation angle (0-360)
-     */
-    Sprite.prototype.rotate = function (angle) {
-        this.rotation = angle;
-    };
     Object.defineProperty(Sprite.prototype, "align", {
         /**
          * @return {Align} Horizontal align
@@ -5970,9 +5960,10 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (this.setPropertyValue("path", value)) {
-                if (this.element) {
-                    this.element.attr({ "d": value });
+                if (!this.element) {
+                    this.element = this.paper.add("path");
                 }
+                this.element.attr({ "d": value });
             }
         },
         enumerable: true,
@@ -6075,6 +6066,7 @@ var Sprite = /** @class */ (function (_super) {
                     value = this.fillModifier.modify(value);
                 }
             }
+            this.realFill = value;
             // todo: review this place when some Color type will be added
             if (value instanceof Color) {
                 this.setSVGAttribute({ "fill": value.toString() });
@@ -6158,6 +6150,7 @@ var Sprite = /** @class */ (function (_super) {
                     value = this.strokeModifier.modify(value);
                 }
             }
+            this.realStroke = value;
             if (value instanceof Color) {
                 if (value.hex == "none") {
                     this.removeSVGAttribute("stroke");
@@ -6603,7 +6596,7 @@ var Sprite = /** @class */ (function (_super) {
         set: function (value) {
             value = $type.toNumber(value);
             if (this.setPropertyValue("zIndex", value)) {
-                this.dispatchImmediately("zIndexChanged");
+                this.dispatch("zIndexChanged");
             }
         },
         enumerable: true,
@@ -6617,7 +6610,7 @@ var Sprite = /** @class */ (function (_super) {
         var parent = this.parent;
         if (parent && parent.children.indexOf(this) != parent.children.length - 1) {
             parent.children.moveValue(this, parent.children.length - 1);
-            this.dispatchImmediately("zIndexChanged");
+            this.dispatch("zIndexChanged");
         }
     };
     /**
@@ -6628,7 +6621,7 @@ var Sprite = /** @class */ (function (_super) {
         var parent = this.parent;
         if (parent && parent.children.indexOf(this) != 0) {
             parent.children.moveValue(this, 0);
-            this.dispatchImmediately("zIndexChanged");
+            this.dispatch("zIndexChanged");
         }
     };
     Object.defineProperty(Sprite.prototype, "tooltip", {

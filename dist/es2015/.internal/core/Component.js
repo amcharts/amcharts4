@@ -304,6 +304,7 @@ var Component = /** @class */ (function (_super) {
             }
             // store reference to original data item
             dataItem.dataContext = dataContext;
+            var hasSomeValues_1 = false;
             $object.each(this.dataFields, function (key, fieldValue) {
                 var fieldName = key;
                 var value = dataContext[fieldValue];
@@ -315,6 +316,7 @@ var Component = /** @class */ (function (_super) {
                 }).value;
                 if (dataItem.hasChildren[fieldName]) {
                     if (value) {
+                        hasSomeValues_1 = true;
                         var children = new OrderedListTemplate(_this.createDataItem());
                         children.events.on("inserted", _this.handleDataItemAdded, _this);
                         children.events.on("removed", _this.handleDataItemRemoved, _this);
@@ -332,6 +334,7 @@ var Component = /** @class */ (function (_super) {
                 else {
                     // data is converted to numbers/dates in each dataItem
                     if ($type.hasValue(value)) {
+                        hasSomeValues_1 = true;
                         dataItem[fieldName] = value;
                     }
                 }
@@ -340,15 +343,22 @@ var Component = /** @class */ (function (_super) {
                 var f = key;
                 var value = dataContext[fieldValue];
                 if ($type.hasValue(value)) {
+                    hasSomeValues_1 = true;
                     dataItem.setProperty(f, value);
                 }
             });
-            this._dataDisposers.push(dataItem.events.on("valuechanged", this.handleDataItemValueChange, this));
-            this._dataDisposers.push(dataItem.events.on("workingvaluechanged", this.handleDataItemWorkingValueChange, this));
-            this._dataDisposers.push(dataItem.events.on("calculatedvaluechanged", this.handleDataItemCalculatedValueChange, this));
-            this._dataDisposers.push(dataItem.events.on("propertychanged", this.handleDataItemPropertyChange, this));
-            this._dataDisposers.push(dataItem.events.on("locationchanged", this.handleDataItemValueChange, this));
-            this._dataDisposers.push(dataItem.events.on("workinglocationchanged", this.handleDataItemWorkingLocationChange, this));
+            // @todo we might need some flag which would tell whether we should create empty data items or not. 
+            if (!hasSomeValues_1) {
+                this.dataItems.remove(dataItem);
+            }
+            else {
+                this._dataDisposers.push(dataItem.events.on("valuechanged", this.handleDataItemValueChange, this));
+                this._dataDisposers.push(dataItem.events.on("workingvaluechanged", this.handleDataItemWorkingValueChange, this));
+                this._dataDisposers.push(dataItem.events.on("calculatedvaluechanged", this.handleDataItemCalculatedValueChange, this));
+                this._dataDisposers.push(dataItem.events.on("propertychanged", this.handleDataItemPropertyChange, this));
+                this._dataDisposers.push(dataItem.events.on("locationchanged", this.handleDataItemValueChange, this));
+                this._dataDisposers.push(dataItem.events.on("workinglocationchanged", this.handleDataItemWorkingLocationChange, this));
+            }
         }
     };
     /**

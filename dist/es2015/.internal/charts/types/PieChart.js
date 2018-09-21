@@ -8,7 +8,7 @@ import * as tslib_1 from "tslib";
  * ============================================================================
  * @hidden
  */
-import { SerialChart, SerialChartDataItem } from "./SerialChart";
+import { PercentChart, PercentChartDataItem } from "./PercentChart";
 import { percent, Percent } from "../../core/utils/Percent";
 import { PieSeries } from "../series/PieSeries";
 import { registry } from "../../core/Registry";
@@ -39,7 +39,7 @@ var PieChartDataItem = /** @class */ (function (_super) {
         return _this;
     }
     return PieChartDataItem;
-}(SerialChartDataItem));
+}(PercentChartDataItem));
 export { PieChartDataItem };
 /**
  * ============================================================================
@@ -187,15 +187,6 @@ var PieChart = /** @class */ (function (_super) {
         this.updateRadius();
     };
     /**
-     * (Re)validates chart data.
-     *
-     * @ignore Exclude from docs
-     */
-    PieChart.prototype.validateData = function () {
-        _super.prototype.validateData.call(this);
-        this.feedLegend();
-    };
-    /**
      * Recalculates pie's radius, based on a number of criteria.
      *
      * @ignore Exclude from docs
@@ -232,38 +223,6 @@ var PieChart = /** @class */ (function (_super) {
             series.startAngle = _this.startAngle;
             series.endAngle = _this.endAngle;
         });
-    };
-    /**
-     * Setups the legend to use the chart's data.
-     */
-    PieChart.prototype.feedLegend = function () {
-        var legend = this.legend;
-        if (legend) {
-            var legendData_1 = [];
-            $iter.each(this.series.iterator(), function (series) {
-                $iter.each(series.dataItems.iterator(), function (dataItem) {
-                    legendData_1.push(dataItem);
-                    var legendSettings = series.legendSettings;
-                    if (legendSettings) {
-                        if (legendSettings.labelText) {
-                            legend.labels.template.text = legendSettings.labelText;
-                        }
-                        if (legendSettings.itemLabelText) {
-                            legend.labels.template.text = legendSettings.itemLabelText;
-                        }
-                        if (legendSettings.valueText) {
-                            legend.valueLabels.template.text = legendSettings.valueText;
-                        }
-                        if (legendSettings.itemValueText) {
-                            legend.valueLabels.template.text = legendSettings.itemValueText;
-                        }
-                    }
-                });
-            });
-            legend.data = legendData_1;
-            legend.dataFields.name = "category";
-            legend.itemContainers.template.propertyFields.disabled = "hiddenInLegend";
-        }
     };
     Object.defineProperty(PieChart.prototype, "radius", {
         /**
@@ -405,28 +364,8 @@ var PieChart = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    /**
-     * @ignore
-     */
-    PieChart.prototype.setLegend = function (legend) {
-        _super.prototype.setLegend.call(this, legend);
-        if (legend) {
-            legend.labels.template.text = "{category}";
-            legend.valueLabels.template.text = "{value.percent.formatNumber('#.0')}%";
-            legend.itemContainers.template.events.on("over", function (event) {
-                var pieSeriesDataItem = event.target.dataItem.dataContext;
-                if (pieSeriesDataItem.visible && !pieSeriesDataItem.isHiding) {
-                    pieSeriesDataItem.slice.isHover = true;
-                }
-            });
-            legend.itemContainers.template.events.on("out", function (event) {
-                var pieSeriesDataItem = event.target.dataItem.dataContext;
-                pieSeriesDataItem.slice.isHover = false;
-            });
-        }
-    };
     return PieChart;
-}(SerialChart));
+}(PercentChart));
 export { PieChart };
 /**
  * Register class in system, so that it can be instantiated using its name from

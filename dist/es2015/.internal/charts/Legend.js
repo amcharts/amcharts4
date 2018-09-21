@@ -22,6 +22,7 @@ import { InterfaceColorSet } from "../core/utils/InterfaceColorSet";
 import * as $type from "../core/utils/Type";
 import { Sprite } from "../core/Sprite";
 import { Disposer } from "../core/utils/Disposer";
+import { MouseCursorStyle } from "../core/interaction/Mouse";
 /**
  * ============================================================================
  * DATA ITEM
@@ -215,6 +216,7 @@ var Legend = /** @class */ (function (_super) {
         itemContainer.focusable = true;
         itemContainer.role = "checkbox";
         itemContainer.togglable = true;
+        itemContainer.cursorOverStyle = MouseCursorStyle.pointer;
         itemContainer.background.fillOpacity = 0; // creates hit area
         // Add click/tap event to toggle item
         // not good to listen to "toggled" as we will get to stackoverflow

@@ -50,14 +50,14 @@ var RadialGradient = /** @class */ (function (_super) {
     RadialGradient.prototype.draw = function () {
         var _this = this;
         var gradientElement = this.element;
-        if (this.cx) {
+        if ($type.isNumber(this.cx)) {
             var value = this.cx;
             if (value instanceof Percent) {
                 value = value.percent + "%";
             }
             gradientElement.attr({ "cx": value });
         }
-        if (this.cy) {
+        if ($type.isNumber(this.cy)) {
             var value = this.cy;
             if (value instanceof Percent) {
                 value = value.percent + "%";
@@ -201,7 +201,7 @@ var RadialGradient = /** @class */ (function (_super) {
     });
     RadialGradient.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
-        this._stops = source.stops;
+        this.stops.copyFrom(source.stops);
         this.cx = source.cx;
         this.cy = source.cy;
         this.fx = source.fx;
@@ -219,6 +219,14 @@ var RadialGradient = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Clears the gradient.
+     *
+     * @ignore Exclude from docs
+     */
+    RadialGradient.prototype.clear = function () {
+        this._stops.clear();
+    };
     return RadialGradient;
 }(BaseObject));
 export { RadialGradient };

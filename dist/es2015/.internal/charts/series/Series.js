@@ -1080,7 +1080,7 @@ var Series = /** @class */ (function (_super) {
             }
         }
         _super.prototype.processConfig.call(this, config);
-        // Process heat rules again, when all other lements are ready
+        // Process heat rules again, when all other elements are ready
         if (heatRules) {
             for (var i = 0, len = heatRules.length; i < len; i++) {
                 var rule = heatRules[i];

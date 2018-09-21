@@ -740,7 +740,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @ignore Exclude from docs
      * @param {XYSeriesDataItem} dataItem Data item
      */
-    processSeriesDataItem(dataItem: XYSeriesDataItem): void;
+    processSeriesDataItem(dataItem: XYSeriesDataItem, axisLetter?: string): void;
     /**
      * Post-processes Serie's data items.
      *

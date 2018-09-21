@@ -62,9 +62,11 @@ var Cache = /** @class */ (function () {
      *
      * @param  {string}  owner  An id of the object that owns this cache
      * @param  {string}  key    Index key
+     * @param  {string}  value  Value to return if cache not available
      * @return {A}              Value, or `undefined` if not set
      */
-    Cache.prototype.get = function (owner, key) {
+    Cache.prototype.get = function (owner, key, value) {
+        if (value === void 0) { value = undefined; }
         // 		 || ypeof this._storage[owner][key] === "undefined" || this._storage[owner][key].expired === true) {
         if (this._storage.hasKey(owner)) {
             var ownerStorage = this._storage.getKey(owner);
@@ -75,16 +77,16 @@ var Cache = /** @class */ (function () {
                 }
                 if (cacheItem.expired) {
                     ownerStorage.removeKey(key);
-                    return undefined;
+                    return value;
                 }
                 return cacheItem.value;
             }
             else {
-                return undefined;
+                return value;
             }
         }
         else {
-            return undefined;
+            return value;
         }
     };
     /**

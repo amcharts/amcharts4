@@ -72,14 +72,6 @@ var ConeSeries = /** @class */ (function (_super) {
         return new ConeColumn();
     };
     /**
-     * (Re)validates the whole series, effectively causing it to redraw.
-     *
-     * @ignore Exclude from docs
-     */
-    ConeSeries.prototype.validate = function () {
-        _super.prototype.validate.call(this);
-    };
-    /**
      * Returns an SVG path to use as series mask.
      *
      * @return {string} SVG path

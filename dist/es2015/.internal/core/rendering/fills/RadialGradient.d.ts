@@ -126,4 +126,10 @@ export declare class RadialGradient extends BaseObject {
      * @return {List<IGradientStop>} Stops
      */
     readonly stops: List<IGradientStop>;
+    /**
+     * Clears the gradient.
+     *
+     * @ignore Exclude from docs
+     */
+    clear(): void;
 }

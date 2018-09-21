@@ -12,6 +12,7 @@ import { Sprite } from "../../Sprite";
 import { Ellipse } from "../../elements/Ellipse";
 import { LinearGradientModifier } from "../../rendering/fills/LinearGradientModifier";
 import { Percent } from "../../utils/Percent";
+import { Orientation } from "../../defs/Orientation";
 /**
  * ============================================================================
  * REQUISITES
@@ -48,11 +49,12 @@ export interface IConeProperties extends IContainerProperties {
      */
     topRadius?: Percent;
     /**
-     * Orientation of the cone: "horizontal" or "vertical".
+     * Orientation of the cone
      *
      * @default "vertical"
+     * @type {Orientation}
      */
-    orientation?: "horizontal" | "vertical";
+    orientation?: Orientation;
 }
 /**
  * Defines events for [[Cone]].
@@ -169,13 +171,13 @@ export declare class Cone extends Container {
      */
     topRadius: Percent;
     /**
-     * @type {"horizontal" | "vertical"} Orientation
+     * @type {Orientation} Orientation
      */
     /**
-     * Orientation of the cone: "horizontal" or "vertical".
+     * Orientation of the cone
      *
      * @default "vertical"
-     * @param {"horizontal" | "vertical"}  value  Orientation
+     * @param {Orientation}  value  Orientation
      */
-    orientation: "horizontal" | "vertical";
+    orientation: Orientation;
 }

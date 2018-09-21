@@ -7,17 +7,13 @@
  * ============================================================================
  * @hidden
  */
-import { Series, SeriesDataItem, ISeriesProperties, ISeriesDataFields, ISeriesAdapters, ISeriesEvents } from "./Series";
+import { IPercentSeriesAdapters, IPercentSeriesDataFields, IPercentSeriesEvents, IPercentSeriesProperties, PercentSeries, PercentSeriesDataItem } from "./PercentSeries";
 import { ISpriteEvents, AMEvent } from "../../core/Sprite";
 import { Slice } from "../../core/elements/Slice";
 import { AxisLabelCircular } from "../axes/AxisLabelCircular";
-import { PieTick } from "./PieTick";
-import { ListTemplate } from "../../core/utils/List";
-import { Container } from "../../core/Container";
+import { PieTick } from "../elements/PieTick";
 import { Animation } from "../../core/utils/Animation";
-import { LegendDataItem, LegendSettings } from "../../charts/Legend";
 import { Bullet } from "../elements/Bullet";
-import { ColorSet } from "../../core/utils/ColorSet";
 import { IRectangle } from "../../core/defs/IRectangle";
 import { PieChart } from "../types/PieChart";
 import { Percent } from "../../core/utils/Percent";
@@ -32,7 +28,7 @@ import { Percent } from "../../core/utils/Percent";
  *
  * @see {@link DataItem}
  */
-export declare class PieSeriesDataItem extends SeriesDataItem {
+export declare class PieSeriesDataItem extends PercentSeriesDataItem {
     /**
      * A type of slice used for this series.
      *
@@ -44,27 +40,13 @@ export declare class PieSeriesDataItem extends SeriesDataItem {
      * @ignore Exclude from docs
      * @type {AxisLabelCircular}
      */
-    protected _label: AxisLabelCircular;
+    _label: AxisLabelCircular;
     /**
      * A reference to a slice tick element.
      * @ignore Exclude from docs
      * @type {PieTick}
      */
-    protected _tick: PieTick;
-    /**
-     * A reference to a corresponding legend data item.
-     *
-     * @type {LegendDataItem<DataItem, IDataItemEvents>}
-     */
-    protected _legendDataItem: LegendDataItem;
-    /**
-     * Custom settings for the legend item.
-     * Not used, only added to sattisfy LegendDataItem
-     *
-     * @type {LegendSettings}
-     * @ignore
-     */
-    legendSettings: LegendSettings;
+    _tick: PieTick;
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
@@ -76,17 +58,14 @@ export declare class PieSeriesDataItem extends SeriesDataItem {
      */
     constructor();
     /**
-     * Sets visibility of the Data Item.
-     *
-     * @param {boolean} value Data Item
+     * @return {number} Radius
      */
-    setVisibility(value: boolean): void;
     /**
-     * Adds an `id` attribute the the slice element and returns its id.
+     * Slice's radius, if other than default.
      *
-     * @ignore Exclude from docs
+     * @param {number}  value  Radius
      */
-    uidAttr(): string;
+    radiusValue: number;
     /**
      * Hide the data item (and corresponding visual elements).
      *
@@ -104,70 +83,6 @@ export declare class PieSeriesDataItem extends SeriesDataItem {
      * @param {string[]}  fields    Fields to animate while hiding
      */
     show(duration?: number, delay?: number, fields?: string[]): Animation;
-    /**
-     * @return {string} Category
-     */
-    /**
-     * Category.
-     *
-     * @param {string}  value  Category
-     */
-    category: string;
-    /**
-     * @return {number} Radius
-     */
-    /**
-     * Slice's radius, if other than default.
-     *
-     * @param {number}  value  Radius
-     */
-    radiusValue: number;
-    /**
-     * Creates a marker used in the legend for this slice.
-     *
-     * @ignore Exclude from docs
-     * @param {Container}  marker  Marker container
-     */
-    createLegendMarker(marker: Container): void;
-    /**
-     * @return {LegendDataItem<DataItem, IDataItemEvents>} Legend data item
-     */
-    /**
-     * A legend's data item, that corresponds to this data item.
-     *
-     * @param {LegendDataItem<DataItem, IDataItemEvents>}  value  Legend data item
-     */
-    legendDataItem: LegendDataItem;
-    /**
-     * A Pie Tick element, related to this data item. (slice)
-     *
-     * @readonly
-     * @return {PieTick} Tick element
-     */
-    readonly tick: PieTick;
-    /**
-     * A Label element, related to this data item. (slice)
-     *
-     * @readonly
-     * @return {AxisLabelCircular} Label element
-     */
-    readonly label: AxisLabelCircular;
-    /**
-     * A Slice element, related to this data item. (slice)
-     *
-     * @readonly
-     * @return {Slice} Slice element
-     */
-    readonly slice: this["_slice"];
-    /**
-     * @return {boolean} Disabled in legend?
-     */
-    /**
-     * Should dataItem (slice) be hidden in legend?
-     *
-     * @param {boolean} value Visible in legend?
-     */
-    hiddenInLegend: boolean;
 }
 /**
  * ============================================================================
@@ -178,26 +93,7 @@ export declare class PieSeriesDataItem extends SeriesDataItem {
 /**
  * Defines data fields for [[PieSeries]].
  */
-export interface IPieSeriesDataFields extends ISeriesDataFields {
-    /**
-     * Name of the field in data that holds category.
-     *
-     * @type {string}
-     */
-    category?: string;
-    /**
-     * Name of the field in data that holds boolean flag if item should be
-     * hidden in legend.
-     *
-     * @type {string}
-     */
-    hiddenInLegend?: string;
-    /**
-     * Name of the field in data that holds boolean flag if item should be hidden.
-     *
-     * @type {string}
-     */
-    visible?: string;
+export interface IPieSeriesDataFields extends IPercentSeriesDataFields {
     /**
      * Name of the field in data that holds item's radius value.
      *
@@ -208,12 +104,11 @@ export interface IPieSeriesDataFields extends ISeriesDataFields {
 /**
  * Defines properties for [[PieSeries]].
  */
-export interface IPieSeriesProperties extends ISeriesProperties {
+export interface IPieSeriesProperties extends IPercentSeriesProperties {
     /**
      * Outer radius for the series' slices in pixels.
      *
      * @ignore Exclude from docs
-     * @todo Redo so that users can set it
      * @type {number | Percent}
      */
     radius?: number | Percent;
@@ -221,7 +116,6 @@ export interface IPieSeriesProperties extends ISeriesProperties {
      * Inner radius for the series' slices in pixels.
      *
      * @ignore Exclude from docs
-     * @todo Redo so that users can set it
      * @type {number | Percent}
      */
     innerRadius?: number | Percent;
@@ -241,34 +135,18 @@ export interface IPieSeriesProperties extends ISeriesProperties {
      * @type {number}
      */
     endAngle?: number;
-    /**
-     * Align labels into nice vertical columns?
-     *
-     * @default true
-     * @type {number}
-     */
-    alignLabels?: number;
-    /**
-     * A color set to be used for slices.
-     *
-     * For each new subsequent slice, the chart will assign the next color in
-     * this set.
-     *
-     * @type {ColorSet}
-     */
-    colors?: ColorSet;
 }
 /**
  * Defines events for [[PieSeries]].
  */
-export interface IPieSeriesEvents extends ISeriesEvents {
+export interface IPieSeriesEvents extends IPercentSeriesEvents {
 }
 /**
  * Defines adapters for [[PieSeries]].
  *
  * @see {@link Adapter}
  */
-export interface IPieSeriesAdapters extends ISeriesAdapters, IPieSeriesProperties {
+export interface IPieSeriesAdapters extends IPercentSeriesAdapters, IPieSeriesProperties {
 }
 /**
  * ============================================================================
@@ -284,7 +162,10 @@ export interface IPieSeriesAdapters extends ISeriesAdapters, IPieSeriesPropertie
  * @todo Example
  * @important
  */
-export declare class PieSeries extends Series {
+export declare class PieSeries extends PercentSeries {
+    _slice: Slice;
+    _tick: PieTick;
+    _label: AxisLabelCircular;
     _chart: PieChart;
     /**
      * Defines the type of data fields used for the series.
@@ -331,45 +212,6 @@ export declare class PieSeries extends Series {
      */
     protected _rightItems: this["_dataItem"][];
     /**
-     * Container slice elements are put in.
-     *
-     * @ignore Exclude from docs
-     * @type {Container}
-     */
-    slicesContainer: Container;
-    /**
-     * Container tick elements are put in.
-     *
-     * @ignore Exclude from docs
-     * @type {Container}
-     */
-    ticksContainer: Container;
-    /**
-     * Container label elements are put in.
-     *
-     * @ignore Exclude from docs
-     * @type {Container}
-     */
-    labelsContainer: Container;
-    /**
-     * List of slice elements.
-     *
-     * @type {ListTemplate<Slice>}
-     */
-    slices: ListTemplate<Slice>;
-    /**
-     * List of tick elements.
-     *
-     * @type {ListTemplate<PieTick>}
-     */
-    ticks: ListTemplate<PieTick>;
-    /**
-     * List of label elements.
-     *
-     * @type {ListTemplate<AxisLabelCircular>}
-     */
-    labels: ListTemplate<AxisLabelCircular>;
-    /**
      * [_arcRect description]
      *
      * @todo Description
@@ -402,6 +244,18 @@ export declare class PieSeries extends Series {
      */
     constructor();
     /**
+     * creates slice
+     */
+    protected createSlice(): this["_slice"];
+    /**
+     * creates tick
+     */
+    protected createTick(): this["_tick"];
+    /**
+     * creates label
+     */
+    protected createLabel(): this["_label"];
+    /**
      * Sets defaults that instantiate some objects that rely on parent, so they
      * cannot be set in constructor.
      */
@@ -414,12 +268,11 @@ export declare class PieSeries extends Series {
      */
     protected createDataItem(): this["_dataItem"];
     /**
-     * Creates and returns a new slice element.
+     * Inits slice.
      *
-     * @param  {typeof Slice}  sliceType  Type of the slice element
-     * @return {Slice}                    Slice
+     * @param  {Slice} slice to init
      */
-    protected initSlice(sliceType: typeof Slice): Slice;
+    protected initSlice(slice: this["_slice"]): void;
     /**
      * (Re)validates the whole series, effectively causing it to redraw.
      *
@@ -433,21 +286,6 @@ export declare class PieSeries extends Series {
      * @param {PieSeriesDataItem}  dataItem  Data item
      */
     validateDataElement(dataItem: this["_dataItem"]): void;
-    /**
-     * Arranges slice labels according to position settings.
-     *
-     * @ignore Exclude from docs
-     * @param {this["_dataItem"][]}  dataItems  Data items
-     */
-    protected arrangeLabels(dataItems: this["_dataItem"][]): void;
-    /**
-     * Returns the next label according to `index`.
-     *
-     * @param  {number}              index      Current index
-     * @param  {PieSerisDataItem[]}  dataItems  Data items
-     * @return {AxisLabelCircular}              Label element
-     */
-    protected getNextLabel(index: number, dataItems: this["_dataItem"][]): AxisLabelCircular;
     /**
      * @return {number | Percent} Radius
      */
@@ -510,45 +348,6 @@ export declare class PieSeries extends Series {
      */
     endAngle: number;
     /**
-     * @return {boolean} Align labels?
-     */
-    /**
-     * Align labels into nice vertical columns?
-     *
-     * This will ensure that labels never overlap with each other.
-     *
-     * Arranging labels into columns makes them more readble, and better user
-     * experience.
-     *
-     * If set to `false` labels will be positioned at `label.radius` distance,
-     * and may, in some cases, overlap.
-     *
-     * @default true
-     * @param {boolean}  value  Align labels?
-     */
-    alignLabels: boolean;
-    /**
-     * @return {ColorSet} Color set
-     */
-    /**
-     * A color set to be used for slices.
-     *
-     * For each new subsequent slice, the chart will assign the next color in
-     * this set.
-     *
-     * @param {ColorSet}  value  Color set
-     */
-    colors: ColorSet;
-    /**
-     * Binds related legend data item's visual settings to this series' visual
-     * settings.
-     *
-     * @ignore Exclude from docs
-     * @param {Container}          marker    Container
-     * @param {this["_dataItem"]}  dataItem  Data item
-     */
-    createLegendMarker(marker: Container, dataItem?: this["_dataItem"]): void;
-    /**
      * Positions series bullet.
      *
      * @ignore Exclude from docs
@@ -556,24 +355,11 @@ export declare class PieSeries extends Series {
      */
     positionBullet(bullet: Bullet): void;
     /**
-     * Repositions bullets when slice's size changes.
-     *
-     * @ignore Exclude from docs
-     * @param {AMEvent<Slice, ISpriteEvents>["propertychanged"]}  event  Event
-     */
-    protected handleSliceScale(event: AMEvent<Slice, ISpriteEvents>["propertychanged"]): void;
-    /**
      * Repositions bullet and labels when slice moves.
      *
      * @ignore Exclude from docs
      * @param {AMEvent<Slice, ISpriteEvents>["propertychanged"]}  event  Event
      */
-    protected handleSliceMove(event: AMEvent<Slice, ISpriteEvents>["propertychanged"]): void;
-    /**
-     * Copies all properties from another instance of [[PieSeries]].
-     *
-     * @param {ColumnSeries}  source  Source series
-     */
-    copyFrom(source: this): void;
+    protected handleSliceMove(event: AMEvent<this["_slice"], ISpriteEvents>["propertychanged"]): void;
     protected getContainerBBox(): IRectangle;
 }

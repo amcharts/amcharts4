@@ -120,12 +120,6 @@ export declare class ConeSeries extends ColumnSeries {
      */
     protected createColumnTemplate(): this["_column"];
     /**
-     * (Re)validates the whole series, effectively causing it to redraw.
-     *
-     * @ignore Exclude from docs
-     */
-    validate(): void;
-    /**
      * Returns an SVG path to use as series mask.
      *
      * @return {string} SVG path

@@ -157,6 +157,19 @@ var Label = /** @class */ (function (_super) {
         this.invalidate();
     };
     /**
+     * Gets line bbox, uses caching to save cpu
+     * @ignore
+     */
+    Label.prototype.getLineBBox = function (lineInfo) {
+        var cacheKey = lineInfo.text + lineInfo.style;
+        var lineBBox = this.getCache(cacheKey);
+        if (!lineBBox) {
+            lineBBox = lineInfo.element.getBBox();
+            this.setCache(cacheKey, lineBBox, 5000);
+        }
+        lineInfo.bbox = lineBBox;
+    };
+    /**
      * Draws the textual label.
      *
      * @ignore Exclude from docs
@@ -291,8 +304,10 @@ var Label = /** @class */ (function (_super) {
                         }
                         // Add chunk to the current element
                         //lineInfo.element.content += $utils.trim(getTextFormatter().format(currentFormat + chunk.text, output));
-                        lineInfo.element.add(this.getSvgElement(chunk.text, getTextFormatter().translateStyleShortcuts(currentFormat)));
-                        lineInfo.bbox = lineInfo.element.getBBox();
+                        lineInfo.text = chunk.text;
+                        lineInfo.style = getTextFormatter().translateStyleShortcuts(currentFormat);
+                        lineInfo.element.add(this.getSvgElement(lineInfo.text, lineInfo.style));
+                        this.getLineBBox(lineInfo);
                         lineInfo.bbox.width = Math.ceil(lineInfo.bbox.width);
                         // Updated current line height
                         if (currentLineHeight < lineInfo.bbox.height) {

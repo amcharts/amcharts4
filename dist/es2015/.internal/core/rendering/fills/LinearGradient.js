@@ -169,7 +169,7 @@ var LinearGradient = /** @class */ (function (_super) {
     });
     LinearGradient.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
-        this._stops = source.stops;
+        this.stops.copyFrom(source.stops);
         this._rotation = source.rotation;
     };
     return LinearGradient;

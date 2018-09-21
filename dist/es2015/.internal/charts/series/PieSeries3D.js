@@ -87,14 +87,10 @@ var PieSeries3D = /** @class */ (function (_super) {
         return new PieSeries3DDataItem();
     };
     /**
-     * Creates and returns a new slice element.
-     *
-     * @param  {typeof Slice}  sliceType  Type of the slice element
-     * @return {Slice3D}                  Slice
+     * creates slice
      */
-    PieSeries3D.prototype.initSlice = function (sliceType) {
-        var slice = _super.prototype.initSlice.call(this, Slice3D);
-        return slice;
+    PieSeries3D.prototype.createSlice = function () {
+        return new Slice3D();
     };
     /**
      * Validates data item's element, effectively redrawing it.

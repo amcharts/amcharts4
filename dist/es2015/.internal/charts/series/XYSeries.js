@@ -447,8 +447,8 @@ var XYSeries = /** @class */ (function (_super) {
         try {
             _super.prototype.processDataItem.call(this, dataItem, dataContext);
             dataItem.events.disable();
-            this.xAxis.processSeriesDataItem(dataItem);
-            this.yAxis.processSeriesDataItem(dataItem);
+            this.xAxis.processSeriesDataItem(dataItem, "X");
+            this.yAxis.processSeriesDataItem(dataItem, "Y");
             dataItem.events.enable();
             this.setInitialWorkingValues(dataItem);
         }
@@ -858,36 +858,38 @@ var XYSeries = /** @class */ (function (_super) {
                 // todo: add tooltipXField and tooltipYField.
                 var tooltipXField = this.tooltipXField;
                 var tooltipYField = this.tooltipYField;
-                var tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, dataItem.locations[tooltipXField], dataItem.locations[tooltipYField]);
-                if (tooltipPoint) {
-                    this.tooltipX = tooltipPoint.x;
-                    this.tooltipY = tooltipPoint.y;
-                    if (this._prevTooltipDataItem != dataItem) {
-                        this.dispatchImmediately("tooltipshownat", {
-                            type: "tooltipshownat",
-                            target: this,
-                            dataItem: dataItem
-                        });
-                        try {
-                            for (var _a = tslib_1.__values(dataItem.bullets), _b = _a.next(); !_b.done; _b = _a.next()) {
-                                var a = _b.value;
-                                var bullet = a[1];
-                                bullet.setState("hover");
-                            }
-                        }
-                        catch (e_1_1) { e_1 = { error: e_1_1 }; }
-                        finally {
+                if ($type.hasValue(dataItem[tooltipXField]) && $type.hasValue(dataItem[tooltipYField])) {
+                    var tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, dataItem.locations[tooltipXField], dataItem.locations[tooltipYField]);
+                    if (tooltipPoint) {
+                        this.tooltipX = tooltipPoint.x;
+                        this.tooltipY = tooltipPoint.y;
+                        if (this._prevTooltipDataItem != dataItem) {
+                            this.dispatchImmediately("tooltipshownat", {
+                                type: "tooltipshownat",
+                                target: this,
+                                dataItem: dataItem
+                            });
                             try {
-                                if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                                for (var _a = tslib_1.__values(dataItem.bullets), _b = _a.next(); !_b.done; _b = _a.next()) {
+                                    var a = _b.value;
+                                    var bullet = a[1];
+                                    bullet.setState("hover");
+                                }
                             }
-                            finally { if (e_1) throw e_1.error; }
+                            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+                            finally {
+                                try {
+                                    if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                                }
+                                finally { if (e_1) throw e_1.error; }
+                            }
+                            this._prevTooltipDataItem = dataItem;
                         }
-                        this._prevTooltipDataItem = dataItem;
+                        if (this.showTooltip()) {
+                            return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
+                        }
+                        return;
                     }
-                    if (this.showTooltip()) {
-                        return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
-                    }
-                    return;
                 }
             }
         }

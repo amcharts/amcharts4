@@ -687,7 +687,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     protected _descriptionElement: Optional<AMElement>;
     /**
-     * Specifies if a property changes on this object should be propaged to the
+     * Specifies if property changes on this object should be propagated to the
      * objects cloned from this object.
      *
      * This setting affects property changes *after* cloning, since at the moment
@@ -785,8 +785,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     isBaseSprite: boolean;
     /**
-     * Whether this sprite should be cloned when cloning it's parent container. We set this to falsse in those cases when a sprite is created by the class, so that when cloning
-     * a duplicate sprite would not appear.
+     * Indicates whether this sprite should be cloned when cloning its parent
+     * container. We set this to `false` in those cases when a sprite is created
+     * by the class, so that when cloning a duplicate sprite would not appear.
      *
      * @type {boolean}
      */
@@ -796,6 +797,14 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @type {any}
      */
     dummyData: any;
+    /**
+     * A reference to a real fill object. Sometimes might be useful to modify gradient (when fill is color but we have FillModifier).
+     */
+    realFill: Color | Pattern | LinearGradient | RadialGradient;
+    /**
+     * A reference to a real stroke object. Sometimes might be useful to modify gradient (when fill is color but we have FillModifier).
+     */
+    realStroke: Color | Pattern | LinearGradient | RadialGradient;
     /**
      * Constructor:
      * * Creates initial node
@@ -2683,15 +2692,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {number}  value  Rotation (0-360)
      */
     rotation: number;
-    /**
-     * Rotates the element to certain `angle`.
-     *
-     * Set `rotation` property instead.
-     *
-     * @ignore Exclude from docs
-     * @param {number} angle Rotation angle (0-360)
-     */
-    rotate(angle: number): void;
     /**
      * @return {Align} Horizontal align
      */

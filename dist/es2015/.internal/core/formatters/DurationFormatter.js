@@ -10,13 +10,13 @@ import * as $strings from "../utils/Strings";
 import * as $object from "../utils/Object";
 import * as $utils from "../utils/Utils";
 import * as $type from "../utils/Type";
+import * as $math from "../utils/Math";
 /**
  * DurationFormatter class. Formats numbers as durations.
  *
  * `1000` as `16:40`
  *
  * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-duration/} Tutorial on duration formatting
- * @todo Implement syntax to set base unit in format itself
  */
 var DurationFormatter = /** @class */ (function (_super) {
     tslib_1.__extends(DurationFormatter, _super);
@@ -33,18 +33,12 @@ var DurationFormatter = /** @class */ (function (_super) {
          */
         _this._negativeBase = 0;
         /**
-         * Holds number format.
-         *
-         * @type {string}
-         */
-        _this._durationFormat = "mm:ss";
-        /**
          * A base unit to consider values are in.
          *
          * @default "s"
-         * @type {string}
+         * @type {TimeUnit}
          */
-        _this._baseUnit = "s";
+        _this._baseUnit = "second";
         /**
          * Output format to produce. If the format calls for applying color to the
          * formatted value, this setting will determine what markup to use: SVG or
@@ -62,14 +56,14 @@ var DurationFormatter = /** @class */ (function (_super) {
          * @type {Object}
          */
         _this._unitValues = {
-            "S": 1,
-            "s": 1000,
-            "m": 60000,
-            "h": 3600000,
-            "d": 86400000,
-            "w": 604800000,
-            "M": 2592000000,
-            "y": 31536000000,
+            "millisecond": 1,
+            "second": 1000,
+            "minute": 60000,
+            "hour": 3600000,
+            "day": 86400000,
+            "week": 604800000,
+            "month": 2592000000,
+            "year": 31536000000,
         };
         /**
          * Collection of aliases for units.
@@ -97,7 +91,7 @@ var DurationFormatter = /** @class */ (function (_super) {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-duration/} Tutorial on duration formatting
      * @param  {number | string}  value   Value to format
      * @param  {string}           format  Format to apply
-     * @param  {string}           base    Override base unit
+     * @param  {TimeUnit}         base    Override base unit
      * @return {string}                   Formatted number
      */
     DurationFormatter.prototype.format = function (value, format, base) {
@@ -114,7 +108,7 @@ var DurationFormatter = /** @class */ (function (_super) {
         var baseUnit = base || this._baseUnit;
         // no format passed in or empty
         if (typeof format === "undefined" || format === "") {
-            format = this._durationFormat;
+            format = this.getFormat($type.toNumber(value), null, baseUnit);
         }
         // Clean format
         format = $utils.cleanFormat(format);
@@ -151,9 +145,9 @@ var DurationFormatter = /** @class */ (function (_super) {
      * Parses supplied format into structured object which can be used to format
      * the number.
      *
-     * @param  {string}  format  Format string, i.e. "#,###.00"
-     * @param  {string}  base    Override base unit
-     * @return {any}             Parsed information
+     * @param  {string}    format  Format string, i.e. "#,###.00"
+     * @param  {TimeUnit}  base    Override base unit
+     * @return {any}               Parsed information
      */
     DurationFormatter.prototype.parseFormat = function (format, base) {
         var _this = this;
@@ -239,9 +233,9 @@ var DurationFormatter = /** @class */ (function (_super) {
                 chunk.text = chunk.text.replace($strings.PLACEHOLDER2, "|");
                 if (chunk.type === "value") {
                     // Just "Duration"?
-                    if (chunk.text.toLowerCase() === "duration") {
-                        chunk.text = _this._durationFormat;
-                    }
+                    // if (chunk.text.toLowerCase() === "duration") {
+                    // 	chunk.text = durationFormat;
+                    // }
                     // Check for "a" (absolute) modifier
                     if (chunk.text.match(/[yYMdDwhHKkmsSn]+a/)) {
                         item.absolute = true;
@@ -294,7 +288,7 @@ var DurationFormatter = /** @class */ (function (_super) {
         for (var i = 0; i < details.parts.length; i++) {
             // Gather the part
             var part = details.parts[i];
-            var unit = part.substr(0, 1);
+            var unit = this.toTimeUnit(part.substr(0, 1));
             var digits = part.length;
             // Calculate current unit value
             var ints = Math.floor(tstamp / this._unitValues[unit]);
@@ -311,12 +305,33 @@ var DurationFormatter = /** @class */ (function (_super) {
     /**
      * Converts numeric value to timestamp in milliseconds.
      *
-     * @param  {number}  value     A source value
-     * @param  {string}  baseUnit  Base unit the source value is in: "q", "s", "i", "h", "d", "w", "m", "y"
-     * @return {number}            Value representation as a timestamp in milliseconds
+     * @param  {number}    value     A source value
+     * @param  {TimeUnit}  baseUnit  Base unit the source value is in: "q", "s", "i", "h", "d", "w", "m", "y"
+     * @return {number}              Value representation as a timestamp in milliseconds
      */
     DurationFormatter.prototype.toTimeStamp = function (value, baseUnit) {
         return value * this._unitValues[baseUnit];
+    };
+    DurationFormatter.prototype.toTimeUnit = function (code) {
+        switch (code) {
+            case "S":
+                return "millisecond";
+            case "s":
+                return "second";
+            case "m":
+                return "minute";
+            case "h":
+                return "hour";
+            case "d":
+                return "day";
+            case "w":
+                return "week";
+            case "M":
+                return "month";
+            case "y":
+                return "year";
+        }
+        ;
     };
     /**
      * Invalidates the parent [[Sprite]] object.
@@ -326,26 +341,6 @@ var DurationFormatter = /** @class */ (function (_super) {
             this.sprite.invalidate();
         }
     };
-    Object.defineProperty(DurationFormatter.prototype, "durationFormat", {
-        /**
-         * @return {string} Duration format
-         */
-        get: function () {
-            return this._durationFormat;
-        },
-        /**
-         * Duration format.
-         *
-         * @default "mm:ss"
-         * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-duration/} Tutorial on duration formatting
-         * @param {string}  format  Duration format
-         */
-        set: function (format) {
-            this._durationFormat = format;
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(DurationFormatter.prototype, "baseUnit", {
         /**
          * @return {string} Base unit
@@ -361,20 +356,20 @@ var DurationFormatter = /** @class */ (function (_super) {
          *
          * Available options:
          *
-         * * "q" - millisecond
-         * * "s" - second
-         * * "i" - minute
-         * * "h" - hour
-         * * "d" - day
-         * * "w" - week
-         * * "m" - month
-         * * "y" - year
+         * * "millisecond"
+         * * "second"
+         * * "minute"
+         * * "hour"
+         * * "day"
+         * * "week"
+         * * "month"
+         * * "year"
          *
          * @default "s"
-         * @param {string}  baseUnit  A base unit
+         * @param {TimeUnit}  baseUnit  A base unit
          */
         set: function (baseUnit) {
-            this._baseUnit = baseUnit.toLowerCase();
+            this._baseUnit = baseUnit;
             this.invalidateSprite();
         },
         enumerable: true,
@@ -398,6 +393,163 @@ var DurationFormatter = /** @class */ (function (_super) {
          */
         set: function (outputFormat) {
             this._outputFormat = outputFormat.toLowerCase();
+            this.invalidateSprite();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * Returns appropriate default format for the value.
+     *
+     * If `maxValue` is sepcified, it will use that value to determine the time
+     * unit for the format.
+     *
+     * For example if your `baseUnit` is `"second"` and you pass in `10`, you
+     * will get `"10"`.
+     *
+     * However, you might want it to be formatted in the context of bigger scale,
+     * say 10 minutes (600 seconds). If you pass in `600` as `maxValue`, all
+     * values, including small ones will use format with minutes, e.g.:
+     * `00:10`, `00:50`, `12: 30`, etc.
+     *
+     * @param  {number}    value     Value to format
+     * @param  {number}    maxValue  Maximum value to be used to determine format
+     * @param  {TimeUnit}  baseUnit  Base unit of the value
+     * @return {string}              Format
+     */
+    DurationFormatter.prototype.getFormat = function (value, maxValue, baseUnit) {
+        // Get base unit
+        if (!baseUnit) {
+            baseUnit = this.baseUnit;
+        }
+        if ($type.hasValue(maxValue) && value != maxValue) {
+            value = Math.abs(value);
+            maxValue = Math.abs(maxValue);
+            var maxUnit = this.getValueUnit($math.max(value, maxValue), baseUnit);
+            //let diffUnit = this.getValueUnit(Math.abs(maxValue - value), baseUnit);
+            //console.log(maxUnit, diffUnit);
+            return this.durationFormats[baseUnit][maxUnit];
+        }
+        else {
+            var unit = this.getValueUnit(value, baseUnit);
+            return this.durationFormats[baseUnit][unit];
+        }
+    };
+    /**
+     * Returns value's closest denominator time unit, e.g 100 seconds is
+     * `"minute"`, while 59 seconds would still be `second`.
+     *
+     * @param  {number}    value     Source duration value
+     * @param  {TimeUnit}  baseUnit  Base unit
+     * @return {TimeUnit}            Denominator
+     */
+    DurationFormatter.prototype.getValueUnit = function (value, baseUnit) {
+        // Get base unit
+        if (!baseUnit) {
+            baseUnit = this.baseUnit;
+        }
+        // Convert to milliseconds
+        var currentUnit;
+        var ms = this.getMilliseconds(value, baseUnit);
+        $object.eachContinue(this._unitValues, function (key, val) {
+            if (key == baseUnit || currentUnit) {
+                var num = ms / val;
+                if (num <= 1) {
+                    if (!currentUnit) {
+                        currentUnit = key;
+                    }
+                    return false;
+                }
+                currentUnit = key;
+            }
+            return true;
+        });
+        return currentUnit;
+    };
+    /**
+     * Converts value to milliseconds according to `baseUnit`.
+     *
+     * @param  {number}    value     Source duration value
+     * @param  {TimeUnit}  baseUnit  Base unit
+     * @return {number}              Value in milliseconds
+     */
+    DurationFormatter.prototype.getMilliseconds = function (value, baseUnit) {
+        // Get base unit
+        if (!baseUnit) {
+            baseUnit = this.baseUnit;
+        }
+        return value * this._unitValues[baseUnit];
+    };
+    Object.defineProperty(DurationFormatter.prototype, "durationFormats", {
+        /**
+         * @return {Partial} Formats
+         */
+        get: function () {
+            if (!this._durationFormats) {
+                this._durationFormats = {
+                    "millisecond": {
+                        "millisecond": this.language.translate("_duration_millisecond"),
+                        "second": this.language.translate("_duration_millisecond_second"),
+                        "minute": this.language.translate("_duration_millisecond_minute"),
+                        "hour": this.language.translate("_duration_millisecond_hour"),
+                        "day": this.language.translate("_duration_millisecond_day"),
+                        "week": this.language.translate("_duration_millisecond_week"),
+                        "month": this.language.translate("_duration_millisecond_month"),
+                        "year": this.language.translate("_duration_millisecond_year")
+                    },
+                    "second": {
+                        "second": this.language.translate("_duration_second"),
+                        "minute": this.language.translate("_duration_second_minute"),
+                        "hour": this.language.translate("_duration_second_hour"),
+                        "day": this.language.translate("_duration_second_day"),
+                        "week": this.language.translate("_duration_second_week"),
+                        "month": this.language.translate("_duration_second_month"),
+                        "year": this.language.translate("_duration_second_year")
+                    },
+                    "minute": {
+                        "minute": this.language.translate("_duration_minute"),
+                        "hour": this.language.translate("_duration_minute_hour"),
+                        "day": this.language.translate("_duration_minute_day"),
+                        "week": this.language.translate("_duration_minute_week"),
+                        "month": this.language.translate("_duration_minute_month"),
+                        "year": this.language.translate("_duration_minute_year")
+                    },
+                    "hour": {
+                        "hour": this.language.translate("_duration_hour"),
+                        "day": this.language.translate("_duration_hour_day"),
+                        "week": this.language.translate("_duration_hour_week"),
+                        "month": this.language.translate("_duration_hour_month"),
+                        "year": this.language.translate("_duration_hour_year")
+                    },
+                    "day": {
+                        "day": this.language.translate("_duration_day"),
+                        "week": this.language.translate("_duration_day_week"),
+                        "month": this.language.translate("_duration_day_month"),
+                        "year": this.language.translate("_duration_day_year")
+                    },
+                    "week": {
+                        "week": this.language.translate("_duration_week"),
+                        "month": this.language.translate("_duration_week_month"),
+                        "year": this.language.translate("_duration_week_year")
+                    },
+                    "month": {
+                        "month": this.language.translate("_duration_month"),
+                        "year": this.language.translate("_duration_month_year")
+                    },
+                    "year": {
+                        "year": this.language.translate("_duration_year")
+                    }
+                };
+            }
+            return this._durationFormats;
+        },
+        /**
+         * Duration formats for various combination of base units.
+         *
+         * @param {Partial<Record<TimeUnit, Partial<Record<TimeUnit, string>>>>}  value  Formats
+         */
+        set: function (value) {
+            this._durationFormats = value;
             this.invalidateSprite();
         },
         enumerable: true,

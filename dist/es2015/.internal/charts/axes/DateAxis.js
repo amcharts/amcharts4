@@ -231,25 +231,11 @@ var DateAxis = /** @class */ (function (_super) {
          */
         _this.periodChangeDateFormats = new Dictionary();
         /**
-         * Use `periodChangeDateFormats` to apply different formats to the first
-         * label in bigger time unit.
-         *
-         * @type {boolean}
-         */
-        _this._markUnitChange = true;
-        /**
          * Actual interval (granularity) derived from the actual data.
          *
          * @type {ITimeInterval}
          */
         _this._baseIntervalReal = { timeUnit: "day", count: 1 };
-        /**
-         * A collection of timestamps of previously processed data items. Used
-         * internally to track distance between data items when processing data.
-         *
-         * @type {Dictionary<string, number>}
-         */
-        _this._prevSeriesTime = new Dictionary();
         /**
          * [_minSeriesDifference description]
          *
@@ -281,6 +267,7 @@ var DateAxis = /** @class */ (function (_super) {
             }
         };
         _this.className = "DateAxis";
+        _this.setPropertyValue("markUnitChange", true);
         // Translatable defaults are applied in `applyInternalDefaults()`
         // ...
         // Define default intervals
@@ -668,7 +655,7 @@ var DateAxis = /** @class */ (function (_super) {
                 var endDate = $time.copy(date); // you might think it's easier to add intervalduration to timestamp, however it won't work for months or years which are not of the same length
                 endDate = $time.add(endDate, timeUnit, intervalCount);
                 var format = this_2.dateFormats.getKey(timeUnit);
-                if (this_2._markUnitChange && prevGridDate) {
+                if (this_2.markUnitChange && prevGridDate) {
                     if ($time.checkChange(date, prevGridDate, this_2._nextGridUnit)) {
                         if (timeUnit !== "year") {
                             format = this_2.periodChangeDateFormats.getKey(timeUnit);
@@ -708,7 +695,7 @@ var DateAxis = /** @class */ (function (_super) {
                                 var endDate = $time.copy(date); // you might think it's easier to add intervalduration to timestamp, however it won't work for months or years which are not of the same length
                                 endDate = $time.add(endDate, timeUnit_1, intervalCount_1);
                                 var format = _this.dateFormats.getKey(timeUnit_1);
-                                if (_this._markUnitChange && prevGridDate_1) {
+                                if (_this.markUnitChange && prevGridDate_1) {
                                     if ($time.checkChange(date, prevGridDate_1, _this._nextGridUnit)) {
                                         if (timeUnit_1 !== "year") {
                                             format = _this.periodChangeDateFormats.getKey(timeUnit_1);
@@ -1019,33 +1006,35 @@ var DateAxis = /** @class */ (function (_super) {
      * @todo Description
      * @param {XYSeriesDataItem}  dataItem  Data item
      */
-    DateAxis.prototype.processSeriesDataItem = function (dataItem) {
-        var _this = this;
-        // this is used to automatically define baseInterval
-        var sameItemTime;
-        // actually here we should only get dates of this axis. But it's not likely that the chart will have more than one date axis with different baseInterval.
-        // So using this approach would mean we'll have the same baseInterval for all date axes. In case user wants different timeIntervals for different date axes, he can manually set baseInterval
-        $object.each(dataItem.dates, function (key, date) {
-            //for (let key in dataItem.dates) {
-            //let date: Date = dataItem.dates[key];
-            var prevSeriesTime = _this._prevSeriesTime.getKey(key);
-            var time = date.getTime();
-            // need to check time difference betweend dates of the same data item (for example open/close. they also influence minSeriesDifference)
-            if ($type.isNumber(sameItemTime)) {
-                var difference = Math.abs(time - sameItemTime);
-                if (_this._minSeriesDifference > difference) {
-                    _this._minSeriesDifference = difference;
-                }
+    DateAxis.prototype.processSeriesDataItem = function (dataItem, axisLetter) {
+        var series = dataItem.component;
+        var time;
+        var date = dataItem["date" + axisLetter];
+        if (date) {
+            time = date.getTime();
+        }
+        else {
+            return;
+        }
+        var openDate = dataItem["openDate" + axisLetter];
+        var prevSeriesTime = this._prevSeriesTime;
+        var openTime;
+        if (openDate) {
+            openTime = openDate.getTime();
+        }
+        if ($type.isNumber(openTime)) {
+            var difference = Math.abs(time - openTime);
+            if (this._minSeriesDifference > difference) {
+                this._minSeriesDifference = difference;
             }
-            sameItemTime = time;
-            var differece = time - prevSeriesTime;
-            if (differece > 0) {
-                if (_this._minSeriesDifference > differece) {
-                    _this._minSeriesDifference = differece;
-                }
+        }
+        var differece = time - prevSeriesTime;
+        if (differece > 0) {
+            if (this._minSeriesDifference > differece) {
+                this._minSeriesDifference = differece;
             }
-            _this._prevSeriesTime.setKey(key, time);
-        });
+        }
+        this._prevSeriesTime = time;
     };
     /**
      * [updateAxisBySeries description]
@@ -1146,7 +1135,7 @@ var DateAxis = /** @class */ (function (_super) {
          * @return {string} Date format
          */
         get: function () {
-            return this._tooltipDateFormat;
+            return this.getPropertyValue("tooltipDateFormat");
         },
         /**
          * A special date format to apply axis tooltips.
@@ -1156,9 +1145,7 @@ var DateAxis = /** @class */ (function (_super) {
          * @param {string}  value  Date format
          */
         set: function (value) {
-            if (this._tooltipDateFormat != value) {
-                this._tooltipDateFormat = value;
-            }
+            this.setPropertyValue("tooltipDateFormat", value);
         },
         enumerable: true,
         configurable: true
@@ -1168,7 +1155,7 @@ var DateAxis = /** @class */ (function (_super) {
          * @return {boolean} Use different format for period beginning?
          */
         get: function () {
-            return this._markUnitChange;
+            return this.getPropertyValue("markUnitChange");
         },
         /**
          * Use `changeDateFormats` to apply different formats to the first label in
@@ -1178,8 +1165,7 @@ var DateAxis = /** @class */ (function (_super) {
          * @param {boolean}  value  Use different format for period beginning?
          */
         set: function (value) {
-            if (this._markUnitChange != value) {
-                this._markUnitChange = value;
+            if (this.setPropertyValue("markUnitChange", value)) {
                 this.invalidateData();
             }
         },
@@ -1289,6 +1275,9 @@ var DateAxis = /** @class */ (function (_super) {
                     break;
                 }
                 leftCount++;
+                if (leftCount > 5000) {
+                    break;
+                }
             }
             var rightCount = 0;
             var rightDataItem = void 0;
@@ -1300,6 +1289,9 @@ var DateAxis = /** @class */ (function (_super) {
                     break;
                 }
                 rightCount++;
+                if (rightCount > 5000) {
+                    break;
+                }
             }
             if (leftDataItem && !rightDataItem) {
                 return leftDataItem;
@@ -1387,6 +1379,17 @@ var DateAxis = /** @class */ (function (_super) {
      */
     DateAxis.prototype.asIs = function (field) {
         return field == "baseInterval" || _super.prototype.asIs.call(this, field);
+    };
+    /**
+     * Copies all properties and related data from a different instance of Axis.
+     *
+     * @param {this} source Source Axis
+     */
+    DateAxis.prototype.copyFrom = function (source) {
+        _super.prototype.copyFrom.call(this, source);
+        this.dateFormats = source.dateFormats;
+        this.periodChangeDateFormats = source.periodChangeDateFormats;
+        this.baseInterval = source.baseInterval;
     };
     return DateAxis;
 }(ValueAxis));

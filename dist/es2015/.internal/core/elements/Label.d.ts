@@ -105,6 +105,8 @@ export interface ITextLineInfo {
      * @type {boolean}
      */
     "complex"?: boolean;
+    "text"?: string;
+    "style"?: string;
 }
 /**
  * Defines events for [[Text]].
@@ -238,6 +240,11 @@ export declare class Label extends Container {
      * Hard invalidate means the text will be redrawn even if it hasn't changed. This is used when we change fontSize of fontFamily or for some other reasons.
      */
     hardInvalidate(): void;
+    /**
+     * Gets line bbox, uses caching to save cpu
+     * @ignore
+     */
+    protected getLineBBox(lineInfo: ITextLineInfo): void;
     /**
      * Draws the textual label.
      *

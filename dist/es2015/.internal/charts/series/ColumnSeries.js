@@ -451,6 +451,10 @@ var ColumnSeries = /** @class */ (function (_super) {
             column.height = h;
             column.x = x;
             column.y = y;
+            column.realX = l;
+            column.realY = t;
+            column.realWidth = r - l;
+            column.realHeight = b - t;
             column.parent = this.columnsContainer;
             column.virtualParent = this;
             this.setColumnStates(column);

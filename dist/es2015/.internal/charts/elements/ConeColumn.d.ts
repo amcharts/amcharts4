@@ -67,8 +67,8 @@ export declare class ConeColumn extends Column {
      */
     _events: IConeColumnEvents;
     /**
-     * Radar column element
-     * @type {Slice}
+     * Cone column element
+     * @type {Cone}
      */
     coneColumn: Cone;
     /**

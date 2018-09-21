@@ -134,12 +134,6 @@ var ValueAxis = /** @class */ (function (_super) {
          */
         _this._stepDecimalPlaces = 0;
         /**
-         * Should axis scale explicitly start and `min` and `max`?
-         *
-         * @type {boolean}
-         */
-        _this._strictMinMax = false;
-        /**
          * Base value for the axis.
          *
          * @type {number}
@@ -205,8 +199,11 @@ var ValueAxis = /** @class */ (function (_super) {
         // Set field name
         _this.axisFieldName = "value";
         // Set defaults
-        _this.maxZoomFactor = 1000;
-        _this.maxPrecision = Number.MAX_VALUE;
+        _this.setPropertyValue("maxZoomFactor", 1000);
+        _this.setPropertyValue("extraMin", 0);
+        _this.setPropertyValue("extraMax", 0);
+        _this.setPropertyValue("strictMinMax", false);
+        _this.setPropertyValue("maxPrecision", Number.MAX_VALUE);
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -873,6 +870,8 @@ var ValueAxis = /** @class */ (function (_super) {
             min -= 1;
             max += 1;
         }
+        min -= (max - min) * this.extraMin;
+        max += (max - min) * this.extraMax;
         var minMaxStep = this.adjustMinMax(min, max, dif, this._gridCount, this.strictMinMax);
         min = minMaxStep.min;
         max = minMaxStep.max;
@@ -1091,7 +1090,11 @@ var ValueAxis = /** @class */ (function (_super) {
          * @return {number} Min value
          */
         get: function () {
-            return this._minAdjusted;
+            var min = this._minAdjusted;
+            if (!$type.isNumber(min)) {
+                min = this._minDefined;
+            }
+            return min;
         },
         /**
          * A minimum value for the axis scale.
@@ -1108,6 +1111,44 @@ var ValueAxis = /** @class */ (function (_super) {
             this._minDefined = value;
             //this.getMinMax();
             this.invalidateDataItems();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ValueAxis.prototype, "extraMin", {
+        /**
+         * @return {number}
+         */
+        get: function () {
+            return this.getPropertyValue("extraMin");
+        },
+        /**
+         *
+         * @param {number}
+         */
+        set: function (value) {
+            if (this.setPropertyValue("extraMin", value)) {
+                this.invalidateDataItems();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ValueAxis.prototype, "extraMax", {
+        /**
+         * @return {number} Min multiplier
+         */
+        get: function () {
+            return this.getPropertyValue("extraMax");
+        },
+        /**
+        *
+        * @param {number}
+        */
+        set: function (value) {
+            if (this.setPropertyValue("extraMax", value)) {
+                this.invalidateDataItems();
+            }
         },
         enumerable: true,
         configurable: true
@@ -1133,7 +1174,11 @@ var ValueAxis = /** @class */ (function (_super) {
          * @return {number} Max value
          */
         get: function () {
-            return this._maxAdjusted;
+            var max = this._maxAdjusted;
+            if (!$type.isNumber(max)) {
+                max = this._maxDefined;
+            }
+            return max;
         },
         /**
          * A maximum value for the axis scale.
@@ -1185,10 +1230,7 @@ var ValueAxis = /** @class */ (function (_super) {
         var selectionMax;
         var allHidden = true;
         $iter.each(this.series.iterator(), function (series) {
-            if (series.interpolationDuration > 0 && !series.appeared) {
-                // void
-            }
-            else if (!series.ignoreMinMax) {
+            if (!series.ignoreMinMax) {
                 if (series.visible && !series.isHiding) {
                     allHidden = false;
                 }
@@ -1205,6 +1247,11 @@ var ValueAxis = /** @class */ (function (_super) {
                         selectionMax = seriesSelectionMax;
                     }
                 }
+            }
+        });
+        $iter.each(this.series.iterator(), function (series) {
+            if (!series.appeared) {
+                allHidden = true;
             }
         });
         if ($type.isNumber(this._minDefined)) {
@@ -1227,6 +1274,8 @@ var ValueAxis = /** @class */ (function (_super) {
         var minMaxStep = this.adjustMinMax(selectionMin, selectionMax, dif, this._gridCount);
         selectionMin = $math.fitToRange(minMaxStep.min, this.min, this.max);
         selectionMax = $math.fitToRange(minMaxStep.max, this.min, this.max);
+        selectionMin -= (selectionMax - selectionMin) * this.extraMin;
+        selectionMax += (selectionMax - selectionMin) * this.extraMax;
         // do it for the second time !important
         dif = this.adjustDifference(selectionMin, selectionMax);
         minMaxStep = this.adjustMinMax(selectionMin, selectionMax, dif, this._gridCount, true);
@@ -1525,6 +1574,17 @@ var ValueAxis = /** @class */ (function (_super) {
      */
     ValueAxis.prototype.showTooltipAt = function (value) {
         this.showTooltipAtPosition(this.valueToPosition(value));
+    };
+    /**
+     * Copies all properties and related data from a different instance of Axis.
+     *
+     * @param {this} source Source Axis
+     */
+    ValueAxis.prototype.copyFrom = function (source) {
+        _super.prototype.copyFrom.call(this, source);
+        this.min = source.min;
+        this.max = source.max;
+        this._baseValue = source.baseValue;
     };
     return ValueAxis;
 }(Axis));

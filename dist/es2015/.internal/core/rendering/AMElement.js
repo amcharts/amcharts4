@@ -302,8 +302,9 @@ var AMElement = /** @class */ (function () {
                 this.node.removeAttribute(attributeName);
             }
             else {
+                // this is for performance testing
                 //if((<any>attributes)[attributeName] == this.node.getAttribute(attributeName)){
-                //console.log(attributeName, (<any>attributes)[attributeName])
+                //	console.log(attributeName, (<any>attributes)[attributeName])
                 //}
                 this.node.setAttribute(attributeName, attributes[attributeName]);
             }

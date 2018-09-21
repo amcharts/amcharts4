@@ -217,16 +217,21 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      * @ignore Exclude from docs
      * @param {string}  key    Key
      * @param {any}     value  Value
+     * @param {number}  ttl    TTL in seconds
      */
     setCache(key: string, value: any, ttl?: number): void;
     /**
      * Retrieves cached value.
      *
+     * If optional second padarameter is specified, it will return that value
+     * if cache is not available or is expired.
+     *
      * @ignore Exclude from docs
-     * @param  {string}  key  Key
-     * @return {any}          Value
+     * @param  {string}  key    Key
+     * @param  {any}     value  Value to return if cache is not available
+     * @return {any}            Value
      */
-    getCache(key: string): any;
+    getCache(key: string, value?: any): any;
     /**
      * Clears object's local cache.
      *

@@ -241,7 +241,7 @@ export declare class Container extends Sprite {
     setStateOnChildren: boolean;
     /**
      * An array of references to elements the state should be set, when it is set
-     * ont this element.
+     * on this element.
      *
      * @type {Sprite[]}
      */
@@ -249,6 +249,24 @@ export declare class Container extends Sprite {
     layoutInvalid: boolean;
     protected _absoluteWidth: number;
     protected _absoluteHeight: number;
+    /**
+     * Width (in pixels) of the actual content in the Container.
+     *
+     * Please note that it might be bigger than width of the Container.
+     *
+     * @readonly
+     * @type {number}
+     */
+    contentWidth: number;
+    /**
+     * Height (in pixels) of the actual content in the Container.
+     *
+     * Please note that it might be bigger than height of the Container.
+     *
+     * @readonly
+     * @type {number}
+     */
+    contentHeight: number;
     /**
      * Constructor
      */
@@ -383,9 +401,8 @@ export declare class Container extends Sprite {
      * Adds all children to Container's SVG element.
      *
      * @ignore Exclude from docs
-     * @todo Make it protected?
      */
-    addChildren(): void;
+    protected addChildren(): void;
     /**
      * Creates a new element of specific type and assigns as a child to the
      * Container.

@@ -11,6 +11,7 @@ import { Container, IContainerProperties, IContainerAdapters, IContainerEvents }
 import { Sprite } from "../Sprite";
 import { Percent } from "../utils/Percent";
 import { IRectangle } from "../defs/IRectangle";
+import { RadialGradient } from "../rendering/fills/RadialGradient";
 /**
  * ============================================================================
  * REQUISITES
@@ -141,6 +142,7 @@ export declare class Slice extends Container {
      * @ignore Exclude from docs
      */
     draw(): void;
+    protected updateGradient(gradient: RadialGradient): void;
     protected getContainerBBox(): IRectangle;
     /**
      * @return {number} Angle (0-360)

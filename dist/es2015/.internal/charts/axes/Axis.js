@@ -979,7 +979,7 @@ var Axis = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      * @param {XYSeriesDataItem} dataItem Data item
      */
-    Axis.prototype.processSeriesDataItem = function (dataItem) {
+    Axis.prototype.processSeriesDataItem = function (dataItem, axisLetter) {
     };
     /**
      * Post-processes Serie's data items.

@@ -10,6 +10,7 @@ export { XYChartDataItem, IXYChartDataFields, IXYChartProperties, IXYChartEvents
 export { SerialChartDataItem, ISerialChartDataFields, ISerialChartProperties, ISerialChartEvents, ISerialChartAdapters, SerialChart } from "./.internal/charts/types/SerialChart";
 export { PieChart3DDataItem, IPieChart3DDataFields, IPieChart3DProperties, IPieChart3DEvents, IPieChart3DAdapters, PieChart3D } from "./.internal/charts/types/PieChart3D";
 export { PieChartDataItem, IPieChartDataFields, IPieChartProperties, IPieChartEvents, IPieChartAdapters, PieChart } from "./.internal/charts/types/PieChart";
+export { FunnelChart, FunnelChartDataItem, IFunnelChartAdapters, IFunnelChartDataFields, IFunnelChartEvents, IFunnelChartProperties } from "./.internal/charts/types/FunnelChart";
 export { FlowDiagramDataItem, IFlowDiagramDataFields, IFlowDiagramProperties, IFlowDiagramEvents, IFlowDiagramAdapters, FlowDiagram } from "./.internal/charts/types/FlowDiagram";
 export { SankeyDiagramDataItem, ISankeyDiagramDataFields, ISankeyDiagramProperties, ISankeyDiagramEvents, ISankeyDiagramAdapters, SankeyDiagram } from "./.internal/charts/types/SankeyDiagram";
 export { ChordDiagramDataItem, IChordDiagramDataFields, IChordDiagramProperties, IChordDiagramEvents, IChordDiagramAdapters, ChordDiagram } from "./.internal/charts/types/ChordDiagram";
@@ -35,11 +36,15 @@ export { StepLineSeriesDataItem, IStepLineSeriesDataFields, IStepLineSeriesPrope
 export { RadarSeriesDataItem, IRadarSeriesDataFields, IRadarSeriesProperties, IRadarSeriesEvents, IRadarSeriesAdapters, RadarSeries } from "./.internal/charts/series/RadarSeries";
 export { RadarColumnSeriesDataItem, IRadarColumnSeriesDataFields, IRadarColumnSeriesProperties, IRadarColumnSeriesEvents, IRadarColumnSeriesAdapters, RadarColumnSeries } from "./.internal/charts/series/RadarColumnSeries";
 export { PieSeriesDataItem, IPieSeriesDataFields, IPieSeriesProperties, IPieSeriesEvents, IPieSeriesAdapters, PieSeries } from "./.internal/charts/series/PieSeries";
-export { IPieTickProperties, IPieTickEvents, IPieTickAdapters, PieTick } from "./.internal/charts/series/PieTick";
+export { FunnelSeries, FunnelSeriesDataItem, IFunnelSeriesAdapters, IFunnelSeriesDataFields, IFunnelSeriesEvents, IFunnelSeriesProperties } from "./.internal/charts/series/FunnelSeries";
+export { IPyramidSeriesAdapters, IPyramidSeriesDataFields, IPyramidSeriesEvents, IPyramidSeriesProperties, PyramidSeries, PyramidSeriesDataItem } from "./.internal/charts/series/PyramidSeries";
+export { IPieTickProperties, IPieTickEvents, IPieTickAdapters, PieTick } from "./.internal/charts/elements/PieTick";
+export { FunnelSlice, IFunnelSliceAdapters, IFunnelSliceEvents, IFunnelSliceProperties } from "./.internal/charts/elements/FunnelSlice";
 export { IPieSeries3DProperties, IPieSeries3DDataFields, PieSeries3DDataItem, IPieSeries3DEvents, IPieSeries3DAdapters, PieSeries3D } from "./.internal/charts/series/PieSeries3D";
 export { TreeMapSeriesDataItem, ITreeMapSeriesDataFields, ITreeMapSeriesProperties, ITreeMapSeriesEvents, ITreeMapSeriesAdapters, TreeMapSeries } from "./.internal/charts/series/TreeMapSeries";
 export { ColumnSeries3DDataItem, IColumnSeries3DDataFields, IColumnSeries3DProperties, IColumnSeries3DEvents, IColumnSeries3DAdapters, ColumnSeries3D } from "./.internal/charts/series/ColumnSeries3D";
 export { ConeSeriesDataItem, IConeSeriesDataFields, IConeSeriesProperties, IConeSeriesEvents, IConeSeriesAdapters, ConeSeries } from "./.internal/charts/series/ConeSeries";
+export { CurvedColumnSeries, CurvedColumnSeriesDataItem, ICurvedColumnSeriesAdapters, ICurvedColumnSeriesDataFields, ICurvedColumnSeriesProperties, ICurvedColumnSeriesEvents } from "./.internal/charts/series/CurvedColumnSeries";
 /**
  * Elements: axes
  */
@@ -55,6 +60,7 @@ export { ValueAxisDataItem, IMinMaxStep, IValueAxisDataFields, IValueAxisPropert
 export { CategoryAxisDataItem, ICategoryAxisDataFields, ICategoryAxisProperties, ICategoryAxisEvents, ICategoryAxisAdapters, CategoryAxis } from "./.internal/charts/axes/CategoryAxis";
 export { ICategoryAxisBreakProperties, ICategoryAxisBreakEvents, ICategoryAxisBreakAdapters, CategoryAxisBreak } from "./.internal/charts/axes/CategoryAxisBreak";
 export { DateAxisDataItem, IDateAxisDataFields, IDateAxisProperties, IDateAxisEvents, IDateAxisAdapters, DateAxis } from "./.internal/charts/axes/DateAxis";
+export { DurationAxisDataItem, DurationAxis, IDurationAxisAdapters, IDurationAxisDataFields, IDurationAxisEvents, IDurationAxisProperties } from "./.internal/charts/axes/DurationAxis";
 export { IDateAxisBreakProperties, IDateAxisBreakEvents, IDateAxisBreakAdapters, DateAxisBreak } from "./.internal/charts/axes/DateAxisBreak";
 export { IValueAxisBreakProperties, IValueAxisBreakEvents, IValueAxisBreakAdapters, ValueAxisBreak } from "./.internal/charts/axes/ValueAxisBreak";
 export { IAxisRendererXProperties, IAxisRendererXEvents, IAxisRendererXAdapters, AxisRendererX } from "./.internal/charts/axes/AxisRendererX";
@@ -88,6 +94,7 @@ export { OHLC, IOHLCAdapters, IOHLCEvents, IOHLCProperties } from "./.internal/c
 export { RadarColumn, IRadarColumnAdapters, IRadarColumnEvents, IRadarColumnProperties } from "./.internal/charts/elements/RadarColumn";
 export { Column3D, IColumn3DAdapters, IColumn3DEvents, IColumn3DProperties } from "./.internal/charts/elements/Column3D";
 export { ConeColumn, IConeColumnAdapters, IConeColumnEvents, IConeColumnProperties } from "./.internal/charts/elements/ConeColumn";
+export { CurvedColumn, ICurvedColumnAdapters, ICurvedColumnEvents, ICurvedColumnProperties } from "./.internal/charts/elements/CurvedColumn";
 /**
  * Elements: cursors
  */

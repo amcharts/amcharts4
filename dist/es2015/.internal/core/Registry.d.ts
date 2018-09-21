@@ -194,16 +194,18 @@ export declare class Registry {
      * @ignore Exclude from docs
      * @param {string}  key    Key
      * @param {any}     value  Value
+     * @param {number}  ttl    TTL in seconds
      */
-    setCache(key: string, value: any): void;
+    setCache(key: string, value: any, ttl?: number): void;
     /**
      * Retrieves cached value.
      *
      * @ignore Exclude from docs
-     * @param  {string}  key  Key
-     * @return {any}          Value
+     * @param  {string}  key    Key
+     * @param  {any}     value  Value to return if cache is not available
+     * @return {any}            Value
      */
-    getCache(key: string): any;
+    getCache(key: string, value?: any): any;
     /**
      * Dispatches an event using own event dispatcher. Will automatically
      * populate event data object with event type and target (this element).

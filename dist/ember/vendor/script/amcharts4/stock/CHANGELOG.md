@@ -5,6 +5,30 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.52] - 2018-09-21
+
+### Added
+- `CurvedColumnSeries` added. Allows having columns as curves or as triangles. Check `curved-column-chart` and `triangle-column-chart` in examples folder.
+- `RadialGradientModifier` class added. Allows building more donut-like pie charts. Check `semi-circle-donut-chart` in examples.
+- New chart type: `FunnelChart`, which can show regular FunnelSeries and PyramidSeries.
+- New axis type: `DurationAxis`. Values on it are treated and formatted like time durations.
+- `extraMin` and `extraMax` properties added to `ValueAxis`. Can be used to relatively adjust calculated minimum and maximum scale values.
+- Two new read-only properties added to `Container`: `contentWidth` and `contentHeight`. Will hold width/height in pixels of the actual dimensions of elements in Container.
+
+### Changed
+- `DurationFormatter` now uses `TimeUnit` for its `baseUnit`, rather than arbitrary codes.
+- `durationFormat` property was removed from `DurationFormatter`. Use [`getFormat()`](https://www.amcharts.com/docs/v4/reference/durationformatter/#getFormat_method) method to get correct format instead, then pass in to `format()`.
+- Series will not show a tooltip (if one axis is `CategoryAxis`) if there is no value for this category (used to show tooltip if it had some extra text).
+
+### Fixed
+- Legend `valueLabel` values were not shown on chart initial render.
+- 3D pie slices were not showing full stroke, only on the upper part of a slice.
+- Sometimes `XYChart` did some additional animation even after all series finished animating, causing zoom-out flashing briefly.
+- `XYChartScrollbar` was not showing series if data to the original series was added later (or changed).
+- Chrome was not showing line series in `XYChartScrollbar` if all values were equal.
+- Creating an empty line (without `multiGeoLine` set) was resulting in critical error.
+
+
 ## [4.0.0-beta.51] - 2018-09-13
 
 ### Changed

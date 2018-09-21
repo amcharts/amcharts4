@@ -98,6 +98,7 @@ export { SVGContainer } from "./.internal/core/rendering/SVGContainer";
 export { ColorModifier } from "./.internal/core/rendering/fills/ColorModifier";
 export { LinearGradient } from "./.internal/core/rendering/fills/LinearGradient";
 export { LinearGradientModifier } from "./.internal/core/rendering/fills/LinearGradientModifier";
+export { RadialGradientModifier } from "./.internal/core/rendering/fills/RadialGradientModifier";
 export { LinePattern } from "./.internal/core/rendering/fills/LinePattern";
 export { Pattern } from "./.internal/core/rendering/fills/Pattern";
 export { RadialGradient } from "./.internal/core/rendering/fills/RadialGradient";

@@ -166,16 +166,16 @@ var Cone = /** @class */ (function (_super) {
     });
     Object.defineProperty(Cone.prototype, "orientation", {
         /**
-         * @type {"horizontal" | "vertical"} Orientation
+         * @type {Orientation} Orientation
          */
         get: function () {
             return this.getPropertyValue("orientation");
         },
         /**
-         * Orientation of the cone: "horizontal" or "vertical".
+         * Orientation of the cone
          *
          * @default "vertical"
-         * @param {"horizontal" | "vertical"}  value  Orientation
+         * @param {Orientation}  value  Orientation
          */
         set: function (value) {
             this.setPropertyValue("orientation", value, true);

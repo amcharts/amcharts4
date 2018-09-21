@@ -75,7 +75,7 @@ var Container = /** @class */ (function (_super) {
         _this.setStateOnChildren = false;
         /**
          * An array of references to elements the state should be set, when it is set
-         * ont this element.
+         * on this element.
          *
          * @type {Sprite[]}
          */
@@ -459,10 +459,8 @@ var Container = /** @class */ (function (_super) {
      * Adds all children to Container's SVG element.
      *
      * @ignore Exclude from docs
-     * @todo Make it protected?
      */
     Container.prototype.addChildren = function () {
-        var _this = this;
         /*
           Need this check because a child might be assigned to parent even before element is created, for example a theme
           access scrollbar.thumb
@@ -473,10 +471,10 @@ var Container = /** @class */ (function (_super) {
             zindexed.sort(function (a, b) {
                 return (a.zIndex || 0) - (b.zIndex || 0);
             });
+            var group_1 = this.element;
             $array.each(zindexed, function (child) {
                 if (child.group) {
-                    var group = _this.element;
-                    group.add(child.group);
+                    group_1.add(child.group);
                 }
             });
         }
@@ -1103,6 +1101,8 @@ var Container = /** @class */ (function (_super) {
             //}
             measuredWidth = $math.max(measuredWidth, this.minWidth);
             measuredHeight = $math.max(measuredHeight, this.minHeight);
+            this.contentWidth = measuredWidth;
+            this.contentHeight = measuredHeight;
             // new
             measuredWidth = $math.min(measuredWidth, this.maxWidth);
             measuredHeight = $math.min(measuredHeight, this.maxHeight);

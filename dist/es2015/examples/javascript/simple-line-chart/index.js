@@ -31,7 +31,7 @@ let series = chart.series.push(new am4charts.LineSeries());
 series.dataFields.dateX = "date";
 series.dataFields.valueY = "value";
 
-series.tooltipText = "{valueY.value}";
+//series.tooltipText = "bue";
 chart.cursor = new am4charts.XYCursor();
 
 let scrollbarX = new am4charts.XYChartScrollbar();

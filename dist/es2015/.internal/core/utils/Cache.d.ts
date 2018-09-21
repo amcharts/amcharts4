@@ -42,9 +42,10 @@ export declare class Cache<A> {
      *
      * @param  {string}  owner  An id of the object that owns this cache
      * @param  {string}  key    Index key
+     * @param  {string}  value  Value to return if cache not available
      * @return {A}              Value, or `undefined` if not set
      */
-    get(owner: string, key: string): $type.Optional<A>;
+    get(owner: string, key: string, value?: any): $type.Optional<A>;
     /**
      * Clears cache for specific owner or everything.
      *

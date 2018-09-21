@@ -47,7 +47,7 @@ var Slice3D = /** @class */ (function (_super) {
         lightenFilter.lightness = -0.25;
         edge.filters.push(lightenFilter);
         edge.toBack();
-        edge.strokeOpacity = 0;
+        //edge.strokeOpacity = 0;
         _this._disposers.push(edge);
         // Set defaults
         _this.angle = 30;
@@ -61,7 +61,7 @@ var Slice3D = /** @class */ (function (_super) {
         var lightenFilterA = new LightenFilter();
         lightenFilterA.lightness = -0.25;
         sideA.filters.push(lightenFilterA);
-        sideA.strokeOpacity = 0;
+        //sideA.strokeOpacity = 0;
         _this._disposers.push(sideA);
         // Crate side B element
         var sideB = _this.createChild(Sprite);
@@ -73,7 +73,7 @@ var Slice3D = /** @class */ (function (_super) {
         lightenFilterB.lightness = -0.25;
         sideB.filters.push(lightenFilterB);
         _this._disposers.push(sideB);
-        sideB.strokeOpacity = 0;
+        //sideB.strokeOpacity = 0;
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -190,10 +190,7 @@ var Slice3D = /** @class */ (function (_super) {
         set: function (depth) {
             if (this.setPropertyValue("depth", depth, true)) {
                 this.edge.removeChildren();
-                var d = 10;
-                if (this.cornerRadius > 2) {
-                    d = 5;
-                }
+                var d = 3;
                 if (depth > 0) {
                     var count = Math.ceil(this.depth / d);
                     var step = depth / count;
@@ -233,6 +230,9 @@ var Slice3D = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(Slice3D.prototype, "radiusY", {
+        /**
+         * @return {number} Vertical radius (0-1)
+         */
         get: function () {
             var radiusY = this.getPropertyValue("radiusY");
             if (!$type.isNumber(radiusY)) {
@@ -240,12 +240,31 @@ var Slice3D = /** @class */ (function (_super) {
             }
             return radiusY;
         },
+        /**
+         * Vertical radius for creating skewed slices.
+         *
+         * This is relevant to `radius`, e.g. 0.5 will set vertical radius to half
+         * the `radius`.
+         *
+         * @param {number} value Vertical radius (0-1)
+         */
         set: function (value) {
             this.setPropertyValue("radiusY", value, true);
         },
         enumerable: true,
         configurable: true
     });
+    /**
+     * Copies all properties and related data from a different instance of Axis.
+     *
+     * @param {this} source Source Axis
+     */
+    Slice3D.prototype.copyFrom = function (source) {
+        _super.prototype.copyFrom.call(this, source);
+        this.edge.copyFrom(source.edge);
+        this.sideA.copyFrom(source.sideA);
+        this.sideB.copyFrom(source.sideB);
+    };
     return Slice3D;
 }(Slice));
 export { Slice3D };

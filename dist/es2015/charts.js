@@ -10,6 +10,7 @@ export { XYChartDataItem, XYChart } from "./.internal/charts/types/XYChart";
 export { SerialChartDataItem, SerialChart } from "./.internal/charts/types/SerialChart";
 export { PieChart3DDataItem, PieChart3D } from "./.internal/charts/types/PieChart3D";
 export { PieChartDataItem, PieChart } from "./.internal/charts/types/PieChart";
+export { FunnelChart, FunnelChartDataItem } from "./.internal/charts/types/FunnelChart";
 export { FlowDiagramDataItem, FlowDiagram } from "./.internal/charts/types/FlowDiagram";
 export { SankeyDiagramDataItem, SankeyDiagram } from "./.internal/charts/types/SankeyDiagram";
 export { ChordDiagramDataItem, ChordDiagram } from "./.internal/charts/types/ChordDiagram";
@@ -35,11 +36,15 @@ export { StepLineSeriesDataItem, StepLineSeries } from "./.internal/charts/serie
 export { RadarSeriesDataItem, RadarSeries } from "./.internal/charts/series/RadarSeries";
 export { RadarColumnSeriesDataItem, RadarColumnSeries } from "./.internal/charts/series/RadarColumnSeries";
 export { PieSeriesDataItem, PieSeries } from "./.internal/charts/series/PieSeries";
-export { PieTick } from "./.internal/charts/series/PieTick";
+export { FunnelSeries, FunnelSeriesDataItem } from "./.internal/charts/series/FunnelSeries";
+export { PyramidSeries, PyramidSeriesDataItem } from "./.internal/charts/series/PyramidSeries";
+export { PieTick } from "./.internal/charts/elements/PieTick";
+export { FunnelSlice } from "./.internal/charts/elements/FunnelSlice";
 export { PieSeries3DDataItem, PieSeries3D } from "./.internal/charts/series/PieSeries3D";
 export { TreeMapSeriesDataItem, TreeMapSeries } from "./.internal/charts/series/TreeMapSeries";
 export { ColumnSeries3DDataItem, ColumnSeries3D } from "./.internal/charts/series/ColumnSeries3D";
 export { ConeSeriesDataItem, ConeSeries } from "./.internal/charts/series/ConeSeries";
+export { CurvedColumnSeries, CurvedColumnSeriesDataItem } from "./.internal/charts/series/CurvedColumnSeries";
 /**
  * Elements: axes
  */
@@ -55,6 +60,7 @@ export { ValueAxisDataItem, ValueAxis } from "./.internal/charts/axes/ValueAxis"
 export { CategoryAxisDataItem, CategoryAxis } from "./.internal/charts/axes/CategoryAxis";
 export { CategoryAxisBreak } from "./.internal/charts/axes/CategoryAxisBreak";
 export { DateAxisDataItem, DateAxis } from "./.internal/charts/axes/DateAxis";
+export { DurationAxisDataItem, DurationAxis } from "./.internal/charts/axes/DurationAxis";
 export { DateAxisBreak } from "./.internal/charts/axes/DateAxisBreak";
 export { ValueAxisBreak } from "./.internal/charts/axes/ValueAxisBreak";
 export { AxisRendererX } from "./.internal/charts/axes/AxisRendererX";
@@ -88,6 +94,7 @@ export { OHLC } from "./.internal/charts/elements/OHLC";
 export { RadarColumn } from "./.internal/charts/elements/RadarColumn";
 export { Column3D } from "./.internal/charts/elements/Column3D";
 export { ConeColumn } from "./.internal/charts/elements/ConeColumn";
+export { CurvedColumn } from "./.internal/charts/elements/CurvedColumn";
 /**
  * Elements: cursors
  */

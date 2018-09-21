@@ -1,13 +1,5 @@
-/**
- * ============================================================================
- * IMPORTS
- * ============================================================================
- * @hidden
- */
-import { ColorModifier } from "./ColorModifier";
 import { LinearGradient } from "./LinearGradient";
-import { RadialGradient } from "./RadialGradient";
-import { Color } from "../../utils/Color";
+import { GradientModifier } from "./GradientModifier";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -49,7 +41,7 @@ import { Color } from "../../utils/Color";
  * }]
  * ```
  */
-export declare class LinearGradientModifier extends ColorModifier {
+export declare class LinearGradientModifier extends GradientModifier {
     /**
      * A reference to the gradient instance that this modifier is used for.
      *
@@ -57,80 +49,7 @@ export declare class LinearGradientModifier extends ColorModifier {
      */
     gradient: LinearGradient;
     /**
-     * An array of lightness values for each step.
-     *
-     * @type {number[]}
-     */
-    protected _lightnesses: number[];
-    /**
-     * An array of brightness values for each step.
-     *
-     * @type {number[]}
-     */
-    protected _brightnesses: number[];
-    /**
-     * An array of opacity values for each step.
-     *
-     * @type {number[]}
-     */
-    protected _opacities: number[];
-    /**
-     * An array of relative position (0-1) for each step.
-     *
-     * If not set, all steps will be of equal relative length.
-     *
-     * @type {number[]}
-     */
-    protected _offsets: number[];
-    /**
      * Constructor.
      */
     constructor();
-    /**
-     * @return {number[]} Lightness values
-     */
-    /**
-     * An array of lightness values for each step.
-     *
-     * @param {number[]}  value  Lightness values
-     */
-    lightnesses: number[];
-    /**
-     * @return {number[]} Brightness values
-     */
-    /**
-     * An array of brightness values for each step.
-     *
-     * @param {number[]}  value  Brightness values
-     */
-    brightnesses: number[];
-    /**
-     * @return {number[]} Opacity values
-     */
-    /**
-     * An array of opacity values for each step.
-     *
-     * @param {number[]}  value  Opacity values
-     */
-    opacities: number[];
-    /**
-     * @return {number[]} Offsets
-     */
-    /**
-     * An array of relative position (0-1) for each step.
-     *
-     * If not set, all steps will be of equal relative length.
-     *
-     * @param {number[]}  value  Offsets
-     */
-    offsets: number[];
-    /**
-     * Modifies the color based on step setting.
-     *
-     * @ignore Exclude from docs
-     * @param  {Color}  value  Source color
-     * @return {Color}         A gradient that matches set modification rules
-     */
-    modify(value: Color): Color | LinearGradient | RadialGradient;
-    copyFrom(source: this): void;
 }

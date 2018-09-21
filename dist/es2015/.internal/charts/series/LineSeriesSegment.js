@@ -73,7 +73,8 @@ var LineSeriesSegment = /** @class */ (function (_super) {
     LineSeriesSegment.prototype.drawSegment = function (points, closePoints, smoothnessX, smoothnessY) {
         if (!this.disabled) {
             if (points.length > 0 && closePoints.length > 0) {
-                var path = $path.moveTo(points[0]) + new $smoothing.Tension(smoothnessX, smoothnessY).smooth(points);
+                // first moveTo helps to avoid Chrome straight line in the mask bug.
+                var path = $path.moveTo({ x: points[0].x - 0.2, y: points[0].y - 0.2 }) + $path.moveTo(points[0]) + new $smoothing.Tension(smoothnessX, smoothnessY).smooth(points);
                 if (this.strokeOpacity == 0 || this.strokeSprite.strokeOpacity == 0) {
                     // like this and not if != 0, otherwise ranges stroke won't be drawn.
                 }

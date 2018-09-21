@@ -240,8 +240,12 @@ var TextFormatter = /** @class */ (function (_super) {
      * @todo Implement actual translation
      */
     TextFormatter.prototype.translateStyleShortcuts = function (style) {
-        if (style == "[ ]") {
+        if (style == "" || style == "[ ]") {
             return "";
+        }
+        var cached = registry.getCache("translateStyleShortcuts_" + style);
+        if (cached) {
+            return cached;
         }
         // Get style parts
         var b = style.match(/([\w\-]*:[\s]?[^;\s\]]*)|(\#[\w]{1,6})|([\w]+)|(\/)/gi);
@@ -265,7 +269,9 @@ var TextFormatter = /** @class */ (function (_super) {
                 b[i] = "fill:" + b[i];
             }
         }
-        return b.join(';');
+        var res = b.join(';');
+        registry.setCache("translateStyleShortcuts_" + style, res);
+        return res;
     };
     /**
      * Splits string into chunks. (style blocks, quoted blocks, regular blocks)

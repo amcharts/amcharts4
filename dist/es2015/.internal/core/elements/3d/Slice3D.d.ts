@@ -123,5 +123,22 @@ export declare class Slice3D extends Slice {
      * @param {number}  value  Angle
      */
     angle: number;
+    /**
+     * @return {number} Vertical radius (0-1)
+     */
+    /**
+     * Vertical radius for creating skewed slices.
+     *
+     * This is relevant to `radius`, e.g. 0.5 will set vertical radius to half
+     * the `radius`.
+     *
+     * @param {number} value Vertical radius (0-1)
+     */
     radiusY: number;
+    /**
+     * Copies all properties and related data from a different instance of Axis.
+     *
+     * @param {this} source Source Axis
+     */
+    copyFrom(source: this): void;
 }

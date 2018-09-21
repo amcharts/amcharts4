@@ -7,10 +7,9 @@
  * ============================================================================
  * @hidden
  */
-import { SerialChart, ISerialChartProperties, ISerialChartDataFields, ISerialChartAdapters, ISerialChartEvents, SerialChartDataItem } from "./SerialChart";
+import { PercentChart, IPercentChartProperties, IPercentChartDataFields, IPercentChartAdapters, IPercentChartEvents, PercentChartDataItem } from "./PercentChart";
 import { Percent } from "../../core/utils/Percent";
 import { PieSeries } from "../series/PieSeries";
-import { Legend } from "../Legend";
 /**
  * ============================================================================
  * DATA ITEM
@@ -22,7 +21,7 @@ import { Legend } from "../Legend";
  *
  * @see {@link DataItem}
  */
-export declare class PieChartDataItem extends SerialChartDataItem {
+export declare class PieChartDataItem extends PercentChartDataItem {
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
@@ -43,12 +42,12 @@ export declare class PieChartDataItem extends SerialChartDataItem {
 /**
  * Defines data fields for [[PieChart]].
  */
-export interface IPieChartDataFields extends ISerialChartDataFields {
+export interface IPieChartDataFields extends IPercentChartDataFields {
 }
 /**
  * Defines properties for [[PieChart]]
  */
-export interface IPieChartProperties extends ISerialChartProperties {
+export interface IPieChartProperties extends IPercentChartProperties {
     /**
      * Outer radius of the pie.
      *
@@ -79,14 +78,14 @@ export interface IPieChartProperties extends ISerialChartProperties {
 /**
  * Defines events for [[PieChart]].
  */
-export interface IPieChartEvents extends ISerialChartEvents {
+export interface IPieChartEvents extends IPercentChartEvents {
 }
 /**
  * Defines adapters for [[PieChart]].
  *
  * @see {@link Adapter}
  */
-export interface IPieChartAdapters extends ISerialChartAdapters, IPieChartProperties {
+export interface IPieChartAdapters extends IPercentChartAdapters, IPieChartProperties {
 }
 /**
  * ============================================================================
@@ -178,7 +177,7 @@ export interface IPieChartAdapters extends ISerialChartAdapters, IPieChartProper
  * @see {@link https://www.amcharts.com/docs/v4/chart-types/pie-chart/} for documentation
  * @important
  */
-export declare class PieChart extends SerialChart {
+export declare class PieChart extends PercentChart {
     /**
      * Defines available data fields.
      *
@@ -225,21 +224,11 @@ export declare class PieChart extends SerialChart {
      */
     validate(): void;
     /**
-     * (Re)validates chart data.
-     *
-     * @ignore Exclude from docs
-     */
-    validateData(): void;
-    /**
      * Recalculates pie's radius, based on a number of criteria.
      *
      * @ignore Exclude from docs
      */
     updateRadius(): void;
-    /**
-     * Setups the legend to use the chart's data.
-     */
-    protected feedLegend(): void;
     /**
      * @return {number} Radius (px or relative)
      */
@@ -342,8 +331,4 @@ export declare class PieChart extends SerialChart {
      * @param {number}  value  End angle (degrees)
      */
     endAngle: number;
-    /**
-     * @ignore
-     */
-    protected setLegend(legend: Legend): void;
 }

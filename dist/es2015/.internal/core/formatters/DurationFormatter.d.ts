@@ -10,6 +10,8 @@
 import { Sprite } from "../Sprite";
 import { Language } from "../utils/Language";
 import { BaseObject } from "../Base";
+import { TimeUnit } from "../defs/TimeUnit";
+import { Optional } from "../utils/Type";
 import * as $type from "../utils/Type";
 /**
  * DurationFormatter class. Formats numbers as durations.
@@ -17,9 +19,14 @@ import * as $type from "../utils/Type";
  * `1000` as `16:40`
  *
  * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-duration/} Tutorial on duration formatting
- * @todo Implement syntax to set base unit in format itself
  */
 export declare class DurationFormatter extends BaseObject {
+    /**
+     * Holds duration formats for various possible scenarios.
+     *
+     * @type {Partial<Record<TimeUnit, Partial<Record<TimeUnit, string>>>>}
+     */
+    protected _durationFormats: Partial<Record<TimeUnit, Partial<Record<TimeUnit, string>>>>;
     /**
      * A base value for negative numbers. Will treat all numbers below this value
      * as negative numbers.
@@ -28,18 +35,12 @@ export declare class DurationFormatter extends BaseObject {
      */
     protected _negativeBase: number;
     /**
-     * Holds number format.
-     *
-     * @type {string}
-     */
-    protected _durationFormat: string;
-    /**
      * A base unit to consider values are in.
      *
      * @default "s"
-     * @type {string}
+     * @type {TimeUnit}
      */
-    protected _baseUnit: string;
+    protected _baseUnit: TimeUnit;
     /**
      * Output format to produce. If the format calls for applying color to the
      * formatted value, this setting will determine what markup to use: SVG or
@@ -56,9 +57,7 @@ export declare class DurationFormatter extends BaseObject {
      *
      * @type {Object}
      */
-    protected _unitValues: {
-        [index: string]: number;
-    };
+    protected _unitValues: Record<TimeUnit, number>;
     /**
      * Collection of aliases for units.
      *
@@ -92,19 +91,19 @@ export declare class DurationFormatter extends BaseObject {
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-duration/} Tutorial on duration formatting
      * @param  {number | string}  value   Value to format
      * @param  {string}           format  Format to apply
-     * @param  {string}           base    Override base unit
+     * @param  {TimeUnit}         base    Override base unit
      * @return {string}                   Formatted number
      */
-    format(value: number | string, format?: string, base?: string): string;
+    format(value: number | string, format?: string, base?: TimeUnit): string;
     /**
      * Parses supplied format into structured object which can be used to format
      * the number.
      *
-     * @param  {string}  format  Format string, i.e. "#,###.00"
-     * @param  {string}  base    Override base unit
-     * @return {any}             Parsed information
+     * @param  {string}    format  Format string, i.e. "#,###.00"
+     * @param  {TimeUnit}  base    Override base unit
+     * @return {any}               Parsed information
      */
-    protected parseFormat(format: string, base?: string): any;
+    protected parseFormat(format: string, base?: TimeUnit): any;
     /**
      * Applies parsed format to a numeric value.
      *
@@ -116,26 +115,16 @@ export declare class DurationFormatter extends BaseObject {
     /**
      * Converts numeric value to timestamp in milliseconds.
      *
-     * @param  {number}  value     A source value
-     * @param  {string}  baseUnit  Base unit the source value is in: "q", "s", "i", "h", "d", "w", "m", "y"
-     * @return {number}            Value representation as a timestamp in milliseconds
+     * @param  {number}    value     A source value
+     * @param  {TimeUnit}  baseUnit  Base unit the source value is in: "q", "s", "i", "h", "d", "w", "m", "y"
+     * @return {number}              Value representation as a timestamp in milliseconds
      */
-    toTimeStamp(value: number, baseUnit: string): number;
+    toTimeStamp(value: number, baseUnit: TimeUnit): number;
+    protected toTimeUnit(code: string): Optional<TimeUnit>;
     /**
      * Invalidates the parent [[Sprite]] object.
      */
     protected invalidateSprite(): void;
-    /**
-     * @return {string} Duration format
-     */
-    /**
-     * Duration format.
-     *
-     * @default "mm:ss"
-     * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-duration/} Tutorial on duration formatting
-     * @param {string}  format  Duration format
-     */
-    durationFormat: string;
     /**
      * @return {string} Base unit
      */
@@ -147,19 +136,19 @@ export declare class DurationFormatter extends BaseObject {
      *
      * Available options:
      *
-     * * "q" - millisecond
-     * * "s" - second
-     * * "i" - minute
-     * * "h" - hour
-     * * "d" - day
-     * * "w" - week
-     * * "m" - month
-     * * "y" - year
+     * * "millisecond"
+     * * "second"
+     * * "minute"
+     * * "hour"
+     * * "day"
+     * * "week"
+     * * "month"
+     * * "year"
      *
      * @default "s"
-     * @param {string}  baseUnit  A base unit
+     * @param {TimeUnit}  baseUnit  A base unit
      */
-    baseUnit: string;
+    baseUnit: TimeUnit;
     /**
      * Getter for output format.
      *
@@ -173,4 +162,50 @@ export declare class DurationFormatter extends BaseObject {
      * @param {string}  value  Output format
      */
     outputFormat: string;
+    /**
+     * Returns appropriate default format for the value.
+     *
+     * If `maxValue` is sepcified, it will use that value to determine the time
+     * unit for the format.
+     *
+     * For example if your `baseUnit` is `"second"` and you pass in `10`, you
+     * will get `"10"`.
+     *
+     * However, you might want it to be formatted in the context of bigger scale,
+     * say 10 minutes (600 seconds). If you pass in `600` as `maxValue`, all
+     * values, including small ones will use format with minutes, e.g.:
+     * `00:10`, `00:50`, `12: 30`, etc.
+     *
+     * @param  {number}    value     Value to format
+     * @param  {number}    maxValue  Maximum value to be used to determine format
+     * @param  {TimeUnit}  baseUnit  Base unit of the value
+     * @return {string}              Format
+     */
+    getFormat(value: number, maxValue?: number, baseUnit?: TimeUnit): string;
+    /**
+     * Returns value's closest denominator time unit, e.g 100 seconds is
+     * `"minute"`, while 59 seconds would still be `second`.
+     *
+     * @param  {number}    value     Source duration value
+     * @param  {TimeUnit}  baseUnit  Base unit
+     * @return {TimeUnit}            Denominator
+     */
+    getValueUnit(value: number, baseUnit?: TimeUnit): TimeUnit;
+    /**
+     * Converts value to milliseconds according to `baseUnit`.
+     *
+     * @param  {number}    value     Source duration value
+     * @param  {TimeUnit}  baseUnit  Base unit
+     * @return {number}              Value in milliseconds
+     */
+    getMilliseconds(value: number, baseUnit?: TimeUnit): number;
+    /**
+     * @return {Partial} Formats
+     */
+    /**
+     * Duration formats for various combination of base units.
+     *
+     * @param {Partial<Record<TimeUnit, Partial<Record<TimeUnit, string>>>>}  value  Formats
+     */
+    durationFormats: Partial<Record<TimeUnit, Partial<Record<TimeUnit, string>>>>;
 }

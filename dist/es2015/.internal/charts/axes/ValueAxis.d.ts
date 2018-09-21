@@ -83,6 +83,8 @@ export interface IValueAxisProperties extends IAxisProperties {
     strictMinMax?: boolean;
     logarithmic?: boolean;
     maxPrecision?: number;
+    extraMin?: number;
+    extraMax?: number;
 }
 /**
  * Defines events for [[ValueAxis]].
@@ -273,12 +275,6 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @type {number}
      */
     protected _difference: number;
-    /**
-     * Should axis scale explicitly start and `min` and `max`?
-     *
-     * @type {boolean}
-     */
-    protected _strictMinMax: boolean;
     /**
      * Base value for the axis.
      *
@@ -574,6 +570,22 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      */
     min: number;
     /**
+     * @return {number}
+     */
+    /**
+     *
+     * @param {number}
+     */
+    extraMin: number;
+    /**
+     * @return {number} Min multiplier
+     */
+    /**
+    *
+    * @param {number}
+    */
+    extraMax: number;
+    /**
      * Current calculated delta in values between two adjacent grid lines (step).
      *
      * This is a read-only value and cannot be used to set ctual step.
@@ -759,4 +771,10 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @param {number} value Value
      */
     showTooltipAt(value: number): void;
+    /**
+     * Copies all properties and related data from a different instance of Axis.
+     *
+     * @param {this} source Source Axis
+     */
+    copyFrom(source: this): void;
 }

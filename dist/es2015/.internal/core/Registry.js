@@ -167,19 +167,22 @@ var Registry = /** @class */ (function () {
      * @ignore Exclude from docs
      * @param {string}  key    Key
      * @param {any}     value  Value
+     * @param {number}  ttl    TTL in seconds
      */
-    Registry.prototype.setCache = function (key, value) {
-        cache.set(this.uid, key, value);
+    Registry.prototype.setCache = function (key, value, ttl) {
+        cache.set(this.uid, key, value, ttl);
     };
     /**
      * Retrieves cached value.
      *
      * @ignore Exclude from docs
-     * @param  {string}  key  Key
-     * @return {any}          Value
+     * @param  {string}  key    Key
+     * @param  {any}     value  Value to return if cache is not available
+     * @return {any}            Value
      */
-    Registry.prototype.getCache = function (key) {
-        return cache.get(this.uid, key);
+    Registry.prototype.getCache = function (key, value) {
+        if (value === void 0) { value = undefined; }
+        return cache.get(this.uid, key, value);
     };
     /**
      * Dispatches an event using own event dispatcher. Will automatically

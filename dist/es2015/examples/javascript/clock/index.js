@@ -35,7 +35,7 @@ range.tick.visible = false;
 range.label.visible = false;
 
 let axisFill = range.axisFill;
-axisFill.fillOpacity = 1;
+axisFill.fillOpacity = 0.8;
 axisFill.disabled = false;
 axisFill.fill = am4core.color("#FFFFFF");
 
@@ -46,21 +46,21 @@ hourHand.startWidth = 10;
 hourHand.endWidth = 10;
 hourHand.rotationDirection = "clockWise";
 hourHand.pin.radius = 8;
-hourHand.zIndex = 0;
+hourHand.zIndex = 1;
 
 let minutesHand = chart.hands.push(new am4charts.ClockHand());
 minutesHand.rotationDirection = "clockWise";
 minutesHand.startWidth = 7;
 minutesHand.endWidth = 7;
 minutesHand.radius = am4core.percent(78);
-minutesHand.zIndex = 1;
+minutesHand.zIndex = 2;
 
 let secondsHand = chart.hands.push(new am4charts.ClockHand());
 secondsHand.fill = am4core.color("#DD0000");
 secondsHand.stroke = am4core.color("#DD0000");
 secondsHand.radius = am4core.percent(85);
 secondsHand.rotationDirection = "clockWise";
-secondsHand.zIndex = 2;
+secondsHand.zIndex = 3;
 secondsHand.startWidth = 1;
 
 updateHands();

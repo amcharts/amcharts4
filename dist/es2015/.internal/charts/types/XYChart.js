@@ -299,6 +299,7 @@ var XYChart = /** @class */ (function (_super) {
         if (this.maskBullets) {
             this.bulletsContainer.mask = this._bulletMask;
         }
+        this.updateSeriesLegend();
     };
     /**
      * Triggers a redrawing of all chart's series.

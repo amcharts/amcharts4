@@ -15,6 +15,7 @@ import * as $math from "../utils/Math";
 import * as $path from "../rendering/Path";
 import * as $type from "../utils/Type";
 import * as $utils from "../utils/Utils";
+import { RadialGradient } from "../rendering/fills/RadialGradient";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -67,6 +68,19 @@ var Slice = /** @class */ (function (_super) {
         this.slice.path = $path.arc(this.startAngle, this.arc, this.radius, this.pixelInnerRadius, this.radiusY, this.cornerRadius, this.innerCornerRadius);
         this.slice.invalidate();
         this.shiftRadius = this.shiftRadius;
+        if (this.realFill instanceof RadialGradient) {
+            this.updateGradient(this.realFill);
+        }
+        if (this.realStroke instanceof RadialGradient) {
+            this.updateGradient(this.realStroke);
+        }
+    };
+    Slice.prototype.updateGradient = function (gradient) {
+        gradient.element.attr({ "gradientUnits": "userSpaceOnUse" });
+        gradient.element.attr({ "r": this.radius });
+        gradient.cx = 0;
+        gradient.cy = 0;
+        gradient.element.attr({ radius: this.radius });
     };
     Slice.prototype.getContainerBBox = function () {
         return $math.getArcRect(this.startAngle, this.startAngle + this.arc, this.radius);
