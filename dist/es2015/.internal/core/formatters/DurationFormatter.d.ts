@@ -22,6 +22,12 @@ import * as $type from "../utils/Type";
  */
 export declare class DurationFormatter extends BaseObject {
     /**
+     * If set will force this format to be used, regardless of the scale.
+     *
+     * @type {string}
+     */
+    protected _durationFormat: string;
+    /**
      * Holds duration formats for various possible scenarios.
      *
      * @type {Partial<Record<TimeUnit, Partial<Record<TimeUnit, string>>>>}
@@ -199,6 +205,17 @@ export declare class DurationFormatter extends BaseObject {
      * @return {number}              Value in milliseconds
      */
     getMilliseconds(value: number, baseUnit?: TimeUnit): number;
+    /**
+     * @return {Optional<string>} Format
+     */
+    /**
+     * If set, this format will be used instead of the one determined dynamically
+     * based on the basedUnit and range of values.
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-duration/} Available fomatting codes
+     * @param {string}  value  Format
+     */
+    durationFormat: string;
     /**
      * @return {Partial} Formats
      */

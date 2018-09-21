@@ -108,7 +108,12 @@ var DurationFormatter = /** @class */ (function (_super) {
         var baseUnit = base || this._baseUnit;
         // no format passed in or empty
         if (typeof format === "undefined" || format === "") {
-            format = this.getFormat($type.toNumber(value), null, baseUnit);
+            if ($type.hasValue(this.durationFormat)) {
+                format = this.durationFormat;
+            }
+            else {
+                format = this.getFormat($type.toNumber(value), null, baseUnit);
+            }
         }
         // Clean format
         format = $utils.cleanFormat(format);
@@ -418,6 +423,10 @@ var DurationFormatter = /** @class */ (function (_super) {
      * @return {string}              Format
      */
     DurationFormatter.prototype.getFormat = function (value, maxValue, baseUnit) {
+        // Is format override set?
+        if ($type.hasValue(this.durationFormat)) {
+            return this.durationFormat;
+        }
         // Get base unit
         if (!baseUnit) {
             baseUnit = this.baseUnit;
@@ -480,6 +489,29 @@ var DurationFormatter = /** @class */ (function (_super) {
         }
         return value * this._unitValues[baseUnit];
     };
+    Object.defineProperty(DurationFormatter.prototype, "durationFormat", {
+        /**
+         * @return {Optional<string>} Format
+         */
+        get: function () {
+            return this._durationFormat;
+        },
+        /**
+         * If set, this format will be used instead of the one determined dynamically
+         * based on the basedUnit and range of values.
+         *
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-duration/} Available fomatting codes
+         * @param {string}  value  Format
+         */
+        set: function (value) {
+            if (this._durationFormat != value) {
+                this._durationFormat = value;
+                this.invalidateSprite();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(DurationFormatter.prototype, "durationFormats", {
         /**
          * @return {Partial} Formats

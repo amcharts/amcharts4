@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.53] - 2018-09-21
+
+### Added
+- New property `durationFormat` on `DurationFormatter`. If set, it will force this format to be used, instead of one determined by `baseUnit`.
+
+
 ## [4.0.0-beta.52] - 2018-09-21
 
 ### Added
