@@ -250,6 +250,7 @@ var PercentSeries = /** @class */ (function (_super) {
     function PercentSeries() {
         var _this = _super.call(this) || this;
         _this.className = "PercentSeries";
+        _this._addAllDataItems = false;
         _this.alignLabels = false;
         _this.colors = new ColorSet();
         _this.colors.step = 1;

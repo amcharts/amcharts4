@@ -196,7 +196,6 @@ var GradientModifier = /** @class */ (function (_super) {
     };
     GradientModifier.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
-        //this.gradient = source.gradient.clone();
         this._offsets = source.offsets;
         this._brightnesses = source.brightnesses;
         this._lightnesses = source.lightnesses;

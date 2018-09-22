@@ -83,7 +83,7 @@ var Cursor = /** @class */ (function (_super) {
         if (!this.interactionsEnabled) {
             return;
         }
-        if (((this._generalBehavior != "zoom" && this._generalBehavior != "pan") || !this.downPoint) && !getInteraction().isLocalElement(event.pointer, this.paper.svg)) {
+        if (((this._generalBehavior != "zoom" && this._generalBehavior != "pan") || !this.downPoint) && !getInteraction().isLocalElement(event.pointer, this.paper.svg, this.uid)) {
             // We want to let zoom/pan continue even if cursor is outside chart area
             if (!this.isHidden || !this.isHiding) {
                 this.hide();
@@ -252,7 +252,7 @@ var Cursor = /** @class */ (function (_super) {
      * @param {IInteractionEvents["down"]} event Original event
      */
     Cursor.prototype.handleCursorDown = function (event) {
-        if (!this.interactionsEnabled || !getInteraction().isLocalElement(event.pointer, this.paper.svg)) {
+        if (!this.interactionsEnabled || !getInteraction().isLocalElement(event.pointer, this.paper.svg, this.uid)) {
             return;
         }
         // Get local point
@@ -281,7 +281,7 @@ var Cursor = /** @class */ (function (_super) {
         if (!this.interactionsEnabled) {
             return;
         }
-        if (((this._generalBehavior != "zoom" && this._generalBehavior != "pan") || !this.downPoint) && !getInteraction().isLocalElement(event.pointer, this.paper.svg)) {
+        if (((this._generalBehavior != "zoom" && this._generalBehavior != "pan") || !this.downPoint) && !getInteraction().isLocalElement(event.pointer, this.paper.svg, this.uid)) {
             return;
         }
         var local = $utils.documentPointToSprite(event.pointer.point, this);

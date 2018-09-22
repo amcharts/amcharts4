@@ -117,6 +117,25 @@ var PyramidSeries = /** @class */ (function (_super) {
         return nextValue;
     };
     /**
+     * [validateDataElements description]
+     *
+     * @todo Description
+     * @ignore Exclude from docs
+     */
+    PyramidSeries.prototype.validateDataElements = function () {
+        var maxWidth = this.slicesContainer.innerWidth;
+        var maxHeight = this.slicesContainer.innerHeight;
+        this.dataItems.each(function (dataItem) {
+            var relValue = dataItem.getWorkingValue("value") / dataItem.value;
+            var sliceLink = dataItem.sliceLink;
+            maxHeight -= (sliceLink.pixelHeight * relValue);
+            maxWidth -= (sliceLink.pixelWidth * relValue);
+        });
+        this._pyramidHeight = maxHeight;
+        this._pyramidWidth = maxWidth;
+        _super.prototype.validateDataElements.call(this);
+    };
+    /**
      * [decorateSlice description]
      *
      * @todo Description
@@ -126,36 +145,39 @@ var PyramidSeries = /** @class */ (function (_super) {
         var slice = dataItem.slice;
         var sliceLink = dataItem.sliceLink;
         var label = dataItem.label;
-        var maxWidth = this.slicesContainer.innerWidth;
-        var maxHeight = this.slicesContainer.innerHeight;
         var nextValue = this.getNextValue(dataItem);
         var workingValue = dataItem.getWorkingValue("value");
         if (workingValue == 0) {
             workingValue = 0.000001;
         }
+        var pyramidWidth = this._pyramidWidth;
+        var pyramidHeight = this._pyramidHeight;
+        var maxWidth = this.slicesContainer.innerWidth;
+        var maxHeight = this.slicesContainer.innerHeight;
+        var linkWidth = sliceLink.pixelWidth;
+        var linkHeight = sliceLink.pixelHeight;
         if (this.orientation == "vertical") {
             var topWidth = $utils.relativeToValue(this.topWidth, maxWidth);
             if (!$type.isNumber(this._nextWidth)) {
                 this._nextWidth = topWidth;
             }
-            var linkHeight_1 = sliceLink.pixelHeight;
-            this.dataItems.each(function (dItem) {
-                maxHeight -= (linkHeight_1 * dItem.getWorkingValue("value") / dataItem.value);
-            });
             var bottomWidth = $utils.relativeToValue(this.bottomWidth, maxWidth);
             var sliceTopWidth = this._nextWidth;
-            var angle = Math.atan2(maxHeight, topWidth - bottomWidth);
+            var angle = Math.atan2(pyramidHeight, topWidth - bottomWidth);
             var c = Math.tan(Math.PI / 2 - angle);
+            if (c == 0) {
+                c = 0.00000001;
+            }
             var sliceHeight = void 0;
             var sliceBottomWidth = void 0;
             if (this.valueIs == "area") {
-                var totalSquare = (topWidth + bottomWidth) / 2 * maxHeight;
+                var totalSquare = (topWidth + bottomWidth) / 2 * pyramidHeight;
                 var square = totalSquare * workingValue / this.dataItem.values.value.sum;
                 sliceHeight = (sliceTopWidth - Math.sqrt(sliceTopWidth * sliceTopWidth - 2 * square * c)) / c;
                 sliceBottomWidth = (2 * square - sliceHeight * sliceTopWidth) / sliceHeight;
             }
             else {
-                sliceHeight = maxHeight * workingValue / this.dataItem.values.value.sum;
+                sliceHeight = pyramidHeight * workingValue / this.dataItem.values.value.sum;
                 sliceBottomWidth = sliceTopWidth - sliceHeight * c;
             }
             slice.height = sliceHeight;
@@ -167,8 +189,8 @@ var PyramidSeries = /** @class */ (function (_super) {
             slice.x = maxWidth / 2;
             label.x = slice.x;
             label.y = slice.pixelY + slice.pixelHeight / 2;
-            this._nextY += slice.pixelHeight + linkHeight_1 * workingValue / dataItem.value;
-            sliceLink.y = this._nextY - linkHeight_1;
+            this._nextY += slice.pixelHeight + linkHeight * workingValue / dataItem.value;
+            sliceLink.y = this._nextY - linkHeight;
             sliceLink.x = slice.x;
         }
         else {
@@ -176,27 +198,26 @@ var PyramidSeries = /** @class */ (function (_super) {
             if (!$type.isNumber(this._nextWidth)) {
                 this._nextWidth = topWidth;
             }
-            var linkWidth_1 = sliceLink.pixelWidth;
-            this.dataItems.each(function (dItem) {
-                maxWidth -= (linkWidth_1 * dItem.getWorkingValue("value") / dataItem.value);
-            });
             var bottomWidth = $utils.relativeToValue(this.bottomWidth, maxHeight);
             var sliceTopWidth = this._nextWidth;
-            var angle = Math.atan2(maxWidth, topWidth - bottomWidth);
+            var angle = Math.atan2(pyramidWidth, topWidth - bottomWidth);
             var c = Math.tan(Math.PI / 2 - angle);
-            var sliceHeight = void 0;
+            if (c == 0) {
+                c = 0.00000001;
+            }
+            var sliceWidth = void 0;
             var sliceBottomWidth = void 0;
             if (this.valueIs == "area") {
-                var totalSquare = (topWidth + bottomWidth) / 2 * maxWidth;
+                var totalSquare = (topWidth + bottomWidth) / 2 * pyramidWidth;
                 var square = totalSquare * workingValue / this.dataItem.values.value.sum;
-                sliceHeight = (sliceTopWidth - Math.sqrt(sliceTopWidth * sliceTopWidth - 2 * square * c)) / c;
-                sliceBottomWidth = (2 * square - sliceHeight * sliceTopWidth) / sliceHeight;
+                sliceWidth = (sliceTopWidth - Math.sqrt(sliceTopWidth * sliceTopWidth - 2 * square * c)) / c;
+                sliceBottomWidth = (2 * square - sliceWidth * sliceTopWidth) / sliceWidth;
             }
             else {
-                sliceHeight = maxWidth * workingValue / this.dataItem.values.value.sum;
-                sliceBottomWidth = sliceTopWidth - sliceHeight * c;
+                sliceWidth = pyramidWidth * workingValue / this.dataItem.values.value.sum;
+                sliceBottomWidth = sliceTopWidth - sliceWidth * c;
             }
-            slice.width = sliceHeight;
+            slice.width = sliceWidth;
             slice.bottomWidth = sliceBottomWidth;
             slice.topWidth = sliceTopWidth;
             sliceLink.topWidth = slice.bottomWidth;
@@ -205,8 +226,8 @@ var PyramidSeries = /** @class */ (function (_super) {
             slice.y = maxHeight / 2;
             label.y = slice.y;
             label.x = slice.pixelX + slice.pixelWidth / 2;
-            this._nextY += slice.pixelWidth + linkWidth_1 * workingValue / dataItem.value;
-            sliceLink.x = this._nextY - linkWidth_1;
+            this._nextY += slice.pixelWidth + linkWidth * workingValue / dataItem.value;
+            sliceLink.x = this._nextY - linkWidth;
             sliceLink.y = slice.y;
         }
         this._nextWidth = slice.bottomWidth;

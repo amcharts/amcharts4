@@ -73,7 +73,13 @@ var FunnelSlice = /** @class */ (function (_super) {
             var bl = { x: (w - bw) / 2 + pl, y: pt + h };
             var cpr = { x: tr.x + (br.x - tr.x) / 2 + ed * h, y: tr.y + 0.5 * h };
             var cpl = { x: tl.x + (bl.x - tl.x) / 2 - ed * h, y: tl.y + 0.5 * h };
-            path = $path.moveTo(tl) + $path.lineTo(tr) + $path.quadraticCurveTo(br, cpr) + $path.lineTo(bl) + $path.quadraticCurveTo(tl, cpl);
+            var qp1 = $path.lineTo(br);
+            var qp2 = "";
+            if (ed != 0) {
+                qp1 = $path.quadraticCurveTo(br, cpr);
+                qp2 = $path.quadraticCurveTo(tl, cpl);
+            }
+            path = $path.moveTo(tl) + $path.lineTo(tr) + qp1 + $path.lineTo(bl) + qp2;
             this.tickPoint = { x: tr.x + (br.x - tr.x) / 2, y: tr.y + (br.y - tr.y) / 2 };
         }
         else {
@@ -85,7 +91,13 @@ var FunnelSlice = /** @class */ (function (_super) {
             var bb = { x: pl + w, y: (h + bw) / 2 + pt };
             var cpr = { y: tt.y + (bt.y - tt.y) / 2 - ed * w, x: tt.x + 0.5 * w };
             var cpl = { y: tb.y + (bb.y - tb.y) / 2 + ed * w, x: tb.x + 0.5 * w };
-            path = $path.moveTo(tb) + $path.lineTo(tt) + $path.quadraticCurveTo(bt, cpr) + $path.lineTo(bb) + $path.quadraticCurveTo(tb, cpl);
+            var qp1 = $path.lineTo(bt);
+            var qp2 = "";
+            if (ed != 0) {
+                qp1 = $path.quadraticCurveTo(bt, cpr);
+                qp2 = $path.quadraticCurveTo(tb, cpl);
+            }
+            path = $path.moveTo(tb) + $path.lineTo(tt) + qp1 + $path.lineTo(bb) + qp2;
             this.tickPoint = { y: tb.y + (bb.y - tb.y) / 2, x: tb.x + (bb.x - tb.x) / 2 };
         }
         this.slice.path = path;

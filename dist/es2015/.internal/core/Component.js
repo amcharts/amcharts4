@@ -214,6 +214,7 @@ var Component = /** @class */ (function (_super) {
          * @type {number}
          */
         _this.dataValidationProgress = 0;
+        _this._addAllDataItems = true;
         _this.className = "Component";
         _this.invalidateData();
         // Set up events
@@ -348,7 +349,7 @@ var Component = /** @class */ (function (_super) {
                 }
             });
             // @todo we might need some flag which would tell whether we should create empty data items or not. 
-            if (!hasSomeValues_1) {
+            if (!this._addAllDataItems && !hasSomeValues_1) {
                 this.dataItems.remove(dataItem);
             }
             else {

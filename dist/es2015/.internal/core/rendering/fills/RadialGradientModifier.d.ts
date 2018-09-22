@@ -52,4 +52,5 @@ export declare class RadialGradientModifier extends GradientModifier {
      * Constructor.
      */
     constructor();
+    copyFrom(source: this): void;
 }

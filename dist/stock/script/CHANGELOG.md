@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.54] - 2018-09-22
+
+### Fixed
+- Chart Cursor was working only for the first chart on the same page.
+- `CSVParser` was not parsing `dateFields` and `numberFields` correctly.
+- Issues with labels rendering in incorrect position fixed.
+- `LinearGradientModifier` was not copying gradient properties to clones (since last version only).
+- `FunnelSlice` sometimes rendered slice edges with no anti-aliasing.
+- When calculating area of the Pyramid slices height of `sliceConnector` was not being taken into account.
+- Reset `label.renderingFrequency` back to `1` to solve some unwanted label flickering.
+- `MapImage` items were not showing if added via `series.data` (since last version only).
+
+
 ## [4.0.0-beta.53] - 2018-09-21
 
 ### Added

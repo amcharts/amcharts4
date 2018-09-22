@@ -797,9 +797,10 @@ export declare class Interaction extends BaseObjectEvents {
      * @ignore Exlude from docs
      * @param  {IPointer}       pointer  Pointer
      * @param  {SVGSVGElement}  svg      The <svg> element
-     * @return {boolean}                 Belongs to SVG/
+     * @param  {id}             id       A unique identifier of the object that is checking for locality
+     * @return {boolean}                 Belongs to SVG
      */
-    isLocalElement(pointer: IPointer, svg: SVGSVGElement): boolean;
+    isLocalElement(pointer: IPointer, svg: SVGSVGElement, id: string): boolean;
     /**
      * A function that cancels mouse wheel scroll.
      *

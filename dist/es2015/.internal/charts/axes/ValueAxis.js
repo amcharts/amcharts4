@@ -1123,6 +1123,14 @@ var ValueAxis = /** @class */ (function (_super) {
             return this.getPropertyValue("extraMin");
         },
         /**
+         * Allows relatively adjusting minimum value of the axis' scale.
+         *
+         * The value is relative to the actual range of values currently displayed
+         * on the axis.
+         *
+         * E.g.: 0.5 will mean half of the current range. If we have axis displaying
+         * from 100 to 200, we will now have axis displaying from 50 to 200 because
+         * we asked to expand minimum value by 50% (0.5).
          *
          * @param {number}
          */
@@ -1142,9 +1150,17 @@ var ValueAxis = /** @class */ (function (_super) {
             return this.getPropertyValue("extraMax");
         },
         /**
-        *
-        * @param {number}
-        */
+         * Allows relatively adjusting maximum value of the axis' scale.
+         *
+         * The value is relative to the actual range of values currently displayed
+         * on the axis.
+         *
+         * E.g.: 0.5 will mean half of the current range. If we have axis displaying
+         * from 100 to 200, we will now have axis displaying from 100 to 250 because
+         * we asked to expand maximum value by 50% (0.5).
+         *
+         * @param {number}
+         */
         set: function (value) {
             if (this.setPropertyValue("extraMax", value)) {
                 this.invalidateDataItems();

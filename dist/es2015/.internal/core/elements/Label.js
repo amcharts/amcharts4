@@ -80,7 +80,7 @@ var Label = /** @class */ (function (_super) {
         _this.textAlign = "start";
         _this.textValign = "top";
         _this.layout = "absolute";
-        _this.renderingFrequency = 2;
+        //this.renderingFrequency = 2; // unfortunately this brings a lot of issues
         // Set up adapters for manipulating accessibility
         _this.adapter.add("readerTitle", function (arg) {
             if (!arg) {
@@ -101,6 +101,14 @@ var Label = /** @class */ (function (_super) {
             }
             else {
                 _this.alignSVGText();
+            }
+        });
+        // this solves strange bug when text just added to svg is 0x0
+        _this.events.once("validated", function () {
+            if (_this.currentText && (_this.bbox.width == 0 || _this.bbox.height == 0)) {
+                registry.events.once("exitframe", function () {
+                    _this.hardInvalidate();
+                });
             }
         });
         // Aply theme
@@ -161,13 +169,15 @@ var Label = /** @class */ (function (_super) {
      * @ignore
      */
     Label.prototype.getLineBBox = function (lineInfo) {
-        var cacheKey = lineInfo.text + lineInfo.style;
-        var lineBBox = this.getCache(cacheKey);
-        if (!lineBBox) {
-            lineBBox = lineInfo.element.getBBox();
-            this.setCache(cacheKey, lineBBox, 5000);
-        }
-        lineInfo.bbox = lineBBox;
+        //let cacheKey = lineInfo.text + lineInfo.style;
+        //let lineBBox = this.getCache(cacheKey);
+        //if (!lineBBox) {
+        //lineBBox = lineInfo.element.getBBox();
+        //if (lineBBox.width != 0 && lineBBox.height != 0) {
+        //	this.setCache(cacheKey, lineBBox, 5000);
+        //}
+        //}
+        lineInfo.bbox = lineInfo.element.getBBox();
     };
     /**
      * Draws the textual label.

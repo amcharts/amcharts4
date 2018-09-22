@@ -55,6 +55,10 @@ var LinearGradientModifier = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    LinearGradientModifier.prototype.copyFrom = function (source) {
+        _super.prototype.copyFrom.call(this, source);
+        this.gradient = source.gradient.clone();
+    };
     return LinearGradientModifier;
 }(GradientModifier));
 export { LinearGradientModifier };

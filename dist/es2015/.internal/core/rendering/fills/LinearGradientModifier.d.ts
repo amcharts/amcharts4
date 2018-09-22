@@ -52,4 +52,5 @@ export declare class LinearGradientModifier extends GradientModifier {
      * Constructor.
      */
     constructor();
+    copyFrom(source: this): void;
 }

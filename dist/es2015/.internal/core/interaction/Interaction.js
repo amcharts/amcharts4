@@ -2026,16 +2026,17 @@ var Interaction = /** @class */ (function (_super) {
      * @ignore Exlude from docs
      * @param  {IPointer}       pointer  Pointer
      * @param  {SVGSVGElement}  svg      The <svg> element
-     * @return {boolean}                 Belongs to SVG/
+     * @param  {id}             id       A unique identifier of the object that is checking for locality
+     * @return {boolean}                 Belongs to SVG
      */
-    Interaction.prototype.isLocalElement = function (pointer, svg) {
+    Interaction.prototype.isLocalElement = function (pointer, svg, id) {
         var cached = this.getCache("local_pointer_" + pointer.id);
         if ($type.hasValue(cached)) {
             return cached;
         }
         var target = document.elementFromPoint(pointer.point.x, pointer.point.y);
         var local = target && (svg === target || $dom.contains(svg, target));
-        this.setCache("local_pointer_" + pointer.id, local, 100);
+        this.setCache("local_pointer_" + pointer.id + "_" + id, local, 100);
         return local;
     };
     /**

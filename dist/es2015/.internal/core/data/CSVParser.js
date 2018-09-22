@@ -156,13 +156,13 @@ var CSVParser = /** @class */ (function (_super) {
                 dataPoint[col] = row[i] === "" ? this.options.emptyAs : row[i];
                 // Convert
                 if (empty) {
-                    row[col] = this.maybeToEmpty(dataPoint[col]);
+                    dataPoint[col] = this.maybeToEmpty(dataPoint[col]);
                 }
                 if (numbers) {
-                    row[col] = this.maybeToNumber(col, dataPoint[col]);
+                    dataPoint[col] = this.maybeToNumber(col, dataPoint[col]);
                 }
                 if (dates) {
-                    row[col] = this.maybeToDate(col, dataPoint[col]);
+                    dataPoint[col] = this.maybeToDate(col, dataPoint[col]);
                 }
             }
             res.push(dataPoint);

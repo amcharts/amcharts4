@@ -132,6 +132,8 @@ export declare class PyramidSeries extends FunnelSeries {
      * @type {number}
      */
     protected _nextWidth: number;
+    protected _pyramidHeight: number;
+    protected _pyramidWidth: number;
     /**
      * Constructor
      */
@@ -162,6 +164,13 @@ export declare class PyramidSeries extends FunnelSeries {
      * @return {number}                        [description]
      */
     protected getNextValue(dataItem: FunnelSeriesDataItem): number;
+    /**
+     * [validateDataElements description]
+     *
+     * @todo Description
+     * @ignore Exclude from docs
+     */
+    validateDataElements(): void;
     /**
      * [decorateSlice description]
      *

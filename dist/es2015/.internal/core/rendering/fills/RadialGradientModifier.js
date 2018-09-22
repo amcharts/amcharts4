@@ -55,6 +55,10 @@ var RadialGradientModifier = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    RadialGradientModifier.prototype.copyFrom = function (source) {
+        _super.prototype.copyFrom.call(this, source);
+        this.gradient = source.gradient.clone();
+    };
     return RadialGradientModifier;
 }(GradientModifier));
 export { RadialGradientModifier };

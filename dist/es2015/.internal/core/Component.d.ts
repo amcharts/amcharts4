@@ -430,6 +430,7 @@ export declare class Component extends Container {
      * @type {Optional<number>}
      */
     protected _workingEndIndex: $type.Optional<number>;
+    protected _addAllDataItems: boolean;
     /**
      * Constructor
      */
