@@ -86,6 +86,12 @@ export declare function relativeRadiusToValue(percent: $type.Optional<number | P
  */
 export declare function valueToRelative(value: number | Percent, full: number): number;
 /**
+ * Returns pixel ratio of the current screen (used on retina displays).
+ *
+ * @return {number} Pixel ratio
+ */
+export declare function getPixelRatio(): number;
+/**
  * ============================================================================
  * STRING FORMATTING FUNCTIONS
  * ============================================================================

@@ -10,7 +10,7 @@ export { XYChartDataItem, XYChart } from "./.internal/charts/types/XYChart";
 export { SerialChartDataItem, SerialChart } from "./.internal/charts/types/SerialChart";
 export { PieChart3DDataItem, PieChart3D } from "./.internal/charts/types/PieChart3D";
 export { PieChartDataItem, PieChart } from "./.internal/charts/types/PieChart";
-export { FunnelChart, FunnelChartDataItem } from "./.internal/charts/types/FunnelChart";
+export { SlicedChart, SlicedChartDataItem } from "./.internal/charts/types/SlicedChart";
 export { FlowDiagramDataItem, FlowDiagram } from "./.internal/charts/types/FlowDiagram";
 export { SankeyDiagramDataItem, SankeyDiagram } from "./.internal/charts/types/SankeyDiagram";
 export { ChordDiagramDataItem, ChordDiagram } from "./.internal/charts/types/ChordDiagram";
@@ -38,6 +38,7 @@ export { RadarColumnSeriesDataItem, RadarColumnSeries } from "./.internal/charts
 export { PieSeriesDataItem, PieSeries } from "./.internal/charts/series/PieSeries";
 export { FunnelSeries, FunnelSeriesDataItem } from "./.internal/charts/series/FunnelSeries";
 export { PyramidSeries, PyramidSeriesDataItem } from "./.internal/charts/series/PyramidSeries";
+export { PictorialStackedSeries, PictorialStackedSeriesDataItem } from "./.internal/charts/series/PictorialStackedSeries";
 export { PieTick } from "./.internal/charts/elements/PieTick";
 export { FunnelSlice } from "./.internal/charts/elements/FunnelSlice";
 export { PieSeries3DDataItem, PieSeries3D } from "./.internal/charts/series/PieSeries3D";

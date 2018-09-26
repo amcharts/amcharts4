@@ -109,7 +109,7 @@ var DataLoader = /** @class */ (function () {
         }).parser) {
             return parser;
         }
-        if (type == "csv" || type == "text/csv") {
+        if (type == "csv" || type == "text/csv" || type == "application/vnd.ms-excel") {
             return new CSVParser();
         }
         if (type == "json" || type == "application/json") {

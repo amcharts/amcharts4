@@ -60,6 +60,12 @@ export interface IPyramidSeriesProperties extends IFunnelSeriesProperties {
      */
     topWidth?: number | Percent;
     /**
+     * Height of pyramid
+     *
+     * @type {number | Percent}
+     */
+    pyramidHeight?: number | Percent;
+    /**
      * Indicates whether slice value should sould influence its height or area
      * size.
      *
@@ -87,11 +93,11 @@ export interface IPyramidSeriesAdapters extends IFunnelSeriesAdapters, IPyramidS
  * @hidden
  */
 /**
- * Defines [[Series]] for a FunnelSlice series on a Funnel chart.
+ * Defines [[Series]] for a FunnelSlice series on a [[SlicedChart]].
  *
  * @see {@link IPyramidSeriesEvents} for a list of available Events
  * @see {@link IPyramidSeriesAdapters} for a list of available Adapters
- * @todo Example
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/sliced-chart/} for documentation
  * @important
  */
 export declare class PyramidSeries extends FunnelSeries {
@@ -195,6 +201,17 @@ export declare class PyramidSeries extends FunnelSeries {
      * @param {number | Percent}
      */
     topWidth: number | Percent;
+    /**
+     * @return {number | Percent}
+     */
+    /**
+     * Height of pyramid
+     *
+     *
+     * @default 100%
+     * @param {number | Percent}
+     */
+    pyramidHeight: number | Percent;
     /**
      * @return {number | Percent}
      */

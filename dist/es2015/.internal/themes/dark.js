@@ -1,7 +1,6 @@
 import { color } from "../core/utils/Color";
 import { InterfaceColorSet } from "../core/utils/InterfaceColorSet";
 import { Scrollbar } from "../core/elements/Scrollbar";
-import { AmChartsLogo } from "../core/elements/AmChartsLogo";
 var theme = function (object) {
     if (object instanceof InterfaceColorSet) {
         object.setFor("stroke", color("#000000"));
@@ -28,10 +27,6 @@ var theme = function (object) {
     if (object instanceof Scrollbar) {
         object.background.fillOpacity = 0.4;
         object.thumb.background.fillOpacity = 0.5;
-    }
-    if (object instanceof AmChartsLogo) {
-        object.align = "left";
-        object.valign = "bottom";
     }
 };
 export default theme;

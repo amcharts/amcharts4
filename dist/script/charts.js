@@ -17,5 +17,5 @@
  * PLEASE DO NOT REMOVE THIS COPYRIGHT NOTICE.
  * @hidden
  */
-webpackJsonp([192],{319:function(e,t,n){e.exports=n(320)},320:function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var o=n(208);window.am4charts=o}},[319]);
+webpackJsonp([196],{319:function(e,t,n){e.exports=n(320)},320:function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var o=n(208);window.am4charts=o}},[319]);
 //# sourceMappingURL=charts.js.map

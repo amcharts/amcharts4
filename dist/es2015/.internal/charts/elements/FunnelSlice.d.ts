@@ -1,5 +1,5 @@
 /**
- * Module that defines everything related to building FunnelSlices.
+ * Module that defines everything related to building Funnel slices.
  */
 /**
  * ============================================================================
@@ -71,7 +71,7 @@ export interface IFunnelSliceAdapters extends IContainerAdapters, IFunnelSlicePr
  *
  * @see {@link IFunnelSliceEvents} for a list of available events
  * @see {@link IFunnelSliceAdapters} for a list of available adapters
- * @see {@link https://www.amcharts.com/docs/v4/chart-types/funnel-chart/} for documentation
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/sliced-chart/} for documentation
  * @important
  */
 export declare class FunnelSlice extends Container {
@@ -114,6 +114,7 @@ export declare class FunnelSlice extends Container {
      * Draws the element.
      */
     protected draw(): void;
+    getPoint(locationX: number, locationY: number): IPoint;
     /**
      * @return {number} bottom width
      */
@@ -170,4 +171,10 @@ export declare class FunnelSlice extends Container {
      * @param {number}
      */
     expandDistance: number;
+    /**
+     * Copies all parameters from another [[Sprite]].
+     *
+     * @param {Sprite} source Source Sprite
+     */
+    copyFrom(source: this): void;
 }

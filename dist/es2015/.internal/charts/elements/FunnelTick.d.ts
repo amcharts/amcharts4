@@ -21,6 +21,8 @@ import { MutableValueDisposer } from "../../core/utils/Disposer";
  * Defines properties for [[FunnelTick]].
  */
 export interface IFunnelTickProperties extends ITickProperties {
+    locationX?: number;
+    locationY?: number;
 }
 /**
  * Defines events for [[FunnelTick]].
@@ -105,4 +107,36 @@ export declare class FunnelTick extends Tick {
      * @param {Label}  label  Label
      */
     label: Label;
+    /**
+     * @return {number} Location (0-1)
+     */
+    /**
+     * A relative horizontal position within target element a tick is pointing
+     * to.
+     *
+     * A scale is from 0 to 1, where 0 means left edge, and 1 right edge.
+     *
+     * You can also set any value in-between (e.g. 0.5 will point to the middle
+     * of the slice), or outside 0-1 range, which will put tick anchor position
+     * outside target element.
+     *
+     * @param {number}  value  Location (0-1)
+     */
+    locationX: number;
+    /**
+     * @return {number} Location (0-1)
+     */
+    /**
+     * A relative vertical position within target element a tick is pointing
+     * to.
+     *
+     * A scale is from 0 to 1, where 0 means top edge, and 1 bottom edge.
+     *
+     * You can also set any value in-between (e.g. 0.5 will point to the middle
+     * of the slice), or outside 0-1 range, which will put tick anchor position
+     * outside target element.
+     *
+     * @param {number}  value  Location (0-1)
+     */
+    locationY: number;
 }

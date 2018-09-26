@@ -322,6 +322,8 @@ var PieChart = /** @class */ (function (_super) {
          * E.g. `startAngle = -90` with `endAngle = 0` will create a Pie chart that
          * looks like a quarter of a circle.
          *
+         * NOTE: This setting is not supported in a 3D pie chart.
+         *
          * @default -90
          * @param {number}  value  Start angle (degrees)
          */
@@ -354,6 +356,8 @@ var PieChart = /** @class */ (function (_super) {
          *
          * E.g. `startAngle = -90` with `endAngle = 0` will create a Pie chart that
          * looks like a quarter of a circle.
+         *
+         * NOTE: This setting is not supported in a 3D pie chart.
          *
          * @default 270
          * @param {number}  value  End angle (degrees)

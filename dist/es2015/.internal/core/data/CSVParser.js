@@ -133,18 +133,20 @@ var CSVParser = /** @class */ (function (_super) {
             // Normalize column names
             for (var x = 0; x < cols.length; x++) {
                 // trim
-                col = cols[x].replace(/^\s+|\s+$/gm, "");
+                col = $type.hasValue(cols[x]) ? cols[x].replace(/^\s+|\s+$/gm, "") : "";
                 // Check for empty
-                if ("" === col)
+                if ("" === col) {
                     col = "col" + x;
+                }
                 cols[x] = col;
             }
             if (0 < this.options.skipRows)
                 this.options.skipRows--;
         }
         // Skip rows
-        for (i = 0; i < this.options.skipRows; i++)
+        for (i = 0; i < this.options.skipRows; i++) {
             data.shift();
+        }
         // Iterate through the result set
         var row;
         while ((row = this.options.reverse ? data.pop() : data.shift())) {

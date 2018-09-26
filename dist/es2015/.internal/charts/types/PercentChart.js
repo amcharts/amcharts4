@@ -48,7 +48,8 @@ export { PercentChartDataItem };
  *
  * @see {@link IPercentChartEvents} for a list of available Events
  * @see {@link IPercentChartAdapters} for a list of available Adapters
- * @see {@link https://www.amcharts.com/docs/v4/chart-types/funnel-chart/} for documentation
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/pie-chart/} for Pie chart documentation
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/sliced-chart/} for Sliced chart documentation
  */
 var PercentChart = /** @class */ (function (_super) {
     tslib_1.__extends(PercentChart, _super);

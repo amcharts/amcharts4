@@ -13,6 +13,7 @@ import { FunnelSlice } from "../elements/FunnelSlice";
 import { FunnelTick } from "../elements/FunnelTick";
 import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { registry } from "../../core/Registry";
+import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import { percent } from "../../core/utils/Percent";
 import { Disposer } from "../../core/utils/Disposer";
@@ -73,11 +74,11 @@ export { FunnelSeriesDataItem };
  * @hidden
  */
 /**
- * Defines [[Series]] for a FunnelSlice series on a Funnel chart.
+ * Defines [[Series]] for a FunnelSlice series on a [[SlicedChart]].
  *
  * @see {@link IFunnelSeriesEvents} for a list of available Events
  * @see {@link IFunnelSeriesAdapters} for a list of available Adapters
- * @todo Example
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/sliced-chart/} for documentation
  * @important
  */
 var FunnelSeries = /** @class */ (function (_super) {
@@ -290,6 +291,7 @@ var FunnelSeries = /** @class */ (function (_super) {
         var slice = dataItem.slice;
         var sliceLink = dataItem.sliceLink;
         var label = dataItem.label;
+        var tick = dataItem.tick;
         var maxWidth = this.slicesContainer.innerWidth;
         var maxHeight = this.slicesContainer.innerHeight;
         var nextValue = this.getNextValue(dataItem);
@@ -306,7 +308,7 @@ var FunnelSeries = /** @class */ (function (_super) {
             slice.height = maxHeight / this._count * workingValue / dataItem.value * 1 / this._total - linkHeight;
             slice.x = maxWidth / 2;
             label.x = slice.x;
-            label.y = slice.pixelY + slice.pixelHeight / 2;
+            label.y = slice.pixelY + slice.pixelHeight * tick.locationY;
             this._nextY += slice.pixelHeight + linkHeight;
             sliceLink.y = this._nextY - linkHeight;
             sliceLink.x = slice.x;
@@ -322,7 +324,7 @@ var FunnelSeries = /** @class */ (function (_super) {
             slice.width = maxWidth / this._count * workingValue / dataItem.value * 1 / this._total - linkWidth;
             slice.y = maxHeight / 2;
             label.y = slice.y;
-            label.x = slice.pixelX + slice.pixelWidth / 2;
+            label.x = slice.pixelX + slice.pixelWidth * tick.locationX;
             this._nextY += slice.pixelWidth + linkWidth;
             sliceLink.x = this._nextY - linkWidth;
             sliceLink.y = slice.y;
@@ -422,6 +424,14 @@ var FunnelSeries = /** @class */ (function (_super) {
         set: function (value) {
             if (this.setPropertyValue("orientation", value)) {
                 this.invalidateDataRange();
+                if (value == "vertical") {
+                    this.ticks.template.locationX = 1;
+                    this.ticks.template.locationY = 0.5;
+                }
+                else {
+                    this.ticks.template.locationX = 0.5;
+                    this.ticks.template.locationY = 1;
+                }
             }
         },
         enumerable: true,
@@ -513,6 +523,68 @@ var FunnelSeries = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Shows hidden series.
+     *
+     * @param  {number}     duration  Duration of reveal animation (ms)
+     * @return {Animation}            Animation
+     */
+    FunnelSeries.prototype.show = function (duration) {
+        var _this = this;
+        var animation = _super.prototype.show.call(this, duration);
+        var startIndex = this.startIndex;
+        var endIndex = this.endIndex;
+        $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
+            var interpolationDuration = _this.interpolationDuration;
+            if ($type.isNumber(duration)) {
+                interpolationDuration = duration;
+            }
+            var i = a[0];
+            var dataItem = a[1];
+            var delay = 0;
+            if (_this.sequencedInterpolation) {
+                delay = _this.sequencedInterpolationDelay * i + interpolationDuration * (i - startIndex) / (endIndex - startIndex);
+            }
+            animation = dataItem.show(interpolationDuration, delay, ["value"]);
+        });
+        return animation;
+    };
+    /**
+     * Hides series.
+     *
+     * @param  {number}     duration  Duration of hiding animation (ms)
+     * @return {Animation}            Animation
+     */
+    FunnelSeries.prototype.hide = function (duration) {
+        var _this = this;
+        var animation = _super.prototype.hide.call(this, duration);
+        var fields = ["value"];
+        var value = 0;
+        var startIndex = this.startIndex;
+        var endIndex = this.endIndex;
+        $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
+            var i = a[0];
+            var dataItem = a[1];
+            var delay = 0;
+            var interpolationDuration = _this.interpolationDuration;
+            if ($type.isNumber(duration)) {
+                interpolationDuration = duration;
+            }
+            if (animation && !animation.isDisposed() && interpolationDuration == 0 && animation.duration > 0) {
+                animation.events.once("animationended", function () {
+                    dataItem.hide(0, 0, value, fields);
+                });
+            }
+            else {
+                if (_this.sequencedInterpolation) {
+                    delay = _this.sequencedInterpolationDelay * i + interpolationDuration * (i - startIndex) / (endIndex - startIndex);
+                }
+                dataItem.hide(interpolationDuration, delay, value, fields);
+            }
+        });
+        //}
+        return animation;
+    };
     return FunnelSeries;
 }(PercentSeries));
 export { FunnelSeries };

@@ -109,7 +109,7 @@ declare const _default: {
     "Flow diagram": string;
     "Chord diagram": string;
     "TreeMap chart": string;
-    "Funnel chart": string;
+    "Sliced chart": string;
     "Series": string;
     "Candlestick Series": string;
     "OHLC Series": string;

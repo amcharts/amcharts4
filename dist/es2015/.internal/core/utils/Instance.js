@@ -97,6 +97,9 @@ function createChild(htmlElement, classType) {
                     logo_1.show();
                 }
             });
+            sprite_1.logo = logo_1;
+            logo_1.align = "left";
+            logo_1.valign = "bottom";
         }
         sprite_1.numberFormatter; // need to create one.
         // Set this as an autonomouse instance

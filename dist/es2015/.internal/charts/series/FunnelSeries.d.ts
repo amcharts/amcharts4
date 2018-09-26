@@ -12,8 +12,9 @@ import { FunnelSlice } from "../elements/FunnelSlice";
 import { Label } from "../../core/elements/Label";
 import { FunnelTick } from "../elements/FunnelTick";
 import { ListTemplate } from "../../core/utils/List";
+import { Animation } from "../../core/utils/Animation";
 import { Bullet } from "../elements/Bullet";
-import { FunnelChart } from "../types/FunnelChart";
+import { SlicedChart } from "../types/SlicedChart";
 import { Orientation } from "../../core/defs/Orientation";
 /**
  * ============================================================================
@@ -119,11 +120,11 @@ export interface IFunnelSeriesAdapters extends IPercentSeriesAdapters, IFunnelSe
  * @hidden
  */
 /**
- * Defines [[Series]] for a FunnelSlice series on a Funnel chart.
+ * Defines [[Series]] for a FunnelSlice series on a [[SlicedChart]].
  *
  * @see {@link IFunnelSeriesEvents} for a list of available Events
  * @see {@link IFunnelSeriesAdapters} for a list of available Adapters
- * @todo Example
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/sliced-chart/} for documentation
  * @important
  */
 export declare class FunnelSeries extends PercentSeries {
@@ -149,9 +150,9 @@ export declare class FunnelSeries extends PercentSeries {
      * A reference to chart this series is for.
      *
      * @ignore Exclude from docs
-     * @type {FunnelChart}
+     * @type {SlicedChart}
      */
-    _chart: FunnelChart;
+    _chart: SlicedChart;
     /**
      * Defines the type of data fields used for the series.
      *
@@ -366,4 +367,18 @@ export declare class FunnelSeries extends PercentSeries {
      * @return {ListTemplate} Funnel links
      */
     readonly sliceLinks: ListTemplate<this["_slice"]>;
+    /**
+     * Shows hidden series.
+     *
+     * @param  {number}     duration  Duration of reveal animation (ms)
+     * @return {Animation}            Animation
+     */
+    show(duration?: number): Animation;
+    /**
+     * Hides series.
+     *
+     * @param  {number}     duration  Duration of hiding animation (ms)
+     * @return {Animation}            Animation
+     */
+    hide(duration?: number): Animation;
 }

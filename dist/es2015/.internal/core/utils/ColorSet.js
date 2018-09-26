@@ -156,7 +156,7 @@ var ColorSet = /** @class */ (function (_super) {
         _this.reuse = false;
         /**
          * Saturation of colors. This will change saturation of all colors of color
-         * set
+         * set.
          *
          * It is recommended to set this in theme, as changing it at run time won't
          * make the items to redraw and change color.
@@ -287,11 +287,11 @@ var ColorSet = /** @class */ (function (_super) {
                 hsl.h = hues.shift();
             }
             // Apply HSL mods
-            this.applyStepOptions(hsl, mods, i, this._currentPass);
+            this.applyStepOptions(hsl, mods, i + 1, this._currentPass);
             // Convert back to Color
             var c = color($colors.hslToRgb(hsl));
             // Apply regular color mods
-            var brighten = (this.stepOptions.brighten || 0) * i + (this.passOptions.brighten || 0) * this._currentPass;
+            var brighten = (this.stepOptions.brighten || 0) * (i + 1) + (this.passOptions.brighten || 0) * this._currentPass;
             if (brighten != 0) {
                 if (this.wrap) {
                     brighten = $utils.fitNumberRelative(brighten, this.minLightness, this.maxLightness);
@@ -301,7 +301,7 @@ var ColorSet = /** @class */ (function (_super) {
                 }
                 c = c.brighten(brighten);
             }
-            var lighten = (this.stepOptions.lighten || 0) * i + (this.passOptions.lighten || 0) * this._currentPass;
+            var lighten = (this.stepOptions.lighten || 0) * (i + 1) + (this.passOptions.lighten || 0) * this._currentPass;
             if (lighten != 0) {
                 if (this.wrap) {
                     lighten = $utils.fitNumberRelative(lighten, this.minLightness, this.maxLightness);

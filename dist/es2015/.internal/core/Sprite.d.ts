@@ -56,6 +56,7 @@ import { DateFormatter } from "./formatters/DateFormatter";
 import { DurationFormatter } from "./formatters/DurationFormatter";
 import { Language } from "./utils/Language";
 import { Export } from "./export/Export";
+import { AmChartsLogo } from "./elements/AmChartsLogo";
 import { ISVGAttribute } from "./rendering/AMElement";
 import * as $type from "./utils/Type";
 import { Percent } from "./utils/Percent";
@@ -805,6 +806,13 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * A reference to a real stroke object. Sometimes might be useful to modify gradient (when fill is color but we have FillModifier).
      */
     realStroke: Color | Pattern | LinearGradient | RadialGradient;
+    /**
+     * A reference to amCharts logo element.
+     *
+     * @ignore
+     * @type {AmChartsLogo}
+     */
+    logo: AmChartsLogo;
     /**
      * Constructor:
      * * Creates initial node

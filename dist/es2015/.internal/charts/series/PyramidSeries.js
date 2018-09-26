@@ -46,11 +46,11 @@ export { PyramidSeriesDataItem };
  * @hidden
  */
 /**
- * Defines [[Series]] for a FunnelSlice series on a Funnel chart.
+ * Defines [[Series]] for a FunnelSlice series on a [[SlicedChart]].
  *
  * @see {@link IPyramidSeriesEvents} for a list of available Events
  * @see {@link IPyramidSeriesAdapters} for a list of available Adapters
- * @todo Example
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/sliced-chart/} for documentation
  * @important
  */
 var PyramidSeries = /** @class */ (function (_super) {
@@ -63,6 +63,7 @@ var PyramidSeries = /** @class */ (function (_super) {
         _this.className = "PyramidSeries";
         _this.topWidth = percent(0);
         _this.bottomWidth = percent(100);
+        _this.pyramidHeight = percent(100);
         _this.valueIs = "area";
         _this.sliceLinks.template.width = 0;
         _this.sliceLinks.template.height = 0;
@@ -123,16 +124,33 @@ var PyramidSeries = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     PyramidSeries.prototype.validateDataElements = function () {
+        var _this = this;
         var maxWidth = this.slicesContainer.innerWidth;
         var maxHeight = this.slicesContainer.innerHeight;
         this.dataItems.each(function (dataItem) {
             var relValue = dataItem.getWorkingValue("value") / dataItem.value;
             var sliceLink = dataItem.sliceLink;
-            maxHeight -= (sliceLink.pixelHeight * relValue);
-            maxWidth -= (sliceLink.pixelWidth * relValue);
+            if (_this.orientation == "vertical") {
+                maxHeight -= (sliceLink.pixelHeight * relValue);
+            }
+            else {
+                maxWidth -= (sliceLink.pixelWidth * relValue);
+            }
         });
-        this._pyramidHeight = maxHeight;
-        this._pyramidWidth = maxWidth;
+        this._pyramidHeight = $utils.relativeToValue(this.pyramidHeight, maxHeight);
+        this._pyramidWidth = $utils.relativeToValue(this.pyramidHeight, maxWidth);
+        if (this.orientation == "vertical") {
+            var y = (maxHeight - this._pyramidHeight) / 2;
+            this.slicesContainer.y = y;
+            this.labelsContainer.y = y;
+            this.ticksContainer.y = y;
+        }
+        else {
+            var x = (maxWidth - this._pyramidWidth) / 2;
+            this.slicesContainer.x = x;
+            this.labelsContainer.x = x;
+            this.ticksContainer.x = x;
+        }
         _super.prototype.validateDataElements.call(this);
     };
     /**
@@ -145,6 +163,7 @@ var PyramidSeries = /** @class */ (function (_super) {
         var slice = dataItem.slice;
         var sliceLink = dataItem.sliceLink;
         var label = dataItem.label;
+        var tick = dataItem.tick;
         var nextValue = this.getNextValue(dataItem);
         var workingValue = dataItem.getWorkingValue("value");
         if (workingValue == 0) {
@@ -181,14 +200,14 @@ var PyramidSeries = /** @class */ (function (_super) {
                 sliceBottomWidth = sliceTopWidth - sliceHeight * c;
             }
             slice.height = sliceHeight;
+            slice.width = maxWidth;
             slice.bottomWidth = sliceBottomWidth;
             slice.topWidth = sliceTopWidth;
             sliceLink.topWidth = slice.bottomWidth;
             sliceLink.bottomWidth = slice.bottomWidth;
             slice.y = this._nextY;
-            slice.x = maxWidth / 2;
-            label.x = slice.x;
-            label.y = slice.pixelY + slice.pixelHeight / 2;
+            label.x = maxWidth / 2;
+            label.y = slice.pixelY + slice.pixelHeight * tick.locationY;
             this._nextY += slice.pixelHeight + linkHeight * workingValue / dataItem.value;
             sliceLink.y = this._nextY - linkHeight;
             sliceLink.x = slice.x;
@@ -218,14 +237,14 @@ var PyramidSeries = /** @class */ (function (_super) {
                 sliceBottomWidth = sliceTopWidth - sliceWidth * c;
             }
             slice.width = sliceWidth;
+            slice.height = maxHeight;
             slice.bottomWidth = sliceBottomWidth;
             slice.topWidth = sliceTopWidth;
             sliceLink.topWidth = slice.bottomWidth;
             sliceLink.bottomWidth = slice.bottomWidth;
             slice.x = this._nextY;
-            slice.y = maxHeight / 2;
-            label.y = slice.y;
-            label.x = slice.pixelX + slice.pixelWidth / 2;
+            label.y = maxHeight / 2;
+            label.x = slice.pixelX + slice.pixelWidth * tick.locationX;
             this._nextY += slice.pixelWidth + linkWidth * workingValue / dataItem.value;
             sliceLink.x = this._nextY - linkWidth;
             sliceLink.y = slice.y;
@@ -254,6 +273,28 @@ var PyramidSeries = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (this.setPropertyValue("topWidth", value)) {
+                this.invalidateDataRange();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(PyramidSeries.prototype, "pyramidHeight", {
+        /**
+         * @return {number | Percent}
+         */
+        get: function () {
+            return this.getPropertyValue("pyramidHeight");
+        },
+        /**
+         * Height of pyramid
+         *
+         *
+         * @default 100%
+         * @param {number | Percent}
+         */
+        set: function (value) {
+            if (this.setPropertyValue("pyramidHeight", value)) {
                 this.invalidateDataRange();
             }
         },

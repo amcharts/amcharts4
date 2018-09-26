@@ -135,6 +135,7 @@ var MapChart = /** @class */ (function (_super) {
         seriesContainer.events.on("transformed", _this.handleMapTransform, _this);
         seriesContainer.events.on("doublehit", _this.handleDoubleHit, _this);
         seriesContainer.events.on("drag", _this.handleDrag, _this);
+        seriesContainer.zIndex = 0;
         // Set up events
         _this.events.on("datavalidated", _this.updateExtremes, _this);
         // Set up main chart container, e.g. set backgrounds and events to monitor

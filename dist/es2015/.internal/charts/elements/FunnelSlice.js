@@ -1,5 +1,5 @@
 /**
- * Module that defines everything related to building FunnelSlices.
+ * Module that defines everything related to building Funnel slices.
  */
 import * as tslib_1 from "tslib";
 /**
@@ -25,7 +25,7 @@ import * as $path from "../../core/rendering/Path";
  *
  * @see {@link IFunnelSliceEvents} for a list of available events
  * @see {@link IFunnelSliceAdapters} for a list of available adapters
- * @see {@link https://www.amcharts.com/docs/v4/chart-types/funnel-chart/} for documentation
+ * @see {@link https://www.amcharts.com/docs/v4/chart-types/sliced-chart/} for documentation
  * @important
  */
 var FunnelSlice = /** @class */ (function (_super) {
@@ -102,6 +102,36 @@ var FunnelSlice = /** @class */ (function (_super) {
         }
         this.slice.path = path;
         this.invalidateLayout();
+    };
+    FunnelSlice.prototype.getPoint = function (locationX, locationY) {
+        var pt = this.pixelPaddingTop;
+        var pb = this.pixelPaddingBottom;
+        var pr = this.pixelPaddingRight;
+        var pl = this.pixelPaddingLeft;
+        var w = this.pixelWidth - pr - pl;
+        var h = this.pixelHeight - pt - pb;
+        if (this.orientation == "vertical") {
+            var tw = $utils.relativeToValue(this.topWidth, w);
+            var bw = $utils.relativeToValue(this.bottomWidth, w);
+            var tl = { x: (w - tw) / 2 + pl, y: pt };
+            var tr = { x: (w + tw) / 2 + pl, y: pt };
+            var br = { x: (w + bw) / 2 + pl, y: pt + h };
+            var bl = { x: (w - bw) / 2 + pl, y: pt + h };
+            var mlx = tl.x + (bl.x - tl.x) * locationY;
+            var mrx = tr.x + (br.x - tr.x) * locationY;
+            return { x: mlx + (mrx - mlx) * locationX, y: tr.y + (br.y - tr.y) * locationY };
+        }
+        else {
+            var tw = $utils.relativeToValue(this.topWidth, h);
+            var bw = $utils.relativeToValue(this.bottomWidth, h);
+            var tt = { x: pl, y: (h - tw) / 2 + pt };
+            var tb = { x: pl, y: (h + tw) / 2 + pt };
+            var bt = { x: pl + w, y: (h - bw) / 2 + pt };
+            var bb = { x: pl + w, y: (h + bw) / 2 + pt };
+            var mty = tt.y + (bt.y - tt.y) * locationX;
+            var mby = tb.y + (bb.y - tb.y) * locationX;
+            return { y: mty + (mby - mty) * locationY, x: tt.x + (bt.x - tt.x) * locationX };
+        }
     };
     Object.defineProperty(FunnelSlice.prototype, "bottomWidth", {
         /**
@@ -195,6 +225,17 @@ var FunnelSlice = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Copies all parameters from another [[Sprite]].
+     *
+     * @param {Sprite} source Source Sprite
+     */
+    FunnelSlice.prototype.copyFrom = function (source) {
+        _super.prototype.copyFrom.call(this, source);
+        if (this.slice) {
+            this.slice.copyFrom(source.slice);
+        }
+    };
     return FunnelSlice;
 }(Container));
 export { FunnelSlice };

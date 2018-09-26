@@ -4,7 +4,7 @@ import { Scrollbar } from "../core/elements/Scrollbar";
 import { Tooltip } from "../core/elements/Tooltip";
 import { Series } from "../charts/series/Series";
 import { SankeyDiagram } from "../charts/types/SankeyDiagram";
-import { AmChartsLogo } from "../core/elements/AmChartsLogo";
+import { FunnelSeries } from "../charts/series/FunnelSeries";
 var theme = function (object) {
     if (object instanceof SpriteState) {
         object.transitionDuration = 400;
@@ -14,6 +14,9 @@ var theme = function (object) {
         object.interpolationDuration = 800;
         object.sequencedInterpolation = false;
         if (object instanceof SankeyDiagram) {
+            object.sequencedInterpolation = true;
+        }
+        if (object instanceof FunnelSeries) {
             object.sequencedInterpolation = true;
         }
     }
@@ -28,10 +31,6 @@ var theme = function (object) {
         object.hiddenState.transitionDuration = 1000;
         object.hiddenState.properties.opacity = 1;
         object.interpolationDuration = 1000;
-    }
-    if (object instanceof AmChartsLogo) {
-        object.align = "left";
-        object.valign = "bottom";
     }
 };
 export default theme;

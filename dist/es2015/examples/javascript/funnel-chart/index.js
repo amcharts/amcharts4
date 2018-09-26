@@ -4,7 +4,7 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 am4core.useTheme(am4themes_animated);
 
-let chart = am4core.create("chartdiv", am4charts.FunnelChart);
+let chart = am4core.create("chartdiv", am4charts.SlicedChart);
 chart.data = [{
     "name": "The first",
     "value": 600

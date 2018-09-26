@@ -48,6 +48,8 @@ var FunnelTick = /** @class */ (function (_super) {
         _this.element = _this.paper.add("path");
         _this._disposers.push(_this._label);
         _this._disposers.push(_this._slice);
+        _this.setPropertyValue("locationX", 0);
+        _this.setPropertyValue("locationY", 0);
         _this.applyTheme();
         return _this;
     }
@@ -59,7 +61,7 @@ var FunnelTick = /** @class */ (function (_super) {
     FunnelTick.prototype.draw = function () {
         _super.prototype.draw.call(this);
         var slice = this.slice;
-        var point = slice.tickPoint;
+        var point = slice.getPoint(this.locationX, this.locationY);
         if (point) {
             var label = this.label;
             var series = slice.dataItem.component;
@@ -114,6 +116,56 @@ var FunnelTick = /** @class */ (function (_super) {
          */
         set: function (label) {
             this._label.set(label, label.events.on("transformed", this.invalidate, this));
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(FunnelTick.prototype, "locationX", {
+        /**
+         * @return {number} Location (0-1)
+         */
+        get: function () {
+            return this.getPropertyValue("locationX");
+        },
+        /**
+         * A relative horizontal position within target element a tick is pointing
+         * to.
+         *
+         * A scale is from 0 to 1, where 0 means left edge, and 1 right edge.
+         *
+         * You can also set any value in-between (e.g. 0.5 will point to the middle
+         * of the slice), or outside 0-1 range, which will put tick anchor position
+         * outside target element.
+         *
+         * @param {number}  value  Location (0-1)
+         */
+        set: function (value) {
+            this.setPropertyValue("locationX", value, false, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(FunnelTick.prototype, "locationY", {
+        /**
+         * @return {number} Location (0-1)
+         */
+        get: function () {
+            return this.getPropertyValue("locationY");
+        },
+        /**
+         * A relative vertical position within target element a tick is pointing
+         * to.
+         *
+         * A scale is from 0 to 1, where 0 means top edge, and 1 bottom edge.
+         *
+         * You can also set any value in-between (e.g. 0.5 will point to the middle
+         * of the slice), or outside 0-1 range, which will put tick anchor position
+         * outside target element.
+         *
+         * @param {number}  value  Location (0-1)
+         */
+        set: function (value) {
+            this.setPropertyValue("locationY", value, false, true);
         },
         enumerable: true,
         configurable: true

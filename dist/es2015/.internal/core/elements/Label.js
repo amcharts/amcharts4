@@ -528,6 +528,7 @@ var Label = /** @class */ (function (_super) {
             /**
              * HTML
              */
+            var pixelRatio = $utils.getPixelRatio();
             this.element.removeAttr("display");
             this.resetBBox();
             // Clear the element
@@ -554,14 +555,14 @@ var Label = /** @class */ (function (_super) {
             this.bbox = {
                 x: 0,
                 y: 0,
-                width: tmpBBox.width,
-                height: tmpBBox.height
+                width: tmpBBox.width / pixelRatio,
+                height: tmpBBox.height / pixelRatio
             };
             // Set exact dimensions of foreignObject so it is sized exactly as
             // the content within
             fo.attr({
-                width: tmpBBox.width,
-                height: tmpBBox.height
+                width: tmpBBox.width / pixelRatio,
+                height: tmpBBox.height / pixelRatio
             });
             // Set measurements and update bbox
             this._measuredWidth = $math.max(this.bbox.width, this.pixelWidth - this.pixelPaddingLeft - this.pixelPaddingRight);

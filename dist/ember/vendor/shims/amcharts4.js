@@ -1498,6 +1498,22 @@ define('@amcharts/amcharts4/themes/dark', [], function () {
   }
   throw new Error("You must add 'themes/dark' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4/themes/dataviz', [], function () {
+  'use strict';
+  var output = self.am4themes_dataviz;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'themes/dataviz' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4/themes/frozen', [], function () {
+  'use strict';
+  var output = self.am4themes_frozen;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'themes/frozen' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4/themes/kelly', [], function () {
   'use strict';
   var output = self.am4themes_kelly;
@@ -1513,4 +1529,20 @@ define('@amcharts/amcharts4/themes/material', [], function () {
     return output;
   }
   throw new Error("You must add 'themes/material' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4/themes/moonrisekingdom', [], function () {
+  'use strict';
+  var output = self.am4themes_moonrisekingdom;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'themes/moonrisekingdom' to the amcharts4.files array in your EmberApp.");
+});
+define('@amcharts/amcharts4/themes/spiritedaway', [], function () {
+  'use strict';
+  var output = self.am4themes_spiritedaway;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'themes/spiritedaway' to the amcharts4.files array in your EmberApp.");
 });

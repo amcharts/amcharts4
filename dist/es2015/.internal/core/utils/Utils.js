@@ -139,6 +139,15 @@ export function valueToRelative(value, full) {
     }
 }
 /**
+ * Returns pixel ratio of the current screen (used on retina displays).
+ *
+ * @return {number} Pixel ratio
+ */
+export function getPixelRatio() {
+    var ratio = window.devicePixelRatio || 1;
+    return ratio;
+}
+/**
  * ============================================================================
  * STRING FORMATTING FUNCTIONS
  * ============================================================================

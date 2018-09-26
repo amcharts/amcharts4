@@ -882,10 +882,17 @@ var Interaction = /** @class */ (function (_super) {
         var pointer = this.getPointer(ev);
         // Init delta values
         var deltaX = 0, deltaY = 0;
+        // Set up modifier
+        // This is needed because FireFox reports wheel deltas in "lines" instead 
+        // of pixels so we have to approximate pixel value
+        var mod = 1;
+        if (ev.deltaMode == 1) {
+            mod = 50;
+        }
         // Calculate deltas
         if (ev instanceof WheelEvent) {
-            deltaX = Math.round(ev.deltaX);
-            deltaY = Math.round(ev.deltaY);
+            deltaX = Math.round(ev.deltaX) * mod;
+            deltaY = Math.round(ev.deltaY) * mod;
         }
         else {
             throw new Error("Invalid event type");

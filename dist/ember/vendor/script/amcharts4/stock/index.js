@@ -17,5 +17,5 @@
  * PLEASE DO NOT REMOVE THIS COPYRIGHT NOTICE.
  * @hidden
  */
-webpackJsonp([20],{1136:function(t,e,r){t.exports=r(1137)},1137:function(t,e,r){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var n=r(1138);window.am4stock=n},1138:function(t,e,r){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),r.d(e,"StockChart",function(){return s});var n=r(0),o=r(308),s=function(t){function e(){return null!==t&&t.apply(this,arguments)||this}return n.c(e,t),e}(r(208).XYChart);o.registry.registeredClasses.StockChart=s}},[1136]);
+webpackJsonp([24],{1153:function(t,e,r){t.exports=r(1154)},1154:function(t,e,r){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var n=r(1155);window.am4stock=n},1155:function(t,e,r){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),r.d(e,"StockChart",function(){return s});var n=r(0),o=r(308),s=function(t){function e(){return null!==t&&t.apply(this,arguments)||this}return n.c(e,t),e}(r(208).XYChart);o.registry.registeredClasses.StockChart=s}},[1153]);
 //# sourceMappingURL=index.js.map

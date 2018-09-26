@@ -263,7 +263,7 @@ export default {
     "Flow diagram": "",
     "Chord diagram": "",
     "TreeMap chart": "",
-    "Funnel chart": "",
+    "Sliced chart": "",
     // Series types.
     // Used to name series by type for screen readers if they do not have their
     // name set.

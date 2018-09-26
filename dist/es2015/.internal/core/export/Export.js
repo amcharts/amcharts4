@@ -868,11 +868,7 @@ var Export = /** @class */ (function (_super) {
      * @return {number} Pixel ratio
      */
     Export.prototype.getPixelRatio = function () {
-        var ratio = window.devicePixelRatio || 1;
-        if (!this.useRetina) {
-            ratio = 1;
-        }
-        return ratio;
+        return this.useRetina ? $utils.getPixelRatio() : 1;
     };
     /**
      * Converts all `<image>` tags in SVG to use data uris instead of external

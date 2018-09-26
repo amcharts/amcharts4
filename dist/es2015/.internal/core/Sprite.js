@@ -1282,7 +1282,6 @@ var Sprite = /** @class */ (function (_super) {
                 // Container
                 if (mask instanceof Container) {
                     // create clip path
-                    this._clipElement = this.paper.add("rect");
                     this._clipElement.attr({ "width": $math.max(0, mask.pixelWidth), "height": $math.max(0, mask.pixelHeight) });
                 }
                 // Sprite
@@ -1290,6 +1289,10 @@ var Sprite = /** @class */ (function (_super) {
                     if (mask.element) {
                         this._clipElement = mask.element;
                     }
+                    this._clipPath.scale = mask.scale;
+                    this._clipPath.x = mask.pixelX;
+                    this._clipPath.y = mask.pixelY;
+                    this._clipPath.rotation = mask.rotation;
                 }
             }
             if (this._clipElement) {
@@ -1785,18 +1788,21 @@ var Sprite = /** @class */ (function (_super) {
                     if (!(mask instanceof Container)) {
                         mask.isMeasured = false;
                     }
+                    else {
+                        this._clipElement = this.paper.add("rect");
+                    }
                     this._mask.set(mask, new MultiDisposer([
                         //mask.addEventListener(SpriteEvent.TRANSFORMED, this.applyMask, false, this);
                         mask.events.on("maxsizechanged", this.applyMask, this),
                         mask.events.on("validated", this.applyMask, this)
                     ]));
-                    this.applyMask();
                 }
                 else {
                     this._mask.reset();
                     this.group.removeAttr("clip-path");
                 }
             }
+            this.applyMask();
         },
         enumerable: true,
         configurable: true

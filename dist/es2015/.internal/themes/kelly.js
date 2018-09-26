@@ -7,7 +7,6 @@
  */
 import { color } from "../core/utils/Color";
 import { ColorSet } from "../core/utils/ColorSet";
-import { AmChartsLogo } from "../core/elements/AmChartsLogo";
 var theme = function (object) {
     if (object instanceof ColorSet) {
         object.list = [
@@ -37,10 +36,6 @@ var theme = function (object) {
         object.minLightness = 0.2;
         object.maxLightness = 0.7;
         object.reuse = true;
-    }
-    if (object instanceof AmChartsLogo) {
-        object.align = "left";
-        object.valign = "bottom";
     }
 };
 export default theme;
