@@ -43,15 +43,20 @@ var LightenFilter = /** @class */ (function (_super) {
     }
     Object.defineProperty(LightenFilter.prototype, "lightness", {
         /**
-         * @return {number} Lightness (0-1)
+         * @return {number} Lightness
          */
         get: function () {
             return this.properties["lightness"];
         },
         /**
-         * Lightness. (0-1)
+         * Lightness of the target colors.
          *
-         * @param {number} value Lightness (0-1)
+         * If `lightness` is a positive number, the filter will make all colors
+         * lighter.
+         *
+         * If `lightness` is negative, colors will be darkened.
+         *
+         * @param {number}  value  Lightness
          */
         set: function (value) {
             this.properties["lightness"] = value;

@@ -10,10 +10,10 @@
  */
 import { Component, IComponentProperties, IComponentDataFields, IComponentAdapters, IComponentEvents } from "../../core/Component";
 import { AxisDataItem } from "../axes/Axis";
-import { Sprite, AMEvent } from "../../core/Sprite";
+import { Sprite } from "../../core/Sprite";
 import { List, ListTemplate, IListEvents } from "../../core/utils/List";
 import { Dictionary } from "../../core/utils/Dictionary";
-import { DataItem, IDataItemEvents } from "../../core/DataItem";
+import { DataItem } from "../../core/DataItem";
 import { Container } from "../../core/Container";
 import { SerialChart } from "../types/SerialChart";
 import { Axis } from "../axes/Axis";
@@ -122,7 +122,7 @@ export interface ISeriesProperties extends IComponentProperties {
      *
      * This allows to avoid crammed up graphs wil a lot of bullets.
      *
-     * @default 50
+     * @default 0
      * @type {number}
      */
     minBulletDistance?: number;
@@ -470,9 +470,9 @@ export declare class Series extends Component {
     /**
      * [handleDataItemWorkingValueChange description]
      *
-     * @todo Description
+     * @ignore Exclude from docs
      */
-    protected handleDataItemWorkingValueChange(event: AMEvent<SeriesDataItem, IDataItemEvents>["workingvaluechanged"]): void;
+    handleDataItemWorkingValueChange(dataItem?: this["_dataItem"]): void;
     /**
      * @return {boolean} Exclude from calculations?
      */
@@ -522,7 +522,7 @@ export declare class Series extends Component {
      *
      * This allows to avoid crammed up graphs wil a lot of bullets.
      *
-     * @default 50
+     * @default 0
      * @param {number}  value  Distance (px)
      */
     minBulletDistance: number;

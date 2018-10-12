@@ -106,7 +106,7 @@ var MapLine = /** @class */ (function (_super) {
         set: function (images) {
             var _this = this;
             //@todo dispose listeners if previous imagesToConnect exists
-            for (var i = 0; i < images.length; i++) {
+            for (var i = 0, len = images.length; i < len; i++) {
                 var image = images[i];
                 if ($type.isString(image)) {
                     if (this.map.hasKey(image)) {
@@ -156,10 +156,10 @@ var MapLine = /** @class */ (function (_super) {
         }
         if (this.shortestDistance) {
             var newMultiGeoLine = [];
-            for (var i = 0; i < multiGeoLine.length; i++) {
+            for (var i = 0, len = multiGeoLine.length; i < len; i++) {
                 var geoLine = multiGeoLine[i];
                 var newGeoLine = [];
-                for (var p = 1; p < geoLine.length; p++) {
+                for (var p = 1, plen = geoLine.length; p < plen; p++) {
                     var geoPointA = geoLine[p - 1];
                     var geoPointB = geoLine[p];
                     var stepCount = Math.max(Math.abs(geoPointA.latitude - geoPointB.latitude), Math.abs(geoPointA.longitude - geoPointB.longitude));

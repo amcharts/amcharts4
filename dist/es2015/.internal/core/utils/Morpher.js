@@ -103,7 +103,7 @@ var Morpher = /** @class */ (function (_super) {
      * @return {IPoint[]}               Normalized points
      */
     Morpher.prototype.normalizePoints = function (pointsA, pointsB) {
-        for (var i = 0; i < pointsA.length; i++) {
+        for (var i = 0, len = pointsA.length; i < len; i++) {
             var surfaceA = pointsA[i][0];
             var holeA = pointsA[i][1];
             var bboxA = $type.getValue($math.getBBox(surfaceA));
@@ -161,7 +161,7 @@ var Morpher = /** @class */ (function (_super) {
             }
         });
         var bboxes = [];
-        for (var i = 0; i < points.length; i++) {
+        for (var i = 0, len = points.length; i < len; i++) {
             var surface = points[i][0];
             if (surface) {
                 bboxes.push($type.getValue($math.getBBox(surface)));
@@ -189,7 +189,7 @@ var Morpher = /** @class */ (function (_super) {
             easing = this.morphEasing;
         }
         // surface
-        for (var i = 0; i < points.length; i++) {
+        for (var i = 0, len = points.length; i < len; i++) {
             var surface = points[i][0];
             var hole = points[i][1];
             this._morphFromPointsReal[i] = [];
@@ -223,7 +223,7 @@ var Morpher = /** @class */ (function (_super) {
                     toPoints[a] = pointOnCircle;
                 }
                 if (hole && hole.length > 0) {
-                    for (var i_1 = 0; i_1 < hole.length; i_1++) {
+                    for (var i_1 = 0, hlen = hole.length; i_1 < hlen; i_1++) {
                         toPoints.push({ x: middleX, y: middleY });
                     }
                 }
@@ -249,7 +249,7 @@ var Morpher = /** @class */ (function (_super) {
     Morpher.prototype.addPoints = function (points, mustHaveCount) {
         var addToSegmentCount = Math.round(mustHaveCount / points.length);
         var newPoints = [];
-        for (var i = 0; i < points.length; i++) {
+        for (var i = 0, len = points.length; i < len; i++) {
             var point0 = points[i];
             var point1 = void 0;
             if (i == points.length - 1) {
@@ -300,7 +300,7 @@ var Morpher = /** @class */ (function (_super) {
         }
         //		let biggestBBox: IRectangle = this._bboxes[this._biggestIndex];
         // surface
-        for (var i = 0; i < points.length; i++) {
+        for (var i = 0, len = points.length; i < len; i++) {
             var surface = points[i][0];
             var hole = points[i][1];
             this._morphFromPointsReal[i] = [];
@@ -336,7 +336,7 @@ var Morpher = /** @class */ (function (_super) {
                 if (hole && hole.length > 0) {
                     var middleX = bbox.x + bbox.width / 2;
                     var middleY = bbox.y + bbox.height / 2;
-                    for (var i_3 = 0; i_3 < hole.length; i_3++) {
+                    for (var i_3 = 0, hlen = hole.length; i_3 < hlen; i_3++) {
                         toPoints.push({ x: middleX, y: middleY });
                     }
                 }
@@ -373,7 +373,7 @@ var Morpher = /** @class */ (function (_super) {
                 var fromPoints = this._morphFromPointsReal;
                 var toPoints = this._morphToPointsReal;
                 if (fromPoints != null && toPoints != null) {
-                    for (var i = 0; i < fromPoints.length; i++) {
+                    for (var i = 0, len = fromPoints.length; i < len; i++) {
                         var currentArea = [];
                         currentPoints.push(currentArea);
                         var surfaceFrom = fromPoints[i][0];
@@ -382,7 +382,7 @@ var Morpher = /** @class */ (function (_super) {
                         var holeTo = toPoints[i][1];
                         if (surfaceFrom && surfaceFrom.length > 0 && surfaceTo && surfaceTo.length > 0) {
                             var currentSurface = [];
-                            for (var i_4 = 0; i_4 < surfaceFrom.length; i_4++) {
+                            for (var i_4 = 0, slen = surfaceFrom.length; i_4 < slen; i_4++) {
                                 var point0 = surfaceFrom[i_4];
                                 var point1 = surfaceTo[i_4];
                                 var currentPoint = { x: point0.x + (point1.x * this.scaleRatio - point0.x) * value, y: point0.y + (point1.y * this.scaleRatio - point0.y) * value };
@@ -392,7 +392,7 @@ var Morpher = /** @class */ (function (_super) {
                         }
                         if (holeFrom && holeFrom.length > 0 && holeTo && holeTo.length > 0) {
                             var currentHole = [];
-                            for (var i_5 = 0; i_5 < holeFrom.length; i_5++) {
+                            for (var i_5 = 0, hlen = holeFrom.length; i_5 < hlen; i_5++) {
                                 var point0 = holeFrom[i_5];
                                 var point1 = holeTo[i_5];
                                 var currentPoint = { x: point0.x + (point1.x * this.scaleRatio - point0.x) * value, y: point0.y + (point1.y * this.scaleRatio - point0.y) * value };

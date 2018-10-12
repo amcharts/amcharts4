@@ -1,6 +1,28 @@
 declare const _default: {
     "_decimalSeparator": string;
     "_thousandSeparator": string;
+    "_big_number_suffix_3": string;
+    "_big_number_suffix_6": string;
+    "_big_number_suffix_9": string;
+    "_big_number_suffix_12": string;
+    "_big_number_suffix_15": string;
+    "_big_number_suffix_18": string;
+    "_big_number_suffix_21": string;
+    "_big_number_suffix_24": string;
+    "_small_number_suffix_3": string;
+    "_small_number_suffix_6": string;
+    "_small_number_suffix_9": string;
+    "_small_number_suffix_12": string;
+    "_small_number_suffix_15": string;
+    "_small_number_suffix_18": string;
+    "_small_number_suffix_21": string;
+    "_small_number_suffix_24": string;
+    "_byte_suffix_B": string;
+    "_byte_suffix_KB": string;
+    "_byte_suffix_MB": string;
+    "_byte_suffix_GB": string;
+    "_byte_suffix_TB": string;
+    "_byte_suffix_PB": string;
     "_date_millisecond": string;
     "_date_second": string;
     "_date_minute": string;

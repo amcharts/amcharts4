@@ -260,18 +260,23 @@ var Series = /** @class */ (function (_super) {
     Series.prototype.appear = function () {
         var _this = this;
         this._appeared = false;
-        this.events.disableType("hidden");
-        this.hide(0);
-        var animation = this.show();
-        if (animation && !animation.isDisposed()) {
-            animation.events.once("animationended", function () {
-                _this.appeared = true;
-            });
+        if (this.interpolationDuration > 0) {
+            this.events.disableType("hidden");
+            this.hide(0);
+            var animation = this.show();
+            if (animation && !animation.isDisposed()) {
+                animation.events.once("animationended", function () {
+                    _this.appeared = true;
+                });
+            }
+            else {
+                this.appeared = true;
+            }
+            this.events.enableType("hidden");
         }
         else {
             this.appeared = true;
         }
-        this.events.enableType("hidden");
     };
     /**
      * Fades in bullet container and related elements.
@@ -484,8 +489,7 @@ var Series = /** @class */ (function (_super) {
                         if (value == ksum) {
                             ksum = dataItem_2.values[key].value;
                         }
-                        var percent = void 0; // used to be = 0; but no good for pie chart
-                        percent = value / ksum * 100;
+                        var percent = value / ksum * 100;
                         dataItem_2.setCalculatedValue(key, percent, "percent");
                     }
                 });
@@ -615,10 +619,12 @@ var Series = /** @class */ (function (_super) {
     /**
      * [handleDataItemWorkingValueChange description]
      *
-     * @todo Description
+     * @ignore Exclude from docs
      */
-    Series.prototype.handleDataItemWorkingValueChange = function (event) {
-        this.invalidateProcessedData();
+    Series.prototype.handleDataItemWorkingValueChange = function (dataItem) {
+        if (!this.dataRangeInvalid) {
+            this.invalidateProcessedData();
+        }
     };
     Object.defineProperty(Series.prototype, "ignoreMinMax", {
         /**
@@ -701,7 +707,7 @@ var Series = /** @class */ (function (_super) {
          *
          * This allows to avoid crammed up graphs wil a lot of bullets.
          *
-         * @default 50
+         * @default 0
          * @param {number}  value  Distance (px)
          */
         set: function (value) {
@@ -925,9 +931,13 @@ var Series = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Series.prototype.applyFilters = function () {
+        var _this = this;
         _super.prototype.applyFilters.call(this);
         this.bulletsContainer.filters.clear();
-        this.bulletsContainer.filters.copyFrom(this.filters);
+        // copyFrom of a list copies, does not clone
+        $iter.each(this.filters.iterator(), function (filter) {
+            _this.bulletsContainer.filters.push(filter.clone());
+        });
     };
     Object.defineProperty(Series.prototype, "heatRules", {
         /**
@@ -1095,7 +1105,13 @@ var Series = /** @class */ (function (_super) {
                         var parts = rule.target.split(".");
                         for (var x = 0; x < parts.length; x++) {
                             if (target instanceof List) {
-                                target = target.getIndex($type.toNumber(parts[x]));
+                                var listitem = target.getIndex($type.toNumber(parts[x]));
+                                if (!listitem) {
+                                    target = target[parts[x]];
+                                }
+                                else {
+                                    target = listitem;
+                                }
                             }
                             else {
                                 target = target[parts[x]];

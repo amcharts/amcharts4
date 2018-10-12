@@ -547,7 +547,7 @@ var XYCursor = /** @class */ (function (_super) {
          */
         set: function (lineX) {
             if (lineX) {
-                lineX.element = this.paper.add("path");
+                lineX.setElement(this.paper.add("path"));
                 this._lineX.set(lineX, lineX.events.on("positionchanged", this.updateSelection, this));
                 lineX.interactionsEnabled = false;
                 lineX.parent = this;
@@ -573,7 +573,7 @@ var XYCursor = /** @class */ (function (_super) {
          */
         set: function (lineY) {
             if (lineY) {
-                lineY.element = this.paper.add("path");
+                lineY.setElement(this.paper.add("path"));
                 this._lineY.set(lineY, lineY.events.on("positionchanged", this.updateSelection, this));
                 lineY.parent = this;
                 lineY.interactionsEnabled = false;

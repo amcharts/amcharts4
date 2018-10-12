@@ -1,6 +1,7 @@
 /**
  * This module contains Color object definition
  */
+import { registry } from "../Registry";
 import * as $colors from "./Colors";
 import * as $type from "./Type";
 /**
@@ -235,7 +236,14 @@ export function color(value, alpha) {
         return new Color(undefined);
     }
     if (typeof value == "string") {
-        return new Color($colors.rgb(value, alpha));
+        var cacheId = "_color_" + value + "_" + (alpha || "1");
+        var cached = registry.getCache(cacheId);
+        if (cached) {
+            return new Color(cached);
+        }
+        var rgb = $colors.rgb(value, alpha);
+        registry.setCache(cacheId, rgb);
+        return new Color(rgb);
     }
     // Check if it's already a Color object
     if (value instanceof Color) {

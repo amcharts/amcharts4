@@ -57,7 +57,7 @@ var FlowDiagramLink = /** @class */ (function (_super) {
         _this.tooltipLocation = 0.5;
         _this.link = _this.createChild(Sprite);
         _this.link.shouldClone = false;
-        _this.link.element = _this.paper.add("path");
+        _this.link.setElement(_this.paper.add("path"));
         _this.link.isMeasured = false;
         _this.fillOpacity = 0.2;
         _this.fill = interfaceColors.getFor("alternativeBackground");
@@ -101,7 +101,7 @@ var FlowDiagramLink = /** @class */ (function (_super) {
             if (!this._bulletsMask) {
                 var bulletsMask = this.createChild(Sprite);
                 bulletsMask.shouldClone = false;
-                bulletsMask.element = this.paper.add("path");
+                bulletsMask.setElement(this.paper.add("path"));
                 bulletsMask.isMeasured = false;
                 this._bulletsMask = bulletsMask;
             }

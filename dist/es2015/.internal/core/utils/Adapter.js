@@ -140,6 +140,9 @@ var GlobalAdapter = /** @class */ (function () {
         // This is needed to improve the performance and reduce garbage collection
         var callbacks = this._callbacks.values;
         var length = callbacks.length;
+        if (length == 0) {
+            return value;
+        }
         // Cycle through all callbacks and find the ones we need to use
         for (var i = 0; i < length; ++i) {
             var item = callbacks[i];
@@ -361,10 +364,12 @@ var Adapter = /** @class */ (function () {
         // This is needed to improve the performance and reduce garbage collection
         var callbacks = this._callbacks.values;
         var length = callbacks.length;
-        for (var i = 0; i < length; ++i) {
-            var item = callbacks[i];
-            if (item.key === key) {
-                value = item.callback.call(item.scope, value, this.object, key);
+        if (length > 0) {
+            for (var i = 0; i < length; ++i) {
+                var item = callbacks[i];
+                if (item.key === key) {
+                    value = item.callback.call(item.scope, value, this.object, key);
+                }
             }
         }
         // Apply global adapters

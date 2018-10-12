@@ -26,6 +26,26 @@ export function indexOf(array, value) {
     return -1;
 }
 /**
+ * Calls `test` for each element in `array`.
+ *
+ * If `test` returns `true` then it immediately returns `true`.
+ *
+ * If `test` returns `false` for all of the elements in `array` then it returns `false`.
+ *
+ * @param   {ArrayLike<A>}           array  Source array
+ * @param   {(value: A) => boolean}  test   Function which is called on each element
+ * @returns {boolean}                Whether `test` returned true or not
+ */
+export function any(array, test) {
+    var length = array.length;
+    for (var i = 0; i < length; ++i) {
+        if (test(array[i])) {
+            return true;
+        }
+    }
+    return false;
+}
+/**
  * Calls `fn` function for every member of array and returns a new array out
  * of all outputs.
  *
@@ -165,11 +185,20 @@ export function pushAll(array, input) {
  */
 export function remove(array, element) {
     var found = false;
-    if (array) {
-        var index = void 0;
-        while ((index = array.indexOf(element)) !== -1) {
-            array.splice(index, 1);
-            found = true;
+    var index = array.indexOf(element);
+    if (index !== -1) {
+        found = true;
+        array.splice(index, 1);
+        var length_1 = array.length;
+        while (index < length_1) {
+            // TODO handle NaN
+            if (array[index] === element) {
+                array.splice(index, 1);
+                --length_1;
+            }
+            else {
+                ++index;
+            }
         }
     }
     return found;

@@ -5,6 +5,32 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.56] - 2018-10-12
+
+### Added
+- New `Sprite` adapter: `"populateString"`. Applied to strings after `Sprite` replaces data binders with real values, but before any formatting by `Label` kicks in.
+- New `Label` property: [`ignoreFormatting`](https://www.amcharts.com/docs/v4/reference/label/#ignoreFormatting_property). If set to `true` will treat formatting blocks in square brackes (e.g. `"[red bold]"`) as regular text and will display them as such.
+
+### Changed
+- Default big, small, and byte suffixes in `NumberFormatter` are now translatable via locale files.
+- The suffix for thousands "kilo", was changed to lowercase "k", as per [standards](https://en.wikipedia.org/wiki/International_System_of_Units#Prefixes).
+- On `XYChart`, default for [`mouseWheelBehavior`](https://www.amcharts.com/docs/v4/reference/xychart/#mouseWheelBehavior_property) changed to `"none"` (was `"zoomX"`).
+
+### Fixed
+- Improved performance! All charts types are now noticably, some drastically are faster. Some memory leakages fixed as well.
+- Now `MapPolygonSeries` will not inherit chart's global `geodata` if it has own `geodataSource` set.
+- `DateFormatter` was not parsing all AM/PM string dates correctly.
+- `DateFormatter` was not parsing `MMM` (short month names like "Jan", "Feb") propertly.
+- In-line date formatter was not working correctly in some cases, e.g. `"{dateX.formatDate()}"`.
+- Setting `chart.mouseWheelBehavior = "none"` did not release wheel scrolling of the web page when hovering over chart.
+- `DataSource`'s' `"done"` event was being called if parsing of loaded data failed. Not anymore. `"done"` is called only on successful load. To catch any load (including one that ended in http or parse error) use `"ended"`.
+- `DataSource`'s' `reloadFrequency` was broken if error occurred during one of the loads. This has been fixed. Even if error occurrs, loader will try to reload data in the next reload slot.
+- JSON: `heatRules` did not work properly with their target set to a list template, e.g. `mapPolygons.template`.
+- Auto-calculated `DateAxis.baseInterval` was not being carried over to the `XYChartScrollbar`.
+- `DurationAxis` scale sometimes was dropping to negative values, even there were no negative values in data.
+- `PieChart` and `Legend` were not working properly with `chart.zoom()` or `legend.zoom()` methods.
+
+
 ## [4.0.0-beta.55] - 2018-09-26
 
 ### Added

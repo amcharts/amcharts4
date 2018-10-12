@@ -561,13 +561,6 @@ export declare class TreeMap extends XYChart {
         [index: string]: any;
     }): void;
     /**
-     * [handleDataItemValueChange description]
-     *
-     * @ignore Exclude from docs
-     * @todo Description
-     */
-    protected handleDataItemValueChange(): void;
-    /**
      * Measures the size of container and informs its children of how much size
      * they can occupy, by setting their relative `maxWidth` and `maxHeight`
      * properties.
@@ -656,6 +649,13 @@ export declare class TreeMap extends XYChart {
      * @param {TreeMapDataItem}  parent  Data item
      */
     squarify(parent: TreeMapDataItem): void;
+    /**
+     * [handleDataItemValueChange description]
+     *
+     * @ignore Exclude from docs
+     * @todo Description
+     */
+    handleDataItemValueChange(dataItem?: this["_dataItem"]): void;
     /**
      * Setups the legend to use the chart's data.
      */

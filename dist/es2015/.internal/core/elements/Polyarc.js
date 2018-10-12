@@ -48,7 +48,7 @@ var Polyarc = /** @class */ (function (_super) {
         if (segments && segments.length > 0) {
             var path = "";
             this._realSegments = [];
-            for (var i = 0; i < segments.length; i++) {
+            for (var i = 0, len = segments.length; i < len; i++) {
                 var points = segments[i];
                 var realPoints = [];
                 this._realSegments.push(realPoints);

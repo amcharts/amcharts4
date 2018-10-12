@@ -67,7 +67,7 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
      * @param {string[]}  fields    Fields to animate while hiding
      */
     PieSeriesDataItem.prototype.hide = function (duration, delay, toValue, fields) {
-        return _super.prototype.hide.call(this, duration, delay, 0, ["radiusValue"]);
+        return _super.prototype.hide.call(this, duration, delay, 0, ["value", "radiusValue"]);
     };
     /**
      * Show hidden data item (and corresponding cisual elements).
@@ -77,7 +77,7 @@ var PieSeriesDataItem = /** @class */ (function (_super) {
      * @param {string[]}  fields    Fields to animate while hiding
      */
     PieSeriesDataItem.prototype.show = function (duration, delay, fields) {
-        return _super.prototype.show.call(this, duration, delay, ["radiusValue"]);
+        return _super.prototype.show.call(this, duration, delay, ["value", "radiusValue"]);
     };
     return PieSeriesDataItem;
 }(PercentSeriesDataItem));
@@ -221,8 +221,6 @@ var PieSeries = /** @class */ (function (_super) {
             // SLICE
             var slice = dataItem.slice;
             slice.radius = this.pixelRadius;
-            slice.parent = this.slicesContainer;
-            //slice.radius = this.radius;
             if ($type.isNumber(dataItem.radiusValue)) {
                 slice.radius *= dataItem.values.radiusValue.percent / this._maxRadiusPercent;
             }
@@ -233,11 +231,9 @@ var PieSeries = /** @class */ (function (_super) {
             slice.arc = dataItem.values.value.percent * (this.endAngle - this.startAngle) / 100;
             // LABEL
             var label = dataItem.label;
-            label.parent = this.labelsContainer;
             var tick = dataItem.tick;
             tick.slice = slice;
             tick.label = label;
-            tick.parent = this.ticksContainer;
             var normalizedMiddleAngle = (slice.middleAngle + 360) % 360; // force angle to be 0 - 360;
             var point = void 0;
             if (this.alignLabels) {
@@ -416,14 +412,20 @@ var PieSeries = /** @class */ (function (_super) {
      * @param {AMEvent<Slice, ISpriteEvents>["propertychanged"]}  event  Event
      */
     PieSeries.prototype.handleSliceMove = function (event) {
-        if (!this.alignLabels) {
-            var slice = event.target;
-            var dataItem = slice.dataItem;
+        /*	if (!this.alignLabels) {
+                
+            let slice = event.target;
+            let dataItem: this["_dataItem"] = <this["_dataItem"]>slice.dataItem;
             // moving textelement, as label dx and dy are already employed for aligning
             //@labeltodo
-            dataItem.label.dx = slice.dx + slice.pixelX;
-            dataItem.label.dy = slice.dy + slice.pixelY;
-        }
+            if(dataItem){
+                let label = dataItem.label;
+                if (label) {
+                    label.dx = slice.dx + slice.pixelX;
+                    label.dy = slice.dy + slice.pixelY;
+                }
+            }
+        }*/
     };
     PieSeries.prototype.getContainerBBox = function () {
         var chart = this.chart;

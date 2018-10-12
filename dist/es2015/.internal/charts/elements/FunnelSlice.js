@@ -36,7 +36,7 @@ var FunnelSlice = /** @class */ (function (_super) {
     function FunnelSlice() {
         var _this = _super.call(this) || this;
         _this.slice = _this.createChild(Sprite);
-        _this.slice.element = _this.paper.add("path");
+        _this.slice.setElement(_this.paper.add("path"));
         _this.slice.isMeasured = false;
         _this.orientation = "vertical";
         _this.bottomWidth = percent(100);

@@ -534,20 +534,11 @@ var Axis = /** @class */ (function (_super) {
     Axis.prototype.initRenderer = function () {
     };
     /**
-     * Appends data items.
-     *
-     * Does nothing on a base Axis.
-     */
-    Axis.prototype.appendDataItems = function () {
-        // void
-    };
-    /**
      * Adds a data item to the Axis.
      *
      * @param {this["_dataItem"]} dataItem Data item
      */
     Axis.prototype.appendDataItem = function (dataItem) {
-        _super.prototype.appendDataItem.call(this, dataItem);
         var renderer = this.renderer;
         dataItem.tick.parent = renderer;
         dataItem.label.parent = renderer;

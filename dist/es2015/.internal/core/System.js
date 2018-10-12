@@ -67,9 +67,6 @@ var System = /** @class */ (function () {
         this.measureAt = Math.round(this.frameRate / this.measureRate);
         $dom.ready(function () {
             _this.update();
-            raf(function () {
-                _this.update();
-            });
         });
         this.time = Date.now();
     }
@@ -410,7 +407,7 @@ var System = /** @class */ (function () {
      * @see {@link https://docs.npmjs.com/misc/semver}
      * @type {string}
      */
-    System.VERSION = "4.0.0-beta.55";
+    System.VERSION = "4.0.0-beta.56";
     return System;
 }());
 export { System };

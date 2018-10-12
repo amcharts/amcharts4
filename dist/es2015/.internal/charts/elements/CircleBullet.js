@@ -36,10 +36,11 @@ var CircleBullet = /** @class */ (function (_super) {
     function CircleBullet() {
         var _this = _super.call(this) || this;
         _this.className = "CircleBullet";
-        _this.circle = _this.createChild(Circle);
-        _this.circle.shouldClone = false;
-        _this.circle.radius = 5;
-        _this.circle.isMeasured = false;
+        var circle = _this.createChild(Circle);
+        circle.shouldClone = false;
+        circle.radius = 5;
+        circle.isMeasured = false;
+        _this.circle = circle;
         return _this;
     }
     /**

@@ -17,7 +17,7 @@ import { BaseObjectEvents } from "./Base";
 import { Adapter } from "./utils/Adapter";
 import { ITheme } from "../themes/ITheme";
 import { Dictionary, IDictionaryEvents, DictionaryTemplate } from "./utils/Dictionary";
-import { ListTemplate } from "./utils/List";
+import { ListTemplate, List } from "./utils/List";
 import { EventDispatcher } from "./utils/EventDispatcher";
 import { IDisposer, MutableValueDisposer } from "./utils/Disposer";
 import { Animation, IAnimatable } from "./utils/Animation";
@@ -145,6 +145,8 @@ export interface ISpriteProperties {
     strokeModifier?: ColorModifier;
     hoverOnFocus?: boolean;
     path?: string;
+    urlTarget?: string;
+    url?: string;
 }
 /**
  * Defines animation options
@@ -186,8 +188,7 @@ export interface ISpriteAdapters extends ISpriteProperties {
     pixelY: number;
     relativeY: number;
     mask: Sprite;
-    url: string;
-    urlTarget: string;
+    populateString: string;
 }
 /**
  * ============================================================================
@@ -429,21 +430,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @type {Optional<Container>}
      */
     protected _tooltipContainer: $type.Optional<Container>;
-    /**
-     * An URL to go to when user clicks on a this Sprite.
-     *
-     * @ignore Exclude from docs
-     * @type {Optional<string>}
-     */
-    protected _url: $type.Optional<string>;
     protected _urlDisposer: $type.Optional<IDisposer>;
-    /**
-     * URL target to use.
-     *
-     * @ignore Exclude from docs
-     * @type {string}
-     */
-    protected _urlTarget: string;
     /**
      * Should this element be measured when measuring its parent container's
      * dimentions?
@@ -578,9 +565,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * List of [[Filter]] items that are currently applied to the element.
      *
      * @ignore Exclude from docs
-     * @type {Optional<ListTemplate<Filter>>}
+     * @type {Optional<List<Filter>>}
      */
-    protected _filters: $type.Optional<ListTemplate<Filter>>;
+    protected _filters: $type.Optional<List<Filter>>;
     /**
      * A shortcut to the special "Focus" filter which is applied when the element
      * gains focus.
@@ -1110,9 +1097,9 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * list is not yet initilized, creates and returns an empty one.
      * Note, not all filters combine well with one another. We recommend using one filter per sprite.
      *
-     * @return {ListTemplate<Filter>} List of filters
+     * @return {List<Filter>} List of filters
      */
-    readonly filters: ListTemplate<Filter>;
+    readonly filters: List<Filter>;
     /**
      * Sets required SVG attributes. Must be called every time an element is
      * redrawn so that attributes are (re)applied.
@@ -1173,6 +1160,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @todo Description
      */
     protected removeClipPath(): void;
+    setElement(element: AMElement): void;
     /**
      * @return {AMElement} Element
      */
@@ -1217,7 +1205,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Returns `true` if the size has changed from the last measurement.
      *
      * @ignore Exclude from docs
-     * @return {boolean} Did the size chance from the last measurement?
+     * @return {boolean} Did the size changed from the last measurement?
      */
     measure(): boolean;
     /**
@@ -1539,6 +1527,10 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     disabled: boolean;
     protected setDisabled(value: boolean): void;
+    /**
+     * @ignore
+     * @return {boolean} Disabled?
+     */
     /**
      * Internal disable method.
      *
@@ -2469,14 +2461,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     interactionsEnabled: boolean;
     /**
-     * Sets up the element to either ignore all interactivity, or not.
-     *
-     * @ignore Exclude from docs
-     * @param  {boolean}  value  Interactivity enabled?
-     * @return {string}          Current event handlers for the element
-     */
-    setInteractionsEnabled(value: boolean): string;
-    /**
      * @return {Export} Export instance
      */
     /**
@@ -2761,6 +2745,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {number}  value  Maximum width (px)
      */
     maxWidth: number;
+    protected setMaxWidth(value: number): void;
     /**
      * @return {number} Maximum height (px)
      */
@@ -2770,6 +2755,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {number}  value  Maximum height (px)
      */
     maxHeight: number;
+    protected setMaxHeight(value: number): void;
     /**
      * @return {Optional<number>} Minimum width (px)
      */

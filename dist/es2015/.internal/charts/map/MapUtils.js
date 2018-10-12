@@ -10,7 +10,7 @@
  */
 export function multiPolygonToGeo(multiPolygon) {
     var multiGeoArea = [];
-    for (var i = 0; i < multiPolygon.length; i++) {
+    for (var i = 0, len = multiPolygon.length; i < len; i++) {
         var surface = multiPolygon[i][0];
         var hole = multiPolygon[i][1];
         //let holePoints: IGeoPoint[] = [];
@@ -33,7 +33,7 @@ export function multiPolygonToGeo(multiPolygon) {
  */
 export function multiLineToGeo(multiLine) {
     var multiGeoLine = [];
-    for (var i = 0; i < multiLine.length; i++) {
+    for (var i = 0, len = multiLine.length; i < len; i++) {
         multiGeoLine.push(multiPointToGeo(multiLine[i]));
     }
     return multiGeoLine;
@@ -46,7 +46,7 @@ export function multiLineToGeo(multiLine) {
  */
 export function multiPointToGeo(points) {
     var geoPoints = [];
-    for (var i = 0; i < points.length; i++) {
+    for (var i = 0, len = points.length; i < len; i++) {
         geoPoints.push(pointToGeo(points[i]));
     }
     return geoPoints;

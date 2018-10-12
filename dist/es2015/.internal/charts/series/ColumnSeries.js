@@ -257,12 +257,17 @@ var ColumnSeries = /** @class */ (function (_super) {
         }
         return startLocation;
     };
-    ColumnSeries.prototype.handleDataItemWorkingValueChange = function (event) {
+    /**
+     * [handleDataItemWorkingValueChange description]
+     *
+     * @ignore Exclude from docs
+     */
+    ColumnSeries.prototype.handleDataItemWorkingValueChange = function (dataItem) {
         if (this.simplifiedProcessing) {
-            this.validateDataElement(event.target);
+            this.validateDataElement(dataItem);
         }
         else {
-            _super.prototype.handleDataItemWorkingValueChange.call(this, event);
+            _super.prototype.handleDataItemWorkingValueChange.call(this, dataItem);
         }
     };
     /**

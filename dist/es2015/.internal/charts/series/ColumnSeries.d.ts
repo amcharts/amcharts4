@@ -8,14 +8,13 @@
  * @hidden
  */
 import { XYSeries, IXYSeriesDataFields, XYSeriesDataItem, IXYSeriesProperties, IXYSeriesAdapters, IXYSeriesEvents } from "./XYSeries";
-import { Sprite, AMEvent } from "../../core/Sprite";
+import { Sprite } from "../../core/Sprite";
 import { SpriteState } from "../../core/SpriteState";
 import { Container } from "../../core/Container";
 import { ListTemplate } from "../../core/utils/List";
 import { Dictionary } from "../../core/utils/Dictionary";
 import { Bullet } from "../elements/Bullet";
 import { Column } from "../elements/Column";
-import { IDataItemEvents } from "../../core/DataItem";
 /**
  * ============================================================================
  * DATA ITEM
@@ -256,7 +255,12 @@ export declare class ColumnSeries extends XYSeries {
      * @return {number}                       Location (0-1)
      */
     protected getStartLocation(dataItem: this["_dataItem"]): number;
-    protected handleDataItemWorkingValueChange(event: AMEvent<ColumnSeriesDataItem, IDataItemEvents>["workingvaluechanged"]): void;
+    /**
+     * [handleDataItemWorkingValueChange description]
+     *
+     * @ignore Exclude from docs
+     */
+    handleDataItemWorkingValueChange(dataItem?: this["_dataItem"]): void;
     /**
      * Returns relative end location for the data item.
      *

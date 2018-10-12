@@ -23,6 +23,18 @@ import { Optional } from "./Type";
  */
 export declare function indexOf<A>(array: ArrayLike<A>, value: A): number;
 /**
+ * Calls `test` for each element in `array`.
+ *
+ * If `test` returns `true` then it immediately returns `true`.
+ *
+ * If `test` returns `false` for all of the elements in `array` then it returns `false`.
+ *
+ * @param   {ArrayLike<A>}           array  Source array
+ * @param   {(value: A) => boolean}  test   Function which is called on each element
+ * @returns {boolean}                Whether `test` returned true or not
+ */
+export declare function any<A>(array: ArrayLike<A>, test: (value: A) => boolean): boolean;
+/**
  * Calls `fn` function for every member of array and returns a new array out
  * of all outputs.
  *

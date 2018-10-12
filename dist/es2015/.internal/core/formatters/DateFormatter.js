@@ -221,7 +221,7 @@ var DateFormatter = /** @class */ (function (_super) {
             milliseconds = date.getMilliseconds();
         }
         // Go through each part and format/replace it in template
-        for (var i = 0; i < info.parts.length; i++) {
+        for (var i = 0, len = info.parts.length; i < len; i++) {
             var value = "";
             switch (info.parts[i]) {
                 case "G":
@@ -575,7 +575,7 @@ var DateFormatter = /** @class */ (function (_super) {
                 case "aa":
                 case "a":
                     // TODO: fix (escape regex)
-                    reg += "(" + this.getStringList(["AM", "PM", "A.M.", "P.M.", "A", "P"]).join("|") + ")";
+                    reg += "(" + this.getStringList(["AM", "PM", "A\.M\.", "P\.M\.", "A", "P"]).join("|") + ")";
                     parsedIndexes.am = index;
                     break;
                 case "hh":
@@ -811,6 +811,9 @@ var DateFormatter = /** @class */ (function (_super) {
             // 12 Hour (0-11)
             if (parsedIndexes.hour12Base0 > -1) {
                 var val = parseInt(matches[parsedIndexes.hour12Base0]);
+                if (val == 11) {
+                    val = 0;
+                }
                 if ((parsedIndexes.am > -1) && !this.isAm(matches[parsedIndexes.am])) {
                     val += 12;
                 }
@@ -823,7 +826,10 @@ var DateFormatter = /** @class */ (function (_super) {
             }
             // 12 Hour (1-12)
             if (parsedIndexes.hour12Base1 > -1) {
-                var val = parseInt(matches[parsedIndexes.hour12Base1]) - 1;
+                var val = parseInt(matches[parsedIndexes.hour12Base1]);
+                if (val == 12) {
+                    val = 0;
+                }
                 if ((parsedIndexes.am > -1) && !this.isAm(matches[parsedIndexes.am])) {
                     val += 12;
                 }
@@ -977,10 +983,10 @@ var DateFormatter = /** @class */ (function (_super) {
     DateFormatter.prototype.getStringList = function (list) {
         var res = [];
         for (var i = 0; i < list.length; i++) {
-            res.push(list[i]);
+            res.push($utils.escapeForRgex(list[i]));
             // translate?
             if (this.language && !this.language.isDefault()) {
-                res.push(this.language.translate(list[i]));
+                res.push($utils.escapeForRgex(this.language.translate(list[i])));
             }
         }
         return res;

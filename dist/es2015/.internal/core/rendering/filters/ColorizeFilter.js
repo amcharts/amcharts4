@@ -76,7 +76,12 @@ var ColorizeFilter = /** @class */ (function (_super) {
             return this.properties["color"];
         },
         /**
-         * Color.
+         * Target color to apply to the element.
+         *
+         * Depending on the `intensity`, all colors of the target element will steer
+         * towards this color.
+         *
+         * E.g. setting to `am4core.color("greener")` will make all colors greener.
          *
          * @param {Color}  value  Color
          */
@@ -95,11 +100,15 @@ var ColorizeFilter = /** @class */ (function (_super) {
             return this.properties.intensity;
         },
         /**
-         * Intensity of the color. (0-1)
+         * Intensity of the color (0-1).
+         *
+         * The bigger the number the more of a `color` target's colors will become.
+         *
+         * 0 means the colors will remain as they are.
+         * 1 means all colors will become the target `color`.
          *
          * @default 1
-         * @param {number} value Intensity (0-1)
-         * @todo Describe possible values
+         * @param {number}  value  Intensity (0-1)
          */
         set: function (value) {
             this.properties.intensity = value;

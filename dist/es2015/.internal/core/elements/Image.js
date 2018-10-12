@@ -70,6 +70,19 @@ var Image = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Updates bounding box based on element dimension settings.
+     *
+     * @ignore Exclude from docs
+     */
+    Image.prototype.measureElement = function () {
+        this.bbox = {
+            x: 0,
+            y: 0,
+            width: this.pixelWidth,
+            height: this.pixelHeight
+        };
+    };
     return Image;
 }(Sprite));
 export { Image };

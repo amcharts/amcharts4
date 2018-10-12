@@ -8,8 +8,6 @@
  * Furthermore the [[LineSeries]] itself can be represented as a entry in the
  * legend. Since legend needs access to Line Series' value, a DataItem is
  * created for the series.
- *
- * @todo Verify/update description
  */
 import * as tslib_1 from "tslib";
 /**
@@ -462,6 +460,9 @@ var DataItem = /** @class */ (function (_super) {
                 };
                 this.events.dispatchImmediately("valuechanged", event_2);
             }
+            if (this.component) {
+                this.component.handleDataItemValueChange(this);
+            }
         }
         this.setWorkingValue(name, value, newDuration, delay);
     };
@@ -476,6 +477,9 @@ var DataItem = /** @class */ (function (_super) {
                     property: name
                 };
                 this.events.dispatchImmediately("calculatedvaluechanged", event_3);
+            }
+            if (this.component) {
+                this.component.handleDataItemCalculatedValueChange(this);
             }
         }
     };
@@ -527,6 +531,9 @@ var DataItem = /** @class */ (function (_super) {
                     };
                     this.events.dispatchImmediately("workingvaluechanged", event_4);
                 }
+                if (this.component) {
+                    this.component.handleDataItemWorkingValueChange(this);
+                }
             }
         }
     };
@@ -553,6 +560,9 @@ var DataItem = /** @class */ (function (_super) {
                     property: name
                 };
                 this.events.dispatchImmediately("locationchanged", event_5);
+            }
+            if (this.component) {
+                this.component.handleDataItemValueChange(this); // correct
             }
             this.setWorkingLocation(name, value, duration, delay);
         }
@@ -603,6 +613,9 @@ var DataItem = /** @class */ (function (_super) {
                 };
                 this.events.dispatchImmediately("workinglocationchanged", event_6);
             }
+            if (this.component) {
+                this.component.handleDataItemWorkingLocationChange(this);
+            }
         }
     };
     /**
@@ -652,6 +665,9 @@ var DataItem = /** @class */ (function (_super) {
                     value: value
                 };
                 this.events.dispatchImmediately("propertychanged", event_7);
+            }
+            if (this.component) {
+                this.component.handleDataItemPropertyChange(this);
             }
         }
     };
@@ -735,6 +751,9 @@ var DataItem = /** @class */ (function (_super) {
                 };
                 this.events.dispatchImmediately("propertychanged", event_8);
             }
+            if (this.component) {
+                this.component.handleDataItemPropertyChange(this);
+            }
         },
         enumerable: true,
         configurable: true
@@ -772,6 +791,9 @@ var DataItem = /** @class */ (function (_super) {
                 };
                 this.events.dispatchImmediately("workingvaluechanged", event_9);
             }
+            if (this.component) {
+                this.component.handleDataItemWorkingValueChange(this);
+            }
         }
     };
     /**
@@ -784,7 +806,7 @@ var DataItem = /** @class */ (function (_super) {
      */
     DataItem.prototype.hasValue = function (fields) {
         // todo: what about categories?
-        for (var i = 0; i < fields.length; i++) {
+        for (var i = 0, len = fields.length; i < len; i++) {
             if (!$type.hasValue(this.values[fields[i]].value)) {
                 return false;
             }

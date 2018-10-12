@@ -17,7 +17,7 @@ export { SpriteEventDispatcher };
 import { BaseObjectEvents } from "./Base";
 import { Adapter } from "./utils/Adapter";
 import { Dictionary, DictionaryTemplate, DictionaryDisposer } from "./utils/Dictionary";
-import { ListTemplate, ListDisposer } from "./utils/List";
+import { ListTemplate, ListDisposer, List } from "./utils/List";
 import { MultiDisposer, Disposer, MutableValueDisposer } from "./utils/Disposer";
 import { Animation, AnimationDisposer } from "./utils/Animation";
 import { getGhostPaper } from "./rendering/Paper";
@@ -28,7 +28,6 @@ import { RadialGradient } from "./rendering/fills/RadialGradient";
 import { Popup } from "./elements/Popup";
 import { Modal } from "./elements/Modal";
 import { Color, color, toColor } from "./utils/Color";
-import { Filter } from "./rendering/filters/Filter";
 import { getInteraction } from "./interaction/Interaction";
 import { MouseCursorStyle } from "./interaction/Mouse";
 import { options } from "./Options";
@@ -190,13 +189,6 @@ var Sprite = /** @class */ (function (_super) {
          */
         _this._language = new MutableValueDisposer();
         /**
-         * URL target to use.
-         *
-         * @ignore Exclude from docs
-         * @type {string}
-         */
-        _this._urlTarget = "_self";
-        /**
          * Indicates if the chart should follow righ-to-left rules.
          *
          * @ignore Exclude from docs
@@ -334,6 +326,7 @@ var Sprite = /** @class */ (function (_super) {
         _this.setPropertyValue("align", "none");
         _this.setPropertyValue("valign", "none");
         _this.setPropertyValue("pixelPerfect", false);
+        _this.setPropertyValue("visible", true);
         _this.setPropertyValue("verticalCenter", "none");
         _this.setPropertyValue("horizontalCenter", "none");
         _this.setPropertyValue("marginTop", 0);
@@ -345,6 +338,7 @@ var Sprite = /** @class */ (function (_super) {
         _this.setPropertyValue("paddingRight", 0);
         _this.setPropertyValue("paddingLeft", 0);
         _this.setPropertyValue("togglable", false);
+        _this.setPropertyValue("urlTarget", "_self");
         _this._prevMeasuredWidth = 0;
         _this._prevMeasuredHeight = 0;
         _this._measuredWidth = 0;
@@ -445,7 +439,7 @@ var Sprite = /** @class */ (function (_super) {
      * not take otherwise.
      */
     Sprite.prototype.invalidate = function () {
-        if (this.disabled || this.isTemplate) {
+        if (this.disabled || this._isTemplate) {
             return;
         }
         // We no longer reset this on each invalidate, so that they are applied
@@ -491,12 +485,12 @@ var Sprite = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Sprite.prototype.invalidatePosition = function () {
-        if (this.disabled || this.isTemplate) {
+        if (this.disabled || this._isTemplate) {
             return;
         }
         if (!this.positionInvalid) {
             this.positionInvalid = true;
-            $array.move(registry.invalidPositions, this);
+            $array.add(registry.invalidPositions, this);
         }
     };
     /**
@@ -506,8 +500,12 @@ var Sprite = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Sprite.prototype.validatePosition = function () {
-        var x = this.pixelX + this.dx;
-        var y = this.pixelY + this.dy;
+        var pixelX = this.pixelX;
+        var pixelY = this.pixelY;
+        var dx = this.dx;
+        var dy = this.dy;
+        var x = pixelX + dx;
+        var y = pixelY + dy;
         if (this._updateDisabled) {
             if (this._internalDisabled) {
                 this.group.attr({ "display": "none" });
@@ -519,15 +517,8 @@ var Sprite = /** @class */ (function (_super) {
             }
             this._updateDisabled = false;
         }
+        var sizeChanged = this.measure();
         if (!this.invalid) {
-            var elementTransformChanged = false;
-            if (this.element) {
-                var prevElementTransform = this.element.transformString;
-                this.updateCenter();
-                if (prevElementTransform != this.element.transformString) {
-                    elementTransformChanged = true;
-                }
-            }
             var prevGroupTransform = this.group.transformString;
             this.group.moveTo({ x: x, y: y });
             this.group.rotation = this.rotation;
@@ -537,8 +528,7 @@ var Sprite = /** @class */ (function (_super) {
             else {
                 this.group.scale = this.scale;
             }
-            var sizeChanged = this.measure();
-            if (prevGroupTransform != this.group.transformString || elementTransformChanged || sizeChanged) {
+            if (prevGroupTransform != this.group.transformString || sizeChanged) {
                 // not yet sure, this is to avoid many transforms=>container layout invalidation on initial buid
                 if (prevGroupTransform == null) {
                     this.dispatch("transformed");
@@ -550,18 +540,15 @@ var Sprite = /** @class */ (function (_super) {
                 this.dispatch("positionchanged");
             }
         }
-        else {
-            this.updateCenter();
-        }
         // it might happen that x and y changed again, so we only remove if they didn't
-        if (this.pixelX + this.dx == x && this.pixelY + this.dy == y) {
+        if (pixelX + dx == x && pixelY + dy == y) {
             $array.remove(registry.invalidPositions, this);
             this.positionInvalid = false;
         }
         var maskRectangle = this._maskRectangle;
         // todo: verify this
         if (maskRectangle) {
-            this._clipElement.moveTo({ x: maskRectangle.x - this.pixelX, y: maskRectangle.y - this.pixelY });
+            this._clipElement.moveTo({ x: maskRectangle.x - pixelX, y: maskRectangle.y - pixelY });
         }
     };
     /**
@@ -589,20 +576,34 @@ var Sprite = /** @class */ (function (_super) {
             this.measureElement();
         }
         if (!this._inited) {
-            this.setSVGAttributes();
+            try {
+                // used to be applySVGAttrbutes here, this is more efficient
+                for (var _a = tslib_1.__values(this.adapter.keys()), _b = _a.next(); !_b.done; _b = _a.next()) {
+                    var key = _b.value;
+                    this[key] = this[key];
+                }
+            }
+            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+            finally {
+                try {
+                    if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                }
+                finally { if (e_1) throw e_1.error; }
+            }
             this.applyFilters();
             this.visible = this.visible;
             this.interactionsEnabled = this.getPropertyValue("interactionsEnabled"); // can't use .interactionsEnabled as it get's parent's
             this.appendDefs();
             this._inited = true;
-            this.dispatchImmediately("validated");
-            this.dispatchImmediately("inited");
+            this.dispatch("validated");
+            this.dispatch("inited");
         }
         else {
-            this.dispatchImmediately("validated");
+            this.dispatch("validated");
         }
         this.validatePosition();
         this.applyMask();
+        var e_1, _c;
     };
     /**
      * Triggers a re-initialization of this element.
@@ -657,12 +658,15 @@ var Sprite = /** @class */ (function (_super) {
      * @param {Sprite} source Source Sprite
      */
     Sprite.prototype.copyFrom = function (source) {
+        var _this = this;
         _super.prototype.copyFrom.call(this, source);
         this.events.copyFrom(source.events);
         this.isMeasured = source.isMeasured;
         this.states.copyFrom(source.states);
         if (source.filters.length > 0) {
-            this.filters.copyFrom(source.filters);
+            source.filters.each(function (filter) {
+                _this.filters.push(filter.clone());
+            });
         }
         this.adapter.copyFrom(source.adapter);
         this.interactions.copyFrom(source.interactions);
@@ -673,7 +677,6 @@ var Sprite = /** @class */ (function (_super) {
         //this.mask = source.mask; need to think about this, generally this causes a lot of problems
         this.disabled = source.disabled;
         this.virtualParent = source.virtualParent;
-        this.urlTarget = source.urlTarget;
         //@todo: create tooltip if it's on source but not on this?
         var tooltip = this._tooltip;
         if (tooltip) {
@@ -693,72 +696,74 @@ var Sprite = /** @class */ (function (_super) {
         }
     };
     Sprite.prototype.dispose = function () {
-        if (this.isBaseSprite) {
-            if (this.htmlContainer) {
-                while (this.htmlContainer.children.length > 0) {
-                    this.htmlContainer.removeChild(this.htmlContainer.children[0]);
+        if (!this.isDisposed()) {
+            if (this.isBaseSprite) {
+                if (this.htmlContainer) {
+                    while (this.htmlContainer.children.length > 0) {
+                        this.htmlContainer.removeChild(this.htmlContainer.children[0]);
+                    }
                 }
-            }
-            this.isBaseSprite = false;
-            /*
-            not a disposer anymore
-            const parent = this.parent.parent;
+                this.isBaseSprite = false;
+                /*
+                not a disposer anymore
+                const parent = this.parent.parent;
 
-            if (parent) {
-                parent.dispose();
-            }*/
-        }
-        _super.prototype.dispose.call(this);
-        // Clear adapters
-        this.adapter.clear();
-        if (this.applyOnClones) {
-            if (this._clones) {
-                for (var i = this._clones.length - 1; i >= 0; i--) {
-                    var clone = this._clones.getIndex(i);
-                    clone.dispose();
+                if (parent) {
+                    parent.dispose();
+                }*/
+            }
+            _super.prototype.dispose.call(this);
+            // Clear adapters
+            this.adapter.clear();
+            if (this.applyOnClones) {
+                if (this._clones) {
+                    for (var i = this._clones.length - 1; i >= 0; i--) {
+                        var clone = this._clones.getIndex(i);
+                        clone.dispose();
+                    }
                 }
             }
-        }
-        if (this._svgContainer) {
-            this._svgContainer.dispose();
-        }
-        if (this._interactionDisposer) {
-            this._interactionDisposer.dispose();
-        }
-        if (this._urlDisposer) {
-            this._urlDisposer.dispose();
-        }
-        this.removeFromInvalids();
-        if (this.element) {
-            this.element.dispose();
-        }
-        if (this.group) {
-            this.group.dispose();
-        }
-        if (this._numberFormatter) {
-            this._numberFormatter.dispose();
-        }
-        if (this._focusFilter) {
-            this._focusFilter.dispose();
-        }
-        if (this.stroke && !(this.stroke instanceof Color)) {
-            this.stroke.dispose();
-        }
-        // TODO a bit hacky
-        if (this.fill && !(this.fill instanceof Color)) {
-            this.fill.dispose();
-        }
-        this.parent = undefined;
-        if (this._filters) {
-            while (this._filters.length > 0) {
-                var filter = this._filters.getIndex(0);
-                filter.dispose();
-                this._filters.removeValue(filter);
+            if (this._svgContainer) {
+                this._svgContainer.dispose();
             }
-        }
-        // remove from map
-        if ($type.hasValue(this.id)) {
-            this.map.removeKey(this.id);
+            if (this._interactionDisposer) {
+                this._interactionDisposer.dispose();
+            }
+            if (this._urlDisposer) {
+                this._urlDisposer.dispose();
+            }
+            this.removeFromInvalids();
+            if (this.element) {
+                this.element.dispose();
+            }
+            if (this.group) {
+                this.group.dispose();
+            }
+            if (this._numberFormatter) {
+                this._numberFormatter.dispose();
+            }
+            if (this._focusFilter) {
+                this._focusFilter.dispose();
+            }
+            if (this.stroke && !(this.stroke instanceof Color)) {
+                this.stroke.dispose();
+            }
+            // TODO a bit hacky
+            if (this.fill && !(this.fill instanceof Color)) {
+                this.fill.dispose();
+            }
+            this.parent = undefined;
+            if (this._filters) {
+                while (this._filters.length > 0) {
+                    var filter = this._filters.getIndex(0);
+                    filter.dispose();
+                    this._filters.removeValue(filter);
+                }
+            }
+            // remove from map
+            if ($type.hasValue(this.id)) {
+                this.map.removeKey(this.id);
+            }
         }
     };
     Object.defineProperty(Sprite.prototype, "isTemplate", {
@@ -870,7 +875,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {Optional<Container>}  parent  Parent container
          */
         set: function (parent) {
-            if (this.disabled || this.isTemplate) {
+            if (this._isTemplate) {
                 return;
             }
             var currentPaper = this.paper;
@@ -885,13 +890,8 @@ var Sprite = /** @class */ (function (_super) {
                         this.isTemplate = true;
                     }
                     this.paper = parent.paper;
-                    parent.children.moveValue(this);
-                    // @todo here we should check zIndex and do insertBefore/after in order this to work properly?
-                    var group = parent.element;
-                    if (group) {
-                        group.add(this.group);
-                    }
-                    parent.invalidateLayout();
+                    parent.children.push(this);
+                    // insert handler at Container invalidates +  invalidatesLayout + adds to group
                     if (this._tooltip && !this._tooltipContainer) {
                         this._tooltip.parent = parent.tooltipContainer;
                     }
@@ -1170,16 +1170,14 @@ var Sprite = /** @class */ (function (_super) {
          * list is not yet initilized, creates and returns an empty one.
          * Note, not all filters combine well with one another. We recommend using one filter per sprite.
          *
-         * @return {ListTemplate<Filter>} List of filters
+         * @return {List<Filter>} List of filters
          */
         get: function () {
             if (!this._filters) {
-                var template = new Filter();
-                this._filters = new ListTemplate(template);
+                this._filters = new List();
                 // TODO only add certain events ?
                 this._disposers.push(this._filters.events.onAll(this.applyFilters, this));
                 this._disposers.push(new ListDisposer(this._filters));
-                this._disposers.push(template);
             }
             return this._filters;
         },
@@ -1313,7 +1311,7 @@ var Sprite = /** @class */ (function (_super) {
         var _this = this;
         // we create a separate filter for each sprite as otherwise it would be impossible to animate filter.
         // svg doesn't support multiple filters applied to one element, so we put all the primitives to one filterElement of a sprite.
-        if (this.filters.length > 0) {
+        if (this._filters && this._filters.length > 0) {
             var width_1 = 100;
             var height_1 = 100;
             if (!this.filterElement) {
@@ -1359,6 +1357,11 @@ var Sprite = /** @class */ (function (_super) {
             this._clipPath = undefined;
         }
     };
+    Sprite.prototype.setElement = function (element) {
+        this.element = element;
+        this.setSVGAttributes();
+        this.applyAccessibility();
+    };
     Object.defineProperty(Sprite.prototype, "element", {
         /**
          * @return {AMElement} Element
@@ -1391,8 +1394,6 @@ var Sprite = /** @class */ (function (_super) {
             if (options.autoSetClassName) {
                 this.setClassName();
             }
-            this.setSVGAttributes();
-            this.applyAccessibility();
         },
         enumerable: true,
         configurable: true
@@ -1451,6 +1452,7 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.updateCenter = function () {
         if (this.element) {
+            var prevElementTransform = this.element.transformString;
             var bbox = this.bbox;
             var ex = 0;
             var ey = 0;
@@ -1463,14 +1465,16 @@ var Sprite = /** @class */ (function (_super) {
             var pixelPaddingTop = this.pixelPaddingTop;
             var pixelPaddingBottom = this.pixelPaddingBottom;
             // add padding to the measured size
-            var measuredWidth = $math.max(bbox.width + this.pixelPaddingLeft + this.pixelPaddingRight, this.pixelWidth);
-            var measuredHeight = $math.max(bbox.height + this.pixelPaddingTop + this.pixelPaddingBottom, this.pixelHeight);
+            var measuredWidth = $math.max(bbox.width + pixelPaddingLeft + pixelPaddingRight, this.pixelWidth);
+            var measuredHeight = $math.max(bbox.height + pixelPaddingTop + pixelPaddingBottom, this.pixelHeight);
             // extremes
             var left = bbox.x;
             var right = bbox.x + measuredWidth;
             var top_1 = bbox.y;
             var bottom = bbox.y + measuredHeight;
-            switch (this.horizontalCenter) {
+            var horizontalCenter = this.horizontalCenter;
+            var verticalCenter = this.verticalCenter;
+            switch (horizontalCenter) {
                 case "none":
                     ex = elementX + pixelPaddingLeft;
                     break;
@@ -1484,7 +1488,7 @@ var Sprite = /** @class */ (function (_super) {
                     ex = -pixelPaddingRight - elementWidth;
                     break;
             }
-            switch (this.verticalCenter) {
+            switch (verticalCenter) {
                 case "none":
                     ey = elementY + pixelPaddingTop;
                     break;
@@ -1511,6 +1515,9 @@ var Sprite = /** @class */ (function (_super) {
                 y -= 0.5;
             }
             this.element.moveTo({ x: x, y: y });
+            if (prevElementTransform != this.element.transformString) {
+                this.dispatchImmediately("transformed");
+            }
         }
     };
     /**
@@ -1519,7 +1526,7 @@ var Sprite = /** @class */ (function (_super) {
      * Returns `true` if the size has changed from the last measurement.
      *
      * @ignore Exclude from docs
-     * @return {boolean} Did the size chance from the last measurement?
+     * @return {boolean} Did the size changed from the last measurement?
      */
     Sprite.prototype.measure = function () {
         this.updateCenter();
@@ -2395,6 +2402,10 @@ var Sprite = /** @class */ (function (_super) {
         }
     };
     Object.defineProperty(Sprite.prototype, "__disabled", {
+        /**
+         * @ignore
+         * @return {boolean} Disabled?
+         */
         get: function () {
             return this._internalDisabled;
         },
@@ -2665,7 +2676,7 @@ var Sprite = /** @class */ (function (_super) {
         else {
             string = "";
         }
-        return string;
+        return this.adapter.apply("populateString", string);
     };
     /**
      * Gets the value from data item and formats it according to specified format.
@@ -2786,6 +2797,11 @@ var Sprite = /** @class */ (function (_super) {
                         break;
                     case "formatDate":
                         var dateValue = $utils.anyToDate(current);
+                        if (!$type.isDate(dateValue) || $type.isNaN(dateValue.getTime())) {
+                            // Was not able to get date out of value, quitting and letting
+                            // calling method try another value
+                            return;
+                        }
                         if ($type.hasValue(dateValue)) {
                             current = this.dateFormatter.format(dateValue, format || part.params[0] || undefined);
                             formatApplied = true;
@@ -2924,7 +2940,7 @@ var Sprite = /** @class */ (function (_super) {
         var propValue = this.properties[propertyName];
         // Apply adapter
         // @todo get rid of <any>
-        if (!this.isTemplate) {
+        if (!this._isTemplate) {
             propValue = this.adapter.apply(propertyName, propValue);
         }
         return propValue;
@@ -4057,7 +4073,7 @@ var Sprite = /** @class */ (function (_super) {
          * @return {Optional<string>} URL
          */
         get: function () {
-            return this.adapter.apply("url", this._url);
+            return this.getPropertyValue("url");
         },
         /**
          * Click-through URL for this element.
@@ -4068,12 +4084,10 @@ var Sprite = /** @class */ (function (_super) {
          * @param {Optional<string>} value URL
          */
         set: function (value) {
-            if (this._url !== value) {
+            if (this.setPropertyValue("url", value)) {
                 if (this._urlDisposer) {
                     this._urlDisposer.dispose();
                 }
-                // TODO is this correct ? maybe it should set to "" instead
-                this._url = value;
                 // If URL is not empty, set up events
                 if ($utils.isNotEmpty(value)) {
                     this._urlDisposer = this.events.on("hit", this.urlHandler, this);
@@ -4091,7 +4105,7 @@ var Sprite = /** @class */ (function (_super) {
          * @return {string} URL target
          */
         get: function () {
-            return this.adapter.apply("urlTarget", this._urlTarget);
+            return this.getPropertyValue("urlTarget");
         },
         /**
          * Target to use for URL clicks:
@@ -4107,7 +4121,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {string} value URL target
          */
         set: function (value) {
-            this._urlTarget = value;
+            this.setPropertyValue("urlTarget", value);
         },
         enumerable: true,
         configurable: true
@@ -4500,31 +4514,21 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = $type.toBoolean(value);
-            this.setInteractionsEnabled(value);
+            if (this.setPropertyValue("interactionsEnabled", value)) {
+                var pointerEvents = null; // must be null, not "null"!
+                if (!value) {
+                    pointerEvents = "none";
+                }
+                else {
+                    // this is for IE
+                    this.group.node.style.pointerEvents = "";
+                }
+                this.group.node.style.pointerEvents = pointerEvents;
+            }
         },
         enumerable: true,
         configurable: true
     });
-    /**
-     * Sets up the element to either ignore all interactivity, or not.
-     *
-     * @ignore Exclude from docs
-     * @param  {boolean}  value  Interactivity enabled?
-     * @return {string}          Current event handlers for the element
-     */
-    Sprite.prototype.setInteractionsEnabled = function (value) {
-        this.setPropertyValue("interactionsEnabled", value);
-        var pointerEvents = null; // must be null, not "null"!
-        if (!value) {
-            pointerEvents = "none";
-        }
-        else {
-            // this is for IE
-            this.group.node.style.pointerEvents = "";
-        }
-        this.group.node.style.pointerEvents = pointerEvents;
-        return pointerEvents;
-    };
     Object.defineProperty(Sprite.prototype, "exporting", {
         /**
          * @return {Export} Export instance
@@ -5063,7 +5067,9 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = $type.toText(value);
-            this.setPropertyValue("horizontalCenter", value, false, true);
+            if (this.setPropertyValue("horizontalCenter", value)) {
+                this.updateCenter();
+            }
         },
         enumerable: true,
         configurable: true
@@ -5085,7 +5091,9 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = $type.toText(value);
-            this.setPropertyValue("verticalCenter", value, false, true);
+            if (this.setPropertyValue("verticalCenter", value)) {
+                this.updateCenter();
+            }
         },
         enumerable: true,
         configurable: true
@@ -5115,16 +5123,19 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number}  value  Maximum width (px)
          */
         set: function (value) {
-            if (this.setPropertyValue("maxWidth", value)) {
-                if ($type.isNumber(this.relativeWidth)) {
-                    this.invalidate();
-                }
-                this.dispatchImmediately("maxsizechanged");
-            }
+            this.setMaxWidth(value);
         },
         enumerable: true,
         configurable: true
     });
+    Sprite.prototype.setMaxWidth = function (value) {
+        if (this.setPropertyValue("maxWidth", value)) {
+            if ($type.isNumber(this.relativeWidth)) {
+                this.invalidate();
+            }
+            this.dispatchImmediately("maxsizechanged");
+        }
+    };
     Object.defineProperty(Sprite.prototype, "maxHeight", {
         /**
          * @return {number} Maximum height (px)
@@ -5144,16 +5155,19 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number}  value  Maximum height (px)
          */
         set: function (value) {
-            if (this.setPropertyValue("maxHeight", value)) {
-                if ($type.isNumber(this.relativeHeight)) {
-                    this.invalidate();
-                }
-                this.dispatchImmediately("maxsizechanged");
-            }
+            this.setMaxHeight(value);
         },
         enumerable: true,
         configurable: true
     });
+    Sprite.prototype.setMaxHeight = function (value) {
+        if (this.setPropertyValue("maxHeight", value)) {
+            if ($type.isNumber(this.relativeHeight)) {
+                this.invalidate();
+            }
+            this.dispatchImmediately("maxsizechanged");
+        }
+    };
     Object.defineProperty(Sprite.prototype, "minWidth", {
         /**
          * @return {Optional<number>} Minimum width (px)
@@ -6571,7 +6585,7 @@ var Sprite = /** @class */ (function (_super) {
             else {
                 this.group.attr({ "visibility": "hidden" });
             }
-            this.invalidatePosition();
+            //this.invalidatePosition();
             if (this.events.isEnabled("visibilitychanged")) {
                 var event_2 = {
                     type: "visibilitychanged",

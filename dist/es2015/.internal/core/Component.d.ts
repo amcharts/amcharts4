@@ -5,7 +5,6 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "./Container";
-import { AMEvent } from "./Sprite";
 import { List, IListEvents } from "./utils/List";
 import { OrderedListTemplate } from "./utils/SortedList";
 import { Animation } from "./utils/Animation";
@@ -14,7 +13,7 @@ import { IDisposer } from "./utils/Disposer";
 import { Export } from "./export/Export";
 import { DataSource } from "./data/DataSource";
 import { Responsive } from "./responsive/Responsive";
-import { DataItem, IDataItemEvents } from "./DataItem";
+import { DataItem } from "./DataItem";
 import { IRange } from "./defs/IRange";
 import * as $type from "./utils/Type";
 /**
@@ -456,35 +455,31 @@ export declare class Component extends Container {
      * @ignore Exclude from docs
      * @todo Description
      */
-    protected handleDataItemValueChange(): void;
+    handleDataItemValueChange(dataItem?: this["_dataItem"]): void;
     /**
      * [handleDataItemWorkingValueChange description]
      *
      * @ignore Exclude from docs
-     * @todo Description
      */
-    protected handleDataItemWorkingValueChange(event: AMEvent<DataItem, IDataItemEvents>["workingvaluechanged"]): void;
+    handleDataItemWorkingValueChange(dataItem?: this["_dataItem"]): void;
     /**
      * [handleDataItemWorkingLocationChange description]
      *
      * @ignore Exclude from docs
-     * @todo Description
      */
-    protected handleDataItemWorkingLocationChange(event: AMEvent<DataItem, IDataItemEvents>["workinglocationchanged"]): void;
+    handleDataItemWorkingLocationChange(dataItem?: this["_dataItem"]): void;
     /**
      * [handleDataItemCalculatedValueChange description]
      *
      * @ignore Exclude from docs
-     * @todo Description
      */
-    protected handleDataItemCalculatedValueChange(): void;
+    handleDataItemCalculatedValueChange(dataItem?: this["_dataItem"]): void;
     /**
      * [handleDataItemPropertyChange description]
      *
      * @ignore Exclude from docs
-     * @todo Description
      */
-    protected handleDataItemPropertyChange(): void;
+    handleDataItemPropertyChange(dataItem?: this["_dataItem"]): void;
     /**
      * Populates a [[DataItem]] width data from data source.
      *
@@ -584,27 +579,12 @@ export declare class Component extends Container {
      */
     protected rangeChangeUpdate(): void;
     /**
-     * [removeDataItems description]
-     *
-     * @todo Description
-     * @ignore Exclude from docs
-     */
-    protected removeDataItems(): void;
-    /**
      * [appendDataItems description]
      *
      * @todo Description
      * @ignore Exclude from docs
      */
     protected appendDataItems(): void;
-    /**
-     * [appendDataItem description]
-     *
-     * @ignore Exclude from docs
-     * @todo Description
-     * @param {this["_dataItem"]} dataItem [description]
-     */
-    protected appendDataItem(dataItem: this["_dataItem"]): void;
     /**
      * If you want to have a smooth transition from one data values to another, you change your raw data and then you must call this method.
      * then instead of redrawing everything, the chart will check raw data and smoothly transit from previous to new data

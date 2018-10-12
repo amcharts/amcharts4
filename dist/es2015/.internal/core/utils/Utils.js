@@ -185,6 +185,15 @@ export function stringify(value) {
     return JSON.stringify(value);
 }
 /**
+ * Escapes string so it can safely be used in a Regex.
+ *
+ * @param  {string}  value  Unsescaped string
+ * @return {string}         Escaped string
+ */
+export function escapeForRgex(value) {
+    return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+}
+/**
  * Splits the text into multiple lines, respecting maximum character count.
  * Prioretizes splitting on spaces and punctuation. Falls back on splitting
  * mid-word if there's no other option.

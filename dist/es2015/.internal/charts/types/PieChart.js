@@ -223,6 +223,7 @@ var PieChart = /** @class */ (function (_super) {
             series.startAngle = _this.startAngle;
             series.endAngle = _this.endAngle;
         });
+        this.seriesContainer.definedBBox = { x: chartRadius * rect.x, y: chartRadius * rect.y, width: chartRadius * rect.width, height: chartRadius * rect.height };
     };
     Object.defineProperty(PieChart.prototype, "radius", {
         /**

@@ -97,6 +97,24 @@ export interface IContainerProperties extends ISpriteProperties {
      * @type {TextDecoration}
      */
     textDecoration?: TextDecoration;
+    /**
+     * Horizontal alignment of Container's items
+     * @type {Optional<Align>}
+     */
+    contentAlign?: Align;
+    /**
+     * Vertical alignment of Container's items.
+     *
+     * @ignore Exclude from docs
+     * @type {Optional<VerticalAlign>}
+     */
+    contentValign?: VerticalAlign;
+    /**
+     *
+     * @ignore Exclude from docs
+     * @type {boolean}
+     */
+    fixedWidthGrid?: boolean;
 }
 /**
  * Defines events for the [[Container]]
@@ -176,14 +194,6 @@ export declare class Container extends Sprite {
      */
     protected _availableHeight: $type.Optional<number>;
     /**
-     * [_fixedWidthGrid description]
-     *
-     * @ignore Exclude from docs
-     * @todo Description
-     * @type {boolean}
-     */
-    protected _fixedWidthGrid: boolean;
-    /**
      * Container's child elements. (sorded by their `zIndex`)
      *
      * @ignore Exclude from docs
@@ -197,19 +207,6 @@ export declare class Container extends Sprite {
      * @type {Dictionary<string, IDisposer>}
      */
     protected _childrenDisposers: Dictionary<string, IDisposer>;
-    /**
-     * Horizontal alignment of Container's items
-     * @ignore Exclude from docs
-     * @type {Optional<Align>}
-     */
-    protected _contentAlign: $type.Optional<Align>;
-    /**
-     * Vertical alignment of Container's items.
-     *
-     * @ignore Exclude from docs
-     * @type {Optional<VerticalAlign>}
-     */
-    protected _contentValign: $type.Optional<VerticalAlign>;
     /**
      * A [[Sprite]] instance to use as Container's background.
      *
@@ -354,25 +351,13 @@ export declare class Container extends Sprite {
      */
     minHeight: Optional<number>;
     /**
-     * @return {Optional<number>} Width (px)
+     * @ignore
      */
+    protected setMaxWidth(value: number): void;
     /**
-     * Maximum width (px) for the Container. A container will not
-     * grow beyond this value, even if child elements do not fit.
-     *
-     * @param {Optional<number>}  value  Width (px)
+     * @ignore
      */
-    maxWidth: number;
-    /**
-     * @return {Optional<number>} Height (px)
-     */
-    /**
-     * Maximum height (px) for the Container. A container will not
-     * grow beyond this value, even if child elements do not fit.
-     *
-     * @param {Optional<number>}  value  Height (px)
-     */
-    maxHeight: number;
+    protected setMaxHeight(value: number): void;
     /**
      * Overrides the original `removeElement` so that Container's actual element
      * is not removed. We do not need to remove element of a Container.
@@ -470,6 +455,12 @@ export declare class Container extends Sprite {
      */
     arrange(): void;
     protected getContainerBBox(x: number, y: number, width: number, height: number): IRectangle;
+    /**
+     * Positions element according its center settings.
+     *
+     * @todo Description (review)
+     * @ignore Exclude from docs
+     */
     updateCenter(): void;
     /**
      * Update the background to fit into specific dimensions.

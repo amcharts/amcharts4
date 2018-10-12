@@ -295,7 +295,12 @@ var FlowDiagram = /** @class */ (function (_super) {
         }
         this.feedLegend();
     };
-    FlowDiagram.prototype.handleDataItemWorkingValueChange = function (event) {
+    /**
+     * [handleDataItemWorkingValueChange description]
+     *
+     * @ignore Exclude from docs
+     */
+    FlowDiagram.prototype.handleDataItemWorkingValueChange = function (dataItem) {
         this.invalidateDataRange();
     };
     /**

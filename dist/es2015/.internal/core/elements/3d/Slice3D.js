@@ -57,7 +57,7 @@ var Slice3D = /** @class */ (function (_super) {
         _this.sideA = sideA;
         sideA.shouldClone = false;
         sideA.isMeasured = false;
-        sideA.element = _this.paper.add("path");
+        sideA.setElement(_this.paper.add("path"));
         var lightenFilterA = new LightenFilter();
         lightenFilterA.lightness = -0.25;
         sideA.filters.push(lightenFilterA);
@@ -68,7 +68,7 @@ var Slice3D = /** @class */ (function (_super) {
         _this.sideB = sideB;
         sideB.shouldClone = false;
         sideB.isMeasured = false;
-        sideB.element = _this.paper.add("path");
+        sideB.setElement(_this.paper.add("path"));
         var lightenFilterB = new LightenFilter();
         lightenFilterB.lightness = -0.25;
         sideB.filters.push(lightenFilterB);
@@ -86,7 +86,7 @@ var Slice3D = /** @class */ (function (_super) {
     Slice3D.prototype.draw = function () {
         _super.prototype.draw.call(this);
         // this should go here to hide 3d slices if arc = 0
-        for (var i = 0; i < this.edge.children.length; i++) {
+        for (var i = 0, len = this.edge.children.length; i < len; i++) {
             var slice = this.edge.children.getIndex(i);
             if (slice instanceof Slice) {
                 slice.radiusY = this.radiusY;

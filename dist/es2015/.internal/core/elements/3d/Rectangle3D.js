@@ -37,7 +37,7 @@ var Rectangle3D = /** @class */ (function (_super) {
         _this.layout = "none";
         var sideBack = _this.createChild(Sprite);
         sideBack.shouldClone = false;
-        sideBack.element = _this.paper.add("path");
+        sideBack.setElement(_this.paper.add("path"));
         sideBack.isMeasured = false;
         var lightenFilterBack = new LightenFilter();
         lightenFilterBack.lightness = -0.2;
@@ -46,7 +46,7 @@ var Rectangle3D = /** @class */ (function (_super) {
         _this._disposers.push(_this.sideBack);
         var sideBottom = _this.createChild(Sprite);
         sideBottom.shouldClone = false;
-        sideBottom.element = _this.paper.add("path");
+        sideBottom.setElement(_this.paper.add("path"));
         sideBottom.isMeasured = false;
         var lightenFilterBottom = new LightenFilter();
         lightenFilterBottom.lightness = -0.5;
@@ -55,7 +55,7 @@ var Rectangle3D = /** @class */ (function (_super) {
         _this._disposers.push(_this.sideBottom);
         var sideLeft = _this.createChild(Sprite);
         sideLeft.shouldClone = false;
-        sideLeft.element = _this.paper.add("path");
+        sideLeft.setElement(_this.paper.add("path"));
         sideLeft.isMeasured = false;
         var lightenFilterLeft = new LightenFilter();
         lightenFilterLeft.lightness = -0.4;
@@ -64,7 +64,7 @@ var Rectangle3D = /** @class */ (function (_super) {
         _this._disposers.push(_this.sideLeft);
         var sideRight = _this.createChild(Sprite);
         sideRight.shouldClone = false;
-        sideRight.element = _this.paper.add("path");
+        sideRight.setElement(_this.paper.add("path"));
         sideRight.isMeasured = false;
         var lightenFilterRight = new LightenFilter();
         lightenFilterRight.lightness = -0.2;
@@ -73,7 +73,7 @@ var Rectangle3D = /** @class */ (function (_super) {
         _this._disposers.push(_this.sideRight);
         var sideTop = _this.createChild(Sprite);
         sideTop.shouldClone = false;
-        sideTop.element = _this.paper.add("path");
+        sideTop.setElement(_this.paper.add("path"));
         sideTop.isMeasured = false;
         var lightenFilterTop = new LightenFilter();
         lightenFilterTop.lightness = -0.1;
@@ -82,7 +82,7 @@ var Rectangle3D = /** @class */ (function (_super) {
         _this._disposers.push(_this.sideTop);
         var sideFront = _this.createChild(Sprite);
         sideFront.shouldClone = false;
-        sideFront.element = _this.paper.add("path");
+        sideFront.setElement(_this.paper.add("path"));
         sideFront.isMeasured = false;
         _this.sideFront = sideFront;
         _this._disposers.push(_this.sideFront);

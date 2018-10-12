@@ -8,8 +8,6 @@
  * Furthermore the [[LineSeries]] itself can be represented as a entry in the
  * legend. Since legend needs access to Line Series' value, a DataItem is
  * created for the series.
- *
- * @todo Verify/update description
  */
 /**
  * ============================================================================

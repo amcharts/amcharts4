@@ -12,6 +12,13 @@ import { Language } from "../utils/Language";
 import { BaseObject } from "../Base";
 import * as $type from "../utils/Type";
 /**
+ * @ignore
+ */
+export interface INumberSuffix {
+    number: number;
+    suffix: string;
+}
+/**
  * NumberFormatter class. Formats numbers according to specified formats.
  *
  * @todo Apply translations to suffixes/prefixes
@@ -48,30 +55,21 @@ export declare class NumberFormatter extends BaseObject {
      *
      * @type {Array}
      */
-    protected _bigNumberPrefixes: {
-        "number": number;
-        "suffix": string;
-    }[];
+    protected _bigNumberPrefixes: INumberSuffix[];
     /**
      * Holds small number prefixes to apply to numbers if `a` modifier is used in
      * format.
      *
      * @type {Array}
      */
-    protected _smallNumberPrefixes: {
-        "number": number;
-        "suffix": string;
-    }[];
+    protected _smallNumberPrefixes: INumberSuffix[];
     /**
      * Holds prefixes to apply to data size numbers if `b` modifier is used in
      * format.
      *
      * @type {Array}
      */
-    protected _bytePrefixes: {
-        "number": number;
-        "suffix": string;
-    }[];
+    protected _bytePrefixes: INumberSuffix[];
     /**
      * Holds reference to parent [[Sprite]] object.
      *
@@ -83,12 +81,24 @@ export declare class NumberFormatter extends BaseObject {
      *
      * @type {Optional<Language>}
      */
-    language: $type.Optional<Language>;
+    private _language;
     /**
      * Constructor
      */
     constructor();
     dispose(): void;
+    /**
+     * @return {Language} Language
+     */
+    /**
+     * A reference to [[Language]] instance.
+     *
+     * Formatter will use language to translate various items, like number
+     * suffixes, etc.
+     *
+     * @param {Language}  value  Language
+     */
+    language: Language;
     /**
      * Formats the number according to specific format.
      *
@@ -136,7 +146,7 @@ export declare class NumberFormatter extends BaseObject {
      */
     numberFormat: string;
     /**
-     * @return {any[]} Prefixes for big numbers
+     * @return {INumberSuffix[]} Prefixes for big numbers
      */
     /**
      * Prefixes for big numbers.
@@ -171,11 +181,11 @@ export declare class NumberFormatter extends BaseObject {
      * ```
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
-     * @param {any[]}  prefixes  Prefixes for big numbers
+     * @param {INumberSuffix[]}  prefixes  Prefixes for big numbers
      */
-    bigNumberPrefixes: any[];
+    bigNumberPrefixes: INumberSuffix[];
     /**
-     * @return {any[]} Prefixes for small numbers
+     * @return {INumberSuffix[]} Prefixes for small numbers
      */
     /**
      * Prefixes for big numbers.
@@ -209,12 +219,15 @@ export declare class NumberFormatter extends BaseObject {
      * {myfield.formatNumber("#,###.00a")}
      * ```
      *
+     * IMPORTANT: The order of the suffixes is important. The list must start
+     * from the smallest number and work towards bigger ones.
+     *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
-     * @param {any[]}  prefixes  Prefixes for small numbers
+     * @param {INumberSuffix[]}  prefixes  Prefixes for small numbers
      */
-    smallNumberPrefixes: any[];
+    smallNumberPrefixes: INumberSuffix[];
     /**
-     * @return {any[]} Prefixes for byte-size formatting
+     * @return {INumberSuffix[]} Prefixes for byte-size formatting
      */
     /**
      * Basically the same as `bigNumberPrefixes`, except base for calculation
@@ -229,9 +242,9 @@ export declare class NumberFormatter extends BaseObject {
      * The above `2048` will change to `2K`.
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
-     * @param {any[]}  prefixes  Prefixes for byte-size formatting
+     * @param {INumberSuffix[]}  prefixes  Prefixes for byte-size formatting
      */
-    bytePrefixes: any[];
+    bytePrefixes: INumberSuffix[];
     /**
      * @ignore Exclude from docs
      * @return {string} Output format

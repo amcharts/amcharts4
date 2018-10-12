@@ -82,6 +82,14 @@ var Column = /** @class */ (function (_super) {
             this.column.copyFrom(source.column);
         }
     };
+    Column.prototype.getContainerBBox = function (x, y, width, height) {
+        if (this.column) {
+            return { x: 0, y: 0, width: this.column.measuredWidth, height: this.column.measuredHeight };
+        }
+        else {
+            return { x: 0, y: 0, width: $math.min(this.pixelWidth, this.maxWidth), height: $math.min(this.pixelHeight, this.maxHeight) };
+        }
+    };
     return Column;
 }(Container));
 export { Column };

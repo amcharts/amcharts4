@@ -282,9 +282,17 @@ var List = /** @class */ (function () {
      * @param {T} item An item to remove
      */
     List.prototype.removeValue = function (value) {
-        var index;
-        while ((index = this.indexOf(value)) !== -1) {
-            this.removeIndex(index);
+        var i = 0;
+        var length = this._values.length;
+        while (i < length) {
+            // TODO handle NaN
+            if (this._values[i] === value) {
+                this.removeIndex(i);
+                --length;
+            }
+            else {
+                ++i;
+            }
         }
     };
     /**

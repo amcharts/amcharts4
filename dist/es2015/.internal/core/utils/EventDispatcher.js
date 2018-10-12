@@ -87,6 +87,14 @@ var EventDispatcher = /** @class */ (function () {
         return this._listeners.length !== 0;
     };
     /**
+     * Checks if this particular event dispatcher has any particular listeners set.
+     *
+     * @return {boolean} Has particular event listeners?
+     */
+    EventDispatcher.prototype.hasListenersByType = function (type) {
+        return $array.any(this._listeners, function (x) { return (x.type === null || x.type === type) && !x.killed; });
+    };
+    /**
      * Enable dispatching of events if they were previously disabled by
      * `disable()`.
      */
@@ -173,7 +181,7 @@ var EventDispatcher = /** @class */ (function () {
             throw new Error("EventDispatcher is disposed");
         }
         // TODO is this check correct ?
-        return this._enabled && this._disabled[type] == null && this._listeners.length > 0;
+        return this._enabled && this._listeners.length > 0 && this.hasListenersByType(type) && this._disabled[type] == null;
     };
     /**
      * Checks if there's already a listener with specific parameters.

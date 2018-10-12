@@ -171,10 +171,13 @@ var DurationAxis = /** @class */ (function (_super) {
             max = Math.ceil(max / step) * step;
             if (strictMode) {
                 min -= step;
-                if (min < 0 && initialMin > 0) {
+                if (min < 0 && initialMin >= 0) {
                     min = 0;
                 }
                 max += step;
+                if (max > 0 && initialMax <= 0) {
+                    max = 0;
+                }
             }
             minMaxStep = { min: min, max: max, step: step };
         }

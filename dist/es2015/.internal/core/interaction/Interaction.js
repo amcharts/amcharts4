@@ -416,9 +416,21 @@ var Interaction = /** @class */ (function (_super) {
     Interaction.prototype.processWheelable = function (io) {
         var _this = this;
         if (io.wheelable) {
-            io.hoverable = true;
+            //io.hoverable = true;
             if (!io.eventDisposers.hasKey("wheelable")) {
-                io.eventDisposers.setKey("wheelable", addEventListener(io.element, this._pointerEvents.wheel, function (e) { return _this.handleMouseWheel(io, e); }));
+                io.eventDisposers.setKey("wheelable", new MultiDisposer([
+                    addEventListener(io.element, this._pointerEvents.wheel, function (e) { return _this.handleMouseWheel(io, e); }),
+                    io.events.on("over", function (e) {
+                        if (io.wheelable) {
+                            _this.lockWheel();
+                        }
+                    }),
+                    io.events.on("out", function (e) {
+                        if (io.wheelable) {
+                            _this.unlockWheel();
+                        }
+                    })
+                ]));
             }
         }
         else {
@@ -845,10 +857,6 @@ var Interaction = /** @class */ (function (_super) {
     Interaction.prototype.handleMouseOver = function (io, ev) {
         // Get pointer
         var pointer = this.getPointer(ev);
-        // Lock wheel
-        if (io.wheelable) {
-            this.lockWheel();
-        }
         // Process down
         this.handleOver(io, pointer, ev);
     };
@@ -862,10 +870,6 @@ var Interaction = /** @class */ (function (_super) {
     Interaction.prototype.handleMouseOut = function (io, ev) {
         // Get pointer
         var pointer = this.getPointer(ev);
-        // Lock wheel
-        if (io.wheelable) {
-            this.unlockWheel();
-        }
         // Process down
         this.handleOut(io, pointer, ev);
     };

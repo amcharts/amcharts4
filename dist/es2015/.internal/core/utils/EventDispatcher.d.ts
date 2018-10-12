@@ -65,6 +65,12 @@ export declare class EventDispatcher<T> implements IDisposer {
      */
     hasListeners(): boolean;
     /**
+     * Checks if this particular event dispatcher has any particular listeners set.
+     *
+     * @return {boolean} Has particular event listeners?
+     */
+    hasListenersByType(type: string): boolean;
+    /**
      * Enable dispatching of events if they were previously disabled by
      * `disable()`.
      */

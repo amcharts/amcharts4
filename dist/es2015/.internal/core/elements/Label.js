@@ -47,8 +47,8 @@ import * as $type from "../utils/Type";
  *
  * @see {@link ILabelEvents} for a list of available events
  * @see {@link ILabelAdapters} for a list of available Adapters
+ * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-strings/} for info on string formatting and data binding
  * @todo Vertical align
- * @todo Linkage to relative documentation (formatters, data binding)
  * @important
  */
 var Label = /** @class */ (function (_super) {
@@ -263,7 +263,7 @@ var Label = /** @class */ (function (_super) {
                     continue;
                 }
                 // Chunk up the line and process each chunk
-                var chunks = getTextFormatter().chunk(line);
+                var chunks = getTextFormatter().chunk(line, null, this.ignoreFormatting);
                 var currentLineHeight = 0;
                 var firstChunk = true;
                 var skipTextChunks = false;
@@ -984,6 +984,26 @@ var Label = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("hideOversized", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Label.prototype, "ignoreFormatting", {
+        /**
+         * @return {boolean} Ignore formatting?
+         */
+        get: function () {
+            return this.getPropertyValue("ignoreFormatting");
+        },
+        /**
+         * If set to `true` square-bracket formatting blocks will be treated as
+         * regular text.
+         *
+         * @default false
+         * @param {boolean}  value  Ignore formatting?
+         */
+        set: function (value) {
+            this.setPropertyValue("ignoreFormatting", value, true);
         },
         enumerable: true,
         configurable: true

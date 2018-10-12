@@ -8,8 +8,6 @@
  * @hidden
  */
 import { Chart, IChartProperties, IChartDataFields, IChartAdapters, IChartEvents, ChartDataItem } from "../Chart";
-import { AMEvent } from "../../core/Sprite";
-import { IDataItemEvents } from "../../core/DataItem";
 import { ListTemplate } from "../../core/utils/List";
 import { DictionaryTemplate } from "../../core/utils/Dictionary";
 import { Container } from "../../core/Container";
@@ -276,7 +274,12 @@ export declare class FlowDiagram extends Chart {
      * @ignore Exclude from docs
      */
     validateData(): void;
-    protected handleDataItemWorkingValueChange(event: AMEvent<FlowDiagramDataItem, IDataItemEvents>["workingvaluechanged"]): void;
+    /**
+     * [handleDataItemWorkingValueChange description]
+     *
+     * @ignore Exclude from docs
+     */
+    handleDataItemWorkingValueChange(dataItem?: this["_dataItem"]): void;
     /**
      * [appear description]
      *

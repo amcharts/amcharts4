@@ -8,7 +8,6 @@
  * @hidden
  */
 import { Series, SeriesDataItem, ISeriesProperties, ISeriesDataFields, ISeriesAdapters, ISeriesEvents } from "./Series";
-import { AMEvent } from "../../core/Sprite";
 import { Axis } from "../axes/Axis";
 import { AxisRenderer } from "../axes/AxisRenderer";
 import { ValueAxis } from "../axes/ValueAxis";
@@ -21,7 +20,6 @@ import { DateAxis } from "../axes/DateAxis";
 import { Bullet } from "../elements/Bullet";
 import { CalculatedValue } from "../../core/Component";
 import { Animation } from "../../core/utils/Animation";
-import { IDataItemEvents } from "../../core/DataItem";
 /**
  * ============================================================================
  * DATA ITEM
@@ -719,9 +717,11 @@ export declare class XYSeries extends Series {
      */
     hide(duration?: number): Animation;
     /**
-     * Updates series appearance when working value changes.
+     * [handleDataItemWorkingValueChange description]
+     *
+     * @ignore Exclude from docs
      */
-    protected handleDataItemWorkingValueChange(event: AMEvent<SeriesDataItem, IDataItemEvents>["workingvaluechanged"]): void;
+    handleDataItemWorkingValueChange(dataItem?: this["_dataItem"]): void;
     /**
      * [getStackValue description]
      *

@@ -63,7 +63,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         _this.minWidth = 60;
         var unselectedOverlay = _this.createChild(Sprite);
         unselectedOverlay.shouldClone = false;
-        unselectedOverlay.element = _this.paper.add("path");
+        unselectedOverlay.setElement(_this.paper.add("path"));
         unselectedOverlay.fill = interfaceColors.getFor("background");
         unselectedOverlay.fillOpacity = 0.8;
         unselectedOverlay.interactionsEnabled = false;

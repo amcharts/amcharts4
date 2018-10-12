@@ -94,7 +94,7 @@ var Tension = /** @class */ (function () {
         }
         // Can't moveTo here, as it wont be possible to have fill then.
         var path = "";
-        for (var i = 0; i < points.length - 1; i++) {
+        for (var i = 0, len = points.length - 1; i < len; i++) {
             var p0 = points[i - 1];
             var p1 = points[i];
             var p2 = points[i + 1];

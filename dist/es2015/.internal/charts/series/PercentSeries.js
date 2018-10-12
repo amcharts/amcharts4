@@ -73,7 +73,10 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
      * @param {string[]}  fields    Fields to animate while hiding
      */
     PercentSeriesDataItem.prototype.hide = function (duration, delay, toValue, fields) {
-        return _super.prototype.hide.call(this, duration, delay, 0, ["value"]);
+        if (!fields) {
+            fields = ["value"];
+        }
+        return _super.prototype.hide.call(this, duration, delay, 0, fields);
     };
     /**
      * Show hidden data item (and corresponding cisual elements).
@@ -83,7 +86,10 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
      * @param {string[]}  fields    Fields to animate while hiding
      */
     PercentSeriesDataItem.prototype.show = function (duration, delay, fields) {
-        return _super.prototype.show.call(this, duration, delay, ["value"]);
+        if (!fields) {
+            fields = ["value"];
+        }
+        return _super.prototype.show.call(this, duration, delay, fields);
     };
     Object.defineProperty(PercentSeriesDataItem.prototype, "category", {
         /**
@@ -149,6 +155,7 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
                 var tick_1 = this.component.ticks.create();
                 this._tick = tick_1;
                 this._disposers.push(tick_1);
+                tick_1.parent = this.component.ticksContainer;
                 this._disposers.push(new Disposer(function () {
                     _this.component.ticks.removeValue(tick_1);
                 }));
@@ -173,6 +180,7 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
                 var label_1 = this.component.labels.create();
                 this._label = label_1;
                 this._disposers.push(label_1);
+                label_1.parent = this.component.labelsContainer;
                 this._disposers.push(new Disposer(function () {
                     _this.component.labels.removeValue(label_1);
                 }));
@@ -197,6 +205,7 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
                 var slice_1 = this.component.slices.create();
                 this._slice = slice_1;
                 this._disposers.push(slice_1);
+                slice_1.parent = this.component.slicesContainer;
                 this._disposers.push(new Disposer(function () {
                     _this.component.slices.removeValue(slice_1);
                 }));
@@ -256,18 +265,22 @@ var PercentSeries = /** @class */ (function (_super) {
         _this.colors.step = 1;
         _this.isMeasured = true;
         _this.calculatePercent = true;
+        _this.setStateOnChildren = true;
         var slicesContainer = _this.createChild(Container);
         slicesContainer.shouldClone = false;
         slicesContainer.isMeasured = false;
+        slicesContainer.setStateOnChildren = true;
         _this.slicesContainer = slicesContainer;
         var ticksContainer = _this.createChild(Container);
         ticksContainer.shouldClone = false;
         ticksContainer.isMeasured = false;
+        ticksContainer.setStateOnChildren = true;
         ticksContainer.layout = "none";
         _this.ticksContainer = ticksContainer;
         var labelsContainer = _this.createChild(Container);
         labelsContainer.shouldClone = false;
         labelsContainer.isMeasured = false;
+        labelsContainer.setStateOnChildren = true;
         labelsContainer.layout = "none";
         _this.labelsContainer = labelsContainer;
         _this.bulletsContainer.toFront();
@@ -426,7 +439,7 @@ var PercentSeries = /** @class */ (function (_super) {
      * @param {this["_dataItem"][]}  dataItems  Data items
      */
     PercentSeries.prototype.arrangeLabels = function (dataItems) {
-        for (var i = 0; i < dataItems.length; i++) {
+        for (var i = 0, len = dataItems.length; i < len; i++) {
             var dataItem = dataItems[i];
             var label = dataItem.label;
             if (label) {

@@ -290,7 +290,7 @@ var DurationFormatter = /** @class */ (function (_super) {
         // Init return value
         var res = details.template;
         // Iterate through duration parts
-        for (var i = 0; i < details.parts.length; i++) {
+        for (var i = 0, len = details.parts.length; i < len; i++) {
             // Gather the part
             var part = details.parts[i];
             var unit = this.toTimeUnit(part.substr(0, 1));

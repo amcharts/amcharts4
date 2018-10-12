@@ -141,7 +141,7 @@ setInterval(function () {
 		var dataItem = chart.dataItems.getIndex(i);
 		for (var c = 0; c < dataItem.children.length; c++) {
 			var child = dataItem.children.getIndex(c);
-			child.value = child.value + Math.round(child.value * Math.random() * 0.3 - 0.15);
+			child.value = child.value + Math.round(child.value * Math.random() * 0.4 - 0.2);
 		}
 	}
-}, 2500)
+}, 2000)

@@ -80,6 +80,7 @@ var ChordNode = /** @class */ (function (_super) {
         if (chart && slice) {
             var sum = this.total;
             var arc_1 = slice.arc;
+            var sliceStartAngle_1 = slice.startAngle;
             this.children.each(function (child) {
                 if (child instanceof Bullet) {
                     var locationX = child.locationX;
@@ -90,16 +91,16 @@ var ChordNode = /** @class */ (function (_super) {
                     if (!$type.isNumber(locationY)) {
                         locationY = 1;
                     }
-                    var childAngle = slice.startAngle + arc_1 * locationX;
+                    var childAngle = sliceStartAngle_1 + arc_1 * locationX;
                     var childRadius = locationY * slice.radius;
                     child.x = childRadius * $math.cos(childAngle);
                     child.y = childRadius * $math.sin(childAngle);
                 }
             });
-            var labelAngle = slice.startAngle + arc_1 * label.location;
-            var startAngle = slice.startAngle + (1 - sum / this.adjustedTotal) * arc_1 * 0.5; // if value of a node is > then sum of the links, add to center link
+            var labelAngle = sliceStartAngle_1 + arc_1 * label.location;
+            var startAngle = sliceStartAngle_1 + (1 - sum / this.adjustedTotal) * arc_1 * 0.5; // if value of a node is > then sum of the links, add to center link
             if ($type.isNaN(startAngle)) {
-                startAngle = slice.startAngle;
+                startAngle = sliceStartAngle_1;
             }
             var x = slice.radius * $math.cos(labelAngle);
             var y = slice.radius * $math.sin(labelAngle);
@@ -119,7 +120,7 @@ var ChordNode = /** @class */ (function (_super) {
                                 percentWidth = 5;
                             }
                             percentWidth = percentWidth / 100;
-                            link.startAngle = slice.startAngle + arc_1 / 2 - arc_1 / 2 * percentWidth;
+                            link.startAngle = sliceStartAngle_1 + arc_1 / 2 - arc_1 / 2 * percentWidth;
                             link.arc = arc_1 * percentWidth;
                         }
                         else {
@@ -145,7 +146,7 @@ var ChordNode = /** @class */ (function (_super) {
                             percentWidth = 5;
                         }
                         percentWidth = percentWidth / 100;
-                        link.endAngle = slice.startAngle + arc_1 / 2 - arc_1 / 2 * percentWidth;
+                        link.endAngle = sliceStartAngle_1 + arc_1 / 2 - arc_1 / 2 * percentWidth;
                         link.arc = arc_1 * percentWidth;
                     }
                     else {
@@ -169,11 +170,13 @@ var ChordNode = /** @class */ (function (_super) {
      * updates slice start angle so that when we drag a node it would face the center
      */
     ChordNode.prototype.updateRotation = function () {
-        var mAngle = this.trueStartAngle + this.slice.arc / 2;
-        var tx = this.slice.radius * $math.cos(mAngle);
-        var ty = this.slice.radius * $math.sin(mAngle);
+        var slice = this.slice;
+        var mAngle = this.trueStartAngle + slice.arc / 2;
+        var radius = slice.radius;
+        var tx = radius * $math.cos(mAngle);
+        var ty = radius * $math.sin(mAngle);
         var angle = $math.getAngle({ x: tx + this.pixelX, y: ty + this.pixelY });
-        this.slice.startAngle = this.trueStartAngle + (angle - mAngle);
+        slice.startAngle = this.trueStartAngle + (angle - mAngle);
         this.dx = -this.pixelX;
         this.dy = -this.pixelY;
     };

@@ -121,6 +121,13 @@ export declare function capitalize(str: string): string;
  */
 export declare function stringify(value: any): string;
 /**
+ * Escapes string so it can safely be used in a Regex.
+ *
+ * @param  {string}  value  Unsescaped string
+ * @return {string}         Escaped string
+ */
+export declare function escapeForRgex(value: string): string;
+/**
  * Splits the text into multiple lines, respecting maximum character count.
  * Prioretizes splitting on spaces and punctuation. Falls back on splitting
  * mid-word if there's no other option.

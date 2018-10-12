@@ -495,12 +495,6 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      */
     initRenderer(): void;
     /**
-     * Appends data items.
-     *
-     * Does nothing on a base Axis.
-     */
-    protected appendDataItems(): void;
-    /**
      * Adds a data item to the Axis.
      *
      * @param {this["_dataItem"]} dataItem Data item

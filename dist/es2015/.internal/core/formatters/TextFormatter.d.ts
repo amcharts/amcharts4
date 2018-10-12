@@ -179,9 +179,10 @@ export declare class TextFormatter extends BaseObject {
      * @ignore Exclude from docs
      * @param  {string}    text          Text to chunk
      * @param  {boolean}   quotedBlocks  Use quoted blocks
+     * @param  {boolean}   noFormatting  Formatting blocks will be treated as regular text
      * @return {string[]}                Array of string chunks
      */
-    chunk(text: string, quotedBlocks?: boolean): ITextChunk[];
+    chunk(text: string, quotedBlocks?: boolean, noFormatting?: boolean): ITextChunk[];
     /**
      * Checks if supplied format contains image information and should be
      * formatted as such.

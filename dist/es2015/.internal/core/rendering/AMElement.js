@@ -96,8 +96,7 @@ var AMElement = /** @class */ (function () {
      * @ignore Exclude from docs
      */
     AMElement.prototype.transform = function () {
-        var transfromString = "";
-        transfromString += "translate(" + this._x + "," + this._y + ")";
+        var transfromString = "translate(" + this._x + "," + this._y + ")";
         if (this._scale != 1) {
             transfromString += ((transfromString ? " " : "") + "scale(" + this._scale + ")");
         }
@@ -148,7 +147,7 @@ var AMElement = /** @class */ (function () {
         if (point) {
             var x = point.x;
             var y = point.y;
-            if ((this._x != x && $type.isNumber(x)) || (this._y != y && $type.isNumber(y))) {
+            if (this._x != x || this._y != y) {
                 this._x = x;
                 this._y = y;
                 this.transform();
@@ -208,7 +207,7 @@ var AMElement = /** @class */ (function () {
          * @param {number}  value  X coordinate (px)
          */
         set: function (value) {
-            if (this._x != value && $type.isNumber(value)) {
+            if (this._x != value) {
                 this._x = value;
                 this.transform();
             }
@@ -229,7 +228,7 @@ var AMElement = /** @class */ (function () {
          * @param {number} value Y coordinate (px)
          */
         set: function (value) {
-            if (this._y != value && $type.isNumber(value)) {
+            if (this._y != value) {
                 this._y = value;
                 this.transform();
             }

@@ -18,8 +18,13 @@ import * as $type from "../utils/Type";
  */
 export function polyline(points) {
     var path = lineTo(points[0]);
-    for (var i = 0; i < points.length; i++) {
-        path += lineTo(points[i]);
+    var prevPoint = { x: 0, y: 0 };
+    for (var i = 0, len = points.length; i < len; i++) {
+        var point = points[i];
+        if ($math.getDistance(point, prevPoint) > 1) {
+            path += lineTo(point);
+            prevPoint = point;
+        }
     }
     return path;
 }

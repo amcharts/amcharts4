@@ -49,14 +49,14 @@ var LineSeriesSegment = /** @class */ (function (_super) {
         var fillSprite = _this.createChild(Sprite);
         _this.fillSprite = fillSprite;
         fillSprite.shouldClone = false;
-        fillSprite.element = _this.paper.add("path");
+        fillSprite.setElement(_this.paper.add("path"));
         fillSprite.isMeasured = false;
         _this._disposers.push(fillSprite);
         // Create line element
         var strokeSprite = _this.createChild(Sprite);
         _this.strokeSprite = strokeSprite;
         strokeSprite.shouldClone = false;
-        strokeSprite.element = _this.paper.add("path");
+        strokeSprite.setElement(_this.paper.add("path"));
         strokeSprite.isMeasured = false;
         _this._disposers.push(strokeSprite);
         return _this;

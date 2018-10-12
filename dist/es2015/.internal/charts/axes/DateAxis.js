@@ -1389,7 +1389,9 @@ var DateAxis = /** @class */ (function (_super) {
         _super.prototype.copyFrom.call(this, source);
         this.dateFormats = source.dateFormats;
         this.periodChangeDateFormats = source.periodChangeDateFormats;
-        this.baseInterval = source.baseInterval;
+        if (source["_baseInterval"]) {
+            this.baseInterval = source.baseInterval;
+        }
     };
     return DateAxis;
 }(ValueAxis));

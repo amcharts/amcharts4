@@ -39,21 +39,20 @@ var Slice = /** @class */ (function (_super) {
         _super.call(this) || this;
         _this.className = "Slice";
         // Set defaults
-        _this.cornerRadius = 0;
-        _this.startAngle = 0;
-        _this.innerRadius = 0;
-        _this.radius = 0;
-        _this.arc = 0;
-        _this.shiftRadius = 0;
+        _this.setPropertyValue("cornerRadius", 0);
+        _this.setPropertyValue("startAngle", 0);
+        _this.setPropertyValue("innerRadius", 0);
+        _this.setPropertyValue("radius", 0);
+        _this.setPropertyValue("arc", 0);
+        _this.setPropertyValue("shiftRadius", 0);
         _this.strokeOpacity = 1;
-        _this.layout = "none";
+        _this.setPropertyValue("layout", "none");
         // Create a slice wedge element
         _this.slice = _this.createChild(Sprite);
-        _this.slice.element = _this.paper.add("path");
         _this.slice.isMeasured = false;
         _this._disposers.push(_this.slice);
-        _this.element.attr({ "stroke-linejoin": "round" });
-        _this.element.attr({ "stroke-linecap": "round" });
+        //this.element.attr({ "stroke-linejoin": "round" });
+        //this.element.attr({ "stroke-linecap": "round" });
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -83,7 +82,12 @@ var Slice = /** @class */ (function (_super) {
         gradient.element.attr({ radius: this.radius });
     };
     Slice.prototype.getContainerBBox = function () {
-        return $math.getArcRect(this.startAngle, this.startAngle + this.arc, this.radius);
+        if (this.isMeasured) {
+            return $math.getArcRect(this.startAngle, this.startAngle + this.arc, this.radius);
+        }
+        else {
+            return { x: 0, y: 0, width: 0, height: 0 };
+        }
     };
     Object.defineProperty(Slice.prototype, "startAngle", {
         /**

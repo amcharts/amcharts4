@@ -225,7 +225,7 @@ var CategoryAxis = /** @class */ (function (_super) {
             var dataItem = this.dataItems.getIndex(i);
             dataItem.__disabled = true;
         }
-        for (var i = endIndex; i < this.dataItems.length; i++) {
+        for (var i = endIndex, len = this.dataItems.length; i < len; i++) {
             var dataItem = this.dataItems.getIndex(i);
             dataItem.__disabled = true;
         }

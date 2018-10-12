@@ -103,6 +103,8 @@ export declare class BlurFilter extends Filter {
     /**
      * Blur value.
      *
+     * The bigger the value, the blurrier the target element will become.
+     *
      * @default 1.5
      * @param {number} value Blur
      */

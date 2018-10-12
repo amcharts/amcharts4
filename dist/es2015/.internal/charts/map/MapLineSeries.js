@@ -194,7 +194,7 @@ var MapLineSeriesDataItem = /** @class */ (function (_super) {
      * @param {IGeoPoint[]}  geoPoints  Points of the element
      */
     MapLineSeriesDataItem.prototype.updateLineExtremes = function (multiGeoLine) {
-        for (var i = 0; i < multiGeoLine.length; i++) {
+        for (var i = 0, len = multiGeoLine.length; i < len; i++) {
             var geoLine = multiGeoLine[i];
             this.updateExtremes(geoLine);
         }
@@ -272,7 +272,7 @@ var MapLineSeries = /** @class */ (function (_super) {
                     console.log("nothing found in geoJSON");
                 }
                 if (features) {
-                    var _loop_1 = function (i) {
+                    var _loop_1 = function (i, len) {
                         var feature = features[i];
                         var geometry = feature.geometry;
                         if (geometry) {
@@ -307,8 +307,8 @@ var MapLineSeries = /** @class */ (function (_super) {
                         }
                     };
                     var this_1 = this;
-                    for (var i = 0; i < features.length; i++) {
-                        _loop_1(i);
+                    for (var i = 0, len = features.length; i < len; i++) {
+                        _loop_1(i, len);
                     }
                 }
             }

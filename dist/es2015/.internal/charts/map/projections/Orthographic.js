@@ -106,7 +106,7 @@ var Orthographic = /** @class */ (function (_super) {
         var clipRectangle2 = this.getClipRectangle2();
         var rect1 = this.getRect1();
         var rect2 = this.getRect2();
-        for (var i = 0; i < geoArea.length; i++) {
+        for (var i = 0, len = geoArea.length; i < len; i++) {
             var surface = geoArea[i][0];
             var hole = geoArea[i][1];
             var clippedAreas = [];
@@ -143,12 +143,13 @@ var Orthographic = /** @class */ (function (_super) {
                 finally { if (e_1) throw e_1.error; }
             }
         }
-        for (var i = 0; i < clippedArea.length; i++) {
+        for (var i = 0, len = clippedArea.length; i < len; i++) {
             var surface = clippedArea[i][0];
             //let hole: IGeoPoint[] = clippedArea[i][1];
             if (surface) {
-                var prevPoint = surface[surface.length - 1];
-                for (var i_1 = 0; i_1 < surface.length; i_1++) {
+                var len_1 = surface.length;
+                var prevPoint = surface[len_1 - 1];
+                for (var i_1 = 0; i_1 < len_1; i_1++) {
                     var point = surface[i_1];
                     if ($math.round(point.longitude, 4) == $math.round(prevPoint.longitude, 4)) {
                         var stepCount = Math.abs((prevPoint.latitude - point.latitude) * 2);

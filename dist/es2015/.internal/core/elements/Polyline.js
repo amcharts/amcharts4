@@ -57,7 +57,7 @@ var Polyline = /** @class */ (function (_super) {
         var segments = this.segments;
         if (segments && segments.length > 0) {
             var path = "";
-            for (var i = 0; i < segments.length; i++) {
+            for (var i = 0, len = segments.length; i < len; i++) {
                 var points = segments[i];
                 if (points.length > 0) {
                     path += $path.moveTo(points[0]);

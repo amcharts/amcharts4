@@ -95,7 +95,7 @@ var Polygon = /** @class */ (function (_super) {
         var bottom;
         if (points.length > 0) {
             // separate areas
-            for (var i = 0; i < points.length; i++) {
+            for (var i = 0, len = points.length; i < len; i++) {
                 // surface
                 var surface = points[i][0];
                 var hole = points[i][1];
@@ -123,7 +123,7 @@ var Polygon = /** @class */ (function (_super) {
                 if (hole && hole.length > 0) {
                     var point = hole[0];
                     path += $path.moveTo(point);
-                    for (var h = 0; h < hole.length; h++) {
+                    for (var h = 0, hlen = hole.length; h < hlen; h++) {
                         point = hole[h];
                         path += $path.lineTo(point);
                     }

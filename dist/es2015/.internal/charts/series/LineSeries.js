@@ -205,7 +205,7 @@ var LineSeries = /** @class */ (function (_super) {
         }
         // find first to the right
         // TODO use iterator instead
-        for (var i = this.endIndex; i < this.dataItems.length; i++) {
+        for (var i = this.endIndex, len = this.dataItems.length; i < len; i++) {
             var dataItem = this.dataItems.getIndex(i);
             if (dataItem.hasValue(this._xValueFields) && dataItem.hasValue(this._yValueFields)) {
                 endIndex = i + 1;
@@ -504,13 +504,15 @@ var LineSeries = /** @class */ (function (_super) {
         marker.disposeChildren();
         var line = marker.createChild(Line);
         line.shouldClone = false;
-        line.copyFrom(this);
+        //line.copyFrom(<any>this); coppies events which is not good
+        $object.copyProperties(this, line, visualProperties);
         line.x2 = w;
         line.y = h / 2;
         line.visible = true;
         if (this.fillOpacity > 0) {
             var fill = marker.createChild(Rectangle);
-            fill.copyFrom(this);
+            //fill.copyFrom(<any>this); coppies events which is not good
+            $object.copyProperties(this, fill, visualProperties);
             fill.width = w;
             fill.height = h;
             fill.y = 0;

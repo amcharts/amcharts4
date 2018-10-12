@@ -93,7 +93,7 @@ var NavigationBar = /** @class */ (function (_super) {
         _this.paddingBottom = 2;
         _this.links = new ListTemplate(textLink);
         _this._disposers.push(new ListDisposer(_this.links));
-        _this._disposers.push(_this.links.template);
+        _this._disposers.push(textLink);
         _this._linksIterator = new $iter.ListIterator(_this.links, function () { return _this.links.create(); });
         _this._linksIterator.createNewItems = true;
         var triangle = new Triangle();
@@ -107,7 +107,7 @@ var NavigationBar = /** @class */ (function (_super) {
         triangle.marginRight = 10;
         _this.separators = new ListTemplate(triangle);
         _this._disposers.push(new ListDisposer(_this.separators));
-        _this._disposers.push(_this.separators.template);
+        _this._disposers.push(triangle);
         var activeLink = new TextLink();
         _this.activeLink = activeLink;
         activeLink.copyFrom(textLink);
@@ -156,6 +156,7 @@ var NavigationBar = /** @class */ (function (_super) {
         }
         textLink.dataItem = dataItem;
         textLink.text = dataItem.name;
+        textLink.validate();
     };
     return NavigationBar;
 }(Component));

@@ -220,7 +220,7 @@ var MapPolygonSeriesDataItem = /** @class */ (function (_super) {
      * @param {IGeoPoint[]}  geoPoints  Points of the element
      */
     MapPolygonSeriesDataItem.prototype.updateAreaExtremes = function (multiGeoPolygon) {
-        for (var i = 0; i < multiGeoPolygon.length; i++) {
+        for (var i = 0, len = multiGeoPolygon.length; i < len; i++) {
             var geoPolygon = multiGeoPolygon[i];
             var surface = geoPolygon[0];
             this.updateExtremes(surface);
@@ -295,7 +295,7 @@ var MapPolygonSeries = /** @class */ (function (_super) {
         this.south = null;
         // process geoJSON and created map objects
         if (this.useGeodata || this.geodata) {
-            var geoJSON = this.chart.geodata;
+            var geoJSON = !this._dataSources["geodata"] ? this.chart.geodata : undefined;
             if (this.geodata) {
                 geoJSON = this.geodata;
             }
@@ -314,7 +314,7 @@ var MapPolygonSeries = /** @class */ (function (_super) {
                     console.log("nothing found in geoJSON");
                 }
                 if (features) {
-                    var _loop_1 = function (i) {
+                    var _loop_1 = function (i, len) {
                         var feature = features[i];
                         var geometry = feature.geometry;
                         if (geometry) {
@@ -353,8 +353,8 @@ var MapPolygonSeries = /** @class */ (function (_super) {
                         }
                     };
                     var this_1 = this;
-                    for (var i = 0; i < features.length; i++) {
-                        _loop_1(i);
+                    for (var i = 0, len = features.length; i < len; i++) {
+                        _loop_1(i, len);
                     }
                 }
             }

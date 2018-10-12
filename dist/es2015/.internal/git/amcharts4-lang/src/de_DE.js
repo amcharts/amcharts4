@@ -61,6 +61,36 @@ export default {
     // used for separating decimals, and which for thousands.
     "_decimalSeparator": ",",
     "_thousandSeparator": ".",
+    // Suffixes for numbers
+    // When formatting numbers, big or small numers might be reformatted to
+    // shorter version, by applying a suffix.
+    //
+    // For example, 1000000 might become "1m".
+    // Or 1024 might become "1KB" if we're formatting byte numbers.
+    //
+    // This section defines such suffixes for all such cases.
+    "_big_number_suffix_3": "K",
+    "_big_number_suffix_6": "Mio",
+    "_big_number_suffix_9": "Mrd",
+    "_big_number_suffix_12": "Bio",
+    "_big_number_suffix_15": "Brd",
+    "_big_number_suffix_18": "Trill",
+    "_big_number_suffix_21": "Trd",
+    "_big_number_suffix_24": "Y",
+    "_small_number_suffix_3": "m",
+    "_small_number_suffix_6": "μ",
+    "_small_number_suffix_9": "n",
+    "_small_number_suffix_12": "p",
+    "_small_number_suffix_15": "f",
+    "_small_number_suffix_18": "a",
+    "_small_number_suffix_21": "z",
+    "_small_number_suffix_24": "y",
+    "_byte_suffix_B": "B",
+    "_byte_suffix_KB": "KB",
+    "_byte_suffix_MB": "MB",
+    "_byte_suffix_GB": "GB",
+    "_byte_suffix_TB": "TB",
+    "_byte_suffix_PB": "PB",
     // Default date formats for various periods.
     //
     // This should reflect official or de facto formatting universally accepted

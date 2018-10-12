@@ -205,8 +205,8 @@ var Legend = /** @class */ (function (_super) {
         _this.className = "Legend";
         // Set defaults
         _this.layout = "grid";
-        _this.useDefaultMarker = false;
-        _this.contentAlign = "center";
+        _this.setPropertyValue("useDefaultMarker", false);
+        _this.setPropertyValue("contentAlign", "center");
         // Create a template container and list for legend items
         var itemContainer = new Container();
         itemContainer.padding(10, 0, 10, 0);
@@ -290,7 +290,7 @@ var Legend = /** @class */ (function (_super) {
         _this.valueLabels = new ListTemplate(valueLabel);
         _this._disposers.push(new ListDisposer(_this.valueLabels));
         _this._disposers.push(_this.valueLabels.template);
-        _this.position = "bottom";
+        _this.position = "bottom"; // don't use setPropertyValue here!
         // Create a state for disabled legend items
         itemContainer.states.create("active");
         itemContainer.setStateOnChildren = true;

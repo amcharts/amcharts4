@@ -64,7 +64,7 @@ var TextFormatter = /** @class */ (function (_super) {
         // Get pure text - no style tags
         var texts = text.split(/\[[^\[\]]*\]/);
         // Go through each of the texts and wrap it in style tags
-        for (var i = 0; i < texts.length; i++) {
+        for (var i = 0, len = texts.length; i < len; i++) {
             // Get text bit
             var t = texts[i];
             // Check if string is empty
@@ -290,10 +290,12 @@ var TextFormatter = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      * @param  {string}    text          Text to chunk
      * @param  {boolean}   quotedBlocks  Use quoted blocks
+     * @param  {boolean}   noFormatting  Formatting blocks will be treated as regular text
      * @return {string[]}                Array of string chunks
      */
-    TextFormatter.prototype.chunk = function (text, quotedBlocks) {
+    TextFormatter.prototype.chunk = function (text, quotedBlocks, noFormatting) {
         if (quotedBlocks === void 0) { quotedBlocks = false; }
+        if (noFormatting === void 0) { noFormatting = false; }
         // Init result
         var res = [];
         // Replace double (escaped) square spaces and quotes with temporary codes
@@ -332,7 +334,7 @@ var TextFormatter = /** @class */ (function (_super) {
                     }
                     else {
                         res.push({
-                            "type": "format",
+                            "type": noFormatting ? "value" : "format",
                             "text": "[" + chunk2 + "]"
                         });
                     }

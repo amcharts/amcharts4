@@ -129,7 +129,6 @@ var DataSource = /** @class */ (function (_super) {
      * @param {string}  type  Content type of the loaded data (optional)
      */
     DataSource.prototype.processData = function (data, type) {
-        var _this = this;
         // Parsing started
         this.dispatchImmediately("parsestarted");
         // Check if parser is set
@@ -172,19 +171,15 @@ var DataSource = /** @class */ (function (_super) {
         }
         // Wrap up
         this.dispatchImmediately("parseended");
-        this.dispatchImmediately("done", {
-            "data": this.data
-        });
+        if ($type.hasValue(this.data)) {
+            this.dispatchImmediately("done", {
+                "data": this.data
+            });
+        }
         // The component is responsible for updating its own data vtriggered via
         // events.
         // Update last data load
         this.lastLoad = new Date();
-        // Should we schedule a reload?
-        if (this.reloadFrequency) {
-            this._reloadTimeout = setTimeout(function () {
-                _this.load();
-            }, this.reloadFrequency);
-        }
     };
     Object.defineProperty(DataSource.prototype, "url", {
         /**
@@ -318,7 +313,24 @@ var DataSource = /** @class */ (function (_super) {
          * @param {number} value Reload frequency (ms)
          */
         set: function (value) {
-            this._reloadFrequency = value;
+            var _this = this;
+            if (this._reloadFrequency != value) {
+                this._reloadFrequency = value;
+                // Should we schedule a reload?
+                if (value) {
+                    if (!$type.hasValue(this._reloadDisposer)) {
+                        this._reloadDisposer = this.events.on("ended", function (ev) {
+                            _this._reloadTimeout = setTimeout(function () {
+                                _this.load();
+                            }, _this.reloadFrequency);
+                        });
+                    }
+                }
+                else if ($type.hasValue(this._reloadDisposer)) {
+                    this._reloadDisposer.dispose();
+                    this._reloadDisposer = undefined;
+                }
+            }
         },
         enumerable: true,
         configurable: true
@@ -482,8 +494,19 @@ var DataSource = /** @class */ (function (_super) {
      * Use DataSource's events to watch for loaded data and errors.
      */
     DataSource.prototype.load = function () {
+        if (this._reloadTimeout) {
+            clearTimeout(this._reloadTimeout);
+        }
         dataLoader.load(this);
     };
+    /**
+     * Adds parameters to `url` as query strings. Will take care of proper
+     * separators.
+     *
+     * @param  {string}  url     Source URL
+     * @param  {object}  params  Parameters
+     * @return {string}          New URL
+     */
     DataSource.prototype.addUrlParams = function (url, params) {
         var join = url.match(/\?/) ? "&" : "?";
         var add = [];

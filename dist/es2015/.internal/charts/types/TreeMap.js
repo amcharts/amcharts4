@@ -61,7 +61,7 @@ var TreeMapDataItem = /** @class */ (function (_super) {
          * @return {number} Value
          */
         get: function () {
-            var value = this.values["value"].workingValue;
+            var value = this.values["value"].value;
             if (!$type.isNumber(value)) {
                 value = 0;
                 if (this.children) {
@@ -479,7 +479,7 @@ var TreeMap = /** @class */ (function (_super) {
                 });
             }
             this.layoutAlgorithm(parent);
-            for (var i = 0; i < children.length; i++) {
+            for (var i = 0, len = children.length; i < len; i++) {
                 var node = children.getIndex(i);
                 if (node.children) {
                     this.layoutItems(node);
@@ -810,20 +810,6 @@ var TreeMap = /** @class */ (function (_super) {
         }
     };
     /**
-     * [handleDataItemValueChange description]
-     *
-     * @ignore Exclude from docs
-     * @todo Description
-     */
-    TreeMap.prototype.handleDataItemValueChange = function () {
-        this.invalidateDataItems();
-    };
-    //protected handleDataItemWorkingValueChange(event: AMEvent<TreeMapDataItem, IDataItemEvents>["workingvaluechanged"]): void {
-    //if(event.property == "value"){
-    //	this.invalidateLayout();
-    //}
-    //}
-    /**
      * Measures the size of container and informs its children of how much size
      * they can occupy, by setting their relative `maxWidth` and `maxHeight`
      * properties.
@@ -1045,6 +1031,15 @@ var TreeMap = /** @class */ (function (_super) {
             }
             value -= sumValue, i0 = i1;
         }
+    };
+    /**
+     * [handleDataItemValueChange description]
+     *
+     * @ignore Exclude from docs
+     * @todo Description
+     */
+    TreeMap.prototype.handleDataItemValueChange = function (dataItem) {
+        this.invalidateDataItems();
     };
     /**
      * Setups the legend to use the chart's data.

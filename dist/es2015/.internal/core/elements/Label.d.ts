@@ -79,6 +79,14 @@ export interface ILabelProperties extends IContainerProperties {
      * @type {boolean}
      */
     hideOversized?: boolean;
+    /**
+     * If set to `true` square-bracket formatting blocks will be treated as
+     * regular text.
+     *
+     * @default false
+     * @type {boolean}
+     */
+    ignoreFormatting?: boolean;
 }
 /**
  * Text line information.
@@ -169,8 +177,8 @@ export interface ILabelAdapters extends IContainerAdapters, ILabelProperties {
  *
  * @see {@link ILabelEvents} for a list of available events
  * @see {@link ILabelAdapters} for a list of available Adapters
+ * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-strings/} for info on string formatting and data binding
  * @todo Vertical align
- * @todo Linkage to relative documentation (formatters, data binding)
  * @important
  */
 export declare class Label extends Container {
@@ -418,6 +426,17 @@ export declare class Label extends Container {
      * @param {boolean}  value  Hide if text does not fit?
      */
     hideOversized: boolean;
+    /**
+     * @return {boolean} Ignore formatting?
+     */
+    /**
+     * If set to `true` square-bracket formatting blocks will be treated as
+     * regular text.
+     *
+     * @default false
+     * @param {boolean}  value  Ignore formatting?
+     */
+    ignoreFormatting: boolean;
     /**
      * Override `mesaureElement` so it does not get measure again, because
      * internal `_bbox` is being updated by measuring routines in Text itself.

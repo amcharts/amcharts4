@@ -375,7 +375,7 @@ var XYSeries = /** @class */ (function (_super) {
         _this.className = "XYSeries";
         _this.isMeasured = false;
         _this.mainContainer.mask = new Sprite();
-        _this.mainContainer.mask.element = _this.paper.add("path");
+        _this.mainContainer.mask.setElement(_this.paper.add("path"));
         _this.stacked = false;
         _this.tooltip.pointerOrientation = "horizontal";
         _this.tooltip.events.on("hidden", function () {
@@ -1099,10 +1099,12 @@ var XYSeries = /** @class */ (function (_super) {
         return animation;
     };
     /**
-     * Updates series appearance when working value changes.
+     * [handleDataItemWorkingValueChange description]
+     *
+     * @ignore Exclude from docs
      */
-    XYSeries.prototype.handleDataItemWorkingValueChange = function (event) {
-        _super.prototype.handleDataItemWorkingValueChange.call(this, event);
+    XYSeries.prototype.handleDataItemWorkingValueChange = function (dataItem) {
+        _super.prototype.handleDataItemWorkingValueChange.call(this, dataItem);
         // to calculate stack values
         var axisSeries = this.baseAxis.series;
         $iter.each(axisSeries.iterator(), function (series) {

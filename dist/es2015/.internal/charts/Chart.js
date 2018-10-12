@@ -89,9 +89,11 @@ var Chart = /** @class */ (function (_super) {
         // hides everything on first frame and shows only on second. helps to avoid technical flickering
         chartAndLegendContainer.visible = false;
         chartAndLegendContainer.events.once("validated", function () {
-            registry.events.once("enterframe", function () {
-                chartAndLegendContainer.visible = true;
-            });
+            _this._disposers.push(registry.events.once("exitframe", function () {
+                setTimeout(function () {
+                    chartAndLegendContainer.visible = true;
+                }, 1);
+            }));
         });
         // Add title list events to apply certain formatting options and to make
         // the chart reference them as accessible screen reader labels

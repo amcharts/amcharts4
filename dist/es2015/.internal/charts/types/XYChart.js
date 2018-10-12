@@ -247,9 +247,12 @@ var XYChart = /** @class */ (function (_super) {
         plotCont.shouldClone = false;
         plotCont.height = percent(100);
         plotCont.width = percent(100);
+        // Create transparend background for plot container so that hover works
+        // on all of it
+        plotCont.background.fillOpacity = 0;
         _this.plotContainer = plotCont;
         // must go below plot container
-        _this.mouseWheelBehavior = "zoomX";
+        _this.mouseWheelBehavior = "none";
         _this._cursorContainer = plotCont;
         // Create a container for right-side axes
         var rightAxesCont = yAxesAndPlotCont.createChild(Container);
@@ -802,7 +805,7 @@ var XYChart = /** @class */ (function (_super) {
             var bottom = bottomRight.y;
             var topSeriesPoints = [];
             var botSeriesPoints = [];
-            for (var i = 0; i < seriesPoints.length; i++) {
+            for (var i = 0, len = seriesPoints.length; i < len; i++) {
                 if (seriesPoints[i].point.y < top_1 + (bottom - top_1) / 2) {
                     topSeriesPoints.push(seriesPoints[i]);
                 }
@@ -812,7 +815,7 @@ var XYChart = /** @class */ (function (_super) {
             }
             var nextY = top_1;
             //@todo: solve overlapping when tooltips are close to center
-            for (var i = 0; i < topSeriesPoints.length; i++) {
+            for (var i = 0, len = topSeriesPoints.length; i < len; i++) {
                 var series = topSeriesPoints[i].series;
                 var pointY = topSeriesPoints[i].point.y;
                 var tooltip = series.tooltip;
@@ -1235,7 +1238,7 @@ var XYChart = /** @class */ (function (_super) {
     };
     Object.defineProperty(XYChart.prototype, "mouseWheelBehavior", {
         /**
-         * @return {"zoomX" | "zoomY" | "zoomXY" | "panX" | "panY"  | "panXY" | "none"}  mouse wheel behavior
+         * @return {"zoomX" | "zoomY" | "zoomXY" | "panX" | "panY"  | "panXY" | "none"}  Mouse wheel behavior
          */
         get: function () {
             return this.getPropertyValue("mouseWheelBehavior");
@@ -1243,11 +1246,10 @@ var XYChart = /** @class */ (function (_super) {
         /**
          * Specifies action for when mouse wheel is used when over the chart.
          *
-         * Options: Options: `"zoomX"` (default), `"zoomY"`, `"zoomXY"`, `"panX"`, `"panY"`, `"panXY"`, `"none"`.
+         * Options: Options: `"zoomX"`, `"zoomY"`, `"zoomXY"`, `"panX"`, `"panY"`, `"panXY"`, `"none"` (default).
          *
-         * @default "zoomX"
+         * @default "none"
          * @param {"zoomX" | "zoomY" | "zoomXY" | "panX" | "panY"  | "panXY" | "none"} mouse wheel behavior
-         * @default zoomX
          */
         set: function (value) {
             if (this.setPropertyValue("mouseWheelBehavior", value)) {
@@ -1257,6 +1259,8 @@ var XYChart = /** @class */ (function (_super) {
                 }
                 else {
                     if (this._mouseWheelDisposer) {
+                        this.plotContainer.wheelable = false;
+                        this.plotContainer.hoverable = false;
                         this._mouseWheelDisposer.dispose();
                     }
                 }
@@ -1363,14 +1367,14 @@ var XYChart = /** @class */ (function (_super) {
             // config. Therefore their respective objects are not yet are available
             // when axis (and respectively their ranges) are being processed.
             if (yAxes.length) {
-                for (var i = 0; i < yAxes.length; i++) {
+                for (var i = 0, len = yAxes.length; i < len; i++) {
                     this.yAxes.getIndex(yAxes[i].index).config = {
                         axisRanges: yAxes[i].axisRanges
                     };
                 }
             }
             if (xAxes.length) {
-                for (var i = 0; i < xAxes.length; i++) {
+                for (var i = 0, len = xAxes.length; i < len; i++) {
                     this.xAxes.getIndex(xAxes[i].index).config = {
                         axisRanges: xAxes[i].axisRanges
                     };

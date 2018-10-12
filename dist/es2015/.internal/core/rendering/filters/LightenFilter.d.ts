@@ -20,7 +20,7 @@ import { AMElement } from "../AMElement";
  */
 export interface LightenFilterProperties extends FilterProperties {
     /**
-     * Lightness. (0-1)
+     * Lightness.
      *
      * @type {number}
      */
@@ -61,12 +61,17 @@ export declare class LightenFilter extends Filter {
      */
     constructor();
     /**
-     * @return {number} Lightness (0-1)
+     * @return {number} Lightness
      */
     /**
-     * Lightness. (0-1)
+     * Lightness of the target colors.
      *
-     * @param {number} value Lightness (0-1)
+     * If `lightness` is a positive number, the filter will make all colors
+     * lighter.
+     *
+     * If `lightness` is negative, colors will be darkened.
+     *
+     * @param {number}  value  Lightness
      */
     lightness: number;
 }

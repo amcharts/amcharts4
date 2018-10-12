@@ -87,4 +87,10 @@ export declare class Image extends Sprite {
      * @param {string}  value  Image URI
      */
     href: string;
+    /**
+     * Updates bounding box based on element dimension settings.
+     *
+     * @ignore Exclude from docs
+     */
+    measureElement(): void;
 }

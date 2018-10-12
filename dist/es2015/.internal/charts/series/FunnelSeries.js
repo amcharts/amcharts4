@@ -50,14 +50,15 @@ var FunnelSeriesDataItem = /** @class */ (function (_super) {
         get: function () {
             var _this = this;
             if (!this._sliceLink) {
-                var slice_1 = this.component.sliceLinks.create();
-                this._sliceLink = slice_1;
-                this._disposers.push(slice_1);
+                var sliceLink_1 = this.component.sliceLinks.create();
+                this._sliceLink = sliceLink_1;
+                this._disposers.push(sliceLink_1);
+                sliceLink_1.parent = this.component.slicesContainer;
                 this._disposers.push(new Disposer(function () {
-                    _this.component.sliceLinks.removeValue(slice_1);
+                    _this.component.sliceLinks.removeValue(sliceLink_1);
                 }));
-                this.addSprite(slice_1);
-                slice_1.visible = this.visible;
+                this.addSprite(sliceLink_1);
+                sliceLink_1.visible = this.visible;
             }
             return this._sliceLink;
         },
@@ -262,14 +263,10 @@ var FunnelSeries = /** @class */ (function (_super) {
             // FunnelSlice
             var slice = dataItem.slice;
             slice.orientation = this.orientation;
-            slice.parent = this.slicesContainer;
             var sliceLink = dataItem.sliceLink;
-            sliceLink.parent = this.slicesContainer;
             sliceLink.orientation = this.orientation;
             var tick = dataItem.tick;
-            tick.parent = this.ticksContainer;
             var label = dataItem.label;
-            label.parent = this.labelsContainer;
             tick.slice = slice;
             tick.label = label;
             this.decorateSlice(dataItem);

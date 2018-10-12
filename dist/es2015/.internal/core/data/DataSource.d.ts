@@ -241,6 +241,12 @@ export declare class DataSource extends BaseObjectEvents {
      */
     protected _reloadTimeout: any;
     /**
+     * Holds disposer for the reload event handler.
+     *
+     * @type {IDisposer}
+     */
+    private _reloadDisposer;
+    /**
      * If set to `true`, any subsequent data loads will be considered incremental
      * (containing only new data points that are supposed to be added to existing
      * data).
@@ -488,6 +494,14 @@ export declare class DataSource extends BaseObjectEvents {
      * Use DataSource's events to watch for loaded data and errors.
      */
     load(): void;
+    /**
+     * Adds parameters to `url` as query strings. Will take care of proper
+     * separators.
+     *
+     * @param  {string}  url     Source URL
+     * @param  {object}  params  Parameters
+     * @return {string}          New URL
+     */
     addUrlParams(url: string, params: {
         [index: string]: string;
     }): string;

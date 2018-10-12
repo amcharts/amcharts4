@@ -59,7 +59,7 @@ var Projection = /** @class */ (function () {
         var clippedLine = [];
         var clipRectangle1 = this.getClipRectangle1();
         var clipRectangle2 = this.getClipRectangle2();
-        for (var i = 0; i < geoLine.length; i++) {
+        for (var i = 0, len = geoLine.length; i < len; i++) {
             var segment = geoLine[i];
             if (segment) {
                 var clippedSegments = this.clipLine(segment, clipRectangle1);
@@ -81,7 +81,7 @@ var Projection = /** @class */ (function () {
         var clipRectangle2 = this.getClipRectangle2();
         var rect1 = this.getRect1();
         var rect2 = this.getRect2();
-        for (var i = 0; i < geoArea.length; i++) {
+        for (var i = 0, len = geoArea.length; i < len; i++) {
             var surface = geoArea[i][0];
             var hole = geoArea[i][1];
             var clippedAreas = [];
@@ -123,13 +123,13 @@ var Projection = /** @class */ (function () {
             return;
         }
         var convertedPoints = [];
-        for (var i = 0; i < geoArea.length; i++) {
+        for (var i = 0, len = geoArea.length; i < len; i++) {
             var surface = geoArea[i][0];
             var hole = geoArea[i][1];
             var convertedAreaPoints = [];
             if (surface) {
                 var convertedSurface = [];
-                for (var s = 0; s < surface.length; s++) {
+                for (var s = 0, slen = surface.length; s < slen; s++) {
                     var point = this.convert(surface[s]);
                     convertedSurface.push(point);
                 }
@@ -137,7 +137,7 @@ var Projection = /** @class */ (function () {
             }
             if (hole) {
                 var convertedHole = [];
-                for (var s = 0; s < hole.length; s++) {
+                for (var s = 0, hlen = hole.length; s < hlen; s++) {
                     var point = this.convert(hole[s]);
                     convertedHole.push(point);
                 }
@@ -152,10 +152,10 @@ var Projection = /** @class */ (function () {
             return;
         }
         var convertedPoints = [];
-        for (var i = 0; i < geoLine.length; i++) {
+        for (var i = 0, len = geoLine.length; i < len; i++) {
             var segment = geoLine[i];
             var convertedSegmentPoints = [];
-            for (var s = 0; s < segment.length; s++) {
+            for (var s = 0, slen = segment.length; s < slen; s++) {
                 var geoPoint = segment[s];
                 var point = this.convert(geoPoint);
                 convertedSegmentPoints.push(point);
@@ -274,7 +274,7 @@ var Projection = /** @class */ (function () {
             var inputList = segment;
             segment = [];
             s = inputList[0];
-            for (var i = 0; i < inputList.length; i++) {
+            for (var i = 0, len = inputList.length; i < len; i++) {
                 e = inputList[i];
                 if (inside(e)) {
                     if (!inside(s)) {

@@ -47,52 +47,6 @@ var NumberFormatter = /** @class */ (function (_super) {
          * @type {string}
          */
         _this._outputFormat = "svg";
-        /**
-         * Holds big number prefixes to apply to numbers if `a` modifier is used in
-         * format.
-         *
-         * @type {Array}
-         */
-        _this._bigNumberPrefixes = [
-            { "number": 1e+3, "suffix": "K" },
-            { "number": 1e+6, "suffix": "M" },
-            { "number": 1e+9, "suffix": "G" },
-            { "number": 1e+12, "suffix": "T" },
-            { "number": 1e+15, "suffix": "P" },
-            { "number": 1e+18, "suffix": "E" },
-            { "number": 1e+21, "suffix": "Z" },
-            { "number": 1e+24, "suffix": "Y" }
-        ];
-        /**
-         * Holds small number prefixes to apply to numbers if `a` modifier is used in
-         * format.
-         *
-         * @type {Array}
-         */
-        _this._smallNumberPrefixes = [
-            { "number": 1e-24, "suffix": "y" },
-            { "number": 1e-21, "suffix": "z" },
-            { "number": 1e-18, "suffix": "a" },
-            { "number": 1e-15, "suffix": "f" },
-            { "number": 1e-12, "suffix": "p" },
-            { "number": 1e-9, "suffix": "n" },
-            { "number": 1e-6, "suffix": "μ" },
-            { "number": 1e-3, "suffix": "m" }
-        ];
-        /**
-         * Holds prefixes to apply to data size numbers if `b` modifier is used in
-         * format.
-         *
-         * @type {Array}
-         */
-        _this._bytePrefixes = [
-            { "number": 0, "suffix": "B" },
-            { "number": 1024, "suffix": "KB" },
-            { "number": 1048576, "suffix": "MB" },
-            { "number": 1073741824, "suffix": "GB" },
-            { "number": 1099511627776, "suffix": "TB" },
-            { "number": 1125899906842624, "suffix": "PB" }
-        ];
         _this.className = "NumberFormatter";
         _this.applyTheme();
         return _this;
@@ -103,6 +57,35 @@ var NumberFormatter = /** @class */ (function (_super) {
             this.language.dispose();
         }
     };
+    Object.defineProperty(NumberFormatter.prototype, "language", {
+        /**
+         * @return {Language} Language
+         */
+        get: function () {
+            if (!this._language) {
+                if (this.sprite) {
+                    this._language = this.sprite.language;
+                }
+                else {
+                    this._language = new Language;
+                }
+            }
+            return this._language;
+        },
+        /**
+         * A reference to [[Language]] instance.
+         *
+         * Formatter will use language to translate various items, like number
+         * suffixes, etc.
+         *
+         * @param {Language}  value  Language
+         */
+        set: function (value) {
+            this._language = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Formats the number according to specific format.
      *
@@ -111,15 +94,6 @@ var NumberFormatter = /** @class */ (function (_super) {
      * @return {string}                   Formatted number
      */
     NumberFormatter.prototype.format = function (value, format) {
-        // no language?
-        if (!this.language) {
-            if (this.sprite) {
-                this.language = this.sprite.language;
-            }
-            else {
-                this.language = new Language;
-            }
-        }
         // no format passed in or "Number"
         if (typeof format === "undefined" || format.toLowerCase() === "number") {
             format = this._numberFormat;
@@ -338,7 +312,7 @@ var NumberFormatter = /** @class */ (function (_super) {
         var prefix = "", suffix = "";
         var mods = details.mod ? details.mod.split("") : [];
         if (mods.indexOf("b") !== -1) {
-            var a_1 = this.applyPrefix(value, this._bytePrefixes);
+            var a_1 = this.applyPrefix(value, this.bytePrefixes);
             value = a_1[0];
             prefix = a_1[1];
             suffix = a_1[2];
@@ -347,7 +321,7 @@ var NumberFormatter = /** @class */ (function (_super) {
             }
         }
         else if (mods.indexOf("a") !== -1) {
-            var a_2 = this.applyPrefix(value, value < 1.00 ? this._smallNumberPrefixes : this._bigNumberPrefixes);
+            var a_2 = this.applyPrefix(value, value < 1.00 ? this.smallNumberPrefixes : this.bigNumberPrefixes);
             value = a_2[0];
             prefix = a_2[1];
             suffix = a_2[2];
@@ -400,7 +374,7 @@ var NumberFormatter = /** @class */ (function (_super) {
         if (details.thousands.interval > 0) {
             var ip = [];
             var intsr = ints.split("").reverse().join("");
-            for (var i = 0; i <= ints.length; i += details.thousands.interval) {
+            for (var i = 0, len = ints.length; i <= len; i += details.thousands.interval) {
                 var c = intsr.substr(i, details.thousands.interval).split("").reverse().join("");
                 if (c !== "") {
                     ip.unshift(c);
@@ -448,7 +422,7 @@ var NumberFormatter = /** @class */ (function (_super) {
      */
     NumberFormatter.prototype.applyPrefix = function (value, prefixes) {
         var newvalue = value, prefix = "", suffix = "";
-        for (var i = 0; i < prefixes.length; i++) {
+        for (var i = 0, len = prefixes.length; i < len; i++) {
             if (prefixes[i].number <= value) {
                 if (prefixes[i].number === 0) {
                     newvalue = 0;
@@ -491,9 +465,21 @@ var NumberFormatter = /** @class */ (function (_super) {
     });
     Object.defineProperty(NumberFormatter.prototype, "bigNumberPrefixes", {
         /**
-         * @return {any[]} Prefixes for big numbers
+         * @return {INumberSuffix[]} Prefixes for big numbers
          */
         get: function () {
+            if (!$type.hasValue(this._bigNumberPrefixes)) {
+                this._bigNumberPrefixes = [
+                    { "number": 1e+3, "suffix": this.language.translate("_big_number_suffix_3") },
+                    { "number": 1e+6, "suffix": this.language.translate("_big_number_suffix_6") },
+                    { "number": 1e+9, "suffix": this.language.translate("_big_number_suffix_9") },
+                    { "number": 1e+12, "suffix": this.language.translate("_big_number_suffix_12") },
+                    { "number": 1e+15, "suffix": this.language.translate("_big_number_suffix_15") },
+                    { "number": 1e+18, "suffix": this.language.translate("_big_number_suffix_18") },
+                    { "number": 1e+21, "suffix": this.language.translate("_big_number_suffix_21") },
+                    { "number": 1e+24, "suffix": this.language.translate("_big_number_suffix_24") }
+                ];
+            }
             return this._bigNumberPrefixes;
         },
         /**
@@ -529,7 +515,7 @@ var NumberFormatter = /** @class */ (function (_super) {
          * ```
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
-         * @param {any[]}  prefixes  Prefixes for big numbers
+         * @param {INumberSuffix[]}  prefixes  Prefixes for big numbers
          */
         set: function (prefixes) {
             this._bigNumberPrefixes = prefixes;
@@ -539,9 +525,21 @@ var NumberFormatter = /** @class */ (function (_super) {
     });
     Object.defineProperty(NumberFormatter.prototype, "smallNumberPrefixes", {
         /**
-         * @return {any[]} Prefixes for small numbers
+         * @return {INumberSuffix[]} Prefixes for small numbers
          */
         get: function () {
+            if (!$type.hasValue(this._smallNumberPrefixes)) {
+                this._smallNumberPrefixes = [
+                    { "number": 1e-24, "suffix": this.language.translate("_small_number_suffix_24") },
+                    { "number": 1e-21, "suffix": this.language.translate("_small_number_suffix_21") },
+                    { "number": 1e-18, "suffix": this.language.translate("_small_number_suffix_18") },
+                    { "number": 1e-15, "suffix": this.language.translate("_small_number_suffix_15") },
+                    { "number": 1e-12, "suffix": this.language.translate("_small_number_suffix_12") },
+                    { "number": 1e-9, "suffix": this.language.translate("_small_number_suffix_9") },
+                    { "number": 1e-6, "suffix": this.language.translate("_small_number_suffix_6") },
+                    { "number": 1e-3, "suffix": this.language.translate("_small_number_suffix_3") }
+                ];
+            }
             return this._smallNumberPrefixes;
         },
         /**
@@ -576,8 +574,11 @@ var NumberFormatter = /** @class */ (function (_super) {
          * {myfield.formatNumber("#,###.00a")}
          * ```
          *
+         * IMPORTANT: The order of the suffixes is important. The list must start
+         * from the smallest number and work towards bigger ones.
+         *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
-         * @param {any[]}  prefixes  Prefixes for small numbers
+         * @param {INumberSuffix[]}  prefixes  Prefixes for small numbers
          */
         set: function (prefixes) {
             this._smallNumberPrefixes = prefixes;
@@ -587,9 +588,19 @@ var NumberFormatter = /** @class */ (function (_super) {
     });
     Object.defineProperty(NumberFormatter.prototype, "bytePrefixes", {
         /**
-         * @return {any[]} Prefixes for byte-size formatting
+         * @return {INumberSuffix[]} Prefixes for byte-size formatting
          */
         get: function () {
+            if (!$type.hasValue(this._bytePrefixes)) {
+                this._bytePrefixes = [
+                    { "number": 0, suffix: this.language.translate("_byte_suffix_B") },
+                    { "number": 1024, suffix: this.language.translate("_byte_suffix_KB") },
+                    { "number": 1048576, suffix: this.language.translate("_byte_suffix_MB") },
+                    { "number": 1073741824, suffix: this.language.translate("_byte_suffix_GB") },
+                    { "number": 1099511627776, suffix: this.language.translate("_byte_suffix_TB") },
+                    { "number": 1125899906842624, suffix: this.language.translate("_byte_suffix_PB") }
+                ];
+            }
             return this._bytePrefixes;
         },
         /**
@@ -605,7 +616,7 @@ var NumberFormatter = /** @class */ (function (_super) {
          * The above `2048` will change to `2K`.
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/formatters/formatting-numbers/} Tutorial on number formatting
-         * @param {any[]}  prefixes  Prefixes for byte-size formatting
+         * @param {INumberSuffix[]}  prefixes  Prefixes for byte-size formatting
          */
         set: function (prefixes) {
             this._bytePrefixes = prefixes;

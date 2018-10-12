@@ -253,40 +253,38 @@ var Component = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      * @todo Description
      */
-    Component.prototype.handleDataItemValueChange = function () {
-        this.invalidateDataItems();
+    Component.prototype.handleDataItemValueChange = function (dataItem) {
+        if (!this.dataItemsInvalid) {
+            this.invalidateDataItems();
+        }
     };
     /**
      * [handleDataItemWorkingValueChange description]
      *
      * @ignore Exclude from docs
-     * @todo Description
      */
-    Component.prototype.handleDataItemWorkingValueChange = function (event) {
+    Component.prototype.handleDataItemWorkingValueChange = function (dataItem) {
     };
     /**
      * [handleDataItemWorkingLocationChange description]
      *
      * @ignore Exclude from docs
-     * @todo Description
      */
-    Component.prototype.handleDataItemWorkingLocationChange = function (event) {
+    Component.prototype.handleDataItemWorkingLocationChange = function (dataItem) {
     };
     /**
      * [handleDataItemCalculatedValueChange description]
      *
      * @ignore Exclude from docs
-     * @todo Description
      */
-    Component.prototype.handleDataItemCalculatedValueChange = function () {
+    Component.prototype.handleDataItemCalculatedValueChange = function (dataItem) {
     };
     /**
      * [handleDataItemPropertyChange description]
      *
      * @ignore Exclude from docs
-     * @todo Description
      */
-    Component.prototype.handleDataItemPropertyChange = function () {
+    Component.prototype.handleDataItemPropertyChange = function (dataItem) {
     };
     /**
      * Populates a [[DataItem]] width data from data source.
@@ -322,7 +320,8 @@ var Component = /** @class */ (function (_super) {
                         children.events.on("inserted", _this.handleDataItemAdded, _this);
                         children.events.on("removed", _this.handleDataItemRemoved, _this);
                         _this._dataDisposers.push(new ListDisposer(children));
-                        for (var i = 0; i < value.length; i++) {
+                        var count = value.length;
+                        for (var i = 0; i < count; i++) {
                             var rawDataItem = value[i];
                             var childDataItem = children.create();
                             childDataItem.parent = dataItem;
@@ -353,12 +352,12 @@ var Component = /** @class */ (function (_super) {
                 this.dataItems.remove(dataItem);
             }
             else {
-                this._dataDisposers.push(dataItem.events.on("valuechanged", this.handleDataItemValueChange, this));
-                this._dataDisposers.push(dataItem.events.on("workingvaluechanged", this.handleDataItemWorkingValueChange, this));
-                this._dataDisposers.push(dataItem.events.on("calculatedvaluechanged", this.handleDataItemCalculatedValueChange, this));
-                this._dataDisposers.push(dataItem.events.on("propertychanged", this.handleDataItemPropertyChange, this));
-                this._dataDisposers.push(dataItem.events.on("locationchanged", this.handleDataItemValueChange, this));
-                this._dataDisposers.push(dataItem.events.on("workinglocationchanged", this.handleDataItemWorkingLocationChange, this));
+                //this._dataDisposers.push(dataItem.events.on("valuechanged", this.handleDataItemValueChange, this));
+                //this._dataDisposers.push(dataItem.events.on("workingvaluechanged", this.handleDataItemWorkingValueChange, this));
+                //this._dataDisposers.push(dataItem.events.on("calculatedvaluechanged", this.handleDataItemCalculatedValueChange, this));
+                //this._dataDisposers.push(dataItem.events.on("propertychanged", this.handleDataItemPropertyChange, this));
+                //this._dataDisposers.push(dataItem.events.on("locationchanged", this.handleDataItemValueChange, this));
+                //this._dataDisposers.push(dataItem.events.on("workinglocationchanged", this.handleDataItemWorkingLocationChange, this));
             }
         }
     };
@@ -414,7 +413,8 @@ var Component = /** @class */ (function (_super) {
      * @todo Description
      */
     Component.prototype.validateDataElements = function () {
-        for (var i = this.startIndex; i < this.endIndex; i++) {
+        var count = this.endIndex;
+        for (var i = this.startIndex; i < count; i++) {
             var dataItem = this.dataItems.getIndex(i);
             // TODO is this correct
             if (dataItem) {
@@ -581,43 +581,29 @@ var Component = /** @class */ (function (_super) {
         this._prevEndIndex = this.endIndex;
     };
     /**
-     * [removeDataItems description]
-     *
-     * @todo Description
-     * @ignore Exclude from docs
-     */
-    Component.prototype.removeDataItems = function () {
-    };
-    /**
      * [appendDataItems description]
      *
      * @todo Description
      * @ignore Exclude from docs
      */
     Component.prototype.appendDataItems = function () {
-        // todo: think if we can optimize this place, maybe mark the ones which should not be removed and then remove all others?
-        this.removeDataItems();
         // TODO use an iterator instead
-        for (var i = this.startIndex; i < this.endIndex; i++) {
+        var count = this.endIndex;
+        for (var i = this.startIndex; i < count; i++) {
             // data item
             var dataItem = this.dataItems.getIndex(i);
             if (dataItem) {
-                // append item
-                this.appendDataItem(dataItem);
+                dataItem.__disabled = false;
             }
         }
-    };
-    /**
-     * [appendDataItem description]
-     *
-     * @ignore Exclude from docs
-     * @todo Description
-     * @param {this["_dataItem"]} dataItem [description]
-     */
-    Component.prototype.appendDataItem = function (dataItem) {
-        // todo: this makes default state to be applied a lot of times. Need to think of a diff solution
-        // and we also need to find when we actually need this
-        //dataItem.invalidate();
+        for (var i = 0; i < this.startIndex; i++) {
+            var dataItem = this.dataItems.getIndex(i);
+            dataItem.__disabled = true;
+        }
+        for (var i = this.endIndex; i < this.dataItems.length; i++) {
+            var dataItem = this.dataItems.getIndex(i);
+            dataItem.__disabled = true;
+        }
     };
     /**
      * If you want to have a smooth transition from one data values to another, you change your raw data and then you must call this method.
@@ -1220,7 +1206,8 @@ var Component = /** @class */ (function (_super) {
             //}
             if (this._start != value) {
                 this._start = value;
-                this._startIndex = Math.max(0, Math.floor(this.dataItems.length * value) || 0);
+                var startIndex = Math.max(0, Math.floor(this.dataItems.length * value) || 0);
+                this._startIndex = Math.min(startIndex, this.dataItems.length);
                 this.invalidateDataRange();
             }
         },

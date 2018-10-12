@@ -72,7 +72,7 @@ export interface IXYChartProperties extends ISerialChartProperties {
     /**
      * Specifies what should chart do if when mouse wheel is rotated.
      *
-     * @default "zoomX"
+     * @default "none"
      */
     mouseWheelBehavior?: "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none";
 }
@@ -694,16 +694,15 @@ export declare class XYChart extends SerialChart {
      */
     protected handleWheel(event: AMEvent<Sprite, ISpriteEvents>["wheel"]): void;
     /**
-     * @return {"zoomX" | "zoomY" | "zoomXY" | "panX" | "panY"  | "panXY" | "none"}  mouse wheel behavior
+     * @return {"zoomX" | "zoomY" | "zoomXY" | "panX" | "panY"  | "panXY" | "none"}  Mouse wheel behavior
      */
     /**
      * Specifies action for when mouse wheel is used when over the chart.
      *
-     * Options: Options: `"zoomX"` (default), `"zoomY"`, `"zoomXY"`, `"panX"`, `"panY"`, `"panXY"`, `"none"`.
+     * Options: Options: `"zoomX"`, `"zoomY"`, `"zoomXY"`, `"panX"`, `"panY"`, `"panXY"`, `"none"` (default).
      *
-     * @default "zoomX"
+     * @default "none"
      * @param {"zoomX" | "zoomY" | "zoomXY" | "panX" | "panY"  | "panXY" | "none"} mouse wheel behavior
-     * @default zoomX
      */
     mouseWheelBehavior: "zoomX" | "zoomY" | "zoomXY" | "panX" | "panY" | "panXY" | "none";
     /**

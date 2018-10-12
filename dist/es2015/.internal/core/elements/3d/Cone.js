@@ -44,7 +44,7 @@ var Cone = /** @class */ (function (_super) {
         _this.bottom.shouldClone = false;
         _this.body = _this.createChild(Sprite);
         _this.body.shouldClone = false;
-        _this.body.element = _this.paper.add("path");
+        _this.body.setElement(_this.paper.add("path"));
         _this.layout = "none";
         _this.bodyFillModifier = new LinearGradientModifier();
         _this.bodyFillModifier.lightnesses = [0, -0.25, 0];

@@ -88,6 +88,7 @@ var Preloader = /** @class */ (function (_super) {
         // Hide by default
         _this.visible = false;
         _this.hide(0);
+        _this.__disabled = true;
         // Make it disposable
         // @todo Maybe it's enough to just dispose `sliceContainer`?
         _this._disposers.push(_this.backgroundSlice);
@@ -153,6 +154,7 @@ var Preloader = /** @class */ (function (_super) {
                     }
                 }
                 else {
+                    this.__disabled = false;
                     this.show();
                     this.interactionsEnabled = true;
                 }

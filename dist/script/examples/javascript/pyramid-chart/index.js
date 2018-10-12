@@ -3,7 +3,7 @@ am4core.useTheme(am4themes_animated);
 var chart = am4core.create("chartdiv", am4charts.SlicedChart);
 chart.data = [{
     "name": "The first",
-    "value": 354
+    "value": 854
 }, {
     "name": "The second",
     "value": 245
@@ -21,7 +21,7 @@ chart.data = [{
     "value": 45
 }, {
     "name": "The seventh",
-    "value": 23
+    "value": 7
 }].reverse();
 
 var series = chart.series.push(new am4charts.PyramidSeries());

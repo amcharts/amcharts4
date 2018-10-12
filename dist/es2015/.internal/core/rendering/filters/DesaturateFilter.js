@@ -54,10 +54,9 @@ var DesaturateFilter = /** @class */ (function (_super) {
          * Saturation.
          *
          * 0 - completely desaturated.
-         * 1 - fully saturated.
+         * 1 - fully saturated (gray).
          *
          * @param {number}  value  Saturation (0-1)
-         * @todo Describe possible values
          */
         set: function (value) {
             this.properties["saturation"] = value;

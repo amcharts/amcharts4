@@ -31,11 +31,11 @@ var Circle = /** @class */ (function (_super) {
      */
     function Circle() {
         var _this = _super.call(this) || this;
-        _this.radius = percent(100);
         _this.className = "Circle";
         _this.element = _this.paper.add("circle");
-        _this.horizontalCenter = "middle";
-        _this.verticalCenter = "middle";
+        _this.setPropertyValue("radius", percent(100));
+        _this.setPropertyValue("horizontalCenter", "middle");
+        _this.setPropertyValue("verticalCenter", "middle");
         _this.applyTheme();
         return _this;
     }
@@ -62,7 +62,6 @@ var Circle = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("radius", value, true);
-            this.invalidate();
         },
         enumerable: true,
         configurable: true
@@ -89,11 +88,12 @@ var Circle = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Circle.prototype.measureElement = function () {
+        var pixelRadius = this.pixelRadius;
         this.bbox = {
-            x: -this.pixelRadius,
-            y: -this.pixelRadius,
-            width: this.pixelRadius * 2,
-            height: this.pixelRadius * 2
+            x: -pixelRadius,
+            y: -pixelRadius,
+            width: pixelRadius * 2,
+            height: pixelRadius * 2
         };
     };
     return Circle;

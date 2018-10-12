@@ -10,6 +10,7 @@
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
 import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
+import { IRectangle } from "../../core/defs/IRectangle";
 /**
  * ============================================================================
  * REQUISITES
@@ -106,4 +107,5 @@ export declare class Column extends Container {
      * @param {Sprite} source Source Sprite
      */
     copyFrom(source: this): void;
+    protected getContainerBBox(x: number, y: number, width: number, height: number): IRectangle;
 }
