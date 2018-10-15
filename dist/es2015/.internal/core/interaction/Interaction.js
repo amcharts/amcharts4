@@ -1468,7 +1468,7 @@ var Interaction = /** @class */ (function (_super) {
             y: deltaY
         };
         // Trigger generic WHEEL event
-        if (io.events.isEnabled("swiperight")) {
+        if (io.events.isEnabled("wheel")) {
             io.events.dispatchImmediately("wheel", {
                 type: "wheel",
                 target: io,

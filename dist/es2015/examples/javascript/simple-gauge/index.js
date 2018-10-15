@@ -6,6 +6,8 @@ am4core.useTheme(am4themes_animated);
 
 // create chart
 let chart = am4core.create("chartdiv", am4charts.GaugeChart);
+chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
+
 chart.innerRadius = -15;
 
 let axis = chart.xAxes.push(new am4charts.ValueAxis());

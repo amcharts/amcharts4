@@ -6,6 +6,8 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 am4core.useTheme(am4themes_animated);
 
 let chart = am4core.create("chartdiv", am4charts.SlicedChart);
+chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
+
 chart.data = [{
     "name": "The first",
     "value": 854
@@ -34,5 +36,8 @@ series.colors.step = 2;
 series.dataFields.value = "value";
 series.dataFields.category = "name";
 series.alignLabels = true;
+series.labelsContainer.width = 200;
+sr
 
 chart.legend = new am4charts.Legend();
+chart.legend.padding(20,20,20,20);

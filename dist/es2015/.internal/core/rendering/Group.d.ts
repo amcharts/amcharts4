@@ -5,8 +5,6 @@
  * @hidden
  */
 import { AMElement } from "./AMElement";
-import { List } from "../utils/List";
-import * as $type from "../utils/Type";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -21,12 +19,6 @@ import * as $type from "../utils/Type";
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/SVG/Element/g} About `<g>` element
  */
 export declare class Group extends AMElement {
-    /**
-     * All child elements contained in the group.
-     *
-     * @type {List<AMElement>}
-     */
-    children: List<AMElement>;
     /**
      * Constructor.
      *
@@ -59,18 +51,6 @@ export declare class Group extends AMElement {
      */
     removeElement(element: AMElement): void;
     /**
-     * First element in the group.
-     *
-     * @return {Optional<AMElement>} First element
-     */
-    readonly firstChild: $type.Optional<AMElement>;
-    /**
-     * Last element in the group.
-     *
-     * @return {Optional<AMElement>} Last element
-     */
-    readonly lastChild: $type.Optional<AMElement>;
-    /**
      * @return {string} SVG markup
      */
     /**
@@ -83,20 +63,6 @@ export declare class Group extends AMElement {
     content: string;
     /**
      * Removes all children from the group.
-     *
-     * This will note dispose the children. They will remain in memory as
-     * orphans. To automatically remove and dispose children elements use
-     * `disposeChildren()` instead.
      */
     removeChildren(): void;
-    /**
-     * Removes and disposes all elements in the group.
-     */
-    disposeChildren(): void;
-    /**
-     * Regenerates internal `children` list out of the actual nodes in DOM.
-     *
-     * @ignore Exclude from docs
-     */
-    populateChildren(): void;
 }

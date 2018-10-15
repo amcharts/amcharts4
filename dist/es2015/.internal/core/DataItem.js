@@ -225,8 +225,8 @@ var DataItem = /** @class */ (function (_super) {
          * @param {boolean} value Visible?
          */
         set: function (value) {
-            this.setVisibility(value);
             if (this._visible != value) {
+                this.setVisibility(value);
                 this._visible = value;
                 if (this.events.isEnabled("visibilitychanged")) {
                     var event_1 = {
@@ -275,8 +275,17 @@ var DataItem = /** @class */ (function (_super) {
      */
     DataItem.prototype.setVisibility = function (value) {
         $array.each(this.sprites, function (sprite) {
-            sprite.visible = value;
-            //sprite.hide();
+            if (value) {
+                sprite.visible = sprite.defaultState.properties.visible;
+            }
+            else {
+                if (sprite.hiddenState) {
+                    sprite.visible = sprite.hiddenState.properties.visible;
+                }
+                else {
+                    sprite.visible = false;
+                }
+            }
         });
     };
     /**
@@ -288,6 +297,7 @@ var DataItem = /** @class */ (function (_super) {
      */
     DataItem.prototype.show = function (duration, delay, fields) {
         var _this = this;
+        this.visible = true;
         this.isHiding = false;
         if (this._hideDisposer) {
             this.removeDispose(this._hideDisposer);
@@ -307,7 +317,6 @@ var DataItem = /** @class */ (function (_super) {
                 }
             }
         });
-        this._visible = true;
         return animation;
     };
     /**
@@ -348,7 +357,7 @@ var DataItem = /** @class */ (function (_super) {
                     animation_1 = anim;
                 }
             });
-            if (animation_1) {
+            if (animation_1 && !animation_1.isDisposed()) {
                 this._hideDisposer = animation_1.events.on("animationended", function () {
                     _this.visible = false;
                     _this.isHiding = false;
@@ -356,8 +365,13 @@ var DataItem = /** @class */ (function (_super) {
                 this._disposers.push(this._hideDisposer);
                 return animation_1;
             }
+            else {
+                this.visible = false;
+            }
         }
-        this.visible = false;
+        else {
+            this.visible = false;
+        }
     };
     /**
      * Returns a duration (ms) the Data Item should take to animate from one

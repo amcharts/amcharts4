@@ -1,6 +1,8 @@
 am4core.useTheme(am4themes_animated);
 
 var chart = am4core.create("chartdiv", am4charts.PieChart);
+chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
+
 chart.data = [{
     "country": "Lithuania",
     "value": 401
@@ -24,6 +26,7 @@ chart.data = [{
 chart.innerRadius = am4core.percent(50);
 chart.startAngle = 180;
 chart.endAngle = 360;
+chart.radius = am4core.percent(70);
 
 var series = chart.series.push(new am4charts.PieSeries());
 series.dataFields.value = "value";

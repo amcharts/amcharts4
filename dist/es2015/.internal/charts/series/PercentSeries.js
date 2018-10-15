@@ -43,20 +43,6 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     * Sets visibility of the Data Item.
-     *
-     * @param {boolean} value Data Item
-     */
-    PercentSeriesDataItem.prototype.setVisibility = function (value) {
-        _super.prototype.setVisibility.call(this, value);
-        if (value) {
-            this.setWorkingValue("value", this.values["value"].value, 0, 0);
-        }
-        else {
-            this.setWorkingValue("value", 0, 0, 0);
-        }
-    };
-    /**
      * Adds an `id` attribute the the slice element and returns its id.
      *
      * @ignore Exclude from docs
@@ -265,22 +251,18 @@ var PercentSeries = /** @class */ (function (_super) {
         _this.colors.step = 1;
         _this.isMeasured = true;
         _this.calculatePercent = true;
-        _this.setStateOnChildren = true;
         var slicesContainer = _this.createChild(Container);
         slicesContainer.shouldClone = false;
         slicesContainer.isMeasured = false;
-        slicesContainer.setStateOnChildren = true;
         _this.slicesContainer = slicesContainer;
         var ticksContainer = _this.createChild(Container);
         ticksContainer.shouldClone = false;
         ticksContainer.isMeasured = false;
-        ticksContainer.setStateOnChildren = true;
         ticksContainer.layout = "none";
         _this.ticksContainer = ticksContainer;
         var labelsContainer = _this.createChild(Container);
         labelsContainer.shouldClone = false;
         labelsContainer.isMeasured = false;
-        labelsContainer.setStateOnChildren = true;
         labelsContainer.layout = "none";
         _this.labelsContainer = labelsContainer;
         _this.bulletsContainer.toFront();

@@ -168,9 +168,6 @@ var PieSeries = /** @class */ (function (_super) {
         });
         var activeState = slice.states.create("active");
         activeState.properties.shiftRadius = 0.10;
-        var hiddenState = slice.hiddenState;
-        hiddenState.properties.visible = true;
-        hiddenState.properties.opacity = 1;
     };
     /**
      * (Re)validates the whole series, effectively causing it to redraw.
@@ -280,7 +277,9 @@ var PieSeries = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Radius
          */
         set: function (value) {
-            this.setPropertyValue("radius", value, true);
+            if (this.setPropertyValue("radius", value, true)) {
+                this.invalidateDataItems();
+            }
         },
         enumerable: true,
         configurable: true
@@ -297,7 +296,10 @@ var PieSeries = /** @class */ (function (_super) {
          * @ignore
          */
         set: function (value) {
-            this._pixelRadius = value;
+            if (this._pixelRadius != value) {
+                this._pixelRadius = value;
+                this.invalidateDataItems();
+            }
         },
         enumerable: true,
         configurable: true
@@ -314,7 +316,10 @@ var PieSeries = /** @class */ (function (_super) {
          * @ignore
          */
         set: function (value) {
-            this._pixelInnerRadius = value;
+            if (this._pixelInnerRadius != value) {
+                this._pixelInnerRadius = value;
+                this.invalidateDataItems();
+            }
         },
         enumerable: true,
         configurable: true

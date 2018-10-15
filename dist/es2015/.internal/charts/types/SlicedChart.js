@@ -62,8 +62,6 @@ var SlicedChart = /** @class */ (function (_super) {
         _this.className = "SlicedChart";
         _this.seriesContainer.layout = "horizontal";
         _this.padding(15, 15, 15, 15);
-        _this.seriesContainer.events.on("maxsizechanged", function () {
-        });
         // Apply theme
         _this.applyTheme();
         return _this;

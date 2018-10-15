@@ -278,14 +278,14 @@ var SankeyDiagram = /** @class */ (function (_super) {
             node.animate([{ property: "opacity", from: 0, to: 1 }, { property: property, to: 0 }], _this.interpolationDuration, _this.interpolationEasing).delay(delay);
             $iter.each(node.outgoingDataItems.iterator(), function (dataItem) {
                 var animation = dataItem.link.show(_this.interpolationDuration);
-                if (animation) {
+                if (animation && !animation.isDisposed()) {
                     animation.delay(delay);
                 }
             });
             $iter.each(node.incomingDataItems.iterator(), function (dataItem) {
                 if (!dataItem.fromNode) {
                     var animation = dataItem.link.show(_this.interpolationDuration);
-                    if (animation) {
+                    if (animation && !animation.isDisposed()) {
                         animation.delay(delay);
                     }
                 }

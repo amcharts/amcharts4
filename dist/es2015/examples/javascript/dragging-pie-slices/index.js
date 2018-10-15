@@ -46,6 +46,8 @@ container.events.on("maxsizechanged", () => {
 })
 
 let chart1 = container.createChild(am4charts.PieChart);
+chart1.hiddenState.properties.opacity = 0; // this makes initial fade in effect
+
 chart1.data = data;
 chart1.radius = am4core.percent(70);
 chart1.innerRadius = am4core.percent(40);
@@ -104,6 +106,8 @@ dragText.paddingBottom = 5;
 
 // second chart
 let chart2 = container.createChild(am4charts.PieChart);
+chart2.hiddenState.properties.opacity = 0; // this makes initial fade in effect
+
 chart2.radius = am4core.percent(70);
 chart2.data = data;
 chart2.innerRadius = am4core.percent(40);

@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.57] - 2018-10-15
+
+### Changed
+- All charts (that inherit from `Chart`) now will apply "hidden" state right after they are validated, then immediately "default" state. This allows creating initial animations such as fade-in (if using animated theme). All you need to do is set: `chart.hiddenState.properties.opacity = 0;`.
+
+### Fixed
+- Mouse wheel zoom was broken since beta.56 on `MapChart`.
+- Pushing `Sprite` to `Container.children` directly (instead of setting parent) used to produce a JS error.
+
+
 ## [4.0.0-beta.56] - 2018-10-12
 
 ### Added

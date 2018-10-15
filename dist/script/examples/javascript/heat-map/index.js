@@ -1,7 +1,7 @@
 am4core.useTheme(am4themes_animated);
 
 var chart = am4core.create("chartdiv", am4charts.XYChart);
-chart.maskBullets = false;
+chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
 
 var xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
 var yAxis = chart.yAxes.push(new am4charts.CategoryAxis());

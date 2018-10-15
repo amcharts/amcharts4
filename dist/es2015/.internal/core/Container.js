@@ -112,14 +112,20 @@ var Container = /** @class */ (function (_super) {
     Container.prototype.handleChildAdded = function (event) {
         var _this = this;
         var child = event.newValue;
-        this._childrenDisposers.insertKey(child.uid, new MultiDisposer([
-            // it's not enough to listen to POSITION_CHANGED only, as some extra redrawals will happen.
-            child.events.on("transformed", this.handleChildTransform, this),
-            child.events.on("zIndexChanged", function () {
-                _this.sortChildren();
-                _this.addChildren();
-            })
-        ]));
+        // try solves the problem when somedy adds child directly to children
+        try {
+            this._childrenDisposers.insertKey(child.uid, new MultiDisposer([
+                // it's not enough to listen to POSITION_CHANGED only, as some extra redrawals will happen.
+                child.events.on("transformed", this.handleChildTransform, this),
+                child.events.on("zIndexChanged", function () {
+                    _this.sortChildren();
+                    _this.addChildren();
+                })
+            ]));
+        }
+        catch (err) {
+            // void
+        }
         if (this.element) {
             var group = this.element;
             group.add(child.group);
@@ -292,7 +298,7 @@ var Container = /** @class */ (function (_super) {
             if ($type.isNumber(this.relativeWidth)) {
                 this.invalidateLayout();
             }
-            this.dispatch("maxsizechanged");
+            this.dispatchImmediately("maxsizechanged"); // not good to dispatch it later, causes flicker (pie chart)
         }
     };
     /**
@@ -303,7 +309,7 @@ var Container = /** @class */ (function (_super) {
             if ($type.isNumber(this.relativeHeight)) {
                 this.invalidateLayout();
             }
-            this.dispatch("maxsizechanged");
+            this.dispatchImmediately("maxsizechanged"); // not good to dispatch it later, causes flicker (pie chart)
         }
     };
     /**
@@ -446,8 +452,8 @@ var Container = /** @class */ (function (_super) {
             var group_1 = this.element;
             // check, maybe the order is good already
             var isCorrect = true;
-            for (var i = 0, len = group_1.children.length; i < len; i++) {
-                if (group_1.children.getIndex(i) != zindexed[i].group) {
+            for (var i = 0, len = group_1.node.children.length; i < len; i++) {
+                if (group_1.node.children[i] != zindexed[i].group.node) {
                     isCorrect = false;
                     break;
                 }
@@ -734,8 +740,22 @@ var Container = /** @class */ (function (_super) {
         var minHeight = this.minHeight;
         // GRID PRECALCULATIONS
         if (this.layout == "grid") {
-            minCellWidth = $math.fitToRange($iter.min($iter.map(children.iterator(), function (x) { return x.measuredWidth; })), 1, maxWidth);
-            maxCellWidth = $math.fitToRange($iter.max($iter.map(children.iterator(), function (x) { return x.measuredWidth; })), 1, maxWidth);
+            minCellWidth = maxWidth;
+            maxCellWidth = 1;
+            for (var i = 0, len = children.length; i < len; i++) {
+                var child = children.getIndex(i);
+                if (child.isMeasured && !child.disabled && !child.__disabled) {
+                    var childMeasuredWidth = child.measuredWidth;
+                    if (childMeasuredWidth < minCellWidth) {
+                        minCellWidth = childMeasuredWidth;
+                    }
+                    if (childMeasuredWidth > maxCellWidth) {
+                        maxCellWidth = childMeasuredWidth;
+                    }
+                }
+            }
+            minCellWidth = $math.fitToRange(minCellWidth, 1, maxWidth);
+            maxCellWidth = $math.fitToRange(maxCellWidth, 1, maxWidth);
             if (this.fixedWidthGrid) {
                 columnCount = maxWidth / maxCellWidth;
             }

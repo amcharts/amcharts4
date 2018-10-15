@@ -4,6 +4,8 @@ am4core.useTheme(am4themes_animated);
 am4core.useTheme(am4themes_dataviz);
 
 var chart = am4core.create("chartdiv", am4charts.SlicedChart);
+chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
+
 chart.data = [{
     "name": "Meat",
     "value": 354
@@ -30,6 +32,8 @@ series.ticks.template.locationY = 0.65;
 series.ticks.template.stroke = am4core.color("#aaaaaa");
 series.ticks.template.strokeOpacity = 0.5;
 series.ticks.template.strokeDasharray = "5";
+
+series.labelsContainer.height = 150;
 
 chart.legend = new am4charts.Legend();
 chart.legend.position = "bottom";

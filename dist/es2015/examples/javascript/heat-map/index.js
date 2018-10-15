@@ -5,7 +5,7 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 am4core.useTheme(am4themes_animated);
 
 let chart = am4core.create("chartdiv", am4charts.XYChart);
-chart.maskBullets = false;
+chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
 
 let xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
 let yAxis = chart.yAxes.push(new am4charts.CategoryAxis());

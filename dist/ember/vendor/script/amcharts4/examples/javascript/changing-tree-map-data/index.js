@@ -2,6 +2,8 @@ am4core.useTheme(am4themes_animated);
 
 // create chart
 var chart = am4core.create("chartdiv", am4charts.TreeMap);
+chart.hiddenState.properties.opacity = 0;
+
 chart.data = [{
 	name: "First",
 	children: [

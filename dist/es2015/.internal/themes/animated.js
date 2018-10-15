@@ -5,6 +5,10 @@ import { Tooltip } from "../core/elements/Tooltip";
 import { Series } from "../charts/series/Series";
 import { SankeyDiagram } from "../charts/types/SankeyDiagram";
 import { FunnelSeries } from "../charts/series/FunnelSeries";
+import { FunnelSlice } from "../charts/elements/FunnelSlice";
+import { Column } from "../charts/elements/Column";
+import { Slice } from "../core/elements/Slice";
+import { Chart } from "../charts/Chart";
 var theme = function (object) {
     if (object instanceof SpriteState) {
         object.transitionDuration = 400;
@@ -20,6 +24,12 @@ var theme = function (object) {
             object.sequencedInterpolation = true;
         }
     }
+    if (object instanceof Chart) {
+        object.defaultState.transitionDuration = 2000;
+        object.hiddenState.transitionDuration = 1000;
+        object.hiddenState.properties.visible = true;
+        object.hiddenState.properties.opacity = 1;
+    }
     if (object instanceof Tooltip) {
         object.animationDuration = 400;
     }
@@ -27,10 +37,25 @@ var theme = function (object) {
         object.animationDuration = 800;
     }
     if (object instanceof Series) {
-        object.defaultState.transitionDuration = 800;
+        object.defaultState.transitionDuration = 1000;
         object.hiddenState.transitionDuration = 1000;
         object.hiddenState.properties.opacity = 1;
         object.interpolationDuration = 1000;
+    }
+    if (object instanceof FunnelSlice) {
+        object.defaultState.transitionDuration = 800;
+        object.hiddenState.transitionDuration = 1000;
+        object.hiddenState.properties.opacity = 1;
+    }
+    if (object instanceof Slice) {
+        object.defaultState.transitionDuration = 800;
+        object.hiddenState.transitionDuration = 1000;
+        object.hiddenState.properties.opacity = 1;
+    }
+    if (object instanceof Column) {
+        object.defaultState.transitionDuration = 800;
+        object.hiddenState.transitionDuration = 1000;
+        object.hiddenState.properties.opacity = 1;
     }
 };
 export default theme;

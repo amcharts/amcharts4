@@ -5,6 +5,8 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 am4core.useTheme(am4themes_animated);
 
 let chart = am4core.create("chartdiv", am4charts.SankeyDiagram);
+chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
+
 chart.data = [
     { from: "A", to: "D", value: 10 },
     { from: "B", to: "D", value: 8 },

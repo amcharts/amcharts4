@@ -1,6 +1,8 @@
 am4core.useTheme(am4themes_animated);
 
 var chart = am4core.create("chartdiv", am4charts.SlicedChart);
+chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
+
 chart.data = [{
     "name": "The first",
     "value": 600
@@ -31,6 +33,8 @@ series.dataFields.category = "name";
 series.alignLabels = true;
 series.orientation = "horizontal";
 series.bottomRatio = 1;
+
+series.labelsContainer.height = 150;
 
 chart.legend = new am4charts.Legend();
 chart.legend.position = "absolute";

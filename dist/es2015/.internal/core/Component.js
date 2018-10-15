@@ -218,7 +218,11 @@ var Component = /** @class */ (function (_super) {
         _this.className = "Component";
         _this.invalidateData();
         // Set up events
-        _this.events.on("maxsizechanged", _this.invalidate, _this);
+        _this.events.on("maxsizechanged", function () {
+            if (_this.inited) {
+                _this.invalidate();
+            }
+        });
         // TODO what about remove ?
         _this.dataUsers.events.on("inserted", _this.handleDataUserAdded, _this);
         // Set up disposers
@@ -734,7 +738,7 @@ var Component = /** @class */ (function (_super) {
         this.dataValidationProgress = 1;
         this._parseDataFrom = 0; // reset this index, it is set to dataItems.length if addData() method was used.
         this.invalidateDataItems();
-        this.dispatch("datavalidated");
+        this.dispatch("datavalidated"); // dispatching it at once breaks map align
     };
     /**
      * Validates (processes) data items.

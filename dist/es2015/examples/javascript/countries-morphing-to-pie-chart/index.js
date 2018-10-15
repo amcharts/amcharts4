@@ -7,7 +7,7 @@ import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
 am4core.useTheme(am4themes_animated);
 
 let chart = am4core.create("chartdiv", am4maps.MapChart);
-
+chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
 
 try {
     chart.geodata = am4geodata_worldLow;
@@ -203,7 +203,7 @@ function morphToCircle(polygon) {
 }
 
 function zoomToCountry(polygon) {
-    let zoomAnimation = chart.zoomToMapObject(polygon, 0.5, true);
+    let zoomAnimation = chart.zoomToMapObject(polygon, 2, true);
     if (zoomAnimation) {
         zoomAnimation.events.on("animationended", () => {
             showPieChart(polygon);

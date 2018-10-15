@@ -1146,7 +1146,9 @@ var Series = /** @class */ (function (_super) {
             if (value === false) {
                 this.events.once("beforevalidated", function () {
                     if (_this.visible == false) {
+                        _this.events.disableType("hidden");
                         _this.hide(0);
+                        _this.events.enableType("hidden");
                         _this.appeared = true;
                     }
                     else {

@@ -135,10 +135,13 @@ var Preloader = /** @class */ (function (_super) {
                 // TODO remove closure ?
                 registry.events.once("enterframe", function () {
                     var animation = _this.hide();
-                    if (animation) {
+                    if (animation && !animation.isDisposed()) {
                         animation.events.once("animationended", function () {
                             _this.__disabled = true;
                         });
+                    }
+                    else {
+                        _this.__disabled = true;
                     }
                 });
                 this.interactionsEnabled = false;

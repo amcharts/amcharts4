@@ -1,5 +1,8 @@
+am4core.useTheme(am4themes_animated);
+
 // chart design inspired by Nicolas Rapp: https://nicolasrapp.com/studio/portfolio/cash-hoarders/
 var chart = am4core.create("chartdiv", am4charts.SankeyDiagram);
+chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
 
 chart.data = [
   { from: "Cash in the U.S.", color: "#00aea0"},

@@ -9,7 +9,6 @@ import { MultiDisposer } from "../utils/Disposer";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $math from "../utils/Math";
 import * as $utils from "../utils/Utils";
-import * as $iter from "../utils/Iterator";
 import * as $type from "../utils/Type";
 ;
 /**
@@ -350,15 +349,15 @@ var Label = /** @class */ (function (_super) {
                                 // Process each child in the temporary line, until the whole
                                 // line fits, preferably with an ellipsis
                                 // TODO use iterator instead
-                                for (var e = lineInfo.element.children.length - 1; e >= 0; e--) {
+                                for (var e = lineInfo.element.node.children.length - 1; e >= 0; e--) {
                                     // Get current element
-                                    var element = lineInfo.element.children.getIndex(e);
+                                    var node = lineInfo.element.node.children[e];
                                     // Add ellipsis only if previous chunk was removed in full
                                     // and this chunk already fits
                                     //if (addEllipsis && (bbox.width <= maxWidth)) {
                                     if (addEllipsis && (lineInfo.bbox.width <= maxWidth)) {
                                         // Add ellipsis
-                                        element.textContent += " " + this.ellipsis;
+                                        node.textContent += " " + this.ellipsis;
                                         // Measure again (we need to make sure ellipsis fits)
                                         lineInfo.bbox = lineInfo.element.getBBox();
                                         lineInfo.bbox.width = Math.floor(lineInfo.bbox.width);
@@ -370,7 +369,7 @@ var Label = /** @class */ (function (_super) {
                                     }
                                     addEllipsis = false;
                                     // Get element text
-                                    var elementText = element.textContent;
+                                    var elementText = node.textContent;
                                     // Calculate average number of symbols / width
                                     lineText = lineInfo.element.textContent;
                                     excessChars = $math.min(Math.ceil((lineInfo.bbox.width - maxWidth) / avgCharWidth), lineText.length);
@@ -390,7 +389,7 @@ var Label = /** @class */ (function (_super) {
                                                 // Indicating to add ellipsis to previous item
                                                 addEllipsis = true;
                                                 // Removing this node
-                                                lineInfo.element.removeElement(element);
+                                                lineInfo.element.node.removeChild(node);
                                             }
                                         }
                                         // If we're on first chunk of text, or we explicitly
@@ -403,7 +402,7 @@ var Label = /** @class */ (function (_super) {
                                             elementText = $utils.truncateWithEllipsis(elementText, maxChars, this.ellipsis, true, this.rtl);
                                         }
                                         // Set truncated text
-                                        element.textContent = elementText;
+                                        node.textContent = elementText;
                                         // Measure again
                                         lineInfo.bbox = lineInfo.element.getBBox();
                                         lineInfo.bbox.width = Math.floor(lineInfo.bbox.width);
@@ -423,7 +422,7 @@ var Label = /** @class */ (function (_super) {
                                  * inject the rest of the chunks to the next line
                                  */
                                 // Get last node added and measure it
-                                var lastElement_1 = lineInfo.element.lastChild;
+                                var lastNode_1 = lineInfo.element.node.lastChild;
                                 // Init split lines
                                 var splitLines = void 0;
                                 while ((lineInfo.bbox.width > maxWidth) && (excessChars <= lineText.length) && (excessChars > 0)) {
@@ -442,14 +441,14 @@ var Label = /** @class */ (function (_super) {
                                         if ((splitLines[0].length > maxChars) || maxChars === 1) {
                                             // Yes - move the whole chunk to the next line
                                             // Remove the element we just added
-                                            lineInfo.element.removeElement(lastElement_1);
+                                            lineInfo.element.node.removeChild(lastNode_1);
                                             // Break out of the while on next cycle
                                             excessChars = 0;
                                         }
                                     }
                                     // Use the first line to update last item
                                     if (excessChars > 0) {
-                                        lastElement_1.textContent = getTextFormatter().cleanUp($utils.trim(splitLines.shift()));
+                                        lastNode_1.textContent = getTextFormatter().cleanUp($utils.trim(splitLines.shift()));
                                     }
                                     // Measure again, just in case
                                     lineInfo.bbox = lineInfo.element.getBBox();
@@ -500,11 +499,11 @@ var Label = /** @class */ (function (_super) {
                     }
                 }
                 // Trim the last item
-                var lastElement = lineInfo.element.lastChild;
-                if (lastElement) {
-                    lastElement.textContent = this.rtl ?
-                        $utils.ltrim(lastElement.textContent) :
-                        $utils.rtrim(lastElement.textContent);
+                var lastNode = lineInfo.element.node.lastChild;
+                if (lastNode) {
+                    lastNode.textContent = this.rtl ?
+                        $utils.ltrim(lastNode.textContent) :
+                        $utils.rtrim(lastNode.textContent);
                 }
                 // Increment collective height
                 currentHeight += currentLineHeight;
@@ -533,7 +532,7 @@ var Label = /** @class */ (function (_super) {
             this.resetBBox();
             // Clear the element
             var group = this.element;
-            group.disposeChildren();
+            group.removeChildren();
             // Create a ForeignObject to use as HTML container
             var fo = this.paper.foreignObject();
             group.add(fo);
@@ -591,11 +590,10 @@ var Label = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Label.prototype.alignSVGText = function () {
-        var _this = this;
         // Get Group
         var group = this.element;
         // Is there anything to align?
-        if (!group.children) {
+        if (group.node.children.length == 0) {
             return;
         }
         var width = this._measuredWidth;
@@ -605,44 +603,46 @@ var Label = /** @class */ (function (_super) {
         var paddingTop = this.pixelPaddingTop;
         var paddingBottom = this.pixelPaddingBottom;
         // Process each line
-        $iter.each(group.children.backwards().iterator(), function (element) {
+        //$iter.each(group.children.backwards().iterator(), (element) => {
+        for (var i = group.node.children.length - 1; i >= 0; i--) {
             // Align horizontally
             // Since we are using `text-anchor` for horizontal alignment, all we need
             // to do here is move the `x` position
-            element.attr({ "text-anchor": _this.textAlign });
-            switch (_this.textAlign) {
+            var node = group.node.children[i];
+            node.setAttribute("text-anchor", this.textAlign);
+            switch (this.textAlign) {
                 case "middle":
-                    element.attr({ "x": (width / 2).toString() });
+                    node.setAttribute("x", (width / 2).toString());
                     break;
                 case "end":
-                    if (_this.rtl) {
+                    if (this.rtl) {
                     }
                     else {
-                        element.attr({ "x": width.toString() });
+                        node.setAttribute("x", width.toString());
                     }
                     break;
                 default:
-                    if (_this.rtl) {
-                        element.attr({ "x": width.toString() });
+                    if (this.rtl) {
+                        node.setAttribute("x", width.toString());
                     }
                     else {
-                        element.removeAttr("text-anchor");
+                        node.removeAttribute("text-anchor");
                     }
                     break;
             }
-            var y = $type.toNumber(element.getAttr("y"));
-            switch (_this.textValign) {
+            var y = $type.toNumber(node.getAttribute("y"));
+            switch (this.textValign) {
                 case "middle":
-                    element.attr({ "y": (y + (height - _this.bbox.height) / 2).toString() });
+                    node.setAttribute("y", (y + (height - this.bbox.height) / 2).toString());
                     break;
                 case "bottom":
-                    element.attr({ "y": (y + height - _this.bbox.height).toString() });
+                    node.setAttribute("y", (y + height - this.bbox.height).toString());
                     break;
                 default:
-                    element.attr({ "y": y.toString() });
+                    node.setAttribute("y", y.toString());
                     break;
             }
-        });
+        }
     };
     /**
      * Produces an SVG line element with formatted text.

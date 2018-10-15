@@ -2,6 +2,7 @@ am4core.useTheme(am4themes_animated);
 am4core.useTheme(am4themes_dark);
 
 var chart = am4core.create("chartdiv", am4charts.XYChart);
+chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
 
 // using math in the data instead of final values just to illustrate the idea of Waterfall chart
 // a separate data field for step series is added because we don't need last step (notice, the last data item doesn't have stepValue)

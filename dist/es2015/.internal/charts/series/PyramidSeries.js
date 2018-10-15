@@ -206,11 +206,16 @@ var PyramidSeries = /** @class */ (function (_super) {
             sliceLink.topWidth = slice.bottomWidth;
             sliceLink.bottomWidth = slice.bottomWidth;
             slice.y = this._nextY;
-            label.x = maxWidth / 2;
+            if (!this.alignLabels) {
+                label.x = slice.x;
+            }
+            else {
+                label.x = 0;
+            }
             label.y = slice.pixelY + slice.pixelHeight * tick.locationY;
             this._nextY += slice.pixelHeight + linkHeight * workingValue / dataItem.value;
             sliceLink.y = this._nextY - linkHeight;
-            sliceLink.x = slice.x;
+            sliceLink.x = maxWidth / 2;
         }
         else {
             var topWidth = $utils.relativeToValue(this.topWidth, maxHeight);
@@ -243,11 +248,16 @@ var PyramidSeries = /** @class */ (function (_super) {
             sliceLink.topWidth = slice.bottomWidth;
             sliceLink.bottomWidth = slice.bottomWidth;
             slice.x = this._nextY;
-            label.y = maxHeight / 2;
+            if (!this.alignLabels) {
+                label.y = slice.y;
+            }
+            else {
+                label.y = this.labelsContainer.measuredHeight;
+            }
             label.x = slice.pixelX + slice.pixelWidth * tick.locationX;
             this._nextY += slice.pixelWidth + linkWidth * workingValue / dataItem.value;
             sliceLink.x = this._nextY - linkWidth;
-            sliceLink.y = slice.y;
+            sliceLink.y = maxHeight / 2;
         }
         this._nextWidth = slice.bottomWidth;
     };

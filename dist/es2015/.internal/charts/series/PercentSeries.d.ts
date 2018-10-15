@@ -74,12 +74,6 @@ export declare class PercentSeriesDataItem extends SeriesDataItem {
      */
     constructor();
     /**
-     * Sets visibility of the Data Item.
-     *
-     * @param {boolean} value Data Item
-     */
-    setVisibility(value: boolean): void;
-    /**
      * Adds an `id` attribute the the slice element and returns its id.
      *
      * @ignore Exclude from docs

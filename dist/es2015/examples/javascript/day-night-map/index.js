@@ -1,11 +1,14 @@
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4maps from "@amcharts/amcharts4/maps";
 import am4themes_dark from "@amcharts/amcharts4/themes/dark";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import am4geodata_continentsLow from "@amcharts/amcharts4-geodata/continentsLow";
 
+am4core.useTheme(am4themes_animated);
 am4core.useTheme(am4themes_dark);
 
 let mapChart = am4core.create("chartdiv", am4maps.MapChart);
+mapChart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
 
 try {
     mapChart.geodata = am4geodata_continentsLow;

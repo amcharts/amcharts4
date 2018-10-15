@@ -66,9 +66,6 @@ var PercentChart = /** @class */ (function (_super) {
         // so that the chart is always drawn, even the legend wants all the space
         _this.chartContainer.minHeight = 50;
         _this.chartContainer.minWidth = 50;
-        _this.chartContainer.events.on("maxsizechanged", function () {
-            _this.invalidate();
-        });
         // Apply theme
         _this.applyTheme();
         return _this;

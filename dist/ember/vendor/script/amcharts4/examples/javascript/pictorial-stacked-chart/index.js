@@ -3,6 +3,8 @@ var iconPath = "M53.5,476c0,14,6.833,21,20.5,21s20.5-7,20.5-21V287h21v189c0,14,6
 am4core.useTheme(am4themes_animated);
 
 var chart = am4core.create("chartdiv", am4charts.SlicedChart);
+chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
+
 chart.data = [{
     "name": "The first",
     "value": 354
@@ -32,8 +34,10 @@ series.dataFields.category = "name";
 series.alignLabels = true;
 
 series.maskSprite.path = iconPath;
-series.ticks.template.locationX = 1.05;
+series.ticks.template.locationX = 1;
 series.ticks.template.locationY = 0.5;
+
+series.labelsContainer.width = 200;
 
 chart.legend = new am4charts.Legend();
 chart.legend.position = "left";

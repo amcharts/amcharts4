@@ -158,9 +158,6 @@ var PieChart = /** @class */ (function (_super) {
         // so that the pie is always drawn, even the legend wants all the space
         _this.chartContainer.minHeight = 50;
         _this.chartContainer.minWidth = 50;
-        _this.chartContainer.events.on("maxsizechanged", function () {
-            _this.invalidate();
-        });
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -203,6 +200,9 @@ var PieChart = /** @class */ (function (_super) {
         // @todo handle this when innerRadius set in pixels (do it for radar also)
         rect = $math.getCommonRectangle([rect, innerRect]);
         var maxRadius = Math.min(chartCont.innerWidth / rect.width, chartCont.innerHeight / rect.height);
+        if (!$type.isNumber(maxRadius)) {
+            maxRadius = 0;
+        }
         var chartRadius = $utils.relativeRadiusToValue(this.radius, maxRadius);
         var chartPixelInnerRadius = $utils.relativeRadiusToValue(this.innerRadius, maxRadius);
         var seriesRadius = (chartRadius - chartPixelInnerRadius) / this.series.length;
@@ -224,6 +224,7 @@ var PieChart = /** @class */ (function (_super) {
             series.endAngle = _this.endAngle;
         });
         this.seriesContainer.definedBBox = { x: chartRadius * rect.x, y: chartRadius * rect.y, width: chartRadius * rect.width, height: chartRadius * rect.height };
+        this.seriesContainer.invalidateLayout();
     };
     Object.defineProperty(PieChart.prototype, "radius", {
         /**
@@ -260,7 +261,9 @@ var PieChart = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Radius (px or relative)
          */
         set: function (value) {
-            this.setPropertyValue("radius", value, true);
+            if (this.setPropertyValue("radius", value, true)) {
+                this.updateRadius();
+            }
         },
         enumerable: true,
         configurable: true

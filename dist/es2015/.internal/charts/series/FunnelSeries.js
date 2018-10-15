@@ -13,6 +13,7 @@ import { FunnelSlice } from "../elements/FunnelSlice";
 import { FunnelTick } from "../elements/FunnelTick";
 import { ListTemplate, ListDisposer } from "../../core/utils/List";
 import { registry } from "../../core/Registry";
+import * as $math from "../../core/utils/Math";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import { percent } from "../../core/utils/Percent";
@@ -181,11 +182,11 @@ var FunnelSeries = /** @class */ (function (_super) {
         var slicesContainer = this.slicesContainer;
         var labelsContainer = this.labelsContainer;
         var labelTemplate = this.labels.template;
+        labelsContainer.layout = "absolute";
         if (this.alignLabels) {
             labelTemplate.interactionsEnabled = true;
             slicesContainer.isMeasured = true;
             labelsContainer.isMeasured = true;
-            labelsContainer.layout = "absolute";
             labelsContainer.margin(10, 10, 10, 10);
             this.ticks.template.disabled = false;
             labelTemplate.horizontalCenter = "left";
@@ -202,7 +203,6 @@ var FunnelSeries = /** @class */ (function (_super) {
             labelTemplate.interactionsEnabled = false;
             slicesContainer.isMeasured = false;
             labelsContainer.isMeasured = true;
-            labelsContainer.layout = "absolute";
             this.ticks.template.disabled = true;
             labelTemplate.horizontalCenter = "middle";
             if (this.orientation == "horizontal") {
@@ -295,23 +295,28 @@ var FunnelSeries = /** @class */ (function (_super) {
         var workingValue = dataItem.getWorkingValue("value");
         var bottomRatio = this.bottomRatio;
         if (this.orientation == "vertical") {
-            var linkHeight = sliceLink.pixelHeight;
+            var linkHeight = sliceLink.pixelHeight * workingValue / dataItem.value;
             maxHeight = maxHeight + linkHeight; // to avoid one link gap in the bottom
             slice.topWidth = workingValue / this.dataItem.values.value.high * maxWidth;
             slice.bottomWidth = (workingValue - (workingValue - nextValue) * bottomRatio) / this.dataItem.values.value.high * maxWidth;
             sliceLink.topWidth = slice.bottomWidth;
             sliceLink.bottomWidth = (workingValue - (workingValue - nextValue)) / this.dataItem.values.value.high * maxWidth;
             slice.y = this._nextY;
-            slice.height = maxHeight / this._count * workingValue / dataItem.value * 1 / this._total - linkHeight;
+            slice.height = $math.max(0, maxHeight / this._count * workingValue / dataItem.value * 1 / this._total - linkHeight);
             slice.x = maxWidth / 2;
-            label.x = slice.x;
+            if (!this.alignLabels) {
+                label.x = slice.x;
+            }
+            else {
+                label.x = 0;
+            }
             label.y = slice.pixelY + slice.pixelHeight * tick.locationY;
             this._nextY += slice.pixelHeight + linkHeight;
             sliceLink.y = this._nextY - linkHeight;
             sliceLink.x = slice.x;
         }
         else {
-            var linkWidth = sliceLink.pixelWidth;
+            var linkWidth = sliceLink.pixelWidth * workingValue / dataItem.value;
             maxWidth = maxWidth + linkWidth; // to avoid one link gap in the bottom
             slice.topWidth = workingValue / this.dataItem.values.value.high * maxHeight;
             slice.bottomWidth = (workingValue - (workingValue - nextValue) * bottomRatio) / this.dataItem.values.value.high * maxHeight;
@@ -320,7 +325,12 @@ var FunnelSeries = /** @class */ (function (_super) {
             slice.x = this._nextY;
             slice.width = maxWidth / this._count * workingValue / dataItem.value * 1 / this._total - linkWidth;
             slice.y = maxHeight / 2;
-            label.y = slice.y;
+            if (!this.alignLabels) {
+                label.y = slice.y;
+            }
+            else {
+                label.y = this.labelsContainer.measuredHeight;
+            }
             label.x = slice.pixelX + slice.pixelWidth * tick.locationX;
             this._nextY += slice.pixelWidth + linkWidth;
             sliceLink.x = this._nextY - linkWidth;
@@ -511,6 +521,7 @@ var FunnelSeries = /** @class */ (function (_super) {
                 sliceLink.applyOnClones = true;
                 sliceLink.fillOpacity = 0.5;
                 sliceLink.expandDistance = -0.3;
+                sliceLink.hiddenState.properties.opacity = 0;
                 this._disposers.push(sliceLink);
                 this._sliceLinks = new ListTemplate(sliceLink);
                 this._disposers.push(new ListDisposer(this._sliceLinks));

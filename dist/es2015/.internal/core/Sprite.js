@@ -700,7 +700,7 @@ var Sprite = /** @class */ (function (_super) {
             if (this.isBaseSprite) {
                 if (this.htmlContainer) {
                     while (this.htmlContainer.children.length > 0) {
-                        this.htmlContainer.removeChild(this.htmlContainer.children[0]);
+                        this.htmlContainer.removeChild(this.htmlContainer.firstChild);
                     }
                 }
                 this.isBaseSprite = false;
@@ -2084,6 +2084,11 @@ var Sprite = /** @class */ (function (_super) {
         }
         if (state.name == "hidden") {
             this.isHiding = true;
+        }
+        else {
+            if (!this.visible) {
+                this.setVisibility(state.properties.visible || this.defaultState.properties.visible);
+            }
         }
         if (state.name == "active") {
             this.isActive = true;
@@ -6442,11 +6447,14 @@ var Sprite = /** @class */ (function (_super) {
             }
             // Apply current state
             transition = this.applyCurrentState(duration);
-            if (transition) {
+            if (transition && !transition.isDisposed()) {
                 this._showHideDisposer = transition.events.on("animationended", function () {
                     _this.isShowing = false;
                 });
                 this._disposers.push(this._showHideDisposer);
+            }
+            else {
+                this.isShowing = false;
             }
             // Make it visible
             var visible = this.defaultState.properties.visible;
@@ -6512,7 +6520,7 @@ var Sprite = /** @class */ (function (_super) {
                 // `setState` will return an `Animation` object which we can set
                 // events on
                 transition = this.setState(hiddenState, duration, undefined);
-                if (transition) {
+                if (transition && !transition.isDisposed()) {
                     this._hideAnimation = transition;
                     this._showHideDisposer = transition.events.on("animationended", function () {
                         _this.isHiding = false;
@@ -6526,6 +6534,10 @@ var Sprite = /** @class */ (function (_super) {
                         this.isHiding = false;
                         this._isHidden = true;
                     }
+                }
+                else {
+                    this.isHiding = false;
+                    this._isHidden = true;
                 }
             }
             else {
