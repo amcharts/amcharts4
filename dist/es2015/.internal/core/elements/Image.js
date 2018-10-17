@@ -11,6 +11,7 @@ import * as tslib_1 from "tslib";
 import { Sprite } from "../Sprite";
 import { registry } from "../Registry";
 import * as $dom from "../utils/DOM";
+import * as $type from "../utils/Type";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -45,9 +46,19 @@ var Image = /** @class */ (function (_super) {
     Image.prototype.draw = function () {
         _super.prototype.draw.call(this);
         if (this.href) {
+            var width = this.innerWidth;
+            var height = this.innerHeight;
+            if ($type.isNumber(this.widthRatio)) {
+                width = height * this.widthRatio;
+                this.width = width;
+            }
+            if ($type.isNumber(this.heightRatio)) {
+                height = width * this.heightRatio;
+                this.height = height;
+            }
             this.element.attr({
-                "width": this.innerWidth,
-                "height": this.innerHeight
+                "width": width,
+                "height": height
             });
             this.element.attrNS($dom.XLINK, "xlink:href", this.href);
         }
@@ -66,6 +77,48 @@ var Image = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("href", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Image.prototype, "widthRatio", {
+        /**
+         * @return {number} Ratio
+         */
+        get: function () {
+            return this.getPropertyValue("widthRatio");
+        },
+        /**
+         * Sets image `width` relatively to its `height`.
+         *
+         * If image's `height = 100` and `widthRatio = 0.5` the actual width will be
+         * `50`.
+         *
+         * @param {number}  value  Ratio
+         */
+        set: function (value) {
+            this.setPropertyValue("widthRatio", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Image.prototype, "heightRatio", {
+        /**
+         * @return {number} Ratio
+         */
+        get: function () {
+            return this.getPropertyValue("heightRatio");
+        },
+        /**
+         * Sets image `height` relatively to its `width`.
+         *
+         * If image's `width = 100` and `heightRatio = 0.5` the actual height will be
+         * `50`.
+         *
+         * @param {number}  value  Ratio
+         */
+        set: function (value) {
+            this.setPropertyValue("heightRatio", value, true);
         },
         enumerable: true,
         configurable: true

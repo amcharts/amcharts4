@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.59] - 2018-10-17
+
+### Added
+- [`widthRatio`](https://www.amcharts.com/docs/v4/reference/image/#widthRatio_property) and [`heightRatio`](https://www.amcharts.com/docs/v4/reference/image/#heightRatio_property) properties on `Image`.
+
+### Fixed
+- Some adapters for Axis elements were being applied twice.
+
+
 ## [4.0.0-beta.58] - 2018-10-17
 
 ### Added

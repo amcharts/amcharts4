@@ -561,7 +561,20 @@ var Sprite = /** @class */ (function (_super) {
                 // used to be applySVGAttrbutes here, this is more efficient
                 for (var _a = tslib_1.__values(this.adapter.keys()), _b = _a.next(); !_b.done; _b = _a.next()) {
                     var key = _b.value;
-                    this[key] = this[key];
+                    switch (key) {
+                        case "fill":
+                        case "opacity":
+                        case "fillOpacity":
+                        case "stroke":
+                        case "strokeOpacity":
+                        case "shapeRendering":
+                        case "strokeDasharray":
+                            //case "focusable":
+                            //case "tabindex":
+                            //case "role":
+                            this[key] = this[key];
+                            break;
+                    }
                 }
             }
             catch (e_1_1) { e_1 = { error: e_1_1 }; }

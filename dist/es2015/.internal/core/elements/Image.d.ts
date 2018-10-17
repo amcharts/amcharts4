@@ -24,6 +24,18 @@ export interface IImageProperties extends ISpriteProperties {
      * @type {string}
      */
     href?: string;
+    /**
+     * Sets image `width` in relation to its `height`.
+     *
+     * @type {number}
+     */
+    widthRatio?: number;
+    /**
+     * Sets image `height` in relation to its `width`.
+     *
+     * @type {number}
+     */
+    heightRatio?: number;
 }
 /**
  * Defines events for [[Image]].
@@ -87,6 +99,30 @@ export declare class Image extends Sprite {
      * @param {string}  value  Image URI
      */
     href: string;
+    /**
+     * @return {number} Ratio
+     */
+    /**
+     * Sets image `width` relatively to its `height`.
+     *
+     * If image's `height = 100` and `widthRatio = 0.5` the actual width will be
+     * `50`.
+     *
+     * @param {number}  value  Ratio
+     */
+    widthRatio: number;
+    /**
+     * @return {number} Ratio
+     */
+    /**
+     * Sets image `height` relatively to its `width`.
+     *
+     * If image's `width = 100` and `heightRatio = 0.5` the actual height will be
+     * `50`.
+     *
+     * @param {number}  value  Ratio
+     */
+    heightRatio: number;
     /**
      * Updates bounding box based on element dimension settings.
      *
