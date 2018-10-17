@@ -162,7 +162,7 @@ var Cursor = /** @class */ (function (_super) {
             this.point = point;
             if (this.visible) {
                 this.getPositions();
-                this.dispatch("cursorpositionchanged");
+                this.dispatch("cursorpositionchanged"); // not good to dispatch later (check step count example)
             }
         }
     };

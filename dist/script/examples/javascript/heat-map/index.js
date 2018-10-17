@@ -1,7 +1,6 @@
 am4core.useTheme(am4themes_animated);
 
 var chart = am4core.create("chartdiv", am4charts.XYChart);
-chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
 
 var xAxis = chart.xAxes.push(new am4charts.CategoryAxis());
 var yAxis = chart.yAxes.push(new am4charts.CategoryAxis());
@@ -30,6 +29,7 @@ columnTemplate.stroke = am4core.color("#ffffff");
 columnTemplate.tooltipText = "{weekday}, {hour}: {value.workingValue.formatNumber('#.')}";
 columnTemplate.width = am4core.percent(100);
 columnTemplate.height = am4core.percent(100);
+columnTemplate.hiddenState.properties.opacity = 0;
 
 // heat rule, this makes columns to change color depending on value
 series.heatRules.push({ target: columnTemplate, property: "fill", min: am4core.color("#ffffff"), max: am4core.color("#692155") });

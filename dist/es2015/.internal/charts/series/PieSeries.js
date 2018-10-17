@@ -234,7 +234,8 @@ var PieSeries = /** @class */ (function (_super) {
             var normalizedMiddleAngle = (slice.middleAngle + 360) % 360; // force angle to be 0 - 360;
             var point = void 0;
             if (this.alignLabels) {
-                var x = tick.length + label.radius;
+                var labelRadius = label.pixelRadius(slice.radius);
+                var x = tick.length + labelRadius;
                 label.verticalCenter = "middle";
                 var arcRect = this._arcRect;
                 // right half
@@ -250,7 +251,7 @@ var PieSeries = /** @class */ (function (_super) {
                     this._leftItems.push(dataItem);
                     x *= -1;
                 }
-                var distance = slice.radius + tick.length + label.radius;
+                var distance = slice.radius + tick.length + labelRadius;
                 point = { x: x, y: slice.iy * distance };
             }
             else {
@@ -417,20 +418,19 @@ var PieSeries = /** @class */ (function (_super) {
      * @param {AMEvent<Slice, ISpriteEvents>["propertychanged"]}  event  Event
      */
     PieSeries.prototype.handleSliceMove = function (event) {
-        /*	if (!this.alignLabels) {
-                
-            let slice = event.target;
-            let dataItem: this["_dataItem"] = <this["_dataItem"]>slice.dataItem;
+        if (!this.alignLabels) {
+            var slice = event.target;
+            var dataItem = slice.dataItem;
             // moving textelement, as label dx and dy are already employed for aligning
             //@labeltodo
-            if(dataItem){
-                let label = dataItem.label;
+            if (dataItem) {
+                var label = dataItem.label;
                 if (label) {
-                    label.dx = slice.dx + slice.pixelX;
-                    label.dy = slice.dy + slice.pixelY;
+                    label.dx = label.fdx + slice.dx + slice.pixelX;
+                    label.dy = label.fdy + slice.dy + slice.pixelY;
                 }
             }
-        }*/
+        }
     };
     PieSeries.prototype.getContainerBBox = function () {
         var chart = this.chart;

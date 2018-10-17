@@ -834,6 +834,16 @@ var XYSeries = /** @class */ (function (_super) {
         }
     };
     /**
+     * Hides element's [[Tooltip]].
+     *
+     * @see {@link Tooltip}
+     */
+    XYSeries.prototype.hideTooltip = function () {
+        _super.prototype.hideTooltip.call(this);
+        this.returnBulletDefaultState();
+        this._prevTooltipDataItem = undefined;
+    };
+    /**
      * Shows series tooltip at specific position.
      *
      * @ignore Exclude from docs
@@ -873,7 +883,7 @@ var XYSeries = /** @class */ (function (_super) {
                                 for (var _a = tslib_1.__values(dataItem.bullets), _b = _a.next(); !_b.done; _b = _a.next()) {
                                     var a = _b.value;
                                     var bullet = a[1];
-                                    bullet.setState("hover");
+                                    bullet.isHover = true;
                                 }
                             }
                             catch (e_1_1) { e_1 = { error: e_1_1 }; }
@@ -907,7 +917,7 @@ var XYSeries = /** @class */ (function (_super) {
                 for (var _a = tslib_1.__values(this._prevTooltipDataItem.bullets), _b = _a.next(); !_b.done; _b = _a.next()) {
                     var a = _b.value;
                     var bullet = a[1];
-                    bullet.setState("default");
+                    bullet.isHover = false;
                 }
             }
             catch (e_2_1) { e_2 = { error: e_2_1 }; }
@@ -943,7 +953,7 @@ var XYSeries = /** @class */ (function (_super) {
         }
         else {
             var bulletLocationX = this.getBulletLocationX(bullet, xField);
-            var bulletLocationY = this.getBulletLocationX(bullet, yField);
+            var bulletLocationY = this.getBulletLocationY(bullet, yField);
             var point = this.getPoint(dataItem, xField, yField, bulletLocationX, bulletLocationY);
             if (point) {
                 var x = point.x;
@@ -1083,7 +1093,7 @@ var XYSeries = /** @class */ (function (_super) {
             if ($type.isNumber(duration)) {
                 interpolationDuration = duration;
             }
-            if (animation && !animation.isDisposed() && interpolationDuration == 0 && animation.duration > 0) {
+            if (animation && !animation.isFinished() && interpolationDuration == 0 && animation.duration > 0) {
                 animation.events.once("animationended", function () {
                     dataItem.hide(0, 0, value, fields);
                 });
@@ -1095,6 +1105,8 @@ var XYSeries = /** @class */ (function (_super) {
                 dataItem.hide(interpolationDuration, delay, value, fields);
             }
         });
+        // helps to avoid flicker. otherwise columns will show up at full size and only on next frame will animate from 0
+        this.validateDataElements();
         //}
         return animation;
     };

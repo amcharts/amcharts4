@@ -578,7 +578,7 @@ var FunnelSeries = /** @class */ (function (_super) {
             if ($type.isNumber(duration)) {
                 interpolationDuration = duration;
             }
-            if (animation && !animation.isDisposed() && interpolationDuration == 0 && animation.duration > 0) {
+            if (animation && !animation.isFinished()) {
                 animation.events.once("animationended", function () {
                     dataItem.hide(0, 0, value, fields);
                 });

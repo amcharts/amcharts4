@@ -93,6 +93,7 @@ let bullet = series.bullets.push(new am4charts.CircleBullet());
 bullet.stroke = am4core.color("#ffffff");
 bullet.strokeWidth = 3;
 bullet.defaultState.properties.opacity = 0;
+
 // resize cursor when over
 bullet.cursorOverStyle = am4core.MouseCursorStyle.verticalResize;
 bullet.draggable = true;
@@ -156,7 +157,7 @@ columnTemplate.events.on("out", (event) => {
     let dataItem = event.target.dataItem;
     let itemBullet = dataItem.bullets.getKey(bullet.uid);
     // hide it later for touch devices to see it longer
-    setTimeout(() => { itemBullet.isHover = false }, 1000);
+    itemBullet.isHover = false;
 })
 
 

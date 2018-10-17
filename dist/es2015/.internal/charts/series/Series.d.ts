@@ -640,6 +640,7 @@ export declare class Series extends Component {
      * @ignore
      */
     appeared: boolean;
+    protected handleAppear(): void;
     /**
      * This function is used to sort element's JSON config properties, so that
      * some properties that absolutely need to be processed last, can be put at

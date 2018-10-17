@@ -580,7 +580,7 @@ export declare class XYChart extends SerialChart {
      * @ignore Exclude from docs
      * @param {IPoint}  position  Reference point
      */
-    showSeriesTooltip(position: IPoint): void;
+    showSeriesTooltip(position?: IPoint): void;
     /**
      * Shows tooltips for a list of axes at specific position.
      *

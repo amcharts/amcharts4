@@ -496,6 +496,7 @@ var Axis = /** @class */ (function (_super) {
     };
     /**
      * Override to cancel super call for data element validation.
+     * @ignore
      */
     Axis.prototype.validateDataElements = function () {
         if (this.ghostLabel) {
@@ -520,6 +521,7 @@ var Axis = /** @class */ (function (_super) {
         _super.prototype.validateLayout.call(this);
         this.updateGridCount();
         this.renderer.updateAxisLine();
+        this.renderer.updateTooltip();
         this.renderer.updateBaseGridElement();
         if (this._prevLength != this.axisLength) {
             this.dispatchImmediately("lengthchanged");

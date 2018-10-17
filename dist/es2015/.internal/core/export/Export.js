@@ -462,8 +462,9 @@ var Export = /** @class */ (function (_super) {
                             };
                             this.events.dispatchImmediately("exportstarted", event_1);
                         }
-                        // Check if it's a custom item, and do nothing if it is
+                        // Check if it's a custom item, and do nothing or execute custom callback
                         if (type == "custom") {
+                            this.handleCustom(options);
                             return [2 /*return*/, true];
                         }
                         // Schedule a preloader
@@ -561,6 +562,19 @@ var Export = /** @class */ (function (_super) {
                 return [2 /*return*/, ""];
             });
         });
+    };
+    /**
+     * Handles click on a "custom" menu item.
+     *
+     * Basically, if it has "callback" enabled, it will be called. Nothing else.
+     *
+     * @ignore Exclude from docs
+     * @param {IExportCustomOptions}  options  Options
+     */
+    Export.prototype.handleCustom = function (options) {
+        if ($type.hasValue(options.callback)) {
+            options.callback.call(this, options);
+        }
     };
     /**
      * Requests a Print of the chart.

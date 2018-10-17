@@ -297,6 +297,13 @@ export interface IExportPrintOptions extends IExportImageOptions {
  * Represents options for custom menu items.
  */
 export interface IExportCustomOptions {
+    /**
+     * A callback function reference that will be called when this custom item
+     * is clicked.
+     *
+     * @type {function}
+     */
+    callback?: (branch?: any) => any;
 }
 /**
  * Represents interface for a temporarily removed image.
@@ -790,6 +797,15 @@ export declare class Export extends Validatable {
      * @async
      */
     unsupported<Key extends keyof IExportOptions>(type: Key, options?: IExportOptions[Key]): Promise<string>;
+    /**
+     * Handles click on a "custom" menu item.
+     *
+     * Basically, if it has "callback" enabled, it will be called. Nothing else.
+     *
+     * @ignore Exclude from docs
+     * @param {IExportCustomOptions}  options  Options
+     */
+    handleCustom(options: IExportCustomOptions): void;
     /**
      * Requests a Print of the chart.
      *

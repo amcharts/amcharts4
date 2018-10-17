@@ -6,13 +6,11 @@
  */
 import { registry } from "./Registry";
 import { Container } from "./Container";
-import { svgContainers } from "./rendering/SVGContainer";
 import { Component } from "./Component";
 import { options } from "./Options";
 import { raf } from "./utils/AsyncPending";
 import { animations } from "./utils/Animation";
 import { triggerIdle } from "./utils/AsyncPending";
-import * as $dom from "./utils/DOM";
 import * as $array from "./utils/Array";
 /**
  * ============================================================================
@@ -33,7 +31,6 @@ var System = /** @class */ (function () {
      * @ignore Exclude from docs
      */
     function System() {
-        var _this = this;
         /**
          * Unique ID of the object.
          *
@@ -41,33 +38,13 @@ var System = /** @class */ (function () {
          */
         this.uid = registry.getUniqueId();
         /**
-         * Number of times per second component container is measured.
-         *
-         * It is not wise to measure container as often as `frameRate`, as this would
-         * use a lot of CPU when resizing window.
-         *
-         * @type {number}
-         */
-        this.measureRate = 10;
-        /**
-         * @todo Description
-         * @ignore Exclude from docs
-         * @private
-         * @type {number}
-         */
-        this.measureCounter = 0;
-        /**
          * @todo Description
          * @todo Needed?
          * @ignore Exclude from docs
          * @type {number}
          */
         this.dummyCounter = 0;
-        // frame at which we should measure
-        this.measureAt = Math.round(this.frameRate / this.measureRate);
-        $dom.ready(function () {
-            _this.update();
-        });
+        this._frameRequested = false;
         this.time = Date.now();
     }
     /**
@@ -97,13 +74,8 @@ var System = /** @class */ (function () {
      * @todo Maybe should be private?
      */
     System.prototype.update = function () {
-        var _this = this;
+        this._frameRequested = false;
         registry.dispatchImmediately("enterframe");
-        this.measureCounter++;
-        if (this.measureCounter >= this.measureAt) {
-            this.measureCounter = 0;
-            this.measure();
-        }
         this.validateLayouts();
         this.validatePositions();
         // data objects first - do all calculations
@@ -215,13 +187,7 @@ var System = /** @class */ (function () {
                     skippedSprites.push(sprite);
                 }
                 else {
-                    // @todo? maybe we should only check if preloader is visible and render only preloader sprites?
-                    // if not, think how can we the next line better.
-                    if (sprite.renderingFrame > 1) {
-                        sprite.renderingFrame--;
-                        skippedSprites.push(sprite);
-                    }
-                    else if (sprite.dataItem && sprite.dataItem.component && sprite.dataItem.component.dataInvalid) {
+                    if (sprite.dataItem && sprite.dataItem.component && sprite.dataItem.component.dataInvalid && !sprite.dataItem.component.isTemplate) {
                         // void
                         skippedSprites.push(sprite);
                     }
@@ -270,10 +236,18 @@ var System = /** @class */ (function () {
         this.validateLayouts();
         this.validatePositions();
         registry.dispatchImmediately("exitframe");
-        //this.dummyCounter++;
-        raf(function () {
-            _this.update();
-        });
+        if (animations.length > 0 || skippedSprites.length > 0) {
+            this.requestFrame();
+        }
+    };
+    System.prototype.requestFrame = function () {
+        var _this = this;
+        if (!this._frameRequested) {
+            raf(function () {
+                _this.update();
+            });
+            this._frameRequested = true;
+        }
     };
     /**
      * Triggers position re-validation on all [[Sprite]] elements that have
@@ -342,19 +316,6 @@ var System = /** @class */ (function () {
         }
     };
     /**
-     * (Re)measures all top-level SVG containers for size.
-     *
-     * @ignore Exclude from docs
-     * @todo Maybe should be private?
-     */
-    System.prototype.measure = function () {
-        $array.each(svgContainers, function (svgContainer) {
-            if (svgContainer.autoResize) {
-                svgContainer.measure();
-            }
-        });
-    };
-    /**
      * Outputs string to console if `verbose` is `true`.
      *
      * @param {any} value Message to output to console
@@ -407,7 +368,7 @@ var System = /** @class */ (function () {
      * @see {@link https://docs.npmjs.com/misc/semver}
      * @type {string}
      */
-    System.VERSION = "4.0.0-beta.57";
+    System.VERSION = "4.0.0-beta.58";
     return System;
 }());
 export { System };

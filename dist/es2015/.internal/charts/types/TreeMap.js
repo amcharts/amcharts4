@@ -370,9 +370,7 @@ var TreeMap = /** @class */ (function (_super) {
         yRenderer.line.disabled = true;
         yRenderer.baseGrid.disabled = true;
         yRenderer.inversed = true;
-        _this.events.on("maxsizechanged", function () {
-            _this.invalidateLayout();
-        });
+        _this.events.on("maxsizechanged", _this.invalidateLayout, _this);
         // shortcuts
         _this.xAxis = xAxis;
         _this.yAxis = yAxis;
@@ -574,6 +572,8 @@ var TreeMap = /** @class */ (function (_super) {
             this.dataUsers.removeValue(series); // series do not use data directly, that's why we remove it
             series.data = dataItem.children.values;
             series.fill = dataItem.color;
+            series.columnsContainer.hide(0);
+            series.bulletsContainer.hide(0);
             series.columns.template.adapter.add("fill", function (fill, target) {
                 var dataItem = target.dataItem;
                 if (dataItem) {
@@ -614,12 +614,12 @@ var TreeMap = /** @class */ (function (_super) {
         $iter.each(this.series.iterator(), function (series) {
             if (_this._tempSeries.indexOf(series) == -1) {
                 //series.hideReal(duration);
-                series.columns.template.hide(duration);
+                series.columnsContainer.hide();
                 series.bulletsContainer.hide(duration);
             }
             else {
                 //series.showReal(duration);
-                series.columns.template.show(duration);
+                series.columnsContainer.show();
                 series.bulletsContainer.show(duration);
                 if (series.level < _this.currentLevel) {
                     series.bulletsContainer.hide(duration);
@@ -650,7 +650,7 @@ var TreeMap = /** @class */ (function (_super) {
             this.currentlyZoomed = dataItem;
             this.createTreeSeries(dataItem);
             var rangeChangeAnimation = this.xAxis.rangeChangeAnimation || this.yAxis.rangeChangeAnimation;
-            if (rangeChangeAnimation) {
+            if (rangeChangeAnimation && !rangeChangeAnimation.isFinished()) {
                 rangeChangeAnimation.events.once("animationended", function () {
                     _this.toggleBullets();
                 });

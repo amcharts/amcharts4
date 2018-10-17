@@ -1,9 +1,11 @@
 /**
  * This functionality is related to the HTML wrapper that houses `<svg>` tag.
  */
+import { Disposer } from "../utils/Disposer";
 import * as $utils from "../utils/Utils";
 import * as $dom from "../utils/DOM";
 import * as $array from "../utils/Array";
+import ResizeSensor from "css-element-queries/src/ResizeSensor";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -27,6 +29,7 @@ var SVGContainer = /** @class */ (function () {
      * * Creates an HTML wrapper for SVG
      */
     function SVGContainer(htmlElement) {
+        var _this = this;
         /**
          * Indicates if this object has already been deleted. Any
          * destruction/disposal code should take this into account when deciding
@@ -45,6 +48,11 @@ var SVGContainer = /** @class */ (function () {
         this.autoResize = true;
         // Log parent HTML element
         this.htmlElement = htmlElement;
+        var callback = function () { _this.measure(); };
+        this.resizeSensor = new ResizeSensor(htmlElement, callback);
+        this._resizeSensorDisposer = new Disposer(function () {
+            _this.resizeSensor.detach(callback);
+        });
         // Adds to containers array
         svgContainers.push(this);
         /**
@@ -123,6 +131,9 @@ var SVGContainer = /** @class */ (function () {
     SVGContainer.prototype.dispose = function () {
         if (!this._disposed) {
             $array.remove(svgContainers, this);
+        }
+        if (this._resizeSensorDisposer) {
+            this._resizeSensorDisposer.dispose();
         }
     };
     return SVGContainer;

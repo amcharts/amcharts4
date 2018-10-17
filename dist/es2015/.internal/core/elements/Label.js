@@ -79,7 +79,6 @@ var Label = /** @class */ (function (_super) {
         _this.textAlign = "start";
         _this.textValign = "top";
         _this.layout = "absolute";
-        //this.renderingFrequency = 2; // unfortunately this brings a lot of issues
         // Set up adapters for manipulating accessibility
         _this.adapter.add("readerTitle", function (arg) {
             if (!arg) {
@@ -91,29 +90,32 @@ var Label = /** @class */ (function (_super) {
         });
         // Add events to watch for maxWidth/maxHeight changes so that we can
         // invalidate this
-        _this.events.on("maxsizechanged", function (ev) {
-            if ((_this.bbox.width > _this.availableWidth)
-                || ((_this.bbox.width < _this.availableWidth) && _this.isOversized)
-                || (_this.bbox.height > _this.availableHeight)
-                || ((_this.bbox.height < _this.availableHeight) && _this.isOversized)) {
-                _this.invalidate();
-            }
-            else {
-                _this.alignSVGText();
-            }
-        });
+        _this.events.on("maxsizechanged", _this.handleMaxSize, _this);
         // this solves strange bug when text just added to svg is 0x0
-        _this.events.once("validated", function () {
-            if (_this.currentText && (_this.bbox.width == 0 || _this.bbox.height == 0)) {
-                registry.events.once("exitframe", function () {
-                    _this.hardInvalidate();
-                });
-            }
-        });
+        _this.events.once("validated", _this.handleValidate, _this);
         // Aply theme
         _this.applyTheme();
         return _this;
     }
+    Label.prototype.handleValidate = function () {
+        var _this = this;
+        if (this.currentText && (this.bbox.width == 0 || this.bbox.height == 0)) {
+            registry.events.once("exitframe", function () {
+                _this.hardInvalidate();
+            });
+        }
+    };
+    Label.prototype.handleMaxSize = function () {
+        if ((this.bbox.width > this.availableWidth)
+            || ((this.bbox.width < this.availableWidth) && this.isOversized)
+            || (this.bbox.height > this.availableHeight)
+            || ((this.bbox.height < this.availableHeight) && this.isOversized)) {
+            this.invalidate();
+        }
+        else {
+            this.alignSVGText();
+        }
+    };
     /**
      * [arrange description]
      *
@@ -349,69 +351,72 @@ var Label = /** @class */ (function (_super) {
                                 // Process each child in the temporary line, until the whole
                                 // line fits, preferably with an ellipsis
                                 // TODO use iterator instead
-                                for (var e = lineInfo.element.node.children.length - 1; e >= 0; e--) {
-                                    // Get current element
-                                    var node = lineInfo.element.node.children[e];
-                                    // Add ellipsis only if previous chunk was removed in full
-                                    // and this chunk already fits
-                                    //if (addEllipsis && (bbox.width <= maxWidth)) {
-                                    if (addEllipsis && (lineInfo.bbox.width <= maxWidth)) {
-                                        // Add ellipsis
-                                        node.textContent += " " + this.ellipsis;
-                                        // Measure again (we need to make sure ellipsis fits)
-                                        lineInfo.bbox = lineInfo.element.getBBox();
-                                        lineInfo.bbox.width = Math.floor(lineInfo.bbox.width);
-                                        // If it fits, we're done here
-                                        // If it doesn't we continue rolling
-                                        if (lineInfo.bbox.width <= maxWidth) {
-                                            break;
-                                        }
-                                    }
-                                    addEllipsis = false;
-                                    // Get element text
-                                    var elementText = node.textContent;
-                                    // Calculate average number of symbols / width
-                                    lineText = lineInfo.element.textContent;
-                                    excessChars = $math.min(Math.ceil((lineInfo.bbox.width - maxWidth) / avgCharWidth), lineText.length);
-                                    // Do this until we fit
-                                    while ((lineInfo.bbox.width > maxWidth) && (excessChars <= lineText.length) && (excessChars > 0)) {
-                                        // Calculate max available chars
-                                        var maxChars = $math.max(elementText.length - excessChars - this.ellipsis.length, 1);
-                                        // Is there anything left?
-                                        if (maxChars <= 1) {
-                                            // Nope, let's jump to the previous item
-                                            // Set excess characters to zero so that this loop does
-                                            // not repeat when it over
-                                            excessChars = 0;
-                                            // Add ellipsis to previous item
-                                            // Subsequent iterations will check if the ellipsis fits
-                                            if (e > 0) {
-                                                // Indicating to add ellipsis to previous item
-                                                addEllipsis = true;
-                                                // Removing this node
-                                                lineInfo.element.node.removeChild(node);
+                                var node_1 = lineInfo.element.node;
+                                if (node_1 && node_1.children) {
+                                    for (var e = lineInfo.element.node.children.length - 1; e >= 0; e--) {
+                                        // Get current element
+                                        var node_2 = lineInfo.element.node.children[e];
+                                        // Add ellipsis only if previous chunk was removed in full
+                                        // and this chunk already fits
+                                        //if (addEllipsis && (bbox.width <= maxWidth)) {
+                                        if (addEllipsis && (lineInfo.bbox.width <= maxWidth)) {
+                                            // Add ellipsis
+                                            node_2.textContent += " " + this.ellipsis;
+                                            // Measure again (we need to make sure ellipsis fits)
+                                            lineInfo.bbox = lineInfo.element.getBBox();
+                                            lineInfo.bbox.width = Math.floor(lineInfo.bbox.width);
+                                            // If it fits, we're done here
+                                            // If it doesn't we continue rolling
+                                            if (lineInfo.bbox.width <= maxWidth) {
+                                                break;
                                             }
                                         }
-                                        // If we're on first chunk of text, or we explicitly
-                                        // enabled word-breaking, we can break mid-word.
-                                        // Otherwise we break by words.
-                                        if (e === 0 || !this.fullWords) {
-                                            elementText = $utils.truncateWithEllipsis(elementText, maxChars, this.ellipsis, false, this.rtl);
+                                        addEllipsis = false;
+                                        // Get element text
+                                        var elementText = node_2.textContent;
+                                        // Calculate average number of symbols / width
+                                        lineText = lineInfo.element.textContent;
+                                        excessChars = $math.min(Math.ceil((lineInfo.bbox.width - maxWidth) / avgCharWidth), lineText.length);
+                                        // Do this until we fit
+                                        while ((lineInfo.bbox.width > maxWidth) && (excessChars <= lineText.length) && (excessChars > 0)) {
+                                            // Calculate max available chars
+                                            var maxChars = $math.max(elementText.length - excessChars - this.ellipsis.length, 1);
+                                            // Is there anything left?
+                                            if (maxChars <= 1) {
+                                                // Nope, let's jump to the previous item
+                                                // Set excess characters to zero so that this loop does
+                                                // not repeat when it over
+                                                excessChars = 0;
+                                                // Add ellipsis to previous item
+                                                // Subsequent iterations will check if the ellipsis fits
+                                                if (e > 0) {
+                                                    // Indicating to add ellipsis to previous item
+                                                    addEllipsis = true;
+                                                    // Removing this node
+                                                    lineInfo.element.node.removeChild(node_2);
+                                                }
+                                            }
+                                            // If we're on first chunk of text, or we explicitly
+                                            // enabled word-breaking, we can break mid-word.
+                                            // Otherwise we break by words.
+                                            if (e === 0 || !this.fullWords) {
+                                                elementText = $utils.truncateWithEllipsis(elementText, maxChars, this.ellipsis, false, this.rtl);
+                                            }
+                                            else {
+                                                elementText = $utils.truncateWithEllipsis(elementText, maxChars, this.ellipsis, true, this.rtl);
+                                            }
+                                            // Set truncated text
+                                            node_2.textContent = elementText;
+                                            // Measure again
+                                            lineInfo.bbox = lineInfo.element.getBBox();
+                                            lineInfo.bbox.width = Math.floor(lineInfo.bbox.width);
+                                            // Increase excess characters count, just in case it still
+                                            // doesn't fit and we have to go at it again
+                                            excessChars = Math.ceil(excessChars * 1.1);
                                         }
-                                        else {
-                                            elementText = $utils.truncateWithEllipsis(elementText, maxChars, this.ellipsis, true, this.rtl);
-                                        }
-                                        // Set truncated text
-                                        node.textContent = elementText;
-                                        // Measure again
-                                        lineInfo.bbox = lineInfo.element.getBBox();
-                                        lineInfo.bbox.width = Math.floor(lineInfo.bbox.width);
-                                        // Increase excess characters count, just in case it still
-                                        // doesn't fit and we have to go at it again
-                                        excessChars = Math.ceil(excessChars * 1.1);
+                                        // Do not process further chunks
+                                        skipTextChunks = true;
                                     }
-                                    // Do not process further chunks
-                                    skipTextChunks = true;
                                 }
                             }
                             else {
@@ -422,62 +427,65 @@ var Label = /** @class */ (function (_super) {
                                  * inject the rest of the chunks to the next line
                                  */
                                 // Get last node added and measure it
-                                var lastNode_1 = lineInfo.element.node.lastChild;
-                                // Init split lines
-                                var splitLines = void 0;
-                                while ((lineInfo.bbox.width > maxWidth) && (excessChars <= lineText.length) && (excessChars > 0)) {
-                                    // Calculate max available chars
-                                    var maxChars = $math.max(chunk.text.length - excessChars, 1);
-                                    // Don't split the words mid-word if it's not the first chunk
-                                    // in the line
-                                    if (firstChunk) {
-                                        // Split mid-word if necessary
-                                        splitLines = $utils.splitTextByCharCount(chunk.text, maxChars, false, this.rtl);
-                                    }
-                                    else {
-                                        // Don't split mid-word
-                                        splitLines = $utils.splitTextByCharCount(chunk.text, maxChars, true, this.rtl);
-                                        // Check if the first word is too long
-                                        if ((splitLines[0].length > maxChars) || maxChars === 1) {
-                                            // Yes - move the whole chunk to the next line
-                                            // Remove the element we just added
-                                            lineInfo.element.node.removeChild(lastNode_1);
-                                            // Break out of the while on next cycle
-                                            excessChars = 0;
-                                        }
-                                    }
-                                    // Use the first line to update last item
-                                    if (excessChars > 0) {
-                                        lastNode_1.textContent = getTextFormatter().cleanUp($utils.trim(splitLines.shift()));
-                                    }
-                                    // Measure again, just in case
-                                    lineInfo.bbox = lineInfo.element.getBBox();
-                                    lineInfo.bbox.width = Math.floor(lineInfo.bbox.width);
-                                    // Increase excess characters count, just in case it still
-                                    // doesn't fit and we have to go at it again
-                                    excessChars = Math.ceil(excessChars * 1.1);
-                                }
-                                // Construct the rest of the line
-                                if (splitLines.length > 0) {
-                                    var restOfLine = "";
-                                    // Add leftovers from splitting the current chunk
-                                    if ($type.hasValue(splitLines)) {
-                                        if (this.rtl) {
-                                            restOfLine += splitLines.join("") + currentFormat;
+                                var node_3 = lineInfo.element.node;
+                                if (node_3) {
+                                    var lastNode = lineInfo.element.node.lastChild;
+                                    // Init split lines
+                                    var splitLines = void 0;
+                                    while ((lineInfo.bbox.width > maxWidth) && (excessChars <= lineText.length) && (excessChars > 0)) {
+                                        // Calculate max available chars
+                                        var maxChars = $math.max(chunk.text.length - excessChars, 1);
+                                        // Don't split the words mid-word if it's not the first chunk
+                                        // in the line
+                                        if (firstChunk) {
+                                            // Split mid-word if necessary
+                                            splitLines = $utils.splitTextByCharCount(chunk.text, maxChars, false, this.rtl);
                                         }
                                         else {
-                                            restOfLine += currentFormat + splitLines.join("");
+                                            // Don't split mid-word
+                                            splitLines = $utils.splitTextByCharCount(chunk.text, maxChars, true, this.rtl);
+                                            // Check if the first word is too long
+                                            if ((splitLines[0].length > maxChars) || maxChars === 1) {
+                                                // Yes - move the whole chunk to the next line
+                                                // Remove the element we just added
+                                                lineInfo.element.node.removeChild(lastNode);
+                                                // Break out of the while on next cycle
+                                                excessChars = 0;
+                                            }
                                         }
+                                        // Use the first line to update last item
+                                        if (excessChars > 0) {
+                                            lastNode.textContent = getTextFormatter().cleanUp($utils.trim(splitLines.shift()));
+                                        }
+                                        // Measure again, just in case
+                                        lineInfo.bbox = lineInfo.element.getBBox();
+                                        lineInfo.bbox.width = Math.floor(lineInfo.bbox.width);
+                                        // Increase excess characters count, just in case it still
+                                        // doesn't fit and we have to go at it again
+                                        excessChars = Math.ceil(excessChars * 1.1);
                                     }
-                                    // Add the rest of the chunks
-                                    for (var c = x + 1; c < chunks.length; c++) {
-                                        restOfLine += chunks[c].text;
+                                    // Construct the rest of the line
+                                    if (splitLines.length > 0) {
+                                        var restOfLine = "";
+                                        // Add leftovers from splitting the current chunk
+                                        if ($type.hasValue(splitLines)) {
+                                            if (this.rtl) {
+                                                restOfLine += splitLines.join("") + currentFormat;
+                                            }
+                                            else {
+                                                restOfLine += currentFormat + splitLines.join("");
+                                            }
+                                        }
+                                        // Add the rest of the chunks
+                                        for (var c = x + 1; c < chunks.length; c++) {
+                                            restOfLine += chunks[c].text;
+                                        }
+                                        // Inject the rest of the lines as chunks for subsequent
+                                        lines.splice(i + 1, 0, restOfLine);
                                     }
-                                    // Inject the rest of the lines as chunks for subsequent
-                                    lines.splice(i + 1, 0, restOfLine);
+                                    // Skip processing the rest of the chunks
+                                    skipTextChunks = true;
                                 }
-                                // Skip processing the rest of the chunks
-                                skipTextChunks = true;
                             }
                         }
                         // Let's update the text's bbox with the line's one
@@ -499,11 +507,14 @@ var Label = /** @class */ (function (_super) {
                     }
                 }
                 // Trim the last item
-                var lastNode = lineInfo.element.node.lastChild;
-                if (lastNode) {
-                    lastNode.textContent = this.rtl ?
-                        $utils.ltrim(lastNode.textContent) :
-                        $utils.rtrim(lastNode.textContent);
+                var node = lineInfo.element.node;
+                if (node) {
+                    var lastNode = node.lastChild;
+                    if (lastNode) {
+                        lastNode.textContent = this.rtl ?
+                            $utils.ltrim(lastNode.textContent) :
+                            $utils.rtrim(lastNode.textContent);
+                    }
                 }
                 // Increment collective height
                 currentHeight += currentLineHeight;
@@ -592,8 +603,8 @@ var Label = /** @class */ (function (_super) {
     Label.prototype.alignSVGText = function () {
         // Get Group
         var group = this.element;
-        // Is there anything to align?
-        if (group.node.children.length == 0) {
+        // Is there anything to align?		
+        if (!group.node.children || (group.node.children && group.node.children.length == 0)) {
             return;
         }
         var width = this._measuredWidth;

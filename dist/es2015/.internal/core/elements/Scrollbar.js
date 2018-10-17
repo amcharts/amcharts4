@@ -767,9 +767,10 @@ var Scrollbar = /** @class */ (function (_super) {
             newStart = this._prevStart;
             newEnd = this._prevEnd;
         }
-        this._zoomAnimation = this.animate([{ property: "__start", to: newStart }, { property: "__end", to: newEnd }], this.animationDuration, this.animationEasing);
-        if (this.animationDuration > 0) {
-            this._zoomAnimation.events.on("animationended", this.makeUnbusy, this);
+        var zoomAnimation = this.animate([{ property: "__start", to: newStart }, { property: "__end", to: newEnd }], this.animationDuration, this.animationEasing);
+        if (zoomAnimation && !zoomAnimation.isFinished()) {
+            zoomAnimation.events.on("animationended", this.makeUnbusy, this);
+            this._zoomAnimation = zoomAnimation;
         }
         else {
             this.makeUnbusy();

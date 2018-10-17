@@ -135,7 +135,7 @@ var Preloader = /** @class */ (function (_super) {
                 // TODO remove closure ?
                 registry.events.once("enterframe", function () {
                     var animation = _this.hide();
-                    if (animation && !animation.isDisposed()) {
+                    if (animation && !animation.isFinished()) {
                         animation.events.once("animationended", function () {
                             _this.__disabled = true;
                         });

@@ -38,6 +38,10 @@ export declare class LineSeriesDataItem extends XYSeriesDataItem {
      */
     point: IPoint;
     /**
+     * A reference to a segment object, used for getting proper colors for tooltips
+     */
+    segment: LineSeriesSegment;
+    /**
      * Constructor
      */
     constructor();
@@ -205,6 +209,13 @@ export declare class LineSeries extends XYSeries {
      * @param {number}             index     Data item's index
      */
     protected setInitialWorkingValues(dataItem: this["_dataItem"]): void;
+    /**
+     * Updates corresponding legend data item with current values.
+     *
+     * @ignore Exclude from docs
+     * @param {this["_dataItem"]}  dataItem  Data item
+     */
+    updateLegendValue(dataItem?: this["_dataItem"]): void;
     /**
      * (Re)validates the whole series, effectively causing it to redraw.
      *

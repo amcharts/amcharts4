@@ -239,7 +239,12 @@ export function color(value, alpha) {
         var cacheId = "_color_" + value + "_" + (alpha || "1");
         var cached = registry.getCache(cacheId);
         if (cached) {
-            return new Color(cached);
+            return new Color({
+                r: cached.r,
+                g: cached.g,
+                b: cached.b,
+                a: cached.a
+            });
         }
         var rgb = $colors.rgb(value, alpha);
         registry.setCache(cacheId, rgb);

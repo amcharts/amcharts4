@@ -67,9 +67,7 @@ var SankeyDiagram = /** @class */ (function (_super) {
         _this.nodesContainer.height = percent(100);
         _this.linksContainer.width = percent(100);
         _this.linksContainer.height = percent(100);
-        _this.events.on("maxsizechanged", function () {
-            _this.invalidateDataRange();
-        });
+        _this.events.on("maxsizechanged", _this.invalidateDataRange, _this);
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -278,14 +276,14 @@ var SankeyDiagram = /** @class */ (function (_super) {
             node.animate([{ property: "opacity", from: 0, to: 1 }, { property: property, to: 0 }], _this.interpolationDuration, _this.interpolationEasing).delay(delay);
             $iter.each(node.outgoingDataItems.iterator(), function (dataItem) {
                 var animation = dataItem.link.show(_this.interpolationDuration);
-                if (animation && !animation.isDisposed()) {
+                if (animation && !animation.isFinished()) {
                     animation.delay(delay);
                 }
             });
             $iter.each(node.incomingDataItems.iterator(), function (dataItem) {
                 if (!dataItem.fromNode) {
                     var animation = dataItem.link.show(_this.interpolationDuration);
-                    if (animation && !animation.isDisposed()) {
+                    if (animation && !animation.isFinished()) {
                         animation.delay(delay);
                     }
                 }

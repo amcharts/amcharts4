@@ -66,9 +66,7 @@ var PictorialStackedSeries = /** @class */ (function (_super) {
         _this.bottomWidth = percent(100);
         _this.valueIs = "height";
         _this.applyTheme();
-        _this.events.on("maxsizechanged", function () {
-            _this.resizeMask();
-        });
+        _this.events.on("maxsizechanged", _this.resizeMask, _this);
         _this._maskSprite = _this.slicesContainer.createChild(Sprite);
         _this._maskSprite.zIndex = 100;
         return _this;

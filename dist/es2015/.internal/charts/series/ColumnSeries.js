@@ -542,18 +542,22 @@ var ColumnSeries = /** @class */ (function (_super) {
             }
             if (value < open_1) {
                 dataItem.droppedFromOpen = true;
+                sprite.defaultState.copyFrom(this._dropFromOpenState);
                 sprite.setState(this._dropFromOpenState, 0);
             }
             else {
                 dataItem.droppedFromOpen = false;
+                sprite.defaultState.copyFrom(this._riseFromOpenState);
                 sprite.setState(this._riseFromOpenState, 0);
             }
             if (change < 0) {
                 dataItem.droppedFromPrevious = true;
+                sprite.defaultState.copyFrom(this._dropFromPreviousState);
                 sprite.setState((this._dropFromPreviousState), 0);
             }
             else {
                 dataItem.droppedFromPrevious = false;
+                sprite.defaultState.copyFrom(this._riseFromPreviousState);
                 sprite.setState((this._riseFromPreviousState), 0);
             }
         }

@@ -246,6 +246,7 @@ export declare class Animation extends BaseObjectEvents implements IAnimationObj
      */
     protected _time: number;
     protected debug(): void;
+    protected _isFinished: boolean;
     /**
      * Constructor
      *
@@ -300,6 +301,13 @@ export declare class Animation extends BaseObjectEvents implements IAnimationObj
      * @return {Animation} Animation
      */
     end(): Animation;
+    kill(): void;
+    /**
+     * Returns indicator if this animation is finished or not
+     *
+     * @return {boolean} Is finished?
+     */
+    isFinished(): boolean;
     /**
      * Applies static options that can't be animated.
      */

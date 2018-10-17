@@ -71,7 +71,9 @@ var Group = /** @class */ (function (_super) {
         // todo: not sure about the speed, need to investigate, maybe it's faster to check if node is a child
         if (element) {
             try {
-                this.node.removeChild(element.node);
+                if (element.node && element.node.parentNode == this.node) {
+                    this.node.removeChild(element.node);
+                }
             }
             catch (err) {
             }
@@ -101,10 +103,12 @@ var Group = /** @class */ (function (_super) {
      * Removes all children from the group.
      */
     Group.prototype.removeChildren = function () {
-        while (this.node.children.length > 0) {
-            var childNode = this.node.firstChild;
-            if (childNode && childNode.parentNode) {
-                childNode.parentNode.removeChild(childNode);
+        if (this.node.children) {
+            while (this.node.children.length > 0) {
+                var childNode = this.node.firstChild;
+                if (childNode && childNode.parentNode) {
+                    childNode.parentNode.removeChild(childNode);
+                }
             }
         }
     };

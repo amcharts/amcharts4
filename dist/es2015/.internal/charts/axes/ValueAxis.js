@@ -472,6 +472,9 @@ var ValueAxis = /** @class */ (function (_super) {
                         if (dataItem.label.invalid) {
                             dataItem.label.validate();
                         }
+                        if (dataItem.label.measuredWidth > this.ghostLabel.measuredWidth || dataItem.label.measuredHeight > this.ghostLabel.measuredHeight) {
+                            this.ghostLabel.text = dataItem.label.text;
+                        }
                     }
                     this.validateDataElement(dataItem);
                     i++;

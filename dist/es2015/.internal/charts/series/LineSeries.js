@@ -169,6 +169,19 @@ var LineSeries = /** @class */ (function (_super) {
         }
     };
     /**
+     * Updates corresponding legend data item with current values.
+     *
+     * @ignore Exclude from docs
+     * @param {this["_dataItem"]}  dataItem  Data item
+     */
+    LineSeries.prototype.updateLegendValue = function (dataItem) {
+        _super.prototype.updateLegendValue.call(this, dataItem);
+        //This is hack to save some methos, used to set tooltip color source only
+        if (dataItem && dataItem.segment) {
+            this.tooltipColorSource = dataItem.segment;
+        }
+    };
+    /**
      * (Re)validates the whole series, effectively causing it to redraw.
      *
      * @ignore Exclude from docs
@@ -240,6 +253,7 @@ var LineSeries = /** @class */ (function (_super) {
         }
         for (var i = openIndex; i < endIndex; i++) {
             var dataItem = this.dataItems.getIndex(i);
+            dataItem.segment = segment;
             if (dataItem.hasProperties) {
                 // if this is first item of segment
                 if (i == openIndex) {

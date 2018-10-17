@@ -1,9 +1,5 @@
 // chart design inspired by Nicolas Rapp: https://nicolasrapp.com/studio/portfolio/cash-hoarders/
-
-am4core.useTheme(am4themes_animated);
-
 var chart = am4core.create("chartdiv", am4charts.SankeyDiagram);
-chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
 
 chart.data = [
     // these are just for color, as properties are taken from data object where the name is first mentioned.

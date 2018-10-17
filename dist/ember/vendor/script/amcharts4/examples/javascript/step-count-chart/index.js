@@ -190,6 +190,7 @@ dateAxis.events.on("datarangechanged", updateTooltip);
 function updateTooltip() {
     dateAxis.showTooltipAtPosition(0.5);
     series.showTooltipAtPosition(0.5, 0);
+    series.tooltip.validate(); // to avoid flicker
 }
 
 

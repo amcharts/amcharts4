@@ -476,8 +476,9 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
     invalidateLayout(): void;
     /**
      * Override to cancel super call for data element validation.
+     * @ignore
      */
-    protected validateDataElements(): void;
+    validateDataElements(): void;
     /**
      * Recalculates the number of grid items on the axis.
      */

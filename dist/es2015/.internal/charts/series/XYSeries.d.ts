@@ -662,6 +662,12 @@ export declare class XYSeries extends Series {
      */
     processValues(working: boolean): void;
     /**
+     * Hides element's [[Tooltip]].
+     *
+     * @see {@link Tooltip}
+     */
+    hideTooltip(): void;
+    /**
      * Shows series tooltip at specific position.
      *
      * @ignore Exclude from docs

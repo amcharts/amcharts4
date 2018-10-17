@@ -56,22 +56,11 @@ var StepLineSeriesSegment = /** @class */ (function (_super) {
                 if (points.length > 0) {
                     for (var i = 1; i < points.length; i++) {
                         var point = points[i];
-                        var previouosPoint = points[i - 1];
-                        if (vertical) {
-                            if (point.y == previouosPoint.y) {
-                                path += $path.moveTo(point);
-                            }
-                            else {
-                                path += $path.lineTo(point);
-                            }
+                        if (i / 2 == Math.round(i / 2)) {
+                            path += $path.moveTo(point);
                         }
                         else {
-                            if (point.x == previouosPoint.x) {
-                                path += $path.moveTo(point);
-                            }
-                            else {
-                                path += $path.lineTo(point);
-                            }
+                            path += $path.lineTo(point);
                         }
                     }
                 }

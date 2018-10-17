@@ -175,6 +175,7 @@ export declare class Tooltip extends Container {
      * Constructor
      */
     constructor();
+    protected handleVisibility(): void;
     /**
      * Specifies if tooltip background should get stroke color from the sprite it is pointing to.
      *

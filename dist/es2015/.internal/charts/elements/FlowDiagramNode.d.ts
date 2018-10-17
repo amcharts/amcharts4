@@ -8,6 +8,7 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
+import { Sprite, AMEvent, ISpriteEvents } from "../../core/Sprite";
 import { FlowDiagram, FlowDiagramDataItem } from "../types/FlowDiagram";
 import { List } from "../../core/utils/List";
 import { Color } from "../../core/utils/Color";
@@ -162,6 +163,7 @@ export declare class FlowDiagramNode extends Container {
      * Constructor
      */
     constructor();
+    protected handleHit(event: AMEvent<Sprite, ISpriteEvents>["hit"]): void;
     /**
      * Shows hidden bide.
      *

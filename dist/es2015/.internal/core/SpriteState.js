@@ -235,7 +235,7 @@ var SpriteState = /** @class */ (function (_super) {
      * @param {SpriteState}  source  Source [[SpriteState]]
      */
     SpriteState.prototype.copyFrom = function (source) {
-        if (source != this) {
+        if (source && source != this) {
             this.transitionDuration = source.transitionDuration;
             this.transitionEasing = source.transitionEasing;
             $utils.copyProperties(source.properties, this.properties);

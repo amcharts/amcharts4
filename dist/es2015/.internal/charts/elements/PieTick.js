@@ -77,8 +77,9 @@ var PieTick = /** @class */ (function (_super) {
                 }
             }
             else {
-                x1 = x0 + label.radius * slice.ix;
-                y1 = y0 + label.radius * slice.iy;
+                var r = label.pixelRadius(slice.radius);
+                x1 = x0 + r * slice.ix;
+                y1 = y0 + r * slice.iy;
                 x2 = x1;
                 y2 = y1;
             }

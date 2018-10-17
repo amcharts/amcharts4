@@ -43,7 +43,7 @@ var Tooltip = /** @class */ (function (_super) {
          *
          * @type {IRectangle}
          */
-        _this._boundingRect = { x: 0, y: 0, width: 40000, height: 40000 };
+        _this._boundingRect = { x: -40000, y: -40000, width: 80000, height: 80000 };
         /**
          * Coordinates tolltip's pointer (stem) should point to.
          *
@@ -110,15 +110,16 @@ var Tooltip = /** @class */ (function (_super) {
         _this.opacity = 0;
         _this.x = 0;
         _this.y = 0;
-        _this.events.on("visibilitychanged", function () {
-            if (_this.visible) {
-                _this.label.invalidate();
-            }
-        });
+        _this.events.on("visibilitychanged", _this.handleVisibility, _this);
         // Apply theme
         _this.applyTheme();
         return _this;
     }
+    Tooltip.prototype.handleVisibility = function () {
+        if (this.visible) {
+            this.label.invalidate();
+        }
+    };
     Object.defineProperty(Tooltip.prototype, "getStrokeFromObject", {
         /**
          * Specifies if tooltip background should get stroke color from the sprite it is pointing to.
@@ -417,7 +418,7 @@ var Tooltip = /** @class */ (function (_super) {
             if (!this.visible || instantly) {
                 this.moveTo(this._pointTo);
                 if (this._animation) {
-                    this._animation.dispose();
+                    this._animation.kill();
                 }
             }
             else {
@@ -426,6 +427,9 @@ var Tooltip = /** @class */ (function (_super) {
                     this.moveTo(this._pointTo);
                 }
                 else {
+                    if (this._animation) {
+                        this._animation.kill();
+                    }
                     this._animation = new Animation(this, [{ property: "x", to: point.x, from: this.pixelX }, { property: "y", to: point.y, from: this.pixelY }], this.animationDuration, this.animationEasing).start();
                 }
             }

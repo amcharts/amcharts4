@@ -47,16 +47,17 @@ var LabelBullet = /** @class */ (function (_super) {
         label.stroke = color();
         label.strokeOpacity = 0;
         label.fill = new InterfaceColorSet().getFor("text");
-        _this.events.on("maxsizechanged", function () {
-            _this.label.maxWidth = _this.maxWidth;
-            _this.label.maxHeight = _this.maxHeight;
-        }, _this);
+        _this.events.on("maxsizechanged", _this.handleMaxSize, _this);
         _this.label = label;
         return _this;
         // not good, as lineSeries will have labels somewhere in the middle.
         //this.locationX = 0.5;
         //this.locationY = 0.5;
     }
+    LabelBullet.prototype.handleMaxSize = function () {
+        this.label.maxWidth = this.maxWidth;
+        this.label.maxHeight = this.maxHeight;
+    };
     /**
      * Copies all proprities and related stuff from another instance of
      * [[LabelBullet]].

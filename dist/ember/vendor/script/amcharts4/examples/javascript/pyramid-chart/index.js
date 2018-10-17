@@ -32,7 +32,7 @@ series.dataFields.value = "value";
 series.dataFields.category = "name";
 series.alignLabels = true;
 series.labelsContainer.width = 200;
-sr
+series.labelsContainer.paddingLeft = 15;
 
 chart.legend = new am4charts.Legend();
 chart.legend.padding(20,20,20,20);

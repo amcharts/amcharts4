@@ -210,7 +210,7 @@ var Legend = /** @class */ (function (_super) {
         // Create a template container and list for legend items
         var itemContainer = new Container();
         itemContainer.padding(10, 0, 10, 0);
-        itemContainer.margin(0, 5, 0, 0);
+        itemContainer.margin(0, 10, 0, 0);
         itemContainer.layout = "horizontal";
         itemContainer.clickable = true;
         itemContainer.focusable = true;
@@ -274,7 +274,6 @@ var Legend = /** @class */ (function (_super) {
         label.margin(0, 5, 0, 5);
         label.valign = "middle";
         label.states.create("active").properties.fill = interfaceColors.getFor("disabledBackground");
-        label.renderingFrequency = 2;
         _this.labels = new ListTemplate(label);
         _this._disposers.push(new ListDisposer(_this.labels));
         _this._disposers.push(_this.labels.template);
@@ -282,11 +281,10 @@ var Legend = /** @class */ (function (_super) {
         var valueLabel = new Label();
         valueLabel.margin(0, 5, 0, 0);
         valueLabel.valign = "middle";
-        valueLabel.width = 40; // to avoid rearranging legend entries when value changes.
+        valueLabel.width = 50; // to avoid rearranging legend entries when value changes.
         valueLabel.align = "right";
         valueLabel.textAlign = "end";
         valueLabel.states.create("active").properties.fill = interfaceColors.getFor("disabledBackground");
-        valueLabel.renderingFrequency = 2;
         _this.valueLabels = new ListTemplate(valueLabel);
         _this._disposers.push(new ListDisposer(_this.valueLabels));
         _this._disposers.push(_this.valueLabels.template);
@@ -347,8 +345,14 @@ var Legend = /** @class */ (function (_super) {
                 dataItem.childrenCreated = true;
             }
         }
-        if (!valueLabel.text) {
-            valueLabel.width = undefined;
+        if (valueLabel.invalid) {
+            valueLabel.validate();
+        }
+        if (valueLabel.currentText == "" || valueLabel.currentText == undefined) {
+            valueLabel.__disabled = true;
+        }
+        else {
+            valueLabel.__disabled = false;
         }
         var visible = dataItem.dataContext.visible;
         if (visible === undefined) {
@@ -389,8 +393,8 @@ var Legend = /** @class */ (function (_super) {
                 }
                 else {
                     this.itemContainers.template.maxWidth = undefined;
+                    this.valueLabels.template.width = 50;
                     this.width = percent(100);
-                    this.valueLabels.template.width = 40;
                 }
                 this.invalidate();
             }

@@ -12,6 +12,7 @@ import { Dictionary } from "./utils/Dictionary";
 import { Disposer, MultiDisposer } from "./utils/Disposer";
 import { DataSource } from "./data/DataSource";
 import { Responsive } from "./responsive/Responsive";
+import { system } from "./System";
 import { DataItem } from "./DataItem";
 import { registry } from "./Registry";
 import * as $math from "./utils/Math";
@@ -497,6 +498,7 @@ var Component = /** @class */ (function (_super) {
         }
         //if(!this.dataInvalid){
         $array.move(registry.invalidDatas, this);
+        system.requestFrame();
         this.dataInvalid = true;
         $iter.each(this.dataUsers.iterator(), function (x) {
             x.invalidateDataItems();
@@ -526,6 +528,7 @@ var Component = /** @class */ (function (_super) {
         }
         //if(!this.dataItemsInvalid){
         $array.move(registry.invalidDataItems, this);
+        system.requestFrame();
         this.dataItemsInvalid = true;
         $iter.each(this.dataUsers.iterator(), function (x) {
             x.invalidateDataItems();
@@ -545,6 +548,7 @@ var Component = /** @class */ (function (_super) {
         //if(!this.dataRangeInvalid){
         this.dataRangeInvalid = true;
         $array.move(registry.invalidDataRange, this);
+        system.requestFrame();
         //}
     };
     /**
@@ -619,6 +623,7 @@ var Component = /** @class */ (function (_super) {
         }
         //if(!this.rawDataInvalid){
         $array.move(registry.invalidRawDatas, this);
+        system.requestFrame();
         this.rawDataInvalid = true;
         $iter.each(this.dataUsers.iterator(), function (x) {
             x.invalidateRawData();
@@ -738,7 +743,7 @@ var Component = /** @class */ (function (_super) {
         this.dataValidationProgress = 1;
         this._parseDataFrom = 0; // reset this index, it is set to dataItems.length if addData() method was used.
         this.invalidateDataItems();
-        this.dispatch("datavalidated"); // dispatching it at once breaks map align
+        this.dispatch("datavalidated"); // can't zoom chart if dispatched immediately
     };
     /**
      * Validates (processes) data items.
@@ -1053,11 +1058,12 @@ var Component = /** @class */ (function (_super) {
                 }
                 this.dispatchImmediately("rangechangestarted");
                 if (this.rangeChangeAnimation) {
-                    this.rangeChangeAnimation.dispose();
+                    this.rangeChangeAnimation.kill();
                 }
-                this.rangeChangeAnimation = this.animate([{ property: "start", to: start }, { property: "end", to: end }], this.rangeChangeDuration, this.rangeChangeEasing);
-                if (this.rangeChangeAnimation && !this.rangeChangeAnimation.isDisposed()) {
-                    this.rangeChangeAnimation.events.on("animationended", function () {
+                rangeChangeAnimation = this.animate([{ property: "start", to: start }, { property: "end", to: end }], this.rangeChangeDuration, this.rangeChangeEasing);
+                this.rangeChangeAnimation = rangeChangeAnimation;
+                if (rangeChangeAnimation && !rangeChangeAnimation.isFinished()) {
+                    rangeChangeAnimation.events.on("animationended", function () {
                         _this.dispatchImmediately("rangechangeended");
                     });
                 }

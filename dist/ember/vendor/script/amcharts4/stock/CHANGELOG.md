@@ -5,6 +5,27 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.58] - 2018-10-17
+
+### Added
+- `ExportMenu`'s "custom" items can now have `"callback"` which is a function to call when clicked on such custom item.
+
+### Changed
+- Slice labels on a `PieChart` now move with the slice (if `alignLables = false`).
+
+### Fixed
+- `requestAnimationFrame` now is called only when needed. This reduces idle CPU usage.
+- Fixed `m4core.color()` result caching issue.
+- Charts were broken in IEs since beta.57.
+- `Tooltip` on `LineSeries` was not updating color if segment changed color.
+- `MapChart` without any series was displaying an error in console.
+- Axis tooltip was trimmed when `renderer.inside = true`.
+- `StepLineSeries` `startLocation`/`endLocation` bug fixed.
+- `"hover"` state was not being applied to series' bullet if it did not hav `tooltipText` set.
+- `bulletLocation` for horizontal `ColumnSeries` fixed.
+- Value labels of `Legend` were not in correct positions if `Legend` was positioned at the top or bottom (too close to legend label).
+
+
 ## [4.0.0-beta.57] - 2018-10-15
 
 ### Changed

@@ -738,27 +738,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     definedBBox: IRectangle;
     /**
-     * Sets frequency at which this element should be rendered. Used to save CPU,
-     * mostly for text elements.
-     *
-     * Higher number means this element will render more sluggishly by skipping
-     * frames, but in doing so will use less resources.
-     *
-     * E.g. setting to 2 will make this element's renderer skip one frame, so any
-     * changes to the element will be rendered 1/60 second later than it would
-     * at default setting of 1.
-     *
-     * @type {number}
-     */
-    renderingFrequency: number;
-    /**
-     * Used to track frame number when `renderingFrequency` is > 2.
-     * When `renderingFrame == 1`, Sprite renders.
-     *
-     * @ignore Exclude from docs
-     */
-    renderingFrame: number;
-    /**
      * Time in milliseconds after which rollout event happens when user rolls-out of the sprite. This helps to avoid flickering in some cases.
      * @type {number}
      */

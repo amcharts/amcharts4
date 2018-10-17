@@ -44,13 +44,14 @@ var Column = /** @class */ (function (_super) {
         _this.layout = "none";
         _this.createAssets();
         // otherwise users will have to set layout themselves if they'll want to align, scale etc children
-        _this.events.on("childadded", function () {
-            if (_this.layout == "none") {
-                _this.layout = "absolute";
-            }
-        });
+        _this.events.on("childadded", _this.handleKidAdded, _this);
         return _this;
     }
+    Column.prototype.handleKidAdded = function () {
+        if (this.layout == "none") {
+            this.layout = "absolute";
+        }
+    };
     Column.prototype.createAssets = function () {
         this.column = this.createChild(RoundedRectangle);
         this.column.shouldClone = false;

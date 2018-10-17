@@ -25,29 +25,6 @@ export declare class System {
      */
     static VERSION: string;
     /**
-     * Number of times per second component container is measured.
-     *
-     * It is not wise to measure container as often as `frameRate`, as this would
-     * use a lot of CPU when resizing window.
-     *
-     * @type {number}
-     */
-    measureRate: number;
-    /**
-     * @todo Description
-     * @ignore Exclude from docs
-     * @private
-     * @type {number}
-     */
-    measureCounter: number;
-    /**
-     * @todo Description
-     * @ignore Exclude from docs
-     * @private
-     * @type {number}
-     */
-    measureAt: number;
-    /**
      * @todo Description
      * @todo Needed?
      * @ignore Exclude from docs
@@ -60,6 +37,7 @@ export declare class System {
      * @type {number}
      */
     time: number;
+    protected _frameRequested: boolean;
     /**
      * Performs initialization of the System object.
      *
@@ -88,6 +66,7 @@ export declare class System {
      * @todo Maybe should be private?
      */
     update(): void;
+    requestFrame(): void;
     /**
      * Triggers position re-validation on all [[Sprite]] elements that have
      * invalid(ated) positions.
@@ -104,13 +83,6 @@ export declare class System {
      * @todo Maybe should be private?
      */
     validateLayouts(): void;
-    /**
-     * (Re)measures all top-level SVG containers for size.
-     *
-     * @ignore Exclude from docs
-     * @todo Maybe should be private?
-     */
-    measure(): void;
     /**
      * Outputs string to console if `verbose` is `true`.
      *

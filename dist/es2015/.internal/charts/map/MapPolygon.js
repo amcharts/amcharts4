@@ -38,10 +38,6 @@ var MapPolygon = /** @class */ (function (_super) {
         _this.fill = interfaceColors.getFor("secondaryButton");
         _this.stroke = interfaceColors.getFor("secondaryButtonStroke");
         _this.strokeOpacity = 1;
-        /*this.events.on("focus", (event) => {
-            //this.toFront();
-            //this.isFocused = true;
-        });*/
         _this.tooltipPosition = "pointer";
         _this.applyTheme();
         return _this;

@@ -22,6 +22,7 @@ import * as $iter from "./utils/Iterator";
 import * as $array from "./utils/Array";
 import * as $math from "./utils/Math";
 import * as $type from "./utils/Type";
+import { system } from "./System";
 ;
 /**
  * ============================================================================
@@ -179,6 +180,7 @@ var Container = /** @class */ (function (_super) {
         if (!this.layoutInvalid) {
             this.layoutInvalid = true;
             $array.add(registry.invalidLayouts, this);
+            system.requestFrame();
         }
     };
     /**
@@ -452,10 +454,12 @@ var Container = /** @class */ (function (_super) {
             var group_1 = this.element;
             // check, maybe the order is good already
             var isCorrect = true;
-            for (var i = 0, len = group_1.node.children.length; i < len; i++) {
-                if (group_1.node.children[i] != zindexed[i].group.node) {
-                    isCorrect = false;
-                    break;
+            if (group_1.node && group_1.node.children) {
+                for (var i = 0, len = group_1.node.children.length; i < len; i++) {
+                    if (group_1.node.children[i] != zindexed[i].group.node) {
+                        isCorrect = false;
+                        break;
+                    }
                 }
             }
             if (!isCorrect) {

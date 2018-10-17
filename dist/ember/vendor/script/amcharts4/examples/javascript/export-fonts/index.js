@@ -2,6 +2,7 @@ am4core.useTheme(am4themes_animated);
 
 // create chart
 var chart = am4core.create("chartdiv", am4charts.GaugeChart);
+chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
 chart.exporting.menu = new am4core.ExportMenu();
 
 chart.startAngle = -90;

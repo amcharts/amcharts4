@@ -100,7 +100,7 @@ var AxisRendererX = /** @class */ (function (_super) {
             var bigNum = 1000;
             var bbx = this.line.pixelX;
             var bby = this.line.pixelY;
-            var bbw = this.measuredWidth;
+            var bbw = this.axisLength;
             var bbh = bigNum;
             // top
             if (this.opposite) {

@@ -45,6 +45,7 @@ import * as $array from "./utils/Array";
 import * as $object from "./utils/Object";
 import * as $type from "./utils/Type";
 import * as $iter from "./utils/Iterator";
+import { system } from "./System";
 import { Percent } from "./utils/Percent";
 /**
  * Defines list ofvisual properties
@@ -276,27 +277,6 @@ var Sprite = /** @class */ (function (_super) {
         _this._updateDisabled = false;
         _this._internalDefaultsApplied = false;
         /**
-         * Sets frequency at which this element should be rendered. Used to save CPU,
-         * mostly for text elements.
-         *
-         * Higher number means this element will render more sluggishly by skipping
-         * frames, but in doing so will use less resources.
-         *
-         * E.g. setting to 2 will make this element's renderer skip one frame, so any
-         * changes to the element will be rendered 1/60 second later than it would
-         * at default setting of 1.
-         *
-         * @type {number}
-         */
-        _this.renderingFrequency = 1;
-        /**
-         * Used to track frame number when `renderingFrequency` is > 2.
-         * When `renderingFrame == 1`, Sprite renders.
-         *
-         * @ignore Exclude from docs
-         */
-        _this.renderingFrame = 1;
-        /**
          * Time in milliseconds after which rollout event happens when user rolls-out of the sprite. This helps to avoid flickering in some cases.
          * @type {number}
          */
@@ -448,6 +428,7 @@ var Sprite = /** @class */ (function (_super) {
         if (!this.invalid) {
             this.invalid = true;
             $array.add(registry.invalidSprites, this);
+            system.requestFrame();
         }
     };
     /**
@@ -468,7 +449,6 @@ var Sprite = /** @class */ (function (_super) {
                 }));
             }
         }
-        this.renderingFrame = this.renderingFrequency;
         // Set internal defaults
         if (!this._internalDefaultsApplied) {
             this.applyInternalDefaults();
@@ -491,6 +471,7 @@ var Sprite = /** @class */ (function (_super) {
         if (!this.positionInvalid) {
             this.positionInvalid = true;
             $array.add(registry.invalidPositions, this);
+            system.requestFrame();
         }
     };
     /**
@@ -518,28 +499,28 @@ var Sprite = /** @class */ (function (_super) {
             this._updateDisabled = false;
         }
         var sizeChanged = this.measure();
-        if (!this.invalid) {
-            var prevGroupTransform = this.group.transformString;
-            this.group.moveTo({ x: x, y: y });
-            this.group.rotation = this.rotation;
-            if (this.nonScaling) {
-                this.group.scale = this.scale / this.globalScale;
+        //if (!this.invalid) {
+        var prevGroupTransform = this.group.transformString;
+        this.group.moveTo({ x: x, y: y });
+        this.group.rotation = this.rotation;
+        if (this.nonScaling) {
+            this.group.scale = this.scale / this.globalScale;
+        }
+        else {
+            this.group.scale = this.scale;
+        }
+        if (prevGroupTransform != this.group.transformString || sizeChanged) {
+            // not yet sure, this is to avoid many transforms=>container layout invalidation on initial buid
+            if (prevGroupTransform == null) {
+                this.dispatch("transformed");
             }
             else {
-                this.group.scale = this.scale;
+                this.dispatchImmediately("transformed");
             }
-            if (prevGroupTransform != this.group.transformString || sizeChanged) {
-                // not yet sure, this is to avoid many transforms=>container layout invalidation on initial buid
-                if (prevGroupTransform == null) {
-                    this.dispatch("transformed");
-                }
-                else {
-                    this.dispatchImmediately("transformed");
-                }
-                // TODO clear existing positionchanged dispatches ?
-                this.dispatch("positionchanged");
-            }
+            // TODO clear existing positionchanged dispatches ?
+            this.dispatch("positionchanged");
         }
+        //}
         // it might happen that x and y changed again, so we only remove if they didn't
         if (pixelX + dx == x && pixelY + dy == y) {
             $array.remove(registry.invalidPositions, this);
@@ -672,7 +653,6 @@ var Sprite = /** @class */ (function (_super) {
         this.interactions.copyFrom(source.interactions);
         this.configField = source.configField;
         this.applyOnClones = source.applyOnClones;
-        this.renderingFrequency = source.renderingFrequency;
         // this.numberFormatter = source.numberFormatter; // todo: this creates loose number formatter and copies it to all clones. somehow we need to know if source had numberFormatter explicitly created and not just because a getter was called.
         //this.mask = source.mask; need to think about this, generally this causes a lot of problems
         this.disabled = source.disabled;
@@ -2164,11 +2144,16 @@ var Sprite = /** @class */ (function (_super) {
         });
         if (options.length > 0) {
             transition = this.animate(options, duration, easing);
-            // TODO should this use events.once ?
-            // TODO push onto _disposers array ?
-            this._disposers.push(transition.events.on("animationended", function () {
-                _this.dispatchImmediately("transitionended");
-            }));
+            if (transition && !transition.isFinished()) {
+                // TODO should this use events.once ?
+                // TODO push onto _disposers array ?
+                this._disposers.push(transition.events.on("animationended", function () {
+                    _this.dispatchImmediately("transitionended");
+                }));
+            }
+            else {
+                this.dispatchImmediately("transitionended");
+            }
         }
         // apply filters if set
         if (state.filters.length > 0) {
@@ -6431,23 +6416,30 @@ var Sprite = /** @class */ (function (_super) {
         var transition;
         var properties = this.defaultState.properties;
         if (!this.disabled && (this.isHidden || !this.visible || this.isHiding || (properties.opacity != null && this.opacity < properties.opacity && !this.isShowing))) {
+            // helps to avoid flicker, as show might change opacity or visibility but item might be at invalid state/position
+            if (this.invalid) {
+                this.validate();
+            }
+            if (this.positionInvalid) {
+                this.validatePosition();
+            }
             if (!$type.isNumber(duration)) {
                 duration = this.defaultState.transitionDuration;
             }
-            this._isHidden = false;
-            this.isHiding = false;
-            this.isShowing = true;
             if (this._hideAnimation) {
-                this._hideAnimation.dispose();
-                this._hideAnimation = null;
+                this._hideAnimation.kill();
+                this._hideAnimation = undefined;
             }
             // Cancel hide handler just in case it was there
             if (this._showHideDisposer) {
                 this.removeDispose(this._showHideDisposer);
             }
+            this._isHidden = false;
+            this.isHiding = false;
+            this.isShowing = true;
             // Apply current state
             transition = this.applyCurrentState(duration);
-            if (transition && !transition.isDisposed()) {
+            if (transition && !transition.isFinished()) {
                 this._showHideDisposer = transition.events.on("animationended", function () {
                     _this.isShowing = false;
                 });
@@ -6503,11 +6495,11 @@ var Sprite = /** @class */ (function (_super) {
         var transition;
         if (!this.isHiding && this.visible) {
             this.hideTooltip(0);
-            this.isShowing = false;
-            if (this._hideAnimation != null) {
-                this._hideAnimation.dispose();
-                this._hideAnimation = null;
+            if (this._hideAnimation) {
+                this._hideAnimation.kill();
+                this._hideAnimation = undefined;
             }
+            this.isShowing = false;
             // Cancel hide handler just in case it was there
             if (this._showHideDisposer) {
                 this.removeDispose(this._showHideDisposer);
@@ -6520,7 +6512,7 @@ var Sprite = /** @class */ (function (_super) {
                 // `setState` will return an `Animation` object which we can set
                 // events on
                 transition = this.setState(hiddenState, duration, undefined);
-                if (transition && !transition.isDisposed()) {
+                if (transition && !transition.isFinished()) {
                     this._hideAnimation = transition;
                     this._showHideDisposer = transition.events.on("animationended", function () {
                         _this.isHiding = false;
@@ -6530,10 +6522,6 @@ var Sprite = /** @class */ (function (_super) {
                     // Thrown everything into `_disposers` just in case Sprite gets
                     // destroyed in the meantime
                     this._disposers.push(transition);
-                    if (transition.progress == 1) {
-                        this.isHiding = false;
-                        this._isHidden = true;
-                    }
                 }
                 else {
                     this.isHiding = false;

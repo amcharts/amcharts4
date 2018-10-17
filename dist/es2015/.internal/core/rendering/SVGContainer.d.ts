@@ -8,8 +8,9 @@
  * @hidden
  */
 import { Container } from "../Container";
-import { IDisposer } from "../utils/Disposer";
+import { IDisposer, Disposer } from "../utils/Disposer";
 import * as $type from "../utils/Type";
+import ResizeSensor from "css-element-queries/src/ResizeSensor";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -73,6 +74,12 @@ export declare class SVGContainer implements IDisposer {
      * @type {HTMLDivElement}
      */
     SVGContainer: HTMLDivElement;
+    /**
+     * A reference to ResizeSensor object which monitors changes of div size
+     * @type {ResizeSensor}
+     */
+    resizeSensor: ResizeSensor;
+    protected _resizeSensorDisposer: Disposer;
     /**
      * Constructor
      *

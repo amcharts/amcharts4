@@ -78,6 +78,7 @@ export declare class LabelBullet extends Bullet {
      * Constructor
      */
     constructor();
+    protected handleMaxSize(): void;
     /**
      * Copies all proprities and related stuff from another instance of
      * [[LabelBullet]].

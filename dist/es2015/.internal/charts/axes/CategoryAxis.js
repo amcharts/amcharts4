@@ -265,6 +265,7 @@ var CategoryAxis = /** @class */ (function (_super) {
                 }
             }
         });
+        this.ghostLabel.invalidate(); // solves font issue
     };
     /**
      * [validateDataElement description]

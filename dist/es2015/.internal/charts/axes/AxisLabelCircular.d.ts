@@ -9,6 +9,7 @@
  */
 import { AxisLabel, IAxisLabelProperties, IAxisLabelAdapters, IAxisLabelEvents } from "./AxisLabel";
 import { IPoint } from "../../core/defs/IPoint";
+import { Percent } from "../../core/utils/Percent";
 /**
  * ============================================================================
  * REQUISITES
@@ -82,6 +83,18 @@ export declare class AxisLabelCircular extends AxisLabel {
      */
     _dataItem: any;
     /**
+     *
+     * @type {number}
+     * @ignore
+     */
+    fdx: number;
+    /**
+     *
+     * @type {number}
+     * @ignore
+     */
+    fdy: number;
+    /**
      * Constructor
      */
     constructor();
@@ -101,11 +114,15 @@ export declare class AxisLabelCircular extends AxisLabel {
      * @return {number} Distance (px)
      */
     /**
-     * Distance from axis circle to label in pixels.
+     * Distance from axis circle to label in pixels or percent.
      *
-     * @param {number} value Distance (px)
+     * @param {number} value Distance (px or percent)
      */
-    radius: number;
+    radius: number | Percent;
+    /**
+     * returns label radius in pixels
+     */
+    pixelRadius(axisRadius: number): number;
     /**
      * [fixPoint description]
      *

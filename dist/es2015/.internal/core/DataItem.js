@@ -310,7 +310,7 @@ var DataItem = /** @class */ (function (_super) {
         }
         $array.each(this.sprites, function (sprite) {
             var animation = sprite.show(duration);
-            if (animation != null && !animation.isDisposed()) {
+            if (animation != null && !animation.isFinished()) {
                 _this._disposers.push(animation);
                 if (delay != null && delay > 0) {
                     animation.delay(delay);
@@ -342,7 +342,7 @@ var DataItem = /** @class */ (function (_super) {
         this.isHiding = true;
         $array.each(this.sprites, function (sprite) {
             var animation = sprite.hide(duration);
-            if (animation != null && !animation.isDisposed()) {
+            if (animation != null && !animation.isFinished()) {
                 _this._disposers.push(animation);
                 if (delay != null && delay > 0) {
                     animation.delay(delay);
@@ -357,7 +357,7 @@ var DataItem = /** @class */ (function (_super) {
                     animation_1 = anim;
                 }
             });
-            if (animation_1 && !animation_1.isDisposed()) {
+            if (animation_1 && !animation_1.isFinished()) {
                 this._hideDisposer = animation_1.events.on("animationended", function () {
                     _this.visible = false;
                     _this.isHiding = false;

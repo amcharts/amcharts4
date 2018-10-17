@@ -762,7 +762,7 @@ var XYChart = /** @class */ (function (_super) {
      */
     XYChart.prototype.hideObjectTooltip = function (sprites) {
         $iter.each(sprites.iterator(), function (sprite) {
-            sprite.tooltip.hide(0);
+            sprite.hideTooltip(0);
         });
     };
     /**
@@ -777,20 +777,26 @@ var XYChart = /** @class */ (function (_super) {
      */
     XYChart.prototype.showSeriesTooltip = function (position) {
         var _this = this;
+        if (!position) {
+            this.series.each(function (series) {
+                series.hideTooltip();
+            });
+            return;
+        }
         var topLeft = $utils.spritePointToSvg({ x: -0.5, y: -0.5 }, this.plotContainer);
         var bottomRight = $utils.spritePointToSvg({ x: this.plotContainer.pixelWidth + 0.5, y: this.plotContainer.pixelHeight + 0.5 }, this.plotContainer);
         var seriesPoints = [];
         this.series.each(function (series) {
-            if (series.tooltipText || series.tooltipHTML) {
-                series.tooltip.setBounds({ x: 0, y: 0, width: _this.pixelWidth, height: _this.pixelHeight });
-                var point = series.showTooltipAtPosition(position.x, position.y);
-                if (point && $math.isInRectangle(point, { x: topLeft.x, y: topLeft.y, width: bottomRight.x - topLeft.x, height: bottomRight.y - topLeft.y })) {
-                    seriesPoints.push({ point: point, series: series });
-                }
-                else {
-                    series.tooltip.hide(0);
-                }
+            //if (series.tooltipText || series.tooltipHTML) { // not good, bullets are not hovered then
+            series.tooltip.setBounds({ x: 0, y: 0, width: _this.pixelWidth, height: _this.pixelHeight });
+            var point = series.showTooltipAtPosition(position.x, position.y);
+            if (point && $math.isInRectangle(point, { x: topLeft.x, y: topLeft.y, width: bottomRight.x - topLeft.x, height: bottomRight.y - topLeft.y })) {
+                seriesPoints.push({ point: point, series: series });
             }
+            else {
+                //	series.hideTooltip();
+            }
+            //}
         });
         seriesPoints.sort(function (a, b) {
             if (a.point.y > b.point.y) {
@@ -1138,11 +1144,13 @@ var XYChart = /** @class */ (function (_super) {
      */
     XYChart.prototype.zoomAxes = function (axes, range, instantly, round) {
         var realRange = { start: 0, end: 1 };
+        this.showSeriesTooltip(); // hides
         if (!this.dataInvalid) {
             $iter.each(axes.iterator(), function (axis) {
                 if (axis.renderer.inversed) {
                     range = $math.invertRange(range);
                 }
+                axis.hideTooltip(0);
                 if (round) {
                     var diff = range.end - range.start;
                     range.start = axis.roundPosition(range.start + 0.0001, 0);

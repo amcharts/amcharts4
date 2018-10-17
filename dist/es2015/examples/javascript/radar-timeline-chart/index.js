@@ -9,7 +9,6 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 // disclaimer: this data is not accuarate, don't use it for any puroposes
 // first temperature is average for 1973-1980 period
 
-
 am4core.useTheme(am4themes_animated);
 
 let temperatures = {
@@ -136,9 +135,11 @@ let colorSet = new am4core.ColorSet();
 
 let chart = am4core.create("chartdiv", am4charts.RadarChart);
 chart.numberFormatter.numberFormat = "+#.0°C|#.0°C|0.0°C";
+chart.hiddenState.properties.opacity = 0;
 
-chart.startAngle = -80;
-chart.endAngle = 260;
+chart.startAngle = 270 - 180;
+chart.endAngle = 270 + 180;
+
 chart.radius = am4core.percent(60);
 chart.innerRadius = am4core.percent(40);
 
@@ -181,6 +182,8 @@ categoryAxisLabel.relativeRotation = 90;
 categoryAxisRenderer.minGridDistance = 13;
 categoryAxisRenderer.grid.template.radius = -25;
 categoryAxisRenderer.grid.template.strokeOpacity = 0.05;
+categoryAxisRenderer.grid.template.interactionsEnabled = false;
+
 categoryAxisRenderer.ticks.template.disabled = true;
 categoryAxisRenderer.axisFills.template.disabled = true;
 categoryAxisRenderer.line.disabled = true;

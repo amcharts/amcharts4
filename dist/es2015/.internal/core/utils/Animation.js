@@ -19,6 +19,7 @@ import * as $colors from "../utils/Colors";
 import * as $math from "../utils/Math";
 import * as $array from "../utils/Array";
 import * as $type from "../utils/Type";
+import { system } from "../System";
 /**
  * Calls a `callback` function for the `duration` of milliseconds.
  *
@@ -272,6 +273,7 @@ var Animation = /** @class */ (function (_super) {
          * @type {number}
          */
         _this._time = 0;
+        _this._isFinished = false;
         _this.className = "Animation";
         // Set parameters
         _this.object = object;
@@ -325,6 +327,7 @@ var Animation = /** @class */ (function (_super) {
         return this;
     };
     Animation.prototype._start = function () {
+        this._isFinished = false;
         // Clear delay timeout if there was one
         if (this._delayTimeout) {
             this.removeDispose(this._delayTimeout);
@@ -339,6 +342,7 @@ var Animation = /** @class */ (function (_super) {
         $array.move(animations, this);
         // Register this animation in object's `animations` list
         $array.move(this.object.animations, this);
+        system.requestFrame();
     };
     /**
      * Starts animation.
@@ -485,7 +489,9 @@ var Animation = /** @class */ (function (_super) {
      */
     Animation.prototype.end = function () {
         // Pause and complete the progress
-        this.pause();
+        if (this._loop == 0) {
+            this.pause();
+        }
         this.setProgress(1);
         // Apply static options
         this.applyStaticOptions();
@@ -504,8 +510,21 @@ var Animation = /** @class */ (function (_super) {
         }
         else {
             this.stop();
+            this._isFinished = true;
         }
         return this;
+    };
+    Animation.prototype.kill = function () {
+        this.pause();
+        this._isFinished = true;
+    };
+    /**
+     * Returns indicator if this animation is finished or not
+     *
+     * @return {boolean} Is finished?
+     */
+    Animation.prototype.isFinished = function () {
+        return this._isFinished;
     };
     /**
      * Applies static options that can't be animated.
@@ -572,6 +591,7 @@ var Animation = /** @class */ (function (_super) {
             };
             this.events.dispatchImmediately("animationprogress", event_4);
         }
+        system.requestFrame();
     };
     /**
      * Tracks and sets progress according to time or frames.
@@ -628,7 +648,7 @@ var Animation = /** @class */ (function (_super) {
                         if (newOptions.property == oldOptions.property && newOptions.childObject == oldOptions.childObject) {
                             killed_1.push(oldOptions);
                             if (animation.animationOptions.length == 0) {
-                                animation.stop(true);
+                                animation.kill();
                             }
                         }
                     });

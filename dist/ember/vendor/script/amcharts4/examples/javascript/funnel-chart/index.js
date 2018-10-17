@@ -32,9 +32,8 @@ series.dataFields.value = "value";
 series.dataFields.category = "name";
 series.alignLabels = true;
 
-series.labelsContainer.paddingLeft = 10;
+series.labelsContainer.paddingLeft = 15;
 series.labelsContainer.width = 200;
-
 
 //series.orientation = "horizontal";
 //series.bottomRatio = 1;

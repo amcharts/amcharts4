@@ -58,6 +58,7 @@ var ChordNode = /** @class */ (function (_super) {
         hiddenState.properties.fill = new InterfaceColorSet().getFor("disabledBackground");
         hiddenState.properties.opacity = 0.5;
         hiddenState.properties.visible = true;
+        _this.setStateOnChildren = false;
         _this.slice.hiddenState.properties.visible = true;
         _this.adapter.add("tooltipX", function (tooltipX, target) {
             return target.slice.ix * (target.slice.radius - (target.slice.radius - target.slice.pixelInnerRadius) / 2);

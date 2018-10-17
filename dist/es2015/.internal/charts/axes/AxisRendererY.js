@@ -98,7 +98,7 @@ var AxisRendererY = /** @class */ (function (_super) {
             var bbx = 0;
             var bby = 0;
             var bbw = bigNum;
-            var bbh = this.pixelHeight;
+            var bbh = this.axisLength;
             // right
             if (this.opposite) {
                 if (this.inside) {

@@ -230,6 +230,8 @@ export declare class Label extends Container {
      * Constructor
      */
     constructor();
+    protected handleValidate(): void;
+    protected handleMaxSize(): void;
     /**
      * [arrange description]
      *

@@ -259,12 +259,12 @@ var Series = /** @class */ (function (_super) {
      */
     Series.prototype.appear = function () {
         var _this = this;
-        this._appeared = false;
         if (this.interpolationDuration > 0) {
+            this._appeared = false;
             this.events.disableType("hidden");
             this.hide(0);
             var animation = this.show();
-            if (animation && !animation.isDisposed()) {
+            if (animation && !animation.isFinished()) {
                 animation.events.once("animationended", function () {
                     _this.appeared = true;
                 });
@@ -275,7 +275,10 @@ var Series = /** @class */ (function (_super) {
             this.events.enableType("hidden");
         }
         else {
-            this.appeared = true;
+            // this might seem not needed, but hide and show makes sprites hide and show and demos like drag&change values need this, some other too (candlesticks etc)
+            this.hide(0);
+            this.show();
+            this._appeared = true;
         }
     };
     /**
@@ -415,10 +418,20 @@ var Series = /** @class */ (function (_super) {
         if (!$type.isNumber(endIndex)) {
             endIndex = this.dataItems.length;
         }
-        for (var i = startIndex; i < endIndex; i++) {
-            var dataItem_1 = dataItems.getIndex(i);
+        if (startIndex > 0) {
+            var dataItem_1 = dataItems.getIndex(startIndex - 1);
             for (var key in dataItem_1.values) {
                 var value = dataItem_1.values[key].workingValue;
+                if ($type.isNumber(value)) {
+                    // save previous
+                    previous[key] = value;
+                }
+            }
+        }
+        for (var i = startIndex; i < endIndex; i++) {
+            var dataItem_2 = dataItems.getIndex(i);
+            for (var key in dataItem_2.values) {
+                var value = dataItem_2.values[key].workingValue;
                 //if (i >= startIndex && i <= endIndex) { // do not add to count, sum etc if it is not within start/end index
                 if ($type.isNumber(value)) {
                     // count values
@@ -459,18 +472,18 @@ var Series = /** @class */ (function (_super) {
                         first[key] = this.getFirstValue(key, startIndex);
                     }
                     // change
-                    dataItem_1.setCalculatedValue(key, value - first[key], "change");
+                    dataItem_2.setCalculatedValue(key, value - first[key], "change");
                     // change from start percent
                     // will fail if first value is 0
-                    dataItem_1.setCalculatedValue(key, (value - first[key]) / first[key] * 100, "changePercent");
+                    dataItem_2.setCalculatedValue(key, (value - first[key]) / first[key] * 100, "changePercent");
                     // previous change
                     var prevValue = previous[key];
                     if (!$type.isNumber(prevValue)) {
                         prevValue = value;
                     }
-                    dataItem_1.setCalculatedValue(key, value - prevValue, "previousChange");
+                    dataItem_2.setCalculatedValue(key, value - prevValue, "previousChange");
                     // previous change percent
-                    dataItem_1.setCalculatedValue(key, (value - prevValue) / prevValue * 100, "previousChangePercent");
+                    dataItem_2.setCalculatedValue(key, (value - prevValue) / prevValue * 100, "previousChangePercent");
                     // save previous
                     previous[key] = value;
                 }
@@ -478,19 +491,19 @@ var Series = /** @class */ (function (_super) {
         }
         if (this.calculatePercent) {
             var _loop_1 = function (i) {
-                var dataItem_2 = dataItems.getIndex(i);
-                $object.each(dataItem_2.values, function (key) {
+                var dataItem_3 = dataItems.getIndex(i);
+                $object.each(dataItem_3.values, function (key) {
                     var ksum = sum[key];
-                    var value = dataItem_2.values[key].workingValue;
+                    var value = dataItem_3.values[key].workingValue;
                     if ($type.isNumber(value) && ksum > 0) {
                         // this hack is made in order to make it possible to animate single slice to 0
                         // if there is only one slice left, percent value is always 100%, so it won't animate
                         // so we use real value of a slice instead of current value
                         if (value == ksum) {
-                            ksum = dataItem_2.values[key].value;
+                            ksum = dataItem_3.values[key].value;
                         }
                         var percent = value / ksum * 100;
-                        dataItem_2.setCalculatedValue(key, percent, "percent");
+                        dataItem_3.setCalculatedValue(key, percent, "percent");
                     }
                 });
             };
@@ -1142,25 +1155,25 @@ var Series = /** @class */ (function (_super) {
          * @ignore
          */
         set: function (value) {
-            var _this = this;
             if (value === false) {
-                this.events.once("beforevalidated", function () {
-                    if (_this.visible == false) {
-                        _this.events.disableType("hidden");
-                        _this.hide(0);
-                        _this.events.enableType("hidden");
-                        _this.appeared = true;
-                    }
-                    else {
-                        _this.appear();
-                    }
-                }, this);
+                this.events.once("beforevalidated", this.handleAppear, this);
             }
             this._appeared = value;
         },
         enumerable: true,
         configurable: true
     });
+    Series.prototype.handleAppear = function () {
+        if (this.visible == false) {
+            this.events.disableType("hidden");
+            this.hide(0);
+            this.events.enableType("hidden");
+            this.appeared = true;
+        }
+        else {
+            this.appear();
+        }
+    };
     /**
      * This function is used to sort element's JSON config properties, so that
      * some properties that absolutely need to be processed last, can be put at

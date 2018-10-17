@@ -92,6 +92,7 @@ export declare class Column extends Container {
      * Constructor
      */
     constructor();
+    protected handleKidAdded(): void;
     protected createAssets(): void;
     /**
      * Validates element:

@@ -12,6 +12,7 @@ import { AxisLabel } from "./AxisLabel";
 import { registry } from "../../core/Registry";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
+import * as $utils from "../../core/utils/Utils";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -31,6 +32,18 @@ var AxisLabelCircular = /** @class */ (function (_super) {
      */
     function AxisLabelCircular() {
         var _this = _super.call(this) || this;
+        /**
+         *
+         * @type {number}
+         * @ignore
+         */
+        _this.fdx = 0;
+        /**
+         *
+         * @type {number}
+         * @ignore
+         */
+        _this.fdy = 0;
         _this.className = "AxisLabelCircular";
         _this.padding(0, 0, 0, 0);
         _this.location = 0.5;
@@ -68,18 +81,26 @@ var AxisLabelCircular = /** @class */ (function (_super) {
             return this.getPropertyValue("radius");
         },
         /**
-         * Distance from axis circle to label in pixels.
+         * Distance from axis circle to label in pixels or percent.
          *
-         * @param {number} value Distance (px)
+         * @param {number} value Distance (px or percent)
          */
         set: function (value) {
-            // No percent here, as it would be quite complicated to calculate radius
-            // of a chart together with axis label radius
             this.setPropertyValue("radius", value, true);
         },
         enumerable: true,
         configurable: true
     });
+    /**
+     * returns label radius in pixels
+     */
+    AxisLabelCircular.prototype.pixelRadius = function (axisRadius) {
+        var sign = 1;
+        if (this.inside) {
+            sign = -1;
+        }
+        return $utils.relativeRadiusToValue(this.radius, axisRadius) * sign;
+    };
     /**
      * [fixPoint description]
      *
@@ -94,10 +115,6 @@ var AxisLabelCircular = /** @class */ (function (_super) {
         if (this.invalid) {
             this.validate(); //@todo" check if we need this
         }
-        var sign = 1;
-        if (this.inside) {
-            sign = -1;
-        }
         var relativeRotation = this.relativeRotation;
         // we don't use valign for labels because then they would jump while animating. instead we modify dy depending on a y position
         // this math makes dy to be 1 at the top of the circle, 0.5 at the middle and 1 at the bottom
@@ -105,7 +122,7 @@ var AxisLabelCircular = /** @class */ (function (_super) {
         this.dy = -this._measuredHeight * (1 - (point.y + axisRadius) / (2 * axisRadius));
         // simmilar with dx
         this.dx = -this._measuredWidth * (1 - (point.x + axisRadius) / (2 * axisRadius));
-        var labelRadius = this.radius * sign;
+        var labelRadius = this.pixelRadius(axisRadius);
         if ($type.isNumber(relativeRotation)) {
             var pixelWidth = this.bbox.width;
             var pixelHeight = this.bbox.height;
@@ -142,6 +159,8 @@ var AxisLabelCircular = /** @class */ (function (_super) {
                 labelRadius -= (pixelPaddingBottom + pixelPaddingTop) * $math.cos(relativeRotation) + (pixelPaddingLeft + pixelPaddingRight) * $math.sin(relativeRotation);
             }
         }
+        this.fdx = this.dx;
+        this.fdy = this.dy;
         point.x += $math.cos(angle) * labelRadius;
         point.y += $math.sin(angle) * labelRadius;
         return point;

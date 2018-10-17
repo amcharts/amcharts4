@@ -137,6 +137,7 @@ var MapChart = /** @class */ (function (_super) {
         seriesContainer.events.on("drag", _this.handleDrag, _this);
         seriesContainer.zIndex = 0;
         // Set up events
+        _this.events.on("validated", _this.updateExtremes, _this);
         _this.events.on("datavalidated", _this.updateExtremes, _this);
         // Set up main chart container, e.g. set backgrounds and events to monitor
         // size changes, etc.
@@ -519,6 +520,9 @@ var MapChart = /** @class */ (function (_super) {
         var _this = this;
         if (!point) {
             point = this.zoomGeoPoint;
+        }
+        if (!point) {
+            return;
         }
         this._zoomGeoPointReal = point;
         zoomLevel = $math.fitToRange(zoomLevel, this.minZoomLevel, this.maxZoomLevel);
