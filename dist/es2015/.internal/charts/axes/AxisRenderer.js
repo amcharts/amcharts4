@@ -204,7 +204,7 @@ var AxisRenderer = /** @class */ (function (_super) {
         else {
             coordinate = (position - axis.start) * axisFullLength;
         }
-        return $math.round(coordinate, 1);
+        return coordinate;
     };
     AxisRenderer.prototype.getHeight = function () {
         var axis = this.axis;

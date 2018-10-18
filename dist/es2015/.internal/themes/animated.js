@@ -3,6 +3,7 @@ import { Component } from "../core/Component";
 import { Scrollbar } from "../core/elements/Scrollbar";
 import { Tooltip } from "../core/elements/Tooltip";
 import { Series } from "../charts/series/Series";
+import { PercentSeries } from "../charts/series/PercentSeries";
 import { SankeyDiagram } from "../charts/types/SankeyDiagram";
 import { FunnelSeries } from "../charts/series/FunnelSeries";
 import { FunnelSlice } from "../charts/elements/FunnelSlice";
@@ -41,6 +42,9 @@ var theme = function (object) {
         object.hiddenState.transitionDuration = 1000;
         object.hiddenState.properties.opacity = 1;
         object.interpolationDuration = 1000;
+    }
+    if (object instanceof PercentSeries) {
+        object.hiddenState.properties.opacity = 0;
     }
     if (object instanceof FunnelSlice) {
         object.defaultState.transitionDuration = 800;

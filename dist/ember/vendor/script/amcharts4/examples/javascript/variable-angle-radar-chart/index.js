@@ -56,10 +56,10 @@ chart.data = [{
 chart.padding(10, 10, 10, 10);
 
 chart.radius = am4core.percent(95);
-chart.startAngle = 270 - 0.5 * 179 - 1;
-chart.endAngle = 270 + 0.5 * 179 + 1;
+chart.startAngle = 270 - 180;
+chart.endAngle = 270 + 180;
 
-chart.innerRadius = am4core.percent(80);
+chart.innerRadius = am4core.percent(60);
 
 var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
 categoryAxis.dataFields.category = "category";

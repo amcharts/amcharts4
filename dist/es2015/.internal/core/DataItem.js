@@ -142,6 +142,13 @@ var DataItem = /** @class */ (function (_super) {
          */
         _this._visible = true;
         /**
+         * Is Data Item currently hidden?
+         *
+         * @ignore Exclude from docs
+         * @type {boolean}
+         */
+        _this._hidden = false;
+        /**
          * Should this Data Item be used when calculating data ranges and scales?
          *
          * @ignore Exclude from docs
@@ -217,6 +224,9 @@ var DataItem = /** @class */ (function (_super) {
          * @return {boolean} Visible?
          */
         get: function () {
+            if (this._hidden) {
+                return false;
+            }
             return this._visible;
         },
         /**
@@ -225,16 +235,38 @@ var DataItem = /** @class */ (function (_super) {
          * @param {boolean} value Visible?
          */
         set: function (value) {
+            if (value) {
+                this.hidden = false;
+            }
             if (this._visible != value) {
                 this.setVisibility(value);
-                this._visible = value;
-                if (this.events.isEnabled("visibilitychanged")) {
-                    var event_1 = {
-                        type: "visibilitychanged",
-                        target: this,
-                        visible: value
-                    };
-                    this.events.dispatchImmediately("visibilitychanged", event_1);
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(DataItem.prototype, "hidden", {
+        /**
+         * Returns `true` if this Data Item is currently hidden.
+         *
+         * @return {boolean} Hidden?
+         */
+        get: function () {
+            return this._hidden;
+        },
+        /**
+         * Sets hidden flag for data item. Mostly used to initially hide data item.
+         *
+         * @param {boolean} value Hidden?
+         */
+        set: function (value) {
+            if (this._hidden != value) {
+                this._hidden = value;
+                if (value) {
+                    this.setVisibility(false);
+                }
+                else {
+                    this.setVisibility(true, true);
                 }
             }
         },
@@ -273,7 +305,7 @@ var DataItem = /** @class */ (function (_super) {
      *
      * @param {boolean} value Data Item
      */
-    DataItem.prototype.setVisibility = function (value) {
+    DataItem.prototype.setVisibility = function (value, noChangeValues) {
         $array.each(this.sprites, function (sprite) {
             if (value) {
                 sprite.visible = sprite.defaultState.properties.visible;
@@ -287,6 +319,15 @@ var DataItem = /** @class */ (function (_super) {
                 }
             }
         });
+        this._visible = value;
+        if (this.events.isEnabled("visibilitychanged")) {
+            var event_1 = {
+                type: "visibilitychanged",
+                target: this,
+                visible: value
+            };
+            this.events.dispatchImmediately("visibilitychanged", event_1);
+        }
     };
     /**
      * Shows the Data Item and related visual elements.
@@ -297,27 +338,29 @@ var DataItem = /** @class */ (function (_super) {
      */
     DataItem.prototype.show = function (duration, delay, fields) {
         var _this = this;
-        this.visible = true;
-        this.isHiding = false;
-        if (this._hideDisposer) {
-            this.removeDispose(this._hideDisposer);
-        }
-        var animation;
-        if (fields) {
-            $array.each(fields, function (field) {
-                animation = _this.setWorkingValue(field, _this.values[field].value, duration, delay);
-            });
-        }
-        $array.each(this.sprites, function (sprite) {
-            var animation = sprite.show(duration);
-            if (animation != null && !animation.isFinished()) {
-                _this._disposers.push(animation);
-                if (delay != null && delay > 0) {
-                    animation.delay(delay);
-                }
+        if (!this.hidden) {
+            this.setVisibility(true, true);
+            this.isHiding = false;
+            if (this._hideDisposer) {
+                this.removeDispose(this._hideDisposer);
             }
-        });
-        return animation;
+            var animation_1;
+            if (fields) {
+                $array.each(fields, function (field) {
+                    animation_1 = _this.setWorkingValue(field, _this.values[field].value, duration, delay);
+                });
+            }
+            $array.each(this.sprites, function (sprite) {
+                var animation = sprite.show(duration);
+                if (animation != null && !animation.isFinished()) {
+                    _this._disposers.push(animation);
+                    if (delay != null && delay > 0) {
+                        animation.delay(delay);
+                    }
+                }
+            });
+            return animation_1;
+        }
     };
     /**
      * Destroys this object and all related data.
@@ -350,27 +393,27 @@ var DataItem = /** @class */ (function (_super) {
             }
         });
         if ($type.isNumber(toValue) && fields) {
-            var animation_1;
+            var animation_2;
             $array.each(fields, function (field) {
                 var anim = _this.setWorkingValue(field, toValue, duration, delay);
                 if (anim) {
-                    animation_1 = anim;
+                    animation_2 = anim;
                 }
             });
-            if (animation_1 && !animation_1.isFinished()) {
-                this._hideDisposer = animation_1.events.on("animationended", function () {
-                    _this.visible = false;
+            if (animation_2 && !animation_2.isFinished()) {
+                this._hideDisposer = animation_2.events.on("animationended", function () {
+                    _this.setVisibility(false, true);
                     _this.isHiding = false;
                 });
                 this._disposers.push(this._hideDisposer);
-                return animation_1;
+                return animation_2;
             }
             else {
-                this.visible = false;
+                this.setVisibility(false, true);
             }
         }
         else {
-            this.visible = false;
+            this.setVisibility(false);
         }
     };
     /**

@@ -1552,6 +1552,10 @@ var Container = /** @class */ (function (_super) {
         if (this.setStateOnChildren) {
             $iter.each(this.children.iterator(), function (child) {
                 child.setState(stateName, transitionDuration, easing);
+                // not good to set it in child setState
+                if (stateName != "active") {
+                    child.isActive = false;
+                }
             });
         }
         if (this._background) {

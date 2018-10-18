@@ -315,8 +315,6 @@ var HeatLegend = /** @class */ (function (_super) {
                 this.height = undefined;
                 valueAxis.width = percent(100);
                 valueAxis.height = undefined;
-                valueAxis.tooltip.dy = -this.markerContainer.minHeight;
-                valueAxis.tooltip.dx = undefined;
                 valueAxis.tooltip.pointerOrientation = "vertical";
                 this.layout = "vertical";
                 markerContainer.width = percent(100);
@@ -336,8 +334,6 @@ var HeatLegend = /** @class */ (function (_super) {
                 markerContainer.height = percent(100);
                 valueAxis.height = percent(100);
                 valueAxis.width = undefined;
-                valueAxis.tooltip.dx = -this.markerContainer.minWidth;
-                valueAxis.tooltip.dy = undefined;
                 valueAxis.tooltip.pointerOrientation = "horizontal";
                 if (!(valueAxis.renderer instanceof AxisRendererY)) {
                     valueAxis.renderer = new AxisRendererY();

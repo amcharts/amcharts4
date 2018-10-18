@@ -110,6 +110,12 @@ export interface ISeriesDataFields extends IComponentDataFields {
      * @type {string}
      */
     value?: string;
+    /**
+     * Name of the field in data that holds boolean flag if item should be hidden.
+     *
+     * @type {string}
+     */
+    hidden?: string;
 }
 /**
  * Defines properties for [[Series]].

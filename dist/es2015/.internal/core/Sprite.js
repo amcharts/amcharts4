@@ -2061,7 +2061,6 @@ var Sprite = /** @class */ (function (_super) {
             state = this.states.getKey(value);
             if (!state) {
                 return;
-                //throw Error("no such state");
             }
         }
         // stop previous transition
@@ -2086,6 +2085,7 @@ var Sprite = /** @class */ (function (_super) {
         if (state.name == "active") {
             this.isActive = true;
         }
+        // we do not set isActive = false here if it's not active, but container does that if setStateOnChildren = true
         if (!$type.isNumber(transitionDuration)) {
             transitionDuration = state.transitionDuration;
         }
@@ -6006,7 +6006,9 @@ var Sprite = /** @class */ (function (_super) {
          * @param {ColorModifier}  value  Fill color modifiier
          */
         set: function (value) {
-            this.setPropertyValue("fillModifier", value);
+            if (this.setPropertyValue("fillModifier", value)) {
+                this.setFill(this.fill);
+            }
         },
         enumerable: true,
         configurable: true

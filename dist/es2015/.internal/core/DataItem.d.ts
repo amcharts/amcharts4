@@ -275,6 +275,13 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      */
     protected _visible: boolean;
     /**
+     * Is Data Item currently hidden?
+     *
+     * @ignore Exclude from docs
+     * @type {boolean}
+     */
+    protected _hidden: boolean;
+    /**
      * Should this Data Item be used when calculating data ranges and scales?
      *
      * @ignore Exclude from docs
@@ -348,6 +355,17 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      */
     visible: boolean;
     /**
+     * Returns `true` if this Data Item is currently hidden.
+     *
+     * @return {boolean} Hidden?
+     */
+    /**
+     * Sets hidden flag for data item. Mostly used to initially hide data item.
+     *
+     * @param {boolean} value Hidden?
+     */
+    hidden: boolean;
+    /**
      * Is this Data Item currently disabled?
      *
      * @ignore Exclude from docs
@@ -365,7 +383,7 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      *
      * @param {boolean} value Data Item
      */
-    setVisibility(value: boolean): void;
+    setVisibility(value: boolean, noChangeValues?: boolean): void;
     /**
      * Shows the Data Item and related visual elements.
      *

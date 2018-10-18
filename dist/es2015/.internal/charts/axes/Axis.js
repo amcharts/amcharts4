@@ -661,6 +661,7 @@ var Axis = /** @class */ (function (_super) {
                 this.initRenderer();
                 var ghostLabel = this.renderer.labels.create();
                 this._disposers.push(ghostLabel);
+                ghostLabel.dataItem = this.dataItems.template.clone(); // just for the adapters not to fail
                 ghostLabel.text = "|";
                 ghostLabel.parent = this.renderer;
                 ghostLabel.fillOpacity = 0;
@@ -776,7 +777,7 @@ var Axis = /** @class */ (function (_super) {
         var tooltip = this._tooltip;
         position = this.toAxisPosition(position);
         var renderer = this.renderer;
-        if (tooltip) {
+        if (tooltip && this.dataItems.length > 0) {
             //@todo: think of how to solve this better
             if (tooltip && !tooltip.parent) {
                 tooltip.parent = this.tooltipContainer;
@@ -798,8 +799,10 @@ var Axis = /** @class */ (function (_super) {
             var point = renderer.positionToPoint(position);
             var globalPoint = $utils.spritePointToSvg(point, this.renderer.line);
             tooltip.text = this.getTooltipText(position);
-            tooltip.pointTo(globalPoint);
-            tooltip.show();
+            if (tooltip.text) {
+                tooltip.pointTo(globalPoint);
+                tooltip.show();
+            }
             if (!this.cursorTooltipEnabled) {
                 tooltip.hide(0);
             }

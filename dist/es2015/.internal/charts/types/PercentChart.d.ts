@@ -115,7 +115,7 @@ export declare class PercentChart extends SerialChart {
      *
      * @ignore Exclude from docs
      */
-    validateData(): void;
+    validateDataElements(): void;
     /**
      * Setups the legend to use the chart's data.
      */

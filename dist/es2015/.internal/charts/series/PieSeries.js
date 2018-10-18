@@ -15,7 +15,7 @@ import { PieTick } from "../elements/PieTick";
 import { registry } from "../../core/Registry";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
-import { Percent } from "../../core/utils/Percent";
+import { Percent, percent } from "../../core/utils/Percent";
 /**
  * ============================================================================
  * DATA ITEM
@@ -107,6 +107,7 @@ var PieSeries = /** @class */ (function (_super) {
         _this.alignLabels = true;
         _this.startAngle = -90;
         _this.endAngle = 270;
+        _this.labels.template.radius = percent(5);
         _this.applyTheme();
         return _this;
     }

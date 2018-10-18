@@ -603,8 +603,9 @@ var Label = /** @class */ (function (_super) {
     Label.prototype.alignSVGText = function () {
         // Get Group
         var group = this.element;
-        // Is there anything to align?		
-        if (!group.node.children || (group.node.children && group.node.children.length == 0)) {
+        var children = group.node.children || group.node.childNodes;
+        // Is there anything to align?
+        if (!children || (children && children.length == 0)) {
             return;
         }
         var width = this._measuredWidth;
@@ -615,15 +616,15 @@ var Label = /** @class */ (function (_super) {
         var paddingBottom = this.pixelPaddingBottom;
         // Process each line
         //$iter.each(group.children.backwards().iterator(), (element) => {
-        for (var i = group.node.children.length - 1; i >= 0; i--) {
+        for (var i = children.length - 1; i >= 0; i--) {
             // Align horizontally
             // Since we are using `text-anchor` for horizontal alignment, all we need
             // to do here is move the `x` position
-            var node = group.node.children[i];
+            var node = children[i];
             node.setAttribute("text-anchor", this.textAlign);
             switch (this.textAlign) {
                 case "middle":
-                    node.setAttribute("x", (width / 2).toString());
+                    node.setAttribute("x", (width / 2).toString() + "px");
                     break;
                 case "end":
                     if (this.rtl) {

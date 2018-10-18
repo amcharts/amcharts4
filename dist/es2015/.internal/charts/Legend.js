@@ -363,10 +363,6 @@ var Legend = /** @class */ (function (_super) {
         container.events.disableType("toggled");
         container.isActive = !visible;
         container.events.enableType("toggled");
-        // this is needed as in case custom items were created in series the color might not be active
-        marker.children.each(function (child) {
-            child.isActive = !visible;
-        });
     };
     Object.defineProperty(Legend.prototype, "position", {
         /**
@@ -439,6 +435,9 @@ var Legend = /** @class */ (function (_super) {
         var dataContext = item.dataContext;
         if (!dataContext.visible || dataContext.isHiding || (dataContext instanceof Sprite && dataContext.isHidden)) {
             item.itemContainer.isActive = false;
+            if (dataContext.hidden === true) {
+                dataContext.hidden = false;
+            }
             if (dataContext.show) {
                 dataContext.show();
             }

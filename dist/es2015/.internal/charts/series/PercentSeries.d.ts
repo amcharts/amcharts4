@@ -89,6 +89,12 @@ export declare class PercentSeriesDataItem extends SeriesDataItem {
      */
     hide(duration?: number, delay?: number, toValue?: number, fields?: string[]): Animation;
     /**
+     * Sets visibility of the Data Item.
+     *
+     * @param {boolean} value Data Item
+     */
+    setVisibility(value: boolean, noChangeValues?: boolean): void;
+    /**
      * Show hidden data item (and corresponding cisual elements).
      *
      * @param {number}    duration  Duration (ms)
@@ -175,12 +181,6 @@ export interface IPercentSeriesDataFields extends ISeriesDataFields {
      * @type {string}
      */
     hiddenInLegend?: string;
-    /**
-     * Name of the field in data that holds boolean flag if item should be hidden.
-     *
-     * @type {string}
-     */
-    visible?: string;
 }
 /**
  * Defines properties for [[PercentSeries]].

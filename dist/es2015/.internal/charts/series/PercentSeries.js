@@ -65,6 +65,22 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
         return _super.prototype.hide.call(this, duration, delay, 0, fields);
     };
     /**
+     * Sets visibility of the Data Item.
+     *
+     * @param {boolean} value Data Item
+     */
+    PercentSeriesDataItem.prototype.setVisibility = function (value, noChangeValues) {
+        if (!noChangeValues) {
+            if (value) {
+                this.setWorkingValue("value", this.values["value"].value, 0, 0);
+            }
+            else {
+                this.setWorkingValue("value", 0, 0, 0);
+            }
+        }
+        _super.prototype.setVisibility.call(this, value, noChangeValues);
+    };
+    /**
      * Show hidden data item (and corresponding cisual elements).
      *
      * @param {number}    duration  Duration (ms)
@@ -490,25 +506,26 @@ var PercentSeries = /** @class */ (function (_super) {
     PercentSeries.prototype.createLegendMarker = function (marker, dataItem) {
         $iter.each(marker.children.iterator(), function (child) {
             var slice = dataItem.slice;
-            // todo: make an easy possibility to bind visual properties
-            child.bind("fill", slice);
-            child.bind("stroke", slice);
-            child.bind("fillOpacity", slice);
-            child.bind("strokeOpacity", slice);
+            child.defaultState.properties.fill = slice.fill;
+            child.defaultState.properties.stroke = slice.stroke;
+            child.defaultState.properties.fillOpacity = slice.fillOpacity;
+            child.defaultState.properties.strokeOpacity = slice.strokeOpacity;
+            child.fill = slice.fill;
+            child.stroke = slice.stroke;
+            child.fillOpacity = slice.fillOpacity;
+            child.strokeOpacity = slice.strokeOpacity;
             slice.events.on("propertychanged", function (ev) {
-                child.defaultState.properties.fill = slice.fill;
-                child.defaultState.properties.stroke = slice.stroke;
-                child.defaultState.properties.fillOpacity = slice.fillOpacity;
-                child.defaultState.properties.strokeOpacity = slice.strokeOpacity;
                 if (ev.property == "fill") {
                     if (!child.isActive) {
                         child.fill = slice.fill;
                     }
+                    child.defaultState.properties.fill = slice.fill;
                 }
                 if (ev.property == "stroke") {
                     if (!child.isActive) {
                         child.stroke = slice.stroke;
                     }
+                    child.defaultState.properties.stroke = slice.stroke;
                 }
             });
         });

@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.60] - 2018-10-18
+
+### Changed
+- `"hidden"` data field added to series' `dataFields`. Removed `"visible"` data field from `PercentSeries`. You should use `"hidden"` data field to set which slices/columns/etc. are hidden initally.
+- `AxisLabelCircular`'s `radius` can now be set in `Percent`. `PieChart`'s label radius default value was set to `5%`.
+
+### Fixed
+- Multi-line labels were not being aligned properly in IEs.
+- In some cases, `fillModifier` was not applied if set after `fill`.
+- In some cases, a chart with `seriesContainer` disabled, or when `seriesContainer`'s height/width was 0, could produce a JS error.
+- Some performance tuneups, especially for charts with axes and more data.
+
+
 ## [4.0.0-beta.59] - 2018-10-17
 
 ### Added

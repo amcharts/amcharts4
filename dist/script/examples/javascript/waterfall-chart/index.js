@@ -26,7 +26,7 @@ columnSeries.dataFields.valueY = "value";
 columnSeries.dataFields.openValueY = "open";
 columnSeries.fillOpacity = 0.8;
 columnSeries.sequencedInterpolation = true;
-columnSeries.interpolationDuration = 3000;
+columnSeries.interpolationDuration = 1500;
 
 var columnTemplate = columnSeries.columns.template;
 columnTemplate.strokeOpacity = 0;

@@ -679,32 +679,34 @@ var ValueAxis = /** @class */ (function (_super) {
                     difference = this.adjustDifference(min_1, max_1);
                 }
                 var axisBreaks = this.axisBreaks;
-                $iter.eachContinue(axisBreaks.iterator(), function (axisBreak) {
-                    var startValue = axisBreak.adjustedStartValue;
-                    var endValue = axisBreak.adjustedEndValue;
-                    if ($type.isNumber(startValue) && $type.isNumber(endValue)) {
-                        if (value < startValue) {
-                            return false;
+                if (axisBreaks.length > 0) {
+                    $iter.eachContinue(axisBreaks.iterator(), function (axisBreak) {
+                        var startValue = axisBreak.adjustedStartValue;
+                        var endValue = axisBreak.adjustedEndValue;
+                        if ($type.isNumber(startValue) && $type.isNumber(endValue)) {
+                            if (value < startValue) {
+                                return false;
+                            }
+                            if ($math.intersect({ start: startValue, end: endValue }, { start: min_1, end: max_1 })) { // todo: check this once and set some flag in axisBreak
+                                startValue = Math.max(startValue, min_1);
+                                endValue = Math.min(endValue, max_1);
+                                var breakSize = axisBreak.breakSize;
+                                // value to the right of break end
+                                if (value > endValue) {
+                                    min_1 += (endValue - startValue) * (1 - breakSize); // todo: maybe this can be done differently?
+                                }
+                                // value to the left of break start
+                                else if (value < startValue) {
+                                }
+                                // value within break
+                                else {
+                                    value = startValue + (value - startValue) * breakSize;
+                                }
+                            }
                         }
-                        if ($math.intersect({ start: startValue, end: endValue }, { start: min_1, end: max_1 })) { // todo: check this once and set some flag in axisBreak
-                            startValue = Math.max(startValue, min_1);
-                            endValue = Math.min(endValue, max_1);
-                            var breakSize = axisBreak.breakSize;
-                            // value to the right of break end
-                            if (value > endValue) {
-                                min_1 += (endValue - startValue) * (1 - breakSize); // todo: maybe this can be done differently?
-                            }
-                            // value to the left of break start
-                            else if (value < startValue) {
-                            }
-                            // value within break
-                            else {
-                                value = startValue + (value - startValue) * breakSize;
-                            }
-                        }
-                    }
-                    return true;
-                });
+                        return true;
+                    });
+                }
                 var position = void 0;
                 if (!this.logarithmic) {
                     position = (value - min_1) / difference;
@@ -718,6 +720,7 @@ var ValueAxis = /** @class */ (function (_super) {
             }
             //}
         }
+        return 0;
     };
     /**
      * Converts an relative position to a corresponding value within
@@ -741,37 +744,39 @@ var ValueAxis = /** @class */ (function (_super) {
             var axisBreaks = this.axisBreaks;
             var value_2 = null;
             // in case we have some axis breaks
-            $iter.eachContinue(axisBreaks.iterator(), function (axisBreak) {
-                var breakStartPosition = axisBreak.startPosition;
-                var breakEndPosition = axisBreak.endPosition;
-                var breakStartValue = axisBreak.adjustedStartValue;
-                var breakEndValue = axisBreak.adjustedEndValue;
-                if ($type.isNumber(breakStartValue) && $type.isNumber(breakEndValue)) {
-                    if (breakStartValue > max) {
-                        return false;
-                    }
-                    if ($math.intersect({ start: breakStartValue, end: breakEndValue }, { start: min, end: max })) {
-                        breakStartValue = $math.max(breakStartValue, min);
-                        breakEndValue = $math.min(breakEndValue, max);
-                        var breakSize = axisBreak.breakSize;
-                        difference_1 -= (breakEndValue - breakStartValue) * (1 - breakSize);
-                        // position to the right of break end
-                        if (position > breakEndPosition) {
-                            min += (breakEndValue - breakStartValue) * (1 - breakSize);
-                        }
-                        // position to the left of break start
-                        else if (position < breakStartPosition) {
-                        }
-                        // value within break
-                        else {
-                            var breakPosition = (position - breakStartPosition) / (breakEndPosition - breakStartPosition);
-                            value_2 = breakStartValue + breakPosition * (breakEndValue - breakStartValue);
+            if (axisBreaks.length > 0) {
+                $iter.eachContinue(axisBreaks.iterator(), function (axisBreak) {
+                    var breakStartPosition = axisBreak.startPosition;
+                    var breakEndPosition = axisBreak.endPosition;
+                    var breakStartValue = axisBreak.adjustedStartValue;
+                    var breakEndValue = axisBreak.adjustedEndValue;
+                    if ($type.isNumber(breakStartValue) && $type.isNumber(breakEndValue)) {
+                        if (breakStartValue > max) {
                             return false;
                         }
+                        if ($math.intersect({ start: breakStartValue, end: breakEndValue }, { start: min, end: max })) {
+                            breakStartValue = $math.max(breakStartValue, min);
+                            breakEndValue = $math.min(breakEndValue, max);
+                            var breakSize = axisBreak.breakSize;
+                            difference_1 -= (breakEndValue - breakStartValue) * (1 - breakSize);
+                            // position to the right of break end
+                            if (position > breakEndPosition) {
+                                min += (breakEndValue - breakStartValue) * (1 - breakSize);
+                            }
+                            // position to the left of break start
+                            else if (position < breakStartPosition) {
+                            }
+                            // value within break
+                            else {
+                                var breakPosition = (position - breakStartPosition) / (breakEndPosition - breakStartPosition);
+                                value_2 = breakStartValue + breakPosition * (breakEndValue - breakStartValue);
+                                return false;
+                            }
+                        }
+                        return true;
                     }
-                    return true;
-                }
-            });
+                });
+            }
             if (!$type.isNumber(value_2)) {
                 value_2 = position * difference_1 + min;
             }

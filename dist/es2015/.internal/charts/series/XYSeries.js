@@ -862,7 +862,7 @@ var XYSeries = /** @class */ (function (_super) {
                 dataItem = yAxis.getSeriesDataItem(this, yAxis.toAxisPosition(yPosition));
             }
             this.returnBulletDefaultState(dataItem);
-            if (dataItem) {
+            if (dataItem && dataItem.visible) {
                 this.updateLegendValue(dataItem);
                 this.tooltipDataItem = dataItem;
                 // todo: add tooltipXField and tooltipYField.

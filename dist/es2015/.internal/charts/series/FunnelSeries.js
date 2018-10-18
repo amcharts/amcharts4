@@ -578,17 +578,10 @@ var FunnelSeries = /** @class */ (function (_super) {
             if ($type.isNumber(duration)) {
                 interpolationDuration = duration;
             }
-            if (animation && !animation.isFinished()) {
-                animation.events.once("animationended", function () {
-                    dataItem.hide(0, 0, value, fields);
-                });
+            if (_this.sequencedInterpolation) {
+                delay = _this.sequencedInterpolationDelay * i + interpolationDuration * (i - startIndex) / (endIndex - startIndex);
             }
-            else {
-                if (_this.sequencedInterpolation) {
-                    delay = _this.sequencedInterpolationDelay * i + interpolationDuration * (i - startIndex) / (endIndex - startIndex);
-                }
-                dataItem.hide(interpolationDuration, delay, value, fields);
-            }
+            dataItem.hide(interpolationDuration, delay, value, fields);
         });
         //}
         return animation;
