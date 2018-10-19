@@ -6875,6 +6875,9 @@ var Sprite = /** @class */ (function (_super) {
                     this._interactionDisposer = getInteraction().body.events.on("track", function (ev) {
                         _this.pointTooltipTo($utils.documentPointToSvg(ev.point, _this.svgContainer.SVGContainer), true);
                     });
+                    if (point) {
+                        this.pointTooltipTo(point, true);
+                    }
                 }
                 else {
                     // Point to the X/Y of this Sprite
@@ -6889,9 +6892,6 @@ var Sprite = /** @class */ (function (_super) {
                 // make label to render to be able to check currentText
                 if (tooltip.label.currentText == undefined) {
                     tooltip.label.validate();
-                }
-                if (point) {
-                    this.pointTooltipTo(point, true);
                 }
                 if (text != undefined && text != "" && tooltip.label.currentText != "") {
                     //@todo: think of how to solve this better
