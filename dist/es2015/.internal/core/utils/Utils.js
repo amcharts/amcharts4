@@ -209,54 +209,71 @@ export function splitTextByCharCount(text, maxChars, fullWords, rtl) {
     }
     // Init result
     var res = [];
-    // Split by spacing
-    var currentIndex = -1;
-    var tmpText = text.replace(/([,;:!?\\\/\.\s]+)/g, $strings.PLACEHOLDER + "$1" + $strings.PLACEHOLDER);
-    var words = tmpText.split($strings.PLACEHOLDER);
-    // Process each word
-    for (var i = 0; i < words.length; i++) {
-        // Get word and symbol count
-        var word = words[i];
-        var wordLength = word.length;
-        // Ignore empty words
-        if (wordLength === 0) {
-            continue;
-        }
-        // Check word length
-        if ((wordLength > maxChars) && fullWords !== true) {
-            // A single word is longer than allowed symbol count
-            // Break it up
-            if (rtl) {
-                word = reverseString(word);
+    // Split by words or by charts
+    if (fullWords) {
+        // Split by words first
+        // Split by spacing
+        var currentIndex = -1;
+        var tmpText = text.replace(/([,;:!?\\\/\.\s]+)/g, $strings.PLACEHOLDER + "$1" + $strings.PLACEHOLDER);
+        var words = tmpText.split($strings.PLACEHOLDER);
+        // Process each word
+        for (var i = 0; i < words.length; i++) {
+            // Get word and symbol count
+            var word = words[i];
+            var wordLength = word.length;
+            // Ignore empty words
+            if (wordLength === 0) {
+                continue;
             }
-            var parts = word.match(new RegExp(".{1," + maxChars + "}", "g"));
-            // TODO is this correct ?
-            if (parts) {
+            // Check word length
+            //if ((wordLength > maxChars) && fullWords !== true) {
+            if (wordLength > maxChars) {
+                // A single word is longer than allowed symbol count
+                // Break it up
                 if (rtl) {
-                    for (var x = 0; x < parts.length; x++) {
-                        parts[x] = reverseString(parts[x]);
-                    }
-                    //parts.reverse();
+                    word = reverseString(word);
                 }
-                res = res.concat(parts);
+                var parts = word.match(new RegExp(".{1," + maxChars + "}", "g"));
+                // TODO is this correct ?
+                if (parts) {
+                    if (rtl) {
+                        for (var x = 0; x < parts.length; x++) {
+                            parts[x] = reverseString(parts[x]);
+                        }
+                        //parts.reverse();
+                    }
+                    res = res.concat(parts);
+                }
             }
+            else {
+                // Init current line
+                if (currentIndex === -1) {
+                    res.push("");
+                    currentIndex = 0;
+                }
+                // Check if we need to break into another line
+                if (((res[currentIndex].length + wordLength + 1) > maxChars) && res[currentIndex] !== "") {
+                    res.push("");
+                    currentIndex++;
+                }
+                // Add word
+                res[currentIndex] += word;
+            }
+            // Update index
+            currentIndex = res.length - 1;
         }
-        else {
-            // Init current line
-            if (currentIndex === -1) {
-                res.push("");
-                currentIndex = 0;
+    }
+    else {
+        // Splitting by anywhere (living la vida facil)
+        var parts = text.match(new RegExp(".{1," + maxChars + "}", "g"));
+        if (parts) {
+            if (rtl) {
+                for (var x = 0; x < parts.length; x++) {
+                    parts[x] = reverseString(parts[x]);
+                }
             }
-            // Check if we need to break into another line
-            if (((res[currentIndex].length + wordLength + 1) > maxChars) && res[currentIndex] !== "") {
-                res.push("");
-                currentIndex++;
-            }
-            // Add word
-            res[currentIndex] += word;
+            res = parts;
         }
-        // Update index
-        currentIndex = res.length - 1;
     }
     // Do we have only one word that does not fit?
     // Since fullWords is set and we can't split the word, we end up with empty

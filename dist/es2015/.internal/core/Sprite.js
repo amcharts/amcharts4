@@ -692,18 +692,11 @@ var Sprite = /** @class */ (function (_super) {
         if (!this.isDisposed()) {
             if (this.isBaseSprite) {
                 if (this.htmlContainer) {
-                    while (this.htmlContainer.children.length > 0) {
+                    while (this.htmlContainer.childNodes.length > 0) {
                         this.htmlContainer.removeChild(this.htmlContainer.firstChild);
                     }
                 }
                 this.isBaseSprite = false;
-                /*
-                not a disposer anymore
-                const parent = this.parent.parent;
-
-                if (parent) {
-                    parent.dispose();
-                }*/
             }
             _super.prototype.dispose.call(this);
             // Clear adapters
@@ -1497,8 +1490,8 @@ var Sprite = /** @class */ (function (_super) {
             }
             this._measuredHeight = measuredHeight;
             this._measuredWidth = measuredWidth;
-            var x = $math.round(ex - elementX, this._positionPrecision);
-            var y = $math.round(ey - elementY, this._positionPrecision);
+            var x = $math.round(ex - elementX, this._positionPrecision, true);
+            var y = $math.round(ey - elementY, this._positionPrecision, true);
             this.maxLeft = left + x - pixelPaddingLeft;
             this.maxRight = right + x - pixelPaddingLeft;
             this.maxTop = top_1 + y - pixelPaddingTop;
@@ -1573,12 +1566,12 @@ var Sprite = /** @class */ (function (_super) {
                 measuredHeight = bottom - top_2;
             }
             var positionPrecision = this._positionPrecision;
-            this.maxLeft = $math.round(left, positionPrecision);
-            this.maxRight = $math.round(right, positionPrecision);
-            this.maxTop = $math.round(top_2, positionPrecision);
-            this.maxBottom = $math.round(bottom, positionPrecision);
-            this._measuredWidth = $math.round(measuredWidth, positionPrecision);
-            this._measuredHeight = $math.round(measuredHeight, positionPrecision);
+            this.maxLeft = $math.round(left, positionPrecision, true);
+            this.maxRight = $math.round(right, positionPrecision, true);
+            this.maxTop = $math.round(top_2, positionPrecision, true);
+            this.maxBottom = $math.round(bottom, positionPrecision, true);
+            this._measuredWidth = $math.round(measuredWidth, positionPrecision, true);
+            this._measuredHeight = $math.round(measuredHeight, positionPrecision, true);
         }
         // dispatch event
         if (this._measuredWidth != this._prevMeasuredWidth || this._measuredHeight != this._prevMeasuredHeight) {
@@ -1696,7 +1689,7 @@ var Sprite = /** @class */ (function (_super) {
         else if (value instanceof Percent) {
             var relative = value.value;
             if (this.parent) {
-                pixel = $math.round(this.parent.innerWidth * relative, this._positionPrecision);
+                pixel = $math.round(this.parent.innerWidth * relative, this._positionPrecision, true);
             }
         }
         return pixel;
@@ -1722,7 +1715,7 @@ var Sprite = /** @class */ (function (_super) {
         else if (value instanceof Percent) {
             var relative = value.value;
             if (this.parent) {
-                pixel = $math.round(this.parent.innerHeight * relative, this._positionPrecision);
+                pixel = $math.round(this.parent.innerHeight * relative, this._positionPrecision, true);
             }
         }
         return pixel;
@@ -2816,6 +2809,10 @@ var Sprite = /** @class */ (function (_super) {
                             current = this.durationFormatter.format(durationValue, format || part.params[0] || undefined, part.params[1] || undefined);
                             formatApplied = true;
                         }
+                        break;
+                    case "urlEncode":
+                    case "encodeURIComponent":
+                        current = encodeURIComponent(current);
                         break;
                     default:
                         if (current[part.method]) {
@@ -4084,6 +4081,27 @@ var Sprite = /** @class */ (function (_super) {
          * If set, clicking/tapping this element will open the new URL in a target
          * window/tab as set by `urlTarget`.
          *
+         * Please note that URL will be parsed by data placeholders in curly
+         * brackets, to be populated from data. E.g.:
+         *
+         * ```TypeScript
+         * series.columns.template.url = "https://www.google.com/search?q={category.urlEncode()}";
+         * ```
+         * ```JavaScript
+         * series.columns.template.url = "https://www.google.com/search?q={category.urlEncode()}";
+         * ```
+         * ```JSON
+         * {
+         *   // ...
+         *   "series": [{
+         *     // ...
+         *     "columns": {
+         *       "url": "https://www.google.com/search?q={category.urlEncode()}"
+         *     }
+         *   }]
+         * }
+         * ```
+         *
          * @param {Optional<string>} value URL
          */
         set: function (value) {
@@ -4139,11 +4157,12 @@ var Sprite = /** @class */ (function (_super) {
         // Is URL set?
         if ($utils.isNotEmpty(this.url)) {
             // Proceed to the URL
+            var url = this.populateString(this.url);
             if (this.urlTarget === "_self") {
-                window.location.href = this.url;
+                window.location.href = url;
             }
             else {
-                window.open(this.url, this.urlTarget);
+                window.open(url, this.urlTarget);
             }
         }
     };
@@ -4749,7 +4768,7 @@ var Sprite = /** @class */ (function (_super) {
             if (!this.isDragged) {
                 value = $type.toNumberOrPercent(value);
                 if ($type.isNumber(value)) {
-                    value = $math.round(value, this._positionPrecision);
+                    value = $math.round(value, this._positionPrecision, true);
                 }
                 this.setPropertyValue("x", value, false, true);
             }
@@ -4800,7 +4819,7 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             if ($type.isNumber(value)) {
-                value = $math.round(value, this._positionPrecision);
+                value = $math.round(value, this._positionPrecision, true);
                 this.setPropertyValue("minX", value, false, true);
             }
         },
@@ -4825,7 +4844,7 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             if ($type.isNumber(value)) {
-                value = $math.round(value, this._positionPrecision);
+                value = $math.round(value, this._positionPrecision, true);
                 this.setPropertyValue("maxX", value, false, true);
             }
         },
@@ -4851,7 +4870,7 @@ var Sprite = /** @class */ (function (_super) {
             if (!this.isDragged) {
                 value = $type.toNumberOrPercent(value);
                 if ($type.isNumber(value)) {
-                    value = $math.round(value, this._positionPrecision);
+                    value = $math.round(value, this._positionPrecision, true);
                 }
                 this.setPropertyValue("y", value, false, true);
             }
@@ -4903,7 +4922,7 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             if ($type.isNumber(value)) {
-                value = $math.round(value, this._positionPrecision);
+                value = $math.round(value, this._positionPrecision, true);
                 this.setPropertyValue("minY", value, false, true);
             }
         },
@@ -4928,7 +4947,7 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             if ($type.isNumber(value)) {
-                value = $math.round(value, this._positionPrecision);
+                value = $math.round(value, this._positionPrecision, true);
                 this.setPropertyValue("maxY", value, false, true);
             }
         },
@@ -4955,7 +4974,7 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             if ($type.isNumber(value)) {
-                value = $math.round(value, this._positionPrecision);
+                value = $math.round(value, this._positionPrecision, true);
                 this.setPropertyValue("dx", value, false, true);
             }
         },
@@ -4982,7 +5001,7 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             if ($type.isNumber(value)) {
-                value = $math.round(value, this._positionPrecision);
+                value = $math.round(value, this._positionPrecision, true);
                 this.setPropertyValue("dy", value, false, true);
             }
         },
@@ -5322,7 +5341,7 @@ var Sprite = /** @class */ (function (_super) {
             if (minWidth != null && width < minWidth) {
                 width = minWidth;
             }
-            return this.adapter.apply("pixelWidth", $math.round(width, this._positionPrecision));
+            return this.adapter.apply("pixelWidth", $math.round(width, this._positionPrecision, true));
         },
         enumerable: true,
         configurable: true
@@ -5349,7 +5368,7 @@ var Sprite = /** @class */ (function (_super) {
             if (minHeight != null && height < minHeight) {
                 height = minHeight;
             }
-            return this.adapter.apply("pixelHeight", $math.round(height, this._positionPrecision));
+            return this.adapter.apply("pixelHeight", $math.round(height, this._positionPrecision, true));
         },
         enumerable: true,
         configurable: true
@@ -6865,14 +6884,14 @@ var Sprite = /** @class */ (function (_super) {
                     }, this);
                     this.pointTooltipTo(globalPoint);
                 }
-                if (point) {
-                    //this.pointTooltipTo(point, true);
-                }
                 // Set accessibility option
                 tooltip.readerDescribedBy = this.uidAttr();
                 // make label to render to be able to check currentText
                 if (tooltip.label.currentText == undefined) {
                     tooltip.label.validate();
+                }
+                if (point) {
+                    this.pointTooltipTo(point, true);
                 }
                 if (text != undefined && text != "" && tooltip.label.currentText != "") {
                     //@todo: think of how to solve this better
@@ -6880,7 +6899,12 @@ var Sprite = /** @class */ (function (_super) {
                         tooltip.parent = this.tooltipContainer;
                     }
                     // Reveal tooltip
-                    tooltip.show();
+                    // showing it in 1 ms helps to avoid strange flickering in IE
+                    var duration = tooltip.defaultState.transitionDuration;
+                    if (duration <= 0) {
+                        duration = 1;
+                    }
+                    tooltip.show(duration);
                     return true;
                 }
             }

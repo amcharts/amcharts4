@@ -34,11 +34,18 @@ export function toNumberRange(value, min, max) {
  *
  * @param  {number} value      Value
  * @param  {number} precision  Precision (number of decimal points)
+ * @param  {boolean} floor  In case value ends with 0.5 and precision is 0, we might need to floor the value instead of ceiling it.
  * @return {number}            Rounded value
  */
-export function round(value, precision) {
+export function round(value, precision, floor) {
     if (!$type.isNumber(precision) || precision <= 0) {
-        return Math.round(value);
+        var rounded = Math.round(value);
+        if (floor) {
+            if (rounded - value == 0.5) {
+                rounded--;
+            }
+        }
+        return rounded;
     }
     else {
         var d = Math.pow(10, precision);

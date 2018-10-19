@@ -99,7 +99,7 @@ var AxisLabelCircular = /** @class */ (function (_super) {
         if (this.inside) {
             sign = -1;
         }
-        return $utils.relativeRadiusToValue(this.radius, axisRadius) * sign;
+        return $utils.relativeToValue(this.radius, axisRadius) * sign;
     };
     /**
      * [fixPoint description]

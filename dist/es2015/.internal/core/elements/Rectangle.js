@@ -34,7 +34,7 @@ var Rectangle = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.className = "Rectangle";
         _this.element = _this.paper.add("rect");
-        _this.pixelPerfect = true;
+        //this.pixelPerfect = false;
         _this.applyTheme();
         return _this;
     }

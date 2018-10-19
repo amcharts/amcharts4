@@ -2221,6 +2221,27 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * If set, clicking/tapping this element will open the new URL in a target
      * window/tab as set by `urlTarget`.
      *
+     * Please note that URL will be parsed by data placeholders in curly
+     * brackets, to be populated from data. E.g.:
+     *
+     * ```TypeScript
+     * series.columns.template.url = "https://www.google.com/search?q={category.urlEncode()}";
+     * ```
+     * ```JavaScript
+     * series.columns.template.url = "https://www.google.com/search?q={category.urlEncode()}";
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "series": [{
+     *     // ...
+     *     "columns": {
+     *       "url": "https://www.google.com/search?q={category.urlEncode()}"
+     *     }
+     *   }]
+     * }
+     * ```
+     *
      * @param {Optional<string>} value URL
      */
     url: $type.Optional<string>;

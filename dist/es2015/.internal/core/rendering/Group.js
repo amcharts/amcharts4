@@ -103,8 +103,8 @@ var Group = /** @class */ (function (_super) {
      * Removes all children from the group.
      */
     Group.prototype.removeChildren = function () {
-        if (this.node.children) {
-            while (this.node.children.length > 0) {
+        if (this.node.childNodes) {
+            while (this.node.childNodes.length > 0) {
                 var childNode = this.node.firstChild;
                 if (childNode && childNode.parentNode) {
                     childNode.parentNode.removeChild(childNode);

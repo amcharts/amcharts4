@@ -398,7 +398,6 @@ var Container = /** @class */ (function (_super) {
                         child.relativeWidth = child.percentWidth / totalRelativeWidth;
                     }
                     if ($type.isNumber(child.percentHeight)) {
-                        // consider adding a property which would make the container of 100% when it's height is set to % value but there is only one object with percent width set in the parent container
                         child.relativeHeight = child.percentHeight / 100;
                     }
                 }
@@ -407,18 +406,23 @@ var Container = /** @class */ (function (_super) {
                         child.relativeHeight = child.percentHeight / totalRelativeHeight;
                     }
                     if ($type.isNumber(child.percentWidth)) {
-                        // consider adding a property which would make the container of 100% when it's height is set to % value but there is only one object with percent width set in the parent container
+                        child.relativeWidth = child.percentWidth / 100;
+                    }
+                }
+                if (_this.layout == "grid") {
+                    if ($type.isNumber(child.percentHeight)) {
+                        child.relativeHeight = child.percentHeight / 100;
+                    }
+                    if ($type.isNumber(child.percentWidth)) {
                         child.relativeWidth = child.percentWidth / 100;
                     }
                 }
             }
             if (_this.layout == "absolute" || !child.isMeasured) {
                 if ($type.isNumber(child.percentWidth)) {
-                    // consider adding a property which would make the container of 100% when it's height is set to % value but there is only one object with percent width set in the parent container
                     child.relativeWidth = child.percentWidth / 100;
                 }
                 if ($type.isNumber(child.percentHeight)) {
-                    // consider adding a property which would make the container of 100% when it's height is set to % value but there is only one object with percent width set in the parent container
                     child.relativeHeight = child.percentHeight / 100;
                 }
             }
@@ -454,9 +458,9 @@ var Container = /** @class */ (function (_super) {
             var group_1 = this.element;
             // check, maybe the order is good already
             var isCorrect = true;
-            if (group_1.node && group_1.node.children) {
-                for (var i = 0, len = group_1.node.children.length; i < len; i++) {
-                    if (group_1.node.children[i] != zindexed[i].group.node) {
+            if (group_1.node && group_1.node.childNodes) {
+                for (var i = 0, len = group_1.node.childNodes.length; i < len; i++) {
+                    if (group_1.node.childNodes[i] != zindexed[i].group.node) {
                         isCorrect = false;
                         break;
                     }
@@ -608,7 +612,7 @@ var Container = /** @class */ (function (_super) {
                 var maxWidth;
                 var maxHeight;
                 if ($type.isNumber(child.relativeWidth)) {
-                    maxWidth = $math.round(_this._availableWidth * child.relativeWidth);
+                    maxWidth = $math.round(_this._availableWidth * child.relativeWidth, 2);
                     if (_this.layout == "horizontal") { // || this.layout == "absolute") {
                         maxWidth -= child.pixelMarginRight + child.pixelMarginLeft;
                     }
@@ -621,7 +625,7 @@ var Container = /** @class */ (function (_super) {
                     }
                 }
                 if ($type.isNumber(child.relativeHeight)) {
-                    maxHeight = $math.round(_this._availableHeight * child.relativeHeight);
+                    maxHeight = $math.round(_this._availableHeight * child.relativeHeight, 2);
                     if (_this.layout == "vertical") { //  || this.layout == "absolute") {
                         maxHeight -= child.pixelMarginTop + child.pixelMarginBottom;
                     }
@@ -897,7 +901,7 @@ var Container = /** @class */ (function (_super) {
                         if (!$type.isNumber(nextColumnWidth)) {
                             nextColumnWidth = maxCellWidth;
                         }
-                        if (nextX > $math.min(this.innerWidth, maxWidth) - nextColumnWidth && column < columnCount) {
+                        if (nextX > $math.min(this.innerWidth, maxWidth) - nextColumnWidth + 1 && column < columnCount) {
                             columnCount = column;
                             nextX = 0;
                             nextY = 0;

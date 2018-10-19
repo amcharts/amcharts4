@@ -386,10 +386,13 @@ var Legend = /** @class */ (function (_super) {
                     this.valign = "middle";
                     this.itemContainers.template.width = percent(100);
                     this.valueLabels.template.width = percent(100);
+                    this.labels.template.truncate = true;
+                    this.labels.template.fullWords = false;
                 }
                 else {
                     this.itemContainers.template.maxWidth = undefined;
                     this.valueLabels.template.width = 50;
+                    this.labels.template.truncate = false;
                     this.width = percent(100);
                 }
                 this.invalidate();

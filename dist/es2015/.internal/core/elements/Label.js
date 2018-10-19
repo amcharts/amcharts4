@@ -330,7 +330,7 @@ var Label = /** @class */ (function (_super) {
                             this.isOversized = true;
                             // Take temporary measurements
                             var lineText = lineInfo.element.textContent;
-                            var avgCharWidth = (lineInfo.bbox.width / lineText.length) * .9;
+                            var avgCharWidth = (lineInfo.bbox.width / lineText.length); // * .9;
                             // Calculate average number of symbols / width
                             var excessChars = $math.min(Math.ceil((lineInfo.bbox.width - maxWidth) / avgCharWidth), lineText.length);
                             // Are we truncating or auto-wrapping text?
@@ -352,10 +352,10 @@ var Label = /** @class */ (function (_super) {
                                 // line fits, preferably with an ellipsis
                                 // TODO use iterator instead
                                 var node_1 = lineInfo.element.node;
-                                if (node_1 && node_1.children) {
-                                    for (var e = lineInfo.element.node.children.length - 1; e >= 0; e--) {
+                                if (node_1 && node_1.childNodes) {
+                                    for (var e = lineInfo.element.node.childNodes.length - 1; e >= 0; e--) {
                                         // Get current element
-                                        var node_2 = lineInfo.element.node.children[e];
+                                        var node_2 = lineInfo.element.node.childNodes[e];
                                         // Add ellipsis only if previous chunk was removed in full
                                         // and this chunk already fits
                                         //if (addEllipsis && (bbox.width <= maxWidth)) {
@@ -396,14 +396,12 @@ var Label = /** @class */ (function (_super) {
                                                     lineInfo.element.node.removeChild(node_2);
                                                 }
                                             }
-                                            // If we're on first chunk of text, or we explicitly
-                                            // enabled word-breaking, we can break mid-word.
-                                            // Otherwise we break by words.
-                                            if (e === 0 || !this.fullWords) {
+                                            // Truncate the text
+                                            elementText = $utils.truncateWithEllipsis(elementText, maxChars, this.ellipsis, this.fullWords, this.rtl);
+                                            if ((elementText.length > maxChars) && this.fullWords) {
+                                                // Still too long?
+                                                // Let's try truncating breaking words anyway
                                                 elementText = $utils.truncateWithEllipsis(elementText, maxChars, this.ellipsis, false, this.rtl);
-                                            }
-                                            else {
-                                                elementText = $utils.truncateWithEllipsis(elementText, maxChars, this.ellipsis, true, this.rtl);
                                             }
                                             // Set truncated text
                                             node_2.textContent = elementText;

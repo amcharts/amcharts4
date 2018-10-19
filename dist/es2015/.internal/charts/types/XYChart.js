@@ -793,14 +793,14 @@ var XYChart = /** @class */ (function (_super) {
             if (point && $math.isInRectangle(point, { x: topLeft.x, y: topLeft.y, width: bottomRight.x - topLeft.x, height: bottomRight.y - topLeft.y })) {
                 seriesPoints.push({ point: point, series: series });
             }
-            else {
-                //	series.hideTooltip();
-            }
             //}
         });
         seriesPoints.sort(function (a, b) {
             if (a.point.y > b.point.y) {
                 return 1;
+            }
+            else if (a.point.y < b.point.y) {
+                return -1;
             }
             else {
                 return 0;

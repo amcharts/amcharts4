@@ -37,9 +37,10 @@ export declare function toNumberRange(value: any, min: number, max: number): num
  *
  * @param  {number} value      Value
  * @param  {number} precision  Precision (number of decimal points)
+ * @param  {boolean} floor  In case value ends with 0.5 and precision is 0, we might need to floor the value instead of ceiling it.
  * @return {number}            Rounded value
  */
-export declare function round(value: number, precision?: number): number;
+export declare function round(value: number, precision?: number, floor?: boolean): number;
 /**
  * Ceils the numeric value to whole number or specific precision of set.
  *
