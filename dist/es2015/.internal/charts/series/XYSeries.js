@@ -917,7 +917,12 @@ var XYSeries = /** @class */ (function (_super) {
                 for (var _a = tslib_1.__values(this._prevTooltipDataItem.bullets), _b = _a.next(); !_b.done; _b = _a.next()) {
                     var a = _b.value;
                     var bullet = a[1];
-                    bullet.isHover = false;
+                    if (!bullet.isDisposed()) {
+                        bullet.isHover = false;
+                    }
+                    else {
+                        this._prevTooltipDataItem = undefined;
+                    }
                 }
             }
             catch (e_2_1) { e_2 = { error: e_2_1 }; }

@@ -75,8 +75,8 @@ var PercentChart = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      */
-    PercentChart.prototype.validateDataElements = function () {
-        _super.prototype.validateDataElements.call(this);
+    PercentChart.prototype.validateData = function () {
+        _super.prototype.validateData.call(this);
         this.feedLegend();
     };
     /**

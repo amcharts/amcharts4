@@ -512,7 +512,7 @@ export declare class TreeMap extends XYChart {
      * If set, the chart will not drill-down further, even if there are sub-items
      * available.
      *
-     * Set to 0 to disable drill down functionality.
+     * Set to `1` to disable drill down functionality.
      *
      * @param {number}  value  Maximum drill-down level
      */
