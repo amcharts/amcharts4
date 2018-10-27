@@ -55,9 +55,9 @@ var FlowDiagramNode = /** @class */ (function (_super) {
         _this.draggable = true;
         _this.inert = true;
         _this.setStateOnChildren = true;
-        _this.events.on("positionchanged", _this.invalidateLinks, _this);
-        _this.events.on("sizechanged", _this.invalidateLinks, _this);
-        _this.events.on("hit", _this.handleHit, _this);
+        _this.events.on("positionchanged", _this.invalidateLinks, _this, false);
+        _this.events.on("sizechanged", _this.invalidateLinks, _this, false);
+        _this.events.on("hit", _this.handleHit, _this, false);
         return _this;
     }
     FlowDiagramNode.prototype.handleHit = function (event) {
@@ -110,8 +110,10 @@ var FlowDiagramNode = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     FlowDiagramNode.prototype.validate = function () {
-        _super.prototype.validate.call(this);
-        this.invalidateLinks();
+        if (!this.isDisposed()) {
+            _super.prototype.validate.call(this);
+            this.invalidateLinks();
+        }
     };
     /**
      * Invalidates all links, attached to this node.
@@ -172,7 +174,7 @@ var FlowDiagramNode = /** @class */ (function (_super) {
                     else {
                         _this._incomingSorted = _this._incomingDataItems.iterator();
                     }
-                }, this);
+                }, undefined, false);
                 this._incomingDataItems = incomingDataItems;
             }
             return this._incomingDataItems;
@@ -201,7 +203,7 @@ var FlowDiagramNode = /** @class */ (function (_super) {
                     else {
                         _this._outgoingSorted = _this._outgoingDataItems.iterator();
                     }
-                }, this);
+                }, undefined, false);
                 this._outgoingDataItems = outgoingDataItems;
             }
             return this._outgoingDataItems;

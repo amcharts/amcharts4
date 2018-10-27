@@ -281,13 +281,6 @@ export declare class FlowDiagram extends Chart {
      */
     handleDataItemWorkingValueChange(dataItem?: this["_dataItem"]): void;
     /**
-     * [appear description]
-     *
-     * @ignore Exclude from docs
-     * @todo Description
-     */
-    appear(): void;
-    /**
      * Sorts nodes by either their values or names, based on `sortBy` setting.
      */
     protected sortNodes(): void;
@@ -371,4 +364,8 @@ export declare class FlowDiagram extends Chart {
      * Setups the legend to use the chart's data.
      */
     protected feedLegend(): void;
+    /**
+     * @ignore
+     */
+    disposeData(): void;
 }

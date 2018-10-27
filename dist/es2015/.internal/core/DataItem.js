@@ -409,10 +409,12 @@ var DataItem = /** @class */ (function (_super) {
                 return animation_2;
             }
             else {
+                this.isHiding = false;
                 this.setVisibility(false, true);
             }
         }
         else {
+            this.isHiding = false;
             this.setVisibility(false);
         }
     };
@@ -918,6 +920,12 @@ var DataItem = /** @class */ (function (_super) {
     DataItem.prototype.addSprite = function (sprite) {
         if (sprite.dataItem && sprite.dataItem != this) {
             $array.remove(sprite.dataItem.sprites, sprite);
+        }
+        if (!this.visible) {
+            sprite.hide(0);
+        }
+        if (this.isHiding) {
+            sprite.hide();
         }
         this.sprites.push(sprite);
         sprite.dataItem = this;

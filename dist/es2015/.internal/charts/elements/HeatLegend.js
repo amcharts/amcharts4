@@ -53,7 +53,7 @@ var HeatLegend = /** @class */ (function (_super) {
         _this.markers = new ListTemplate(marker);
         _this._disposers.push(new ListDisposer(_this.markers));
         _this._disposers.push(_this.markers.template);
-        _this.events.on("maxsizechanged", _this.invalidate, _this);
+        _this.events.on("maxsizechanged", _this.invalidate, _this, false);
         _this.applyTheme();
         return _this;
     }
@@ -405,9 +405,9 @@ var HeatLegend = /** @class */ (function (_super) {
             this.updateMinMax(series.dataItem.values[dataField].low, series.dataItem.values[dataField].high);
             series.dataItem.events.on("calculatedvaluechanged", function (event) {
                 _this.updateMinMax(series.dataItem.values[dataField].low, series.dataItem.values[dataField].high);
-            });
-            series.heatRules.events.on("inserted", this.invalidate, this);
-            series.heatRules.events.on("removed", this.invalidate, this);
+            }, undefined, false);
+            series.heatRules.events.on("inserted", this.invalidate, this, false);
+            series.heatRules.events.on("removed", this.invalidate, this, false);
         },
         enumerable: true,
         configurable: true

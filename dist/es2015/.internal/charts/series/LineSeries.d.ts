@@ -357,4 +357,8 @@ export declare class LineSeries extends XYSeries {
      * @param {Container}  marker  Legend item container
      */
     createLegendMarker(marker: Container): void;
+    /**
+     * @ignore
+     */
+    disposeData(): void;
 }

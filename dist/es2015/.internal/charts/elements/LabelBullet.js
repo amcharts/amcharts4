@@ -47,7 +47,7 @@ var LabelBullet = /** @class */ (function (_super) {
         label.stroke = color();
         label.strokeOpacity = 0;
         label.fill = new InterfaceColorSet().getFor("text");
-        _this.events.on("maxsizechanged", _this.handleMaxSize, _this);
+        _this.events.on("maxsizechanged", _this.handleMaxSize, _this, false);
         _this.label = label;
         return _this;
         // not good, as lineSeries will have labels somewhere in the middle.

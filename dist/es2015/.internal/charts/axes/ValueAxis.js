@@ -905,9 +905,7 @@ var ValueAxis = /** @class */ (function (_super) {
                     this._finalMin = min;
                     this._finalMax = max;
                     animation = this.animate([{ property: "_minAdjusted", from: this._minAdjusted, to: min }, { property: "_maxAdjusted", from: this._maxAdjusted, to: max }], this.rangeChangeDuration);
-                    animation.events.on("animationprogress", function () {
-                        _this.validateDataItems();
-                    });
+                    animation.events.on("animationprogress", this.validateDataItems, this);
                     animation.events.on("animationended", function () {
                         _this.validateDataItems();
                         _this.handleSelectionExtremesChange();
@@ -1239,10 +1237,10 @@ var ValueAxis = /** @class */ (function (_super) {
     ValueAxis.prototype.registerSeries = function (series) {
         return new MultiDisposer([
             _super.prototype.registerSeries.call(this, series),
-            series.events.on("extremeschanged", this.handleExtremesChange, this),
-            series.events.on("selectionextremeschanged", this.handleSelectionExtremesChange, this),
-            this.events.on("datarangechanged", series.invalidateDataRange, series),
-            this.events.on("extremeschanged", series.invalidate, series)
+            series.events.on("extremeschanged", this.handleExtremesChange, this, false),
+            series.events.on("selectionextremeschanged", this.handleSelectionExtremesChange, this, false),
+            this.events.on("datarangechanged", series.invalidateDataRange, series, false),
+            this.events.on("extremeschanged", series.invalidate, series, false)
         ]);
     };
     /**

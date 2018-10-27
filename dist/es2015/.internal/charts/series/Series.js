@@ -172,11 +172,6 @@ var Series = /** @class */ (function (_super) {
          */
         _this.skipFocusThreshold = 20;
         /**
-         * flag which is set to true when initial animation is finished
-         * @ignore
-         */
-        _this._appeared = false;
-        /**
          * As calculating totals is expensive operation and not often needed, by default we do not do it. In case you use percent for your charts, you must set this to true.
          * Pie chart, which uses percent sets this to true by default.
          * @todo review description
@@ -187,8 +182,9 @@ var Series = /** @class */ (function (_super) {
         _this.isMeasured = false;
         _this.layout = "none";
         _this.shouldClone = false;
+        _this.setPropertyValue("hidden", false);
         _this.axisRanges = new List();
-        _this.axisRanges.events.on("inserted", _this.processAxisRange, _this);
+        _this.axisRanges.events.on("inserted", _this.processAxisRange, _this, false);
         _this.minBulletDistance = 0; // otherwise we'll have a lot of cases when people won't see bullets and think it's a bug
         _this.mainContainer = _this.createChild(Container);
         _this.mainContainer.shouldClone = false;
@@ -209,9 +205,9 @@ var Series = /** @class */ (function (_super) {
         _this.dataItem = _this.createDataItem();
         _this._disposers.push(_this.dataItem);
         _this.dataItem.component = _this;
+        _this.showOnInit = true;
         // Apply accessibility
         _this.role = "group";
-        _this.appeared = false;
         _this.applyTheme();
         return _this;
     }
@@ -252,57 +248,6 @@ var Series = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    /**
-     * Performs initial animation of the series after data validation.
-     *
-     * @ignore Exclude from docs
-     */
-    Series.prototype.appear = function () {
-        var _this = this;
-        if (this.interpolationDuration > 0) {
-            this._appeared = false;
-            this.events.disableType("hidden");
-            this.hide(0);
-            var animation = this.show();
-            if (animation && !animation.isFinished()) {
-                animation.events.once("animationended", function () {
-                    _this.appeared = true;
-                });
-            }
-            else {
-                this.appeared = true;
-            }
-            this.events.enableType("hidden");
-        }
-        else {
-            // this might seem not needed, but hide and show makes sprites hide and show and demos like drag&change values need this, some other too (candlesticks etc)
-            this.hide(0);
-            this.show();
-            this._appeared = true;
-        }
-    };
-    /**
-     * Fades in bullet container and related elements.
-     *
-     * @ignore Exclude from docs
-     * @param  {number}     duration  Animation duration (ms)
-     * @return {Animation}            Animation
-     */
-    Series.prototype.showReal = function (duration) {
-        this.bulletsContainer.show(duration);
-        return _super.prototype.showReal.call(this, duration);
-    };
-    /**
-     * Fades out bullet container and related elements.
-     *
-     * @ignore Exclude from docs
-     * @param  {number}     duration  Animation duration (ms)
-     * @return {Animation}            Animation
-     */
-    Series.prototype.hideReal = function (duration) {
-        this.bulletsContainer.hide(duration);
-        return _super.prototype.hideReal.call(this, duration);
-    };
     /**
      * Positions bullet.
      *
@@ -594,9 +539,9 @@ var Series = /** @class */ (function (_super) {
                     }
                     dataItem.addSprite(bullet);
                     if (bullet.isDynamic) {
-                        dataItem.events.on("workingvaluechanged", bullet.deepInvalidate, bullet);
-                        //dataItem.events.on("calculatedvaluechanged", bullet.deepInvalidate, bullet);
-                        _this.dataItem.events.on("workingvaluechanged", bullet.deepInvalidate, bullet);
+                        dataItem.events.on("workingvaluechanged", bullet.deepInvalidate, bullet, false);
+                        //dataItem.events.on("calculatedvaluechanged", bullet.deepInvalidate, bullet, false);
+                        _this.dataItem.events.on("workingvaluechanged", bullet.deepInvalidate, bullet, false);
                     }
                     bullet.deepInvalidate();
                 }
@@ -608,18 +553,18 @@ var Series = /** @class */ (function (_super) {
                 if (bullet.focusable) {
                     bullet.events.once("focus", function (ev) {
                         bullet.readerTitle = _this.populateString(readerText, bullet.dataItem);
-                    });
+                    }, undefined, false);
                     bullet.events.once("blur", function (ev) {
                         bullet.readerTitle = "";
-                    });
+                    }, undefined, false);
                 }
                 if (bullet.hoverable) {
                     bullet.events.once("over", function (ev) {
                         bullet.readerTitle = _this.populateString(readerText, bullet.dataItem);
-                    });
+                    }, undefined, false);
                     bullet.events.once("out", function (ev) {
                         bullet.readerTitle = "";
-                    });
+                    }, undefined, false);
                 }
                 // pass max w/h so we'd know if we should show/hide somethings
                 bullet.maxWidth = dataItem.itemWidth;
@@ -746,8 +691,8 @@ var Series = /** @class */ (function (_super) {
             if (!this._bullets) {
                 this._bullets = new ListTemplate(new Bullet());
                 this._bullets.template.virtualParent = this;
-                this._bullets.events.on("inserted", this.processBullet, this);
-                this._bullets.events.on("removed", this.removeBullet, this);
+                this._bullets.events.on("inserted", this.processBullet, this, false);
+                this._bullets.events.on("removed", this.removeBullet, this, false);
                 this._disposers.push(new ListDisposer(this._bullets));
                 this._disposers.push(this._bullets.template);
             }
@@ -1146,32 +1091,17 @@ var Series = /** @class */ (function (_super) {
             });
         }
     };
-    Object.defineProperty(Series.prototype, "appeared", {
-        get: function () {
-            return this._appeared;
-        },
-        /**
-         * flag which is set to true when initial animation is finished. If you set it to false, the series will animate on next validate.
-         * @ignore
-         */
-        set: function (value) {
-            if (value === false) {
-                this.events.once("beforevalidated", this.handleAppear, this);
-            }
-            this._appeared = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Series.prototype.handleAppear = function () {
-        if (this.visible == false) {
-            this.events.disableType("hidden");
-            this.hide(0);
-            this.events.enableType("hidden");
-            this.appeared = true;
+    /**
+     * Returns visibility value
+     * @ignore
+     */
+    Series.prototype.getVisibility = function () {
+        var hidden = this.getPropertyValue("hidden");
+        if (hidden) {
+            return false;
         }
         else {
-            this.appear();
+            return _super.prototype.getVisibility.call(this);
         }
     };
     /**

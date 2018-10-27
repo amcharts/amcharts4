@@ -767,4 +767,8 @@ export declare class XYChart extends SerialChart {
      * @param {XYChart} source Source XYChart
      */
     copyFrom(source: this): void;
+    /**
+     * @ignore
+     */
+    disposeData(): void;
 }

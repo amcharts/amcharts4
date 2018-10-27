@@ -407,18 +407,18 @@ var PercentSeries = /** @class */ (function (_super) {
             if (slice.focusable) {
                 slice.events.once("focus", function (ev) {
                     slice.readerTitle = _this.populateString(_this.itemReaderText, dataItem);
-                });
+                }, undefined, false);
                 slice.events.once("blur", function (ev) {
                     slice.readerTitle = "";
-                });
+                }, undefined, false);
             }
             if (slice.hoverable) {
                 slice.events.once("over", function (ev) {
                     slice.readerTitle = _this.populateString(_this.itemReaderText, dataItem);
-                });
+                }, undefined, false);
                 slice.events.once("out", function (ev) {
                     slice.readerTitle = "";
-                });
+                }, undefined, false);
             }
             if (slice.fill == undefined) {
                 slice.fill = this.colors.getIndex(dataItem.index * this.colors.step);
@@ -527,7 +527,7 @@ var PercentSeries = /** @class */ (function (_super) {
                     }
                     child.defaultState.properties.stroke = slice.stroke;
                 }
-            });
+            }, undefined, false);
         });
     };
     /**

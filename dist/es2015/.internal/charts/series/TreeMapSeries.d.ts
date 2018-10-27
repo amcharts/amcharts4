@@ -187,7 +187,6 @@ export declare class TreeMapSeries extends ColumnSeries {
      * @return {Animation}            Animation
      */
     hide(duration?: number): Animation;
-    appear(): void;
     /**
      * Process values.
      *

@@ -10,6 +10,7 @@
 import { PercentChart, IPercentChartProperties, IPercentChartDataFields, IPercentChartAdapters, IPercentChartEvents, PercentChartDataItem } from "./PercentChart";
 import { Percent } from "../../core/utils/Percent";
 import { PieSeries } from "../series/PieSeries";
+import { IListEvents } from "../../core/utils/List";
 /**
  * ============================================================================
  * DATA ITEM
@@ -222,7 +223,16 @@ export declare class PieChart extends PercentChart {
      *
      * @ignore Exclude from docs
      */
-    validate(): void;
+    validateLayout(): void;
+    /**
+     * Decorates a new [[Series]] object with required parameters when it is
+     * added to the chart.
+     *
+     * @ignore Exclude from docs
+     * @param {IListEvents<Series>["inserted"]}  event  Event
+     */
+    handleSeriesAdded(event: IListEvents<PieSeries>["inserted"]): void;
+    protected updateSeriesAngles(): void;
     /**
      * Recalculates pie's radius, based on a number of criteria.
      *

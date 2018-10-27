@@ -47,8 +47,8 @@ var InteractionObjectEventDispatcher = /** @class */ (function (_super) {
             });
         }
     };
-    InteractionObjectEventDispatcher.prototype._on = function (once, type, callback, context, dispatch) {
-        var info = _super.prototype._on.call(this, once, type, callback, context, dispatch);
+    InteractionObjectEventDispatcher.prototype._on = function (once, type, callback, context, shouldClone, dispatch) {
+        var info = _super.prototype._on.call(this, once, type, callback, context, shouldClone, dispatch);
         var disposers = [info.disposer];
         switch (type) {
             case "hit":
@@ -65,9 +65,6 @@ var InteractionObjectEventDispatcher = /** @class */ (function (_super) {
                 break;
             case "track":
                 this.target.trackable = true;
-                break;
-            case "rotate":
-                this.target.rotatable = true;
                 break;
             case "resize":
                 this.target.resizable = true;

@@ -59,10 +59,8 @@ export interface IComponentEvents extends IContainerEvents {
     datavalidated: {};
     /**
      * Invoked when value(s) of the element's data items are validated.
-     *
-     * @todo: change to valuesvalidated?
      */
-    valueschanged: {};
+    dataitemsvalidated: {};
     /**
      * Invoked just before element is validated (after changes).
      */
@@ -595,7 +593,7 @@ export declare class Component extends Container {
      */
     validateRawData(): void;
     /**
-     * @ignore
+     * @ignoref
      */
     disposeData(): void;
     /**
@@ -905,4 +903,8 @@ export declare class Component extends Container {
     protected getExporting(): Export;
     private _exportData(arg);
     protected setDisabled(value: boolean): void;
+    /**
+     * @ignore
+     */
+    protected setShowOnInit(value: boolean): void;
 }

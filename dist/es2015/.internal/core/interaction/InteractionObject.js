@@ -66,7 +66,6 @@ var InteractionObject = /** @class */ (function (_super) {
         _this._draggable = false;
         _this._swipeable = false;
         _this._resizable = false;
-        _this._rotatable = false;
         _this._wheelable = false;
         _this._inert = false;
         /**
@@ -75,6 +74,12 @@ var InteractionObject = /** @class */ (function (_super) {
          * @type {boolean}
          */
         _this._isHover = false;
+        /**
+         * Is the element hovered by touch pointer?
+         *
+         * @type {boolean}
+         */
+        _this._isHoverByTouch = false;
         /**
          * Has element got any pointers currently pressing down on it?
          * @type {boolean}
@@ -164,6 +169,28 @@ var InteractionObject = /** @class */ (function (_super) {
                 else {
                     getInteraction().overObjects.removeValue(this);
                 }
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(InteractionObject.prototype, "isHoverByTouch", {
+        /**
+         * Returns if this element is currently hovered.
+         *
+         * @return {boolean} Hovered?
+         */
+        get: function () {
+            return this._isHoverByTouch;
+        },
+        /**
+         * Sets if this element is currently hovered.
+         *
+         * @param {boolean} value Hovered?
+         */
+        set: function (value) {
+            if (this.isHoverByTouch != value) {
+                this._isHoverByTouch = value;
             }
         },
         enumerable: true,
@@ -391,29 +418,6 @@ var InteractionObject = /** @class */ (function (_super) {
             if (this._resizable !== value) {
                 this._resizable = value;
                 getInteraction().processResizable(this);
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(InteractionObject.prototype, "rotatable", {
-        /**
-         * Returns if element is currently set as rotatable.
-         *
-         * @return {boolean} Can rotate?
-         */
-        get: function () {
-            return this._rotatable;
-        },
-        /**
-         * Sets whether element can be rotated.
-         *
-         * @param {boolean} value Can rotate?
-         */
-        set: function (value) {
-            if (this._rotatable !== value) {
-                this._rotatable = value;
-                getInteraction().processRotatable(this);
             }
         },
         enumerable: true,

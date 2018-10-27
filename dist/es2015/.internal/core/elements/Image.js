@@ -123,19 +123,24 @@ var Image = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    /**
-     * Updates bounding box based on element dimension settings.
-     *
-     * @ignore Exclude from docs
-     */
-    Image.prototype.measureElement = function () {
-        this.bbox = {
-            x: 0,
-            y: 0,
-            width: this.pixelWidth,
-            height: this.pixelHeight
-        };
-    };
+    Object.defineProperty(Image.prototype, "bbox", {
+        /**
+         * Returns bounding box (square) for this element.
+         *
+         * @ignore Exclude from docs
+         * @type {IRectangle}
+         */
+        get: function () {
+            return {
+                x: 0,
+                y: 0,
+                width: this.pixelWidth,
+                height: this.pixelHeight
+            };
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Image;
 }(Sprite));
 export { Image };

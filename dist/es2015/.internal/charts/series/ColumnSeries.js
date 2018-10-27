@@ -576,18 +576,18 @@ var ColumnSeries = /** @class */ (function (_super) {
                 if (sprite.focusable) {
                     sprite.events.once("focus", function (ev) {
                         sprite.readerTitle = _this.populateString(_this.itemReaderText, dataItem);
-                    });
+                    }, undefined, false);
                     sprite.events.once("blur", function (ev) {
                         sprite.readerTitle = "";
-                    });
+                    }, undefined, false);
                 }
                 if (sprite.hoverable) {
                     sprite.events.once("over", function (ev) {
                         sprite.readerTitle = _this.populateString(_this.itemReaderText, dataItem);
-                    });
+                    }, undefined, false);
                     sprite.events.once("out", function (ev) {
                         sprite.readerTitle = "";
-                    });
+                    }, undefined, false);
                 }
             }
         }

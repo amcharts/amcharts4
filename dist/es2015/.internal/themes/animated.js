@@ -9,6 +9,7 @@ import { FunnelSeries } from "../charts/series/FunnelSeries";
 import { FunnelSlice } from "../charts/elements/FunnelSlice";
 import { Column } from "../charts/elements/Column";
 import { Slice } from "../core/elements/Slice";
+import { Preloader } from "../core/elements/Preloader";
 import { Chart } from "../charts/Chart";
 var theme = function (object) {
     if (object instanceof SpriteState) {
@@ -28,7 +29,6 @@ var theme = function (object) {
     if (object instanceof Chart) {
         object.defaultState.transitionDuration = 2000;
         object.hiddenState.transitionDuration = 1000;
-        object.hiddenState.properties.visible = true;
         object.hiddenState.properties.opacity = 1;
     }
     if (object instanceof Tooltip) {
@@ -55,6 +55,9 @@ var theme = function (object) {
         object.defaultState.transitionDuration = 800;
         object.hiddenState.transitionDuration = 1000;
         object.hiddenState.properties.opacity = 1;
+    }
+    if (object instanceof Preloader) {
+        object.hiddenState.transitionDuration = 2000;
     }
     if (object instanceof Column) {
         object.defaultState.transitionDuration = 800;

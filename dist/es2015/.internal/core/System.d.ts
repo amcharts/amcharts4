@@ -38,6 +38,7 @@ export declare class System {
      */
     time: number;
     protected _frameRequested: boolean;
+    protected _updateStepDuration: number;
     /**
      * Performs initialization of the System object.
      *
@@ -74,7 +75,7 @@ export declare class System {
      * @ignore Exclude from docs
      * @todo Maybe should be private?
      */
-    validatePositions(): void;
+    validatePositions(id: string): void;
     /**
      * Triggers position re-validation on all [[Container]] elements that have
      * invalid(ated) layouts.
@@ -82,7 +83,7 @@ export declare class System {
      * @ignore Exclude from docs
      * @todo Maybe should be private?
      */
-    validateLayouts(): void;
+    validateLayouts(id: string): void;
     /**
      * Outputs string to console if `verbose` is `true`.
      *

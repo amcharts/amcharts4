@@ -60,8 +60,8 @@ var SmallMap = /** @class */ (function (_super) {
         _this.background.fillOpacity = 0.9;
         _this.background.fill = interfaceColors.getFor("background");
         // Set up events
-        _this.events.on("hit", _this.moveToPosition, _this);
-        _this.events.on("maxsizechanged", _this.updateMapSize, _this);
+        _this.events.on("hit", _this.moveToPosition, _this, false);
+        _this.events.on("maxsizechanged", _this.updateMapSize, _this, false);
         // Create a container
         _this.seriesContainer = _this.createChild(Container);
         _this.seriesContainer.shouldClone = false;
@@ -91,8 +91,8 @@ var SmallMap = /** @class */ (function (_super) {
         get: function () {
             if (!this._series) {
                 this._series = new List();
-                this._series.events.on("inserted", this.handleSeriesAdded, this);
-                this._series.events.on("removed", this.handleSeriesRemoved, this);
+                this._series.events.on("inserted", this.handleSeriesAdded, this, false);
+                this._series.events.on("removed", this.handleSeriesRemoved, this, false);
             }
             return this._series;
         },
@@ -157,9 +157,9 @@ var SmallMap = /** @class */ (function (_super) {
         set: function (chart) {
             if (this.chart != chart) {
                 this._chart.set(chart, new MultiDisposer([
-                    chart.events.on("zoomlevelchanged", this.updateRectangle, this),
-                    chart.events.on("mappositionchanged", this.updateRectangle, this),
-                    chart.events.on("scaleratiochanged", this.updateMapSize, this)
+                    //chart.events.on("zoomlevelchanged", this.updateRectangle, this, false),
+                    chart.events.on("mappositionchanged", this.updateRectangle, this, false),
+                    chart.events.on("scaleratiochanged", this.updateMapSize, this, false)
                 ]));
             }
         },
@@ -179,10 +179,9 @@ var SmallMap = /** @class */ (function (_super) {
         rectangle.height = this.pixelHeight / zoomLevel;
         var scale = Math.min(this.percentWidth, this.percentHeight) / 100;
         var seriesContainer = chart.seriesContainer;
-        var x = Math.ceil((zoomLevel * seriesContainer.pixelWidth / 2 - seriesContainer.pixelX) * scale / zoomLevel + rectangle.pixelWidth / 2);
-        var y = Math.ceil((zoomLevel * seriesContainer.pixelHeight / 2 - seriesContainer.pixelY) * scale / zoomLevel + rectangle.pixelHeight / 2);
-        rectangle.x = x;
-        rectangle.y = y;
+        rectangle.x = Math.ceil((zoomLevel * seriesContainer.pixelWidth / 2 - seriesContainer.pixelX) * scale / zoomLevel + rectangle.pixelWidth / 2);
+        rectangle.y = Math.ceil((zoomLevel * seriesContainer.pixelHeight / 2 - seriesContainer.pixelY) * scale / zoomLevel + rectangle.pixelHeight / 2);
+        rectangle.validate();
     };
     /**
      * Update map size so that internal elements can redraw themselves after
@@ -193,6 +192,7 @@ var SmallMap = /** @class */ (function (_super) {
     SmallMap.prototype.updateMapSize = function () {
         if (this.chart) {
             this.seriesContainer.scale = this.chart.scaleRatio * Math.min(this.percentWidth, this.percentHeight) / 100;
+            this.updateRectangle();
             this.afterDraw();
         }
     };

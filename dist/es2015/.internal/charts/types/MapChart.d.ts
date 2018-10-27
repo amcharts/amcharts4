@@ -324,13 +324,6 @@ export declare class MapChart extends SerialChart {
      */
     southPoint: IPoint;
     /**
-     * Geo point of map center
-     *
-     * @readonly
-     * @type {IPoint}
-     */
-    centerGeoPoint: IGeoPoint;
-    /**
      * Width of the actual map objects (px).
      *
      * @type {number}
@@ -802,6 +795,13 @@ export declare class MapChart extends SerialChart {
      * @return {boolean}         Assign as is?
      */
     protected asIs(field: string): boolean;
+    /**
+     * Geo point of map center
+     *
+     * @readonly
+     * @type {IPoint}
+     */
+    readonly centerGeoPoint: IGeoPoint;
     /**
      * Resets the map to its original position and zoom level.
      */

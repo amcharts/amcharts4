@@ -6,6 +6,30 @@ Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
 
+## [4.0.0-beta.64] - 2018-10-27
+
+### Added
+- `shouldClone` flag added to `EventDispatcher`'s `on` and `once` methods. Can be used to restrict cloning of events when object itself is cloned.
+- [`showOnInit`](https://www.amcharts.com/docs/v4/reference/sprite/#showOnInit_property) property added to `Sprite`. If this is set to `true`, the `Sprite`, when inited will be instantly hidden ("hidden" state applied) and then shown (animate properties form "hidden" state to "default" state). Animation will take `defaultState.transitionDuration`. `Series`, `Chart` classes has this set to `true`, so that they would perform initial animations. If you want a sprite (chart, series) not to be shown initially, you can set Sprite's [`hidden`](https://www.amcharts.com/docs/v4/reference/sprite/#hidden_property) to `true`. (`setting sprite.visible = true` won't work as expected anymore).
+
+### Changed
+- If chart rendering takes too long, it now is split into chunks, which makes the browser/page remain responsive even if you have a lot of charts to build.
+- Changed how pre-hiding Series works. If you want series to be initially hidden, use `series.hidden = true` instead of `series.visible = false`.
+- Removed `"hold"` and `"rotate"` interaction events and releated options and functionality, since they weren't used anywhere.
+- Removed `"delayFirstHit"` option from `Sprite.hitOptions`.
+- `chart.defaultState.transitionDuration` is set to `1`. This allows the chart to appear one frame after init and helps to avoid various flickers that happen while chart is building. Animated theme has this value set to `2000`.
+
+### Fixed
+- Performance enhancements.
+- Non-draggable/trackable but otherwise interactive elements of the chart no longer prevent scrolling and other gestures on touch screens.
+- `PieSeries` labels sometimes were positioned incorrectly (using non-default start/end angles).
+- Slices (also columns of `RadarChart`) were not drawn if `radius <= 0` (even if `innerRadius > 0`). This resulted in radar columns not rendered in some cases.
+- `MapChart` was not resizing properly when div size changed.
+- `PictorialStackedSeries`, while `containerdiv` was resized did flicker a lot.
+- If a Tooltip is visible while its Sprite changes size/position, it updates its position as well.
+- Setting `chart.data = []` was not clearing data properly.
+
+
 ## [4.0.0-beta.63] - 2018-10-20
 
 ### Fixed

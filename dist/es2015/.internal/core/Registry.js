@@ -3,6 +3,7 @@ import { Dictionary } from "./utils/Dictionary";
 import { cache } from "./utils/Cache";
 import * as $type from "./utils/Type";
 import * as $string from "./utils/String";
+import * as $array from "./utils/Array";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -76,7 +77,7 @@ var Registry = /** @class */ (function () {
      * @ignore Exclude from docs
      * @type {Array<Sprite>}
      */
-        this.invalidSprites = [];
+        this.invalidSprites = {};
         /**
          * Components are added to this list when their data provider changes to
          * a new one or data is added/removed from their data provider.
@@ -114,16 +115,16 @@ var Registry = /** @class */ (function () {
          * to be recalculated.
          *
          * @ignore Exclude from docs
-         * @type {Array<Sprite>}
+         * @type { [index: string]: Array<Sprite>}
          */
-        this.invalidPositions = [];
+        this.invalidPositions = {};
         /**
          * A list of [[Container]] objects with invalid(ated) layouts.
          *
          * @ignore Exclude from docs
-         * @type {Array<Container>}
+         * @type { [index: string]: Array<Container>}
          */
-        this.invalidLayouts = [];
+        this.invalidLayouts = {};
         /**
          * An array holding all active (non-disposed) top level elemens.
          *
@@ -133,7 +134,11 @@ var Registry = /** @class */ (function () {
          * @type {Array<Sprite>}
          */
         this.baseSprites = [];
+        this.baseSpritesByUid = {};
         this.uid = this.getUniqueId();
+        this.invalidSprites.noBase = [];
+        this.invalidLayouts.noBase = [];
+        this.invalidPositions.noBase = [];
     }
     /**
      * Generates a unique chart system-wide ID.
@@ -247,6 +252,66 @@ var Registry = /** @class */ (function () {
         }
         this._placeholders[key] = "__amcharts_" + key + "_" + $string.random(8) + "__";
         return this._placeholders[key];
+    };
+    /**
+     * @ignore
+     */
+    Registry.prototype.addToInvalidSprites = function (sprite) {
+        if (sprite.baseId) {
+            $array.add(this.invalidSprites[sprite.baseId], sprite);
+        }
+        else {
+            $array.add(this.invalidSprites["noBase"], sprite);
+        }
+    };
+    /**
+     * @ignore
+     */
+    Registry.prototype.removeFromInvalidSprites = function (sprite) {
+        if (sprite.baseId) {
+            $array.remove(this.invalidSprites[sprite.baseId], sprite);
+        }
+        $array.remove(this.invalidSprites["noBase"], sprite);
+    };
+    /**
+     * @ignore
+     */
+    Registry.prototype.addToInvalidPositions = function (sprite) {
+        if (sprite.baseId) {
+            $array.add(this.invalidPositions[sprite.baseId], sprite);
+        }
+        else {
+            $array.add(this.invalidPositions["noBase"], sprite);
+        }
+    };
+    /**
+     * @ignore
+     */
+    Registry.prototype.removeFromInvalidPositions = function (sprite) {
+        if (sprite.baseId) {
+            $array.remove(this.invalidPositions[sprite.baseId], sprite);
+        }
+        $array.remove(this.invalidPositions["noBase"], sprite);
+    };
+    /**
+     * @ignore
+     */
+    Registry.prototype.addToInvalidLayouts = function (sprite) {
+        if (sprite.baseId) {
+            $array.add(this.invalidLayouts[sprite.baseId], sprite);
+        }
+        else {
+            $array.add(this.invalidLayouts["noBase"], sprite);
+        }
+    };
+    /**
+     * @ignore
+     */
+    Registry.prototype.removeFromInvalidLayouts = function (sprite) {
+        if (sprite.baseId) {
+            $array.remove(this.invalidLayouts[sprite.baseId], sprite);
+        }
+        $array.remove(this.invalidLayouts["noBase"], sprite);
     };
     return Registry;
 }());

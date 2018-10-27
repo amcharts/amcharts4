@@ -78,12 +78,9 @@ var AxisRenderer = /** @class */ (function (_super) {
         _this.line.shouldClone = false;
         _this.line.strokeOpacity = 0;
         _this.ticks.template.strokeOpacity = 0;
-        //this.ticks.template.disabled = true;
-        //this.axisFills.template.disabled = true;
         var baseGrid = _this.createChild(Grid);
         baseGrid.shouldClone = false;
         _this.baseGrid = baseGrid;
-        //this.gridContainer.events.on("maxsizechanged", this.invalidateAxisItems, this);
         // Make elements disposable
         var disposers = _this._disposers;
         disposers.push(baseGrid);
@@ -126,8 +123,8 @@ var AxisRenderer = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     AxisRenderer.prototype.processRenderer = function () {
-        this.events.on("sizechanged", this.updateTooltip, this);
-        this.events.on("positionchanged", this.updateTooltip, this);
+        this.events.on("sizechanged", this.updateTooltip, this, false);
+        this.events.on("positionchanged", this.updateTooltip, this, false);
         this.labels.template.inside = this.inside;
         this.ticks.template.inside = this.inside;
     };

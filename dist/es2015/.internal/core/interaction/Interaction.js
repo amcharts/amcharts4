@@ -30,6 +30,7 @@ import * as $math from "../utils/Math";
 import * as $dom from "../utils/DOM";
 import * as $iter from "../utils/Iterator";
 import * as $type from "../utils/Type";
+import * as $time from "../utils/Time";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -47,7 +48,6 @@ import * as $type from "../utils/Type";
 * those elements to handle interaction information received via event triggers.
 *
 * @see {@link IInteractionEvents} for a list of available events
-* @todo Throw exceptions on errors
 */
 var Interaction = /** @class */ (function (_super) {
     tslib_1.__extends(Interaction, _super);
@@ -74,6 +74,9 @@ var Interaction = /** @class */ (function (_super) {
             "pointerdown": "mousedown",
             "pointerup": "mouseup",
             "pointermove": "mousemove",
+            "pointercancel": "mouseup",
+            "pointerover": "mouseover",
+            "pointerout": "mouseout",
             "wheel": "wheel"
         };
         /**
@@ -143,9 +146,9 @@ var Interaction = /** @class */ (function (_super) {
          * @type {IHitOptions}
          */
         _this.hitOptions = {
-            "holdTime": 1000,
+            //"holdTime": 1000,
             "doubleHitTime": 300,
-            "delayFirstHit": false,
+            //"delayFirstHit": false,
             "hitTolerance": 10,
             "noFocus": true
         };
@@ -179,7 +182,7 @@ var Interaction = /** @class */ (function (_super) {
         _this.keyboardOptions = {
             "speed": 0.1,
             "accelleration": 1.2,
-            "accellerationDelay": 1000
+            "accellerationDelay": 2000
         };
         // Set class name
         _this.className = "Interaction";
@@ -192,6 +195,9 @@ var Interaction = /** @class */ (function (_super) {
             _this._pointerEvents.pointerdown = "pointerdown";
             _this._pointerEvents.pointerup = "pointerup";
             _this._pointerEvents.pointermove = "pointermove";
+            _this._pointerEvents.pointercancel = "pointercancel";
+            _this._pointerEvents.pointerover = "pointerover";
+            _this._pointerEvents.pointerout = "pointerout";
             _this._usePointerEventsOnly = true;
         }
         else if (window.hasOwnProperty("MSPointerEvent")) {
@@ -199,6 +205,9 @@ var Interaction = /** @class */ (function (_super) {
             _this._pointerEvents.pointerdown = "MSPointerDown";
             _this._pointerEvents.pointerup = "MSPointerUp";
             _this._pointerEvents.pointermove = "MSPointerMove";
+            _this._pointerEvents.pointercancel = "MSPointerUp";
+            _this._pointerEvents.pointerover = "MSPointerOver";
+            _this._pointerEvents.pointerout = "MSPointerOut";
             _this._usePointerEventsOnly = true;
         }
         else {
@@ -225,12 +234,6 @@ var Interaction = /** @class */ (function (_super) {
             "easing": $ease.polyOut3
         });
         _this.inertiaOptions.setKey("resize", {
-            "time": 100,
-            "duration": 500,
-            "factor": 1,
-            "easing": $ease.polyOut3
-        });
-        _this.inertiaOptions.setKey("rotate", {
             "time": 100,
             "duration": 500,
             "factor": 1,
@@ -271,13 +274,17 @@ var Interaction = /** @class */ (function (_super) {
     Interaction.prototype.addGlobalEvents = function () {
         var _this = this;
         if (!this._globalEventsAdded) {
-            this._disposers.push(addEventListener(document, this._pointerEvents.pointermove, function (ev) { _this.handleGlobalPointerMove(ev); }));
             this._disposers.push(addEventListener(document, this._pointerEvents.pointerdown, function (ev) { _this.handleGlobalPointerDown(ev); }));
+            this._disposers.push(addEventListener(document, this._pointerEvents.pointermove, function (ev) { _this.handleGlobalPointerMove(ev); }));
             this._disposers.push(addEventListener(document, this._pointerEvents.pointerup, function (ev) { _this.handleGlobalPointerUp(ev); }));
+            this._disposers.push(addEventListener(document, this._pointerEvents.pointercancel, function (ev) { _this.handleGlobalPointerUp(ev, true); }));
             this._disposers.push(addEventListener(document, "touchend", function (ev) { _this.handleGlobalTouchEnd(ev); }));
+            // No need to duplicate events for hubrid systems that support both
+            // pointer events and touch events. Touch events are need only for
+            // some touch-only systems, like Mobile Safari.
             if (!this._usePointerEventsOnly) {
-                this._disposers.push(addEventListener(document, "touchmove", function (ev) { _this.handleGlobalTouchMove(ev); }));
                 this._disposers.push(addEventListener(document, "touchstart", function (ev) { _this.handleGlobalTouchStart(ev); }));
+                this._disposers.push(addEventListener(document, "touchmove", function (ev) { _this.handleGlobalTouchMove(ev); }));
             }
             this._disposers.push(addEventListener(document, "keydown", function (ev) { _this.handleGlobalKeyDown(ev); }));
             this._disposers.push(addEventListener(document, "keyup", function (ev) { _this.handleGlobalKeyUp(ev); }));
@@ -310,8 +317,8 @@ var Interaction = /** @class */ (function (_super) {
             // Add local events
             if (!io.eventDisposers.hasKey("hoverable")) {
                 io.eventDisposers.setKey("hoverable", new MultiDisposer([
-                    addEventListener(io.element, "mouseover", function (e) { return _this.handleMouseOver(io, e); }),
-                    addEventListener(io.element, "mouseout", function (e) { return _this.handleMouseOut(io, e); })
+                    addEventListener(io.element, this._pointerEvents.pointerout, function (e) { return _this.handlePointerOut(io, e); }),
+                    addEventListener(io.element, this._pointerEvents.pointerover, function (e) { return _this.handlePointerOver(io, e); })
                 ]));
             }
             if (io.trackable) {
@@ -330,14 +337,14 @@ var Interaction = /** @class */ (function (_super) {
     };
     /**
      * Sets up [[InteractionObject]] as movable. Movable can be any
-     * transformation, e.g. drag, swipe, resize, track, or rotate.
+     * transformation, e.g. drag, swipe, resize, track.
      *
      * @ignore Exclude from docs
      * @param {InteractionObject}  io  Element
      */
     Interaction.prototype.processMovable = function (io) {
         // Add unified events
-        if (io.draggable || io.swipeable || io.trackable || io.resizable || io.rotatable) {
+        if (io.draggable || io.swipeable || io.trackable || io.resizable) {
             // Prep the element
             if (!this.isGlobalElement(io)) {
                 this.prepElement(io);
@@ -397,16 +404,6 @@ var Interaction = /** @class */ (function (_super) {
         this.processMovable(io);
     };
     /**
-     * Checks if [[InteractionObject]] is rotatable and attaches required events
-     * to it.
-     *
-     * @ignore Exclude from docs
-     * @param {InteractionObject}  io  Element
-     */
-    Interaction.prototype.processRotatable = function (io) {
-        this.processMovable(io);
-    };
-    /**
      * Checks if [[InteractionObject]] is supposed to capture mouse wheel events
      * and prepares it to catch those events.
      *
@@ -420,14 +417,14 @@ var Interaction = /** @class */ (function (_super) {
             if (!io.eventDisposers.hasKey("wheelable")) {
                 io.eventDisposers.setKey("wheelable", new MultiDisposer([
                     addEventListener(io.element, this._pointerEvents.wheel, function (e) { return _this.handleMouseWheel(io, e); }),
-                    io.events.on("over", function (e) {
-                        if (io.wheelable) {
-                            _this.lockWheel();
-                        }
-                    }),
                     io.events.on("out", function (e) {
                         if (io.wheelable) {
                             _this.unlockWheel();
+                        }
+                    }),
+                    io.events.on("over", function (e) {
+                        if (io.wheelable) {
+                            _this.lockWheel();
                         }
                     })
                 ]));
@@ -480,7 +477,7 @@ var Interaction = /** @class */ (function (_super) {
     Interaction.prototype.processTouchable = function (io) {
         var _this = this;
         // Add unified events
-        if (io.clickable || io.hoverable || io.trackable || io.draggable || io.swipeable || io.resizable || io.rotatable) {
+        if (io.clickable || io.hoverable || io.trackable || io.draggable || io.swipeable || io.resizable) {
             // Add global events
             this.addGlobalEvents();
             // Add local events
@@ -537,8 +534,11 @@ var Interaction = /** @class */ (function (_super) {
      */
     Interaction.prototype.handleFocusBlur = function (io, ev) {
         if (io.focusable !== false && this.getHitOption(io, "noFocus")) {
-            ev.preventDefault();
-            $dom.blur();
+            /*if (ev.cancelable) {
+                ev.preventDefault();
+            }*/
+            //this.setTimeout($dom.blur, 1);
+            io.events.once("focus", $dom.blur);
         }
     };
     /**
@@ -647,8 +647,11 @@ var Interaction = /** @class */ (function (_super) {
      * @param {MouseEvent} ev Event object
      */
     Interaction.prototype.handleGlobalPointerMove = function (ev) {
+        this.log("[RAW] (global)", ev);
         // Get pointer
         var pointer = this.getPointer(ev);
+        // Update current point position
+        pointer.point = this.getPointerPoint(ev);
         // Prepare and fire global event
         if (this.events.isEnabled("track")) {
             var imev = {
@@ -662,7 +665,7 @@ var Interaction = /** @class */ (function (_super) {
         // Track
         this.addBreadCrumb(pointer, pointer.point);
         // Process further
-        this.handleMove(pointer, ev);
+        this.handleGlobalMove(pointer, ev);
     };
     /**
      * Handler for a global "pointerdown" event.
@@ -671,7 +674,9 @@ var Interaction = /** @class */ (function (_super) {
      * @param {MouseEvent} ev Event object
      */
     Interaction.prototype.handleGlobalPointerDown = function (ev) {
+        this.log("[RAW] (global)", ev);
         // Remove delayed hovers
+        //console.log("Running processDelayed fom handleGlobalPointerDown")
         this.processDelayed();
         // Get pointer
         var pointer = this.getPointer(ev);
@@ -703,7 +708,9 @@ var Interaction = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      * @param {MouseEvent} ev Event object
      */
-    Interaction.prototype.handleGlobalPointerUp = function (ev) {
+    Interaction.prototype.handleGlobalPointerUp = function (ev, cancelled) {
+        if (cancelled === void 0) { cancelled = false; }
+        this.log("[RAW] (global)", ev);
         // Get pointer
         var pointer = this.getPointer(ev);
         // Prepare and fire global event
@@ -717,7 +724,7 @@ var Interaction = /** @class */ (function (_super) {
             this.events.dispatchImmediately("up", imev);
         }
         // Process further
-        this.handleUp(pointer, ev);
+        this.handleGlobalUp(pointer, ev, cancelled);
     };
     /**
  * ==========================================================================
@@ -731,6 +738,7 @@ var Interaction = /** @class */ (function (_super) {
      * @param {TouchEvent} ev Event object
      */
     Interaction.prototype.handleGlobalTouchMove = function (ev) {
+        this.log("[RAW] (global)", ev);
         // Stop further propagation so we don't get multiple triggers on hybrid
         // devices (both mouse and touch capabilities)
         /*ev.stopPropagation();
@@ -741,6 +749,8 @@ var Interaction = /** @class */ (function (_super) {
         for (var i = 0; i < ev.changedTouches.length; i++) {
             // Get pointer
             var pointer = this.getPointer(ev.changedTouches[i]);
+            // Update current point position
+            pointer.point = this.getPointerPoint(ev.changedTouches[i]);
             // Prepare and fire global event
             if (this.events.isEnabled("track")) {
                 var imev = {
@@ -754,7 +764,7 @@ var Interaction = /** @class */ (function (_super) {
             // Track
             this.addBreadCrumb(pointer, pointer.point);
             // Process further
-            this.handleMove(pointer, ev);
+            this.handleGlobalMove(pointer, ev);
         }
     };
     /**
@@ -764,12 +774,10 @@ var Interaction = /** @class */ (function (_super) {
      * @param {TouchEvent} ev Event object
      */
     Interaction.prototype.handleGlobalTouchStart = function (ev) {
-        // Stop further propagation so we don't get multiple triggers on hybrid
-        // devices (both mouse and touch capabilities)
-        /*ev.preventDefault();
-        if (ev.defaultPrevented) {
-            ev.stopPropagation();
-        }*/
+        this.log("[RAW] (global)", ev);
+        // Remove delayed hovers
+        //console.log("Running processDelayed fom handleGlobalTouchStart")
+        this.processDelayed();
         // Process each changed touch point
         for (var i = 0; i < ev.changedTouches.length; i++) {
             // Get pointer
@@ -793,6 +801,7 @@ var Interaction = /** @class */ (function (_super) {
      * @param {TouchEvent} ev Event object
      */
     Interaction.prototype.handleGlobalTouchEnd = function (ev) {
+        this.log("[RAW] (global)", ev);
         // Stop further propagation so we don't get multiple triggers on hybrid
         // devices (both mouse and touch capabilities)
         /*ev.stopPropagation();
@@ -814,7 +823,7 @@ var Interaction = /** @class */ (function (_super) {
                 this.events.dispatchImmediately("up", imev);
             }
             // Handle element-related events
-            this.handleUp(pointer, ev);
+            this.handleGlobalUp(pointer, ev);
         }
     };
     /**
@@ -832,6 +841,7 @@ var Interaction = /** @class */ (function (_super) {
      * @param {MouseEvent | PointerEvent}  ev  Original event
      */
     Interaction.prototype.handlePointerDown = function (io, ev) {
+        this.log("[RAW]", ev);
         // Stop further propagation so we don't get multiple triggers on hybrid
         // devices (both mouse and touch capabilities)
         //ev.preventDefault();
@@ -843,7 +853,7 @@ var Interaction = /** @class */ (function (_super) {
         // Set mouse button
         pointer.button = ev.which;
         // Reset pointer
-        this.resetPointer(pointer);
+        this.resetPointer(pointer, ev);
         // Process down
         this.handleDown(io, pointer, ev);
     };
@@ -854,7 +864,8 @@ var Interaction = /** @class */ (function (_super) {
      * @param {InteractionObject}  io  Element
      * @param {MouseEvent}         ev  Original event
      */
-    Interaction.prototype.handleMouseOver = function (io, ev) {
+    Interaction.prototype.handlePointerOver = function (io, ev) {
+        this.log("[RAW]", ev);
         // Get pointer
         var pointer = this.getPointer(ev);
         // Process down
@@ -867,7 +878,8 @@ var Interaction = /** @class */ (function (_super) {
      * @param {InteractionObject}  io  Element
      * @param {MouseEvent}         ev  Original event
      */
-    Interaction.prototype.handleMouseOut = function (io, ev) {
+    Interaction.prototype.handlePointerOut = function (io, ev) {
+        this.log("[RAW]", ev);
         // Get pointer
         var pointer = this.getPointer(ev);
         // Process down
@@ -882,12 +894,15 @@ var Interaction = /** @class */ (function (_super) {
      * @todo Investigate more-cross browser stuff https://developer.mozilla.org/en-US/docs/Web/Events/wheel
      */
     Interaction.prototype.handleMouseWheel = function (io, ev) {
+        this.log("[RAW]", ev);
         // Get pointer
         var pointer = this.getPointer(ev);
+        // Update current point position
+        pointer.point = this.getPointerPoint(ev);
         // Init delta values
         var deltaX = 0, deltaY = 0;
         // Set up modifier
-        // This is needed because FireFox reports wheel deltas in "lines" instead 
+        // This is needed because FireFox reports wheel deltas in "lines" instead
         // of pixels so we have to approximate pixel value
         var mod = 1;
         if (ev.deltaMode == 1) {
@@ -919,20 +934,19 @@ var Interaction = /** @class */ (function (_super) {
       * @param {TouchEvent}         ev  Original event
       */
     Interaction.prototype.handleTouchDown = function (io, ev) {
+        this.log("[RAW]", ev);
         // Stop further propagation so we don't get multiple triggers on hybrid
         // devices (both mouse and touch capabilities)
-        // We're disabling this here because it's impossible to cancel touch
-        // event otherwise, and it might be needed in order to control default
-        // touch gestures.
-        /*if (this._usePointerEventsOnly) {
+        if (this._usePointerEventsOnly) {
+            this.maybePreventDefault(io, ev);
             return;
-        }*/
+        }
         // Process each changed touch point
         for (var i = 0; i < ev.changedTouches.length; i++) {
             // Get pointer
             var pointer = this.getPointer(ev.changedTouches[i]);
             // Reset pointer
-            this.resetPointer(pointer);
+            this.resetPointer(pointer, ev.changedTouches[i]);
             // Process down
             this.handleDown(io, pointer, ev);
         }
@@ -953,7 +967,7 @@ var Interaction = /** @class */ (function (_super) {
      */
     Interaction.prototype.handleHit = function (io, pointer, ev) {
         // Check if this is a double-hit
-        var now = new Date().getTime();
+        var now = $time.getTime();
         if (io.lastHit && (io.lastHit >= (now - this.getHitOption(io, "doubleHitTime")))) {
             // Yup - it's a double-hit
             // Cancel the hit
@@ -976,54 +990,26 @@ var Interaction = /** @class */ (function (_super) {
             // Log last hit
             io.lastHit = now;
             io.lastHitPointer = pointer;
-            if (this.getHitOption(io, "delayFirstHit")) {
-                // Schedule hit report event to element
-                /*io.lastHitPointer.hitTimeout = setTimeout(() => {
-                    if (pointer.button === 3) {
-                        if (io.events.isEnabled("rightclick")) {
-                            let imev: AMEvent<InteractionObject, InteractionObjectEvents>["rightclick"] = {
-                                type: "rightclick",
-                                target: io,
-                                event: ev
-                            };
-                            io.events.dispatchImmediately("rightclick", imev);
-                        }
-
-                    } else {
-                        if (io.events.isEnabled("hit")) {
-                            let imev: AMEvent<InteractionObject, InteractionObjectEvents>["hit"] = {
-                                type: "hit",
-                                target: io,
-                                event: ev,
-                                point: pointer.point
-                            };
-                            io.events.dispatchImmediately("hit", imev);
-                        }
-                    }
-                }, this.getHitOption(io, "doubleHitTime"));*/
+            if (pointer.button === 3) {
+                // Execute HIT now
+                if (io.events.isEnabled("rightclick")) {
+                    var imev = {
+                        type: "rightclick",
+                        target: io,
+                        event: ev
+                    };
+                    io.events.dispatchImmediately("rightclick", imev);
+                }
             }
             else {
-                if (pointer.button === 3) {
-                    // Execute HIT now
-                    if (io.events.isEnabled("rightclick")) {
-                        var imev = {
-                            type: "rightclick",
-                            target: io,
-                            event: ev
-                        };
-                        io.events.dispatchImmediately("rightclick", imev);
-                    }
-                }
-                else {
-                    if (io.events.isEnabled("hit")) {
-                        var imev = {
-                            type: "hit",
-                            target: io,
-                            event: ev,
-                            point: pointer.point
-                        };
-                        io.events.dispatchImmediately("hit", imev);
-                    }
+                if (io.events.isEnabled("hit")) {
+                    var imev = {
+                        type: "hit",
+                        target: io,
+                        event: ev,
+                        point: pointer.point
+                    };
+                    io.events.dispatchImmediately("hit", imev);
                 }
             }
         }
@@ -1035,125 +1021,142 @@ var Interaction = /** @class */ (function (_super) {
      * @param {InteractionObject}        io       Interaction object
      * @param {IPointer}                 pointer  Pointer
      * @param {MouseEvent | TouchEvent}  ev       Original event
+     * @param {boolean}                  soft     Invoked by helper function
      */
-    Interaction.prototype.handleOver = function (io, pointer, ev) {
+    Interaction.prototype.handleOver = function (io, pointer, ev, soft) {
+        if (soft === void 0) { soft = false; }
         if (!io.hoverable) {
             return;
         }
-        // We need to check if pointer already exists in the downPointers so we
-        // don't end up with duplicate pointers. This could happen on hybrid
-        // displays where both touch and pointer event is generated on screen
-        // touch.
-        if (this.pointerExists(io.overPointers, pointer)) {
-            return;
-        }
-        // Add pointer to object
+        // Remove any delayed outs
+        //console.log("Running processDelayed fom handleOver")
+        this.processDelayed();
+        this.log("[HANDLER] OVER", ev, io);
+        // Add pointer
         io.overPointers.moveValue(pointer);
-        // First one?
-        if (io.overPointers.length === 1) {
-            // Add to hovered elements (moved to InteractionObject)
-            //this.overObjects.moveValue(io);
-            // Report event to interaction object (but only for the first time)
-            if (!io.isHover) {
-                // Set element as hovered
-                io.isHover = true;
-                // Generate body track event. This is needed so that if element loads
-                // under unmoved mouse cursor, we still need all the actions that are
-                // required to happen to kick in.
-                this.handleTrack(this.body, pointer, ev, true);
-                // Event
-                if (io.events.isEnabled("over")) {
-                    var imev = {
-                        type: "over",
-                        target: io,
-                        event: ev,
-                        pointer: pointer
-                    };
-                    io.events.dispatchImmediately("over", imev);
-                }
+        // Check if object is not yet hovered
+        if (!io.isHover) {
+            // Set element as hovered
+            io.isHover = true;
+            this.overObjects.moveValue(io);
+            // Generate body track event. This is needed so that if element loads
+            // under unmoved mouse cursor, we still need all the actions that are
+            // required to happen to kick in.
+            this.handleTrack(this.body, pointer, ev, true);
+            // Event
+            if (io.events.isEnabled("over")) {
+                var imev = {
+                    type: "over",
+                    target: io,
+                    event: ev,
+                    pointer: pointer
+                };
+                io.events.dispatchImmediately("over", imev);
             }
         }
     };
     /**
      * Handles when [[InteractionObject]] is no longer hovered.
      *
+     * If `soft = true`, this means that method is being invoked by some other
+     * code, not hard "out" function, like `handleUp` which implies we need to
+     * run additional checks before unhovering the object.
+     *
      * @ignore Exclude from docs
      * @param {InteractionObject}        io       Interaction object
      * @param {IPointer}                 pointer  Pointer
      * @param {MouseEvent | TouchEvent}  ev       Original event
+     * @param {boolean}                  soft     Invoked by helper function
+     * @param {boolean}                  force    Force imediate out
      */
-    Interaction.prototype.handleOut = function (io, pointer, ev, ignoreBehavior) {
+    Interaction.prototype.handleOut = function (io, pointer, ev, soft, force) {
         var _this = this;
-        if (ignoreBehavior === void 0) { ignoreBehavior = false; }
+        if (soft === void 0) { soft = false; }
+        if (force === void 0) { force = false; }
         if (!io.hoverable) {
             return;
         }
-        // Remove pointer from object
+        this.log("[HANDLER] OUT", ev, io);
+        // Remove pointer
         io.overPointers.removeValue(pointer);
-        // If there are no over and down pointers left, report OUT event
-        // We need to check downPointers here because we might be dragging an item
-        // that is constrained to certain area, but the mouse is already outside
-        // that area. In this case we don't want to trigger an out event, not until
-        // down pointer is rised.
-        if (io.overPointers.length === 0) {
-            // Remove from hovered objects (moved to InteractionObject)
-            //this.overObjects.removeValue(io);
-            // Report event to InteractionObject (but only when the last hover leaves)
-            if (io.isHover) {
-                if (io.downPointers.length === 0) {
-                    // Check touch behavior, but only if the pointer did not move
-                    if (!ignoreBehavior && pointer.touch && !this.moved(pointer, this.getHitOption(io, "hitTolerance"))) {
-                        var behavior = this.getHoverOption(io, "touchOutBehavior");
-                        if (behavior == "leave") {
-                            // Set to "leave", so we do not execute any "out" event.
-                            // It will be handled by any other interaction that happens
-                            // afterwards.
-                            this._delayedEvents.out.push({
-                                type: "out",
-                                io: io,
-                                pointer: pointer,
-                                event: ev
-                            });
-                            return;
-                        }
-                        else if (behavior == "delay" && this.getHoverOption(io, "touchOutDelay")) {
-                            this._delayedEvents.out.push({
-                                type: "out",
-                                io: io,
-                                pointer: pointer,
-                                event: ev,
-                                timeout: setTimeout(function () {
-                                    _this.handleOut(io, pointer, ev, true);
-                                }, this.getHoverOption(io, "touchOutDelay"))
-                            });
-                            return;
-                        }
-                        else {
-                            // Nothing for "remove" - that's how it works "out-of-the-box"
-                        }
-                    }
-                    // Generate body track event. This is needed so that if element loads
-                    // under unmoved mouse cursor, we still need all the actions that are
-                    // required to happen to kick in.
-                    this.handleTrack(this.body, pointer, ev, true);
-                    if (io.lastOutEvent) {
-                        io.lastOutEvent = undefined;
-                    }
-                    io.isHover = false;
-                    if (io.events.isEnabled("out")) {
-                        var imev = {
-                            type: "out",
-                            target: io,
-                            event: ev,
-                            pointer: pointer
-                        };
-                        io.events.dispatchImmediately("out", imev);
-                    }
+        // Check if element is still hovered
+        if (io.isHover && (!io.hasDelayedOut || force)) {
+            this.log("[HANDLER] OUT inside isHover", ev, io);
+            // Should we run additional checks?
+            if (soft && io.overPointers.length) {
+                this.log("[HANDLER] failed soft test " + io.overPointers.length, ev, io);
+                // There are still pointers hovering - don't do anything else and
+                // wait until either no over pointers are there or we get a hard out
+                // event.
+                return;
+            }
+            // Should we delay "out" if this is happening on a touch device?
+            if (pointer.touch && !force) {
+                // This is a touch pointer, and it hasn't moved, let's pretend
+                // the object is still hovered, and act as per "behavior" setting
+                var behavior = this.getHoverOption(io, "touchOutBehavior");
+                if (behavior == "leave") {
+                    // Set to "leave", so we do not execute any "out" event.
+                    // It will be handled by any other interaction that happens
+                    // afterwards.
+                    this._delayedEvents.out.push({
+                        type: "out",
+                        io: io,
+                        pointer: pointer,
+                        event: ev,
+                        keepUntil: $time.getTime() + 500
+                    });
+                    io.hasDelayedOut = true;
+                    return;
+                }
+                else if (behavior == "delay" && this.getHoverOption(io, "touchOutDelay")) {
+                    this._delayedEvents.out.push({
+                        type: "out",
+                        io: io,
+                        pointer: pointer,
+                        event: ev,
+                        keepUntil: $time.getTime() + 500,
+                        timeout: this.setTimeout(function () {
+                            _this.handleOut(io, pointer, ev, true);
+                        }, this.getHoverOption(io, "touchOutDelay"))
+                    });
+                    return;
                 }
                 else {
-                    io.lastOutEvent = ev;
+                    // Nothing for "remove" - that's how it works "out-of-the-box"
                 }
             }
+            // Set element as not hovered
+            io.isHover = false;
+            this.overObjects.removeValue(io);
+            // Invoke event
+            if (io.events.isEnabled("out")) {
+                var imev = {
+                    type: "out",
+                    target: io,
+                    event: ev,
+                    pointer: pointer
+                };
+                io.events.dispatchImmediately("out", imev);
+            }
+            // Reset object from lefover delayed outs, pointers
+            io.overPointers.clear();
+            io.hasDelayedOut = false;
+            // @todo (clean delayed)
+        }
+    };
+    /**
+     * Processes dalyed events, such as "out" event that was initiated for
+     * elements by touch.
+     */
+    Interaction.prototype.processDelayed = function () {
+        var delayedEvent;
+        //console.log("Processing delayed", this._delayedEvents.out.length)
+        while (delayedEvent = this._delayedEvents.out.pop()) {
+            if (delayedEvent.timeout) {
+                delayedEvent.timeout.dispose();
+            }
+            this.handleOut(delayedEvent.io, delayedEvent.pointer, delayedEvent.event, false, true);
         }
     };
     /**
@@ -1165,42 +1168,39 @@ var Interaction = /** @class */ (function (_super) {
      * @param {MouseEvent | TouchEvent}  ev       Original event
      */
     Interaction.prototype.handleDown = function (io, pointer, ev) {
-        // Remove delayed hovers
-        this.processDelayed();
+        this.log("[HANDLER] DOWN", ev, io);
+        // Need to prevent default event from happening on transformable objects
+        this.maybePreventDefault(io, ev);
         // Stop inertia animations if they're currently being played out
         if (io.inert) {
             this.stopInertia(io);
         }
-        // Reset hover status if it's a touch pointer
-        // @todo Check if we need to keep this
-        /*if (pointer.touch && io.overPointers.length) {
-            while (io.overPointers.length) {
-                this.handleOut(io, io.overPointers.getIndex(0), ev);
-            }
-            io.isHover = false;
-        }*/
-        // Log last down event
-        pointer.lastDownEvent = ev;
-        // Add Pointer in object
-        // We need to check if pointer already exists in the downPointers so we
-        // don't end up with duplicate pointers. This could happen on hybrid
-        // displays where both touch and pointer event is generated on screen
-        // touch.
-        if (!this.pointerExists(io.downPointers, pointer)) {
-            //return;
-            io.downPointers.moveValue(pointer);
-        }
-        // Lose focus if needed
-        if (io.focusable !== false && this.getHitOption(io, "noFocus")) {
-            if (this.focusedObject) {
+        // Trigger hover because some touch devices won't trigger over events
+        // on their own
+        this.handleOver(io, pointer, ev, true);
+        // Add pointer to list
+        io.downPointers.moveValue(pointer);
+        // Check if object is already down
+        if (!io.isDown) {
+            // Lose focus if needed
+            if (io.focusable !== false && this.getHitOption(io, "noFocus") && this.focusedObject) {
                 $dom.blur();
             }
-            if (!this.isGlobalElement(io)) {
-                ev.preventDefault();
+            // Set object as hovered
+            io.isDown = true;
+            this.downObjects.moveValue(io);
+            // Apply styles if necessary
+            this.applyCursorDownStyle(io, pointer);
+            // Prep object for dragging and/or resizing
+            if (io.draggable) {
+                this.log("[HANDLER] starting drag " + io.draggable, ev, io);
+                this.processDragStart(io, pointer, ev);
+            }
+            if (io.resizable) {
+                this.processResizeStart(io, pointer, ev);
             }
         }
-        io.isDown = true;
-        // Report event
+        // Dispatch "down" event
         if (io.events.isEnabled("down")) {
             var imev = {
                 type: "down",
@@ -1210,40 +1210,107 @@ var Interaction = /** @class */ (function (_super) {
             };
             io.events.dispatchImmediately("down", imev);
         }
-        // Apply styles if necessary
-        this.applyCursorDownStyle(io, pointer);
-        // Check if element is already hovered
-        // (can't be pressed down without hovering)
-        this.handleOver(io, pointer, ev);
-        // First down pointer?
-        if (io.downPointers.length === 1) {
-            // Start hold timeout
-            /*pointer.holdTimeout = setTimeout(() => {
-                if (io.events.isEnabled("hold")) {
-                    let imev: AMEvent<InteractionObject, InteractionObjectEvents>["hold"] = {
-                        type: "hold",
-                        target: io,
-                        event: ev,
-                        pointer: pointer
-                    };
-                    io.events.dispatchImmediately("hold", imev);
+    };
+    /**
+     * Performs tasks on pointer up.
+     *
+     * @ignore Exclude from docs
+     * @param {IPointer}                 pointer  Pointer
+     * @param {MouseEvent | TouchEvent}  ev       Original event
+     */
+    Interaction.prototype.handleGlobalUp = function (pointer, ev, cancelled) {
+        var _this = this;
+        if (cancelled === void 0) { cancelled = false; }
+        this.log("[HANDLER] GLOBAL UP", ev);
+        // Process all down objects
+        $iter.each(this.downObjects.backwards().iterator(), function (io) {
+            // Check if this particular pointer is pressing down
+            // on object
+            if (io.downPointers.contains(pointer)) {
+                _this.handleUp(io, pointer, ev, cancelled);
+            }
+        });
+    };
+    /**
+     * Handles when [[InteractionObject]] is no longer hovered.
+     *
+     * @ignore Exclude from docs
+     * @param {InteractionObject}        io       Interaction object
+     * @param {IPointer}                 pointer  Pointer
+     * @param {MouseEvent | TouchEvent}  ev       Original event
+     */
+    Interaction.prototype.handleUp = function (io, pointer, ev, cancelled) {
+        if (cancelled === void 0) { cancelled = false; }
+        this.log("[HANDLER] UP", ev, io);
+        // Remove pointer from the list
+        io.downPointers.removeValue(pointer);
+        // Restore cursor style
+        this.restoreCursorDownStyle(io, pointer);
+        // Trigger out because some touch devices won't trigger out events
+        // on their own
+        this.handleOut(io, pointer, ev, true);
+        // Check if object still down
+        if (io.isDown) {
+            // Check if there are no other pointers hovering this element
+            if (io.downPointers.length == 0) {
+                // Set element as no longer down
+                io.isDown = false;
+                this.downObjects.removeValue(io);
+            }
+            // Dispatch "up" event
+            if (io.events.isEnabled("up")) {
+                var imev = {
+                    type: "up",
+                    target: io,
+                    event: ev,
+                    pointer: pointer
+                };
+                io.events.dispatchImmediately("up", imev);
+            }
+            // Check if this was not a cancelled event.
+            // If event was canelled (which might happen if gesture resulted in
+            // navigation or page scroll) there's no point in triggering hit and
+            // other actions.
+            if (!cancelled) {
+                //this.log("[HANDLER] UP (event triggered)", ev, io);
+                // Handle swiping-related stuff
+                if (io.swipeable && this.swiped(io, pointer)) {
+                    // Swiped - nothing else should happen
+                    this.handleSwipe(io, pointer, ev);
+                    //this.log("[HANDLER] UP (swipe?)", ev, io);
                 }
-            }, this.getHitOption(io, "holdTime"));*/
+                else {
+                    //this.log("[HANDLER] UP (proceeding) " + io.draggable, ev, io);
+                    // Check if it maybe a click
+                    if (io.clickable && !this.moved(pointer, this.getHitOption(io, "hitTolerance"))) {
+                        this.handleHit(io, pointer, ev);
+                    }
+                    // Handle inertia
+                    if (io.inert && this.moved(pointer, this.getHitOption(io, "hitTolerance"))) {
+                        //this.log("[HANDLER] UP (tarting inertia)", ev, io);
+                        this.handleInertia(io, pointer);
+                    }
+                    else if (io.draggable) {
+                        //this.log("[HANDLER] UP (stopping drag)", ev, io);
+                        this.processDragStop(io, pointer, ev);
+                    }
+                    if (io.resizable) {
+                        this.processResizeStop(io, pointer, ev);
+                    }
+                }
+            }
         }
-        else {
-            this.cancelHold(io);
-        }
-        // If element is draggable we prepare and postpone DRAG_START event (until
-        // it is actually moved)
-        if (io.draggable) {
-            this.processDragStart(io, pointer, ev);
-        }
-        // Set up swipe timeout
-        if (io.swipeable) {
-            pointer.swipeCanceled = false;
-            /*pointer.swipeTimeout = setTimeout(function() {
-                pointer.swipeCanceled = true;
-            }, this.getSwipeOption(io, "time"));*/
+    };
+    /**
+     * Checks if event needs to be prevented on draggable and such items, so that
+     * touch gestures like navigation and scroll do not kick in.
+     *
+     * @param {InteractionObject}        io  Object
+     * @param {MouseEvent | TouchEvent}  ev  Event
+     */
+    Interaction.prototype.maybePreventDefault = function (io, ev) {
+        if ($type.hasValue(ev) && (io.draggable || io.swipeable || io.trackable || io.resizable) && !this.isGlobalElement(io)) {
+            ev.preventDefault();
         }
     };
     /**
@@ -1253,7 +1320,7 @@ var Interaction = /** @class */ (function (_super) {
      * @param {IPointer}                 pointer  Pointer
      * @param {MouseEvent | TouchEvent}  ev       Original event
      */
-    Interaction.prototype.handleMove = function (pointer, ev) {
+    Interaction.prototype.handleGlobalMove = function (pointer, ev) {
         var _this = this;
         // Process hovered elements
         // We check if the element became unhovered without reporting the mouseout
@@ -1273,15 +1340,10 @@ var Interaction = /** @class */ (function (_super) {
                         reset = true;
                     }
                     if (reset) {
-                        _this.handleOut(io, pointer, ev);
+                        _this.handleOut(io, pointer, ev, true);
                     }
                 }
             });
-        }
-        // Override only if we have objects currently being dragged or otherwise
-        // interacted with
-        if (this.transformedObjects.length) {
-            ev.preventDefault();
         }
         // Process down elements
         $iter.each(this.transformedObjects.backwards().iterator(), function (io) {
@@ -1289,18 +1351,16 @@ var Interaction = /** @class */ (function (_super) {
             if (io.downPointers.contains(pointer) &&
                 // Swipe still happening?
                 !(io.swipeable && _this.swiping(io, pointer)) &&
-                (io.draggable || io.resizable || io.rotatable)) {
+                (io.draggable || io.resizable)) {
                 _this.handleTransform(io, ev);
             }
         });
         // Process tracked elements
         $iter.each(this.trackedObjects.backwards().iterator(), function (io) {
             // Is this pointer relevant to element?
-            // @todo check if this is check is necessary
-            /*if (!io.overPointers.contains(pointer)) {
-                continue;
-            }*/
-            _this.handleTrack(io, pointer, ev);
+            if (!io.overPointers.contains(pointer)) {
+                _this.handleTrack(io, pointer, ev);
+            }
         });
     };
     /**
@@ -1329,88 +1389,6 @@ var Interaction = /** @class */ (function (_super) {
             };
             io.events.dispatchImmediately("track", imev);
         }
-    };
-    /**
-     * Performs tasks on pointer up.
-     *
-     * @ignore Exclude from docs
-     * @param {IPointer}                 pointer  Pointer
-     * @param {MouseEvent | TouchEvent}  ev       Original event
-     */
-    Interaction.prototype.handleUp = function (pointer, ev) {
-        var _this = this;
-        // Log last up event
-        pointer.lastUpEvent = ev;
-        // Process hovered elements (but only if it's a touch pointer)
-        if (pointer.touch) {
-            $iter.each(this.overObjects.backwards().iterator(), function (io) {
-                // Is this pointer relevant to element?
-                if (io.overPointers.contains(pointer)) {
-                    // Remove from over pointers
-                    io.overPointers.removeValue(pointer);
-                    // No over pointers left?
-                    if (io.overPointers.length === 0) {
-                        _this.handleOut(io, pointer, ev);
-                        //this.overObjects.removeValue(io);
-                        //io.isHover = false;
-                    }
-                }
-            });
-        }
-        // Process down objects
-        $iter.each(this.downObjects.backwards().iterator(), function (io) {
-            // Is this pointer relevant to element?
-            if (io && io.downPointers.contains(pointer)) {
-                // Clear HOLD timeout just in case
-                //this.cancelHold(io);
-                // Restore styles
-                _this.restoreCursorDownStyle(io, pointer);
-                // Remove from over pointers
-                io.downPointers.removeValue(pointer);
-                // Initiate UP event
-                if (io.events.isEnabled("up")) {
-                    var imev = {
-                        type: "up",
-                        target: io,
-                        event: ev,
-                        pointer: pointer
-                    };
-                    io.events.dispatchImmediately("up", imev);
-                }
-                // Initiate delayed OUT event
-                if (io.lastOutEvent) {
-                    _this.handleOut(io, pointer, io.lastOutEvent);
-                }
-                // Handle swiping-related stuff
-                if (io.swipeable && _this.swiped(io, pointer)) {
-                    // Swiped - nothing else should happen
-                    _this.handleSwipe(io, pointer, ev);
-                }
-                else {
-                    // Check if it maybe a click
-                    if (io.clickable && !_this.moved(pointer, _this.getHitOption(io, "hitTolerance"))) {
-                        _this.handleHit(io, pointer, ev);
-                    }
-                    // Remove from down objects if no more pointers pressing down
-                    if (io.downPointers.length === 0) {
-                        io.isDown = false;
-                    }
-                    // Do extra work for inert draggable objects
-                    if (io.inert && _this.moved(pointer, _this.getHitOption(io, "hitTolerance"))) {
-                        _this.handleInertia(io, pointer);
-                    }
-                    else if (io.draggable) {
-                        _this.processDragStop(io, pointer, ev);
-                    }
-                }
-            }
-        });
-        // No more down pointers?
-        /*if (this.transformedObjects.length === 0) {
-            this.unlockDocument();
-        }*/
-        // Reset pointer
-        this.resetPointer(pointer);
     };
     /**
      * Handles swipe action.
@@ -1527,7 +1505,7 @@ var Interaction = /** @class */ (function (_super) {
     };
     /**
      * Initiates inertia checking sub-routines for different movement types:
-     * drag, resize, rotate.
+     * drag, resize.
      *
      * @ignore Exclude from docs
      * @param {InteractionObject}   sprite
@@ -1536,9 +1514,6 @@ var Interaction = /** @class */ (function (_super) {
     Interaction.prototype.handleInertia = function (io, pointer) {
         if (io.draggable && io.downPointers.length === 0) {
             this.handleMoveInertia(io, pointer);
-        }
-        if (io.rotatable && io.downPointers.length === 1) {
-            this.handleRotateInertia(io, pointer);
         }
         if (io.resizable && io.downPointers.length > 1) {
             this.handleResizeInertia(io, pointer);
@@ -1566,7 +1541,7 @@ var Interaction = /** @class */ (function (_super) {
         // Init inertia object
         var inertia = new Inertia(interaction, type, point, startPoint);
         // Get inertia data
-        var ref = this.getTrailPoint(pointer, new Date().getTime() - this.getInertiaOption(io, "move", "time"));
+        var ref = this.getTrailPoint(pointer, $time.getTime() - this.getInertiaOption(io, "move", "time"));
         if (typeof ref === "undefined") {
             this.processDragStop(io, pointer, pointer.lastUpEvent);
             return;
@@ -1589,21 +1564,6 @@ var Interaction = /** @class */ (function (_super) {
         io.inertias.setKey("move", inertia);
     };
     /**
-     * Continues rotation of a `rotatable` element after it is rotated and
-     * released.
-     *
-     * **NOTE:** this is is just a placeholder function. No actual functionality
-     * is implemented, yet.
-     *
-     * @ignore Exclude from docs
-     * @param {InteractionObject}  io       Element
-     * @param {IPointer}           pointer  Pointer
-     * @todo Implement functionality
-     */
-    Interaction.prototype.handleRotateInertia = function (io, pointer) {
-        // Some day, folks. Some day...
-    };
-    /**
      * Continues resizing of a `resizable` element after it is resized and
      * released.
      *
@@ -1618,7 +1578,7 @@ var Interaction = /** @class */ (function (_super) {
         // Some day, folks. Some day...
     };
     /**
-     * Recalculates element's position, size and rotation based on position of
+     * Recalculates element's position and size based on position of
      * all its related pointers.
      *
      * @ignore Exclude from docs
@@ -1640,7 +1600,7 @@ var Interaction = /** @class */ (function (_super) {
         var startPoint2;
         // Determine if it's a sinngle pointer or multi
         var singlePoint = true;
-        if ((io.downPointers.length > 1) && pointer2) {
+        if ((io.downPointers.length > 1) && pointer2 && (pointer1.point.x != pointer2.point.x || pointer1.point.y != pointer2.point.y)) {
             // Several pointers down
             singlePoint = false;
             // Get second pointer
@@ -1675,11 +1635,10 @@ var Interaction = /** @class */ (function (_super) {
         else {
             // Check if second touch point moved
             var pointer2Moved = pointer2 && this.moved(pointer2, 0);
-            if (io.draggable && io.resizable && io.rotatable) {
+            if (io.draggable && io.resizable) {
                 //this.handleTransformAll(io, point1, startPoint1, point2, startPoint2, ev, pointer1Moved && pointer2Moved);
                 this.handleTransformMove(io, point1, startPoint1, ev, pointer1Moved && pointer2Moved);
                 this.handleTransformResize(io, point1, startPoint1, point2, startPoint2, ev, pointer1Moved && pointer2Moved);
-                this.handleTransformRotate(io, point1, startPoint1, point2, startPoint2, ev, pointer1Moved && pointer2Moved);
             }
             else {
                 if (io.draggable) {
@@ -1687,9 +1646,6 @@ var Interaction = /** @class */ (function (_super) {
                 }
                 if (io.resizable) {
                     this.handleTransformResize(io, point1, startPoint1, point2, startPoint2, ev, pointer1Moved && pointer2Moved);
-                }
-                if (io.rotatable) {
-                    this.handleTransformRotate(io, point1, startPoint1, point2, startPoint2, ev, pointer1Moved && pointer2Moved);
                 }
             }
         }
@@ -1750,30 +1706,6 @@ var Interaction = /** @class */ (function (_super) {
         }
     };
     /**
-     * Hdanles rotation of the element.
-     *
-     * @ignore Exclude from docs
-     * @param {InteractionObject}        io            Element
-     * @param {IPoint}                   point1        Current position of reference point #1
-     * @param {IPoint}                   startPoint1   Original position of reference point #1
-     * @param {IPoint}                   point2        Current position of reference point #2
-     * @param {IPoint}                   startPoint2   Original position of reference point #2
-     * @param {MouseEvent | TouchEvent}  ev            Original event
-     * @param {boolean}                  pointerMoved  Did pointer move?
-     */
-    Interaction.prototype.handleTransformRotate = function (io, point1, startPoint1, point2, startPoint2, ev, pointerMoved) {
-        // Prepare {InteractionEvent} object
-        if (io.events.isEnabled("rotate")) {
-            var imev = {
-                type: "rotate",
-                target: io,
-                event: ev,
-                angle: $math.getRotation(point1, startPoint1, point2, startPoint2),
-            };
-            io.events.dispatchImmediately("rotate", imev);
-        }
-    };
-    /**
      * Handles all the preparations of the element when it starts to be dragged.
      *
      * @ignore Exclude from docs
@@ -1783,13 +1715,19 @@ var Interaction = /** @class */ (function (_super) {
      */
     Interaction.prototype.processDragStart = function (io, pointer, ev) {
         // Add to draggedObjects
-        this.transformedObjects.push(io);
+        this.transformedObjects.moveValue(io);
         // Report "dragstart"
         var imev = {
             type: "dragstart",
             target: io,
             event: ev
         };
+        // Log object that we are starting to drag, so we can check against and
+        // avoid hovers on other objects that might be in the path of movement.
+        if (pointer) {
+            pointer.dragTarget = io;
+            //pointer.startPoint = pointer.point;
+        }
         /**
          * If pointer is set we will not fire the event until the pointer has
          * actually moved. If it's not set we don't have to wait for anything, so we
@@ -1815,6 +1753,10 @@ var Interaction = /** @class */ (function (_super) {
         if (!pointer) {
             pointer = this.getDragPointer(io);
         }
+        // Unset drag object
+        if (pointer) {
+            pointer.dragTarget = undefined;
+        }
         // Removed from transformedObjects
         this.transformedObjects.removeValue(io);
         // Unlock document
@@ -1829,6 +1771,30 @@ var Interaction = /** @class */ (function (_super) {
                 io.events.dispatchImmediately("dragstop", imev);
             }
         }
+    };
+    /**
+     * Handles all the preparations of the element when it starts to be resized.
+     *
+     * @ignore Exclude from docs
+     * @param {InteractionObject}        io       Element
+     * @param {IPointer}                 pointer  Pointer
+     * @param {MouseEvent | TouchEvent}  ev       Original event
+     */
+    Interaction.prototype.processResizeStart = function (io, pointer, ev) {
+        // Add to draggedObjects
+        this.transformedObjects.moveValue(io);
+    };
+    /**
+     * Finishes up element drag operation.
+     *
+     * @ignore Exclude from docs
+     * @param {InteractionObject}        io       Element
+     * @param {IPointer}                 pointer  Pointer
+     * @param {MouseEvent | TouchEvent}  ev       Original event
+     */
+    Interaction.prototype.processResizeStop = function (io, pointer, ev) {
+        // Removed from transformedObjects
+        this.transformedObjects.removeValue(io);
     };
     /**
      * ==========================================================================
@@ -1861,7 +1827,7 @@ var Interaction = /** @class */ (function (_super) {
      */
     Interaction.prototype.dragStop = function (io, pointer) {
         if (pointer || (pointer = this.getDragPointer(io))) {
-            this.handleUp(pointer, pointer.lastUpEvent);
+            this.handleGlobalUp(pointer, pointer.lastUpEvent);
         }
     };
     /**
@@ -1899,15 +1865,29 @@ var Interaction = /** @class */ (function (_super) {
      * @return {string}      Pointer ID
      */
     Interaction.prototype.getPointerId = function (ev) {
+        var id = "";
         if ($type.hasValue(ev.identifier)) {
-            return ev.identifier;
+            id = "" + ev.identifier;
         }
         else if ($type.hasValue(ev.pointerId)) {
-            return ev.pointerId;
+            id = "" + ev.pointerId;
         }
         else {
-            return "1";
+            id = "m";
         }
+        return id.replace("-", "");
+    };
+    /**
+     * Returns a cursor position of the event.
+     *
+     * @param  {MouseEvent | Touch}  ev  Original event
+     * @return {IPoint}                  Event point
+     */
+    Interaction.prototype.getPointerPoint = function (ev) {
+        return {
+            "x": ev.clientX,
+            "y": ev.clientY
+        };
     };
     /**
      * Returns [[Pointer]] object that is associated with the Event.
@@ -1921,26 +1901,26 @@ var Interaction = /** @class */ (function (_super) {
         // Get pointer id
         var id = this.getPointerId(ev);
         // Get current coordinates
-        var point = {
-            "x": ev.clientX,
-            "y": ev.clientY
-        };
+        var point = this.getPointerPoint(ev);
         // Look for the pointer in the Dictionary if it maybe already exists
         var pointer;
         if (this.pointers.hasKey(id)) {
             // We already have such pointer
             pointer = this.pointers.getKey(id);
+            // We need this, because Edge reuses pointer ids across touch and mouse
+            pointer.touch = this.isPointerTouch(ev);
             // Reset pointer
-            pointer.point = point;
+            //pointer.point = point;
         }
         else {
             // Init pointer
             pointer = {
                 "id": id,
                 //"touch": !(ev instanceof MouseEvent) || ((<any>ev).pointerType && (<any>ev).pointerType != "pointer"),
-                "touch": !(ev instanceof MouseEvent) || (ev.pointerType && ev.pointerType != "mouse"),
+                //"touch": !(ev instanceof MouseEvent) || ((<any>ev).pointerType && (<any>ev).pointerType != "mouse"),
+                "touch": this.isPointerTouch(ev),
                 "startPoint": point,
-                "startTime": new Date().getTime(),
+                "startTime": $time.getTime(),
                 "point": point,
                 "track": [],
                 "swipeCanceled": false,
@@ -1956,14 +1936,48 @@ var Interaction = /** @class */ (function (_super) {
         return pointer;
     };
     /**
+     * Determines if pointer event originated from a touch pointer or mouse.
+     *
+     * @param  {MouseEvent | Touch}  ev  Original event
+     * @return {boolean}                 Touch pointer?
+     */
+    Interaction.prototype.isPointerTouch = function (ev) {
+        if (typeof Touch !== "undefined" && ev instanceof Touch) {
+            return true;
+        }
+        else if (typeof PointerEvent !== "undefined" && ev instanceof PointerEvent && $type.hasValue(ev.pointerType)) {
+            switch (ev.pointerType) {
+                case "touch":
+                case "pen":
+                case 2:
+                    return true;
+                case "mouse":
+                case 4:
+                    return false;
+                default:
+                    return !(ev instanceof MouseEvent);
+            }
+        }
+        else if ($type.hasValue(ev.type)) {
+            if (ev.type.match(/^mouse/)) {
+                return false;
+            }
+        }
+        return true;
+    };
+    /**
      * Resets the poiner to original state, i.e. cleans movement information,
      * starting point, etc.
      *
      * @param {IPointer} pointer Pointer
      */
-    Interaction.prototype.resetPointer = function (pointer) {
-        pointer.startTime = new Date().getTime();
-        pointer.startPoint = pointer.point;
+    Interaction.prototype.resetPointer = function (pointer, ev) {
+        // Get current coordinates
+        var point = this.getPointerPoint(ev);
+        ;
+        pointer.startTime = $time.getTime();
+        pointer.startPoint = point;
+        pointer.point = point;
         pointer.track = [];
         pointer.swipeCanceled = false;
         //clearTimeout(pointer.swipeTimeout);
@@ -1977,7 +1991,7 @@ var Interaction = /** @class */ (function (_super) {
      */
     Interaction.prototype.addBreadCrumb = function (pointer, point) {
         pointer.track.push({
-            "timestamp": new Date().getTime(),
+            "timestamp": $time.getTime(),
             "point": point
         });
     };
@@ -2092,26 +2106,6 @@ var Interaction = /** @class */ (function (_super) {
         }
     };
     /**
-     * Cancels hold counting for the object.
-     *
-     * @param {InteractionObject} io Element
-     */
-    Interaction.prototype.cancelHold = function (io) {
-        $iter.each(io.downPointers.iterator(), function (pointer) {
-            //clearTimeout(pointer.holdTimeout);
-        });
-    };
-    /**
-     * Cancels swipe.
-     *
-     * @param {InteractionObject} io Element
-     */
-    Interaction.prototype.cancelSwipe = function (io) {
-        $iter.each(io.downPointers.iterator(), function (pointer) {
-            //clearTimeout(pointer.swipeTimeout);
-        });
-    };
-    /**
      * Returns an option associated with hit events.
      *
      * @ignore Exclude from docs
@@ -2199,7 +2193,7 @@ var Interaction = /** @class */ (function (_super) {
      */
     Interaction.prototype.stopInertia = function (io) {
         var x;
-        var inertias = ["move", "resize", "rotate"];
+        var inertias = ["move", "resize"];
         for (var i = 0; i < inertias.length; i++) {
             x = inertias[i];
             if (io.inertias.hasKey(x)) {
@@ -2221,7 +2215,7 @@ var Interaction = /** @class */ (function (_super) {
      * @return {boolean}                     `true` if swiping
      */
     Interaction.prototype.swiping = function (io, pointer) {
-        var now = new Date().getTime();
+        var now = $time.getTime();
         if (pointer.swipeCanceled || !io.swipeable) {
             return false;
         }
@@ -2241,7 +2235,7 @@ var Interaction = /** @class */ (function (_super) {
      * @return {boolean}                     Swiped?
      */
     Interaction.prototype.swiped = function (io, pointer) {
-        var now = new Date().getTime();
+        var now = $time.getTime();
         if (pointer.swipeCanceled) {
             return false;
         }
@@ -2357,9 +2351,17 @@ var Interaction = /** @class */ (function (_super) {
      *
      * @param  {IPointer}  pointer    Pointer
      * @param  {number}    tolerance  Tolerance in pixels
+     * @param  {number}    minTime    Minimum time required for the pointer to be down to be considered moved
      * @return {boolean}              `true` if the pointer has moved
      */
-    Interaction.prototype.moved = function (pointer, tolerance) {
+    Interaction.prototype.moved = function (pointer, tolerance, minTime) {
+        /*// If there was more time, we don't care if cursor actually moved
+        let duration = $time.getTime() - pointer.startTime;
+        if ($type.hasValue(minTime) && (minTime > duration)) {
+            return false;
+        }*/
+        if (minTime === void 0) { minTime = 300; }
+        // That was quick measure shift
         var shift = this.getShift(pointer);
         return (Math.abs(shift.x) > tolerance) || (Math.abs(shift.y) > tolerance);
     };
@@ -2403,6 +2405,9 @@ var Interaction = /** @class */ (function (_super) {
     Interaction.prototype.pointerExists = function (list, pointer) {
         var exists = false;
         list.each(function (item) {
+            if (item == pointer) {
+                return;
+            }
             exists = item.point.x == pointer.point.x && item.point.y == pointer.point.y;
         });
         return exists;
@@ -2469,19 +2474,6 @@ var Interaction = /** @class */ (function (_super) {
         });
     };
     /**
-     * Processes dalyed events, such as "out" event that was initiated for
-     * elements by touch.
-     */
-    Interaction.prototype.processDelayed = function () {
-        var delayedEvent;
-        while (delayedEvent = this._delayedEvents.out.shift()) {
-            if (delayedEvent.timeout) {
-                clearTimeout(delayedEvent.timeout);
-            }
-            this.handleOut(delayedEvent.io, delayedEvent.pointer, delayedEvent.event, true);
-        }
-    };
-    /**
      * Disposes this object and cleans up after itself.
      */
     Interaction.prototype.dispose = function () {
@@ -2490,6 +2482,65 @@ var Interaction = /** @class */ (function (_super) {
             this.restoreAllStyles(this.body);
             this.unlockWheel();
         }
+    };
+    Interaction.prototype.log = function (text, ev, io) {
+        var show = false;
+        if (show) {
+            // Touchlist?
+            if (ev.changedTouches) {
+                for (var i = 0; i < ev.changedTouches.length; i++) {
+                    this.logTouch(text, ev.type, ev.changedTouches[i]);
+                }
+                return;
+            }
+            // Get type
+            var type = "";
+            if (ev.pointerType) {
+                switch (ev.pointerType) {
+                    case 2:
+                        type = "touch";
+                        break;
+                    case 4:
+                        type = "mouse";
+                        break;
+                    default:
+                        type = ev.pointerType;
+                        break;
+                }
+            }
+            else if (typeof TouchEvent != "undefined" && ev instanceof TouchEvent) {
+                type = "touch";
+            }
+            else if (ev.type.match(/^mouse/)) {
+                type = "mouse";
+            }
+            else {
+                type = "???";
+                console.log(JSON.stringify(ev));
+                //console.log("[RAW]", ev);
+            }
+            // Get ID
+            var id = "";
+            if ($type.hasValue(ev.identifier)) {
+                id = ev.identifier;
+            }
+            else if ($type.hasValue(ev.pointerId)) {
+                id = ev.pointerId;
+            }
+            else {
+                console.log("[RAW]", ev);
+                id = "???";
+            }
+            if (io) {
+                console.log(text + " (" + io.uid + ")  " + ev.type + "  " + type + "  " + id);
+            }
+            else {
+                console.log(text + "  " + ev.type + "  " + type + "  " + id);
+            }
+        }
+    };
+    Interaction.prototype.logTouch = function (text, type, ev) {
+        console.log(text + "  " + type + "  " + "touch" + "  " + ev.identifier);
     };
     return Interaction;
 }(BaseObjectEvents));

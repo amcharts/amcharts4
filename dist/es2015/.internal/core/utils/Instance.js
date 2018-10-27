@@ -48,6 +48,7 @@ function createChild(htmlElement, classType) {
         container.width = percent(100);
         container.height = percent(100);
         container.paper = paper;
+        paper.append(container.group);
         // this is set from parent container, but this one doesn't have, so do it manually.
         container.relativeWidth = 1;
         container.relativeHeight = 1;
@@ -61,11 +62,17 @@ function createChild(htmlElement, classType) {
         contentContainer.mask = contentContainer.background;
         // creating classType instance
         var sprite_1 = contentContainer.createChild(classType);
+        registry.invalidSprites[sprite_1.uid] = [];
+        registry.invalidPositions[sprite_1.uid] = [];
+        registry.invalidLayouts[sprite_1.uid] = [];
+        container.baseId = sprite_1.uid;
         sprite_1.isBaseSprite = true;
         sprite_1.focusFilter = new FocusFilter();
         registry.baseSprites.push(sprite_1);
+        registry.baseSpritesByUid[container.uid] = sprite_1;
         sprite_1.addDisposer(new Disposer(function () {
             $array.remove(registry.baseSprites, sprite_1);
+            registry.baseSpritesByUid[sprite_1.uid] = undefined;
         }));
         // TODO figure out a better way of doing this
         sprite_1.addDisposer(container);
@@ -80,12 +87,12 @@ function createChild(htmlElement, classType) {
         sprite_1.tooltip.setBounds({ x: 0, y: 0, width: tooltipContainer_1.maxWidth, height: tooltipContainer_1.maxHeight });
         tooltipContainer_1.events.on("maxsizechanged", function () {
             $type.getValue(sprite_1.tooltip).setBounds({ x: 0, y: 0, width: tooltipContainer_1.maxWidth, height: tooltipContainer_1.maxHeight });
-        });
+        }, undefined, false);
         //@todo: maybe we don't need to create one by default but only on request?
         var preloader_1 = new Preloader();
         preloader_1.events.on("inited", function () {
             preloader_1.__disabled = true;
-        });
+        }, undefined, false);
         contentContainer.preloader = preloader_1;
         if (!options.commercialLicense) {
             var logo_1 = tooltipContainer_1.createChild(AmChartsLogo);
@@ -96,7 +103,7 @@ function createChild(htmlElement, classType) {
                 else if (logo_1.isHidden || logo_1.isHiding) {
                     logo_1.show();
                 }
-            });
+            }, undefined, false);
             sprite_1.logo = logo_1;
             logo_1.align = "left";
             logo_1.valign = "bottom";

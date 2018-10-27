@@ -313,13 +313,12 @@ var ClockHand = /** @class */ (function (_super) {
          * @param {Axis}  axis  Axis
          */
         set: function (axis) {
-            var _this = this;
             if (this.axis != axis) {
                 this._axis.set(axis, new MultiDisposer([
-                    axis.events.on("datavalidated", function () { return _this.updateValue(); }),
-                    axis.events.on("datarangechanged", function () { return _this.updateValue(); }),
-                    axis.events.on("valueschanged", function () { return _this.updateValue(); }),
-                    axis.events.on("propertychanged", function () { return _this.invalidate(); })
+                    axis.events.on("datavalidated", this.updateValue, this, false),
+                    axis.events.on("datarangechanged", this.updateValue, this, false),
+                    axis.events.on("dataitemsvalidated", this.updateValue, this, false),
+                    axis.events.on("propertychanged", this.invalidate, this, false)
                 ]));
             }
             if (axis) {

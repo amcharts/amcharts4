@@ -188,4 +188,10 @@ export declare class Chart extends Component {
     processConfig(config?: {
         [index: string]: any;
     }): void;
+    /**
+     * Copies all properties from another instance of [[Series]].
+     *
+     * @param {Series}  source  Source series
+     */
+    copyFrom(source: this): void;
 }

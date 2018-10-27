@@ -45,6 +45,7 @@ var System = /** @class */ (function () {
          */
         this.dummyCounter = 0;
         this._frameRequested = false;
+        this._updateStepDuration = 50;
         this.time = Date.now();
     }
     /**
@@ -75,9 +76,11 @@ var System = /** @class */ (function () {
      */
     System.prototype.update = function () {
         this._frameRequested = false;
+        var time = Date.now();
         registry.dispatchImmediately("enterframe");
-        this.validateLayouts();
-        this.validatePositions();
+        //this.validateLayouts();
+        //this.validatePositions();
+        var skippedComponents = [];
         // data objects first - do all calculations
         // only data is parsed in chunks, thats why we do for loop instead of a while like with other invalid items.
         // important to go backwards, as items are removed!
@@ -113,6 +116,10 @@ var System = /** @class */ (function () {
             }
             else {
                 $array.remove(registry.invalidDatas, component);
+            }
+            if (Date.now() - time > this._updateStepDuration) {
+                skippedComponents = registry.invalidDatas;
+                break;
             }
         }
         while (registry.invalidRawDatas.length > 0) {
@@ -176,53 +183,84 @@ var System = /** @class */ (function () {
         var skippedSprites = [];
         // display objects later
         // TODO use iterator instead
-        while (registry.invalidSprites.length > 0) {
-            this.validateLayouts();
-            this.validatePositions();
-            var sprite = registry.invalidSprites[registry.invalidSprites.length - 1];
-            // we need to check this, as validateLayout might validate sprite
-            if (sprite && !sprite.isDisposed()) {
-                if (sprite instanceof Component && (sprite.dataInvalid || (sprite.dataProvider && sprite.dataProvider.dataInvalid))) {
-                    // void
-                    skippedSprites.push(sprite);
+        for (var key_1 in registry.invalidLayouts) {
+            this.validateLayouts(key_1);
+        }
+        for (var key_2 in registry.invalidPositions) {
+            this.validatePositions(key_2);
+        }
+        var hasSkipped = false;
+        time = Date.now();
+        for (var key in registry.invalidSprites) {
+            var count = 0;
+            var invalidSprites = registry.invalidSprites[key];
+            while (invalidSprites.length > 0) {
+                this.validateLayouts(key);
+                this.validatePositions(key);
+                count++;
+                if (count == 5) {
+                    if (Date.now() - time > this._updateStepDuration) {
+                        skippedSprites = invalidSprites;
+                        break;
+                    }
+                    count = 0;
                 }
-                else {
-                    if (sprite.dataItem && sprite.dataItem.component && sprite.dataItem.component.dataInvalid && !sprite.dataItem.component.isTemplate) {
+                var sprite = invalidSprites[invalidSprites.length - 1];
+                // we need to check this, as validateLayout might validate sprite
+                if (sprite && !sprite.isDisposed()) {
+                    if (sprite instanceof Component && (sprite.dataInvalid || (sprite.dataProvider && sprite.dataProvider.dataInvalid))) {
                         // void
                         skippedSprites.push(sprite);
                     }
                     else {
-                        try {
-                            if (sprite instanceof Container) {
-                                sprite.children.each(function (child) {
-                                    if (child.invalid) {
-                                        if (child instanceof Component && (child.dataInvalid || (child.dataProvider && child.dataProvider.dataInvalid))) {
-                                            skippedSprites.push(child);
-                                        }
-                                        else if (child.dataItem && child.dataItem.component && child.dataItem.component.dataInvalid) {
-                                            skippedSprites.push(child);
-                                        }
-                                        else {
-                                            child.validate();
-                                        }
-                                    }
-                                });
-                            }
-                            sprite.validate();
+                        if (sprite.dataItem && sprite.dataItem.component && sprite.dataItem.component.dataInvalid && !sprite.dataItem.component.isTemplate) {
+                            // void
+                            skippedSprites.push(sprite);
                         }
-                        catch (e) {
-                            sprite.invalid = false;
-                            $array.remove(registry.invalidSprites, sprite);
-                            sprite.raiseCriticalError(e);
+                        else {
+                            try {
+                                if (sprite instanceof Container) {
+                                    sprite.children.each(function (child) {
+                                        if (child.invalid) {
+                                            if (child instanceof Component && (child.dataInvalid || (child.dataProvider && child.dataProvider.dataInvalid))) {
+                                                skippedSprites.push(child);
+                                            }
+                                            else if (child.dataItem && child.dataItem.component && child.dataItem.component.dataInvalid) {
+                                                skippedSprites.push(child);
+                                            }
+                                            else {
+                                                child.validate();
+                                            }
+                                        }
+                                    });
+                                }
+                                sprite.validate();
+                            }
+                            catch (e) {
+                                sprite.invalid = false;
+                                $array.remove(invalidSprites, sprite);
+                                sprite.raiseCriticalError(e);
+                            }
                         }
                     }
+                    // this might seem too much, but it's ok
+                    sprite.invalid = false;
                 }
-                // this might seem too much, but it's ok
-                sprite.invalid = false;
+                $array.remove(invalidSprites, sprite);
             }
-            $array.remove(registry.invalidSprites, sprite);
+            if (Date.now() - time > this._updateStepDuration) {
+                skippedSprites = invalidSprites;
+                break;
+            }
         }
-        registry.invalidSprites = skippedSprites;
+        for (var key in registry.invalidSprites) {
+            if (registry.invalidSprites[key].length > 0) {
+                hasSkipped = true;
+            }
+        }
+        if (skippedComponents.length > 0) {
+            registry.invalidDatas = skippedComponents;
+        }
         // TODO make this more efficient
         // TODO don't copy the array
         $array.each($array.copy(animations), function (x) {
@@ -231,13 +269,24 @@ var System = /** @class */ (function () {
         // to avoid flicker, we validate positions last time
         //this.validateLayouts();
         //this.validatePositions();
+        //if(!hasSkipped){
+        for (var key_3 in registry.invalidLayouts) {
+            this.validateLayouts(key_3);
+        }
+        for (var key_4 in registry.invalidPositions) {
+            this.validatePositions(key_4);
+        }
+        //}
         triggerIdle();
         // to avoid flicker, we validate positions last time
-        this.validateLayouts();
-        this.validatePositions();
+        //this.validateLayouts();
+        //this.validatePositions();
         registry.dispatchImmediately("exitframe");
-        if (animations.length > 0 || skippedSprites.length > 0) {
+        if (hasSkipped || animations.length > 0 || skippedComponents.length > 0) {
             this.requestFrame();
+        }
+        if (skippedSprites.length == 0) {
+            this._updateStepDuration = 250;
         }
     };
     System.prototype.requestFrame = function () {
@@ -256,11 +305,12 @@ var System = /** @class */ (function () {
      * @ignore Exclude from docs
      * @todo Maybe should be private?
      */
-    System.prototype.validatePositions = function () {
+    System.prototype.validatePositions = function (id) {
         // invalid positions
         // TODO use iterator instead
-        while (registry.invalidPositions.length > 0) {
-            var sprite = registry.invalidPositions[registry.invalidPositions.length - 1];
+        var invalidPositions = registry.invalidPositions[id];
+        while (invalidPositions.length > 0) {
+            var sprite = invalidPositions[invalidPositions.length - 1];
             if (!sprite.isDisposed()) {
                 try {
                     if (sprite instanceof Container) {
@@ -274,12 +324,12 @@ var System = /** @class */ (function () {
                 }
                 catch (e) {
                     sprite.positionInvalid = false;
-                    $array.remove(registry.invalidPositions, sprite);
+                    $array.remove(invalidPositions, sprite);
                     sprite.raiseCriticalError(e);
                 }
             }
             else {
-                $array.remove(registry.invalidPositions, sprite);
+                $array.remove(invalidPositions, sprite);
             }
         }
     };
@@ -290,15 +340,16 @@ var System = /** @class */ (function () {
      * @ignore Exclude from docs
      * @todo Maybe should be private?
      */
-    System.prototype.validateLayouts = function () {
+    System.prototype.validateLayouts = function (id) {
         // invalid positions
         // TODO use iterator instead
-        while (registry.invalidLayouts.length > 0) {
-            var container = registry.invalidLayouts[registry.invalidLayouts.length - 1];
+        var invalidLayouts = registry.invalidLayouts[id];
+        while (invalidLayouts.length > 0) {
+            var container = invalidLayouts[invalidLayouts.length - 1];
             if (!container.isDisposed()) {
                 try {
                     container.children.each(function (sprite) {
-                        if (sprite instanceof Container && sprite.layoutInvalid) {
+                        if (sprite instanceof Container && sprite.layoutInvalid && !sprite.isDisposed()) {
                             sprite.validateLayout();
                         }
                     });
@@ -306,12 +357,12 @@ var System = /** @class */ (function () {
                 }
                 catch (e) {
                     container.layoutInvalid = false;
-                    $array.remove(registry.invalidLayouts, container);
+                    $array.remove(invalidLayouts, container);
                     container.raiseCriticalError(e);
                 }
             }
             else {
-                $array.remove(registry.invalidLayouts, container);
+                $array.remove(invalidLayouts, container);
             }
         }
     };
@@ -368,7 +419,7 @@ var System = /** @class */ (function () {
      * @see {@link https://docs.npmjs.com/misc/semver}
      * @type {string}
      */
-    System.VERSION = "4.0.0-beta.63";
+    System.VERSION = "4.0.0-beta.64";
     return System;
 }());
 export { System };

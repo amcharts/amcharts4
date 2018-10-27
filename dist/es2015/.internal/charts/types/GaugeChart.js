@@ -65,7 +65,7 @@ var GaugeChart = /** @class */ (function (_super) {
         _this.startAngle = 180;
         _this.endAngle = 360;
         _this.hands = new ListTemplate(new ClockHand());
-        _this.hands.events.on("inserted", _this.processHand, _this);
+        _this.hands.events.on("inserted", _this.processHand, _this, false);
         _this._disposers.push(new ListDisposer(_this.hands));
         _this._disposers.push(_this.hands.template);
         // Apply theme

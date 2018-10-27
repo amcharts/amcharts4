@@ -38,13 +38,13 @@ var Column = /** @class */ (function (_super) {
         _this.className = "Column";
         _this.width = percent(80);
         _this.height = percent(80);
-        _this.isMeasured = true; // for correct position of the tooltip
+        //this.isMeasured = true; // for correct position of the tooltip
         _this.applyOnClones = true;
         _this.strokeOpacity = 1;
         _this.layout = "none";
         _this.createAssets();
         // otherwise users will have to set layout themselves if they'll want to align, scale etc children
-        _this.events.on("childadded", _this.handleKidAdded, _this);
+        _this.events.on("childadded", _this.handleKidAdded, _this, false);
         return _this;
     }
     Column.prototype.handleKidAdded = function () {
@@ -83,14 +83,27 @@ var Column = /** @class */ (function (_super) {
             this.column.copyFrom(source.column);
         }
     };
-    Column.prototype.getContainerBBox = function (x, y, width, height) {
-        if (this.column) {
-            return { x: 0, y: 0, width: this.column.measuredWidth, height: this.column.measuredHeight };
-        }
-        else {
-            return { x: 0, y: 0, width: $math.min(this.pixelWidth, this.maxWidth), height: $math.min(this.pixelHeight, this.maxHeight) };
-        }
-    };
+    Object.defineProperty(Column.prototype, "bbox", {
+        /**
+         * Returns bounding box (square) for this element.
+         *
+         * @ignore Exclude from docs
+         * @type {IRectangle}
+         */
+        get: function () {
+            if (this.definedBBox) {
+                return this.definedBBox;
+            }
+            if (this.column) {
+                return { x: 0, y: 0, width: this.column.measuredWidth, height: this.column.measuredHeight };
+            }
+            else {
+                return { x: 0, y: 0, width: $math.min(this.pixelWidth, this.maxWidth), height: $math.min(this.pixelHeight, this.maxHeight) };
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Column;
 }(Container));
 export { Column };

@@ -2,6 +2,7 @@ import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
+
 am4core.useTheme(am4themes_animated);
 
 let chart = am4core.create("chartdiv", am4charts.RadarChart);
@@ -60,8 +61,8 @@ chart.data = [{
 chart.padding(10, 10, 10, 10);
 
 chart.radius = am4core.percent(95);
-chart.startAngle = 270 - 180;
-chart.endAngle = 270 + 180;
+chart.startAngle = 179.5;
+chart.endAngle = 360.5;
 
 chart.innerRadius = am4core.percent(60);
 

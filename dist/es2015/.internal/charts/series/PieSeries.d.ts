@@ -361,5 +361,11 @@ export declare class PieSeries extends PercentSeries {
      * @param {AMEvent<Slice, ISpriteEvents>["propertychanged"]}  event  Event
      */
     protected handleSliceMove(event: AMEvent<this["_slice"], ISpriteEvents>["propertychanged"]): void;
-    protected getContainerBBox(): IRectangle;
+    /**
+     * Returns bounding box (square) for this element.
+     *
+     * @ignore Exclude from docs
+     * @type {IRectangle}
+     */
+    readonly bbox: IRectangle;
 }

@@ -121,29 +121,6 @@ var Inertia = /** @class */ (function (_super) {
             this.interaction.events.dispatchImmediately("drag", imev);
         }
     };
-    Object.defineProperty(Inertia.prototype, "rotation", {
-        /**
-         * Sets current angle.
-         *
-         * Will trigger "rotate" event on a target element.
-         *
-         * @param {number} value Angle
-         */
-        set: function (value) {
-            if ($type.isNumber(value)) {
-                if (this.interaction.events.isEnabled("rotate")) {
-                    var imev = {
-                        type: "rotate",
-                        target: this.interaction,
-                        angle: value
-                    };
-                    this.interaction.events.dispatchImmediately("rotate", imev);
-                }
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
     /**
      * Finishes up the inertia animation. (removes reference to this animation
      * object)

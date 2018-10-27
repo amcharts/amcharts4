@@ -19,6 +19,7 @@ import { XYCursor } from "../cursors/XYCursor";
 import { ZoomOutButton } from "../../core/elements/ZoomOutButton";
 import { percent } from "../../core/utils/Percent";
 import { registry } from "../../core/Registry";
+import { XYChartScrollbar } from "../elements/XYChartScrollbar";
 import * as $math from "../../core/utils/Math";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
@@ -239,7 +240,7 @@ var XYChart = /** @class */ (function (_super) {
         leftAxesCont.layout = "horizontal";
         leftAxesCont.height = percent(100);
         leftAxesCont.contentAlign = "right";
-        leftAxesCont.events.on("transformed", _this.updateXAxesMargins, _this);
+        leftAxesCont.events.on("transformed", _this.updateXAxesMargins, _this, false);
         leftAxesCont.zIndex = 1;
         _this.leftAxesContainer = leftAxesCont;
         // Create a container for plot area
@@ -260,7 +261,7 @@ var XYChart = /** @class */ (function (_super) {
         rightAxesCont.layout = "horizontal";
         rightAxesCont.height = percent(100);
         rightAxesCont.zIndex = 1;
-        rightAxesCont.events.on("transformed", _this.updateXAxesMargins, _this);
+        rightAxesCont.events.on("transformed", _this.updateXAxesMargins, _this, false);
         _this.rightAxesContainer = rightAxesCont;
         _this.seriesContainer.parent = plotCont;
         _this.bulletsContainer.parent = plotCont;
@@ -387,7 +388,7 @@ var XYChart = /** @class */ (function (_super) {
         axis.renderer = new this._axisRendererX();
         axis.axisLetter = "X";
         axis.renderer.observe(["opposite", "inside", "inversed", "minGridDistance"], this.handleXAxisChange, this);
-        axis.events.on("datarangechanged", this.handleXAxisRangeChange, this);
+        axis.events.on("datarangechanged", this.handleXAxisRangeChange, this, false);
         // Although axis does not use data directly, we set dataProvider here
         // (but not add to chart data users) to hold up rendering before data
         // is parsed (system handles this)
@@ -417,7 +418,7 @@ var XYChart = /** @class */ (function (_super) {
         axis.renderer = new this._axisRendererY();
         axis.axisLetter = "Y";
         axis.renderer.observe(["opposite", "inside", "inversed", "minGridDistance"], this.handleYAxisChange, this);
-        axis.events.on("datarangechanged", this.handleYAxisRangeChange, this);
+        axis.events.on("datarangechanged", this.handleYAxisRangeChange, this, false);
         // Although axis does not use data directly, we set dataProvider here
         // (but not add to chart data users) to hold up rendering before data
         // is parsed (system handles this)
@@ -597,6 +598,7 @@ var XYChart = /** @class */ (function (_super) {
      * @param {Axis}  axis  Axis
      */
     XYChart.prototype.processAxis = function (axis) {
+        var _this = this;
         // Value axis does not use data directly, only category axis does
         if (axis instanceof CategoryAxis) {
             this._dataUsers.moveValue(axis);
@@ -607,9 +609,11 @@ var XYChart = /** @class */ (function (_super) {
         renderer.breakContainer.parent = this.plotContainer;
         renderer.breakContainer.toFront();
         renderer.breakContainer.zIndex = 10;
-        this.plotContainer.events.on("maxsizechanged", function (event) {
-            axis.invalidateDataItems();
-        });
+        this.plotContainer.events.on("maxsizechanged", function () {
+            if (_this.inited) {
+                axis.invalidateDataItems();
+            }
+        }, axis, false);
     };
     Object.defineProperty(XYChart.prototype, "xAxes", {
         /**
@@ -620,8 +624,8 @@ var XYChart = /** @class */ (function (_super) {
         get: function () {
             if (!this._xAxes) {
                 this._xAxes = new List();
-                this._xAxes.events.on("inserted", this.processXAxis, this);
-                this._xAxes.events.on("removed", this.processXAxisRemoval, this);
+                this._xAxes.events.on("inserted", this.processXAxis, this, false);
+                this._xAxes.events.on("removed", this.processXAxisRemoval, this, false);
             }
             return this._xAxes;
         },
@@ -637,8 +641,8 @@ var XYChart = /** @class */ (function (_super) {
         get: function () {
             if (!this._yAxes) {
                 this._yAxes = new List();
-                this._yAxes.events.on("inserted", this.processYAxis, this);
-                this._yAxes.events.on("removed", this.processYAxisRemoval, this);
+                this._yAxes.events.on("inserted", this.processYAxis, this, false);
+                this._yAxes.events.on("removed", this.processYAxisRemoval, this, false);
             }
             return this._yAxes;
         },
@@ -692,14 +696,14 @@ var XYChart = /** @class */ (function (_super) {
                     this._disposers.push(cursor);
                     cursor.chart = this;
                     cursor.parent = this._cursorContainer;
-                    cursor.events.on("cursorpositionchanged", this.handleCursorPositionChange, this);
-                    cursor.events.on("zoomstarted", this.handleCursorZoomStart, this);
-                    cursor.events.on("zoomended", this.handleCursorZoomEnd, this);
-                    cursor.events.on("panstarted", this.handleCursorPanStart, this);
-                    cursor.events.on("panning", this.handleCursorPanning, this);
-                    cursor.events.on("panended", this.handleCursorPanEnd, this);
-                    cursor.events.on("behaviorcanceled", this.handleCursorCanceled, this);
-                    cursor.events.on("hidden", this.handleHideCursor, this);
+                    cursor.events.on("cursorpositionchanged", this.handleCursorPositionChange, this, false);
+                    cursor.events.on("zoomstarted", this.handleCursorZoomStart, this, false);
+                    cursor.events.on("zoomended", this.handleCursorZoomEnd, this, false);
+                    cursor.events.on("panstarted", this.handleCursorPanStart, this, false);
+                    cursor.events.on("panning", this.handleCursorPanning, this, false);
+                    cursor.events.on("panended", this.handleCursorPanEnd, this, false);
+                    cursor.events.on("behaviorcanceled", this.handleCursorCanceled, this, false);
+                    cursor.events.on("hidden", this.handleHideCursor, this, false);
                     cursor.zIndex = Number.MAX_SAFE_INTEGER - 1;
                 }
             }
@@ -1061,7 +1065,7 @@ var XYChart = /** @class */ (function (_super) {
                 scrollbar.parent = this.topAxesContainer;
                 scrollbar.toBack();
                 scrollbar.orientation = "horizontal";
-                scrollbar.events.on("rangechanged", this.handleXScrollbarChange, this);
+                scrollbar.events.on("rangechanged", this.handleXScrollbarChange, this, false);
                 // accessibility related
                 scrollbar.adapter.add("positionValue", function (arg) {
                     var xAxis = _this.xAxes.getIndex(0);
@@ -1098,7 +1102,7 @@ var XYChart = /** @class */ (function (_super) {
                 scrollbar.parent = this.rightAxesContainer;
                 scrollbar.toFront();
                 scrollbar.orientation = "vertical";
-                scrollbar.events.on("rangechanged", this.handleYScrollbarChange, this);
+                scrollbar.events.on("rangechanged", this.handleYScrollbarChange, this, false);
                 // accessibility related
                 scrollbar.adapter.add("positionValue", function (arg) {
                     var yAxis = _this.yAxes.getIndex(0);
@@ -1262,7 +1266,7 @@ var XYChart = /** @class */ (function (_super) {
         set: function (value) {
             if (this.setPropertyValue("mouseWheelBehavior", value)) {
                 if (value != "none") {
-                    this._mouseWheelDisposer = this.plotContainer.events.on("wheel", this.handleWheel, this);
+                    this._mouseWheelDisposer = this.plotContainer.events.on("wheel", this.handleWheel, this, false);
                     this._disposers.push(this._mouseWheelDisposer);
                 }
                 else {
@@ -1457,7 +1461,7 @@ var XYChart = /** @class */ (function (_super) {
                 button.events.on("hit", function () {
                     _this.zoomAxes(_this.xAxes, { start: 0, end: 1 });
                     _this.zoomAxes(_this.yAxes, { start: 0, end: 1 });
-                });
+                }, undefined, false);
             }
         },
         enumerable: true,
@@ -1474,6 +1478,26 @@ var XYChart = /** @class */ (function (_super) {
         this.yAxes.copyFrom(source.yAxes);
         this.zoomOutButton.copyFrom(source.zoomOutButton);
         //@todo copy all container properties
+    };
+    /**
+     * @ignore
+     */
+    XYChart.prototype.disposeData = function () {
+        _super.prototype.disposeData.call(this);
+        var scrollbarX = this.scrollbarX;
+        if (scrollbarX && scrollbarX instanceof XYChartScrollbar) {
+            scrollbarX.scrollbarChart.disposeData();
+        }
+        var scrollbarY = this.scrollbarY;
+        if (scrollbarY && scrollbarY instanceof XYChartScrollbar) {
+            scrollbarY.scrollbarChart.disposeData();
+        }
+        this.xAxes.each(function (axis) {
+            axis.disposeData();
+        });
+        this.yAxes.each(function (axis) {
+            axis.disposeData();
+        });
     };
     return XYChart;
 }(SerialChart));

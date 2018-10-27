@@ -151,10 +151,10 @@ var EventDispatcher = /** @class */ (function () {
     /**
      * Removes existing listener by certain parameters.
      *
-     * @param {boolean}     once      Listener's once setting
-     * @param {Key | null}  type      Listener's type
-     * @param {A}           callback  Callback function
-     * @param {B}           context   Callback context
+     * @param {boolean}     once         Listener's once setting
+     * @param {Key | null}  type         Listener's type
+     * @param {A}           callback     Callback function
+     * @param {B}           context      Callback context
      */
     EventDispatcher.prototype._removeExistingListener = function (once, type, callback, context) {
         if (this._disposed) {
@@ -296,14 +296,15 @@ var EventDispatcher = /** @class */ (function () {
      *
      * Event listener can be disposed.
      *
-     * @param   {boolean}     once      Listener's once setting
-     * @param   {Key | null}  type      Listener's type
-     * @param   {A}           callback  Callback function
-     * @param   {B}           context   Callback context
+     * @param   {boolean}     once         Listener's once setting
+     * @param   {Key | null}  type         Listener's type
+     * @param   {A}           callback     Callback function
+     * @param   {B}           context      Callback context
+     * @param   {boolean}     shouldClone  Whether the listener should be copied when the EventDispatcher is copied
      * @param   {function}    dispatch
      * @returns {EventListener} An event listener
      */
-    EventDispatcher.prototype._on = function (once, type, callback, context, dispatch) {
+    EventDispatcher.prototype._on = function (once, type, callback, context, shouldClone, dispatch) {
         var _this = this;
         if (this._disposed) {
             throw new Error("EventDispatcher is disposed");
@@ -313,6 +314,7 @@ var EventDispatcher = /** @class */ (function () {
             type: type,
             callback: callback,
             context: context,
+            shouldClone: shouldClone,
             dispatch: dispatch,
             killed: false,
             once: once,
@@ -327,13 +329,15 @@ var EventDispatcher = /** @class */ (function () {
     /**
      * Creates an event listener to be invoked on **any** event.
      *
-     * @param   {A}           callback  Callback function
-     * @param   {B}           context   Callback context
-     * @returns {IDisposer}             A disposable event listener
+     * @param   {A}           callback     Callback function
+     * @param   {B}           context      Callback context
+     * @param   {boolean}     shouldClone  Whether the listener should be copied when the EventDispatcher is copied
+     * @returns {IDisposer}                A disposable event listener
      * @todo what if `listen` is called on the same function twice ?
      */
-    EventDispatcher.prototype.onAll = function (callback, context) {
-        return this._on(false, null, callback, context, function (type, event) { return callback.call(context, type, event); }).disposer;
+    EventDispatcher.prototype.onAll = function (callback, context, shouldClone) {
+        if (shouldClone === void 0) { shouldClone = true; }
+        return this._on(false, null, callback, context, shouldClone, function (type, event) { return callback.call(context, type, event); }).disposer;
     };
     /**
      * Creates an event listener to be invoked on a specific event type.
@@ -365,14 +369,16 @@ var EventDispatcher = /** @class */ (function () {
      * The above will invoke our custom event handler whenever series we put
      * event on is hidden.
      *
-     * @param   {Key | null}  type      Listener's type
-     * @param   {A}           callback  Callback function
-     * @param   {B}           context   Callback context
-     * @returns {IDisposer}             A disposable event listener
+     * @param   {Key | null}  type         Listener's type
+     * @param   {A}           callback     Callback function
+     * @param   {B}           context      Callback context
+     * @param   {boolean}     shouldClone  Whether the listener should be copied when the EventDispatcher is copied
+     * @returns {IDisposer}                A disposable event listener
      * @todo what if `listen` is called on the same function twice ?
      */
-    EventDispatcher.prototype.on = function (type, callback, context) {
-        return this._on(false, type, callback, context, function (type, event) { return callback.call(context, event); }).disposer;
+    EventDispatcher.prototype.on = function (type, callback, context, shouldClone) {
+        if (shouldClone === void 0) { shouldClone = true; }
+        return this._on(false, type, callback, context, shouldClone, function (type, event) { return callback.call(context, event); }).disposer;
     };
     /**
      * Creates an event listener to be invoked on a specific event type once.
@@ -406,14 +412,16 @@ var EventDispatcher = /** @class */ (function () {
      * The above will invoke our custom event handler the first time series we
      * put event on is hidden.
      *
-     * @param   {Key | null}  type      Listener's type
-     * @param   {A}           callback  Callback function
-     * @param   {B}           context   Callback context
-     * @returns {IDisposer}             A disposable event listener
+     * @param   {Key | null}  type         Listener's type
+     * @param   {A}           callback     Callback function
+     * @param   {B}           context      Callback context
+     * @param   {boolean}     shouldClone  Whether the listener should be copied when the EventDispatcher is copied
+     * @returns {IDisposer}                A disposable event listener
      * @todo what if `listen` is called on the same function twice ?
      */
-    EventDispatcher.prototype.once = function (type, callback, context) {
-        var x = this._on(true, type, callback, context, function (type, event) {
+    EventDispatcher.prototype.once = function (type, callback, context, shouldClone) {
+        if (shouldClone === void 0) { shouldClone = true; }
+        var x = this._on(true, type, callback, context, shouldClone, function (type, event) {
             x.disposer.dispose();
             callback.call(context, event);
         });
@@ -423,9 +431,9 @@ var EventDispatcher = /** @class */ (function () {
     /**
      * Removes the event listener with specific parameters.
      *
-     * @param   {Key | null}  type      Listener's type
-     * @param   {A}           callback  Callback function
-     * @param   {B}           context   Callback context
+     * @param   {Key | null}  type         Listener's type
+     * @param   {A}           callback     Callback function
+     * @param   {B}           context      Callback context
      */
     EventDispatcher.prototype.off = function (type, callback, context) {
         this._removeExistingListener(false, type, callback, context);
@@ -446,7 +454,7 @@ var EventDispatcher = /** @class */ (function () {
         }
         $array.each(source._listeners, function (x) {
             // TODO is this correct ?
-            if (!x.killed) {
+            if (!x.killed && x.shouldClone) {
                 if (x.type === null) {
                     _this.onAll(x.callback, x.context);
                 }
@@ -501,7 +509,7 @@ var TargetedEventDispatcher = /** @class */ (function (_super) {
                 return;
             }
             // TODO is this correct ?
-            if (!x.killed) {
+            if (!x.killed && x.shouldClone) {
                 if (x.type === null) {
                     _this.onAll(x.callback, x.context);
                 }

@@ -211,7 +211,6 @@ series.columns.template.strokeOpacity = 0;
 series.dataFields.valueY = "value" + currentYear;
 series.dataFields.categoryX = "country";
 series.tooltipText = "{categoryX}:{valueY.value}";
-series.tooltipYField = "openValueY";
 
 // this makes columns to be of a different color, depending on value
 series.heatRules.push({ target: series.columns.template, property: "fill", minValue: -3, maxValue: 6, min: am4core.color("#673AB7"), max: am4core.color("#F44336"), dataField: "valueY" });

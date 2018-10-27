@@ -95,8 +95,8 @@ var FunnelTick = /** @class */ (function (_super) {
          */
         set: function (slice) {
             this._slice.set(slice, new MultiDisposer([
-                slice.events.on("transformed", this.invalidate, this),
-                slice.events.on("validated", this.invalidate, this)
+                slice.events.on("transformed", this.invalidate, this, false),
+                slice.events.on("validated", this.invalidate, this, false)
             ]));
         },
         enumerable: true,
@@ -115,7 +115,7 @@ var FunnelTick = /** @class */ (function (_super) {
          * @param {Label}  label  Label
          */
         set: function (label) {
-            this._label.set(label, label.events.on("transformed", this.invalidate, this));
+            this._label.set(label, label.events.on("transformed", this.invalidate, this, false));
         },
         enumerable: true,
         configurable: true

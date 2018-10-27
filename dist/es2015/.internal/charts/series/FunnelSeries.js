@@ -345,50 +345,52 @@ var FunnelSeries = /** @class */ (function (_super) {
     FunnelSeries.prototype.arrangeLabels = function () {
         if (this.alignLabels) {
             var count = this.labels.length;
-            var lastLabel = this.labels.getIndex(count - 1);
-            var lastY = lastLabel.pixelY;
-            var lastX = lastLabel.pixelX;
-            if (this.labels.length > 1) {
-                for (var i = count - 2; i >= 0; i--) {
-                    var label = this.labels.getIndex(i);
-                    if (label.visible) {
-                        if (label.invalid) {
-                            label.validate();
-                        }
-                        if (this.orientation == "vertical") {
-                            if (label.pixelY + label.measuredHeight > lastY) {
-                                label.y = lastY - label.measuredHeight;
+            if (count > 1) {
+                var lastLabel = this.labels.getIndex(count - 1);
+                var lastY = lastLabel.pixelY;
+                var lastX = lastLabel.pixelX;
+                if (this.labels.length > 1) {
+                    for (var i = count - 2; i >= 0; i--) {
+                        var label = this.labels.getIndex(i);
+                        if (label.visible) {
+                            if (label.invalid) {
+                                label.validate();
                             }
-                        }
-                        else {
-                            if (label.pixelX + label.measuredWidth > lastX) {
-                                label.x = lastX - label.measuredWidth;
+                            if (this.orientation == "vertical") {
+                                if (label.pixelY + label.measuredHeight > lastY) {
+                                    label.y = lastY - label.measuredHeight;
+                                }
                             }
+                            else {
+                                if (label.pixelX + label.measuredWidth > lastX) {
+                                    label.x = lastX - label.measuredWidth;
+                                }
+                            }
+                            lastY = label.pixelY;
+                            lastX = label.pixelX;
                         }
-                        lastY = label.pixelY;
-                        lastX = label.pixelX;
                     }
-                }
-                lastY = 0;
-                lastX = 0;
-                for (var i = 0; i < count; i++) {
-                    var label = this.labels.getIndex(i);
-                    if (label.visible) {
-                        if (label.invalid) {
-                            label.validate();
-                        }
-                        if (this.orientation == "vertical") {
-                            if (label.pixelY < lastY) {
-                                label.y = lastY;
+                    lastY = 0;
+                    lastX = 0;
+                    for (var i = 0; i < count; i++) {
+                        var label = this.labels.getIndex(i);
+                        if (label.visible) {
+                            if (label.invalid) {
+                                label.validate();
                             }
-                        }
-                        else {
-                            if (label.pixelX < lastX) {
-                                label.x = lastX;
+                            if (this.orientation == "vertical") {
+                                if (label.pixelY < lastY) {
+                                    label.y = lastY;
+                                }
                             }
+                            else {
+                                if (label.pixelX < lastX) {
+                                    label.x = lastX;
+                                }
+                            }
+                            lastY += label.measuredHeight;
+                            lastX += label.measuredWidth;
                         }
-                        lastY += label.measuredHeight;
-                        lastX += label.measuredWidth;
                     }
                 }
             }

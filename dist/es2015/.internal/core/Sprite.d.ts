@@ -93,7 +93,6 @@ export interface ISpriteProperties {
     draggable?: boolean;
     inert?: boolean;
     resizable?: boolean;
-    rotatable?: boolean;
     swipeable?: boolean;
     trackable?: boolean;
     hoverable?: boolean;
@@ -147,6 +146,8 @@ export interface ISpriteProperties {
     path?: string;
     urlTarget?: string;
     url?: string;
+    hidden?: boolean;
+    showOnInit?: boolean;
 }
 /**
  * Defines animation options
@@ -514,7 +515,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @ignore Exclude from docs
      * @type {IRectangle}
      */
-    bbox: IRectangle;
+    protected _bbox: IRectangle;
     /**
      * Base tab index for the Sprite. Used for TAB-key selection order.
      *
@@ -779,6 +780,17 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @type {AmChartsLogo}
      */
     logo: AmChartsLogo;
+    protected _baseId: string;
+    /**
+     * A read-only flag which indicates if a sprite has completed its initial
+     * animation (if `showOnInit = true`).
+     *
+     * In case `showOnInit = false`, `appeared` is set to `true` on init.
+     *
+     * @readonly
+     * @type {boolean}
+     */
+    appeared: boolean;
     /**
      * Constructor:
      * * Creates initial node
@@ -1044,7 +1056,13 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {Paper}  paper  Paper
      */
     paper: Paper;
-    setPaper(paper: Paper): void;
+    /**
+     * Sets [[Paper]] instance to use to draw elements.
+     * @ignore
+     * @param {Paper} paper Paper
+     * @return {boolean} true if paper was changed, false, if it's the same
+     */
+    setPaper(paper: Paper): boolean;
     /**
      * @return {Optional<HTMLElement>} HTML element
      */
@@ -1120,6 +1138,10 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @todo Description
      */
     protected updateClipPath(): void;
+    /**
+     * @ignore
+     */
+    protected createClipPath(): void;
     /**
      * Applies the mask Sprite.
      *
@@ -1903,6 +1925,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     readonly interactions: InteractionObject;
     /**
+     * Returns true if interactions object was created. Mostly used just to avoid creating interactions object if not needed.
+     * @return {boolean} Is Sprite interactive?
+     */
+    isInteractive(): boolean;
+    /**
      * @return {Optional<boolean>} Can element be focused?
      */
     /**
@@ -2147,6 +2174,12 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {AMEvent<Sprite, ISpriteEvents>["out"]} ev [description]
      */
     handleOut(ev?: AMEvent<Sprite, ISpriteEvents>["out"]): void;
+    /**
+     * [handleOutReal description]
+     *
+     * @ignore`
+     * @todo description
+     */
     handleOutReal(): void;
     /**
      * ==========================================================================
@@ -2167,14 +2200,14 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Prepares element's after `down` event.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["rotate"]} ev Event
+     * @param {AMEvent<Sprite, ISpriteEvents>["down"]} ev Event
      */
     handleDown(ev?: AMEvent<Sprite, ISpriteEvents>["down"]): void;
     /**
      * Prepares element's after `up` event.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["rotate"]} ev Event
+     * @param {AMEvent<Sprite, ISpriteEvents>["up"]} ev Event
      */
     handleUp(ev?: AMEvent<Sprite, ISpriteEvents>["up"]): void;
     /**
@@ -2245,6 +2278,8 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {Optional<string>} value URL
      */
     url: $type.Optional<string>;
+    baseId: string;
+    protected setBaseId(value: string): void;
     /**
      * @return {string} URL target
      */
@@ -2372,46 +2407,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {InteractionEvent} ev Event object
      */
     handleResize(ev: AMEvent<Sprite, ISpriteEvents>["resize"]): void;
-    /**
-     * @return {boolean} Can be rotated?
-     */
-    /**
-     * ==========================================================================
-     * ROTATION
-     * ==========================================================================
-     * @hidden
-     */
-    /**
-     * Controls if the element can be rotated.
-     *
-     * If enabled, the element can be rotated using various interactions.
-     *
-     * If the element also `draggable`, rotation can be performed using two
-     * points of contact, i.e. on touch devices only.
-     *
-     * If the element is not `draggable`, rotation can be performed using one
-     * point of contact, e.g. mouse or touch.
-     *
-     * Rotation will happen around configured center of the element, as set in
-     * `horizontalCenter` and `verticalCenter`.
-     *
-     * Invokes `rotate` event when rotation angle changes.
-     *
-     * @param {boolean}  value  Can be rotated?
-     */
-    rotatable: boolean;
-    /**
-     * Handles rotate intermediate step.
-     *
-     * By default this method will rotate the actual element.
-     *
-     * Extending classes might override this method to implement their own
-     * rotation logic.
-     *
-     * @ignore Exclude from docs
-     * @param {InteractionEvent} ev Event object
-     */
-    handleRotate(ev: AMEvent<Sprite, ISpriteEvents>["rotate"]): void;
     /**
      * ==========================================================================
      * MOUSE-RELATED
@@ -3335,7 +3330,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @hidden
      */
     /**
-     * Reveals (fades in) hidden element.
+     * Reveals hidden element.
      *
      * Has no effect if element is already visible.
      *
@@ -3360,7 +3355,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {number} duration Duration in millisecons
      */
     /**
-     * Hides (fades out) the element, and applies `hidden` state.
+     * Hides the element, by applying `hidden` state.
      *
      * Has no effect if element is already hidden.
      *
@@ -3394,6 +3389,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {boolean} value Visible?
      */
     visible: boolean;
+    /**
+     * Returns visibility value
+     * @ignore
+     */
+    protected getVisibility(): boolean;
     /**
      * Sets `visibility` property:
      *
@@ -3479,6 +3479,10 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {point} optional point (sprite-related) to which tooltip must point.
      */
     showTooltip(point?: IPoint): boolean;
+    /**
+     * @ignore
+     */
+    protected updateTooltipPosition(point?: IPoint): void;
     /**
      * Sets the point the [[Tooltip]] should point to.
      *
@@ -3619,4 +3623,51 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @type {boolean}
      */
     readonly isHidden: boolean;
+    /**
+     * @return {boolean} Show on init?
+     */
+    /**
+     * If this is set to `true`, Sprite, when inited will be instantly hidden
+     * ("hidden" state applied) and then shown ("default" state applied).
+     *
+     * If your "default" state's `transitionDuration > 0` this will result in
+     * initial animation from "hidden" state to "default" state.
+     *
+     * If you need a Sprite which has `showOnInit = true` not to be shown
+     * initially, set `sprite.hidden = true`. Setting `sprite.visible = false`
+     * will not prevent the animation and the sprite will be shown.
+     *
+     * @param {boolean}  value show on init?
+     */
+    showOnInit: boolean;
+    /**
+     * @ignore
+     */
+    protected setShowOnInit(value: boolean): void;
+    /**
+     * @ignore
+     */
+    protected hideInitially(): void;
+    /**
+     * Hides the chart instantly and then shows it. If defaultState.transitionDuration > 0, this will result an animation in which properties of hidden state will animate to properties of visible state.
+     */
+    appear(): void;
+    /**
+     * @return {boolean} Is initially hidden?
+     */
+    /**
+     * If a sprite has `showOnInit = true`, it will animate from "hidden" to
+     * "default" state when initialized. To prevent this but keep
+     * `showOnInit = true`, you can set `sprite.hidden = true`.
+     *
+     * @param {boolean}  value initially hidden?
+     */
+    hidden: boolean;
+    /**
+     * Returns bounding box (square) for this element.
+     *
+     * @ignore Exclude from docs
+     * @type {IRectangle}
+     */
+    readonly bbox: IRectangle;
 }

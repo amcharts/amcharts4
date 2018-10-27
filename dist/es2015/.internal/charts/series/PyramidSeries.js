@@ -160,6 +160,10 @@ var PyramidSeries = /** @class */ (function (_super) {
      * @param {this["_dataItem"]} dataItem [description]
      */
     PyramidSeries.prototype.decorateSlice = function (dataItem) {
+        var sum = this.dataItem.values.value.sum;
+        if (sum == 0) {
+            return;
+        }
         var slice = dataItem.slice;
         var sliceLink = dataItem.sliceLink;
         var label = dataItem.label;
@@ -191,12 +195,13 @@ var PyramidSeries = /** @class */ (function (_super) {
             var sliceBottomWidth = void 0;
             if (this.valueIs == "area") {
                 var totalSquare = (topWidth + bottomWidth) / 2 * pyramidHeight;
-                var square = totalSquare * workingValue / this.dataItem.values.value.sum;
+                var square = totalSquare * workingValue / sum;
                 sliceHeight = (sliceTopWidth - Math.sqrt(sliceTopWidth * sliceTopWidth - 2 * square * c)) / c;
                 sliceBottomWidth = (2 * square - sliceHeight * sliceTopWidth) / sliceHeight;
             }
             else {
-                sliceHeight = pyramidHeight * workingValue / this.dataItem.values.value.sum;
+                var sum_1 = this.dataItem.values.value.sum;
+                sliceHeight = pyramidHeight * workingValue / sum_1;
                 sliceBottomWidth = sliceTopWidth - sliceHeight * c;
             }
             slice.height = sliceHeight;

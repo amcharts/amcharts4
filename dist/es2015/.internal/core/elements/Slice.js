@@ -81,14 +81,27 @@ var Slice = /** @class */ (function (_super) {
         gradient.cy = 0;
         gradient.element.attr({ radius: this.radius });
     };
-    Slice.prototype.getContainerBBox = function () {
-        if (this.isMeasured) {
-            return $math.getArcRect(this.startAngle, this.startAngle + this.arc, this.radius);
-        }
-        else {
-            return { x: 0, y: 0, width: 0, height: 0 };
-        }
-    };
+    Object.defineProperty(Slice.prototype, "bbox", {
+        /**
+         * Returns bounding box (square) for this element.
+         *
+         * @ignore Exclude from docs
+         * @type {IRectangle}
+         */
+        get: function () {
+            if (this.definedBBox) {
+                return this.definedBBox;
+            }
+            if (this.isMeasured) {
+                return $math.getArcRect(this.startAngle, this.startAngle + this.arc, this.radius);
+            }
+            else {
+                return { x: 0, y: 0, width: 0, height: 0 };
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Slice.prototype, "startAngle", {
         /**
          * @return {number} Angle (0-360)
@@ -295,7 +308,7 @@ var Slice = /** @class */ (function (_super) {
                 return $math.sin(this.middleAngle) * this.radiusY / this.radius;
             }
             else {
-                return 0;
+                return $math.sin(this.middleAngle);
             }
         },
         enumerable: true,

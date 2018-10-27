@@ -370,7 +370,11 @@ var TreeMap = /** @class */ (function (_super) {
         yRenderer.line.disabled = true;
         yRenderer.baseGrid.disabled = true;
         yRenderer.inversed = true;
-        _this.events.on("maxsizechanged", _this.invalidateLayout, _this);
+        _this.events.on("maxsizechanged", function () {
+            if (_this.inited) {
+                _this.invalidateLayout();
+            }
+        }, undefined, false);
         // shortcuts
         _this.xAxis = xAxis;
         _this.yAxis = yAxis;
@@ -380,10 +384,10 @@ var TreeMap = /** @class */ (function (_super) {
         _this._disposers.push(template);
         _this.zoomOutButton.events.on("hit", function () {
             _this.zoomToChartDataItem(_this._homeDataItem);
-        });
+        }, undefined, false);
         _this.seriesTemplates.events.on("insertKey", function (event) {
             event.newValue.isTemplate = true;
-        });
+        }, undefined, false);
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -411,7 +415,7 @@ var TreeMap = /** @class */ (function (_super) {
                     var dataItem = event.target.dataItem.dataContext;
                     _this.zoomToChartDataItem(dataItem);
                     _this.createTreeSeries(dataItem);
-                });
+                }, undefined, true);
                 this._disposers.push(navigationBar);
             }
         },
@@ -424,7 +428,6 @@ var TreeMap = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     TreeMap.prototype.validateData = function () {
-        var _this = this;
         this.series.clear();
         _super.prototype.validateData.call(this);
         if (this._homeDataItem) {
@@ -449,9 +452,6 @@ var TreeMap = /** @class */ (function (_super) {
         this.yAxis.max = maxY;
         this.layoutItems(homeDataItem);
         this.createTreeSeries(homeDataItem);
-        registry.events.once("exitframe", function () {
-            _this.toggleBullets(0);
-        });
     };
     /**
      * Layouts and sizes all items according to their value and
@@ -596,7 +596,7 @@ var TreeMap = /** @class */ (function (_super) {
                         else {
                             _this.zoomToSeriesDataItem(seriesDataItem);
                         }
-                    }, this);
+                    }, this, undefined);
                 }
             }
         }
@@ -643,13 +643,14 @@ var TreeMap = /** @class */ (function (_super) {
      */
     TreeMap.prototype.zoomToChartDataItem = function (dataItem) {
         var _this = this;
-        if (dataItem.children) {
+        if (dataItem && dataItem.children) {
             this.xAxis.zoomToValues(dataItem.x0, dataItem.x1);
             this.yAxis.zoomToValues(dataItem.y0, dataItem.y1);
             this.currentLevel = dataItem.level;
             this.currentlyZoomed = dataItem;
             this.createTreeSeries(dataItem);
             var rangeChangeAnimation = this.xAxis.rangeChangeAnimation || this.yAxis.rangeChangeAnimation;
+            this._dataDisposers.push(rangeChangeAnimation);
             if (rangeChangeAnimation && !rangeChangeAnimation.isFinished()) {
                 rangeChangeAnimation.events.once("animationended", function () {
                     _this.toggleBullets();
@@ -1057,6 +1058,19 @@ var TreeMap = /** @class */ (function (_super) {
             legend.itemContainers.template.propertyFields.disabled = "hiddenInLegend";
             legend.data = legendData_1;
         }
+    };
+    /**
+     * @ignore
+     */
+    TreeMap.prototype.disposeData = function () {
+        _super.prototype.disposeData.call(this);
+        this._homeDataItem = undefined;
+        this.series.clear();
+        if (this.navigationBar) {
+            this.navigationBar.disposeData();
+        }
+        this.xAxis.disposeData();
+        this.yAxis.disposeData();
     };
     return TreeMap;
 }(XYChart));

@@ -57,7 +57,7 @@ var pieChart = chart.seriesContainer.createChild(am4charts.PieChart);
 // Set width/heigh of a pie chart for easier positioning only
 pieChart.width = 100;
 pieChart.height = 100;
-pieChart.visible = false;
+pieChart.hidden = true; // can't use visible = false!
 
 // because defauls are 50, and it's not good with small countries
 pieChart.chartContainer.minHeight = 1;

@@ -186,7 +186,7 @@ var AxisBreak = /** @class */ (function (_super) {
          */
         set: function (axis) {
             if (this._axis.get() !== axis) {
-                this._axis.set(axis, axis.renderer.gridContainer.events.on("transformed", this.invalidate, this));
+                this._axis.set(axis, axis.renderer.gridContainer.events.on("transformed", this.invalidate, this, false));
                 axis.renderer.createBreakSprites(this);
                 // this can't go to copyFrom, as axis is set later
                 var breakTemplate = axis.axisBreaks.template;

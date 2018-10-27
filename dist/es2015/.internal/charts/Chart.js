@@ -9,7 +9,6 @@ import * as tslib_1 from "tslib";
  * @hidden
  */
 import { Component } from "../core/Component";
-import { registry } from "../core/Registry";
 import { ListTemplate, ListDisposer } from "../core/utils/List";
 import { Container } from "../core/Container";
 import { Label } from "../core/elements/Label";
@@ -86,32 +85,23 @@ var Chart = /** @class */ (function (_super) {
         chartContainer.width = percent(100);
         chartContainer.height = percent(100);
         _this.chartContainer = chartContainer;
-        // hides everything on first frame and shows only on second. helps to avoid technical flickering
-        chartAndLegendContainer.visible = false;
-        _this.events.once("validated", function () {
-            _this._disposers.push(registry.events.once("exitframe", function () {
-                chartAndLegendContainer.visible = true;
-            }));
-            if (_this.visible) {
-                _this.setState("hidden", 0);
-                _this.show();
-            }
-        });
+        _this.showOnInit = true;
         // Add title list events to apply certain formatting options and to make
         // the chart reference them as accessible screen reader labels
         _this.titles.events.on("inserted", function (label) {
             _this.processTitle(label);
             _this.updateReaderTitleReferences();
-        }, _this);
+        }, _this, false);
         _this.titles.events.on("removed", function (label) {
             _this.updateReaderTitleReferences();
-        }, _this);
+        }, _this, false);
         // Accessibility
         // It seems we can't set focusable on the whole chart because it seems to
         // mess up the whole focus event system - getting a focus on an inside
         // object also trigger focus on parent
         //this.focusable = true;
         _this.role = "region";
+        _this.defaultState.transitionDuration = 1;
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -252,7 +242,7 @@ var Chart = /** @class */ (function (_super) {
                     if (event.property == "position" || event.property == "width") {
                         _this.fixLayout();
                     }
-                });
+                }, undefined, false);
             }
             this.feedLegend();
         }
@@ -271,6 +261,18 @@ var Chart = /** @class */ (function (_super) {
             }
         }
         _super.prototype.processConfig.call(this, config);
+    };
+    /**
+     * Copies all properties from another instance of [[Series]].
+     *
+     * @param {Series}  source  Source series
+     */
+    Chart.prototype.copyFrom = function (source) {
+        this.titles.copyFrom(source.titles);
+        if (source.legend) {
+            this.legend = source.legend.clone();
+        }
+        _super.prototype.copyFrom.call(this, source);
     };
     return Chart;
 }(Component));

@@ -1801,7 +1801,8 @@ var Export = /** @class */ (function (_super) {
                             document.body.appendChild(iframe);
                             idoc = iframe.contentDocument;
                             idoc.open(contentType, "replace");
-                            idoc.charset = parts[2].replace(/charset=/, "");
+                            // TODO test this with various encodings (e.g. UTF)
+                            //idoc.charset = parts[2].replace(/charset=/, "");
                             idoc.write(decodeURIComponent(parts[3]));
                             idoc.close();
                             idoc.execCommand("SaveAs", true, fileName);

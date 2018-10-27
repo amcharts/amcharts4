@@ -67,7 +67,6 @@ var SankeyDiagram = /** @class */ (function (_super) {
         _this.nodesContainer.height = percent(100);
         _this.linksContainer.width = percent(100);
         _this.linksContainer.height = percent(100);
-        _this.events.on("maxsizechanged", _this.invalidateDataRange, _this);
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -188,6 +187,7 @@ var SankeyDiagram = /** @class */ (function (_super) {
     SankeyDiagram.prototype.validate = function () {
         var _this = this;
         _super.prototype.validate.call(this);
+        this.calculateValueHeight();
         var container = this.nodesContainer;
         var nextCoordinate = {};
         var maxSumLevelNodeCount = this._levelNodesCount[this._maxSumLevel];
@@ -237,59 +237,58 @@ var SankeyDiagram = /** @class */ (function (_super) {
             node.y = y;
         });
     };
-    SankeyDiagram.prototype.validateDataRange = function () {
-        _super.prototype.validateDataRange.call(this);
-        this.calculateValueHeight();
-    };
     /**
-     * [appear description]
+     * Performs actual operations to reveal this element.
      *
      * @ignore Exclude from docs
-     * @todo Description
+     * @param  {number} duration Fade in duration (ms)
+     * @return {number}          Fade in duration (ms)
      */
-    SankeyDiagram.prototype.appear = function () {
+    SankeyDiagram.prototype.showReal = function (duration) {
         var _this = this;
-        _super.prototype.appear.call(this);
-        var container = this.nodesContainer;
-        var i = 0;
-        $iter.each(this.links.iterator(), function (link) {
-            link.hide(0);
-        });
-        $iter.each(this._sorted, function (strNode) {
-            var node = strNode[1];
-            var property;
-            if (_this.orientation == "horizontal") {
-                node.dx = -(container.pixelWidth - node.pixelWidth) / _this._levelCount;
-                property = "dx";
-            }
-            else {
-                node.dy = -(container.pixelHeight - node.pixelHeight) / _this._levelCount;
-                property = "dy";
-            }
-            var delay = 0;
-            var duration = _this.interpolationDuration;
-            if (_this.sequencedInterpolation) {
-                delay = _this.sequencedInterpolationDelay * i + duration * i / $iter.length(_this.nodes.iterator());
-            }
-            node.opacity = 0;
-            node.invalidateLinks();
-            node.animate([{ property: "opacity", from: 0, to: 1 }, { property: property, to: 0 }], _this.interpolationDuration, _this.interpolationEasing).delay(delay);
-            $iter.each(node.outgoingDataItems.iterator(), function (dataItem) {
-                var animation = dataItem.link.show(_this.interpolationDuration);
-                if (animation && !animation.isFinished()) {
-                    animation.delay(delay);
-                }
+        if (this.interpolationDuration > 0) {
+            var container_1 = this.nodesContainer;
+            var i_1 = 0;
+            $iter.each(this.links.iterator(), function (link) {
+                link.hide(0);
             });
-            $iter.each(node.incomingDataItems.iterator(), function (dataItem) {
-                if (!dataItem.fromNode) {
+            $iter.each(this._sorted, function (strNode) {
+                var node = strNode[1];
+                var property;
+                if (_this.orientation == "horizontal") {
+                    node.dx = -(container_1.pixelWidth - node.pixelWidth) / _this._levelCount;
+                    property = "dx";
+                }
+                else {
+                    node.dy = -(container_1.pixelHeight - node.pixelHeight) / _this._levelCount;
+                    property = "dy";
+                }
+                var delay = 0;
+                var duration = _this.interpolationDuration;
+                if (_this.sequencedInterpolation) {
+                    delay = _this.sequencedInterpolationDelay * i_1 + duration * i_1 / $iter.length(_this.nodes.iterator());
+                }
+                node.opacity = 0;
+                node.invalidateLinks();
+                node.animate([{ property: "opacity", from: 0, to: 1 }, { property: property, to: 0 }], _this.interpolationDuration, _this.interpolationEasing).delay(delay);
+                $iter.each(node.outgoingDataItems.iterator(), function (dataItem) {
                     var animation = dataItem.link.show(_this.interpolationDuration);
                     if (animation && !animation.isFinished()) {
                         animation.delay(delay);
                     }
-                }
+                });
+                $iter.each(node.incomingDataItems.iterator(), function (dataItem) {
+                    if (!dataItem.fromNode) {
+                        var animation = dataItem.link.show(_this.interpolationDuration);
+                        if (animation && !animation.isFinished()) {
+                            animation.delay(delay);
+                        }
+                    }
+                });
+                i_1++;
             });
-            i++;
-        });
+        }
+        return _super.prototype.showReal.call(this);
     };
     /**
      * Changes the sort type of the nodes.
@@ -416,6 +415,13 @@ var SankeyDiagram = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * @ignore
+     */
+    SankeyDiagram.prototype.disposeData = function () {
+        _super.prototype.disposeData.call(this);
+        this._sorted = this.nodes.iterator();
+    };
     return SankeyDiagram;
 }(FlowDiagram));
 export { SankeyDiagram };

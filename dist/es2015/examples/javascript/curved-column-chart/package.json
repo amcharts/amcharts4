@@ -3,10 +3,10 @@
   "name": "amcharts4-example-curved-column-chart",
   "version": "0.1.0",
   "devDependencies": {
-    "@amcharts/amcharts4": "^4.0.0-beta.63",
-    "webpack": "^4.6.0",
-    "webpack-cli": "^2.0.15",
-    "source-map-loader": "0.2.3"
+    "@amcharts/amcharts4": "^4.0.0-beta.64",
+    "webpack": "^4.23.1",
+    "webpack-cli": "^3.1.2",
+    "source-map-loader": "^0.2.4"
   },
   "scripts": {
     "prepare": "webpack"

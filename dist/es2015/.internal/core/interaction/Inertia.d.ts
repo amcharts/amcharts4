@@ -16,7 +16,7 @@ import { IPoint } from "../defs/IPoint";
  *
  * @type {string}
  */
-export declare type InertiaTypes = "move" | "resize" | "rotate";
+export declare type InertiaTypes = "move" | "resize";
 /**
  * A point of inertia is to simulate gradually drecreasing motion even after
  * actual interaction by user, that caused it, has already ended.
@@ -95,14 +95,6 @@ export declare class Inertia extends BaseObject implements IAnimatable {
      * Simulates dragging of element.
      */
     handleMove(): void;
-    /**
-     * Sets current angle.
-     *
-     * Will trigger "rotate" event on a target element.
-     *
-     * @param {number} value Angle
-     */
-    rotation: number;
     /**
      * Finishes up the inertia animation. (removes reference to this animation
      * object)

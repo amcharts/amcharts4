@@ -223,9 +223,9 @@ var Component = /** @class */ (function (_super) {
             if (_this.inited) {
                 _this.invalidate();
             }
-        });
+        }, undefined, false);
         // TODO what about remove ?
-        _this.dataUsers.events.on("inserted", _this.handleDataUserAdded, _this);
+        _this.dataUsers.events.on("inserted", _this.handleDataUserAdded, _this, false);
         // Set up disposers
         _this._disposers.push(new MultiDisposer(_this._dataDisposers));
         // Apply theme
@@ -322,8 +322,8 @@ var Component = /** @class */ (function (_super) {
                     if (value) {
                         hasSomeValues_1 = true;
                         var children = new OrderedListTemplate(_this.createDataItem());
-                        children.events.on("inserted", _this.handleDataItemAdded, _this);
-                        children.events.on("removed", _this.handleDataItemRemoved, _this);
+                        children.events.on("inserted", _this.handleDataItemAdded, _this, false);
+                        children.events.on("removed", _this.handleDataItemRemoved, _this, false);
                         _this._dataDisposers.push(new ListDisposer(children));
                         var count = value.length;
                         for (var i = 0; i < count; i++) {
@@ -355,14 +355,6 @@ var Component = /** @class */ (function (_super) {
             // @todo we might need some flag which would tell whether we should create empty data items or not. 
             if (!this._addAllDataItems && !hasSomeValues_1) {
                 this.dataItems.remove(dataItem);
-            }
-            else {
-                //this._dataDisposers.push(dataItem.events.on("valuechanged", this.handleDataItemValueChange, this));
-                //this._dataDisposers.push(dataItem.events.on("workingvaluechanged", this.handleDataItemWorkingValueChange, this));
-                //this._dataDisposers.push(dataItem.events.on("calculatedvaluechanged", this.handleDataItemCalculatedValueChange, this));
-                //this._dataDisposers.push(dataItem.events.on("propertychanged", this.handleDataItemPropertyChange, this));
-                //this._dataDisposers.push(dataItem.events.on("locationchanged", this.handleDataItemValueChange, this));
-                //this._dataDisposers.push(dataItem.events.on("workinglocationchanged", this.handleDataItemWorkingLocationChange, this));
             }
         }
     };
@@ -643,15 +635,23 @@ var Component = /** @class */ (function (_super) {
         });
     };
     /**
-     * @ignore
+     * @ignoref
      */
     Component.prototype.disposeData = function () {
-        $array.each(this._dataDisposers, function (x) {
-            x.dispose();
-        });
-        this._dataDisposers.length = 0;
-        // dispose old
-        this.dataItems.clear();
+        if (this.inited) {
+            $array.each(this._dataDisposers, function (x) {
+                x.dispose();
+            });
+            // and for all components
+            $iter.each(this.dataUsers.iterator(), function (dataUser) {
+                dataUser.disposeData();
+            });
+            this._dataDisposers.length = 0;
+            this._startIndex = undefined;
+            this._endIndex = undefined;
+            // dispose old
+            this.dataItems.clear();
+        }
     };
     /**
      * Validates (processes) data.
@@ -676,16 +676,9 @@ var Component = /** @class */ (function (_super) {
         if (this.data.length > 0) {
             var preloader = this.preloader;
             // data items array is reset only if all data is validated, if _parseDataFrom is not 0, we append new data only
-            if (this._parseDataFrom === 0) {
-                this.disposeData();
-                // and for all components
-                $iter.each(this.dataUsers.iterator(), function (dataUser) {
-                    dataUser.disposeData();
-                    // todo: this needs some overthinking, maybe some extra settings like zoomOUtonDataupdate like in v3 or so. some charts like pie chart probably should act like this always
-                    dataUser._startIndex = undefined;
-                    dataUser._endIndex = undefined;
-                });
-            }
+            //			if (this._parseDataFrom === 0) {
+            //				this.disposeData();
+            //			}
             // and for all components
             $iter.each(this.dataUsers.iterator(), function (dataUser) {
                 // todo: this needs some overthinking, maybe some extra settings like zoomOUtonDataupdate like in v3 or so. some charts like pie chart probably should act like this always
@@ -754,14 +747,7 @@ var Component = /** @class */ (function (_super) {
         $array.remove(registry.invalidDataItems, this);
         this.dataItemsInvalid = false;
         this.invalidateDataRange();
-        this.dispatch("valueschanged");
-        /*
-         this is needed in this scenario: chart has some series, then one is hidden. then data is validated (for example add some more series)
-         then data is processed, working values are not set to 0 but the series is still not visibleand this then this results problems with stacked series.
-         */
-        if (!this.visible) {
-            this.hide();
-        }
+        this.dispatch("dataitemsvalidated");
     };
     Object.defineProperty(Component.prototype, "data", {
         /**
@@ -785,8 +771,11 @@ var Component = /** @class */ (function (_super) {
             // array might be the same, but there might be items added
             // todo: check if array changed, toString maybe?
             //if (this._data != value) {
+            this.disposeData();
             this._data = value;
-            this.invalidateData();
+            if (value && value.length > 0) {
+                this.invalidateData();
+            }
             //}
         },
         enumerable: true,
@@ -816,7 +805,7 @@ var Component = /** @class */ (function (_super) {
             });
             this.events.on("inited", function () {
                 _this.loadData(property);
-            }, this);
+            }, this, false);
         }
         return this._dataSources[property];
     };
@@ -845,7 +834,7 @@ var Component = /** @class */ (function (_super) {
             this._dataSources["data"].component = this;
             this.events.on("inited", function () {
                 _this.loadData("data");
-            }, this);
+            }, this, false);
             this.setDataSourceEvents(value, "data");
         },
         enumerable: true,
@@ -913,38 +902,38 @@ var Component = /** @class */ (function (_super) {
                 preloader.progress = 0;
                 //preloader.label.text = this.language.translate("Loading");
             }
-        });
+        }, undefined, false);
         ds.events.on("loadstarted", function (ev) {
             var preloader = _this.preloader;
             if (preloader) {
                 preloader.progress = 0.25;
             }
-        });
+        }, undefined, false);
         ds.events.on("loadended", function (ev) {
             var preloader = _this.preloader;
             if (preloader) {
                 preloader.progress = 0.5;
             }
-        });
+        }, undefined, false);
         ds.events.on("parseended", function (ev) {
             var preloader = _this.preloader;
             if (preloader) {
                 preloader.progress = 0.75;
             }
-        });
+        }, undefined, false);
         ds.events.on("ended", function (ev) {
             var preloader = _this.preloader;
             if (preloader) {
                 preloader.progress = 1;
             }
-        });
+        }, undefined, false);
         ds.events.on("error", function (ev) {
             var preloader = _this.preloader;
             if (preloader) {
                 preloader.progress = 1;
             }
             _this.openModal(ev.message);
-        });
+        }, undefined, false);
         if (property) {
             ds.events.on("done", function (ev) {
                 var preloader = _this.preloader;
@@ -1262,7 +1251,6 @@ var Component = /** @class */ (function (_super) {
     Component.prototype.removeFromInvalids = function () {
         _super.prototype.removeFromInvalids.call(this);
         $array.remove(registry.invalidDatas, this);
-        $array.remove(registry.invalidSprites, this);
         $array.remove(registry.invalidDataItems, this);
         $array.remove(registry.invalidDataRange, this);
         $array.remove(registry.invalidRawDatas, this);
@@ -1278,8 +1266,8 @@ var Component = /** @class */ (function (_super) {
             // Component is disposed
             if (!this._dataItems) {
                 this._dataItems = new OrderedListTemplate(this.createDataItem());
-                this._dataItems.events.on("inserted", this.handleDataItemAdded, this);
-                this._dataItems.events.on("removed", this.invalidateDataItems, this);
+                this._dataItems.events.on("inserted", this.handleDataItemAdded, this, false);
+                this._dataItems.events.on("removed", this.invalidateDataItems, this, false);
                 this._disposers.push(new ListDisposer(this._dataItems));
                 this._disposers.push(this._dataItems.template);
             }
@@ -1437,6 +1425,16 @@ var Component = /** @class */ (function (_super) {
     Component.prototype.setDisabled = function (value) {
         _super.prototype.setDisabled.call(this, value);
         this.invalidateData();
+    };
+    /**
+     * @ignore
+     */
+    Component.prototype.setShowOnInit = function (value) {
+        if (value != this.getPropertyValue("showOnInit") && value && !this.inited && !this.hidden) {
+            this.events.once("dataitemsvalidated", this.hideInitially, this, false);
+        }
+        // important order here
+        _super.prototype.setShowOnInit.call(this, value);
     };
     return Component;
 }(Container));

@@ -119,7 +119,6 @@ var RadarColumnSeries = /** @class */ (function (_super) {
         var offset = $math.round((endLocation - startLocation) * (1 - percentWidth / 100) / 2, 5);
         startLocation += offset;
         endLocation -= offset;
-        // @todo use getPoint() instead of these
         if (this.baseAxis == this.xAxis) {
             tRadius = $math.getDistance({ x: this.yAxis.getX(dataItem, yField, dataItem.locations[yField], "valueY"), y: this.yAxis.getY(dataItem, yField, dataItem.locations[yField], "valueY") });
             bRadius = $math.getDistance({ x: this.yAxis.getX(dataItem, yOpenField, dataItem.locations[yOpenField], "valueY"), y: this.yAxis.getY(dataItem, yOpenField, dataItem.locations[yOpenField], "valueY") });

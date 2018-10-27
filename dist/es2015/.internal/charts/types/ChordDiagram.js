@@ -94,7 +94,6 @@ var ChordDiagram = /** @class */ (function (_super) {
      */
     ChordDiagram.prototype.validate = function () {
         var _this = this;
-        _super.prototype.validate.call(this);
         var chartContainer = this.chartContainer;
         var nodesContainer = this.nodesContainer;
         var radius = $utils.relativeRadiusToValue(this.radius, $math.min(chartContainer.innerWidth, chartContainer.innerHeight)) / 2;
@@ -137,11 +136,12 @@ var ChordDiagram = /** @class */ (function (_super) {
             slice.startAngle = startAngle;
             node.trueStartAngle = startAngle;
             node.parent = _this.nodesContainer;
-            node.invalidate();
+            node.validate(); // otherwise flickers - nodes are already created, but not yet positioned etc.
             startAngle += arc + _this.nodePadding;
         });
         this.chordContainer.definedBBox = { x: radius * rect.x, y: radius * rect.y, width: radius * rect.width, height: radius * rect.height };
         this.chordContainer.invalidateLayout();
+        _super.prototype.validate.call(this);
     };
     /**
      * Sets defaults that instantiate some objects that rely on parent, so they

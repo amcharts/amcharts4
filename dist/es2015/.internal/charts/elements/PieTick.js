@@ -120,7 +120,7 @@ var PieTick = /** @class */ (function (_super) {
          * @param {AxisLabelCircular}  label  Label
          */
         set: function (label) {
-            this._label.set(label, label.events.on("transformed", this.invalidate, this));
+            this._label.set(label, label.events.on("transformed", this.invalidate, this, false));
         },
         enumerable: true,
         configurable: true

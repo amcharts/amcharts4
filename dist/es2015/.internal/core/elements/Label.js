@@ -90,21 +90,41 @@ var Label = /** @class */ (function (_super) {
         });
         // Add events to watch for maxWidth/maxHeight changes so that we can
         // invalidate this
-        _this.events.on("maxsizechanged", _this.handleMaxSize, _this);
+        _this.events.on("maxsizechanged", function () {
+            if (_this.inited) {
+                _this.handleMaxSize();
+            }
+        }, _this, false);
         // this solves strange bug when text just added to svg is 0x0
-        _this.events.once("validated", _this.handleValidate, _this);
+        _this.events.once("validated", _this.handleValidate, _this, false);
         // Aply theme
         _this.applyTheme();
         return _this;
     }
+    /**
+     * Sets [[Paper]] instance to use to draw elements.
+     * @ignore
+     * @param {Paper} paper Paper
+     * @return {boolean} true if paper was changed, false, if it's the same
+     */
+    Label.prototype.setPaper = function (paper) {
+        var changed = _super.prototype.setPaper.call(this, paper);
+        if (changed) {
+            this.hardInvalidate();
+        }
+        return changed;
+    };
+    /**
+     * @ignore
+     */
     Label.prototype.handleValidate = function () {
-        var _this = this;
-        if (this.currentText && (this.bbox.width == 0 || this.bbox.height == 0)) {
-            registry.events.once("exitframe", function () {
-                _this.hardInvalidate();
-            });
+        if ((this.currentText || this.text) && (this.bbox.width == 0 || this.bbox.height == 0)) {
+            registry.events.once("exitframe", this.hardInvalidate, this);
         }
     };
+    /**
+     * @ignore
+     */
     Label.prototype.handleMaxSize = function () {
         if ((this.bbox.width > this.availableWidth)
             || ((this.bbox.width < this.availableWidth) && this.isOversized)
@@ -186,15 +206,12 @@ var Label = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Label.prototype.draw = function () {
-        var _this = this;
         // Draw super
         _super.prototype.draw.call(this);
         var topParent = this.topParent;
         if (topParent) {
             if (!topParent.maxWidth || !topParent.maxHeight) {
-                topParent.events.once("maxsizechanged", function () {
-                    _this.hardInvalidate();
-                });
+                topParent.events.once("maxsizechanged", this.hardInvalidate, this, false);
                 return;
             }
         }
@@ -560,7 +577,7 @@ var Label = /** @class */ (function (_super) {
             lineElement.style.display = "inline-block";
             var tmpBBox = lineElement.getBoundingClientRect();
             lineElement.style.display = "block";
-            this.bbox = {
+            this._bbox = {
                 x: 0,
                 y: 0,
                 width: tmpBBox.width / pixelRatio,
@@ -699,7 +716,7 @@ var Label = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Label.prototype.resetBBox = function () {
-        this.bbox = { x: 0, y: 0, width: 0, height: 0 };
+        this._bbox = { x: 0, y: 0, width: 0, height: 0 };
     };
     /**
      * Creates and returns an HTML line element (`<div>`).
@@ -1067,10 +1084,10 @@ var Label = /** @class */ (function (_super) {
         }
         if (dataItem) {
             this._sourceDataItemEvents = new MultiDisposer([
-                dataItem.events.on("valuechanged", this.invalidate, this),
-                dataItem.events.on("workingvaluechanged", this.invalidate, this),
-                dataItem.events.on("calculatedvaluechanged", this.invalidate, this),
-                dataItem.events.on("propertychanged", this.invalidate, this)
+                dataItem.events.on("valuechanged", this.invalidate, this, false),
+                dataItem.events.on("workingvaluechanged", this.invalidate, this, false),
+                dataItem.events.on("calculatedvaluechanged", this.invalidate, this, false),
+                dataItem.events.on("propertychanged", this.invalidate, this, false)
             ]);
         }
         _super.prototype.setDataItem.call(this, dataItem);
@@ -1100,18 +1117,6 @@ var Label = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    /**
-     * Invalidates the whole element, causing its redraw.
-     *
-     * Appending `<defs>` section might influence appearance and thus its
-     * dimensions.
-     *
-     * @ignore Exclude from docs
-     */
-    Label.prototype.appendDefs = function () {
-        _super.prototype.appendDefs.call(this);
-        this.invalidate(); // otherwise getBBOx of text element returns 0 simetimes
-    };
     // temp, replacing textFormatter method
     Label.prototype.getSvgElement = function (text, style) {
         var element = this.paper.add("tspan");

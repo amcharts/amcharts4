@@ -56,8 +56,8 @@ chart.data = [{
 chart.padding(10, 10, 10, 10);
 
 chart.radius = am4core.percent(95);
-chart.startAngle = 270 - 180;
-chart.endAngle = 270 + 180;
+chart.startAngle = 179.5;
+chart.endAngle = 360.5;
 
 chart.innerRadius = am4core.percent(60);
 

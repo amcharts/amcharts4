@@ -163,7 +163,7 @@ var RoundedRectangle = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     RoundedRectangle.prototype.measureElement = function () {
-        this.bbox = { x: 0, y: 0, width: this.innerWidth, height: this.innerHeight };
+        this._bbox = { x: 0, y: 0, width: this.innerWidth, height: this.innerHeight };
     };
     return RoundedRectangle;
 }(Sprite));

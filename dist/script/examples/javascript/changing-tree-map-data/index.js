@@ -119,6 +119,9 @@ level0ColumnTemplate.strokeOpacity = 0;
 
 // level 1 series template
 var level1SeriesTemplate = chart.seriesTemplates.create("1");
+level1SeriesTemplate.tooltip.dy = - 15;
+level1SeriesTemplate.tooltip.pointerOrientation = "vertical";
+
 var level1ColumnTemplate = level1SeriesTemplate.columns.template;
 
 level1SeriesTemplate.tooltip.animationDuration = 0;

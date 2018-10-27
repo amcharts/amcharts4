@@ -147,7 +147,9 @@ var MapSeries = /** @class */ (function (_super) {
                 _this.south = dataItem.south;
             }
         });
-        this.chart.updateExtremes();
+        if (this.chart) {
+            this.chart.updateExtremes();
+        }
     };
     /**
      * Checks whether object should be included in series.
@@ -330,7 +332,7 @@ var MapSeries = /** @class */ (function (_super) {
             this._dataSources["geodata"].component = this;
             this.events.on("inited", function () {
                 _this.loadData("geodata");
-            }, this);
+            }, undefined, false);
             this.setDataSourceEvents(value, "geodata");
         },
         enumerable: true,

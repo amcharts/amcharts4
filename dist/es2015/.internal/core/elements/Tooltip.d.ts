@@ -21,7 +21,7 @@ import * as $type from "../utils/Type";
  * @hidden
  */
 /**
- * Represents options for tolltip pointer (arrow) orientation.
+ * Represents options for tooltip pointer (arrow) orientation.
  *
  * @type {string}
  */
@@ -133,7 +133,7 @@ export declare class Tooltip extends Container {
      */
     label: Label;
     /**
-     * A container that should be considered a "boundary" for the tolltip. A
+     * A container that should be considered a "boundary" for the tooltip. A
      * bounding container is used to calculate numeric boundaries
      * (`boundingRect`). It is used to constrain the Tooltip to specific area on
      * the chart, like for example cursor tooltip in plot area.
@@ -148,7 +148,7 @@ export declare class Tooltip extends Container {
      */
     protected _boundingRect: IRectangle;
     /**
-     * Coordinates tolltip's pointer (stem) should point to.
+     * Coordinates tooltip's pointer (stem) should point to.
      *
      * @type {IPoint}
      */
@@ -238,7 +238,7 @@ export declare class Tooltip extends Container {
      * @return {PointerOrientation} Orientation
      */
     /**
-     * Duration in milliseconds for the animation to take place when the tolltip
+     * Duration in milliseconds for the animation to take place when the tooltip
      * is moving from one place to another.
      *
      * @default 0

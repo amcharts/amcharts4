@@ -185,18 +185,6 @@ export interface IInteractionObjectEvents extends IBaseObjectEvents {
      */
     track: PointEvent & PointerEvent & MouseTouchEvent;
     /**
-     * Invoked when `rotatable` object is being rotated either by mouse or touch
-     * gesture.
-     */
-    rotate: AngleEvent & CenterEvent & {
-        /**
-         * Original JavaScript event that triggered rotation.
-         *
-         * @type {MouseEvent | TouchEvent}
-         */
-        event?: MouseEvent | TouchEvent;
-    };
-    /**
      * Invoked when `resizable` object is being resized either by mouse or touch
      * pinch gesture.
      */
@@ -391,6 +379,6 @@ export declare class InteractionObjectEventDispatcher<T extends AMEvent<Interact
      * @return {IDisposer} Disposer
      */
     private _addDOMEvent<E, Key, C>(type, key, listener, context);
-    private _dispatchKeyboardEvent<Key>(key, ev);
-    protected _on<A, B, Key extends keyof T>(once: boolean, type: Key | null, callback: A, context: B, dispatch: (type: Key, event: T[Key]) => void): EventListener<T>;
+    private _dispatchKeyboardEvent(key, ev);
+    protected _on<A, B, Key extends keyof T>(once: boolean, type: Key | null, callback: A, context: B, shouldClone: boolean, dispatch: (type: Key, event: T[Key]) => void): EventListener<T>;
 }

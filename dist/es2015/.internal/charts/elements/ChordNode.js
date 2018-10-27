@@ -50,7 +50,7 @@ var ChordNode = /** @class */ (function (_super) {
         _this.label.zIndex = 1;
         _this.label.shouldClone = false;
         _this.layout = "none";
-        _this.events.on("positionchanged", _this.updateRotation, _this);
+        _this.events.on("positionchanged", _this.updateRotation, _this, false);
         _this.isMeasured = false;
         _this.slice = _this.createChild(Slice);
         _this.slice.isMeasured = false;

@@ -1,6 +1,7 @@
 am4core.useTheme(am4themes_animated);
 
 var chart = am4core.create("chartdiv", am4charts.RadarChart);
+chart.hiddenState.properties.opacity = 0;
 
 chart.data = [
     {
@@ -91,6 +92,7 @@ series1.dataFields.categoryY = "category";
 series1.clustered = false;
 series1.columns.template.radarColumn.cornerRadius = 30;
 series1.columns.template.tooltipText = "{category}: {openDateX} - {dateX}";
+series1.columns.template.hiddenState.properties.opacity = 0;
 
 var series2 = chart.series.push(new am4charts.RadarColumnSeries());
 series2.name = "Series 2";
@@ -100,6 +102,7 @@ series2.dataFields.categoryY = "category";
 series2.clustered = false;
 series2.columns.template.radarColumn.cornerRadius = 30;
 series2.columns.template.tooltipText = "{category}: {openDateX} - {dateX}";
+series2.columns.template.hiddenState.properties.opacity = 0;
 
 var series3 = chart.series.push(new am4charts.RadarColumnSeries());
 series3.name = "Series 3";
@@ -109,6 +112,7 @@ series3.dataFields.categoryY = "category";
 series3.clustered = false;
 series3.columns.template.radarColumn.cornerRadius = 30;
 series3.columns.template.tooltipText = "{category}: {openDateX} - {dateX}";
+series3.columns.template.hiddenState.properties.opacity = 0;
 
 var series4 = chart.series.push(new am4charts.RadarColumnSeries());
 series4.name = "Series 4";
@@ -118,6 +122,7 @@ series4.dataFields.categoryY = "category";
 series4.clustered = false;
 series4.columns.template.radarColumn.cornerRadius = 30;
 series4.columns.template.tooltipText = "{category}: {openDateX} - {dateX}";
+series4.columns.template.hiddenState.properties.opacity = 0;
 
 var series5 = chart.series.push(new am4charts.RadarColumnSeries());
 series5.name = "Series 5";
@@ -127,6 +132,7 @@ series5.dataFields.categoryY = "category";
 series5.clustered = false;
 series5.columns.template.radarColumn.cornerRadius = 30;
 series5.columns.template.tooltipText = "{category}: {openDateX} - {dateX}";
+series5.columns.template.hiddenState.properties.opacity = 0;
 
 chart.seriesContainer.zIndex = -1;
 

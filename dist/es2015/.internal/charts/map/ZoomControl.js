@@ -61,14 +61,14 @@ var ZoomControl = /** @class */ (function (_super) {
         slider.width = percent(100);
         slider.background.fill = interfaceColors.getFor("alternativeBackground");
         slider.background.fillOpacity = 0.05;
-        slider.background.events.on("hit", _this.handleBackgroundClick, _this);
-        slider.events.on("sizechanged", _this.updateThumbSize, _this);
+        slider.background.events.on("hit", _this.handleBackgroundClick, _this, false);
+        slider.events.on("sizechanged", _this.updateThumbSize, _this, false);
         _this.slider = slider;
         var thumb = slider.createChild(Button);
         thumb.shouldClone = false;
         thumb.padding(0, 0, 0, 0);
         thumb.draggable = true;
-        thumb.events.on("drag", _this.handleThumbDrag, _this);
+        thumb.events.on("drag", _this.handleThumbDrag, _this, false);
         _this.thumb = thumb;
         var minusButton = _this.createChild(Button);
         minusButton.shouldClone = false;
@@ -88,7 +88,7 @@ var ZoomControl = /** @class */ (function (_super) {
             if (event.property == "layout") {
                 _this.fixLayout();
             }
-        });
+        }, undefined, false);
         _this._disposers.push(_this._chart);
         _this.fixLayout();
         return _this;
@@ -161,9 +161,9 @@ var ZoomControl = /** @class */ (function (_super) {
         set: function (chart) {
             var _this = this;
             this._chart.set(chart, new MultiDisposer([
-                chart.events.on("maxsizechanged", this.updateThumbSize, this),
-                chart.events.on("zoomlevelchanged", this.updateThumb, this),
-                this.minusButton.events.on("hit", function () { chart.zoomOut(chart.zoomGeoPoint); }, chart),
+                chart.events.on("maxsizechanged", this.updateThumbSize, this, false),
+                chart.events.on("zoomlevelchanged", this.updateThumb, this, false),
+                this.minusButton.events.on("hit", function () { chart.zoomOut(chart.zoomGeoPoint); }, chart, false),
                 getInteraction().body.events.on("keyup", function (ev) {
                     if (_this.topParent.hasFocused) {
                         if (keyboard.isKey(ev.event, "enter")) {
@@ -182,7 +182,7 @@ var ZoomControl = /** @class */ (function (_super) {
                         }
                     }
                 }, chart),
-                this.plusButton.events.on("hit", function () { chart.zoomIn(chart.zoomGeoPoint); }, chart)
+                this.plusButton.events.on("hit", function () { chart.zoomIn(chart.zoomGeoPoint); }, chart, false)
             ]));
         },
         enumerable: true,

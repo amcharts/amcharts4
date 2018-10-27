@@ -5,6 +5,7 @@ import { TextAlign } from "../defs/TextAlign";
 import { AMElement } from "../rendering/AMElement";
 import { Group } from "../rendering/Group";
 import { MultiDisposer } from "../utils/Disposer";
+import { Paper } from "../rendering/Paper";
 /**
  * Defines properties for [[Text]].
  */
@@ -230,7 +231,20 @@ export declare class Label extends Container {
      * Constructor
      */
     constructor();
+    /**
+     * Sets [[Paper]] instance to use to draw elements.
+     * @ignore
+     * @param {Paper} paper Paper
+     * @return {boolean} true if paper was changed, false, if it's the same
+     */
+    setPaper(paper: Paper): boolean;
+    /**
+     * @ignore
+     */
     protected handleValidate(): void;
+    /**
+     * @ignore
+     */
     protected handleMaxSize(): void;
     /**
      * [arrange description]
@@ -485,14 +499,5 @@ export declare class Label extends Container {
      * @return {number} Available height (px)
      */
     readonly availableHeight: number;
-    /**
-     * Invalidates the whole element, causing its redraw.
-     *
-     * Appending `<defs>` section might influence appearance and thus its
-     * dimensions.
-     *
-     * @ignore Exclude from docs
-     */
-    appendDefs(): void;
     getSvgElement(text: string, style?: string): AMElement;
 }

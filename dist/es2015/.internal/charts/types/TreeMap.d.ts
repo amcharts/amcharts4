@@ -660,4 +660,8 @@ export declare class TreeMap extends XYChart {
      * Setups the legend to use the chart's data.
      */
     protected feedLegend(): void;
+    /**
+     * @ignore
+     */
+    disposeData(): void;
 }

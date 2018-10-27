@@ -235,7 +235,7 @@ var MapImageSeries = /** @class */ (function (_super) {
                 this._disposers.push(new ListDisposer(mapImages));
                 this._disposers.push(mapImages.template);
                 mapImages.template.focusable = true;
-                mapImages.events.on("inserted", this.handleObjectAdded, this);
+                mapImages.events.on("inserted", this.handleObjectAdded, this, false);
                 this._mapImages = mapImages;
             }
             return this._mapImages;

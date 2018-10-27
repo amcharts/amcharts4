@@ -101,13 +101,13 @@ var LegendDataItem = /** @class */ (function (_super) {
                     itemContainer_1.readerLabelledBy = this.dataContext.uidAttr();
                 }
                 var sprite = this.dataContext;
-                if (sprite instanceof DataItem) {
+                if (sprite instanceof DataItem || sprite instanceof Sprite) {
                     itemContainer_1.addDisposer(sprite.events.on("visibilitychanged", function (ev) {
                         itemContainer_1.readerChecked = ev.visible;
                         itemContainer_1.events.disableType("toggled");
                         itemContainer_1.isActive = !ev.visible;
                         itemContainer_1.events.enableType("toggled");
-                    }));
+                    }, undefined, false));
                     sprite.addDisposer(new Disposer(function () {
                         if (_this.component) {
                             _this.component.dataItems.remove(_this);
@@ -119,13 +119,13 @@ var LegendDataItem = /** @class */ (function (_super) {
                             itemContainer_1.events.disableType("toggled");
                             itemContainer_1.isActive = true;
                             itemContainer_1.events.enableType("toggled");
-                        }));
+                        }, undefined, false));
                         itemContainer_1.addDisposer(sprite.events.on("shown", function (ev) {
                             itemContainer_1.readerChecked = false;
                             itemContainer_1.events.disableType("toggled");
                             itemContainer_1.isActive = false;
                             itemContainer_1.events.enableType("toggled");
-                        }));
+                        }, undefined, false));
                     }
                 }
             }

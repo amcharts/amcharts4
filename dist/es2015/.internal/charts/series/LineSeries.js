@@ -569,6 +569,13 @@ var LineSeries = /** @class */ (function (_super) {
             }
         });
     };
+    /**
+     * @ignore
+     */
+    LineSeries.prototype.disposeData = function () {
+        _super.prototype.disposeData.call(this);
+        this.segments.clear();
+    };
     return LineSeries;
 }(XYSeries));
 export { LineSeries };

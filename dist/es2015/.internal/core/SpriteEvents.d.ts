@@ -57,7 +57,7 @@ export declare class SpriteEventDispatcher<T extends AMEvent<Sprite, ISpriteEven
      * @todo Description
      * @type {[type]}
      */
-    protected _on<A, B, Key extends keyof T>(once: boolean, type: Key | null, callback: A, context: B, dispatch: (type: Key, event: T[Key]) => void): EventListener<T>;
+    protected _on<A, B, Key extends keyof T>(once: boolean, type: Key | null, callback: A, context: B, shouldClone: boolean, dispatch: (type: Key, event: T[Key]) => void): EventListener<T>;
 }
 /**
  * Defines property set for a [[Sprite]] event that contains point information.

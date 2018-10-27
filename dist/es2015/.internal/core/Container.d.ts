@@ -22,7 +22,6 @@ import { DataItem } from "./DataItem";
 import { Optional } from "./utils/Type";
 import { Paper } from "./rendering/Paper";
 import * as $type from "./utils/Type";
-import { IRectangle } from "./defs/IRectangle";
 /**
  * ============================================================================
  * REQUISITES
@@ -278,6 +277,10 @@ export declare class Container extends Sprite {
      */
     handleChildAdded(event: IListEvents<Sprite>["inserted"]): void;
     /**
+     * @ignore
+     */
+    protected sortAndAdd(): void;
+    /**
      * Handles child removal. Changing size of the child may change the
      * whole layout of the Container, hence layout needs to be invalidated.
      *
@@ -316,13 +319,6 @@ export declare class Container extends Sprite {
      * @ignore Exclude from docs
      */
     deepInvalidate(): void;
-    /**
-     * Appends `<defs>` section to the element. This section holds all the SVG
-     * definitions for the element, such as filters.
-     *
-     * @ignore Exclude from docs
-     */
-    appendDefs(): void;
     /**
      * Returns a list of the child [[Sprite]] elements contained in this
      * Container.
@@ -454,7 +450,6 @@ export declare class Container extends Sprite {
      * @ignore Exclude from docs
      */
     arrange(): void;
-    protected getContainerBBox(x: number, y: number, width: number, height: number): IRectangle;
     /**
      * Positions element according its center settings.
      *
@@ -551,11 +546,11 @@ export declare class Container extends Sprite {
     preloader: $type.Optional<Preloader>;
     /**
      * Sets [[Paper]] instance to use to draw elements.
-     *
-     * @ignore Exclude from docs
-     * @param {Paper}  paper  Paper
+     * @ignore
+     * @param {Paper} paper Paper
+     * @return {boolean} true if paper was changed, false, if it's the same
      */
-    setPaper(paper: Paper): void;
+    setPaper(paper: Paper): boolean;
     /**
      * Removes Container from the system-wide list of invalid Containers.
      *

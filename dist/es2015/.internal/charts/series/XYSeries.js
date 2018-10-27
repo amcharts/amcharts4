@@ -380,7 +380,7 @@ var XYSeries = /** @class */ (function (_super) {
         _this.tooltip.pointerOrientation = "horizontal";
         _this.tooltip.events.on("hidden", function () {
             _this.returnBulletDefaultState();
-        });
+        }, undefined, false);
         _this._disposers.push(_this._xAxis);
         _this._disposers.push(_this._yAxis);
         _this.applyTheme();
@@ -413,7 +413,6 @@ var XYSeries = /** @class */ (function (_super) {
         this._tmax.clear();
         this._smin.clear();
         this._smax.clear();
-        this.appeared = false;
         if (this.xAxis) {
             this.xAxis.dataChangeUpdate();
         }
@@ -675,14 +674,16 @@ var XYSeries = /** @class */ (function (_super) {
          * @return {Axis} Axis
          */
         get: function () {
-            if (!this._xAxis.get()) {
-                var axis = this.chart.xAxes.getIndex(0);
-                if (!axis) {
-                    throw Error("There are no X axes on chart.");
+            if (this.chart) {
+                if (!this._xAxis.get()) {
+                    var axis = this.chart.xAxes.getIndex(0);
+                    if (!axis) {
+                        throw Error("There are no X axes on chart.");
+                    }
+                    this.xAxis = axis;
                 }
-                this.xAxis = axis;
+                return this._xAxis.get();
             }
-            return this._xAxis.get();
         },
         /**
          * X axis the series is attached to.
@@ -712,14 +713,16 @@ var XYSeries = /** @class */ (function (_super) {
          * @return {Axis} Axis
          */
         get: function () {
-            if (!this._yAxis.get()) {
-                var axis = this.chart.yAxes.getIndex(0);
-                if (!axis) {
-                    throw Error("There are no Y axes on chart.");
+            if (this.chart) {
+                if (!this._yAxis.get()) {
+                    var axis = this.chart.yAxes.getIndex(0);
+                    if (!axis) {
+                        throw Error("There are no Y axes on chart.");
+                    }
+                    this.yAxis = axis;
                 }
-                this.yAxis = axis;
+                return this._yAxis.get();
             }
-            return this._yAxis.get();
         },
         /**
          * Y axis the series is attached to.
@@ -901,6 +904,10 @@ var XYSeries = /** @class */ (function (_super) {
                         return;
                     }
                 }
+            }
+            // so that if tooltip is shown on columns or bullets for it not to be hidden
+            if (!this.tooltipText) {
+                return;
             }
         }
         this.hideTooltip();

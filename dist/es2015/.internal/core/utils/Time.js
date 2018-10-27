@@ -61,6 +61,22 @@ export function getDuration(unit, count) {
     return timeUnitDurations[unit] * count;
 }
 /**
+ * Returns current `Date` object.
+ *
+ * @return {Date} Current date
+ */
+export function now() {
+    return new Date();
+}
+/**
+ * Returns current timestamp.
+ *
+ * @return {Date} Current timestamp
+ */
+export function getTime() {
+    return now().getTime();
+}
+/**
  * Returns a copy of the `Date` object.
  *
  * @ignore Exclude from docs

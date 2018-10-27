@@ -3,7 +3,11 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 // chart design inspired by Nicolas Rapp: https://nicolasrapp.com/studio/portfolio/cash-hoarders/
+
+am4core.useTheme(am4themes_animated);
+
 let chart = am4core.create("chartdiv", am4charts.SankeyDiagram);
+chart.hiddenState.properties.opacity = 0;
 
 chart.data = [
     // these are just for color, as properties are taken from data object where the name is first mentioned.

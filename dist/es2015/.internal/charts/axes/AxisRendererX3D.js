@@ -93,7 +93,7 @@ var AxisRendererX3D = /** @class */ (function (_super) {
          */
         set: function (chart) {
             if (chart) {
-                this._chart.set(chart, chart.events.on("propertychanged", this.handle3DChanged, this));
+                this._chart.set(chart, chart.events.on("propertychanged", this.handle3DChanged, this, false));
             }
         },
         enumerable: true,

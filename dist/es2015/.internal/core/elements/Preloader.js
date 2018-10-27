@@ -83,7 +83,6 @@ var Preloader = /** @class */ (function (_super) {
         _this.delay = 500;
         // Create hidden state
         var hiddenState = _this.states.create("hidden");
-        hiddenState.transitionDuration = 2000;
         hiddenState.properties.opacity = 0;
         // Hide by default
         _this.visible = false;
@@ -145,6 +144,7 @@ var Preloader = /** @class */ (function (_super) {
                     }
                 });
                 this.interactionsEnabled = false;
+                this.setPropertyValue("progress", 0);
             }
             else if (value > 0) {
                 if (this.delay) {
@@ -152,6 +152,7 @@ var Preloader = /** @class */ (function (_super) {
                         this._started = new Date().getTime();
                     }
                     else if ((this._started + this.delay) >= new Date().getTime()) {
+                        this.__disabled = false;
                         this.show();
                         this.interactionsEnabled = true;
                     }

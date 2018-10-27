@@ -255,6 +255,7 @@ var RadarChart = /** @class */ (function (_super) {
             cursor.endAngle = endAngle;
         }
         this.radarContainer.definedBBox = { x: radius * rect.x, y: radius * rect.y, width: radius * rect.width, height: radius * rect.height };
+        this.radarContainer.validatePosition();
     };
     /**
      * Creates and returns a new Series, suitable for RadarChart.

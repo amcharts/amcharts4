@@ -76,6 +76,7 @@ var XYCursor = /** @class */ (function (_super) {
         selection.fillOpacity = 0.2;
         selection.fill = interfaceColors.getFor("alternativeBackground");
         selection.isMeasured = false;
+        selection.interactionsEnabled = false;
         _this.selection = selection;
         _this._disposers.push(_this.selection);
         // Create cursor's vertical line
@@ -86,6 +87,7 @@ var XYCursor = /** @class */ (function (_super) {
         lineX.strokeDasharray = "3,3";
         lineX.isMeasured = false;
         lineX.strokeOpacity = 0.4;
+        lineX.interactionsEnabled = false;
         _this.lineX = lineX;
         _this._disposers.push(_this.lineX);
         // Create cursor's horizontal line
@@ -96,10 +98,11 @@ var XYCursor = /** @class */ (function (_super) {
         lineY.strokeDasharray = "3,3";
         lineY.isMeasured = false;
         lineY.strokeOpacity = 0.4;
+        lineY.interactionsEnabled = false;
         _this.lineY = lineY;
         _this._disposers.push(_this.lineY);
         // Add handler for size changes
-        _this.events.on("sizechanged", _this.updateSize, _this);
+        _this.events.on("sizechanged", _this.updateSize, _this, false);
         _this._disposers.push(_this._lineX);
         _this._disposers.push(_this._lineY);
         _this._disposers.push(_this._xAxis);
@@ -441,8 +444,8 @@ var XYCursor = /** @class */ (function (_super) {
             if (this._xAxis.get() != axis) {
                 var chart = axis.chart;
                 this._xAxis.set(axis, new MultiDisposer([
-                    axis.tooltip.events.on("positionchanged", this.handleXTooltipPosition, this),
-                    axis.events.on("validated", chart.handleCursorPositionChange, chart)
+                    axis.tooltip.events.on("positionchanged", this.handleXTooltipPosition, this, false),
+                    axis.events.on("validated", chart.handleCursorPositionChange, chart, false)
                 ]));
             }
         },
@@ -473,8 +476,8 @@ var XYCursor = /** @class */ (function (_super) {
             if (this._yAxis.get() != axis) {
                 var chart = axis.chart;
                 this._yAxis.set(axis, new MultiDisposer([
-                    axis.tooltip.events.on("positionchanged", this.handleYTooltipPosition, this),
-                    axis.events.on("validated", chart.handleCursorPositionChange, chart)
+                    axis.tooltip.events.on("positionchanged", this.handleYTooltipPosition, this, false),
+                    axis.events.on("validated", chart.handleCursorPositionChange, chart, false)
                 ]));
             }
         },
@@ -548,7 +551,7 @@ var XYCursor = /** @class */ (function (_super) {
         set: function (lineX) {
             if (lineX) {
                 lineX.setElement(this.paper.add("path"));
-                this._lineX.set(lineX, lineX.events.on("positionchanged", this.updateSelection, this));
+                this._lineX.set(lineX, lineX.events.on("positionchanged", this.updateSelection, this, false));
                 lineX.interactionsEnabled = false;
                 lineX.parent = this;
             }
@@ -574,7 +577,7 @@ var XYCursor = /** @class */ (function (_super) {
         set: function (lineY) {
             if (lineY) {
                 lineY.setElement(this.paper.add("path"));
-                this._lineY.set(lineY, lineY.events.on("positionchanged", this.updateSelection, this));
+                this._lineY.set(lineY, lineY.events.on("positionchanged", this.updateSelection, this, false));
                 lineY.parent = this;
                 lineY.interactionsEnabled = false;
             }

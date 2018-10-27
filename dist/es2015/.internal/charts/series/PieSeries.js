@@ -176,13 +176,6 @@ var PieSeries = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     PieSeries.prototype.validate = function () {
-        if (Math.abs(this.startAngle - this.endAngle) < 0.01) {
-            return;
-        }
-        // so that radius would be updated
-        if (this.chart.invalid) {
-            this.chart.validate();
-        }
         this._leftItems = [];
         this._rightItems = [];
         this._currentStartAngle = this.startAngle;
@@ -203,6 +196,30 @@ var PieSeries = /** @class */ (function (_super) {
             else {
                 this._leftItems.reverse();
             }
+            this._rightItems.sort(function (a, b) {
+                var aAngle = (a.slice.middleAngle + 360) % 360;
+                var bAngle = (b.slice.middleAngle + 360) % 360;
+                if (aAngle > 270) {
+                    aAngle -= 360;
+                }
+                if (bAngle > 270) {
+                    bAngle -= 360;
+                }
+                if (aAngle < bAngle) {
+                    return 0;
+                }
+                else {
+                    return 1;
+                }
+            });
+            this._leftItems.sort(function (a, b) {
+                if ((a.slice.middleAngle + 360) % 360 < (b.slice.middleAngle + 360) % 360) {
+                    return 1;
+                }
+                else {
+                    return 0;
+                }
+            });
             this.arrangeLabels(this._rightItems);
             this.arrangeLabels(this._leftItems);
         }
@@ -240,7 +257,7 @@ var PieSeries = /** @class */ (function (_super) {
                 label.verticalCenter = "middle";
                 var arcRect = this._arcRect;
                 // right half
-                if (normalizedMiddleAngle >= 270 || normalizedMiddleAngle <= 91) { // 91 makes less chances for flickering
+                if (normalizedMiddleAngle >= 270 || normalizedMiddleAngle <= 90) { // 91 makes less chances for flickering
                     x += (arcRect.width + arcRect.x) * this.pixelRadius;
                     label.horizontalCenter = "left";
                     this._rightItems.push(dataItem);
@@ -433,15 +450,26 @@ var PieSeries = /** @class */ (function (_super) {
             }
         }
     };
-    PieSeries.prototype.getContainerBBox = function () {
-        var chart = this.chart;
-        if (chart) {
-            return $math.getArcRect(chart.startAngle, chart.endAngle, this.pixelRadius);
-        }
-        else {
+    Object.defineProperty(PieSeries.prototype, "bbox", {
+        /**
+         * Returns bounding box (square) for this element.
+         *
+         * @ignore Exclude from docs
+         * @type {IRectangle}
+         */
+        get: function () {
+            if (this.definedBBox) {
+                return this.definedBBox;
+            }
+            var chart = this.chart;
+            if (chart) {
+                return $math.getArcRect(chart.startAngle, chart.endAngle, this.pixelRadius);
+            }
             return $math.getArcRect(this.startAngle, this.endAngle, this.pixelRadius);
-        }
-    };
+        },
+        enumerable: true,
+        configurable: true
+    });
     return PieSeries;
 }(PercentSeries));
 export { PieSeries };

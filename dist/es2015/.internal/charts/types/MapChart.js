@@ -127,38 +127,44 @@ var MapChart = /** @class */ (function (_super) {
         // so that the map would render in a hidden div too
         _this.minWidth = 10;
         _this.minHeight = 10;
+        _this.events.once("inited", function () {
+            _this.goHome(0);
+        });
         // Create a container for map series
         var seriesContainer = _this.seriesContainer;
         seriesContainer.draggable = true;
         seriesContainer.inert = true;
         seriesContainer.resizable = true;
-        seriesContainer.events.on("transformed", _this.handleMapTransform, _this);
-        seriesContainer.events.on("doublehit", _this.handleDoubleHit, _this);
-        seriesContainer.events.on("drag", _this.handleDrag, _this);
+        seriesContainer.events.on("transformed", _this.handleMapTransform, _this, false);
+        seriesContainer.events.on("doublehit", _this.handleDoubleHit, _this, false);
+        seriesContainer.events.on("drag", _this.handleDrag, _this, false);
         seriesContainer.zIndex = 0;
+        seriesContainer.background.fillOpacity = 0;
         // Set up events
-        _this.events.on("validated", _this.updateExtremes, _this);
-        _this.events.on("datavalidated", _this.updateExtremes, _this);
+        //this.events.on("validated", this.updateExtremes, this);
+        _this.events.on("datavalidated", _this.updateExtremes, _this, false);
         // Set up main chart container, e.g. set backgrounds and events to monitor
         // size changes, etc.
         var chartContainer = _this.chartContainer;
         _this._disposers.push(seriesContainer.events.on("maxsizechanged", function () {
-            if (_this._mapAnimation) {
-                _this._mapAnimation.stop();
+            if (_this.inited) {
+                if (_this._mapAnimation) {
+                    _this._mapAnimation.stop();
+                }
+                _this.updateScaleRatio();
+                _this.zoomToGeoPoint(_this._zoomGeoPointReal, _this.zoomLevel, true, 0);
+                _this.series.each(function (series) {
+                    series.updateTooltipBounds();
+                });
             }
-            _this.updateScaleRatio();
-            _this.zoomToGeoPoint(_this._zoomGeoPointReal, _this.zoomLevel, true, 0);
-            _this.series.each(function (series) {
-                series.updateTooltipBounds();
-            });
-        }));
+        }, undefined, false));
         var chartContainerBg = chartContainer.background;
         chartContainerBg.fillOpacity = 0;
         chartContainerBg.events.on("down", function (e) { _this.seriesContainer.dragStart(e.target.interactions.downPointers.getIndex(0)); }, _this);
         chartContainerBg.events.on("up", function (e) { _this.seriesContainer.dragStop(); }, _this);
         chartContainerBg.events.on("doublehit", _this.handleDoubleHit, _this);
         chartContainerBg.focusable = true;
-        chartContainer.events.on("down", _this.handleMapDown, _this);
+        chartContainer.events.on("down", _this.handleMapDown, _this, false);
         // Add description to background
         _this.background.fillOpacity = 0;
         _this.background.readerTitle = _this.language.translate("Use plus and minus keys on your keyboard to zoom in and out");
@@ -282,7 +288,7 @@ var MapChart = /** @class */ (function (_super) {
         set: function (value) {
             if (this.setPropertyValue("mouseWheelBehavior", value)) {
                 if (value != "none") {
-                    this._mouseWheelDisposer = this.chartContainer.events.on("wheel", this.handleWheel, this);
+                    this._mouseWheelDisposer = this.chartContainer.events.on("wheel", this.handleWheel, this, false);
                     this._disposers.push(this._mouseWheelDisposer);
                 }
                 else {
@@ -391,13 +397,16 @@ var MapChart = /** @class */ (function (_super) {
             this.projection.scale = scaleRatio;
             this.seriesWidth = seriesWidth * scaleRatio;
             this.seriesHeight = seriesHeight * scaleRatio;
+            var northPoint2 = this.projection.convert({ longitude: (this.east - this.west) / 2, latitude: this.north });
+            var westPoint2 = this.projection.convert({ longitude: this.west, latitude: (this.south - this.north) / 2 });
+            //this.seriesContainer.width = this.seriesWidth; // not good, doesn't resize
+            //this.seriesContainer.height = this.seriesHeight; // not good, doesn't resize
+            this.seriesContainer.definedBBox = { x: westPoint2.x, y: northPoint2.y, width: this.seriesWidth, height: this.seriesHeight };
             this.updateScaleRatio();
             var seriesContainer = this.seriesContainer;
             var chartContainer = this.chartContainer;
             seriesContainer.x = chartContainer.pixelWidth / 2;
             seriesContainer.y = chartContainer.pixelHeight / 2;
-            this.centerGeoPoint = this.svgPointToGeo({ x: this.measuredWidth / 2, y: this.measuredHeight / 2 });
-            this.goHome();
         }
     };
     /**
@@ -910,7 +919,7 @@ var MapChart = /** @class */ (function (_super) {
             this._dataSources["geodata"].component = this;
             this.events.on("inited", function () {
                 _this.loadData("geodata");
-            }, this);
+            }, this, false);
             this.setDataSourceEvents(value, "geodata");
         },
         enumerable: true,
@@ -977,6 +986,19 @@ var MapChart = /** @class */ (function (_super) {
     MapChart.prototype.asIs = function (field) {
         return field == "projection" || _super.prototype.asIs.call(this, field);
     };
+    Object.defineProperty(MapChart.prototype, "centerGeoPoint", {
+        /**
+         * Geo point of map center
+         *
+         * @readonly
+         * @type {IPoint}
+         */
+        get: function () {
+            return this.svgPointToGeo({ x: this.measuredWidth / 2, y: this.measuredHeight / 2 });
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Resets the map to its original position and zoom level.
      */

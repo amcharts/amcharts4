@@ -19,7 +19,6 @@ import { SerialChart } from "../types/SerialChart";
 import { Axis } from "../axes/Axis";
 import { Bullet } from "../elements/Bullet";
 import { LegendDataItem, LegendSettings } from "../Legend";
-import { Animation } from "../../core/utils/Animation";
 import { Ordering } from "../../core/utils/Order";
 export interface IHeatRule {
     target: Sprite;
@@ -137,6 +136,12 @@ export interface ISeriesProperties extends IComponentProperties {
      * @type {boolean}
      */
     hiddenInLegend?: boolean;
+    /**
+     * Specifies if the series should be initially hidden.
+     * @default false
+     * @type {boolean}
+     */
+    hidden?: boolean;
 }
 /**
  * Defines events for [[Series]].
@@ -348,11 +353,6 @@ export declare class Series extends Component {
      * @type {string}
      */
     protected _itemReaderText: string;
-    /**
-     * flag which is set to true when initial animation is finished
-     * @ignore
-     */
-    protected _appeared: boolean;
     protected _heatRules: List<IHeatRule>;
     /**
      * As calculating totals is expensive operation and not often needed, by default we do not do it. In case you use percent for your charts, you must set this to true.
@@ -386,28 +386,6 @@ export declare class Series extends Component {
      * @param {this["_chart"]}  value  Chart
      */
     chart: this["_chart"];
-    /**
-     * Performs initial animation of the series after data validation.
-     *
-     * @ignore Exclude from docs
-     */
-    appear(): void;
-    /**
-     * Fades in bullet container and related elements.
-     *
-     * @ignore Exclude from docs
-     * @param  {number}     duration  Animation duration (ms)
-     * @return {Animation}            Animation
-     */
-    showReal(duration: number): Animation;
-    /**
-     * Fades out bullet container and related elements.
-     *
-     * @ignore Exclude from docs
-     * @param  {number}     duration  Animation duration (ms)
-     * @return {Animation}            Animation
-     */
-    hideReal(duration: number): Animation;
     /**
      * Positions bullet.
      *
@@ -642,11 +620,10 @@ export declare class Series extends Component {
         [index: string]: any;
     }): void;
     /**
-     * flag which is set to true when initial animation is finished. If you set it to false, the series will animate on next validate.
+     * Returns visibility value
      * @ignore
      */
-    appeared: boolean;
-    protected handleAppear(): void;
+    protected getVisibility(): boolean;
     /**
      * This function is used to sort element's JSON config properties, so that
      * some properties that absolutely need to be processed last, can be put at

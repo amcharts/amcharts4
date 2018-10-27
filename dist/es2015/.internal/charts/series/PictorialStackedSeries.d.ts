@@ -117,17 +117,11 @@ export declare class PictorialStackedSeries extends PyramidSeries {
      */
     constructor();
     /**
-     * (Re)validates the whole series, effectively causing it to redraw.
-     *
-     * @ignore Exclude from docs
-     */
-    validate(): void;
-    /**
      * Sizes the mask to fit the series.
      *
      * @ignore
      */
-    resizeMask(): void;
+    validateDataElements(): void;
     /**
      * Sets defaults that instantiate some objects that rely on parent, so they
      * cannot be set in constructor.

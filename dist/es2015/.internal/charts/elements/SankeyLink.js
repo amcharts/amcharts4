@@ -105,7 +105,7 @@ var SankeyLink = /** @class */ (function (_super) {
                 var minY = Math.min(yb0, yb1, yt0, yt1);
                 var maxX = Math.max(xb0, xb1, xt0, xt1);
                 var maxY = Math.max(yb0, yb1, yt0, yt1);
-                this.bbox = {
+                this._bbox = {
                     x: minX,
                     y: minY,
                     width: maxX - minX,

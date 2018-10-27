@@ -84,8 +84,8 @@ var SpriteEventDispatcher = /** @class */ (function (_super) {
      * @todo Description
      * @type {[type]}
      */
-    SpriteEventDispatcher.prototype._on = function (once, type, callback, context, dispatch) {
-        var info = _super.prototype._on.call(this, once, type, callback, context, dispatch);
+    SpriteEventDispatcher.prototype._on = function (once, type, callback, context, shouldClone, dispatch) {
+        var info = _super.prototype._on.call(this, once, type, callback, context, shouldClone, dispatch);
         var disposers = [info.disposer];
         /**
          * Catching Sprite-related events, converting them to [[SpriteEvent]] and
@@ -104,7 +104,7 @@ var SpriteEventDispatcher = /** @class */ (function (_super) {
                 break;
             case "rightclick":
             case "down":
-            case "hold":
+            //case "hold":
             case "up":
             case "drag":
             case "dragstart":
@@ -115,7 +115,7 @@ var SpriteEventDispatcher = /** @class */ (function (_super) {
             case "swipeleft":
             case "swiperight":
             case "resize":
-            case "rotate":
+            //case "rotate":
             case "focus":
             case "blur":
             case "toggled":
@@ -146,9 +146,6 @@ var SpriteEventDispatcher = /** @class */ (function (_super) {
             case "track":
                 this.target.trackable = true;
                 break;
-            case "rotate":
-                this.target.rotatable = true;
-                break;
             case "resize":
                 this.target.resizable = true;
                 break;
@@ -165,6 +162,7 @@ var SpriteEventDispatcher = /** @class */ (function (_super) {
                 this.target.wheelable = true;
                 break;
             case "over":
+                this.target.hoverable = true;
             case "out":
                 this.target.hoverable = true;
                 break;

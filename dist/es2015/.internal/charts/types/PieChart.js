@@ -179,9 +179,29 @@ var PieChart = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      */
-    PieChart.prototype.validate = function () {
-        _super.prototype.validate.call(this);
+    PieChart.prototype.validateLayout = function () {
+        _super.prototype.validateLayout.call(this);
         this.updateRadius();
+    };
+    /**
+     * Decorates a new [[Series]] object with required parameters when it is
+     * added to the chart.
+     *
+     * @ignore Exclude from docs
+     * @param {IListEvents<Series>["inserted"]}  event  Event
+     */
+    PieChart.prototype.handleSeriesAdded = function (event) {
+        _super.prototype.handleSeriesAdded.call(this, event);
+        this.updateSeriesAngles();
+    };
+    PieChart.prototype.updateSeriesAngles = function () {
+        var _this = this;
+        this.series.each(function (series) {
+            series.startAngle = _this.startAngle;
+            series.endAngle = _this.endAngle;
+            series.defaultState.properties.startAngle = _this.startAngle;
+            series.defaultState.properties.endAngle = _this.endAngle;
+        });
     };
     /**
      * Recalculates pie's radius, based on a number of criteria.
@@ -189,7 +209,6 @@ var PieChart = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     PieChart.prototype.updateRadius = function () {
-        var _this = this;
         var chartCont = this.chartContainer;
         var rect = $math.getArcRect(this.startAngle, this.endAngle, 1);
         var innerRect = { x: 0, y: 0, width: 0, height: 0 };
@@ -220,8 +239,6 @@ var PieChart = /** @class */ (function (_super) {
             }
             series.pixelRadius = radius;
             series.pixelInnerRadius = innerRadius;
-            series.startAngle = _this.startAngle;
-            series.endAngle = _this.endAngle;
         });
         this.seriesContainer.definedBBox = { x: chartRadius * rect.x, y: chartRadius * rect.y, width: chartRadius * rect.width, height: chartRadius * rect.height };
         this.seriesContainer.invalidateLayout();
@@ -262,7 +279,7 @@ var PieChart = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (this.setPropertyValue("radius", value, true)) {
-                this.updateRadius();
+                this.invalidateLayout();
             }
         },
         enumerable: true,
@@ -332,7 +349,10 @@ var PieChart = /** @class */ (function (_super) {
          * @param {number}  value  Start angle (degrees)
          */
         set: function (value) {
-            this.setPropertyValue("startAngle", value, true);
+            if (this.setPropertyValue("startAngle", value)) {
+                this.updateRadius();
+                this.updateSeriesAngles();
+            }
         },
         enumerable: true,
         configurable: true
@@ -367,7 +387,10 @@ var PieChart = /** @class */ (function (_super) {
          * @param {number}  value  End angle (degrees)
          */
         set: function (value) {
-            this.setPropertyValue("endAngle", value, true);
+            if (this.setPropertyValue("endAngle", value)) {
+                this.updateRadius();
+                this.updateSeriesAngles();
+            }
         },
         enumerable: true,
         configurable: true

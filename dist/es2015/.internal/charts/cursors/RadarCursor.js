@@ -107,8 +107,8 @@ var RadarCursor = /** @class */ (function (_super) {
         var radius = this.pixelRadius;
         var startAngle = this.startAngle;
         var endAngle = this.endAngle;
-        if (radius > 0 && $type.isNumber(startAngle) && $type.isNumber(endAngle)) {
-            var innerRadius = this.pixelInnerRadius;
+        var innerRadius = this.pixelInnerRadius;
+        if (radius > 0 && $type.isNumber(startAngle) && $type.isNumber(endAngle) && $type.isNumber(innerRadius)) {
             var angle = $math.fitAngleToRange($math.getAngle(point), startAngle, endAngle);
             var path = void 0;
             if (this.lineX && this.lineX.visible) {

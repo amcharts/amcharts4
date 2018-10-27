@@ -16,6 +16,7 @@ catch (e) {
 mapChart.projection = new am4maps.projections.Miller;
 // prevent dragging
 mapChart.seriesContainer.draggable = false;
+mapChart.seriesContainer.resizable = false;
 // prevent zooming
 mapChart.minZoomLevel = 1;
 // countries

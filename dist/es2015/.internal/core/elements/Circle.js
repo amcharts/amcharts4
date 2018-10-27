@@ -89,7 +89,7 @@ var Circle = /** @class */ (function (_super) {
      */
     Circle.prototype.measureElement = function () {
         var pixelRadius = this.pixelRadius;
-        this.bbox = {
+        this._bbox = {
             x: -pixelRadius,
             y: -pixelRadius,
             width: pixelRadius * 2,

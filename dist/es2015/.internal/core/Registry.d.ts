@@ -117,7 +117,9 @@ export declare class Registry {
  * @ignore Exclude from docs
  * @type {Array<Sprite>}
  */
-    invalidSprites: Array<Sprite>;
+    invalidSprites: {
+        [index: string]: Array<Sprite>;
+    };
     /**
      * Components are added to this list when their data provider changes to
      * a new one or data is added/removed from their data provider.
@@ -155,16 +157,20 @@ export declare class Registry {
      * to be recalculated.
      *
      * @ignore Exclude from docs
-     * @type {Array<Sprite>}
+     * @type { [index: string]: Array<Sprite>}
      */
-    invalidPositions: Array<Sprite>;
+    invalidPositions: {
+        [index: string]: Array<Sprite>;
+    };
     /**
      * A list of [[Container]] objects with invalid(ated) layouts.
      *
      * @ignore Exclude from docs
-     * @type {Array<Container>}
+     * @type { [index: string]: Array<Container>}
      */
-    invalidLayouts: Array<Container>;
+    invalidLayouts: {
+        [index: string]: Array<Container>;
+    };
     /**
      * An array holding all active (non-disposed) top level elemens.
      *
@@ -174,6 +180,9 @@ export declare class Registry {
      * @type {Array<Sprite>}
      */
     baseSprites: Array<Sprite>;
+    baseSpritesByUid: {
+        [index: string]: Sprite;
+    };
     constructor();
     /**
      * Generates a unique chart system-wide ID.
@@ -231,6 +240,30 @@ export declare class Registry {
      * @return {string}       Random string to be used as placeholder
      */
     getPlaceholder(key: string): string;
+    /**
+     * @ignore
+     */
+    addToInvalidSprites(sprite: Sprite): void;
+    /**
+     * @ignore
+     */
+    removeFromInvalidSprites(sprite: Sprite): void;
+    /**
+     * @ignore
+     */
+    addToInvalidPositions(sprite: Sprite): void;
+    /**
+     * @ignore
+     */
+    removeFromInvalidPositions(sprite: Sprite): void;
+    /**
+     * @ignore
+     */
+    addToInvalidLayouts(sprite: Sprite): void;
+    /**
+     * @ignore
+     */
+    removeFromInvalidLayouts(sprite: Sprite): void;
 }
 /**
  * A singleton global instance of [[Registry]].

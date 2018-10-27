@@ -46,7 +46,7 @@ var FunnelSlice = /** @class */ (function (_super) {
         _this.height = 10;
         _this.expandDistance = 0;
         _this.className = "FunnelSlice";
-        _this.events.on("maxsizechanged", _this.invalidate, _this);
+        _this.applyTheme();
         return _this;
     }
     /**

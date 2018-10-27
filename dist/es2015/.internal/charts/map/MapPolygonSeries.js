@@ -390,7 +390,7 @@ var MapPolygonSeries = /** @class */ (function (_super) {
                 this._disposers.push(new ListDisposer(mapPolygons));
                 this._disposers.push(mapPolygons.template);
                 mapPolygons.template.focusable = true;
-                mapPolygons.events.on("inserted", this.handleObjectAdded, this);
+                mapPolygons.events.on("inserted", this.handleObjectAdded, this, false);
                 this._mapPolygons = mapPolygons;
             }
             return this._mapPolygons;

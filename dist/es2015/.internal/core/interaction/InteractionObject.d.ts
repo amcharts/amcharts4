@@ -71,7 +71,6 @@ export declare class InteractionObject extends BaseObjectEvents {
     protected _draggable: boolean;
     protected _swipeable: boolean;
     protected _resizable: boolean;
-    protected _rotatable: boolean;
     protected _wheelable: boolean;
     protected _inert: boolean;
     protected _focusable: $type.Optional<boolean>;
@@ -119,6 +118,12 @@ export declare class InteractionObject extends BaseObjectEvents {
      */
     protected _isHover: boolean;
     /**
+     * Is the element hovered by touch pointer?
+     *
+     * @type {boolean}
+     */
+    protected _isHoverByTouch: boolean;
+    /**
      * Has element got any pointers currently pressing down on it?
      * @type {boolean}
      */
@@ -144,19 +149,17 @@ export declare class InteractionObject extends BaseObjectEvents {
      * We need to keep this since only the same pointer can generate doublehit.
      *
      * @ignore Exclude from docs
+     * @todo still needed?
      * @type {Optional<IPointer>}
      */
     lastHitPointer: $type.Optional<IPointer>;
     /**
-     * A reference to last "out" event in case we had to delay its execution
-     * until mouseup.
+     * Indicates whether object has delayed events initiated by touch.
      *
-     * This is not on [[Pointer]] because one "out" event can happen at the same
-     * time on several elements.
-     *
-     * @type {MouseEvent | TouchEvent}
+     * @ignore Exclude from docs
+     * @type {boolean}
      */
-    lastOutEvent?: MouseEvent | TouchEvent;
+    hasDelayedOut?: boolean;
     /**
      * Options used for inertia functionality.
      *
@@ -215,6 +218,17 @@ export declare class InteractionObject extends BaseObjectEvents {
      * @param {boolean} value Hovered?
      */
     isHover: boolean;
+    /**
+     * Returns if this element is currently hovered.
+     *
+     * @return {boolean} Hovered?
+     */
+    /**
+     * Sets if this element is currently hovered.
+     *
+     * @param {boolean} value Hovered?
+     */
+    isHoverByTouch: boolean;
     /**
      * Returns a list of pointers currently over the element.
      *
@@ -318,17 +332,6 @@ export declare class InteractionObject extends BaseObjectEvents {
      * @param {boolean} value Resizeable?
      */
     resizable: boolean;
-    /**
-     * Returns if element is currently set as rotatable.
-     *
-     * @return {boolean} Can rotate?
-     */
-    /**
-     * Sets whether element can be rotated.
-     *
-     * @param {boolean} value Can rotate?
-     */
-    rotatable: boolean;
     /**
      * @return {boolean} Track wheel?
      */

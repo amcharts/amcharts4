@@ -209,7 +209,7 @@ var Sprite = /** @class */ (function (_super) {
          * @ignore Exclude from docs
          * @type {IRectangle}
          */
-        _this.bbox = { x: 0, y: 0, width: 0, height: 0 };
+        _this._bbox = { x: 0, y: 0, width: 0, height: 0 };
         /**
          * Indicates if this element is invalid and should be re-validated (redrawn).
          *
@@ -294,6 +294,16 @@ var Sprite = /** @class */ (function (_super) {
          * @type {boolean}
          */
         _this.shouldClone = true;
+        /**
+         * A read-only flag which indicates if a sprite has completed its initial
+         * animation (if `showOnInit = true`).
+         *
+         * In case `showOnInit = false`, `appeared` is set to `true` on init.
+         *
+         * @readonly
+         * @type {boolean}
+         */
+        _this.appeared = false;
         _this.className = "Sprite";
         // Generate a unique ID
         _this.uid;
@@ -318,6 +328,7 @@ var Sprite = /** @class */ (function (_super) {
         _this.setPropertyValue("paddingRight", 0);
         _this.setPropertyValue("paddingLeft", 0);
         _this.setPropertyValue("togglable", false);
+        _this.setPropertyValue("hidden", false);
         _this.setPropertyValue("urlTarget", "_self");
         _this._prevMeasuredWidth = 0;
         _this._prevMeasuredHeight = 0;
@@ -427,7 +438,7 @@ var Sprite = /** @class */ (function (_super) {
         //this._internalDefaultsApplied = false;
         if (!this.invalid) {
             this.invalid = true;
-            $array.add(registry.invalidSprites, this);
+            registry.addToInvalidSprites(this);
             system.requestFrame();
         }
     };
@@ -439,14 +450,11 @@ var Sprite = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Sprite.prototype.validate = function () {
-        var _this = this;
         this.dispatchImmediately("beforevalidated");
         var topParent = this.topParent;
         if (topParent) {
             if (!topParent.maxWidth || !topParent.maxHeight) {
-                this._disposers.push(topParent.events.once("maxsizechanged", function () {
-                    _this.invalidate();
-                }));
+                this._disposers.push(topParent.events.once("maxsizechanged", this.invalidate, this));
             }
         }
         // Set internal defaults
@@ -456,7 +464,7 @@ var Sprite = /** @class */ (function (_super) {
         this.beforeDraw();
         this.draw();
         this.invalid = false;
-        $array.remove(registry.invalidSprites, this);
+        registry.removeFromInvalidSprites(this);
         this.afterDraw();
     };
     /**
@@ -470,7 +478,7 @@ var Sprite = /** @class */ (function (_super) {
         }
         if (!this.positionInvalid) {
             this.positionInvalid = true;
-            $array.add(registry.invalidPositions, this);
+            registry.addToInvalidPositions(this);
             system.requestFrame();
         }
     };
@@ -523,7 +531,7 @@ var Sprite = /** @class */ (function (_super) {
         //}
         // it might happen that x and y changed again, so we only remove if they didn't
         if (pixelX + dx == x && pixelY + dy == y) {
-            $array.remove(registry.invalidPositions, this);
+            registry.removeFromInvalidPositions(this);
             this.positionInvalid = false;
         }
         var maskRectangle = this._maskRectangle;
@@ -556,12 +564,14 @@ var Sprite = /** @class */ (function (_super) {
         if (this.isMeasured || this.horizontalCenter !== "none" || this.verticalCenter !== "none") {
             this.measureElement();
         }
+        //this.applyMask();
         if (!this._inited) {
             try {
                 // used to be applySVGAttrbutes here, this is more efficient
                 for (var _a = tslib_1.__values(this.adapter.keys()), _b = _a.next(); !_b.done; _b = _a.next()) {
                     var key = _b.value;
                     switch (key) {
+                        case "mask":
                         case "fill":
                         case "opacity":
                         case "fillOpacity":
@@ -587,16 +597,14 @@ var Sprite = /** @class */ (function (_super) {
             this.applyFilters();
             this.visible = this.visible;
             this.interactionsEnabled = this.getPropertyValue("interactionsEnabled"); // can't use .interactionsEnabled as it get's parent's
-            this.appendDefs();
             this._inited = true;
+            this.applyMask();
             this.dispatch("validated");
             this.dispatch("inited");
         }
         else {
             this.dispatch("validated");
         }
-        this.validatePosition();
-        this.applyMask();
         var e_1, _c;
     };
     /**
@@ -643,8 +651,8 @@ var Sprite = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Sprite.prototype.removeFromInvalids = function () {
-        $array.remove(registry.invalidSprites, this);
-        $array.remove(registry.invalidPositions, this);
+        registry.removeFromInvalidSprites(this);
+        registry.removeFromInvalidPositions(this);
     };
     /**
      * Copies all parameters from another [[Sprite]].
@@ -663,7 +671,10 @@ var Sprite = /** @class */ (function (_super) {
             });
         }
         this.adapter.copyFrom(source.adapter);
-        this.interactions.copyFrom(source.interactions);
+        //helps to avoid calling getter which creates instance
+        if (source["_interaction"]) {
+            this.interactions.copyFrom(source.interactions);
+        }
         this.configField = source.configField;
         this.applyOnClones = source.applyOnClones;
         // this.numberFormatter = source.numberFormatter; // todo: this creates loose number formatter and copies it to all clones. somehow we need to know if source had numberFormatter explicitly created and not just because a getter was called.
@@ -875,7 +886,7 @@ var Sprite = /** @class */ (function (_super) {
                     if (parent.isTemplate) {
                         this.isTemplate = true;
                     }
-                    this.paper = parent.paper;
+                    this.baseId = parent.baseId;
                     parent.children.push(this);
                     // insert handler at Container invalidates +  invalidatesLayout + adds to group
                     if (this._tooltip && !this._tooltipContainer) {
@@ -883,9 +894,6 @@ var Sprite = /** @class */ (function (_super) {
                     }
                     if (!this._dataItem) {
                         this.dataItem = parent.dataItem;
-                    }
-                    if (currentPaper != parent.paper) {
-                        this.appendDefs();
                     }
                 }
             }
@@ -1081,12 +1089,20 @@ var Sprite = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Sets [[Paper]] instance to use to draw elements.
+     * @ignore
+     * @param {Paper} paper Paper
+     * @return {boolean} true if paper was changed, false, if it's the same
+     */
     Sprite.prototype.setPaper = function (paper) {
-        var oldPaper = this.paper;
+        var oldPaper = this._paper;
         if (oldPaper != paper) {
             this._paper = paper;
-            paper.append(this.group);
+            this.appendDefs();
+            return true;
         }
+        return false;
     };
     Object.defineProperty(Sprite.prototype, "htmlContainer", {
         /**
@@ -1245,47 +1261,41 @@ var Sprite = /** @class */ (function (_super) {
         }
     };
     /**
+     * @ignore
+     */
+    Sprite.prototype.createClipPath = function () {
+        if (!this._clipPath) {
+            this._clipPath = this.paper.addGroup("clipPath");
+            this.paper.appendDef(this._clipPath);
+            this._disposers.push(this._clipPath);
+            var id = registry.getUniqueId();
+            this._clipPath.attr({ "id": id });
+            this.group.attr({ "clip-path": "url(#" + id + ")" });
+        }
+    };
+    /**
      * Applies the mask Sprite.
      *
      * @ignore Exclude from docs
      */
     Sprite.prototype.applyMask = function () {
-        this.removeClipPath();
         var mask = this.mask;
-        var maskRectangle = this._maskRectangle;
-        if (mask || maskRectangle) {
-            if (!this._clipPath) {
-                this._clipPath = this.paper.addGroup("clipPath");
-                this._disposers.push(this._clipPath);
+        if (this._clipPath && mask) {
+            // Container
+            if (mask instanceof Container) {
+                this._clipElement.attr({ "width": $math.max(0, mask.pixelWidth), "height": $math.max(0, mask.pixelHeight) });
             }
-            if (this._maskRectangle) {
-                this._clipElement = this.paper.add("rect");
-                this._clipElement.attr({ "width": maskRectangle.width, "height": maskRectangle.height });
-            }
-            if (mask) {
-                // Container
-                if (mask instanceof Container) {
-                    // create clip path
-                    this._clipElement.attr({ "width": $math.max(0, mask.pixelWidth), "height": $math.max(0, mask.pixelHeight) });
+            // Sprite
+            else {
+                if (mask.element && mask.element != this._clipElement) {
+                    this._clipElement = mask.element;
+                    this._clipPath.add(this._clipElement);
                 }
-                // Sprite
-                else {
-                    if (mask.element) {
-                        this._clipElement = mask.element;
-                    }
-                    this._clipPath.scale = mask.scale;
-                    this._clipPath.x = mask.pixelX;
-                    this._clipPath.y = mask.pixelY;
-                    this._clipPath.rotation = mask.rotation;
-                }
+                this._clipPath.scale = mask.scale;
+                this._clipPath.x = mask.pixelX;
+                this._clipPath.y = mask.pixelY;
+                this._clipPath.rotation = mask.rotation;
             }
-            if (this._clipElement) {
-                this._clipPath.add(this._clipElement);
-            }
-            var id = registry.getUniqueId();
-            this._clipPath.attr({ "id": id });
-            this.group.attr({ "clip-path": "url(#" + id + ")" });
-            this.paper.appendDef(this._clipPath);
         }
     };
     /**
@@ -1422,11 +1432,11 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.measureElement = function () {
         if (this.element) {
             if (this.definedBBox) {
-                this.bbox = this.definedBBox;
+                this._bbox = this.definedBBox;
             }
             else {
                 var svgBBox = this.element.getBBox();
-                this.bbox = { x: svgBBox.x, y: svgBBox.y, width: svgBBox.width, height: svgBBox.height };
+                this._bbox = { x: svgBBox.x, y: svgBBox.y, width: svgBBox.width, height: svgBBox.height };
             }
         }
     };
@@ -1516,9 +1526,6 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.measure = function () {
         this.updateCenter();
-        if (this.definedBBox) {
-            this.bbox = this.definedBBox;
-        }
         var bbox = this.bbox;
         if (bbox) {
             var measuredWidth = this._measuredWidth;
@@ -1579,6 +1586,9 @@ var Sprite = /** @class */ (function (_super) {
             this._prevMeasuredWidth = this._measuredWidth;
             // TODO clear existing sizechanged dispatches ?
             this.dispatch("sizechanged");
+            if (this.isHover && this.tooltip && this.tooltip.visible) {
+                this.updateTooltipPosition();
+            }
             return true;
         }
         return false;
@@ -1775,27 +1785,39 @@ var Sprite = /** @class */ (function (_super) {
          * @param {Optional<Sprite>} mask A [[Sprite]] to use as mask
          */
         set: function (mask) {
+            var _this = this;
             if (this._mask.get() !== mask) {
                 // this is good
                 if (mask) {
+                    this.createClipPath();
                     if (!(mask instanceof Container)) {
                         mask.isMeasured = false;
+                        if (mask.element) {
+                            this._clipElement = mask.element;
+                        }
                     }
                     else {
                         this._clipElement = this.paper.add("rect");
                     }
+                    if (this._clipElement) {
+                        this._clipPath.add(this._clipElement);
+                    }
                     this._mask.set(mask, new MultiDisposer([
                         //mask.addEventListener(SpriteEvent.TRANSFORMED, this.applyMask, false, this);
-                        mask.events.on("maxsizechanged", this.applyMask, this),
-                        mask.events.on("validated", this.applyMask, this)
+                        mask.events.on("maxsizechanged", function () { if (_this.inited) {
+                            _this.applyMask;
+                        } }, undefined, false),
+                        mask.events.on("validated", this.applyMask, this, false),
+                        mask.events.on("positionchanged", this.applyMask, this, false)
                     ]));
+                    this.applyMask();
                 }
                 else {
                     this._mask.reset();
                     this.group.removeAttr("clip-path");
+                    this.removeClipPath();
                 }
             }
-            this.applyMask();
         },
         enumerable: true,
         configurable: true
@@ -1820,8 +1842,19 @@ var Sprite = /** @class */ (function (_super) {
          * @param {IRectangle} rect Mask Rectangle
          */
         set: function (rect) {
+            if (rect) {
+                this.createClipPath();
+                if (!this._clipElement) {
+                    this._clipElement = this.paper.add("rect");
+                    this._clipPath.add(this._clipElement);
+                }
+                this._clipElement.attr({ "width": rect.width, "height": rect.height });
+            }
+            else {
+                this.removeClipPath();
+                this._clipElement = undefined;
+            }
             this._maskRectangle = rect;
-            this.applyMask();
         },
         enumerable: true,
         configurable: true
@@ -1913,8 +1946,8 @@ var Sprite = /** @class */ (function (_super) {
                 // works
                 this._states = new DictionaryTemplate(state);
                 // TODO what about removeKey ?
-                this._disposers.push(this._states.events.on("insertKey", this.processState, this));
-                this._disposers.push(this._states.events.on("setKey", this.processState, this));
+                this._disposers.push(this._states.events.on("insertKey", this.processState, this, false));
+                this._disposers.push(this._states.events.on("setKey", this.processState, this, false));
                 this._disposers.push(new DictionaryDisposer(this._states));
                 this._disposers.push(state);
             }
@@ -2102,23 +2135,23 @@ var Sprite = /** @class */ (function (_super) {
      * @return {Optional<Animation>}  [[Animation]] object which is handling the transition
      */
     Sprite.prototype.applyCurrentState = function (duration) {
-        if (!this.isHidden) {
-            var animation = this.setState(this.defaultState, duration);
-            if (this.isHover) {
-                animation = this.setState("hover", duration);
-            }
-            if (this.isDown && this.interactions.downPointers.length) {
-                animation = this.setState("down", duration);
-            }
-            this.isFocused = this.isFocused;
-            if (this.isActive) {
-                animation = this.setState("active", duration);
-                if (this.isHover && this.states.hasKey("hoverActive")) {
-                    animation = this.setState("hoverActive", duration);
-                }
-            }
-            return animation;
+        //if (!this.isHidden) { // this was done for hover state not to take effect if "hidden" is actually visible, need to think about it.
+        var animation = this.setState(this.defaultState, duration);
+        if (this.isHover) {
+            animation = this.setState("hover", duration);
         }
+        if (this.isDown && this.interactions.downPointers.length) {
+            animation = this.setState("down", duration);
+        }
+        this.isFocused = this.isFocused;
+        if (this.isActive) {
+            animation = this.setState("active", duration);
+            if (this.isHover && this.states.hasKey("hoverActive")) {
+                animation = this.setState("hoverActive", duration);
+            }
+        }
+        return animation;
+        //}
     };
     /**
      * Starts an [[Animation]] of the properties to specific values as they are
@@ -2209,7 +2242,10 @@ var Sprite = /** @class */ (function (_super) {
          * @return {boolean} Is hovered?
          */
         get: function () {
-            return this.interactions.isHover;
+            if (this.isInteractive()) {
+                return this.interactions.isHover;
+            }
+            return false;
         },
         /**
          * Indicates if this element has a mouse pointer currently hovering
@@ -2220,12 +2256,14 @@ var Sprite = /** @class */ (function (_super) {
         set: function (value) {
             value = $type.toBoolean(value);
             if (value !== this.isHover) {
-                this.interactions.isHover = value;
-                if (value) {
-                    this.handleOver();
-                }
-                else {
-                    this.handleOut();
+                if (this.isInteractive()) {
+                    this.interactions.isHover = value;
+                    if (value) {
+                        this.handleOver();
+                    }
+                    else {
+                        this.handleOut();
+                    }
                 }
             }
         },
@@ -2249,7 +2287,10 @@ var Sprite = /** @class */ (function (_super) {
          * @return {boolean} Is down?
          */
         get: function () {
-            return this.interactions.isDown;
+            if (this.isInteractive()) {
+                return this.interactions.isDown;
+            }
+            return false;
         },
         /**
          * Indicates if this element has any pointers (mouse or touch) pressing down
@@ -2259,7 +2300,7 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = $type.toBoolean(value);
-            if (this.isDown != value) {
+            if (this.isInteractive() && this.isDown != value) {
                 this.interactions.isDown = value;
                 if (value) {
                     this.handleDown();
@@ -2277,7 +2318,10 @@ var Sprite = /** @class */ (function (_super) {
          * @return {boolean} Is focused?
          */
         get: function () {
-            return this.interactions.isFocused;
+            if (this.isInteractive()) {
+                return this.interactions.isFocused;
+            }
+            return false;
         },
         /**
          * Indicates if this element is focused (possibly by tab navigation).
@@ -2287,12 +2331,14 @@ var Sprite = /** @class */ (function (_super) {
         set: function (value) {
             value = $type.toBoolean(value);
             if (this.focusable && this.isFocused != value) {
-                this.interactions.isFocused = value;
-                if (value === true) {
-                    this.handleFocus();
-                }
-                else {
-                    this.handleBlur();
+                if (this.isInteractive()) {
+                    this.interactions.isFocused = value;
+                    if (value === true) {
+                        this.handleFocus();
+                    }
+                    else {
+                        this.handleBlur();
+                    }
                 }
             }
         },
@@ -3417,7 +3463,6 @@ var Sprite = /** @class */ (function (_super) {
                 this._interaction.draggable = this.draggable;
                 this._interaction.swipeable = this.swipeable;
                 this._interaction.resizable = this.resizable;
-                this._interaction.rotatable = this.resizable;
                 this._interaction.wheelable = this.wheelable;
                 this._interaction.inert = this.inert;
                 this._disposers.push(this._interaction);
@@ -3427,6 +3472,18 @@ var Sprite = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Returns true if interactions object was created. Mostly used just to avoid creating interactions object if not needed.
+     * @return {boolean} Is Sprite interactive?
+     */
+    Sprite.prototype.isInteractive = function () {
+        if (this._interaction) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    };
     Object.defineProperty(Sprite.prototype, "focusable", {
         /**
          * @return {Optional<boolean>} Can element be focused?
@@ -3460,20 +3517,23 @@ var Sprite = /** @class */ (function (_super) {
         set: function (value) {
             var _this = this;
             value = $type.toBoolean(value);
-            if (value !== this.focusable) {
-                this.setPropertyValue("focusable", value);
-                if (value) {
-                    this.setSVGAttribute({ "focusable": value });
+            if (this.setPropertyValue("focusable", value)) {
+                if (!value && !this.isInteractive()) {
                 }
                 else {
-                    this.removeSVGAttribute("focusable");
+                    this.interactions.focusable = value;
+                    if (value) {
+                        this.setSVGAttribute({ "focusable": value });
+                        // Set focus events that would apply "focus" state
+                        this.interactions.setEventDisposer("sprite-focusable", value, function () { return new MultiDisposer([
+                            _this.events.on("blur", _this.handleBlur, _this, false),
+                            _this.events.on("focus", _this.handleFocus, _this, false)
+                        ]); });
+                    }
+                    else {
+                        this.removeSVGAttribute("focusable");
+                    }
                 }
-                this.interactions.focusable = value;
-                // Set focus events that would apply "focus" state
-                this.interactions.setEventDisposer("sprite-focusable", value, function () { return new MultiDisposer([
-                    _this.events.on("blur", _this.handleBlur, _this),
-                    _this.events.on("focus", _this.handleFocus, _this)
-                ]); });
             }
         },
         enumerable: true,
@@ -3649,16 +3709,14 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = $type.toNumber(value);
-            if (value !== this.tabindex) {
-                if (this.setPropertyValue("tabindex", value)) {
-                    this.interactions.tabindex = value;
-                    this.setSVGAttribute({ "tabindex": value });
-                    if (value > -1) {
-                        this.focusable = true;
-                    }
-                    else {
-                        this.focusable = undefined;
-                    }
+            if (this.setPropertyValue("tabindex", value) && $type.isNumber(value)) {
+                this.interactions.tabindex = value;
+                this.setSVGAttribute({ "tabindex": value });
+                if (value > -1) {
+                    this.focusable = true;
+                }
+                else {
+                    this.focusable = undefined;
                 }
             }
         },
@@ -3713,21 +3771,26 @@ var Sprite = /** @class */ (function (_super) {
         set: function (value) {
             var _this = this;
             value = $type.toBoolean(value);
-            if (value !== this.draggable) {
-                this.setPropertyValue("draggable", value);
-                this.applyCursorStyle();
-                this.interactions.draggable = value;
-                //interaction.processDraggable(this);
-                // Add events
-                // @todo Maybe attach to InteractionObject's multidisposer so that
-                // sprites events get disposed together with them?
-                // this.interactions.disposers.getItem("movable")
-                this.interactions.setEventDisposer("sprite-draggable", value, function () { return new MultiDisposer([
-                    _this.events.on("down", _this.handleDown, _this),
-                    _this.events.on("dragstart", _this.handleDragStart, _this),
-                    _this.events.on("drag", _this.handleDragMove, _this),
-                    _this.events.on("dragstop", _this.handleDragStop, _this)
-                ]); });
+            if (this.setPropertyValue("draggable", value)) {
+                if (!value && !this.isInteractive()) {
+                }
+                else {
+                    this.applyCursorStyle();
+                    this.interactions.draggable = value;
+                    //interaction.processDraggable(this);
+                    // Add events
+                    // @todo Maybe attach to InteractionObject's multidisposer so that
+                    // sprites events get disposed together with them?
+                    // this.interactions.disposers.getItem("movable")
+                    if (value) {
+                        this.interactions.setEventDisposer("sprite-draggable", value, function () { return new MultiDisposer([
+                            _this.events.on("down", _this.handleDown, _this, false),
+                            _this.events.on("dragstart", _this.handleDragStart, _this, false),
+                            _this.events.on("drag", _this.handleDragMove, _this, false),
+                            _this.events.on("dragstop", _this.handleDragStop, _this, false)
+                        ]); });
+                    }
+                }
             }
         },
         enumerable: true,
@@ -3739,6 +3802,10 @@ var Sprite = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Sprite.prototype.handleDragStart = function () {
+        this.interactions.originalPosition = {
+            x: this.pixelX,
+            y: this.pixelY
+        };
         this._isDragged = true;
         this.hideTooltip(0);
     };
@@ -3818,9 +3885,13 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = $type.toBoolean(value);
-            if (value !== this.inert) {
-                this.setPropertyValue("inert", value);
-                this.interactions.inert = true;
+            if (this.setPropertyValue("inert", value)) {
+                if (!value && !this.isInteractive()) {
+                    // void
+                }
+                else {
+                    this.interactions.inert = value;
+                }
             }
         },
         enumerable: true,
@@ -3871,15 +3942,21 @@ var Sprite = /** @class */ (function (_super) {
         set: function (value) {
             var _this = this;
             value = $type.toBoolean(value);
-            if (value !== this.hoverable) {
-                this.setPropertyValue("hoverable", value);
-                this.applyCursorStyle();
-                this.interactions.hoverable = value;
-                //interaction.processHoverable(this);
-                this.interactions.setEventDisposer("sprite-hoverable", value, function () { return new MultiDisposer([
-                    _this.events.on("over", _this.handleOver, _this),
-                    _this.events.on("out", _this.handleOut, _this),
-                ]); });
+            if (this.setPropertyValue("hoverable", value)) {
+                if (!value && !this.isInteractive()) {
+                    // void
+                }
+                else {
+                    this.applyCursorStyle();
+                    this.interactions.hoverable = value;
+                    //interaction.processHoverable(this);
+                    if (value) {
+                        this.interactions.setEventDisposer("sprite-hoverable", value, function () { return new MultiDisposer([
+                            _this.events.on("over", _this.handleOver, _this, false),
+                            _this.events.on("out", _this.handleOut, _this, false),
+                        ]); });
+                    }
+                }
             }
         },
         enumerable: true,
@@ -3901,7 +3978,9 @@ var Sprite = /** @class */ (function (_super) {
             if (this.states.hasKey("hover")) {
                 //this.setState("hover");
                 // This will check `isHover` and will set "hover" state
-                this.applyCurrentState();
+                if (!this.isHidden) {
+                    this.applyCurrentState();
+                }
             }
             var point = void 0;
             if (ev && ev.pointer) {
@@ -3911,7 +3990,7 @@ var Sprite = /** @class */ (function (_super) {
         }
         else {
             this.hideTooltip();
-            if (this.states.hasKey("hover")) {
+            if (!this.isHidden && this.states.hasKey("hover")) {
                 this.applyCurrentState();
             }
         }
@@ -3928,8 +4007,14 @@ var Sprite = /** @class */ (function (_super) {
         this.hideTooltip();
         this._outTimeout = this.setTimeout(this.handleOutReal.bind(this), this.rollOutDelay);
     };
+    /**
+     * [handleOutReal description]
+     *
+     * @ignore`
+     * @todo description
+     */
     Sprite.prototype.handleOutReal = function () {
-        if (this.states.hasKey("hover")) {
+        if (!this.isHidden && !this.isHiding && this.states.hasKey("hover")) {
             this.applyCurrentState();
         }
     };
@@ -3966,7 +4051,7 @@ var Sprite = /** @class */ (function (_super) {
      * Prepares element's after `down` event.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["rotate"]} ev Event
+     * @param {AMEvent<Sprite, ISpriteEvents>["down"]} ev Event
      */
     Sprite.prototype.handleDown = function (ev) {
         if (this.interactions.downPointers.length === 1) {
@@ -3985,7 +4070,7 @@ var Sprite = /** @class */ (function (_super) {
      * Prepares element's after `up` event.
      *
      * @ignore Exclude from docs
-     * @param {AMEvent<Sprite, ISpriteEvents>["rotate"]} ev Event
+     * @param {AMEvent<Sprite, ISpriteEvents>["up"]} ev Event
      */
     Sprite.prototype.handleUp = function (ev) {
         /*if (!this.isDown) {
@@ -4019,15 +4104,21 @@ var Sprite = /** @class */ (function (_super) {
         set: function (value) {
             var _this = this;
             value = $type.toBoolean(value);
-            if (value !== this.clickable) {
-                this.setPropertyValue("clickable", value);
-                this.applyCursorStyle();
-                this.interactions.clickable = value;
-                //interaction.processClickable(this);
-                this.interactions.setEventDisposer("sprite-clickable", value, function () { return new MultiDisposer([
-                    _this.events.on("down", _this.handleDown, _this),
-                    _this.events.on("up", _this.handleUp, _this)
-                ]); });
+            if (this.setPropertyValue("clickable", value)) {
+                if (!value && !this.isInteractive()) {
+                    // void
+                }
+                else {
+                    this.applyCursorStyle();
+                    this.interactions.clickable = value;
+                    //interaction.processClickable(this);
+                    if (value) {
+                        this.interactions.setEventDisposer("sprite-clickable", value, function () { return new MultiDisposer([
+                            _this.events.on("down", _this.handleDown, _this, false),
+                            _this.events.on("up", _this.handleUp, _this, false)
+                        ]); });
+                    }
+                }
             }
         },
         enumerable: true,
@@ -4051,9 +4142,15 @@ var Sprite = /** @class */ (function (_super) {
         set: function (value) {
             var _this = this;
             value = $type.toBoolean(value);
-            if (value !== this.togglable) {
-                this.setPropertyValue("togglable", value);
-                this.interactions.setEventDisposer("sprite-togglable", value, function () { return _this.events.on("hit", _this.handleToggle, _this); });
+            if (this.setPropertyValue("togglable", value)) {
+                if (!value && !this.isInteractive()) {
+                    // void
+                }
+                else {
+                    if (value) {
+                        this.interactions.setEventDisposer("sprite-togglable", value, function () { return _this.events.on("hit", _this.handleToggle, _this, false); });
+                    }
+                }
             }
         },
         enumerable: true,
@@ -4111,7 +4208,7 @@ var Sprite = /** @class */ (function (_super) {
                 }
                 // If URL is not empty, set up events
                 if ($utils.isNotEmpty(value)) {
-                    this._urlDisposer = this.events.on("hit", this.urlHandler, this);
+                    this._urlDisposer = this.events.on("hit", this.urlHandler, this, false);
                     // Set other required parameters
                     this.clickable = true;
                     this.cursorOverStyle = MouseCursorStyle.pointer;
@@ -4121,6 +4218,29 @@ var Sprite = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Sprite.prototype, "baseId", {
+        get: function () {
+            if (!this._baseId && this.parent) {
+                this.baseId = this.parent.baseId;
+            }
+            return this._baseId;
+        },
+        set: function (value) {
+            this.setBaseId(value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Sprite.prototype.setBaseId = function (value) {
+        if (value != this._baseId) {
+            this._baseId = value;
+            if (this.invalid) {
+                this.invalid = false;
+                $array.remove(registry.invalidSprites.noBase, this);
+                this.invalidate();
+            }
+        }
+    };
     Object.defineProperty(Sprite.prototype, "urlTarget", {
         /**
          * @return {string} URL target
@@ -4212,10 +4332,14 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = $type.toBoolean(value);
-            if (value !== this.swipeable) {
-                this.setPropertyValue("swipeable", value);
+            if (this.setPropertyValue("swipeable", value)) {
                 this.applyCursorStyle();
-                this.interactions.swipeable = value;
+                if (!value && !this.isInteractive()) {
+                    // void
+                }
+                else {
+                    this.interactions.swipeable = value;
+                }
                 //interaction.processSwipeable(this);
             }
         },
@@ -4249,10 +4373,14 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = $type.toBoolean(value);
-            if (value !== this.trackable) {
-                this.setPropertyValue("trackable", value);
-                this.applyCursorStyle();
-                this.interactions.trackable = value;
+            if (this.setPropertyValue("trackable", value)) {
+                if (!value && !this.isInteractive()) {
+                    // void
+                }
+                else {
+                    this.applyCursorStyle();
+                    this.interactions.trackable = value;
+                }
                 //interaction.processTrackable(this);
             }
         },
@@ -4281,10 +4409,14 @@ var Sprite = /** @class */ (function (_super) {
          * @param {boolean} value Mouse wheel events enabled?
          */
         set: function (value) {
-            if (value !== this.wheelable) {
-                this.setPropertyValue("wheelable", value);
-                this.applyCursorStyle();
-                this.interactions.wheelable = value;
+            if (this.setPropertyValue("wheelable", value)) {
+                if (!value && !this.isInteractive()) {
+                    // void
+                }
+                else {
+                    this.applyCursorStyle();
+                    this.interactions.wheelable = value;
+                }
                 //interaction.processWheelable(this);
             }
         },
@@ -4323,15 +4455,21 @@ var Sprite = /** @class */ (function (_super) {
         set: function (value) {
             var _this = this;
             value = $type.toBoolean(value);
-            if (value !== this.resizable) {
-                this.setPropertyValue("resizable", value);
-                this.applyCursorStyle();
-                this.interactions.resizable = value;
-                //interaction.processResizable(this);
-                this.interactions.setEventDisposer("sprite-resizable", value, function () { return new MultiDisposer([
-                    _this.events.on("down", _this.handleDown, _this),
-                    _this.events.on("resize", _this.handleResize, _this)
-                ]); });
+            if (this.setPropertyValue("resizable", value)) {
+                if (!value && !this.isInteractive()) {
+                    // void
+                }
+                else {
+                    this.applyCursorStyle();
+                    this.interactions.resizable = value;
+                    //interaction.processResizable(this);
+                    if (value) {
+                        this.interactions.setEventDisposer("sprite-resizable", value, function () { return new MultiDisposer([
+                            _this.events.on("down", _this.handleDown, _this, false),
+                            _this.events.on("resize", _this.handleResize, _this, false)
+                        ]); });
+                    }
+                }
             }
         },
         enumerable: true,
@@ -4372,67 +4510,6 @@ var Sprite = /** @class */ (function (_super) {
                 this.moveTo({ x: parentPoint.x - spriteMidPoint.x * this.scale, y: parentPoint.y - spriteMidPoint.y * this.scale });
             }
         }
-    };
-    Object.defineProperty(Sprite.prototype, "rotatable", {
-        /**
-         * @return {boolean} Can be rotated?
-         */
-        get: function () {
-            return this.getPropertyValue("rotatable");
-        },
-        /**
-         * ==========================================================================
-         * ROTATION
-         * ==========================================================================
-         * @hidden
-         */
-        /**
-         * Controls if the element can be rotated.
-         *
-         * If enabled, the element can be rotated using various interactions.
-         *
-         * If the element also `draggable`, rotation can be performed using two
-         * points of contact, i.e. on touch devices only.
-         *
-         * If the element is not `draggable`, rotation can be performed using one
-         * point of contact, e.g. mouse or touch.
-         *
-         * Rotation will happen around configured center of the element, as set in
-         * `horizontalCenter` and `verticalCenter`.
-         *
-         * Invokes `rotate` event when rotation angle changes.
-         *
-         * @param {boolean}  value  Can be rotated?
-         */
-        set: function (value) {
-            var _this = this;
-            value = $type.toBoolean(value);
-            if (value !== this.rotatable) {
-                this.setPropertyValue("rotatable", value);
-                this.interactions.rotatable = value;
-                //interaction.processRotatable(this);
-                this.interactions.setEventDisposer("sprite-rotatable", value, function () { return new MultiDisposer([
-                    _this.events.on("down", _this.handleDown, _this),
-                    _this.events.on("rotate", _this.handleRotate, _this)
-                ]); });
-            }
-        },
-        enumerable: true,
-        configurable: true
-    });
-    /**
-     * Handles rotate intermediate step.
-     *
-     * By default this method will rotate the actual element.
-     *
-     * Extending classes might override this method to implement their own
-     * rotation logic.
-     *
-     * @ignore Exclude from docs
-     * @param {InteractionEvent} ev Event object
-     */
-    Sprite.prototype.handleRotate = function (ev) {
-        this.rotation = ev.angle + this.interactions.originalAngle;
     };
     Object.defineProperty(Sprite.prototype, "cursorOptions", {
         /**
@@ -5269,6 +5346,7 @@ var Sprite = /** @class */ (function (_super) {
                     this._pixelWidth = Number(value);
                     this.maxWidth = this._pixelWidth;
                 }
+                this.invalidatePosition();
             }
         },
         enumerable: true,
@@ -5314,6 +5392,7 @@ var Sprite = /** @class */ (function (_super) {
                     this._pixelHeight = Number(value);
                     this.maxHeight = this._pixelHeight; // yes, we reset maxWidth
                 }
+                this.invalidatePosition();
             }
         },
         enumerable: true,
@@ -6006,6 +6085,11 @@ var Sprite = /** @class */ (function (_super) {
                     this.element = this.paper.add("path");
                 }
                 this.element.attr({ "d": value });
+                this.invalidatePosition();
+                // otherwise is 0x0
+                if (!this.inited) {
+                    this.events.once("inited", this.validatePosition, this, false);
+                }
             }
         },
         enumerable: true,
@@ -6426,7 +6510,7 @@ var Sprite = /** @class */ (function (_super) {
      * @hidden
      */
     /**
-     * Reveals (fades in) hidden element.
+     * Reveals hidden element.
      *
      * Has no effect if element is already visible.
      *
@@ -6500,7 +6584,7 @@ var Sprite = /** @class */ (function (_super) {
      * @param {number} duration Duration in millisecons
      */
     /**
-     * Hides (fades out) the element, and applies `hidden` state.
+     * Hides the element, by applying `hidden` state.
      *
      * Has no effect if element is already hidden.
      *
@@ -6584,11 +6668,7 @@ var Sprite = /** @class */ (function (_super) {
          * @return {boolean} Visible?
          */
         get: function () {
-            var value = this.getPropertyValue("visible");
-            if (!$type.hasValue(value)) {
-                value = true;
-            }
-            return value;
+            return this.getVisibility();
         },
         /**
          * Sets visibility of the element.
@@ -6602,6 +6682,17 @@ var Sprite = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Returns visibility value
+     * @ignore
+     */
+    Sprite.prototype.getVisibility = function () {
+        var value = this.getPropertyValue("visible");
+        if (!$type.hasValue(value)) {
+            value = true;
+        }
+        return value;
+    };
     /**
      * Sets `visibility` property:
      *
@@ -6778,7 +6869,6 @@ var Sprite = /** @class */ (function (_super) {
      * @param {point} optional point (sprite-related) to which tooltip must point.
      */
     Sprite.prototype.showTooltip = function (point) {
-        var _this = this;
         // do not show if hidden
         var sprite = this;
         while (sprite != undefined) {
@@ -6871,22 +6961,7 @@ var Sprite = /** @class */ (function (_super) {
                     tooltip.text = this.tooltipText;
                     text = this.tooltipText;
                 }
-                if (this.tooltipPosition == "pointer") {
-                    this._interactionDisposer = getInteraction().body.events.on("track", function (ev) {
-                        _this.pointTooltipTo($utils.documentPointToSvg(ev.point, _this.svgContainer.SVGContainer), true);
-                    });
-                    if (point) {
-                        this.pointTooltipTo(point, true);
-                    }
-                }
-                else {
-                    // Point to the X/Y of this Sprite
-                    var globalPoint = $utils.spritePointToSvg({
-                        "x": this.tooltipX,
-                        "y": this.tooltipY
-                    }, this);
-                    this.pointTooltipTo(globalPoint);
-                }
+                this.updateTooltipPosition(point);
                 // Set accessibility option
                 tooltip.readerDescribedBy = this.uidAttr();
                 // make label to render to be able to check currentText
@@ -6910,6 +6985,28 @@ var Sprite = /** @class */ (function (_super) {
             }
         }
         return false;
+    };
+    /**
+     * @ignore
+     */
+    Sprite.prototype.updateTooltipPosition = function (point) {
+        var _this = this;
+        if (this.tooltipPosition == "pointer") {
+            this._interactionDisposer = getInteraction().body.events.on("track", function (ev) {
+                _this.pointTooltipTo($utils.documentPointToSvg(ev.point, _this.svgContainer.SVGContainer), true);
+            });
+            if (point) {
+                this.pointTooltipTo(point, true);
+            }
+        }
+        else {
+            // Point to the X/Y of this Sprite
+            var globalPoint = $utils.spritePointToSvg({
+                "x": this.tooltipX,
+                "y": this.tooltipY
+            }, this);
+            this.pointTooltipTo(globalPoint);
+        }
     };
     /**
      * Sets the point the [[Tooltip]] should point to.
@@ -7184,6 +7281,114 @@ var Sprite = /** @class */ (function (_super) {
                 return this._parent.isHidden;
             }
             return false;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Sprite.prototype, "showOnInit", {
+        /**
+         * @return {boolean} Show on init?
+         */
+        get: function () {
+            return this.getPropertyValue("showOnInit");
+        },
+        /**
+         * If this is set to `true`, Sprite, when inited will be instantly hidden
+         * ("hidden" state applied) and then shown ("default" state applied).
+         *
+         * If your "default" state's `transitionDuration > 0` this will result in
+         * initial animation from "hidden" state to "default" state.
+         *
+         * If you need a Sprite which has `showOnInit = true` not to be shown
+         * initially, set `sprite.hidden = true`. Setting `sprite.visible = false`
+         * will not prevent the animation and the sprite will be shown.
+         *
+         * @param {boolean}  value show on init?
+         */
+        set: function (value) {
+            value = $type.toBoolean(value);
+            this.setShowOnInit(value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @ignore
+     */
+    Sprite.prototype.setShowOnInit = function (value) {
+        if (this.setPropertyValue("showOnInit", value) && value && !this.inited && !this.hidden) {
+            registry.events.once("enterframe", this.hideInitially, this);
+            this.events.once("beforevalidated", this.hideInitially, this, false);
+            this.events.on("inited", this.appear, this, false);
+        }
+    };
+    /**
+     * @ignore
+     */
+    Sprite.prototype.hideInitially = function () {
+        this.appeared = false;
+        //if (!this.hidden && !this._isHidden) { // not good for series, as on enterframe it doesn't have data items yet.
+        if (!this.inited) {
+            this.hide(0);
+        }
+    };
+    /**
+     * Hides the chart instantly and then shows it. If defaultState.transitionDuration > 0, this will result an animation in which properties of hidden state will animate to properties of visible state.
+     */
+    Sprite.prototype.appear = function () {
+        var _this = this;
+        this.appeared = false;
+        if (!this.hidden && !this.isHidden) {
+            this.hide(0);
+        }
+        if (!this.hidden) {
+            var animation = this.show();
+            if (animation && !animation.isFinished()) {
+                animation.events.on("animationended", function () {
+                    _this.appeared = true;
+                });
+            }
+            else {
+                this.appeared = true;
+            }
+        }
+        else {
+            this.appeared = true;
+        }
+    };
+    Object.defineProperty(Sprite.prototype, "hidden", {
+        /**
+         * @return {boolean} Is initially hidden?
+         */
+        get: function () {
+            return this.getPropertyValue("hidden");
+        },
+        /**
+         * If a sprite has `showOnInit = true`, it will animate from "hidden" to
+         * "default" state when initialized. To prevent this but keep
+         * `showOnInit = true`, you can set `sprite.hidden = true`.
+         *
+         * @param {boolean}  value initially hidden?
+         */
+        set: function (value) {
+            value = $type.toBoolean(value);
+            this.setPropertyValue("hidden", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Sprite.prototype, "bbox", {
+        /**
+         * Returns bounding box (square) for this element.
+         *
+         * @ignore Exclude from docs
+         * @type {IRectangle}
+         */
+        get: function () {
+            if (this.definedBBox) {
+                return this.definedBBox;
+            }
+            return this._bbox;
         },
         enumerable: true,
         configurable: true

@@ -615,7 +615,7 @@ var Axis = /** @class */ (function (_super) {
             new Disposer(function () {
                 _this.series.removeValue(series);
             }),
-            this.events.on("lengthchanged", series.invalidate, series) //,
+            this.events.on("lengthchanged", series.invalidate, series, false) //,
             // TODO should these be disposed of ?
             //series.events.on("datavalidated", this.processSeriesDataItems, this),
             //series.events.on("visibilitychanged", this.processSeriesDataItems, this),
@@ -896,7 +896,7 @@ var Axis = /** @class */ (function (_super) {
             if (!this._axisRanges) {
                 var dataItem = this.createDataItem();
                 this._axisRanges = new ListTemplate(dataItem);
-                this._axisRanges.events.on("inserted", this.processAxisRange, this);
+                this._axisRanges.events.on("inserted", this.processAxisRange, this, false);
                 this._disposers.push(new ListDisposer(this._axisRanges));
                 this._disposers.push(this._axisRanges.template);
             }
@@ -926,7 +926,7 @@ var Axis = /** @class */ (function (_super) {
                 this._axisBreaks = new SortedListTemplate(this.createAxisBreak(), function (a, b) {
                     return $number.order(a.adjustedStartValue, b.adjustedStartValue);
                 });
-                this._axisBreaks.events.on("inserted", this.processBreak, this);
+                this._axisBreaks.events.on("inserted", this.processBreak, this, false);
                 this._disposers.push(new ListDisposer(this._axisBreaks));
                 this._disposers.push(this._axisBreaks.template);
             }

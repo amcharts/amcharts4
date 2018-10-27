@@ -50,22 +50,6 @@ export interface IHitOptions {
      */
     doubleHitTime?: number;
     /**
-     * Should the first hit be delayed until we are sure the second hit is not
-     * happening? Setting it to `true` will delay ALL hits, but will ensure that
-     * HIT event will not be triggered on DOUBLE_HIT. Otherwise both HIT and
-     * DOUBLE_HIT will be triggered on double clicks.
-     *
-     * @type {boolean}
-     */
-    delayFirstHit?: boolean;
-    /**
-     * How long in milliseconds should mouse or touch be down without hardly
-     * moving to consider it a "long hit" and generate a HOLD event?
-     *
-     * @type {number}
-     */
-    holdTime?: number;
-    /**
      * Maximum number of pixels a pointer can move from its original position
      * while holding down mouse/touch to still consider it a click rather than
      * some other gesture.

@@ -141,14 +141,17 @@ export function arcTo(startAngle, arc, radius, radiusY) {
  * @return {string}                     SVG path
  */
 export function arc(startAngle, arc, radius, innerRadius, radiusY, cornerRadius, innerCornerRadius) {
-    if (arc == 0 || radius <= 0) {
+    if (arc == 0) {
         return "";
     }
-    if (innerRadius && (radius < innerRadius)) {
+    if (!$type.isNumber(innerRadius)) {
+        innerRadius = 0;
+    }
+    if (radius < innerRadius) {
         var temp = radius;
         radius = innerRadius;
         innerRadius = temp;
-        if (radiusY) {
+        if ($type.isNumber(radiusY)) {
             radiusY = radiusY / innerRadius * radius;
         }
     }
@@ -159,7 +162,6 @@ export function arc(startAngle, arc, radius, innerRadius, radiusY, cornerRadius,
     }
     var endAngle = startAngle + arc;
     var crSin = $math.sin($math.min(arc, 45) / 2);
-    innerRadius = innerRadius || 0;
     radiusY = $type.isNumber(radiusY) ? radiusY : radius;
     cornerRadius = cornerRadius || 0;
     innerCornerRadius = $type.isNumber(innerCornerRadius) ? innerCornerRadius : cornerRadius;

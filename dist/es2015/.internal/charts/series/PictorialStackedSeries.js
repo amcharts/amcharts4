@@ -66,33 +66,27 @@ var PictorialStackedSeries = /** @class */ (function (_super) {
         _this.bottomWidth = percent(100);
         _this.valueIs = "height";
         _this.applyTheme();
-        _this.events.on("maxsizechanged", _this.resizeMask, _this);
         _this._maskSprite = _this.slicesContainer.createChild(Sprite);
         _this._maskSprite.zIndex = 100;
         return _this;
     }
     /**
-     * (Re)validates the whole series, effectively causing it to redraw.
-     *
-     * @ignore Exclude from docs
-     */
-    PictorialStackedSeries.prototype.validate = function () {
-        _super.prototype.validate.call(this);
-        this.resizeMask();
-    };
-    /**
      * Sizes the mask to fit the series.
      *
      * @ignore
      */
-    PictorialStackedSeries.prototype.resizeMask = function () {
+    PictorialStackedSeries.prototype.validateDataElements = function () {
         var maxWidth = this.slicesContainer.maxWidth;
         var maxHeight = this.slicesContainer.maxHeight;
         var maskSprite = this._maskSprite;
-        maskSprite.validate();
+        //maskSprite.validatePosition(); // for some reason size of the maskSprite is 0x0 after we removed validatePosition in afterdraw
         var pictureWidth = maskSprite.measuredWidth / maskSprite.scale;
         var pictureHeight = maskSprite.measuredHeight / maskSprite.scale;
         var scale = $math.min(maxHeight / pictureHeight, maxWidth / pictureWidth);
+        if (scale == Infinity) {
+            scale = 1; // can't return here, won't draw legend properly
+        }
+        scale = $math.max(0.001, scale);
         var newWidth = $math.min(maxWidth, pictureWidth * scale);
         var newHeight = $math.min(maxHeight, pictureHeight * scale);
         maskSprite.scale = scale;
@@ -113,7 +107,8 @@ var PictorialStackedSeries = /** @class */ (function (_super) {
         }
         maskSprite.verticalCenter = "middle";
         maskSprite.horizontalCenter = "middle";
-        this.slicesContainer.mask = maskSprite;
+        this.slicesContainer.mask = this._maskSprite;
+        _super.prototype.validateDataElements.call(this);
     };
     /**
      * Sets defaults that instantiate some objects that rely on parent, so they

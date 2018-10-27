@@ -121,7 +121,7 @@ var MapLine = /** @class */ (function (_super) {
                     if (event.property == "longitude" || event.property == "latitude") {
                         _this.invalidate();
                     }
-                }, this);
+                }, this, false);
             }
             this.setPropertyValue("imagesToConnect", images);
         },
@@ -234,7 +234,7 @@ var MapLine = /** @class */ (function (_super) {
         get: function () {
             if (!this._lineObjects) {
                 this._lineObjects = new ListTemplate(new MapLineObject());
-                this._lineObjects.events.on("inserted", this.handleLineObjectAdded, this);
+                this._lineObjects.events.on("inserted", this.handleLineObjectAdded, this, false);
                 this._disposers.push(new ListDisposer(this._lineObjects));
                 this._disposers.push(this._lineObjects.template);
             }

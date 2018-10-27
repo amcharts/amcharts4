@@ -143,7 +143,13 @@ export declare class Slice extends Container {
      */
     draw(): void;
     protected updateGradient(gradient: RadialGradient): void;
-    protected getContainerBBox(): IRectangle;
+    /**
+     * Returns bounding box (square) for this element.
+     *
+     * @ignore Exclude from docs
+     * @type {IRectangle}
+     */
+    readonly bbox: IRectangle;
     /**
      * @return {number} Angle (0-360)
      */

@@ -332,7 +332,7 @@ var MapLineSeries = /** @class */ (function (_super) {
                 var mapLines = new ListTemplate(lineTemplate);
                 this._disposers.push(new ListDisposer(mapLines));
                 this._disposers.push(mapLines.template);
-                mapLines.events.on("inserted", this.handleObjectAdded, this);
+                mapLines.events.on("inserted", this.handleObjectAdded, this, false);
                 this._mapLines = mapLines;
             }
             return this._mapLines;

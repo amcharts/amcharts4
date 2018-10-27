@@ -8,6 +8,7 @@
  * @hidden
  */
 import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../Sprite";
+import { IRectangle } from "../defs/IRectangle";
 /**
  * ============================================================================
  * REQUISITES
@@ -124,9 +125,10 @@ export declare class Image extends Sprite {
      */
     heightRatio: number;
     /**
-     * Updates bounding box based on element dimension settings.
+     * Returns bounding box (square) for this element.
      *
      * @ignore Exclude from docs
+     * @type {IRectangle}
      */
-    measureElement(): void;
+    readonly bbox: IRectangle;
 }

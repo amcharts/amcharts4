@@ -111,17 +111,13 @@ var Container = /** @class */ (function (_super) {
      * @todo Throw an exception on adding a disposed object. Of course it's better NOT TO add disposed objects, so that what we should focus on.
      */
     Container.prototype.handleChildAdded = function (event) {
-        var _this = this;
         var child = event.newValue;
         // try solves the problem when somedy adds child directly to children
         try {
             this._childrenDisposers.insertKey(child.uid, new MultiDisposer([
                 // it's not enough to listen to POSITION_CHANGED only, as some extra redrawals will happen.
                 child.events.on("transformed", this.handleChildTransform, this),
-                child.events.on("zIndexChanged", function () {
-                    _this.sortChildren();
-                    _this.addChildren();
-                })
+                child.events.on("zIndexChanged", this.sortAndAdd, this)
             ]));
         }
         catch (err) {
@@ -132,8 +128,16 @@ var Container = /** @class */ (function (_super) {
             group.add(child.group);
         }
         child.parent = this;
+        child.paper = this.paper;
         this.dispatchImmediately("childadded", { type: "childadded", newValue: child });
         this.invalidate();
+    };
+    /**
+     * @ignore
+     */
+    Container.prototype.sortAndAdd = function () {
+        this.sortChildren();
+        this.addChildren();
     };
     /**
      * Handles child removal. Changing size of the child may change the
@@ -179,7 +183,7 @@ var Container = /** @class */ (function (_super) {
         }
         if (!this.layoutInvalid) {
             this.layoutInvalid = true;
-            $array.add(registry.invalidLayouts, this);
+            registry.addToInvalidLayouts(this);
             system.requestFrame();
         }
     };
@@ -214,23 +218,6 @@ var Container = /** @class */ (function (_super) {
             }
         });
         this.invalidateLayout();
-    };
-    /**
-     * Appends `<defs>` section to the element. This section holds all the SVG
-     * definitions for the element, such as filters.
-     *
-     * @ignore Exclude from docs
-     */
-    Container.prototype.appendDefs = function () {
-        _super.prototype.appendDefs.call(this);
-        $array.each(this._childrenByLayout, function (child) {
-            if (child instanceof Container) {
-                child.appendDefs();
-            }
-            else {
-                child.appendDefs();
-            }
-        });
     };
     Object.defineProperty(Container.prototype, "children", {
         /**
@@ -472,6 +459,9 @@ var Container = /** @class */ (function (_super) {
                         group_1.add(child.group);
                     }
                 });
+                if (this._background) {
+                    this.group.addToBack(this._background.group);
+                }
             }
         }
     };
@@ -578,6 +568,7 @@ var Container = /** @class */ (function (_super) {
             background.isMeasured = false;
             this.children.removeValue(background);
             this._disposers.push(background);
+            this.group.addToBack(this._background.group);
         }
     };
     /**
@@ -589,14 +580,12 @@ var Container = /** @class */ (function (_super) {
      */
     Container.prototype.validateLayout = function () {
         var _this = this;
-        $array.remove(registry.invalidLayouts, this);
+        registry.removeFromInvalidLayouts(this);
         this.layoutInvalid = false;
         var topParent = this.topParent;
         if (topParent) {
             if (!topParent.maxWidth || !topParent.maxHeight) {
-                this._disposers.push(topParent.events.once("maxsizechanged", function () {
-                    _this.invalidateLayout();
-                }));
+                this._disposers.push(topParent.events.once("maxsizechanged", this.invalidateLayout, this));
                 //return; // not good for labels
             }
         }
@@ -1109,7 +1098,7 @@ var Container = /** @class */ (function (_super) {
         // new
         measuredWidth = $math.min(measuredWidth, maxWidth);
         measuredHeight = $math.min(measuredHeight, maxHeight);
-        this.bbox = this.getContainerBBox(left, top, measuredWidth, measuredHeight);
+        this._bbox = { x: left, y: top, width: measuredWidth, height: measuredHeight };
         var prevLeft = this.maxLeft;
         var prevTop = this.maxTop;
         var prevBotttom = this.maxBottom;
@@ -1126,14 +1115,6 @@ var Container = /** @class */ (function (_super) {
                 }
                 this.events.dispatchImmediately("transformed", event_1);
             }
-        }
-    };
-    Container.prototype.getContainerBBox = function (x, y, width, height) {
-        if (this.definedBBox) {
-            return this.definedBBox;
-        }
-        else {
-            return { x: x, y: y, width: width, height: height };
         }
     };
     /**
@@ -1159,7 +1140,6 @@ var Container = /** @class */ (function (_super) {
             background.y = this.maxTop;
             background.width = this.maxRight - this.maxLeft;
             background.height = this.maxBottom - this.maxTop;
-            this.group.addToBack(background.group);
         }
     };
     /**
@@ -1348,20 +1328,21 @@ var Container = /** @class */ (function (_super) {
     });
     /**
      * Sets [[Paper]] instance to use to draw elements.
-     *
-     * @ignore Exclude from docs
-     * @param {Paper}  paper  Paper
+     * @ignore
+     * @param {Paper} paper Paper
+     * @return {boolean} true if paper was changed, false, if it's the same
      */
     Container.prototype.setPaper = function (paper) {
-        _super.prototype.setPaper.call(this, paper);
-        $array.each(this._childrenByLayout, function (child) {
-            if (child instanceof Container) {
-                child.setPaper(paper);
+        var changed = _super.prototype.setPaper.call(this, paper);
+        if (changed) {
+            if (this._background) {
+                this._background.paper = paper;
             }
-            else {
+            this.children.each(function (child) {
                 child.setPaper(paper);
-            }
-        });
+            });
+        }
+        return changed;
     };
     /**
      * Removes Container from the system-wide list of invalid Containers.
@@ -1370,7 +1351,7 @@ var Container = /** @class */ (function (_super) {
      */
     Container.prototype.removeFromInvalids = function () {
         _super.prototype.removeFromInvalids.call(this);
-        $array.remove(registry.invalidLayouts, this);
+        registry.removeFromInvalidLayouts(this);
     };
     /**
      * Sets a [[DataItem]] to be used as data for the Container.

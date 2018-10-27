@@ -290,9 +290,6 @@ var FlowDiagram = /** @class */ (function (_super) {
             _this.getNodeValue(node);
         });
         this.sortNodes();
-        if (this.interpolationDuration > 0) {
-            this.events.once("validated", this.appear, this);
-        }
         this.feedLegend();
     };
     /**
@@ -302,16 +299,6 @@ var FlowDiagram = /** @class */ (function (_super) {
      */
     FlowDiagram.prototype.handleDataItemWorkingValueChange = function (dataItem) {
         this.invalidateDataRange();
-    };
-    /**
-     * [appear description]
-     *
-     * @ignore Exclude from docs
-     * @todo Description
-     */
-    FlowDiagram.prototype.appear = function () {
-        this.hide(0);
-        this.show();
     };
     /**
      * Sorts nodes by either their values or names, based on `sortBy` setting.
@@ -504,6 +491,13 @@ var FlowDiagram = /** @class */ (function (_super) {
             legend.dataFields.name = "name";
             legend.itemContainers.template.propertyFields.disabled = "hiddenInLegend";
         }
+    };
+    /**
+     * @ignore
+     */
+    FlowDiagram.prototype.disposeData = function () {
+        _super.prototype.disposeData.call(this);
+        this.nodes.clear();
     };
     return FlowDiagram;
 }(Chart));

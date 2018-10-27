@@ -123,6 +123,9 @@ level0ColumnTemplate.strokeOpacity = 0;
 
 // level 1 series template
 let level1SeriesTemplate = chart.seriesTemplates.create("1");
+level1SeriesTemplate.tooltip.dy = - 15;
+level1SeriesTemplate.tooltip.pointerOrientation = "vertical";
+
 let level1ColumnTemplate = level1SeriesTemplate.columns.template;
 
 level1SeriesTemplate.tooltip.animationDuration = 0;

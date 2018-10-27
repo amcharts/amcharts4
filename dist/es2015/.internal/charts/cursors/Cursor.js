@@ -59,6 +59,7 @@ var Cursor = /** @class */ (function (_super) {
         _this.width = percent(100);
         _this.height = percent(100);
         _this.shouldClone = false;
+        _this.background.fillOpacity = 0;
         _this.hide(0);
         _this.trackable = true;
         _this.clickable = true;

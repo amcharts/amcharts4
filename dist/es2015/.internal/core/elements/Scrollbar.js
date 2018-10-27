@@ -655,7 +655,6 @@ var Scrollbar = /** @class */ (function (_super) {
     Scrollbar.prototype.processGrip = function (button) {
         button.parent = this;
         button.isMeasured = false;
-        button.hoverable = true;
         button.focusable = true;
         // Set button defaults
         button.showSystemTooltip = true;

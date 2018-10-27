@@ -119,14 +119,14 @@ var SerialChart = /** @class */ (function (_super) {
                 this._series = new ListTemplate(this.createSeries());
                 this._series.events.on("inserted", function (event) {
                     _this.handleSeriesAdded(event);
-                });
+                }, undefined, false);
                 this._series.events.on("removed", function (event) {
                     _this.dataUsers.removeValue(event.oldValue);
                     _this.dataUsers.each(function (dataUser) {
                         dataUser.invalidateDataItems();
                     });
                     _this.feedLegend();
-                });
+                }, undefined, false);
                 this._disposers.push(new ListDisposer(this._series));
                 this._disposers.push(this._series.template);
             }

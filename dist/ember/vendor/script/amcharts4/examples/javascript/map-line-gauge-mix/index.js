@@ -129,12 +129,8 @@ var line = mapLineSeries.mapLines.create();
 line.imagesToConnect = [pyongyang, bang];
 line.line.strokeOpacity = 0; // it's invisible, we use it for a bomb image to follow it
 
-
-setTimeout(zoomToHawaii, 100);
-
-function zoomToHawaii() {
-    mapChart.zoomToGeoPoint({ longitude: -175, latitude: 15 }, 2.2, true);
-}
+mapChart.homeGeoPoint = { longitude: -175, latitude: 15 };
+mapChart.homeZoomLevel = 2.2;
 
 // clock chart //////////////////////////////////////////////////////////////////
 var clock = mapChart.chartContainer.createChild(am4charts.GaugeChart);

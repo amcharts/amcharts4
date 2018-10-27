@@ -112,10 +112,10 @@ var ListGrouper = /** @class */ (function (_super) {
                     return true;
                 });
                 _this._insert(value, key, index);
-            }),
+            }, undefined, false),
             list.events.on("removed", function (x) {
                 _this._remove(x.oldValue);
-            })
+            }, undefined, false)
         ]) || this;
         /**
          * Grouping keys.
@@ -208,7 +208,7 @@ var ListDisposer = /** @class */ (function (_super) {
         var _this = this;
         var disposer = list.events.on("removed", function (x) {
             x.oldValue.dispose();
-        });
+        }, undefined, false);
         _this = _super.call(this, function () {
             disposer.dispose();
             // TODO clear the list ?

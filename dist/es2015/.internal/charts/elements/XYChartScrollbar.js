@@ -99,8 +99,8 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         get: function () {
             if (!this._series) {
                 this._series = new List();
-                this._disposers.push(this._series.events.on("inserted", this.handleSeriesAdded, this));
-                this._disposers.push(this._series.events.on("removed", this.handleSeriesRemoved, this));
+                this._disposers.push(this._series.events.on("inserted", this.handleSeriesAdded, this, false));
+                this._disposers.push(this._series.events.on("removed", this.handleSeriesRemoved, this, false));
             }
             return this._series;
         },
@@ -182,10 +182,13 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         series.rangeChangeDuration = 0;
         series.interpolationDuration = 0;
         series.defaultState.transitionDuration = 0;
-        this._disposers.push(series.events.on("validated", this.zoomOutAxes, this));
+        this._disposers.push(series.events.on("validated", this.zoomOutAxes, this, false));
+        // data might be set drectly on series
         this._disposers.push(sourceSeries.events.on("datavalidated", function () {
-            series.data = sourceSeries.data;
-        }));
+            if (series.data != sourceSeries.data) { // data setter doesn't check this
+                series.data = sourceSeries.data;
+            }
+        }, undefined, false));
         series.defaultState.properties.visible = true;
         series.filters.push(new DesaturateFilter());
         scrollbarChart.series.push(series);
@@ -254,7 +257,8 @@ var XYChartScrollbar = /** @class */ (function (_super) {
          */
         set: function (chart) {
             if (this._chart.get() !== chart) {
-                this._chart.set(chart, chart.events.on("datavalidated", this.handleDataChanged, this));
+                this._scrollbarChart.data = chart.data;
+                this._chart.set(chart, chart.events.on("datavalidated", this.handleDataChanged, this, false));
                 this.handleDataChanged();
                 this._scrollbarChart.dataProvider = chart; // this makes scrollbar chart do not validate data untill charts' data is validated
             }

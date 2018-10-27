@@ -27,7 +27,8 @@ export interface EventListener<T> {
     type: keyof T | null;
     callback: any;
     context: any;
-    dispatch: (type: keyof T, event: T[keyof T]) => void;
+    shouldClone: boolean;
+    dispatch: <Key extends keyof T>(type: Key, event: T[Key]) => void;
     disposer: IDisposer;
 }
 /**
@@ -39,7 +40,7 @@ export declare class EventDispatcher<T> implements IDisposer {
     protected _listeners: Array<EventListener<T>>;
     protected _killed: Array<EventListener<T>>;
     protected _disabled: {
-        [key: string]: number;
+        [key in keyof T]?: number;
     };
     protected _iterating: number;
     protected _enabled: boolean;
@@ -69,7 +70,7 @@ export declare class EventDispatcher<T> implements IDisposer {
      *
      * @return {boolean} Has particular event listeners?
      */
-    hasListenersByType(type: string): boolean;
+    hasListenersByType<Key extends keyof T>(type: Key): boolean;
     /**
      * Enable dispatching of events if they were previously disabled by
      * `disable()`.
@@ -107,10 +108,10 @@ export declare class EventDispatcher<T> implements IDisposer {
     /**
      * Removes existing listener by certain parameters.
      *
-     * @param {boolean}     once      Listener's once setting
-     * @param {Key | null}  type      Listener's type
-     * @param {A}           callback  Callback function
-     * @param {B}           context   Callback context
+     * @param {boolean}     once         Listener's once setting
+     * @param {Key | null}  type         Listener's type
+     * @param {A}           callback     Callback function
+     * @param {B}           context      Callback context
      */
     protected _removeExistingListener<A, B, Key extends keyof T>(once: boolean, type: Key | null, callback: A, context: B): void;
     /**
@@ -166,23 +167,25 @@ export declare class EventDispatcher<T> implements IDisposer {
      *
      * Event listener can be disposed.
      *
-     * @param   {boolean}     once      Listener's once setting
-     * @param   {Key | null}  type      Listener's type
-     * @param   {A}           callback  Callback function
-     * @param   {B}           context   Callback context
+     * @param   {boolean}     once         Listener's once setting
+     * @param   {Key | null}  type         Listener's type
+     * @param   {A}           callback     Callback function
+     * @param   {B}           context      Callback context
+     * @param   {boolean}     shouldClone  Whether the listener should be copied when the EventDispatcher is copied
      * @param   {function}    dispatch
      * @returns {EventListener} An event listener
      */
-    protected _on<A, B, Key extends keyof T>(once: boolean, type: Key | null, callback: A, context: B, dispatch: (type: Key, event: T[Key]) => void): EventListener<T>;
+    protected _on<A, B, Key extends keyof T>(once: boolean, type: Key | null, callback: A, context: B, shouldClone: boolean, dispatch: (type: Key, event: T[Key]) => void): EventListener<T>;
     /**
      * Creates an event listener to be invoked on **any** event.
      *
-     * @param   {A}           callback  Callback function
-     * @param   {B}           context   Callback context
-     * @returns {IDisposer}             A disposable event listener
+     * @param   {A}           callback     Callback function
+     * @param   {B}           context      Callback context
+     * @param   {boolean}     shouldClone  Whether the listener should be copied when the EventDispatcher is copied
+     * @returns {IDisposer}                A disposable event listener
      * @todo what if `listen` is called on the same function twice ?
      */
-    onAll<C, Key extends keyof T>(callback: (this: C, type: Key, event: T[Key]) => void, context?: C): IDisposer;
+    onAll<C, Key extends keyof T>(callback: (this: C, type: Key, event: T[Key]) => void, context?: C, shouldClone?: boolean): IDisposer;
     /**
      * Creates an event listener to be invoked on a specific event type.
      *
@@ -213,13 +216,14 @@ export declare class EventDispatcher<T> implements IDisposer {
      * The above will invoke our custom event handler whenever series we put
      * event on is hidden.
      *
-     * @param   {Key | null}  type      Listener's type
-     * @param   {A}           callback  Callback function
-     * @param   {B}           context   Callback context
-     * @returns {IDisposer}             A disposable event listener
+     * @param   {Key | null}  type         Listener's type
+     * @param   {A}           callback     Callback function
+     * @param   {B}           context      Callback context
+     * @param   {boolean}     shouldClone  Whether the listener should be copied when the EventDispatcher is copied
+     * @returns {IDisposer}                A disposable event listener
      * @todo what if `listen` is called on the same function twice ?
      */
-    on<C, Key extends keyof T>(type: Key, callback: (this: C, event: T[Key]) => void, context?: C): IDisposer;
+    on<C, Key extends keyof T>(type: Key, callback: (this: C, event: T[Key]) => void, context?: C, shouldClone?: boolean): IDisposer;
     /**
      * Creates an event listener to be invoked on a specific event type once.
      *
@@ -252,19 +256,20 @@ export declare class EventDispatcher<T> implements IDisposer {
      * The above will invoke our custom event handler the first time series we
      * put event on is hidden.
      *
-     * @param   {Key | null}  type      Listener's type
-     * @param   {A}           callback  Callback function
-     * @param   {B}           context   Callback context
-     * @returns {IDisposer}             A disposable event listener
+     * @param   {Key | null}  type         Listener's type
+     * @param   {A}           callback     Callback function
+     * @param   {B}           context      Callback context
+     * @param   {boolean}     shouldClone  Whether the listener should be copied when the EventDispatcher is copied
+     * @returns {IDisposer}                A disposable event listener
      * @todo what if `listen` is called on the same function twice ?
      */
-    once<C, Key extends keyof T>(type: Key, callback: (this: C, event: T[Key]) => void, context?: C): IDisposer;
+    once<C, Key extends keyof T>(type: Key, callback: (this: C, event: T[Key]) => void, context?: C, shouldClone?: boolean): IDisposer;
     /**
      * Removes the event listener with specific parameters.
      *
-     * @param   {Key | null}  type      Listener's type
-     * @param   {A}           callback  Callback function
-     * @param   {B}           context   Callback context
+     * @param   {Key | null}  type         Listener's type
+     * @param   {A}           callback     Callback function
+     * @param   {B}           context      Callback context
      */
     off<C, Key extends keyof T>(type: Key, callback: (this: C, event: T[Key]) => void, context?: C): void;
     /**

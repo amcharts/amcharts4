@@ -163,7 +163,7 @@ var WavedRectangle = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     WavedRectangle.prototype.measureElement = function () {
-        this.bbox = {
+        this._bbox = {
             x: 0,
             y: 0,
             width: this.innerWidth,

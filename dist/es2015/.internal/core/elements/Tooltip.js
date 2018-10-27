@@ -45,7 +45,7 @@ var Tooltip = /** @class */ (function (_super) {
          */
         _this._boundingRect = { x: -40000, y: -40000, width: 80000, height: 80000 };
         /**
-         * Coordinates tolltip's pointer (stem) should point to.
+         * Coordinates tooltip's pointer (stem) should point to.
          *
          * @type {IPoint}
          */
@@ -88,12 +88,8 @@ var Tooltip = /** @class */ (function (_super) {
         label.horizontalCenter = "middle";
         label.fill = color("#ffffff");
         _this._disposers.push(label);
-        _this.label.events.on("sizechanged", function () {
-            _this.drawBackground();
-        });
-        _this.label.events.on("positionchanged", function () {
-            _this.drawBackground();
-        });
+        _this.label.events.on("sizechanged", _this.drawBackground, _this);
+        _this.label.events.on("positionchanged", _this.drawBackground, _this);
         _this.label.zIndex = 1; // @todo remove this line when bg sorting is solved
         // Set defaults
         _this.pointerOrientation = "vertical";
@@ -224,7 +220,7 @@ var Tooltip = /** @class */ (function (_super) {
             return this.getPropertyValue("animationDuration");
         },
         /**
-         * Duration in milliseconds for the animation to take place when the tolltip
+         * Duration in milliseconds for the animation to take place when the tooltip
          * is moving from one place to another.
          *
          * @default 0

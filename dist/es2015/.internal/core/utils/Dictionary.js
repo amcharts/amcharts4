@@ -20,7 +20,7 @@ var DictionaryDisposer = /** @class */ (function (_super) {
         var _this = this;
         var disposer = dict.events.on("removed", function (x) {
             x.oldValue.dispose();
-        });
+        }, undefined, false);
         _this = _super.call(this, function () {
             disposer.dispose();
             // TODO clear the dictionary ?

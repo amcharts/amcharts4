@@ -214,8 +214,6 @@ var TreeMapSeries = /** @class */ (function (_super) {
         }
         return animation;
     };
-    TreeMapSeries.prototype.appear = function () {
-    };
     /**
      * Process values.
      *

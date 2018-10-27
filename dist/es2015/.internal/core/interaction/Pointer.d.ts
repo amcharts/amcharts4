@@ -66,12 +66,6 @@ export interface IPointer {
      */
     hitTimeout?: number;
     /**
-     * Holds a timeout indentifier for HOLD event.
-     *
-     * @type {[type]}
-     */
-    holdTimeout?: number;
-    /**
      * Holds a reference to a swipe timeout.
      *
      * @type {number}
@@ -104,14 +98,6 @@ export interface IPointer {
      */
     lastUpEvent?: MouseEvent | TouchEvent;
     /**
-     * A reference to last "out" event in case we had to delay its execution
-     * until mouseup.
-     *
-     * @type {MouseEvent | TouchEvent}
-     * @deprecated Moved to `InteractionObject`
-     */
-    lastOutEvent?: MouseEvent | TouchEvent;
-    /**
      * For mousedown events, we need to know which mouse button was clicked:
      * 1 - left button
      * 2 - middle button
@@ -128,6 +114,14 @@ export interface IPointer {
      * @type {InteractionEvent}
      */
     dragStartEvents?: Array<AMEvent<InteractionObject, IInteractionObjectEvents>["dragstart"]>;
+    /**
+     * Contains reference to InteractionObject which is currently being dragged
+     * by this pointer. This is used to run checks if we should trigger hovers
+     * on other elements when element is being dragged.
+     *
+     * @type {InteractionObject}
+     */
+    dragTarget?: InteractionObject;
 }
 /**
  * Represents coordinates at specific point in time.

@@ -108,5 +108,11 @@ export declare class Column extends Container {
      * @param {Sprite} source Source Sprite
      */
     copyFrom(source: this): void;
-    protected getContainerBBox(x: number, y: number, width: number, height: number): IRectangle;
+    /**
+     * Returns bounding box (square) for this element.
+     *
+     * @ignore Exclude from docs
+     * @type {IRectangle}
+     */
+    readonly bbox: IRectangle;
 }

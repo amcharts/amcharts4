@@ -278,8 +278,8 @@ var FlowDiagramLink = /** @class */ (function (_super) {
                         if (event.property == "locationX" || event.property == "locationY") {
                             _this.positionBullet(event.target);
                         }
-                    });
-                });
+                    }, undefined, false);
+                }, undefined, false);
             }
             return this._bullets;
         },

@@ -181,10 +181,10 @@ var SpriteState = /** @class */ (function (_super) {
         // it is modified
         _this.adapter.events.on("inserted", function (ev) {
             _this[ev.newValue.key] = _this[ev.newValue.key];
-        });
+        }, undefined, false);
         _this.adapter.events.on("removed", function (ev) {
             _this[ev.newValue.key] = _this[ev.newValue.key];
-        });
+        }, undefined, false);
         // Apply theme
         _this.applyTheme();
         return _this;

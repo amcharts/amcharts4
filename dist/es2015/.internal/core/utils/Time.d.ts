@@ -11,7 +11,7 @@ import * as $type from "../utils/Type";
  *
  * @ignore Exclude from docs
  */
-export declare var timeUnitDurations: {
+export declare let timeUnitDurations: {
     [Key in TimeUnit]: number;
 };
 /**
@@ -36,6 +36,18 @@ export declare function getNextUnit(unit: TimeUnit): $type.Optional<TimeUnit>;
  * @return {number}           Milliseconds
  */
 export declare function getDuration(unit: TimeUnit, count?: number): number;
+/**
+ * Returns current `Date` object.
+ *
+ * @return {Date} Current date
+ */
+export declare function now(): Date;
+/**
+ * Returns current timestamp.
+ *
+ * @return {Date} Current timestamp
+ */
+export declare function getTime(): number;
 /**
  * Returns a copy of the `Date` object.
  *

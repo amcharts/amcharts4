@@ -5,6 +5,7 @@ import { SankeyLink } from "../elements/SankeyLink";
 import { Animation } from "../../core/utils/Animation";
 import { Orientation } from "../../core/defs/Orientation";
 import * as $iter from "../../core/utils/Iterator";
+import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
  * DATA ITEM
@@ -240,14 +241,14 @@ export declare class SankeyDiagram extends FlowDiagram {
      * @ignore Exclude from docs
      */
     validate(): void;
-    validateDataRange(): void;
     /**
-     * [appear description]
+     * Performs actual operations to reveal this element.
      *
      * @ignore Exclude from docs
-     * @todo Description
+     * @param  {number} duration Fade in duration (ms)
+     * @return {number}          Fade in duration (ms)
      */
-    appear(): void;
+    protected showReal(duration?: number): $type.Optional<Animation>;
     /**
      * Changes the sort type of the nodes.
      *
@@ -292,4 +293,8 @@ export declare class SankeyDiagram extends FlowDiagram {
      */
     createLink(): this["_link"];
     valueHeight: number;
+    /**
+     * @ignore
+     */
+    disposeData(): void;
 }

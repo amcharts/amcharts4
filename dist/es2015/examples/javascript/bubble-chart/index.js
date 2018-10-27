@@ -30,7 +30,7 @@ bullet.strokeOpacity = 0;
 bullet.strokeWidth = 2;
 bullet.fillOpacity = 0.7;
 bullet.stroke = am4core.color("#ffffff");
-
+bullet.hiddenState.properties.opacity = 0;
 bullet.circle.tooltipText = "[bold]{title}:[/]\nPopulation: {value.value}\nIncome: {valueX.value}\nLife expectancy:{valueY.value}";
 
 let hoverState = bullet.states.create("hover");
