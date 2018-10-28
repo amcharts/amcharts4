@@ -6,6 +6,13 @@ Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
 
+## [4.0.0-beta.66] - 2018-10-28
+
+### Fixed
+- Axis glitches in `XYChart3D`.
+- `XYCursor` movement issues.
+
+
 ## [4.0.0-beta.65] - 2018-10-28
 
 ### Changed

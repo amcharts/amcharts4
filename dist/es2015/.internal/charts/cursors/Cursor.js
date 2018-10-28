@@ -54,12 +54,10 @@ var Cursor = /** @class */ (function (_super) {
         _this._stick = "none";
         _this.className = "Cursor";
         // Set defaults
-        //this.background.fillOpacity = 0.5;
-        //this.background.fill = color("#dadada");
+        _this.background.fillOpacity = 0;
         _this.width = percent(100);
         _this.height = percent(100);
         _this.shouldClone = false;
-        _this.background.fillOpacity = 0;
         _this.hide(0);
         _this.trackable = true;
         _this.clickable = true;
@@ -135,6 +133,8 @@ var Cursor = /** @class */ (function (_super) {
      * @param {"hard" | "soft" | "none"}  stick  Level of cursor stickiness to the place
      */
     Cursor.prototype.triggerMove = function (point, stick) {
+        point.x = $math.round(point.x, 1);
+        point.y = $math.round(point.y, 1);
         if (stick) {
             this._stick = stick;
         }
@@ -150,6 +150,8 @@ var Cursor = /** @class */ (function (_super) {
      */
     Cursor.prototype.triggerMoveReal = function (point) {
         if (this.point.x != point.x || this.point.y != point.y) {
+            this.point = point;
+            this.invalidatePosition();
             // hide cursor if it's out of bounds
             if (this.fitsToBounds(point)) {
                 this.show(0);
@@ -160,7 +162,6 @@ var Cursor = /** @class */ (function (_super) {
                     this.hide(0);
                 }
             }
-            this.point = point;
             if (this.visible) {
                 this.getPositions();
                 this.dispatch("cursorpositionchanged"); // not good to dispatch later (check step count example)

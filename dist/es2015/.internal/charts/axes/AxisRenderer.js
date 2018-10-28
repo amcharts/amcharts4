@@ -67,6 +67,12 @@ var AxisRenderer = /** @class */ (function (_super) {
         gridContainer.width = percent(100);
         gridContainer.height = percent(100);
         _this.gridContainer = gridContainer;
+        // not good without this
+        gridContainer.events.on("maxsizechanged", function () {
+            if (_this.inited) {
+                _this.invalidateAxisItems();
+            }
+        }, _this, false);
         var breakContainer = _this.createChild(Container);
         breakContainer.shouldClone = false;
         breakContainer.isMeasured = false;
