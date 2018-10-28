@@ -277,6 +277,7 @@ var Legend = /** @class */ (function (_super) {
         _this.labels = new ListTemplate(label);
         _this._disposers.push(new ListDisposer(_this.labels));
         _this._disposers.push(_this.labels.template);
+        label.interactionsEnabled = false;
         // Create a template container and list for item value labels
         var valueLabel = new Label();
         valueLabel.margin(0, 5, 0, 0);
@@ -285,6 +286,7 @@ var Legend = /** @class */ (function (_super) {
         valueLabel.align = "right";
         valueLabel.textAlign = "end";
         valueLabel.states.create("active").properties.fill = interfaceColors.getFor("disabledBackground");
+        valueLabel.interactionsEnabled = false;
         _this.valueLabels = new ListTemplate(valueLabel);
         _this._disposers.push(new ListDisposer(_this.valueLabels));
         _this._disposers.push(_this.valueLabels.template);

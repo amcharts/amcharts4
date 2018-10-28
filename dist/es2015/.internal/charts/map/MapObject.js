@@ -46,7 +46,9 @@ var MapObject = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     MapObject.prototype.validate = function () {
-        this.readerTitle = this.series.itemReaderText;
+        if (this.series) {
+            this.readerTitle = this.series.itemReaderText;
+        }
         _super.prototype.validate.call(this);
     };
     return MapObject;

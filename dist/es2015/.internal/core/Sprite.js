@@ -6965,7 +6965,7 @@ var Sprite = /** @class */ (function (_super) {
                 // Set accessibility option
                 tooltip.readerDescribedBy = this.uidAttr();
                 // make label to render to be able to check currentText
-                if (tooltip.label.currentText == undefined) {
+                if (tooltip.label.invalid) {
                     tooltip.label.validate();
                 }
                 if (text != undefined && text != "" && tooltip.label.currentText != "") {

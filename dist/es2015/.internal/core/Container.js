@@ -426,7 +426,7 @@ var Container = /** @class */ (function (_super) {
           access scrollbar.thumb
         */
         if (this.element) {
-            var zindexed = $array.copy(this._childrenByLayout);
+            var zindexed = $array.copy(this.children.values); // not children by layout!
             var sortArray = zindexed.map(function (data, idx) {
                 return { idx: idx, data: data };
             });
@@ -462,6 +462,7 @@ var Container = /** @class */ (function (_super) {
                 if (this._background) {
                     this.group.addToBack(this._background.group);
                 }
+                this.invalidateLayout();
             }
         }
     };

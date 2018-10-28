@@ -6,6 +6,7 @@ import { Series } from "../charts/series/Series";
 import { PercentSeries } from "../charts/series/PercentSeries";
 import { SankeyDiagram } from "../charts/types/SankeyDiagram";
 import { FunnelSeries } from "../charts/series/FunnelSeries";
+import { MapSeries } from "../charts/map/MapSeries";
 import { FunnelSlice } from "../charts/elements/FunnelSlice";
 import { Column } from "../charts/elements/Column";
 import { Slice } from "../core/elements/Slice";
@@ -42,6 +43,9 @@ var theme = function (object) {
         object.hiddenState.transitionDuration = 1000;
         object.hiddenState.properties.opacity = 1;
         object.interpolationDuration = 1000;
+    }
+    if (object instanceof MapSeries) {
+        object.hiddenState.properties.opacity = 0;
     }
     if (object instanceof PercentSeries) {
         object.hiddenState.properties.opacity = 0;

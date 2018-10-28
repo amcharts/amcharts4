@@ -68,6 +68,8 @@ var Tooltip = /** @class */ (function (_super) {
         _this.isMeasured = false;
         _this.getFillFromObject = true;
         _this.margin(5, 5, 5, 5);
+        _this.defaultState.transitionDuration = 1;
+        _this.hiddenState.transitionDuration = 1;
         // Create chrome/background
         var background = _this.background;
         background.interactionsEnabled = false;

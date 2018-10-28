@@ -312,6 +312,11 @@ var ColumnSeries = /** @class */ (function (_super) {
         var pixelHeight = template.pixelHeight;
         var maxWidth = template.maxWidth;
         var maxHeight = template.maxHeight;
+        var paddingLeft = template.pixelPaddingLeft;
+        var paddingRight = template.pixelPaddingRight;
+        var paddingTop = template.pixelPaddingTop;
+        var paddingBottom = template.pixelPaddingBottom;
+        var outOfBounds = false;
         // two category axes
         if ((this.xAxis instanceof CategoryAxis) && (this.yAxis instanceof CategoryAxis)) {
             startLocation = 0;
@@ -395,6 +400,9 @@ var ColumnSeries = /** @class */ (function (_super) {
             // dataItem.locations[xField] = startLocation + (endLocation - startLocation) / 2;
             t = this.fixVerticalCoordinate(t);
             b = this.fixVerticalCoordinate(b);
+            if (Math.abs(r - l) - paddingLeft - paddingRight == 0) {
+                outOfBounds = true;
+            }
         }
         // horizontal bars
         else {
@@ -430,16 +438,15 @@ var ColumnSeries = /** @class */ (function (_super) {
             // dataItem.locations[yField] = startLocation + (endLocation - startLocation) / 2;
             r = this.fixHorizontalCoordinate(r);
             l = this.fixHorizontalCoordinate(l);
+            if (Math.abs(t - b) - paddingTop - paddingBottom == 0) {
+                outOfBounds = true;
+            }
         }
-        var paddingLeft = template.pixelPaddingLeft;
-        var paddingRight = template.pixelPaddingRight;
-        var paddingTop = template.pixelPaddingTop;
-        var paddingBottom = template.pixelPaddingBottom;
         var w = Math.abs(r - l);
         var h = Math.abs(b - t);
         var x = Math.min(l, r);
         var y = Math.min(t, b);
-        if (w - paddingLeft - paddingRight > 0 && h - paddingTop - paddingBottom > 0) {
+        if (!outOfBounds) {
             var column = void 0;
             if (!dataItem.column) {
                 column = this.columns.create();

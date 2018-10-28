@@ -6,6 +6,18 @@ Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
 
+## [4.0.0-beta.65] - 2018-10-28
+
+### Changed
+- `tooltip.hiddenState.transtionDuration` and `tooltip.defaultState.transitionDuration` are now set to 1 (on non-animated theme) to avoid some tooltip flickering.
+- Individual legend items (label, value label, and marker) now have their  `interactionsEnabled = false` set by default to avoid double events. If you need to add events to these particular elements (as opposed to the whole legend item), you will need to set `interactionsEnabled = true` on that element.
+
+### Fixed
+- Calling `show()` on a `MapSeries` object was resulting in an error.
+- 3D columns were not visible if their value was zero.
+- Bullets are now hidden if `minBulletDistance` is set.
+
+
 ## [4.0.0-beta.64] - 2018-10-27
 
 ### Added

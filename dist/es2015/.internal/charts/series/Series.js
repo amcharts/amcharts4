@@ -525,6 +525,7 @@ var Series = /** @class */ (function (_super) {
         var _this = this;
         _super.prototype.validateDataElement.call(this, dataItem);
         if (this._showBullets) {
+            this.bulletsContainer.visible = true;
             $iter.each(this.bullets.iterator(), function (bulletTemplate) {
                 // always better to use the same, this helps to avoid redrawing
                 var bullet = dataItem.bullets.getKey(bulletTemplate.uid);
@@ -572,6 +573,9 @@ var Series = /** @class */ (function (_super) {
                 bullet.__disabled = false;
                 _this.positionBullet(bullet);
             });
+        }
+        else {
+            this.bulletsContainer.visible = false;
         }
     };
     /**

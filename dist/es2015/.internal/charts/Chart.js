@@ -132,6 +132,8 @@ var Chart = /** @class */ (function (_super) {
         var legend = this.legend;
         if (legend) {
             var chartAndLegendContainer = this.chartAndLegendContainer;
+            legend.x = undefined;
+            legend.y = undefined;
             switch (legend.position) {
                 case "left":
                     chartAndLegendContainer.layout = "horizontal";
@@ -152,11 +154,13 @@ var Chart = /** @class */ (function (_super) {
                 case "top":
                     chartAndLegendContainer.layout = "vertical";
                     legend.maxWidth = undefined;
+                    legend.width = percent(100);
                     legend.toBack();
                     break;
                 case "bottom":
                     chartAndLegendContainer.layout = "vertical";
                     legend.maxWidth = undefined;
+                    legend.width = percent(100);
                     legend.toFront();
             }
         }
