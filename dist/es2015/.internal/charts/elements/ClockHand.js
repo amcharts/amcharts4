@@ -161,7 +161,7 @@ var ClockHand = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Radius
          */
         set: function (value) {
-            this.setPropertyValue("radius", value, true);
+            this.setPercentProperty("radius", value, true, false, 10, false);
         },
         enumerable: true,
         configurable: true
@@ -182,7 +182,7 @@ var ClockHand = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Radius
          */
         set: function (value) {
-            this.setPropertyValue("innerRadius", value, true);
+            this.setPercentProperty("innerRadius", value, true, false, 10, false);
         },
         enumerable: true,
         configurable: true

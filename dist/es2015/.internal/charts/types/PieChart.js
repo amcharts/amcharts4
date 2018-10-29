@@ -278,7 +278,7 @@ var PieChart = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Radius (px or relative)
          */
         set: function (value) {
-            if (this.setPropertyValue("radius", value, true)) {
+            if (this.setPercentProperty("radius", value, true, false, 10, false)) {
                 this.invalidateLayout();
             }
         },
@@ -304,7 +304,7 @@ var PieChart = /** @class */ (function (_super) {
          * @todo Setting things like `innerRadius` modifies `slice.radius` and it then looks like it is not the same value as in default state
          */
         set: function (value) {
-            this.setPropertyValue("innerRadius", value, true);
+            this.setPercentProperty("innerRadius", value, true, false, 10, false);
         },
         enumerable: true,
         configurable: true

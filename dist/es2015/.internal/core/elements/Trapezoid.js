@@ -105,7 +105,7 @@ var Trapezoid = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Width
          */
         set: function (value) {
-            this.setPropertyValue("topSide", value, true);
+            this.setPercentProperty("topSide", value, true, false, 10, false);
         },
         enumerable: true,
         configurable: true
@@ -124,7 +124,7 @@ var Trapezoid = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Width
          */
         set: function (value) {
-            this.setPropertyValue("bottomSide", value, true);
+            this.setPercentProperty("bottomSide", value, true, false, 10, false);
         },
         enumerable: true,
         configurable: true
@@ -143,7 +143,7 @@ var Trapezoid = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Height
          */
         set: function (value) {
-            this.setPropertyValue("leftSide", value, true);
+            this.setPercentProperty("leftSide", value, true, false, 10, false);
         },
         enumerable: true,
         configurable: true
@@ -162,7 +162,7 @@ var Trapezoid = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Height
          */
         set: function (value) {
-            this.setPropertyValue("rightSide", value, true);
+            this.setPercentProperty("rightSide", value, true, false, 10, false);
         },
         enumerable: true,
         configurable: true

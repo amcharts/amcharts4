@@ -147,6 +147,9 @@ export function arc(startAngle, arc, radius, innerRadius, radiusY, cornerRadius,
     if (!$type.isNumber(innerRadius)) {
         innerRadius = 0;
     }
+    if (radius == 0 && innerRadius <= 0) {
+        return "";
+    }
     if (radius < innerRadius) {
         var temp = radius;
         radius = innerRadius;

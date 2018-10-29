@@ -296,7 +296,7 @@ var FlowDiagramNode = /** @class */ (function (_super) {
          * @param {Color}  value  Color
          */
         set: function (value) {
-            this.setPropertyValue("color", value, true);
+            this.setColorProperty("color", value);
             if (this._background) {
                 this._background.fill = value;
             }

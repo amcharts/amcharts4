@@ -33,7 +33,7 @@ var Circle = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.className = "Circle";
         _this.element = _this.paper.add("circle");
-        _this.setPropertyValue("radius", percent(100));
+        _this.setPercentProperty("radius", percent(100));
         _this.setPropertyValue("horizontalCenter", "middle");
         _this.setPropertyValue("verticalCenter", "middle");
         _this.applyTheme();
@@ -61,7 +61,7 @@ var Circle = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Radius
          */
         set: function (value) {
-            this.setPropertyValue("radius", value, true);
+            this.setPercentProperty("radius", value, true, false, 10, false);
         },
         enumerable: true,
         configurable: true

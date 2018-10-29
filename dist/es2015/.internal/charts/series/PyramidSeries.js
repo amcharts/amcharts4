@@ -287,7 +287,7 @@ var PyramidSeries = /** @class */ (function (_super) {
          * @param {number | Percent}
          */
         set: function (value) {
-            if (this.setPropertyValue("topWidth", value)) {
+            if (this.setPercentProperty("topWidth", value, false, false, 10, false)) {
                 this.invalidateDataRange();
             }
         },
@@ -309,7 +309,7 @@ var PyramidSeries = /** @class */ (function (_super) {
          * @param {number | Percent}
          */
         set: function (value) {
-            if (this.setPropertyValue("pyramidHeight", value)) {
+            if (this.setPercentProperty("pyramidHeight", value, false, false, 10, false)) {
                 this.invalidateDataRange();
             }
         },
@@ -336,7 +336,7 @@ var PyramidSeries = /** @class */ (function (_super) {
          * @param {number | Percent}
          */
         set: function (value) {
-            if (this.setPropertyValue("bottomWidth", value)) {
+            if (this.setPercentProperty("bottomWidth", value, false, false, 10, false)) {
                 this.invalidateDataRange();
             }
         },

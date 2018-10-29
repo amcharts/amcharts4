@@ -98,7 +98,7 @@ var WavedCircle = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Inner radius
          */
         set: function (value) {
-            this.setPropertyValue("innerRadius", value, true);
+            this.setPercentProperty("innerRadius", value, true, false, 10, false);
             this.invalidate();
         },
         enumerable: true,

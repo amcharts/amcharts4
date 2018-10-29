@@ -323,6 +323,8 @@ var Sprite = /** @class */ (function (_super) {
         _this.setPropertyValue("marginBottom", 0);
         _this.setPropertyValue("marginLeft", 0);
         _this.setPropertyValue("marginRight", 0);
+        _this.setPropertyValue("dx", 0);
+        _this.setPropertyValue("dy", 0);
         _this.setPropertyValue("paddingTop", 0);
         _this.setPropertyValue("paddingBottom", 0);
         _this.setPropertyValue("paddingRight", 0);
@@ -451,6 +453,7 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.validate = function () {
         this.dispatchImmediately("beforevalidated");
+        // prevents from drawing if topparent is 0x0
         var topParent = this.topParent;
         if (topParent) {
             if (!topParent.maxWidth || !topParent.maxHeight) {
@@ -840,21 +843,28 @@ var Sprite = /** @class */ (function (_super) {
          * @hidden
          */
         /**
-         * Elements's top-level [[Container]].
+         * Sprites's top-level [[Container]].
          *
          * In most cases that will be a Chart.
          *
          * @return {Optional<Container>} Top-level ascendant
          */
         get: function () {
-            if (this.parent) {
-                if (this.parent.parent) {
+            if (this._topParent) {
+                return this._topParent;
+            }
+            else {
+                if (this.parent) {
                     return this.parent.topParent;
                 }
-                else {
-                    return this.parent;
-                }
             }
+        },
+        /**
+         * @ignore
+         * @param value {Container} top parent of a sprite
+         */
+        set: function (value) {
+            this._topParent = value;
         },
         enumerable: true,
         configurable: true
@@ -883,6 +893,7 @@ var Sprite = /** @class */ (function (_super) {
                 }
                 this._parent = parent;
                 if (parent) {
+                    this.topParent = parent.topParent;
                     if (parent.isTemplate) {
                         this.isTemplate = true;
                     }
@@ -895,6 +906,9 @@ var Sprite = /** @class */ (function (_super) {
                     if (!this._dataItem) {
                         this.dataItem = parent.dataItem;
                     }
+                }
+                else {
+                    this.topParent = undefined;
                 }
             }
         },
@@ -1527,59 +1541,57 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.measure = function () {
         this.updateCenter();
         var bbox = this.bbox;
-        if (bbox) {
-            var measuredWidth = this._measuredWidth;
-            var measuredHeight = this._measuredHeight;
-            // extremes
-            var left = this.maxLeft;
-            var right = this.maxRight;
-            var top_2 = this.maxTop;
-            var bottom = this.maxBottom;
-            // non-parent wise size
-            this._measuredWidthSelf = measuredWidth;
-            this._measuredHeightSelf = measuredHeight;
-            // if a sprite is rotated or scaled, calculate measured size after transformations
-            if (this.rotation !== 0 || this.scale !== 1) {
-                var svg = this.paper.svg;
-                var matrix = svg.createSVGMatrix();
-                var rotation = this.rotation;
-                matrix.a = $math.cos(rotation) * this.scale;
-                matrix.c = -$math.sin(rotation) * this.scale;
-                matrix.e = 0;
-                matrix.b = $math.sin(rotation) * this.scale;
-                matrix.d = $math.cos(rotation) * this.scale;
-                matrix.f = 0;
-                var p1 = svg.createSVGPoint();
-                p1.x = left;
-                p1.y = top_2;
-                var p2 = svg.createSVGPoint();
-                p2.x = right;
-                p2.y = top_2;
-                var p3 = svg.createSVGPoint();
-                p3.x = right;
-                p3.y = bottom;
-                var p4 = svg.createSVGPoint();
-                p4.x = left;
-                p4.y = bottom;
-                var pt1 = p1.matrixTransform(matrix);
-                var pt2 = p2.matrixTransform(matrix);
-                var pt3 = p3.matrixTransform(matrix);
-                var pt4 = p4.matrixTransform(matrix);
-                left = Math.min(pt1.x, pt2.x, pt3.x, pt4.x);
-                right = Math.max(pt1.x, pt2.x, pt3.x, pt4.x);
-                top_2 = Math.min(pt1.y, pt2.y, pt3.y, pt4.y);
-                bottom = Math.max(pt1.y, pt2.y, pt3.y, pt4.y);
-                measuredWidth = right - left;
-                measuredHeight = bottom - top_2;
-            }
-            var positionPrecision = this._positionPrecision;
+        var measuredWidth = this._measuredWidth;
+        var measuredHeight = this._measuredHeight;
+        // extremes
+        var left = this.maxLeft;
+        var right = this.maxRight;
+        var top = this.maxTop;
+        var bottom = this.maxBottom;
+        // non-parent wise size
+        this._measuredWidthSelf = measuredWidth;
+        this._measuredHeightSelf = measuredHeight;
+        var positionPrecision = this._positionPrecision;
+        // if a sprite is rotated or scaled, calculate measured size after transformations
+        if (this.rotation !== 0 || this.scale !== 1) {
+            var svg = this.paper.svg;
+            var matrix = svg.createSVGMatrix();
+            var rotation = this.rotation;
+            matrix.a = $math.cos(rotation) * this.scale;
+            matrix.c = -$math.sin(rotation) * this.scale;
+            matrix.e = 0;
+            matrix.b = $math.sin(rotation) * this.scale;
+            matrix.d = $math.cos(rotation) * this.scale;
+            matrix.f = 0;
+            var p1 = svg.createSVGPoint();
+            p1.x = left;
+            p1.y = top;
+            var p2 = svg.createSVGPoint();
+            p2.x = right;
+            p2.y = top;
+            var p3 = svg.createSVGPoint();
+            p3.x = right;
+            p3.y = bottom;
+            var p4 = svg.createSVGPoint();
+            p4.x = left;
+            p4.y = bottom;
+            var pt1 = p1.matrixTransform(matrix);
+            var pt2 = p2.matrixTransform(matrix);
+            var pt3 = p3.matrixTransform(matrix);
+            var pt4 = p4.matrixTransform(matrix);
+            left = Math.min(pt1.x, pt2.x, pt3.x, pt4.x);
+            right = Math.max(pt1.x, pt2.x, pt3.x, pt4.x);
+            top = Math.min(pt1.y, pt2.y, pt3.y, pt4.y);
+            bottom = Math.max(pt1.y, pt2.y, pt3.y, pt4.y);
+            measuredWidth = right - left;
+            measuredHeight = bottom - top;
             this.maxLeft = $math.round(left, positionPrecision, true);
             this.maxRight = $math.round(right, positionPrecision, true);
-            this.maxTop = $math.round(top_2, positionPrecision, true);
+            this.maxTop = $math.round(top, positionPrecision, true);
             this.maxBottom = $math.round(bottom, positionPrecision, true);
-            this._measuredWidth = $math.round(measuredWidth, positionPrecision, true);
-            this._measuredHeight = $math.round(measuredHeight, positionPrecision, true);
         }
+        this._measuredWidth = $math.round(measuredWidth, positionPrecision, true);
+        this._measuredHeight = $math.round(measuredHeight, positionPrecision, true);
         // dispatch event
         if (this._measuredWidth != this._prevMeasuredWidth || this._measuredHeight != this._prevMeasuredHeight) {
             this._prevMeasuredHeight = this._measuredHeight;
@@ -2991,13 +3003,29 @@ var Sprite = /** @class */ (function (_super) {
         }
         return propValue;
     };
-    Sprite.prototype.setColorProperty = function (property, value) {
+    Sprite.prototype.setColorProperty = function (property, value, invalidate) {
         var currentValue = this.properties[property];
         if (value instanceof Color && currentValue instanceof Color && value.hex == currentValue.hex) {
             return false;
         }
         else {
-            return this.setPropertyValue(property, value);
+            return this.setPropertyValue(property, value, invalidate);
+        }
+    };
+    Sprite.prototype.setPercentProperty = function (property, value, invalidate, transform, precision, floor) {
+        value = $type.toNumberOrPercent(value);
+        if ($type.isNumber(value)) {
+            value = $math.round(value, precision, floor);
+            return this.setPropertyValue(property, value, invalidate, transform);
+        }
+        else {
+            var currentValue = this.properties[property];
+            if (value instanceof Percent && currentValue instanceof Percent && value.value == currentValue.value) {
+                return false;
+            }
+            else {
+                return this.setPropertyValue(property, value, invalidate, transform);
+            }
         }
     };
     /**
@@ -3014,10 +3042,6 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.setPropertyValue = function (property, value, invalidate, transform) {
         var currentValue = this.properties[property];
         if (this.properties[property] !== value) {
-            //@todo: create some method like setPercentPropertyValue to save some cpu
-            if (value instanceof Percent && currentValue instanceof Percent && value.value == currentValue.value) {
-                return false;
-            }
             this.properties[property] = value;
             if (this.events.isEnabled("propertychanged")) {
                 var event_1 = {
@@ -3030,11 +3054,8 @@ var Sprite = /** @class */ (function (_super) {
             if (invalidate) {
                 this.invalidate();
             }
-            // else, as both applySVGAttr and transform is done after invalidation.
-            else {
-                if (transform) {
-                    this.invalidatePosition();
-                }
+            if (transform) {
+                this.invalidatePosition();
             }
             if (this.applyOnClones) {
                 var clones = this.clones.values;
@@ -3524,15 +3545,16 @@ var Sprite = /** @class */ (function (_super) {
                     this.interactions.focusable = value;
                     if (value) {
                         this.setSVGAttribute({ "focusable": value });
-                        // Set focus events that would apply "focus" state
-                        this.interactions.setEventDisposer("sprite-focusable", value, function () { return new MultiDisposer([
-                            _this.events.on("blur", _this.handleBlur, _this, false),
-                            _this.events.on("focus", _this.handleFocus, _this, false)
-                        ]); });
                     }
                     else {
                         this.removeSVGAttribute("focusable");
                     }
+                    // Set focus events that would apply "focus" state
+                    // setEventDisposer will also remove listeners if value == false
+                    this.interactions.setEventDisposer("sprite-focusable", value, function () { return new MultiDisposer([
+                        _this.events.on("blur", _this.handleBlur, _this, false),
+                        _this.events.on("focus", _this.handleFocus, _this, false)
+                    ]); });
                 }
             }
         },
@@ -3782,14 +3804,13 @@ var Sprite = /** @class */ (function (_super) {
                     // @todo Maybe attach to InteractionObject's multidisposer so that
                     // sprites events get disposed together with them?
                     // this.interactions.disposers.getItem("movable")
-                    if (value) {
-                        this.interactions.setEventDisposer("sprite-draggable", value, function () { return new MultiDisposer([
-                            _this.events.on("down", _this.handleDown, _this, false),
-                            _this.events.on("dragstart", _this.handleDragStart, _this, false),
-                            _this.events.on("drag", _this.handleDragMove, _this, false),
-                            _this.events.on("dragstop", _this.handleDragStop, _this, false)
-                        ]); });
-                    }
+                    // setEventDisposer will also remove listeners if value == false
+                    this.interactions.setEventDisposer("sprite-draggable", value, function () { return new MultiDisposer([
+                        _this.events.on("down", _this.handleDown, _this, false),
+                        _this.events.on("dragstart", _this.handleDragStart, _this, false),
+                        _this.events.on("drag", _this.handleDragMove, _this, false),
+                        _this.events.on("dragstop", _this.handleDragStop, _this, false)
+                    ]); });
                 }
             }
         },
@@ -3949,13 +3970,11 @@ var Sprite = /** @class */ (function (_super) {
                 else {
                     this.applyCursorStyle();
                     this.interactions.hoverable = value;
-                    //interaction.processHoverable(this);
-                    if (value) {
-                        this.interactions.setEventDisposer("sprite-hoverable", value, function () { return new MultiDisposer([
-                            _this.events.on("over", _this.handleOver, _this, false),
-                            _this.events.on("out", _this.handleOut, _this, false),
-                        ]); });
-                    }
+                    // setEventDisposer will also remove listeners if value == false
+                    this.interactions.setEventDisposer("sprite-hoverable", value, function () { return new MultiDisposer([
+                        _this.events.on("over", _this.handleOver, _this, false),
+                        _this.events.on("out", _this.handleOut, _this, false),
+                    ]); });
                 }
             }
         },
@@ -4111,13 +4130,11 @@ var Sprite = /** @class */ (function (_super) {
                 else {
                     this.applyCursorStyle();
                     this.interactions.clickable = value;
-                    //interaction.processClickable(this);
-                    if (value) {
-                        this.interactions.setEventDisposer("sprite-clickable", value, function () { return new MultiDisposer([
-                            _this.events.on("down", _this.handleDown, _this, false),
-                            _this.events.on("up", _this.handleUp, _this, false)
-                        ]); });
-                    }
+                    // setEventDisposer will also remove listeners if value == false
+                    this.interactions.setEventDisposer("sprite-clickable", value, function () { return new MultiDisposer([
+                        _this.events.on("down", _this.handleDown, _this, false),
+                        _this.events.on("up", _this.handleUp, _this, false)
+                    ]); });
                 }
             }
         },
@@ -4147,9 +4164,8 @@ var Sprite = /** @class */ (function (_super) {
                     // void
                 }
                 else {
-                    if (value) {
-                        this.interactions.setEventDisposer("sprite-togglable", value, function () { return _this.events.on("hit", _this.handleToggle, _this, false); });
-                    }
+                    // setEventDisposer will also remove listeners if value == false
+                    this.interactions.setEventDisposer("sprite-togglable", value, function () { return _this.events.on("hit", _this.handleToggle, _this, false); });
                 }
             }
         },
@@ -4462,13 +4478,11 @@ var Sprite = /** @class */ (function (_super) {
                 else {
                     this.applyCursorStyle();
                     this.interactions.resizable = value;
-                    //interaction.processResizable(this);
-                    if (value) {
-                        this.interactions.setEventDisposer("sprite-resizable", value, function () { return new MultiDisposer([
-                            _this.events.on("down", _this.handleDown, _this, false),
-                            _this.events.on("resize", _this.handleResize, _this, false)
-                        ]); });
-                    }
+                    // setEventDisposer will also remove listeners if value == false
+                    this.interactions.setEventDisposer("sprite-resizable", value, function () { return new MultiDisposer([
+                        _this.events.on("down", _this.handleDown, _this, false),
+                        _this.events.on("resize", _this.handleResize, _this, false)
+                    ]); });
                 }
             }
         },
@@ -4843,11 +4857,7 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (!this.isDragged) {
-                value = $type.toNumberOrPercent(value);
-                if ($type.isNumber(value)) {
-                    value = $math.round(value, this._positionPrecision, true);
-                }
-                this.setPropertyValue("x", value, false, true);
+                this.setPercentProperty("x", value, false, true, this._positionPrecision, true);
             }
         },
         enumerable: true,
@@ -4945,11 +4955,7 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (!this.isDragged) {
-                value = $type.toNumberOrPercent(value);
-                if ($type.isNumber(value)) {
-                    value = $math.round(value, this._positionPrecision, true);
-                }
-                this.setPropertyValue("y", value, false, true);
+                this.setPercentProperty("y", value, false, true, this._positionPrecision, true);
             }
         },
         enumerable: true,
@@ -5036,11 +5042,7 @@ var Sprite = /** @class */ (function (_super) {
          * @return {number} Horizontal offset (px)
          */
         get: function () {
-            var value = this.getPropertyValue("dx");
-            if (!$type.isNumber(value)) {
-                value = 0;
-            }
-            return value;
+            return this.getPropertyValue("dx");
         },
         /**
          * A horizontal offset for the element in pixels.
@@ -5063,11 +5065,7 @@ var Sprite = /** @class */ (function (_super) {
          * @return {number} Vertical offset (px)
          */
         get: function () {
-            var value = this.getPropertyValue("dy");
-            if (!$type.isNumber(value)) {
-                value = 0;
-            }
-            return value;
+            return this.getPropertyValue("dy");
         },
         /**
          * A vertical offset for the element in pixels.
@@ -5326,12 +5324,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Width (numeric in pixels or relative)
          */
         set: function (value) {
-            value = $type.toNumberOrPercent(value);
-            //let maxWidth = this.maxWidth;
-            //if ($type.isNumber(value) && $type.isNumber(maxWidth) && value > maxWidth) {
-            //	value = maxWidth;
-            //}
-            var changed = this.setPropertyValue("width", value, true);
+            var changed = this.setPercentProperty("width", value, true, false, this._positionPrecision, true);
             if (changed) {
                 this.percentWidth = undefined;
                 this.relativeWidth = undefined;
@@ -5371,13 +5364,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Height (numeric in pixels or relative)
          */
         set: function (value) {
-            value = $type.toNumberOrPercent(value);
-            // this approach didn't work well. the legend positioned to right/left expands through all the container
-            //let maxHeight = this.maxHeight;
-            //if (value > maxHeight) {
-            //	value = maxHeight;
-            //}
-            var changed = this.setPropertyValue("height", value, true);
+            var changed = this.setPercentProperty("height", value, true, false, this._positionPrecision, true);
             if (changed) {
                 this.percentHeight = undefined;
                 this._relativeHeight = undefined;
@@ -5690,8 +5677,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Margin value
          */
         set: function (value) {
-            value = $type.toNumberOrPercent(value);
-            this.setPropertyValue("marginLeft", value, true);
+            this.setPercentProperty("marginLeft", value, false, true, this._positionPrecision, true);
         },
         enumerable: true,
         configurable: true
@@ -5709,8 +5695,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Margin value
          */
         set: function (value) {
-            value = $type.toNumberOrPercent(value);
-            this.setPropertyValue("marginRight", value, true);
+            this.setPercentProperty("marginRight", value, false, true, this._positionPrecision, true);
         },
         enumerable: true,
         configurable: true
@@ -5728,8 +5713,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Margin value
          */
         set: function (value) {
-            value = $type.toNumberOrPercent(value);
-            this.setPropertyValue("marginTop", value, true);
+            this.setPercentProperty("marginTop", value, false, true, this._positionPrecision, true);
         },
         enumerable: true,
         configurable: true
@@ -5747,8 +5731,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Margin value
          */
         set: function (value) {
-            value = $type.toNumberOrPercent(value);
-            this.setPropertyValue("marginBottom", value, true);
+            this.setPercentProperty("marginBottom", value, false, true, this._positionPrecision, true);
         },
         enumerable: true,
         configurable: true
@@ -5890,8 +5873,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Padding value
          */
         set: function (value) {
-            value = $type.toNumberOrPercent(value);
-            this.setPropertyValue("paddingLeft", value, true);
+            this.setPercentProperty("paddingLeft", value, false, true, this._positionPrecision, true);
         },
         enumerable: true,
         configurable: true
@@ -5909,8 +5891,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Padding value
          */
         set: function (value) {
-            value = $type.toNumberOrPercent(value);
-            this.setPropertyValue("paddingRight", value, true);
+            this.setPercentProperty("paddingRight", value, false, true, this._positionPrecision, true);
         },
         enumerable: true,
         configurable: true
@@ -5928,8 +5909,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Padding value
          */
         set: function (value) {
-            value = $type.toNumberOrPercent(value);
-            this.setPropertyValue("paddingTop", value, true);
+            this.setPercentProperty("paddingTop", value, false, true, this._positionPrecision, true);
         },
         enumerable: true,
         configurable: true
@@ -5947,8 +5927,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Padding value
          */
         set: function (value) {
-            value = $type.toNumberOrPercent(value);
-            this.setPropertyValue("paddingBottom", value, true);
+            this.setPercentProperty("paddingBottom", value, false, true, this._positionPrecision, true);
         },
         enumerable: true,
         configurable: true

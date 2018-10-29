@@ -583,11 +583,11 @@ var Container = /** @class */ (function (_super) {
         var _this = this;
         registry.removeFromInvalidLayouts(this);
         this.layoutInvalid = false;
+        // prevents from drawing if topparent is 0x0
         var topParent = this.topParent;
         if (topParent) {
             if (!topParent.maxWidth || !topParent.maxHeight) {
                 this._disposers.push(topParent.events.once("maxsizechanged", this.invalidateLayout, this));
-                //return; // not good for labels
             }
         }
         this._availableWidth = this.innerWidth;
@@ -1334,13 +1334,16 @@ var Container = /** @class */ (function (_super) {
      * @return {boolean} true if paper was changed, false, if it's the same
      */
     Container.prototype.setPaper = function (paper) {
+        var _this = this;
         var changed = _super.prototype.setPaper.call(this, paper);
         if (changed) {
             if (this._background) {
                 this._background.paper = paper;
+                this._background.topParent = this.topParent;
             }
             this.children.each(function (child) {
                 child.setPaper(paper);
+                child.topParent = _this.topParent;
             });
         }
         return changed;

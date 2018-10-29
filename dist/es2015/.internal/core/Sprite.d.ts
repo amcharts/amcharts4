@@ -489,6 +489,14 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     protected _paper: $type.Optional<Paper>;
     /**
+     * Elements's top-level [[Container]].
+     *
+     * In most cases that will be a Chart.
+     *
+     * @return {Optional<Container>} Top-level ascendant
+     */
+    protected _topParent: Optional<Container>;
+    /**
      * Data item assigned to the sprite. It might contain information defining
      * some style properties.
      *
@@ -944,13 +952,17 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @hidden
      */
     /**
-     * Elements's top-level [[Container]].
+     * Sprites's top-level [[Container]].
      *
      * In most cases that will be a Chart.
      *
      * @return {Optional<Container>} Top-level ascendant
      */
-    readonly topParent: Optional<Container>;
+    /**
+     * @ignore
+     * @param value {Container} top parent of a sprite
+     */
+    topParent: Optional<Container>;
     /**
      * @return {Optional<Container>} Parent container
      */
@@ -1745,7 +1757,8 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @return {any}                              Property value
      */
     getPropertyValue(propertyName: keyof this["_properties"]): any;
-    protected setColorProperty<Key extends keyof this["properties"]>(property: Key, value: any): boolean;
+    protected setColorProperty<Key extends keyof this["properties"]>(property: Key, value: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>, invalidate?: boolean): boolean;
+    protected setPercentProperty<Key extends keyof this["properties"]>(property: Key, value: Percent | number, invalidate?: boolean, transform?: boolean, precision?: number, floor?: boolean): boolean;
     /**
      * Sets elements's property value. Will also propagate the same property value
      * on all element's clones.

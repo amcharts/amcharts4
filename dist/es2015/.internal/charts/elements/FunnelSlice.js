@@ -148,7 +148,7 @@ var FunnelSlice = /** @class */ (function (_super) {
          * @param {number}  value  Bottom width
          */
         set: function (value) {
-            this.setPropertyValue("bottomWidth", value, true);
+            this.setPercentProperty("bottomWidth", value, true, false, 10, false);
         },
         enumerable: true,
         configurable: true
@@ -170,7 +170,7 @@ var FunnelSlice = /** @class */ (function (_super) {
          * @param {number}  value  Top width
          */
         set: function (value) {
-            this.setPropertyValue("topWidth", value, true);
+            this.setPercentProperty("topWidth", value, true, false, 10, false);
         },
         enumerable: true,
         configurable: true

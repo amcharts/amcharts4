@@ -63,7 +63,7 @@ var AxisFillCircular = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Inner radius
          */
         set: function (value) {
-            this.setPropertyValue("innerRadius", value, true);
+            this.setPercentProperty("innerRadius", value, true, false, 10, false);
         },
         enumerable: true,
         configurable: true
@@ -81,7 +81,7 @@ var AxisFillCircular = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Outer radius
          */
         set: function (value) {
-            this.setPropertyValue("radius", value, true);
+            this.setPercentProperty("radius", value, true, false, 10, false);
         },
         enumerable: true,
         configurable: true

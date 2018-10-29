@@ -118,7 +118,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Outer radius
          */
         set: function (value) {
-            if (this.setPropertyValue("radius", value)) {
+            if (this.setPercentProperty("radius", value, false, false, 10, false)) {
                 if (this.axis) {
                     this.axis.invalidate();
                 }
@@ -154,7 +154,7 @@ var AxisRendererCircular = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Inner radius
          */
         set: function (value) {
-            if (this.setPropertyValue("innerRadius", value)) {
+            if (this.setPercentProperty("innerRadius", value, false, false, 10, false)) {
                 if (this.axis) {
                     this.axis.invalidate();
                 }

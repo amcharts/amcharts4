@@ -37,6 +37,7 @@ function createChild(htmlElement, classType) {
     var htmlContainer = $dom.getElement(htmlElement);
     if (htmlContainer) {
         htmlContainer.innerHTML = "";
+        //htmlContainer.style.overflow = "hidden";
         var svgDiv = new SVGContainer(htmlContainer);
         var paper = new Paper(svgDiv.SVGContainer, "svg-" + (svgContainers.length - 1));
         // the approach with masks is chosen because overflow:visible is set on SVG element in order tooltips could go outside
@@ -47,6 +48,7 @@ function createChild(htmlElement, classType) {
         container.svgContainer = svgDiv;
         container.width = percent(100);
         container.height = percent(100);
+        container.background.fillOpacity = 0;
         container.paper = paper;
         paper.append(container.group);
         // this is set from parent container, but this one doesn't have, so do it manually.
@@ -59,7 +61,7 @@ function createChild(htmlElement, classType) {
         contentContainer.width = percent(100);
         contentContainer.height = percent(100);
         // content mask
-        contentContainer.mask = contentContainer.background;
+        contentContainer.mask = contentContainer;
         // creating classType instance
         var sprite_1 = contentContainer.createChild(classType);
         registry.invalidSprites[sprite_1.uid] = [];
@@ -70,6 +72,7 @@ function createChild(htmlElement, classType) {
         sprite_1.focusFilter = new FocusFilter();
         registry.baseSprites.push(sprite_1);
         registry.baseSpritesByUid[container.uid] = sprite_1;
+        container.events.on("maxsizechanged", sprite_1.invalidate, sprite_1, false);
         sprite_1.addDisposer(new Disposer(function () {
             $array.remove(registry.baseSprites, sprite_1);
             registry.baseSpritesByUid[sprite_1.uid] = undefined;

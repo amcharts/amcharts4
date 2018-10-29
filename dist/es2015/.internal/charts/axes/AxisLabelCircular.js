@@ -86,7 +86,7 @@ var AxisLabelCircular = /** @class */ (function (_super) {
          * @param {number} value Distance (px or percent)
          */
         set: function (value) {
-            this.setPropertyValue("radius", value, true);
+            this.setPercentProperty("radius", value, true, false, 10, false);
         },
         enumerable: true,
         configurable: true

@@ -344,7 +344,7 @@ var RadarCursor = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Outer radius
          */
         set: function (value) {
-            this.setPropertyValue("radius", value);
+            this.setPercentProperty("radius", value, false, false, 10, false);
         },
         enumerable: true,
         configurable: true
@@ -390,7 +390,7 @@ var RadarCursor = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Inner radius
          */
         set: function (value) {
-            this.setPropertyValue("innerRadius", value);
+            this.setPercentProperty("innerRadius", value, false, false, 10, false);
         },
         enumerable: true,
         configurable: true

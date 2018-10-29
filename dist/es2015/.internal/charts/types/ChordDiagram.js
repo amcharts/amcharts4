@@ -250,7 +250,7 @@ var ChordDiagram = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Outer radius
          */
         set: function (value) {
-            this.setPropertyValue("radius", value, true);
+            this.setPercentProperty("radius", value, true, false, 10, false);
         },
         enumerable: true,
         configurable: true
@@ -270,7 +270,7 @@ var ChordDiagram = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Outer radius
          */
         set: function (value) {
-            this.setPropertyValue("innerRadius", value, true);
+            this.setPercentProperty("innerRadius", value, true, false, 10, false);
         },
         enumerable: true,
         configurable: true

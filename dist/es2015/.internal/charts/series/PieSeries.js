@@ -296,7 +296,7 @@ var PieSeries = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Radius
          */
         set: function (value) {
-            if (this.setPropertyValue("radius", value, true)) {
+            if (this.setPercentProperty("radius", value, true, false, 10, false)) {
                 this.invalidateDataItems();
             }
         },
@@ -359,7 +359,7 @@ var PieSeries = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Radius
          */
         set: function (value) {
-            this.setPropertyValue("innerRadius", value, true);
+            this.setPercentProperty("innerRadius", value, true, false, 10, false);
         },
         enumerable: true,
         configurable: true

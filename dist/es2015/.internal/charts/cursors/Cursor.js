@@ -54,7 +54,6 @@ var Cursor = /** @class */ (function (_super) {
         _this._stick = "none";
         _this.className = "Cursor";
         // Set defaults
-        _this.background.fillOpacity = 0;
         _this.width = percent(100);
         _this.height = percent(100);
         _this.shouldClone = false;

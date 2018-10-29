@@ -40,8 +40,8 @@ var AxisLine = /** @class */ (function (_super) {
         _this.fill = color();
         _this.applyTheme();
         _this.interactionsEnabled = false;
-        _this.element.moveTo({ x: 0, y: 0 });
         return _this;
+        //this.element.moveTo({ x: 0, y: 0 });
     }
     return AxisLine;
 }(Sprite));

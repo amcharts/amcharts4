@@ -41,8 +41,8 @@ var Slice = /** @class */ (function (_super) {
         // Set defaults
         _this.setPropertyValue("cornerRadius", 0);
         _this.setPropertyValue("startAngle", 0);
-        _this.setPropertyValue("innerRadius", 0);
-        _this.setPropertyValue("radius", 0);
+        _this.setPercentProperty("innerRadius", 0);
+        _this.setPercentProperty("radius", 0);
         _this.setPropertyValue("arc", 0);
         _this.setPropertyValue("shiftRadius", 0);
         _this.strokeOpacity = 1;
@@ -205,7 +205,7 @@ var Slice = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Radius (px or %)
          */
         set: function (value) {
-            this.setPropertyValue("innerRadius", value, true);
+            this.setPercentProperty("innerRadius", value, true, false, 10, false);
         },
         enumerable: true,
         configurable: true

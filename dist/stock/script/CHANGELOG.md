@@ -6,6 +6,13 @@ Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
 
+## [4.0.0-beta.67] - 2018-10-29
+
+### Fixed
+- Chart `Cursor` was preventing hovers on series' elements like columns or bullets.
+- Mouse cursor's down styles (like on scrollbar) were not being reset back properly in some cases.
+
+
 ## [4.0.0-beta.66] - 2018-10-28
 
 ### Fixed
