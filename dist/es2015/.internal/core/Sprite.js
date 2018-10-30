@@ -453,7 +453,7 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.validate = function () {
         this.dispatchImmediately("beforevalidated");
-        // prevents from drawing if topparent is 0x0
+        // prevents from drawing if topparent is 0x0		
         var topParent = this.topParent;
         if (topParent) {
             if (!topParent.maxWidth || !topParent.maxHeight) {
@@ -5227,9 +5227,9 @@ var Sprite = /** @class */ (function (_super) {
     });
     Sprite.prototype.setMaxWidth = function (value) {
         if (this.setPropertyValue("maxWidth", value)) {
-            if ($type.isNumber(this.relativeWidth)) {
-                this.invalidate();
-            }
+            //if ($type.isNumber(this.relativeWidth)) {
+            this.invalidate();
+            //}
             this.dispatchImmediately("maxsizechanged");
         }
     };
@@ -5259,9 +5259,9 @@ var Sprite = /** @class */ (function (_super) {
     });
     Sprite.prototype.setMaxHeight = function (value) {
         if (this.setPropertyValue("maxHeight", value)) {
-            if ($type.isNumber(this.relativeHeight)) {
-                this.invalidate();
-            }
+            //if ($type.isNumber(this.relativeHeight)) {
+            this.invalidate();
+            //}
             this.dispatchImmediately("maxsizechanged");
         }
     };
@@ -7032,7 +7032,13 @@ var Sprite = /** @class */ (function (_super) {
         set: function (value) {
             value = $type.toText(value);
             this.hoverable = true;
-            this.setPropertyValue("tooltipHTML", value);
+            if (this.setPropertyValue("tooltipHTML", value)) {
+                if (this.tooltip) {
+                    if (this.tooltip.visible) {
+                        this.showTooltip();
+                    }
+                }
+            }
         },
         enumerable: true,
         configurable: true
@@ -7061,7 +7067,13 @@ var Sprite = /** @class */ (function (_super) {
             if (value) {
                 this.hoverable = true;
             }
-            this.setPropertyValue("tooltipText", value);
+            if (this.setPropertyValue("tooltipText", value)) {
+                if (this.tooltip) {
+                    if (this.tooltip.visible) {
+                        this.showTooltip();
+                    }
+                }
+            }
         },
         enumerable: true,
         configurable: true

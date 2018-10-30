@@ -218,12 +218,6 @@ var Component = /** @class */ (function (_super) {
         _this._addAllDataItems = true;
         _this.className = "Component";
         _this.invalidateData();
-        // Set up events
-        _this.events.on("maxsizechanged", function () {
-            if (_this.inited) {
-                _this.invalidate();
-            }
-        }, undefined, false);
         // TODO what about remove ?
         _this.dataUsers.events.on("inserted", _this.handleDataUserAdded, _this, false);
         // Set up disposers

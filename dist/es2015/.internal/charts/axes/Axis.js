@@ -555,9 +555,6 @@ var Axis = /** @class */ (function (_super) {
     Axis.prototype.validate = function () {
         _super.prototype.validate.call(this);
         this.axisFullLength = this.axisLength / (this.end - this.start);
-        if (this.axisLength <= 0) {
-            return;
-        }
         this.validateAxisRanges();
         this.validateBreaks();
     };

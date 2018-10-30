@@ -91,7 +91,6 @@ var Tooltip = /** @class */ (function (_super) {
         label.fill = color("#ffffff");
         _this._disposers.push(label);
         _this.label.events.on("sizechanged", _this.drawBackground, _this);
-        _this.label.events.on("positionchanged", _this.drawBackground, _this);
         _this.label.zIndex = 1; // @todo remove this line when bg sorting is solved
         // Set defaults
         _this.pointerOrientation = "vertical";
@@ -358,6 +357,7 @@ var Tooltip = /** @class */ (function (_super) {
         textY = $math.fitToRange(textY, boundingRect.y - y, boundingRect.y + boundingRect.height - textH - y);
         label.x = textX;
         label.y = textY;
+        this.drawBackground();
     };
     /**
      * Overrides functionality from the superclass.

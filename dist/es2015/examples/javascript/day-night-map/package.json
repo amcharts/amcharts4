@@ -3,8 +3,8 @@
   "name": "amcharts4-example-day-night-map",
   "version": "0.1.0",
   "devDependencies": {
-    "@amcharts/amcharts4": "^4.0.0-beta.67",
-    "@amcharts/amcharts4-geodata": "^4.0.14",
+    "@amcharts/amcharts4": "^4.0.0-beta.68",
+    "@amcharts/amcharts4-geodata": "^4.0.15",
     "webpack": "^4.23.1",
     "webpack-cli": "^3.1.2",
     "source-map-loader": "^0.2.4"

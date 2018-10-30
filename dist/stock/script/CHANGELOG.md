@@ -6,6 +6,15 @@ Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
 
+## [4.0.0-beta.68] - 2018-10-30
+
+### Changed
+- `tooltip.defaultState.transitionDuration` and `tooltip.hiddenState.transitionDuration` default values of animated theme set to `400`.
+
+### Fixed
+- Chart was not being drawn properly when instantiated in a hiden container.
+
+
 ## [4.0.0-beta.67] - 2018-10-29
 
 ### Fixed

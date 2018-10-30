@@ -756,24 +756,26 @@ export function svgPointToSprite(point, sprite) {
     var x = point.x;
     var y = point.y;
     var sprites = [];
-    while ($type.hasValue(sprite.parent)) {
-        sprites.push(sprite);
-        sprite = sprite.parent;
-    }
-    sprites.reverse();
-    for (var i = 0; i < sprites.length; i++) {
-        var sprite_1 = sprites[i];
-        var angle = sprite_1.rotation;
-        var relativeX = x - sprite_1.pixelX;
-        var relativeY = y - sprite_1.pixelY;
-        if (sprite_1.dx) {
-            x -= sprite_1.dx;
+    if (sprite) {
+        while ($type.hasValue(sprite.parent)) {
+            sprites.push(sprite);
+            sprite = sprite.parent;
         }
-        if (sprite_1.dy) {
-            y -= sprite_1.dy;
+        sprites.reverse();
+        for (var i = 0; i < sprites.length; i++) {
+            var sprite_1 = sprites[i];
+            var angle = sprite_1.rotation;
+            var relativeX = x - sprite_1.pixelX;
+            var relativeY = y - sprite_1.pixelY;
+            if (sprite_1.dx) {
+                x -= sprite_1.dx;
+            }
+            if (sprite_1.dy) {
+                y -= sprite_1.dy;
+            }
+            x = ($math.cos(-angle) * relativeX - $math.sin(-angle) * relativeY) / sprite_1.scale - sprite_1.pixelPaddingLeft;
+            y = ($math.cos(-angle) * relativeY + $math.sin(-angle) * relativeX) / sprite_1.scale - sprite_1.pixelPaddingTop;
         }
-        x = ($math.cos(-angle) * relativeX - $math.sin(-angle) * relativeY) / sprite_1.scale - sprite_1.pixelPaddingLeft;
-        y = ($math.cos(-angle) * relativeY + $math.sin(-angle) * relativeX) / sprite_1.scale - sprite_1.pixelPaddingTop;
     }
     return { x: x, y: y };
 }
@@ -788,21 +790,23 @@ export function svgPointToSprite(point, sprite) {
 export function spritePointToSvg(point, sprite) {
     var x = point.x;
     var y = point.y;
-    while ($type.hasValue(sprite.parent)) {
-        var angle = sprite.rotation;
-        x += sprite.pixelPaddingLeft;
-        y += sprite.pixelPaddingTop;
-        if (sprite.dx) {
-            x += sprite.dx;
+    if (sprite) {
+        while ($type.hasValue(sprite.parent)) {
+            var angle = sprite.rotation;
+            x += sprite.pixelPaddingLeft;
+            y += sprite.pixelPaddingTop;
+            if (sprite.dx) {
+                x += sprite.dx;
+            }
+            if (sprite.dy) {
+                y += sprite.dy;
+            }
+            var relativeX = sprite.pixelX + ((x * $math.cos(angle) - y * $math.sin(angle))) * sprite.scale;
+            var relativeY = sprite.pixelY + ((x * $math.sin(angle) + y * $math.cos(angle))) * sprite.scale;
+            x = relativeX;
+            y = relativeY;
+            sprite = sprite.parent;
         }
-        if (sprite.dy) {
-            y += sprite.dy;
-        }
-        var relativeX = sprite.pixelX + ((x * $math.cos(angle) - y * $math.sin(angle))) * sprite.scale;
-        var relativeY = sprite.pixelY + ((x * $math.sin(angle) + y * $math.cos(angle))) * sprite.scale;
-        x = relativeX;
-        y = relativeY;
-        sprite = sprite.parent;
     }
     return { x: x, y: y };
 }
@@ -879,8 +883,13 @@ export function svgPointToDocument(point, svgContainer) {
  * @return {IPoint}          Sprite coordinates
  */
 export function documentPointToSprite(point, sprite) {
-    var svgPoint = documentPointToSvg(point, $type.getValue(sprite.htmlContainer));
-    return svgPointToSprite(svgPoint, sprite);
+    if (sprite) {
+        var svgPoint = documentPointToSvg(point, $type.getValue(sprite.htmlContainer));
+        return svgPointToSprite(svgPoint, sprite);
+    }
+    else {
+        return point;
+    }
 }
 /**
  * Converts coordinates within [[Sprite]] to global document coordinates.
@@ -890,8 +899,13 @@ export function documentPointToSprite(point, sprite) {
  * @return {IPoint}          Global coordinates
  */
 export function spritePointToDocument(point, sprite) {
-    var svgPoint = spritePointToSvg(point, sprite);
-    return svgPointToDocument(svgPoint, $type.getValue(sprite.htmlContainer));
+    if (sprite) {
+        var svgPoint = spritePointToSvg(point, sprite);
+        return svgPointToDocument(svgPoint, $type.getValue(sprite.htmlContainer));
+    }
+    else {
+        return point;
+    }
 }
 /**
  * ============================================================================

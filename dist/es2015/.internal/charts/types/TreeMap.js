@@ -370,11 +370,6 @@ var TreeMap = /** @class */ (function (_super) {
         yRenderer.line.disabled = true;
         yRenderer.baseGrid.disabled = true;
         yRenderer.inversed = true;
-        _this.events.on("maxsizechanged", function () {
-            if (_this.inited) {
-                _this.invalidateLayout();
-            }
-        }, undefined, false);
         // shortcuts
         _this.xAxis = xAxis;
         _this.yAxis = yAxis;

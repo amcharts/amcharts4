@@ -53,7 +53,6 @@ var HeatLegend = /** @class */ (function (_super) {
         _this.markers = new ListTemplate(marker);
         _this._disposers.push(new ListDisposer(_this.markers));
         _this._disposers.push(_this.markers.template);
-        _this.events.on("maxsizechanged", _this.invalidate, _this, false);
         _this.applyTheme();
         return _this;
     }

@@ -347,14 +347,6 @@ export declare class Container extends Sprite {
      */
     minHeight: Optional<number>;
     /**
-     * @ignore
-     */
-    protected setMaxWidth(value: number): void;
-    /**
-     * @ignore
-     */
-    protected setMaxHeight(value: number): void;
-    /**
      * Overrides the original `removeElement` so that Container's actual element
      * is not removed. We do not need to remove element of a Container.
      *

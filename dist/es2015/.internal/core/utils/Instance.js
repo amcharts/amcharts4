@@ -60,6 +60,7 @@ function createChild(htmlElement, classType) {
         var contentContainer = container.createChild(Container);
         contentContainer.width = percent(100);
         contentContainer.height = percent(100);
+        contentContainer.topParent = container;
         // content mask
         contentContainer.mask = contentContainer;
         // creating classType instance
@@ -81,6 +82,7 @@ function createChild(htmlElement, classType) {
         sprite_1.addDisposer(container);
         // tooltip container
         var tooltipContainer_1 = container.createChild(Container);
+        tooltipContainer_1.topParent = container;
         tooltipContainer_1.width = percent(100);
         tooltipContainer_1.height = percent(100);
         tooltipContainer_1.isMeasured = false;

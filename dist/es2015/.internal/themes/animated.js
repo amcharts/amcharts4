@@ -34,6 +34,8 @@ var theme = function (object) {
     }
     if (object instanceof Tooltip) {
         object.animationDuration = 400;
+        object.defaultState.transitionDuration = 400;
+        object.hiddenState.transitionDuration = 400;
     }
     if (object instanceof Scrollbar) {
         object.animationDuration = 800;

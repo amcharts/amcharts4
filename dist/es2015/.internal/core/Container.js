@@ -280,28 +280,6 @@ var Container = /** @class */ (function (_super) {
         configurable: true
     });
     /**
-     * @ignore
-     */
-    Container.prototype.setMaxWidth = function (value) {
-        if (this.setPropertyValue("maxWidth", value)) {
-            if ($type.isNumber(this.relativeWidth)) {
-                this.invalidateLayout();
-            }
-            this.dispatchImmediately("maxsizechanged"); // not good to dispatch it later, causes flicker (pie chart)
-        }
-    };
-    /**
-     * @ignore
-     */
-    Container.prototype.setMaxHeight = function (value) {
-        if (this.setPropertyValue("maxHeight", value)) {
-            if ($type.isNumber(this.relativeHeight)) {
-                this.invalidateLayout();
-            }
-            this.dispatchImmediately("maxsizechanged"); // not good to dispatch it later, causes flicker (pie chart)
-        }
-    };
-    /**
      * Overrides the original `removeElement` so that Container's actual element
      * is not removed. We do not need to remove element of a Container.
      *
