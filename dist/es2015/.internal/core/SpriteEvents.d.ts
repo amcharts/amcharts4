@@ -139,7 +139,10 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
      * Invoked when maximum available size of the Sprite changes, i.e. when the
      * size of parent container changes.
      */
-    maxsizechanged: {};
+    maxsizechanged: {
+        previousWidth: number;
+        previousHeight: number;
+    };
     /**
      * @todo Description
      */

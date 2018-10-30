@@ -102,6 +102,17 @@ var Label = /** @class */ (function (_super) {
         return _this;
     }
     /**
+     * A placeholder method that is called **after** element finishes drawing
+     * itself.
+     *
+     * @ignore Exclude from docs
+     */
+    Label.prototype.afterDraw = function () {
+        // since we removed validatePosition from sprite, we still need it here to handle rotated text
+        _super.prototype.afterDraw.call(this);
+        this.validatePosition();
+    };
+    /**
      * Sets [[Paper]] instance to use to draw elements.
      * @ignore
      * @param {Paper} paper Paper
@@ -537,9 +548,15 @@ var Label = /** @class */ (function (_super) {
                 this.addLineInfo(lineInfo, i);
             }
             // Check if maybe we need to hide the whole label if it doesn't fit
-            if (this.hideOversized && ((this.availableWidth < this.bbox.width) || (this.availableHeight < this.bbox.height))) {
-                this.element.attr({ display: "none" });
-                this.isOversized = true;
+            if (this.hideOversized) {
+                if ((this.availableWidth < this.bbox.width) || (this.availableHeight < this.bbox.height)) {
+                    this.element.attr({ display: "none" });
+                    this.isOversized = true;
+                }
+                else {
+                    this.element.removeAttr("display");
+                    this.isOversized = false;
+                }
             }
             this._measuredWidth = $math.max(this.bbox.width, this.pixelWidth - this.pixelPaddingLeft - this.pixelPaddingRight);
             this._measuredHeight = $math.max(this.bbox.height, this.pixelHeight - this.pixelPaddingTop - this.pixelPaddingBottom);

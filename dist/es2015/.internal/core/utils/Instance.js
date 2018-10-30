@@ -43,46 +43,52 @@ function createChild(htmlElement, classType) {
         // the approach with masks is chosen because overflow:visible is set on SVG element in order tooltips could go outside
         // svg area - this is often needed when working with small charts.
         // main container which holds content container and tooltips container
-        var container = new Container();
-        container.htmlContainer = htmlContainer;
-        container.svgContainer = svgDiv;
-        container.width = percent(100);
-        container.height = percent(100);
-        container.background.fillOpacity = 0;
-        container.paper = paper;
-        paper.append(container.group);
+        var container_1 = new Container();
+        container_1.htmlContainer = htmlContainer;
+        container_1.svgContainer = svgDiv;
+        container_1.width = percent(100);
+        container_1.height = percent(100);
+        container_1.background.fillOpacity = 0;
+        container_1.paper = paper;
+        paper.append(container_1.group);
         // this is set from parent container, but this one doesn't have, so do it manually.
-        container.relativeWidth = 1;
-        container.relativeHeight = 1;
-        svgDiv.container = container;
+        container_1.relativeWidth = 1;
+        container_1.relativeHeight = 1;
+        svgDiv.container = container_1;
         // content container
         // setting mask directly on classType object would result mask to shift together with object transformations
-        var contentContainer = container.createChild(Container);
+        var contentContainer = container_1.createChild(Container);
         contentContainer.width = percent(100);
         contentContainer.height = percent(100);
-        contentContainer.topParent = container;
+        contentContainer.topParent = container_1;
         // content mask
         contentContainer.mask = contentContainer;
         // creating classType instance
         var sprite_1 = contentContainer.createChild(classType);
-        registry.invalidSprites[sprite_1.uid] = [];
-        registry.invalidPositions[sprite_1.uid] = [];
-        registry.invalidLayouts[sprite_1.uid] = [];
-        container.baseId = sprite_1.uid;
+        var uid = sprite_1.uid;
+        registry.invalidSprites[uid] = [];
+        registry.invalidPositions[uid] = [];
+        registry.invalidLayouts[uid] = [];
+        container_1.baseId = uid;
         sprite_1.isBaseSprite = true;
         sprite_1.focusFilter = new FocusFilter();
         registry.baseSprites.push(sprite_1);
-        registry.baseSpritesByUid[container.uid] = sprite_1;
-        container.events.on("maxsizechanged", sprite_1.invalidate, sprite_1, false);
+        registry.baseSpritesByUid[uid] = sprite_1;
+        // this solves issues with display:none, as all children are measured as 0x0
+        container_1.events.on("maxsizechanged", function (event) {
+            if (event.previousWidth == 0 || event.previousHeight == 0) {
+                container_1.deepInvalidate();
+            }
+        });
         sprite_1.addDisposer(new Disposer(function () {
             $array.remove(registry.baseSprites, sprite_1);
             registry.baseSpritesByUid[sprite_1.uid] = undefined;
         }));
         // TODO figure out a better way of doing this
-        sprite_1.addDisposer(container);
+        sprite_1.addDisposer(container_1);
         // tooltip container
-        var tooltipContainer_1 = container.createChild(Container);
-        tooltipContainer_1.topParent = container;
+        var tooltipContainer_1 = container_1.createChild(Container);
+        tooltipContainer_1.topParent = container_1;
         tooltipContainer_1.width = percent(100);
         tooltipContainer_1.height = percent(100);
         tooltipContainer_1.isMeasured = false;

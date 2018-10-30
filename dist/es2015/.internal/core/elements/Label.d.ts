@@ -232,6 +232,13 @@ export declare class Label extends Container {
      */
     constructor();
     /**
+     * A placeholder method that is called **after** element finishes drawing
+     * itself.
+     *
+     * @ignore Exclude from docs
+     */
+    protected afterDraw(): void;
+    /**
      * Sets [[Paper]] instance to use to draw elements.
      * @ignore
      * @param {Paper} paper Paper

@@ -62,7 +62,7 @@ chart.dataFields.color = "color";
 chart.orientation = "vertical";
 chart.sortBy = "none";
 
-chart.nodes.template.togglable = false;
+chart.nodes.template.clickable = false;
 
 let linkTemplate = chart.links.template;
 linkTemplate.colorMode = "gradient";

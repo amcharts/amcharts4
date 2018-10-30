@@ -196,7 +196,8 @@ var PyramidSeries = /** @class */ (function (_super) {
             if (this.valueIs == "area") {
                 var totalSquare = (topWidth + bottomWidth) / 2 * pyramidHeight;
                 var square = totalSquare * workingValue / sum;
-                sliceHeight = (sliceTopWidth - Math.sqrt(sliceTopWidth * sliceTopWidth - 2 * square * c)) / c;
+                var s = Math.abs(sliceTopWidth * sliceTopWidth - 2 * square * c);
+                sliceHeight = (sliceTopWidth - Math.sqrt(s)) / c;
                 sliceBottomWidth = (2 * square - sliceHeight * sliceTopWidth) / sliceHeight;
             }
             else {
@@ -211,8 +212,9 @@ var PyramidSeries = /** @class */ (function (_super) {
             sliceLink.topWidth = slice.bottomWidth;
             sliceLink.bottomWidth = slice.bottomWidth;
             slice.y = this._nextY;
+            //slice.x = maxWidth / 2;			
             if (!this.alignLabels) {
-                label.x = slice.x;
+                label.x = maxWidth / 2;
             }
             else {
                 label.x = 0;
@@ -254,7 +256,7 @@ var PyramidSeries = /** @class */ (function (_super) {
             sliceLink.bottomWidth = slice.bottomWidth;
             slice.x = this._nextY;
             if (!this.alignLabels) {
-                label.y = slice.y;
+                label.y = maxHeight / 2;
             }
             else {
                 label.y = this.labelsContainer.measuredHeight;

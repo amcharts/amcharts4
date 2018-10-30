@@ -76,6 +76,7 @@ let bullet1 = series1.bullets.push(new am4charts.LabelBullet());
 bullet1.label.text = "{valueY.totalPercent.formatNumber('#.00')}%";
 bullet1.locationY = 0.5;
 bullet1.label.fill = am4core.color("#ffffff");
+bullet1.interactionsEnabled = false;
 
 let series2 = chart.series.push(series1.clone());
 series2.name = "Series 2";

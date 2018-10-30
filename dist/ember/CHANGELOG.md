@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.69] - 2018-10-30
+
+### Fixed
+- Some charts were not properly displayed if initialized in a hidden (`display: none`) container, then revealed (`display: block`).
+- Last slice of the `PyramidSeries` was not visible for certain widths.
+- Adding `Legend` to a chart that had series with bullets using heatrules was causing an error.
+- Label rotation was being ignored on `SlicedChart`.
+- Labels of `PyramidSeries` were not centered (when `alignLabels = false`).
+- Animation of labels for horizontal `PictorialSeries` was very jumpy.
+- `position` and `rotation` of labels in `PyramidSeries` was not working properly.
+- An error was occurring if chart's with a category axis data was updated and it contained less data points than before.
+
 
 ## [4.0.0-beta.68] - 2018-10-30
 

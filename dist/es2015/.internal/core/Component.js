@@ -1138,6 +1138,7 @@ var Component = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._startIndex = $math.fitToRange(Math.round(value), 0, this.dataItems.length);
+            this._workingStartIndex = this._startIndex;
             this.start = this.indexToPosition(this._startIndex);
         },
         enumerable: true,
@@ -1172,6 +1173,7 @@ var Component = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._endIndex = $math.fitToRange(Math.round(value), 0, this.dataItems.length);
+            this._workingEndIndex = this._endIndex;
             this.end = this.indexToPosition(this._endIndex);
         },
         enumerable: true,

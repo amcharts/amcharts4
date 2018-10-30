@@ -356,6 +356,7 @@ var Series = /** @class */ (function (_super) {
         var first = {};
         //let duration: number = 0; // todo: check if series uses selection.change or selection.change.percent and set duration to interpolationduration
         var startIndex = $math.max(0, this._workingStartIndex);
+        startIndex = $math.min(startIndex, this.dataItems.length);
         var endIndex = $math.min(this._workingEndIndex, this.dataItems.length);
         if (!$type.isNumber(startIndex)) {
             startIndex = 0;
@@ -1005,14 +1006,17 @@ var Series = /** @class */ (function (_super) {
                                 maxValue = seriesDataItem_1.values[dataField_1].high;
                             }
                             if (dataItem) {
-                                var workingValue = dataItem.values[dataField_1].workingValue;
-                                if ($type.hasValue(min_1) && $type.hasValue(max_1) && $type.isNumber(minValue) && $type.isNumber(maxValue) && $type.isNumber(workingValue)) {
-                                    var percent = (workingValue - minValue) / (maxValue - minValue);
-                                    if ($type.isNumber(min_1)) {
-                                        return min_1 + (max_1 - min_1) * percent;
-                                    }
-                                    else if (min_1 instanceof Color) {
-                                        return new Color($colors.interpolate(min_1.rgb, max_1.rgb, percent));
+                                var fieldValues = dataItem.values[dataField_1];
+                                if (fieldValues) {
+                                    var workingValue = fieldValues.workingValue;
+                                    if ($type.hasValue(min_1) && $type.hasValue(max_1) && $type.isNumber(minValue) && $type.isNumber(maxValue) && $type.isNumber(workingValue)) {
+                                        var percent = (workingValue - minValue) / (maxValue - minValue);
+                                        if ($type.isNumber(min_1)) {
+                                            return min_1 + (max_1 - min_1) * percent;
+                                        }
+                                        else if (min_1 instanceof Color) {
+                                            return new Color($colors.interpolate(min_1.rgb, max_1.rgb, percent));
+                                        }
                                     }
                                 }
                             }

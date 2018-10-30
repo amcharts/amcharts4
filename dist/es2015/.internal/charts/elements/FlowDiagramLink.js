@@ -72,6 +72,8 @@ var FlowDiagramLink = /** @class */ (function (_super) {
         var _this = this;
         $iter.each(this.bullets.iterator(), function (bullet) {
             bullet.parent = _this.bulletsContainer;
+            bullet.maxWidth = _this.maxWidth;
+            bullet.maxHeight = _this.maxHeight;
             _this.positionBullet(bullet);
         });
     };

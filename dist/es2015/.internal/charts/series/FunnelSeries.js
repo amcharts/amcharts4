@@ -192,11 +192,9 @@ var FunnelSeries = /** @class */ (function (_super) {
             labelTemplate.horizontalCenter = "left";
             if (this.orientation == "horizontal") {
                 this.layout = "vertical";
-                labelTemplate.rotation = -90;
             }
             else {
                 this.layout = "horizontal";
-                labelTemplate.rotation = 0;
             }
         }
         else {
@@ -205,12 +203,6 @@ var FunnelSeries = /** @class */ (function (_super) {
             labelsContainer.isMeasured = true;
             this.ticks.template.disabled = true;
             labelTemplate.horizontalCenter = "middle";
-            if (this.orientation == "horizontal") {
-                labelTemplate.rotation = -90;
-            }
-            else {
-                labelTemplate.rotation = 0;
-            }
         }
         var total = 0;
         var count = 0;
@@ -361,6 +353,7 @@ var FunnelSeries = /** @class */ (function (_super) {
                                     label.y = lastY - label.measuredHeight;
                                 }
                             }
+                            // horizontal
                             else {
                                 if (label.pixelX + label.measuredWidth > lastX) {
                                     label.x = lastX - label.measuredWidth;
@@ -383,6 +376,7 @@ var FunnelSeries = /** @class */ (function (_super) {
                                     label.y = lastY;
                                 }
                             }
+                            // horizontal
                             else {
                                 if (label.pixelX < lastX) {
                                     label.x = lastX;
@@ -436,10 +430,12 @@ var FunnelSeries = /** @class */ (function (_super) {
                 if (value == "vertical") {
                     this.ticks.template.locationX = 1;
                     this.ticks.template.locationY = 0.5;
+                    this.labels.template.rotation = 0;
                 }
                 else {
                     this.ticks.template.locationX = 0.5;
                     this.ticks.template.locationY = 1;
+                    this.labels.template.rotation = -90;
                 }
             }
         },

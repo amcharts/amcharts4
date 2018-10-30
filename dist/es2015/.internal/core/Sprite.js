@@ -454,12 +454,14 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.validate = function () {
         this.dispatchImmediately("beforevalidated");
         // prevents from drawing if topparent is 0x0		
-        var topParent = this.topParent;
+        /*
+        let topParent = this.topParent;
+        
         if (topParent) {
             if (!topParent.maxWidth || !topParent.maxHeight) {
                 this._disposers.push(topParent.events.once("maxsizechanged", this.invalidate, this));
             }
-        }
+        }*/
         // Set internal defaults
         if (!this._internalDefaultsApplied) {
             this.applyInternalDefaults();
@@ -5226,11 +5228,19 @@ var Sprite = /** @class */ (function (_super) {
         configurable: true
     });
     Sprite.prototype.setMaxWidth = function (value) {
+        var prevWidth = this.maxWidth;
+        var prevHeight = this.maxHeight;
         if (this.setPropertyValue("maxWidth", value)) {
-            //if ($type.isNumber(this.relativeWidth)) {
-            this.invalidate();
-            //}
-            this.dispatchImmediately("maxsizechanged");
+            if ($type.isNumber(this.relativeWidth)) {
+                this.invalidate();
+            }
+            var event_2 = {
+                type: "maxsizechanged",
+                target: this,
+                previousWidth: prevWidth,
+                previousHeight: prevWidth
+            };
+            this.dispatchImmediately("maxsizechanged", event_2);
         }
     };
     Object.defineProperty(Sprite.prototype, "maxHeight", {
@@ -5258,11 +5268,19 @@ var Sprite = /** @class */ (function (_super) {
         configurable: true
     });
     Sprite.prototype.setMaxHeight = function (value) {
+        var prevWidth = this.maxWidth;
+        var prevHeight = this.maxHeight;
         if (this.setPropertyValue("maxHeight", value)) {
-            //if ($type.isNumber(this.relativeHeight)) {
-            this.invalidate();
-            //}
-            this.dispatchImmediately("maxsizechanged");
+            if ($type.isNumber(this.relativeHeight)) {
+                this.invalidate();
+            }
+            var event_3 = {
+                type: "maxsizechanged",
+                target: this,
+                previousWidth: prevWidth,
+                previousHeight: prevWidth
+            };
+            this.dispatchImmediately("maxsizechanged", event_3);
         }
     };
     Object.defineProperty(Sprite.prototype, "minWidth", {
@@ -6691,12 +6709,12 @@ var Sprite = /** @class */ (function (_super) {
             }
             //this.invalidatePosition();
             if (this.events.isEnabled("visibilitychanged")) {
-                var event_2 = {
+                var event_4 = {
                     type: "visibilitychanged",
                     target: this,
                     visible: value
                 };
-                this.events.dispatchImmediately("visibilitychanged", event_2);
+                this.events.dispatchImmediately("visibilitychanged", event_4);
             }
         }
     };

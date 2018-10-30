@@ -562,12 +562,13 @@ var Container = /** @class */ (function (_super) {
         registry.removeFromInvalidLayouts(this);
         this.layoutInvalid = false;
         // prevents from drawing if topparent is 0x0
-        var topParent = this.topParent;
+        /*
+        let topParent = this.topParent;
         if (topParent) {
             if (!topParent.maxWidth || !topParent.maxHeight) {
                 this._disposers.push(topParent.events.once("maxsizechanged", this.invalidateLayout, this));
             }
-        }
+        }*/
         this._availableWidth = this.innerWidth;
         this._availableHeight = this.innerHeight;
         var measuredWidth = 0;
