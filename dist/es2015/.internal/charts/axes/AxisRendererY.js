@@ -198,10 +198,11 @@ var AxisRendererY = /** @class */ (function (_super) {
         var point = this.positionToPoint(position);
         var tickLength = tick.length;
         if (!this.opposite) {
-            point.x = this.measuredWidth;
+            point.x = this.measuredWidth - this.pixelX;
             tickLength *= (tick.inside ? 1 : -1);
         }
         else {
+            point.x = -this.pixelX;
             tickLength *= (tick.inside ? -1 : 1);
         }
         tick.path = $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: tickLength, y: 0 });

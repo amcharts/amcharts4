@@ -1057,7 +1057,10 @@ var XYSeries = /** @class */ (function (_super) {
             if (_this.sequencedInterpolation) {
                 delay = _this.sequencedInterpolationDelay * i + interpolationDuration * (i - startIndex) / (endIndex - startIndex);
             }
-            animation = dataItem.show(interpolationDuration, delay, fields);
+            var anim = dataItem.show(interpolationDuration, delay, fields);
+            if (anim && !anim.isFinished()) {
+                animation = anim;
+            }
         });
         return animation;
     };

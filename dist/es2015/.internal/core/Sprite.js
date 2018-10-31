@@ -5695,7 +5695,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Margin value
          */
         set: function (value) {
-            this.setPercentProperty("marginLeft", value, false, true, this._positionPrecision, true);
+            this.setPercentProperty("marginLeft", value, true, true, this._positionPrecision, true);
         },
         enumerable: true,
         configurable: true
@@ -5713,7 +5713,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Margin value
          */
         set: function (value) {
-            this.setPercentProperty("marginRight", value, false, true, this._positionPrecision, true);
+            this.setPercentProperty("marginRight", value, true, true, this._positionPrecision, true);
         },
         enumerable: true,
         configurable: true
@@ -5731,7 +5731,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Margin value
          */
         set: function (value) {
-            this.setPercentProperty("marginTop", value, false, true, this._positionPrecision, true);
+            this.setPercentProperty("marginTop", value, true, true, this._positionPrecision, true);
         },
         enumerable: true,
         configurable: true
@@ -5749,7 +5749,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Margin value
          */
         set: function (value) {
-            this.setPercentProperty("marginBottom", value, false, true, this._positionPrecision, true);
+            this.setPercentProperty("marginBottom", value, true, true, this._positionPrecision, true);
         },
         enumerable: true,
         configurable: true
@@ -5891,7 +5891,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Padding value
          */
         set: function (value) {
-            this.setPercentProperty("paddingLeft", value, false, true, this._positionPrecision, true);
+            this.setPercentProperty("paddingLeft", value, true, true, this._positionPrecision, true);
         },
         enumerable: true,
         configurable: true
@@ -5909,7 +5909,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Padding value
          */
         set: function (value) {
-            this.setPercentProperty("paddingRight", value, false, true, this._positionPrecision, true);
+            this.setPercentProperty("paddingRight", value, true, true, this._positionPrecision, true);
         },
         enumerable: true,
         configurable: true
@@ -5927,7 +5927,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Padding value
          */
         set: function (value) {
-            this.setPercentProperty("paddingTop", value, false, true, this._positionPrecision, true);
+            this.setPercentProperty("paddingTop", value, true, true, this._positionPrecision, true);
         },
         enumerable: true,
         configurable: true
@@ -5945,7 +5945,7 @@ var Sprite = /** @class */ (function (_super) {
          * @param {number | Percent}  value  Padding value
          */
         set: function (value) {
-            this.setPercentProperty("paddingBottom", value, false, true, this._positionPrecision, true);
+            this.setPercentProperty("paddingBottom", value, true, true, this._positionPrecision, true);
         },
         enumerable: true,
         configurable: true

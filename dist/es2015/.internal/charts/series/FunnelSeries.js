@@ -198,6 +198,7 @@ var FunnelSeries = /** @class */ (function (_super) {
             }
         }
         else {
+            this.layout = "absolute";
             labelTemplate.interactionsEnabled = false;
             slicesContainer.isMeasured = false;
             labelsContainer.isMeasured = true;

@@ -1026,7 +1026,6 @@ var Interaction = /** @class */ (function (_super) {
             return;
         }
         // Remove any delayed outs
-        //console.log("Running processDelayed fom handleOver")
         this.processDelayed();
         //this.log("[HANDLER] OVER", ev, io);
         // Add pointer
@@ -1078,7 +1077,6 @@ var Interaction = /** @class */ (function (_super) {
         io.overPointers.removeValue(pointer);
         // Check if element is still hovered
         if (io.isHover && (!io.hasDelayedOut || force)) {
-            //this.log("[HANDLER] OUT inside isHover", ev, io);
             // Should we run additional checks?
             if (soft && io.overPointers.length) {
                 //this.log("[HANDLER] failed soft test " + io.overPointers.length, ev, io);
@@ -1088,7 +1086,8 @@ var Interaction = /** @class */ (function (_super) {
                 return;
             }
             // Should we delay "out" if this is happening on a touch device?
-            if (pointer.touch && !force) {
+            if (pointer.touch && !force && !this.old(pointer)) {
+                //this.log("[HANDLER] OUT delaying", ev, io);
                 // This is a touch pointer, and it hasn't moved, let's pretend
                 // the object is still hovered, and act as per "behavior" setting
                 var behavior = this.getHoverOption(io, "touchOutBehavior");
@@ -1123,6 +1122,7 @@ var Interaction = /** @class */ (function (_super) {
                     // Nothing for "remove" - that's how it works "out-of-the-box"
                 }
             }
+            //this.log("[HANDLER] OUT unhovering", ev, io);
             // Set element as not hovered
             io.isHover = false;
             this.overObjects.removeValue(io);
@@ -1148,7 +1148,6 @@ var Interaction = /** @class */ (function (_super) {
      */
     Interaction.prototype.processDelayed = function () {
         var delayedEvent;
-        //console.log("Processing delayed", this._delayedEvents.out.length)
         while (delayedEvent = this._delayedEvents.out.pop()) {
             if (delayedEvent.timeout) {
                 delayedEvent.timeout.dispose();
@@ -1307,6 +1306,7 @@ var Interaction = /** @class */ (function (_super) {
      */
     Interaction.prototype.maybePreventDefault = function (io, ev) {
         if ($type.hasValue(ev) && (io.draggable || io.swipeable || io.trackable || io.resizable) && !this.isGlobalElement(io)) {
+            //this.log("[PREVENT]", ev);
             ev.preventDefault();
         }
     };
@@ -2363,6 +2363,19 @@ var Interaction = /** @class */ (function (_super) {
         return (Math.abs(shift.x) > tolerance) || (Math.abs(shift.y) > tolerance);
     };
     /**
+     * Returns if pointer is "old", meaning it has been pressing for more than
+     * X milliseconds.
+     *
+     * @ignore
+     * @param  {IPointer}  pointer  Pointer
+     * @param  {number}    minTime  Minimum time to consider pointer old
+     * @return {boolean}
+     */
+    Interaction.prototype.old = function (pointer, minTime) {
+        if (minTime === void 0) { minTime = 300; }
+        return $time.getTime() - pointer.startTime > minTime;
+    };
+    /**
      * Returns total a shift in pointers coordinates between its original
      * position and now.
      *
@@ -2513,8 +2526,6 @@ var Interaction = /** @class */ (function (_super) {
             }
             else {
                 type = "???";
-                console.log(JSON.stringify(ev));
-                //console.log("[RAW]", ev);
             }
             // Get ID
             var id = "";
@@ -2525,7 +2536,6 @@ var Interaction = /** @class */ (function (_super) {
                 id = ev.pointerId;
             }
             else {
-                console.log("[RAW]", ev);
                 id = "???";
             }
             if (io) {

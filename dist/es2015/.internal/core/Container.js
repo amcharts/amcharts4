@@ -740,6 +740,7 @@ var Container = /** @class */ (function (_super) {
                 columnCount = maxWidth / minCellWidth; // predicted number of columns, yes it is usually much more than real number, but we fix that later
             }
             columnCount = $math.max(1, Math.floor(columnCount));
+            columnCount = $math.min(this.maxColumns, columnCount);
             columnWidth = this.getColumnWidth(columnCount, maxCellWidth);
         }
         var contentLeft;
@@ -1232,6 +1233,24 @@ var Container = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("fixedWidthGrid", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Container.prototype, "maxColumns", {
+        /**
+         * @return {Optional<number>} Should use fixed width grid?
+         */
+        get: function () {
+            return this.getPropertyValue("maxColumns");
+        },
+        /**
+         * Maximum number of columns (when using grid layout).
+         *
+         * @param {Optional<number>}  value  Should use fixed width grid?
+         */
+        set: function (value) {
+            this.setPropertyValue("maxColumns", value, true);
         },
         enumerable: true,
         configurable: true

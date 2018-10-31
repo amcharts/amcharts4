@@ -436,12 +436,16 @@ var Component = /** @class */ (function (_super) {
      * @param {Object | Object[]} rawDataItem One or many raw data item objects
      */
     Component.prototype.addData = function (rawDataItem, removeCount) {
+        var _this = this;
         // need to check if data is invalid, as addData might be called multiple times
         if (!this.dataInvalid) {
             this._parseDataFrom = this.data.length; // save length of parsed data
         }
         if (rawDataItem instanceof Array) {
-            this.data = this.data.concat(rawDataItem);
+            // can't use concat because new array is returned
+            $array.each(rawDataItem, function (dataItem) {
+                _this.data.push(dataItem);
+            });
         }
         else {
             this.data.push(rawDataItem); // add to raw data array

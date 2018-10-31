@@ -114,6 +114,12 @@ export interface IContainerProperties extends ISpriteProperties {
      * @type {boolean}
      */
     fixedWidthGrid?: boolean;
+    /**
+     *
+     * @ignore Exclude from docs
+     * @type {boolean}
+     */
+    maxColumns?: boolean;
 }
 /**
  * Defines events for the [[Container]]
@@ -295,7 +301,7 @@ export declare class Container extends Sprite {
      * @ignore Exclude from docs
      * @param {AMEvent<Sprite, ISpriteEvents>["transformed"]} event Event object
      */
-    handleChildTransform(event: AMEvent<Sprite, ISpriteEvents>["transformed"]): void;
+    handleChildTransform(event: AMEvent<Sprite, ISpriteEvents>["transformed"] | AMEvent<Sprite, ISpriteEvents>["sizechanged"]): void;
     /**
      * Invalidates Container's layout, causing it to be re-evaluated again.
      *
@@ -513,6 +519,15 @@ export declare class Container extends Sprite {
      * @param {boolean}  value  Should use fixed width grid?
      */
     fixedWidthGrid: boolean;
+    /**
+     * @return {Optional<number>} Should use fixed width grid?
+     */
+    /**
+     * Maximum number of columns (when using grid layout).
+     *
+     * @param {Optional<number>}  value  Should use fixed width grid?
+     */
+    maxColumns: Optional<number>;
     /**
      * Checks if point is within bounds of a container.
      *

@@ -55,6 +55,7 @@ var InteractionKeyboardObject = /** @class */ (function () {
         this._startedOn = new Date().getTime();
         getInteraction().processDragStart(io);
         animations.push(this);
+        this.update();
     }
     /**
      * It's an update method which is called by the system if

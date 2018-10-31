@@ -974,6 +974,16 @@ export declare class Interaction extends BaseObjectEvents {
      */
     moved(pointer: IPointer, tolerance: number, minTime?: number): boolean;
     /**
+     * Returns if pointer is "old", meaning it has been pressing for more than
+     * X milliseconds.
+     *
+     * @ignore
+     * @param  {IPointer}  pointer  Pointer
+     * @param  {number}    minTime  Minimum time to consider pointer old
+     * @return {boolean}
+     */
+    old(pointer: IPointer, minTime?: number): boolean;
+    /**
      * Returns total a shift in pointers coordinates between its original
      * position and now.
      *

@@ -209,6 +209,7 @@ var Legend = /** @class */ (function (_super) {
         _this.setPropertyValue("contentAlign", "center");
         // Create a template container and list for legend items
         var itemContainer = new Container();
+        itemContainer.applyOnClones = true;
         itemContainer.padding(10, 0, 10, 0);
         itemContainer.margin(0, 10, 0, 0);
         itemContainer.layout = "horizontal";
@@ -247,6 +248,7 @@ var Legend = /** @class */ (function (_super) {
         marker.width = 23;
         marker.height = 23;
         marker.interactionsEnabled = false;
+        marker.applyOnClones = true;
         marker.setStateOnChildren = true;
         marker.background.fillOpacity = 0;
         marker.background.strokeOpacity = 0;
@@ -266,6 +268,7 @@ var Legend = /** @class */ (function (_super) {
         var rectangle = marker.createChild(RoundedRectangle);
         rectangle.width = percent(100);
         rectangle.height = percent(100);
+        rectangle.applyOnClones = true;
         rectangle.propertyFields.fill = "fill";
         rectangle.strokeOpacity = 0;
         // Create a template container and list for item labels
@@ -273,6 +276,7 @@ var Legend = /** @class */ (function (_super) {
         label.text = "{name}";
         label.margin(0, 5, 0, 5);
         label.valign = "middle";
+        label.applyOnClones = true;
         label.states.create("active").properties.fill = interfaceColors.getFor("disabledBackground");
         _this.labels = new ListTemplate(label);
         _this._disposers.push(new ListDisposer(_this.labels));
@@ -285,6 +289,7 @@ var Legend = /** @class */ (function (_super) {
         valueLabel.width = 50; // to avoid rearranging legend entries when value changes.
         valueLabel.align = "right";
         valueLabel.textAlign = "end";
+        valueLabel.applyOnClones = true;
         valueLabel.states.create("active").properties.fill = interfaceColors.getFor("disabledBackground");
         valueLabel.interactionsEnabled = false;
         _this.valueLabels = new ListTemplate(valueLabel);
@@ -392,6 +397,7 @@ var Legend = /** @class */ (function (_super) {
                     this.labels.template.fullWords = false;
                 }
                 else {
+                    this.itemContainers.template.width = undefined;
                     this.itemContainers.template.maxWidth = undefined;
                     this.valueLabels.template.width = 50;
                     this.labels.template.truncate = false;

@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.70] - 2018-10-31
+
+### Fixed
+- Keyboard dragging of elements such as scrollbar grips was not working.
+- "hoverable" elements were not staying "hovered" after tap in Mobile Safari.
+- `addData()` with more than one data item added was not working well.
+- Zoomout button was visible on initial animation.
+- Dynamically changing `Legend.position` was not updating its layout properly.
+- Vertical axis tick position with rotated labels was incorrect.
+
+
 ## [4.0.0-beta.69] - 2018-10-30
 
 ### Fixed

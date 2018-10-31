@@ -132,6 +132,9 @@ var Chart = /** @class */ (function (_super) {
         var legend = this.legend;
         if (legend) {
             var chartAndLegendContainer = this.chartAndLegendContainer;
+            var chartContainer = this.chartContainer;
+            chartContainer.x = undefined;
+            chartContainer.y = undefined;
             legend.x = undefined;
             legend.y = undefined;
             switch (legend.position) {
