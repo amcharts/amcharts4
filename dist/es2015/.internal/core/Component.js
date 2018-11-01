@@ -671,12 +671,12 @@ var Component = /** @class */ (function (_super) {
             var dataContext = this.dataItem.dataContext;
             this._data = dataContext[this.dataFields.data];
         }
+        // data items array is reset only if all data is validated, if _parseDataFrom is not 0, we append new data only
+        if (this._parseDataFrom === 0) {
+            this.disposeData();
+        }
         if (this.data.length > 0) {
             var preloader = this.preloader;
-            // data items array is reset only if all data is validated, if _parseDataFrom is not 0, we append new data only
-            //			if (this._parseDataFrom === 0) {
-            //				this.disposeData();
-            //			}
             // and for all components
             $iter.each(this.dataUsers.iterator(), function (dataUser) {
                 // todo: this needs some overthinking, maybe some extra settings like zoomOUtonDataupdate like in v3 or so. some charts like pie chart probably should act like this always
@@ -1424,7 +1424,7 @@ var Component = /** @class */ (function (_super) {
     };
     Component.prototype.setDisabled = function (value) {
         _super.prototype.setDisabled.call(this, value);
-        this.invalidateData();
+        //this.invalidateData();
     };
     /**
      * @ignore

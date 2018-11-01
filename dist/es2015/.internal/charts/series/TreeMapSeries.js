@@ -174,15 +174,18 @@ var TreeMapSeries = /** @class */ (function (_super) {
             return dataItem.treeMapDataItem.setWorkingValue("value", dataItem.treeMapDataItem.getValue("value"), interpolationDuration);
         });
         var animation = _super.prototype.showReal.call(this, duration);
-        if (animation && !animation.isFinished()) {
-            animation.events.on("animationended", function () {
-                _this.chart.invalidateLayout();
-            });
+        var chart = this.chart;
+        if (chart) {
+            if (animation && !animation.isFinished()) {
+                animation.events.on("animationended", function () {
+                    chart.invalidateLayout();
+                });
+            }
+            else {
+                chart.invalidateLayout();
+            }
+            chart.invalidateLayout();
         }
-        else {
-            this.chart.invalidateLayout();
-        }
-        this.chart.invalidateLayout();
         return animation;
     };
     /**

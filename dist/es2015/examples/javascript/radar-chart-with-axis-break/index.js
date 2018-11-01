@@ -3,6 +3,7 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 
+
 am4core.useTheme(am4themes_animated);
 
 var chart = am4core.create("chartdiv", am4charts.RadarChart);
@@ -67,6 +68,8 @@ categoryAxis.renderer.grid.template.location = 0;
 categoryAxis.dataFields.category = "country";
 categoryAxis.renderer.labels.template.location = 0.5;
 categoryAxis.renderer.grid.template.strokeOpacity = 0.08;
+categoryAxis.renderer.tooltipLocation = 0.5;
+categoryAxis.tooltip.disabled = true;
 
 var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 valueAxis.min = 0;
@@ -74,6 +77,8 @@ valueAxis.max = 24000;
 valueAxis.strictMinMax = true;
 valueAxis.renderer.minGridDistance = 30;
 valueAxis.renderer.grid.template.strokeOpacity = 0.08;
+valueAxis.tooltip.disabled = true;
+
 // axis break
 var axisBreak = valueAxis.axisBreaks.create();
 axisBreak.startValue = 2100;
@@ -101,3 +106,10 @@ chart.seriesContainer.zIndex = -1;
 series.columns.template.adapter.add("fill", (fill, target) => {
   return chart.colors.getIndex(target.dataItem.index);
 });
+
+let cursor = new am4charts.RadarCursor();
+cursor.innerRadius = am4core.percent(50);
+cursor.lineY.disabled = true;
+
+cursor.xAxis = categoryAxis;
+chart.cursor = cursor;

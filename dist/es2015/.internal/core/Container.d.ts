@@ -647,12 +647,12 @@ export declare class Container extends Sprite {
     /**
      * Applies a [[SpriteState]] on this element.
      *
-     * The first parameter can either be a name state or a [[SpriteState]]
+     * The first parameter can either be a name of the state or a [[SpriteState]]
      * instance.
      *
      * When run, this method will apply SVG properties defined in a
      * [[SpriteState]], but only those that are relevant to this particular
-     * element, i.e. are in the `properties` array.
+     * element, that is are listed in its respective `properties` array.
      *
      * @see {@link SpriteState}
      * @param {string | SpriteState} value               A state - name key or instance

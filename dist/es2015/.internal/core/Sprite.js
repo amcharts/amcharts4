@@ -2455,6 +2455,7 @@ var Sprite = /** @class */ (function (_super) {
                 }
             }
             this.dispatch("transformed");
+            system.requestFrame();
         }
     };
     Object.defineProperty(Sprite.prototype, "__disabled", {
@@ -4018,8 +4019,9 @@ var Sprite = /** @class */ (function (_super) {
     };
     /**
      * Handles tasks when element loses hover:
+     *
      * * Hides [[Tooltip]]
-     * * Applys default state
+     * * Applies default state
      *
      * @ignore Exclude from docs
      * @param {AMEvent<Sprite, ISpriteEvents>["out"]} ev [description]
@@ -4031,7 +4033,7 @@ var Sprite = /** @class */ (function (_super) {
     /**
      * [handleOutReal description]
      *
-     * @ignore`
+     * @ignore
      * @todo description
      */
     Sprite.prototype.handleOutReal = function () {
@@ -6696,7 +6698,7 @@ var Sprite = /** @class */ (function (_super) {
      * * `true` - visible
      * * `false` - hidden
      *
-     * @param  {boolean}  value  `true` - visible, `false` - hidden
+     * @param  {boolean}  value  true - visible, false - hidden
      * @return {string}          Current visibility
      */
     Sprite.prototype.setVisibility = function (value) {
@@ -6858,12 +6860,12 @@ var Sprite = /** @class */ (function (_super) {
     /**
      * Shows the element's [[Tooltip]].
      *
-     * A tooltip will be populated using text templates in either `tooltipHTML`
-     * or `tooltipText` as well as data in `tooltipDataItem`.
+     * A tooltip will be populated using text templates in either `tooltipHTML` or
+     * `tooltipText` as well as data in `tooltipDataItem`.
      *
      * @see {@link Tooltip}
-     * @return {boolean} returns true if the tooltip was shown and false if it wasn't (no text was found)
      * @param {point} optional point (sprite-related) to which tooltip must point.
+     * @return {boolean} returns true if the tooltip was shown and false if it wasn't (no text was found)
      */
     Sprite.prototype.showTooltip = function (point) {
         // do not show if hidden

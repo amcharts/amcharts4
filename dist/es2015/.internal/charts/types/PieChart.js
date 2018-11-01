@@ -158,6 +158,7 @@ var PieChart = /** @class */ (function (_super) {
         // so that the pie is always drawn, even the legend wants all the space
         _this.chartContainer.minHeight = 50;
         _this.chartContainer.minWidth = 50;
+        _this.chartContainer.events.on("maxsizechanged", _this.updateRadius, _this, false); // need this for the chart to change radius if legend is removed/disabled
         // Apply theme
         _this.applyTheme();
         return _this;
