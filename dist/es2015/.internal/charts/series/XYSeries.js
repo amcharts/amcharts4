@@ -21,6 +21,7 @@ import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
 import * as $array from "../../core/utils/Array";
+import * as $object from "../../core/utils/Object";
 import * as $path from "../../core/rendering/Path";
 /**
  * ============================================================================
@@ -431,6 +432,7 @@ var XYSeries = /** @class */ (function (_super) {
             this.dataChangeUpdate();
         }
         _super.prototype.validateData.call(this);
+        this.updateItemReaderText();
         if (!$type.hasValue(this.dataFields[this._xField]) || !$type.hasValue(this.dataFields[this._yField])) {
             throw Error("Data fields for series \"" + (this.name ? this.name : this.uid) + "\" are not properly defined.");
         }
@@ -1408,6 +1410,16 @@ var XYSeries = /** @class */ (function (_super) {
         x = $math.fitToRange(x, -20000, 20000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
         y = $math.fitToRange(y, -20000, 20000); // from geometric point of view this is not right, but practically it's ok. this is done to avoid too big objects.
         return { x: x, y: y };
+    };
+    /**
+     * Updates item reader text based on the type and set up of axis.
+     */
+    XYSeries.prototype.updateItemReaderText = function () {
+        var text = "";
+        $object.each(this.dataFields, function (key, val) {
+            text += "{" + key + "} ";
+        });
+        this.itemReaderText = text;
     };
     return XYSeries;
 }(Series));

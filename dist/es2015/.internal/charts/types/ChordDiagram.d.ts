@@ -1,6 +1,5 @@
 import { FlowDiagram, FlowDiagramDataItem, IFlowDiagramAdapters, IFlowDiagramDataFields, IFlowDiagramEvents, IFlowDiagramProperties } from "./FlowDiagram";
 import { Percent } from "../../core/utils/Percent";
-import { ListTemplate } from "../../core/utils/List";
 import { DictionaryTemplate } from "../../core/utils/Dictionary";
 import { Container } from "../../core/Container";
 import { ChordNode } from "../elements/ChordNode";
@@ -183,11 +182,10 @@ export declare class ChordDiagram extends FlowDiagram {
      */
     nodes: DictionaryTemplate<string, ChordNode>;
     /**
-     * A list of Chord links connecting nodes.
-     *
-     * @param {ListTemplate<ChordLink>}
+     * An a link element, connecting two nodes.
+     * @type {ChordLink}
      */
-    links: ListTemplate<ChordLink>;
+    _link: ChordLink;
     /**
      * Sorted nodes iterator.
      *

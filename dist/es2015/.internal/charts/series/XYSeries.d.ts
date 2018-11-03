@@ -853,4 +853,8 @@ export declare class XYSeries extends Series {
         x: number;
         y: number;
     };
+    /**
+     * Updates item reader text based on the type and set up of axis.
+     */
+    protected updateItemReaderText(): void;
 }

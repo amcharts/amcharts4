@@ -10,7 +10,6 @@
 import { SerialChart, ISerialChartProperties, ISerialChartDataFields, ISerialChartAdapters, ISerialChartEvents, SerialChartDataItem } from "./SerialChart";
 import { Sprite, ISpriteEvents, AMEvent } from "../../core/Sprite";
 import { IDisposer } from "../../core/utils/Disposer";
-import { ListTemplate } from "../../core/utils/List";
 import { MapSeries } from "../map/MapSeries";
 import { MapObject } from "../map/MapObject";
 import { IPoint } from "../../core/defs/IPoint";
@@ -408,11 +407,11 @@ export declare class MapChart extends SerialChart {
      */
     protected _prevZoomGeoPoint: IGeoPoint;
     /**
-     * List of series of map objects. (lines, areas, etc.)
+     * Defines a type of series that this chart uses.
      *
-     * @type {ListTemplate<MapSeries>}
+     * @type {MapSeries}
      */
-    series: ListTemplate<MapSeries>;
+    _seriesType: MapSeries;
     /**
      * A reference to currently playing animation, e.g. zooming.
      *

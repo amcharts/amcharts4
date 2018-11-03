@@ -1,5 +1,4 @@
 import { FlowDiagram, FlowDiagramDataItem, IFlowDiagramAdapters, IFlowDiagramDataFields, IFlowDiagramEvents, IFlowDiagramProperties } from "./FlowDiagram";
-import { ListTemplate } from "../../core/utils/List";
 import { SankeyNode } from "../elements/SankeyNode";
 import { SankeyLink } from "../elements/SankeyLink";
 import { Animation } from "../../core/utils/Animation";
@@ -156,11 +155,10 @@ export declare class SankeyDiagram extends FlowDiagram {
      */
     _events: ISankeyDiagramEvents;
     /**
-     * A list of Sankey links connecting nodes.
-     *
-     * @param {ListTemplate<SankeyLink>}
+     * An a link element, connecting two nodes.
+     * @type {SankeyLink}
      */
-    links: ListTemplate<SankeyLink>;
+    _link: SankeyLink;
     /**
      * @todo Description
      */

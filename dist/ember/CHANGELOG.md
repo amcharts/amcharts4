@@ -5,8 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.72] - 2018-11-03
+
+### Changed
+- For any `XYSeries` if the `itemReaderText` is not set explicitly, it will automatically try to fill with values from `dataFields`, so that each series element, like a Column has at least rudimentary screen-reader text.
+
+### Fixed
+- Added in TypeScript 3.x support.
+- `ColumnSeries` with two category axes anomaly fixed.
+
+
 ## [4.0.0-beta.71] - 2018-11-01
 
+### Fixed
 - Calling `dispose()` on a `TreeMap` was causing an error.
 - Legend items were being duplicated every time its disabled property was reset back to `false`.
 

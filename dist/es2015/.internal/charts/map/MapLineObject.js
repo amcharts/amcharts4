@@ -59,16 +59,20 @@ var MapLineObject = /** @class */ (function (_super) {
     };
     Object.defineProperty(MapLineObject.prototype, "position", {
         /**
-         * @return {number} [description]
+         * @return {number} Position within the line
          */
         get: function () {
             return this.getPropertyValue("position");
         },
         /**
-         * [position description]
+         * Sets object's relative position (0-1) within the line.
          *
-         * @todo Description
-         * @param {number} value [description]
+         * `0` will place the object at the beginning of the line. `1` - at the end.
+         *
+         * Any intermediate number will place the object at some point within the
+         * line.
+         *
+         * @param {number}  value  Position within the line (0-1)
          */
         set: function (value) {
             this.setPropertyValue("position", value, false, true);
@@ -78,16 +82,20 @@ var MapLineObject = /** @class */ (function (_super) {
     });
     Object.defineProperty(MapLineObject.prototype, "adjustRotation", {
         /**
-         * @return {boolean} [description]
+         * @return {boolean} Auto-rotate
          */
         get: function () {
             return this.getPropertyValue("adjustRotation");
         },
         /**
-         * [adjustRotation description]
+         * If set to `true`, the object will be automatically rotated to face the
+         * direction of the line at the specific position.
          *
-         * @todo Description
-         * @param {boolean} value [description]
+         * This allows creating images that has its "front" always facing the logical
+         * direction of the line.
+         *
+         * @default false
+         * @param {boolean}  value  Auto-rotate
          */
         set: function (value) {
             this.setPropertyValue("adjustRotation", value, false, true);

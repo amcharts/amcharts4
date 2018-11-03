@@ -1,4 +1,5 @@
 import * as $iter from "./Iterator";
+import * as $type from "./Type";
 import { Ordering } from "./Order";
 /**
  * ============================================================================
@@ -14,23 +15,23 @@ import { Ordering } from "./Order";
  * @param   {object}    object  Source object
  * @returns {Iterator}          Iterator
  */
-export declare function entries<Object, Key extends keyof Object>(object: Object): $iter.Iterator<[Key, Object[Key]]>;
+export declare function entries<Object>(object: Object): $iter.Iterator<[$type.Keyof<Object>, Object[$type.Keyof<Object>]]>;
 /**
  * Returns an array of object's property names.
  *
  * @param   {object}        object  Source object
  * @returns {Array<string}          Object property names
  */
-export declare function keys<Object>(object: Object): Array<keyof Object>;
+export declare function keys<Object>(object: Object): Array<$type.Keyof<Object>>;
 /**
  * Returns an array of object's property names ordered using specific ordering
  * function.
  *
  * @param   {object}        object  Source object
  * @param   {function}      order   Ordering function
- * @returns {Array<string}          Object property names
+ * @returns {Array<string>}          Object property names
  */
-export declare function keysOrdered<Object>(object: Object, order: <A extends keyof Object, B extends keyof Object>(a: A, b: B) => Ordering): Array<keyof Object>;
+export declare function keysOrdered<Object>(object: Object, order: (a: $type.Keyof<Object>, b: $type.Keyof<Object>) => Ordering): Array<$type.Keyof<Object>>;
 /**
  * Checks if `object` has a specific `key`.
  *
@@ -56,14 +57,14 @@ export declare function getKey<Object, Key extends keyof Object>(object: Object,
  * @param {object}   object  Source object
  * @param {function} fn      Callback function
  */
-export declare function eachContinue<Object>(object: Object, fn: <Key extends keyof Object>(key: Key, value: Object[Key]) => boolean): void;
+export declare function eachContinue<Object>(object: Object, fn: <Key extends $type.Keyof<Object>>(key: Key, value: Object[Key]) => boolean): void;
 /**
  * Iterates through all properties of the object calling `fn` for each of them.
  *
  * @param {object}   object  Source object
  * @param {function} fn      Callback function
  */
-export declare function each<Object>(object: Object, fn: <Key extends keyof Object>(key: Key, value: Object[Key]) => void): void;
+export declare function each<Object>(object: Object, fn: <Key extends $type.Keyof<Object>>(key: Key, value: Object[Key]) => void): void;
 /**
  * Orders object properties using custom `ord` function and iterates through
  * them calling `fn` for each of them.
@@ -72,7 +73,7 @@ export declare function each<Object>(object: Object, fn: <Key extends keyof Obje
  * @param {function}  fn      Callback function
  * @param {function}  order   Ordering function
  */
-export declare function eachOrdered<Object>(object: Object, fn: <Key extends keyof Object>(key: Key, value: Object[Key]) => void, ord: <A extends keyof Object, B extends keyof Object>(a: A, b: B) => Ordering): void;
+export declare function eachOrdered<Object>(object: Object, fn: <Key extends $type.Keyof<Object>>(key: Key, value: Object[Key]) => void, ord: (a: $type.Keyof<Object>, b: $type.Keyof<Object>) => Ordering): void;
 /**
  * Returns a copy of the object.
  *

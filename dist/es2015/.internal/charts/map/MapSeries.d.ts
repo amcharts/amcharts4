@@ -210,11 +210,11 @@ export declare class MapSeries extends Series {
      */
     north: number;
     /**
-     * A related chart/map object, this element is drawn on.
+     * A chart series belongs to.
      *
      * @type {MapChart}
      */
-    chart: MapChart;
+    _chart: MapChart;
     /**
      * Map data in GeoJSON format.
      *

@@ -110,6 +110,9 @@ export declare class StepLineSeries extends LineSeries {
      */
     _dataItem: StepLineSeriesDataItem;
     /**
+     */
+    _segment: StepLineSeriesSegment;
+    /**
      * Constructor
      */
     constructor();

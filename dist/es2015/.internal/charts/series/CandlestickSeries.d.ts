@@ -10,6 +10,7 @@
 import { ColumnSeries, ColumnSeriesDataItem, IColumnSeriesDataFields, IColumnSeriesProperties, IColumnSeriesAdapters, IColumnSeriesEvents } from "./ColumnSeries";
 import { Container } from "../../core/Container";
 import { Candlestick } from "../elements/Candlestick";
+import * as $type from "../../core/utils/Type";
 /**
  * ============================================================================
  * DATA ITEM
@@ -222,19 +223,19 @@ export declare class CandlestickSeries extends ColumnSeries {
     /**
      * A data field to look for "low" value for horizontal axis.
      */
-    protected _xLowField: keyof this["_dataFields"];
+    protected _xLowField: $type.Keyof<this["_dataFields"]>;
     /**
      * A data field to look for "low" value for vertical axis.
      */
-    protected _yLowField: keyof this["_dataFields"];
+    protected _yLowField: $type.Keyof<this["_dataFields"]>;
     /**
      * A data field to look for "high" value for horizontal axis.
      */
-    protected _xHighField: keyof this["_dataFields"];
+    protected _xHighField: $type.Keyof<this["_dataFields"]>;
     /**
      * A data field to look for "high" value for vertical axis.
      */
-    protected _yHighField: keyof this["_dataFields"];
+    protected _yHighField: $type.Keyof<this["_dataFields"]>;
     /**
      * Constructor
      */

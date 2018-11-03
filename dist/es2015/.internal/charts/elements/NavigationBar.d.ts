@@ -153,6 +153,12 @@ export declare class NavigationBar extends Component {
      */
     separators: ListTemplate<Triangle>;
     /**
+     * Identifies the type of the [[DataItem]] used in this element.
+     *
+     * @type {NavigationBarDataItem}
+     */
+    _dataItem: NavigationBarDataItem;
+    /**
      * Constructor
      */
     constructor();
@@ -168,5 +174,5 @@ export declare class NavigationBar extends Component {
      * @ignore Exclude from docs
      * @param {NavigationBarDataItem}  dataItem  Data item
      */
-    validateDataElement(dataItem: NavigationBarDataItem): void;
+    validateDataElement(dataItem: this["_dataItem"]): void;
 }

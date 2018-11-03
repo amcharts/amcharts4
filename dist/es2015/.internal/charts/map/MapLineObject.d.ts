@@ -20,16 +20,24 @@ import { MapLine } from "./MapLine";
  */
 export interface IMapLineObjectProperties extends IContainerProperties {
     /**
-     * [number description]
+     * Sets object's relative position (0-1) within the line.
      *
-     * @todo Description
+     * `0` will place the object at the beginning of the line. `1` - at the end.
+     *
+     * Any intermediate number will place the object at some point within the
+     * line.
+     *
      * @type {number}
      */
     position?: number;
     /**
-     * [boolean description]
+     * If set to `true`, the object will be automatically rotated to face the
+     * direction of the line at the specific position.
      *
-     * @todo Description
+     * This allows creating images that has its "front" always facing the logical
+     * direction of the line.
+     *
+     * @default false
      * @type {boolean}
      */
     adjustRotation?: boolean;
@@ -78,9 +86,8 @@ export declare class MapLineObject extends Container {
      */
     _events: IMapLineObjectEvents;
     /**
-     * [mapLine description]
+     * A reference to the [[MapLine]] object this object is attached to.
      *
-     * @todo Description
      * @todo Review if necessary (same as parent)
      * @type {MapLine}
      */
@@ -96,23 +103,31 @@ export declare class MapLineObject extends Container {
      */
     validatePosition(): void;
     /**
-     * @return {number} [description]
+     * @return {number} Position within the line
      */
     /**
-     * [position description]
+     * Sets object's relative position (0-1) within the line.
      *
-     * @todo Description
-     * @param {number} value [description]
+     * `0` will place the object at the beginning of the line. `1` - at the end.
+     *
+     * Any intermediate number will place the object at some point within the
+     * line.
+     *
+     * @param {number}  value  Position within the line (0-1)
      */
     position: number;
     /**
-     * @return {boolean} [description]
+     * @return {boolean} Auto-rotate
      */
     /**
-     * [adjustRotation description]
+     * If set to `true`, the object will be automatically rotated to face the
+     * direction of the line at the specific position.
      *
-     * @todo Description
-     * @param {boolean} value [description]
+     * This allows creating images that has its "front" always facing the logical
+     * direction of the line.
+     *
+     * @default false
+     * @param {boolean}  value  Auto-rotate
      */
     adjustRotation: boolean;
 }

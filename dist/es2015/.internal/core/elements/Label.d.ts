@@ -2,6 +2,7 @@ import { Container, IContainerProperties, IContainerAdapters, IContainerEvents }
 import { DataItem } from "../DataItem";
 import { TextValign } from "../defs/TextValign";
 import { TextAlign } from "../defs/TextAlign";
+import { IRectangle } from "../defs/IRectangle";
 import { AMElement } from "../rendering/AMElement";
 import { Group } from "../rendering/Group";
 import { MultiDisposer } from "../utils/Disposer";
@@ -98,9 +99,9 @@ export interface ITextLineInfo {
     /**
      * Measurements for the bounding box of the line.
      *
-     * @type {SVGRect}
+     * @type {IRectangle}
      */
-    "bbox"?: SVGRect;
+    "bbox"?: IRectangle;
     /**
      * A reference to an SVG `<g>` element that holds line elements.
      *

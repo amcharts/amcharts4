@@ -24,7 +24,7 @@ export function entries(object) {
     return function (push) {
         // TODO make this more efficient ?
         for (var key in object) {
-            if (typeof key === "string" && hasKey(object, key)) {
+            if (hasKey(object, key)) {
                 if (!push([key, object[key]])) {
                     break;
                 }
@@ -39,7 +39,13 @@ export function entries(object) {
  * @returns {Array<string}          Object property names
  */
 export function keys(object) {
-    return Object.keys(object);
+    var output = [];
+    for (var key in object) {
+        if (hasKey(object, key)) {
+            output.push(key);
+        }
+    }
+    return output;
 }
 /**
  * Returns an array of object's property names ordered using specific ordering
@@ -47,10 +53,10 @@ export function keys(object) {
  *
  * @param   {object}        object  Source object
  * @param   {function}      order   Ordering function
- * @returns {Array<string}          Object property names
+ * @returns {Array<string>}          Object property names
  */
 export function keysOrdered(object, order) {
-    return Object.keys(object).sort(order);
+    return keys(object).sort(order);
 }
 /**
  * Checks if `object` has a specific `key`.
@@ -83,7 +89,7 @@ export function getKey(object, key) {
  */
 export function eachContinue(object, fn) {
     for (var key in object) {
-        if (typeof key === "string" && hasKey(object, key)) {
+        if (hasKey(object, key)) {
             if (!fn(key, object[key])) {
                 break;
             }

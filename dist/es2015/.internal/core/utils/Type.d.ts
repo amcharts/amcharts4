@@ -18,6 +18,12 @@ export declare type Public<T> = {
     [P in keyof T]: T[P];
 };
 /**
+ * `Keyof<T>` is the same as `keyof T` except it only accepts string keys, not numbers or symbols.
+ *
+ * @type {[type]}
+ */
+export declare type Keyof<T> = Extract<keyof T, string>;
+/**
  * ============================================================================
  * TYPE CHECK
  * ============================================================================

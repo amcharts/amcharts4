@@ -672,9 +672,9 @@ var Component = /** @class */ (function (_super) {
             this._data = dataContext[this.dataFields.data];
         }
         // data items array is reset only if all data is validated, if _parseDataFrom is not 0, we append new data only
-        if (this._parseDataFrom === 0) {
-            this.disposeData();
-        }
+        //if (this._parseDataFrom === 0) {
+        //	this.disposeData();
+        //}
         if (this.data.length > 0) {
             var preloader = this.preloader;
             // and for all components
