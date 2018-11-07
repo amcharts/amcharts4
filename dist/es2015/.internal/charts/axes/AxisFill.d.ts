@@ -111,6 +111,10 @@ export declare class AxisFill extends Sprite {
      */
     constructor(axis: Axis);
     /**
+     * @ignore
+     */
+    protected setDisabled(value: boolean): void;
+    /**
      * Draws the fill element.
      *
      * @ignore Exclude from docs

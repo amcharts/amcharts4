@@ -94,6 +94,8 @@ var AxisRenderer = /** @class */ (function (_super) {
         disposers.push(gridContainer);
         disposers.push(breakContainer);
         disposers.push(_this._chart);
+        //this.axisFills.template.disabled = true;
+        _this.axisFills.template.interactionsEnabled = false;
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -661,7 +663,11 @@ var AxisRenderer = /** @class */ (function (_super) {
          * @param {number} value Cell start (0-1)
          */
         set: function (value) {
-            this.setPropertyValue("cellStartLocation", value, true);
+            if (this.setPropertyValue("cellStartLocation", value)) {
+                if (this.axis) {
+                    this.axis.invalidateSeries();
+                }
+            }
         },
         enumerable: true,
         configurable: true
@@ -696,7 +702,11 @@ var AxisRenderer = /** @class */ (function (_super) {
          * @param {number} value Cell end (0-1)
          */
         set: function (value) {
-            this.setPropertyValue("cellEndLocation", value, true);
+            if (this.setPropertyValue("cellEndLocation", value)) {
+                if (this.axis) {
+                    this.axis.invalidateSeries();
+                }
+            }
         },
         enumerable: true,
         configurable: true

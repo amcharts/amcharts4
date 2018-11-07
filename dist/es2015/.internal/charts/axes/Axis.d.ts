@@ -458,6 +458,11 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      */
     ghostLabel: AxisLabel;
     /**
+     * Specifies if axis should be automatically disposed when removing from chart's axis list.
+     * @default true
+     */
+    autoDispose: boolean;
+    /**
      * Constructor
      */
     constructor();
@@ -474,6 +479,11 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @ignore Exclude from docs
      */
     invalidateLayout(): void;
+    /**
+     * Invalidates series of this axis.
+     *
+     */
+    invalidateSeries(): void;
     /**
      * Override to cancel super call for data element validation.
      * @ignore

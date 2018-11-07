@@ -16,6 +16,7 @@ import { AxisRendererY } from "../axes/AxisRendererY";
 import { CategoryAxis } from "../axes/CategoryAxis";
 import { XYSeries } from "../series/XYSeries";
 import { XYCursor } from "../cursors/XYCursor";
+import { Disposer } from "../../core/utils/Disposer";
 import { ZoomOutButton } from "../../core/elements/ZoomOutButton";
 import { percent } from "../../core/utils/Percent";
 import { registry } from "../../core/Registry";
@@ -397,16 +398,6 @@ var XYChart = /** @class */ (function (_super) {
         this.processAxis(axis);
     };
     /**
-     * Removes events from the Axis when it is removed from the chart.
-     *
-     * @ignore Exclude from docs
-     * @param {IListEvents<Axis>["removed"]}  event  Event
-     */
-    XYChart.prototype.processXAxisRemoval = function (event) {
-        var axis = event.oldValue;
-        axis.events.off("datarangechanged", this.handleXAxisRangeChange, this);
-    };
-    /**
      * Sets up a new vertical (Y) axis when it is added to the chart.
      *
      * @ignore Exclude from docs
@@ -425,16 +416,6 @@ var XYChart = /** @class */ (function (_super) {
         axis.dataProvider = this;
         this.updateYAxis(axis.renderer);
         this.processAxis(axis);
-    };
-    /**
-     * Removes events from the Axis when it is removed from the chart.
-     *
-     * @ignore Exclude from docs
-     * @param {IListEvents<Axis>["removed"]}  event  Event
-     */
-    XYChart.prototype.processYAxisRemoval = function (event) {
-        var axis = event.oldValue;
-        axis.events.off("datarangechanged", this.handleYAxisRangeChange, this);
     };
     /**
      * Updates horizontal (X) scrollbar and other horizontal axis whenever axis'
@@ -609,6 +590,9 @@ var XYChart = /** @class */ (function (_super) {
         renderer.breakContainer.parent = this.plotContainer;
         renderer.breakContainer.toFront();
         renderer.breakContainer.zIndex = 10;
+        axis.addDisposer(new Disposer(function () {
+            _this.dataUsers.removeValue(axis);
+        }));
         this.plotContainer.events.on("maxsizechanged", function () {
             if (_this.inited) {
                 axis.invalidateDataItems();
@@ -625,13 +609,23 @@ var XYChart = /** @class */ (function (_super) {
             if (!this._xAxes) {
                 this._xAxes = new List();
                 this._xAxes.events.on("inserted", this.processXAxis, this, false);
-                this._xAxes.events.on("removed", this.processXAxisRemoval, this, false);
+                this._xAxes.events.on("removed", this.handleAxisRemoval, this, false);
             }
             return this._xAxes;
         },
         enumerable: true,
         configurable: true
     });
+    /**
+     * @ignore
+     */
+    XYChart.prototype.handleAxisRemoval = function (event) {
+        var axis = event.oldValue;
+        this.dataUsers.removeValue(axis); // need to remove, as it might not be disposed
+        if (axis.autoDispose) {
+            axis.dispose();
+        }
+    };
     Object.defineProperty(XYChart.prototype, "yAxes", {
         /**
          * A list of vertical (Y) axes.
@@ -642,7 +636,7 @@ var XYChart = /** @class */ (function (_super) {
             if (!this._yAxes) {
                 this._yAxes = new List();
                 this._yAxes.events.on("inserted", this.processYAxis, this, false);
-                this._yAxes.events.on("removed", this.processYAxisRemoval, this, false);
+                this._yAxes.events.on("removed", this.handleAxisRemoval, this, false);
             }
             return this._yAxes;
         },
@@ -878,6 +872,9 @@ var XYChart = /** @class */ (function (_super) {
      * @return {IRange}         Modified range
      */
     XYChart.prototype.getUpdatedRange = function (axis, range) {
+        if (!axis) {
+            return;
+        }
         var start;
         var end;
         var inversed = axis.renderer.inversed;
@@ -910,7 +907,7 @@ var XYChart = /** @class */ (function (_super) {
         var behavior = cursor.behavior;
         if (behavior == "zoomX" || behavior == "zoomXY") {
             var xRange = cursor.xRange;
-            if (xRange) {
+            if (xRange && this.xAxes.length > 0) {
                 xRange = this.getUpdatedRange(this.xAxes.getIndex(0), xRange);
                 xRange.priority = "start";
                 this.zoomAxes(this.xAxes, xRange);
@@ -918,7 +915,7 @@ var XYChart = /** @class */ (function (_super) {
         }
         if (behavior == "zoomY" || behavior == "zoomXY") {
             var yRange = cursor.yRange;
-            if (yRange) {
+            if (yRange && this.yAxes.length > 0) {
                 yRange = this.getUpdatedRange(this.yAxes.getIndex(0), yRange);
                 yRange.priority = "start";
                 this.zoomAxes(this.yAxes, yRange);

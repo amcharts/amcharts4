@@ -11,7 +11,6 @@ import * as tslib_1 from "tslib";
 import { ColumnSeries, ColumnSeriesDataItem } from "../series/ColumnSeries";
 import { Column3D } from "../elements/Column3D";
 import { registry } from "../../core/Registry";
-import * as $path from "../../core/rendering/Path";
 /**
  * ============================================================================
  * DATA ITEM
@@ -54,13 +53,17 @@ var ColumnSeries3D = /** @class */ (function (_super) {
     function ColumnSeries3D() {
         var _this = _super.call(this) || this;
         _this.className = "ColumnSeries3D";
+        _this.columns.template.column3D.applyOnClones = true;
+        _this.columns.template.hiddenState.properties.visible = true;
         _this.applyTheme();
         return _this;
     }
     Object.defineProperty(ColumnSeries3D.prototype, "columnsContainer", {
+        /**
+         * @ignore
+         */
         get: function () {
             if (this.chart && this.chart.columnsContainer) {
-                // @martynas: need to check aria-things here.
                 return this.chart.columnsContainer;
             }
             else {
@@ -71,24 +74,25 @@ var ColumnSeries3D = /** @class */ (function (_super) {
         configurable: true
     });
     /**
+     * Validates data item's elements.
+     *
+     * @ignore Exclude from docs
+     * @param {this["_dataItem"]}  dataItem  Data item
+     */
+    ColumnSeries3D.prototype.validateDataElementReal = function (dataItem) {
+        _super.prototype.validateDataElementReal.call(this, dataItem);
+        if (dataItem.column) {
+            dataItem.column.dx = this.dx;
+            dataItem.column.dy = this.dy;
+        }
+    };
+    /**
      * Returns an element to use for 3D bar.
      * @ignore
      * @return {this["_column"]} Element.
      */
     ColumnSeries3D.prototype.createColumnTemplate = function () {
         return new Column3D();
-    };
-    /**
-     * Returns SVG path to use as a mask for the series.
-     *
-     * @return {string} Mask path
-     */
-    ColumnSeries3D.prototype.getMaskPath = function () {
-        var w = this.xAxis.axisLength;
-        var h = this.yAxis.axisLength;
-        var dx = this.chart.dx3D || 0;
-        var dy = this.chart.dy3D || 0;
-        return $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: dx, y: dy }) + $path.lineTo({ x: w + dx, y: dy }) + $path.lineTo({ x: w + dx, y: h + dy }) + $path.lineTo({ x: w, y: h }) + $path.lineTo({ x: w, y: h }) + $path.lineTo({ x: 0, y: h }) + $path.closePath();
     };
     Object.defineProperty(ColumnSeries3D.prototype, "depth", {
         /**

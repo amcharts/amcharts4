@@ -338,4 +338,10 @@ export declare class Tooltip extends Container {
      * @ignore
      */
     readonly tooltip: Tooltip;
+    /**
+     * Copies properties and other attributes
+     *
+     * @param {MapLineObject}  source  Source map line
+     */
+    copyFrom(source: this): void;
 }

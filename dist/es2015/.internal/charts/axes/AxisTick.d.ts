@@ -8,7 +8,7 @@
  * @hidden
  */
 import { Tick, ITickProperties, ITickAdapters, ITickEvents } from "../elements/Tick";
-import { AxisItemLocation, AxisDataItem } from "./Axis";
+import { AxisItemLocation, AxisDataItem, Axis } from "./Axis";
 /**
  * ============================================================================
  * REQUISITES
@@ -63,7 +63,17 @@ export declare class AxisTick extends Tick {
      */
     _events: IAxisTickEvents;
     _dataItem: AxisDataItem;
+    /**
+     * A referecent to Axis element this fill is applied to.
+     *
+     * @type {Axis}
+     */
+    axis: Axis;
     constructor();
     location: AxisItemLocation;
     inside: boolean;
+    /**
+     * @ignore
+     */
+    protected setDisabled(value: boolean): void;
 }

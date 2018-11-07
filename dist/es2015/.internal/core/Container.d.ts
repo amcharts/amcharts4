@@ -285,6 +285,10 @@ export declare class Container extends Sprite {
     /**
      * @ignore
      */
+    processChild(child: Sprite): void;
+    /**
+     * @ignore
+     */
     protected sortAndAdd(): void;
     /**
      * Handles child removal. Changing size of the child may change the

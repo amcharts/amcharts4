@@ -209,9 +209,9 @@ var LineSeries = /** @class */ (function (_super) {
         // we need extra one item to both sides with values for line series, otherwise the line will not continue out of bounds of the chart while scrolling
         // find first to the left
         // TODO use iterator instead
-        for (var i = this.startIndex - 1; i >= 0; i++) {
+        for (var i = this.startIndex - 1; i >= 0; i--) {
             var dataItem = this.dataItems.getIndex(i);
-            if (dataItem.hasValue(this._xValueFields) && dataItem.hasValue(this._yValueFields)) {
+            if (dataItem && dataItem.hasValue(this._xValueFields) && dataItem.hasValue(this._yValueFields)) {
                 startIndex = i;
                 break;
             }
@@ -220,7 +220,7 @@ var LineSeries = /** @class */ (function (_super) {
         // TODO use iterator instead
         for (var i = this.endIndex, len = this.dataItems.length; i < len; i++) {
             var dataItem = this.dataItems.getIndex(i);
-            if (dataItem.hasValue(this._xValueFields) && dataItem.hasValue(this._yValueFields)) {
+            if (dataItem && dataItem.hasValue(this._xValueFields) && dataItem.hasValue(this._yValueFields)) {
                 endIndex = i + 1;
                 break;
             }
@@ -504,6 +504,15 @@ var LineSeries = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /*
+   public positionBullet(bullet: Bullet): void {
+       super.positionBullet(bullet);
+
+       let dataItem: this["_dataItem"] = <this["_dataItem"]>bullet.dataItem;
+       if (dataItem.segment) {
+           $object.softCopyProperties(dataItem.segment, bullet, visualProperties);
+       }
+   }*/
     /**
      * Creates elements in related legend container, that mimics the look of this
      * Series.

@@ -672,6 +672,7 @@ var Component = /** @class */ (function (_super) {
             this._data = dataContext[this.dataFields.data];
         }
         // data items array is reset only if all data is validated, if _parseDataFrom is not 0, we append new data only
+        // check heatmap demo if uncommented
         //if (this._parseDataFrom === 0) {
         //	this.disposeData();
         //}
@@ -693,8 +694,10 @@ var Component = /** @class */ (function (_super) {
                 var dataItem = this_1.dataItems.create();
                 this_1.processDataItem(dataItem, rawDataItem);
                 $iter.each(this_1.dataUsers.iterator(), function (dataUser) {
-                    var dataUserDataItem = dataUser.dataItems.create();
-                    dataUser.processDataItem(dataUserDataItem, rawDataItem);
+                    if (dataUser.data.length == 0) { // checking if data is not set directly
+                        var dataUserDataItem = dataUser.dataItems.create();
+                        dataUser.processDataItem(dataUserDataItem, rawDataItem);
+                    }
                 });
                 counter++;
                 // show preloader if this takes too many time
@@ -1142,7 +1145,7 @@ var Component = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._startIndex = $math.fitToRange(Math.round(value), 0, this.dataItems.length);
-            this._workingStartIndex = this._startIndex;
+            //this._workingStartIndex = this._startIndex; // not good, breaks adjusted working start index of line series
             this.start = this.indexToPosition(this._startIndex);
         },
         enumerable: true,
@@ -1177,7 +1180,7 @@ var Component = /** @class */ (function (_super) {
          */
         set: function (value) {
             this._endIndex = $math.fitToRange(Math.round(value), 0, this.dataItems.length);
-            this._workingEndIndex = this._endIndex;
+            //this._workingEndIndex = this._endIndex; // not good, breaks adjusted workingend index of line series
             this.end = this.indexToPosition(this._endIndex);
         },
         enumerable: true,

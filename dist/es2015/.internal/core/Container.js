@@ -111,7 +111,12 @@ var Container = /** @class */ (function (_super) {
      * @todo Throw an exception on adding a disposed object. Of course it's better NOT TO add disposed objects, so that what we should focus on.
      */
     Container.prototype.handleChildAdded = function (event) {
-        var child = event.newValue;
+        this.processChild(event.newValue);
+    };
+    /**
+     * @ignore
+     */
+    Container.prototype.processChild = function (child) {
         // try solves the problem when somedy adds child directly to children
         try {
             this._childrenDisposers.insertKey(child.uid, new MultiDisposer([

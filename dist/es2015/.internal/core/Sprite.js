@@ -317,6 +317,7 @@ var Sprite = /** @class */ (function (_super) {
         _this.setPropertyValue("valign", "none");
         _this.setPropertyValue("pixelPerfect", false);
         _this.setPropertyValue("visible", true);
+        _this.setPropertyValue("tooltipPosition", "fixed");
         _this.setPropertyValue("verticalCenter", "none");
         _this.setPropertyValue("horizontalCenter", "none");
         _this.setPropertyValue("marginTop", 0);
@@ -687,9 +688,17 @@ var Sprite = /** @class */ (function (_super) {
         this.disabled = source.disabled;
         this.virtualParent = source.virtualParent;
         //@todo: create tooltip if it's on source but not on this?
-        var tooltip = this._tooltip;
-        if (tooltip) {
-            tooltip.copyFrom(source.tooltip);
+        //const tooltip = this._tooltip;
+        //if (tooltip) {
+        //	tooltip.copyFrom(source.tooltip);
+        //}
+        if (source._tooltip) {
+            if (this._tooltip) {
+                this._tooltip.copyFrom(source.tooltip);
+            }
+            else {
+                this.tooltip = source.tooltip.clone();
+            }
         }
         if (source["_tooltip"] && !this._tooltip) {
             this._tooltip = source["_tooltip"];

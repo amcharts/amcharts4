@@ -8,7 +8,7 @@
  * @hidden
  */
 import { Sprite, ISpriteProperties, ISpriteEvents, ISpriteAdapters } from "../../core/Sprite";
-import { AxisItemLocation, AxisDataItem } from "./Axis";
+import { AxisItemLocation, AxisDataItem, Axis } from "./Axis";
 /**
  * ============================================================================
  * REQUISITES
@@ -78,6 +78,12 @@ export declare class Grid extends Sprite {
      */
     _dataItem: AxisDataItem;
     /**
+     * A referecent to Axis element this fill is applied to.
+     *
+     * @type {Axis}
+     */
+    axis: Axis;
+    /**
      * Constructor
      */
     constructor();
@@ -94,4 +100,8 @@ export declare class Grid extends Sprite {
      * @param {AxisItemLocation}  value  Location (0-1)
      */
     location: AxisItemLocation;
+    /**
+     * @ignore
+     */
+    protected setDisabled(value: boolean): void;
 }

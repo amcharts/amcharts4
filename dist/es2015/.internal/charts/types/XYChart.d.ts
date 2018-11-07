@@ -427,26 +427,12 @@ export declare class XYChart extends SerialChart {
      */
     processXAxis(event: IListEvents<Axis>["inserted"]): void;
     /**
-     * Removes events from the Axis when it is removed from the chart.
-     *
-     * @ignore Exclude from docs
-     * @param {IListEvents<Axis>["removed"]}  event  Event
-     */
-    processXAxisRemoval(event: IListEvents<Axis>["removed"]): void;
-    /**
      * Sets up a new vertical (Y) axis when it is added to the chart.
      *
      * @ignore Exclude from docs
      * @param {IListEvents<Axis>["inserted"]} event Axis insert event
      */
     processYAxis(event: IListEvents<Axis>["inserted"]): void;
-    /**
-     * Removes events from the Axis when it is removed from the chart.
-     *
-     * @ignore Exclude from docs
-     * @param {IListEvents<Axis>["removed"]}  event  Event
-     */
-    processYAxisRemoval(event: IListEvents<Axis>["removed"]): void;
     /**
      * Updates horizontal (X) scrollbar and other horizontal axis whenever axis'
      * value range changes.
@@ -515,6 +501,10 @@ export declare class XYChart extends SerialChart {
      * @return {List<Axis>} List of axes
      */
     readonly xAxes: List<Axis<this["_xAxisRendererType"]>>;
+    /**
+     * @ignore
+     */
+    protected handleAxisRemoval(event: IListEvents<Axis>["removed"]): void;
     /**
      * A list of vertical (Y) axes.
      *

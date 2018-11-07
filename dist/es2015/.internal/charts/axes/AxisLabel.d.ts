@@ -8,7 +8,7 @@
  * @hidden
  */
 import { Label, ILabelProperties, ILabelAdapters, ILabelEvents } from "../../core/elements/Label";
-import { AxisItemLocation, AxisDataItem } from "./Axis";
+import { AxisItemLocation, AxisDataItem, Axis } from "./Axis";
 /**
  * ============================================================================
  * REQUISITES
@@ -83,6 +83,12 @@ export declare class AxisLabel extends Label {
      */
     _dataItem: AxisDataItem;
     /**
+     * A referecent to Axis element this fill is applied to.
+     *
+     * @type {Axis}
+     */
+    axis: Axis;
+    /**
      * Constructor
      */
     constructor();
@@ -106,4 +112,8 @@ export declare class AxisLabel extends Label {
      * @param {boolean}  value  Inside?
      */
     inside: boolean;
+    /**
+     * @ignore
+     */
+    protected setDisabled(value: boolean): void;
 }

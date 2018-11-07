@@ -133,7 +133,7 @@ var AxisRendererY = /** @class */ (function (_super) {
      * Converts relative position on axis to point coordinates.
      *
      * @param  {number}  position  Position (0-1)
-     * @return {IPoint}            Point
+     * @return {IPoindt}            Point
      */
     AxisRendererY.prototype.positionToPoint = function (position) {
         return { x: 0, y: this.positionToCoordinate(position) };
@@ -197,8 +197,15 @@ var AxisRendererY = /** @class */ (function (_super) {
     AxisRendererY.prototype.updateTickElement = function (tick, position, endPosition) {
         var point = this.positionToPoint(position);
         var tickLength = tick.length;
+        var titleWidth = 0;
+        try {
+            titleWidth = this.axis.title.measuredWidth;
+        }
+        catch (_a) {
+            // void
+        }
         if (!this.opposite) {
-            point.x = this.measuredWidth - this.pixelX;
+            point.x = this.measuredWidth - this.pixelX + titleWidth;
             tickLength *= (tick.inside ? 1 : -1);
         }
         else {

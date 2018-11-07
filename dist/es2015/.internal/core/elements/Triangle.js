@@ -32,6 +32,7 @@ var Triangle = /** @class */ (function (_super) {
         var _this = _super.call(this) || this;
         _this.className = "Triangle";
         _this.element = _this.paper.add("path");
+        _this.direction = "top";
         _this.applyTheme();
         return _this;
     }

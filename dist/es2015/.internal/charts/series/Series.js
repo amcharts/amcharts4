@@ -178,6 +178,11 @@ var Series = /** @class */ (function (_super) {
          * @type {boolean}
          */
         _this.calculatePercent = false;
+        /**
+         * Specifies if series should be automatically disposed when removing from chart's series list.
+         * @default true
+         */
+        _this.autoDispose = true;
         _this.className = "Series";
         _this.isMeasured = false;
         _this.layout = "none";

@@ -5,6 +5,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.73] - 2018-11-07
+
+### Changed
+- `axisFills.template.interactionsEnabled` is now set to `false` by default. If you need to attach events on an axis fill, you will need to set it to `true`.
+
+### Added
+- `autoDispose` property added to `Series` and `Axis` classes with default value `true`. This means that series/axis will be automatically disposed when removed from chart's `series`, `xAxes`, or `yAxes` lists.
+- It is now possible to have 3D stacked columns (by setting `clustered = false` on series).
+
+### Fixed
+- If chart container was moved in DOM tree, it stopped sensing resize and was not updating its size anymore.
+- Sometimes `ValueAxis` could show zero label with a minus sign.
+- Arrows on `MapLine` were not drawn.
+- It was not possible to change the text color of the tooltip on `TreeMap` diagram.
+- `axis.tooltipPosition = "pointer"` was not working as it should - always follow the mouse/pointer.
+- If series had `data` set directly, it was still using chart's global `data`, resulting in combined datasets and potentially visual anomalies.
+- Setting `cellStartLocation` did not have any effect on an already inited chart.
+- Line series could be cut off in the beginning (when zoomed-in closely).
+- Vertical axis ticks were not being positioned properly if axis had a title.
+- 3D columns were not using chart's `depth`/`angle`.
+
+
 ## [4.0.0-beta.72] - 2018-11-03
 
 ### Changed

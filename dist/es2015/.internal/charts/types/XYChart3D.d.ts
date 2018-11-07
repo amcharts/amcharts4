@@ -184,4 +184,5 @@ export declare class XYChart3D extends XYChart {
     processConfig(config?: {
         [index: string]: any;
     }): void;
+    protected maskColumns(): void;
 }

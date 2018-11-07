@@ -67,6 +67,15 @@ var Grid = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * @ignore
+     */
+    Grid.prototype.setDisabled = function (value) {
+        _super.prototype.setDisabled.call(this, value);
+        if (this.axis) {
+            this.axis.invalidateDataItems();
+        }
+    };
     return Grid;
 }(Sprite));
 export { Grid };

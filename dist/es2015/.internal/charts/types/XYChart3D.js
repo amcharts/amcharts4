@@ -10,6 +10,7 @@ import * as tslib_1 from "tslib";
  */
 import { XYChart, XYChartDataItem } from "./XYChart";
 import { Container } from "../../core/Container";
+import { Sprite } from "../../core/Sprite";
 import { AxisRendererX3D } from "../axes/AxisRendererX3D";
 import { AxisRendererY3D } from "../axes/AxisRendererY3D";
 import { ColumnSeries3D } from "../series/ColumnSeries3D";
@@ -17,6 +18,7 @@ import { registry } from "../../core/Registry";
 import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
+import * as $path from "../../core/rendering/Path";
 /**
  * ============================================================================
  * DATA ITEM
@@ -83,6 +85,7 @@ var XYChart3D = /** @class */ (function (_super) {
         columnsContainer.isMeasured = false;
         columnsContainer.layout = "none";
         _this.columnsContainer = columnsContainer;
+        _this.columnsContainer.mask = _this.createChild(Sprite);
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -198,10 +201,10 @@ var XYChart3D = /** @class */ (function (_super) {
         var s = 0;
         $iter.each(this.series.iterator(), function (series) {
             if (series instanceof ColumnSeries3D) {
-                series.depth = _this.depth / count;
+                series.depth = _this.depth / (count - 1);
                 series.angle = _this.angle;
-                series.dx = _this.depth / count * $math.cos(_this.angle) * series.depthIndex;
-                series.dy = -_this.depth / count * $math.sin(_this.angle) * series.depthIndex;
+                series.dx = _this.depth / (count - 1) * $math.cos(_this.angle) * (series.depthIndex - 1);
+                series.dy = -_this.depth / (count - 1) * $math.sin(_this.angle) * (series.depthIndex - 1);
                 var i_1 = 1;
                 $iter.each(series.columns.iterator(), function (column) {
                     column.zIndex = 1000 * i_1 + s - series.depthIndex * 100;
@@ -210,6 +213,7 @@ var XYChart3D = /** @class */ (function (_super) {
                 s++;
             }
         });
+        this.maskColumns();
     };
     /**
      * Processes JSON-based config before it is applied to the object.
@@ -227,6 +231,17 @@ var XYChart3D = /** @class */ (function (_super) {
             }
         }
         _super.prototype.processConfig.call(this, config);
+    };
+    XYChart3D.prototype.maskColumns = function () {
+        var w = this.plotContainer.pixelWidth;
+        var h = this.plotContainer.pixelHeight;
+        var dx = this.dx3D;
+        var dy = this.dy3D;
+        var path = $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: dx, y: dy }) + $path.lineTo({ x: w + dx, y: dy }) + $path.lineTo({ x: w + dx, y: h + dy }) + $path.lineTo({ x: w, y: h }) + $path.lineTo({ x: w, y: h }) + $path.lineTo({ x: 0, y: h }) + $path.closePath();
+        var columnsContainer = this.columnsContainer;
+        if (columnsContainer && columnsContainer.mask) {
+            columnsContainer.mask.path = path;
+        }
     };
     return XYChart3D;
 }(XYChart));

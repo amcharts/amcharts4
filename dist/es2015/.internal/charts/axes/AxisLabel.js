@@ -76,6 +76,15 @@ var AxisLabel = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * @ignore
+     */
+    AxisLabel.prototype.setDisabled = function (value) {
+        _super.prototype.setDisabled.call(this, value);
+        if (this.axis) {
+            this.axis.invalidateDataItems();
+        }
+    };
     return AxisLabel;
 }(Label));
 export { AxisLabel };

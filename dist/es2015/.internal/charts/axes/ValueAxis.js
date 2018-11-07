@@ -546,19 +546,19 @@ var ValueAxis = /** @class */ (function (_super) {
         // this point is needed to calculate distance to satisfy minGridDistance
         dataItem.point = renderer.positionToPoint(position);
         var tick = dataItem.tick;
-        if (tick) {
+        if (tick && !tick.disabled) {
             renderer.updateTickElement(tick, position, endPosition);
         }
         var grid = dataItem.grid;
-        if (grid) {
+        if (grid && !grid.disabled) {
             renderer.updateGridElement(grid, position, endPosition);
         }
         var label = dataItem.label;
-        if (label) {
+        if (label && !label.disabled) {
             renderer.updateLabelElement(label, position, endPosition);
         }
         var fill = dataItem.axisFill;
-        if (fill) {
+        if (fill && !fill.disabled) {
             renderer.updateFillElement(fill, position, fillEndPosition);
             if (!dataItem.isRange) {
                 this.fillRule(dataItem);

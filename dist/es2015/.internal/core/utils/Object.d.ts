@@ -95,13 +95,27 @@ export declare function merge<Object1, Object2>(object1: Object1, object2: Objec
  *
  * Will not copy empty properties.
  *
- * @param {object}         from  Source object
- * @param {object}         to    Target object
+ * @param {object}         source  Source object
+ * @param {object}         target    Target object
  * @param {Array<string>}  keys  List of keys to copy
  */
-export declare function copyProperties(from: {
+export declare function copyProperties(source: {
     [key: string]: any;
-}, to: {
+}, target: {
+    [key: string]: any;
+}, keys: Array<string>): void;
+/**
+ * Copies a list of properties from one object to another only if target does't have value of the property set.
+ *
+ * Will not copy empty properties.
+ *
+ * @param {object}         source  Source object
+ * @param {object}         target    Target object
+ * @param {Array<string>}  keys  List of keys to copy
+ */
+export declare function softCopyProperties(source: {
+    [key: string]: any;
+}, target: {
     [key: string]: any;
 }, keys: Array<string>): void;
 /**
@@ -109,13 +123,13 @@ export declare function copyProperties(from: {
  *
  * Will copy empty properties.
  *
- * @param {object}         from  Source object
- * @param {object}         to    Target object
+ * @param {object}         source  Source object
+ * @param {object}         target    Target object
  * @param {Array<string>}  keys  List of keys to copy
  */
-export declare function forceCopyProperties(from: {
+export declare function forceCopyProperties(source: {
     [key: string]: any;
-}, to: {
+}, target: {
     [key: string]: any;
 }, keys: Array<string>): void;
 /**

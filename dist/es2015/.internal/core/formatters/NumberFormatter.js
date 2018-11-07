@@ -401,7 +401,7 @@ var NumberFormatter = /** @class */ (function (_super) {
             res = "0";
         }
         // Add minus sign back
-        if (negative && (mods.indexOf("s") === -1)) {
+        if (value !== 0 && negative && (mods.indexOf("s") === -1)) {
             res = "-" + res;
         }
         // Add suffixes/prefixes

@@ -742,15 +742,15 @@ var DateAxis = /** @class */ (function (_super) {
             var endPosition = this.valueToPosition(endTimestamp);
             dataItem.position = position;
             var tick = dataItem.tick;
-            if (tick) {
+            if (tick && !tick.disabled) {
                 renderer.updateTickElement(tick, position, endPosition);
             }
             var grid = dataItem.grid;
-            if (grid) {
+            if (grid && !grid.disabled) {
                 renderer.updateGridElement(grid, position, endPosition);
             }
             var fill = dataItem.axisFill;
-            if (fill) {
+            if (fill && !fill.disabled) {
                 renderer.updateFillElement(fill, position, endPosition);
                 if (!dataItem.isRange) {
                     this.fillRule(dataItem);
@@ -761,7 +761,7 @@ var DateAxis = /** @class */ (function (_super) {
                 renderer.updateFillElement(mask, position, endPosition);
             }
             var label = dataItem.label;
-            if (label) {
+            if (label && !label.disabled) {
                 var location_1 = label.location;
                 if (location_1 == 0) {
                     if (this._gridInterval.count == 1 && this._gridInterval.timeUnit != "week" && !dataItem.isRange) {

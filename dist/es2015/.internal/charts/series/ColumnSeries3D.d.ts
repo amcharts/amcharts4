@@ -134,19 +134,23 @@ export declare class ColumnSeries3D extends ColumnSeries {
      * Constructor
      */
     constructor();
+    /**
+     * @ignore
+     */
     readonly columnsContainer: Container;
+    /**
+     * Validates data item's elements.
+     *
+     * @ignore Exclude from docs
+     * @param {this["_dataItem"]}  dataItem  Data item
+     */
+    validateDataElementReal(dataItem: this["_dataItem"]): void;
     /**
      * Returns an element to use for 3D bar.
      * @ignore
      * @return {this["_column"]} Element.
      */
     protected createColumnTemplate(): this["_column"];
-    /**
-     * Returns SVG path to use as a mask for the series.
-     *
-     * @return {string} Mask path
-     */
-    protected getMaskPath(): string;
     /**
      * @ignore Exclude from docs
      * @return {number} Depth (px)

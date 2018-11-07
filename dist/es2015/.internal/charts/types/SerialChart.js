@@ -17,6 +17,7 @@ import { ColorSet } from "../../core/utils/ColorSet";
 import { registry } from "../../core/Registry";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
+import { Disposer } from "../../core/utils/Disposer";
 /**
  * ============================================================================
  * DATA ITEM
@@ -121,10 +122,14 @@ var SerialChart = /** @class */ (function (_super) {
                     _this.handleSeriesAdded(event);
                 }, undefined, false);
                 this._series.events.on("removed", function (event) {
-                    _this.dataUsers.removeValue(event.oldValue);
+                    var series = event.oldValue;
+                    _this.dataUsers.removeValue(series);
                     _this.dataUsers.each(function (dataUser) {
                         dataUser.invalidateDataItems();
                     });
+                    if (series.autoDispose) {
+                        series.dispose();
+                    }
                     _this.feedLegend();
                 }, undefined, false);
                 this._disposers.push(new ListDisposer(this._series));
@@ -143,11 +148,15 @@ var SerialChart = /** @class */ (function (_super) {
      * @param {IListEvents<Series>["inserted"]}  event  Event
      */
     SerialChart.prototype.handleSeriesAdded = function (event) {
+        var _this = this;
         var series = event.newValue;
         series.chart = this;
         series.parent = this.seriesContainer;
         series.bulletsContainer.parent = this.bulletsContainer;
         this._dataUsers.moveValue(series);
+        series.addDisposer(new Disposer(function () {
+            _this.dataUsers.removeValue(series);
+        }));
         this.feedLegend();
     };
     /**

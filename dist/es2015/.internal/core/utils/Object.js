@@ -146,14 +146,30 @@ export function merge(object1, object2) {
  *
  * Will not copy empty properties.
  *
- * @param {object}         from  Source object
- * @param {object}         to    Target object
+ * @param {object}         source  Source object
+ * @param {object}         target    Target object
  * @param {Array<string>}  keys  List of keys to copy
  */
-export function copyProperties(from, to, keys) {
+export function copyProperties(source, target, keys) {
     $array.each(keys, function (key) {
-        if ($type.hasValue(from[key])) {
-            to[key] = from[key];
+        if ($type.hasValue(source[key])) {
+            target[key] = source[key];
+        }
+    });
+}
+/**
+ * Copies a list of properties from one object to another only if target does't have value of the property set.
+ *
+ * Will not copy empty properties.
+ *
+ * @param {object}         source  Source object
+ * @param {object}         target    Target object
+ * @param {Array<string>}  keys  List of keys to copy
+ */
+export function softCopyProperties(source, target, keys) {
+    $array.each(keys, function (key) {
+        if ($type.hasValue(source[key]) && !($type.hasValue(target[key]))) {
+            target[key] = source[key];
         }
     });
 }
@@ -162,13 +178,13 @@ export function copyProperties(from, to, keys) {
  *
  * Will copy empty properties.
  *
- * @param {object}         from  Source object
- * @param {object}         to    Target object
+ * @param {object}         source  Source object
+ * @param {object}         target    Target object
  * @param {Array<string>}  keys  List of keys to copy
  */
-export function forceCopyProperties(from, to, keys) {
+export function forceCopyProperties(source, target, keys) {
     $array.each(keys, function (key) {
-        to[key] = from[key];
+        target[key] = source[key];
     });
 }
 /**

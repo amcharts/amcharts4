@@ -58,6 +58,7 @@ var AxisDataItem = /** @class */ (function (_super) {
                     var grid_1 = component_1.renderer.grid.create();
                     this.grid = grid_1;
                     this._disposers.push(grid_1);
+                    grid_1.axis = this.component;
                     this._disposers.push(new Disposer(function () {
                         component_1.renderer.grid.removeValue(grid_1);
                     }));
@@ -100,6 +101,7 @@ var AxisDataItem = /** @class */ (function (_super) {
                 if (component_2) {
                     var tick_1 = component_2.renderer.ticks.create();
                     this.tick = tick_1;
+                    tick_1.axis = this.component;
                     this._disposers.push(tick_1);
                     this._disposers.push(new Disposer(function () {
                         component_2.renderer.ticks.removeValue(tick_1);
@@ -144,6 +146,7 @@ var AxisDataItem = /** @class */ (function (_super) {
                     var label_1 = component_3.renderer.labels.create();
                     this._disposers.push(label_1);
                     this.label = label_1;
+                    label_1.axis = this.component;
                     this._disposers.push(new Disposer(function () {
                         component_3.renderer.labels.removeValue(label_1);
                     }));
@@ -271,6 +274,7 @@ var AxisDataItem = /** @class */ (function (_super) {
                 var component = this.component;
                 if (component) {
                     var mask = component.renderer.axisFills.create();
+                    mask.disabled = false;
                     mask.axis = component;
                     this.addSprite(mask);
                     this._mask = mask;
@@ -438,6 +442,11 @@ var Axis = /** @class */ (function (_super) {
                 dataItem.axisFill.__disabled = false;
             }
         };
+        /**
+         * Specifies if axis should be automatically disposed when removing from chart's axis list.
+         * @default true
+         */
+        _this.autoDispose = true;
         _this.className = "Axis";
         _this.shouldClone = false;
         _this.cursorTooltipEnabled = true;
@@ -492,6 +501,16 @@ var Axis = /** @class */ (function (_super) {
         // this puts series after axis in invalidation order also makes series update it's data items in case widht/height of a series is not 100%
         $iter.each(this.series.iterator(), function (series) {
             series.invalidateLayout();
+        });
+    };
+    /**
+     * Invalidates series of this axis.
+     *
+     */
+    Axis.prototype.invalidateSeries = function () {
+        // this puts series after axis in invalidation order also makes series update it's data items in case widht/height of a series is not 100%
+        $iter.each(this.series.iterator(), function (series) {
+            series.invalidateDataRange();
         });
     };
     /**
@@ -782,7 +801,9 @@ var Axis = /** @class */ (function (_super) {
             var tooltipLocation = renderer.tooltipLocation;
             var startPosition = this.getCellStartPosition(position);
             var endPosition = this.getCellEndPosition(position);
-            position = startPosition + (endPosition - startPosition) * tooltipLocation;
+            if (this.tooltipPosition == "fixed") {
+                position = startPosition + (endPosition - startPosition) * tooltipLocation;
+            }
             position = $math.fitToRange(position, this.start, this.end);
             var startPoint = renderer.positionToPoint(startPosition);
             var endPoint = renderer.positionToPoint(endPosition);
@@ -1283,6 +1304,7 @@ var Axis = /** @class */ (function (_super) {
     Axis.prototype.createSeriesRange = function (series) {
         var range = this.createDataItem();
         range.component = this;
+        range.axisFill.disabled = false;
         series.axisRanges.push(range);
         return range;
     };

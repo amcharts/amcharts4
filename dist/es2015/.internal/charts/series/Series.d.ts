@@ -362,6 +362,11 @@ export declare class Series extends Component {
      */
     calculatePercent: boolean;
     /**
+     * Specifies if series should be automatically disposed when removing from chart's series list.
+     * @default true
+     */
+    autoDispose: boolean;
+    /**
      * Constructor
      */
     constructor();

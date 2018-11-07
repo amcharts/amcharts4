@@ -304,15 +304,15 @@ var CategoryAxis = /** @class */ (function (_super) {
         }
         dataItem.point = renderer.positionToPoint(position);
         var tick = dataItem.tick;
-        if (tick) {
+        if (tick && !tick.disabled) {
             renderer.updateTickElement(tick, position, endPosition);
         }
         var grid = dataItem.grid;
-        if (grid) {
+        if (grid && !grid.disabled) {
             renderer.updateGridElement(grid, position, endPosition);
         }
         var label = dataItem.label;
-        if (label) {
+        if (label && !label.disabled) {
             // theorethically this might result problems if category text changes, the range text won't change. But otherwise range.label.text = "custom text" wont' work, which is not intuitive.
             if (!dataItem.isRange || label.text == undefined) {
                 dataItem.text = dataItem.text;
@@ -320,7 +320,7 @@ var CategoryAxis = /** @class */ (function (_super) {
             renderer.updateLabelElement(label, position, endPosition);
         }
         var fill = dataItem.axisFill;
-        if (fill) {
+        if (fill && !fill.disabled) {
             renderer.updateFillElement(fill, fillPosition, fillEndPosition);
             if (!dataItem.isRange) {
                 this.fillRule(dataItem, itemIndex);

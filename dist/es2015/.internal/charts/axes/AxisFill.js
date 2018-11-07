@@ -46,6 +46,15 @@ var AxisFill = /** @class */ (function (_super) {
         return _this;
     }
     /**
+     * @ignore
+     */
+    AxisFill.prototype.setDisabled = function (value) {
+        _super.prototype.setDisabled.call(this, value);
+        if (this.axis) {
+            this.axis.invalidateDataItems();
+        }
+    };
+    /**
      * Draws the fill element.
      *
      * @ignore Exclude from docs
