@@ -284,6 +284,7 @@ function updateRadarData(year) {
 function createRange(name, continentData, index) {
 
     let axisRange = categoryAxis.axisRanges.create();
+    axisRange.axisFill.interactionsEnabled = true;
     axisRange.text = name;
     // first country
     axisRange.category = continentData[0][0];
@@ -293,6 +294,7 @@ function createRange(name, continentData, index) {
     // every 3rd color for a bigger contrast
     axisRange.axisFill.fill = colorSet.getIndex(index * 3);
     axisRange.grid.disabled = true;
+
     axisRange.label.interactionsEnabled = false;
 
     let axisFill = axisRange.axisFill;

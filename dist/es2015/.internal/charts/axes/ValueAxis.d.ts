@@ -604,7 +604,7 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
     /**
      * Current calculated delta in values between two adjacent grid lines (step).
      *
-     * This is a read-only value and cannot be used to set ctual step.
+     * This is a read-only value and cannot be used to set actual step.
      *
      * @readonly
      * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/positioning-axis-elements/#Setting_the_density_of_the_the_grid_labels} For more information about modifying density of labels

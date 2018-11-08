@@ -190,21 +190,23 @@ var XYChart3D = /** @class */ (function (_super) {
     XYChart3D.prototype.fixColumns = function () {
         var _this = this;
         var count = 1;
+        var i = 0;
         $iter.each(this.series.iterator(), function (series) {
             if (series instanceof ColumnSeries3D) {
-                if (!series.clustered) {
+                if (!series.clustered && i > 0) {
                     count++;
                 }
                 series.depthIndex = count - 1;
+                i++;
             }
         });
         var s = 0;
         $iter.each(this.series.iterator(), function (series) {
             if (series instanceof ColumnSeries3D) {
-                series.depth = _this.depth / (count - 1);
+                series.depth = _this.depth / (count);
                 series.angle = _this.angle;
-                series.dx = _this.depth / (count - 1) * $math.cos(_this.angle) * (series.depthIndex - 1);
-                series.dy = -_this.depth / (count - 1) * $math.sin(_this.angle) * (series.depthIndex - 1);
+                series.dx = _this.depth / (count) * $math.cos(_this.angle) * (series.depthIndex);
+                series.dy = -_this.depth / (count) * $math.sin(_this.angle) * (series.depthIndex);
                 var i_1 = 1;
                 $iter.each(series.columns.iterator(), function (column) {
                     column.zIndex = 1000 * i_1 + s - series.depthIndex * 100;
