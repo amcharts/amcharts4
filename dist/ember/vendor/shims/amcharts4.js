@@ -2306,6 +2306,14 @@ define('@amcharts/amcharts4/maps', [], function () {
   }
   throw new Error("You must add 'maps' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4/themes/amchartsdark', [], function () {
+  'use strict';
+  var output = self.am4themes_amchartsdark;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'themes/amchartsdark' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4/themes/animated', [], function () {
   'use strict';
   var output = self.am4themes_animated;

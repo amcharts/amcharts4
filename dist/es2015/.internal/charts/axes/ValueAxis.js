@@ -1606,6 +1606,7 @@ var ValueAxis = /** @class */ (function (_super) {
         _super.prototype.copyFrom.call(this, source);
         this.min = source.min;
         this.max = source.max;
+        this.calculateTotals = source.calculateTotals;
         this._baseValue = source.baseValue;
     };
     return ValueAxis;

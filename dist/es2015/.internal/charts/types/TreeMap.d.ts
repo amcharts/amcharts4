@@ -89,6 +89,7 @@ export declare class TreeMapDataItem extends XYChartDataItem {
      * @param {number}  value  Value
      */
     value: number;
+    readonly percent: number;
     /**
      * @return {number} X
      */

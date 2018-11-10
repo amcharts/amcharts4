@@ -876,6 +876,7 @@ var Series = /** @class */ (function (_super) {
     Series.prototype.copyFrom = function (source) {
         this.bullets.copyFrom(source.bullets);
         this.bulletsContainer.copyFrom(source.bulletsContainer);
+        this.calculatePercent = source.calculatePercent;
         _super.prototype.copyFrom.call(this, source);
     };
     /**

@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.75] - 2018-11-10
+
+### Added
+- You can now use `"{percent}"` placeholder in `tooltipText` of `HeatMapSeries` items.
+
+### Fixed
+- Draggable/trackable areas of the chart were intercepting all mouse buttons, including right and back/forward.
+- Fixed `MapChart` issue with dragging map by touch on hybrid devices.
+
+
 ## [4.0.0-beta.74] - 2018-11-08
 
 ### Fixed

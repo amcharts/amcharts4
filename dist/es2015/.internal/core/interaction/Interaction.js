@@ -198,7 +198,7 @@ var Interaction = /** @class */ (function (_super) {
             _this._pointerEvents.pointercancel = "pointercancel";
             _this._pointerEvents.pointerover = "pointerover";
             _this._pointerEvents.pointerout = "pointerout";
-            _this._usePointerEventsOnly = true;
+            //this._usePointerEventsOnly = true;
         }
         else if (window.hasOwnProperty("MSPointerEvent")) {
             // IE9
@@ -208,7 +208,7 @@ var Interaction = /** @class */ (function (_super) {
             _this._pointerEvents.pointercancel = "MSPointerUp";
             _this._pointerEvents.pointerover = "MSPointerOver";
             _this._pointerEvents.pointerout = "MSPointerOut";
-            _this._usePointerEventsOnly = true;
+            //this._usePointerEventsOnly = true;
         }
         else {
             // uses defaults for normal browsers
@@ -278,13 +278,13 @@ var Interaction = /** @class */ (function (_super) {
             this._disposers.push(addEventListener(document, this._pointerEvents.pointermove, function (ev) { _this.handleGlobalPointerMove(ev); }));
             this._disposers.push(addEventListener(document, this._pointerEvents.pointerup, function (ev) { _this.handleGlobalPointerUp(ev); }));
             this._disposers.push(addEventListener(document, this._pointerEvents.pointercancel, function (ev) { _this.handleGlobalPointerUp(ev, true); }));
-            this._disposers.push(addEventListener(document, "touchend", function (ev) { _this.handleGlobalTouchEnd(ev); }));
             // No need to duplicate events for hubrid systems that support both
             // pointer events and touch events. Touch events are need only for
             // some touch-only systems, like Mobile Safari.
             if (!this._usePointerEventsOnly) {
                 this._disposers.push(addEventListener(document, "touchstart", function (ev) { _this.handleGlobalTouchStart(ev); }));
                 this._disposers.push(addEventListener(document, "touchmove", function (ev) { _this.handleGlobalTouchMove(ev); }));
+                this._disposers.push(addEventListener(document, "touchend", function (ev) { _this.handleGlobalTouchEnd(ev); }));
             }
             this._disposers.push(addEventListener(document, "keydown", function (ev) { _this.handleGlobalKeyDown(ev); }));
             this._disposers.push(addEventListener(document, "keyup", function (ev) { _this.handleGlobalKeyUp(ev); }));
@@ -751,6 +751,7 @@ var Interaction = /** @class */ (function (_super) {
             var pointer = this.getPointer(ev.changedTouches[i]);
             // Update current point position
             pointer.point = this.getPointerPoint(ev.changedTouches[i]);
+            console.log(pointer.id, pointer.point);
             // Prepare and fire global event
             if (this.events.isEnabled("track")) {
                 var imev = {
@@ -850,6 +851,10 @@ var Interaction = /** @class */ (function (_super) {
         //}
         // Get pointer
         var pointer = this.getPointer(ev);
+        // Ignore if it's anything but mouse's primary button
+        if (!pointer.touch && (ev.which > 1)) {
+            return;
+        }
         // Set mouse button
         pointer.button = ev.which;
         // Reset pointer
@@ -969,6 +974,12 @@ var Interaction = /** @class */ (function (_super) {
             // Yup - it's a double-hit
             // Cancel the hit
             //clearTimeout(io.lastHitPointer.hitTimeout);
+            // If it happened too fast it probably means that hybrid device just
+            // generated two events for the same tap
+            if ((now - io.lastHit) < 100) {
+                // Ignore
+                return;
+            }
             // Clear last hit
             io.lastHit = undefined;
             io.lastHitPointer = undefined;
@@ -1247,6 +1258,9 @@ var Interaction = /** @class */ (function (_super) {
         this.handleOut(io, pointer, ev, true);
         // Check if object still down
         if (io.isDown) {
+            console.log("startPoint", JSON.stringify(pointer.startPoint));
+            console.log("point", JSON.stringify(pointer.point));
+            console.log("point", pointer.id);
             // Check if there are no other pointers hovering this element
             if (io.downPointers.length == 0) {
                 // Set element as no longer down
@@ -1592,27 +1606,31 @@ var Interaction = /** @class */ (function (_super) {
             startPoint1 = pointer1.startPoint;
         }
         // Init secondary pointer
-        var pointer2 = io.downPointers.getIndex(1);
+        var pointer2;
         var point2;
         var startPoint2;
+        // Use center of the sprite to simulate "second" point of touch
+        point2 = {
+            "x": io.originalPosition.x,
+            "y": io.originalPosition.y
+        };
+        startPoint2 = point2;
         // Determine if it's a sinngle pointer or multi
         var singlePoint = true;
-        if ((io.downPointers.length > 1) && pointer2 && (pointer1.point.x != pointer2.point.x || pointer1.point.y != pointer2.point.y)) {
-            // Several pointers down
-            singlePoint = false;
-            // Get second pointer
-            point2 = pointer2.point;
-            startPoint2 = pointer2.startPoint;
-        }
-        else {
-            // Just one pointer down
-            singlePoint = true;
-            // Use center of the sprite to simulate "second" point of touch
-            point2 = {
-                "x": io.originalPosition.x,
-                "y": io.originalPosition.y
-            };
-            startPoint2 = point2;
+        for (var i = 1; i < io.downPointers.length; i++) {
+            // Get pointer
+            var nextPointer = io.downPointers.getIndex(i);
+            // Doublecheck if it's not the same pointer by comparing original position
+            if (startPoint1.x != nextPointer.startPoint.x || startPoint1.y != nextPointer.startPoint.y) {
+                // Several pointers down
+                singlePoint = false;
+                // Get second pointer
+                pointer2 = nextPointer;
+                point2 = pointer2.point;
+                startPoint2 = pointer2.startPoint;
+                // Stop looking
+                break;
+            }
         }
         // Primary touch point moved?
         var pointer1Moved = pointer1 && this.moved(pointer1, 0);
@@ -1970,11 +1988,12 @@ var Interaction = /** @class */ (function (_super) {
      */
     Interaction.prototype.resetPointer = function (pointer, ev) {
         // Get current coordinates
+        console.log("resetting pointer");
         var point = this.getPointerPoint(ev);
         ;
         pointer.startTime = $time.getTime();
-        pointer.startPoint = point;
-        pointer.point = point;
+        pointer.startPoint = { x: point.x, y: point.y };
+        pointer.point = { x: point.x, y: point.y };
         pointer.track = [];
         pointer.swipeCanceled = false;
         //clearTimeout(pointer.swipeTimeout);
