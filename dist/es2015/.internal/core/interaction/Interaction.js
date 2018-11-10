@@ -751,7 +751,6 @@ var Interaction = /** @class */ (function (_super) {
             var pointer = this.getPointer(ev.changedTouches[i]);
             // Update current point position
             pointer.point = this.getPointerPoint(ev.changedTouches[i]);
-            console.log(pointer.id, pointer.point);
             // Prepare and fire global event
             if (this.events.isEnabled("track")) {
                 var imev = {
@@ -1258,9 +1257,6 @@ var Interaction = /** @class */ (function (_super) {
         this.handleOut(io, pointer, ev, true);
         // Check if object still down
         if (io.isDown) {
-            console.log("startPoint", JSON.stringify(pointer.startPoint));
-            console.log("point", JSON.stringify(pointer.point));
-            console.log("point", pointer.id);
             // Check if there are no other pointers hovering this element
             if (io.downPointers.length == 0) {
                 // Set element as no longer down
