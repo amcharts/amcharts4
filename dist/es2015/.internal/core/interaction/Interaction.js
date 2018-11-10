@@ -1984,7 +1984,6 @@ var Interaction = /** @class */ (function (_super) {
      */
     Interaction.prototype.resetPointer = function (pointer, ev) {
         // Get current coordinates
-        console.log("resetting pointer");
         var point = this.getPointerPoint(ev);
         ;
         pointer.startTime = $time.getTime();
