@@ -25,7 +25,7 @@ var JSONParser = /** @class */ (function (_super) {
          *
          * @type {string}
          */
-        _this.type = "application/json";
+        _this.contentType = "application/json";
         /**
          * Parser options.
          *

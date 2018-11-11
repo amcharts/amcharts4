@@ -28,7 +28,7 @@ var CSVParser = /** @class */ (function (_super) {
          *
          * @type {string}
          */
-        _this.type = "text/csv";
+        _this.contentType = "text/csv";
         /**
          * Parser options.
          *

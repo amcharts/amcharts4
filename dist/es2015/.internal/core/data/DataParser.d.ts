@@ -74,7 +74,7 @@ export declare class DataParser {
      *
      * @type {string}
      */
-    type: string;
+    contentType: string;
     /**
      * Parser options.
      *

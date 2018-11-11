@@ -6,18 +6,18 @@ var theme = function (object) {
     if (object instanceof InterfaceColorSet) {
         object.setFor("stroke", color("#000000"));
         object.setFor("fill", color("#2b2b2b"));
-        object.setFor("primaryButton", color("#6794dc").lighten(-0.2));
-        object.setFor("primaryButtonHover", color("#6771dc").lighten(-0.2));
-        object.setFor("primaryButtonDown", color("#68dc75").lighten(-0.2));
-        object.setFor("primaryButtonActive", color("#68dc75").lighten(-0.2));
+        object.setFor("primaryButton", color("#0975da").lighten(-0.2));
+        object.setFor("primaryButtonHover", color("#0975da").lighten(-0.2));
+        object.setFor("primaryButtonDown", color("#0975da").lighten(-0.2));
+        object.setFor("primaryButtonActive", color("#0975da").lighten(-0.2));
         object.setFor("primaryButtonText", color("#FFFFFF"));
-        object.setFor("primaryButtonStroke", color("#6794dc"));
-        object.setFor("secondaryButton", color("#0079ba"));
-        object.setFor("secondaryButtonHover", color("#0079ba").lighten(0.1));
-        object.setFor("secondaryButtonDown", color("#0079ba").lighten(0.15));
-        object.setFor("secondaryButtonActive", color("#0079ba").lighten(0.15));
-        object.setFor("secondaryButtonText", color("#0079ba"));
-        object.setFor("secondaryButtonStroke", color("#0079ba").lighten(-0.2));
+        object.setFor("primaryButtonStroke", color("#0975da"));
+        object.setFor("secondaryButton", color("#1fb0ff"));
+        object.setFor("secondaryButtonHover", color("#1fb0ff").lighten(0.1));
+        object.setFor("secondaryButtonDown", color("#1fb0ff").lighten(0.15));
+        object.setFor("secondaryButtonActive", color("#1fb0ff").lighten(0.15));
+        object.setFor("secondaryButtonText", color("#1fb0ff"));
+        object.setFor("secondaryButtonStroke", color("#1fb0ff").lighten(-0.2));
         object.setFor("grid", color("#bbbbbb"));
         object.setFor("background", color("#000000"));
         object.setFor("alternativeBackground", color("#ffffff"));
@@ -32,7 +32,12 @@ var theme = function (object) {
     if (object instanceof ColorSet) {
         object.list = [
             color("#e3ecb7"),
-            color("#0079ba")
+            color("#0975da"),
+            color("#0996f2"),
+            color("#1fb0ff"),
+            color("#41baff"),
+            color("#5ec5ff"),
+            color("#3db7ff")
         ];
         object.reuse = false;
         object.stepOptions = {

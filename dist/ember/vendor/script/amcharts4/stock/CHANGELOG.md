@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.78] - 2018-11-11
+
+### Changed
+- `DataParser` property `type` was renamed to `contentType` in order not to conincide with JSON-based config built-in keyword `type`.
+
+### Fixed
+- Some rendering issues fixed.
+
+
 ## [4.0.0-beta.77] - 2018-11-10
 
 ### Fixed

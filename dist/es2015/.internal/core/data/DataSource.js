@@ -125,16 +125,16 @@ var DataSource = /** @class */ (function (_super) {
      * Processes the loaded data.
      *
      * @ignore Exclude from docs
-     * @param {string}  data  Raw (unparsed) data
-     * @param {string}  type  Content type of the loaded data (optional)
+     * @param {string}  data         Raw (unparsed) data
+     * @param {string}  contentType  Content type of the loaded data (optional)
      */
-    DataSource.prototype.processData = function (data, type) {
+    DataSource.prototype.processData = function (data, contentType) {
         // Parsing started
         this.dispatchImmediately("parsestarted");
         // Check if parser is set
         if (!this.parser) {
             // Try to resolve from data
-            this.parser = dataLoader.getParserByData(data, type);
+            this.parser = dataLoader.getParserByData(data, contentType);
             if (!this.parser) {
                 // We have a problem - nobody knows what to do with the data
                 // Raise error

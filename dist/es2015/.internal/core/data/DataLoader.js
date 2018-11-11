@@ -97,22 +97,22 @@ var DataLoader = /** @class */ (function () {
      * * "csv" or "text/csv"
      * * "json" or "application/json"
      *
-     * @param  {string}      type  A format type
-     * @return {DataParser}        A parser object
+     * @param  {string}      contentType  A format type
+     * @return {DataParser}               A parser object
      */
-    DataLoader.prototype.getParserByType = function (type) {
+    DataLoader.prototype.getParserByType = function (contentType) {
         // Let some plugin decide
         var parser;
         if (parser = this.adapter.apply("getParserByType", {
             parser: null,
-            type: type
+            type: contentType
         }).parser) {
             return parser;
         }
-        if (type == "csv" || type == "text/csv" || type == "application/vnd.ms-excel") {
+        if (contentType == "csv" || contentType == "text/csv" || contentType == "application/vnd.ms-excel") {
             return new CSVParser();
         }
-        if (type == "json" || type == "application/json") {
+        if (contentType == "json" || contentType == "application/json") {
             return new JSONParser();
         }
         return;
@@ -120,21 +120,21 @@ var DataLoader = /** @class */ (function () {
     /**
      * Tries to determine a parser out of content type and/or actual data.
      *
-     * @param  {string}      data  Data
-     * @param  {string}      type  Content-type
-     * @return {DataParser}        Parser instance
+     * @param  {string}      data         Data
+     * @param  {string}      contentType  Content-type
+     * @return {DataParser}               Parser instance
      */
-    DataLoader.prototype.getParserByData = function (data, type) {
+    DataLoader.prototype.getParserByData = function (data, contentType) {
         // Let some plugin decide
         var parser = this.adapter.apply("getParserByData", {
             parser: null,
             data: data,
-            type: type
+            type: contentType
         }).parser;
         // Check if we have parser from outside code
         if (!parser) {
             // No, let's try to figure it out
-            if (parser = this.getParserByType(type)) {
+            if (parser = this.getParserByType(contentType)) {
                 // We're able to figure out parser by conten-type
                 return parser;
             }

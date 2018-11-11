@@ -310,10 +310,10 @@ export declare class DataSource extends BaseObjectEvents {
      * Processes the loaded data.
      *
      * @ignore Exclude from docs
-     * @param {string}  data  Raw (unparsed) data
-     * @param {string}  type  Content type of the loaded data (optional)
+     * @param {string}  data         Raw (unparsed) data
+     * @param {string}  contentType  Content type of the loaded data (optional)
      */
-    processData(data: string, type?: string): void;
+    processData(data: string, contentType?: string): void;
     /**
      * @return {string} URL
      */

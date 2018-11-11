@@ -80,18 +80,18 @@ export declare class DataLoader {
      * * "csv" or "text/csv"
      * * "json" or "application/json"
      *
-     * @param  {string}      type  A format type
-     * @return {DataParser}        A parser object
+     * @param  {string}      contentType  A format type
+     * @return {DataParser}               A parser object
      */
-    getParserByType(type: string): DataParser;
+    getParserByType(contentType: string): DataParser;
     /**
      * Tries to determine a parser out of content type and/or actual data.
      *
-     * @param  {string}      data  Data
-     * @param  {string}      type  Content-type
-     * @return {DataParser}        Parser instance
+     * @param  {string}      data         Data
+     * @param  {string}      contentType  Content-type
+     * @return {DataParser}               Parser instance
      */
-    getParserByData(data: string, type?: string): DataParser;
+    getParserByData(data: string, contentType?: string): DataParser;
 }
 /**
  * Create instance of Data Loader

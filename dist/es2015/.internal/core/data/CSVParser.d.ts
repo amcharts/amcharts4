@@ -109,7 +109,7 @@ export declare class CSVParser extends DataParser {
      *
      * @type {string}
      */
-    type: string;
+    contentType: string;
     /**
      * Parser options.
      *

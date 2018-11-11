@@ -200,7 +200,7 @@ var System = /** @class */ (function () {
                 count++;
                 if (count == 5) {
                     if (Date.now() - time > this._updateStepDuration) {
-                        skippedSprites = invalidSprites;
+                        //skippedSprites = invalidSprites;
                         break;
                     }
                     count = 0;
@@ -248,10 +248,7 @@ var System = /** @class */ (function () {
                 }
                 $array.remove(invalidSprites, sprite);
             }
-            if (Date.now() - time > this._updateStepDuration) {
-                skippedSprites = invalidSprites;
-                break;
-            }
+            registry.invalidSprites[key] = registry.invalidSprites[key].concat(skippedSprites);
         }
         for (var key in registry.invalidSprites) {
             if (registry.invalidSprites[key].length > 0) {
@@ -419,7 +416,7 @@ var System = /** @class */ (function () {
      * @see {@link https://docs.npmjs.com/misc/semver}
      * @type {string}
      */
-    System.VERSION = "4.0.0-beta.77";
+    System.VERSION = "4.0.0-beta.78";
     return System;
 }());
 export { System };

@@ -54,7 +54,7 @@ export declare class JSONParser extends DataParser {
      *
      * @type {string}
      */
-    type: string;
+    contentType: string;
     /**
      * Parser options.
      *
