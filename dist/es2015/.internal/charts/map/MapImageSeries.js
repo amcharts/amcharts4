@@ -16,6 +16,7 @@ import * as $array from "../../core/utils/Array";
 import * as $mapUtils from "./MapUtils";
 import * as $utils from "../../core/utils/Utils";
 import * as $iter from "../../core/utils/Iterator";
+import * as $type from "../../core/utils/Type";
 import { Disposer } from "../../core/utils/Disposer";
 /**
  * ============================================================================
@@ -219,7 +220,11 @@ var MapImageSeries = /** @class */ (function (_super) {
         // important! this should go after super.validateData
         // if data is parsed in chunks, images list is corrupted, fix it here
         $iter.each(this.dataItems.iterator(), function (dataItem) {
-            _this.mapImages.moveValue(dataItem.mapImage);
+            var mapImage = dataItem.mapImage;
+            _this.mapImages.moveValue(mapImage);
+            if ($type.isNumber(mapImage.latitude) && $type.isNumber(mapImage.latitude)) {
+                dataItem.geoPoint = { latitude: mapImage.latitude, longitude: mapImage.longitude };
+            }
         });
     };
     Object.defineProperty(MapImageSeries.prototype, "mapImages", {

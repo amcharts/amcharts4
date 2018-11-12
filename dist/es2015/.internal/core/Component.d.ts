@@ -907,4 +907,5 @@ export declare class Component extends Container {
      * @ignore
      */
     protected setShowOnInit(value: boolean): void;
+    protected setBaseId(value: string): void;
 }

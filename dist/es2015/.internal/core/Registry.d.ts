@@ -115,7 +115,7 @@ export declare class Registry {
  * during next cycle.
  *
  * @ignore Exclude from docs
- * @type {Array<Sprite>}
+ * @type { [index: string]: Array<Sprite> }
  */
     invalidSprites: {
         [index: string]: Array<Sprite>;
@@ -125,9 +125,11 @@ export declare class Registry {
      * a new one or data is added/removed from their data provider.
      *
      * @ignore Exclude from docs
-     * @type {Array<Component>}
+     * @type { [index: string]: Array<Component> }
      */
-    invalidDatas: Array<Component>;
+    invalidDatas: {
+        [index: string]: Array<Component>;
+    };
     /**
      * Components are added to this list when values of their raw data change.
      * Used when we want a smooth animation from one set of values to another.
@@ -240,6 +242,14 @@ export declare class Registry {
      * @return {string}       Random string to be used as placeholder
      */
     getPlaceholder(key: string): string;
+    /**
+     * @ignore
+     */
+    addToInvalidComponents(component: Component): void;
+    /**
+     * @ignore
+     */
+    removeFromInvalidComponents(component: Component): void;
     /**
      * @ignore
      */

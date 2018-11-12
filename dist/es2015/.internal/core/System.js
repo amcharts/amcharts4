@@ -85,40 +85,42 @@ var System = /** @class */ (function () {
         // only data is parsed in chunks, thats why we do for loop instead of a while like with other invalid items.
         // important to go backwards, as items are removed!
         // TODO use iterator instead
-        while (registry.invalidDatas.length > 0) {
-            var component = registry.invalidDatas[0];
-            var dataProvider = component.dataProvider;
-            if (!component.isDisposed()) {
-                if (dataProvider && dataProvider.dataInvalid) {
-                    try {
-                        dataProvider.validateData();
-                        if (dataProvider.dataValidationProgress < 1) {
-                            break;
+        for (var key in registry.invalidDatas) {
+            var invalidData = registry.invalidDatas[key];
+            while (invalidData.length > 0) {
+                var component = invalidData[0];
+                var dataProvider = component.dataProvider;
+                if (!component.isDisposed()) {
+                    if (dataProvider && dataProvider.dataInvalid) {
+                        try {
+                            dataProvider.validateData();
+                            if (dataProvider.dataValidationProgress < 1) {
+                                break;
+                            }
+                        }
+                        catch (e) {
+                            $array.remove(invalidData, dataProvider);
+                            dataProvider.raiseCriticalError(e);
                         }
                     }
-                    catch (e) {
-                        $array.remove(registry.invalidDatas, dataProvider);
-                        dataProvider.raiseCriticalError(e);
+                    else {
+                        try {
+                            component.validateData();
+                            if (component.dataValidationProgress < 1) {
+                                break;
+                            }
+                        }
+                        catch (e) {
+                            $array.remove(invalidData, component);
+                            component.raiseCriticalError(e);
+                        }
                     }
                 }
                 else {
-                    try {
-                        component.validateData();
-                        if (component.dataValidationProgress < 1) {
-                            break;
-                        }
-                    }
-                    catch (e) {
-                        $array.remove(registry.invalidDatas, component);
-                        component.raiseCriticalError(e);
-                    }
+                    $array.remove(invalidData, component);
                 }
             }
-            else {
-                $array.remove(registry.invalidDatas, component);
-            }
             if (Date.now() - time > this._updateStepDuration) {
-                skippedComponents = registry.invalidDatas;
                 break;
             }
         }
@@ -200,7 +202,6 @@ var System = /** @class */ (function () {
                 count++;
                 if (count == 5) {
                     if (Date.now() - time > this._updateStepDuration) {
-                        //skippedSprites = invalidSprites;
                         break;
                     }
                     count = 0;
@@ -255,8 +256,10 @@ var System = /** @class */ (function () {
                 hasSkipped = true;
             }
         }
-        if (skippedComponents.length > 0) {
-            registry.invalidDatas = skippedComponents;
+        for (var key in registry.invalidDatas) {
+            if (registry.invalidDatas[key].length > 0) {
+                hasSkipped = true;
+            }
         }
         // TODO make this more efficient
         // TODO don't copy the array
@@ -282,8 +285,21 @@ var System = /** @class */ (function () {
         if (hasSkipped || animations.length > 0 || skippedComponents.length > 0) {
             this.requestFrame();
         }
-        if (skippedSprites.length == 0) {
-            this._updateStepDuration = 250;
+        if (this._updateStepDuration < 200) {
+            var all0 = true;
+            for (var key in registry.invalidDatas) {
+                if (registry.invalidDatas[key].length > 0) {
+                    all0 = false;
+                }
+            }
+            for (var key in registry.invalidSprites) {
+                if (registry.invalidSprites[key].length > 0) {
+                    all0 = false;
+                }
+            }
+            if (all0) {
+                this._updateStepDuration = 200;
+            }
         }
     };
     System.prototype.requestFrame = function () {
@@ -416,7 +432,7 @@ var System = /** @class */ (function () {
      * @see {@link https://docs.npmjs.com/misc/semver}
      * @type {string}
      */
-    System.VERSION = "4.0.0-beta.78";
+    System.VERSION = "4.0.0-beta.79";
     return System;
 }());
 export { System };

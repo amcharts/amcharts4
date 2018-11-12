@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.79] - 2018-11-12
+
+### Fixed
+- `goHome()` on `MapChart` was not working properly.
+- `projection` change on `MapChart` was not working properly.
+
+
 ## [4.0.0-beta.78] - 2018-11-11
 
 ### Changed

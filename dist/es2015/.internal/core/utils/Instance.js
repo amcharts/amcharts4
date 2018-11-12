@@ -67,6 +67,7 @@ function createChild(htmlElement, classType) {
         var sprite_1 = contentContainer.createChild(classType);
         var uid = sprite_1.uid;
         registry.invalidSprites[uid] = [];
+        registry.invalidDatas[uid] = [];
         registry.invalidPositions[uid] = [];
         registry.invalidLayouts[uid] = [];
         container_1.baseId = uid;

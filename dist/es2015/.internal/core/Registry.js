@@ -75,7 +75,7 @@ var Registry = /** @class */ (function () {
      * during next cycle.
      *
      * @ignore Exclude from docs
-     * @type {Array<Sprite>}
+     * @type { [index: string]: Array<Sprite> }
      */
         this.invalidSprites = {};
         /**
@@ -83,9 +83,9 @@ var Registry = /** @class */ (function () {
          * a new one or data is added/removed from their data provider.
          *
          * @ignore Exclude from docs
-         * @type {Array<Component>}
+         * @type { [index: string]: Array<Component> }
          */
-        this.invalidDatas = [];
+        this.invalidDatas = {};
         /**
          * Components are added to this list when values of their raw data change.
          * Used when we want a smooth animation from one set of values to another.
@@ -137,6 +137,7 @@ var Registry = /** @class */ (function () {
         this.baseSpritesByUid = {};
         this.uid = this.getUniqueId();
         this.invalidSprites.noBase = [];
+        this.invalidDatas.noBase = [];
         this.invalidLayouts.noBase = [];
         this.invalidPositions.noBase = [];
     }
@@ -252,6 +253,26 @@ var Registry = /** @class */ (function () {
         }
         this._placeholders[key] = "__amcharts_" + key + "_" + $string.random(8) + "__";
         return this._placeholders[key];
+    };
+    /**
+     * @ignore
+     */
+    Registry.prototype.addToInvalidComponents = function (component) {
+        if (component.baseId) {
+            $array.move(this.invalidDatas[component.baseId], component);
+        }
+        else {
+            $array.move(this.invalidDatas["noBase"], component);
+        }
+    };
+    /**
+     * @ignore
+     */
+    Registry.prototype.removeFromInvalidComponents = function (component) {
+        if (component.baseId) {
+            $array.remove(this.invalidDatas[component.baseId], component);
+        }
+        $array.remove(this.invalidDatas["noBase"], component);
     };
     /**
      * @ignore

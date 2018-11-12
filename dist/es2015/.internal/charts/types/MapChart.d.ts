@@ -420,6 +420,7 @@ export declare class MapChart extends SerialChart {
     protected _mapAnimation: Animation;
     protected _mouseWheelDisposer: IDisposer;
     protected _zoomGeoPointReal: IGeoPoint;
+    protected _centerGeoPoint: IGeoPoint;
     /**
      * Constructor
      */

@@ -336,7 +336,9 @@ var MapChart = /** @class */ (function (_super) {
          */
         set: function (projection) {
             projection.deltaLongitude = this.deltaLongitude;
-            this.setPropertyValue("projection", projection, true);
+            if (this.setPropertyValue("projection", projection)) {
+                this.invalidateProjection();
+            }
         },
         enumerable: true,
         configurable: true
@@ -349,6 +351,10 @@ var MapChart = /** @class */ (function (_super) {
      */
     MapChart.prototype.updateExtremes = function () {
         var _this = this;
+        var pWest = this.west;
+        var pEast = this.east;
+        var pNorth = this.north;
+        var pSouth = this.south;
         this.west = null;
         this.east = null;
         this.north = null;
@@ -374,10 +380,10 @@ var MapChart = /** @class */ (function (_super) {
             // temporary setting deltaLongitude to 0 in order to measure w/h correctly
             var deltaLongitude = this.projection.deltaLongitude;
             this.projection.deltaLongitude = 0;
-            var westPoint = this.projection.convert({ longitude: this.west, latitude: (this.south - this.north) / 2 });
-            var eastPoint = this.projection.convert({ longitude: this.east, latitude: (this.south - this.north) / 2 });
             var northPoint = this.projection.convert({ longitude: (this.east - this.west) / 2, latitude: this.north });
             var southPoint = this.projection.convert({ longitude: (this.east - this.west) / 2, latitude: this.south });
+            var westPoint = this.projection.convert({ longitude: this.west, latitude: (this.north - this.south) / 2 });
+            var eastPoint = this.projection.convert({ longitude: this.east, latitude: (this.north - this.south) / 2 });
             this.projection.deltaLongitude = deltaLongitude;
             this.projection.centerPoint = { x: westPoint.x + (eastPoint.x - westPoint.x) / 2, y: northPoint.y + (southPoint.y - northPoint.y) / 2 };
             var scaleRatio = void 0;
@@ -399,6 +405,7 @@ var MapChart = /** @class */ (function (_super) {
             this.seriesHeight = seriesHeight * scaleRatio;
             var northPoint2 = this.projection.convert({ longitude: (this.east - this.west) / 2, latitude: this.north });
             var westPoint2 = this.projection.convert({ longitude: this.west, latitude: (this.south - this.north) / 2 });
+            this._centerGeoPoint = this.projection.invert({ x: westPoint2.x + this.seriesWidth / 2, y: northPoint2.y + this.seriesHeight / 2 });
             //this.seriesContainer.width = this.seriesWidth; // not good, doesn't resize
             //this.seriesContainer.height = this.seriesHeight; // not good, doesn't resize
             this.seriesContainer.definedBBox = { x: westPoint2.x, y: northPoint2.y, width: this.seriesWidth, height: this.seriesHeight };
@@ -407,6 +414,11 @@ var MapChart = /** @class */ (function (_super) {
             var chartContainer = this.chartContainer;
             seriesContainer.x = chartContainer.pixelWidth / 2;
             seriesContainer.y = chartContainer.pixelHeight / 2;
+            if (pWest != this.west || pEast != this.east || pNorth != this.north || pSouth != this.south) {
+                $iter.each(this.series.iterator(), function (series) {
+                    series.invalidate();
+                });
+            }
         }
     };
     /**
@@ -887,6 +899,7 @@ var MapChart = /** @class */ (function (_super) {
      * Invalidates projection, causing all series to be redrawn.
      */
     MapChart.prototype.invalidateProjection = function () {
+        this.updateExtremes();
         //		this.projection.deltaLatitude = this.deltaLatitude;
         this.projection.deltaLongitude = this.deltaLongitude;
         $iter.each(this.series.iterator(), function (series) {
@@ -994,7 +1007,7 @@ var MapChart = /** @class */ (function (_super) {
          * @type {IPoint}
          */
         get: function () {
-            return this.svgPointToGeo({ x: this.measuredWidth / 2, y: this.measuredHeight / 2 });
+            return this._centerGeoPoint;
         },
         enumerable: true,
         configurable: true

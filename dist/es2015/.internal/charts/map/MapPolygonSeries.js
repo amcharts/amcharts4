@@ -251,7 +251,7 @@ var MapPolygonSeries = /** @class */ (function (_super) {
         var _this = 
         // Init
         _super.call(this) || this;
-        _this.parsingStepDuration = 1000; // to avoid some extra redrawing
+        _this.parsingStepDuration = 250; // to avoid some extra redrawing
         _this.className = "MapPolygonSeries";
         // Set data fields
         _this.dataFields.multiPolygon = "multiPolygon";

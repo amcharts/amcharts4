@@ -487,7 +487,7 @@ var Component = /** @class */ (function (_super) {
             return;
         }
         //if(!this.dataInvalid){
-        $array.move(registry.invalidDatas, this);
+        registry.addToInvalidComponents(this);
         system.requestFrame();
         this.dataInvalid = true;
         $iter.each(this.dataUsers.iterator(), function (x) {
@@ -659,7 +659,7 @@ var Component = /** @class */ (function (_super) {
     Component.prototype.validateData = function () {
         this.dispatchImmediately("beforedatavalidated");
         this.dataInvalid = false;
-        $array.remove(registry.invalidDatas, this);
+        registry.removeFromInvalidComponents(this);
         this.dataValidationProgress = 0;
         // need this to slice new data
         this._prevStartIndex = undefined;
@@ -1253,7 +1253,7 @@ var Component = /** @class */ (function (_super) {
      */
     Component.prototype.removeFromInvalids = function () {
         _super.prototype.removeFromInvalids.call(this);
-        $array.remove(registry.invalidDatas, this);
+        registry.removeFromInvalidComponents(this);
         $array.remove(registry.invalidDataItems, this);
         $array.remove(registry.invalidDataRange, this);
         $array.remove(registry.invalidRawDatas, this);
@@ -1438,6 +1438,16 @@ var Component = /** @class */ (function (_super) {
         }
         // important order here
         _super.prototype.setShowOnInit.call(this, value);
+    };
+    Component.prototype.setBaseId = function (value) {
+        if (value != this._baseId) {
+            if (this.dataInvalid) {
+                this.dataInvalid = false;
+                $array.remove(registry.invalidDatas.noBase, this);
+                this.invalidateData();
+            }
+        }
+        _super.prototype.setBaseId.call(this, value);
     };
     return Component;
 }(Container));

@@ -773,6 +773,15 @@ export function svgPointToSprite(point, sprite) {
             if (sprite_1.dy) {
                 y -= sprite_1.dy;
             }
+            /*
+                        if(sprite.element){
+                            if(sprite.element.x){
+                                x -= sprite.element.x;
+                            }
+                            if(sprite.element.y){
+                                y -= sprite.element.y;
+                            }
+                        }*/
             x = ($math.cos(-angle) * relativeX - $math.sin(-angle) * relativeY) / sprite_1.scale - sprite_1.pixelPaddingLeft;
             y = ($math.cos(-angle) * relativeY + $math.sin(-angle) * relativeX) / sprite_1.scale - sprite_1.pixelPaddingTop;
         }
@@ -795,6 +804,15 @@ export function spritePointToSvg(point, sprite) {
             var angle = sprite.rotation;
             x += sprite.pixelPaddingLeft;
             y += sprite.pixelPaddingTop;
+            /*
+                        if(sprite.element){
+                            if(sprite.element.x){
+                                x += sprite.element.x;
+                            }
+                            if(sprite.element.y){
+                                y += sprite.element.y;
+                            }
+                        }*/
             if (sprite.dx) {
                 x += sprite.dx;
             }
