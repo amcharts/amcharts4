@@ -824,6 +824,7 @@ var ValueAxis = /** @class */ (function (_super) {
      */
     ValueAxis.prototype.getMinMax = function () {
         var _this = this;
+        this.updateGridCount();
         var min = Number.POSITIVE_INFINITY;
         var max = Number.NEGATIVE_INFINITY;
         // only if min and max are not set from outside, we go through min and max influencers

@@ -135,7 +135,7 @@ let colorSet = new am4core.ColorSet();
 
 let chart = am4core.create("chartdiv", am4charts.RadarChart);
 chart.numberFormatter.numberFormat = "+#.0°C|#.0°C|0.0°C";
-chart.hiddenState.properties.opacity = 0;
+
 
 chart.startAngle = 270 - 180;
 chart.endAngle = 270 + 180;

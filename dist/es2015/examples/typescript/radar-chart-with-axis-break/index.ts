@@ -7,7 +7,7 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 am4core.useTheme(am4themes_animated);
 
 var chart = am4core.create("chartdiv", am4charts.RadarChart);
-chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+ // this creates initial fade-in
 chart.innerRadius = am4core.percent(50);
 chart.startAngle = -80;
 chart.endAngle = 260;

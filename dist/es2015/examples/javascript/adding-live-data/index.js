@@ -7,7 +7,7 @@ am4core.useTheme(am4themes_animated);
 am4core.useTheme(am4themes_dark);
 
 var chart = am4core.create("chartdiv", am4charts.XYChart);
-chart.hiddenState.properties.opacity = 0;
+
 
 chart.padding(0, 0, 0, 0);
 

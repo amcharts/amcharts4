@@ -678,11 +678,12 @@ var Axis = /** @class */ (function (_super) {
                 var ghostLabel = this.renderer.labels.create();
                 this._disposers.push(ghostLabel);
                 ghostLabel.dataItem = this.dataItems.template.clone(); // just for the adapters not to fail
-                ghostLabel.text = "|";
+                ghostLabel.text = "L";
                 ghostLabel.parent = this.renderer;
                 ghostLabel.fillOpacity = 0;
                 ghostLabel.opacity = 0;
                 ghostLabel.strokeOpacity = 0;
+                ghostLabel.validate();
                 this.ghostLabel = ghostLabel;
             }
         },

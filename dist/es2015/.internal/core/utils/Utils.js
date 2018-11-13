@@ -765,23 +765,14 @@ export function svgPointToSprite(point, sprite) {
         for (var i = 0; i < sprites.length; i++) {
             var sprite_1 = sprites[i];
             var angle = sprite_1.rotation;
-            var relativeX = x - sprite_1.pixelX;
-            var relativeY = y - sprite_1.pixelY;
+            var relativeX = x - sprite_1.pixelX - sprite_1.ex;
+            var relativeY = y - sprite_1.pixelY - sprite_1.ey;
             if (sprite_1.dx) {
                 x -= sprite_1.dx;
             }
             if (sprite_1.dy) {
                 y -= sprite_1.dy;
             }
-            /*
-                        if(sprite.element){
-                            if(sprite.element.x){
-                                x -= sprite.element.x;
-                            }
-                            if(sprite.element.y){
-                                y -= sprite.element.y;
-                            }
-                        }*/
             x = ($math.cos(-angle) * relativeX - $math.sin(-angle) * relativeY) / sprite_1.scale - sprite_1.pixelPaddingLeft;
             y = ($math.cos(-angle) * relativeY + $math.sin(-angle) * relativeX) / sprite_1.scale - sprite_1.pixelPaddingTop;
         }
@@ -802,17 +793,8 @@ export function spritePointToSvg(point, sprite) {
     if (sprite) {
         while ($type.hasValue(sprite.parent)) {
             var angle = sprite.rotation;
-            x += sprite.pixelPaddingLeft;
-            y += sprite.pixelPaddingTop;
-            /*
-                        if(sprite.element){
-                            if(sprite.element.x){
-                                x += sprite.element.x;
-                            }
-                            if(sprite.element.y){
-                                y += sprite.element.y;
-                            }
-                        }*/
+            x += sprite.pixelPaddingLeft + sprite.ex;
+            y += sprite.pixelPaddingTop + sprite.ey;
             if (sprite.dx) {
                 x += sprite.dx;
             }

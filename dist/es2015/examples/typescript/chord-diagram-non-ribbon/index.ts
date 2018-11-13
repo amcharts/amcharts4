@@ -5,7 +5,7 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 am4core.useTheme(am4themes_animated);
 
 let chart = am4core.create("chartdiv", am4charts.ChordDiagram);
-chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
+
 
 let data = [];
 let letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];

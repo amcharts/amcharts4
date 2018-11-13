@@ -185,6 +185,7 @@ var Chart = /** @class */ (function (_super) {
         var title = event.newValue;
         title.parent = this;
         title.toBack();
+        title.shouldClone = false;
         title.align = "center";
         // Need to explicitly apply the `id` attribute so it can be referenced by
         // `aria-labelledby`

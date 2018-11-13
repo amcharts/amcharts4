@@ -304,6 +304,8 @@ var Sprite = /** @class */ (function (_super) {
          * @type {boolean}
          */
         _this.appeared = false;
+        _this.ex = 0;
+        _this.ey = 0;
         _this.className = "Sprite";
         // Generate a unique ID
         _this.uid;
@@ -1527,6 +1529,8 @@ var Sprite = /** @class */ (function (_super) {
             this._measuredWidth = measuredWidth;
             var x = $math.round(ex - elementX, this._positionPrecision, true);
             var y = $math.round(ey - elementY, this._positionPrecision, true);
+            this.ex = x - pixelPaddingLeft;
+            this.ey = y - pixelPaddingTop;
             this.maxLeft = left + x - pixelPaddingLeft;
             this.maxRight = right + x - pixelPaddingLeft;
             this.maxTop = top_1 + y - pixelPaddingTop;
@@ -7210,7 +7214,7 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.getTooltipX = function () {
         var x = this.getPropertyValue("tooltipX");
         if (!$type.isNumber(x)) {
-            x = this.maxLeft + this.measuredWidth / 2 - this.pixelPaddingLeft; // overflow is know only for measured items, so this is not always good
+            x = this.maxLeft + this.measuredWidth / 2 - this.pixelPaddingLeft - this.ex; // overflow is know only for measured items, so this is not always good
         }
         return x;
     };
@@ -7223,7 +7227,7 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.getTooltipY = function () {
         var y = this.getPropertyValue("tooltipY");
         if (!$type.isNumber(y)) {
-            y = this.maxTop + this.measuredHeight / 2 - this.pixelPaddingTop; // overflow is know only for measured items, so this is not always good
+            y = this.maxTop + this.measuredHeight / 2 - this.pixelPaddingTop - this.ey; // overflow is know only for measured items, so this is not always good
         }
         return y;
     };

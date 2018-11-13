@@ -425,6 +425,7 @@ export declare class MapChart extends SerialChart {
      * Constructor
      */
     constructor();
+    protected handleAllInited(): void;
     /**
      * Prevents map to be dragged out of the container area
      * @ignore

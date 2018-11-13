@@ -13,7 +13,7 @@ var icon5 = "data:image/svg+xml;charset=utf-8;base64,PHN2ZyB3aWR0aD0iMTQ0IiBoZWl
 
 // Create chart instance
 var chart = am4core.create("chartdiv", am4charts.XYChart);
-chart.hiddenState.properties.opacity = 0;
+
 
 // Add data
 chart.data = [{

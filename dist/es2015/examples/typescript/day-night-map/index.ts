@@ -8,7 +8,7 @@ am4core.useTheme(am4themes_animated);
 am4core.useTheme(am4themes_dark);
 
 let mapChart = am4core.create("chartdiv", am4maps.MapChart);
-mapChart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
+map
 
 try {
     mapChart.geodata = am4geodata_continentsLow;

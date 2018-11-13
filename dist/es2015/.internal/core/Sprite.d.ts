@@ -799,6 +799,8 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @type {boolean}
      */
     appeared: boolean;
+    ex: number;
+    ey: number;
     /**
      * Constructor:
      * * Creates initial node

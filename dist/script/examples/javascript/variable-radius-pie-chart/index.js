@@ -1,7 +1,7 @@
 am4core.useTheme(am4themes_animated);
 
 var chart = am4core.create("chartdiv", am4charts.PieChart);
-chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
+
 
 chart.data = [{
 	"country": "Lithuania",

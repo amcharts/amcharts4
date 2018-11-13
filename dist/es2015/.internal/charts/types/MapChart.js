@@ -127,9 +127,7 @@ var MapChart = /** @class */ (function (_super) {
         // so that the map would render in a hidden div too
         _this.minWidth = 10;
         _this.minHeight = 10;
-        _this.events.once("inited", function () {
-            _this.goHome(0);
-        });
+        _this.events.once("inited", _this.handleAllInited, _this, false);
         // Create a container for map series
         var seriesContainer = _this.seriesContainer;
         seriesContainer.draggable = true;
@@ -146,6 +144,9 @@ var MapChart = /** @class */ (function (_super) {
         // Set up main chart container, e.g. set backgrounds and events to monitor
         // size changes, etc.
         var chartContainer = _this.chartContainer;
+        chartContainer.parent = _this;
+        chartContainer.isMeasured = false;
+        chartContainer.zIndex = -1;
         _this._disposers.push(seriesContainer.events.on("maxsizechanged", function () {
             if (_this.inited) {
                 if (_this._mapAnimation) {
@@ -192,6 +193,21 @@ var MapChart = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    MapChart.prototype.handleAllInited = function () {
+        var inited = true;
+        this.series.each(function (series) {
+            if (!series.inited) {
+                inited = false;
+            }
+        });
+        if (inited) {
+            this.updateExtremes();
+            this.goHome(0);
+        }
+        else {
+            registry.events.once("exitframe", this.handleAllInited, this, false);
+        }
+    };
     /**
      * Prevents map to be dragged out of the container area
      * @ignore
@@ -359,6 +375,7 @@ var MapChart = /** @class */ (function (_super) {
         this.east = null;
         this.north = null;
         this.south = null;
+        var chartContainer = this.chartContainer;
         $iter.each(this.series.iterator(), function (series) {
             if ((_this.west > series.west) || !$type.isNumber(_this.west)) {
                 _this.west = series.west;
@@ -382,15 +399,15 @@ var MapChart = /** @class */ (function (_super) {
             this.projection.deltaLongitude = 0;
             var northPoint = this.projection.convert({ longitude: (this.east - this.west) / 2, latitude: this.north });
             var southPoint = this.projection.convert({ longitude: (this.east - this.west) / 2, latitude: this.south });
-            var westPoint = this.projection.convert({ longitude: this.west, latitude: (this.north - this.south) / 2 });
-            var eastPoint = this.projection.convert({ longitude: this.east, latitude: (this.north - this.south) / 2 });
+            var westPoint = this.projection.convert({ longitude: this.west, latitude: 0 });
+            var eastPoint = this.projection.convert({ longitude: this.east, latitude: 0 });
             this.projection.deltaLongitude = deltaLongitude;
             this.projection.centerPoint = { x: westPoint.x + (eastPoint.x - westPoint.x) / 2, y: northPoint.y + (southPoint.y - northPoint.y) / 2 };
             var scaleRatio = void 0;
             var seriesWidth = eastPoint.x - westPoint.x;
             var seriesHeight = southPoint.y - northPoint.y;
-            var vScale = this.chartContainer.innerWidth / seriesWidth;
-            var hScale = this.chartContainer.innerHeight / seriesHeight;
+            var vScale = chartContainer.innerWidth / seriesWidth;
+            var hScale = chartContainer.innerHeight / seriesHeight;
             if (vScale > hScale) {
                 scaleRatio = hScale;
             }
@@ -404,14 +421,13 @@ var MapChart = /** @class */ (function (_super) {
             this.seriesWidth = seriesWidth * scaleRatio;
             this.seriesHeight = seriesHeight * scaleRatio;
             var northPoint2 = this.projection.convert({ longitude: (this.east - this.west) / 2, latitude: this.north });
-            var westPoint2 = this.projection.convert({ longitude: this.west, latitude: (this.south - this.north) / 2 });
+            var westPoint2 = this.projection.convert({ longitude: this.west, latitude: 0 });
             this._centerGeoPoint = this.projection.invert({ x: westPoint2.x + this.seriesWidth / 2, y: northPoint2.y + this.seriesHeight / 2 });
             //this.seriesContainer.width = this.seriesWidth; // not good, doesn't resize
             //this.seriesContainer.height = this.seriesHeight; // not good, doesn't resize
             this.seriesContainer.definedBBox = { x: westPoint2.x, y: northPoint2.y, width: this.seriesWidth, height: this.seriesHeight };
             this.updateScaleRatio();
             var seriesContainer = this.seriesContainer;
-            var chartContainer = this.chartContainer;
             seriesContainer.x = chartContainer.pixelWidth / 2;
             seriesContainer.y = chartContainer.pixelHeight / 2;
             if (pWest != this.west || pEast != this.east || pNorth != this.north || pSouth != this.south) {
@@ -427,7 +443,6 @@ var MapChart = /** @class */ (function (_super) {
      * @ignore
      */
     MapChart.prototype.updateScaleRatio = function () {
-        var _this = this;
         var scaleRatio;
         var vScale = this.chartContainer.innerWidth / this.seriesWidth;
         var hScale = this.chartContainer.innerHeight / this.seriesHeight;
@@ -443,7 +458,7 @@ var MapChart = /** @class */ (function (_super) {
         if (scaleRatio != this.scaleRatio) {
             this.scaleRatio = scaleRatio;
             $iter.each(this.series.iterator(), function (series) {
-                series.scale = _this.scaleRatio;
+                series.scale = scaleRatio;
                 series.updateTooltipBounds();
             });
             this.dispatch("scaleratiochanged");
@@ -536,8 +551,6 @@ var MapChart = /** @class */ (function (_super) {
      * @return {Animation}             Zoom animation
      */
     MapChart.prototype.zoomToGeoPoint = function (point, zoomLevel, center, duration) {
-        //let svgPoint: IPoint = $utils.documentPointToSvg(event.point, this.htmlContainer);
-        //let geoPoint: IGeoPoint = this.svgPointToGeo(svgPoint);
         var _this = this;
         if (!point) {
             point = this.zoomGeoPoint;

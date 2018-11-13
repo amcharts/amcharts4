@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.81] - 2018-11-13
+
+### Fixed
+- `chart.hiddenState.properties.opacity` is no longer set to `1` by default. Removed this in order it to be `0` so that charts using animated theme would always fade-in.
+- Better initial rendering of `ValueAxis` (removed unneeded animations).
+- Sometimes map was not positioning itself at `homeGeoPoint`.
+- Map with Eckert6 projection in some cases was not displayed properly.
+
+
 ## [4.0.0-beta.80] - 2018-11-13
 
 ### Fixed

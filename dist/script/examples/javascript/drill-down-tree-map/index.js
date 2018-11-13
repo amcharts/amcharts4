@@ -73,7 +73,7 @@ function processData(data) {
 
 // create chart
 var chart = am4core.create("chartdiv", am4charts.TreeMap);
-chart.hiddenState.properties.opacity = 0; // this makes initial fade in effect
+
 
 // only one level visible initially
 chart.maxLevels = 1;

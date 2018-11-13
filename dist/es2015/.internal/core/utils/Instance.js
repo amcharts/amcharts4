@@ -38,14 +38,14 @@ function createChild(htmlElement, classType) {
     if (htmlContainer) {
         htmlContainer.innerHTML = "";
         //htmlContainer.style.overflow = "hidden";
-        var svgDiv = new SVGContainer(htmlContainer);
-        var paper = new Paper(svgDiv.SVGContainer, "svg-" + (svgContainers.length - 1));
+        var svgDiv_1 = new SVGContainer(htmlContainer);
+        var paper = new Paper(svgDiv_1.SVGContainer, "svg-" + (svgContainers.length - 1));
         // the approach with masks is chosen because overflow:visible is set on SVG element in order tooltips could go outside
         // svg area - this is often needed when working with small charts.
         // main container which holds content container and tooltips container
         var container_1 = new Container();
         container_1.htmlContainer = htmlContainer;
-        container_1.svgContainer = svgDiv;
+        container_1.svgContainer = svgDiv_1;
         container_1.width = percent(100);
         container_1.height = percent(100);
         container_1.background.fillOpacity = 0;
@@ -54,17 +54,10 @@ function createChild(htmlElement, classType) {
         // this is set from parent container, but this one doesn't have, so do it manually.
         container_1.relativeWidth = 1;
         container_1.relativeHeight = 1;
-        svgDiv.container = container_1;
-        // content container
-        // setting mask directly on classType object would result mask to shift together with object transformations
-        var contentContainer = container_1.createChild(Container);
-        contentContainer.width = percent(100);
-        contentContainer.height = percent(100);
-        contentContainer.topParent = container_1;
-        // content mask
-        contentContainer.mask = contentContainer;
+        svgDiv_1.container = container_1;
         // creating classType instance
-        var sprite_1 = contentContainer.createChild(classType);
+        var sprite_1 = container_1.createChild(classType);
+        sprite_1.topParent = container_1;
         var uid = sprite_1.uid;
         registry.invalidSprites[uid] = [];
         registry.invalidDatas[uid] = [];
@@ -75,10 +68,14 @@ function createChild(htmlElement, classType) {
         sprite_1.focusFilter = new FocusFilter();
         registry.baseSprites.push(sprite_1);
         registry.baseSpritesByUid[uid] = sprite_1;
+        sprite_1.maskRectangle = { x: 0, y: 0, width: svgDiv_1.width, height: svgDiv_1.height };
         // this solves issues with display:none, as all children are measured as 0x0
         container_1.events.on("maxsizechanged", function (event) {
             if (event.previousWidth == 0 || event.previousHeight == 0) {
                 container_1.deepInvalidate();
+            }
+            if (sprite_1.maskRectangle) {
+                sprite_1.maskRectangle = { x: 0, y: 0, width: svgDiv_1.width, height: svgDiv_1.height };
             }
         });
         sprite_1.addDisposer(new Disposer(function () {
@@ -93,7 +90,7 @@ function createChild(htmlElement, classType) {
         tooltipContainer_1.width = percent(100);
         tooltipContainer_1.height = percent(100);
         tooltipContainer_1.isMeasured = false;
-        contentContainer.tooltipContainer = tooltipContainer_1;
+        container_1.tooltipContainer = tooltipContainer_1;
         sprite_1.tooltip = new Tooltip();
         sprite_1.tooltip.hide(0);
         sprite_1.tooltip.setBounds({ x: 0, y: 0, width: tooltipContainer_1.maxWidth, height: tooltipContainer_1.maxHeight });
@@ -105,7 +102,7 @@ function createChild(htmlElement, classType) {
         preloader_1.events.on("inited", function () {
             preloader_1.__disabled = true;
         }, undefined, false);
-        contentContainer.preloader = preloader_1;
+        container_1.preloader = preloader_1;
         if (!options.commercialLicense) {
             var logo_1 = tooltipContainer_1.createChild(AmChartsLogo);
             tooltipContainer_1.events.on("maxsizechanged", function (ev) {
@@ -123,7 +120,7 @@ function createChild(htmlElement, classType) {
         sprite_1.numberFormatter; // need to create one.
         // Set this as an autonomouse instance
         // Controls like Preloader, Export will use this.
-        contentContainer.isStandaloneInstance = true;
+        container_1.isStandaloneInstance = true;
         return sprite_1;
     }
     else {

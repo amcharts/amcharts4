@@ -30,7 +30,6 @@ var theme = function (object) {
     if (object instanceof Chart) {
         object.defaultState.transitionDuration = 2000;
         object.hiddenState.transitionDuration = 1000;
-        object.hiddenState.properties.opacity = 1;
     }
     if (object instanceof Tooltip) {
         object.animationDuration = 400;
