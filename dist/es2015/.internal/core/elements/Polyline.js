@@ -142,10 +142,18 @@ var Polyline = /** @class */ (function (_super) {
                         }
                     }
                 }
+                else if (points.length == 1) {
+                    pointA = points[0];
+                    pointB = points[0];
+                    positionA = 0;
+                    positionB = 1;
+                }
             }
-            var positionAB = (position - positionA) / (positionB - positionA);
-            var midPoint = $math.getMidPoint(pointA, pointB, positionAB);
-            return { x: midPoint.x, y: midPoint.y, angle: deltaAngle + $math.getAngle(pointA, pointB) };
+            if (pointA && pointB) {
+                var positionAB = (position - positionA) / (positionB - positionA);
+                var midPoint = $math.getMidPoint(pointA, pointB, positionAB);
+                return { x: midPoint.x, y: midPoint.y, angle: deltaAngle + $math.getAngle(pointA, pointB) };
+            }
         }
         return { x: 0, y: 0, angle: 0 };
     };

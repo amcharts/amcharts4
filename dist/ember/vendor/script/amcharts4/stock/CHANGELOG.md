@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.80] - 2018-11-13
+
+### Fixed
+- Legend in external container was resulting in infinite loop.
+- Rendering an arrow on a `MapLine` with same source and destination point was resulting in error.
+
 ## [4.0.0-beta.79] - 2018-11-12
 
 ### Fixed

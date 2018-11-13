@@ -4124,7 +4124,7 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * Indicates if the element is clickable.
          *
-         * Some times of the elements, like buttons are clickable by default.
+         * Some type of the elements, like buttons are clickable by default.
          *
          * Most of the elements are not clickable by default.
          *
@@ -4262,12 +4262,12 @@ var Sprite = /** @class */ (function (_super) {
     });
     Sprite.prototype.setBaseId = function (value) {
         if (value != this._baseId) {
-            this._baseId = value;
             if (this.invalid) {
                 this.invalid = false;
-                $array.remove(registry.invalidSprites.noBase, this);
+                registry.removeFromInvalidSprites(this);
                 this.invalidate();
             }
+            this._baseId = value;
         }
     };
     Object.defineProperty(Sprite.prototype, "urlTarget", {

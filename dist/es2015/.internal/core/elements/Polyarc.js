@@ -71,11 +71,16 @@ var Polyarc = /** @class */ (function (_super) {
                         // we add a lot of points in order to get the position/angle later
                         var stepCount = Math.ceil(distanceAB);
                         var prevPoint = pointA;
-                        for (var i_1 = 0; i_1 <= stepCount; i_1++) {
-                            var point = $math.getPointOnCubicCurve(pointA, pointB, controlPoint1, controlPoint2, i_1 / stepCount);
-                            realPoints.push(point);
-                            this._distance += $math.getDistance(prevPoint, point);
-                            prevPoint = point;
+                        if (stepCount > 0) {
+                            for (var i_1 = 0; i_1 <= stepCount; i_1++) {
+                                var point = $math.getPointOnCubicCurve(pointA, pointB, controlPoint1, controlPoint2, i_1 / stepCount);
+                                realPoints.push(point);
+                                this._distance += $math.getDistance(prevPoint, point);
+                                prevPoint = point;
+                            }
+                        }
+                        else {
+                            realPoints.push(pointA);
                         }
                     }
                 }

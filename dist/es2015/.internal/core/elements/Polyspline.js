@@ -76,12 +76,17 @@ var Polyspline = /** @class */ (function (_super) {
                         // now split to small segments so that we could have positionToPoint later
                         var stepCount = Math.ceil($math.getDistance(p1, p2)) / 2;
                         var prevPoint = p1;
-                        for (var s = 0; s <= stepCount; s++) {
-                            var point = $math.getPointOnCubicCurve(p1, p2, controlPointA, controlPointB, s / stepCount);
-                            realPoints.push(point);
-                            this._distance += $math.getDistance(prevPoint, point);
-                            //path += $path.lineTo(point);
-                            prevPoint = point;
+                        if (stepCount > 0) {
+                            for (var s = 0; s <= stepCount; s++) {
+                                var point = $math.getPointOnCubicCurve(p1, p2, controlPointA, controlPointB, s / stepCount);
+                                realPoints.push(point);
+                                this._distance += $math.getDistance(prevPoint, point);
+                                //path += $path.lineTo(point);
+                                prevPoint = point;
+                            }
+                        }
+                        else {
+                            realPoints.push(p0);
                         }
                     }
                 }

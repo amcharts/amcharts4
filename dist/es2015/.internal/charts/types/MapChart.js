@@ -95,7 +95,7 @@ var MapChart = /** @class */ (function (_super) {
          *
          * NOTE: Should be power of 2.
          *
-         * @defautl 1
+         * @default 1
          * @type {number}
          */
         _this.minZoomLevel = 1;

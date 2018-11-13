@@ -93,7 +93,9 @@ var Slice = /** @class */ (function (_super) {
                 return this.definedBBox;
             }
             if (this.isMeasured) {
-                return $math.getArcRect(this.startAngle, this.startAngle + this.arc, this.radius);
+                var innerRect = $math.getArcRect(this.startAngle, this.startAngle + this.arc, this.pixelInnerRadius);
+                var outerRect = $math.getArcRect(this.startAngle, this.startAngle + this.arc, this.radius);
+                return $math.getCommonRectangle([innerRect, outerRect]);
             }
             else {
                 return { x: 0, y: 0, width: 0, height: 0 };

@@ -2230,7 +2230,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * Indicates if the element is clickable.
      *
-     * Some times of the elements, like buttons are clickable by default.
+     * Some type of the elements, like buttons are clickable by default.
      *
      * Most of the elements are not clickable by default.
      *

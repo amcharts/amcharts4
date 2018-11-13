@@ -22,6 +22,7 @@ series.dataFields.valueY = "y";
 series.dataFields.value = "value";
 series.strokeOpacity = 0;
 series.sequencedInterpolation = true;
+series.tooltip.pointerOrientation = "vertical";
 
 let bullet = series.bullets.push(new am4charts.CircleBullet());
 bullet.fill = am4core.color("#ff0000");

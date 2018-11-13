@@ -1443,7 +1443,8 @@ var Component = /** @class */ (function (_super) {
         if (value != this._baseId) {
             if (this.dataInvalid) {
                 this.dataInvalid = false;
-                $array.remove(registry.invalidDatas.noBase, this);
+                registry.removeFromInvalidComponents(this);
+                this._baseId = value;
                 this.invalidateData();
             }
         }

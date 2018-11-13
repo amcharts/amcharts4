@@ -378,7 +378,7 @@ export declare class MapChart extends SerialChart {
      *
      * NOTE: Should be power of 2.
      *
-     * @defautl 1
+     * @default 1
      * @type {number}
      */
     minZoomLevel: number;
