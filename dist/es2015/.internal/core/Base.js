@@ -435,7 +435,7 @@ var BaseObject = /** @class */ (function () {
                         $array.each(configValue, function (entry, index) {
                             var type = _this.getConfigEntryType(entry);
                             var listItem;
-                            if (item_1.hasIndex(index)) {
+                            if (item_1.hasIndex(index) && !entry["forceCreate"]) {
                                 listItem = item_1.getIndex(index);
                             }
                             else if (entry instanceof BaseObject) {
@@ -509,7 +509,7 @@ var BaseObject = /** @class */ (function () {
                                 }
                                 else {
                                     // Aything else. Just assing and be done with it.
-                                    item_1.template[entryKey] = entryValue;
+                                    item_1.template[entryKey] = _this.maybeColorOrPercent(entryValue);
                                 }
                             });
                         }
@@ -667,7 +667,7 @@ var BaseObject = /** @class */ (function () {
                 // If there are items already at the specified index in the list,
                 // apply properties rather than create a new one.
                 var listItem = void 0;
-                if (item.hasIndex(index)) {
+                if (item.hasIndex(index) && !entry["forceCreate"]) {
                     listItem = item.getIndex(index);
                 }
                 else if (entry instanceof BaseObject) {

@@ -33,14 +33,18 @@ var MapSpline = /** @class */ (function (_super) {
         // Init
         _super.call(this) || this;
         _this.className = "MapSpline";
-        // Create a spline
-        _this.line = new Polyspline();
-        _this.line.tensionX = 0.8;
-        _this.line.tensionY = 0.8;
         // Apply theme
         _this.applyTheme();
         return _this;
     }
+    /**
+     * @ignore
+     */
+    MapSpline.prototype.createLine = function () {
+        this.line = new Polyspline();
+        this.line.tensionX = 0.8;
+        this.line.tensionY = 0.8;
+    };
     Object.defineProperty(MapSpline.prototype, "shortestDistance", {
         /**
          * ShortestDistance = true is not supported by MapSpline, only MapLine does support it

@@ -73,20 +73,13 @@ var MutableValueDisposer = /** @class */ (function (_super) {
     /**
      * Constructor.
      */
-    function MutableValueDisposer(disposeValue) {
-        if (disposeValue === void 0) { disposeValue = false; }
+    function MutableValueDisposer() {
         var _this = _super.call(this, function () {
             if ($type.hasValue(_this._disposer)) {
                 _this._disposer.dispose();
                 _this._disposer = undefined;
             }
-            if (_this._disposeValue && $type.hasValue(_this._value)) {
-                _this._value.dispose();
-                _this._value = undefined;
-            }
         }) || this;
-        _this._disposeValue = false;
-        _this._disposeValue = disposeValue;
         return _this;
     }
     /**
@@ -98,7 +91,7 @@ var MutableValueDisposer = /** @class */ (function (_super) {
         return this._value;
     };
     /**
-     * Sets value and disposes previous value if it was set.
+     * Sets value and disposes previous disposer if it was set.
      *
      * @param {Optional<T>}          value     New value
      * @param {Optional<IDisposer>}  disposer  Disposer
@@ -106,9 +99,6 @@ var MutableValueDisposer = /** @class */ (function (_super) {
     MutableValueDisposer.prototype.set = function (value, disposer) {
         if ($type.hasValue(this._disposer)) {
             this._disposer.dispose();
-        }
-        if (this._disposeValue && $type.hasValue(this._value)) {
-            this._value.dispose();
         }
         this._disposer = disposer;
         this._value = value;

@@ -170,7 +170,7 @@ var TreeMapSeries = /** @class */ (function (_super) {
         $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
             var i = a[0];
             var dataItem = a[1];
-            var interpolationDuration = _this.interpolationDuration;
+            var interpolationDuration = _this.defaultState.transitionDuration;
             return dataItem.treeMapDataItem.setWorkingValue("value", dataItem.treeMapDataItem.getValue("value"), interpolationDuration);
         });
         var animation = _super.prototype.showReal.call(this, duration);
@@ -199,7 +199,7 @@ var TreeMapSeries = /** @class */ (function (_super) {
         $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
             var i = a[0];
             var dataItem = a[1];
-            var interpolationDuration = _this.interpolationDuration;
+            var interpolationDuration = _this.hiddenState.transitionDuration;
             dataItem.treeMapDataItem.setWorkingValue("value", 0, interpolationDuration);
         });
         var animation = _super.prototype.hideReal.call(this, duration);

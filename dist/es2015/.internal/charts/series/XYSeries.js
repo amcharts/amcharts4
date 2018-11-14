@@ -1049,7 +1049,7 @@ var XYSeries = /** @class */ (function (_super) {
         var startIndex = this.startIndex;
         var endIndex = this.endIndex;
         $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
-            var interpolationDuration = _this.interpolationDuration;
+            var interpolationDuration = _this.defaultState.transitionDuration;
             if ($type.isNumber(duration)) {
                 interpolationDuration = duration;
             }
@@ -1106,7 +1106,7 @@ var XYSeries = /** @class */ (function (_super) {
             var i = a[0];
             var dataItem = a[1];
             var delay = 0;
-            var interpolationDuration = _this.interpolationDuration;
+            var interpolationDuration = _this.hiddenState.transitionDuration;
             if ($type.isNumber(duration)) {
                 interpolationDuration = duration;
             }

@@ -87,6 +87,10 @@ export declare class MapSpline extends MapLine {
      */
     constructor();
     /**
+     * @ignore
+     */
+    protected createLine(): void;
+    /**
      * ShortestDistance = true is not supported by MapSpline, only MapLine does support it
      * @default false
      * @param {boolean}  value

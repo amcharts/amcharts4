@@ -257,10 +257,11 @@ var AxisRendererX = /** @class */ (function (_super) {
         var point = this.positionToPoint(position);
         var tickLength = tick.length;
         if (this.opposite) {
-            point.y = this.measuredHeight;
+            point.y = 0;
             tickLength *= (tick.inside ? 1 : -1);
         }
         else {
+            point.y = this.gridContainer.pixelHeight;
             tickLength *= (tick.inside ? -1 : 1);
         }
         tick.path = $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: 0, y: tickLength });

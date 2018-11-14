@@ -175,7 +175,7 @@ var Sprite = /** @class */ (function (_super) {
          * @ignore Exclude from docs
          * @type {MutableValueDisposer}
          */
-        _this._mask = new MutableValueDisposer(true);
+        _this._mask = new MutableValueDisposer();
         /**
          * @ignore Exclude from docs
          * @todo Description
@@ -456,10 +456,10 @@ var Sprite = /** @class */ (function (_super) {
      */
     Sprite.prototype.validate = function () {
         this.dispatchImmediately("beforevalidated");
-        // prevents from drawing if topparent is 0x0		
+        // prevents from drawing if topparent is 0x0
         /*
         let topParent = this.topParent;
-        
+
         if (topParent) {
             if (!topParent.maxWidth || !topParent.maxHeight) {
                 this._disposers.push(topParent.events.once("maxsizechanged", this.invalidate, this));
@@ -765,6 +765,10 @@ var Sprite = /** @class */ (function (_super) {
             if (this.fill && !(this.fill instanceof Color)) {
                 this.fill.dispose();
             }
+            // remove from map
+            if ($type.hasValue(this.id)) {
+                this.map.removeKey(this.id);
+            }
             this.parent = undefined;
             if (this._filters) {
                 while (this._filters.length > 0) {
@@ -772,10 +776,6 @@ var Sprite = /** @class */ (function (_super) {
                     filter.dispose();
                     this._filters.removeValue(filter);
                 }
-            }
-            // remove from map
-            if ($type.hasValue(this.id)) {
-                this.map.removeKey(this.id);
             }
         }
     };

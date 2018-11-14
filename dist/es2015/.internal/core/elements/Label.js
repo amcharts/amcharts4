@@ -138,7 +138,7 @@ var Label = /** @class */ (function (_super) {
      */
     Label.prototype.handleMaxSize = function () {
         if ((this.bbox.width > this.availableWidth)
-            || ((this.bbox.width < this.availableWidth) && this.isOversized)
+            || ((this.bbox.width < this.availableWidth) && (this.isOversized || this.truncate))
             || (this.bbox.height > this.availableHeight)
             || ((this.bbox.height < this.availableHeight) && this.isOversized)) {
             this.invalidate();

@@ -158,12 +158,12 @@ var XYChart3D = /** @class */ (function (_super) {
         configurable: true
     });
     /**
-     * (Re)validates the chart.
+     * (Re)validates layout
      *
      * @ignore Exclude from docs
      */
-    XYChart3D.prototype.validate = function () {
-        _super.prototype.validate.call(this);
+    XYChart3D.prototype.validateLayout = function () {
+        _super.prototype.validateLayout.call(this);
         this.fixLayout();
     };
     /**
@@ -208,7 +208,7 @@ var XYChart3D = /** @class */ (function (_super) {
                 series.dx = _this.depth / (count) * $math.cos(_this.angle) * (series.depthIndex);
                 series.dy = -_this.depth / (count) * $math.sin(_this.angle) * (series.depthIndex);
                 var i_1 = 1;
-                $iter.each(series.columns.iterator(), function (column) {
+                series.columns.each(function (column) {
                     column.zIndex = 1000 * i_1 + s - series.depthIndex * 100;
                     i_1++;
                 });

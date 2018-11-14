@@ -435,11 +435,21 @@ var HeatLegend = /** @class */ (function (_super) {
     HeatLegend.prototype.processConfig = function (config) {
         if (config) {
             // Set up series
-            if ($type.hasValue(config.series) && $type.isArray(config.series)) {
-                for (var i = 0, len = config.series.length; i < len; i++) {
-                    var series = config.series[i];
-                    if ($type.hasValue(series) && $type.isString(series) && this.map.hasKey(series)) {
-                        config.series[i] = this.map.getKey(series);
+            if ($type.hasValue(config.series) && $type.isString(config.series)) {
+                if ($type.isString(config.series)) {
+                    if (this.map.hasKey(config.series)) {
+                        config.series = this.map.getKey(config.series);
+                    }
+                    else {
+                        var seriesId_1 = config.series;
+                        var disposer_1 = this.map.events.on("insertKey", function (ev) {
+                            if (ev.key == seriesId_1) {
+                                this.series = ev.newValue;
+                                disposer_1.dispose();
+                            }
+                        }, this);
+                        this._disposers.push(disposer_1);
+                        delete config.series;
                     }
                 }
             }

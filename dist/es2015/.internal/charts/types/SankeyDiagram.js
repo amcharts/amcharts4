@@ -214,7 +214,7 @@ var SankeyDiagram = /** @class */ (function (_super) {
                 value = total * _this.minNodeSize;
             }
             if (_this.orientation == "horizontal") {
-                delta = (_this.pixelWidth - node.pixelWidth) / _this._levelCount;
+                delta = (_this.innerWidth - node.pixelWidth) / _this._levelCount;
                 x = delta * node.level;
                 y = nextCoordinate[level] || levelCoordinate;
                 var h = value * _this.valueHeight;
@@ -224,7 +224,7 @@ var SankeyDiagram = /** @class */ (function (_super) {
                 nextCoordinate[level] = y + h + _this.nodePadding;
             }
             else {
-                delta = (_this.pixelHeight - node.pixelHeight) / _this._levelCount;
+                delta = (_this.innerHeight - node.pixelHeight) / _this._levelCount;
                 x = nextCoordinate[level] || levelCoordinate;
                 y = delta * node.level;
                 var w = value * _this.valueHeight;

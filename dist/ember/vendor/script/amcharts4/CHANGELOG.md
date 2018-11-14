@@ -5,6 +5,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.82] - 2018-11-14
+
+### Added
+- JSON: `forceCreate` property added. If found in an item of an array, it will force creation of the new object, even if object with same index already exists in target `List`.
+- French locale.
+
+### Changed
+- Adjusted animation durations in "animated" theme.
+
+### Fixed
+- JSON: String-based percent and color values were not being parsed correctly in some cases.
+- JSON: `HeatLegend` was erroring if its `series` property was referencing to Series by id.
+- Disposing an item with a custom `id` set was not clearing it from id map properly resulting in errors if item with the same id was being added later.
+- `SankeyDiagram` was not taking chart's padding into account when sizing itself.
+- Axis ticks were not being positioned properly after data update.
+- Map using `deltaLongitude` was being positioned incorrectly.
+- 3D columns z-indexing was sometimes incorrect.
+- `PieChart` label placement with custom `startAngle`/`endAngle` was sometimes off.
+- Label bullets on columns were not being restored from truncated state when width of the columns was increasing.
+- Series `show()`/`hide()` were using `interpolationDuration` setting instead of `defaultState`/`hiddenState` transition duration when showing/hiding.
+
+
 ## [4.0.0-beta.81] - 2018-11-13
 
 ### Fixed

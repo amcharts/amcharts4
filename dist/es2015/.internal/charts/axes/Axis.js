@@ -410,7 +410,7 @@ var Axis = /** @class */ (function (_super) {
          *
          * @type {number}
          */
-        _this._gridCount = 5;
+        _this._gridCount = 10;
         /**
          * A list of [[XYSeries]] that are using this Axis.
          *
@@ -561,7 +561,7 @@ var Axis = /** @class */ (function (_super) {
      */
     Axis.prototype.appendDataItem = function (dataItem) {
         var renderer = this.renderer;
-        dataItem.tick.parent = renderer;
+        dataItem.tick.parent = renderer.gridContainer;
         dataItem.label.parent = renderer;
         dataItem.grid.parent = renderer.gridContainer;
         dataItem.axisFill.parent = renderer.gridContainer;

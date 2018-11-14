@@ -81,6 +81,10 @@ export declare class MapArc extends MapLine {
      */
     constructor();
     /**
+     * @ignore
+     */
+    protected createLine(): void;
+    /**
      * ShortestDistance = true is not supported by MapArc, only MapLine does support it
      * @default false
      * @param {boolean}  value

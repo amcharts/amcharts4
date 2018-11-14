@@ -673,9 +673,11 @@ var Component = /** @class */ (function (_super) {
         }
         // data items array is reset only if all data is validated, if _parseDataFrom is not 0, we append new data only
         // check heatmap demo if uncommented
-        //if (this._parseDataFrom === 0) {
-        //	this.disposeData();
-        //}
+        // fixed both issues by adding && this.data.length > 0 
+        // check adding series example if changed
+        if (this._parseDataFrom === 0 && this.data.length > 0) {
+            this.disposeData();
+        }
         if (this.data.length > 0) {
             var preloader = this.preloader;
             // and for all components
@@ -737,6 +739,9 @@ var Component = /** @class */ (function (_super) {
         this.dataValidationProgress = 1;
         this._parseDataFrom = 0; // reset this index, it is set to dataItems.length if addData() method was used.
         this.invalidateDataItems();
+        if (!this._internalDefaultsApplied) {
+            this.applyInternalDefaults();
+        }
         this.dispatch("datavalidated"); // can't zoom chart if dispatched immediately
     };
     /**

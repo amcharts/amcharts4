@@ -161,6 +161,7 @@ var ValueAxis = /** @class */ (function (_super) {
          * @todo Description
          */
         _this._positionToValue = {};
+        _this._extremesChanged = false;
         /**
          * Holds reference to a function that accepts a DataItem as parameter.
          *
@@ -900,9 +901,12 @@ var ValueAxis = /** @class */ (function (_super) {
         }
         // checking isNumber is good when all series are hidden
         if ((this._minAdjusted != min || this._maxAdjusted != max) && $type.isNumber(min) && $type.isNumber(max)) {
-            if ($type.isNumber(this._minAdjusted) && $type.isNumber(this._maxAdjusted) && this.inited) {
-                var animation = this._minMaxAnimation;
-                if (!animation || this._finalMin != min || this._finalMax != max) {
+            var animation = this._minMaxAnimation;
+            if (this._extremesChanged && $type.isNumber(this._minAdjusted) && $type.isNumber(this._maxAdjusted) && this.inited) {
+                if ((animation && !animation.isFinished()) && this._finalMax == max && this._finalMin == min) {
+                    return;
+                }
+                else {
                     this._finalMin = min;
                     this._finalMax = max;
                     animation = this.animate([{ property: "_minAdjusted", from: this._minAdjusted, to: min }, { property: "_maxAdjusted", from: this._maxAdjusted, to: max }], this.rangeChangeDuration);
@@ -917,14 +921,20 @@ var ValueAxis = /** @class */ (function (_super) {
                 }
             }
             else {
-                this._minAdjusted = min;
-                this._maxAdjusted = max;
-                this._finalMin = min;
-                this._finalMax = max;
-                this.invalidateDataItems();
-                this.dispatchImmediately("extremeschanged");
+                if ((animation && !animation.isFinished()) && this._finalMax == max && this._finalMin == min) {
+                    return;
+                }
+                else {
+                    this._minAdjusted = min;
+                    this._maxAdjusted = max;
+                    this._finalMin = min;
+                    this._finalMax = max;
+                    this.invalidateDataItems();
+                    this.dispatchImmediately("extremeschanged");
+                }
             }
         }
+        this._extremesChanged = false;
     };
     /**
      * Adjusts the minimum value.
@@ -1315,15 +1325,6 @@ var ValueAxis = /** @class */ (function (_super) {
             start = 0;
             end = 1;
         }
-        // temp, not sure. solving selection.change jumping
-        /*
-        if(selectionMin < this.min){
-            this._minAdjusted = selectionMin;
-        }
-
-        if(selectionMax > this.max){
-            this._maxAdjusted = selectionMax;
-        } 	*/
         this.zoom({ start: start, end: end }, false);
     };
     Object.defineProperty(ValueAxis.prototype, "strictMinMax", {
@@ -1404,6 +1405,7 @@ var ValueAxis = /** @class */ (function (_super) {
      * Invalidates axis data items when series extremes change
      */
     ValueAxis.prototype.handleExtremesChange = function () {
+        this._extremesChanged = true;
         this.getMinMax();
         if (this.ghostLabel) {
             var min = this.min;

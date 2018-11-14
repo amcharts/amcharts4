@@ -323,6 +323,7 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
     };
     protected _finalMin: number;
     protected _finalMax: number;
+    protected _extremesChanged: boolean;
     /**
      * Holds reference to a function that accepts a DataItem as parameter.
      *

@@ -9,6 +9,7 @@ import { FunnelSeries } from "../charts/series/FunnelSeries";
 import { MapSeries } from "../charts/map/MapSeries";
 import { FunnelSlice } from "../charts/elements/FunnelSlice";
 import { Column } from "../charts/elements/Column";
+import { Column3D } from "../charts/elements/Column3D";
 import { Slice } from "../core/elements/Slice";
 import { Preloader } from "../core/elements/Preloader";
 import { Chart } from "../charts/Chart";
@@ -17,8 +18,8 @@ var theme = function (object) {
         object.transitionDuration = 400;
     }
     if (object instanceof Component) {
-        object.rangeChangeDuration = 800;
-        object.interpolationDuration = 800;
+        object.rangeChangeDuration = 700;
+        object.interpolationDuration = 700;
         object.sequencedInterpolation = false;
         if (object instanceof SankeyDiagram) {
             object.sequencedInterpolation = true;
@@ -37,13 +38,12 @@ var theme = function (object) {
         object.hiddenState.transitionDuration = 400;
     }
     if (object instanceof Scrollbar) {
-        object.animationDuration = 800;
+        object.animationDuration = 700;
     }
     if (object instanceof Series) {
         object.defaultState.transitionDuration = 1000;
-        object.hiddenState.transitionDuration = 1000;
+        object.hiddenState.transitionDuration = 700;
         object.hiddenState.properties.opacity = 1;
-        object.interpolationDuration = 1000;
     }
     if (object instanceof MapSeries) {
         object.hiddenState.properties.opacity = 0;
@@ -57,7 +57,7 @@ var theme = function (object) {
         object.hiddenState.properties.opacity = 1;
     }
     if (object instanceof Slice) {
-        object.defaultState.transitionDuration = 800;
+        object.defaultState.transitionDuration = 700;
         object.hiddenState.transitionDuration = 1000;
         object.hiddenState.properties.opacity = 1;
     }
@@ -65,9 +65,12 @@ var theme = function (object) {
         object.hiddenState.transitionDuration = 2000;
     }
     if (object instanceof Column) {
-        object.defaultState.transitionDuration = 800;
+        object.defaultState.transitionDuration = 700;
         object.hiddenState.transitionDuration = 1000;
         object.hiddenState.properties.opacity = 1;
+    }
+    if (object instanceof Column3D) {
+        object.hiddenState.properties.opacity = 0;
     }
 };
 export default theme;

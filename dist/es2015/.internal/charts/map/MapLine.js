@@ -42,9 +42,9 @@ var MapLine = /** @class */ (function (_super) {
         // Init
         _super.call(this) || this;
         _this.className = "MapLine";
-        // Create a line and set its default properties
-        _this.line = new Polyline();
+        _this.createLine();
         _this.line.stroke = color();
+        _this.line.parent = _this;
         _this.strokeOpacity = 1;
         var interfaceColors = new InterfaceColorSet();
         _this.stroke = interfaceColors.getFor("grid");
@@ -53,6 +53,12 @@ var MapLine = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    /**
+     * @ignore
+     */
+    MapLine.prototype.createLine = function () {
+        this.line = new Polyline();
+    };
     /**
      * Converts a position within the line (0-1) to a physical point
      * coordinates.
@@ -190,7 +196,6 @@ var MapLine = /** @class */ (function (_super) {
         $iter.each(this.lineObjects.iterator(), function (x) {
             x.validatePosition();
         });
-        this.line.parent = this;
         _super.prototype.validate.call(this);
         var e_1, _c;
     };

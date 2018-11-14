@@ -73,11 +73,10 @@ export declare class MutableValueDisposer<T extends IDisposer> extends Disposer 
      * @type {Optional<T>}
      */
     private _value;
-    private _disposeValue;
     /**
      * Constructor.
      */
-    constructor(disposeValue?: boolean);
+    constructor();
     /**
      * Returns current value.
      *
@@ -85,7 +84,7 @@ export declare class MutableValueDisposer<T extends IDisposer> extends Disposer 
      */
     get(): Optional<T>;
     /**
-     * Sets value and disposes previous value if it was set.
+     * Sets value and disposes previous disposer if it was set.
      *
      * @param {Optional<T>}          value     New value
      * @param {Optional<IDisposer>}  disposer  Disposer

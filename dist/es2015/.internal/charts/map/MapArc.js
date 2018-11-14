@@ -33,12 +33,16 @@ var MapArc = /** @class */ (function (_super) {
         // Init
         _super.call(this) || this;
         _this.className = "MapArc";
-        // Create a line
-        _this.line = new Polyarc();
         // Apply theme
         _this.applyTheme();
         return _this;
     }
+    /**
+     * @ignore
+     */
+    MapArc.prototype.createLine = function () {
+        this.line = new Polyarc();
+    };
     Object.defineProperty(MapArc.prototype, "shortestDistance", {
         /**
          * ShortestDistance = true is not supported by MapArc, only MapLine does support it

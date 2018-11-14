@@ -87,6 +87,17 @@ var ColumnSeries3D = /** @class */ (function (_super) {
         }
     };
     /**
+     * Validates data item's elements.
+     *
+     * @ignore Exclude from docs
+     */
+    ColumnSeries3D.prototype.validateDataElements = function () {
+        _super.prototype.validateDataElements.call(this);
+        if (this.chart) {
+            this.chart.invalidateLayout();
+        }
+    };
+    /**
      * Returns an element to use for 3D bar.
      * @ignore
      * @return {this["_column"]} Element.

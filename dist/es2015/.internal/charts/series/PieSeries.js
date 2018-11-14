@@ -206,18 +206,20 @@ var PieSeries = /** @class */ (function (_super) {
                     bAngle -= 360;
                 }
                 if (aAngle < bAngle) {
-                    return 0;
+                    return -1;
                 }
                 else {
                     return 1;
                 }
             });
             this._leftItems.sort(function (a, b) {
-                if ((a.slice.middleAngle + 360) % 360 < (b.slice.middleAngle + 360) % 360) {
+                var aAngle = (a.slice.middleAngle + 360) % 360;
+                var bAngle = (b.slice.middleAngle + 360) % 360;
+                if (aAngle < bAngle) {
                     return 1;
                 }
                 else {
-                    return 0;
+                    return -1;
                 }
             });
             this.arrangeLabels(this._rightItems);

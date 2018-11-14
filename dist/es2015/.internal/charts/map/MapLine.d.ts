@@ -133,6 +133,10 @@ export declare class MapLine extends MapObject {
      */
     constructor();
     /**
+     * @ignore
+     */
+    protected createLine(): void;
+    /**
      * Converts a position within the line (0-1) to a physical point
      * coordinates.
      *

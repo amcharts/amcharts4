@@ -205,11 +205,11 @@ var AxisRendererY = /** @class */ (function (_super) {
             // void
         }
         if (!this.opposite) {
-            point.x = this.measuredWidth - this.pixelX + titleWidth;
             tickLength *= (tick.inside ? 1 : -1);
+            point.x = 0;
         }
         else {
-            point.x = -this.pixelX;
+            point.x = this.gridContainer.pixelWidth;
             tickLength *= (tick.inside ? -1 : 1);
         }
         tick.path = $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: tickLength, y: 0 });

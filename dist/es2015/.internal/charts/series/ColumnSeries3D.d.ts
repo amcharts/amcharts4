@@ -146,6 +146,12 @@ export declare class ColumnSeries3D extends ColumnSeries {
      */
     validateDataElementReal(dataItem: this["_dataItem"]): void;
     /**
+     * Validates data item's elements.
+     *
+     * @ignore Exclude from docs
+     */
+    validateDataElements(): void;
+    /**
      * Returns an element to use for 3D bar.
      * @ignore
      * @return {this["_column"]} Element.

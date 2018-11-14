@@ -160,11 +160,11 @@ export declare class XYChart3D extends XYChart {
      */
     readonly dy3D: number;
     /**
-     * (Re)validates the chart.
+     * (Re)validates layout
      *
      * @ignore Exclude from docs
      */
-    validate(): void;
+    validateLayout(): void;
     /**
      * Updates the layout (padding and scrollbar positions) to accommodate for
      * 3D depth and angle.

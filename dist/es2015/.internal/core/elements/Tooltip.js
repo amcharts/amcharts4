@@ -505,9 +505,9 @@ var Tooltip = /** @class */ (function (_super) {
         configurable: true
     });
     /**
-     * Copies properties and other attributes
+     * Copies properties and other attributes.
      *
-     * @param {MapLineObject}  source  Source map line
+     * @param {Tooltip}  source  Source
      */
     Tooltip.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
