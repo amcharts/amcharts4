@@ -1037,6 +1037,18 @@ var MapChart = /** @class */ (function (_super) {
             this.zoomToGeoPoint(homeGeoPoint, this.homeZoomLevel, true, duration);
         }
     };
+    /**
+     * Sets [[Paper]] instance to use to draw elements.
+     * @ignore
+     * @param {Paper} paper Paper
+     * @return {boolean} true if paper was changed, false, if it's the same
+     */
+    MapChart.prototype.setPaper = function (paper) {
+        if (this.svgContainer) {
+            this.svgContainer.hideOverflow = true;
+        }
+        return _super.prototype.setPaper.call(this, paper);
+    };
     return MapChart;
 }(SerialChart));
 export { MapChart };

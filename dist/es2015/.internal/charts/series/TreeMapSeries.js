@@ -15,7 +15,6 @@ import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
 import * as $type from "../../core/utils/Type";
 import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
 import * as $object from "../../core/utils/Object";
-import * as $iter from "../../core/utils/Iterator";
 /**
  * ============================================================================
  * DATA ITEM
@@ -166,14 +165,11 @@ var TreeMapSeries = /** @class */ (function (_super) {
      * @return {Animation}            Animation
      */
     TreeMapSeries.prototype.show = function (duration) {
-        var _this = this;
-        $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
-            var i = a[0];
-            var dataItem = a[1];
-            var interpolationDuration = _this.defaultState.transitionDuration;
-            return dataItem.treeMapDataItem.setWorkingValue("value", dataItem.treeMapDataItem.getValue("value"), interpolationDuration);
-        });
-        var animation = _super.prototype.showReal.call(this, duration);
+        var interpolationDuration = this.defaultState.transitionDuration;
+        if ($type.isNumber(duration)) {
+            interpolationDuration = duration;
+        }
+        var animation = _super.prototype.showReal.call(this, interpolationDuration);
         var chart = this.chart;
         if (chart) {
             if (animation && !animation.isFinished()) {
@@ -195,14 +191,11 @@ var TreeMapSeries = /** @class */ (function (_super) {
      * @return {Animation}            Animation
      */
     TreeMapSeries.prototype.hide = function (duration) {
-        var _this = this;
-        $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
-            var i = a[0];
-            var dataItem = a[1];
-            var interpolationDuration = _this.hiddenState.transitionDuration;
-            dataItem.treeMapDataItem.setWorkingValue("value", 0, interpolationDuration);
-        });
-        var animation = _super.prototype.hideReal.call(this, duration);
+        var interpolationDuration = this.defaultState.transitionDuration;
+        if ($type.isNumber(duration)) {
+            interpolationDuration = duration;
+        }
+        var animation = _super.prototype.hideReal.call(this, interpolationDuration);
         var chart = this.chart;
         if (chart) {
             if (animation && !animation.isFinished()) {

@@ -1038,7 +1038,6 @@ var XYSeries = /** @class */ (function (_super) {
      */
     XYSeries.prototype.show = function (duration) {
         var _this = this;
-        var animation = _super.prototype.show.call(this, duration);
         var fields;
         if (this.xAxis instanceof ValueAxis && this.xAxis != this.baseAxis) {
             fields = this._xValueFields;
@@ -1048,22 +1047,20 @@ var XYSeries = /** @class */ (function (_super) {
         }
         var startIndex = this.startIndex;
         var endIndex = this.endIndex;
+        var delay = 0;
+        var interpolationDuration = this.defaultState.transitionDuration;
+        if ($type.isNumber(duration)) {
+            interpolationDuration = duration;
+        }
         $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
-            var interpolationDuration = _this.defaultState.transitionDuration;
-            if ($type.isNumber(duration)) {
-                interpolationDuration = duration;
-            }
             var i = a[0];
             var dataItem = a[1];
-            var delay = 0;
-            if (_this.sequencedInterpolation) {
+            if (_this.sequencedInterpolation && interpolationDuration > 0) {
                 delay = _this.sequencedInterpolationDelay * i + interpolationDuration * (i - startIndex) / (endIndex - startIndex);
             }
-            var anim = dataItem.show(interpolationDuration, delay, fields);
-            if (anim && !anim.isFinished()) {
-                animation = anim;
-            }
+            dataItem.show(interpolationDuration, delay, fields);
         });
+        var animation = _super.prototype.show.call(this, duration);
         return animation;
     };
     /**
@@ -1074,7 +1071,6 @@ var XYSeries = /** @class */ (function (_super) {
      */
     XYSeries.prototype.hide = function (duration) {
         var _this = this;
-        var animation = _super.prototype.hide.call(this, duration);
         var fields;
         var value;
         var xAxis = this.xAxis;
@@ -1102,26 +1098,28 @@ var XYSeries = /** @class */ (function (_super) {
         //if ($type.hasValue(fields)) {
         var startIndex = this.startIndex;
         var endIndex = this.endIndex;
+        var interpolationDuration = this.hiddenState.transitionDuration;
+        if ($type.isNumber(duration)) {
+            interpolationDuration = duration;
+        }
+        var delay = 0;
         $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
             var i = a[0];
             var dataItem = a[1];
-            var delay = 0;
-            var interpolationDuration = _this.hiddenState.transitionDuration;
-            if ($type.isNumber(duration)) {
-                interpolationDuration = duration;
-            }
-            if (animation && !animation.isFinished() && interpolationDuration == 0 && animation.duration > 0) {
-                animation.events.once("animationended", function () {
-                    dataItem.hide(0, 0, value, fields);
-                });
+            if (interpolationDuration == 0) {
+                dataItem.hide(0, 0, value, fields);
             }
             else {
-                if (_this.sequencedInterpolation) {
+                if (_this.sequencedInterpolation && interpolationDuration > 0) {
                     delay = _this.sequencedInterpolationDelay * i + interpolationDuration * (i - startIndex) / (endIndex - startIndex);
                 }
                 dataItem.hide(interpolationDuration, delay, value, fields);
             }
         });
+        var animation = _super.prototype.hide.call(this, interpolationDuration);
+        if (animation && !animation.isFinished()) {
+            animation.delay(delay);
+        }
         // helps to avoid flicker. otherwise columns will show up at full size and only on next frame will animate from 0
         this.validateDataElements();
         //}

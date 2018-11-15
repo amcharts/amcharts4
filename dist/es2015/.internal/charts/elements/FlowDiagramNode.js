@@ -69,7 +69,7 @@ var FlowDiagramNode = /** @class */ (function (_super) {
         }
     };
     /**
-     * Shows hidden bide.
+     * Shows hidden node.
      *
      * @param  {number}     duration  Duration of reveal animation (ms)
      * @return {Animation}            Animation

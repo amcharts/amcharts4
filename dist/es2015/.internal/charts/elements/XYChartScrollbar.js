@@ -257,7 +257,6 @@ var XYChartScrollbar = /** @class */ (function (_super) {
          */
         set: function (chart) {
             if (this._chart.get() !== chart) {
-                this._scrollbarChart.data = chart.data;
                 this._chart.set(chart, chart.events.on("datavalidated", this.handleDataChanged, this, false));
                 this.handleDataChanged();
                 this._scrollbarChart.dataProvider = chart; // this makes scrollbar chart do not validate data untill charts' data is validated

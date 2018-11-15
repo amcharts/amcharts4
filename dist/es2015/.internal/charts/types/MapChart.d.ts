@@ -20,6 +20,7 @@ import { ZoomControl } from "../map/ZoomControl";
 import { Ordering } from "../../core/utils/Order";
 import { SmallMap } from "../map/SmallMap";
 import { Animation } from "../../core/utils/Animation";
+import { Paper } from "../../core/rendering/Paper";
 /**
  * ============================================================================
  * DATA ITEM
@@ -807,4 +808,11 @@ export declare class MapChart extends SerialChart {
      * Resets the map to its original position and zoom level.
      */
     goHome(duration?: number): void;
+    /**
+     * Sets [[Paper]] instance to use to draw elements.
+     * @ignore
+     * @param {Paper} paper Paper
+     * @return {boolean} true if paper was changed, false, if it's the same
+     */
+    setPaper(paper: Paper): boolean;
 }

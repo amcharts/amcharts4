@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.83] - 2018-11-15
+
+### Added
+- [`hideOverflow`](https://www.amcharts.com/docs/v4/reference/svgcontainer/#hideOverflow_property) added to `SVGContainer` class. If set to `true` it will apply `overflow: hidden` to chart container so that all chart elements are contained within. Default is `false`, except on `MapChart`, which has it at `true`.
+
+### Fixed
+- Some adjustments and fixes to animations associated with `hide()`/`show()` functions.
+- If a legend was initially disabled, it was not appearing when enabled later.
+- `chart.addData()` was not adding data to `XYChart` scrollbar series.
+
+
 ## [4.0.0-beta.82] - 2018-11-14
 
 ### Added

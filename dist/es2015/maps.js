@@ -9,6 +9,7 @@ export { HeatLegend } from "./.internal/charts/elements/HeatLegend";
 export { MapChartDataItem, MapChart } from "./.internal/charts/types/MapChart";
 export { MapSeriesDataItem, MapSeries } from "./.internal/charts/map/MapSeries";
 export { MapObject } from "./.internal/charts/map/MapObject";
+export { MapLineObject } from "./.internal/charts/map/MapLineObject";
 export { MapPolygon } from "./.internal/charts/map/MapPolygon";
 export { MapImage } from "./.internal/charts/map/MapImage";
 export { MapLine } from "./.internal/charts/map/MapLine";

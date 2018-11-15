@@ -1496,6 +1496,20 @@ var XYChart = /** @class */ (function (_super) {
             axis.disposeData();
         });
     };
+    /**
+     * Adds one or several (array) of data items to the existing data.
+     *
+     * @param {Object | Object[]} rawDataItem One or many raw data item objects
+     */
+    XYChart.prototype.addData = function (rawDataItem, removeCount) {
+        _super.prototype.addData.call(this, rawDataItem, removeCount);
+        if (this.scrollbarX instanceof XYChartScrollbar) {
+            this.scrollbarX.scrollbarChart.addData(rawDataItem, removeCount);
+        }
+        if (this.scrollbarY instanceof XYChartScrollbar) {
+            this.scrollbarY.scrollbarChart.addData(rawDataItem, removeCount);
+        }
+    };
     return XYChart;
 }(SerialChart));
 export { XYChart };

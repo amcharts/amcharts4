@@ -761,4 +761,10 @@ export declare class XYChart extends SerialChart {
      * @ignore
      */
     disposeData(): void;
+    /**
+     * Adds one or several (array) of data items to the existing data.
+     *
+     * @param {Object | Object[]} rawDataItem One or many raw data item objects
+     */
+    addData(rawDataItem: Object | Object[], removeCount?: number): void;
 }

@@ -538,22 +538,22 @@ var FunnelSeries = /** @class */ (function (_super) {
      */
     FunnelSeries.prototype.show = function (duration) {
         var _this = this;
-        var animation = _super.prototype.show.call(this, duration);
         var startIndex = this.startIndex;
         var endIndex = this.endIndex;
+        var interpolationDuration = this.defaultState.transitionDuration;
+        if ($type.isNumber(duration)) {
+            interpolationDuration = duration;
+        }
+        var delay = 0;
         $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
-            var interpolationDuration = _this.defaultState.transitionDuration;
-            if ($type.isNumber(duration)) {
-                interpolationDuration = duration;
-            }
             var i = a[0];
             var dataItem = a[1];
-            var delay = 0;
             if (_this.sequencedInterpolation) {
                 delay = _this.sequencedInterpolationDelay * i + interpolationDuration * (i - startIndex) / (endIndex - startIndex);
             }
-            animation = dataItem.show(interpolationDuration, delay, ["value"]);
+            dataItem.show(interpolationDuration, delay, ["value"]);
         });
+        var animation = _super.prototype.show.call(this, duration);
         return animation;
     };
     /**
@@ -564,25 +564,27 @@ var FunnelSeries = /** @class */ (function (_super) {
      */
     FunnelSeries.prototype.hide = function (duration) {
         var _this = this;
-        var animation = _super.prototype.hide.call(this, duration);
         var fields = ["value"];
         var value = 0;
         var startIndex = this.startIndex;
         var endIndex = this.endIndex;
+        var delay = 0;
+        var interpolationDuration = this.hiddenState.transitionDuration;
+        if ($type.isNumber(duration)) {
+            interpolationDuration = duration;
+        }
         $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
             var i = a[0];
             var dataItem = a[1];
-            var delay = 0;
-            var interpolationDuration = _this.hiddenState.transitionDuration;
-            if ($type.isNumber(duration)) {
-                interpolationDuration = duration;
-            }
             if (_this.sequencedInterpolation) {
                 delay = _this.sequencedInterpolationDelay * i + interpolationDuration * (i - startIndex) / (endIndex - startIndex);
             }
             dataItem.hide(interpolationDuration, delay, value, fields);
         });
-        //}
+        var animation = _super.prototype.hide.call(this, duration);
+        if (animation && !animation.isFinished()) {
+            animation.delay(delay);
+        }
         return animation;
     };
     return FunnelSeries;

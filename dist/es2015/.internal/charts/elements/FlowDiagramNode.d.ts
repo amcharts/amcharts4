@@ -165,7 +165,7 @@ export declare class FlowDiagramNode extends Container {
     constructor();
     protected handleHit(event: AMEvent<Sprite, ISpriteEvents>["hit"]): void;
     /**
-     * Shows hidden bide.
+     * Shows hidden node.
      *
      * @param  {number}     duration  Duration of reveal animation (ms)
      * @return {Animation}            Animation

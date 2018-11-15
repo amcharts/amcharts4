@@ -1403,6 +1403,10 @@ var Component = /** @class */ (function (_super) {
     Component.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
         this.data = source.data;
+        this.sequencedInterpolation = source.sequencedInterpolation;
+        this.sequencedInterpolationDelay = source.sequencedInterpolationDelay;
+        this.interpolationDuration = source.interpolationDuration;
+        this.interpolationEasing = source.interpolationEasing;
     };
     /**
      * Invalidates the whole element, including all its children, causing
@@ -1432,7 +1436,7 @@ var Component = /** @class */ (function (_super) {
     };
     Component.prototype.setDisabled = function (value) {
         _super.prototype.setDisabled.call(this, value);
-        //this.invalidateData();
+        this.invalidateData();
     };
     /**
      * @ignore

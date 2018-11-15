@@ -112,4 +112,24 @@ export declare class SVGContainer implements IDisposer {
      * effectively disables size change monitoring for it.
      */
     dispose(): void;
+    /**
+     * Indicates if chart container should have its style set
+     * to `overflow: hidden`.
+     *
+     * Normally, we don't want that, so that certain elements, such as tooltips,
+     * would be able to go outside chart area.
+     *
+     * There is one issue though. Some browsers ignore SVG masks and would
+     * display scrollbars if chart elements, that go outside chart area extend
+     * outside window.
+     *
+     * This is especially true for [[MapChart]], which can have its elements
+     * extend very widely when zoomed in. Even if those parts are not visible
+     * because of SVG masks, some browsers might still display window scrollbars.
+     *
+     * This is why we set this setting to `true` in [[MapChart]].
+     *
+     * Other charts use default of `false`.
+     */
+    hideOverflow: boolean;
 }
