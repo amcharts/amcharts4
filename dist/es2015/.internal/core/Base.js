@@ -532,7 +532,7 @@ var BaseObject = /** @class */ (function () {
                 else if (item_1 instanceof Dictionary) {
                     // ... a dictionary
                     // ------------------------------------------------------------------
-                    // @todo
+                    _this.processDictionary(item_1, configValue);
                 }
                 else if (item_1 instanceof Color || item_1 instanceof Percent) {
                     // ... it's a Color or Percent
@@ -640,6 +640,25 @@ var BaseObject = /** @class */ (function () {
                 else {
                     listItem.setKey(entryKey, entryValue);
                 }
+            });
+        }
+    };
+    /**
+     * Processes JSON config for a [[Dictionary]] item.
+     *
+     * @todo Description
+     * @param {Dictionary<any, any>}  item    Item
+     * @param {any}                   config  Config
+     */
+    BaseObject.prototype.processDictionary = function (item, config) {
+        // We can only process object
+        // Not sure what to do with other types - ignore
+        if ($type.isObject(config)) {
+            // Create an entry for each item, or override properties for
+            // existing one.
+            // @todo support for non-basic types
+            $object.each(config, function (entryKey, entryValue) {
+                item.setKey(entryKey, entryValue);
             });
         }
     };

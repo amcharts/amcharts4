@@ -603,8 +603,9 @@ var Animation = /** @class */ (function (_super) {
         if (!this._pause) {
             var progress = void 0;
             this._time = $math.fitToRange(Date.now() - this._startTime, 0, this.duration);
-            progress = this.easing(this._time / this.duration);
-            if (this.duration == 0 || !$type.isNumber(progress)) {
+            var timeProgress = this._time / this.duration;
+            progress = this.easing(timeProgress);
+            if (this.duration == 0 || !$type.isNumber(progress) || timeProgress >= 1) {
                 progress = 1;
             }
             this.setProgress(progress);

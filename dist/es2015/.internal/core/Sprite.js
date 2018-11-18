@@ -17,7 +17,7 @@ export { SpriteEventDispatcher };
 import { BaseObjectEvents } from "./Base";
 import { Adapter } from "./utils/Adapter";
 import { Dictionary, DictionaryTemplate, DictionaryDisposer } from "./utils/Dictionary";
-import { ListTemplate, ListDisposer, List } from "./utils/List";
+import { ListDisposer, List } from "./utils/List";
 import { MultiDisposer, Disposer, MutableValueDisposer } from "./utils/Disposer";
 import { Animation, AnimationDisposer } from "./utils/Animation";
 import { getGhostPaper } from "./rendering/Paper";
@@ -25,8 +25,6 @@ import { Container } from "./Container";
 import { Pattern } from "./rendering/fills/Pattern";
 import { LinearGradient } from "./rendering/fills/LinearGradient";
 import { RadialGradient } from "./rendering/fills/RadialGradient";
-import { Popup } from "./elements/Popup";
-import { Modal } from "./elements/Modal";
 import { Color, color, toColor } from "./utils/Color";
 import { getInteraction } from "./interaction/Interaction";
 import { MouseCursorStyle } from "./interaction/Mouse";
@@ -689,6 +687,7 @@ var Sprite = /** @class */ (function (_super) {
         //this.mask = source.mask; need to think about this, generally this causes a lot of problems
         this.disabled = source.disabled;
         this.virtualParent = source.virtualParent;
+        this.exportable = source.exportable;
         //@todo: create tooltip if it's on source but not on this?
         //const tooltip = this._tooltip;
         //if (tooltip) {
@@ -4716,13 +4715,51 @@ var Sprite = /** @class */ (function (_super) {
         }
         return _export;
     };
-    Object.defineProperty(Sprite.prototype, "modal", {
+    Object.defineProperty(Sprite.prototype, "exportable", {
         /**
-         * ==========================================================================
-         * MODAL/POPUP RELATED STUFF
-         * ==========================================================================
-         * @hidden
+         * @return {boolean} Export?
          */
+        get: function () {
+            var svgContainer = this.svgContainer;
+            return !svgContainer || $array.indexOf(svgContainer.nonExportableSprites, this) == -1;
+        },
+        /**
+         * If set to `false` this element will be omitted when exporting the chart
+         * to an image.
+         *
+         * @default true
+         * @param {boolean}  value  Export?
+         */
+        set: function (value) {
+            var svgContainer = this.svgContainer;
+            if (svgContainer && value != this.exportable) {
+                if (value) {
+                    $array.remove(svgContainer.nonExportableSprites, this);
+                }
+                else {
+                    svgContainer.nonExportableSprites.push(this);
+                }
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * ==========================================================================
+     * MODAL/POPUP RELATED STUFF
+     * ==========================================================================
+     * @hidden
+     */
+    /**
+     * Private method to be used for "classPrefix" adapter for modals/popups.
+     *
+     * @param {string}  value  Prefix
+     */
+    Sprite.prototype.modalPrefix = function (value) {
+        value = options.classNamePrefix + value;
+        return value;
+    };
+    Object.defineProperty(Sprite.prototype, "modal", {
         /**
          * Returns a [[Modal]] instance, associated with this chart.
          * (elements top parent)
@@ -4734,26 +4771,13 @@ var Sprite = /** @class */ (function (_super) {
          * @return {Modal} Modal instance
          */
         get: function () {
-            var topParent = this.topParent;
-            if (topParent) {
-                // We always use top parent's modal
-                return topParent.modal;
-            }
-            else {
-                // We are a top parent, let's check if we have a modal
-                if (!$type.hasValue(this._modal)) {
-                    // Create new modal
-                    this._modal = new Modal();
-                    this._modal.container = this.svgContainer.SVGContainer;
-                    // Prefix with Sprite's class name
-                    this._modal.adapter.add("classPrefix", function (value) {
-                        value = options.classNamePrefix + value;
-                        return value;
-                    });
-                    // Add to disposers
-                    this._disposers.push(this._modal);
+            var svgContainer = this.svgContainer;
+            if (svgContainer) {
+                var modal = svgContainer.modal;
+                if (!modal.adapter.has("classPrefix", this.modalPrefix)) {
+                    modal.adapter.add("classPrefix", this.modalPrefix);
                 }
-                return this._modal;
+                return modal;
             }
         },
         enumerable: true,
@@ -4770,21 +4794,18 @@ var Sprite = /** @class */ (function (_super) {
      * @param {string}  title  Title for the modal window
      */
     Sprite.prototype.openModal = function (text, title) {
-        // Hide previous modal
-        this.closeModal();
-        // Create modal
-        var modal = this.modal;
-        modal.content = text;
-        modal.readerTitle = title;
-        modal.open();
-        return modal;
+        var svgContainer = this.svgContainer;
+        if (svgContainer) {
+            return svgContainer.openModal(text, title);
+        }
     };
     /**
      * Hides modal window if there is one currently open.
      */
     Sprite.prototype.closeModal = function () {
-        if (this._modal) {
-            this.modal.close();
+        var svgContainer = this.svgContainer;
+        if (svgContainer) {
+            svgContainer.closeModal();
         }
     };
     Object.defineProperty(Sprite.prototype, "popups", {
@@ -4794,30 +4815,14 @@ var Sprite = /** @class */ (function (_super) {
          * @return {ListTemplate<Popup>} Popups
          */
         get: function () {
-            var topParent = this.topParent;
-            if (topParent != null) {
-                // We always use top parent's popups
-                return topParent.popups;
-            }
-            else {
-                // We are a top parent, let's check if we have a modal
-                if (!$type.hasValue(this._popups)) {
-                    // Create popup template
-                    var popupTemplate = new Popup();
-                    popupTemplate.container = this.svgContainer.SVGContainer;
-                    popupTemplate.sprite = this;
-                    // Prefix with Sprite's class name
-                    popupTemplate.adapter.add("classPrefix", function (value) {
-                        value = options.classNamePrefix + value;
-                        return value;
-                    });
-                    // Create the list
-                    this._popups = new ListTemplate(popupTemplate);
-                    // Add to disposers
-                    this._disposers.push(new ListDisposer(this._popups));
-                    this._disposers.push(this._popups.template);
+            var svgContainer = this.svgContainer;
+            if (svgContainer) {
+                var popups = svgContainer.popups;
+                popups.template.sprite = this;
+                if (!popups.template.adapter.has("classPrefix", this.modalPrefix)) {
+                    popups.template.adapter.add("classPrefix", this.modalPrefix);
                 }
-                return this._popups;
+                return popups;
             }
         },
         enumerable: true,
@@ -4835,21 +4840,19 @@ var Sprite = /** @class */ (function (_super) {
      * @return {Popup}          Popup instance
      */
     Sprite.prototype.openPopup = function (text, title) {
-        var popup = this.popups.create();
-        popup.content = text;
-        if ($type.hasValue(title)) {
-            popup.title = title;
+        var svgContainer = this.svgContainer;
+        if (svgContainer) {
+            return svgContainer.openPopup(text, title);
         }
-        popup.open();
-        return popup;
     };
     /**
      * Closes all currently open popup windows
      */
     Sprite.prototype.closeAllPopups = function () {
-        this.popups.each(function (popup) {
-            popup.close();
-        });
+        var svgContainer = this.svgContainer;
+        if (svgContainer) {
+            return svgContainer.closeAllPopups();
+        }
     };
     Object.defineProperty(Sprite.prototype, "x", {
         /**

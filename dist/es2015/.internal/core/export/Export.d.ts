@@ -655,6 +655,13 @@ export declare class Export extends Validatable {
      */
     protected _removedObjects: List<IExportRemovedObject>;
     /**
+     * Holds references to the objects that were temporarily hidden when export
+     * started, so that we can reveal them back when export ends.
+     *
+     * @type {Sprite[]}
+     */
+    protected _hiddenObjects: Sprite[];
+    /**
      * Exported files will be prefixed with whatever it is set here.
      *
      * @ignore Exclude from docs
@@ -1443,13 +1450,21 @@ export declare class Export extends Validatable {
      */
     getFormatOptions<Key extends keyof IExportOptions>(type: Key): IExportOptions[Key];
     /**
- * Disables interactivity on parent chart.
- */
+     * Disables interactivity on parent chart.
+     */
     protected _disablePointers(): void;
     /**
      * Releases temporarily disabled pointers on parent chart.
      */
     protected _releasePointers(): void;
+    /**
+     * Hides all elements that should not be included in the exported image.
+     */
+    private hideNonExportableSprites();
+    /**
+     * Respores elements that were hidden before export.
+     */
+    private restoreNonExportableSprites();
     /**
      * Processes JSON-based config before it is applied to the object.
      *

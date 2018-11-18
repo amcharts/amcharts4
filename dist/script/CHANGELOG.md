@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.84] - 2018-11-18
+
+### Added
+- `exportable` (default `true`) property added to `Sprite`. If set to `true` this element will not appear in the exported image of the chart.
+
+### Changed
+- `exportable` is now set to `false` by default on `Scrollbar` grips, zoom out button.
+
+### Fixed
+- JSON: `dateFormats` was being ignored.
+
+
 ## [4.0.0-beta.83] - 2018-11-15
 
 ### Added

@@ -9,10 +9,10 @@ export { IHeatLegendProperties, IHeatLegendEvents, IHeatLegendAdapters, HeatLege
 export { MapChartDataItem, IMapPolygonDataObject, MapLineType, IMapLineDataObject, IMapImageDataObject, IMapDataObject, IMapChartDataFields, IMapChartProperties, IMapChartEvents, IMapChartAdapters, MapChart } from "./.internal/charts/types/MapChart";
 export { MapSeriesDataItem, GEOJSONGeometry, IMapSeriesDataFields, IMapSeriesProperties, IMapSeriesEvents, IMapSeriesAdapters, MapSeries } from "./.internal/charts/map/MapSeries";
 export { IMapObjectProperties, IMapObjectEvents, IMapObjectAdapters, MapObject } from "./.internal/charts/map/MapObject";
-export { MapLineObject } from "./.internal/charts/map/MapLineObject";
 export { IMapPolygonProperties, IMapPolygonEvents, IMapPolygonAdapters, MapPolygon } from "./.internal/charts/map/MapPolygon";
 export { IMapImageProperties, IMapImageEvents, IMapImageAdapters, MapImage } from "./.internal/charts/map/MapImage";
 export { IMapLineProperties, IMapLineEvents, IMapLineAdapters, MapLine } from "./.internal/charts/map/MapLine";
+export { IMapLineObjectAdapters, IMapLineObjectEvents, IMapLineObjectProperties, MapLineObject } from "./.internal/charts/map/MapLineObject";
 export { IMapSplineProperties, IMapSplineEvents, IMapSplineAdapters, MapSpline } from "./.internal/charts/map/MapSpline";
 export { IMapArcProperties, IMapArcEvents, IMapArcAdapters, MapArc } from "./.internal/charts/map/MapArc";
 export { MapPolygonSeriesDataItem, IMapPolygonSeriesDataFields, IMapPolygonSeriesProperties, IMapPolygonSeriesEvents, IMapPolygonSeriesAdapters, MapPolygonSeries } from "./.internal/charts/map/MapPolygonSeries";

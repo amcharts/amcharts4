@@ -455,20 +455,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     protected _exporting: MutableValueDisposer<Export>;
     /**
-     * Holds [[Modal]] object.
-     *
-     * @ignore Exclude from docs
-     * @type {Optional<Modal>}
-     */
-    protected _modal: $type.Optional<Modal>;
-    /**
-     * Holds [[Popup]] objects.
-     *
-     * @ignore Exclude from docs
-     * @type {Optional<ListTemplate<Popup>>}
-     */
-    protected _popups: $type.Optional<ListTemplate<Popup>>;
-    /**
      * A reference to a top-level SVG node for this Sprite element.
      *
      * @ignore Exclude from docs
@@ -2502,11 +2488,28 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     protected getExporting(): Export;
     /**
+     * @return {boolean} Export?
+     */
+    /**
+     * If set to `false` this element will be omitted when exporting the chart
+     * to an image.
+     *
+     * @default true
+     * @param {boolean}  value  Export?
+     */
+    exportable: boolean;
+    /**
      * ==========================================================================
      * MODAL/POPUP RELATED STUFF
      * ==========================================================================
      * @hidden
      */
+    /**
+     * Private method to be used for "classPrefix" adapter for modals/popups.
+     *
+     * @param {string}  value  Prefix
+     */
+    private modalPrefix(value);
     /**
      * Returns a [[Modal]] instance, associated with this chart.
      * (elements top parent)
@@ -2517,7 +2520,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @see {@link Modal} for more information about using Modal windows
      * @return {Modal} Modal instance
      */
-    readonly modal: Modal;
+    readonly modal: Optional<Modal>;
     /**
      * Opens a modal window with specific content (`text` parameter) and,
      * optionally, `title`.
@@ -2528,7 +2531,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {string}  text   Modal contents
      * @param {string}  title  Title for the modal window
      */
-    openModal(text: string, title?: string): Modal;
+    openModal(text: string, title?: string): Optional<Modal>;
     /**
      * Hides modal window if there is one currently open.
      */
@@ -2538,7 +2541,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      *
      * @return {ListTemplate<Popup>} Popups
      */
-    readonly popups: ListTemplate<Popup>;
+    readonly popups: Optional<ListTemplate<Popup>>;
     /**
      * Creates, opens, and returns a new [[Popup]] window.
      *
@@ -2550,7 +2553,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param  {string}  title  Popup title
      * @return {Popup}          Popup instance
      */
-    openPopup(text: string, title?: string): Popup;
+    openPopup(text: string, title?: string): Optional<Popup>;
     /**
      * Closes all currently open popup windows
      */

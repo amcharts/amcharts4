@@ -227,6 +227,13 @@ var Export = /** @class */ (function (_super) {
          */
         _this._removedObjects = new List();
         /**
+         * Holds references to the objects that were temporarily hidden when export
+         * started, so that we can reveal them back when export ends.
+         *
+         * @type {Sprite[]}
+         */
+        _this._hiddenObjects = [];
+        /**
          * Exported files will be prefixed with whatever it is set here.
          *
          * @ignore Exclude from docs
@@ -487,6 +494,8 @@ var Export = /** @class */ (function (_super) {
                                 _this.showTimeout();
                             }, this.timeoutDelay);
                         }
+                        // Hide items that should not be exported
+                        this.hideNonExportableSprites();
                         func = this._getFunction(type);
                         // Give chance for plugins to override both function and options
                         options = this.adapter.apply("options", {
@@ -501,6 +510,8 @@ var Export = /** @class */ (function (_super) {
                         return [4 /*yield*/, func.call(this, type, options)];
                     case 1:
                         data = _a.sent();
+                        // Restore temporarily hidden elements
+                        this.restoreNonExportableSprites();
                         if (data) {
                             // Dispatch event
                             if (this.events.isEnabled("exportfinished")) {
@@ -2633,8 +2644,8 @@ var Export = /** @class */ (function (_super) {
         return this._formatOptions.getKey(type);
     };
     /**
- * Disables interactivity on parent chart.
- */
+     * Disables interactivity on parent chart.
+     */
     Export.prototype._disablePointers = function () {
         if (!$type.hasValue(this._spriteInteractionsEnabled)) {
             this._spriteInteractionsEnabled = this.sprite.interactionsEnabled;
@@ -2648,6 +2659,30 @@ var Export = /** @class */ (function (_super) {
         if ($type.hasValue(this._spriteInteractionsEnabled)) {
             this.sprite.interactionsEnabled = this._spriteInteractionsEnabled;
         }
+    };
+    /**
+     * Hides all elements that should not be included in the exported image.
+     */
+    Export.prototype.hideNonExportableSprites = function () {
+        var _this = this;
+        var svgContainer = this.sprite.svgContainer;
+        if (svgContainer) {
+            $array.each(svgContainer.nonExportableSprites, function (item) {
+                if (!item.isHidden && !item.isHiding) {
+                    _this._hiddenObjects.push(item);
+                }
+                item.hide(0);
+            });
+        }
+    };
+    /**
+     * Respores elements that were hidden before export.
+     */
+    Export.prototype.restoreNonExportableSprites = function () {
+        $array.each(this._hiddenObjects, function (item) {
+            item.show(0);
+        });
+        this._hiddenObjects = [];
     };
     /**
      * Processes JSON-based config before it is applied to the object.

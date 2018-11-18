@@ -294,6 +294,14 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      */
     protected processDictionaryTemplate(item: DictionaryTemplate<any, any>, config: any): void;
     /**
+     * Processes JSON config for a [[Dictionary]] item.
+     *
+     * @todo Description
+     * @param {Dictionary<any, any>}  item    Item
+     * @param {any}                   config  Config
+     */
+    protected processDictionary(item: Dictionary<any, any>, config: any): void;
+    /**
      * Processes [[List]].
      *
      * @param {any}        configValue  Config value

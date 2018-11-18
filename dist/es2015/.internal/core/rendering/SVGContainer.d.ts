@@ -8,7 +8,11 @@
  * @hidden
  */
 import { Container } from "../Container";
-import { IDisposer, Disposer } from "../utils/Disposer";
+import { Sprite } from "../Sprite";
+import { IDisposer } from "../utils/Disposer";
+import { Popup } from "../elements/Popup";
+import { Modal } from "../elements/Modal";
+import { ListTemplate } from "../utils/List";
 import * as $type from "../utils/Type";
 import ResizeSensor from "css-element-queries/src/ResizeSensor";
 /**
@@ -75,11 +79,40 @@ export declare class SVGContainer implements IDisposer {
      */
     SVGContainer: HTMLDivElement;
     /**
-     * A reference to ResizeSensor object which monitors changes of div size
+     * A reference to ResizeSensor object which monitors changes of div size.
+     *
+     * @ignore
      * @type {ResizeSensor}
      */
     resizeSensor: ResizeSensor;
-    protected _resizeSensorDisposer: Disposer;
+    /**
+     * Holds list of references to [[Sprite]] objects that should not be exported
+     * when exporting chart to an image.
+     *
+     * @ignore
+     * @type {Sprite[]}
+     */
+    nonExportableSprites: Sprite[];
+    /**
+     * Holds [[Modal]] object.
+     *
+     * @ignore Exclude from docs
+     * @type {Optional<Modal>}
+     */
+    protected _modal: $type.Optional<Modal>;
+    /**
+     * Holds [[Popup]] objects.
+     *
+     * @ignore Exclude from docs
+     * @type {Optional<ListTemplate<Popup>>}
+     */
+    protected _popups: $type.Optional<ListTemplate<Popup>>;
+    /**
+     * List of objects that need to be disposed when this one is disposed.
+     *
+     * @type {Disposer[]}
+     */
+    protected _disposers: Array<IDisposer>;
     /**
      * Constructor
      *
@@ -132,4 +165,58 @@ export declare class SVGContainer implements IDisposer {
      * Other charts use default of `false`.
      */
     hideOverflow: boolean;
+    /**
+     * ==========================================================================
+     * MODAL/POPUP RELATED STUFF
+     * ==========================================================================
+     * @hidden
+     */
+    /**
+     * Returns a [[Modal]] instance, associated with this chart.
+     * (elements top parent)
+     *
+     * Accessing modal does not make it appear. To make a modal appear, use
+     * `showModal()` method.
+     *
+     * @see {@link Modal} for more information about using Modal windows
+     * @return {Modal} Modal instance
+     */
+    readonly modal: Modal;
+    /**
+     * Opens a modal window with specific content (`text` parameter) and,
+     * optionally, `title`.
+     *
+     * The `text` parameter can contain HTML content.
+     *
+     * @see {@link Modal} for more information about using Modal windows
+     * @param {string}  text   Modal contents
+     * @param {string}  title  Title for the modal window
+     */
+    openModal(text: string, title?: string): Modal;
+    /**
+     * Hides modal window if there is one currently open.
+     */
+    closeModal(): void;
+    /**
+     * A list of popups for this chart.
+     *
+     * @return {ListTemplate<Popup>} Popups
+     */
+    readonly popups: ListTemplate<Popup>;
+    /**
+     * Creates, opens, and returns a new [[Popup]] window.
+     *
+     * `text` can be any valid HTML.
+     *
+     * `title` is currently not supported.
+     *
+     * @param  {string}  text   Popup contents
+     * @param  {string}  title  Popup title
+     * @return {Popup}          Popup instance
+     */
+    openPopup(text: string, title?: string): Popup;
+    /**
+     * Closes all currently open popup windows
+     */
+    closeAllPopups(): void;
 }

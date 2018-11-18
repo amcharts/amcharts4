@@ -286,6 +286,7 @@ var XYChart = /** @class */ (function (_super) {
      */
     XYChart.prototype.applyInternalDefaults = function () {
         _super.prototype.applyInternalDefaults.call(this);
+        this.zoomOutButton.exportable = false;
         // Add a default screen reader title for accessibility
         // This will be overridden in screen reader if there are any `titles` set
         if (!$type.hasValue(this.readerTitle)) {
@@ -1060,6 +1061,8 @@ var XYChart = /** @class */ (function (_super) {
             if (scrollbar) {
                 this._disposers.push(scrollbar);
                 scrollbar.parent = this.topAxesContainer;
+                scrollbar.startGrip.exportable = false;
+                scrollbar.endGrip.exportable = false;
                 scrollbar.toBack();
                 scrollbar.orientation = "horizontal";
                 scrollbar.events.on("rangechanged", this.handleXScrollbarChange, this, false);
@@ -1097,6 +1100,8 @@ var XYChart = /** @class */ (function (_super) {
             if (scrollbar) {
                 this._disposers.push(scrollbar);
                 scrollbar.parent = this.rightAxesContainer;
+                scrollbar.startGrip.exportable = false;
+                scrollbar.endGrip.exportable = false;
                 scrollbar.toFront();
                 scrollbar.orientation = "vertical";
                 scrollbar.events.on("rangechanged", this.handleYScrollbarChange, this, false);
