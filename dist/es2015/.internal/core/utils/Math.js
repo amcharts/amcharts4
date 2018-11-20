@@ -581,7 +581,8 @@ export function getArcRect(startAngle, endAngle, radius) {
     var maxX;
     var minY;
     var maxY;
-    for (var angle = startAngle; angle < endAngle; angle += 0.2) {
+    var step = (endAngle - startAngle) / 720;
+    for (var angle = startAngle; angle < endAngle; angle += step) {
         minX = min(cos(angle) * radius, minX);
         maxX = max(cos(angle) * radius, maxX);
         minY = min(sin(angle) * radius, minY);

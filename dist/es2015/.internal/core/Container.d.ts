@@ -270,6 +270,11 @@ export declare class Container extends Sprite {
      */
     contentHeight: number;
     /**
+     * An array of child Sprites that should be ready before this object can
+     * fire a "ready" event.
+     */
+    protected _shouldBeReady: Sprite[];
+    /**
      * Constructor
      */
     constructor();
@@ -665,4 +670,8 @@ export declare class Container extends Sprite {
      */
     setState(value: string | SpriteState<this["_properties"], this["_adapter"]>, transitionDuration?: number, easing?: (value: number) => number): $type.Optional<Animation>;
     protected setActive(value: boolean): void;
+    /**
+     * Dispatches ready event. Dispatches when all children are ready.
+     */
+    dispatchReady(): void;
 }

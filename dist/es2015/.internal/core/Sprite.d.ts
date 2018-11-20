@@ -286,6 +286,13 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     protected _inited: boolean;
     /**
+     * Holds indicator whether this sprite was already initialized and ready.
+     *
+     * @ignore Exclude from docs
+     * @type {boolean}
+     */
+    protected _ready: boolean;
+    /**
      * A reference to a Tooltip for this Sprite.
      *
      * @ignore Exclude from docs
@@ -874,6 +881,12 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     protected afterDraw(): void;
     /**
+     * Dispatches `"ready"` event. Sprite dispatches it right after `"inited"` event.
+     *
+     * @ignore
+     */
+    dispatchReady(): void;
+    /**
      * Triggers a re-initialization of this element.
      *
      * Will result in complete redrawing of the element.
@@ -1355,6 +1368,15 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     readonly inited: boolean;
     /**
+     * Returns `true` if Sprite has already finished initializing and is ready.
+     *
+     * If this object is a [[Container]] it will wait for all of its children
+     * are ready before becoming ready itself and firing a `"ready"` event.
+     *
+     * @return {boolean} is ready?
+     */
+    isReady(): boolean;
+    /**
      * Returns a collection of element's available [[SpriteState]] entries.
      *
      * @see {@link SpriteState}
@@ -1519,7 +1541,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * Controls if element is disabled.
      *
      * A disabled element is hidden, and is removed from any processing, layout
-     * calculations, and generally treated like if it does not existed.
+     * calculations, and generally treated as if it does not exist.
      *
      * The element itself is not destroyed, though. Setting this back to `false`,
      * will "resurrect" the element.
@@ -2431,11 +2453,51 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * A shortcut to setting mouse cursor on hover.
      *
+     * Example:
+     *
+     * ```TypeScript
+     * series.slices.template.cursorOverStyle = am4core.MouseCursorStyle.pointer;
+     * ```
+     * ```JavaScript
+     * series.slices.template.cursorOverStyle = am4core.MouseCursorStyle.pointer;
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "series": {
+     *     // ...
+     *     "slices": {
+     *       "cursorOverStyle": "pointer"
+     *     }
+     *   }
+     * }
+     * ```
+     *
      * @param {Array<IStyleProperty>} style An array of styles to apply onhover
      */
     cursorOverStyle: Array<IStyleProperty>;
     /**
      * A shortcut to setting mouse cursor when button is pressed down.
+     *
+     * Example:
+     *
+     * ```TypeScript
+     * series.slices.template.cursorDownStyle = am4core.MouseCursorStyle.grabbing;
+     * ```
+     * ```JavaScript
+     * series.slices.template.cursorDownStyle = am4core.MouseCursorStyle.grabbing;
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "series": {
+     *     // ...
+     *     "slices": {
+     *       "cursorDownStyle": "grabbing"
+     *     }
+     *   }
+     * }
+     * ```
      *
      * @param {Array<IStyleProperty>} style An array of styles to apply onhover
      */
@@ -3623,6 +3685,13 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     processConfig(config?: {
         [index: string]: any;
     }): void;
+    /**
+     * Converts string name of the cursor into actual [[MouseCursorStyle]].
+     *
+     * @param  {string}                      style  Cursor type
+     * @return {Optional<MouseCursorStyle>}         Cursor definition
+     */
+    private getCursorStyle(style);
     /**
      * This function is used to sort element's JSON config properties, so that
      * some properties that absolutely need to be processed last, can be put at

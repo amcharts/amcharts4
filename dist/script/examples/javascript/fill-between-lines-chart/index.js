@@ -32,13 +32,11 @@ series.dataFields.valueY = "close";
 series.tooltipText = "open: {openValueY.value} close: {valueY.value}";
 series.sequencedInterpolation = true;
 series.fillOpacity = 0.3;
-series.defaultState.transitionDuration = 1000;
 
 var series2 = chart.series.push(new am4charts.LineSeries());
 series2.dataFields.dateX = "date";
 series2.dataFields.valueY = "open";
 series2.sequencedInterpolation = true;
-series2.defaultState.transitionDuration = 1500;
 series2.stroke = chart.colors.getIndex(6);
 
 chart.cursor = new am4charts.XYCursor();

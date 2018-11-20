@@ -32,6 +32,12 @@ var System = /** @class */ (function () {
      */
     function System() {
         /**
+         * A flag indicating if the system is on pause.
+         *
+         * @type {boolean}
+         */
+        this._isPaused = false;
+        /**
          * Unique ID of the object.
          *
          * @type {string}
@@ -75,6 +81,9 @@ var System = /** @class */ (function () {
      * @todo Maybe should be private?
      */
     System.prototype.update = function () {
+        if (this._isPaused) {
+            return;
+        }
         this._frameRequested = false;
         var time = Date.now();
         registry.dispatchImmediately("enterframe");
@@ -302,6 +311,9 @@ var System = /** @class */ (function () {
             }
         }
     };
+    /**
+     * Requests new animation frame
+     */
     System.prototype.requestFrame = function () {
         var _this = this;
         if (!this._frameRequested) {
@@ -391,35 +403,24 @@ var System = /** @class */ (function () {
             }
         }
     };
-    Object.defineProperty(System.prototype, "frameRate", {
+    Object.defineProperty(System.prototype, "isPaused", {
         /**
-         * @return {number} Frame rate
+         * @return {boolean} Is system on pause?
          */
         get: function () {
-            return registry.frameRate;
+            return this._isPaused;
         },
         /**
-         * Get current theme
-         * @return {ITheme} [description]
-         */
-        /*public get theme(): ITheme {
-            return $array.last(this.themes);
-        }*/
-        /**
-         * Number of times per second charts will be updated.
+         * Pauses all the processes of all the amCharts objects on the page
          *
-         * This means that each time an element is invalidated it will wait for the
-         * next cycle to be re-validated, and possibly redrawn.
-         *
-         * This happens every `1000 / frameRate` milliseconds.
-         *
-         * Reducing this number may reduce the load on the CPU, but might slightly
-         * reduce smoothness of the animations.
-         *
-         * @type {number} Frame rate
+         * @return {boolean} is paused?
          */
         set: function (value) {
-            registry.frameRate = value;
+            this._isPaused = value;
+            if (!value) {
+                this._frameRequested = false;
+                this.requestFrame();
+            }
         },
         enumerable: true,
         configurable: true
@@ -432,7 +433,7 @@ var System = /** @class */ (function () {
      * @see {@link https://docs.npmjs.com/misc/semver}
      * @type {string}
      */
-    System.VERSION = "4.0.0-beta.84";
+    System.VERSION = "4.0.0-beta.85";
     return System;
 }());
 export { System };

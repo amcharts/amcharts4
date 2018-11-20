@@ -110,12 +110,19 @@ export function arcTo(startAngle, arc, radius, radiusY) {
     if (arc < 0) {
         l = 0;
     }
-    // center
-    var cx = -$math.cos(startAngle) * radius;
-    var cy = -$math.sin(startAngle) * radiusY;
     // previous, as we use a not A
     var pax = 0;
     var pay = 0;
+    // center
+    var cx = -$math.cos(startAngle) * radius;
+    var cy = -$math.sin(startAngle) * radiusY;
+    // foir very short angles and big radius, solves artefacts
+    if (arc < 0.5 && radius > 3000) {
+        var endAngle = startAngle + arc;
+        var ax = $math.round($math.cos(endAngle) * radius, 4);
+        var ay = $math.round($math.sin(endAngle) * radiusY, 4);
+        return lineTo({ x: ax, y: ay });
+    }
     for (var i = 0; i < segments; i++) {
         var endAngle = startAngle + arc / segments * (i + 1);
         var ax = $math.round($math.cos(endAngle) * radius + cx - pax, 4);

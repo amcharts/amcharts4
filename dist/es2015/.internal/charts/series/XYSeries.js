@@ -1052,15 +1052,19 @@ var XYSeries = /** @class */ (function (_super) {
         if ($type.isNumber(duration)) {
             interpolationDuration = duration;
         }
+        var anim;
         $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
             var i = a[0];
             var dataItem = a[1];
             if (_this.sequencedInterpolation && interpolationDuration > 0) {
                 delay = _this.sequencedInterpolationDelay * i + interpolationDuration * (i - startIndex) / (endIndex - startIndex);
             }
-            dataItem.show(interpolationDuration, delay, fields);
+            anim = dataItem.show(interpolationDuration, delay, fields);
         });
         var animation = _super.prototype.show.call(this, duration);
+        if (anim && !anim.isFinished()) {
+            animation = anim;
+        }
         return animation;
     };
     /**
@@ -1103,6 +1107,7 @@ var XYSeries = /** @class */ (function (_super) {
             interpolationDuration = duration;
         }
         var delay = 0;
+        var anim;
         $iter.each($iter.indexed(this.dataItems.iterator()), function (a) {
             var i = a[0];
             var dataItem = a[1];
@@ -1113,12 +1118,15 @@ var XYSeries = /** @class */ (function (_super) {
                 if (_this.sequencedInterpolation && interpolationDuration > 0) {
                     delay = _this.sequencedInterpolationDelay * i + interpolationDuration * (i - startIndex) / (endIndex - startIndex);
                 }
-                dataItem.hide(interpolationDuration, delay, value, fields);
+                anim = dataItem.hide(interpolationDuration, delay, value, fields);
             }
         });
         var animation = _super.prototype.hide.call(this, interpolationDuration);
         if (animation && !animation.isFinished()) {
             animation.delay(delay);
+        }
+        if (anim && !anim.isFinished()) {
+            animation = anim;
         }
         // helps to avoid flicker. otherwise columns will show up at full size and only on next frame will animate from 0
         this.validateDataElements();

@@ -219,6 +219,8 @@ var Label = /** @class */ (function (_super) {
     Label.prototype.draw = function () {
         // Draw super
         _super.prototype.draw.call(this);
+        var oldW = this.bbox.width;
+        var oldH = this.bbox.height;
         var topParent = this.topParent;
         if (topParent) {
             if (!topParent.maxWidth || !topParent.maxHeight) {
@@ -465,7 +467,7 @@ var Label = /** @class */ (function (_super) {
                                         // in the line
                                         if (firstChunk) {
                                             // Split mid-word if necessary
-                                            splitLines = $utils.splitTextByCharCount(chunk.text, maxChars, false, this.rtl);
+                                            splitLines = $utils.splitTextByCharCount(chunk.text, maxChars, true, this.rtl);
                                         }
                                         else {
                                             // Don't split mid-word
@@ -564,6 +566,9 @@ var Label = /** @class */ (function (_super) {
             this.alignSVGText();
             this.bbox.width = this._measuredWidth;
             this.bbox.height = this._measuredHeight;
+            if (oldH != this._measuredHeight || oldW != this._measuredWidth) {
+                this.dispatch("transformed");
+            }
             this.hideUnused(lines.length);
         }
         else {

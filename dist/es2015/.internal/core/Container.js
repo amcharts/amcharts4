@@ -87,6 +87,11 @@ var Container = /** @class */ (function (_super) {
         _this.layoutInvalid = false;
         _this._absoluteWidth = 0;
         _this._absoluteHeight = 0;
+        /**
+         * An array of child Sprites that should be ready before this object can
+         * fire a "ready" event.
+         */
+        _this._shouldBeReady = [];
         _this.className = "Container";
         _this._element = _this.paper.addGroup("g");
         _this.group.add(_this.element);
@@ -1518,6 +1523,7 @@ var Container = /** @class */ (function (_super) {
         if (this._background) {
             this._background.dispose();
         }
+        this._shouldBeReady = [];
         this.disposeChildren();
         _super.prototype.dispose.call(this);
     };
@@ -1565,6 +1571,31 @@ var Container = /** @class */ (function (_super) {
         _super.prototype.setActive.call(this, value);
         if (this._background) {
             this._background.isActive = value;
+        }
+    };
+    /**
+     * Dispatches ready event. Dispatches when all children are ready.
+     */
+    Container.prototype.dispatchReady = function () {
+        if (!this.isReady()) {
+            var allReady_1 = true;
+            this.children.each(function (child) {
+                if (!child.isReady()) {
+                    allReady_1 = false;
+                }
+            });
+            $array.each(this._shouldBeReady, function (sprite) {
+                if (!sprite.isReady()) {
+                    allReady_1 = false;
+                }
+            });
+            if (allReady_1) {
+                _super.prototype.dispatchReady.call(this);
+            }
+            else {
+                registry.events.once("exitframe", this.dispatchReady, this, false);
+                system.requestFrame();
+            }
         }
     };
     return Container;

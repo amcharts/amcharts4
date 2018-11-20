@@ -115,7 +115,7 @@ bullet.label.isMeasured = false;
 bullet.isMeasured = false;
 
 // create animations
-chart.events.on("inited", function () {
+chart.events.on("ready", function () {
     for (var i = 0; i < chart.links.length; i++) {
         var link = chart.links.getIndex(i);
         var bullet = link.bullets.getIndex(1);

@@ -5,6 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.85] - 2018-11-20
+
+### Added
+- `"ready"` event added to `Sprite`. Sprite fires it right after `"init"` event. `Container` fires it when all of its children are ready.
+- `system.isPaused` property added. Setting it to `true` will effectively pause any chart activity, making them completely static.
+- `ErrorBullet` class added. Allows drawing error charts. (Check `error-chart` and `xy-error-chart` examples for code samples)
+- JSON: String-based `cursorOverStyle` and `cursorDownStyle` are not supported.
+
+### Fixed
+- JSON: Setting `ColorSet` properties `baseColor` or `list`  was not working properly.
+- Accessibility: Legend item was not properly referring to a Series via `labelled-by`.
+- `Label.wrap` was breaking lines mid-word even if there where words that would fit into alotted space.
+- Memory leak fixed.
+- Sometimes `Animation` was not firing `"animationended"` event (when elastic easing was used).
+
+
 ## [4.0.0-beta.84] - 2018-11-18
 
 ### Added

@@ -476,6 +476,11 @@ var BaseObject = /** @class */ (function () {
                             // Item is already a BaseObject, no need to process it further
                             item_1.template = configValue;
                         }
+                        else if (item_1.template instanceof BaseObject) {
+                            // Template is a BaseObject so we will just let its config
+                            // deal with the configuration
+                            item_1.template.config = configValue;
+                        }
                         else {
                             $object.each(configValue, function (entryKey, entryValue) {
                                 var listItem = item_1.template[entryKey];
@@ -537,7 +542,7 @@ var BaseObject = /** @class */ (function () {
                 else if (item_1 instanceof Color || item_1 instanceof Percent) {
                     // ... it's a Color or Percent
                     // ------------------------------------------------------------------
-                    target[configKey] = configValue;
+                    target[configKey] = _this.maybeColorOrPercent(configValue);
                 }
                 else if ($type.isObject(item_1) && $type.isObject(configValue)) {
                     // ... a regular object

@@ -119,7 +119,7 @@ bullet.label.isMeasured = false;
 bullet.isMeasured = false;
 
 // create animations
-chart.events.on("inited", () => {
+chart.events.on("ready", () => {
     for (let i = 0; i < chart.links.length; i++) {
         let link = chart.links.getIndex(i);
         let bullet = link.bullets.getIndex(1);

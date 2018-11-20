@@ -163,6 +163,14 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
      */
     inited: {};
     /**
+     * Invoked when [[Sprite]] is becomes ready, that is it has finished all
+     * calculations and building itself.
+     *
+     * For [[Container]] object (and all those inheriting it, including charts)
+     * this event will fire when all children become ready.
+     */
+    ready: {};
+    /**
      * Invoked before [[Sprite]] is validated.
      *
      * @todo Description (check)

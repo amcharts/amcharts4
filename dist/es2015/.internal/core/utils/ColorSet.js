@@ -363,6 +363,25 @@ var ColorSet = /** @class */ (function (_super) {
             hsl.l = $utils.fitNumber(hsl.l, this.minLightness, this.maxLightness);
         }
     };
+    /**
+     * Processes JSON-based config before it is applied to the object.
+     *
+     * @ignore Exclude from docs
+     * @param {object}  config  Config
+     */
+    ColorSet.prototype.processConfig = function (config) {
+        if (config) {
+            // Set up axis ranges
+            if ($type.hasValue(config.list) && $type.isArray(config.list)) {
+                for (var i = 0, len = config.list.length; i < len; i++) {
+                    if (!(config.list[i] instanceof Color)) {
+                        config.list[i] = color(config.list[i]);
+                    }
+                }
+            }
+        }
+        _super.prototype.processConfig.call(this, config);
+    };
     return ColorSet;
 }(BaseObject));
 export { ColorSet };

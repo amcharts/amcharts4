@@ -80,6 +80,7 @@ export { Tick } from "./.internal/charts/elements/Tick";
 export { Bullet } from "./.internal/charts/elements/Bullet";
 export { LabelBullet } from "./.internal/charts/elements/LabelBullet";
 export { CircleBullet } from "./.internal/charts/elements/CircleBullet";
+export { ErrorBullet } from "./.internal/charts/elements/ErrorBullet";
 export { XYChartScrollbar } from "./.internal/charts/elements/XYChartScrollbar";
 export { ClockHand } from "./.internal/charts/elements/ClockHand";
 export { FlowDiagramNode } from "./.internal/charts/elements/FlowDiagramNode";

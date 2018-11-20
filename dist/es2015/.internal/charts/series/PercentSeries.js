@@ -204,15 +204,42 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
         get: function () {
             var _this = this;
             if (!this._slice) {
-                var slice_1 = this.component.slices.create();
+                var component_1 = this.component;
+                var slice_1 = component_1.slices.create();
                 this._slice = slice_1;
                 this._disposers.push(slice_1);
-                slice_1.parent = this.component.slicesContainer;
+                slice_1.parent = component_1.slicesContainer;
                 this._disposers.push(new Disposer(function () {
-                    _this.component.slices.removeValue(slice_1);
+                    component_1.slices.removeValue(slice_1);
                 }));
                 this.addSprite(slice_1);
                 slice_1.visible = this.visible;
+                // Apply accessibility
+                if (component_1.itemsFocusable()) {
+                    slice_1.role = "menuitem";
+                    slice_1.focusable = true;
+                }
+                else {
+                    slice_1.role = "listitem";
+                    slice_1.focusable = false;
+                }
+                // Apply screen reader label
+                if (slice_1.focusable) {
+                    slice_1.events.once("focus", function (ev) {
+                        slice_1.readerTitle = component_1.populateString(component_1.itemReaderText, _this);
+                    }, undefined, false);
+                    slice_1.events.once("blur", function (ev) {
+                        slice_1.readerTitle = "";
+                    }, undefined, false);
+                }
+                if (slice_1.hoverable) {
+                    slice_1.events.once("over", function (ev) {
+                        slice_1.readerTitle = component_1.populateString(component_1.itemReaderText, _this);
+                    }, undefined, false);
+                    slice_1.events.once("out", function (ev) {
+                        slice_1.readerTitle = "";
+                    }, undefined, false);
+                }
             }
             return this._slice;
         },
@@ -391,35 +418,8 @@ var PercentSeries = /** @class */ (function (_super) {
      * @param {PercentSeriesDataItem}  dataItem  Data item
      */
     PercentSeries.prototype.validateDataElement = function (dataItem) {
-        var _this = this;
         var slice = dataItem.slice;
         if (slice) {
-            // Apply accessibility
-            if (this.itemsFocusable()) {
-                slice.role = "menuitem";
-                slice.focusable = true;
-            }
-            else {
-                slice.role = "listitem";
-                slice.focusable = false;
-            }
-            // Apply screen reader label
-            if (slice.focusable) {
-                slice.events.once("focus", function (ev) {
-                    slice.readerTitle = _this.populateString(_this.itemReaderText, dataItem);
-                }, undefined, false);
-                slice.events.once("blur", function (ev) {
-                    slice.readerTitle = "";
-                }, undefined, false);
-            }
-            if (slice.hoverable) {
-                slice.events.once("over", function (ev) {
-                    slice.readerTitle = _this.populateString(_this.itemReaderText, dataItem);
-                }, undefined, false);
-                slice.events.once("out", function (ev) {
-                    slice.readerTitle = "";
-                }, undefined, false);
-            }
             if (slice.fill == undefined) {
                 slice.fill = this.colors.getIndex(dataItem.index * this.colors.step);
             }

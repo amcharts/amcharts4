@@ -3,8 +3,8 @@
   "name": "amcharts4-example-geo-heat-map",
   "version": "0.1.0",
   "devDependencies": {
-    "@amcharts/amcharts4": "^4.0.0-beta.84",
-    "@amcharts/amcharts4-geodata": "^4.0.19",
+    "@amcharts/amcharts4": "^4.0.0-beta.85",
+    "@amcharts/amcharts4-geodata": "^4.0.20",
     "webpack": "^4.23.1",
     "webpack-cli": "^3.1.2",
     "source-map-loader": "^0.2.4"

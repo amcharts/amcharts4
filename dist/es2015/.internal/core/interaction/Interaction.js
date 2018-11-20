@@ -25,6 +25,7 @@ import { Dictionary } from "../utils/Dictionary";
 import { Inertia } from "./Inertia";
 import { addEventListener } from "../utils/DOM";
 import { keyboard } from "../utils/Keyboard";
+import { system } from "./../System";
 import * as $ease from "../utils/Ease";
 import * as $math from "../utils/Math";
 import * as $dom from "../utils/DOM";
@@ -515,7 +516,7 @@ var Interaction = /** @class */ (function (_super) {
             return;
         }
         io.isFocused = true;
-        if (io.events.isEnabled("focus")) {
+        if (io.events.isEnabled("focus") && !system.isPaused) {
             var imev = {
                 type: "focus",
                 target: io,
@@ -554,7 +555,7 @@ var Interaction = /** @class */ (function (_super) {
             return;
         }
         io.isFocused = false;
-        if (io.events.isEnabled("blur")) {
+        if (io.events.isEnabled("blur") && !system.isPaused) {
             var imev = {
                 type: "blur",
                 target: io,
@@ -653,7 +654,7 @@ var Interaction = /** @class */ (function (_super) {
         // Update current point position
         pointer.point = this.getPointerPoint(ev);
         // Prepare and fire global event
-        if (this.events.isEnabled("track")) {
+        if (this.events.isEnabled("track") && !system.isPaused) {
             var imev = {
                 type: "track",
                 target: this,
@@ -681,7 +682,7 @@ var Interaction = /** @class */ (function (_super) {
         // Get pointer
         var pointer = this.getPointer(ev);
         // Prepare and fire global event
-        if (this.events.isEnabled("down")) {
+        if (this.events.isEnabled("down") && !system.isPaused) {
             var imev = {
                 type: "down",
                 target: this,
@@ -714,7 +715,7 @@ var Interaction = /** @class */ (function (_super) {
         // Get pointer
         var pointer = this.getPointer(ev);
         // Prepare and fire global event
-        if (this.events.isEnabled("up")) {
+        if (this.events.isEnabled("up") && !system.isPaused) {
             var imev = {
                 type: "up",
                 target: this,
@@ -752,7 +753,7 @@ var Interaction = /** @class */ (function (_super) {
             // Update current point position
             pointer.point = this.getPointerPoint(ev.changedTouches[i]);
             // Prepare and fire global event
-            if (this.events.isEnabled("track")) {
+            if (this.events.isEnabled("track") && !system.isPaused) {
                 var imev = {
                     type: "track",
                     target: this,
@@ -783,7 +784,7 @@ var Interaction = /** @class */ (function (_super) {
             // Get pointer
             var pointer = this.getPointer(ev.changedTouches[i]);
             // Prepare and fire global event
-            if (!this._usePointerEventsOnly && this.events.isEnabled("down")) {
+            if (!this._usePointerEventsOnly && this.events.isEnabled("down") && !system.isPaused) {
                 var imev = {
                     type: "down",
                     target: this,
@@ -813,7 +814,7 @@ var Interaction = /** @class */ (function (_super) {
             // Get pointer
             var pointer = this.getPointer(ev.changedTouches[i]);
             // Prepare and fire global event
-            if (this.events.isEnabled("up")) {
+            if (this.events.isEnabled("up") && !system.isPaused) {
                 var imev = {
                     type: "up",
                     target: this,
@@ -983,7 +984,7 @@ var Interaction = /** @class */ (function (_super) {
             io.lastHit = undefined;
             io.lastHitPointer = undefined;
             // Dispatch event
-            if (io.events.isEnabled("doublehit")) {
+            if (io.events.isEnabled("doublehit") && !system.isPaused) {
                 var imev = {
                     type: "doublehit",
                     target: io,
@@ -999,7 +1000,7 @@ var Interaction = /** @class */ (function (_super) {
             io.lastHitPointer = pointer;
             if (pointer.button === 3) {
                 // Execute HIT now
-                if (io.events.isEnabled("rightclick")) {
+                if (io.events.isEnabled("rightclick") && !system.isPaused) {
                     var imev = {
                         type: "rightclick",
                         target: io,
@@ -1009,7 +1010,7 @@ var Interaction = /** @class */ (function (_super) {
                 }
             }
             else {
-                if (io.events.isEnabled("hit")) {
+                if (io.events.isEnabled("hit") && !system.isPaused) {
                     var imev = {
                         type: "hit",
                         target: io,
@@ -1050,7 +1051,7 @@ var Interaction = /** @class */ (function (_super) {
             // required to happen to kick in.
             this.handleTrack(this.body, pointer, ev, true);
             // Event
-            if (io.events.isEnabled("over")) {
+            if (io.events.isEnabled("over") && !system.isPaused) {
                 var imev = {
                     type: "over",
                     target: io,
@@ -1137,7 +1138,7 @@ var Interaction = /** @class */ (function (_super) {
             io.isHover = false;
             this.overObjects.removeValue(io);
             // Invoke event
-            if (io.events.isEnabled("out")) {
+            if (io.events.isEnabled("out") && !system.isPaused) {
                 var imev = {
                     type: "out",
                     target: io,
@@ -1207,7 +1208,7 @@ var Interaction = /** @class */ (function (_super) {
             }
         }
         // Dispatch "down" event
-        if (io.events.isEnabled("down")) {
+        if (io.events.isEnabled("down") && !system.isPaused) {
             var imev = {
                 type: "down",
                 target: io,
@@ -1264,7 +1265,7 @@ var Interaction = /** @class */ (function (_super) {
                 this.downObjects.removeValue(io);
             }
             // Dispatch "up" event
-            if (io.events.isEnabled("up")) {
+            if (io.events.isEnabled("up") && !system.isPaused) {
                 var imev = {
                     type: "up",
                     target: io,
@@ -1386,7 +1387,7 @@ var Interaction = /** @class */ (function (_super) {
             return;
         }
         // Initiate TRACK event
-        if (io.events.isEnabled("track")) {
+        if (io.events.isEnabled("track") && !system.isPaused) {
             var imev = {
                 type: "track",
                 target: io,
@@ -1408,7 +1409,7 @@ var Interaction = /** @class */ (function (_super) {
     Interaction.prototype.handleSwipe = function (io, pointer, ev) {
         // We pass in InteractionEvent with shift in mouse coordinates
         // between when the drag started and ended
-        if (io.events.isEnabled("swipe")) {
+        if (io.events.isEnabled("swipe") && !system.isPaused) {
             var imev = {
                 type: "swipe",
                 target: io,
@@ -1417,7 +1418,7 @@ var Interaction = /** @class */ (function (_super) {
             io.events.dispatchImmediately("swipe", imev);
         }
         if (pointer.startPoint.x < pointer.point.x) {
-            if (io.events.isEnabled("swiperight")) {
+            if (io.events.isEnabled("swiperight") && !system.isPaused) {
                 var imev = {
                     type: "swiperight",
                     target: io,
@@ -1427,7 +1428,7 @@ var Interaction = /** @class */ (function (_super) {
             }
         }
         else {
-            if (io.events.isEnabled("swipeleft")) {
+            if (io.events.isEnabled("swipeleft") && !system.isPaused) {
                 var imev = {
                     type: "swipeleft",
                     target: io,
@@ -1453,7 +1454,7 @@ var Interaction = /** @class */ (function (_super) {
             y: deltaY
         };
         // Trigger generic WHEEL event
-        if (io.events.isEnabled("wheel")) {
+        if (io.events.isEnabled("wheel") && !system.isPaused) {
             io.events.dispatchImmediately("wheel", {
                 type: "wheel",
                 target: io,
@@ -1465,7 +1466,7 @@ var Interaction = /** @class */ (function (_super) {
         // Trigger direction-specific events
         // Horizontal
         if (deltaX < 0) {
-            if (io.events.isEnabled("wheelleft")) {
+            if (io.events.isEnabled("wheelleft") && !system.isPaused) {
                 io.events.dispatchImmediately("wheelleft", {
                     type: "wheelleft",
                     target: io,
@@ -1476,7 +1477,7 @@ var Interaction = /** @class */ (function (_super) {
             }
         }
         else if (deltaX > 0) {
-            if (io.events.isEnabled("swiperight")) {
+            if (io.events.isEnabled("swiperight") && !system.isPaused) {
                 io.events.dispatchImmediately("wheelright", {
                     type: "wheelright",
                     target: io,
@@ -1488,7 +1489,7 @@ var Interaction = /** @class */ (function (_super) {
             // Vertical
         }
         else if (deltaY < 0) {
-            if (io.events.isEnabled("wheelup")) {
+            if (io.events.isEnabled("wheelup") && !system.isPaused) {
                 io.events.dispatchImmediately("wheelup", {
                     type: "wheelup",
                     target: io,
@@ -1499,7 +1500,7 @@ var Interaction = /** @class */ (function (_super) {
             }
         }
         else if (deltaY > 0) {
-            if (io.events.isEnabled("wheeldown")) {
+            if (io.events.isEnabled("wheeldown") && !system.isPaused) {
                 io.events.dispatchImmediately("wheeldown", {
                     type: "wheeldown",
                     target: io,
@@ -1632,7 +1633,7 @@ var Interaction = /** @class */ (function (_super) {
         var pointer1Moved = pointer1 && this.moved(pointer1, 0);
         // Report DRAG_START if necessary
         if (io.draggable && pointer1 && pointer1.dragStartEvents && pointer1.dragStartEvents.length && pointer1Moved) {
-            if (io.events.isEnabled("dragstart")) {
+            if (io.events.isEnabled("dragstart") && !system.isPaused) {
                 io.events.dispatchImmediately("dragstart", pointer1.dragStartEvents.shift());
             }
             //delete pointer1.dragStartEvents;
@@ -1673,7 +1674,7 @@ var Interaction = /** @class */ (function (_super) {
      */
     Interaction.prototype.handleTransformMove = function (io, point, startPoint, ev, pointerMoved) {
         if (pointerMoved) {
-            if (io.events.isEnabled("drag")) {
+            if (io.events.isEnabled("drag") && !system.isPaused) {
                 var imev = {
                     type: "drag",
                     target: io,
@@ -1702,7 +1703,7 @@ var Interaction = /** @class */ (function (_super) {
      * @param {boolean}                  pointerMoved  Did pointer move?
      */
     Interaction.prototype.handleTransformResize = function (io, point1, startPoint1, point2, startPoint2, ev, pointerMoved) {
-        if (io.events.isEnabled("resize")) {
+        if (io.events.isEnabled("resize") && !system.isPaused) {
             var imev = {
                 type: "resize",
                 target: io,
@@ -1748,7 +1749,9 @@ var Interaction = /** @class */ (function (_super) {
             pointer.dragStartEvents.push(imev);
         }
         else {
-            io.dispatchImmediately("dragstart", imev);
+            if (!system.isPaused) {
+                io.dispatchImmediately("dragstart", imev);
+            }
         }
     };
     /**
@@ -1774,7 +1777,7 @@ var Interaction = /** @class */ (function (_super) {
         //this.unlockDocument();
         // Report dragstop
         if (!pointer || this.moved(pointer, 0)) {
-            if (io.events.isEnabled("dragstop")) {
+            if (io.events.isEnabled("dragstop") && !system.isPaused) {
                 var imev = {
                     type: "dragstop",
                     target: io

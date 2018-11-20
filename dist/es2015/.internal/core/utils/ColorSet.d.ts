@@ -233,4 +233,13 @@ export declare class ColorSet extends BaseObject {
      * @param {number}                pass  Current pass
      */
     protected applyStepOptions(hsl: iHSL, base: IColorSetStepOptions, step: number, pass: number): void;
+    /**
+     * Processes JSON-based config before it is applied to the object.
+     *
+     * @ignore Exclude from docs
+     * @param {object}  config  Config
+     */
+    processConfig(config?: {
+        [index: string]: any;
+    }): void;
 }

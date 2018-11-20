@@ -11,6 +11,7 @@ import { XYChart, IXYChartProperties, IXYChartDataFields, IXYChartAdapters, IXYC
 import { AMEvent } from "../../core/Sprite";
 import { Percent } from "../../core/utils/Percent";
 import { RadarSeries } from "../series/RadarSeries";
+import { RadarColumnSeries } from "../series/RadarColumnSeries";
 import { Container } from "../../core/Container";
 import { IComponentEvents } from "../../core/Component";
 import { RadarCursor } from "../cursors/RadarCursor";
@@ -138,9 +139,9 @@ export declare class RadarChart extends XYChart {
     /**
      * Defines a type of series that this chart uses.
      *
-     * @type {RadarSeries}
+     * @type {RadarSeries | RadarColumnSeries}
      */
-    _seriesType: RadarSeries;
+    _seriesType: RadarSeries | RadarColumnSeries;
     /**
      * Defines X axis renderer type.
      *

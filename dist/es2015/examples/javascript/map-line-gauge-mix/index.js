@@ -381,7 +381,7 @@ chart.cursor.behavior = "none";
 chart.cursor.xAxis = dateAxis;
 chart.cursor.lineX.strokeOpacity = 0;
 
-chart.events.on("inited", () => {
+chart.events.on("ready", () => {
     createSlider();
 })
 

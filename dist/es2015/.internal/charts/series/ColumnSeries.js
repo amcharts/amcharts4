@@ -447,33 +447,58 @@ var ColumnSeries = /** @class */ (function (_super) {
         var x = Math.min(l, r);
         var y = Math.min(t, b);
         if (!outOfBounds) {
-            var column = void 0;
+            var column_1;
             if (!dataItem.column) {
-                column = this.columns.create();
+                column_1 = this.columns.create();
                 //$object.forceCopyProperties(this.columns.template, column, visualProperties);
-                $object.copyProperties(this, column, visualProperties); // need this because 3d columns are not in the same container
-                $object.copyProperties(this.columns.template, column, visualProperties); // second time, no force, so that columns.template would override series properties
-                dataItem.addSprite(column);
-                dataItem.column = column;
+                $object.copyProperties(this, column_1, visualProperties); // need this because 3d columns are not in the same container
+                $object.copyProperties(this.columns.template, column_1, visualProperties); // second time, no force, so that columns.template would override series properties
+                dataItem.addSprite(column_1);
+                dataItem.column = column_1;
+                // accessibility
+                if (this.itemsFocusable()) {
+                    column_1.role = "menuitem";
+                    column_1.focusable = true;
+                }
+                else {
+                    column_1.role = "listitem";
+                    column_1.focusable = false;
+                }
+                if (column_1.focusable) {
+                    column_1.events.once("focus", function (ev) {
+                        column_1.readerTitle = _this.populateString(_this.itemReaderText, dataItem);
+                    }, undefined, false);
+                    column_1.events.once("blur", function (ev) {
+                        column_1.readerTitle = "";
+                    }, undefined, false);
+                }
+                if (column_1.hoverable) {
+                    column_1.events.once("over", function (ev) {
+                        column_1.readerTitle = _this.populateString(_this.itemReaderText, dataItem);
+                    }, undefined, false);
+                    column_1.events.once("out", function (ev) {
+                        column_1.readerTitle = "";
+                    }, undefined, false);
+                }
             }
             else {
-                column = dataItem.column;
+                column_1 = dataItem.column;
             }
-            column.width = w;
-            column.height = h;
-            column.x = x;
-            column.y = y;
-            column.realX = l;
-            column.realY = t;
-            column.realWidth = r - l;
-            column.realHeight = b - t;
-            column.parent = this.columnsContainer;
-            column.virtualParent = this;
-            this.setColumnStates(column);
-            if (column.invalid) {
-                column.validate(); // validate as if it was used previously, it will flicker with previous dimensions
+            column_1.width = w;
+            column_1.height = h;
+            column_1.x = x;
+            column_1.y = y;
+            column_1.realX = l;
+            column_1.realY = t;
+            column_1.realWidth = r - l;
+            column_1.realHeight = b - t;
+            column_1.parent = this.columnsContainer;
+            column_1.virtualParent = this;
+            this.setColumnStates(column_1);
+            if (column_1.invalid) {
+                column_1.validate(); // validate as if it was used previously, it will flicker with previous dimensions
             }
-            column.__disabled = false;
+            column_1.__disabled = false;
             //column.returnAfterTemp();
             $iter.each(this.axisRanges.iterator(), function (axisRange) {
                 var rangeColumn = dataItem.rangesColumns.getKey(axisRange.uid);
@@ -527,7 +552,6 @@ var ColumnSeries = /** @class */ (function (_super) {
      * @todo Do not apply accessibility to wicks of the candlesticks
      */
     ColumnSeries.prototype.setColumnStates = function (sprite) {
-        var _this = this;
         var dataItem = sprite.dataItem;
         if (this.xAxis instanceof ValueAxis || this.yAxis instanceof ValueAxis) {
             var open_1;
@@ -566,36 +590,6 @@ var ColumnSeries = /** @class */ (function (_super) {
                 dataItem.droppedFromPrevious = false;
                 sprite.defaultState.copyFrom(this._riseFromPreviousState);
                 sprite.setState((this._riseFromPreviousState), 0);
-            }
-        }
-        // Set accessibility
-        if (!this.isInTransition()) {
-            if (this.itemsFocusable()) {
-                sprite.role = "menuitem";
-                sprite.focusable = true;
-            }
-            else {
-                sprite.role = "listitem";
-                sprite.focusable = false;
-            }
-            // Set readerTitle on demand only (focus or hover)
-            if ($type.hasValue(this.itemReaderText) && this.itemReaderText != "") {
-                if (sprite.focusable) {
-                    sprite.events.once("focus", function (ev) {
-                        sprite.readerTitle = _this.populateString(_this.itemReaderText, dataItem);
-                    }, undefined, false);
-                    sprite.events.once("blur", function (ev) {
-                        sprite.readerTitle = "";
-                    }, undefined, false);
-                }
-                if (sprite.hoverable) {
-                    sprite.events.once("over", function (ev) {
-                        sprite.readerTitle = _this.populateString(_this.itemReaderText, dataItem);
-                    }, undefined, false);
-                    sprite.events.once("out", function (ev) {
-                        sprite.readerTitle = "";
-                    }, undefined, false);
-                }
             }
         }
     };

@@ -197,6 +197,7 @@ var Series = /** @class */ (function (_super) {
         _this._disposers.push(_this.mainContainer);
         // all bullets should go on top of lines/fills. So we add a separate container for bullets and later set it's parent to chart.bulletsContainer
         var bulletsContainer = _this.mainContainer.createChild(Container);
+        _this._shouldBeReady.push(bulletsContainer);
         bulletsContainer.shouldClone = false;
         bulletsContainer.layout = "none";
         bulletsContainer.virtualParent = _this;
@@ -545,6 +546,24 @@ var Series = /** @class */ (function (_super) {
                         currentDataItem.bullets.setKey(bulletTemplate.uid, undefined);
                     }
                     dataItem.addSprite(bullet);
+                    // Add accessibility to bullet
+                    var readerText_1 = _this.itemReaderText || ("{" + bullet.xField + "}: {" + bullet.yField + "}");
+                    if (bullet.focusable) {
+                        bullet.events.once("focus", function (ev) {
+                            bullet.readerTitle = _this.populateString(readerText_1, bullet.dataItem);
+                        }, undefined, false);
+                        bullet.events.once("blur", function (ev) {
+                            bullet.readerTitle = "";
+                        }, undefined, false);
+                    }
+                    if (bullet.hoverable) {
+                        bullet.events.once("over", function (ev) {
+                            bullet.readerTitle = _this.populateString(readerText_1, bullet.dataItem);
+                        }, undefined, false);
+                        bullet.events.once("out", function (ev) {
+                            bullet.readerTitle = "";
+                        }, undefined, false);
+                    }
                     if (bullet.isDynamic) {
                         dataItem.events.on("workingvaluechanged", bullet.deepInvalidate, bullet, false);
                         //dataItem.events.on("calculatedvaluechanged", bullet.deepInvalidate, bullet, false);
@@ -555,24 +574,6 @@ var Series = /** @class */ (function (_super) {
                 bullet.parent = _this.bulletsContainer;
                 bullet.visible = true;
                 dataItem.bullets.setKey(bulletTemplate.uid, bullet);
-                // Add accessibility to bullet
-                var readerText = _this.itemReaderText || ("{" + bullet.xField + "}: {" + bullet.yField + "}");
-                if (bullet.focusable) {
-                    bullet.events.once("focus", function (ev) {
-                        bullet.readerTitle = _this.populateString(readerText, bullet.dataItem);
-                    }, undefined, false);
-                    bullet.events.once("blur", function (ev) {
-                        bullet.readerTitle = "";
-                    }, undefined, false);
-                }
-                if (bullet.hoverable) {
-                    bullet.events.once("over", function (ev) {
-                        bullet.readerTitle = _this.populateString(readerText, bullet.dataItem);
-                    }, undefined, false);
-                    bullet.events.once("out", function (ev) {
-                        bullet.readerTitle = "";
-                    }, undefined, false);
-                }
                 // pass max w/h so we'd know if we should show/hide somethings
                 bullet.maxWidth = dataItem.itemWidth;
                 bullet.maxHeight = dataItem.itemHeight;

@@ -131,6 +131,7 @@ var MapChart = /** @class */ (function (_super) {
         // Create a container for map series
         var seriesContainer = _this.seriesContainer;
         seriesContainer.draggable = true;
+        seriesContainer.visible = false;
         seriesContainer.inert = true;
         seriesContainer.resizable = true;
         seriesContainer.events.on("transformed", _this.handleMapTransform, _this, false);
@@ -195,6 +196,7 @@ var MapChart = /** @class */ (function (_super) {
     }
     MapChart.prototype.handleAllInited = function () {
         var inited = true;
+        this.seriesContainer.visible = true;
         this.series.each(function (series) {
             if (!series.inited) {
                 inited = false;

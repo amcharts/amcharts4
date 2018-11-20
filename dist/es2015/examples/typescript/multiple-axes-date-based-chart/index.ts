@@ -35,8 +35,6 @@ series.dataFields.valueY = "price";
 series.tooltipText = "{valueY.value}";
 series.name = "Series 1";
 series.sequencedInterpolation = true;
-series.defaultState.transitionDuration = 3000;
-series.hiddenState.transitionDuration = 3000;
 
 let valueAxis2 = chart.yAxes.push(new am4charts.ValueAxis());
 valueAxis2.tooltip.disabled = true;
@@ -50,8 +48,6 @@ series2.yAxis = valueAxis2;
 series2.tooltipText = "{valueY.value}";
 series2.name = "Series 2";
 series2.sequencedInterpolation = true;
-series2.defaultState.transitionDuration = 3000;
-series2.hiddenState.transitionDuration = 3000;
 
 chart.cursor = new am4charts.XYCursor();
 chart.cursor.xAxis = dateAxis;

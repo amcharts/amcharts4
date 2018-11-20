@@ -168,7 +168,7 @@ var MapLine = /** @class */ (function (_super) {
                 for (var p = 1, plen = geoLine.length; p < plen; p++) {
                     var geoPointA = geoLine[p - 1];
                     var geoPointB = geoLine[p];
-                    var stepCount = Math.max(Math.abs(geoPointA.latitude - geoPointB.latitude), Math.abs(geoPointA.longitude - geoPointB.longitude));
+                    var stepCount = Math.max(Math.abs(geoPointA.latitude - geoPointB.latitude), Math.abs(geoPointA.longitude - geoPointB.longitude)) * 4;
                     //let latitudeStep: number = (geoPointB.latitude - geoPointA.latitude) / stepCount;
                     //let longitudeStep: number = (geoPointB.longitude - geoPointA.longitude) / stepCount;
                     for (var d = 0; d < stepCount; d++) {

@@ -80,6 +80,7 @@ export { ITickProperties, ITickEvents, ITickAdapters, Tick } from "./.internal/c
 export { IBulletProperties, IBulletEvents, IBulletAdapters, Bullet } from "./.internal/charts/elements/Bullet";
 export { ILabelBulletProperties, ILabelBulletEvents, ILabelBulletAdapters, LabelBullet } from "./.internal/charts/elements/LabelBullet";
 export { ICircleBulletProperties, ICircleBulletEvents, ICircleBulletAdapters, CircleBullet } from "./.internal/charts/elements/CircleBullet";
+export { ErrorBullet, IErrorBulletAdapters, IErrorBulletEvents, IErrorBulletProperties } from "./.internal/charts/elements/ErrorBullet";
 export { IXYChartScrollbarProperties, IXYChartScrollbarEvents, IXYChartScrollbarAdapters, XYChartScrollbar } from "./.internal/charts/elements/XYChartScrollbar";
 export { IClockHandProperties, IClockHandEvents, IClockHandAdapters, ClockHand } from "./.internal/charts/elements/ClockHand";
 export { IFlowDiagramNodeProperties, IFlowDiagramNodeEvents, IFlowDiagramNodeAdapters, FlowDiagramNode } from "./.internal/charts/elements/FlowDiagramNode";

@@ -127,6 +127,13 @@ var Sprite = /** @class */ (function (_super) {
          */
         _this._inited = false;
         /**
+         * Holds indicator whether this sprite was already initialized and ready.
+         *
+         * @ignore Exclude from docs
+         * @type {boolean}
+         */
+        _this._ready = false;
+        /**
          * If `sprite.hide()` is called and we have "hidden" state and
          * `transitionDuration > 0`, we set `isHiding` flag to `true` in order to
          * avoid restarting animations in case `hide()` method is called multiple
@@ -607,11 +614,23 @@ var Sprite = /** @class */ (function (_super) {
             this.applyMask();
             this.dispatch("validated");
             this.dispatch("inited");
+            this.dispatchReady();
         }
         else {
             this.dispatch("validated");
         }
         var e_1, _c;
+    };
+    /**
+     * Dispatches `"ready"` event. Sprite dispatches it right after `"inited"` event.
+     *
+     * @ignore
+     */
+    Sprite.prototype.dispatchReady = function () {
+        if (!this.isReady()) {
+            this._ready = true;
+            this.dispatch("ready");
+        }
     };
     /**
      * Triggers a re-initialization of this element.
@@ -1272,7 +1291,7 @@ var Sprite = /** @class */ (function (_super) {
      * @return {string} Element's ID
      */
     Sprite.prototype.uidAttr = function () {
-        this.element.attr({ "id": this.uid });
+        this.setSVGAttribute({ "id": this.uid });
         return this.uid;
     };
     /**
@@ -1959,6 +1978,17 @@ var Sprite = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Returns `true` if Sprite has already finished initializing and is ready.
+     *
+     * If this object is a [[Container]] it will wait for all of its children
+     * are ready before becoming ready itself and firing a `"ready"` event.
+     *
+     * @return {boolean} is ready?
+     */
+    Sprite.prototype.isReady = function () {
+        return this._ready;
+    };
     Object.defineProperty(Sprite.prototype, "states", {
         /**
          * Returns a collection of element's available [[SpriteState]] entries.
@@ -2432,7 +2462,7 @@ var Sprite = /** @class */ (function (_super) {
          * Controls if element is disabled.
          *
          * A disabled element is hidden, and is removed from any processing, layout
-         * calculations, and generally treated like if it does not existed.
+         * calculations, and generally treated as if it does not exist.
          *
          * The element itself is not destroyed, though. Setting this back to `false`,
          * will "resurrect" the element.
@@ -4578,6 +4608,26 @@ var Sprite = /** @class */ (function (_super) {
         /**
          * A shortcut to setting mouse cursor on hover.
          *
+         * Example:
+         *
+         * ```TypeScript
+         * series.slices.template.cursorOverStyle = am4core.MouseCursorStyle.pointer;
+         * ```
+         * ```JavaScript
+         * series.slices.template.cursorOverStyle = am4core.MouseCursorStyle.pointer;
+         * ```
+         * ```JSON
+         * {
+         *   // ...
+         *   "series": {
+         *     // ...
+         *     "slices": {
+         *       "cursorOverStyle": "pointer"
+         *     }
+         *   }
+         * }
+         * ```
+         *
          * @param {Array<IStyleProperty>} style An array of styles to apply onhover
          */
         set: function (style) {
@@ -4590,6 +4640,26 @@ var Sprite = /** @class */ (function (_super) {
     Object.defineProperty(Sprite.prototype, "cursorDownStyle", {
         /**
          * A shortcut to setting mouse cursor when button is pressed down.
+         *
+         * Example:
+         *
+         * ```TypeScript
+         * series.slices.template.cursorDownStyle = am4core.MouseCursorStyle.grabbing;
+         * ```
+         * ```JavaScript
+         * series.slices.template.cursorDownStyle = am4core.MouseCursorStyle.grabbing;
+         * ```
+         * ```JSON
+         * {
+         *   // ...
+         *   "series": {
+         *     // ...
+         *     "slices": {
+         *       "cursorDownStyle": "grabbing"
+         *     }
+         *   }
+         * }
+         * ```
          *
          * @param {Array<IStyleProperty>} style An array of styles to apply onhover
          */
@@ -7261,11 +7331,49 @@ var Sprite = /** @class */ (function (_super) {
  */
     Sprite.prototype.processConfig = function (config) {
         if (config) {
+            // Tooltip color source
             if ($type.hasValue(config.tooltipColorSource) && $type.isString(config.tooltipColorSource) && this.map.hasKey(config.tooltipColorSource)) {
                 config.tooltipColorSource = this.map.getKey(config.tooltipColorSource);
             }
+            // Cursor styles
+            if ($type.hasValue(config.cursorOverStyle) && $type.isString(config.cursorOverStyle)) {
+                config.cursorOverStyle = this.getCursorStyle(config.cursorOverStyle);
+            }
+            if ($type.hasValue(config.cursorDowntyle) && $type.isString(config.cursorDowntyle)) {
+                config.cursorDowntyle = this.getCursorStyle(config.cursorDowntyle);
+            }
+            if ($type.hasValue(config.cursorOptions)) {
+                if ($type.hasValue(config.cursorOptions.overStyle) && $type.isString(config.cursorOptions.overStyle)) {
+                    config.cursorOptions.overStyle = this.getCursorStyle(config.cursorOptions.overStyle);
+                }
+                if ($type.hasValue(config.cursorOptions.downStyle) && $type.isString(config.cursorOptions.downStyle)) {
+                    config.cursorOptions.downStyle = this.getCursorStyle(config.cursorOptions.downStyle);
+                }
+            }
         }
         _super.prototype.processConfig.call(this, config);
+    };
+    /**
+     * Converts string name of the cursor into actual [[MouseCursorStyle]].
+     *
+     * @param  {string}                      style  Cursor type
+     * @return {Optional<MouseCursorStyle>}         Cursor definition
+     */
+    Sprite.prototype.getCursorStyle = function (style) {
+        switch (style) {
+            case "grab":
+                return MouseCursorStyle.grab;
+            case "grabbing":
+                return MouseCursorStyle.grabbing;
+            case "pointer":
+                return MouseCursorStyle.pointer;
+            case "horizontalResize":
+                return MouseCursorStyle.horizontalResize;
+            case "verticalResize":
+                return MouseCursorStyle.verticalResize;
+            default:
+                return MouseCursorStyle.default;
+        }
     };
     /**
      * This function is used to sort element's JSON config properties, so that

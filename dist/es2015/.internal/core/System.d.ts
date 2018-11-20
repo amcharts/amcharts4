@@ -10,6 +10,12 @@
  */
 export declare class System {
     /**
+     * A flag indicating if the system is on pause.
+     *
+     * @type {boolean}
+     */
+    protected _isPaused: boolean;
+    /**
      * Unique ID of the object.
      *
      * @type {string}
@@ -67,6 +73,9 @@ export declare class System {
      * @todo Maybe should be private?
      */
     update(): void;
+    /**
+     * Requests new animation frame
+     */
     requestFrame(): void;
     /**
      * Triggers position re-validation on all [[Sprite]] elements that have
@@ -91,26 +100,14 @@ export declare class System {
      */
     log(value: any): void;
     /**
-     * @return {number} Frame rate
+     * @return {boolean} Is system on pause?
      */
     /**
-     * Get current theme
-     * @return {ITheme} [description]
+     * Pauses all the processes of all the amCharts objects on the page
+     *
+     * @return {boolean} is paused?
      */
-    /**
-     * Number of times per second charts will be updated.
-     *
-     * This means that each time an element is invalidated it will wait for the
-     * next cycle to be re-validated, and possibly redrawn.
-     *
-     * This happens every `1000 / frameRate` milliseconds.
-     *
-     * Reducing this number may reduce the load on the CPU, but might slightly
-     * reduce smoothness of the animations.
-     *
-     * @type {number} Frame rate
-     */
-    frameRate: number;
+    isPaused: boolean;
 }
 /**
  * A singleton global instance of [[System]].

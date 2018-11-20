@@ -373,7 +373,7 @@ chart.cursor.behavior = "none";
 chart.cursor.xAxis = dateAxis;
 chart.cursor.lineX.strokeOpacity = 0;
 
-chart.events.on("inited", function () {
+chart.events.on("ready", function () {
     createSlider();
 })
 

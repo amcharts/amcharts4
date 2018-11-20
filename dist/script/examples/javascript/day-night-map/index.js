@@ -2,7 +2,6 @@ am4core.useTheme(am4themes_animated);
 am4core.useTheme(am4themes_dark);
 
 var mapChart = am4core.create("chartdiv", am4maps.MapChart);
-map
 
 try {
     mapChart.geodata = am4geodata_continentsLow;
