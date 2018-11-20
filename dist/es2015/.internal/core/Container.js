@@ -1579,13 +1579,13 @@ var Container = /** @class */ (function (_super) {
     Container.prototype.dispatchReady = function () {
         if (!this.isReady()) {
             var allReady_1 = true;
-            this.children.each(function (child) {
-                if (!child.isReady()) {
+            this.children.each(function (sprite) {
+                if (!sprite.__disabled && !sprite.disabled && !sprite.isReady()) {
                     allReady_1 = false;
                 }
             });
             $array.each(this._shouldBeReady, function (sprite) {
-                if (!sprite.isReady()) {
+                if (!sprite.__disabled && !sprite.disabled && !sprite.isReady()) {
                     allReady_1 = false;
                 }
             });

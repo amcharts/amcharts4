@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.86] - 2018-11-20
+
+### Fixed
+- In some situations waiting for `"ready"` event was producing unnecessary frame requests.
+
+
 ## [4.0.0-beta.85] - 2018-11-20
 
 ### Added
