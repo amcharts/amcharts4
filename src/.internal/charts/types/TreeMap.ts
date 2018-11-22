@@ -148,8 +148,8 @@ export class TreeMapDataItem extends XYChartDataItem {
 		return value;
 	}
 
-	public get percent():number {
-		if(this.parent){
+	public get percent(): number {
+		if (this.parent) {
 			return this.value / this.parent.value * 100;
 		}
 		return 100;
@@ -1419,13 +1419,13 @@ export class TreeMap extends XYChart {
 
 			$iter.each(this.series.iterator(), (series) => {
 				if (series.level == 1) {
-					legendData.push(series);
+					if (!series.hiddenInLegend) {
+						legendData.push(series);
+					}
 				}
 			});
 
 			legend.dataFields.name = "name";
-			legend.itemContainers.template.propertyFields.disabled = "hiddenInLegend";
-
 			legend.data = legendData;
 		}
 	}

@@ -722,7 +722,6 @@ export class FlowDiagram extends Chart {
 
 			legend.data = legendData;
 			legend.dataFields.name = "name";
-			legend.itemContainers.template.propertyFields.disabled = "hiddenInLegend";
 		}
 	}
 

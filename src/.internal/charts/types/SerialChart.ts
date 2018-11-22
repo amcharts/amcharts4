@@ -282,11 +282,12 @@ export class SerialChart extends Chart {
 			let legendData: Array<this["_seriesType"]> = [];
 
 			$iter.each(this.series.iterator(), (series) => {
-				legendData.push(series);
+				if(!series.hiddenInLegend){
+					legendData.push(series);
+				}
 			});
 
 			legend.dataFields.name = "name";
-			legend.itemContainers.template.propertyFields.disabled = "hiddenInLegend";
 
 			legend.data = legendData;
 		}

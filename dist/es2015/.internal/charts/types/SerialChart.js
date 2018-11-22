@@ -167,10 +167,11 @@ var SerialChart = /** @class */ (function (_super) {
         if (legend) {
             var legendData_1 = [];
             $iter.each(this.series.iterator(), function (series) {
-                legendData_1.push(series);
+                if (!series.hiddenInLegend) {
+                    legendData_1.push(series);
+                }
             });
             legend.dataFields.name = "name";
-            legend.itemContainers.template.propertyFields.disabled = "hiddenInLegend";
             legend.data = legendData_1;
         }
     };

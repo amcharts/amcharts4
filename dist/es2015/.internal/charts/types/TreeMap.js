@@ -1056,11 +1056,12 @@ var TreeMap = /** @class */ (function (_super) {
             var legendData_1 = [];
             $iter.each(this.series.iterator(), function (series) {
                 if (series.level == 1) {
-                    legendData_1.push(series);
+                    if (!series.hiddenInLegend) {
+                        legendData_1.push(series);
+                    }
                 }
             });
             legend.dataFields.name = "name";
-            legend.itemContainers.template.propertyFields.disabled = "hiddenInLegend";
             legend.data = legendData_1;
         }
     };

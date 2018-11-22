@@ -9,7 +9,7 @@ import * as tslib_1 from "tslib";
  * @hidden
  */
 import { Filter } from "./Filter";
-import { InterfaceColorSet } from "../../utils/InterfaceColorSet";
+import { color } from "../../utils/Color";
 import { registry } from "../../Registry";
 ;
 /**
@@ -35,7 +35,7 @@ var DropShadowFilter = /** @class */ (function (_super) {
         // NOTE: we do not need to add each individual element to `_disposers`
         // because `filterPrimitives` has an event handler which automatically adds
         // anything added to it to `_disposers`
-        _this.color = new InterfaceColorSet().getFor("alternativeBackground");
+        _this.color = color("#000");
         _this.feGaussianBlur = _this.paper.add("feGaussianBlur");
         _this.feGaussianBlur.attr({ "result": "blurOut", "in": "SourceGraphic" });
         _this.filterPrimitives.push(_this.feGaussianBlur);

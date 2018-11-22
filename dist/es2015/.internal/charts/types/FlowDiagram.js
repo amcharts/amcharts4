@@ -489,7 +489,6 @@ var FlowDiagram = /** @class */ (function (_super) {
             });
             legend.data = legendData_1;
             legend.dataFields.name = "name";
-            legend.itemContainers.template.propertyFields.disabled = "hiddenInLegend";
         }
     };
     /**

@@ -11,7 +11,7 @@
 import { Filter, FilterProperties } from "./Filter";
 import { AMElement } from "../AMElement";
 import { Group } from "../Group";
-import { Color } from "../../utils/Color";
+import { Color, color } from "../../utils/Color";
 import { InterfaceColorSet } from "../../utils/InterfaceColorSet";
 import { registry } from "../../Registry";
 import * as $type from "../../utils/Type";
@@ -149,7 +149,7 @@ export class DropShadowFilter extends Filter {
 		// because `filterPrimitives` has an event handler which automatically adds
 		// anything added to it to `_disposers`
 
-		this.color = new InterfaceColorSet().getFor("alternativeBackground");
+		this.color = color("#000");
 
 		this.feGaussianBlur = this.paper.add("feGaussianBlur");
 		this.feGaussianBlur.attr({ "result": "blurOut", "in": "SourceGraphic" });
