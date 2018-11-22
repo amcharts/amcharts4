@@ -54,11 +54,6 @@ a freeware license. Refer to included LICENSE file. The license is also
 [available online](https://github.com/amcharts/amcharts4/blob/master/dist/script/LICENSE).
 
 
-### Making translations
-
-Please refer to [this tutorial](https://www.amcharts.com/docs/v4/tutorials/creating-translations/).
-
-
 ### Changelog
 
 * [amCharts 4 Changelog](https://github.com/amcharts/amcharts4/blob/master/dist/es2015/CHANGELOG.md)

@@ -35,6 +35,7 @@ var DropShadowFilter = /** @class */ (function (_super) {
         // NOTE: we do not need to add each individual element to `_disposers`
         // because `filterPrimitives` has an event handler which automatically adds
         // anything added to it to `_disposers`
+        _this.color = new InterfaceColorSet().getFor("alternativeBackground");
         _this.feGaussianBlur = _this.paper.add("feGaussianBlur");
         _this.feGaussianBlur.attr({ "result": "blurOut", "in": "SourceGraphic" });
         _this.filterPrimitives.push(_this.feGaussianBlur);
@@ -42,6 +43,7 @@ var DropShadowFilter = /** @class */ (function (_super) {
         _this.feOffset.attr({ "result": "offsetBlur" });
         _this.filterPrimitives.push(_this.feOffset);
         _this.feFlood = _this.paper.add("feFlood");
+        _this.feFlood.attr({ "flood-color": _this.color });
         _this.filterPrimitives.push(_this.feFlood);
         _this.feComposite = _this.paper.add("feComposite");
         _this.feComposite.attr({ "in2": "offsetBlur", operator: "in" });
@@ -51,7 +53,6 @@ var DropShadowFilter = /** @class */ (function (_super) {
         _this.feMerge.add(_this.paper.add("feMergeNode").attr({ "in": "SourceGraphic" }));
         _this.filterPrimitives.push(_this.feMerge);
         // Set default properties
-        _this.color = new InterfaceColorSet().getFor("alternativeBackground");
         _this.width = 200;
         _this.height = 200;
         _this.blur = 1.5;
@@ -75,7 +76,9 @@ var DropShadowFilter = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.properties.color = value;
-            this.feFlood.attr({ "flood-color": value });
+            if (this.feFlood) {
+                this.feFlood.attr({ "flood-color": value });
+            }
         },
         enumerable: true,
         configurable: true

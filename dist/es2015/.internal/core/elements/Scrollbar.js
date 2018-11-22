@@ -21,6 +21,7 @@ import { percent } from "../utils/Percent";
 import * as $math from "../utils/Math";
 import * as $ease from "../utils/Ease";
 import * as $type from "../utils/Type";
+import * as $utils from "../utils/Utils";
 ;
 /**
  * ============================================================================
@@ -186,6 +187,7 @@ var Scrollbar = /** @class */ (function (_super) {
     Scrollbar.prototype.handleBgHit = function (event) {
         this.makeBusy();
         var point = event.spritePoint;
+        point = $utils.spritePointToSprite(point, this.background, this);
         var thumb = this.thumb;
         if (this.orientation == "horizontal") {
             var thumbX = point.x - thumb.pixelWidth / 2;

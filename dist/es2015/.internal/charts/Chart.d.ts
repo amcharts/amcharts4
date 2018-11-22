@@ -8,6 +8,7 @@
  * @hidden
  */
 import { Component, IComponentProperties, IComponentDataFields, IComponentEvents, IComponentAdapters } from "../core/Component";
+import { MutableValueDisposer } from "../core/utils/Disposer";
 import { ListTemplate, IListEvents } from "../core/utils/List";
 import { Container } from "../core/Container";
 import { Label } from "../core/elements/Label";
@@ -124,7 +125,7 @@ export declare class Chart extends Component {
      * @ignore
      * @type {Legend}
      */
-    protected _legend: Legend;
+    protected _legend: MutableValueDisposer<Legend>;
     /**
      * Constructor
      */

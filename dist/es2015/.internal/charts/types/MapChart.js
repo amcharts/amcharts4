@@ -611,7 +611,12 @@ var MapChart = /** @class */ (function (_super) {
         if (mapObject instanceof MapPolygon) {
             var dataItem = mapObject.dataItem;
             if ($type.isNumber(zoomLevel)) {
-                return this.zoomToGeoPoint({ latitude: mapObject.latitude, longitude: mapObject.longitude }, zoomLevel, center, duration);
+                // this is more accurate
+                var polygonPoint = { x: mapObject.polygon.bbox.x + mapObject.polygon.bbox.width / 2, y: mapObject.polygon.bbox.y + mapObject.polygon.bbox.height / 2 };
+                var seriesPoint = $utils.spritePointToSprite(polygonPoint, mapObject.polygon, mapObject.series);
+                var geoPoint = this.seriesPointToGeo(seriesPoint);
+                return this.zoomToGeoPoint(geoPoint, zoomLevel, true, duration);
+                //				return this.zoomToGeoPoint({ latitude: mapObject.latitude, longitude: mapObject.longitude }, zoomLevel, center, duration);
             }
             else {
                 return this.zoomToRectangle(dataItem.north, dataItem.east, dataItem.south, dataItem.west, null, center, duration);

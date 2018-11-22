@@ -628,7 +628,6 @@ export declare class Series extends Component {
      * Returns visibility value
      * @ignore
      */
-    protected getVisibility(): boolean;
     /**
      * This function is used to sort element's JSON config properties, so that
      * some properties that absolutely need to be processed last, can be put at

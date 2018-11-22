@@ -1,0 +1,35 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "strict": true,
+        "strictNullChecks": false,
+        "strictFunctionTypes": false,
+        "esModuleInterop": true,
+        "sourceMap": true,
+        "inlineSources": true,
+        "declaration": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "moduleResolution": "node",
+        "downlevelIteration": true,
+        "importHelpers": true,
+        "module": "esnext",
+        "target": "es5",
+        "rootDir": "src",
+        "pretty": true,
+        "lib": ["es6", "es2015", "dom"],
+        "typeRoots" : ["./typings"],
+        "declarationDir": "./dist/es2015",
+        "outDir": "./dist/es2015"
+    },
+    "include": [
+        "src/**/*",
+        "src/.internal/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "src/**/*.test.ts",
+        "src/geodata/**/*",
+        "src/stock/**/*"
+    ]
+}

@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.0-beta.87] - 2018-11-22
+
+### Added
+- Full source code for amCharts 4 is now included under `/src/`.
+
+### Changed
+- Full language files are now under `/src/lang/`. If you need to make a translation, do a PR on those files/dir.
+
+
 ## [4.0.0-beta.86] - 2018-11-20
 
 ### Fixed

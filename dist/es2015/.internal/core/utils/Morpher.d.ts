@@ -1,6 +1,6 @@
 /**
- * Morpher module contains functionality that allows transforming (morphing)
- * SVG shapes like paths, rectangles, circles between one another.
+ * Morpher module contains functionality that allows morphing one polygon to
+ * another.
  */
 /**
  * ============================================================================
@@ -15,8 +15,7 @@ import { IMorphable } from "../defs/IMorphable";
 import { IAnimatable, Animation } from "../utils/Animation";
 import * as $type from "../utils/Type";
 /**
- * Morpher class can be used in conjunction with [[Animation]] to transform one
- * SVG shape into another.
+ * Morpher can be used to morph one polygon to some other polygon.
  */
 export declare class Morpher extends BaseObject implements IAnimatable {
     /**
@@ -78,9 +77,12 @@ export declare class Morpher extends BaseObject implements IAnimatable {
      */
     morphEasing: (value: number) => number;
     /**
-     * If set to `true` then all separate parts of the multi-part shape will
-     * morph into a single target shape. Otherwise each separate part will render
-     * into separate target shapes.
+     * If set to `true`, all separate parts of the multi-part polygon will
+     * morph into a single circle or polygon when using built-in methods
+     * `morphToCircle()` or `morphToPolygon()`.
+     *
+     * Otherwise each separate part of polygon will morph to individual target
+     * circle or polgyon.
      *
      * @type {boolean}
      */
@@ -98,7 +100,7 @@ export declare class Morpher extends BaseObject implements IAnimatable {
      */
     constructor(morphable: IMorphable);
     /**
-     * Morphs shape to polygon.
+     * Morphs a polygon to another polygon.
      *
      * @param {IPoint[][][]}        toPoints  Corner points of the target shape
      * @param {number}              duration  Duration in milliseconds
@@ -126,7 +128,7 @@ export declare class Morpher extends BaseObject implements IAnimatable {
      */
     sortPoints(points: IPoint[][][]): $type.Optional<IRectangle>;
     /**
-     * Morphs shape to a circle.
+     * Morphs polygon to a circle (it is actually a polygon which makes a circle).
      *
      * @param  {number}              radius    Target circle radius (px)
      * @param  {number}              duration  Duration (ms)
@@ -145,7 +147,7 @@ export declare class Morpher extends BaseObject implements IAnimatable {
      */
     addPoints(points: IPoint[], mustHaveCount: number): IPoint[];
     /**
-     * Morphs shape into a rectangle.
+     * Morphs polygon into a rectangular polygon.
      *
      * @param  {number}              width     Width of the target rectangle (px)
      * @param  {number}              height    Height of the target rectangle (px)
@@ -168,7 +170,7 @@ export declare class Morpher extends BaseObject implements IAnimatable {
      */
     morphProgress: $type.Optional<number>;
     /**
-     * Restores the shape to its original appearance.
+     * Restores the polygon to its original appearance.
      *
      * @param {number}              duration  Duration (ms)
      * @param {(number) => number}  easing    Easing function

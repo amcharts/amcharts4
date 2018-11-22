@@ -3,6 +3,7 @@
  */
 import * as $math from "../utils/Math";
 import * as $type from "../utils/Type";
+import { getGhostPaper } from "../rendering/Paper";
 /**
  * ============================================================================
  * PATH FUNCTIONS
@@ -326,5 +327,28 @@ export function rectToPath(rect, ccw) {
             + c + (rect.y + rect.height) + L + rect.x
             + c + rect.y;
     }
+}
+/**
+ * Converts SVG path to array of points.
+ *
+ * Note, this is experimental feature based on method which is deprecated
+ * on some browsers and some browsers do not support it at all.
+ *
+ * You can save the output of this function, but not rely on it completely.
+ */
+export function pathToPoints(path, pointCount) {
+    var paper = getGhostPaper();
+    var svgPath = paper.add("path").node;
+    svgPath.setAttribute("d", path);
+    if (svgPath.getPointAtLength && svgPath.getTotalLength) {
+        var length_1 = svgPath.getTotalLength();
+        var toPoints = [];
+        for (var i = 0; i < pointCount; i++) {
+            var point = svgPath.getPointAtLength(i / pointCount * length_1);
+            toPoints.push({ x: point.x, y: point.y });
+        }
+        return toPoints;
+    }
+    svgPath.remove();
 }
 //# sourceMappingURL=Path.js.map

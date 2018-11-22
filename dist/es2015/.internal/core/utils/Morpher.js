@@ -1,6 +1,6 @@
 /**
- * Morpher module contains functionality that allows transforming (morphing)
- * SVG shapes like paths, rectangles, circles between one another.
+ * Morpher module contains functionality that allows morphing one polygon to
+ * another.
  */
 import * as tslib_1 from "tslib";
 /**
@@ -15,8 +15,7 @@ import * as $math from "../utils/Math";
 import * as $ease from "../utils/Ease";
 import * as $type from "../utils/Type";
 /**
- * Morpher class can be used in conjunction with [[Animation]] to transform one
- * SVG shape into another.
+ * Morpher can be used to morph one polygon to some other polygon.
  */
 var Morpher = /** @class */ (function (_super) {
     tslib_1.__extends(Morpher, _super);
@@ -47,9 +46,12 @@ var Morpher = /** @class */ (function (_super) {
          */
         _this.morphEasing = $ease.cubicOut;
         /**
-         * If set to `true` then all separate parts of the multi-part shape will
-         * morph into a single target shape. Otherwise each separate part will render
-         * into separate target shapes.
+         * If set to `true`, all separate parts of the multi-part polygon will
+         * morph into a single circle or polygon when using built-in methods
+         * `morphToCircle()` or `morphToPolygon()`.
+         *
+         * Otherwise each separate part of polygon will morph to individual target
+         * circle or polgyon.
          *
          * @type {boolean}
          */
@@ -66,7 +68,7 @@ var Morpher = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     * Morphs shape to polygon.
+     * Morphs a polygon to another polygon.
      *
      * @param {IPoint[][][]}        toPoints  Corner points of the target shape
      * @param {number}              duration  Duration in milliseconds
@@ -170,7 +172,7 @@ var Morpher = /** @class */ (function (_super) {
         return $math.getCommonRectangle(bboxes);
     };
     /**
-     * Morphs shape to a circle.
+     * Morphs polygon to a circle (it is actually a polygon which makes a circle).
      *
      * @param  {number}              radius    Target circle radius (px)
      * @param  {number}              duration  Duration (ms)
@@ -279,7 +281,7 @@ var Morpher = /** @class */ (function (_super) {
         return newPoints;
     };
     /**
-     * Morphs shape into a rectangle.
+     * Morphs polygon into a rectangular polygon.
      *
      * @param  {number}              width     Width of the target rectangle (px)
      * @param  {number}              height    Height of the target rectangle (px)
@@ -409,7 +411,7 @@ var Morpher = /** @class */ (function (_super) {
         configurable: true
     });
     /**
-     * Restores the shape to its original appearance.
+     * Restores the polygon to its original appearance.
      *
      * @param {number}              duration  Duration (ms)
      * @param {(number) => number}  easing    Easing function

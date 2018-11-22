@@ -1110,15 +1110,16 @@ var Series = /** @class */ (function (_super) {
      * Returns visibility value
      * @ignore
      */
-    Series.prototype.getVisibility = function () {
-        var hidden = this.getPropertyValue("hidden");
-        if (hidden) {
-            return false;
-        }
-        else {
-            return _super.prototype.getVisibility.call(this);
-        }
-    };
+    /*
+        protected getVisibility(): boolean {
+            let hidden = this.getPropertyValue("hidden");
+            if (hidden) {
+                return false;
+            }
+            else {
+                return super.getVisibility();
+            }
+        }*/
     /**
      * This function is used to sort element's JSON config properties, so that
      * some properties that absolutely need to be processed last, can be put at

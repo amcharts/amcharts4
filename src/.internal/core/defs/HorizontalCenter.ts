@@ -1,0 +1,1 @@
+export type HorizontalCenter = "none" | "left" | "middle" | "right";

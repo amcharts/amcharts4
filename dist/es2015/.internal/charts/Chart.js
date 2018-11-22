@@ -9,6 +9,7 @@ import * as tslib_1 from "tslib";
  * @hidden
  */
 import { Component } from "../core/Component";
+import { MutableValueDisposer } from "../core/utils/Disposer";
 import { ListTemplate, ListDisposer } from "../core/utils/List";
 import { Container } from "../core/Container";
 import { Label } from "../core/elements/Label";
@@ -62,6 +63,12 @@ var Chart = /** @class */ (function (_super) {
         var _this = 
         // Init
         _super.call(this) || this;
+        /**
+         * A reference to chart's [[Legend]].
+         * @ignore
+         * @type {Legend}
+         */
+        _this._legend = new MutableValueDisposer();
         _this.className = "Chart";
         // Create a list of titles
         var template = new Label();
@@ -86,6 +93,7 @@ var Chart = /** @class */ (function (_super) {
         chartContainer.height = percent(100);
         _this.chartContainer = chartContainer;
         _this.showOnInit = true;
+        _this._disposers.push(_this._legend);
         // Add title list events to apply certain formatting options and to make
         // the chart reference them as accessible screen reader labels
         _this.titles.events.on("inserted", function (label) {
@@ -216,7 +224,7 @@ var Chart = /** @class */ (function (_super) {
          * @return {Legend} Legend
          */
         get: function () {
-            return this._legend;
+            return this._legend.get();
         },
         /**
          * Holds the instance of chart's [[Leged]].
@@ -237,20 +245,18 @@ var Chart = /** @class */ (function (_super) {
      */
     Chart.prototype.setLegend = function (legend) {
         var _this = this;
-        if (this._legend != legend) {
-            if (this._legend) {
-                this.removeDispose(this._legend);
-            }
-            this._legend = legend;
+        if (this._legend.get() !== legend) {
             if (legend) {
-                this._disposers.push(legend);
                 // Set legend options
                 legend.parent = this.chartAndLegendContainer;
-                legend.events.on("propertychanged", function (event) {
+                this._legend.set(legend, legend.events.on("propertychanged", function (event) {
                     if (event.property == "position" || event.property == "width") {
                         _this.fixLayout();
                     }
-                }, undefined, false);
+                }, undefined, false));
+            }
+            else {
+                this._legend.reset();
             }
             this.feedLegend();
         }

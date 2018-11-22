@@ -126,3 +126,12 @@ export declare function rectangle(width: number, height: number, x?: number, y?:
  * @return {string}            SVG path
  */
 export declare function rectToPath(rect: IRectangle, ccw?: boolean): string;
+/**
+ * Converts SVG path to array of points.
+ *
+ * Note, this is experimental feature based on method which is deprecated
+ * on some browsers and some browsers do not support it at all.
+ *
+ * You can save the output of this function, but not rely on it completely.
+ */
+export declare function pathToPoints(path: string, pointCount: number): IPoint[];

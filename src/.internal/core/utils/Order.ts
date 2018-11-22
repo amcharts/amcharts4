@@ -1,0 +1,54 @@
+/**
+ * A collection of functions for ordering.
+ */
+
+/**
+ * ============================================================================
+ * UTILITY FUNCTIONS
+ * ============================================================================
+ * @hidden
+ */
+
+/**
+ * Defines values that ordering functions can return.
+ * 
+ * @type {number}
+ */
+export type Ordering = -1 | 0 | 1;
+
+/**
+ * [reverse description]
+ *
+ * @ignore Exclude from docs
+ * @todo Description
+ * @param  {Ordering}  a  [description]
+ * @return {Ordering}     [description]
+ */
+export function reverse(a: Ordering): Ordering {
+	switch (a) {
+		case 0:
+			return 0;
+		case -1:
+			return 1;
+		case 1:
+			return -1;
+	}
+}
+
+/**
+ * [or description]
+ *
+ * @ignore Exclude from docs
+ * @todo Description
+ * @param  {Ordering}  a  Item 1
+ * @param  {Ordering}  b  Item 2
+ * @return {Ordering}     [description]
+ */
+export function or(a: Ordering, b: Ordering): Ordering {
+	if (a === 0) {
+		return b;
+
+	} else {
+		return a;
+	}
+}

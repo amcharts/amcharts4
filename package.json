@@ -1,0 +1,43 @@
+{
+  "private": true,
+  "name": "@amcharts/amcharts4",
+  "version": "4.0.0-beta.87",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amcharts/amcharts4.git"
+  },
+  "scripts": {
+    "clean": "rimraf ./dist",
+    "build": "yarn run clean && tsc --project tsconfig.json && node build/build.js",
+    "docs": "typedoc --out dist/docs --ignoreCompilerErrors --excludeExternals --excludeNotExported --excludePrivate --excludeProtected src"
+  },
+  "browser": {
+    "canvas": false,
+    "fs": false,
+    "jsdom": false,
+    "jsdom/lib/jsdom/living/generated/utils": false,
+    "jsdom/lib/jsdom/utils": false,
+    "http": false,
+    "https": false,
+    "xmldom": false,
+    "url": false
+  },
+  "dependencies": {
+    "css-element-queries": "^1.1.0",
+    "canvg": "^1.5.3",
+    "pdfmake": "^0.1.36",
+    "tslib": "^1.9.3",
+    "xlsx": "^0.12.8"
+  },
+  "devDependencies": {
+    "core-js": "^2.5.5",
+    "cross-env": "^5.2.0",
+    "rimraf": "^2.6.2",
+    "source-map-loader": "^0.2.3",
+    "ts-loader": "^5.2.1",
+    "typedoc": "^0.12.0",
+    "typescript": "2.8.1",
+    "uglifyjs-webpack-plugin": "^1.2.4",
+    "webpack": "^3.0.0"
+  }
+}
