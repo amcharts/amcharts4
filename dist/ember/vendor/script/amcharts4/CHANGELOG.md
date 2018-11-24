@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.1] - 2018-11-24
+
+### Fixed
+- Issues with stacked series and `min`/`max` of `ValueAxis` fixed.
+- Chart cursor now dispatches `"panning"` event only if moved by at least 3 pixels. This solves problem with panning on click.
+- If `extraMin`/`extraMax` were set on `ValueAxis`, some unnecessary zoom used to happen.
+
+
 ## [4.0.0] - 2018-11-22
 
 ### Changed

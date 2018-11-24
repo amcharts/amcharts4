@@ -353,7 +353,7 @@ export class XYCursor extends Cursor {
 
 		this.updateLinePositions(point);
 
-		if (this.downPoint) {
+		if (this.downPoint && $math.getDistance(this.downPoint, point) > 3) {
 			if (this._generalBehavior == "pan") {
 				this.getPanningRanges();
 				this.dispatch("panning");

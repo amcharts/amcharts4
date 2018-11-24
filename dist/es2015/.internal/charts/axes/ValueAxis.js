@@ -1305,10 +1305,12 @@ var ValueAxis = /** @class */ (function (_super) {
         }
         var dif = this.adjustDifference(selectionMin, selectionMax);
         var minMaxStep = this.adjustMinMax(selectionMin, selectionMax, dif, this._gridCount);
-        selectionMin = $math.fitToRange(minMaxStep.min, this.min, this.max);
-        selectionMax = $math.fitToRange(minMaxStep.max, this.min, this.max);
+        selectionMin = minMaxStep.min;
+        selectionMax = minMaxStep.max;
         selectionMin -= (selectionMax - selectionMin) * this.extraMin;
         selectionMax += (selectionMax - selectionMin) * this.extraMax;
+        selectionMin = $math.fitToRange(selectionMin, this.min, this.max);
+        selectionMax = $math.fitToRange(selectionMax, this.min, this.max);
         // do it for the second time !important
         dif = this.adjustDifference(selectionMin, selectionMax);
         minMaxStep = this.adjustMinMax(selectionMin, selectionMax, dif, this._gridCount, true);

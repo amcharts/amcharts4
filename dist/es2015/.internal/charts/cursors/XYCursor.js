@@ -192,7 +192,7 @@ var XYCursor = /** @class */ (function (_super) {
     XYCursor.prototype.triggerMoveReal = function (point) {
         _super.prototype.triggerMoveReal.call(this, point);
         this.updateLinePositions(point);
-        if (this.downPoint) {
+        if (this.downPoint && $math.getDistance(this.downPoint, point) > 3) {
             if (this._generalBehavior == "pan") {
                 this.getPanningRanges();
                 this.dispatch("panning");

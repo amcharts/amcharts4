@@ -1262,6 +1262,16 @@ export class XYSeries extends Series {
 
 			maxX = $math.max(dataItem.getMax(this._xValueFields, working, stackX), maxX);
 			maxY = $math.max(dataItem.getMax(this._yValueFields, working, stackY), maxY);
+
+			// if it's stacked, pay attention to stack value
+			if(this.stacked){
+				if(this.baseAxis == this.xAxis){
+					minY = $math.min(minY, stackY);				
+				}
+				if(this.baseAxis == this.yAxis){
+					minX = $math.min(minX, stackX);
+				}				
+			}
 		}
 
 		// this is mainly for value axis to calculate total and perecent.total of each series category
@@ -1554,7 +1564,7 @@ export class XYSeries extends Series {
 		if (xAxis instanceof ValueAxis && xAxis != this.baseAxis) {
 			fields = this._xValueFields;
 			// animate to zero if 0 is within zoomMin/zoomMax
-			if (this.stacked || (xAxis.minZoomed < 0 && xAxis.maxZoomed > 0)) {
+			if (this.stacked || (xAxis.minZoomed < 0 && xAxis.maxZoomed > 0) || this.stackedSeries) {
 				value = 0;
 			}
 			else {
@@ -1566,7 +1576,7 @@ export class XYSeries extends Series {
 		if (yAxis instanceof ValueAxis && yAxis != this.baseAxis) {
 			fields = this._yValueFields;
 			// animate to zero if 0 is within zoomMin/zoomMax
-			if (this.stacked || (yAxis.minZoomed < 0 && yAxis.maxZoomed > 0)) {
+			if (this.stacked || (yAxis.minZoomed < 0 && yAxis.maxZoomed > 0) || this.stackedSeries) {
 				value = 0;
 			}
 			else {
@@ -1677,6 +1687,7 @@ export class XYSeries extends Series {
 
 						let value = dataItem.getValue(field);
 						let prevValue: number;
+
 						if (working) {
 							prevValue = prevDataItem.getWorkingValue(field) + prevDataItem.getValue(field, "stack");
 						}
