@@ -1,5 +1,4 @@
 am4core.useTheme(am4themes_animated);
-am4core.useTheme(am4themes_dark);
 
 var countryCodes = ["AF", "AO", "AR", "AM", "AU", "AT", "AZ", "BD", "BY", "BE", "BO", "BA", "BW", "BR", "BG", "KH", "CM", "CA", "CF", "TD", "CL", "CN", "CO", "CG", "CD", "CR", "CI", "HR", "CU", "CY", "CZ", "DK", "EC", "EG", "ER", "EE", "ET", "FI", "FR", "GE", "DE", "GR", "GL", "GP", "GT", "GN", "GW", "GY", "HT", "HN", "HU", "IS", "IN", "ID", "IR", "IQ", "IE", "IL", "IT", "JM", "JP", "JO", "KZ", "KE", "KP", "KR", "KG", "LA", "LV", "LB", "LS", "LR", "LY", "LT", "LU", "MK", "MG", "MY", "ML", "MT", "MR", "MX", "MD", "MN", "ME", "MA", "MZ", "MM", "NA", "NP", "NL", "NZ", "NI", "NE", "NG", "NO", "OM", "PK", "PA", "PG", "PY", "PE", "PH", "PL", "PT", "RO", "RU", "SA", "SN", "RS", "SK", "SI", "SO", "ZA", "SS", "ES", "SD", "SE", "CH", "SY", "TW", "TJ", "TZ", "TH", "TN", "TR", "TM", "UA", "AE", "GB", "US", "UY", "UZ", "VE", "VN", "YE", "ZM", "ZW"];
 
@@ -38,11 +37,11 @@ polygonSeries1.include = ["AF"];
 var label = chart.chartContainer.createChild(am4core.Label);
 label.x = 100;
 label.y = 100;
-label.fill = am4core.color("#ffffff");
+label.fill = am4core.color("#000000");
 label.fontSize = 35;
 label.fontWeight = "bold";
 label.text = "Afghanistan";
-label.fillOpacity = 0.6;
+label.fillOpacity = 0.2;
 
 var slider = chart.createChild(am4core.Slider);
 slider.padding(0,15,0,60);

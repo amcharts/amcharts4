@@ -325,6 +325,28 @@ var BaseObject = /** @class */ (function () {
         this._disposers.push(disposer);
         return disposer;
     };
+    /**
+     * Creates [[Disposer]] for `setInterval` function call. This ensures that all
+     * timeouts created by the object will be cleared when object itself is
+     * disposed.
+     *
+     * @ignore Exclude from docs
+     * @param  {() => void}  fn     Callback function
+     * @param  {number}      delay  Timeout (ms)
+     * @return {IDisposer}          Disposer for timeout
+     */
+    BaseObject.prototype.setInterval = function (fn, delay) {
+        var _this = this;
+        var id = setInterval(function () {
+            _this.removeDispose(disposer);
+            fn();
+        }, delay);
+        var disposer = new Disposer(function () {
+            clearTimeout(id);
+        });
+        this._disposers.push(disposer);
+        return disposer;
+    };
     Object.defineProperty(BaseObject.prototype, "config", {
         /**
          * ==========================================================================

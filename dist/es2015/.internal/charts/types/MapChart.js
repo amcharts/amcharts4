@@ -419,7 +419,11 @@ var MapChart = /** @class */ (function (_super) {
             if ($type.isNaN(scaleRatio) || scaleRatio == Infinity) {
                 scaleRatio = 1;
             }
-            this.projection.scale = scaleRatio;
+            var projectionScaleChanged = false;
+            if (this.projection.scale != scaleRatio) {
+                this.projection.scale = scaleRatio;
+                projectionScaleChanged = true;
+            }
             this.seriesWidth = seriesWidth * scaleRatio;
             this.seriesHeight = seriesHeight * scaleRatio;
             var northPoint2 = this.projection.convert({ longitude: (this.east - this.west) / 2, latitude: this.north });
@@ -432,7 +436,7 @@ var MapChart = /** @class */ (function (_super) {
             var seriesContainer = this.seriesContainer;
             seriesContainer.x = chartContainer.pixelWidth / 2;
             seriesContainer.y = chartContainer.pixelHeight / 2;
-            if (pWest != this.west || pEast != this.east || pNorth != this.north || pSouth != this.south) {
+            if (projectionScaleChanged || pWest != this.west || pEast != this.east || pNorth != this.north || pSouth != this.south) {
                 $iter.each(this.series.iterator(), function (series) {
                     series.invalidate();
                 });
@@ -564,8 +568,9 @@ var MapChart = /** @class */ (function (_super) {
         zoomLevel = $math.fitToRange(zoomLevel, this.minZoomLevel, this.maxZoomLevel);
         var seriesPoint = this.projection.convert(point);
         var svgPoint = this.geoPointToSVG(point);
+        var mapPoint = $utils.svgPointToSprite(svgPoint, this);
         if (center) {
-            svgPoint = {
+            mapPoint = {
                 x: this.maxWidth / 2,
                 y: this.maxHeight / 2
             };
@@ -578,10 +583,10 @@ var MapChart = /** @class */ (function (_super) {
                 to: zoomLevel
             }, {
                 property: "x",
-                to: svgPoint.x - seriesPoint.x * zoomLevel * this.scaleRatio - this.pixelPaddingLeft
+                to: mapPoint.x - seriesPoint.x * zoomLevel * this.scaleRatio - this.pixelPaddingLeft
             }, {
                 property: "y",
-                to: svgPoint.y - seriesPoint.y * zoomLevel * this.scaleRatio - this.pixelPaddingTop
+                to: mapPoint.y - seriesPoint.y * zoomLevel * this.scaleRatio - this.pixelPaddingTop
             }], duration, this.zoomEasing);
         this._disposers.push(this._mapAnimation.events.on("animationended", function () {
             _this._zoomGeoPointReal = _this.zoomGeoPoint;
@@ -700,10 +705,8 @@ var MapChart = /** @class */ (function (_super) {
          * @return {IGeoPoint} Coordinates
          */
         get: function () {
-            return this.svgPointToGeo({
-                x: this.pixelWidth / 2,
-                y: this.pixelHeight / 2
-            });
+            var point = $utils.spritePointToSvg({ x: this.pixelWidth / 2, y: this.pixelHeight / 2 }, this);
+            return this.svgPointToGeo(point);
         },
         enumerable: true,
         configurable: true

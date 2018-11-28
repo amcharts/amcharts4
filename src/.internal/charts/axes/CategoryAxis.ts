@@ -8,7 +8,7 @@
  * ============================================================================
  * @hidden
  */
-import { Axis, AxisItemLocation, AxisDataItem, IAxisProperties, IAxisDataFields, IAxisAdapters, IAxisEvents } from "./Axis";
+import { Axis, AxisItemLocation, AxisDataItem, IAxisProperties, IAxisDataFields, IAxisAdapters, IAxisEvents, IAxisDataItemAdapters } from "./Axis";
 import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { IPoint, IOrientationPoint } from "../../core/defs/IPoint";
 import { AxisFill } from "./AxisFill";
@@ -25,7 +25,7 @@ import { IDisposer } from "../../core/utils/Disposer";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
 import * as $iter from "../../core/utils/Iterator";
-
+import { Adapter } from "../../core/utils/Adapter";
 
 /**
  * ============================================================================
@@ -47,6 +47,13 @@ export class CategoryAxisDataItem extends AxisDataItem {
 	 * @type {CategoryAxis}
 	 */
 	public _component!: CategoryAxis;
+
+	/**
+	 * Holds Adapter.
+	 *
+	 * @type {Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters>}
+	 */
+	public adapter = new Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters>(this);
 
 	/**
 	 * Constructor
@@ -75,6 +82,9 @@ export class CategoryAxisDataItem extends AxisDataItem {
 	 * @return {string} Category
 	 */
 	public get category(): string {
+		if (this.adapter.isEnabled("category")) {
+			return this.adapter.apply("category", this.properties["category"]);
+		}
 		return this.properties["category"];
 	}
 
@@ -95,6 +105,15 @@ export class CategoryAxisDataItem extends AxisDataItem {
 	public get endCategory(): string {
 		return this.properties["endCategory"];
 	}
+}
+
+/**
+ * Defines adapters for [[DataItem]]
+ * Includes both the [[Adapter]] definitions and properties
+ * @see {@link Adapter}
+ */
+export interface ICategoryAxisDataItemAdapters extends IAxisDataItemAdapters {
+	category: string;
 }
 
 
@@ -348,7 +367,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 
 		super.validate();
 
-		if(this.axisLength <= 0){
+		if (this.axisLength <= 0) {
 			return;
 		}
 
@@ -481,7 +500,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 		let label: AxisLabel = dataItem.label;
 		if (label && !label.disabled) {
 			// theorethically this might result problems if category text changes, the range text won't change. But otherwise range.label.text = "custom text" wont' work, which is not intuitive.
-			if(!dataItem.isRange || label.text == undefined){
+			if (!dataItem.isRange || label.text == undefined) {
 				dataItem.text = dataItem.text;
 			}
 			renderer.updateLabelElement(label, position, endPosition);

@@ -7,13 +7,14 @@
  * ============================================================================
  * @hidden
  */
-import { Axis, AxisItemLocation, AxisDataItem, IAxisProperties, IAxisDataFields, IAxisAdapters, IAxisEvents } from "./Axis";
+import { Axis, AxisItemLocation, AxisDataItem, IAxisProperties, IAxisDataFields, IAxisAdapters, IAxisEvents, IAxisDataItemAdapters } from "./Axis";
 import { IPoint, IOrientationPoint } from "../../core/defs/IPoint";
 import { AxisRenderer } from "./AxisRenderer";
 import { SerialChart } from "../types/SerialChart";
 import { Dictionary } from "../../core/utils/Dictionary";
 import { XYSeries, XYSeriesDataItem } from "../series/XYSeries";
 import { CategoryAxisBreak } from "./CategoryAxisBreak";
+import { Adapter } from "../../core/utils/Adapter";
 /**
  * ============================================================================
  * DATA ITEM
@@ -32,6 +33,12 @@ export declare class CategoryAxisDataItem extends AxisDataItem {
      * @type {CategoryAxis}
      */
     _component: CategoryAxis;
+    /**
+     * Holds Adapter.
+     *
+     * @type {Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters>}
+     */
+    adapter: Adapter<CategoryAxisDataItem, ICategoryAxisDataItemAdapters>;
     /**
      * Constructor
      */
@@ -56,6 +63,14 @@ export declare class CategoryAxisDataItem extends AxisDataItem {
      * @param {string}  value  End category
      */
     endCategory: string;
+}
+/**
+ * Defines adapters for [[DataItem]]
+ * Includes both the [[Adapter]] definitions and properties
+ * @see {@link Adapter}
+ */
+export interface ICategoryAxisDataItemAdapters extends IAxisDataItemAdapters {
+    category: string;
 }
 /**
  * ============================================================================

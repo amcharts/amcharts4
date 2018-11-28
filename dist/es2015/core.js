@@ -156,6 +156,8 @@ import * as ease from "./.internal/core/utils/Ease";
 export { ease };
 import * as math from "./.internal/core/utils/Math";
 export { math };
+import * as array from "./.internal/core/utils/Array";
+export { array };
 import * as number from "./.internal/core/utils/Number";
 export { number };
 import * as object from "./.internal/core/utils/Object";

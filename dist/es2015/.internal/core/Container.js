@@ -1577,7 +1577,7 @@ var Container = /** @class */ (function (_super) {
      * Dispatches ready event. Dispatches when all children are ready.
      */
     Container.prototype.dispatchReady = function () {
-        if (!this.isReady()) {
+        if (!this.isReady() && !this.isDisposed()) {
             var allReady_1 = true;
             this.children.each(function (sprite) {
                 if (!sprite.__disabled && !sprite.disabled && !sprite.isReady()) {

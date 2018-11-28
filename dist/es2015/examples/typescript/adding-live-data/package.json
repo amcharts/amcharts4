@@ -3,7 +3,7 @@
   "name": "amcharts4-example-adding-live-data",
   "version": "0.1.0",
   "devDependencies": {
-    "@amcharts/amcharts4": "^4.0.1",
+    "@amcharts/amcharts4": "^4.0.2",
     "webpack": "^4.23.1",
     "webpack-cli": "^3.1.2",
     "source-map-loader": "^0.2.4",

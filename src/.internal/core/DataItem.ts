@@ -1007,6 +1007,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 			dataItem.values[name] = $object.copy(value);
 		});
 
+		dataItem.adapter.copyFrom(this.adapter);
 		dataItem.events.copyFrom(this.events);
 		dataItem.component = this.component;
 

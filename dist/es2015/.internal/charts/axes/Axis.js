@@ -147,6 +147,7 @@ var AxisDataItem = /** @class */ (function (_super) {
                     this._disposers.push(label_1);
                     this.label = label_1;
                     label_1.axis = this.component;
+                    label_1.virtualParent = component_3;
                     this._disposers.push(new Disposer(function () {
                         component_3.renderer.labels.removeValue(label_1);
                     }));
@@ -365,6 +366,15 @@ var AxisDataItem = /** @class */ (function (_super) {
      */
     AxisDataItem.prototype.hasProperty = function (prop) {
         return prop == "component" ? true : _super.prototype.hasProperty.call(this, prop);
+    };
+    /**
+     * Copies all parameters from another [[AxisDataItem]].
+     *
+     * @param {AxisDataItem} source Source AxisDataItem
+     */
+    AxisDataItem.prototype.copyFrom = function (source) {
+        _super.prototype.copyFrom.call(this, source);
+        this.text = source.text;
     };
     return AxisDataItem;
 }(DataItem));

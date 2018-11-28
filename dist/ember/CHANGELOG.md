@@ -5,6 +5,25 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+
+## [4.0.2] - 2018-11-28
+
+### Added
+- New method `setInterval()` on all base objects added. Works exactly like JS's `setInterval` but is automatically killed when target object is disposed.
+- Added array utilities to `am4core`.
+
+### Changed
+- Removed unused `"label"` adapter from `Axis`.
+
+### Fixed
+- [Issue 588.](https://github.com/amcharts/amcharts4/issues/588)
+- Fixed mouse wheel and zoom control zooming of a map which does not occupies all the div size.
+- Fixed map scaling issues of a map which does not occupies all the div size.
+- Sometimes axis labels were not formatted using number or other formatters.
+- Adapters of data items were not being copied to clones.
+- `text` property of `AxisDataItem` was not being copied to clones.
+
+
 ## [4.0.1] - 2018-11-24
 
 ### Fixed

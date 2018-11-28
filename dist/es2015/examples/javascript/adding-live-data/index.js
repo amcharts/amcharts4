@@ -4,7 +4,7 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import am4themes_dark from "@amcharts/amcharts4/themes/dark";
 
 am4core.useTheme(am4themes_animated);
-am4core.useTheme(am4themes_dark);
+//am4core.useTheme(am4themes_dark);
 
 var chart = am4core.create("chartdiv", am4charts.XYChart);
 
@@ -14,11 +14,11 @@ chart.padding(0, 0, 0, 0);
 chart.zoomOutButton.disabled = true;
 
 var data = [];
-var visits = 10;
+var visits = 50;
 var i = 0;
 
 for (i = 0; i <= 30; i++) {
-    visits -= Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 10);
+    visits -= Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 5);
     data.push({ date: new Date().setSeconds(i - 30), value: visits });
 }
 

@@ -1996,7 +1996,7 @@ export class Container extends Sprite {
 	 * Dispatches ready event. Dispatches when all children are ready.
 	 */
 	public dispatchReady() {
-		if (!this.isReady()) {
+		if (!this.isReady() && !this.isDisposed()) {
 			let allReady = true;
 			this.children.each((sprite) => {
 				if (!sprite.__disabled && !sprite.disabled && !sprite.isReady()) {

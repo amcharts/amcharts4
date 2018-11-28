@@ -9,7 +9,7 @@
  */
 import { Component, IComponentProperties, IComponentDataFields, IComponentAdapters, IComponentEvents } from "../../core/Component";
 import { Container } from "../../core/Container";
-import { DataItem } from "../../core/DataItem";
+import { DataItem, IDataItemAdapters } from "../../core/DataItem";
 import { Grid } from "./Grid";
 import { AxisTick } from "./AxisTick";
 import { AxisLabel } from "./AxisLabel";
@@ -228,6 +228,19 @@ export declare class AxisDataItem extends DataItem {
      * @return {boolean}        Property set?
      */
     protected hasProperty(prop: string): boolean;
+    /**
+     * Copies all parameters from another [[AxisDataItem]].
+     *
+     * @param {AxisDataItem} source Source AxisDataItem
+     */
+    copyFrom(source: this): void;
+}
+/**
+ * Defines adapters for [[AxisDataItem]]
+ * Includes both the [[DataItemAdapter]] definitions and properties
+ * @see {@link DataItemAdapter}
+ */
+export interface IAxisDataItemAdapters extends IDataItemAdapters {
 }
 /**
  * ============================================================================
@@ -289,12 +302,6 @@ export interface IAxisEvents extends IComponentEvents {
  * @see {@link Adapter}
  */
 export interface IAxisAdapters extends IComponentAdapters, IAxisProperties {
-    /**
-     * Applied to an axis label text before it's drawn.
-     *
-     * @type {string}
-     */
-    label: string;
     /**
      * Applied to the tooltip text before it is shown.
      *

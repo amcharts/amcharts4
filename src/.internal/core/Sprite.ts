@@ -1726,7 +1726,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		}
 
 		if (this.strokeModifier && this.stroke instanceof Color) {
-			let stroke = <any>this.fillModifier.modify(this.stroke);
+			let stroke = <any>this.strokeModifier.modify(this.stroke);
 			if (stroke && stroke.element) {
 				this.paper.appendDef(stroke.element);
 			}
@@ -2362,6 +2362,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 		// if a sprite is rotated or scaled, calculate measured size after transformations
 		if (this.rotation !== 0 || this.scale !== 1) {
+			this.handleGlobalScale(); // this is needed to handle nonscalingstroke
+
 			let svg = this.paper.svg;
 
 			let matrix: SVGMatrix = svg.createSVGMatrix();
@@ -2798,7 +2800,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 	/**
 	 * Returns `true` if Sprite has already finished initializing and is ready.
-	 * 
+	 *
 	 * If this object is a [[Container]] it will wait for all of its children
 	 * are ready before becoming ready itself and firing a `"ready"` event.
 	 *
@@ -5543,7 +5545,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * A shortcut to setting mouse cursor on hover.
 	 *
 	 * Example:
-	 * 
+	 *
 	 * ```TypeScript
 	 * series.slices.template.cursorOverStyle = am4core.MouseCursorStyle.pointer;
 	 * ```
@@ -5573,7 +5575,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * A shortcut to setting mouse cursor when button is pressed down.
 	 *
 	 * Example:
-	 * 
+	 *
 	 * ```TypeScript
 	 * series.slices.template.cursorDownStyle = am4core.MouseCursorStyle.grabbing;
 	 * ```
@@ -5754,7 +5756,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 	/**
 	 * Private method to be used for "classPrefix" adapter for modals/popups.
-	 * 
+	 *
 	 * @param {string}  value  Prefix
 	 */
 	private modalPrefix(value: string) {
@@ -7297,6 +7299,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				value = 1;
 			}
 			value = value / this.globalScale;
+			if(this.className == "Rectangle"){
+				console.log(this.className, value, this.globalScale, this.scale)
+			}
 		}
 		this.setSVGAttribute({ "stroke-width": value });
 	}
@@ -8246,7 +8251,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 	/**
 	 * Converts string name of the cursor into actual [[MouseCursorStyle]].
-	 * 
+	 *
 	 * @param  {string}                      style  Cursor type
 	 * @return {Optional<MouseCursorStyle>}         Cursor definition
 	 */
@@ -8343,10 +8348,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @ignore
 	 */
 	protected hideInitially() {
-		this.appeared = false;
-		//if (!this.hidden && !this._isHidden) { // not good for series, as on enterframe it doesn't have data items yet.
-		if (!this.inited) {
-			this.hide(0);
+		if (!this.isDisposed()) {
+			this.appeared = false;
+			//if (!this.hidden && !this._isHidden) { // not good for series, as on enterframe it doesn't have data items yet.
+			if (!this.inited) {
+				this.hide(0);
+			}
 		}
 	}
 

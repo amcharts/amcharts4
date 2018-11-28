@@ -880,7 +880,11 @@ export class MapChart extends SerialChart {
 				scaleRatio = 1;
 			}
 
-			this.projection.scale = scaleRatio;
+			let projectionScaleChanged = false;
+			if(this.projection.scale != scaleRatio){
+				this.projection.scale = scaleRatio;
+				projectionScaleChanged = true;
+			}
 
 			this.seriesWidth = seriesWidth * scaleRatio;
 			this.seriesHeight = seriesHeight * scaleRatio;
@@ -901,7 +905,7 @@ export class MapChart extends SerialChart {
 			seriesContainer.x = chartContainer.pixelWidth / 2;
 			seriesContainer.y = chartContainer.pixelHeight / 2;
 
-			if (pWest != this.west || pEast != this.east || pNorth != this.north || pSouth != this.south) {
+			if (projectionScaleChanged || pWest != this.west || pEast != this.east || pNorth != this.north || pSouth != this.south) {
 				$iter.each(this.series.iterator(), (series) => {
 					series.invalidate();
 				});
@@ -915,7 +919,7 @@ export class MapChart extends SerialChart {
 	 * that it fits perfectly into available space. Helps to avoid redrawing of all the map if container size changes
 	 * @ignore
 	 */
-	protected updateScaleRatio(): void {
+	protected updateScaleRatio(): void {		
 		let scaleRatio: number;
 
 		let vScale: number = this.chartContainer.innerWidth / this.seriesWidth;
@@ -1049,8 +1053,10 @@ export class MapChart extends SerialChart {
 		let seriesPoint: IPoint = this.projection.convert(point);
 
 		let svgPoint: IPoint = this.geoPointToSVG(point);
+		let mapPoint = $utils.svgPointToSprite(svgPoint, this);
+
 		if (center) {
-			svgPoint = {
+			mapPoint = {
 				x: this.maxWidth / 2,
 				y: this.maxHeight / 2
 			};
@@ -1066,10 +1072,10 @@ export class MapChart extends SerialChart {
 				to: zoomLevel
 			}, {
 				property: "x",
-				to: svgPoint.x - seriesPoint.x * zoomLevel * this.scaleRatio - this.pixelPaddingLeft
+				to: mapPoint.x - seriesPoint.x * zoomLevel * this.scaleRatio - this.pixelPaddingLeft
 			}, {
 				property: "y",
-				to: svgPoint.y - seriesPoint.y * zoomLevel * this.scaleRatio - this.pixelPaddingTop
+				to: mapPoint.y - seriesPoint.y * zoomLevel * this.scaleRatio - this.pixelPaddingTop
 			}], duration, this.zoomEasing);
 
 		this._disposers.push(this._mapAnimation.events.on("animationended", () => {
@@ -1204,11 +1210,8 @@ export class MapChart extends SerialChart {
 	 * @return {IGeoPoint} Coordinates
 	 */
 	public get zoomGeoPoint(): IGeoPoint {
-		return this.svgPointToGeo({
-			x: this.pixelWidth / 2,
-			y: this.pixelHeight / 2
-		});
-
+		var point = $utils.spritePointToSvg({x: this.pixelWidth / 2, y: this.pixelHeight / 2}, this);
+		return this.svgPointToGeo(point);
 	}
 
 	/**

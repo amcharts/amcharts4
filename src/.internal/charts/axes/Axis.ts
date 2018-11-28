@@ -11,7 +11,7 @@
 import { Component, IComponentProperties, IComponentDataFields, IComponentAdapters, IComponentEvents } from "../../core/Component";
 import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Container } from "../../core/Container";
-import { DataItem } from "../../core/DataItem";
+import { DataItem, IDataItemAdapters } from "../../core/DataItem";
 
 import { Grid } from "./Grid";
 import { AxisTick } from "./AxisTick";
@@ -284,6 +284,7 @@ export class AxisDataItem extends DataItem {
 				this._disposers.push(label);
 				this.label = label;
 				label.axis = this.component;
+				label.virtualParent = component;
 
 				this._disposers.push(new Disposer(() => {
 					component.renderer.labels.removeValue(label);
@@ -476,6 +477,25 @@ export class AxisDataItem extends DataItem {
 		return prop == "component" ? true : super.hasProperty(prop);
 	}
 
+	/**
+	 * Copies all parameters from another [[AxisDataItem]].
+	 *
+	 * @param {AxisDataItem} source Source AxisDataItem
+	 */
+	public copyFrom(source:this){
+		super.copyFrom(source);
+		this.text = source.text;
+	}
+
+}
+
+/**
+ * Defines adapters for [[AxisDataItem]]
+ * Includes both the [[DataItemAdapter]] definitions and properties
+ * @see {@link DataItemAdapter}
+ */
+export interface IAxisDataItemAdapters extends IDataItemAdapters{
+
 }
 
 
@@ -548,14 +568,6 @@ export interface IAxisEvents extends IComponentEvents {
  * @see {@link Adapter}
  */
 export interface IAxisAdapters extends IComponentAdapters, IAxisProperties {
-
-	/**
-	 * Applied to an axis label text before it's drawn.
-	 *
-	 * @type {string}
-	 */
-	label: string
-
 	/**
 	 * Applied to the tooltip text before it is shown.
 	 *

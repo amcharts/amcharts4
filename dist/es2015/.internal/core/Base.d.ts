@@ -250,6 +250,17 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      */
     setTimeout(fn: () => void, delay: number): IDisposer;
     /**
+     * Creates [[Disposer]] for `setInterval` function call. This ensures that all
+     * timeouts created by the object will be cleared when object itself is
+     * disposed.
+     *
+     * @ignore Exclude from docs
+     * @param  {() => void}  fn     Callback function
+     * @param  {number}      delay  Timeout (ms)
+     * @return {IDisposer}          Disposer for timeout
+     */
+    setInterval(fn: () => void, delay: number): IDisposer;
+    /**
      * ==========================================================================
      * JSON-BASED CONFIG PROCESSING
      * ==========================================================================

@@ -1002,7 +1002,7 @@ var Sprite = /** @class */ (function (_super) {
             }
         }
         if (this.strokeModifier && this.stroke instanceof Color) {
-            var stroke_1 = this.fillModifier.modify(this.stroke);
+            var stroke_1 = this.strokeModifier.modify(this.stroke);
             if (stroke_1 && stroke_1.element) {
                 this.paper.appendDef(stroke_1.element);
             }
@@ -1587,6 +1587,7 @@ var Sprite = /** @class */ (function (_super) {
         var positionPrecision = this._positionPrecision;
         // if a sprite is rotated or scaled, calculate measured size after transformations
         if (this.rotation !== 0 || this.scale !== 1) {
+            this.handleGlobalScale(); // this is needed to handle nonscalingstroke
             var svg = this.paper.svg;
             var matrix = svg.createSVGMatrix();
             var rotation = this.rotation;
@@ -6468,6 +6469,9 @@ var Sprite = /** @class */ (function (_super) {
                     value = 1;
                 }
                 value = value / this.globalScale;
+                if (this.className == "Rectangle") {
+                    console.log(this.className, value, this.globalScale, this.scale);
+                }
             }
             this.setSVGAttribute({ "stroke-width": value });
         },
@@ -7461,10 +7465,12 @@ var Sprite = /** @class */ (function (_super) {
      * @ignore
      */
     Sprite.prototype.hideInitially = function () {
-        this.appeared = false;
-        //if (!this.hidden && !this._isHidden) { // not good for series, as on enterframe it doesn't have data items yet.
-        if (!this.inited) {
-            this.hide(0);
+        if (!this.isDisposed()) {
+            this.appeared = false;
+            //if (!this.hidden && !this._isHidden) { // not good for series, as on enterframe it doesn't have data items yet.
+            if (!this.inited) {
+                this.hide(0);
+            }
         }
     };
     /**

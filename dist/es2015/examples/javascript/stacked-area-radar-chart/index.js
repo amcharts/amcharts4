@@ -154,7 +154,7 @@ categoryAxisRenderer.tooltipLocation = 0.5;
 categoryAxisRenderer.grid.template.disabled = true;
 categoryAxisRenderer.ticks.template.disabled = true;
 
-categoryAxisRenderer.axisFills.template.fill = am4core.color("#e8e8e8");
+categoryAxisRenderer.axisFills.template.fill = am4core.color("#ffffff");
 categoryAxisRenderer.axisFills.template.fillOpacity = 0.2;
 categoryAxisRenderer.axisFills.template.location = -0.5;
 categoryAxisRenderer.axisFills.template.disabled = false;

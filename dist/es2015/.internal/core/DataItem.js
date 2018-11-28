@@ -764,6 +764,7 @@ var DataItem = /** @class */ (function (_super) {
             //for (let name in this.values) {
             dataItem.values[name] = $object.copy(value);
         });
+        dataItem.adapter.copyFrom(this.adapter);
         dataItem.events.copyFrom(this.events);
         dataItem.component = this.component;
         return dataItem;
