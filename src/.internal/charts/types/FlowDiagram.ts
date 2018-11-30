@@ -525,7 +525,7 @@ export class FlowDiagram extends Chart {
 	 * @ignore Exclude from docs
 	 */	
 	public handleDataItemWorkingValueChange(dataItem?:this["_dataItem"]): void {
-		this.invalidateDataRange();
+		this.invalidate();
 	}
 
 
@@ -710,8 +710,9 @@ export class FlowDiagram extends Chart {
 
 	/**
 	 * Setups the legend to use the chart's data.
+	 * @ignore
 	 */
-	protected feedLegend(): void {
+	public feedLegend(): void {
 		let legend = this.legend;
 		if (legend) {
 			let legendData: any[] = [];

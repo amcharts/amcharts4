@@ -430,8 +430,9 @@ var LineSeries = /** @class */ (function (_super) {
          * @param {boolean}  value  Connect?
          */
         set: function (value) {
-            this.setPropertyValue("connect", value);
-            this.invalidateDataRange();
+            if (this.setPropertyValue("connect", value)) {
+                this.invalidate();
+            }
         },
         enumerable: true,
         configurable: true

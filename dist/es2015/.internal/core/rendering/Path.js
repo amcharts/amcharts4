@@ -22,7 +22,7 @@ export function polyline(points) {
     var prevPoint = { x: 0, y: 0 };
     for (var i = 0, len = points.length; i < len; i++) {
         var point = points[i];
-        if ($math.getDistance(point, prevPoint) > 1) {
+        if ($math.getDistance(point, prevPoint) > 0.5) {
             path += lineTo(point);
             prevPoint = point;
         }

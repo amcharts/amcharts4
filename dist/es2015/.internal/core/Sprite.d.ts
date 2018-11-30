@@ -19,7 +19,7 @@ import { ITheme } from "../themes/ITheme";
 import { Dictionary, IDictionaryEvents, DictionaryTemplate } from "./utils/Dictionary";
 import { ListTemplate, List } from "./utils/List";
 import { EventDispatcher } from "./utils/EventDispatcher";
-import { IDisposer, MutableValueDisposer } from "./utils/Disposer";
+import { MultiDisposer, IDisposer, MutableValueDisposer } from "./utils/Disposer";
 import { Animation, IAnimatable } from "./utils/Animation";
 import { Optional } from "./utils/Type";
 import { Group } from "./rendering/Group";
@@ -794,6 +794,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     appeared: boolean;
     ex: number;
     ey: number;
+    protected _showOnInitDisposer: MultiDisposer;
     /**
      * Constructor:
      * * Creates initial node
@@ -1549,7 +1550,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param {boolean}  value  Disabled?
      */
     disabled: boolean;
-    protected setDisabled(value: boolean): void;
+    protected setDisabled(value: boolean): boolean;
     /**
      * @ignore
      * @return {boolean} Disabled?

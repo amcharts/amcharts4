@@ -33,7 +33,7 @@ export function polyline(points: IPoint[]): string {
 	let prevPoint = { x: 0, y: 0 };
 	for (let i = 0, len = points.length; i < len; i++) {
 		let point = points[i];
-		if ($math.getDistance(point, prevPoint) > 1) {
+		if ($math.getDistance(point, prevPoint) > 0.5) {
 			path += lineTo(point);
 			prevPoint = point;
 		}

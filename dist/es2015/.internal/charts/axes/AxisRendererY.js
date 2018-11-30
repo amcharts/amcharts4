@@ -124,7 +124,7 @@ var AxisRendererY = /** @class */ (function (_super) {
          */
         get: function () {
             var axis = this.axis;
-            return (axis.pixelHeight - axis.pixelPaddingTop - axis.pixelPaddingBottom) || 0;
+            return (axis.measuredHeight - axis.pixelPaddingTop - axis.pixelPaddingBottom) || 0;
         },
         enumerable: true,
         configurable: true

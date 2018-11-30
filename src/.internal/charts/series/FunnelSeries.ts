@@ -674,7 +674,7 @@ export class FunnelSeries extends PercentSeries {
 	 */
 	public set orientation(value: Orientation) {
 		if (this.setPropertyValue("orientation", value)) {
-			this.invalidateDataRange();
+			this.invalidate();
 			if (value == "vertical") {
 				this.ticks.template.locationX = 1;
 				this.ticks.template.locationY = 0.5;
@@ -723,7 +723,7 @@ export class FunnelSeries extends PercentSeries {
 	 */
 	public set bottomRatio(value: number) {
 		if (this.setPropertyValue("bottomRatio", value)) {
-			this.invalidateDataRange();
+			this.invalidate();
 		}
 	}
 

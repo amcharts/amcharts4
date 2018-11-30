@@ -199,8 +199,8 @@ var ColumnSeries = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     ColumnSeries.prototype.validate = function () {
-        //@todo Check if we can do better than use `instanceof`
         var _this = this;
+        //@todo Check if we can do better than use `instanceof`
         // find start/end locations based on clustered/stacked settings
         // go through chart series instead of base axis series, because axis series doesn't maintain order
         var baseAxisSeries = this.chart.series;

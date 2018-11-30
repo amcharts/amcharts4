@@ -136,22 +136,18 @@ var RadarChart = /** @class */ (function (_super) {
     };
     /**
      * Updates all X axes after range change event.
-     *
-     * @param {AMEvent<Axis, IComponentEvents>["datarangechanged"]}  event  Event
      */
-    RadarChart.prototype.handleXAxisRangeChange = function (event) {
-        _super.prototype.handleXAxisRangeChange.call(this, event);
+    RadarChart.prototype.handleXAxisRangeChange = function () {
+        _super.prototype.handleXAxisRangeChange.call(this);
         $iter.each(this.yAxes.iterator(), function (axis) {
             axis.invalidate();
         });
     };
     /**
      * Updates all Y axes after range change event.
-     *
-     * @param {AMEvent<Axis, IComponentEvents>["datarangechanged"]}  event  Event
      */
-    RadarChart.prototype.handleYAxisRangeChange = function (event) {
-        _super.prototype.handleYAxisRangeChange.call(this, event);
+    RadarChart.prototype.handleYAxisRangeChange = function () {
+        _super.prototype.handleYAxisRangeChange.call(this);
         $iter.each(this.xAxes.iterator(), function (axis) {
             axis.invalidate();
         });

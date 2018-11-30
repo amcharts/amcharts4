@@ -642,8 +642,9 @@ export class LineSeries extends XYSeries {
 	 * @param {boolean}  value  Connect?
 	 */
 	public set connect(value: boolean) {
-		this.setPropertyValue("connect", value);
-		this.invalidateDataRange();
+		if(this.setPropertyValue("connect", value)){
+			this.invalidate();
+		}
 	}
 
 	/**

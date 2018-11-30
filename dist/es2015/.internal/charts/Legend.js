@@ -383,6 +383,12 @@ var Legend = /** @class */ (function (_super) {
          *
          * Options: "left", "right", "top", "bottom" (default), or "absolute".
          *
+         * IMPORTANT: [[MapChart]] will ignore this setting, as it is using different
+         * layout structure than other charts.
+         *
+         * To position legend in [[MapChart]] set legend's `align` (`"left"` or
+         * `"right"`) and `valign` (`"top"` or `"bottom"`) properties instead.
+         *
          * @default "bottom"
          * @param {LegendPosition}  value  Position
          */

@@ -185,8 +185,7 @@ var RadarSeries = /** @class */ (function (_super) {
          * @param {boolean}  value  Connect?
          */
         set: function (value) {
-            this.setPropertyValue("connectEnds", value);
-            this.invalidateDataRange();
+            this.setPropertyValue("connectEnds", value, true);
         },
         enumerable: true,
         configurable: true

@@ -81,6 +81,7 @@ var PercentChart = /** @class */ (function (_super) {
     };
     /**
      * Setups the legend to use the chart's data.
+     * @ignore
      */
     PercentChart.prototype.feedLegend = function () {
         var legend = this.legend;

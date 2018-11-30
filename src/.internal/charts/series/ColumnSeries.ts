@@ -373,7 +373,6 @@ export class ColumnSeries extends XYSeries {
 	 */
 	public validate(): void {
 		//@todo Check if we can do better than use `instanceof`
-
 		// find start/end locations based on clustered/stacked settings
 		// go through chart series instead of base axis series, because axis series doesn't maintain order
 		let baseAxisSeries = this.chart.series;

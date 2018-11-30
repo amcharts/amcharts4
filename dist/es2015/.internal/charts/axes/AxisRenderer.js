@@ -556,10 +556,6 @@ var AxisRenderer = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("inside", value);
-            if (this.axis) {
-                this.axis.invalidateDataRange();
-            }
-            // todo: not a very good hack, but for some reason size is not update, need to check
             if (value) {
                 this.width = 0;
                 this.height = 0;

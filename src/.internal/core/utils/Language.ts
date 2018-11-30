@@ -17,6 +17,7 @@ import { EventDispatcher, AMEvent } from "./EventDispatcher";
 import * as $array from "./Array";
 import * as $type from "./Type";
 import en from "../../../lang/en";
+import { options } from "../Options";
 
 /**
  * ============================================================================
@@ -365,6 +366,12 @@ export class Language extends BaseObjectEvents {
 	constructor() {
 		super();
 		this.className = "Language";
+
+		// Set default language if necessary
+		if ($type.hasValue(options.defaultLocale)) {
+			this.locale = options.defaultLocale;
+		}
+		
 		this.applyTheme();
 	}
 

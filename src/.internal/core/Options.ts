@@ -1,4 +1,12 @@
 /**
+ * ============================================================================
+ * IMPORTS
+ * ============================================================================
+ * @hidden
+ */
+import { ILocale } from "./utils/Language";
+
+/**
  * Defines system-wide options for amCharts 4.
  *
  * Accessible via singleton object `am4core.options`.
@@ -51,6 +59,13 @@ export interface Options {
 	 * @type {boolean}
 	 */
 	autoSetClassName: boolean;
+
+	/**
+	 * A default locale to auto-apply to all new charts created.
+	 * 
+	 * @type {ILocale}
+	 */
+	defaultLocale?: ILocale;
 }
 
 export const options: Options = {

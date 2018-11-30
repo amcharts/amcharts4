@@ -161,6 +161,7 @@ var SerialChart = /** @class */ (function (_super) {
     };
     /**
      * Setups the legend to use the chart's data.
+     * @ignore
      */
     SerialChart.prototype.feedLegend = function () {
         var legend = this.legend;

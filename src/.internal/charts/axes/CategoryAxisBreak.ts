@@ -140,7 +140,8 @@ export class CategoryAxisBreak extends AxisBreak {
 	public set startCategory(value: string) {
 		if (this.setPropertyValue("startCategory", value)) {
 			if (this.axis) {
-				this.axis.invalidateDataRange();
+				this.axis.invalidateDataItems();
+				this.axis.invalidateSeries();
 			}
 		}
 	}
@@ -160,7 +161,8 @@ export class CategoryAxisBreak extends AxisBreak {
 	public set endCategory(value: string) {
 		if (this.setPropertyValue("endCategory", value)) {
 			if (this.axis) {
-				this.axis.invalidateDataRange();
+				this.axis.invalidateDataItems();
+				this.axis.invalidateSeries();
 			}
 		}
 	}
@@ -180,7 +182,8 @@ export class CategoryAxisBreak extends AxisBreak {
 	public set startValue(value: number) {
 		if (this.setPropertyValue("startValue", value)) {
 			if (this.axis) {
-				this.axis.invalidateDataRange();
+				this.axis.invalidateDataItems();
+				this.axis.invalidateSeries();
 			}
 		}
 	}
@@ -207,7 +210,8 @@ export class CategoryAxisBreak extends AxisBreak {
 	public set endValue(value: number) {
 		if (this.setPropertyValue("endValue", value)) {
 			if (this.axis) {
-				this.axis.invalidateDataRange();
+				this.axis.invalidateDataItems();
+				this.axis.invalidateSeries();
 			}
 		}
 	}

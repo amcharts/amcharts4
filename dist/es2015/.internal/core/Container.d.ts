@@ -97,7 +97,8 @@ export interface IContainerProperties extends ISpriteProperties {
      */
     textDecoration?: TextDecoration;
     /**
-     * Horizontal alignment of Container's items
+     * Horizontal alignment of Container's items.
+     *
      * @type {Optional<Align>}
      */
     contentAlign?: Align;
@@ -109,17 +110,27 @@ export interface IContainerProperties extends ISpriteProperties {
      */
     contentValign?: VerticalAlign;
     /**
+     * If set to `true`, all columns of the container with layout type "grid"
+     * will be equally sized.
      *
-     * @ignore Exclude from docs
+     * @default false
      * @type {boolean}
      */
     fixedWidthGrid?: boolean;
     /**
+     * Maximum number of columns (when using `"grid"` layout).
      *
-     * @ignore Exclude from docs
      * @type {boolean}
      */
     maxColumns?: boolean;
+    /**
+     * If set to `true`, the children of the container will be drawn in reverse
+     * order.
+     *
+     * @default false
+     * @type {boolean}
+     */
+    reverseOrder?: boolean;
 }
 /**
  * Defines events for the [[Container]]
@@ -479,7 +490,7 @@ export declare class Container extends Sprite {
      * @param  {number}    maxCellWidth  Maximum width of one grid cell
      * @return {number[]}                An array of column widths
      */
-    getColumnWidth(columnCount: number, maxCellWidth: number): number[];
+    getColumnWidth(children: Sprite[], columnCount: number, maxCellWidth: number): number[];
     /**
      * @return {ContainerLayout} Layout
      */
@@ -532,11 +543,22 @@ export declare class Container extends Sprite {
      * @return {Optional<number>} Should use fixed width grid?
      */
     /**
-     * Maximum number of columns (when using grid layout).
+     * Maximum number of columns (when using `"grid"` layout).
      *
      * @param {Optional<number>}  value  Should use fixed width grid?
      */
     maxColumns: Optional<number>;
+    /**
+     * @return {Optional<boolean>} Reverse children?
+     */
+    /**
+     * If set to `true`, the children of the container will be drawn in reverse
+     * order.
+     *
+     * @default false
+     * @param {Optional<boolean>}  value  Reverse children?
+     */
+    reverseOrder: Optional<boolean>;
     /**
      * Checks if point is within bounds of a container.
      *

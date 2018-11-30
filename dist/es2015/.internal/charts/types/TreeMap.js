@@ -1049,6 +1049,7 @@ var TreeMap = /** @class */ (function (_super) {
     };
     /**
      * Setups the legend to use the chart's data.
+     * @ignore
      */
     TreeMap.prototype.feedLegend = function () {
         var legend = this.legend;

@@ -10,7 +10,6 @@
 import { SerialChart, ISerialChartProperties, ISerialChartDataFields, ISerialChartAdapters, ISerialChartEvents, SerialChartDataItem } from "./SerialChart";
 import { Sprite, ISpriteEvents, AMEvent } from "../../core/Sprite";
 import { Container } from "../../core/Container";
-import { IComponentEvents } from "../../core/Component";
 import { List, IListEvents } from "../../core/utils/List";
 import { Axis } from "../axes/Axis";
 import { AxisRenderer } from "../axes/AxisRenderer";
@@ -436,10 +435,8 @@ export declare class XYChart extends SerialChart {
     /**
      * Updates horizontal (X) scrollbar and other horizontal axis whenever axis'
      * value range changes.
-     *
-     * @param {AMEvent<Axis, IComponentEvents>["datarangechanged"]} event Range change event
      */
-    protected handleXAxisRangeChange(event: AMEvent<Axis, IComponentEvents>["datarangechanged"]): void;
+    protected handleXAxisRangeChange(): void;
     /**
      * Shows or hides the Zoom Out button depending on whether the chart is fully
      * zoomed out or not.
@@ -453,10 +450,8 @@ export declare class XYChart extends SerialChart {
     /**
      * Updates vertical (Y) scrollbar and other horizontal axis whenever axis'
      * value range changes.
-     *
-     * @param {AMEvent<Axis, IComponentEvents>["datarangechanged"]} event Range change event
      */
-    protected handleYAxisRangeChange(event: AMEvent<Axis, IComponentEvents>["datarangechanged"]): void;
+    protected handleYAxisRangeChange(): void;
     /**
      * Updates a relative scrollbar whenever data range of the axis changes.
      *

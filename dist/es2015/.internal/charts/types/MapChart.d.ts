@@ -10,6 +10,7 @@
 import { SerialChart, ISerialChartProperties, ISerialChartDataFields, ISerialChartAdapters, ISerialChartEvents, SerialChartDataItem } from "./SerialChart";
 import { Sprite, ISpriteEvents, AMEvent } from "../../core/Sprite";
 import { IDisposer } from "../../core/utils/Disposer";
+import { Legend } from "../Legend";
 import { MapSeries } from "../map/MapSeries";
 import { MapObject } from "../map/MapObject";
 import { IPoint } from "../../core/defs/IPoint";
@@ -815,4 +816,10 @@ export declare class MapChart extends SerialChart {
      * @return {boolean} true if paper was changed, false, if it's the same
      */
     setPaper(paper: Paper): boolean;
+    /**
+     * Prepares the legend instance for use in this chart.
+     *
+     * @param {Legend}  legend  Legend
+     */
+    protected setLegend(legend: Legend): void;
 }

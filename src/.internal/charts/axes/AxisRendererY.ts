@@ -190,7 +190,7 @@ export class AxisRendererY extends AxisRenderer {
 	 */
 	public get axisLength(): number {
 		let axis = this.axis;
-		return (axis.pixelHeight - axis.pixelPaddingTop - axis.pixelPaddingBottom) || 0;
+		return (axis.measuredHeight - axis.pixelPaddingTop - axis.pixelPaddingBottom) || 0;
 	}
 
 	/**

@@ -114,6 +114,15 @@ export interface IComponentEvents extends IContainerEvents {
 	 */
 	rangechangeended: {};
 
+	/**
+	 * Invoked when start position changes
+	 */
+	startchanged:{};
+
+	/**
+	 * Invoked when end position changes
+	 */
+	endchanged:{};
 }
 
 /**
@@ -518,6 +527,8 @@ export class Component extends Container {
 
 	protected _addAllDataItems: boolean = true;
 
+	protected _showOnInitDisposer2: IDisposer;
+
 	/**
 	 * Constructor
 	 */
@@ -534,6 +545,9 @@ export class Component extends Container {
 
 		// Set up disposers
 		this._disposers.push(new MultiDisposer(this._dataDisposers));
+
+		this._start = 0;
+		this._end = 1;
 
 		// Apply theme
 		this.applyTheme();
@@ -915,11 +929,10 @@ export class Component extends Container {
 
 		if (this.startIndex != this._prevStartIndex || this.endIndex != this._prevEndIndex) {
 			this.rangeChangeUpdate();
+			this.appendDataItems();
+			this.invalidate();
+			this.dispatchImmediately("datarangechanged");			
 		}
-
-		this.appendDataItems();
-		this.invalidate();
-		this.dispatchImmediately("datarangechanged");
 	}
 
 	/**
@@ -1137,7 +1150,7 @@ export class Component extends Container {
 
 		if (!this._internalDefaultsApplied) {
 			this.applyInternalDefaults();
-		}		
+		}
 
 		this.dispatch("datavalidated"); // can't zoom chart if dispatched immediately
 	}
@@ -1153,7 +1166,8 @@ export class Component extends Container {
 		this.dataItemsInvalid = false;
 
 		this.invalidateDataRange();
-		this.dispatch("dataitemsvalidated");
+		this.invalidate();		
+		this.dispatch("dataitemsvalidated");		
 	}
 
 	/**
@@ -1613,8 +1627,10 @@ export class Component extends Container {
 		if (this._start != value) {
 			this._start = value;
 			let startIndex = Math.max(0, Math.floor(this.dataItems.length * value) || 0);
-			this._startIndex = Math.min(startIndex, this.dataItems.length);
+			this._startIndex = Math.min(startIndex, this.dataItems.length);			
 			this.invalidateDataRange();
+			this.invalidate();
+			this.dispatchImmediately("startchanged");
 		}
 	}
 
@@ -1644,6 +1660,8 @@ export class Component extends Container {
 			this._end = value;
 			this._endIndex = Math.min(this.dataItems.length, Math.ceil(this.dataItems.length * value) || 0);
 			this.invalidateDataRange();
+			this.invalidate();
+			this.dispatchImmediately("endchanged");
 		}
 	}
 
@@ -1846,31 +1864,42 @@ export class Component extends Container {
 		return arg;
 	}
 
-	protected setDisabled(value: boolean) {
-		super.setDisabled(value);
-		this.invalidateData();
+	protected setDisabled(value: boolean):boolean {
+		let changed = super.setDisabled(value);
+		if(changed){
+			this.invalidateData();
+		}
+		return changed;
 	}
 
 	/**
 	 * @ignore
 	 */
 	protected setShowOnInit(value: boolean) {
-		if (value != this.getPropertyValue("showOnInit") && value && !this.inited && !this.hidden) {
-			this.events.once("dataitemsvalidated", this.hideInitially, this, false);
+		if (value != this.getPropertyValue("showOnInit")) {
+			if (value && !this.inited && !this.hidden) {
+				this._showOnInitDisposer2 = this.events.once("dataitemsvalidated", this.hideInitially, this, false);
+				this._disposers.push(this._showOnInitDisposer2);
+			}
+			else {
+				if (this._showOnInitDisposer2) {
+					this._showOnInitDisposer2.dispose();
+				}
+			}
 		}
-		// important order here
+		// important order here		
 		super.setShowOnInit(value);
-	}	
+	}
 
 	protected setBaseId(value: string) {
 		if (value != this._baseId) {
 			if (this.dataInvalid) {
 				this.dataInvalid = false;
 				registry.removeFromInvalidComponents(this);
-				this._baseId = value;				
+				this._baseId = value;
 				this.invalidateData();
-			}			
+			}
 		}
 		super.setBaseId(value);
-	}	
+	}
 }

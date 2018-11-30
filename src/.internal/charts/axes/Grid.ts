@@ -147,11 +147,12 @@ export class Grid extends Sprite {
 	/**
 	 * @ignore
 	 */
-	protected setDisabled(value: boolean) {
-		super.setDisabled(value);
+	protected setDisabled(value: boolean):boolean {
+		let changed = super.setDisabled(value);
 		if(this.axis){
 			this.axis.invalidateDataItems();
 		}
+		return changed;
 	}	
 
 }

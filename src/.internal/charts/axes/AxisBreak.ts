@@ -357,7 +357,8 @@ export class AxisBreak extends Container {
 	public set breakSize(value: number) {
 		if (this.setPropertyValue("breakSize", value)) {
 			if (this.axis) {
-				this.axis.invalidateDataRange();
+				this.axis.invalidate();
+				this.axis.invalidateSeries();
 			}
 		}
 	}
@@ -438,7 +439,8 @@ export class AxisBreak extends Container {
 	public set startValue(value: number) {
 		if (this.setPropertyValue("startValue", value)) {
 			if (this.axis) {
-				this.axis.invalidateDataRange();
+				this.axis.invalidate();
+				this.axis.invalidateSeries();
 			}
 		}
 	}
@@ -458,7 +460,8 @@ export class AxisBreak extends Container {
 	public set endValue(value: number) {
 		if (this.setPropertyValue("endValue", value)) {
 			if (this.axis) {
-				this.axis.invalidateDataRange();
+				this.axis.invalidate();
+				this.axis.invalidateSeries();
 			}
 		}
 	}

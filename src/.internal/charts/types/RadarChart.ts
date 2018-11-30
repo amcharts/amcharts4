@@ -308,11 +308,9 @@ export class RadarChart extends XYChart {
 
 	/**
 	 * Updates all X axes after range change event.
-	 *
-	 * @param {AMEvent<Axis, IComponentEvents>["datarangechanged"]}  event  Event
 	 */
-	protected handleXAxisRangeChange(event: AMEvent<Axis, IComponentEvents>["datarangechanged"]) {
-		super.handleXAxisRangeChange(event);
+	protected handleXAxisRangeChange() {
+		super.handleXAxisRangeChange();
 		$iter.each(this.yAxes.iterator(), (axis) => {
 			axis.invalidate();
 		});
@@ -320,11 +318,9 @@ export class RadarChart extends XYChart {
 
 	/**
 	 * Updates all Y axes after range change event.
-	 *
-	 * @param {AMEvent<Axis, IComponentEvents>["datarangechanged"]}  event  Event
 	 */
-	protected handleYAxisRangeChange(event: AMEvent<Axis, IComponentEvents>["datarangechanged"]) {
-		super.handleYAxisRangeChange(event);
+	protected handleYAxisRangeChange() {
+		super.handleYAxisRangeChange();
 		$iter.each(this.xAxes.iterator(), (axis) => {
 			axis.invalidate();
 		});

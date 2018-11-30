@@ -178,7 +178,7 @@ var HeatLegend = /** @class */ (function (_super) {
                 renderer.minGridDistance = this.measuredHeight / this.markerCount;
             }
         }
-        this.valueAxis.invalidateDataRange();
+        this.valueAxis.invalidate();
         for (var i = this.markerCount, len = this.markers.length; i < len; i++) {
             this.markers.getIndex(i).parent = undefined;
         }
@@ -262,7 +262,6 @@ var HeatLegend = /** @class */ (function (_super) {
         set: function (value) {
             this.setPropertyValue("minValue", value);
             this.valueAxis.min = value;
-            this.valueAxis.invalidateDataRange();
         },
         enumerable: true,
         configurable: true
@@ -283,7 +282,6 @@ var HeatLegend = /** @class */ (function (_super) {
         set: function (value) {
             this.setPropertyValue("maxValue", value);
             this.valueAxis.max = value;
-            this.valueAxis.invalidateDataRange();
         },
         enumerable: true,
         configurable: true
@@ -419,11 +417,11 @@ var HeatLegend = /** @class */ (function (_super) {
         var valueAxis = this.valueAxis;
         if (!$type.isNumber(this.minValue)) {
             valueAxis.min = min;
-            valueAxis.invalidateDataRange();
+            valueAxis.invalidate();
         }
         if (!$type.isNumber(this.maxValue)) {
             valueAxis.max = max;
-            valueAxis.invalidateDataRange();
+            valueAxis.invalidate();
         }
     };
     /**

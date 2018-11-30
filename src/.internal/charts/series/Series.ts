@@ -517,8 +517,6 @@ export class Series extends Component {
 		this._disposers.push(this.dataItem);
 		this.dataItem.component = this;
 
-		this.showOnInit = true;
-
 		// Apply accessibility
 		this.role = "group";
 
@@ -1043,8 +1041,7 @@ export class Series extends Component {
 	 * @param {number}  value  Distance (px)
 	 */
 	public set minBulletDistance(value: number) {
-		this.setPropertyValue("minBulletDistance", value);
-		this.invalidateDataRange();
+		this.setPropertyValue("minBulletDistance", value, true);
 	}
 
 	/**
@@ -1097,7 +1094,11 @@ export class Series extends Component {
 	 * @param {boolean} value Hidden in legend?
 	 */
 	public set hiddenInLegend(value: boolean) {
-		this.setPropertyValue("hiddenInLegend", value);
+		if(this.setPropertyValue("hiddenInLegend", value)){
+			if(this.chart){
+				this.chart.feedLegend();
+			}
+		}
 	}
 
 	/**

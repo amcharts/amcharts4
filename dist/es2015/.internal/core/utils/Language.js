@@ -16,6 +16,7 @@ import { Adapter } from "./Adapter";
 import * as $array from "./Array";
 import * as $type from "./Type";
 import en from "../../../lang/en";
+import { options } from "../Options";
 ;
 ;
 /**
@@ -56,6 +57,10 @@ var Language = /** @class */ (function (_super) {
          */
         _this._defaultLocale = en;
         _this.className = "Language";
+        // Set default language if necessary
+        if ($type.hasValue(options.defaultLocale)) {
+            _this.locale = options.defaultLocale;
+        }
         _this.applyTheme();
         return _this;
     }

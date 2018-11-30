@@ -75,5 +75,5 @@ export declare class AxisTick extends Tick {
     /**
      * @ignore
      */
-    protected setDisabled(value: boolean): void;
+    protected setDisabled(value: boolean): boolean;
 }

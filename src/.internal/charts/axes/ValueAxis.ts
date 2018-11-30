@@ -387,16 +387,6 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 */
 	protected _adjustedEnd: number = 1;
 
-	/**
-	 * @todo Description
-	 */
-	protected _valueToPosition: { [key: string]: number } = {};
-
-	/**
-	 * @todo Description
-	 */
-	protected _positionToValue: { [key: string]: number } = {};
-
 	protected _finalMin: number;
 	protected _finalMax: number;
 
@@ -484,32 +474,6 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	}
 
 	/**
-	 * Validates Axis' data items.
-	 *
-	 * @ignore Exclude from docs
-	 */
-	public validateDataItems(): void {
-
-		this._positionToValue = {};
-
-		super.validateDataItems();
-
-		this.fixAxisBreaks();
-
-		this.getMinMax();
-
-		// note, not zoomMin and zoomMax, but actual position
-		let minZoomed: number = this.positionToValue(this.start);
-		let maxZoomed: number = this.positionToValue(this.end);
-
-		if (this.interpolationDuration > 0) {
-			if ($type.isNumber(minZoomed) && $type.isNumber(maxZoomed)) {
-				this.zoomToValues(minZoomed, maxZoomed, true, true);
-			}
-		}
-	}
-
-	/**
 	 * [dataChangeUpdate description]
 	 *
 	 * This is a placeholder to override for extending classes.
@@ -588,25 +552,6 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		}
 	}
 
-	/**
-	 * Validates the data range.
-	 *
-	 * @ignore Exclude from docs
-	 * @todo Description (review)
-	 */
-	public validateDataRange(): void {
-		super.validateDataRange();
-
-		// not using default caching for a better performance
-		this._valueToPosition = {};
-		this._positionToValue = {};
-
-		// it's important to fix axis breaks in the beginning, as positionToValue and adjustDifference depends on breaks values
-		this.fixAxisBreaks();
-
-		// calculate zoom values
-		this.calculateZoom();
-	}
 
 	/**
 	 * Validates the whole axis. Causes it to redraw.
@@ -620,10 +565,19 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			return;
 		}
 
-		// this is moved to a separate method because it differs in DateAxis
+		super.validate();
+
+		this.getMinMax();
+
+		this.fixAxisBreaks();
+
+		this.calculateZoom();
+
 		this.validateAxisElements();
 
-		super.validate();
+		this.validateAxisRanges();
+
+		this.validateBreaks();
 
 		this.hideUnusedDataItems();
 
@@ -666,63 +620,6 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			this._adjustedEnd = this.end;
 		}
 	}
-	/*
-		fixAxisBreaks() {
-			let axisBreaks: List<ValueAxisBreak> = <List<ValueAxisBreak>>this.axisBreaks;
-			if (axisBreaks.length > 0) {
-
-				// first make sure that startValue is <= end value
-				for (let i: number = 0; i < axisBreaks.length; i++) {
-					let axisBreak: ValueAxisBreak = axisBreaks.get(i);
-					let startValue: number = $math.min(axisBreak.value, axisBreak.endValue);
-					let endValue: number = $math.max(axisBreak.value, axisBreak.endValue);
-
-					axisBreak.adjustedStartValue = startValue;
-					axisBreak.adjustedEndValue = endValue;
-				}
-
-				// sort by adjustedStartValue
-				this.axisBreaks.sortByKey("adjustedStartValue");
-
-				let firstAxisBreak: ValueAxisBreak = axisBreaks.get(0);
-				let previousEndValue: number = Math.min(firstAxisBreak.startValue, firstAxisBreak.endValue);
-
-				// process breaks
-				for (let i: number = 0; i < this.axisBreaks.length; i++) {
-					let axisBreak: ValueAxisBreak = axisBreaks.get(i);
-
-					let startValue: number = axisBreak.adjustedStartValue;
-					let endValue: number = axisBreak.adjustedEndValue;
-
-					// breaks can't overlap
-					// if break starts before previous break ends
-					if (startValue < previousEndValue) {
-						startValue = previousEndValue;
-
-						if (endValue < previousEndValue) {
-							endValue = previousEndValue;
-						}
-					}
-
-					axisBreak.adjustedStartValue = startValue;
-					axisBreak.adjustedEndValue = endValue;
-
-					// break difference
-					let axisBreakDif: number = endValue - startValue;
-					let axisBreakGridCount: number = Math.ceil(axisBreakDif / this._step * axisBreak.breakSize);
-
-					// calculate min, max and step for axis break
-					let breakMinMaxStep = this.adjustMinMax(startValue, endValue, axisBreakDif, axisBreakGridCount);
-					axisBreak.adjustedStep = breakMinMaxStep.step;
-					axisBreak.adjustedMin = breakMinMaxStep.min;
-					axisBreak.adjustedMax = breakMinMaxStep.max;
-					previousEndValue = endValue;
-				}
-			}
-
-			this._difference = this.adjustDifference(this.min, this.max);
-		}
-	*/
 
 	/**
 	 * Validates Axis elements.
@@ -771,9 +668,10 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 						if (dataItem.label.invalid) {
 							dataItem.label.validate();
 						}
-
-						if (dataItem.label.measuredWidth > this.ghostLabel.measuredWidth || dataItem.label.measuredHeight > this.ghostLabel.measuredHeight) {
-							this.ghostLabel.text = dataItem.label.text;
+						if (dataItem.value > this.min && dataItem.value < this.max) {
+							if (dataItem.label.measuredWidth > this.ghostLabel.measuredWidth || dataItem.label.measuredHeight > this.ghostLabel.measuredHeight) {
+								this.ghostLabel.text = dataItem.label.text;
+							}
 						}
 					}
 					this.validateDataElement(dataItem);
@@ -984,22 +882,13 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 */
 	public valueToPosition(value: number): number {
 		if ($type.isNumber(value)) {
-			//let strValue: string = value.toString();
-			//let cachedPosition: number = this._valueToPosition[strValue];
 
-			//if ($type.isNumber(cachedPosition)) {
-			//				return cachedPosition;
-			//			}
-			//			else {
 			// todo: think if possible to take previous value and do not go through all previous breaks
 			let min: number = this.min;
 			let max: number = this.max;
 
 			if ($type.isNumber(min) && $type.isNumber(max)) {
 				let difference: number = this._difference;
-				if (!$type.isNumber(difference)) {
-					difference = this.adjustDifference(min, max);
-				}
 
 				let axisBreaks = this.axisBreaks;
 				if (axisBreaks.length > 0) {
@@ -1049,10 +938,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 				position = $math.round(position, 5);
 
-				//this._valueToPosition[strValue] = position;
 				return position;
 			}
-			//}
 		}
 
 		return 0;
@@ -1068,12 +955,6 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	public positionToValue(position: number): number {
 		position = $math.round(position, 10);
 		let strPosition: string = position.toString();
-		//let cachedValue: number = this._positionToValue[strPosition];
-
-		//if ($type.isNumber(cachedValue)) {
-		//			return cachedValue;
-		//		}
-		//		else {
 
 		let min: number = this.min;
 		let max: number = this.max;
@@ -1134,8 +1015,6 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			if (!$type.isNumber(value)) {
 				value = position * difference + min;
 			}
-
-			//this._positionToValue[strPosition] = value;
 
 			return value;
 		}
@@ -1327,6 +1206,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			}
 		}
 		this._extremesChanged = false;
+		this._difference = this.adjustDifference(min, max);
 	}
 
 	/**
@@ -1541,9 +1421,10 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * @param {number}  value  Min value
 	 */
 	public set min(value: number) {
-		this._minDefined = value;
-		//this.getMinMax();
-		this.invalidateDataItems();
+		if (this._minDefined != value) {
+			this._minDefined = value;
+			this.invalidate();
+		}
 	}
 
 	/**
@@ -1633,9 +1514,10 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * @param {number}  value  Max value
 	 */
 	public set max(value: number) {
-		this._maxDefined = value;
-		//this.getMinMax();
-		this.invalidateDataItems();
+		if (this._maxDefined != value) {
+			this._maxDefined = value;
+			this.invalidate();
+		}
 	}
 
 	/**
@@ -1669,7 +1551,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			series.events.on("extremeschanged", this.handleExtremesChange, this, false),
 			series.events.on("selectionextremeschanged", this.handleSelectionExtremesChange, this, false),
 
-			this.events.on("datarangechanged", series.invalidateDataRange, series, false),
+			this.events.on("startchanged", series.invalidate, series, false),
+			this.events.on("endchanged", series.invalidate, series, false),
 			this.events.on("extremeschanged", series.invalidate, series, false)
 		]);
 	}
@@ -1777,7 +1660,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 */
 	public set strictMinMax(value: boolean) {
 		if (this.setPropertyValue("strictMinMax", value)) {
-			this.invalidateDataRange();
+			this.invalidate();
 		}
 	}
 
@@ -1801,7 +1684,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 */
 	public set logarithmic(value: boolean) {
 		if (this.setPropertyValue("logarithmic", value)) {
-			this.invalidateDataRange();
+			this.invalidate();
 		}
 	}
 
@@ -1823,7 +1706,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 */
 	public set maxPrecision(value: number) {
 		if (this.setPropertyValue("maxPrecision", value)) {
-			this.invalidateDataRange();
+			this.invalidate();
 		}
 	}
 
@@ -2021,10 +1904,11 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 			// break difference
 			let axisBreakDif: number = endValue - startValue;
-			let axisBreakGridCount: number = Math.ceil(axisBreakDif / this._step * axisBreak.breakSize);
+			let axisBreakGridCount: number = Math.ceil(axisBreakDif * axisBreak.breakSize) * this._gridCount / (this.max - this.min);
 
 			// calculate min, max and step for axis break
-			let breakMinMaxStep = this.adjustMinMax(startValue, endValue, axisBreakDif, axisBreakGridCount);
+			let breakMinMaxStep = this.adjustMinMax(startValue, endValue, axisBreakDif, axisBreakGridCount, true);
+
 			axisBreak.adjustedStep = breakMinMaxStep.step;
 			axisBreak.adjustedMin = breakMinMaxStep.min;
 			axisBreak.adjustedMax = breakMinMaxStep.max;
@@ -2065,17 +1949,6 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		this.calculateTotals = source.calculateTotals;
 		this._baseValue = source.baseValue;
 	}
-
-
-	//public disposeData(){
-	// reseting is not good for tree map
-	//	super.disposeData();
-
-	//this._minAdjusted = undefined;
-	//this._maxAdjusted = undefined;
-	//this._minZoomed = undefined;
-	//this._maxZoomed = undefined;
-	//}
 
 }
 

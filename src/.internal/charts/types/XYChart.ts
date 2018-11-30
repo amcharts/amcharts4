@@ -665,7 +665,8 @@ export class XYChart extends SerialChart {
 		axis.axisLetter = "X";
 
 		axis.renderer.observe(["opposite", "inside", "inversed", "minGridDistance"], this.handleXAxisChange, this);
-		axis.events.on("datarangechanged", this.handleXAxisRangeChange, this, false);
+		axis.events.on("startchanged", this.handleXAxisRangeChange, this, false);
+		axis.events.on("endchanged", this.handleXAxisRangeChange, this, false);
 
 		// Although axis does not use data directly, we set dataProvider here
 		// (but not add to chart data users) to hold up rendering before data
@@ -692,7 +693,8 @@ export class XYChart extends SerialChart {
 		axis.axisLetter = "Y";
 
 		axis.renderer.observe(["opposite", "inside", "inversed", "minGridDistance"], this.handleYAxisChange, this);
-		axis.events.on("datarangechanged", this.handleYAxisRangeChange, this, false);
+		axis.events.on("startchanged", this.handleYAxisRangeChange, this, false);
+		axis.events.on("endchanged", this.handleYAxisRangeChange, this, false);
 
 		// Although axis does not use data directly, we set dataProvider here
 		// (but not add to chart data users) to hold up rendering before data
@@ -706,10 +708,8 @@ export class XYChart extends SerialChart {
 	/**
 	 * Updates horizontal (X) scrollbar and other horizontal axis whenever axis'
 	 * value range changes.
-	 *
-	 * @param {AMEvent<Axis, IComponentEvents>["datarangechanged"]} event Range change event
 	 */
-	protected handleXAxisRangeChange(event: AMEvent<Axis, IComponentEvents>["datarangechanged"]) {
+	protected handleXAxisRangeChange() {
 		let range: IRange = this.getCommonAxisRange(this.xAxes);
 		if (this.scrollbarX) {
 			this.zoomAxes(this.xAxes, range, true);
@@ -772,10 +772,8 @@ export class XYChart extends SerialChart {
 	/**
 	 * Updates vertical (Y) scrollbar and other horizontal axis whenever axis'
 	 * value range changes.
-	 *
-	 * @param {AMEvent<Axis, IComponentEvents>["datarangechanged"]} event Range change event
 	 */
-	protected handleYAxisRangeChange(event: AMEvent<Axis, IComponentEvents>["datarangechanged"]) {
+	protected handleYAxisRangeChange() {
 		let range: IRange = this.getCommonAxisRange(this.yAxes);
 
 		if (this.scrollbarY) {

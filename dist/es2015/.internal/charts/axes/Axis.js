@@ -520,7 +520,7 @@ var Axis = /** @class */ (function (_super) {
     Axis.prototype.invalidateSeries = function () {
         // this puts series after axis in invalidation order also makes series update it's data items in case widht/height of a series is not 100%
         $iter.each(this.series.iterator(), function (series) {
-            series.invalidateDataRange();
+            series.invalidate();
         });
     };
     /**
@@ -583,9 +583,7 @@ var Axis = /** @class */ (function (_super) {
      */
     Axis.prototype.validate = function () {
         _super.prototype.validate.call(this);
-        this.axisFullLength = this.axisLength / (this.end - this.start);
-        this.validateAxisRanges();
-        this.validateBreaks();
+        this.validateLayout();
     };
     /**
      * Redars Axis ranges.
@@ -685,16 +683,20 @@ var Axis = /** @class */ (function (_super) {
                 renderer.parent = this;
                 this.title.parent = this; // we add title to axis and set layout in renderer to avoid one extra container, as otherwise axis container would be used for holding renderer only
                 this.initRenderer();
-                var ghostLabel = this.renderer.labels.create();
-                this._disposers.push(ghostLabel);
-                ghostLabel.dataItem = this.dataItems.template.clone(); // just for the adapters not to fail
-                ghostLabel.text = "L";
-                ghostLabel.parent = this.renderer;
-                ghostLabel.fillOpacity = 0;
-                ghostLabel.opacity = 0;
-                ghostLabel.strokeOpacity = 0;
-                ghostLabel.validate();
-                this.ghostLabel = ghostLabel;
+                this._disposers.push(renderer.gridContainer.events.on("maxsizechanged", this.invalidate, this, false));
+                var ghostLabel_1 = this.renderer.labels.create();
+                this._disposers.push(ghostLabel_1);
+                ghostLabel_1.dataItem = this.dataItems.template.clone(); // just for the adapters not to fail
+                ghostLabel_1.text = "L";
+                ghostLabel_1.parent = this.renderer;
+                ghostLabel_1.fillOpacity = 0;
+                ghostLabel_1.opacity = 0;
+                ghostLabel_1.strokeOpacity = 0;
+                ghostLabel_1.validate();
+                this.ghostLabel = ghostLabel_1;
+                this.events.on("beforedatavalidated", function () {
+                    ghostLabel_1.text = "L";
+                }, undefined, false);
             }
         },
         enumerable: true,

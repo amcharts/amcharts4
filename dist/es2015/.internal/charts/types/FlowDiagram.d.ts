@@ -362,8 +362,9 @@ export declare class FlowDiagram extends Chart {
     createLink(): this["_link"];
     /**
      * Setups the legend to use the chart's data.
+     * @ignore
      */
-    protected feedLegend(): void;
+    feedLegend(): void;
     /**
      * @ignore
      */

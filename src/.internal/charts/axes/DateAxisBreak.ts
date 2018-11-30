@@ -144,7 +144,8 @@ export class DateAxisBreak extends ValueAxisBreak {
 		if (this.setPropertyValue("startDate", value)) {
 			this.startValue = value.getTime();
 			if (this.axis) {
-				this.axis.invalidateDataRange();
+				this.axis.invalidate();
+				this.axis.invalidateSeries();
 			}
 		}
 	}
@@ -165,7 +166,8 @@ export class DateAxisBreak extends ValueAxisBreak {
 		if (this.setPropertyValue("endDate", value)) {
 			this.endValue = value.getTime();
 			if (this.axis) {
-				this.axis.invalidateDataRange();
+				this.axis.invalidate();
+				this.axis.invalidateSeries();
 			}
 		}
 	}

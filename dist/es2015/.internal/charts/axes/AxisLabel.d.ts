@@ -115,5 +115,5 @@ export declare class AxisLabel extends Label {
     /**
      * @ignore
      */
-    protected setDisabled(value: boolean): void;
+    protected setDisabled(value: boolean): boolean;
 }

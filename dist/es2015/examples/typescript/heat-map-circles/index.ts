@@ -31,7 +31,6 @@ series.dataFields.categoryY = "hour";
 series.dataFields.value = "value";
 series.columns.template.disabled = true;
 series.sequencedInterpolation = true;
-series.defaultState.transitionDuration = 3000;
 
 var bullet = series.bullets.push(new am4charts.CircleBullet());
 bullet.tooltipText = "{weekday}, {hour}: {value.workingValue.formatNumber('#.')}";

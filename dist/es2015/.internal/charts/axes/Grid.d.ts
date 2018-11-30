@@ -103,5 +103,5 @@ export declare class Grid extends Sprite {
     /**
      * @ignore
      */
-    protected setDisabled(value: boolean): void;
+    protected setDisabled(value: boolean): boolean;
 }

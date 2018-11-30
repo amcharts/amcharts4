@@ -2499,7 +2499,9 @@ var Sprite = /** @class */ (function (_super) {
             }
             this.dispatch("transformed");
             system.requestFrame();
+            return true;
         }
+        return false;
     };
     Object.defineProperty(Sprite.prototype, "__disabled", {
         /**
@@ -5327,7 +5329,7 @@ var Sprite = /** @class */ (function (_super) {
                 type: "maxsizechanged",
                 target: this,
                 previousWidth: prevWidth,
-                previousHeight: prevWidth
+                previousHeight: prevHeight
             };
             this.dispatchImmediately("maxsizechanged", event_2);
         }
@@ -6469,9 +6471,6 @@ var Sprite = /** @class */ (function (_super) {
                     value = 1;
                 }
                 value = value / this.globalScale;
-                if (this.className == "Rectangle") {
-                    console.log(this.className, value, this.globalScale, this.scale);
-                }
             }
             this.setSVGAttribute({ "stroke-width": value });
         },
@@ -7455,10 +7454,22 @@ var Sprite = /** @class */ (function (_super) {
      * @ignore
      */
     Sprite.prototype.setShowOnInit = function (value) {
-        if (this.setPropertyValue("showOnInit", value) && value && !this.inited && !this.hidden) {
-            registry.events.once("enterframe", this.hideInitially, this);
-            this.events.once("beforevalidated", this.hideInitially, this, false);
-            this.events.on("inited", this.appear, this, false);
+        if (this.setPropertyValue("showOnInit", value)) {
+            if (!this.isTemplate) {
+                if (value && !this.inited && !this.hidden) {
+                    this._showOnInitDisposer = new MultiDisposer([
+                        registry.events.once("enterframe", this.hideInitially, this),
+                        this.events.once("beforevalidated", this.hideInitially, this, false),
+                        this.events.on("inited", this.appear, this, false)
+                    ]);
+                    this._disposers.push(this._showOnInitDisposer);
+                }
+                else {
+                    if (this._showOnInitDisposer) {
+                        this._showOnInitDisposer.dispose();
+                    }
+                }
+            }
         }
     };
     /**
@@ -7537,4 +7548,11 @@ var Sprite = /** @class */ (function (_super) {
     return Sprite;
 }(BaseObjectEvents));
 export { Sprite };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["Sprite"] = Sprite;
 //# sourceMappingURL=Sprite.js.map

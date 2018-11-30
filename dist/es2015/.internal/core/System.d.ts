@@ -1,3 +1,4 @@
+import { Sprite } from "./Sprite";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -73,6 +74,8 @@ export declare class System {
      * @todo Maybe should be private?
      */
     update(): void;
+    checkIfValidate(sprite: Sprite): boolean;
+    checkIfValidate2(sprite: Sprite): boolean;
     /**
      * Requests new animation frame
      */

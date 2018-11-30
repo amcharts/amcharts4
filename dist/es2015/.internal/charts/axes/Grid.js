@@ -71,10 +71,11 @@ var Grid = /** @class */ (function (_super) {
      * @ignore
      */
     Grid.prototype.setDisabled = function (value) {
-        _super.prototype.setDisabled.call(this, value);
+        var changed = _super.prototype.setDisabled.call(this, value);
         if (this.axis) {
             this.axis.invalidateDataItems();
         }
+        return changed;
     };
     return Grid;
 }(Sprite));

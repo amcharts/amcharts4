@@ -169,8 +169,9 @@ export class PercentChart extends SerialChart {
 	}
 	/**
 	 * Setups the legend to use the chart's data.
+	 * @ignore
 	 */
-	protected feedLegend(): void {
+	public feedLegend(): void {
 		let legend = this.legend;
 		if (legend) {
 

@@ -309,18 +309,6 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @type {number}
      */
     protected _adjustedEnd: number;
-    /**
-     * @todo Description
-     */
-    protected _valueToPosition: {
-        [key: string]: number;
-    };
-    /**
-     * @todo Description
-     */
-    protected _positionToValue: {
-        [key: string]: number;
-    };
     protected _finalMin: number;
     protected _finalMax: number;
     protected _extremesChanged: boolean;
@@ -365,12 +353,6 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      */
     protected createAxisBreak(): this["_axisBreak"];
     /**
-     * Validates Axis' data items.
-     *
-     * @ignore Exclude from docs
-     */
-    validateDataItems(): void;
-    /**
      * [dataChangeUpdate description]
      *
      * This is a placeholder to override for extending classes.
@@ -385,13 +367,6 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @ignore Exclude from docs
      */
     processSeriesDataItems(): void;
-    /**
-     * Validates the data range.
-     *
-     * @ignore Exclude from docs
-     * @todo Description (review)
-     */
-    validateDataRange(): void;
     /**
      * Validates the whole axis. Causes it to redraw.
      *

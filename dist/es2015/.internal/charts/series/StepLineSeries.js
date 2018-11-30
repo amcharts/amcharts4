@@ -161,9 +161,7 @@ var StepLineSeries = /** @class */ (function (_super) {
          * @param {boolean}  value  No risers
          */
         set: function (value) {
-            if (this.setPropertyValue("noRisers", value)) {
-                this.invalidateDataRange();
-            }
+            this.setPropertyValue("noRisers", value, true);
         },
         enumerable: true,
         configurable: true
@@ -182,9 +180,7 @@ var StepLineSeries = /** @class */ (function (_super) {
          * @default 0
          */
         set: function (value) {
-            if (this.setPropertyValue("startLocation", value)) {
-                this.invalidateDataRange();
-            }
+            this.setPropertyValue("startLocation", value, true);
         },
         enumerable: true,
         configurable: true
@@ -203,9 +199,7 @@ var StepLineSeries = /** @class */ (function (_super) {
          * #default 1
          */
         set: function (value) {
-            if (this.setPropertyValue("endLocation", value)) {
-                this.invalidateDataRange();
-            }
+            this.setPropertyValue("endLocation", value, true);
         },
         enumerable: true,
         configurable: true

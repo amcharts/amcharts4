@@ -782,8 +782,10 @@ var XYSeries = /** @class */ (function (_super) {
          * @param {Axis}  value  Axis
          */
         set: function (value) {
-            this._baseAxis = value;
-            this.invalidateDataRange();
+            if (this._baseAxis != value) {
+                this._baseAxis = value;
+                this.invalidate();
+            }
         },
         enumerable: true,
         configurable: true

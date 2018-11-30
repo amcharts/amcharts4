@@ -290,6 +290,12 @@ export declare class SankeyDiagram extends FlowDiagram {
      * @ignore
      */
     createLink(): this["_link"];
+    /**
+     * @ignore
+     */
+    /**
+     * @ignore
+     */
     valueHeight: number;
     /**
      * @ignore

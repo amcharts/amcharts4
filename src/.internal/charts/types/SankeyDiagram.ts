@@ -687,14 +687,22 @@ export class SankeyDiagram extends FlowDiagram {
 		return link;
 	}
 
+
+	/**
+	 * @ignore
+	 */
 	public get valueHeight(): number {
 		return this._valueHeight;
 	}
 
+
+	/**
+	 * @ignore
+	 */
 	public set valueHeight(value: number) {
 		if (value != this._valueHeight) {
 			this._valueHeight = value;
-			this.invalidateDataRange();
+			this.invalidate();
 		}
 	}
 

@@ -211,7 +211,6 @@ var Series = /** @class */ (function (_super) {
         _this.dataItem = _this.createDataItem();
         _this._disposers.push(_this.dataItem);
         _this.dataItem.component = _this;
-        _this.showOnInit = true;
         // Apply accessibility
         _this.role = "group";
         _this.applyTheme();
@@ -680,8 +679,7 @@ var Series = /** @class */ (function (_super) {
          * @param {number}  value  Distance (px)
          */
         set: function (value) {
-            this.setPropertyValue("minBulletDistance", value);
-            this.invalidateDataRange();
+            this.setPropertyValue("minBulletDistance", value, true);
         },
         enumerable: true,
         configurable: true
@@ -735,7 +733,11 @@ var Series = /** @class */ (function (_super) {
          * @param {boolean} value Hidden in legend?
          */
         set: function (value) {
-            this.setPropertyValue("hiddenInLegend", value);
+            if (this.setPropertyValue("hiddenInLegend", value)) {
+                if (this.chart) {
+                    this.chart.feedLegend();
+                }
+            }
         },
         enumerable: true,
         configurable: true

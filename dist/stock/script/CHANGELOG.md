@@ -6,6 +6,23 @@ Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
 
+## [4.0.3] - 2018-11-30
+
+### Added
+- Ability to set default locale via `am4core.options.defaultLocale`. When set, all new charts will automatically assume that locale, freeing you from setting locale for each chart individually.
+- `reverseOrder` added to `Container`. Allows reversing order of its `children`.
+
+### Changed
+- Moved `Legend` of a `MapChart` from `chartAndLegendContainer` to `chartContainer`. In order to position legend on map chart, use `legend.align` / `legend.valign` properties.
+- Default value of `showOnInit` on any `Series` is now `false`. Except if you are using "animated" theme, which sets it to `true` by default.
+
+### Fixed
+- JSON: Using `type: "Sprite"` in JSON config was not creating elements properly.
+- Initial chart rendering optimized Charts should build faster.
+- Some more performance optimizations.
+- Setting `hiddenInLegend` on `Series` after chart was already built had no effect.
+
+
 ## [4.0.2] - 2018-11-28
 
 ### Added

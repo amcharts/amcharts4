@@ -124,7 +124,7 @@ export declare class LegendSettings {
     createMarker: boolean;
 }
 /**
- * Represents types available for Legend position.
+ * Represents types available for Legend position. Not all charts will pay attention to this, like MapChart. You'll need to use legend.align and legend.valign properties to position legend on MapChart.
  *
  * @type {string}
  */
@@ -300,6 +300,12 @@ export declare class Legend extends Component {
      * Position of the legend.
      *
      * Options: "left", "right", "top", "bottom" (default), or "absolute".
+     *
+     * IMPORTANT: [[MapChart]] will ignore this setting, as it is using different
+     * layout structure than other charts.
+     *
+     * To position legend in [[MapChart]] set legend's `align` (`"left"` or
+     * `"right"`) and `valign` (`"top"` or `"bottom"`) properties instead.
      *
      * @default "bottom"
      * @param {LegendPosition}  value  Position

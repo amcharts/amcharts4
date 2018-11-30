@@ -80,10 +80,11 @@ var AxisLabel = /** @class */ (function (_super) {
      * @ignore
      */
     AxisLabel.prototype.setDisabled = function (value) {
-        _super.prototype.setDisabled.call(this, value);
+        var changed = _super.prototype.setDisabled.call(this, value);
         if (this.axis) {
             this.axis.invalidateDataItems();
         }
+        return changed;
     };
     return AxisLabel;
 }(Label));

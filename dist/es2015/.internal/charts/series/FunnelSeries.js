@@ -427,7 +427,7 @@ var FunnelSeries = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (this.setPropertyValue("orientation", value)) {
-                this.invalidateDataRange();
+                this.invalidate();
                 if (value == "vertical") {
                     this.ticks.template.locationX = 1;
                     this.ticks.template.locationY = 0.5;
@@ -478,7 +478,7 @@ var FunnelSeries = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (this.setPropertyValue("bottomRatio", value)) {
-                this.invalidateDataRange();
+                this.invalidate();
             }
         },
         enumerable: true,

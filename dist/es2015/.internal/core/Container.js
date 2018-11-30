@@ -725,12 +725,16 @@ var Container = /** @class */ (function (_super) {
         var maxHeight = this.maxHeight;
         var minWidth = this.minWidth;
         var minHeight = this.minHeight;
+        var childrenCopy = $array.copy(children.values);
+        if (this.reverseOrder) {
+            childrenCopy.reverse();
+        }
         // GRID PRECALCULATIONS
         if (this.layout == "grid") {
             minCellWidth = maxWidth;
             maxCellWidth = 1;
-            for (var i = 0, len = children.length; i < len; i++) {
-                var child = children.getIndex(i);
+            for (var i = 0, len = childrenCopy.length; i < len; i++) {
+                var child = childrenCopy[i];
                 if (child.isMeasured && !child.disabled && !child.__disabled) {
                     var childMeasuredWidth = child.measuredWidth;
                     if (childMeasuredWidth < minCellWidth) {
@@ -751,7 +755,7 @@ var Container = /** @class */ (function (_super) {
             }
             columnCount = $math.max(1, Math.floor(columnCount));
             columnCount = $math.min(this.maxColumns, columnCount);
-            columnWidth = this.getColumnWidth(columnCount, maxCellWidth);
+            columnWidth = this.getColumnWidth(childrenCopy, columnCount, maxCellWidth);
         }
         var contentLeft;
         var contentRight;
@@ -759,8 +763,8 @@ var Container = /** @class */ (function (_super) {
         var contentBottom;
         // we itterate through array of children
         // TODO use iterator instead
-        for (var i = 0, len = children.length; i < len; i++) {
-            var child = children.getIndex(i);
+        for (var i = 0, len = childrenCopy.length; i < len; i++) {
+            var child = childrenCopy[i];
             if (child.isMeasured && !child.disabled && !child.__disabled) {
                 var x = undefined; //child.pixelX; // must reset
                 var y = undefined; //child.pixelY; // must reset
@@ -887,7 +891,7 @@ var Container = /** @class */ (function (_super) {
                             nextY = 0;
                             row = 0;
                             column = 0;
-                            columnWidth = this.getColumnWidth(columnCount, maxCellWidth);
+                            columnWidth = this.getColumnWidth(childrenCopy, columnCount, maxCellWidth);
                             rowHeight = [];
                             i = -1;
                             continue;
@@ -1141,11 +1145,11 @@ var Container = /** @class */ (function (_super) {
      * @param  {number}    maxCellWidth  Maximum width of one grid cell
      * @return {number[]}                An array of column widths
      */
-    Container.prototype.getColumnWidth = function (columnCount, maxCellWidth) {
+    Container.prototype.getColumnWidth = function (children, columnCount, maxCellWidth) {
         var _this = this;
         var columnWidth = [];
         var column = 0;
-        $iter.each(this.children.iterator(), function (child) {
+        $array.each(children, function (child) {
             if (child.isMeasured) {
                 if (_this.fixedWidthGrid) {
                     columnWidth[column] = maxCellWidth;
@@ -1255,12 +1259,32 @@ var Container = /** @class */ (function (_super) {
             return this.getPropertyValue("maxColumns");
         },
         /**
-         * Maximum number of columns (when using grid layout).
+         * Maximum number of columns (when using `"grid"` layout).
          *
          * @param {Optional<number>}  value  Should use fixed width grid?
          */
         set: function (value) {
             this.setPropertyValue("maxColumns", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Container.prototype, "reverseOrder", {
+        /**
+         * @return {Optional<boolean>} Reverse children?
+         */
+        get: function () {
+            return this.getPropertyValue("reverseOrder");
+        },
+        /**
+         * If set to `true`, the children of the container will be drawn in reverse
+         * order.
+         *
+         * @default false
+         * @param {Optional<boolean>}  value  Reverse children?
+         */
+        set: function (value) {
+            this.setPropertyValue("reverseOrder", value, true);
         },
         enumerable: true,
         configurable: true

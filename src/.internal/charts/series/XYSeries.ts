@@ -1196,8 +1196,10 @@ export class XYSeries extends Series {
 	 * @param {Axis}  value  Axis
 	 */
 	public set baseAxis(value: Axis) {
-		this._baseAxis = value;
-		this.invalidateDataRange();
+		if(this._baseAxis != value){
+			this._baseAxis = value;
+			this.invalidate();
+		}
 	}
 
 	/**

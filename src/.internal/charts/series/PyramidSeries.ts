@@ -474,7 +474,7 @@ export class PyramidSeries extends FunnelSeries {
 	 */
 	public set topWidth(value: number | Percent) {
 		if (this.setPercentProperty("topWidth", value, false, false, 10, false)) {
-			this.invalidateDataRange();
+			this.invalidate();
 		}
 	}
 
@@ -495,7 +495,7 @@ export class PyramidSeries extends FunnelSeries {
 	 */
 	public set pyramidHeight(value: number | Percent) {
 		if (this.setPercentProperty("pyramidHeight", value, false, false, 10, false)) {
-			this.invalidateDataRange();
+			this.invalidate();
 		}
 	}
 
@@ -520,7 +520,7 @@ export class PyramidSeries extends FunnelSeries {
 	 */
 	public set bottomWidth(value: number | Percent) {
 		if (this.setPercentProperty("bottomWidth", value, false, false, 10, false)) {
-			this.invalidateDataRange();
+			this.invalidate();
 		}
 	}
 
@@ -556,7 +556,7 @@ export class PyramidSeries extends FunnelSeries {
 	 */
 	public set valueIs(value: "area" | "height") {
 		if (this.setPropertyValue("valueIs", value)) {
-			this.invalidateDataRange();
+			this.invalidate();
 		}
 	}
 

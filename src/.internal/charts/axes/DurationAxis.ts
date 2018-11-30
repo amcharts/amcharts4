@@ -364,7 +364,7 @@ export class DurationAxis<T extends AxisRenderer = AxisRenderer> extends ValueAx
 		if (this._baseUnit != timeUnit) {
 			this._baseUnit = timeUnit;
 			this.durationFormatter.baseUnit = timeUnit;
-			this.invalidateDataRange();
+			this.invalidate();
 		}
 	}
 

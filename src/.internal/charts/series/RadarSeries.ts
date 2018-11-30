@@ -297,8 +297,7 @@ export class RadarSeries extends LineSeries {
 	 * @param {boolean}  value  Connect?
 	 */
 	public set connectEnds(value: boolean) {
-		this.setPropertyValue("connectEnds", value);
-		this.invalidateDataRange();
+		this.setPropertyValue("connectEnds", value, true);		
 	}
 
 	/**

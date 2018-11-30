@@ -81,6 +81,7 @@ var System = /** @class */ (function () {
      * @todo Maybe should be private?
      */
     System.prototype.update = function () {
+        var _this = this;
         if (this._isPaused) {
             return;
         }
@@ -89,6 +90,14 @@ var System = /** @class */ (function () {
         registry.dispatchImmediately("enterframe");
         //this.validateLayouts();
         //this.validatePositions();
+        /*
+                for (let key in registry.invalidLayouts) {
+                    this.validateLayouts(key);
+                }
+                for (let key in registry.invalidPositions) {
+                    this.validatePositions(key);
+                }
+        */
         var skippedComponents = [];
         // data objects first - do all calculations
         // only data is parsed in chunks, thats why we do for loop instead of a while like with other invalid items.
@@ -218,12 +227,12 @@ var System = /** @class */ (function () {
                 var sprite = invalidSprites[invalidSprites.length - 1];
                 // we need to check this, as validateLayout might validate sprite
                 if (sprite && !sprite.isDisposed()) {
-                    if (sprite instanceof Component && (sprite.dataInvalid || (sprite.dataProvider && sprite.dataProvider.dataInvalid))) {
+                    if (!this.checkIfValidate(sprite)) {
                         // void
                         skippedSprites.push(sprite);
                     }
                     else {
-                        if (sprite.dataItem && sprite.dataItem.component && sprite.dataItem.component.dataInvalid && !sprite.dataItem.component.isTemplate) {
+                        if (!this.checkIfValidate2(sprite)) {
                             // void
                             skippedSprites.push(sprite);
                         }
@@ -232,7 +241,7 @@ var System = /** @class */ (function () {
                                 if (sprite instanceof Container) {
                                     sprite.children.each(function (child) {
                                         if (child.invalid) {
-                                            if (child instanceof Component && (child.dataInvalid || (child.dataProvider && child.dataProvider.dataInvalid))) {
+                                            if (!_this.checkIfValidate(child)) {
                                                 skippedSprites.push(child);
                                             }
                                             else if (child.dataItem && child.dataItem.component && child.dataItem.component.dataInvalid) {
@@ -275,9 +284,6 @@ var System = /** @class */ (function () {
         $array.each($array.copy(animations), function (x) {
             x.update();
         });
-        // to avoid flicker, we validate positions last time
-        //this.validateLayouts();
-        //this.validatePositions();
         //if(!hasSkipped){
         for (var key_3 in registry.invalidLayouts) {
             this.validateLayouts(key_3);
@@ -287,9 +293,12 @@ var System = /** @class */ (function () {
         }
         //}
         triggerIdle();
-        // to avoid flicker, we validate positions last time
-        //this.validateLayouts();
-        //this.validatePositions();
+        for (var key_5 in registry.invalidLayouts) {
+            this.validateLayouts(key_5);
+        }
+        for (var key_6 in registry.invalidPositions) {
+            this.validatePositions(key_6);
+        }
         registry.dispatchImmediately("exitframe");
         if (hasSkipped || animations.length > 0 || skippedComponents.length > 0) {
             this.requestFrame();
@@ -309,6 +318,22 @@ var System = /** @class */ (function () {
             if (all0) {
                 this._updateStepDuration = 200;
             }
+        }
+    };
+    System.prototype.checkIfValidate = function (sprite) {
+        if (sprite instanceof Component && (sprite.dataInvalid || (sprite.dataProvider && sprite.dataProvider.dataInvalid))) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    };
+    System.prototype.checkIfValidate2 = function (sprite) {
+        if (sprite.dataItem && sprite.dataItem.component && sprite.dataItem.component.dataInvalid && !sprite.dataItem.component.isTemplate) {
+            return false;
+        }
+        else {
+            return true;
         }
     };
     /**
@@ -433,7 +458,7 @@ var System = /** @class */ (function () {
      * @see {@link https://docs.npmjs.com/misc/semver}
      * @type {string}
      */
-    System.VERSION = "4.0.2";
+    System.VERSION = "4.0.3";
     return System;
 }());
 export { System };

@@ -222,6 +222,8 @@ var Component = /** @class */ (function (_super) {
         _this.dataUsers.events.on("inserted", _this.handleDataUserAdded, _this, false);
         // Set up disposers
         _this._disposers.push(new MultiDisposer(_this._dataDisposers));
+        _this._start = 0;
+        _this._end = 1;
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -552,10 +554,10 @@ var Component = /** @class */ (function (_super) {
         this.dataRangeInvalid = false;
         if (this.startIndex != this._prevStartIndex || this.endIndex != this._prevEndIndex) {
             this.rangeChangeUpdate();
+            this.appendDataItems();
+            this.invalidate();
+            this.dispatchImmediately("datarangechanged");
         }
-        this.appendDataItems();
-        this.invalidate();
-        this.dispatchImmediately("datarangechanged");
     };
     /**
      * [sliceData description]
@@ -753,6 +755,7 @@ var Component = /** @class */ (function (_super) {
         $array.remove(registry.invalidDataItems, this);
         this.dataItemsInvalid = false;
         this.invalidateDataRange();
+        this.invalidate();
         this.dispatch("dataitemsvalidated");
     };
     Object.defineProperty(Component.prototype, "data", {
@@ -1216,6 +1219,8 @@ var Component = /** @class */ (function (_super) {
                 var startIndex = Math.max(0, Math.floor(this.dataItems.length * value) || 0);
                 this._startIndex = Math.min(startIndex, this.dataItems.length);
                 this.invalidateDataRange();
+                this.invalidate();
+                this.dispatchImmediately("startchanged");
             }
         },
         enumerable: true,
@@ -1245,6 +1250,8 @@ var Component = /** @class */ (function (_super) {
                 this._end = value;
                 this._endIndex = Math.min(this.dataItems.length, Math.ceil(this.dataItems.length * value) || 0);
                 this.invalidateDataRange();
+                this.invalidate();
+                this.dispatchImmediately("endchanged");
             }
         },
         enumerable: true,
@@ -1435,17 +1442,28 @@ var Component = /** @class */ (function (_super) {
         return arg;
     };
     Component.prototype.setDisabled = function (value) {
-        _super.prototype.setDisabled.call(this, value);
-        this.invalidateData();
+        var changed = _super.prototype.setDisabled.call(this, value);
+        if (changed) {
+            this.invalidateData();
+        }
+        return changed;
     };
     /**
      * @ignore
      */
     Component.prototype.setShowOnInit = function (value) {
-        if (value != this.getPropertyValue("showOnInit") && value && !this.inited && !this.hidden) {
-            this.events.once("dataitemsvalidated", this.hideInitially, this, false);
+        if (value != this.getPropertyValue("showOnInit")) {
+            if (value && !this.inited && !this.hidden) {
+                this._showOnInitDisposer2 = this.events.once("dataitemsvalidated", this.hideInitially, this, false);
+                this._disposers.push(this._showOnInitDisposer2);
+            }
+            else {
+                if (this._showOnInitDisposer2) {
+                    this._showOnInitDisposer2.dispose();
+                }
+            }
         }
-        // important order here
+        // important order here		
         _super.prototype.setShowOnInit.call(this, value);
     };
     Component.prototype.setBaseId = function (value) {

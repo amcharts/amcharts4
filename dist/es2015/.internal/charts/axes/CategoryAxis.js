@@ -177,22 +177,6 @@ var CategoryAxis = /** @class */ (function (_super) {
      */
     CategoryAxis.prototype.validateDataRange = function () {
         var _this = this;
-        var dataCount = this.dataItems.length;
-        var startIndex = $math.fitToRange(Math.floor(this.start * dataCount - 1), 0, dataCount);
-        var endIndex = $math.fitToRange(Math.ceil(this.end * dataCount), 0, dataCount);
-        if (this.renderer.invalid) {
-            this.renderer.validate();
-        }
-        // find frequency at which we'll show items
-        var maxCount = this.renderer.axisLength / this.renderer.minGridDistance;
-        var frequency = Math.min(this.dataItems.length, Math.ceil((endIndex - startIndex) / maxCount));
-        this._startIndex = Math.floor(startIndex / frequency) * frequency;
-        this._endIndex = Math.ceil(this.end * dataCount);
-        this.fixAxisBreaks();
-        if (this._startIndex == this._endIndex) {
-            this._endIndex++;
-        }
-        this._frequency = frequency;
         _super.prototype.validateDataRange.call(this);
         $iter.each(this._series.iterator(), function (series) {
             if ((series.xAxis instanceof CategoryAxis) && (series.yAxis instanceof CategoryAxis)) {
@@ -217,6 +201,22 @@ var CategoryAxis = /** @class */ (function (_super) {
     CategoryAxis.prototype.validate = function () {
         var _this = this;
         _super.prototype.validate.call(this);
+        var dataCount = this.dataItems.length;
+        var startIndex = $math.fitToRange(Math.floor(this.start * dataCount - 1), 0, dataCount);
+        var endIndex = $math.fitToRange(Math.ceil(this.end * dataCount), 0, dataCount);
+        if (this.renderer.invalid) {
+            this.renderer.validate();
+        }
+        // find frequency at which we'll show items
+        var maxCount = this.renderer.axisLength / this.renderer.minGridDistance;
+        var frequency = Math.min(this.dataItems.length, Math.ceil((endIndex - startIndex) / maxCount));
+        this._startIndex = Math.floor(startIndex / frequency) * frequency;
+        this._endIndex = Math.ceil(this.end * dataCount);
+        this.fixAxisBreaks();
+        if (this._startIndex == this._endIndex) {
+            this._endIndex++;
+        }
+        this._frequency = frequency;
         if (this.axisLength <= 0) {
             return;
         }
@@ -228,8 +228,8 @@ var CategoryAxis = /** @class */ (function (_super) {
         // it's important to use protected variables here, as getters will return 0 - length
         // TODO use iterator instead
         // @ todo: not solved cat axis item fading
-        var startIndex = $math.max(0, this._startIndex - this._frequency);
-        var endIndex = $math.min(this.dataItems.length, this._endIndex + this._frequency);
+        startIndex = $math.max(0, this._startIndex - this._frequency);
+        endIndex = $math.min(this.dataItems.length, this._endIndex + this._frequency);
         var itemIndex = 0;
         for (var i = 0; i < startIndex; i++) {
             var dataItem = this.dataItems.getIndex(i);
@@ -260,14 +260,14 @@ var CategoryAxis = /** @class */ (function (_super) {
         this.appendDataItem(this._lastDataItem);
         this.validateDataElement(this._lastDataItem, itemIndex + 1, this.dataItems.length);
         var axisBreaks = this.axisBreaks;
-        $iter.each(axisBreaks.iterator(), function (axisBreak) {
+        axisBreaks.each(function (axisBreak) {
             var adjustedStartValue = axisBreak.adjustedStartValue;
             var adjustedEndValue = axisBreak.adjustedEndValue;
             if ($math.intersect({ start: adjustedStartValue, end: adjustedEndValue }, { start: _this._startIndex, end: _this._endIndex })) {
-                var frequency = $math.fitToRange(Math.ceil(_this._frequency / axisBreak.breakSize), 1, adjustedEndValue - adjustedStartValue);
+                var frequency_1 = $math.fitToRange(Math.ceil(_this._frequency / axisBreak.breakSize), 1, adjustedEndValue - adjustedStartValue);
                 var itemIndex_1 = 0;
                 // TODO use iterator instead
-                for (var b = adjustedStartValue; b <= adjustedEndValue; b = b + frequency) {
+                for (var b = adjustedStartValue; b <= adjustedEndValue; b = b + frequency_1) {
                     var dataItem = _this.dataItems.getIndex(b);
                     _this.appendDataItem(dataItem);
                     _this.validateDataElement(dataItem, itemIndex_1);
@@ -275,6 +275,8 @@ var CategoryAxis = /** @class */ (function (_super) {
                 }
             }
         });
+        this.validateBreaks();
+        this.validateAxisRanges();
         this.ghostLabel.invalidate(); // solves font issue
     };
     /**
@@ -328,6 +330,9 @@ var CategoryAxis = /** @class */ (function (_super) {
                 dataItem.text = dataItem.text;
             }
             renderer.updateLabelElement(label, position, endPosition);
+            if (dataItem.label.measuredWidth > this.ghostLabel.measuredWidth || dataItem.label.measuredHeight > this.ghostLabel.measuredHeight) {
+                this.ghostLabel.text = dataItem.label.currentText;
+            }
         }
         var fill = dataItem.axisFill;
         if (fill && !fill.disabled) {

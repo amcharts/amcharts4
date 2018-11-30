@@ -298,7 +298,7 @@ var FlowDiagram = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     FlowDiagram.prototype.handleDataItemWorkingValueChange = function (dataItem) {
-        this.invalidateDataRange();
+        this.invalidate();
     };
     /**
      * Sorts nodes by either their values or names, based on `sortBy` setting.
@@ -479,6 +479,7 @@ var FlowDiagram = /** @class */ (function (_super) {
     };
     /**
      * Setups the legend to use the chart's data.
+     * @ignore
      */
     FlowDiagram.prototype.feedLegend = function () {
         var legend = this.legend;

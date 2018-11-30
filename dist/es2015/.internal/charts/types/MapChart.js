@@ -1059,6 +1059,17 @@ var MapChart = /** @class */ (function (_super) {
         }
         return _super.prototype.setPaper.call(this, paper);
     };
+    /**
+     * Prepares the legend instance for use in this chart.
+     *
+     * @param {Legend}  legend  Legend
+     */
+    MapChart.prototype.setLegend = function (legend) {
+        _super.prototype.setLegend.call(this, legend);
+        if (legend) {
+            legend.parent = this.chartContainer;
+        }
+    };
     return MapChart;
 }(SerialChart));
 export { MapChart };

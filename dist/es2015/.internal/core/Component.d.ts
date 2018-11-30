@@ -73,6 +73,14 @@ export interface IComponentEvents extends IContainerEvents {
      * Invoked when range change animation ends
      */
     rangechangeended: {};
+    /**
+     * Invoked when start position changes
+     */
+    startchanged: {};
+    /**
+     * Invoked when end position changes
+     */
+    endchanged: {};
 }
 /**
  * Defines adapters
@@ -428,6 +436,7 @@ export declare class Component extends Container {
      */
     protected _workingEndIndex: $type.Optional<number>;
     protected _addAllDataItems: boolean;
+    protected _showOnInitDisposer2: IDisposer;
     /**
      * Constructor
      */
@@ -902,7 +911,7 @@ export declare class Component extends Container {
      */
     protected getExporting(): Export;
     private _exportData(arg);
-    protected setDisabled(value: boolean): void;
+    protected setDisabled(value: boolean): boolean;
     /**
      * @ignore
      */

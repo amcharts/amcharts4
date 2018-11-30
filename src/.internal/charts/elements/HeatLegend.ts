@@ -347,7 +347,7 @@ export class HeatLegend extends Container {
 			}
 		}
 
-		this.valueAxis.invalidateDataRange();
+		this.valueAxis.invalidate();
 
 		for (let i = this.markerCount, len = this.markers.length; i < len; i++) {
 			this.markers.getIndex(i).parent = undefined;
@@ -423,7 +423,6 @@ export class HeatLegend extends Container {
 	public set minValue(value: number) {
 		this.setPropertyValue("minValue", value);
 		this.valueAxis.min = value;
-		this.valueAxis.invalidateDataRange();
 	}
 
 	/**
@@ -442,7 +441,6 @@ export class HeatLegend extends Container {
 	public set maxValue(value: number) {
 		this.setPropertyValue("maxValue", value);
 		this.valueAxis.max = value;
-		this.valueAxis.invalidateDataRange();
 	}
 
 	/**
@@ -592,11 +590,11 @@ export class HeatLegend extends Container {
 		let valueAxis = this.valueAxis;
 		if (!$type.isNumber(this.minValue)) {
 			valueAxis.min = min;
-			valueAxis.invalidateDataRange();
+			valueAxis.invalidate();
 		}
 		if (!$type.isNumber(this.maxValue)) {
 			valueAxis.max = max;
-			valueAxis.invalidateDataRange();
+			valueAxis.invalidate();
 		}
 	}
 

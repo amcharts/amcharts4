@@ -8,12 +8,10 @@
  * @hidden
  */
 import { XYChart, IXYChartProperties, IXYChartDataFields, IXYChartAdapters, IXYChartEvents, XYChartDataItem } from "./XYChart";
-import { AMEvent } from "../../core/Sprite";
 import { Percent } from "../../core/utils/Percent";
 import { RadarSeries } from "../series/RadarSeries";
 import { RadarColumnSeries } from "../series/RadarColumnSeries";
 import { Container } from "../../core/Container";
-import { IComponentEvents } from "../../core/Component";
 import { RadarCursor } from "../cursors/RadarCursor";
 import { Axis } from "../axes/Axis";
 import { AxisRenderer } from "../axes/AxisRenderer";
@@ -206,16 +204,12 @@ export declare class RadarChart extends XYChart {
     protected processAxis(axis: Axis): void;
     /**
      * Updates all X axes after range change event.
-     *
-     * @param {AMEvent<Axis, IComponentEvents>["datarangechanged"]}  event  Event
      */
-    protected handleXAxisRangeChange(event: AMEvent<Axis, IComponentEvents>["datarangechanged"]): void;
+    protected handleXAxisRangeChange(): void;
     /**
      * Updates all Y axes after range change event.
-     *
-     * @param {AMEvent<Axis, IComponentEvents>["datarangechanged"]}  event  Event
      */
-    protected handleYAxisRangeChange(event: AMEvent<Axis, IComponentEvents>["datarangechanged"]): void;
+    protected handleYAxisRangeChange(): void;
     /**
      * Creates and returns a new Cursor, of type suitable for RadarChart.
      *

@@ -257,9 +257,7 @@ export class StepLineSeries extends LineSeries {
 	 * @param {boolean}  value  No risers
 	 */
 	public set noRisers(value: boolean) {
-		if (this.setPropertyValue("noRisers", value)) {
-			this.invalidateDataRange();
-		}
+		this.setPropertyValue("noRisers", value, true);
 	}
 
 	/**
@@ -277,9 +275,7 @@ export class StepLineSeries extends LineSeries {
 	 * @default 0
 	 */
 	public set startLocation(value: number) {
-		if (this.setPropertyValue("startLocation", value)) {
-			this.invalidateDataRange();
-		}
+		this.setPropertyValue("startLocation", value, true);
 	}
 
 	/**
@@ -296,9 +292,7 @@ export class StepLineSeries extends LineSeries {
 	 * #default 1
 	 */
 	public set endLocation(value: number) {
-		if (this.setPropertyValue("endLocation", value)) {
-			this.invalidateDataRange();
-		}
+		this.setPropertyValue("endLocation", value, true);		
 	}
 
 	/**

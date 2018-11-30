@@ -315,29 +315,6 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 * @todo Description (review)
 	 */
 	public validateDataRange(): void {
-		let dataCount: number = this.dataItems.length;
-
-		let startIndex = $math.fitToRange(Math.floor(this.start * dataCount - 1), 0, dataCount);
-		let endIndex = $math.fitToRange(Math.ceil(this.end * dataCount), 0, dataCount);
-
-		if (this.renderer.invalid) {
-			this.renderer.validate();
-		}
-
-		// find frequency at which we'll show items
-		let maxCount: number = this.renderer.axisLength / this.renderer.minGridDistance;
-		let frequency: number = Math.min(this.dataItems.length, Math.ceil((endIndex - startIndex) / maxCount));
-
-		this._startIndex = Math.floor(startIndex / frequency) * frequency;
-		this._endIndex = Math.ceil(this.end * dataCount);
-
-		this.fixAxisBreaks();
-
-		if (this._startIndex == this._endIndex) {
-			this._endIndex++;
-		}
-
-		this._frequency = frequency;
 
 		super.validateDataRange();
 
@@ -367,6 +344,30 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 
 		super.validate();
 
+		let dataCount: number = this.dataItems.length;
+
+		let startIndex = $math.fitToRange(Math.floor(this.start * dataCount - 1), 0, dataCount);
+		let endIndex = $math.fitToRange(Math.ceil(this.end * dataCount), 0, dataCount);
+
+		if (this.renderer.invalid) {
+			this.renderer.validate();
+		}
+
+		// find frequency at which we'll show items
+		let maxCount: number = this.renderer.axisLength / this.renderer.minGridDistance;
+		let frequency: number = Math.min(this.dataItems.length, Math.ceil((endIndex - startIndex) / maxCount));
+
+		this._startIndex = Math.floor(startIndex / frequency) * frequency;
+		this._endIndex = Math.ceil(this.end * dataCount);
+
+		this.fixAxisBreaks();
+
+		if (this._startIndex == this._endIndex) {
+			this._endIndex++;
+		}
+
+		this._frequency = frequency;
+
 		if (this.axisLength <= 0) {
 			return;
 		}
@@ -381,8 +382,8 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 		// it's important to use protected variables here, as getters will return 0 - length
 		// TODO use iterator instead
 		// @ todo: not solved cat axis item fading
-		let startIndex = $math.max(0, this._startIndex - this._frequency);
-		let endIndex = $math.min(this.dataItems.length, this._endIndex + this._frequency);
+		startIndex = $math.max(0, this._startIndex - this._frequency);
+		endIndex = $math.min(this.dataItems.length, this._endIndex + this._frequency);
 
 		let itemIndex = 0;
 
@@ -405,6 +406,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 						this.appendDataItem(dataItem);
 						this.validateDataElement(dataItem, itemIndex);
 					}
+
 					itemIndex++;
 				}
 				else {
@@ -420,7 +422,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 
 		let axisBreaks = this.axisBreaks;
 
-		$iter.each(axisBreaks.iterator(), (axisBreak) => {
+		axisBreaks.each((axisBreak) => {
 			let adjustedStartValue: number = axisBreak.adjustedStartValue;
 			let adjustedEndValue: number = axisBreak.adjustedEndValue;
 
@@ -437,6 +439,9 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 				}
 			}
 		});
+
+		this.validateBreaks();
+		this.validateAxisRanges();	
 
 		this.ghostLabel.invalidate(); // solves font issue
 	}
@@ -504,6 +509,10 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 				dataItem.text = dataItem.text;
 			}
 			renderer.updateLabelElement(label, position, endPosition);
+
+			if (dataItem.label.measuredWidth > this.ghostLabel.measuredWidth || dataItem.label.measuredHeight > this.ghostLabel.measuredHeight) {
+				this.ghostLabel.text = dataItem.label.currentText;
+			}			
 		}
 
 		let fill: AxisFill = dataItem.axisFill;

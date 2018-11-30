@@ -77,7 +77,8 @@ var CategoryAxisBreak = /** @class */ (function (_super) {
         set: function (value) {
             if (this.setPropertyValue("startCategory", value)) {
                 if (this.axis) {
-                    this.axis.invalidateDataRange();
+                    this.axis.invalidateDataItems();
+                    this.axis.invalidateSeries();
                 }
             }
         },
@@ -99,7 +100,8 @@ var CategoryAxisBreak = /** @class */ (function (_super) {
         set: function (value) {
             if (this.setPropertyValue("endCategory", value)) {
                 if (this.axis) {
-                    this.axis.invalidateDataRange();
+                    this.axis.invalidateDataItems();
+                    this.axis.invalidateSeries();
                 }
             }
         },
@@ -127,7 +129,8 @@ var CategoryAxisBreak = /** @class */ (function (_super) {
         set: function (value) {
             if (this.setPropertyValue("startValue", value)) {
                 if (this.axis) {
-                    this.axis.invalidateDataRange();
+                    this.axis.invalidateDataItems();
+                    this.axis.invalidateSeries();
                 }
             }
         },
@@ -155,7 +158,8 @@ var CategoryAxisBreak = /** @class */ (function (_super) {
         set: function (value) {
             if (this.setPropertyValue("endValue", value)) {
                 if (this.axis) {
-                    this.axis.invalidateDataRange();
+                    this.axis.invalidateDataItems();
+                    this.axis.invalidateSeries();
                 }
             }
         },

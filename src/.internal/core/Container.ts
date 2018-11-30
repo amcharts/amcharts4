@@ -126,7 +126,8 @@ export interface IContainerProperties extends ISpriteProperties {
 	textDecoration?: TextDecoration;
 
 	/**
-	 * Horizontal alignment of Container's items
+	 * Horizontal alignment of Container's items.
+	 * 
 	 * @type {Optional<Align>}
 	 */
 	contentAlign?: Align;
@@ -140,18 +141,29 @@ export interface IContainerProperties extends ISpriteProperties {
 	contentValign?: VerticalAlign;
 
 	/**
+	 * If set to `true`, all columns of the container with layout type "grid"
+	 * will be equally sized.
 	 *
-	 * @ignore Exclude from docs
+	 * @default false
 	 * @type {boolean}
 	 */
 	fixedWidthGrid?: boolean;
 
 	/**
-	 *
-	 * @ignore Exclude from docs
+	 * Maximum number of columns (when using `"grid"` layout).
+	 * 
 	 * @type {boolean}
 	 */
 	maxColumns?: boolean;
+
+	/**
+	 * If set to `true`, the children of the container will be drawn in reverse
+	 * order.
+	 *
+	 * @default false
+	 * @type {boolean}
+	 */
+	reverseOrder?: boolean;
 }
 
 /**
@@ -1049,14 +1061,19 @@ export class Container extends Sprite {
 		let minWidth = this.minWidth;
 		let minHeight = this.minHeight;
 
+		let childrenCopy = $array.copy(children.values);
+		if (this.reverseOrder) {
+			childrenCopy.reverse();
+		}
+
 		// GRID PRECALCULATIONS
 		if (this.layout == "grid") {
 
 			minCellWidth = maxWidth;
 			maxCellWidth = 1;
 
-			for (let i = 0, len = children.length; i < len; i++) {
-				let child = children.getIndex(i);
+			for (let i = 0, len = childrenCopy.length; i < len; i++) {
+				let child = childrenCopy[i];
 				if (child.isMeasured && !child.disabled && !child.__disabled) {
 					let childMeasuredWidth = child.measuredWidth;
 					if (childMeasuredWidth < minCellWidth) {
@@ -1081,7 +1098,7 @@ export class Container extends Sprite {
 
 			columnCount = $math.max(1, Math.floor(columnCount));
 			columnCount = $math.min(this.maxColumns, columnCount);
-			columnWidth = this.getColumnWidth(columnCount, maxCellWidth);
+			columnWidth = this.getColumnWidth(childrenCopy, columnCount, maxCellWidth);
 		}
 
 		let contentLeft: $type.Optional<number>;
@@ -1091,8 +1108,11 @@ export class Container extends Sprite {
 
 		// we itterate through array of children
 		// TODO use iterator instead
-		for (let i = 0, len = children.length; i < len; i++) {
-			let child = children.getIndex(i);
+
+
+
+		for (let i = 0, len = childrenCopy.length; i < len; i++) {
+			let child = childrenCopy[i];
 
 			if (child.isMeasured && !child.disabled && !child.__disabled) {
 
@@ -1243,7 +1263,7 @@ export class Container extends Sprite {
 							row = 0;
 							column = 0;
 
-							columnWidth = this.getColumnWidth(columnCount, maxCellWidth);
+							columnWidth = this.getColumnWidth(childrenCopy, columnCount, maxCellWidth);
 							rowHeight = [];
 
 							i = -1;
@@ -1552,11 +1572,11 @@ export class Container extends Sprite {
 	 * @param  {number}    maxCellWidth  Maximum width of one grid cell
 	 * @return {number[]}                An array of column widths
 	 */
-	public getColumnWidth(columnCount: number, maxCellWidth: number): number[] {
+	public getColumnWidth(children: Sprite[], columnCount: number, maxCellWidth: number): number[] {
 		let columnWidth: number[] = [];
 		let column: number = 0;
 
-		$iter.each(this.children.iterator(), (child) => {
+		$array.each(children, (child) => {
 			if (child.isMeasured) {
 				if (this.fixedWidthGrid) {
 					columnWidth[column] = maxCellWidth;
@@ -1655,7 +1675,7 @@ export class Container extends Sprite {
 	}
 
 	/**
-	 * Maximum number of columns (when using grid layout).
+	 * Maximum number of columns (when using `"grid"` layout).
 	 *
 	 * @param {Optional<number>}  value  Should use fixed width grid?
 	 */
@@ -1668,6 +1688,24 @@ export class Container extends Sprite {
 	 */
 	public get maxColumns(): Optional<number> {
 		return this.getPropertyValue("maxColumns");
+	}
+
+	/**
+	 * If set to `true`, the children of the container will be drawn in reverse
+	 * order.
+	 *
+	 * @default false
+	 * @param {Optional<boolean>}  value  Reverse children?
+	 */
+	public set reverseOrder(value: Optional<boolean>) {
+		this.setPropertyValue("reverseOrder", value, true);
+	}
+
+	/**
+	 * @return {Optional<boolean>} Reverse children?
+	 */
+	public get reverseOrder(): Optional<boolean> {
+		return this.getPropertyValue("reverseOrder");
 	}
 
 	/**

@@ -482,7 +482,7 @@ export class AxisDataItem extends DataItem {
 	 *
 	 * @param {AxisDataItem} source Source AxisDataItem
 	 */
-	public copyFrom(source:this){
+	public copyFrom(source: this) {
 		super.copyFrom(source);
 		this.text = source.text;
 	}
@@ -494,7 +494,7 @@ export class AxisDataItem extends DataItem {
  * Includes both the [[DataItemAdapter]] definitions and properties
  * @see {@link DataItemAdapter}
  */
-export interface IAxisDataItemAdapters extends IDataItemAdapters{
+export interface IAxisDataItemAdapters extends IDataItemAdapters {
 
 }
 
@@ -861,7 +861,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	public invalidateSeries(): void {
 		// this puts series after axis in invalidation order also makes series update it's data items in case widht/height of a series is not 100%
 		$iter.each(this.series.iterator(), (series) => {
-			series.invalidateDataRange();
+			series.invalidate();
 		});
 	}
 
@@ -934,9 +934,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 */
 	public validate(): void {
 		super.validate();
-		this.axisFullLength = this.axisLength / (this.end - this.start);
-		this.validateAxisRanges();
-		this.validateBreaks();
+		this.validateLayout();
 	}
 
 	/**
@@ -1036,6 +1034,8 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			this.title.parent = this; // we add title to axis and set layout in renderer to avoid one extra container, as otherwise axis container would be used for holding renderer only
 			this.initRenderer();
 
+			this._disposers.push(renderer.gridContainer.events.on("maxsizechanged", this.invalidate, this, false));
+
 			let ghostLabel = this.renderer.labels.create();
 			this._disposers.push(ghostLabel);
 			ghostLabel.dataItem = this.dataItems.template.clone(); // just for the adapters not to fail
@@ -1046,6 +1046,10 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			ghostLabel.strokeOpacity = 0;
 			ghostLabel.validate();
 			this.ghostLabel = ghostLabel;
+
+			this.events.on("beforedatavalidated", () => {
+				ghostLabel.text = "L";
+			}, undefined, false);
 		}
 	}
 

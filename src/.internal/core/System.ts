@@ -53,7 +53,7 @@ export class System {
 	 * @see {@link https://docs.npmjs.com/misc/semver}
 	 * @type {string}
 	 */
-	static VERSION: string = "4.0.2";
+	static VERSION: string = "4.0.3";
 
 	/**
 	 * @todo Description
@@ -127,6 +127,14 @@ export class System {
 
 		//this.validateLayouts();
 		//this.validatePositions();
+		/*
+				for (let key in registry.invalidLayouts) {
+					this.validateLayouts(key);
+				}
+				for (let key in registry.invalidPositions) {
+					this.validatePositions(key);
+				}
+		*/
 
 		let skippedComponents: Component[] = [];
 
@@ -283,12 +291,12 @@ export class System {
 
 				// we need to check this, as validateLayout might validate sprite
 				if (sprite && !sprite.isDisposed()) {
-					if (sprite instanceof Component && (sprite.dataInvalid || (sprite.dataProvider && sprite.dataProvider.dataInvalid))) {
+					if (!this.checkIfValidate(sprite)) {
 						// void
 						skippedSprites.push(sprite);
 					}
 					else {
-						if (sprite.dataItem && sprite.dataItem.component && sprite.dataItem.component.dataInvalid && !sprite.dataItem.component.isTemplate) {
+						if (!this.checkIfValidate2(sprite)) {
 							// void
 							skippedSprites.push(sprite);
 						}
@@ -297,7 +305,7 @@ export class System {
 								if (sprite instanceof Container) {
 									sprite.children.each((child) => {
 										if (child.invalid) {
-											if (child instanceof Component && (child.dataInvalid || (child.dataProvider && child.dataProvider.dataInvalid))) {
+											if (!this.checkIfValidate(child)) {
 												skippedSprites.push(child);
 											}
 											else if (child.dataItem && child.dataItem.component && child.dataItem.component.dataInvalid) {
@@ -345,9 +353,6 @@ export class System {
 			x.update();
 		});
 
-		// to avoid flicker, we validate positions last time
-		//this.validateLayouts();
-		//this.validatePositions();
 		//if(!hasSkipped){
 		for (let key in registry.invalidLayouts) {
 			this.validateLayouts(key);
@@ -359,9 +364,13 @@ export class System {
 
 		triggerIdle();
 
-		// to avoid flicker, we validate positions last time
-		//this.validateLayouts();
-		//this.validatePositions();
+		for (let key in registry.invalidLayouts) {
+			this.validateLayouts(key);
+		}
+		for (let key in registry.invalidPositions) {
+			this.validatePositions(key);
+		}
+
 
 		registry.dispatchImmediately("exitframe");
 
@@ -388,6 +397,24 @@ export class System {
 			}
 		}
 	}
+
+	public checkIfValidate(sprite: Sprite): boolean {
+		if (sprite instanceof Component && (sprite.dataInvalid || (sprite.dataProvider && sprite.dataProvider.dataInvalid))) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
+	public checkIfValidate2(sprite: Sprite): boolean {
+		if (sprite.dataItem && sprite.dataItem.component && sprite.dataItem.component.dataInvalid && !sprite.dataItem.component.isTemplate) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}	
 
 	/**
 	 * Requests new animation frame

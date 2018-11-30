@@ -153,14 +153,6 @@ var ValueAxis = /** @class */ (function (_super) {
          * @type {number}
          */
         _this._adjustedEnd = 1;
-        /**
-         * @todo Description
-         */
-        _this._valueToPosition = {};
-        /**
-         * @todo Description
-         */
-        _this._positionToValue = {};
         _this._extremesChanged = false;
         /**
          * Holds reference to a function that accepts a DataItem as parameter.
@@ -225,25 +217,6 @@ var ValueAxis = /** @class */ (function (_super) {
      */
     ValueAxis.prototype.createAxisBreak = function () {
         return new ValueAxisBreak();
-    };
-    /**
-     * Validates Axis' data items.
-     *
-     * @ignore Exclude from docs
-     */
-    ValueAxis.prototype.validateDataItems = function () {
-        this._positionToValue = {};
-        _super.prototype.validateDataItems.call(this);
-        this.fixAxisBreaks();
-        this.getMinMax();
-        // note, not zoomMin and zoomMax, but actual position
-        var minZoomed = this.positionToValue(this.start);
-        var maxZoomed = this.positionToValue(this.end);
-        if (this.interpolationDuration > 0) {
-            if ($type.isNumber(minZoomed) && $type.isNumber(maxZoomed)) {
-                this.zoomToValues(minZoomed, maxZoomed, true, true);
-            }
-        }
     };
     /**
      * [dataChangeUpdate description]
@@ -316,22 +289,6 @@ var ValueAxis = /** @class */ (function (_super) {
         }
     };
     /**
-     * Validates the data range.
-     *
-     * @ignore Exclude from docs
-     * @todo Description (review)
-     */
-    ValueAxis.prototype.validateDataRange = function () {
-        _super.prototype.validateDataRange.call(this);
-        // not using default caching for a better performance
-        this._valueToPosition = {};
-        this._positionToValue = {};
-        // it's important to fix axis breaks in the beginning, as positionToValue and adjustDifference depends on breaks values
-        this.fixAxisBreaks();
-        // calculate zoom values
-        this.calculateZoom();
-    };
-    /**
      * Validates the whole axis. Causes it to redraw.
      *
      * @ignore Exclude from docs
@@ -341,9 +298,13 @@ var ValueAxis = /** @class */ (function (_super) {
         if (this.axisLength <= 0) {
             return;
         }
-        // this is moved to a separate method because it differs in DateAxis
-        this.validateAxisElements();
         _super.prototype.validate.call(this);
+        this.getMinMax();
+        this.fixAxisBreaks();
+        this.calculateZoom();
+        this.validateAxisElements();
+        this.validateAxisRanges();
+        this.validateBreaks();
         this.hideUnusedDataItems();
         // hide too close
         //this.hideTooCloseDataItems();
@@ -376,63 +337,6 @@ var ValueAxis = /** @class */ (function (_super) {
             this._adjustedEnd = this.end;
         }
     };
-    /*
-        fixAxisBreaks() {
-            let axisBreaks: List<ValueAxisBreak> = <List<ValueAxisBreak>>this.axisBreaks;
-            if (axisBreaks.length > 0) {
-
-                // first make sure that startValue is <= end value
-                for (let i: number = 0; i < axisBreaks.length; i++) {
-                    let axisBreak: ValueAxisBreak = axisBreaks.get(i);
-                    let startValue: number = $math.min(axisBreak.value, axisBreak.endValue);
-                    let endValue: number = $math.max(axisBreak.value, axisBreak.endValue);
-
-                    axisBreak.adjustedStartValue = startValue;
-                    axisBreak.adjustedEndValue = endValue;
-                }
-
-                // sort by adjustedStartValue
-                this.axisBreaks.sortByKey("adjustedStartValue");
-
-                let firstAxisBreak: ValueAxisBreak = axisBreaks.get(0);
-                let previousEndValue: number = Math.min(firstAxisBreak.startValue, firstAxisBreak.endValue);
-
-                // process breaks
-                for (let i: number = 0; i < this.axisBreaks.length; i++) {
-                    let axisBreak: ValueAxisBreak = axisBreaks.get(i);
-
-                    let startValue: number = axisBreak.adjustedStartValue;
-                    let endValue: number = axisBreak.adjustedEndValue;
-
-                    // breaks can't overlap
-                    // if break starts before previous break ends
-                    if (startValue < previousEndValue) {
-                        startValue = previousEndValue;
-
-                        if (endValue < previousEndValue) {
-                            endValue = previousEndValue;
-                        }
-                    }
-
-                    axisBreak.adjustedStartValue = startValue;
-                    axisBreak.adjustedEndValue = endValue;
-
-                    // break difference
-                    let axisBreakDif: number = endValue - startValue;
-                    let axisBreakGridCount: number = Math.ceil(axisBreakDif / this._step * axisBreak.breakSize);
-
-                    // calculate min, max and step for axis break
-                    let breakMinMaxStep = this.adjustMinMax(startValue, endValue, axisBreakDif, axisBreakGridCount);
-                    axisBreak.adjustedStep = breakMinMaxStep.step;
-                    axisBreak.adjustedMin = breakMinMaxStep.min;
-                    axisBreak.adjustedMax = breakMinMaxStep.max;
-                    previousEndValue = endValue;
-                }
-            }
-
-            this._difference = this.adjustDifference(this.min, this.max);
-        }
-    */
     /**
      * Validates Axis elements.
      *
@@ -473,8 +377,10 @@ var ValueAxis = /** @class */ (function (_super) {
                         if (dataItem.label.invalid) {
                             dataItem.label.validate();
                         }
-                        if (dataItem.label.measuredWidth > this.ghostLabel.measuredWidth || dataItem.label.measuredHeight > this.ghostLabel.measuredHeight) {
-                            this.ghostLabel.text = dataItem.label.text;
+                        if (dataItem.value > this.min && dataItem.value < this.max) {
+                            if (dataItem.label.measuredWidth > this.ghostLabel.measuredWidth || dataItem.label.measuredHeight > this.ghostLabel.measuredHeight) {
+                                this.ghostLabel.text = dataItem.label.text;
+                            }
                         }
                     }
                     this.validateDataElement(dataItem);
@@ -665,20 +571,11 @@ var ValueAxis = /** @class */ (function (_super) {
      */
     ValueAxis.prototype.valueToPosition = function (value) {
         if ($type.isNumber(value)) {
-            //let strValue: string = value.toString();
-            //let cachedPosition: number = this._valueToPosition[strValue];
-            //if ($type.isNumber(cachedPosition)) {
-            //				return cachedPosition;
-            //			}
-            //			else {
             // todo: think if possible to take previous value and do not go through all previous breaks
             var min_1 = this.min;
             var max_1 = this.max;
             if ($type.isNumber(min_1) && $type.isNumber(max_1)) {
                 var difference = this._difference;
-                if (!$type.isNumber(difference)) {
-                    difference = this.adjustDifference(min_1, max_1);
-                }
                 var axisBreaks = this.axisBreaks;
                 if (axisBreaks.length > 0) {
                     $iter.eachContinue(axisBreaks.iterator(), function (axisBreak) {
@@ -716,10 +613,8 @@ var ValueAxis = /** @class */ (function (_super) {
                     position = (Math.log(value) * Math.LOG10E - Math.log(this.min) * Math.LOG10E) / ((Math.log(this.max) * Math.LOG10E - Math.log(this.min) * Math.LOG10E));
                 }
                 position = $math.round(position, 5);
-                //this._valueToPosition[strValue] = position;
                 return position;
             }
-            //}
         }
         return 0;
     };
@@ -733,11 +628,6 @@ var ValueAxis = /** @class */ (function (_super) {
     ValueAxis.prototype.positionToValue = function (position) {
         position = $math.round(position, 10);
         var strPosition = position.toString();
-        //let cachedValue: number = this._positionToValue[strPosition];
-        //if ($type.isNumber(cachedValue)) {
-        //			return cachedValue;
-        //		}
-        //		else {
         var min = this.min;
         var max = this.max;
         if ($type.isNumber(min) && $type.isNumber(max)) {
@@ -781,7 +671,6 @@ var ValueAxis = /** @class */ (function (_super) {
             if (!$type.isNumber(value_2)) {
                 value_2 = position * difference_1 + min;
             }
-            //this._positionToValue[strPosition] = value;
             return value_2;
         }
         //}
@@ -935,6 +824,7 @@ var ValueAxis = /** @class */ (function (_super) {
             }
         }
         this._extremesChanged = false;
+        this._difference = this.adjustDifference(min, max);
     };
     /**
      * Adjusts the minimum value.
@@ -1125,9 +1015,10 @@ var ValueAxis = /** @class */ (function (_super) {
          * @param {number}  value  Min value
          */
         set: function (value) {
-            this._minDefined = value;
-            //this.getMinMax();
-            this.invalidateDataItems();
+            if (this._minDefined != value) {
+                this._minDefined = value;
+                this.invalidate();
+            }
         },
         enumerable: true,
         configurable: true
@@ -1225,9 +1116,10 @@ var ValueAxis = /** @class */ (function (_super) {
          * @param {number}  value  Max value
          */
         set: function (value) {
-            this._maxDefined = value;
-            //this.getMinMax();
-            this.invalidateDataItems();
+            if (this._maxDefined != value) {
+                this._maxDefined = value;
+                this.invalidate();
+            }
         },
         enumerable: true,
         configurable: true
@@ -1250,7 +1142,8 @@ var ValueAxis = /** @class */ (function (_super) {
             _super.prototype.registerSeries.call(this, series),
             series.events.on("extremeschanged", this.handleExtremesChange, this, false),
             series.events.on("selectionextremeschanged", this.handleSelectionExtremesChange, this, false),
-            this.events.on("datarangechanged", series.invalidateDataRange, series, false),
+            this.events.on("startchanged", series.invalidate, series, false),
+            this.events.on("endchanged", series.invalidate, series, false),
             this.events.on("extremeschanged", series.invalidate, series, false)
         ]);
     };
@@ -1348,7 +1241,7 @@ var ValueAxis = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (this.setPropertyValue("strictMinMax", value)) {
-                this.invalidateDataRange();
+                this.invalidate();
             }
         },
         enumerable: true,
@@ -1374,7 +1267,7 @@ var ValueAxis = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (this.setPropertyValue("logarithmic", value)) {
-                this.invalidateDataRange();
+                this.invalidate();
             }
         },
         enumerable: true,
@@ -1397,7 +1290,7 @@ var ValueAxis = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (this.setPropertyValue("maxPrecision", value)) {
-                this.invalidateDataRange();
+                this.invalidate();
             }
         },
         enumerable: true,
@@ -1575,9 +1468,9 @@ var ValueAxis = /** @class */ (function (_super) {
             var endValue = axisBreak.adjustedEndValue;
             // break difference
             var axisBreakDif = endValue - startValue;
-            var axisBreakGridCount = Math.ceil(axisBreakDif / _this._step * axisBreak.breakSize);
+            var axisBreakGridCount = Math.ceil(axisBreakDif * axisBreak.breakSize) * _this._gridCount / (_this.max - _this.min);
             // calculate min, max and step for axis break
-            var breakMinMaxStep = _this.adjustMinMax(startValue, endValue, axisBreakDif, axisBreakGridCount);
+            var breakMinMaxStep = _this.adjustMinMax(startValue, endValue, axisBreakDif, axisBreakGridCount, true);
             axisBreak.adjustedStep = breakMinMaxStep.step;
             axisBreak.adjustedMin = breakMinMaxStep.min;
             axisBreak.adjustedMax = breakMinMaxStep.max;

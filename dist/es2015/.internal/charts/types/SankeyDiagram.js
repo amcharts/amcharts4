@@ -403,13 +403,19 @@ var SankeyDiagram = /** @class */ (function (_super) {
         return link;
     };
     Object.defineProperty(SankeyDiagram.prototype, "valueHeight", {
+        /**
+         * @ignore
+         */
         get: function () {
             return this._valueHeight;
         },
+        /**
+         * @ignore
+         */
         set: function (value) {
             if (value != this._valueHeight) {
                 this._valueHeight = value;
-                this.invalidateDataRange();
+                this.invalidate();
             }
         },
         enumerable: true,

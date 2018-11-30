@@ -13,6 +13,7 @@ import { Sprite, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../cor
 import { IDisposer, MultiDisposer, MutableValueDisposer } from "../../core/utils/Disposer";
 import { Container } from "../../core/Container";
 import { ListTemplate } from "../../core/utils/List";
+import { Legend } from "../Legend";
 import { MapSeries } from "../map/MapSeries";
 import { MapObject } from "../map/MapObject";
 import { MapImage } from "../map/MapImage";
@@ -1561,6 +1562,18 @@ export class MapChart extends SerialChart {
 
 		return super.setPaper(paper);
 	}
+
+	/**
+	 * Prepares the legend instance for use in this chart.
+	 *
+	 * @param {Legend}  legend  Legend
+	 */
+	protected setLegend(legend: Legend) {
+		super.setLegend(legend);
+		if(legend){
+			legend.parent = this.chartContainer;
+		}
+	}	
 }
 
 /**

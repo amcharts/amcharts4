@@ -156,8 +156,9 @@ export declare class SerialChart extends Chart {
     handleSeriesAdded(event: IListEvents<Series>["inserted"]): void;
     /**
      * Setups the legend to use the chart's data.
+     * @ignore
      */
-    protected feedLegend(): void;
+    feedLegend(): void;
     /**
      * Creates and returns a new Series, suitable for this chart type.
      *

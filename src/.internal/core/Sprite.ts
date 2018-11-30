@@ -926,6 +926,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	public ex: number = 0;
 	public ey: number = 0;
 
+	protected _showOnInitDisposer: MultiDisposer;
+
 	/**
 	 * Constructor:
 	 * * Creates initial node
@@ -3316,7 +3318,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	}
 
 
-	protected setDisabled(value: boolean) {
+	protected setDisabled(value: boolean):boolean {
 		value = $type.toBoolean(value);
 		let current = this.getPropertyValue("disabled");
 		if (current != value) {
@@ -3340,7 +3342,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 			this.dispatch("transformed");
 			system.requestFrame();
+			return true;
 		}
+		return false;
 	}
 
 	/**
@@ -6220,7 +6224,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				type: "maxsizechanged",
 				target: this,
 				previousWidth: prevWidth,
-				previousHeight: prevWidth
+				previousHeight: prevHeight
 			};
 
 			this.dispatchImmediately("maxsizechanged", event);
@@ -7299,9 +7303,6 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				value = 1;
 			}
 			value = value / this.globalScale;
-			if(this.className == "Rectangle"){
-				console.log(this.className, value, this.globalScale, this.scale)
-			}
 		}
 		this.setSVGAttribute({ "stroke-width": value });
 	}
@@ -8337,10 +8338,23 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @ignore
 	 */
 	protected setShowOnInit(value: boolean) {
-		if (this.setPropertyValue("showOnInit", value) && value && !this.inited && !this.hidden) {
-			registry.events.once("enterframe", this.hideInitially, this);
-			this.events.once("beforevalidated", this.hideInitially, this, false);
-			this.events.on("inited", this.appear, this, false);
+		if (this.setPropertyValue("showOnInit", value)) {
+			if(!this.isTemplate){
+				if(value && !this.inited && !this.hidden){
+					this._showOnInitDisposer = new MultiDisposer([
+						registry.events.once("enterframe", this.hideInitially, this),
+						this.events.once("beforevalidated", this.hideInitially, this, false),
+						this.events.on("inited", this.appear, this, false)
+					])
+
+					this._disposers.push(this._showOnInitDisposer);
+				}
+				else{
+					if(this._showOnInitDisposer){
+						this._showOnInitDisposer.dispose();
+					}
+				}
+			}
 		}
 	}
 
@@ -8424,3 +8438,11 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		return this._bbox;
 	}
 }
+
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["Sprite"] = Sprite;

@@ -247,7 +247,7 @@ var DurationAxis = /** @class */ (function (_super) {
             if (this._baseUnit != timeUnit) {
                 this._baseUnit = timeUnit;
                 this.durationFormatter.baseUnit = timeUnit;
-                this.invalidateDataRange();
+                this.invalidate();
             }
         },
         enumerable: true,

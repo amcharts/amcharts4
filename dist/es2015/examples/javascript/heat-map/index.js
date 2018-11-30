@@ -24,7 +24,6 @@ series.dataFields.categoryX = "weekday";
 series.dataFields.categoryY = "hour";
 series.dataFields.value = "value";
 series.sequencedInterpolation = true;
-series.defaultState.transitionDuration = 3000;
 
 let columnTemplate = series.columns.template;
 columnTemplate.strokeWidth = 2;

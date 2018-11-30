@@ -290,7 +290,7 @@ var PyramidSeries = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (this.setPercentProperty("topWidth", value, false, false, 10, false)) {
-                this.invalidateDataRange();
+                this.invalidate();
             }
         },
         enumerable: true,
@@ -312,7 +312,7 @@ var PyramidSeries = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (this.setPercentProperty("pyramidHeight", value, false, false, 10, false)) {
-                this.invalidateDataRange();
+                this.invalidate();
             }
         },
         enumerable: true,
@@ -339,7 +339,7 @@ var PyramidSeries = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (this.setPercentProperty("bottomWidth", value, false, false, 10, false)) {
-                this.invalidateDataRange();
+                this.invalidate();
             }
         },
         enumerable: true,
@@ -377,7 +377,7 @@ var PyramidSeries = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (this.setPropertyValue("valueIs", value)) {
-                this.invalidateDataRange();
+                this.invalidate();
             }
         },
         enumerable: true,

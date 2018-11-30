@@ -44,6 +44,7 @@ var theme = function (object) {
         object.defaultState.transitionDuration = 1000;
         object.hiddenState.transitionDuration = 700;
         object.hiddenState.properties.opacity = 1;
+        object.showOnInit = true;
     }
     if (object instanceof MapSeries) {
         object.hiddenState.properties.opacity = 0;
