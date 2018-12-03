@@ -47,11 +47,17 @@ var Column = /** @class */ (function (_super) {
         _this.events.on("childadded", _this.handleKidAdded, _this, false);
         return _this;
     }
+    /**
+     * @ignore
+     */
     Column.prototype.handleKidAdded = function () {
         if (this.layout == "none") {
             this.layout = "absolute";
         }
     };
+    /**
+     * @ignore
+     */
     Column.prototype.createAssets = function () {
         this.column = this.createChild(RoundedRectangle);
         this.column.shouldClone = false;
@@ -59,23 +65,23 @@ var Column = /** @class */ (function (_super) {
         this._disposers.push(this.column);
     };
     /**
-     * Validates element:
-     * * Triggers events
-     * * Redraws the element
-     *
      * @ignore Exclude from docs
      */
     Column.prototype.validate = function () {
         _super.prototype.validate.call(this);
-        if (this.column) {
-            this.column.width = $math.min(this.pixelWidth, this.maxWidth);
-            this.column.height = $math.min(this.pixelHeight, this.maxHeight);
+        var column = this.column;
+        if (column) {
+            column.width = $math.min(this.pixelWidth, this.maxWidth);
+            column.height = $math.min(this.pixelHeight, this.maxHeight);
+            if (column.invalid) {
+                column.validate(); // important!
+            }
         }
     };
     /**
-     * Copies all parameters from another [[Sprite]].
+     * Copies all parameters from another [[Column]].
      *
-     * @param {Sprite} source Source Sprite
+     * @param {Column} source Source Column
      */
     Column.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

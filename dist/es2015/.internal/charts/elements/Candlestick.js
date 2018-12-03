@@ -36,6 +36,9 @@ var Candlestick = /** @class */ (function (_super) {
         _this.layout = "none";
         return _this;
     }
+    /**
+     * @ignore
+     */
     Candlestick.prototype.createAssets = function () {
         _super.prototype.createAssets.call(this);
         this.lowLine = this.createChild(Line);
@@ -43,6 +46,11 @@ var Candlestick = /** @class */ (function (_super) {
         this.highLine = this.createChild(Line);
         this.highLine.shouldClone = false;
     };
+    /**
+     * Copies all parameters from another [[Candlestick]].
+     *
+     * @param {Candlestick} source Source Candlestick
+     */
     Candlestick.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
         if (this.lowLine) {

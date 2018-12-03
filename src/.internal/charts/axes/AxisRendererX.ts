@@ -205,9 +205,9 @@ export class AxisRendererX extends AxisRenderer {
 	 * @param {number}     position     Starting position
 	 * @param {number}     endPosition  Ending position
 	 */
-	public updateLabelElement(label: AxisLabel, position: number, endPosition: number, location?:number) {
+	public updateLabelElement(label: AxisLabel, position: number, endPosition: number, location?: number) {
 
-		if(!$type.hasValue(location)){
+		if (!$type.hasValue(location)) {
 			location = label.location;
 		}
 
@@ -217,10 +217,18 @@ export class AxisRendererX extends AxisRenderer {
 		label.isMeasured = !label.inside;
 
 		if (!this.opposite && label.inside) {
-			label.verticalCenter = "bottom";
+			if(label.rotation == 0){
+				label.verticalCenter = "bottom";
+			}
+		}
+		else {
+			if(label.rotation == 0){
+				label.verticalCenter = "top";
+			}
 		}
 
 		this.positionItem(label, point);
+
 		this.toggleVisibility(label, position, this.minLabelPosition, this.maxLabelPosition);
 	}
 

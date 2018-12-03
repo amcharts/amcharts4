@@ -306,6 +306,7 @@ var ValueAxis = /** @class */ (function (_super) {
         this.validateAxisRanges();
         this.validateBreaks();
         this.hideUnusedDataItems();
+        this.renderer.invalidateLayout();
         // hide too close
         //this.hideTooCloseDataItems();
     };

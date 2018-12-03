@@ -81,9 +81,9 @@ var CurvedColumn = /** @class */ (function (_super) {
         this.column.path = path;
     };
     /**
-     * Copies all properties from other element of the same type.
+     * Copies all parameters from another [[CurvedColumn]].
      *
-     * @param {this}  source  Source element
+     * @param {CurvedColumn}  source  Source CurvedColumn
      */
     CurvedColumn.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);

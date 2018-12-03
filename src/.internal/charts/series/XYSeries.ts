@@ -1289,6 +1289,11 @@ export class XYSeries extends Series {
 				this._tmax.setKey(xAxisId, maxX);
 				this._tmin.setKey(yAxisId, minY);
 				this._tmax.setKey(yAxisId, maxY);
+
+				if(this.stackedSeries){
+					this.stackedSeries.processValues(false);
+				}
+
 				this.dispatchImmediately("extremeschanged");
 			}
 		}
@@ -1685,7 +1690,7 @@ export class XYSeries extends Series {
 
 					let prevDataItem = prevSeries.dataItems.getIndex(dataItem.index); // indexes should match
 
-					if (prevDataItem.hasValue(this._xValueFields) && prevDataItem.hasValue(this._yValueFields)) {
+					if (prevDataItem && prevDataItem.hasValue(this._xValueFields) && prevDataItem.hasValue(this._yValueFields)) {
 
 						let value = dataItem.getValue(field);
 						let prevValue: number;

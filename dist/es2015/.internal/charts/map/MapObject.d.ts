@@ -8,7 +8,8 @@
  * @hidden
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
-import { MapSeries } from "./MapSeries";
+import { MapSeries, MapSeriesDataItem } from "./MapSeries";
+import { IGeoPoint } from "../../core/defs/IGeoPoint";
 /**
  * ============================================================================
  * REQUISITES
@@ -19,6 +20,20 @@ import { MapSeries } from "./MapSeries";
  * Defines propeties for [[MapObject]].
  */
 export interface IMapObjectProperties extends IContainerProperties {
+    /**
+     * A custom zoom level to use when `zoomToMapObject()` is called on this
+     * map object.
+     *
+     * @type {number}
+     */
+    zoomLevel?: number;
+    /**
+     * A custom point to use when `zoomToMapObject()` is called on this map
+     * object.
+     *
+     * @type {IGeoPoint}
+     */
+    zoomGeoPoint?: IGeoPoint;
 }
 /**
  * Defines events for [[MapObject]].
@@ -69,6 +84,7 @@ export declare class MapObject extends Container {
      * @type {MapSeries}
      */
     series: MapSeries;
+    _dataItem: MapSeriesDataItem;
     /**
      * Constructor
      */

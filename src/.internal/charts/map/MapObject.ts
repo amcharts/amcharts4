@@ -10,8 +10,9 @@
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "../../core/Container";
 import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
-import { MapSeries } from "./MapSeries";
+import { MapSeries, MapSeriesDataItem } from "./MapSeries";
 import { registry } from "../../core/Registry";
+import { IGeoPoint } from "../../core/defs/IGeoPoint";
 
 
 /**
@@ -24,7 +25,25 @@ import { registry } from "../../core/Registry";
 /**
  * Defines propeties for [[MapObject]].
  */
-export interface IMapObjectProperties extends IContainerProperties { }
+export interface IMapObjectProperties extends IContainerProperties {
+
+	/**
+	 * A custom zoom level to use when `zoomToMapObject()` is called on this
+	 * map object.
+	 * 
+	 * @type {number}
+	 */
+	zoomLevel?: number;
+
+	/**
+	 * A custom point to use when `zoomToMapObject()` is called on this map
+	 * object.
+	 * 
+	 * @type {IGeoPoint}
+	 */
+	zoomGeoPoint?: IGeoPoint;
+
+}
 
 /**
  * Defines events for [[MapObject]].
@@ -82,6 +101,8 @@ export class MapObject extends Container {
 	 */
 	public series: MapSeries;
 
+	public _dataItem: MapSeriesDataItem;
+
 	/**
 	 * Constructor
 	 */
@@ -112,7 +133,6 @@ export class MapObject extends Container {
 		}
 		super.validate();
 	}
-
 }
 
 /**

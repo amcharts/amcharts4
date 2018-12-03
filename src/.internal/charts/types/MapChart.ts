@@ -882,7 +882,7 @@ export class MapChart extends SerialChart {
 			}
 
 			let projectionScaleChanged = false;
-			if(this.projection.scale != scaleRatio){
+			if (this.projection.scale != scaleRatio) {
 				this.projection.scale = scaleRatio;
 				projectionScaleChanged = true;
 			}
@@ -920,7 +920,7 @@ export class MapChart extends SerialChart {
 	 * that it fits perfectly into available space. Helps to avoid redrawing of all the map if container size changes
 	 * @ignore
 	 */
-	protected updateScaleRatio(): void {		
+	protected updateScaleRatio(): void {
 		let scaleRatio: number;
 
 		let vScale: number = this.chartContainer.innerWidth / this.seriesWidth;
@@ -1110,22 +1110,33 @@ export class MapChart extends SerialChart {
 			return this.zoomToGeoPoint({ latitude: mapObject.latitude, longitude: mapObject.longitude }, zoomLevel, center, duration);
 		}
 
+		let dataItem = mapObject.dataItem;
+
+		if (dataItem && $type.isNumber(dataItem.zoomLevel)) {
+			zoomLevel = dataItem.zoomLevel;
+		}
+
 		if (mapObject instanceof MapPolygon) {
 			let dataItem = mapObject.dataItem;
-			if ($type.isNumber(zoomLevel)) {
+			let bbox = mapObject.polygon.bbox;
 
-				// this is more accurate
-				let polygonPoint = { x: mapObject.polygon.bbox.x + mapObject.polygon.bbox.width / 2, y: mapObject.polygon.bbox.y + mapObject.polygon.bbox.height / 2 };
-				let seriesPoint = $utils.spritePointToSprite(polygonPoint, mapObject.polygon, mapObject.series);
+			if (!$type.isNumber(zoomLevel)) {
+				zoomLevel = Math.min(this.seriesWidth / bbox.width, this.seriesHeight / bbox.height);
+			}
 
-				let geoPoint = this.seriesPointToGeo(seriesPoint);
-				return this.zoomToGeoPoint(geoPoint, zoomLevel, true, duration);
+			let geoPoint: IGeoPoint;
 
-				//				return this.zoomToGeoPoint({ latitude: mapObject.latitude, longitude: mapObject.longitude }, zoomLevel, center, duration);
+			if (dataItem && $type.hasValue(dataItem.zoomGeoPoint)) {
+				geoPoint = dataItem.zoomGeoPoint;
 			}
 			else {
-				return this.zoomToRectangle(dataItem.north, dataItem.east, dataItem.south, dataItem.west, null, center, duration);
+				// this is more accurate
+				let polygonPoint = { x: bbox.x + bbox.width / 2, y: bbox.y + bbox.height / 2 };
+				let seriesPoint = $utils.spritePointToSprite(polygonPoint, mapObject.polygon, mapObject.series);
+
+				geoPoint = this.seriesPointToGeo(seriesPoint);
 			}
+			return this.zoomToGeoPoint(geoPoint, zoomLevel, true, duration);
 		}
 	}
 
@@ -1151,7 +1162,6 @@ export class MapChart extends SerialChart {
 		if ($type.isNaN(level)) {
 			level = 1;
 		}
-
 		let zoomLevel = level * Math.min((this.south - this.north) / (south - north), (this.west - this.east) / (west - east));
 
 		return this.zoomToGeoPoint({ latitude: north + (south - north) / 2, longitude: west + (east - west) / 2 }, zoomLevel, center, duration);
@@ -1211,7 +1221,7 @@ export class MapChart extends SerialChart {
 	 * @return {IGeoPoint} Coordinates
 	 */
 	public get zoomGeoPoint(): IGeoPoint {
-		var point = $utils.spritePointToSvg({x: this.pixelWidth / 2, y: this.pixelHeight / 2}, this);
+		var point = $utils.spritePointToSvg({ x: this.pixelWidth / 2, y: this.pixelHeight / 2 }, this);
 		return this.svgPointToGeo(point);
 	}
 
@@ -1570,10 +1580,10 @@ export class MapChart extends SerialChart {
 	 */
 	protected setLegend(legend: Legend) {
 		super.setLegend(legend);
-		if(legend){
+		if (legend) {
 			legend.parent = this.chartContainer;
 		}
-	}	
+	}
 }
 
 /**

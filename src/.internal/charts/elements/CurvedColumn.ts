@@ -129,7 +129,7 @@ export class CurvedColumn extends Column {
 	 * @todo Description
 	 * @ignore Exclude from docs
 	 */
-	public createAssets(): void {
+	protected createAssets(): void {
 		this.curvedColumn = this.createChild(Sprite);
 		this.curvedColumn.shouldClone = false;
 
@@ -176,9 +176,9 @@ export class CurvedColumn extends Column {
 	}
 
 	/**
-	 * Copies all properties from other element of the same type.
+	 * Copies all parameters from another [[CurvedColumn]].
 	 * 
-	 * @param {this}  source  Source element
+	 * @param {CurvedColumn}  source  Source CurvedColumn
 	 */
 	public copyFrom(source: this): void {
 		super.copyFrom(source)

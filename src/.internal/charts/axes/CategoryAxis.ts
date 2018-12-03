@@ -444,6 +444,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 		this.validateAxisRanges();	
 
 		this.ghostLabel.invalidate(); // solves font issue
+		this.renderer.invalidateLayout();
 	}
 
 	/**

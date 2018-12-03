@@ -104,8 +104,10 @@ export class OHLC extends Candlestick {
 		this.className = "OHLC";
 		this.layout = "none";
 	}
-
-	createAssets() {
+	/**
+	 * @ignore
+	 */
+	protected createAssets() {
 		//super.createAssets();
 
 		this.openLine = this.createChild(Line);
@@ -118,7 +120,12 @@ export class OHLC extends Candlestick {
 		this.closeLine.shouldClone = false;
 	}
 
-	copyFrom(source: this) {
+	/**
+	 * Copies all parameters from another [[OHLC]].
+	 *
+	 * @param {OHLC} source Source OHLC
+	 */
+	public copyFrom(source: this) {
 		super.copyFrom(source)
 		if (this.openLine) {
 			this.openLine.copyFrom(source.openLine);

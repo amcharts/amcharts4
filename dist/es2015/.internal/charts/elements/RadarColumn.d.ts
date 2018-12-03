@@ -75,7 +75,15 @@ export declare class RadarColumn extends Column {
      * Constructor
      */
     constructor();
-    createAssets(): void;
+    /**
+     * @ignore
+     */
+    protected createAssets(): void;
+    /**
+     * Copies all parameters from another [[RadarColumn]].
+     *
+     * @param {RadarColumn} source Source RadarColumn
+     */
     copyFrom(source: this): void;
     /**
      * X coordinate for the slice tooltip.

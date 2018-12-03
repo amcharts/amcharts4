@@ -185,7 +185,7 @@ function gitTag(s) {
 function releaseSubPackage(name, gitName) {
 	const distDir = $path.resolve(`dist/${name}`);
 
-	const json = require(`../package/${name}/package.json`);
+	const json = require(`../../${name}/package.json`);
 
 	cwd($path.join("git", gitName), () => {
 		gitFetchSubmodule();

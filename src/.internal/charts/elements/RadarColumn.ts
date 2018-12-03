@@ -93,7 +93,10 @@ export class RadarColumn extends Column {
 		this.className = "RadarColumn";
 	}
 
-	createAssets() {
+	/**
+	 * @ignore
+	 */
+	protected createAssets() {
 		this.radarColumn = this.createChild(Slice);
 		this.radarColumn.shouldClone = false;
 		this.radarColumn.strokeOpacity = undefined;
@@ -101,7 +104,12 @@ export class RadarColumn extends Column {
 		this.column = <any>this.radarColumn;
 	}
 
-	copyFrom(source: this) {
+	/**
+	 * Copies all parameters from another [[RadarColumn]].
+	 *
+	 * @param {RadarColumn} source Source RadarColumn
+	 */
+	public copyFrom(source: this) {
 		super.copyFrom(source)
 		if (this.radarColumn) {
 			this.radarColumn.copyFrom(source.radarColumn);

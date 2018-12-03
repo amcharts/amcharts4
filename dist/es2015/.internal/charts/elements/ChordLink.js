@@ -90,7 +90,6 @@ var ChordLink = /** @class */ (function (_super) {
                     this.bulletsMask.path = path;
                     this.bulletsContainer.mask = this.bulletsMask;
                 }
-                this.positionBullets();
                 var mAngle1 = startAngle + arc / 2;
                 var mAngle2 = endAngle + arc / 2;
                 var mAngleM = mAngle1 + (mAngle2 - mAngle1) / 2;
@@ -102,6 +101,7 @@ var ChordLink = /** @class */ (function (_super) {
                 middleLine.cpx = 0;
                 middleLine.cpy = 0;
                 middleLine.stroke = this.fill;
+                this.positionBullets();
             }
         }
     };

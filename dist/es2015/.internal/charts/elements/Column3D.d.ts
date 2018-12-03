@@ -75,7 +75,18 @@ export declare class Column3D extends Column {
      * Constructor
      */
     constructor();
-    createAssets(): void;
+    /**
+     * @ignore
+     */
+    protected createAssets(): void;
+    /**
+     * @ignore Exclude from docs
+     */
     validate(): void;
+    /**
+     * Copies all parameters from another [[Column3D]].
+     *
+     * @param {Column3D} source Source Column3D
+     */
     copyFrom(source: this): void;
 }

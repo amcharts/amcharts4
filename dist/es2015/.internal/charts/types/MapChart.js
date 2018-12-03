@@ -613,19 +613,27 @@ var MapChart = /** @class */ (function (_super) {
             }
             return this.zoomToGeoPoint({ latitude: mapObject.latitude, longitude: mapObject.longitude }, zoomLevel, center, duration);
         }
+        var dataItem = mapObject.dataItem;
+        if (dataItem && $type.isNumber(dataItem.zoomLevel)) {
+            zoomLevel = dataItem.zoomLevel;
+        }
         if (mapObject instanceof MapPolygon) {
-            var dataItem = mapObject.dataItem;
-            if ($type.isNumber(zoomLevel)) {
-                // this is more accurate
-                var polygonPoint = { x: mapObject.polygon.bbox.x + mapObject.polygon.bbox.width / 2, y: mapObject.polygon.bbox.y + mapObject.polygon.bbox.height / 2 };
-                var seriesPoint = $utils.spritePointToSprite(polygonPoint, mapObject.polygon, mapObject.series);
-                var geoPoint = this.seriesPointToGeo(seriesPoint);
-                return this.zoomToGeoPoint(geoPoint, zoomLevel, true, duration);
-                //				return this.zoomToGeoPoint({ latitude: mapObject.latitude, longitude: mapObject.longitude }, zoomLevel, center, duration);
+            var dataItem_1 = mapObject.dataItem;
+            var bbox = mapObject.polygon.bbox;
+            if (!$type.isNumber(zoomLevel)) {
+                zoomLevel = Math.min(this.seriesWidth / bbox.width, this.seriesHeight / bbox.height);
+            }
+            var geoPoint = void 0;
+            if (dataItem_1 && $type.hasValue(dataItem_1.zoomGeoPoint)) {
+                geoPoint = dataItem_1.zoomGeoPoint;
             }
             else {
-                return this.zoomToRectangle(dataItem.north, dataItem.east, dataItem.south, dataItem.west, null, center, duration);
+                // this is more accurate
+                var polygonPoint = { x: bbox.x + bbox.width / 2, y: bbox.y + bbox.height / 2 };
+                var seriesPoint = $utils.spritePointToSprite(polygonPoint, mapObject.polygon, mapObject.series);
+                geoPoint = this.seriesPointToGeo(seriesPoint);
             }
+            return this.zoomToGeoPoint(geoPoint, zoomLevel, true, duration);
         }
     };
     /**

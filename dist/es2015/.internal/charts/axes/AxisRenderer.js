@@ -555,10 +555,18 @@ var AxisRenderer = /** @class */ (function (_super) {
          * @param {boolean}  value  Labels inside?
          */
         set: function (value) {
-            this.setPropertyValue("inside", value);
+            if (this.setPropertyValue("inside", value)) {
+                if (this.axis) {
+                    this.axis.invalidate();
+                }
+            }
             if (value) {
                 this.width = 0;
                 this.height = 0;
+            }
+            else {
+                this.width = undefined;
+                this.height = undefined;
             }
         },
         enumerable: true,

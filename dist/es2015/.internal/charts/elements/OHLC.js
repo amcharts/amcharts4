@@ -36,6 +36,9 @@ var OHLC = /** @class */ (function (_super) {
         _this.layout = "none";
         return _this;
     }
+    /**
+     * @ignore
+     */
     OHLC.prototype.createAssets = function () {
         //super.createAssets();
         this.openLine = this.createChild(Line);
@@ -45,6 +48,11 @@ var OHLC = /** @class */ (function (_super) {
         this.closeLine = this.createChild(Line);
         this.closeLine.shouldClone = false;
     };
+    /**
+     * Copies all parameters from another [[OHLC]].
+     *
+     * @param {OHLC} source Source OHLC
+     */
     OHLC.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
         if (this.openLine) {

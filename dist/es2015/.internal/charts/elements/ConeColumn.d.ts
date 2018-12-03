@@ -75,6 +75,14 @@ export declare class ConeColumn extends Column {
      * Constructor
      */
     constructor();
+    /**
+     * @ignore
+     */
     createAssets(): void;
+    /**
+     * Copies all parameters from another [[ConeColumn]].
+     *
+     * @param {ConeColumn} source Source ConeColumn
+     */
     copyFrom(source: this): void;
 }

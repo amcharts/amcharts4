@@ -79,6 +79,14 @@ export declare class Candlestick extends Column {
      * Constructor
      */
     constructor();
-    createAssets(): void;
+    /**
+     * @ignore
+     */
+    protected createAssets(): void;
+    /**
+     * Copies all parameters from another [[Candlestick]].
+     *
+     * @param {Candlestick} source Source Candlestick
+     */
     copyFrom(source: this): void;
 }

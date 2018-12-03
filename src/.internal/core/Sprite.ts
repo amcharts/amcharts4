@@ -3318,7 +3318,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	}
 
 
-	protected setDisabled(value: boolean):boolean {
+	protected setDisabled(value: boolean): boolean {
 		value = $type.toBoolean(value);
 		let current = this.getPropertyValue("disabled");
 		if (current != value) {
@@ -6122,7 +6122,11 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public set align(value: Align) {
 		value = <Align>$type.toText(value);
-		this.setPropertyValue("align", value, false, true);
+		if (this.setPropertyValue("align", value)) {
+			if (this.parent) {
+				this.parent.invalidateLayout();
+			}
+		}
 	}
 
 	/**
@@ -6141,7 +6145,11 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public set valign(value: VerticalAlign) {
 		value = <VerticalAlign>$type.toText(value);
-		this.setPropertyValue("valign", value, false, true);
+		if (this.setPropertyValue("valign", value)) {
+			if (this.parent) {
+				this.parent.invalidateLayout();
+			}
+		}
 	}
 
 	/**
@@ -6247,7 +6255,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 	/**
 	 * Maximum allowed height for the element in pixels.
-	 *
+	 *max
 	 * @param {number}  value  Maximum height (px)
 	 */
 	public set maxHeight(value: number) {
@@ -6260,6 +6268,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		let prevHeight = this.maxHeight;
 
 		if (this.setPropertyValue("maxHeight", value)) {
+
 			if ($type.isNumber(this.relativeHeight)) {
 				this.invalidate();
 			}
@@ -6352,6 +6361,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			}
 			else {
 				this._pixelWidth = Number(value);
+				//this._measuredWidth = this._pixelWidth;
 				this.maxWidth = this._pixelWidth;
 			}
 			this.invalidatePosition();
@@ -6393,6 +6403,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			}
 			else {
 				this._pixelHeight = Number(value);
+				//this._measuredHeight = this._pixelHeight;
 				this.maxHeight = this._pixelHeight; // yes, we reset maxWidth
 			}
 
@@ -7927,33 +7938,36 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 					text = this.tooltipText;
 				}
 
-				this.updateTooltipPosition(point);
+				if (this.updateTooltipPosition(point)) {
 
-				// Set accessibility option
-				tooltip.readerDescribedBy = this.uidAttr();
+					// Set accessibility option
+					tooltip.readerDescribedBy = this.uidAttr();
 
-				// make label to render to be able to check currentText
-				if (tooltip.label.invalid) {
-					tooltip.label.validate();
+					// make label to render to be able to check currentText
+					if (tooltip.label.invalid) {
+						tooltip.label.validate();
+					}
+
+					if (text != undefined && text != "" && tooltip.label.currentText != "") {
+
+						//@todo: think of how to solve this better
+						if (tooltip && !tooltip.parent) {
+							tooltip.parent = this.tooltipContainer;
+						}
+
+						// Reveal tooltip
+						// showing it in 1 ms helps to avoid strange flickering in IE
+						let duration = tooltip.defaultState.transitionDuration;
+						if (duration <= 0) {
+							duration = 1;
+						}
+
+						tooltip.show(duration);
+						return true;
+					}
 				}
-
-
-				if (text != undefined && text != "" && tooltip.label.currentText != "") {
-
-					//@todo: think of how to solve this better
-					if (tooltip && !tooltip.parent) {
-						tooltip.parent = this.tooltipContainer;
-					}
-
-					// Reveal tooltip
-					// showing it in 1 ms helps to avoid strange flickering in IE
-					let duration = tooltip.defaultState.transitionDuration;
-					if (duration <= 0) {
-						duration = 1;
-					}
-
-					tooltip.show(duration);
-					return true;
+				else {
+					this.hideTooltip(0);
 				}
 			}
 		}
@@ -7963,13 +7977,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	/**
 	 * @ignore
 	 */
-	protected updateTooltipPosition(point?: IPoint) {
+	protected updateTooltipPosition(point?: IPoint): boolean {
 		if (this.tooltipPosition == "pointer") {
 			this._interactionDisposer = getInteraction().body.events.on("track", (ev) => {
-				this.pointTooltipTo($utils.documentPointToSvg(ev.point, this.svgContainer.SVGContainer), true);
+				return this.pointTooltipTo($utils.documentPointToSvg(ev.point, this.svgContainer.SVGContainer), true);
 			});
 			if (point) {
-				this.pointTooltipTo(point, true);
+				return this.pointTooltipTo(point, true);
 			}
 		}
 		else {
@@ -7979,7 +7993,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				"y": this.tooltipY
 			}, this);
 
-			this.pointTooltipTo(globalPoint);
+			return this.pointTooltipTo(globalPoint);
 		}
 	}
 
@@ -7989,11 +8003,16 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @param {IPoint}   point      Coordinates to point to
 	 * @param {boolean}  instantly  Move instantly without animation
 	 */
-	protected pointTooltipTo(point: IPoint, instantly?: boolean): void {
+	protected pointTooltipTo(point: IPoint, instantly?: boolean): boolean {
 		let tooltip = this.tooltip;
 		if (tooltip) {
-			tooltip.pointTo(point, instantly);
+
+			if ($math.isInRectangle(point, { x: 0, y: 0, width: this.topParent.maxWidth, height: this.topParent.maxHeight })) {
+				tooltip.pointTo(point, instantly);
+				return true;
+			}
 		}
+		return false;
 	}
 
 	/**
@@ -8339,8 +8358,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	protected setShowOnInit(value: boolean) {
 		if (this.setPropertyValue("showOnInit", value)) {
-			if(!this.isTemplate){
-				if(value && !this.inited && !this.hidden){
+			if (!this.isTemplate) {
+				if (value && !this.inited && !this.hidden) {
 					this._showOnInitDisposer = new MultiDisposer([
 						registry.events.once("enterframe", this.hideInitially, this),
 						this.events.once("beforevalidated", this.hideInitially, this, false),
@@ -8349,8 +8368,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 					this._disposers.push(this._showOnInitDisposer);
 				}
-				else{
-					if(this._showOnInitDisposer){
+				else {
+					if (this._showOnInitDisposer) {
 						this._showOnInitDisposer.dispose();
 					}
 				}

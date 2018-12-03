@@ -98,7 +98,10 @@ export class Candlestick extends Column {
 		this.layout = "none";
 	}
 
-	createAssets() {
+	/**
+	 * @ignore
+	 */
+	protected createAssets() {
 		super.createAssets();
 
 		this.lowLine = this.createChild(Line);
@@ -108,7 +111,12 @@ export class Candlestick extends Column {
 		this.highLine.shouldClone = false;
 	}
 
-	copyFrom(source: this) {
+	/**
+	 * Copies all parameters from another [[Candlestick]].
+	 *
+	 * @param {Candlestick} source Source Candlestick
+	 */
+	public copyFrom(source: this) {
 		super.copyFrom(source)
 		if (this.lowLine) {
 			this.lowLine.copyFrom(source.lowLine);

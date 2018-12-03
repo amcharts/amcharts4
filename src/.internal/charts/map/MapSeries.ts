@@ -126,6 +126,39 @@ export class MapSeriesDataItem extends SeriesDataItem {
 		}
 	}
 
+	/**
+	 * When `zoomToMapObject()` is called the map will either calculate suitable
+	 * zoom level itself or use object's `zoomLevel` if set.
+	 * 
+	 * @param {number}  value  Zoom level
+	 */
+	public set zoomLevel(value: number) {
+		this.setProperty("zoomLevel", value);
+	}
+
+	/**
+	 * @return {number} Zoom level
+	 */
+	public get zoomLevel(): number {
+		return this.properties["zoomLevel"];
+	}
+
+	/**
+	 * When `zoomToMapObject()` is called the map will either calculate suitable
+	 * center position itself or use object's `zoomGeoPoint` if set.
+	 * 
+	 * @param {IGeoPoint}  value  Zoom geo point
+	 */
+	public set zoomGeoPoint(value: IGeoPoint) {
+		this.setProperty("zoomGeoPoint", value);
+	}
+
+	/**
+	 * @return {IGeoPoint} Zoom geo point
+	 */
+	public get zoomGeoPoint(): IGeoPoint {
+		return this.properties["zoomGeoPoint"];
+	}
 }
 
 
@@ -152,11 +185,25 @@ export type GEOJSONGeometry = "Point" | "LineString" | "Polygon" | "MultiPoint" 
 export interface IMapSeriesDataFields extends ISeriesDataFields {
 
 	/**
-	 * A field number in data for a numeric value of the map object.
+	 * A field name in data for a numeric value of the map object.
 	 *
 	 * @type {string}
 	 */
 	value?: string;
+
+	/**
+	 * A field name in data for a `zoomLevel` of the map object.
+	 *
+	 * @type {string}
+	 */
+	zoomLevel?: string;
+
+	/**
+	 * A field name in data for a `zoomGeoPoint` of the map object.
+	 *
+	 * @type {string}
+	 */
+	zoomGeoPoint?: string;
 
 }
 
@@ -350,7 +397,7 @@ export class MapSeries extends Series {
 				this.south = dataItem.south;
 			}
 		});
-		if(this.chart){
+		if (this.chart) {
 			this.chart.updateExtremes();
 		}
 	}

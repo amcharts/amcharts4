@@ -93,6 +93,9 @@ export class ConeColumn extends Column {
 		this.className = "ConeColumn";
 	}
 
+	/**
+	 * @ignore
+	 */
 	createAssets() {
 		this.coneColumn = this.createChild(Cone);
 		this.coneColumn.shouldClone = false;
@@ -101,6 +104,11 @@ export class ConeColumn extends Column {
 		this.column = <any>this.coneColumn;
 	}
 
+	/**
+	 * Copies all parameters from another [[ConeColumn]].
+	 *
+	 * @param {ConeColumn} source Source ConeColumn
+	 */
 	copyFrom(source: this) {
 		super.copyFrom(source)
 		if (this.coneColumn) {

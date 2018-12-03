@@ -5,6 +5,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.4] - 2018-12-03
+
+### Added
+- `zoomLevel` and `zoomGeoPoint` properties added to `MapSeriesDataItem` and `IMapSeriesDataFields`. If set, these settings instead of automatically-calculated will be used when `zoomToMapObject()` method is invoked.
+
+### Changed
+- `verticalCenter` and `horizontalCenter` is no longer applied to rotated axis labels. If you are setting `rotation` on axis labels, make sure to adjust these settings as well as per your requirement.
+
+### Fixed
+- Setting `axis.renderer.inside` was ignored if set after chart was already initialized.
+- Changing `align` of the a sprite was ignored if set after it was already initialized.
+- Top level `TreeMap` segment tooltip was positioned incorrectly after drilling down and back up.
+- `min`/`max` of `ValueAxis` was not being updated after `invalidateRawData()` call, and series were stacked.
+- Tooltip sometimes was pointing outside chart container.
+- `ChordLink` bullets were not properly positioned on init.
+- `DateAxis` was not working well if `baseInterval.count > 1`.
+
 
 ## [4.0.3] - 2018-11-30
 

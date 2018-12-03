@@ -1325,6 +1325,14 @@ export class Container extends Sprite {
 			}
 		}
 
+		if(this.layout == "none"){
+			let noneBBox = this.bbox;
+			left = noneBBox.x;
+			right = noneBBox.x + noneBBox.width;
+			top = noneBBox.y;
+			bottom = noneBBox.y + noneBBox.height;
+		}
+
 		if (!$type.isNumber(left)) {
 			left = 0;
 			contentLeft = 0;

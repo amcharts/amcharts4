@@ -104,7 +104,7 @@ export declare class CurvedColumn extends Column {
      * @todo Description
      * @ignore Exclude from docs
      */
-    createAssets(): void;
+    protected createAssets(): void;
     /**
      * Draws the element.
      *
@@ -112,9 +112,9 @@ export declare class CurvedColumn extends Column {
      */
     draw(): void;
     /**
-     * Copies all properties from other element of the same type.
+     * Copies all parameters from another [[CurvedColumn]].
      *
-     * @param {this}  source  Source element
+     * @param {CurvedColumn}  source  Source CurvedColumn
      */
     copyFrom(source: this): void;
     /**

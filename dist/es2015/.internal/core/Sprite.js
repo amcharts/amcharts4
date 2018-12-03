@@ -5214,7 +5214,11 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = $type.toText(value);
-            this.setPropertyValue("align", value, false, true);
+            if (this.setPropertyValue("align", value)) {
+                if (this.parent) {
+                    this.parent.invalidateLayout();
+                }
+            }
         },
         enumerable: true,
         configurable: true
@@ -5235,7 +5239,11 @@ var Sprite = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = $type.toText(value);
-            this.setPropertyValue("valign", value, false, true);
+            if (this.setPropertyValue("valign", value)) {
+                if (this.parent) {
+                    this.parent.invalidateLayout();
+                }
+            }
         },
         enumerable: true,
         configurable: true
@@ -5349,7 +5357,7 @@ var Sprite = /** @class */ (function (_super) {
         },
         /**
          * Maximum allowed height for the element in pixels.
-         *
+         *max
          * @param {number}  value  Maximum height (px)
          */
         set: function (value) {
@@ -5446,6 +5454,7 @@ var Sprite = /** @class */ (function (_super) {
                 }
                 else {
                     this._pixelWidth = Number(value);
+                    //this._measuredWidth = this._pixelWidth;
                     this.maxWidth = this._pixelWidth;
                 }
                 this.invalidatePosition();
@@ -5486,6 +5495,7 @@ var Sprite = /** @class */ (function (_super) {
                 }
                 else {
                     this._pixelHeight = Number(value);
+                    //this._measuredHeight = this._pixelHeight;
                     this.maxHeight = this._pixelHeight; // yes, we reset maxWidth
                 }
                 this.invalidatePosition();
@@ -7049,26 +7059,30 @@ var Sprite = /** @class */ (function (_super) {
                     tooltip.text = this.tooltipText;
                     text = this.tooltipText;
                 }
-                this.updateTooltipPosition(point);
-                // Set accessibility option
-                tooltip.readerDescribedBy = this.uidAttr();
-                // make label to render to be able to check currentText
-                if (tooltip.label.invalid) {
-                    tooltip.label.validate();
+                if (this.updateTooltipPosition(point)) {
+                    // Set accessibility option
+                    tooltip.readerDescribedBy = this.uidAttr();
+                    // make label to render to be able to check currentText
+                    if (tooltip.label.invalid) {
+                        tooltip.label.validate();
+                    }
+                    if (text != undefined && text != "" && tooltip.label.currentText != "") {
+                        //@todo: think of how to solve this better
+                        if (tooltip && !tooltip.parent) {
+                            tooltip.parent = this.tooltipContainer;
+                        }
+                        // Reveal tooltip
+                        // showing it in 1 ms helps to avoid strange flickering in IE
+                        var duration = tooltip.defaultState.transitionDuration;
+                        if (duration <= 0) {
+                            duration = 1;
+                        }
+                        tooltip.show(duration);
+                        return true;
+                    }
                 }
-                if (text != undefined && text != "" && tooltip.label.currentText != "") {
-                    //@todo: think of how to solve this better
-                    if (tooltip && !tooltip.parent) {
-                        tooltip.parent = this.tooltipContainer;
-                    }
-                    // Reveal tooltip
-                    // showing it in 1 ms helps to avoid strange flickering in IE
-                    var duration = tooltip.defaultState.transitionDuration;
-                    if (duration <= 0) {
-                        duration = 1;
-                    }
-                    tooltip.show(duration);
-                    return true;
+                else {
+                    this.hideTooltip(0);
                 }
             }
         }
@@ -7081,10 +7095,10 @@ var Sprite = /** @class */ (function (_super) {
         var _this = this;
         if (this.tooltipPosition == "pointer") {
             this._interactionDisposer = getInteraction().body.events.on("track", function (ev) {
-                _this.pointTooltipTo($utils.documentPointToSvg(ev.point, _this.svgContainer.SVGContainer), true);
+                return _this.pointTooltipTo($utils.documentPointToSvg(ev.point, _this.svgContainer.SVGContainer), true);
             });
             if (point) {
-                this.pointTooltipTo(point, true);
+                return this.pointTooltipTo(point, true);
             }
         }
         else {
@@ -7093,7 +7107,7 @@ var Sprite = /** @class */ (function (_super) {
                 "x": this.tooltipX,
                 "y": this.tooltipY
             }, this);
-            this.pointTooltipTo(globalPoint);
+            return this.pointTooltipTo(globalPoint);
         }
     };
     /**
@@ -7105,8 +7119,12 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.pointTooltipTo = function (point, instantly) {
         var tooltip = this.tooltip;
         if (tooltip) {
-            tooltip.pointTo(point, instantly);
+            if ($math.isInRectangle(point, { x: 0, y: 0, width: this.topParent.maxWidth, height: this.topParent.maxHeight })) {
+                tooltip.pointTo(point, instantly);
+                return true;
+            }
         }
+        return false;
     };
     /**
      * Hides element's [[Tooltip]].

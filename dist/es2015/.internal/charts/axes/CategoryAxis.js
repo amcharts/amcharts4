@@ -278,6 +278,7 @@ var CategoryAxis = /** @class */ (function (_super) {
         this.validateBreaks();
         this.validateAxisRanges();
         this.ghostLabel.invalidate(); // solves font issue
+        this.renderer.invalidateLayout();
     };
     /**
      * [validateDataElement description]

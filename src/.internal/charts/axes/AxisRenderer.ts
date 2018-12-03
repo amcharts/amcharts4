@@ -788,11 +788,20 @@ export class AxisRenderer extends Container {
 	 * @param {boolean}  value  Labels inside?
 	 */
 	public set inside(value: boolean) {
-		this.setPropertyValue("inside", value);
+
+		if (this.setPropertyValue("inside", value)) {
+			if (this.axis) {
+				this.axis.invalidate();
+			}
+		}
 
 		if (value) {
 			this.width = 0;
 			this.height = 0;
+		}
+		else {
+			this.width = undefined;
+			this.height = undefined;
 		}
 	}
 
@@ -885,8 +894,8 @@ export class AxisRenderer extends Container {
 	 * @param {number} value Cell start (0-1)
 	 */
 	public set cellStartLocation(value: number) {
-		if(this.setPropertyValue("cellStartLocation", value)){
-			if(this.axis){
+		if (this.setPropertyValue("cellStartLocation", value)) {
+			if (this.axis) {
 				this.axis.invalidateSeries();
 			}
 		}
@@ -922,11 +931,11 @@ export class AxisRenderer extends Container {
 	 * @param {number} value Cell end (0-1)
 	 */
 	public set cellEndLocation(value: number) {
-		if(this.setPropertyValue("cellEndLocation", value)){
-			if(this.axis){
+		if (this.setPropertyValue("cellEndLocation", value)) {
+			if (this.axis) {
 				this.axis.invalidateSeries();
 			}
-		}		
+		}
 	}
 
 	/**

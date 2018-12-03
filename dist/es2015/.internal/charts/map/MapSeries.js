@@ -80,6 +80,44 @@ var MapSeriesDataItem = /** @class */ (function (_super) {
             }
         }
     };
+    Object.defineProperty(MapSeriesDataItem.prototype, "zoomLevel", {
+        /**
+         * @return {number} Zoom level
+         */
+        get: function () {
+            return this.properties["zoomLevel"];
+        },
+        /**
+         * When `zoomToMapObject()` is called the map will either calculate suitable
+         * zoom level itself or use object's `zoomLevel` if set.
+         *
+         * @param {number}  value  Zoom level
+         */
+        set: function (value) {
+            this.setProperty("zoomLevel", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MapSeriesDataItem.prototype, "zoomGeoPoint", {
+        /**
+         * @return {IGeoPoint} Zoom geo point
+         */
+        get: function () {
+            return this.properties["zoomGeoPoint"];
+        },
+        /**
+         * When `zoomToMapObject()` is called the map will either calculate suitable
+         * center position itself or use object's `zoomGeoPoint` if set.
+         *
+         * @param {IGeoPoint}  value  Zoom geo point
+         */
+        set: function (value) {
+            this.setProperty("zoomGeoPoint", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
     return MapSeriesDataItem;
 }(SeriesDataItem));
 export { MapSeriesDataItem };

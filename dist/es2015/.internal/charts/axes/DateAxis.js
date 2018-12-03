@@ -806,7 +806,7 @@ var DateAxis = /** @class */ (function (_super) {
      * @return {number}         Adjusted value
      */
     DateAxis.prototype.fixMin = function (value) {
-        return value + this.baseDuration * this.startLocation;
+        return $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count).getTime() + this.baseDuration * this.startLocation;
     };
     /**
      * Adjusts the maximum timestamp as per cell start location.
@@ -815,7 +815,7 @@ var DateAxis = /** @class */ (function (_super) {
      * @return {number}         Adjusted value
      */
     DateAxis.prototype.fixMax = function (value) {
-        return value + this.baseDuration * this.endLocation;
+        return $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count).getTime() + this.baseDuration * this.endLocation;
     };
     /**
      * [chooseInterval description]
@@ -1215,7 +1215,7 @@ var DateAxis = /** @class */ (function (_super) {
         var date = this.positionToDate(position);
         $time.round(date, timeUnit, count);
         if (location > 0) {
-            $time.add(date, timeUnit, location);
+            $time.add(date, timeUnit, location * count);
         }
         if (this.isInBreak(date.getTime())) {
             while (date.getTime() < this.max) {

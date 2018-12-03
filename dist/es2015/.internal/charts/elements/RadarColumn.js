@@ -37,6 +37,9 @@ var RadarColumn = /** @class */ (function (_super) {
         _this.className = "RadarColumn";
         return _this;
     }
+    /**
+     * @ignore
+     */
     RadarColumn.prototype.createAssets = function () {
         this.radarColumn = this.createChild(Slice);
         this.radarColumn.shouldClone = false;
@@ -44,6 +47,11 @@ var RadarColumn = /** @class */ (function (_super) {
         // some dirty hack so that if user access column, it won't get error
         this.column = this.radarColumn;
     };
+    /**
+     * Copies all parameters from another [[RadarColumn]].
+     *
+     * @param {RadarColumn} source Source RadarColumn
+     */
     RadarColumn.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
         if (this.radarColumn) {

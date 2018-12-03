@@ -581,6 +581,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 		this.hideUnusedDataItems();
 
+		this.renderer.invalidateLayout();
 		// hide too close
 		//this.hideTooCloseDataItems();
 	}
@@ -1723,6 +1724,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	protected handleExtremesChange() {
 		this._extremesChanged = true;
 		this.getMinMax();
+
 		if (this.ghostLabel) {
 			let min = this.min;
 			let max = this.max;

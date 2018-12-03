@@ -940,6 +940,13 @@ var Container = /** @class */ (function (_super) {
                 child.validatePosition();
             }
         }
+        if (this.layout == "none") {
+            var noneBBox = this.bbox;
+            left = noneBBox.x;
+            right = noneBBox.x + noneBBox.width;
+            top = noneBBox.y;
+            bottom = noneBBox.y + noneBBox.height;
+        }
         if (!$type.isNumber(left)) {
             left = 0;
             contentLeft = 0;

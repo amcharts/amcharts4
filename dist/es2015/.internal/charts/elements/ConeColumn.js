@@ -36,12 +36,20 @@ var ConeColumn = /** @class */ (function (_super) {
         _this.className = "ConeColumn";
         return _this;
     }
+    /**
+     * @ignore
+     */
     ConeColumn.prototype.createAssets = function () {
         this.coneColumn = this.createChild(Cone);
         this.coneColumn.shouldClone = false;
         // some dirty hack so that if user access column, it won't get error
         this.column = this.coneColumn;
     };
+    /**
+     * Copies all parameters from another [[ConeColumn]].
+     *
+     * @param {ConeColumn} source Source ConeColumn
+     */
     ConeColumn.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
         if (this.coneColumn) {

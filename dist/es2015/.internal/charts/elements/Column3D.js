@@ -36,6 +36,9 @@ var Column3D = /** @class */ (function (_super) {
         _this.className = "Column3D";
         return _this;
     }
+    /**
+     * @ignore
+     */
     Column3D.prototype.createAssets = function () {
         this.column3D = this.createChild(Rectangle3D);
         this.column3D.shouldClone = false;
@@ -43,13 +46,24 @@ var Column3D = /** @class */ (function (_super) {
         // some dirty hack so that if user access column, it won't get error
         this.column = this.column3D;
     };
+    /**
+     * @ignore Exclude from docs
+     */
     Column3D.prototype.validate = function () {
         _super.prototype.validate.call(this);
         if (this.column3D) {
             this.column3D.width = this.pixelWidth;
             this.column3D.height = this.pixelHeight;
+            if (this.column3D.invalid) {
+                this.column3D.validate();
+            }
         }
     };
+    /**
+     * Copies all parameters from another [[Column3D]].
+     *
+     * @param {Column3D} source Source Column3D
+     */
     Column3D.prototype.copyFrom = function (source) {
         _super.prototype.copyFrom.call(this, source);
         if (this.column3D) {

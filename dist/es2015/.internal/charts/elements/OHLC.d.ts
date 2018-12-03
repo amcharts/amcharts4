@@ -84,6 +84,14 @@ export declare class OHLC extends Candlestick {
      * Constructor
      */
     constructor();
-    createAssets(): void;
+    /**
+     * @ignore
+     */
+    protected createAssets(): void;
+    /**
+     * Copies all parameters from another [[OHLC]].
+     *
+     * @param {OHLC} source Source OHLC
+     */
     copyFrom(source: this): void;
 }

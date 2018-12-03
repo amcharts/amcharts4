@@ -203,7 +203,6 @@ export class ChordLink extends FlowDiagramLink {
 					this.bulletsMask.path = path;
 					this.bulletsContainer.mask = this.bulletsMask;
 				}
-				this.positionBullets();
 
 				let mAngle1 = startAngle + arc / 2;
 				let mAngle2 = endAngle + arc / 2;
@@ -220,6 +219,8 @@ export class ChordLink extends FlowDiagramLink {
 				middleLine.cpy = 0;
 
 				middleLine.stroke = this.fill;
+
+				this.positionBullets();				
 			}
 		}
 	}

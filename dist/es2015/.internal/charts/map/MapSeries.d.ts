@@ -78,6 +78,26 @@ export declare class MapSeriesDataItem extends SeriesDataItem {
      * @param {IGeoPoint[]}  geoPoints  Points of the element
      */
     updateExtremes(geoPoints: IGeoPoint[]): void;
+    /**
+     * @return {number} Zoom level
+     */
+    /**
+     * When `zoomToMapObject()` is called the map will either calculate suitable
+     * zoom level itself or use object's `zoomLevel` if set.
+     *
+     * @param {number}  value  Zoom level
+     */
+    zoomLevel: number;
+    /**
+     * @return {IGeoPoint} Zoom geo point
+     */
+    /**
+     * When `zoomToMapObject()` is called the map will either calculate suitable
+     * center position itself or use object's `zoomGeoPoint` if set.
+     *
+     * @param {IGeoPoint}  value  Zoom geo point
+     */
+    zoomGeoPoint: IGeoPoint;
 }
 /**
  * ============================================================================
@@ -99,11 +119,23 @@ export declare type GEOJSONGeometry = "Point" | "LineString" | "Polygon" | "Mult
  */
 export interface IMapSeriesDataFields extends ISeriesDataFields {
     /**
-     * A field number in data for a numeric value of the map object.
+     * A field name in data for a numeric value of the map object.
      *
      * @type {string}
      */
     value?: string;
+    /**
+     * A field name in data for a `zoomLevel` of the map object.
+     *
+     * @type {string}
+     */
+    zoomLevel?: string;
+    /**
+     * A field name in data for a `zoomGeoPoint` of the map object.
+     *
+     * @type {string}
+     */
+    zoomGeoPoint?: string;
 }
 /**
  * Defines properties for [[MapSeries]].

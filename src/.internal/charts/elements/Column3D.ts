@@ -93,7 +93,10 @@ export class Column3D extends Column {
 		this.className = "Column3D";
 	}
 
-	createAssets() {
+	/**
+	 * @ignore
+	 */
+	protected createAssets() {
 		this.column3D = this.createChild(Rectangle3D);
 		this.column3D.shouldClone = false;
 		this.column3D.strokeOpacity = 0;
@@ -102,15 +105,26 @@ export class Column3D extends Column {
 		this.column = <any>this.column3D;
 	}
 
-	validate() {
+	/**
+	 * @ignore Exclude from docs
+	 */
+	public validate() {
 		super.validate();
 		if (this.column3D) {
 			this.column3D.width = this.pixelWidth;
 			this.column3D.height = this.pixelHeight;
+			if(this.column3D.invalid){
+				this.column3D.validate();
+			}
 		}
-	}
+	}	
 
-	copyFrom(source: this) {
+	/**
+	 * Copies all parameters from another [[Column3D]].
+	 *
+	 * @param {Column3D} source Source Column3D
+	 */
+	public copyFrom(source: this) {
 		super.copyFrom(source)
 		if (this.column3D) {
 			this.column3D.copyFrom(source.column3D);

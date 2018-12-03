@@ -2828,7 +2828,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     /**
      * Maximum allowed height for the element in pixels.
-     *
+     *max
      * @param {number}  value  Maximum height (px)
      */
     maxHeight: number;
@@ -3564,14 +3564,14 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
     /**
      * @ignore
      */
-    protected updateTooltipPosition(point?: IPoint): void;
+    protected updateTooltipPosition(point?: IPoint): boolean;
     /**
      * Sets the point the [[Tooltip]] should point to.
      *
      * @param {IPoint}   point      Coordinates to point to
      * @param {boolean}  instantly  Move instantly without animation
      */
-    protected pointTooltipTo(point: IPoint, instantly?: boolean): void;
+    protected pointTooltipTo(point: IPoint, instantly?: boolean): boolean;
     /**
      * Hides element's [[Tooltip]].
      *

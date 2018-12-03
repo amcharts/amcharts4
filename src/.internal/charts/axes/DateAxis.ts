@@ -1046,7 +1046,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @return {number}         Adjusted value
 	 */
 	protected fixMin(value: number) {
-		return value + this.baseDuration * this.startLocation;
+		return $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count).getTime() + this.baseDuration * this.startLocation;
 	}
 
 	/**
@@ -1056,7 +1056,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @return {number}         Adjusted value
 	 */
 	protected fixMax(value: number) {
-		return value + this.baseDuration * this.endLocation;
+		return $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count).getTime() + this.baseDuration * this.endLocation;
 	}
 
 	/**
@@ -1457,6 +1457,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		let text: string;
 		let date = this.positionToDate(position);
 		date = $time.round(date, this.baseInterval.timeUnit, this.baseInterval.count);
+
 		if ($type.hasValue(this.tooltipDateFormat)) {
 			text = this.dateFormatter.format(date, this.tooltipDateFormat);
 		}
@@ -1486,10 +1487,11 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		let count = baseInterval.count;
 
 		let date: Date = this.positionToDate(position);
+
 		$time.round(date, timeUnit, count);
 
 		if (location > 0) {
-			$time.add(date, timeUnit, location);
+			$time.add(date, timeUnit, location * count);
 		}
 
 		if (this.isInBreak(date.getTime())) {

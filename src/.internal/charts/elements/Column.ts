@@ -130,12 +130,19 @@ export class Column extends Container {
 		this.events.on("childadded", this.handleKidAdded, this, false);
 	}
 
+
+	/**
+	 * @ignore
+	 */
 	protected handleKidAdded() {
 		if (this.layout == "none") {
 			this.layout = "absolute";
 		}
 	}
 
+	/**
+	 * @ignore
+	 */
 	protected createAssets() {
 		this.column = this.createChild(RoundedRectangle);
 		this.column.shouldClone = false;
@@ -144,23 +151,23 @@ export class Column extends Container {
 	}
 
 	/**
-	 * Validates element:
-	 * * Triggers events
-	 * * Redraws the element
-	 *
 	 * @ignore Exclude from docs
 	 */
 	public validate() {
 		super.validate();
-		if (this.column) {
-			this.column.width = $math.min(this.pixelWidth, this.maxWidth);
-			this.column.height = $math.min(this.pixelHeight, this.maxHeight);
+		let column = this.column;
+		if (column) {
+			column.width = $math.min(this.pixelWidth, this.maxWidth);
+			column.height = $math.min(this.pixelHeight, this.maxHeight);
+			if(column.invalid){
+				column.validate(); // important!
+			}			
 		}
 	}
 	/**
-	 * Copies all parameters from another [[Sprite]].
+	 * Copies all parameters from another [[Column]].
 	 *
-	 * @param {Sprite} source Source Sprite
+	 * @param {Column} source Source Column
 	 */
 	public copyFrom(source: this) {
 		super.copyFrom(source);

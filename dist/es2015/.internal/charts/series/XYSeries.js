@@ -836,6 +836,9 @@ var XYSeries = /** @class */ (function (_super) {
                 this._tmax.setKey(xAxisId, maxX);
                 this._tmin.setKey(yAxisId, minY);
                 this._tmax.setKey(yAxisId, maxY);
+                if (this.stackedSeries) {
+                    this.stackedSeries.processValues(false);
+                }
                 this.dispatchImmediately("extremeschanged");
             }
         }
@@ -1192,7 +1195,7 @@ var XYSeries = /** @class */ (function (_super) {
                     // saving value
                     prevSeries.stackedSeries = _this;
                     var prevDataItem = prevSeries.dataItems.getIndex(dataItem.index); // indexes should match
-                    if (prevDataItem.hasValue(_this._xValueFields) && prevDataItem.hasValue(_this._yValueFields)) {
+                    if (prevDataItem && prevDataItem.hasValue(_this._xValueFields) && prevDataItem.hasValue(_this._yValueFields)) {
                         var value = dataItem.getValue(field_1);
                         var prevValue = void 0;
                         if (working) {
