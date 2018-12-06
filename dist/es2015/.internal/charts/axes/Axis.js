@@ -803,10 +803,13 @@ var Axis = /** @class */ (function (_super) {
      * Shows Axis tooltip at specific relative position within Axis. (0-1)
      *
      * @param {number} position Position (0-1)
+     * @param {boolean} local or global position
      */
-    Axis.prototype.showTooltipAtPosition = function (position) {
+    Axis.prototype.showTooltipAtPosition = function (position, local) {
         var tooltip = this._tooltip;
-        position = this.toAxisPosition(position);
+        if (!local) {
+            position = this.toAxisPosition(position);
+        }
         var renderer = this.renderer;
         if (tooltip && this.dataItems.length > 0) {
             //@todo: think of how to solve this better
@@ -1066,9 +1069,10 @@ var Axis = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      * @param  {Series}          series    Series
      * @param  {number}          position  Position (0-1)
+     * @param  {boolean}         findNearest  Should axis try to find nearest tooltip if there is no data item at exact position
      * @return {XYSeriesDataItem}            Data item
      */
-    Axis.prototype.getSeriesDataItem = function (series, position) {
+    Axis.prototype.getSeriesDataItem = function (series, position, findNearest) {
         return;
     };
     /**
@@ -1141,6 +1145,15 @@ var Axis = /** @class */ (function (_super) {
      * @todo Description
      */
     Axis.prototype.dataChangeUpdate = function () {
+    };
+    /**
+     * [dataChangeUpdate description]
+     *
+     *
+     * @ignore Exclude from docs
+     * @todo Description
+     */
+    Axis.prototype.seriesDataChangeUpdate = function (series) {
     };
     /**
      * Removes axis breaks that fall between `min` and `max` (???)

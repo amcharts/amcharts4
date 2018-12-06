@@ -655,6 +655,18 @@ export class AxisRendererRadial extends AxisRendererY {
 
 		return $math.round(coordinate, 1);
 	}
+
+	/**
+	 * Converts a point at specific coordinates to a relative position (0-1)
+	 * on the axis.
+	 *
+	 * @param  {IPoint}  point  Point
+	 * @return {number}         Position (0-1)
+	 */
+	public pointToPosition(point: IPoint) {		
+		let coordinate = ($math.getDistance(point) - this.pixelInnerRadius);
+		return this.coordinateToPosition(coordinate);
+	}		
 }
 
 /**

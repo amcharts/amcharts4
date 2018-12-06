@@ -336,6 +336,13 @@ export interface IXYSeriesProperties extends ISeriesProperties {
      * @type {boolean}
      */
     stacked?: boolean;
+    /**
+     * Should the nearest tooltip be shown if no data item is found on the current cursor position
+     *
+     * @default false
+     * @type {boolean}
+     */
+    snapTooltip?: boolean;
 }
 /**
  * Defines events for [[XYSeries]].
@@ -708,6 +715,17 @@ export declare class XYSeries extends Series {
      * @param {boolean}  stacked  Can be stacked?
      */
     stacked: boolean;
+    /**
+     * @return {boolean} Should snap?
+     */
+    /**
+     * Should the nearest tooltip be shown if no data item is found on the
+     * current cursor position?
+     *
+     * @default false
+     * @param {boolean}  value  Should snap?
+     */
+    snapTooltip: boolean;
     /**
      * Shows hidden series.
      *

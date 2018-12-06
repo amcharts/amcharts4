@@ -392,12 +392,12 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	protected _prevSeriesTime: number;
 
 	/**
-	 * [_minSeriesDifference description]
+	 * [_minDifference description]
 	 *
 	 * @todo Description
 	 * @type {number}
 	 */
-	protected _minSeriesDifference: number = Number.MAX_VALUE;
+	protected _minDifference: { [index: string]: number } = {};
 
 	/**
 	 * A function which applies fills to axis cells.
@@ -653,34 +653,33 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		}
 	}
 
+	/**
+	 * @ignore
+	 */
+	public get minDifference():number{
+		var minDifference = Number.MAX_VALUE;		
+		this.series.each((series)=>{
+			if(minDifference > this._minDifference[series.uid]){
+				minDifference = this._minDifference[series.uid];
+			}
+		})
+
+		if(minDifference == Number.MAX_VALUE || minDifference == 0){
+			minDifference = $time.getDuration("day");	
+		}
+
+		return minDifference;
+	}
 
 	/**
 	 * [dataChangeUpdate description]
 	 *
+	 *
 	 * @ignore Exclude from docs
 	 * @todo Description
 	 */
-	public dataChangeUpdate(): void {
-		super.dataChangeUpdate();
-		this._minSeriesDifference = Number.MAX_VALUE;
-
-		// use day duration if only one item. as this method is called before data is processed, we check data.length and not dataItems.length
-		let hasMoreThanOne = false;
-
-		if (this.chart.data.length > 1) {
-			return;
-		}
-		else {
-			this.series.each((series) => {
-				if (series.data.length > 1) {
-					hasMoreThanOne = true;
-				}
-			})
-		}
-
-		if (!hasMoreThanOne) {
-			this._minSeriesDifference = $time.getDuration("day");
-		}
+	public seriesDataChangeUpdate(series: XYSeries): void {
+		this._minDifference[series.uid] = Number.MAX_VALUE;
 	}
 
 	/**
@@ -1321,16 +1320,16 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 		if ($type.isNumber(openTime)) {
 			let difference = Math.abs(time - openTime);
-			if (this._minSeriesDifference > difference) {
-				this._minSeriesDifference = difference;
+			if (this._minDifference[series.uid] > difference) {
+				this._minDifference[series.uid] = difference;
 			}
 		}
 
 		let differece: number = time - prevSeriesTime;
 
 		if (differece > 0) {
-			if (this._minSeriesDifference > differece) {
-				this._minSeriesDifference = differece;
+			if (this._minDifference[series.uid] > differece) {
+				this._minDifference[series.uid] = differece;
 			}
 		}
 
@@ -1346,14 +1345,14 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	public updateAxisBySeries() {
 		super.updateAxisBySeries();
 
-		let baseInterval: ITimeInterval = this.chooseInterval(0, this._minSeriesDifference, 1);
+		let baseInterval: ITimeInterval = this.chooseInterval(0, this.minDifference, 1);
 		// handle short months
-		if (this._minSeriesDifference >= $time.getDuration("day", 27) && baseInterval.timeUnit == "week") {
+		if (this.minDifference >= $time.getDuration("day", 27) && baseInterval.timeUnit == "week") {
 			baseInterval.timeUnit = "month";
 			baseInterval.count = 1;
 		}
 		// handle daylight saving
-		if (this._minSeriesDifference >= $time.getDuration("hour", 23) && baseInterval.timeUnit == "hour") {
+		if (this.minDifference >= $time.getDuration("hour", 23) && baseInterval.timeUnit == "hour") {
 			baseInterval.timeUnit = "day";
 			baseInterval.count = 1;
 		}
@@ -1568,13 +1567,13 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @param  {number}            position  Position (px)
 	 * @return {XYSeriesDataItem}            Data item
 	 */
-	public getSeriesDataItem(series: XYSeries, position: number): XYSeriesDataItem {
+	public getSeriesDataItem(series: XYSeries, position: number, findNearest?:boolean): XYSeriesDataItem {
 		let value: number = this.positionToValue(position);
 		let date: Date = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count);
 		let dataItem = series.dataItemsByAxis.getKey(this.uid).getKey(date.getTime().toString());
 
 		// todo:  alternatively we can find closiest here
-		if (!dataItem) {
+		if (!dataItem && findNearest) {
 			// to the left
 			let leftCount = 0;
 			let leftDataItem: XYSeriesDataItem;

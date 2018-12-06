@@ -408,6 +408,17 @@ var AxisRendererCircular = /** @class */ (function (_super) {
     AxisRendererCircular.prototype.createLabel = function () {
         return new AxisLabelCircular();
     };
+    /**
+     * Converts a point at specific coordinates to a relative position (0-1)
+     * on the axis.
+     *
+     * @param  {IPoint}  point  Point
+     * @return {number}         Position (0-1)
+     */
+    AxisRendererCircular.prototype.pointToPosition = function (point) {
+        var angle = $math.fitAngleToRange($math.getAngle(point), this.startAngle, this.endAngle);
+        return this.coordinateToPosition((angle - this.startAngle) / 360 * this.axisLength);
+    };
     return AxisRendererCircular;
 }(AxisRenderer));
 export { AxisRendererCircular };

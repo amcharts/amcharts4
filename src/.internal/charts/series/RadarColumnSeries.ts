@@ -332,6 +332,10 @@ export class RadarColumnSeries extends ColumnSeries {
 		let y: number = this.yAxis.getY(dataItem, yKey, locationY, stackKeyY);
 
 		let radius: number = $math.getDistance({ x: x, y: y });
+		// hack to be able to determine angle later
+		if(radius == 0){
+			radius = 0.00001;
+		}
 
 		let angle: number = this.xAxis.getAngle(dataItem, xKey, locationX, stackKeyX);
 

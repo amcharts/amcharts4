@@ -110,6 +110,10 @@ var RadarSeries = /** @class */ (function (_super) {
         var x = this.yAxis.getX(dataItem, yKey, locationY, stackKeyY);
         var y = this.yAxis.getY(dataItem, yKey, locationY, stackKeyY);
         var radius = $math.getDistance({ x: x, y: y });
+        // hack to be able to determine angle later
+        if (radius == 0) {
+            radius = 0.00001;
+        }
         var angle = this.xAxis.getAngle(dataItem, xKey, locationX, stackKeyX);
         var startAngle = this.chart.startAngle;
         var endAngle = this.chart.endAngle;

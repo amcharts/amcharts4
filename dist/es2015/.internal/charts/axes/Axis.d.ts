@@ -649,8 +649,9 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * Shows Axis tooltip at specific relative position within Axis. (0-1)
      *
      * @param {number} position Position (0-1)
+     * @param {boolean} local or global position
      */
-    showTooltipAtPosition(position: number): void;
+    showTooltipAtPosition(position: number, local?: boolean): void;
     /**
      * Converts relative position (0-1) to Axis position with zoom level and
      * inversed taken into account.
@@ -794,9 +795,10 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @ignore Exclude from docs
      * @param  {Series}          series    Series
      * @param  {number}          position  Position (0-1)
+     * @param  {boolean}         findNearest  Should axis try to find nearest tooltip if there is no data item at exact position
      * @return {XYSeriesDataItem}            Data item
      */
-    getSeriesDataItem(series: XYSeries, position: number): XYSeriesDataItem;
+    getSeriesDataItem(series: XYSeries, position: number, findNearest?: boolean): XYSeriesDataItem;
     /**
      * Returns an angle that corresponds to specific position on axis.
      *
@@ -855,6 +857,14 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @todo Description
      */
     dataChangeUpdate(): void;
+    /**
+     * [dataChangeUpdate description]
+     *
+     *
+     * @ignore Exclude from docs
+     * @todo Description
+     */
+    seriesDataChangeUpdate(series: XYSeries): void;
     /**
      * Removes axis breaks that fall between `min` and `max` (???)
      *

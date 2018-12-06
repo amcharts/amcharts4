@@ -220,13 +220,17 @@ export class RadarSeries extends LineSeries {
 
 		let radius: number = $math.getDistance({ x: x, y: y });
 
+		// hack to be able to determine angle later
+		if(radius == 0){
+			radius = 0.00001;
+		}		
+
 		let angle: number = this.xAxis.getAngle(dataItem, xKey, locationX, stackKeyX);
 
 		let startAngle = this.chart.startAngle;
 		let endAngle = this.chart.endAngle;
 
 		//		angle = $math.fitToRange(angle, startAngle, endAngle);
-
 		if (angle < startAngle || angle > endAngle) {
 			return undefined;
 		}

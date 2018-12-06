@@ -6,6 +6,16 @@ Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
 
+## [4.0.6] - 2018-12-06
+
+### Added
+- `snapTooltip` added to `XYSeries`, with default value `false`. If set to `true`, the series will show nearest available tooltip when cursor is over plot area.
+- Slovenian translation.
+
+### Fixed
+- Automatic `DateAxis` interval detection improved.
+
+
 ## [4.0.5] - 2018-12-06
 
 ### Changed

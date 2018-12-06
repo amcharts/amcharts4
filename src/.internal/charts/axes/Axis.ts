@@ -996,7 +996,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 
 			this.events.on("lengthchanged", series.invalidate, series, false),
 			this.events.on("startchanged", series.invalidate, series, false),
-			this.events.on("endchanged", series.invalidate, series, false)	
+			this.events.on("endchanged", series.invalidate, series, false)
 
 			// TODO should these be disposed of ?
 			//series.events.on("datavalidated", this.processSeriesDataItems, this),
@@ -1163,12 +1163,15 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * Shows Axis tooltip at specific relative position within Axis. (0-1)
 	 *
 	 * @param {number} position Position (0-1)
+	 * @param {boolean} local or global position
 	 */
-	public showTooltipAtPosition(position: number) {
+	public showTooltipAtPosition(position: number, local?: boolean) {
 
 		let tooltip: Tooltip = this._tooltip;
 
-		position = this.toAxisPosition(position);
+		if (!local) {
+			position = this.toAxisPosition(position);
+		}
 
 		let renderer = this.renderer;
 
@@ -1456,9 +1459,10 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @ignore Exclude from docs
 	 * @param  {Series}          series    Series
 	 * @param  {number}          position  Position (0-1)
+	 * @param  {boolean}         findNearest  Should axis try to find nearest tooltip if there is no data item at exact position
 	 * @return {XYSeriesDataItem}            Data item
 	 */
-	public getSeriesDataItem(series: XYSeries, position: number): XYSeriesDataItem {
+	public getSeriesDataItem(series: XYSeries, position: number, findNearest?:boolean): XYSeriesDataItem {
 		return;
 	}
 
@@ -1532,6 +1536,17 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @todo Description
 	 */
 	public dataChangeUpdate(): void {
+
+	}
+
+	/**
+	 * [dataChangeUpdate description]
+	 *
+	 *
+	 * @ignore Exclude from docs
+	 * @todo Description
+	 */
+	public seriesDataChangeUpdate(series: XYSeries): void {
 
 	}
 

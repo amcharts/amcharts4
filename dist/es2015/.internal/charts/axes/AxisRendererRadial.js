@@ -520,6 +520,17 @@ var AxisRendererRadial = /** @class */ (function (_super) {
         }
         return $math.round(coordinate, 1);
     };
+    /**
+     * Converts a point at specific coordinates to a relative position (0-1)
+     * on the axis.
+     *
+     * @param  {IPoint}  point  Point
+     * @return {number}         Position (0-1)
+     */
+    AxisRendererRadial.prototype.pointToPosition = function (point) {
+        var coordinate = ($math.getDistance(point) - this.pixelInnerRadius);
+        return this.coordinateToPosition(coordinate);
+    };
     return AxisRendererRadial;
 }(AxisRendererY));
 export { AxisRendererRadial };

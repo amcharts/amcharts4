@@ -290,4 +290,12 @@ export declare class AxisRendererCircular extends AxisRenderer {
      * @return {AxisLabelCircular} Label element
      */
     createLabel(): this["_labelType"];
+    /**
+     * Converts a point at specific coordinates to a relative position (0-1)
+     * on the axis.
+     *
+     * @param  {IPoint}  point  Point
+     * @return {number}         Position (0-1)
+     */
+    pointToPosition(point: IPoint): number;
 }

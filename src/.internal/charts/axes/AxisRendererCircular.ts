@@ -315,7 +315,7 @@ export class AxisRendererCircular extends AxisRenderer {
 	 * @param  {number}  position  Position (0-1)
 	 * @return {IPoint}            Point
 	 */
-	public positionToPoint(position: number): IPoint {
+	public positionToPoint(position: number): IPoint {		
 		let coordinate: number = this.positionToCoordinate(position);
 		let angle: number = this.startAngle + (this.endAngle - this.startAngle) * coordinate / this.axisLength;
 		return { x: this.pixelRadius * $math.cos(angle), y: this.pixelRadius * $math.sin(angle) };
@@ -554,6 +554,19 @@ export class AxisRendererCircular extends AxisRenderer {
 	public createLabel(): this["_labelType"] {
 		return new AxisLabelCircular();
 	}
+
+
+	/**
+	 * Converts a point at specific coordinates to a relative position (0-1)
+	 * on the axis.
+	 *
+	 * @param  {IPoint}  point  Point
+	 * @return {number}         Position (0-1)
+	 */
+	public pointToPosition(point: IPoint) {		
+		let angle = $math.fitAngleToRange($math.getAngle(point), this.startAngle, this.endAngle);		
+		return this.coordinateToPosition((angle - this.startAngle) / 360 * this.axisLength);
+	}	
 }
 
 /**

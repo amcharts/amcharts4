@@ -326,13 +326,12 @@ var XYChart = /** @class */ (function (_super) {
     XYChart.prototype.validateData = function () {
         // tell axes that data changed
         if (this._parseDataFrom == 0) {
-            // commented, because series does this.
-            //$iter.each(this.xAxes.iterator(), (axis) => {
-            //axis.dataChangeUpdate();
-            //});
-            //$iter.each(this.yAxes.iterator(), (axis) => {
-            //axis.dataChangeUpdate();
-            //});
+            $iter.each(this.xAxes.iterator(), function (axis) {
+                axis.dataChangeUpdate();
+            });
+            $iter.each(this.yAxes.iterator(), function (axis) {
+                axis.dataChangeUpdate();
+            });
             $iter.each(this.series.iterator(), function (series) {
                 series.dataChangeUpdate();
             });

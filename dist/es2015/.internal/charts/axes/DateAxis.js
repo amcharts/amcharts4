@@ -237,12 +237,12 @@ var DateAxis = /** @class */ (function (_super) {
          */
         _this._baseIntervalReal = { timeUnit: "day", count: 1 };
         /**
-         * [_minSeriesDifference description]
+         * [_minDifference description]
          *
          * @todo Description
          * @type {number}
          */
-        _this._minSeriesDifference = Number.MAX_VALUE;
+        _this._minDifference = {};
         /**
          * A function which applies fills to axis cells.
          *
@@ -460,30 +460,35 @@ var DateAxis = /** @class */ (function (_super) {
             this.baseInterval.count = 1;
         }
     };
+    Object.defineProperty(DateAxis.prototype, "minDifference", {
+        /**
+         * @ignore
+         */
+        get: function () {
+            var _this = this;
+            var minDifference = Number.MAX_VALUE;
+            this.series.each(function (series) {
+                if (minDifference > _this._minDifference[series.uid]) {
+                    minDifference = _this._minDifference[series.uid];
+                }
+            });
+            if (minDifference == Number.MAX_VALUE || minDifference == 0) {
+                minDifference = $time.getDuration("day");
+            }
+            return minDifference;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * [dataChangeUpdate description]
+     *
      *
      * @ignore Exclude from docs
      * @todo Description
      */
-    DateAxis.prototype.dataChangeUpdate = function () {
-        _super.prototype.dataChangeUpdate.call(this);
-        this._minSeriesDifference = Number.MAX_VALUE;
-        // use day duration if only one item. as this method is called before data is processed, we check data.length and not dataItems.length
-        var hasMoreThanOne = false;
-        if (this.chart.data.length > 1) {
-            return;
-        }
-        else {
-            this.series.each(function (series) {
-                if (series.data.length > 1) {
-                    hasMoreThanOne = true;
-                }
-            });
-        }
-        if (!hasMoreThanOne) {
-            this._minSeriesDifference = $time.getDuration("day");
-        }
+    DateAxis.prototype.seriesDataChangeUpdate = function (series) {
+        this._minDifference[series.uid] = Number.MAX_VALUE;
     };
     /**
      * [postProcessSeriesDataItems description]
@@ -1043,14 +1048,14 @@ var DateAxis = /** @class */ (function (_super) {
         }
         if ($type.isNumber(openTime)) {
             var difference = Math.abs(time - openTime);
-            if (this._minSeriesDifference > difference) {
-                this._minSeriesDifference = difference;
+            if (this._minDifference[series.uid] > difference) {
+                this._minDifference[series.uid] = difference;
             }
         }
         var differece = time - prevSeriesTime;
         if (differece > 0) {
-            if (this._minSeriesDifference > differece) {
-                this._minSeriesDifference = differece;
+            if (this._minDifference[series.uid] > differece) {
+                this._minDifference[series.uid] = differece;
             }
         }
         this._prevSeriesTime = time;
@@ -1063,14 +1068,14 @@ var DateAxis = /** @class */ (function (_super) {
      */
     DateAxis.prototype.updateAxisBySeries = function () {
         _super.prototype.updateAxisBySeries.call(this);
-        var baseInterval = this.chooseInterval(0, this._minSeriesDifference, 1);
+        var baseInterval = this.chooseInterval(0, this.minDifference, 1);
         // handle short months
-        if (this._minSeriesDifference >= $time.getDuration("day", 27) && baseInterval.timeUnit == "week") {
+        if (this.minDifference >= $time.getDuration("day", 27) && baseInterval.timeUnit == "week") {
             baseInterval.timeUnit = "month";
             baseInterval.count = 1;
         }
         // handle daylight saving
-        if (this._minSeriesDifference >= $time.getDuration("hour", 23) && baseInterval.timeUnit == "hour") {
+        if (this.minDifference >= $time.getDuration("hour", 23) && baseInterval.timeUnit == "hour") {
             baseInterval.timeUnit = "day";
             baseInterval.count = 1;
         }
@@ -1280,12 +1285,12 @@ var DateAxis = /** @class */ (function (_super) {
      * @param  {number}            position  Position (px)
      * @return {XYSeriesDataItem}            Data item
      */
-    DateAxis.prototype.getSeriesDataItem = function (series, position) {
+    DateAxis.prototype.getSeriesDataItem = function (series, position, findNearest) {
         var value = this.positionToValue(position);
         var date = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count);
         var dataItem = series.dataItemsByAxis.getKey(this.uid).getKey(date.getTime().toString());
         // todo:  alternatively we can find closiest here
-        if (!dataItem) {
+        if (!dataItem && findNearest) {
             // to the left
             var leftCount = 0;
             var leftDataItem = void 0;

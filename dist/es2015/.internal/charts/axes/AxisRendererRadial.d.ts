@@ -313,4 +313,12 @@ export declare class AxisRendererRadial extends AxisRendererY {
      * @return {number}            Coordinate (px)
      */
     positionToCoordinate(position: number): number;
+    /**
+     * Converts a point at specific coordinates to a relative position (0-1)
+     * on the axis.
+     *
+     * @param  {IPoint}  point  Point
+     * @return {number}         Position (0-1)
+     */
+    pointToPosition(point: IPoint): number;
 }

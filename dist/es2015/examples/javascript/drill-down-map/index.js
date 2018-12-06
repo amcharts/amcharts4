@@ -19,8 +19,7 @@ am4core.useTheme(am4themes_animated);
 var chart = am4core.create("chartdiv", am4maps.MapChart);
 
 // Set projection
-// Eckert6 currently bugged.
-//chart.projection = new am4maps.projections.Eckert6(); // alternative to v3's winkel3
+chart.projection = new am4maps.projections.Mercator();
 
 var restoreContinents = function(){
   hideCountries();

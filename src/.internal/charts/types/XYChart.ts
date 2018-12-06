@@ -587,14 +587,13 @@ export class XYChart extends SerialChart {
 
 		// tell axes that data changed
 		if (this._parseDataFrom == 0) {
-			// commented, because series does this.
-			//$iter.each(this.xAxes.iterator(), (axis) => {
-			//axis.dataChangeUpdate();
-			//});
+			$iter.each(this.xAxes.iterator(), (axis) => {
+				axis.dataChangeUpdate();
+			});
 
-			//$iter.each(this.yAxes.iterator(), (axis) => {
-			//axis.dataChangeUpdate();
-			//});
+			$iter.each(this.yAxes.iterator(), (axis) => {
+				axis.dataChangeUpdate();
+			});
 
 			$iter.each(this.series.iterator(), (series) => {
 				series.dataChangeUpdate();

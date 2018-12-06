@@ -378,6 +378,7 @@ var XYSeries = /** @class */ (function (_super) {
         _this.mainContainer.mask = new Sprite();
         _this.mainContainer.mask.setElement(_this.paper.add("path"));
         _this.stacked = false;
+        _this.snapTooltip = false;
         _this.tooltip.pointerOrientation = "horizontal";
         _this.tooltip.events.on("hidden", function () {
             _this.returnBulletDefaultState();
@@ -415,10 +416,10 @@ var XYSeries = /** @class */ (function (_super) {
         this._smin.clear();
         this._smax.clear();
         if (this.xAxis) {
-            this.xAxis.dataChangeUpdate();
+            this.xAxis.seriesDataChangeUpdate(this);
         }
         if (this.yAxis) {
-            this.yAxis.dataChangeUpdate();
+            this.yAxis.seriesDataChangeUpdate(this);
         }
     };
     /**
@@ -875,10 +876,10 @@ var XYSeries = /** @class */ (function (_super) {
             var xAxis = this._xAxis.get();
             var yAxis = this._yAxis.get();
             if (xAxis == this.baseAxis) {
-                dataItem = xAxis.getSeriesDataItem(this, xAxis.toAxisPosition(xPosition));
+                dataItem = xAxis.getSeriesDataItem(this, xAxis.toAxisPosition(xPosition), this.snapTooltip);
             }
             if (yAxis == this.baseAxis) {
-                dataItem = yAxis.getSeriesDataItem(this, yAxis.toAxisPosition(yPosition));
+                dataItem = yAxis.getSeriesDataItem(this, yAxis.toAxisPosition(yPosition), this.snapTooltip);
             }
             this.returnBulletDefaultState(dataItem);
             if (dataItem && dataItem.visible) {
@@ -898,21 +899,21 @@ var XYSeries = /** @class */ (function (_super) {
                                 target: this,
                                 dataItem: dataItem
                             });
-                            try {
-                                for (var _a = tslib_1.__values(dataItem.bullets), _b = _a.next(); !_b.done; _b = _a.next()) {
-                                    var a = _b.value;
-                                    var bullet = a[1];
-                                    bullet.isHover = true;
-                                }
-                            }
-                            catch (e_1_1) { e_1 = { error: e_1_1 }; }
-                            finally {
-                                try {
-                                    if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
-                                }
-                                finally { if (e_1) throw e_1.error; }
-                            }
                             this._prevTooltipDataItem = dataItem;
+                        }
+                        try {
+                            for (var _a = tslib_1.__values(dataItem.bullets), _b = _a.next(); !_b.done; _b = _a.next()) {
+                                var a = _b.value;
+                                var bullet = a[1];
+                                bullet.isHover = true;
+                            }
+                        }
+                        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+                        finally {
+                            try {
+                                if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                            }
+                            finally { if (e_1) throw e_1.error; }
                         }
                         if (this.showTooltip()) {
                             return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
@@ -1040,6 +1041,26 @@ var XYSeries = /** @class */ (function (_super) {
          */
         set: function (stacked) {
             this.setPropertyValue("stacked", stacked, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(XYSeries.prototype, "snapTooltip", {
+        /**
+         * @return {boolean} Should snap?
+         */
+        get: function () {
+            return this.getPropertyValue("snapTooltip");
+        },
+        /**
+         * Should the nearest tooltip be shown if no data item is found on the
+         * current cursor position?
+         *
+         * @default false
+         * @param {boolean}  value  Should snap?
+         */
+        set: function (value) {
+            this.setPropertyValue("snapTooltip", value);
         },
         enumerable: true,
         configurable: true

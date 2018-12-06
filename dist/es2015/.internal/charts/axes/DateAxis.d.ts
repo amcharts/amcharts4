@@ -322,12 +322,14 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      */
     protected _prevSeriesTime: number;
     /**
-     * [_minSeriesDifference description]
+     * [_minDifference description]
      *
      * @todo Description
      * @type {number}
      */
-    protected _minSeriesDifference: number;
+    protected _minDifference: {
+        [index: string]: number;
+    };
     /**
      * A function which applies fills to axis cells.
      *
@@ -388,12 +390,17 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      */
     validateData(): void;
     /**
+     * @ignore
+     */
+    readonly minDifference: number;
+    /**
      * [dataChangeUpdate description]
+     *
      *
      * @ignore Exclude from docs
      * @todo Description
      */
-    dataChangeUpdate(): void;
+    seriesDataChangeUpdate(series: XYSeries): void;
     /**
      * [postProcessSeriesDataItems description]
      *
@@ -715,7 +722,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @param  {number}            position  Position (px)
      * @return {XYSeriesDataItem}            Data item
      */
-    getSeriesDataItem(series: XYSeries, position: number): XYSeriesDataItem;
+    getSeriesDataItem(series: XYSeries, position: number, findNearest?: boolean): XYSeriesDataItem;
     /**
      * Returns a formatted date based on position in axis scale.
      *

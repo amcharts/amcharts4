@@ -545,6 +545,14 @@ export interface IXYSeriesProperties extends ISeriesProperties {
 	 * @type {boolean}
 	 */
 	stacked?: boolean;
+
+	/**
+	 * Should the nearest tooltip be shown if no data item is found on the current cursor position
+	 *
+	 * @default false
+	 * @type {boolean}
+	 */
+	snapTooltip?: boolean;
 }
 
 /**
@@ -753,6 +761,7 @@ export class XYSeries extends Series {
 		this.mainContainer.mask.setElement(this.paper.add("path"));
 
 		this.stacked = false;
+		this.snapTooltip = false;
 
 		this.tooltip.pointerOrientation = "horizontal";
 
@@ -797,12 +806,13 @@ export class XYSeries extends Series {
 		this._smin.clear();
 		this._smax.clear();
 
+
 		if (this.xAxis) {
-			this.xAxis.dataChangeUpdate();
+			this.xAxis.seriesDataChangeUpdate(this);
 		}
 
 		if (this.yAxis) {
-			this.yAxis.dataChangeUpdate();
+			this.yAxis.seriesDataChangeUpdate(this);
 		}
 	}
 
@@ -1196,7 +1206,7 @@ export class XYSeries extends Series {
 	 * @param {Axis}  value  Axis
 	 */
 	public set baseAxis(value: Axis) {
-		if(this._baseAxis != value){
+		if (this._baseAxis != value) {
 			this._baseAxis = value;
 			this.invalidate();
 		}
@@ -1266,13 +1276,13 @@ export class XYSeries extends Series {
 			maxY = $math.max(dataItem.getMax(this._yValueFields, working, stackY), maxY);
 
 			// if it's stacked, pay attention to stack value
-			if(this.stacked){
-				if(this.baseAxis == this.xAxis){
-					minY = $math.min(minY, stackY);				
+			if (this.stacked) {
+				if (this.baseAxis == this.xAxis) {
+					minY = $math.min(minY, stackY);
 				}
-				if(this.baseAxis == this.yAxis){
+				if (this.baseAxis == this.yAxis) {
 					minX = $math.min(minX, stackX);
-				}				
+				}
 			}
 		}
 
@@ -1290,7 +1300,7 @@ export class XYSeries extends Series {
 				this._tmin.setKey(yAxisId, minY);
 				this._tmax.setKey(yAxisId, maxY);
 
-				if(this.stackedSeries){
+				if (this.stackedSeries) {
 					this.stackedSeries.processValues(false);
 				}
 
@@ -1338,10 +1348,10 @@ export class XYSeries extends Series {
 			let yAxis: Axis = this._yAxis.get();
 
 			if (xAxis == this.baseAxis) {
-				dataItem = <this["_dataItem"]>xAxis.getSeriesDataItem(this, xAxis.toAxisPosition(xPosition));
+				dataItem = <this["_dataItem"]>xAxis.getSeriesDataItem(this, xAxis.toAxisPosition(xPosition), this.snapTooltip);
 			}
 			if (yAxis == this.baseAxis) {
-				dataItem = <this["_dataItem"]>yAxis.getSeriesDataItem(this, yAxis.toAxisPosition(yPosition));
+				dataItem = <this["_dataItem"]>yAxis.getSeriesDataItem(this, yAxis.toAxisPosition(yPosition), this.snapTooltip);
 			}
 
 			this.returnBulletDefaultState(dataItem);
@@ -1370,12 +1380,12 @@ export class XYSeries extends Series {
 								dataItem: dataItem
 							});
 
-							for (let a of dataItem.bullets) {
-								let bullet = a[1]
-								bullet.isHover = true;
-							}
-
 							this._prevTooltipDataItem = dataItem;
+						}
+
+						for (let a of dataItem.bullets) {
+							let bullet = a[1]
+							bullet.isHover = true;
 						}
 
 						if (this.showTooltip()) {
@@ -1511,6 +1521,25 @@ export class XYSeries extends Series {
 	}
 
 	/**
+	 * Should the nearest tooltip be shown if no data item is found on the
+	 * current cursor position?
+	 *
+	 * @default false
+	 * @param {boolean}  value  Should snap?
+	 */
+	public set snapTooltip(value: boolean) {
+		this.setPropertyValue("snapTooltip", value);
+	}
+
+	/**
+	 * @return {boolean} Should snap?
+	 */
+	public get snapTooltip(): boolean {
+		return this.getPropertyValue("snapTooltip");
+	}
+
+
+	/**
 	 * Shows hidden series.
 	 *
 	 * @param  {number}     duration  Duration of reveal animation (ms)
@@ -1623,7 +1652,7 @@ export class XYSeries extends Series {
 			animation.delay(delay);
 		}
 
-		if(anim && !anim.isFinished()){
+		if (anim && !anim.isFinished()) {
 			animation = anim;
 		}
 
