@@ -230,6 +230,12 @@ export class Tooltip extends Container {
 		background.pointerLength = 6;
 		background.pointerBaseWidth = 10;
 
+		let dropShadow = new DropShadowFilter();
+		dropShadow.dy = 1;
+		dropShadow.dx = 1;
+		dropShadow.opacity = 0.5;
+		background.filters.push(dropShadow);
+
 		this.autoTextColor = true;
 
 		// Create text element
@@ -248,13 +254,6 @@ export class Tooltip extends Container {
 
 		// Set defaults
 		this.pointerOrientation = "vertical";
-
-		let dropShadow = new DropShadowFilter();
-		dropShadow.dy = 1;
-		dropShadow.dx = 1;
-		dropShadow.opacity = 0.5;
-
-		this.filters.push(dropShadow);
 
 		this.animationDuration = 0;
 		this.animationEasing = $ease.cubicOut;

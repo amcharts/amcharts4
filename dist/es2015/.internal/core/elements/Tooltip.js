@@ -80,6 +80,11 @@ var Tooltip = /** @class */ (function (_super) {
         background.cornerRadius = 3;
         background.pointerLength = 6;
         background.pointerBaseWidth = 10;
+        var dropShadow = new DropShadowFilter();
+        dropShadow.dy = 1;
+        dropShadow.dx = 1;
+        dropShadow.opacity = 0.5;
+        background.filters.push(dropShadow);
         _this.autoTextColor = true;
         // Create text element
         var label = _this.createChild(Label);
@@ -94,11 +99,6 @@ var Tooltip = /** @class */ (function (_super) {
         _this.label.zIndex = 1; // @todo remove this line when bg sorting is solved
         // Set defaults
         _this.pointerOrientation = "vertical";
-        var dropShadow = new DropShadowFilter();
-        dropShadow.dy = 1;
-        dropShadow.dx = 1;
-        dropShadow.opacity = 0.5;
-        _this.filters.push(dropShadow);
         _this.animationDuration = 0;
         _this.animationEasing = $ease.cubicOut;
         // Set accessibility options

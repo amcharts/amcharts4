@@ -453,6 +453,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			{ timeUnit: "minute", count: 1 },
 			{ timeUnit: "minute", count: 5 },
 			{ timeUnit: "minute", count: 10 },
+			{ timeUnit: "minute", count: 15 },
 			{ timeUnit: "minute", count: 30 },
 			{ timeUnit: "hour", count: 1 },
 			{ timeUnit: "hour", count: 3 },
@@ -473,7 +474,14 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			{ timeUnit: "year", count: 5 },
 			{ timeUnit: "year", count: 10 },
 			{ timeUnit: "year", count: 50 },
-			{ timeUnit: "year", count: 100 }
+			{ timeUnit: "year", count: 100 },
+			{ timeUnit: "year", count: 200 },
+			{ timeUnit: "year", count: 500 },
+			{ timeUnit: "year", count: 1000 },
+			{ timeUnit: "year", count: 2000 },
+			{ timeUnit: "year", count: 5000 },
+			{ timeUnit: "year", count: 10000 },
+			{ timeUnit: "year", count: 100000 }
 		]);
 
 		// Set field name
@@ -776,9 +784,14 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		super.fixAxisBreaks();
 		let axisBreaks = this._axisBreaks;
 		$iter.each(axisBreaks.iterator(), (axisBreak) => {
-			let breakGridCount: number = this._gridCount * (Math.min(this.end, axisBreak.endPosition) - Math.max(this.start, axisBreak.startPosition)) / (this.end - this.start);
+			let breakGridCount: number = Math.ceil(this._gridCount * (Math.min(this.end, axisBreak.endPosition) - Math.max(this.start, axisBreak.startPosition)) / (this.end - this.start));
 			axisBreak.gridInterval = this.chooseInterval(0, axisBreak.adjustedEndValue - axisBreak.adjustedStartValue, breakGridCount);
-			axisBreak.gridDate = $time.round(new Date(axisBreak.adjustedStartValue), axisBreak.gridInterval.timeUnit);
+			let gridDate = $time.round(new Date(axisBreak.adjustedStartValue), axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count);
+			if (gridDate.getTime() > axisBreak.startDate.getTime()) {
+				$time.add(gridDate, axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count);
+			}
+
+			axisBreak.gridDate = gridDate;
 		});
 	}
 
@@ -806,18 +819,22 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		// if it's axis break, get first rounded date which is not in a break
 		let axisBreak: DateAxisBreak = <DateAxisBreak>this.isInBreak(timestamp);
 		if (axisBreak) {
-			newDate = this.getBreaklessDate(axisBreak, this.baseInterval.timeUnit, this.baseInterval.count);
+			newDate = new Date(axisBreak.endDate.getTime());
+			$time.round(newDate, timeUnit, realIntervalCount);
+			if (newDate.getTime() < axisBreak.endDate.getTime()) {
+				$time.add(newDate, timeUnit, realIntervalCount);
+			}
 			timestamp = newDate.getTime();
 		}
 
 		// get duration between grid lines with break duration removed
 		let durationBreaksRemoved: number = this.adjustDifference(prevTimestamp, timestamp);
-
 		// calculate how many time units fit to this duration
 		let countBreaksRemoved: number = Math.round(durationBreaksRemoved / $time.getDuration(timeUnit));
+
 		// if less units fit, add one and repeat
 		if (countBreaksRemoved < realIntervalCount) {
-			return this.getGridDate(date, intervalCount + 1);
+			return this.getGridDate(date, intervalCount + realIntervalCount);
 		}
 
 		return newDate;
@@ -910,7 +927,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 					let intervalCount: number = axisBreak.gridInterval.count;
 
 					// only add grid if gap is bigger then minGridDistance
-					if ($math.getDistance(axisBreak.startPoint, axisBreak.endPoint) > renderer.minGridDistance) {
+					if ($math.getDistance(axisBreak.startPoint, axisBreak.endPoint) > renderer.minGridDistance * 4) {
 						let timestamp: number = axisBreak.gridDate.getTime();
 
 						let prevGridDate;
@@ -975,6 +992,12 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			let position: number = this.valueToPosition(timestamp);
 			let endPosition: number = this.valueToPosition(endTimestamp);
 
+			if (this._gridInterval.count > 1) {
+				endPosition = position + (endPosition - position) / this._gridInterval.count;
+			}
+
+
+
 			dataItem.position = position;
 
 			let tick: AxisTick = dataItem.tick;
@@ -1012,6 +1035,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 						location = 0;
 					}
 				}
+
 				renderer.updateLabelElement(label, position, endPosition, location);
 			}
 		}
@@ -1303,11 +1327,13 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		}
 
 		let differece: number = time - prevSeriesTime;
+
 		if (differece > 0) {
 			if (this._minSeriesDifference > differece) {
 				this._minSeriesDifference = differece;
 			}
 		}
+
 		this._prevSeriesTime = time;
 	}
 
@@ -1324,13 +1350,15 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		// handle short months
 		if (this._minSeriesDifference >= $time.getDuration("day", 27) && baseInterval.timeUnit == "week") {
 			baseInterval.timeUnit = "month";
+			baseInterval.count = 1;
 		}
 		// handle daylight saving
 		if (this._minSeriesDifference >= $time.getDuration("hour", 23) && baseInterval.timeUnit == "hour") {
 			baseInterval.timeUnit = "day";
+			baseInterval.count = 1;
 		}
 
-		baseInterval.count = 1; // good
+		//baseInterval.count = 1; // good
 		this._baseIntervalReal = baseInterval;
 		// no need to invalidate
 	}
@@ -1424,8 +1452,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	}
 
 	/**
-	 * Use `changeDateFormats` to apply different formats to the first label in
-	 * bigger time unit.
+	 * Use `periodChangeDateFormats` to apply different formats to the first
+	 * label in bigger time unit.
 	 *
 	 * @default true
 	 * @param {boolean}  value  Use different format for period beginning?
@@ -1444,7 +1472,8 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	}
 
 	/**
-	 * Returns text to show in a tooltip, based on specific relative position within axis.
+	 * Returns text to show in a tooltip, based on specific relative position
+	 * within axis.
 	 *
 	 * The label will be formatted as per [[DateFormatter]] set for the whole
 	 * chart, or explicitly for this Axis.
@@ -1678,7 +1707,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		super.copyFrom(source);
 		this.dateFormats = source.dateFormats;
 		this.periodChangeDateFormats = source.periodChangeDateFormats;
-		if(source["_baseInterval"]){
+		if (source["_baseInterval"]) {
 			this.baseInterval = source.baseInterval;
 		}
 	}

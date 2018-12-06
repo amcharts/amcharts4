@@ -2057,7 +2057,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (this._clipPath && mask) {
 			// Container
 			if (mask instanceof Container) {
-				this._clipElement.attr({ "width": $math.max(0, mask.pixelWidth), "height": $math.max(0, mask.pixelHeight) });
+				this._clipElement.attr({"width": $math.max(0, mask.pixelWidth), "height": $math.max(0, mask.pixelHeight) });
+
+				let point = $utils.spritePointToSprite({x:mask.pixelX, y:mask.pixelY}, mask.parent, this);
+
+				this._clipPath.x = point.x;
+				this._clipPath.y = point.y;
 			}
 			// Sprite
 			else {

@@ -1551,9 +1551,6 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 			series.events.on("extremeschanged", this.handleExtremesChange, this, false),
 			series.events.on("selectionextremeschanged", this.handleSelectionExtremesChange, this, false),
-
-			this.events.on("startchanged", series.invalidate, series, false),
-			this.events.on("endchanged", series.invalidate, series, false),
 			this.events.on("extremeschanged", series.invalidate, series, false)
 		]);
 	}

@@ -5,6 +5,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+
+## [4.0.5] - 2018-12-06
+
+### Changed
+- `DateFormatter` will now automatically format "negative" year values to "BC" (era) format. So not `"-1000"`, but `"1000BC"`. These are translatable via language.
+- `DropShadowFilter` of the tooltip removed. Instead it is now applied on background of tooltip. This helps to avoid text distortion.
+
+### Fixed
+- Heat rules were not working if all the values were the same. Now middle value between min and max is applied in this case.
+- Updated algorithm to deal with date axes breaks. It's faster now and does not cause stackoverflow if the gaps are very big.
+- Series on `HeatMap` charts were ignoring scrollbars.
+- `DateAxis` was not properly placing labels if `location > 0` and grid interval was bigger than one time unit.
+- `DateAxis` with very big date difference (thousands of years) displayed too many grid/labels/ticks.
+- Masking of a sprite with a container updated. It now pays proper attention to container's position.
+- Automatic `DateAxis` interval detection improved. Previously it detected intervals like minutes, hours, days, years. Now it will detect intervals like 15 min, 30 min, 5 days etc. This can still be set manually using axis' `baseInterval` property.
+
+
 ## [4.0.4] - 2018-12-03
 
 ### Added

@@ -661,15 +661,16 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @return {boolean} Use different format for period beginning?
      */
     /**
-     * Use `changeDateFormats` to apply different formats to the first label in
-     * bigger time unit.
+     * Use `periodChangeDateFormats` to apply different formats to the first
+     * label in bigger time unit.
      *
      * @default true
      * @param {boolean}  value  Use different format for period beginning?
      */
     markUnitChange: boolean;
     /**
-     * Returns text to show in a tooltip, based on specific relative position within axis.
+     * Returns text to show in a tooltip, based on specific relative position
+     * within axis.
      *
      * The label will be formatted as per [[DateFormatter]] set for the whole
      * chart, or explicitly for this Axis.

@@ -1329,6 +1329,9 @@ var Sprite = /** @class */ (function (_super) {
             // Container
             if (mask instanceof Container) {
                 this._clipElement.attr({ "width": $math.max(0, mask.pixelWidth), "height": $math.max(0, mask.pixelHeight) });
+                var point = $utils.spritePointToSprite({ x: mask.pixelX, y: mask.pixelY }, mask.parent, this);
+                this._clipPath.x = point.x;
+                this._clipPath.y = point.y;
             }
             // Sprite
             else {

@@ -1312,7 +1312,6 @@ export class Series extends Component {
 					let minValue = $type.toNumber(heatRule.minValue);
 					let maxValue = $type.toNumber(heatRule.maxValue);
 
-
 					if (!$type.isNumber(minValue) && !$type.isNumber(maxValue)) {
 						this.dataItem.events.on("calculatedvaluechanged", (event) => {
 							if (event.property == dataField) {
@@ -1413,6 +1412,10 @@ export class Series extends Component {
 
 									let percent = (workingValue - minValue) / (maxValue - minValue);
 
+									if($type.isNumber(workingValue) && !$type.isNumber(percent)){
+										percent = 0.5;
+									}
+									// fixes problems if all values are the same
 									if ($type.isNumber(min)) {
 										return min + (max - min) * percent;
 									}

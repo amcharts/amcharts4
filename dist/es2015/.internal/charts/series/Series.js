@@ -1020,6 +1020,10 @@ var Series = /** @class */ (function (_super) {
                                     var workingValue = fieldValues.workingValue;
                                     if ($type.hasValue(min_1) && $type.hasValue(max_1) && $type.isNumber(minValue) && $type.isNumber(maxValue) && $type.isNumber(workingValue)) {
                                         var percent = (workingValue - minValue) / (maxValue - minValue);
+                                        if ($type.isNumber(workingValue) && !$type.isNumber(percent)) {
+                                            percent = 0.5;
+                                        }
+                                        // fixes problems if all values are the same
                                         if ($type.isNumber(min_1)) {
                                             return min_1 + (max_1 - min_1) * percent;
                                         }

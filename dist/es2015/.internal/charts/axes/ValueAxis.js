@@ -1143,8 +1143,6 @@ var ValueAxis = /** @class */ (function (_super) {
             _super.prototype.registerSeries.call(this, series),
             series.events.on("extremeschanged", this.handleExtremesChange, this, false),
             series.events.on("selectionextremeschanged", this.handleSelectionExtremesChange, this, false),
-            this.events.on("startchanged", series.invalidate, series, false),
-            this.events.on("endchanged", series.invalidate, series, false),
             this.events.on("extremeschanged", series.invalidate, series, false)
         ]);
     };

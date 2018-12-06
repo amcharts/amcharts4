@@ -230,12 +230,18 @@ var DateFormatter = /** @class */ (function (_super) {
                         : "_era_ad");
                     break;
                 case "yyyy":
-                    value = fullYear.toString();
+                    value = Math.abs(fullYear).toString();
+                    if (fullYear < 0) {
+                        value += language.translate("_era_bc");
+                    }
                     break;
                 case "yyy":
                 case "yy":
                 case "y":
-                    value = fullYear.toString().substr(-info.parts[i].length);
+                    value = Math.abs(fullYear).toString().substr(-info.parts[i].length);
+                    if (fullYear < 0) {
+                        value += language.translate("_era_bc");
+                    }
                     break;
                 case "YYYY":
                 case "YYY":
@@ -247,10 +253,13 @@ var DateFormatter = /** @class */ (function (_super) {
                         year++;
                     }
                     if (info.parts[i] == "YYYY") {
-                        value = year.toString();
+                        value = Math.abs(year).toString();
                     }
                     else {
-                        value = year.toString().substr(-info.parts[i].length);
+                        value = Math.abs(year).toString().substr(-info.parts[i].length);
+                    }
+                    if (year < 0) {
+                        value += language.translate("_era_bc");
                     }
                     break;
                 case "u":

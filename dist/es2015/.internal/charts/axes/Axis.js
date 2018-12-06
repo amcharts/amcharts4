@@ -476,7 +476,7 @@ var Axis = /** @class */ (function (_super) {
         tooltip.label.padding(5, 10, 5, 10);
         tooltip.background.pointerLength = 5;
         tooltip.fitPointerToBounds = true;
-        tooltip.filters.clear();
+        tooltip.background.filters.clear();
         // Set virtual parentfor the tooltip so that it can properly inheirt
         // formatters from the axis.
         tooltip.virtualParent = _this;
@@ -639,7 +639,9 @@ var Axis = /** @class */ (function (_super) {
             new Disposer(function () {
                 _this.series.removeValue(series);
             }),
-            this.events.on("lengthchanged", series.invalidate, series, false) //,
+            this.events.on("lengthchanged", series.invalidate, series, false),
+            this.events.on("startchanged", series.invalidate, series, false),
+            this.events.on("endchanged", series.invalidate, series, false)
             // TODO should these be disposed of ?
             //series.events.on("datavalidated", this.processSeriesDataItems, this),
             //series.events.on("visibilitychanged", this.processSeriesDataItems, this),

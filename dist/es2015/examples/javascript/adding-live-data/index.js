@@ -111,13 +111,13 @@ dateAxis.events.on("datarangechanged", () => {
 dateAxis.renderer.labels.template.adapter.add("rotation", (rotation, target) => {
     let dataItem = target.dataItem;
     if (dataItem.date.getTime() == am4core.time.round(new Date(dataItem.date.getTime()), "minute").getTime()) {
-        target.dx = 20;
         target.horizontalCenter = "left";
+        target.verticalCenter = "middle";
         return -90;
     }
     else {
-        target.dx = 0;
         target.horizontalCenter = "middle";
+        target.verticalCenter = "bottom";
         return 0;
     }
 })

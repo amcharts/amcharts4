@@ -285,6 +285,7 @@ var DateAxis = /** @class */ (function (_super) {
             { timeUnit: "minute", count: 1 },
             { timeUnit: "minute", count: 5 },
             { timeUnit: "minute", count: 10 },
+            { timeUnit: "minute", count: 15 },
             { timeUnit: "minute", count: 30 },
             { timeUnit: "hour", count: 1 },
             { timeUnit: "hour", count: 3 },
@@ -305,7 +306,14 @@ var DateAxis = /** @class */ (function (_super) {
             { timeUnit: "year", count: 5 },
             { timeUnit: "year", count: 10 },
             { timeUnit: "year", count: 50 },
-            { timeUnit: "year", count: 100 }
+            { timeUnit: "year", count: 100 },
+            { timeUnit: "year", count: 200 },
+            { timeUnit: "year", count: 500 },
+            { timeUnit: "year", count: 1000 },
+            { timeUnit: "year", count: 2000 },
+            { timeUnit: "year", count: 5000 },
+            { timeUnit: "year", count: 10000 },
+            { timeUnit: "year", count: 100000 }
         ]);
         // Set field name
         _this.axisFieldName = "date";
@@ -572,9 +580,13 @@ var DateAxis = /** @class */ (function (_super) {
         _super.prototype.fixAxisBreaks.call(this);
         var axisBreaks = this._axisBreaks;
         $iter.each(axisBreaks.iterator(), function (axisBreak) {
-            var breakGridCount = _this._gridCount * (Math.min(_this.end, axisBreak.endPosition) - Math.max(_this.start, axisBreak.startPosition)) / (_this.end - _this.start);
+            var breakGridCount = Math.ceil(_this._gridCount * (Math.min(_this.end, axisBreak.endPosition) - Math.max(_this.start, axisBreak.startPosition)) / (_this.end - _this.start));
             axisBreak.gridInterval = _this.chooseInterval(0, axisBreak.adjustedEndValue - axisBreak.adjustedStartValue, breakGridCount);
-            axisBreak.gridDate = $time.round(new Date(axisBreak.adjustedStartValue), axisBreak.gridInterval.timeUnit);
+            var gridDate = $time.round(new Date(axisBreak.adjustedStartValue), axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count);
+            if (gridDate.getTime() > axisBreak.startDate.getTime()) {
+                $time.add(gridDate, axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count);
+            }
+            axisBreak.gridDate = gridDate;
         });
     };
     /**
@@ -598,7 +610,11 @@ var DateAxis = /** @class */ (function (_super) {
         // if it's axis break, get first rounded date which is not in a break
         var axisBreak = this.isInBreak(timestamp);
         if (axisBreak) {
-            newDate = this.getBreaklessDate(axisBreak, this.baseInterval.timeUnit, this.baseInterval.count);
+            newDate = new Date(axisBreak.endDate.getTime());
+            $time.round(newDate, timeUnit, realIntervalCount);
+            if (newDate.getTime() < axisBreak.endDate.getTime()) {
+                $time.add(newDate, timeUnit, realIntervalCount);
+            }
             timestamp = newDate.getTime();
         }
         // get duration between grid lines with break duration removed
@@ -607,7 +623,7 @@ var DateAxis = /** @class */ (function (_super) {
         var countBreaksRemoved = Math.round(durationBreaksRemoved / $time.getDuration(timeUnit));
         // if less units fit, add one and repeat
         if (countBreaksRemoved < realIntervalCount) {
-            return this.getGridDate(date, intervalCount + 1);
+            return this.getGridDate(date, intervalCount + realIntervalCount);
         }
         return newDate;
     };
@@ -683,7 +699,7 @@ var DateAxis = /** @class */ (function (_super) {
                     var timeUnit_1 = axisBreak.gridInterval.timeUnit;
                     var intervalCount_1 = axisBreak.gridInterval.count;
                     // only add grid if gap is bigger then minGridDistance
-                    if ($math.getDistance(axisBreak.startPoint, axisBreak.endPoint) > renderer_1.minGridDistance) {
+                    if ($math.getDistance(axisBreak.startPoint, axisBreak.endPoint) > renderer_1.minGridDistance * 4) {
                         var timestamp_1 = axisBreak.gridDate.getTime();
                         var prevGridDate_1;
                         var count = 0;
@@ -740,6 +756,9 @@ var DateAxis = /** @class */ (function (_super) {
             }
             var position = this.valueToPosition(timestamp);
             var endPosition = this.valueToPosition(endTimestamp);
+            if (this._gridInterval.count > 1) {
+                endPosition = position + (endPosition - position) / this._gridInterval.count;
+            }
             dataItem.position = position;
             var tick = dataItem.tick;
             if (tick && !tick.disabled) {
@@ -1048,12 +1067,14 @@ var DateAxis = /** @class */ (function (_super) {
         // handle short months
         if (this._minSeriesDifference >= $time.getDuration("day", 27) && baseInterval.timeUnit == "week") {
             baseInterval.timeUnit = "month";
+            baseInterval.count = 1;
         }
         // handle daylight saving
         if (this._minSeriesDifference >= $time.getDuration("hour", 23) && baseInterval.timeUnit == "hour") {
             baseInterval.timeUnit = "day";
+            baseInterval.count = 1;
         }
-        baseInterval.count = 1; // good
+        //baseInterval.count = 1; // good
         this._baseIntervalReal = baseInterval;
         // no need to invalidate
     };
@@ -1158,8 +1179,8 @@ var DateAxis = /** @class */ (function (_super) {
             return this.getPropertyValue("markUnitChange");
         },
         /**
-         * Use `changeDateFormats` to apply different formats to the first label in
-         * bigger time unit.
+         * Use `periodChangeDateFormats` to apply different formats to the first
+         * label in bigger time unit.
          *
          * @default true
          * @param {boolean}  value  Use different format for period beginning?
@@ -1173,7 +1194,8 @@ var DateAxis = /** @class */ (function (_super) {
         configurable: true
     });
     /**
-     * Returns text to show in a tooltip, based on specific relative position within axis.
+     * Returns text to show in a tooltip, based on specific relative position
+     * within axis.
      *
      * The label will be formatted as per [[DateFormatter]] set for the whole
      * chart, or explicitly for this Axis.
