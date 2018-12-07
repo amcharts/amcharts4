@@ -31,6 +31,7 @@ import { MouseCursorStyle } from "../../core/interaction/Mouse";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import * as $array from "../../core/utils/Array";
+import { Animation } from "../../core/utils/Animation";
 
 /**
  * ============================================================================
@@ -133,7 +134,7 @@ export class TreeMapDataItem extends XYChartDataItem {
 	 * @return {number} Value
 	 */
 	public get value(): number {
-		let value = this.values["value"].value;
+		let value = this.values["value"].workingValue;
 
 		if (!$type.isNumber(value)) {
 			value = 0;
@@ -1405,8 +1406,16 @@ export class TreeMap extends XYChart {
 	 * @ignore Exclude from docs
 	 * @todo Description
 	 */
-	public handleDataItemValueChange(dataItem?: this["_dataItem"]): void {
-		this.invalidateDataItems();
+	public handleDataItemValueChange(dataItem?: this["_dataItem"], name?:string): void {
+		if(name == "value"){
+			this.invalidateDataItems();
+		}
+	}
+
+	public handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?:string): void {
+		if(name == "value"){
+			this.invalidateDataItems();
+		}
 	}
 
 	/**

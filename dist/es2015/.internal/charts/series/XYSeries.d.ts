@@ -745,7 +745,7 @@ export declare class XYSeries extends Series {
      *
      * @ignore Exclude from docs
      */
-    handleDataItemWorkingValueChange(dataItem?: this["_dataItem"]): void;
+    handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?: string): void;
     /**
      * [getStackValue description]
      *

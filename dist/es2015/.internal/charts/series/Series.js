@@ -589,7 +589,7 @@ var Series = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      */
-    Series.prototype.handleDataItemWorkingValueChange = function (dataItem) {
+    Series.prototype.handleDataItemWorkingValueChange = function (dataItem, name) {
         if (!this.dataRangeInvalid) {
             this.invalidateProcessedData();
         }

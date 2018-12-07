@@ -61,7 +61,7 @@ var TreeMapDataItem = /** @class */ (function (_super) {
          * @return {number} Value
          */
         get: function () {
-            var value = this.values["value"].value;
+            var value = this.values["value"].workingValue;
             if (!$type.isNumber(value)) {
                 value = 0;
                 if (this.children) {
@@ -1044,8 +1044,15 @@ var TreeMap = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      * @todo Description
      */
-    TreeMap.prototype.handleDataItemValueChange = function (dataItem) {
-        this.invalidateDataItems();
+    TreeMap.prototype.handleDataItemValueChange = function (dataItem, name) {
+        if (name == "value") {
+            this.invalidateDataItems();
+        }
+    };
+    TreeMap.prototype.handleDataItemWorkingValueChange = function (dataItem, name) {
+        if (name == "value") {
+            this.invalidateDataItems();
+        }
     };
     /**
      * Setups the legend to use the chart's data.

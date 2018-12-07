@@ -582,7 +582,7 @@ export class Component extends Container {
 	 * @ignore Exclude from docs
 	 * @todo Description
 	 */
-	public handleDataItemValueChange(dataItem?: this["_dataItem"]): void {
+	public handleDataItemValueChange(dataItem?: this["_dataItem"], name?:string): void {
 		if (!this.dataItemsInvalid) {
 			this.invalidateDataItems();
 		}
@@ -593,7 +593,7 @@ export class Component extends Container {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	public handleDataItemWorkingValueChange(dataItem?: this["_dataItem"]): void {
+	public handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?:string): void {
 
 	}
 
@@ -602,7 +602,7 @@ export class Component extends Container {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	public handleDataItemWorkingLocationChange(dataItem?: this["_dataItem"]): void {
+	public handleDataItemWorkingLocationChange(dataItem?: this["_dataItem"], name?:string): void {
 
 	}
 
@@ -611,7 +611,7 @@ export class Component extends Container {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	public handleDataItemCalculatedValueChange(dataItem?: this["_dataItem"]) {
+	public handleDataItemCalculatedValueChange(dataItem?: this["_dataItem"], name?:string) {
 
 	}
 
@@ -620,7 +620,7 @@ export class Component extends Container {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	public handleDataItemPropertyChange(dataItem?: this["_dataItem"]): void {
+	public handleDataItemPropertyChange(dataItem?: this["_dataItem"], name?:string): void {
 
 	}
 

@@ -445,12 +445,12 @@ export class ColumnSeries extends XYSeries {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	public handleDataItemWorkingValueChange(dataItem?: this["_dataItem"]): void {
+	public handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?:string): void {
 		if (this.simplifiedProcessing) {
 			this.validateDataElement(dataItem);
 		}
 		else {
-			super.handleDataItemWorkingValueChange(dataItem);
+			super.handleDataItemWorkingValueChange(dataItem, name);
 		}
 	}
 

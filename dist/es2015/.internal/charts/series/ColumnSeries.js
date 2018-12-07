@@ -262,12 +262,12 @@ var ColumnSeries = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      */
-    ColumnSeries.prototype.handleDataItemWorkingValueChange = function (dataItem) {
+    ColumnSeries.prototype.handleDataItemWorkingValueChange = function (dataItem, name) {
         if (this.simplifiedProcessing) {
             this.validateDataElement(dataItem);
         }
         else {
-            _super.prototype.handleDataItemWorkingValueChange.call(this, dataItem);
+            _super.prototype.handleDataItemWorkingValueChange.call(this, dataItem, name);
         }
     };
     /**

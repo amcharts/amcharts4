@@ -520,7 +520,7 @@ var DataItem = /** @class */ (function (_super) {
                 this.events.dispatchImmediately("valuechanged", event_2);
             }
             if (this.component) {
-                this.component.handleDataItemValueChange(this);
+                this.component.handleDataItemValueChange(this, name);
             }
         }
         this.setWorkingValue(name, value, newDuration, delay);
@@ -538,7 +538,7 @@ var DataItem = /** @class */ (function (_super) {
                 this.events.dispatchImmediately("calculatedvaluechanged", event_3);
             }
             if (this.component) {
-                this.component.handleDataItemCalculatedValueChange(this);
+                this.component.handleDataItemCalculatedValueChange(this, name);
             }
         }
     };
@@ -591,7 +591,7 @@ var DataItem = /** @class */ (function (_super) {
                     this.events.dispatchImmediately("workingvaluechanged", event_4);
                 }
                 if (this.component) {
-                    this.component.handleDataItemWorkingValueChange(this);
+                    this.component.handleDataItemWorkingValueChange(this, name);
                 }
             }
         }
@@ -621,7 +621,7 @@ var DataItem = /** @class */ (function (_super) {
                 this.events.dispatchImmediately("locationchanged", event_5);
             }
             if (this.component) {
-                this.component.handleDataItemValueChange(this); // correct
+                this.component.handleDataItemValueChange(this, name); // correct
             }
             this.setWorkingLocation(name, value, duration, delay);
         }
@@ -673,7 +673,7 @@ var DataItem = /** @class */ (function (_super) {
                 this.events.dispatchImmediately("workinglocationchanged", event_6);
             }
             if (this.component) {
-                this.component.handleDataItemWorkingLocationChange(this);
+                this.component.handleDataItemWorkingLocationChange(this, name);
             }
         }
     };
@@ -726,7 +726,7 @@ var DataItem = /** @class */ (function (_super) {
                 this.events.dispatchImmediately("propertychanged", event_7);
             }
             if (this.component) {
-                this.component.handleDataItemPropertyChange(this);
+                this.component.handleDataItemPropertyChange(this, name);
             }
         }
     };
@@ -812,7 +812,7 @@ var DataItem = /** @class */ (function (_super) {
                 this.events.dispatchImmediately("propertychanged", event_8);
             }
             if (this.component) {
-                this.component.handleDataItemPropertyChange(this);
+                this.component.handleDataItemPropertyChange(this, "ignoreMinMax");
             }
         },
         enumerable: true,
@@ -852,7 +852,7 @@ var DataItem = /** @class */ (function (_super) {
                 this.events.dispatchImmediately("workingvaluechanged", event_9);
             }
             if (this.component) {
-                this.component.handleDataItemWorkingValueChange(this);
+                this.component.handleDataItemWorkingValueChange(this, animationOptions.dummyData);
             }
         }
     };

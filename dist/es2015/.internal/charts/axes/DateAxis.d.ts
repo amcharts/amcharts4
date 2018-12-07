@@ -80,8 +80,30 @@ export interface IDateAxisDataFields extends IValueAxisDataFields {
  * Defines properties for [[DateAxis]].
  */
 export interface IDateAxisProperties extends IValueAxisProperties {
+    /**
+     * If enabled, axis will automatically collapse empty (without data points)
+     * periods of time, i.e. weekends.
+     *
+     * @default false
+     * @type {boolean}
+     */
     skipEmptyPeriods?: boolean;
+    /**
+     * Use `periodChangeDateFormats` to apply different formats to the first
+     * label in bigger time unit.
+     *
+     * @default true
+     * @param {boolean}  value  Use different format for period beginning?
+     */
     markUnitChange?: boolean;
+    /**
+     * Should the nearest tooltip be shown if no data item is found on the
+     * current cursor position.
+     *
+     * @default true
+     * @type {boolean}
+     */
+    snapTooltip?: boolean;
     /**
      * A special date format to apply axis tooltips.
      *
@@ -427,7 +449,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * @ignore Exclude from docs
      */
-    addEmptyUnitsBreaks(): void;
+    protected addEmptyUnitsBreaks(): void;
     /**
      * Updates positioning of Axis breaks after something changes.
      *
@@ -650,6 +672,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * * Using this feature affects performance. Use only if you need it.
      * * Setting this to `true` will reset appearance of breaks. If you want to modify appearance, do it *after* you set `skipEmptyPeriods`.
      *
+     * @default false
      * @param {boolean}  value  Remove empty stretches of time?
      */
     skipEmptyPeriods: boolean;
@@ -772,4 +795,22 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * @param {this} source Source Axis
      */
     copyFrom(source: this): void;
+    /**
+     * Shows Axis tooltip at specific relative position within Axis. (0-1)
+     *
+     * @param {number} position Position (0-1)
+     * @param {boolean} local or global position
+     */
+    showTooltipAtPosition(position: number, local?: boolean): void;
+    /**
+     * @return {boolean} Should snap?
+     */
+    /**
+     * Should the nearest tooltip be shown if no data item is found on the
+     * current cursor position.
+     *
+     * @default true
+     * @param {boolean}  value  Should snap?
+     */
+    snapTooltip: boolean;
 }

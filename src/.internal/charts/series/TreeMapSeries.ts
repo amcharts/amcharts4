@@ -105,7 +105,6 @@ export class TreeMapSeriesDataItem extends ColumnSeriesDataItem {
 	public get treeMapDataItem(): TreeMapDataItem {
 		return <TreeMapDataItem>this._dataContext;
 	}
-
 }
 
 
@@ -241,6 +240,8 @@ export class TreeMapSeries extends ColumnSeries {
 
 		this.sequencedInterpolation = false;
 
+		this.showOnInit = false;
+
 		// otherwise nodes don't stack nicely to each other
 		this.columns.template.pixelPerfect = false;
 	}
@@ -280,6 +281,10 @@ export class TreeMapSeries extends ColumnSeries {
 			interpolationDuration = duration;
 		}
 
+		this.dataItems.each((dataItem)=>{
+			dataItem.treeMapDataItem.setWorkingValue("value", dataItem.treeMapDataItem.values.value.value);
+		})
+
 		let animation = super.showReal(interpolationDuration);
 		let chart = this.chart;
 		if(chart){
@@ -311,15 +316,19 @@ export class TreeMapSeries extends ColumnSeries {
 
 		let animation = super.hideReal(interpolationDuration);
 
+		this.dataItems.each((dataItem)=>{
+			dataItem.treeMapDataItem.setWorkingValue("value", 0);
+		})
+
 		let chart = this.chart;
 		if(chart){
 			if (animation && !animation.isFinished()) {
 				animation.events.on("animationended", () => {
-					chart.invalidateLayout();
+					chart.invalidateLayout();					
 				})
 			}
 			else {
-				chart.invalidateLayout();
+				chart.invalidateLayout();				
 			}
 			chart.invalidateLayout();
 		}

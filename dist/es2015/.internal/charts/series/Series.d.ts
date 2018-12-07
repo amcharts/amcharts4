@@ -461,7 +461,7 @@ export declare class Series extends Component {
      *
      * @ignore Exclude from docs
      */
-    handleDataItemWorkingValueChange(dataItem?: this["_dataItem"]): void;
+    handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?: string): void;
     /**
      * @return {boolean} Exclude from calculations?
      */

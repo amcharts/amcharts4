@@ -279,7 +279,7 @@ export declare class FlowDiagram extends Chart {
      *
      * @ignore Exclude from docs
      */
-    handleDataItemWorkingValueChange(dataItem?: this["_dataItem"]): void;
+    handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?: string): void;
     /**
      * Sorts nodes by either their values or names, based on `sortBy` setting.
      */

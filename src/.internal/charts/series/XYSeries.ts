@@ -1667,8 +1667,8 @@ export class XYSeries extends Series {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	public handleDataItemWorkingValueChange(dataItem?: this["_dataItem"]): void {
-		super.handleDataItemWorkingValueChange(dataItem);
+	public handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?:string): void {
+		super.handleDataItemWorkingValueChange(dataItem, name);
 
 		// to calculate stack values
 		let axisSeries: List<XYSeries> = <List<XYSeries>>this.baseAxis.series;

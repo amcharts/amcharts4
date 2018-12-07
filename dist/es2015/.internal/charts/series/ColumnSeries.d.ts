@@ -260,7 +260,7 @@ export declare class ColumnSeries extends XYSeries {
      *
      * @ignore Exclude from docs
      */
-    handleDataItemWorkingValueChange(dataItem?: this["_dataItem"]): void;
+    handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?: string): void;
     /**
      * Returns relative end location for the data item.
      *

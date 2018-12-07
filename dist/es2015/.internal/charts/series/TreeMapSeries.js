@@ -134,6 +134,7 @@ var TreeMapSeries = /** @class */ (function (_super) {
         _this.dataFields.openValueY = "y0";
         _this.dataFields.valueY = "y1";
         _this.sequencedInterpolation = false;
+        _this.showOnInit = false;
         // otherwise nodes don't stack nicely to each other
         _this.columns.template.pixelPerfect = false;
         return _this;
@@ -169,6 +170,9 @@ var TreeMapSeries = /** @class */ (function (_super) {
         if ($type.isNumber(duration)) {
             interpolationDuration = duration;
         }
+        this.dataItems.each(function (dataItem) {
+            dataItem.treeMapDataItem.setWorkingValue("value", dataItem.treeMapDataItem.values.value.value);
+        });
         var animation = _super.prototype.showReal.call(this, interpolationDuration);
         var chart = this.chart;
         if (chart) {
@@ -196,6 +200,9 @@ var TreeMapSeries = /** @class */ (function (_super) {
             interpolationDuration = duration;
         }
         var animation = _super.prototype.hideReal.call(this, interpolationDuration);
+        this.dataItems.each(function (dataItem) {
+            dataItem.treeMapDataItem.setWorkingValue("value", 0);
+        });
         var chart = this.chart;
         if (chart) {
             if (animation && !animation.isFinished()) {

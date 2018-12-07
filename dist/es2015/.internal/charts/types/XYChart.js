@@ -721,12 +721,12 @@ var XYChart = /** @class */ (function (_super) {
         if (this.cursor.visible && !this.cursor.isHiding) {
             var xPosition = this.cursor.xPosition;
             var yPosition = this.cursor.yPosition;
-            this.showAxisTooltip(this.xAxes, xPosition);
-            this.showAxisTooltip(this.yAxes, yPosition);
             this.showSeriesTooltip({
                 x: xPosition,
                 y: yPosition
             });
+            this.showAxisTooltip(this.xAxes, xPosition);
+            this.showAxisTooltip(this.yAxes, yPosition);
         }
     };
     /**
@@ -782,12 +782,14 @@ var XYChart = /** @class */ (function (_super) {
         var topLeft = $utils.spritePointToSvg({ x: -0.5, y: -0.5 }, this.plotContainer);
         var bottomRight = $utils.spritePointToSvg({ x: this.plotContainer.pixelWidth + 0.5, y: this.plotContainer.pixelHeight + 0.5 }, this.plotContainer);
         var seriesPoints = [];
+        var sum = 0;
         this.series.each(function (series) {
             //if (series.tooltipText || series.tooltipHTML) { // not good, bullets are not hovered then
             series.tooltip.setBounds({ x: 0, y: 0, width: _this.pixelWidth, height: _this.pixelHeight });
             var point = series.showTooltipAtPosition(position.x, position.y);
             if (point && $math.isInRectangle(point, { x: topLeft.x, y: topLeft.y, width: bottomRight.x - topLeft.x, height: bottomRight.y - topLeft.y })) {
                 seriesPoints.push({ point: point, series: series });
+                sum += point.y;
             }
             //}
         });
@@ -802,45 +804,44 @@ var XYChart = /** @class */ (function (_super) {
                 return 0;
             }
         });
+        var averageY = sum / seriesPoints.length;
+        var maxY = $utils.svgPointToDocument({ x: 0, y: 0 }, this.svgContainer.SVGContainer).y;
         if (seriesPoints.length > 0) {
             var top_1 = topLeft.y;
             var bottom = bottomRight.y;
-            var topSeriesPoints = [];
-            var botSeriesPoints = [];
-            for (var i = 0, len = seriesPoints.length; i < len; i++) {
-                if (seriesPoints[i].point.y < top_1 + (bottom - top_1) / 2) {
-                    topSeriesPoints.push(seriesPoints[i]);
-                }
-                else {
-                    botSeriesPoints.push(seriesPoints[i]);
+            var topPoint = $utils.spritePointToDocument({ x: 0, y: top_1 }, this);
+            var dropped = false;
+            if (averageY > top_1 + (bottom - top_1) / 2) {
+                var nextHeight = bottom;
+                for (var i = seriesPoints.length - 1; i >= 0; i--) {
+                    var series = seriesPoints[i].series;
+                    var tooltip = series.tooltip;
+                    var pointY = seriesPoints[i].point.y;
+                    tooltip.setBounds({ x: 0, y: -maxY, width: this.pixelWidth, height: nextHeight + maxY });
+                    if (tooltip.invalid) {
+                        tooltip.validate();
+                    }
+                    tooltip.toBack();
+                    nextHeight = $utils.spritePointToSvg({ x: 0, y: tooltip.label.pixelY - tooltip.pixelY + pointY - tooltip.pixelMarginTop }, tooltip).y;
+                    if (nextHeight < -maxY) {
+                        dropped = true;
+                        break;
+                    }
                 }
             }
-            var nextY = top_1;
-            //@todo: solve overlapping when tooltips are close to center
-            for (var i = 0, len = topSeriesPoints.length; i < len; i++) {
-                var series = topSeriesPoints[i].series;
-                var pointY = topSeriesPoints[i].point.y;
-                var tooltip = series.tooltip;
-                tooltip.setBounds({ x: 0, y: nextY, width: this.pixelWidth, height: bottom });
-                if (tooltip.invalid) {
-                    tooltip.validate();
+            if (averageY <= top_1 + (bottom - top_1) / 2 || dropped) {
+                var nextY = top_1;
+                for (var i = 0, len = seriesPoints.length; i < len; i++) {
+                    var series = seriesPoints[i].series;
+                    var pointY = seriesPoints[i].point.y;
+                    var tooltip = series.tooltip;
+                    tooltip.setBounds({ x: 0, y: nextY, width: this.pixelWidth, height: bottom });
+                    if (tooltip.invalid) {
+                        tooltip.validate();
+                    }
+                    tooltip.toBack();
+                    nextY = $utils.spritePointToSvg({ x: 0, y: tooltip.label.pixelY + tooltip.label.measuredHeight - tooltip.pixelY + pointY + tooltip.pixelMarginBottom }, tooltip).y;
                 }
-                tooltip.toBack();
-                //@labeltodo
-                nextY = $utils.spritePointToSvg({ x: 0, y: tooltip.label.pixelY + tooltip.label.measuredHeight - tooltip.pixelY + pointY + tooltip.pixelMarginBottom }, tooltip).y;
-            }
-            var nextHeight = bottom;
-            for (var i = botSeriesPoints.length - 1; i >= 0; i--) {
-                var series = botSeriesPoints[i].series;
-                var tooltip = series.tooltip;
-                var pointY = botSeriesPoints[i].point.y;
-                tooltip.setBounds({ x: 0, y: 0, width: this.pixelWidth, height: nextHeight });
-                if (tooltip.invalid) {
-                    tooltip.validate();
-                }
-                tooltip.toBack();
-                //@labeltodo
-                nextHeight = $utils.spritePointToSvg({ x: 0, y: tooltip.label.pixelY - tooltip.pixelY + pointY - tooltip.pixelMarginTop }, tooltip).y;
             }
         }
     };

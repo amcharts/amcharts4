@@ -297,7 +297,7 @@ var FlowDiagram = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      */
-    FlowDiagram.prototype.handleDataItemWorkingValueChange = function (dataItem) {
+    FlowDiagram.prototype.handleDataItemWorkingValueChange = function (dataItem, name) {
         this.invalidate();
     };
     /**

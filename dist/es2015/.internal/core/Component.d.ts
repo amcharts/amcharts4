@@ -462,31 +462,31 @@ export declare class Component extends Container {
      * @ignore Exclude from docs
      * @todo Description
      */
-    handleDataItemValueChange(dataItem?: this["_dataItem"]): void;
+    handleDataItemValueChange(dataItem?: this["_dataItem"], name?: string): void;
     /**
      * [handleDataItemWorkingValueChange description]
      *
      * @ignore Exclude from docs
      */
-    handleDataItemWorkingValueChange(dataItem?: this["_dataItem"]): void;
+    handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?: string): void;
     /**
      * [handleDataItemWorkingLocationChange description]
      *
      * @ignore Exclude from docs
      */
-    handleDataItemWorkingLocationChange(dataItem?: this["_dataItem"]): void;
+    handleDataItemWorkingLocationChange(dataItem?: this["_dataItem"], name?: string): void;
     /**
      * [handleDataItemCalculatedValueChange description]
      *
      * @ignore Exclude from docs
      */
-    handleDataItemCalculatedValueChange(dataItem?: this["_dataItem"]): void;
+    handleDataItemCalculatedValueChange(dataItem?: this["_dataItem"], name?: string): void;
     /**
      * [handleDataItemPropertyChange description]
      *
      * @ignore Exclude from docs
      */
-    handleDataItemPropertyChange(dataItem?: this["_dataItem"]): void;
+    handleDataItemPropertyChange(dataItem?: this["_dataItem"], name?: string): void;
     /**
      * Populates a [[DataItem]] width data from data source.
      *

@@ -129,8 +129,33 @@ export interface IDateAxisDataFields extends IValueAxisDataFields {
  * Defines properties for [[DateAxis]].
  */
 export interface IDateAxisProperties extends IValueAxisProperties {
+
+	/**
+	 * If enabled, axis will automatically collapse empty (without data points)
+	 * periods of time, i.e. weekends.
+	 *
+	 * @default false
+	 * @type {boolean}
+	 */
 	skipEmptyPeriods?: boolean;
+
+	/**
+	 * Use `periodChangeDateFormats` to apply different formats to the first
+	 * label in bigger time unit.
+	 *
+	 * @default true
+	 * @param {boolean}  value  Use different format for period beginning?
+	 */
 	markUnitChange?: boolean;
+
+	/**
+	 * Should the nearest tooltip be shown if no data item is found on the
+	 * current cursor position.
+	 *
+	 * @default true
+	 * @type {boolean}
+	 */
+	snapTooltip?: boolean;
 
 	/**
 	 * A special date format to apply axis tooltips.
@@ -434,6 +459,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		this.className = "DateAxis";
 
 		this.setPropertyValue("markUnitChange", true);
+		this.snapTooltip = true;
 
 		// Translatable defaults are applied in `applyInternalDefaults()`
 		// ...
@@ -656,16 +682,16 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	/**
 	 * @ignore
 	 */
-	public get minDifference():number{
-		var minDifference = Number.MAX_VALUE;		
-		this.series.each((series)=>{
-			if(minDifference > this._minDifference[series.uid]){
+	public get minDifference(): number {
+		var minDifference = Number.MAX_VALUE;
+		this.series.each((series) => {
+			if (minDifference > this._minDifference[series.uid]) {
 				minDifference = this._minDifference[series.uid];
 			}
 		})
 
-		if(minDifference == Number.MAX_VALUE || minDifference == 0){
-			minDifference = $time.getDuration("day");	
+		if (minDifference == Number.MAX_VALUE || minDifference == 0) {
+			minDifference = $time.getDuration("day");
 		}
 
 		return minDifference;
@@ -734,7 +760,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 *
 	 * @ignore Exclude from docs
 	 */
-	public addEmptyUnitsBreaks(): void {
+	protected addEmptyUnitsBreaks(): void {
 
 		if (this.skipEmptyPeriods && $type.isNumber(this.min) && $type.isNumber(this.max)) {
 			let timeUnit: TimeUnit = this.baseInterval.timeUnit;
@@ -1320,6 +1346,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 		if ($type.isNumber(openTime)) {
 			let difference = Math.abs(time - openTime);
+
 			if (this._minDifference[series.uid] > difference) {
 				this._minDifference[series.uid] = difference;
 			}
@@ -1409,6 +1436,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * * Using this feature affects performance. Use only if you need it.
 	 * * Setting this to `true` will reset appearance of breaks. If you want to modify appearance, do it *after* you set `skipEmptyPeriods`.
 	 *
+	 * @default false
 	 * @param {boolean}  value  Remove empty stretches of time?
 	 */
 	public set skipEmptyPeriods(value: boolean) {
@@ -1567,7 +1595,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @param  {number}            position  Position (px)
 	 * @return {XYSeriesDataItem}            Data item
 	 */
-	public getSeriesDataItem(series: XYSeries, position: number, findNearest?:boolean): XYSeriesDataItem {
+	public getSeriesDataItem(series: XYSeries, position: number, findNearest?: boolean): XYSeriesDataItem {
 		let value: number = this.positionToValue(position);
 		let date: Date = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count);
 		let dataItem = series.dataItemsByAxis.getKey(this.uid).getKey(date.getTime().toString());
@@ -1710,6 +1738,84 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			this.baseInterval = source.baseInterval;
 		}
 	}
+
+
+	/**
+	 * Shows Axis tooltip at specific relative position within Axis. (0-1)
+	 *
+	 * @param {number} position Position (0-1)
+	 * @param {boolean} local or global position
+	 */
+	public showTooltipAtPosition(position: number, local?: boolean) {
+
+		if (!local) {
+			position = this.toAxisPosition(position);
+		}
+		if (this.snapTooltip) {
+			let actualDate = $time.round(this.positionToDate(position), this.baseInterval.timeUnit, 1);
+			let actualTime = actualDate.getTime();
+			let closestDate: Date;
+
+			this.series.each((series) => {
+
+				let dataItem = this.getSeriesDataItem(series, position, true);
+				if (dataItem) {
+					let date: Date;
+					if (series.xAxis == this) {
+						date = dataItem.dateX;
+					}
+					if (series.yAxis == this) {
+						date = dataItem.dateY;
+					}
+
+					if (!closestDate) {
+						closestDate = date;
+					}
+					else {
+						if (Math.abs(closestDate.getTime() - actualTime) > Math.abs(date.getTime() - actualTime)) {
+							closestDate = date;
+						}
+					}
+				}
+			})
+			if (closestDate) {
+				closestDate = new Date(closestDate.getTime() + this.baseDuration / 2);
+				position = this.dateToPosition(closestDate);
+			}
+		}
+
+		super.showTooltipAtPosition(position, true);
+
+		let globalPosition = this.toGlobalPosition(position);
+
+		this.series.each((series) => {
+			if (series.xAxis == this) {
+				series.showTooltipAtPosition(globalPosition, undefined);
+			}
+			if (series.yAxis == this) {
+				series.showTooltipAtPosition(undefined, globalPosition);
+			}
+		})
+	}
+
+	/**
+	 * Should the nearest tooltip be shown if no data item is found on the
+	 * current cursor position.
+	 *
+	 * @default true
+	 * @param {boolean}  value  Should snap?
+	 */
+	public set snapTooltip(value: boolean) {
+		this.setPropertyValue("snapTooltip", value);
+	}
+
+	/**
+	 * @return {boolean} Should snap?
+	 */
+	public get snapTooltip(): boolean {
+		return this.getPropertyValue("snapTooltip");
+	}
+
 }
 
 /**

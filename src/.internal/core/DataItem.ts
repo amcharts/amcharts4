@@ -726,7 +726,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 			}
 
 			if (this.component) {
-				this.component.handleDataItemValueChange(this);
+				this.component.handleDataItemValueChange(this, name);
 			}
 		}
 
@@ -749,7 +749,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 			}
 
 			if (this.component) {
-				this.component.handleDataItemCalculatedValueChange(this);
+				this.component.handleDataItemCalculatedValueChange(this, name);
 			}
 		}
 	}
@@ -767,6 +767,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	public setWorkingValue(name: string, value: number, duration?: number, delay?: number): $type.Optional<Animation> {
 		if ($type.isNumber(this.values[name].value)) {
 			let newDuration: $type.Optional<number> = this.getDuration(duration);
+
 			let workingValue: number = this.values[name].workingValue;
 
 			if (newDuration != null && newDuration > 0 && $type.isNumber(workingValue) && this.component) { // sometimes NaN is passed, so only change this to != null if all cases of NaN are handled, otherwise animation won't stop
@@ -810,7 +811,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 				}
 
 				if (this.component) {
-					this.component.handleDataItemWorkingValueChange(this);
+					this.component.handleDataItemWorkingValueChange(this, name);
 				}
 			}
 		}
@@ -844,7 +845,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 			}
 
 			if (this.component) {
-				this.component.handleDataItemValueChange(this); // correct
+				this.component.handleDataItemValueChange(this, name); // correct
 			}
 
 			this.setWorkingLocation(name, value, duration, delay);
@@ -903,7 +904,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 			}
 
 			if (this.component) {
-				this.component.handleDataItemWorkingLocationChange(this);
+				this.component.handleDataItemWorkingLocationChange(this, name);
 			}
 		}
 
@@ -963,7 +964,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 			}
 
 			if (this.component) {
-				this.component.handleDataItemPropertyChange(this);
+				this.component.handleDataItemPropertyChange(this, name);
 			}
 		}
 	}
@@ -1048,7 +1049,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 		}
 
 		if (this.component) {
-			this.component.handleDataItemPropertyChange(this);
+			this.component.handleDataItemPropertyChange(this, "ignoreMinMax");
 		}
 	}
 
@@ -1098,7 +1099,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 			}
 
 			if (this.component) {
-				this.component.handleDataItemWorkingValueChange(this);
+				this.component.handleDataItemWorkingValueChange(this, animationOptions.dummyData);
 			}
 		}
 	}

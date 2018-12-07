@@ -1030,13 +1030,13 @@ export class XYChart extends SerialChart {
 			let xPosition: number = this.cursor.xPosition;
 			let yPosition: number = this.cursor.yPosition;
 
-			this.showAxisTooltip(this.xAxes, xPosition);
-			this.showAxisTooltip(this.yAxes, yPosition);
-
 			this.showSeriesTooltip({
 				x: xPosition,
 				y: yPosition
 			});
+
+			this.showAxisTooltip(this.xAxes, xPosition);
+			this.showAxisTooltip(this.yAxes, yPosition);
 		}
 	}
 
@@ -1099,12 +1099,14 @@ export class XYChart extends SerialChart {
 		let bottomRight = $utils.spritePointToSvg({ x: this.plotContainer.pixelWidth + 0.5, y: this.plotContainer.pixelHeight + 0.5 }, this.plotContainer);
 
 		let seriesPoints: { point: IPoint, series: XYSeries }[] = [];
+		let sum = 0;
 		this.series.each((series) => {
 			//if (series.tooltipText || series.tooltipHTML) { // not good, bullets are not hovered then
 			series.tooltip.setBounds({ x: 0, y: 0, width: this.pixelWidth, height: this.pixelHeight });
 			let point = series.showTooltipAtPosition(position.x, position.y);
 			if (point && $math.isInRectangle(point, { x: topLeft.x, y: topLeft.y, width: bottomRight.x - topLeft.x, height: bottomRight.y - topLeft.y })) {
 				seriesPoints.push({ point: point, series: series });
+				sum += point.y;
 			}
 			//}
 		});
@@ -1121,55 +1123,56 @@ export class XYChart extends SerialChart {
 			}
 		})
 
+		let averageY = sum / seriesPoints.length;
+		let maxY = $utils.svgPointToDocument({ x: 0, y: 0 }, this.svgContainer.SVGContainer).y;
+
 		if (seriesPoints.length > 0) {
 
 			let top = topLeft.y;
 			let bottom = bottomRight.y;
 
-			let topSeriesPoints: { point: IPoint, series: XYSeries }[] = [];
-			let botSeriesPoints: { point: IPoint, series: XYSeries }[] = [];
+			let topPoint = $utils.spritePointToDocument({ x: 0, y: top }, this);
 
-			for (let i = 0, len = seriesPoints.length; i < len; i++) {
-				if (seriesPoints[i].point.y < top + (bottom - top) / 2) {
-					topSeriesPoints.push(seriesPoints[i]);
-				}
-				else {
-					botSeriesPoints.push(seriesPoints[i]);
+			let dropped = false;
+
+			if (averageY > top + (bottom - top) / 2) {
+				let nextHeight = bottom;
+				for (let i = seriesPoints.length - 1; i >= 0; i--) {
+					let series = seriesPoints[i].series;
+					let tooltip = series.tooltip;
+					let pointY = seriesPoints[i].point.y;
+
+					tooltip.setBounds({ x: 0, y: -maxY, width: this.pixelWidth, height: nextHeight + maxY });
+					if (tooltip.invalid) {
+						tooltip.validate();
+					}
+
+					tooltip.toBack();
+					nextHeight = $utils.spritePointToSvg({ x: 0, y: tooltip.label.pixelY - tooltip.pixelY + pointY - tooltip.pixelMarginTop }, tooltip).y;
+
+					if (nextHeight < -maxY) {
+						dropped = true;
+						break;
+					}
 				}
 			}
 
-			let nextY = top;
+			if (averageY <= top + (bottom - top) / 2 || dropped) {
+				let nextY = top;
+				for (let i = 0, len = seriesPoints.length; i < len; i++) {
+					let series = seriesPoints[i].series;
+					let pointY = seriesPoints[i].point.y;
+					let tooltip = series.tooltip;
 
-			//@todo: solve overlapping when tooltips are close to center
-			for (let i = 0, len = topSeriesPoints.length; i < len; i++) {
-				let series = topSeriesPoints[i].series;
-				let pointY = topSeriesPoints[i].point.y;
-				let tooltip = series.tooltip;
+					tooltip.setBounds({ x: 0, y: nextY, width: this.pixelWidth, height: bottom });
 
-				tooltip.setBounds({ x: 0, y: nextY, width: this.pixelWidth, height: bottom });
+					if (tooltip.invalid) {
+						tooltip.validate();
+					}
+					tooltip.toBack();
 
-				if (tooltip.invalid) {
-					tooltip.validate();
+					nextY = $utils.spritePointToSvg({ x: 0, y: tooltip.label.pixelY + tooltip.label.measuredHeight - tooltip.pixelY + pointY + tooltip.pixelMarginBottom }, tooltip).y;
 				}
-				tooltip.toBack();
-				//@labeltodo
-				nextY = $utils.spritePointToSvg({ x: 0, y: tooltip.label.pixelY + tooltip.label.measuredHeight - tooltip.pixelY + pointY + tooltip.pixelMarginBottom }, tooltip).y;
-			}
-
-			let nextHeight = bottom;
-			for (let i = botSeriesPoints.length - 1; i >= 0; i--) {
-				let series = botSeriesPoints[i].series;
-				let tooltip = series.tooltip;
-				let pointY = botSeriesPoints[i].point.y;
-
-				tooltip.setBounds({ x: 0, y: 0, width: this.pixelWidth, height: nextHeight });
-				if (tooltip.invalid) {
-					tooltip.validate();
-				}
-
-				tooltip.toBack();
-				//@labeltodo
-				nextHeight = $utils.spritePointToSvg({ x: 0, y: tooltip.label.pixelY - tooltip.pixelY + pointY - tooltip.pixelMarginTop }, tooltip).y;
 			}
 		}
 	}

@@ -524,7 +524,7 @@ export class FlowDiagram extends Chart {
 	 *
 	 * @ignore Exclude from docs
 	 */	
-	public handleDataItemWorkingValueChange(dataItem?:this["_dataItem"]): void {
+	public handleDataItemWorkingValueChange(dataItem?:this["_dataItem"], name?:string): void {
 		this.invalidate();
 	}
 

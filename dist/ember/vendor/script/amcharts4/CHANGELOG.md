@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.7] - 2018-12-07
+
+### Added
+- `snapTooltip` with default value `true` added to `DateAxis`. Cursor will snap to the nearest date at which series has values.
+
+### Changed
+- Default value of `showOnInit` set to `false` for `TreeMapSeries`.
+
+### Fixed
+- Solved tooltip overlapping bug.
+- In `TreeMap`, when series is toggled off, remaining series will be resized to take up freed space.
+
 
 ## [4.0.6] - 2018-12-06
 

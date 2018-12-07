@@ -656,7 +656,8 @@ export declare class TreeMap extends XYChart {
      * @ignore Exclude from docs
      * @todo Description
      */
-    handleDataItemValueChange(dataItem?: this["_dataItem"]): void;
+    handleDataItemValueChange(dataItem?: this["_dataItem"], name?: string): void;
+    handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?: string): void;
     /**
      * Setups the legend to use the chart's data.
      * @ignore

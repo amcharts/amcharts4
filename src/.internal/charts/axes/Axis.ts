@@ -1183,7 +1183,6 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 
 			let tooltipLocation = renderer.tooltipLocation;
 
-
 			let startPosition: number = this.getCellStartPosition(position);
 			let endPosition: number = this.getCellEndPosition(position);
 
@@ -1237,6 +1236,24 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 
 		return position;
 	}
+
+	/**
+	 * Converts position on the axis with zoom level and
+	 * inversed taken into account to global position.
+	 *
+	 * @param  {number} position Axis position (0-1)
+	 * @return {number}          Global position (0-1)
+	 */
+	public toGlobalPosition(position: number): number {
+		if (this.renderer.inversed) {
+			position = this.end - position;
+		}
+		else {
+			position = position - this.start;
+		}
+
+		return position / (this.end - this.start);
+	}	
 
 	/**
 	 * Returns text to be used for cursor's Axis tooltip.

@@ -268,6 +268,7 @@ var DateAxis = /** @class */ (function (_super) {
         };
         _this.className = "DateAxis";
         _this.setPropertyValue("markUnitChange", true);
+        _this.snapTooltip = true;
         // Translatable defaults are applied in `applyInternalDefaults()`
         // ...
         // Define default intervals
@@ -1139,6 +1140,7 @@ var DateAxis = /** @class */ (function (_super) {
          * * Using this feature affects performance. Use only if you need it.
          * * Setting this to `true` will reset appearance of breaks. If you want to modify appearance, do it *after* you set `skipEmptyPeriods`.
          *
+         * @default false
          * @param {boolean}  value  Remove empty stretches of time?
          */
         set: function (value) {
@@ -1420,6 +1422,77 @@ var DateAxis = /** @class */ (function (_super) {
             this.baseInterval = source.baseInterval;
         }
     };
+    /**
+     * Shows Axis tooltip at specific relative position within Axis. (0-1)
+     *
+     * @param {number} position Position (0-1)
+     * @param {boolean} local or global position
+     */
+    DateAxis.prototype.showTooltipAtPosition = function (position, local) {
+        var _this = this;
+        if (!local) {
+            position = this.toAxisPosition(position);
+        }
+        if (this.snapTooltip) {
+            var actualDate = $time.round(this.positionToDate(position), this.baseInterval.timeUnit, 1);
+            var actualTime_1 = actualDate.getTime();
+            var closestDate_1;
+            this.series.each(function (series) {
+                var dataItem = _this.getSeriesDataItem(series, position, true);
+                if (dataItem) {
+                    var date = void 0;
+                    if (series.xAxis == _this) {
+                        date = dataItem.dateX;
+                    }
+                    if (series.yAxis == _this) {
+                        date = dataItem.dateY;
+                    }
+                    if (!closestDate_1) {
+                        closestDate_1 = date;
+                    }
+                    else {
+                        if (Math.abs(closestDate_1.getTime() - actualTime_1) > Math.abs(date.getTime() - actualTime_1)) {
+                            closestDate_1 = date;
+                        }
+                    }
+                }
+            });
+            if (closestDate_1) {
+                closestDate_1 = new Date(closestDate_1.getTime() + this.baseDuration / 2);
+                position = this.dateToPosition(closestDate_1);
+            }
+        }
+        _super.prototype.showTooltipAtPosition.call(this, position, true);
+        var globalPosition = this.toGlobalPosition(position);
+        this.series.each(function (series) {
+            if (series.xAxis == _this) {
+                series.showTooltipAtPosition(globalPosition, undefined);
+            }
+            if (series.yAxis == _this) {
+                series.showTooltipAtPosition(undefined, globalPosition);
+            }
+        });
+    };
+    Object.defineProperty(DateAxis.prototype, "snapTooltip", {
+        /**
+         * @return {boolean} Should snap?
+         */
+        get: function () {
+            return this.getPropertyValue("snapTooltip");
+        },
+        /**
+         * Should the nearest tooltip be shown if no data item is found on the
+         * current cursor position.
+         *
+         * @default true
+         * @param {boolean}  value  Should snap?
+         */
+        set: function (value) {
+            this.setPropertyValue("snapTooltip", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
     return DateAxis;
 }(ValueAxis));
 export { DateAxis };

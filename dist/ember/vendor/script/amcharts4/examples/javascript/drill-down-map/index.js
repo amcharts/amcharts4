@@ -71,8 +71,8 @@ continentsSeries.data = [ {
 }, {
   "id": "Asia",
   "color": chart.colors.getIndex(1),
-  "zoomGeoPoint":{latitude:30, longitude:86},  // as Asia spans to negative longitudes, we need to specify custom zoomLevel and zoomGeoPoint
-  "zoomLevel":1.5  
+  "zoomGeoPoint":{latitude:50, longitude:86},  // as Asia spans to negative longitudes, we need to specify custom zoomLevel and zoomGeoPoint
+  "zoomLevel":1.7  
 }, {
   "id": "Australia and Oceania",
   "color": chart.colors.getIndex(2)

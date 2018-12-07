@@ -254,7 +254,7 @@ var Component = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      * @todo Description
      */
-    Component.prototype.handleDataItemValueChange = function (dataItem) {
+    Component.prototype.handleDataItemValueChange = function (dataItem, name) {
         if (!this.dataItemsInvalid) {
             this.invalidateDataItems();
         }
@@ -264,28 +264,28 @@ var Component = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      */
-    Component.prototype.handleDataItemWorkingValueChange = function (dataItem) {
+    Component.prototype.handleDataItemWorkingValueChange = function (dataItem, name) {
     };
     /**
      * [handleDataItemWorkingLocationChange description]
      *
      * @ignore Exclude from docs
      */
-    Component.prototype.handleDataItemWorkingLocationChange = function (dataItem) {
+    Component.prototype.handleDataItemWorkingLocationChange = function (dataItem, name) {
     };
     /**
      * [handleDataItemCalculatedValueChange description]
      *
      * @ignore Exclude from docs
      */
-    Component.prototype.handleDataItemCalculatedValueChange = function (dataItem) {
+    Component.prototype.handleDataItemCalculatedValueChange = function (dataItem, name) {
     };
     /**
      * [handleDataItemPropertyChange description]
      *
      * @ignore Exclude from docs
      */
-    Component.prototype.handleDataItemPropertyChange = function (dataItem) {
+    Component.prototype.handleDataItemPropertyChange = function (dataItem, name) {
     };
     /**
      * Populates a [[DataItem]] width data from data source.

@@ -1173,8 +1173,8 @@ var XYSeries = /** @class */ (function (_super) {
      *
      * @ignore Exclude from docs
      */
-    XYSeries.prototype.handleDataItemWorkingValueChange = function (dataItem) {
-        _super.prototype.handleDataItemWorkingValueChange.call(this, dataItem);
+    XYSeries.prototype.handleDataItemWorkingValueChange = function (dataItem, name) {
+        _super.prototype.handleDataItemWorkingValueChange.call(this, dataItem, name);
         // to calculate stack values
         var axisSeries = this.baseAxis.series;
         $iter.each(axisSeries.iterator(), function (series) {

@@ -862,6 +862,22 @@ var Axis = /** @class */ (function (_super) {
         return position;
     };
     /**
+     * Converts position on the axis with zoom level and
+     * inversed taken into account to global position.
+     *
+     * @param  {number} position Axis position (0-1)
+     * @return {number}          Global position (0-1)
+     */
+    Axis.prototype.toGlobalPosition = function (position) {
+        if (this.renderer.inversed) {
+            position = this.end - position;
+        }
+        else {
+            position = position - this.start;
+        }
+        return position / (this.end - this.start);
+    };
+    /**
      * Returns text to be used for cursor's Axis tooltip.
      *
      * This is a placeholder to override for extending classes.
