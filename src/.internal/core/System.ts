@@ -479,7 +479,7 @@ export class System {
 		// TODO use iterator instead
 		let invalidLayouts = registry.invalidLayouts[id];
 		while (invalidLayouts.length > 0) {
-			let container: Container = invalidLayouts[invalidLayouts.length - 1];
+			let container = invalidLayouts[invalidLayouts.length - 1] as Container;
 			if (!container.isDisposed()) {
 				try {
 					container.children.each((sprite) => {

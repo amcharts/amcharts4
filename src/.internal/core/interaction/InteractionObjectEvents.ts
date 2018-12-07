@@ -478,7 +478,7 @@ export class InteractionObjectEventDispatcher<T extends AMEvent<InteractionObjec
 		if (!this._domEvents[type]) {
 			const callback = function(e: E): void {
 				listener.call(context, key, e);
-			}
+			} as (ev: Event ) => void
 
 			this.target.element.addEventListener(type, callback, false);
 
@@ -492,11 +492,11 @@ export class InteractionObjectEventDispatcher<T extends AMEvent<InteractionObjec
 		return this._domEvents[type].increment();
 	}
 
-	private _dispatchKeyboardEvent(key: "keydown" & "keyup" & "keypress" & "input", ev: KeyboardEvent): void {
+	private _dispatchKeyboardEvent(key: "keydown" | "keyup" | "keypress" | "input", ev: KeyboardEvent): void {
 		// TODO use this.dispatchImmediately ?
 		if (this.target.events.isEnabled(key)) {
 			this.target.events.dispatchImmediately(key, {
-				type: key,
+				type: key as any, 
 				target: this.target,
 				event: ev
 			});

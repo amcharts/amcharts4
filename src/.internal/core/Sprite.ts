@@ -4083,7 +4083,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @param   {C}                  context   Context for handler function
 	 * @returns {IDisposer}                    Event Disposer
 	 */
-	public observe<C>(property: string | string[], listener: (this: C, event: AMEvent<Sprite, ISpriteEvents>["propertychanged"]) => void, context?: C): IDisposer {
+	public observe<C>(property: string | string[], listener: (this: C, event: AMEvent<this, ISpriteEvents>["propertychanged"]) => void, context?: C): IDisposer {
 		return new MultiDisposer($array.map($array.toArray(property), (prop) => {
 			return this.events.on("propertychanged", (e) => {
 				if (e.property === prop) {

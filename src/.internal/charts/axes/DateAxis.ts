@@ -410,7 +410,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 *
 	 * @type {function}
 	 */
-	public fillRule: (dataItem: DateAxisDataItem) => any = function(dataItem: DateAxisDataItem) {
+	public fillRule(dataItem: DateAxisDataItem) {
 		let value = dataItem.value;
 		let axis = dataItem.component;
 		let gridInterval = axis._gridInterval;

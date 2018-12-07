@@ -30,6 +30,7 @@ import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
 import * as $number from "../../core/utils/Number";
 import * as $order from "../../core/utils/Order";
+import { FlowDiagramNode } from '../elements/FlowDiagramNode';
 
 
 /**
@@ -319,10 +320,10 @@ export class SankeyDiagram extends FlowDiagram {
 	 * @param  {number}      level  Current level
 	 * @return {number}             New level
 	 */
-	protected getNodeLevel(node: SankeyNode, level: number): number {
+	protected getNodeLevel(node: FlowDiagramNode, level: number): number {
 		//@todo solve circular so
 		let levels: number[] = [level];
-		$iter.each(node.incomingDataItems.iterator(), (link: SankeyDiagramDataItem) => {
+		$iter.each(node.incomingDataItems.iterator(), (link: FlowDiagramDataItem) => {
 			if (link.fromNode) {
 				levels.push(this.getNodeLevel(link.fromNode, level + 1));
 			}

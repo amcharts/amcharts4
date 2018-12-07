@@ -400,7 +400,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 *
 	 * @type {function}
 	 */
-	public fillRule: (dataItem: ValueAxisDataItem) => any = function(dataItem: ValueAxisDataItem) {
+	public fillRule(dataItem: ValueAxisDataItem) {
 		let value = dataItem.value;
 		let axis = dataItem.component;
 		if (!dataItem.axisFill.disabled) {

@@ -9,7 +9,6 @@
  * @hidden
  */
 import { Component, IComponentProperties, IComponentDataFields, IComponentAdapters, IComponentEvents } from "../../core/Component";
-import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Container } from "../../core/Container";
 import { DataItem, IDataItemAdapters } from "../../core/DataItem";
 
@@ -747,7 +746,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 *
 	 * @type {function}
 	 */
-	public fillRule: (dataItem: AxisDataItem, index?: number) => any = function(dataItem: AxisDataItem, index?: number) {
+	public fillRule(dataItem: AxisDataItem, index?: number) {
 		if (!$type.isNumber(index)) {
 			index = dataItem.index;
 		}

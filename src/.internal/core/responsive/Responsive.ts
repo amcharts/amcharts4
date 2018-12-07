@@ -48,7 +48,7 @@ export interface IResponsiveRule {
 	 *
 	 * @type {function}
 	 */
-	relevant: (target: Container) => boolean;
+	relevant(target: Container): boolean;
 
 	/**
 	 * A function which creates and returns a [[SpriteState]] that needs to be
@@ -61,7 +61,7 @@ export interface IResponsiveRule {
 	 *
 	 * @type {function}
 	 */
-	state: (target: Sprite, stateId: string) => Optional<SpriteState<ISpriteProperties, ISpriteAdapters>>;
+	state(target: Sprite, stateId: string): Optional<SpriteState<ISpriteProperties, ISpriteAdapters>>;
 
 	/**
 	 * ID of the rule.

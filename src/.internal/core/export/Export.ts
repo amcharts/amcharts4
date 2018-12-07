@@ -1145,7 +1145,7 @@ export class Export extends Validatable {
 			case "json":
 				return <any>this.getJSON;
 			case "print":
-				return this.getPrint;
+				return <any>this.getPrint;
 			default:
 				return this.unsupported;
 		}
@@ -1217,7 +1217,7 @@ export class Export extends Validatable {
 
 
 		func = this.adapter.apply("exportFunction", {
-			func: func,
+			func: func as any,
 			type: type,
 			options: options
 		}).func;

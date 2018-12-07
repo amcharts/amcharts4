@@ -2560,7 +2560,7 @@ export class Interaction extends BaseObjectEvents {
 	 * @param  {MouseEvent}  ev  Event object
 	 * @return {boolean}         Returns `false` to cancel
 	 */
-	protected wheelLockEvent(ev: MouseEvent): boolean {
+	protected wheelLockEvent(ev: Event): boolean {
 		ev.preventDefault();
 		return false;
 	}

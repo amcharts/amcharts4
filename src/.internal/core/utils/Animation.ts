@@ -85,7 +85,7 @@ export interface IAnimationOptions {
 	 *
 	 * @type {function}
 	 */
-	updateMethod?: (progress: number, from: IAnimationOption, to: IAnimationOption) => IAnimationOption;
+	updateMethod?(progress: number, from: IAnimationOption, to: IAnimationOption): IAnimationOption;
 
 
 	/**

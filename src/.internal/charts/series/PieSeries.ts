@@ -9,7 +9,7 @@
  * @hidden
  */
 import { IPercentSeriesAdapters, IPercentSeriesDataFields, IPercentSeriesEvents, IPercentSeriesProperties, PercentSeries, PercentSeriesDataItem } from "./PercentSeries";
-import { ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
+import { ISpriteEvents, SpriteEventDispatcher, AMEvent, Sprite } from "../../core/Sprite";
 import { Slice } from "../../core/elements/Slice";
 import { AxisLabelCircular } from "../axes/AxisLabelCircular";
 import { PieTick } from "../elements/PieTick";
@@ -691,7 +691,7 @@ export class PieSeries extends PercentSeries {
 	 * @ignore Exclude from docs
 	 * @param {AMEvent<Slice, ISpriteEvents>["propertychanged"]}  event  Event
 	 */
-	protected handleSliceMove(event: AMEvent<this["_slice"], ISpriteEvents>["propertychanged"]): void {
+	protected handleSliceMove(event: AMEvent<Sprite, ISpriteEvents>["propertychanged"]): void {
 		if (!this.alignLabels) {
 
 			let slice = event.target;

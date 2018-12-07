@@ -170,7 +170,7 @@ export class Registry {
 	 * @ignore Exclude from docs
 	 * @type { [index: string]: Array<Container>}
 	 */
-	public invalidLayouts: { [index: string]: Array<Container> } = {};
+	public invalidLayouts: { [index: string]: Array<Sprite> } = {};
 
 	/**
 	 * An array holding all active (non-disposed) top level elemens.

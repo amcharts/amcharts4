@@ -65,7 +65,7 @@ export type Type
  * @return {Type}         Type of the value
  */
 export function getType<A>(value: A): Type {
-	return ({}).toString.call(value);
+	return ({}).toString.call(value) as Type
 }
 
 /**

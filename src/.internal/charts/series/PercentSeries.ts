@@ -810,7 +810,7 @@ export class PercentSeries extends Series {
 	 * @ignore Exclude from docs
 	 * @param {AMEvent<Slice, ISpriteEvents>["propertychanged"]}  event  Event
 	 */
-	protected handleSliceScale(event: AMEvent<this["_slice"], ISpriteEvents>["propertychanged"]): void {
+	protected handleSliceScale(event: AMEvent<Sprite, ISpriteEvents>["propertychanged"]): void {
 		let slice: this["_slice"] = event.target;
 		let dataItem: this["_dataItem"] = <this["_dataItem"]>slice.dataItem;
 		$iter.each(dataItem.bullets.iterator(), (a) => {
@@ -825,7 +825,7 @@ export class PercentSeries extends Series {
 	 * @ignore Exclude from docs
 	 * @param {AMEvent<Slice, ISpriteEvents>["propertychanged"]}  event  Event
 	 */
-	protected handleSliceMove(event: AMEvent<this["_slice"], ISpriteEvents>["propertychanged"]): void {
+	protected handleSliceMove(event: AMEvent<Sprite, ISpriteEvents>["propertychanged"]): void {
 
 	}
 
