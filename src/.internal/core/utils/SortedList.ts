@@ -61,7 +61,7 @@ export class OrderedList<T> {
 	 *
 	 * @type {EventDispatcher<AMEvent<this, ISortedListEvents<T>>>}
 	 */
-	public events: EventDispatcher<AMEvent<this, ISortedListEvents<T>>> = new EventDispatcher();
+	public events: EventDispatcher<AMEvent<OrderedList<T>, ISortedListEvents<T>>> = new EventDispatcher();
 
 	/**
 	 * Constructor
@@ -363,8 +363,8 @@ export class SortedList<T> extends OrderedList<T> {
 	 *
 	 * @type {T}
 	 */
-	private _ordering: (left: T, right: T) => Ordering;
-
+	// private _ordering: (left: T, right: T) => Ordering;
+	_ordering: any
 	/**
 	 * Constructor.
 	 *

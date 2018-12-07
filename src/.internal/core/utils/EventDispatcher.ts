@@ -27,11 +27,14 @@ export type AMEvent<Target, T> = {
 export interface EventListener<T> {
 	killed: boolean;
 	once: boolean;
-	type: keyof T | null;
+	// type: keyof T | null;
+	type: any
 	callback: any;
 	context: any;
 	shouldClone: boolean;
-	dispatch: <Key extends keyof T>(type: Key, event: T[Key]) => void;
+	dispatch: any
+	// dispatch: <Key extends keyof T>(type: Key, event: T[Key]) => void;
+	// dispatch<Key extends keyof T>(type: Key, event: T[Key]): void;
 	disposer: IDisposer;
 }
 

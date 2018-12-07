@@ -83,8 +83,10 @@ import * as $type from "../utils/Type";
  */
 interface IAdapterCallback<Target, T> {
 	id: number;
-	key: keyof T;
-	callback: (value: T[keyof T], target: Target, key?: keyof T) => T[keyof T];
+	// key: keyof T;
+	key: any
+	callback: any
+	// callback<Key extends keyof T>(value: T[Key], target: Target, key?: Key): T[Key];
 	scope: any;
 	priority: number;
 }
@@ -95,7 +97,7 @@ interface IAdapterCallback<Target, T> {
 interface IGlobalAdapterCallback {
 	id: number;
 	key: string;
-	callback: <T, Target, Key extends keyof T, C>(this: C, value: T[Key], target: Target, key?: keyof T) => T[Key];
+	callback<T, Target, Key extends keyof T, C>(this: C, value: T[Key], target: Target, key?: Key): T[Key];
 	scope: any;
 	priority: number;
 	type: { new(): any };
@@ -136,14 +138,14 @@ export class GlobalAdapter {
 	public addAll<T, Target, Key extends keyof T>(
 		type: { new(): Target },
 		key: Key,
-		callback: (value: T[Key], target: Target, key: keyof T) => T[Key],
+		callback: (value: T[Key], target: Target, key: Key) => T[Key],
 		priority?: number
 	): void;
 
 	public addAll<T, Target, Key extends keyof T, C>(
 		type: { new(): Target },
 		key: Key,
-		callback: (this: C, value: T[Key], target: Target, key: keyof T) => T[Key],
+		callback: (this: C, value: T[Key], target: Target, key: Key) => T[Key],
 		priority?: number,
 		scope?: C
 	): void;
@@ -203,7 +205,7 @@ export class GlobalAdapter {
 			const item = callbacks[i];
 
 			if (item.key === key && type instanceof item.type) {
-				value = item.callback.call(item.scope, value, type, key);
+				value = item.callback.call(item.scope, value, type, key) as T[Key];
 			}
 		}
 
@@ -380,7 +382,7 @@ export class Adapter<Target, T> {
 	 * @param {number}         priority  The higher priority, the more chance the adapter will be applied last
 	 * @param {any}            scope     Scope for the callback function
 	 */
-	public add<Key extends keyof T, C>(key: Key, callback: (this: C, value: T[Key], target: Target, key: keyof T) => T[Key], priority: number = 0, scope?: C): void {
+	public add<Key extends keyof T, C>(key: Key, callback: (this: C, value: T[Key], target: Target, key: Key) => T[Key], priority: number = 0, scope?: C): void {
 		this._callbacks.insert({
 			id: ++this._callbackId,
 			key: key,
@@ -399,7 +401,7 @@ export class Adapter<Target, T> {
 	 * @param   {any}            scope     Scope for the callback function
 	 * @returns                            Adapter set?
 	 */
-	public has<Key extends keyof T, C>(key: Key, callback: (this: C, value: T[Key], target: Target, key: keyof T) => T[Key], priority: number = 0, scope?: C): boolean {
+	public has<Key extends keyof T, C>(key: Key, callback: (this: C, value: T[Key], target: Target, key: Key) => T[Key], priority: number = 0, scope?: C): boolean {
 		// @todo Implement actual check
 		return false;
 	}
@@ -468,7 +470,7 @@ export class Adapter<Target, T> {
 	 *
 	 * @return {string[]} Adapter keys
 	 */
-	public keys(): Array<keyof T> {
+	public keys(): Array<any> {
 		// TODO inefficient
 		return $iter.toArray($iter.map(this._callbacks.iterator(), (x) => x.key));
 	}
