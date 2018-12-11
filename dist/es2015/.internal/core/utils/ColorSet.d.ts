@@ -212,6 +212,19 @@ export declare class ColorSet extends BaseObject {
      */
     reset(): void;
     /**
+     * @return {number} Step
+     */
+    /**
+     * Sets current color iteration. You can use this property to skip some
+     * colors from iteration. E.g. setting it to `10` will skip first ten
+     * colors.
+     *
+     * Please note that the number is zero-based.
+     *
+     * @param {number}  value  Step
+     */
+    currentStep: number;
+    /**
      * Generates colors based on the various ColorSet settings.
      *
      * @param {number} count Number of colors to generate

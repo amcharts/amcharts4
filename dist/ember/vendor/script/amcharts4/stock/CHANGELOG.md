@@ -5,6 +5,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.8] - 2018-12-11
+
+### Added
+- `currentStep` added to `ColorSet`. Allows setting current position of the color iterator.
+- Adapters added for `Sprite` properties: `inertiaOptions`, `hitOptions`, `hoverOptions`, `swipeOptions`, `keyboardOptions`, `cursorOptions`.
+
+### Changed
+- `nonScaling` of `AxisLabel` is no longer set to `true` by default, to improve performance.
+
+### Fixed
+- `ValueAxis` was not updating its scale if series was hidden and animated theme was not enabled.
+- Zooming an `XYChart` with all values equal was broken.
+- Series in an `XYChartScrollbar` sometimes was not visible initially.
+- `ColumnSeries` was drawing 1px line for `null` value data items.
+- `DateAxis`' `snapTooltip = true` was working incorrectly with `skipEmptyPeriods = true`.
+- Logarithmic `ValueAxis` with axis breaks was resulting in stack overflows.
+- JSON: Chaining multiple adapters in an array (e.g. `adapter: [{...}, {...}]`), was not working.
+- JSON: Adding elements to `children` via array syntax was not working properly.
+- JSON: `Container` elements can now be created via JSON config.
+- Setting `dataFields` in `Export` was only affecting column names. Values for all data fields were still being included in export.
+
+
 ## [4.0.7] - 2018-12-07
 
 ### Added

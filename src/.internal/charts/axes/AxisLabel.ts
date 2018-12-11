@@ -114,7 +114,7 @@ export class AxisLabel extends Label {
 		this.isMeasured = false;
 		this.padding(10, 10, 10, 10);
 		this.location = 0.5;
-		this.nonScaling = true;
+		//this.nonScaling = true; // not good for perf
 		this.applyTheme();
 	}
 

@@ -319,6 +319,9 @@ var ColumnSeries = /** @class */ (function (_super) {
         var outOfBounds = false;
         // two category axes
         if ((this.xAxis instanceof CategoryAxis) && (this.yAxis instanceof CategoryAxis)) {
+            if (!dataItem.hasValue(this._xValueFields) || !dataItem.hasValue(this._yValueFields)) {
+                return;
+            }
             startLocation = 0;
             endLocation = 1;
             if (!$type.isNaN(percentWidth)) {
@@ -367,6 +370,9 @@ var ColumnSeries = /** @class */ (function (_super) {
             b = this.fixVerticalCoordinate(b);
         }
         else if (this.baseAxis == this.xAxis) {
+            if (!dataItem.hasValue(this._yValueFields)) {
+                return;
+            }
             // in case width is set in percent
             if (!$type.isNaN(percentWidth)) {
                 var offset = $math.round((endLocation - startLocation) * (1 - percentWidth / 100) / 2, 5);
@@ -406,6 +412,9 @@ var ColumnSeries = /** @class */ (function (_super) {
         }
         // horizontal bars
         else {
+            if (!dataItem.hasValue(this._xValueFields)) {
+                return;
+            }
             if (!$type.isNaN(percentHeight)) {
                 var offset = $math.round((1 - percentHeight / 100) / 2, 5);
                 startLocation += offset;

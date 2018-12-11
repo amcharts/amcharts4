@@ -1249,7 +1249,7 @@ var DateAxis = /** @class */ (function (_super) {
         if (this.isInBreak(date.getTime())) {
             while (date.getTime() < this.max) {
                 $time.add(date, timeUnit, count);
-                if (this.isInBreak(date.getTime())) {
+                if (!this.isInBreak(date.getTime())) {
                     break;
                 }
             }

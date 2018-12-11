@@ -604,16 +604,16 @@ var BaseObject = /** @class */ (function () {
     };
     BaseObject.prototype.processAdapters = function (item, config) {
         var _this = this;
-        if ($type.isObject(config)) {
+        if ($type.isArray(config)) {
+            $array.each(config, function (entry, index) {
+                item.add(entry.key, entry.callback, entry.priority || 0, _this);
+            });
+        }
+        else if ($type.isObject(config)) {
             $object.each(config, function (key, entry) {
                 if (!item.has(key, entry)) {
                     item.add(key, entry);
                 }
-            });
-        }
-        else if ($type.isArray(config)) {
-            $array.each(config, function (entry, index) {
-                item.add(entry.type, entry.callback, entry.priority || 0, _this);
             });
         }
     };
@@ -703,6 +703,7 @@ var BaseObject = /** @class */ (function () {
         }
         // It's an array
         // Create a list item for entry
+        var itemCount = item.length;
         $array.each(configValue, function (entry, index) {
             if ($type.isObject(entry)) {
                 // An object.
@@ -713,7 +714,7 @@ var BaseObject = /** @class */ (function () {
                 // If there are items already at the specified index in the list,
                 // apply properties rather than create a new one.
                 var listItem = void 0;
-                if (item.hasIndex(index) && !entry["forceCreate"]) {
+                if ((index < (itemCount - 1)) && !entry["forceCreate"]) {
                     listItem = item.getIndex(index);
                 }
                 else if (entry instanceof BaseObject) {

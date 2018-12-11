@@ -223,6 +223,13 @@ export interface ISpriteAdapters extends ISpriteProperties {
 	relativeY: number;
 	mask: Sprite;
 	populateString: string;
+
+	inertiaOptions: Dictionary<InertiaTypes, IInertiaOptions>;
+	hitOptions: IHitOptions;
+	hoverOptions: IHoverOptions;
+	swipeOptions: ISwipeOptions;
+	keyboardOptions: IKeyboardOptions;
+	cursorOptions: ICursorOptions;
 };
 
 /**
@@ -1284,6 +1291,10 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			this.interactionsEnabled = this.getPropertyValue("interactionsEnabled"); // can't use .interactionsEnabled as it get's parent's
 
 			this._inited = true;
+
+			if(!this.showOnInit){
+				this.appeared = true;
+			}
 			this.applyMask();
 			this.dispatch("validated");
 			this.dispatch("inited");
@@ -1333,7 +1344,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		}
 
 		if (this.nonScaling) {
-			this.invalidatePosition();
+			this.validatePosition(); 
 		}
 
 		this.updateFilterScale();
@@ -2369,7 +2380,11 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 		// if a sprite is rotated or scaled, calculate measured size after transformations
 		if (this.rotation !== 0 || this.scale !== 1) {
-			this.handleGlobalScale(); // this is needed to handle nonscalingstroke
+			
+			// not good to handleGlobalScale here.
+			if (this.nonScalingStroke) {
+				this.strokeWidth = this.strokeWidth;
+			}			
 
 			let svg = this.paper.svg;
 
@@ -4476,6 +4491,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			this._interaction.resizable = this.resizable;
 			this._interaction.wheelable = this.wheelable;
 			this._interaction.inert = this.inert;
+			this._interaction.sprite = this;
 			this._disposers.push(this._interaction);
 		}
 		return this._interaction;

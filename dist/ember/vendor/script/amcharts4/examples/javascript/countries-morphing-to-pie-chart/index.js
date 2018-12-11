@@ -91,6 +91,7 @@ hiddenState.properties.visible = false;
 
 // series labels
 var labelTemplate = pieSeries.labels.template;
+labelTemplate.nonScaling = true;
 labelTemplate.fill = am4core.color("#FFFFFF");
 labelTemplate.fontSize = 10;
 labelTemplate.background = new am4core.RoundedRectangle();

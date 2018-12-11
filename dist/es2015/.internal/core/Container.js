@@ -1632,4 +1632,11 @@ var Container = /** @class */ (function (_super) {
     return Container;
 }(Sprite));
 export { Container };
+/**
+ * Register class in system, so that it can be instantiated using its name from
+ * anywhere.
+ *
+ * @ignore
+ */
+registry.registeredClasses["Container"] = Container;
 //# sourceMappingURL=Container.js.map

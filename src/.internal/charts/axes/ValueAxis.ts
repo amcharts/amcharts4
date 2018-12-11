@@ -595,8 +595,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		if ($type.isNumber(this.min) && $type.isNumber(this.max)) {
 			let min: number = this.positionToValue(this.start);
 			let max: number = this.positionToValue(this.end);
-
-
+		
 			let differece: number = this.adjustDifference(min, max);
 			let minMaxStep: IMinMaxStep = this.adjustMinMax(min, max, differece, this._gridCount, true);
 
@@ -676,8 +675,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 						}
 					}
 					this.validateDataElement(dataItem);
-					i++;
 				}
+				i++;				
 
 				if (!this.logarithmic) {
 					value += this._step;
@@ -1611,6 +1610,11 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			}
 		}
 
+		if(selectionMin == selectionMax){
+			selectionMin -= 1;
+			selectionMax += 1;
+		}
+
 		let dif: number = this.adjustDifference(selectionMin, selectionMax);
 		let minMaxStep: IMinMaxStep = this.adjustMinMax(selectionMin, selectionMax, dif, this._gridCount);
 
@@ -1867,6 +1871,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	public zoomToValues(startValue: number, endValue: number, skipRangeEvent?: boolean, instantly?: boolean): void {
 		let start: number = (startValue - this.min) / (this.max - this.min);
 		let end: number = (endValue - this.min) / (this.max - this.min);
+
 		this.zoom({ start: start, end: end }, skipRangeEvent, instantly);
 	}
 

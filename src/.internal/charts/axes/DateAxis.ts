@@ -1553,7 +1553,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		if (this.isInBreak(date.getTime())) {
 			while (date.getTime() < this.max) {
 				$time.add(date, timeUnit, count);
-				if (this.isInBreak(date.getTime())) {
+				if (!this.isInBreak(date.getTime())) {
 					break;
 				}
 			}
@@ -1778,6 +1778,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 					}
 				}
 			})
+
 			if (closestDate) {
 				closestDate = new Date(closestDate.getTime() + this.baseDuration / 2);
 				position = this.dateToPosition(closestDate);

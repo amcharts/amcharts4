@@ -34,7 +34,7 @@ var AxisLabel = /** @class */ (function (_super) {
         _this.isMeasured = false;
         _this.padding(10, 10, 10, 10);
         _this.location = 0.5;
-        _this.nonScaling = true;
+        //this.nonScaling = true; // not good for perf
         _this.applyTheme();
         return _this;
     }

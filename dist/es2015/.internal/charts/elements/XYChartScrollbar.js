@@ -182,6 +182,7 @@ var XYChartScrollbar = /** @class */ (function (_super) {
         series.rangeChangeDuration = 0;
         series.interpolationDuration = 0;
         series.defaultState.transitionDuration = 0;
+        series.showOnInit = false;
         this._disposers.push(series.events.on("validated", this.zoomOutAxes, this, false));
         // data might be set drectly on series
         this._disposers.push(sourceSeries.events.on("datavalidated", function () {

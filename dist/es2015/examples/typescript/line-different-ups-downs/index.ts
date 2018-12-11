@@ -45,6 +45,7 @@ let series = chart.series.push(new am4charts.LineSeries());
 series.dataFields.dateX = "date";
 series.dataFields.valueY = "value";
 series.strokeWidth = 2;
+series.tooltipText = "{valueY} (valueY.change}";
 
 // set stroke property field
 series.propertyFields.stroke = "color";

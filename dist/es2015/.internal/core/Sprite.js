@@ -611,6 +611,9 @@ var Sprite = /** @class */ (function (_super) {
             this.visible = this.visible;
             this.interactionsEnabled = this.getPropertyValue("interactionsEnabled"); // can't use .interactionsEnabled as it get's parent's
             this._inited = true;
+            if (!this.showOnInit) {
+                this.appeared = true;
+            }
             this.applyMask();
             this.dispatch("validated");
             this.dispatch("inited");
@@ -655,7 +658,7 @@ var Sprite = /** @class */ (function (_super) {
             this.strokeWidth = this.strokeWidth;
         }
         if (this.nonScaling) {
-            this.invalidatePosition();
+            this.validatePosition();
         }
         this.updateFilterScale();
     };
@@ -1590,7 +1593,10 @@ var Sprite = /** @class */ (function (_super) {
         var positionPrecision = this._positionPrecision;
         // if a sprite is rotated or scaled, calculate measured size after transformations
         if (this.rotation !== 0 || this.scale !== 1) {
-            this.handleGlobalScale(); // this is needed to handle nonscalingstroke
+            // not good to handleGlobalScale here.
+            if (this.nonScalingStroke) {
+                this.strokeWidth = this.strokeWidth;
+            }
             var svg = this.paper.svg;
             var matrix = svg.createSVGMatrix();
             var rotation = this.rotation;
@@ -3537,6 +3543,7 @@ var Sprite = /** @class */ (function (_super) {
                 this._interaction.resizable = this.resizable;
                 this._interaction.wheelable = this.wheelable;
                 this._interaction.inert = this.inert;
+                this._interaction.sprite = this;
                 this._disposers.push(this._interaction);
             }
             return this._interaction;

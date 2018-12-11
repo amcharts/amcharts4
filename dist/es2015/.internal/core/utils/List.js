@@ -719,6 +719,9 @@ var List = /** @class */ (function () {
     };
     /**
      * Calls `f` for each element in the list.
+     *
+     * `f` should have at least one parameter defined which will get a current
+     * item, with optional second argument - index.
      */
     List.prototype.each = function (f) {
         $array.each(this._values, f);

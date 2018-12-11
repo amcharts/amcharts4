@@ -281,6 +281,7 @@ export class XYChartScrollbar extends Scrollbar {
 		series.rangeChangeDuration = 0;
 		series.interpolationDuration = 0;
 		series.defaultState.transitionDuration = 0;
+		series.showOnInit = false;
 
 		this._disposers.push(series.events.on("validated", this.zoomOutAxes, this, false));
 

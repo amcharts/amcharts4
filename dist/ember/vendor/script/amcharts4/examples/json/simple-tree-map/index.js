@@ -96,6 +96,11 @@ var chart = am4core.createFromConfig({
     "children": "children"
   },
 
+  // Disable tooltip animation
+  "tooltip": {
+    "animationDuration": 0
+  },
+
   // Set up series templates by level
   "seriesTemplates": {
     "0": {
@@ -114,9 +119,6 @@ var chart = am4core.createFromConfig({
     "1": {
       "columns": {
         "strokeOpacity": 1,
-        "tooltip": {
-          "animationDuration": 0
-        },
         "column": {
           "cornerRadiusTopLeft": 10,
           "cornerRadiusTopRight": 10,

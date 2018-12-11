@@ -378,7 +378,7 @@ export class SankeyDiagram extends FlowDiagram {
 		for (let key in this._levelSum) {
 			if (this.maxSum < this._levelSum[key]) {
 				this.maxSum = this._levelSum[key];
-				maxSumLevel = Number(key);
+				maxSumLevel = $type.toNumber(key);
 			}
 		}
 

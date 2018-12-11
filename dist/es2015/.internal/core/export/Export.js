@@ -1592,6 +1592,10 @@ var Export = /** @class */ (function (_super) {
         var items = [];
         // Process each row item
         $object.each(row, function (key, value) {
+            // Check if we need to skip
+            if ($type.hasValue(_this.dataFields) && !$type.hasValue(_this.dataFields[key])) {
+                return;
+            }
             items.push(_this.convertDateValue(key, value, options));
         });
         return items;
@@ -1655,6 +1659,10 @@ var Export = /** @class */ (function (_super) {
         var items = [];
         // Process each row item
         $object.each(row, function (key, value) {
+            // Check if we need to skip
+            if ($type.hasValue(_this.dataFields) && !$type.hasValue(_this.dataFields[key])) {
+                return;
+            }
             // Convert dates
             var item = _this.convertDateValue(key, value, options);
             // Cast and escape doublequotes

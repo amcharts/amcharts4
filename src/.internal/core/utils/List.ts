@@ -913,6 +913,9 @@ export class List<T> {
 
 	/**
 	 * Calls `f` for each element in the list.
+	 *
+	 * `f` should have at least one parameter defined which will get a current
+	 * item, with optional second argument - index.
 	 */
 	public each(f: (value: T) => void): void {
 		$array.each(this._values, f);

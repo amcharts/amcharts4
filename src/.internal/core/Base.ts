@@ -771,16 +771,16 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 	}
 
 	protected processAdapters(item: Adapter<any, any>, config: any): void {
-		if ($type.isObject(config)) {
+		if ($type.isArray(config)) {
+			$array.each(config, (entry: { key: string, callback: any, priority?: number }, index) => {
+				item.add(entry.key, entry.callback, entry.priority || 0, this);
+			});
+		}
+		else if ($type.isObject(config)) {
 			$object.each(config, (key, entry) => {
 				if (!item.has(key, entry)) {
 					item.add(key, entry);
 				}
-			});
-		}
-		else if ($type.isArray(config)) {
-			$array.each(config, (entry: { type: string, callback: any, priority?: number }, index) => {
-				item.add(entry.type, entry.callback, entry.priority || 0, this);
 			});
 		}
 	}
@@ -882,6 +882,7 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 
 		// It's an array
 		// Create a list item for entry
+		const itemCount = item.length;
 		$array.each(configValue, (entry, index) => {
 
 			if ($type.isObject(entry)) {
@@ -895,7 +896,7 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 				// apply properties rather than create a new one.
 
 				let listItem;
-				if (item.hasIndex(index) && !(<any>entry)["forceCreate"]) {
+				if ((index < (itemCount - 1)) && !(<any>entry)["forceCreate"]) {
 					listItem = item.getIndex(index);
 				}
 				else if (<any>entry instanceof BaseObject) {

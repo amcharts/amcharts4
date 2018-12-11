@@ -9,6 +9,7 @@
  */
 import { IInteractionObjectEvents, InteractionObjectEventDispatcher } from "./InteractionObjectEvents";
 import { BaseObjectEvents } from "../Base";
+import { Sprite } from "../Sprite";
 import { List } from "../utils/List";
 import { Dictionary } from "../utils/Dictionary";
 import { AMEvent } from "../utils/EventDispatcher";
@@ -48,6 +49,12 @@ export declare class InteractionObject extends BaseObjectEvents {
      * An [[EventDispatcher]] instance which holds events for this object
      */
     events: InteractionObjectEventDispatcher<AMEvent<this, this["_events"]>>;
+    /**
+     * A related [[Sprite]] if any.
+     *
+     * @type {Adapter<Sprite, ISpriteAdapters>}
+     */
+    sprite: Sprite;
     /**
      * Collection of Disposers for various events. (so that those get disposed
      * when the whole InteractionObject is disposed)
@@ -165,7 +172,7 @@ export declare class InteractionObject extends BaseObjectEvents {
      *
      * @type {Dictionary<InertiaTypes, IInertiaOptions>}
      */
-    inertiaOptions: Dictionary<InertiaTypes, IInertiaOptions>;
+    private _inertiaOptions;
     /**
      * A collection of different inertia types, currently playing out.
      *
@@ -178,31 +185,31 @@ export declare class InteractionObject extends BaseObjectEvents {
      *
      * @type {IHitOptions}
      */
-    hitOptions: IHitOptions;
+    private _hitOptions;
     /**
      * Hover options.
      *
      * @type {IHoverOptions}
      */
-    hoverOptions: IHoverOptions;
+    private _hoverOptions;
     /**
      * Swipe gesture options.
      *
      * @type {ISwipeOptions}
      */
-    swipeOptions: ISwipeOptions;
+    private _swipeOptions;
     /**
      * Keyboard options.
      *
      * @type {IKeyboarOptions}
      */
-    keyboardOptions: IKeyboardOptions;
+    private _keyboardOptions;
     /**
      * Cursor options.
      *
      * @type {ICursorOptions}
      */
-    cursorOptions: ICursorOptions;
+    private _cursorOptions;
     /**
      * Constructor
      */
@@ -421,6 +428,60 @@ export declare class InteractionObject extends BaseObjectEvents {
      * @param {number} value Angle
      */
     originalAngle: number;
+    /**
+     * @return {Dictionary<InertiaTypes, IInertiaOptions>} Options
+     */
+    /**
+     * Inertia options.
+     *
+     * @param {Dictionary<InertiaTypes, IInertiaOptions>}  value  Options
+     */
+    inertiaOptions: Dictionary<InertiaTypes, IInertiaOptions>;
+    /**
+     * @return {IHitOptions} Options
+     */
+    /**
+     * Hit options.
+     *
+     * @param {IHitOptions}  value  Options
+     */
+    hitOptions: IHitOptions;
+    /**
+     * @return {IHoverOptions} Options
+     */
+    /**
+     * Hover options.
+     *
+     * @param {IHoverOptions}  value  Options
+     */
+    hoverOptions: IHoverOptions;
+    /**
+     * @return {ISwipeOptions} Options
+     */
+    /**
+     * Swipe options.
+     *
+     * @param {ISwipeOptions}  value  Options
+     */
+    swipeOptions: ISwipeOptions;
+    /**
+     * @return {IKeyboardOptions} Options
+     */
+    /**
+     * Keyboard options.
+     *
+     * @param {IKeyboardOptions}  value  Options
+     */
+    keyboardOptions: IKeyboardOptions;
+    /**
+     * @return {ICursorOptions} Options
+     */
+    /**
+     * Cursor options.
+     *
+     * @param {ICursorOptions}  value  Options
+     */
+    cursorOptions: ICursorOptions;
     /**
      * Copies all properties and related assets from another object of the same
      * type.

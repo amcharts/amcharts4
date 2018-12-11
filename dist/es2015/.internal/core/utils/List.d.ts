@@ -396,6 +396,9 @@ export declare class List<T> {
     [Symbol.iterator](): Iterator<T>;
     /**
      * Calls `f` for each element in the list.
+     *
+     * `f` should have at least one parameter defined which will get a current
+     * item, with optional second argument - index.
      */
     each(f: (value: T) => void): void;
     /**

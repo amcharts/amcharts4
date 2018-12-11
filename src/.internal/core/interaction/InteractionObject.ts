@@ -10,7 +10,9 @@
  */
 import { IInteractionObjectEvents, InteractionObjectEventDispatcher } from "./InteractionObjectEvents";
 import { BaseObjectEvents } from "../Base";
+import { Sprite } from "../Sprite";
 import { List } from "../utils/List";
+import { Adapter } from "../utils/Adapter";
 import { Dictionary, DictionaryDisposer } from "../utils/Dictionary";
 import { AMEvent } from "../utils/EventDispatcher";
 import { IPoint } from "../defs/IPoint";
@@ -56,6 +58,13 @@ export class InteractionObject extends BaseObjectEvents {
 	 * An [[EventDispatcher]] instance which holds events for this object
 	 */
 	public events: InteractionObjectEventDispatcher<AMEvent<this, this["_events"]>> = new InteractionObjectEventDispatcher(this);
+
+	/**
+	 * A related [[Sprite]] if any.
+	 * 
+	 * @type {Adapter<Sprite, ISpriteAdapters>}
+	 */
+	public sprite!: Sprite;
 
 	/**
 	 * Collection of Disposers for various events. (so that those get disposed
@@ -190,7 +199,7 @@ export class InteractionObject extends BaseObjectEvents {
 	 *
 	 * @type {Dictionary<InertiaTypes, IInertiaOptions>}
 	 */
-	public inertiaOptions: Dictionary<InertiaTypes, IInertiaOptions> = new Dictionary<InertiaTypes, IInertiaOptions>();
+	private _inertiaOptions: Dictionary<InertiaTypes, IInertiaOptions> = new Dictionary<InertiaTypes, IInertiaOptions>();
 
 	/**
 	 * A collection of different inertia types, currently playing out.
@@ -205,35 +214,35 @@ export class InteractionObject extends BaseObjectEvents {
 	 *
 	 * @type {IHitOptions}
 	 */
-	public hitOptions: IHitOptions = {};
+	private _hitOptions: IHitOptions = {};
 
 	/**
 	 * Hover options.
 	 *
 	 * @type {IHoverOptions}
 	 */
-	public hoverOptions: IHoverOptions = {};
+	private _hoverOptions: IHoverOptions = {};
 
 	/**
 	 * Swipe gesture options.
 	 *
 	 * @type {ISwipeOptions}
 	 */
-	public swipeOptions: ISwipeOptions = {};
+	private _swipeOptions: ISwipeOptions = {};
 
 	/**
 	 * Keyboard options.
 	 *
 	 * @type {IKeyboarOptions}
 	 */
-	public keyboardOptions: IKeyboardOptions = {};
+	private _keyboardOptions: IKeyboardOptions = {};
 
 	/**
 	 * Cursor options.
 	 *
 	 * @type {ICursorOptions}
 	 */
-	public cursorOptions: ICursorOptions = {
+	private _cursorOptions: ICursorOptions = {
 		"defaultStyle": [{
 			"property": "cursor",
 			"value": "default"
@@ -667,6 +676,132 @@ export class InteractionObject extends BaseObjectEvents {
 	 */
 	public get originalAngle(): number {
 		return $type.getValueDefault(this._originalAngle, 0 as number);
+	}
+
+	/**
+	 * Inertia options.
+	 * 
+	 * @param {Dictionary<InertiaTypes, IInertiaOptions>}  value  Options
+	 */
+	public set inertiaOptions(value: Dictionary<InertiaTypes, IInertiaOptions>) {
+		this._inertiaOptions = value;
+	}
+
+	/**
+	 * @return {Dictionary<InertiaTypes, IInertiaOptions>} Options
+	 */
+	public get inertiaOptions(): Dictionary<InertiaTypes, IInertiaOptions> {
+		if (this.sprite) {
+			return this.sprite.adapter.apply("inertiaOptions", this._inertiaOptions);
+		}
+		else {
+			return this._inertiaOptions;
+		}
+	}
+
+	/**
+	 * Hit options.
+	 * 
+	 * @param {IHitOptions}  value  Options
+	 */
+	public set hitOptions(value: IHitOptions) {
+		this._hitOptions = value;
+	}
+
+	/**
+	 * @return {IHitOptions} Options
+	 */
+	public get hitOptions(): IHitOptions {
+		if (this.sprite) {
+			return this.sprite.adapter.apply("hitOptions", this._hitOptions);
+		}
+		else {
+			return this._hitOptions;
+		}
+	}
+
+	/**
+	 * Hover options.
+	 * 
+	 * @param {IHoverOptions}  value  Options
+	 */
+	public set hoverOptions(value: IHoverOptions) {
+		this._hoverOptions = value;
+	}
+
+	/**
+	 * @return {IHoverOptions} Options
+	 */
+	public get hoverOptions(): IHoverOptions {
+		if (this.sprite) {
+			return this.sprite.adapter.apply("hoverOptions", this._hoverOptions);
+		}
+		else {
+			return this._hoverOptions;
+		}
+	}
+
+	/**
+	 * Swipe options.
+	 * 
+	 * @param {ISwipeOptions}  value  Options
+	 */
+	public set swipeOptions(value: ISwipeOptions) {
+		this._swipeOptions = value;
+	}
+
+	/**
+	 * @return {ISwipeOptions} Options
+	 */
+	public get swipeOptions(): ISwipeOptions {
+		if (this.sprite) {
+			return this.sprite.adapter.apply("swipeOptions", this._swipeOptions);
+		}
+		else {
+			return this._swipeOptions;
+		}
+	}
+
+	/**
+	 * Keyboard options.
+	 * 
+	 * @param {IKeyboardOptions}  value  Options
+	 */
+	public set keyboardOptions(value: IKeyboardOptions) {
+		this._keyboardOptions = value;
+	}
+
+	/**
+	 * @return {IKeyboardOptions} Options
+	 */
+	public get keyboardOptions(): IKeyboardOptions {
+		if (this.sprite) {
+			return this.sprite.adapter.apply("keyboardOptions", this._keyboardOptions);
+		}
+		else {
+			return this._keyboardOptions;
+		}
+	}
+
+	/**
+	 * Cursor options.
+	 * 
+	 * @param {ICursorOptions}  value  Options
+	 */
+	public set cursorOptions(value: ICursorOptions) {
+		this._cursorOptions = value;
+	}
+
+	/**
+	 * @return {ICursorOptions} Options
+	 */
+	public get cursorOptions(): ICursorOptions {
+		if (this.sprite) {
+			return this.sprite.adapter.apply("cursorOptions", this._cursorOptions);
+		}
+		else {
+			return this._cursorOptions;
+		}
 	}
 
 	/**

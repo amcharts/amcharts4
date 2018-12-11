@@ -2421,6 +2421,12 @@ export class Export extends Validatable {
 
 		// Process each row item
 		$object.each(row, (key, value) => {
+
+			// Check if we need to skip
+			if ($type.hasValue(this.dataFields) && !$type.hasValue(this.dataFields[key])) {
+				return;
+			}
+
 			items.push(this.convertDateValue<"xlsx">(key, value, options));
 		});
 
@@ -2493,6 +2499,12 @@ export class Export extends Validatable {
 
 		// Process each row item
 		$object.each(row, (key, value) => {
+
+			// Check if we need to skip
+			if ($type.hasValue(this.dataFields) && !$type.hasValue(this.dataFields[key])) {
+				return;
+			}
+
 			// Convert dates
 			let item = this.convertDateValue<"csv">(key, value, options);
 

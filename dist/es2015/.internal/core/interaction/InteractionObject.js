@@ -96,7 +96,7 @@ var InteractionObject = /** @class */ (function (_super) {
          *
          * @type {Dictionary<InertiaTypes, IInertiaOptions>}
          */
-        _this.inertiaOptions = new Dictionary();
+        _this._inertiaOptions = new Dictionary();
         /**
          * A collection of different inertia types, currently playing out.
          *
@@ -109,31 +109,31 @@ var InteractionObject = /** @class */ (function (_super) {
          *
          * @type {IHitOptions}
          */
-        _this.hitOptions = {};
+        _this._hitOptions = {};
         /**
          * Hover options.
          *
          * @type {IHoverOptions}
          */
-        _this.hoverOptions = {};
+        _this._hoverOptions = {};
         /**
          * Swipe gesture options.
          *
          * @type {ISwipeOptions}
          */
-        _this.swipeOptions = {};
+        _this._swipeOptions = {};
         /**
          * Keyboard options.
          *
          * @type {IKeyboarOptions}
          */
-        _this.keyboardOptions = {};
+        _this._keyboardOptions = {};
         /**
          * Cursor options.
          *
          * @type {ICursorOptions}
          */
-        _this.cursorOptions = {
+        _this._cursorOptions = {
             "defaultStyle": [{
                     "property": "cursor",
                     "value": "default"
@@ -601,6 +601,144 @@ var InteractionObject = /** @class */ (function (_super) {
             if (this._originalAngle !== value) {
                 this._originalAngle = value;
             }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(InteractionObject.prototype, "inertiaOptions", {
+        /**
+         * @return {Dictionary<InertiaTypes, IInertiaOptions>} Options
+         */
+        get: function () {
+            if (this.sprite) {
+                return this.sprite.adapter.apply("inertiaOptions", this._inertiaOptions);
+            }
+            else {
+                return this._inertiaOptions;
+            }
+        },
+        /**
+         * Inertia options.
+         *
+         * @param {Dictionary<InertiaTypes, IInertiaOptions>}  value  Options
+         */
+        set: function (value) {
+            this._inertiaOptions = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(InteractionObject.prototype, "hitOptions", {
+        /**
+         * @return {IHitOptions} Options
+         */
+        get: function () {
+            if (this.sprite) {
+                return this.sprite.adapter.apply("hitOptions", this._hitOptions);
+            }
+            else {
+                return this._hitOptions;
+            }
+        },
+        /**
+         * Hit options.
+         *
+         * @param {IHitOptions}  value  Options
+         */
+        set: function (value) {
+            this._hitOptions = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(InteractionObject.prototype, "hoverOptions", {
+        /**
+         * @return {IHoverOptions} Options
+         */
+        get: function () {
+            if (this.sprite) {
+                return this.sprite.adapter.apply("hoverOptions", this._hoverOptions);
+            }
+            else {
+                return this._hoverOptions;
+            }
+        },
+        /**
+         * Hover options.
+         *
+         * @param {IHoverOptions}  value  Options
+         */
+        set: function (value) {
+            this._hoverOptions = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(InteractionObject.prototype, "swipeOptions", {
+        /**
+         * @return {ISwipeOptions} Options
+         */
+        get: function () {
+            if (this.sprite) {
+                return this.sprite.adapter.apply("swipeOptions", this._swipeOptions);
+            }
+            else {
+                return this._swipeOptions;
+            }
+        },
+        /**
+         * Swipe options.
+         *
+         * @param {ISwipeOptions}  value  Options
+         */
+        set: function (value) {
+            this._swipeOptions = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(InteractionObject.prototype, "keyboardOptions", {
+        /**
+         * @return {IKeyboardOptions} Options
+         */
+        get: function () {
+            if (this.sprite) {
+                return this.sprite.adapter.apply("keyboardOptions", this._keyboardOptions);
+            }
+            else {
+                return this._keyboardOptions;
+            }
+        },
+        /**
+         * Keyboard options.
+         *
+         * @param {IKeyboardOptions}  value  Options
+         */
+        set: function (value) {
+            this._keyboardOptions = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(InteractionObject.prototype, "cursorOptions", {
+        /**
+         * @return {ICursorOptions} Options
+         */
+        get: function () {
+            if (this.sprite) {
+                return this.sprite.adapter.apply("cursorOptions", this._cursorOptions);
+            }
+            else {
+                return this._cursorOptions;
+            }
+        },
+        /**
+         * Cursor options.
+         *
+         * @param {ICursorOptions}  value  Options
+         */
+        set: function (value) {
+            this._cursorOptions = value;
         },
         enumerable: true,
         configurable: true

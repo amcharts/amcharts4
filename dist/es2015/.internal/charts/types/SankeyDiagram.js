@@ -143,7 +143,7 @@ var SankeyDiagram = /** @class */ (function (_super) {
         for (var key in this._levelSum) {
             if (this.maxSum < this._levelSum[key]) {
                 this.maxSum = this._levelSum[key];
-                maxSumLevel = Number(key);
+                maxSumLevel = $type.toNumber(key);
             }
         }
         this._maxSumLevel = maxSumLevel;

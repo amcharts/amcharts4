@@ -238,6 +238,28 @@ var ColorSet = /** @class */ (function (_super) {
     ColorSet.prototype.reset = function () {
         this._currentStep = 0;
     };
+    Object.defineProperty(ColorSet.prototype, "currentStep", {
+        /**
+         * @return {number} Step
+         */
+        get: function () {
+            return this._currentStep;
+        },
+        /**
+         * Sets current color iteration. You can use this property to skip some
+         * colors from iteration. E.g. setting it to `10` will skip first ten
+         * colors.
+         *
+         * Please note that the number is zero-based.
+         *
+         * @param {number}  value  Step
+         */
+        set: function (value) {
+            this._currentStep = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Generates colors based on the various ColorSet settings.
      *

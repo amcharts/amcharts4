@@ -190,6 +190,12 @@ export interface ISpriteAdapters extends ISpriteProperties {
     relativeY: number;
     mask: Sprite;
     populateString: string;
+    inertiaOptions: Dictionary<InertiaTypes, IInertiaOptions>;
+    hitOptions: IHitOptions;
+    hoverOptions: IHoverOptions;
+    swipeOptions: ISwipeOptions;
+    keyboardOptions: IKeyboardOptions;
+    cursorOptions: ICursorOptions;
 }
 /**
  * ============================================================================

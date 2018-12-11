@@ -385,8 +385,8 @@ var ValueAxis = /** @class */ (function (_super) {
                         }
                     }
                     this.validateDataElement(dataItem);
-                    i++;
                 }
+                i++;
                 if (!this.logarithmic) {
                     value_1 += this._step;
                 }
@@ -1194,6 +1194,10 @@ var ValueAxis = /** @class */ (function (_super) {
             else {
                 selectionMax = this.max;
             }
+        }
+        if (selectionMin == selectionMax) {
+            selectionMin -= 1;
+            selectionMax += 1;
         }
         var dif = this.adjustDifference(selectionMin, selectionMax);
         var minMaxStep = this.adjustMinMax(selectionMin, selectionMax, dif, this._gridCount);
