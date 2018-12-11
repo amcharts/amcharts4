@@ -10,9 +10,9 @@ For a short overview of features, visit [this page](https://www.amcharts.com/v4)
 
 |Directory|Description|
 |---------|-----------|
-|/distr/ember/|Official Ember plugin for amCharts 4|
-|/distr/es2015/|Compiled ES2015 modules|
-|/distr/script/|Compiled standalone JavaScript files|
+|/dist/ember/|Official Ember plugin for amCharts 4|
+|/dist/es2015/|Compiled ES2015 modules|
+|/dist/script/|Compiled standalone JavaScript files|
 
 
 ### Documentation
