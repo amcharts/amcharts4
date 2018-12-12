@@ -257,7 +257,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      * Actual defaults will depend on the language locale set for the chart.
      *
      * To override format for a specific time unit, say days, you need to set
-     * the approperiate key to a format string. E.g.:
+     * the appropriate key to a format string. E.g.:
      *
      * ```TypeScript
      * axis.dateFormats.setKey("day", "MMMM d, yyyy");
