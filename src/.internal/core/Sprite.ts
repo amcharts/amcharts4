@@ -527,7 +527,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	protected _isMeasured: $type.Optional<boolean>;
 
 	/**
-	 * Indicates if the chart should follow righ-to-left rules.
+	 * Indicates if the chart should follow right-to-left rules.
 	 *
 	 * @ignore Exclude from docs
 	 * @type {boolean}
@@ -780,7 +780,6 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	protected _descriptionElement: Optional<AMElement>;
 
-
 	/**
 	 * Specifies if property changes on this object should be propagated to the
 	 * objects cloned from this object.
@@ -792,7 +791,6 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @default false
 	 */
 	public applyOnClones: boolean = false;
-
 
 	/**
 	 * a reference to an object which should be used when populating string. used for tooltip label mostly.
@@ -874,12 +872,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	protected _outTimeout: $type.Optional<IDisposer>;
 
-
 	/**
+	 * This flag is set to `true` for the initial sprite you create and place
+	 * to the div so that we could clear all additional
+	 * sprites/containers when this sprite is disposed.
+	 * 
 	 * @ignore
-	 * this flag is set to true for the initial sprite you create and place to the div so that we could clear all additional sprites/containers when this sprite is disposed
 	 */
-
 	public isBaseSprite: boolean = false;
 
 	/**
@@ -891,7 +890,6 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public shouldClone: boolean = true;
 
-
 	/**
 	 * A property which you can use to store any data you want.
 	 * @type {any}
@@ -899,15 +897,16 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	public dummyData: any;
 
 	/**
-	 * A reference to a real fill object. Sometimes might be useful to modify gradient (when fill is color but we have FillModifier).
+	 * A reference to a real fill object. Sometimes might be useful to modify
+	 * gradient (when fill is color but we have FillModifier).
 	 */
 	public realFill: Color | Pattern | LinearGradient | RadialGradient;
 
 	/**
-	 * A reference to a real stroke object. Sometimes might be useful to modify gradient (when fill is color but we have FillModifier).
+	 * A reference to a real stroke object. Sometimes might be useful to modify
+	 * gradient (when fill is color but we have a FillModifier).
 	 */
 	public realStroke: Color | Pattern | LinearGradient | RadialGradient;
-
 
 	/**
 	 * A reference to amCharts logo element.
@@ -917,6 +916,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public logo: AmChartsLogo;
 
+	/**
+	 * [_baseId description]
+	 *
+	 * @todo Description
+	 * @type {string}
+	 */
 	protected _baseId: string;
 
 	/**
@@ -930,9 +935,30 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 */
 	public appeared: boolean = false;
 
+	/**
+	 * [ex description]
+	 *
+	 * @todo Description
+	 * @ignore
+	 * @type {number}
+	 */
 	public ex: number = 0;
+
+	/**
+	 * [ey description]
+	 *
+	 * @todo Description
+	 * @ignore
+	 * @type {number}
+	 */
 	public ey: number = 0;
 
+	/**
+	 * [_showOnInitDisposer description]
+	 *
+	 * @todo Description
+	 * @type {MultiDisposer}
+	 */
 	protected _showOnInitDisposer: MultiDisposer;
 
 	/**
@@ -1292,7 +1318,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 			this._inited = true;
 
-			if(!this.showOnInit){
+			if (!this.showOnInit) {
 				this.appeared = true;
 			}
 			this.applyMask();
@@ -1344,7 +1370,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		}
 
 		if (this.nonScaling) {
-			this.validatePosition(); 
+			this.validatePosition();
 		}
 
 		this.updateFilterScale();
@@ -1426,9 +1452,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			}
 		}
 
-		if ((<any>source)["_tooltip"] && !this._tooltip) {
-			this._tooltip = (<any>source)["_tooltip"];
-		}
+		//if ((<any>source)["_tooltip"] && !this._tooltip) {
+		//	this._tooltip = (<any>source)["_tooltip"];
+		//}
 
 		this._showSystemTooltip = source.showSystemTooltip;
 
@@ -1446,6 +1472,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 	public dispose(): void {
 		if (!this.isDisposed()) {
+
+			this.dispatchImmediately("beforedisposed");
+
 			if (this.isBaseSprite) {
 				if (this.htmlContainer) {
 					while (this.htmlContainer.childNodes.length > 0) {
@@ -2068,9 +2097,9 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		if (this._clipPath && mask) {
 			// Container
 			if (mask instanceof Container) {
-				this._clipElement.attr({"width": $math.max(0, mask.pixelWidth), "height": $math.max(0, mask.pixelHeight) });
+				this._clipElement.attr({ "width": $math.max(0, mask.pixelWidth), "height": $math.max(0, mask.pixelHeight) });
 
-				let point = $utils.spritePointToSprite({x:mask.pixelX, y:mask.pixelY}, mask.parent, this);
+				let point = $utils.spritePointToSprite({ x: mask.pixelX, y: mask.pixelY }, mask.parent, this);
 
 				this._clipPath.x = point.x;
 				this._clipPath.y = point.y;
@@ -2380,11 +2409,11 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 		// if a sprite is rotated or scaled, calculate measured size after transformations
 		if (this.rotation !== 0 || this.scale !== 1) {
-			
+
 			// not good to handleGlobalScale here.
 			if (this.nonScalingStroke) {
 				this.strokeWidth = this.strokeWidth;
-			}			
+			}
 
 			let svg = this.paper.svg;
 
@@ -2914,6 +2943,19 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 		if (this.states.hasKey("focus")) {
 			this.focusable = true;
+		}
+
+		// Propagate the new state to clones
+		if (this.applyOnClones) {
+			const clones = this.clones.values;
+			const length = clones.length;
+
+			for (let i = 0; i < length; ++i) {
+				const clone = clones[i];
+				if (!clone.isDisposed()) {
+					clone.states.setKey(state.name, state);
+				}
+			}
 		}
 	}
 
@@ -4103,7 +4145,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * @param   {C}                  context   Context for handler function
 	 * @returns {IDisposer}                    Event Disposer
 	 */
-	public observe<C>(property: string | string[], listener: (this: C, event: AMEvent<Sprite, ISpriteEvents>["propertychanged"]) => void, context?: C): IDisposer {
+	public observe<C>(property: string | string[], listener: (this: C, event: AMEvent<this, ISpriteEvents>["propertychanged"]) => void, context?: C): IDisposer {
 		return new MultiDisposer($array.map($array.toArray(property), (prop) => {
 			return this.events.on("propertychanged", (e) => {
 				if (e.property === prop) {
@@ -7425,7 +7467,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	}
 
 	/**
-	 * An RTL (righ-to-left) setting.
+	 * An RTL (right-to-left) setting.
 	 *
 	 * RTL may affect alignment, text, and other visual properties.
 	 *

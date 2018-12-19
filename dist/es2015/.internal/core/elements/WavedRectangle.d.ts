@@ -149,12 +149,6 @@ export declare class WavedRectangle extends Rectangle implements IWavedShape {
      */
     setWavedSides(top: boolean, right: boolean, bottom: boolean, left: boolean): void;
     /**
-     * Updates bounding box based on element dimension settings.
-     *
-     * @ignore Exclude from docs
-     */
-    measureElement(): void;
-    /**
      * @return {number} Tension
      */
     /**

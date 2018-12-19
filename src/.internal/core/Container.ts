@@ -164,6 +164,15 @@ export interface IContainerProperties extends ISpriteProperties {
 	 * @type {boolean}
 	 */
 	reverseOrder?: boolean;
+
+	/**
+	 * Specifies if, when state is applied on this container, the same state
+	 * should be applied to container's children as well as `background`.
+	 *
+	 * @default false
+	 * @type {boolean}
+	 */
+	setStateOnChildren?: boolean
 }
 
 /**
@@ -297,14 +306,6 @@ export class Container extends Sprite {
 	 * @type {boolean}
 	 */
 	public hasFocused: boolean = false;
-
-	/**
-	 * Specifies if, when state is applied on this container, the same state
-	 * should be applied to container's children as well as `background`.
-	 *
-	 * @type {boolean}
-	 */
-	public setStateOnChildren: boolean = false;
 
 	/**
 	 * An array of references to elements the state should be set, when it is set
@@ -501,7 +502,8 @@ export class Container extends Sprite {
 	 * Invalidates the whole element, including layout AND all its child
 	 * elements.
 	 *
-	 * @ignore Exclude from docs
+	 * As this will essentially force all elements to redraw, use only if
+	 * absolutely necessary.
 	 */
 	public deepInvalidate(): void {
 		super.invalidate();
@@ -1325,7 +1327,7 @@ export class Container extends Sprite {
 			}
 		}
 
-		if(this.layout == "none"){
+		if (this.layout == "none") {
 			let noneBBox = this.bbox;
 			left = noneBBox.x;
 			right = noneBBox.x + noneBBox.width;
@@ -1717,6 +1719,24 @@ export class Container extends Sprite {
 	}
 
 	/**
+	 * Specifies if, when state is applied on this container, the same state
+	 * should be applied to container's children as well as `background`.
+	 *
+	 * @default false
+	 * @param {boolean}  value  Set state on children
+	 */
+	public set setStateOnChildren(value: boolean) {
+		this.setPropertyValue("setStateOnChildren", value, true);
+	}
+
+	/**
+	 * @return {boolean} Set state on children
+	 */
+	public get setStateOnChildren(): boolean {
+		return this.getPropertyValue("setStateOnChildren");
+	}
+
+	/**
 	 * Checks if point is within bounds of a container.
 	 *
 	 * @param  {IPoint}   point  A coordinate to check
@@ -2060,8 +2080,10 @@ export class Container extends Sprite {
 				super.dispatchReady();
 			}
 			else {
-				registry.events.once("exitframe", this.dispatchReady, this, false);
-				system.requestFrame();
+				registry.events.once("exitframe", ()=>{
+					this.dispatchReady();
+					system.requestFrame();
+				}, undefined, false);				
 			}
 		}
 	}

@@ -563,32 +563,50 @@ export function fitAngleToRange(value, startAngle, endAngle) {
  * @return {IRectangle}              Rectangle
  */
 export function getArcRect(startAngle, endAngle, radius) {
-    // do not normalize here!
-    //startAngle = normalizeAngle(startAngle);
-    //endAngle = normalizeAngle(endAngle);
+    var minX = Number.MAX_VALUE;
+    var minY = Number.MAX_VALUE;
+    var maxX = -Number.MAX_VALUE;
+    var maxY = -Number.MAX_VALUE;
+    var bpoints = [];
     if (!$type.isNumber(radius)) {
         radius = 1;
     }
-    if (startAngle == endAngle) {
-        endAngle += 360;
+    bpoints.push(getArcPoint(radius, startAngle));
+    bpoints.push(getArcPoint(radius, endAngle));
+    var fromAngle = Math.min(Math.floor(startAngle / 90) * 90, Math.floor(endAngle / 90) * 90);
+    var toAngle = Math.max(Math.ceil(startAngle / 90) * 90, Math.ceil(endAngle / 90) * 90);
+    for (var angle = fromAngle; angle <= toAngle; angle += 90) {
+        if (angle >= startAngle && angle <= endAngle) {
+            bpoints.push(getArcPoint(radius, angle));
+        }
     }
-    if (startAngle > endAngle) {
-        var temp = endAngle;
-        endAngle = startAngle;
-        startAngle = temp;
+    for (var i = 0; i < bpoints.length; i++) {
+        var pt = bpoints[i];
+        if (pt.x < minX) {
+            minX = pt.x;
+        }
+        if (pt.y < minY) {
+            minY = pt.y;
+        }
+        if (pt.x > maxX) {
+            maxX = pt.x;
+        }
+        if (pt.y > maxY) {
+            maxY = pt.y;
+        }
     }
-    var minX;
-    var maxX;
-    var minY;
-    var maxY;
-    var step = (endAngle - startAngle) / 720;
-    for (var angle = startAngle; angle < endAngle; angle += step) {
-        minX = min(cos(angle) * radius, minX);
-        maxX = max(cos(angle) * radius, maxX);
-        minY = min(sin(angle) * radius, minY);
-        maxY = max(sin(angle) * radius, maxY);
-    }
-    return { x: minX, y: minY, width: (maxX - minX), height: (maxY - minY) };
+    return ({ x: minX, y: minY, width: maxX - minX, height: maxY - minY });
+}
+/**
+ * Returns point on arc
+ *
+ * @param  {IPoint}  center point
+ * @param  {number}  radius
+ * @param  {number}  arc
+ * @return {boolean}
+ */
+export function getArcPoint(radius, arc) {
+    return ({ x: radius * cos(arc), y: radius * sin(arc) });
 }
 /**
  * Returns true if a point is within rectangle

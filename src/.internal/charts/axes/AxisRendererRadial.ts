@@ -369,9 +369,9 @@ export class AxisRendererRadial extends AxisRendererY {
 	 * @param {number}     position     Starting position
 	 * @param {number}     endPosition  Ending position
 	 */
-	public updateLabelElement(label: this["_labelType"], position: number, endPosition: number, location?:number) {
+	public updateLabelElement(label: this["_labelType"], position: number, endPosition: number, location?: number) {
 
-		if(!$type.hasValue(location)){
+		if (!$type.hasValue(location)) {
 			location = label.location;
 		}
 
@@ -409,9 +409,10 @@ export class AxisRendererRadial extends AxisRendererY {
 	 * @param {number}  value  Start angle
 	 */
 	public set startAngle(value: number) {
-		// do not normalize angel here!
-		this.setPropertyValue("startAngle", value);
-		this.invalidateAxisItems();
+		// do not normalize angle here!
+		if (this.setPropertyValue("startAngle", value)) {
+			this.invalidateAxisItems();
+		}
 	}
 
 	/**
@@ -428,8 +429,9 @@ export class AxisRendererRadial extends AxisRendererY {
 	 */
 	public set endAngle(value: number) {
 		// do not normalize angel here!
-		this.setPropertyValue("endAngle", value);
-		this.invalidateAxisItems();
+		if (this.setPropertyValue("endAngle", value)) {
+			this.invalidateAxisItems();
+		}
 	}
 
 	/**
@@ -663,10 +665,10 @@ export class AxisRendererRadial extends AxisRendererY {
 	 * @param  {IPoint}  point  Point
 	 * @return {number}         Position (0-1)
 	 */
-	public pointToPosition(point: IPoint) {		
+	public pointToPosition(point: IPoint) {
 		let coordinate = ($math.getDistance(point) - this.pixelInnerRadius);
 		return this.coordinateToPosition(coordinate);
-	}		
+	}
 }
 
 /**

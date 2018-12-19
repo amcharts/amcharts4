@@ -68,13 +68,6 @@ var Container = /** @class */ (function (_super) {
          */
         _this.hasFocused = false;
         /**
-         * Specifies if, when state is applied on this container, the same state
-         * should be applied to container's children as well as `background`.
-         *
-         * @type {boolean}
-         */
-        _this.setStateOnChildren = false;
-        /**
          * An array of references to elements the state should be set, when it is set
          * on this element.
          *
@@ -214,7 +207,8 @@ var Container = /** @class */ (function (_super) {
      * Invalidates the whole element, including layout AND all its child
      * elements.
      *
-     * @ignore Exclude from docs
+     * As this will essentially force all elements to redraw, use only if
+     * absolutely necessary.
      */
     Container.prototype.deepInvalidate = function () {
         _super.prototype.invalidate.call(this);
@@ -1296,6 +1290,26 @@ var Container = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Container.prototype, "setStateOnChildren", {
+        /**
+         * @return {boolean} Set state on children
+         */
+        get: function () {
+            return this.getPropertyValue("setStateOnChildren");
+        },
+        /**
+         * Specifies if, when state is applied on this container, the same state
+         * should be applied to container's children as well as `background`.
+         *
+         * @default false
+         * @param {boolean}  value  Set state on children
+         */
+        set: function (value) {
+            this.setPropertyValue("setStateOnChildren", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Checks if point is within bounds of a container.
      *
@@ -1608,6 +1622,7 @@ var Container = /** @class */ (function (_super) {
      * Dispatches ready event. Dispatches when all children are ready.
      */
     Container.prototype.dispatchReady = function () {
+        var _this = this;
         if (!this.isReady() && !this.isDisposed()) {
             var allReady_1 = true;
             this.children.each(function (sprite) {
@@ -1624,8 +1639,10 @@ var Container = /** @class */ (function (_super) {
                 _super.prototype.dispatchReady.call(this);
             }
             else {
-                registry.events.once("exitframe", this.dispatchReady, this, false);
-                system.requestFrame();
+                registry.events.once("exitframe", function () {
+                    _this.dispatchReady();
+                    system.requestFrame();
+                }, undefined, false);
             }
         }
     };

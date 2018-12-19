@@ -449,7 +449,9 @@ export class Label extends Container {
 	}
 
 	/**
-	 * Hard invalidate means the text will be redrawn even if it hasn't changed. This is used when we change fontSize of fontFamily or for some other reasons.
+	 * Hard invalidate means the text will be redrawn even if it hasn't changed.
+	 * This is used when we change `fontSize`, `fontFamily`, or for some other
+	 * reasons.
 	 */
 	public hardInvalidate() {
 		this._prevStatus = "";
@@ -484,8 +486,9 @@ export class Label extends Container {
 		// Draw super
 		super.draw();
 
+
 		let oldW = this.bbox.width;
-		let oldH = this.bbox.height;		
+		let oldH = this.bbox.height;
 
 		let topParent = this.topParent;
 		if (topParent) {
@@ -964,8 +967,6 @@ export class Label extends Container {
 			 * HTML
 			 */
 
-			let pixelRatio = $utils.getPixelRatio();
-
 			this.element.removeAttr("display");
 			this.resetBBox();
 
@@ -980,10 +981,6 @@ export class Label extends Container {
 			// Set group and foreignObject dimensions
 			let width: string = maxWidth > 0 ? (maxWidth).toString() + "px" : "100%";
 			let height: string = maxHeight > 0 ? (maxHeight).toString() + "px" : "100%";
-			/*			fo.attr({
-							width: width,
-							height: height
-						});*/
 
 			// Create line element
 			//let lineElement: HTMLElement = this.getHTMLLineElement(getTextFormatter().format(this.html, output));
@@ -992,20 +989,22 @@ export class Label extends Container {
 
 			// Temporarily set to inline-block so we can measure real width and height
 			lineElement.style.display = "inline-block";
-			let tmpBBox = lineElement.getBoundingClientRect();
+			const clientWidth = lineElement.clientWidth;
+			const clientHeight = lineElement.clientHeight;
+
 			lineElement.style.display = "block";
 			this._bbox = {
 				x: 0,
 				y: 0,
-				width: tmpBBox.width / pixelRatio,
-				height: tmpBBox.height / pixelRatio
+				width: clientWidth,
+				height: clientHeight
 			};
 
 			// Set exact dimensions of foreignObject so it is sized exactly as
 			// the content within
 			fo.attr({
-				width: tmpBBox.width / pixelRatio,
-				height: tmpBBox.height / pixelRatio
+				width: clientWidth,
+				height: clientHeight
 			});
 
 			// Set measurements and update bbox
@@ -1020,7 +1019,7 @@ export class Label extends Container {
 				lineElement.style.overflow = "hidden";
 			}
 
-			if ((tmpBBox.width > maxWidth) || (tmpBBox.height > maxHeight)) {
+			if ((clientWidth > maxWidth) || (clientHeight > maxHeight)) {
 				this.isOversized = true;
 			}
 		}
@@ -1558,6 +1557,15 @@ export class Label extends Container {
 			element.node.setAttribute("style", style);
 		}
 		return element;
+	}
+
+	/**
+	 * Invalidates the whole element, including layout AND all its child
+	 * elements.
+	 */
+	public deepInvalidate() {
+		super.deepInvalidate();
+		this.hardInvalidate();
 	}
 
 }

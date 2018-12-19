@@ -52,7 +52,9 @@ var Group = /** @class */ (function (_super) {
         if (element) {
             var first = this.node.childNodes[0];
             if (first) {
-                this.node.insertBefore(element.node, first);
+                if (first != element.node) {
+                    this.node.insertBefore(element.node, first);
+                }
             }
             else {
                 this.node.appendChild(element.node);

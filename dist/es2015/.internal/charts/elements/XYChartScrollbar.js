@@ -200,22 +200,31 @@ var XYChartScrollbar = /** @class */ (function (_super) {
      */
     XYChartScrollbar.prototype.updateByOrientation = function () {
         var _this = this;
-        $iter.each(this._scrollbarChart.xAxes.iterator(), function (xAxis) {
-            if (_this.orientation == "vertical") {
+        if (this._scrollbarChart) {
+            console.log("update", this.orientation);
+            $iter.each(this._scrollbarChart.xAxes.iterator(), function (xAxis) {
                 var renderer = xAxis.renderer;
-                renderer.grid.template.disabled = true;
-                renderer.labels.template.disabled = true;
-                renderer.minGridDistance = 10;
-            }
-        });
-        $iter.each(this._scrollbarChart.yAxes.iterator(), function (yAxis) {
-            if (_this.orientation == "horizontal") {
+                if (_this.orientation == "vertical") {
+                    renderer.grid.template.disabled = true;
+                    renderer.labels.template.disabled = true;
+                }
+                else {
+                    renderer.grid.template.disabled = false;
+                    renderer.labels.template.disabled = false;
+                }
+            });
+            $iter.each(this._scrollbarChart.yAxes.iterator(), function (yAxis) {
                 var renderer = yAxis.renderer;
-                renderer.grid.template.disabled = true;
-                renderer.labels.template.disabled = true;
-                renderer.minGridDistance = 10;
-            }
-        });
+                if (_this.orientation == "horizontal") {
+                    renderer.grid.template.disabled = true;
+                    renderer.labels.template.disabled = true;
+                }
+                else {
+                    renderer.grid.template.disabled = false;
+                    renderer.labels.template.disabled = false;
+                }
+            });
+        }
     };
     /**
      * Cleans up after series are removed from Scrollbar.

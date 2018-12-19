@@ -317,6 +317,18 @@ export declare function fitAngleToRange(value: number, startAngle: number, endAn
  */
 export declare function getArcRect(startAngle: number, endAngle: number, radius?: number): IRectangle;
 /**
+ * Returns point on arc
+ *
+ * @param  {IPoint}  center point
+ * @param  {number}  radius
+ * @param  {number}  arc
+ * @return {boolean}
+ */
+export declare function getArcPoint(radius: number, arc: number): {
+    x: number;
+    y: number;
+};
+/**
  * Returns true if a point is within rectangle
  *
  * @param  {IPoint}      point

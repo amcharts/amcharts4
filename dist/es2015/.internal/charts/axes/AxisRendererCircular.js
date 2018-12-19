@@ -324,8 +324,9 @@ var AxisRendererCircular = /** @class */ (function (_super) {
         set: function (value) {
             // do not normalize angel here!
             if (this.setPropertyValue("startAngle", value)) {
+                this.invalidateAxisItems();
                 if (this.axis) {
-                    this.axis.invalidate();
+                    this.axis.invalidateSeries();
                 }
             }
         },
@@ -347,8 +348,9 @@ var AxisRendererCircular = /** @class */ (function (_super) {
         set: function (value) {
             // do not normalize angel here!
             if (this.setPropertyValue("endAngle", value)) {
+                this.invalidateAxisItems();
                 if (this.axis) {
-                    this.axis.invalidate();
+                    this.axis.invalidateSeries();
                 }
             }
         },

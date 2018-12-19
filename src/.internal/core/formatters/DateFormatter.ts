@@ -850,9 +850,9 @@ export class DateFormatter extends BaseObject {
 					break;
 
 				case "i":
-					reg += "([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\.([0-9]{3})Z";
+					reg += "([0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})\.([0-9]{3})([Zz]?)";
 					parsedIndexes.iso = index;
-					indexAdjust += 6;
+					indexAdjust += 7;
 					break;
 
 				case "G":
@@ -1151,15 +1151,27 @@ export class DateFormatter extends BaseObject {
 
 			// ISO
 			if (parsedIndexes.iso > -1) {
-				res = new Date(
-					$type.toNumber(matches[parsedIndexes.iso + 0]),
-					$type.toNumber(matches[parsedIndexes.iso + 1]) - 1,
-					$type.toNumber(matches[parsedIndexes.iso + 2]),
-					$type.toNumber(matches[parsedIndexes.iso + 3]),
-					$type.toNumber(matches[parsedIndexes.iso + 4]),
-					$type.toNumber(matches[parsedIndexes.iso + 5]),
-					$type.toNumber(matches[parsedIndexes.iso + 6]),
-				);
+				if (matches[parsedIndexes.iso + 7] == "Z" || matches[parsedIndexes.iso + 7] == "z") {
+					res = new Date();
+					res.setUTCFullYear($type.toNumber(matches[parsedIndexes.iso + 0]));
+					res.setUTCMonth($type.toNumber(matches[parsedIndexes.iso + 1]) - 1);
+					res.setUTCDate($type.toNumber(matches[parsedIndexes.iso + 2]));
+					res.setUTCHours($type.toNumber(matches[parsedIndexes.iso + 3]));
+					res.setUTCMinutes($type.toNumber(matches[parsedIndexes.iso + 4]));
+					res.setUTCSeconds($type.toNumber(matches[parsedIndexes.iso + 5]));
+					res.setUTCMilliseconds($type.toNumber(matches[parsedIndexes.iso + 6]));
+				}
+				else {
+					res = new Date(
+						$type.toNumber(matches[parsedIndexes.iso + 0]),
+						$type.toNumber(matches[parsedIndexes.iso + 1]) - 1,
+						$type.toNumber(matches[parsedIndexes.iso + 2]),
+						$type.toNumber(matches[parsedIndexes.iso + 3]),
+						$type.toNumber(matches[parsedIndexes.iso + 4]),
+						$type.toNumber(matches[parsedIndexes.iso + 5]),
+						$type.toNumber(matches[parsedIndexes.iso + 6]),
+					);
+				}
 			}
 
 		}

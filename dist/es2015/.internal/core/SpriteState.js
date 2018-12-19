@@ -10,8 +10,7 @@ import * as tslib_1 from "tslib";
  */
 import { BaseObject } from "./Base";
 import { Adapter } from "./utils/Adapter";
-import { ListTemplate, ListDisposer } from "./utils/List";
-import { Filter } from "./rendering/filters/Filter";
+import { List, ListDisposer } from "./utils/List";
 import { toColor } from "./utils/Color";
 import { percent } from "./utils/Percent";
 import * as $utils from "./utils/Utils";
@@ -163,9 +162,9 @@ var SpriteState = /** @class */ (function (_super) {
          * A list of [[Filter]] elements to be applied to the relative [[Sprite]]
          * when switching to this State.
          *
-         * @param {ListTemplate<Filter>}
+         * @param {List}
          */
-        _this.filters = new ListTemplate(new Filter());
+        _this.filters = new List();
         /**
          * Identifies if this object is a "template" and should not be treated as
          * real object that is drawn or actually used in the chart.
@@ -176,7 +175,6 @@ var SpriteState = /** @class */ (function (_super) {
         _this.className = "SpriteState";
         // Make filter list disposable
         _this._disposers.push(new ListDisposer(_this.filters));
-        _this._disposers.push(_this.filters.template);
         // Decorate adapter with events so that we can apply its settings whenever
         // it is modified
         _this.adapter.events.on("inserted", function (ev) {

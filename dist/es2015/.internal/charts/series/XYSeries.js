@@ -373,6 +373,20 @@ var XYSeries = /** @class */ (function (_super) {
          * @type {MutableValueDisposer}
          */
         _this._yAxis = new MutableValueDisposer();
+        /**
+         * [_xValueFields description]
+         *
+         * @todo Description
+         * @type {Array<string>}
+         */
+        _this._xValueFields = [];
+        /**
+         * [_yValueFields description]
+         *
+         * @todo Description
+         * @type {Array<string>}
+         */
+        _this._yValueFields = [];
         _this.className = "XYSeries";
         _this.isMeasured = false;
         _this.mainContainer.mask = new Sprite();

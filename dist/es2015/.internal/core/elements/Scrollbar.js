@@ -113,6 +113,7 @@ var Scrollbar = /** @class */ (function (_super) {
             _this.dispatchRangeChange();
         });
         _this.hideGrips = false;
+        _this.orientation = "horizontal";
         _this.applyTheme();
         return _this;
     }
@@ -122,9 +123,6 @@ var Scrollbar = /** @class */ (function (_super) {
      */
     Scrollbar.prototype.applyInternalDefaults = function () {
         _super.prototype.applyInternalDefaults.call(this);
-        if (!this._orientation) {
-            this.orientation = "horizontal";
-        }
         // Set screen reader tetxt accordingly
         if (this.orientation === "horizontal") {
             if (!$type.hasValue(this.readerTitle)) {
@@ -548,7 +546,7 @@ var Scrollbar = /** @class */ (function (_super) {
          * @return {Orientation} Orientation
          */
         get: function () {
-            return this._orientation;
+            return this.getPropertyValue("orientation");
         },
         /**
          * ==========================================================================
@@ -565,30 +563,31 @@ var Scrollbar = /** @class */ (function (_super) {
          * @param {Orientation}  value  Orientation
          */
         set: function (value) {
-            this._orientation = value;
-            // Set mouse cursors and screen reader tetxt accordingly
-            if (value === "horizontal") {
-                // Mouse styles
-                this.startGrip.cursorOverStyle = MouseCursorStyle.horizontalResize;
-                this.endGrip.cursorOverStyle = MouseCursorStyle.horizontalResize;
-                // Reader text
-                /*this.readerTitle = this.language.translate("Use TAB to select grip buttons or left and right arrows to change selection");
-                this.thumb.readerDescription = this.language.translate("Use left and right arrows to move selection");
-                this.startGrip.readerDescription = this.language.translate("Use left and right arrows to move left selection");
-                this.endGrip.readerDescription = this.language.translate("Use left and right arrows to move right selection");*/
+            if (this.setPropertyValue("orientation", value)) {
+                // Set mouse cursors and screen reader tetxt accordingly
+                if (value === "horizontal") {
+                    // Mouse styles
+                    this.startGrip.cursorOverStyle = MouseCursorStyle.horizontalResize;
+                    this.endGrip.cursorOverStyle = MouseCursorStyle.horizontalResize;
+                    // Reader text
+                    /*this.readerTitle = this.language.translate("Use TAB to select grip buttons or left and right arrows to change selection");
+                    this.thumb.readerDescription = this.language.translate("Use left and right arrows to move selection");
+                    this.startGrip.readerDescription = this.language.translate("Use left and right arrows to move left selection");
+                    this.endGrip.readerDescription = this.language.translate("Use left and right arrows to move right selection");*/
+                }
+                else {
+                    // Mouse styles
+                    this.startGrip.cursorOverStyle = MouseCursorStyle.verticalResize;
+                    this.endGrip.cursorOverStyle = MouseCursorStyle.verticalResize;
+                    // Reader text
+                    /*this.readerTitle = this.language.translate("Use TAB select grip buttons or up and down arrows to change selection");
+                    this.thumb.readerDescription = this.language.translate("Use up and down arrows to move selection");
+                    this.startGrip.readerDescription = this.language.translate("Use up and down arrows to move upper selection");
+                    this.endGrip.readerDescription = this.language.translate("Use up and down arrows to move lower selection");*/
+                }
+                this.updateByOrientation();
+                this.invalidate();
             }
-            else {
-                // Mouse styles
-                this.startGrip.cursorOverStyle = MouseCursorStyle.verticalResize;
-                this.endGrip.cursorOverStyle = MouseCursorStyle.verticalResize;
-                // Reader text
-                /*this.readerTitle = this.language.translate("Use TAB select grip buttons or up and down arrows to change selection");
-                this.thumb.readerDescription = this.language.translate("Use up and down arrows to move selection");
-                this.startGrip.readerDescription = this.language.translate("Use up and down arrows to move upper selection");
-                this.endGrip.readerDescription = this.language.translate("Use up and down arrows to move lower selection");*/
-            }
-            this.updateByOrientation();
-            this.invalidate();
         },
         enumerable: true,
         configurable: true

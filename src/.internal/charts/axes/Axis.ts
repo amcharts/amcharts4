@@ -745,9 +745,9 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * For example, you can set it up to highlight only weekends on a
 	 * [[DateAxis]].
 	 *
-	 * @type {function}
+	 * @todo type
 	 */
-	public fillRule: (dataItem: AxisDataItem, index?: number) => any = function(dataItem: AxisDataItem, index?: number) {
+	public fillRule(dataItem: AxisDataItem, index?: number) {
 		if (!$type.isNumber(index)) {
 			index = dataItem.index;
 		}
@@ -759,26 +759,33 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			dataItem.axisFill.opacity = 1;
 			dataItem.axisFill.__disabled = false;
 		}
-	};
-
+	}
 
 	/**
-	 * Full length of the axis, in pixels
+	 * Full length of the axis, in pixels.
+	 *
+	 * @readonly
+	 * @type {number}
 	 */
 	public axisFullLength: number;
 
-
 	/**
-	 * Ghost label is used to prevent chart shrinking/expanding when zooming or when data is invalidated. You can set custom text on it so that it would be bigger/smaller
+	 * Ghost label is used to prevent chart shrinking/expanding when zooming or
+	 * when data is invalidated. You can set custom text on it so that it would
+	 * be bigger/smaller,
+	 * 
+	 * @type {AxisLabel}
 	 */
 	public ghostLabel: AxisLabel;
 
 	/**
-	 * Specifies if axis should be automatically disposed when removing from chart's axis list.
+	 * Specifies if axis should be automatically disposed when removing from
+	 * chart's axis list.
+	 * 
 	 * @default true
+	 * @type {boolean}
 	 */
 	public autoDispose: boolean = true;
-
 
 	/**
 	 * Constructor
@@ -1253,7 +1260,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 		}
 
 		return position / (this.end - this.start);
-	}	
+	}
 
 	/**
 	 * Returns text to be used for cursor's Axis tooltip.
@@ -1479,7 +1486,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @param  {boolean}         findNearest  Should axis try to find nearest tooltip if there is no data item at exact position
 	 * @return {XYSeriesDataItem}            Data item
 	 */
-	public getSeriesDataItem(series: XYSeries, position: number, findNearest?:boolean): XYSeriesDataItem {
+	public getSeriesDataItem(series: XYSeries, position: number, findNearest?: boolean): XYSeriesDataItem {
 		return;
 	}
 
@@ -1722,6 +1729,12 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * Individual axis types should override this method to generate a label
 	 * that is relevant to axis type.
 	 *
+	 * Please note that `position` represents position within axis which may be
+	 * zoomed and not correspond to Cursor's `position`.
+	 *
+	 * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
+	 *
+	 * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
 	 * @param  {number}  position  Relative position on axis (0-1)
 	 * @return {string}            Position label
 	 */

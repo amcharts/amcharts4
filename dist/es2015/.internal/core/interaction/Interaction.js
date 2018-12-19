@@ -89,6 +89,13 @@ var Interaction = /** @class */ (function (_super) {
          */
         _this._usePointerEventsOnly = false;
         /**
+         * [_useTouchEventsOnly description]
+         *
+         * @todo Description
+         * @type {boolean}
+         */
+        _this._useTouchEventsOnly = false;
+        /**
          * Indicates if passive mode options is supported by this browser.
          *
          * @type {boolean}
@@ -213,6 +220,10 @@ var Interaction = /** @class */ (function (_super) {
         }
         else {
             // uses defaults for normal browsers
+        }
+        // Detect if device has a mouse
+        if (!matchMedia('(pointer:fine)').matches) {
+            _this._useTouchEventsOnly = true;
         }
         // Detect proper mouse wheel events
         if ("onwheel" in document.createElement("div")) {
@@ -915,8 +926,8 @@ var Interaction = /** @class */ (function (_super) {
         }
         // Calculate deltas
         if (ev instanceof WheelEvent) {
-            deltaX = Math.round(ev.deltaX) * mod;
-            deltaY = Math.round(ev.deltaY) * mod;
+            deltaX = Math.round(ev.wheelDeltaX || ev.deltaX) * mod;
+            deltaY = Math.round(ev.wheelDeltaY || ev.deltaY) * mod;
         }
         else {
             throw new Error("Invalid event type");
@@ -1255,7 +1266,9 @@ var Interaction = /** @class */ (function (_super) {
         io.downPointers.removeValue(pointer);
         // Trigger out because some touch devices won't trigger out events
         // on their own
-        this.handleOut(io, pointer, ev, true);
+        if (pointer.touch || this._useTouchEventsOnly) {
+            this.handleOut(io, pointer, ev, true);
+        }
         // Check if object still down
         if (io.isDown) {
             // Check if there are no other pointers hovering this element

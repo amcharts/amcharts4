@@ -64,6 +64,12 @@ export interface IScrollbarProperties extends IContainerProperties {
 	 */
 	animationEasing?: (value: number) => number;
 
+	/**
+	 * Orientation of a scrollbar
+	 *
+	 * @type {Orientation}
+	 */
+	orientation?: Orientation;
 }
 
 /**
@@ -342,6 +348,8 @@ export class Scrollbar extends Container {
 
 		this.hideGrips = false;
 
+		this.orientation = "horizontal";
+
 		this.applyTheme();
 	}
 
@@ -351,9 +359,6 @@ export class Scrollbar extends Container {
 	 */
 	protected applyInternalDefaults(): void {
 		super.applyInternalDefaults();
-		if (!this._orientation) {
-			this.orientation = "horizontal";
-		}
 
 		// Set screen reader tetxt accordingly
 		if (this.orientation === "horizontal") {
@@ -849,37 +854,38 @@ export class Scrollbar extends Container {
 	 */
 	public set orientation(value: Orientation) {
 
-		this._orientation = value;
+		if (this.setPropertyValue("orientation", value)) {
 
-		// Set mouse cursors and screen reader tetxt accordingly
-		if (value === "horizontal") {
+			// Set mouse cursors and screen reader tetxt accordingly
+			if (value === "horizontal") {
 
-			// Mouse styles
-			this.startGrip.cursorOverStyle = MouseCursorStyle.horizontalResize;
-			this.endGrip.cursorOverStyle = MouseCursorStyle.horizontalResize;
+				// Mouse styles
+				this.startGrip.cursorOverStyle = MouseCursorStyle.horizontalResize;
+				this.endGrip.cursorOverStyle = MouseCursorStyle.horizontalResize;
 
-			// Reader text
-			/*this.readerTitle = this.language.translate("Use TAB to select grip buttons or left and right arrows to change selection");
-			this.thumb.readerDescription = this.language.translate("Use left and right arrows to move selection");
-			this.startGrip.readerDescription = this.language.translate("Use left and right arrows to move left selection");
-			this.endGrip.readerDescription = this.language.translate("Use left and right arrows to move right selection");*/
+				// Reader text
+				/*this.readerTitle = this.language.translate("Use TAB to select grip buttons or left and right arrows to change selection");
+				this.thumb.readerDescription = this.language.translate("Use left and right arrows to move selection");
+				this.startGrip.readerDescription = this.language.translate("Use left and right arrows to move left selection");
+				this.endGrip.readerDescription = this.language.translate("Use left and right arrows to move right selection");*/
 
+			}
+			else {
+
+				// Mouse styles
+				this.startGrip.cursorOverStyle = MouseCursorStyle.verticalResize;
+				this.endGrip.cursorOverStyle = MouseCursorStyle.verticalResize;
+
+				// Reader text
+				/*this.readerTitle = this.language.translate("Use TAB select grip buttons or up and down arrows to change selection");
+				this.thumb.readerDescription = this.language.translate("Use up and down arrows to move selection");
+				this.startGrip.readerDescription = this.language.translate("Use up and down arrows to move upper selection");
+				this.endGrip.readerDescription = this.language.translate("Use up and down arrows to move lower selection");*/
+
+			}
+			this.updateByOrientation();
+			this.invalidate();
 		}
-		else {
-
-			// Mouse styles
-			this.startGrip.cursorOverStyle = MouseCursorStyle.verticalResize;
-			this.endGrip.cursorOverStyle = MouseCursorStyle.verticalResize;
-
-			// Reader text
-			/*this.readerTitle = this.language.translate("Use TAB select grip buttons or up and down arrows to change selection");
-			this.thumb.readerDescription = this.language.translate("Use up and down arrows to move selection");
-			this.startGrip.readerDescription = this.language.translate("Use up and down arrows to move upper selection");
-			this.endGrip.readerDescription = this.language.translate("Use up and down arrows to move lower selection");*/
-
-		}
-		this.updateByOrientation();
-		this.invalidate();
 	}
 
 	/**
@@ -894,7 +900,7 @@ export class Scrollbar extends Container {
 	 * @return {Orientation} Orientation
 	 */
 	public get orientation(): Orientation {
-		return this._orientation;
+		return this.getPropertyValue("orientation");
 	}
 
 
@@ -1084,7 +1090,7 @@ export class Scrollbar extends Container {
 		let zoomAnimation = this.animate([{ property: "__start", to: newStart }, { property: "__end", to: newEnd }], this.animationDuration, this.animationEasing);
 
 		if (zoomAnimation && !zoomAnimation.isFinished()) {
-			zoomAnimation.events.on("animationended", this.makeUnbusy, this);			
+			zoomAnimation.events.on("animationended", this.makeUnbusy, this);
 			this._zoomAnimation = zoomAnimation;
 		}
 		else {

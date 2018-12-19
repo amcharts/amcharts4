@@ -484,4 +484,9 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
 	 */
 	toggled: {};
 
+	/**
+	 * Invoked just before Sprite is disposed.
+	 */
+	beforedisposed: {};
+
 }

@@ -53,7 +53,7 @@ export class System {
 	 * @see {@link https://docs.npmjs.com/misc/semver}
 	 * @type {string}
 	 */
-	static VERSION: string = "4.0.8";
+	static VERSION: string = "4.0.9";
 
 	/**
 	 * @todo Description
@@ -73,7 +73,7 @@ export class System {
 
 	protected _frameRequested: boolean = false;
 
-	protected _updateStepDuration: number = 50;
+	public updateStepDuration: number = 45;
 
 	/**
 	 * Performs initialization of the System object.
@@ -181,7 +181,7 @@ export class System {
 					$array.remove(invalidData, component);
 				}
 			}
-			if (Date.now() - time > this._updateStepDuration) {
+			if (Date.now() - time > this.updateStepDuration) {
 				break;
 			}
 		}
@@ -281,7 +281,7 @@ export class System {
 				count++;
 
 				if (count == 5) {
-					if (Date.now() - time > this._updateStepDuration) {
+					if (Date.now() - time > this.updateStepDuration) {
 						break;
 					}
 					count = 0;
@@ -378,7 +378,7 @@ export class System {
 			this.requestFrame();
 		}
 
-		if (this._updateStepDuration < 200) {
+		if (this.updateStepDuration < 200) {
 			let all0 = true;
 
 			for (var key in registry.invalidDatas) {
@@ -393,7 +393,7 @@ export class System {
 				}
 			}
 			if (all0) {
-				this._updateStepDuration = 200;
+				this.updateStepDuration = 200;
 			}
 		}
 	}

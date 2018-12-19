@@ -190,7 +190,9 @@ var Label = /** @class */ (function (_super) {
         return changed;
     };
     /**
-     * Hard invalidate means the text will be redrawn even if it hasn't changed. This is used when we change fontSize of fontFamily or for some other reasons.
+     * Hard invalidate means the text will be redrawn even if it hasn't changed.
+     * This is used when we change `fontSize`, `fontFamily`, or for some other
+     * reasons.
      */
     Label.prototype.hardInvalidate = function () {
         this._prevStatus = "";
@@ -575,7 +577,6 @@ var Label = /** @class */ (function (_super) {
             /**
              * HTML
              */
-            var pixelRatio = $utils.getPixelRatio();
             this.element.removeAttr("display");
             this.resetBBox();
             // Clear the element
@@ -587,29 +588,26 @@ var Label = /** @class */ (function (_super) {
             // Set group and foreignObject dimensions
             var width = maxWidth > 0 ? (maxWidth).toString() + "px" : "100%";
             var height = maxHeight > 0 ? (maxHeight).toString() + "px" : "100%";
-            /*			fo.attr({
-                            width: width,
-                            height: height
-                        });*/
             // Create line element
             //let lineElement: HTMLElement = this.getHTMLLineElement(getTextFormatter().format(this.html, output));
             var lineElement = this.getHTMLLineElement(text);
             fo.node.appendChild(lineElement);
             // Temporarily set to inline-block so we can measure real width and height
             lineElement.style.display = "inline-block";
-            var tmpBBox = lineElement.getBoundingClientRect();
+            var clientWidth = lineElement.clientWidth;
+            var clientHeight = lineElement.clientHeight;
             lineElement.style.display = "block";
             this._bbox = {
                 x: 0,
                 y: 0,
-                width: tmpBBox.width / pixelRatio,
-                height: tmpBBox.height / pixelRatio
+                width: clientWidth,
+                height: clientHeight
             };
             // Set exact dimensions of foreignObject so it is sized exactly as
             // the content within
             fo.attr({
-                width: tmpBBox.width / pixelRatio,
-                height: tmpBBox.height / pixelRatio
+                width: clientWidth,
+                height: clientHeight
             });
             // Set measurements and update bbox
             this._measuredWidth = $math.max(this.bbox.width, this.pixelWidth - this.pixelPaddingLeft - this.pixelPaddingRight);
@@ -620,7 +618,7 @@ var Label = /** @class */ (function (_super) {
             if (this.truncate) {
                 lineElement.style.overflow = "hidden";
             }
-            if ((tmpBBox.width > maxWidth) || (tmpBBox.height > maxHeight)) {
+            if ((clientWidth > maxWidth) || (clientHeight > maxHeight)) {
                 this.isOversized = true;
             }
         }
@@ -1147,6 +1145,14 @@ var Label = /** @class */ (function (_super) {
             element.node.setAttribute("style", style);
         }
         return element;
+    };
+    /**
+     * Invalidates the whole element, including layout AND all its child
+     * elements.
+     */
+    Label.prototype.deepInvalidate = function () {
+        _super.prototype.deepInvalidate.call(this);
+        this.hardInvalidate();
     };
     return Label;
 }(Container));

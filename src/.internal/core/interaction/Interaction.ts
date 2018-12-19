@@ -158,6 +158,14 @@ export class Interaction extends BaseObjectEvents {
 	protected _usePointerEventsOnly: boolean = false;
 
 	/**
+	 * [_useTouchEventsOnly description]
+	 *
+	 * @todo Description
+	 * @type {boolean}
+	 */
+	protected _useTouchEventsOnly: boolean = false;
+
+	/**
 	 * Indicates if passive mode options is supported by this browser.
 	 *
 	 * @type {boolean}
@@ -314,6 +322,11 @@ export class Interaction extends BaseObjectEvents {
 		}
 		else {
 			// uses defaults for normal browsers
+		}
+
+		// Detect if device has a mouse
+		if (!matchMedia('(pointer:fine)').matches) {
+			this._useTouchEventsOnly = true;
 		}
 
 		// Detect proper mouse wheel events
@@ -1188,7 +1201,6 @@ export class Interaction extends BaseObjectEvents {
 		// Init delta values
 		let deltaX: number = 0, deltaY: number = 0;
 
-
 		// Set up modifier
 		// This is needed because FireFox reports wheel deltas in "lines" instead
 		// of pixels so we have to approximate pixel value
@@ -1199,8 +1211,8 @@ export class Interaction extends BaseObjectEvents {
 
 		// Calculate deltas
 		if (ev instanceof WheelEvent) {
-			deltaX = Math.round(ev.deltaX) * mod;
-			deltaY = Math.round(ev.deltaY) * mod;
+			deltaX = Math.round(ev.wheelDeltaX || ev.deltaX) * mod;
+			deltaY = Math.round(ev.wheelDeltaY || ev.deltaY) * mod;
 		} else {
 			throw new Error("Invalid event type");
 		}
@@ -1610,7 +1622,9 @@ export class Interaction extends BaseObjectEvents {
 
 		// Trigger out because some touch devices won't trigger out events
 		// on their own
-		this.handleOut(io, pointer, ev, true);
+		if (pointer.touch || this._useTouchEventsOnly) {
+			this.handleOut(io, pointer, ev, true);
+		}
 
 		// Check if object still down
 		if (io.isDown) {

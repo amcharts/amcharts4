@@ -51,7 +51,7 @@ var System = /** @class */ (function () {
          */
         this.dummyCounter = 0;
         this._frameRequested = false;
-        this._updateStepDuration = 50;
+        this.updateStepDuration = 45;
         this.time = Date.now();
     }
     /**
@@ -138,7 +138,7 @@ var System = /** @class */ (function () {
                     $array.remove(invalidData, component);
                 }
             }
-            if (Date.now() - time > this._updateStepDuration) {
+            if (Date.now() - time > this.updateStepDuration) {
                 break;
             }
         }
@@ -219,7 +219,7 @@ var System = /** @class */ (function () {
                 this.validatePositions(key);
                 count++;
                 if (count == 5) {
-                    if (Date.now() - time > this._updateStepDuration) {
+                    if (Date.now() - time > this.updateStepDuration) {
                         break;
                     }
                     count = 0;
@@ -303,7 +303,7 @@ var System = /** @class */ (function () {
         if (hasSkipped || animations.length > 0 || skippedComponents.length > 0) {
             this.requestFrame();
         }
-        if (this._updateStepDuration < 200) {
+        if (this.updateStepDuration < 200) {
             var all0 = true;
             for (var key in registry.invalidDatas) {
                 if (registry.invalidDatas[key].length > 0) {
@@ -316,7 +316,7 @@ var System = /** @class */ (function () {
                 }
             }
             if (all0) {
-                this._updateStepDuration = 200;
+                this.updateStepDuration = 200;
             }
         }
     };
@@ -458,7 +458,7 @@ var System = /** @class */ (function () {
      * @see {@link https://docs.npmjs.com/misc/semver}
      * @type {string}
      */
-    System.VERSION = "4.0.8";
+    System.VERSION = "4.0.9";
     return System;
 }());
 export { System };

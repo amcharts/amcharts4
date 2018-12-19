@@ -718,15 +718,26 @@ var XYChart = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     XYChart.prototype.handleCursorPositionChange = function () {
-        if (this.cursor.visible && !this.cursor.isHiding) {
+        var cursor = this.cursor;
+        if (cursor.visible && !cursor.isHiding) {
             var xPosition = this.cursor.xPosition;
             var yPosition = this.cursor.yPosition;
             this.showSeriesTooltip({
                 x: xPosition,
                 y: yPosition
             });
-            this.showAxisTooltip(this.xAxes, xPosition);
-            this.showAxisTooltip(this.yAxes, yPosition);
+            var exceptAxis = void 0;
+            var snapToSeries = cursor.snapToSeries;
+            if (snapToSeries) {
+                if (snapToSeries.baseAxis == snapToSeries.xAxis) {
+                    exceptAxis = snapToSeries.yAxis;
+                }
+                if (snapToSeries.baseAxis == snapToSeries.yAxis) {
+                    exceptAxis = snapToSeries.xAxis;
+                }
+            }
+            this.showAxisTooltip(this.xAxes, xPosition, exceptAxis);
+            this.showAxisTooltip(this.yAxes, yPosition, exceptAxis);
         }
     };
     /**
@@ -855,11 +866,13 @@ var XYChart = /** @class */ (function (_super) {
      * @param {List<Axis>}  axes      List of axes to show tooltip on
      * @param {number}      position  Position (px)
      */
-    XYChart.prototype.showAxisTooltip = function (axes, position) {
+    XYChart.prototype.showAxisTooltip = function (axes, position, except) {
         var _this = this;
         $iter.each(axes.iterator(), function (axis) {
-            if (_this.dataItems.length > 0 || axis.dataItems.length > 0) {
-                axis.showTooltipAtPosition(position);
+            if (axis != except) {
+                if (_this.dataItems.length > 0 || axis.dataItems.length > 0) {
+                    axis.showTooltipAtPosition(position);
+                }
             }
         });
     };

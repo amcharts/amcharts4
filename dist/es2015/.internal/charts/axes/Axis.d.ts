@@ -453,20 +453,30 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * For example, you can set it up to highlight only weekends on a
      * [[DateAxis]].
      *
-     * @type {function}
+     * @todo type
      */
-    fillRule: (dataItem: AxisDataItem, index?: number) => any;
+    fillRule(dataItem: AxisDataItem, index?: number): void;
     /**
-     * Full length of the axis, in pixels
+     * Full length of the axis, in pixels.
+     *
+     * @readonly
+     * @type {number}
      */
     axisFullLength: number;
     /**
-     * Ghost label is used to prevent chart shrinking/expanding when zooming or when data is invalidated. You can set custom text on it so that it would be bigger/smaller
+     * Ghost label is used to prevent chart shrinking/expanding when zooming or
+     * when data is invalidated. You can set custom text on it so that it would
+     * be bigger/smaller,
+     *
+     * @type {AxisLabel}
      */
     ghostLabel: AxisLabel;
     /**
-     * Specifies if axis should be automatically disposed when removing from chart's axis list.
+     * Specifies if axis should be automatically disposed when removing from
+     * chart's axis list.
+     *
      * @default true
+     * @type {boolean}
      */
     autoDispose: boolean;
     /**
@@ -938,6 +948,12 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * Individual axis types should override this method to generate a label
      * that is relevant to axis type.
      *
+     * Please note that `position` represents position within axis which may be
+     * zoomed and not correspond to Cursor's `position`.
+     *
+     * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
      * @param  {number}  position  Relative position on axis (0-1)
      * @return {string}            Position label
      */

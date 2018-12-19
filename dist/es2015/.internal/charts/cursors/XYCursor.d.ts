@@ -9,10 +9,11 @@
  */
 import { Cursor, ICursorProperties, ICursorAdapters, ICursorEvents } from "./Cursor";
 import { Sprite, ISpriteEvents } from "../../core/Sprite";
-import { MutableValueDisposer } from "../../core/utils/Disposer";
+import { MutableValueDisposer, IDisposer } from "../../core/utils/Disposer";
 import { IPoint } from "../../core/defs/IPoint";
 import { IRange } from "../../core/defs/IRange";
 import { Axis } from "../axes/Axis";
+import { XYSeries } from "../series/XYSeries";
 import { AxisRenderer } from "../axes/AxisRenderer";
 import { XYChart } from "../types/XYChart";
 /**
@@ -63,6 +64,11 @@ export interface IXYCursorProperties extends ICursorProperties {
      * @type {number}
      */
     maxPanOut?: number;
+    /**
+     *
+     * @type {XYSeries}
+     */
+    snapToSeries: XYSeries;
 }
 /**
  * Defines events for [[XYCursor]].
@@ -157,6 +163,7 @@ export declare class XYCursor extends Cursor {
      * @type {Chart}
      */
     _chart: XYChart;
+    protected _snapToDisposer: IDisposer;
     /**
      * Constructor
      */
@@ -354,4 +361,22 @@ export declare class XYCursor extends Cursor {
     processConfig(config?: {
         [index: string]: any;
     }): void;
+    /**
+     * @return {XYSeries}
+     */
+    /**
+     * Specifies to which series cursor lines should be snapped. Works when one
+     * of the axis is `DateAxis` or `CategoryAxis`. Won't work if both axes are
+     * `ValueAxis`.
+     *
+     * @param {XYSeries}
+     */
+    snapToSeries: XYSeries;
+    /**
+     * [handleSnap description]
+     *
+     * @ignore
+     * @todo Description
+     */
+    handleSnap(): void;
 }

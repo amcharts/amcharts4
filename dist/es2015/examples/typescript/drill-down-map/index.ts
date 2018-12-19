@@ -11,6 +11,7 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import am4geodata_worldLow from "@amcharts/amcharts4-geodata/worldLow";
 import am4geodata_continentsLow from "@amcharts/amcharts4-geodata/continentsLow";
 
+
 // Themes begin
 am4core.useTheme(am4themes_animated);
 // Themes end
@@ -21,7 +22,7 @@ var chart = am4core.create("chartdiv", am4maps.MapChart);
 // Set projection
 chart.projection = new am4maps.projections.Mercator();
 
-var restoreContinents = function(){
+var restoreContinents = function() {
   hideCountries();
   chart.goHome();
 };
@@ -52,7 +53,7 @@ var hideCountries = function() {
 var continentsSeries = chart.series.push(new am4maps.MapPolygonSeries());
 continentsSeries.geodata = am4geodata_continentsLow;
 continentsSeries.useGeodata = true;
-continentsSeries.exclude = ["Antarctica"];
+continentsSeries.exclude = ["antarctica"];
 continentsSeries.dataFields.zoomLevel = "zoomLevel";
 continentsSeries.dataFields.zoomGeoPoint = "zoomGeoPoint";
 
@@ -60,8 +61,8 @@ var continentTemplate = continentsSeries.mapPolygons.template;
 continentTemplate.tooltipText = "{name}";
 continentTemplate.properties.fillOpacity = 0.8; // Reduce conflict with back to continents map label
 continentTemplate.propertyFields.fill = "color";
-continentTemplate.events.on("hit", function(event){
-  if ( ! countriesSeries.visible) countriesSeries.visible = true;
+continentTemplate.events.on("hit", function(event) {
+  if (!countriesSeries.visible) countriesSeries.visible = true;
   chart.zoomToMapObject(event.target);
   countryTemplate.show();
   labelContainer.show();
@@ -71,25 +72,25 @@ var contintentHover = continentTemplate.states.create("hover");
 contintentHover.properties.fill = hoverColor;
 contintentHover.properties.stroke = hoverColor;
 
-continentsSeries.data = [ {
-  "id": "Africa",
+continentsSeries.data = [{
+  "id": "africa",
   "color": chart.colors.getIndex(0)
 }, {
-  "id": "Asia",
+  "id": "asia",
   "color": chart.colors.getIndex(1),
-  "zoomGeoPoint":{latitude:50, longitude:86},  // as Asia spans to negative longitudes, we need to specify custom zoomLevel and zoomGeoPoint
-  "zoomLevel":1.7  
+  "zoomGeoPoint": { latitude: 50, longitude: 86 },  // as Asia spans to negative longitudes, we need to specify custom zoomLevel and zoomGeoPoint
+  "zoomLevel": 2
 }, {
-  "id": "Australia and Oceania",
+  "id": "oceania",
   "color": chart.colors.getIndex(2)
 }, {
-  "id": "Europe",
+  "id": "europe",
   "color": chart.colors.getIndex(3)
 }, {
-  "id": "North America",
+  "id": "northAmerica",
   "color": chart.colors.getIndex(4)
 }, {
-  "id": "South America",
+  "id": "southAmerica",
   "color": chart.colors.getIndex(5)
 }];
 
@@ -102,7 +103,7 @@ countriesSeries.exclude = ["AQ"];
 countriesSeries.geodata = am4geodata_worldLow;
 countriesSeries.useGeodata = true;
 // Hide each country so we can fade them in
-countriesSeries.events.once("inited", function(){
+countriesSeries.events.once("inited", function() {
   hideCountries();
 });
 
@@ -112,7 +113,7 @@ countryTemplate.fill = am4core.color("#a791b4");
 countryTemplate.fillOpacity = 0.3; // see continents underneath, however, country shapes are more detailed than continents.
 countryTemplate.strokeOpacity = 0.3;
 countryTemplate.tooltipText = "{name}";
-countryTemplate.events.on("hit", function(event){
+countryTemplate.events.on("hit", function(event) {
   chart.zoomToMapObject(event.target);
 });
 
@@ -124,12 +125,14 @@ countryHover.properties.strokeOpacity = 1;
 
 var labelContainer = chart.chartContainer.createChild(am4core.Container);
 labelContainer.hide();
-labelContainer.config = {cursorOverStyle: [
-  {
-    "property": "cursor",
-    "value": "pointer"
-  }
-]};
+labelContainer.config = {
+  cursorOverStyle: [
+    {
+      "property": "cursor",
+      "value": "pointer"
+    }
+  ]
+};
 labelContainer.isMeasured = false;
 labelContainer.layout = "horizontal";
 labelContainer.verticalCenter = "bottom";

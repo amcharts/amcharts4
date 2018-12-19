@@ -635,6 +635,11 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 			if (options.from == options.to) { // || options.to == (<any>this.object)[options.property]){ this is not good, as dataItem.value is set to final at once, and we animate workingValue
 				$array.remove(this.animationOptions, options);
 			}
+			else if (!$type.hasValue(options.from)) {
+				// Initial value is undefined, treat it as static
+				this.staticOptions.push(options);
+				$array.remove(this.animationOptions, options);
+			}
 			else {
 				// Use different update methods for different value types
 				if ($type.isNumber(<number>options.to)) {

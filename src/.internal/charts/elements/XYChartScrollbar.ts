@@ -303,24 +303,35 @@ export class XYChartScrollbar extends Scrollbar {
 	 * @ignore
 	 */
 	protected updateByOrientation() {
-		$iter.each(this._scrollbarChart.xAxes.iterator(), (xAxis) => {
-			if (this.orientation == "vertical") {
-				let renderer = xAxis.renderer;
-				renderer.grid.template.disabled = true;
-				renderer.labels.template.disabled = true;
-				renderer.minGridDistance = 10;
-			}
-		});
+		if (this._scrollbarChart) {
+			console.log("update", this.orientation)
+			$iter.each(this._scrollbarChart.xAxes.iterator(), (xAxis) => {
+				let renderer = xAxis.renderer;				
+				if (this.orientation == "vertical") {
+					renderer.grid.template.disabled = true;
+					renderer.labels.template.disabled = true;
+				}
+				else{				
+					renderer.grid.template.disabled = false;
+					renderer.labels.template.disabled = false;
+				}
+			});
 
-		$iter.each(this._scrollbarChart.yAxes.iterator(), (yAxis) => {
-			if (this.orientation == "horizontal") {
-				let renderer = yAxis.renderer;
-				renderer.grid.template.disabled = true;
-				renderer.labels.template.disabled = true;
-				renderer.minGridDistance = 10;
-			}
-		});
+
+			$iter.each(this._scrollbarChart.yAxes.iterator(), (yAxis) => {
+				let renderer = yAxis.renderer;				
+				if (this.orientation == "horizontal") {
+					renderer.grid.template.disabled = true;
+					renderer.labels.template.disabled = true;
+				}
+				else{
+					renderer.grid.template.disabled = false;
+					renderer.labels.template.disabled = false;					
+				}
+			});
+		}
 	}
+
 
 
 	/**
@@ -356,7 +367,7 @@ export class XYChartScrollbar extends Scrollbar {
 	public set chart(chart: XYChart) {
 		if (this._chart.get() !== chart) {
 			this._chart.set(chart, chart.events.on("datavalidated", this.handleDataChanged, this, false));
-			this.handleDataChanged();			
+			this.handleDataChanged();
 			this._scrollbarChart.dataProvider = chart; // this makes scrollbar chart do not validate data untill charts' data is validated
 		}
 	}

@@ -195,7 +195,7 @@ var Sprite = /** @class */ (function (_super) {
          */
         _this._language = new MutableValueDisposer();
         /**
-         * Indicates if the chart should follow righ-to-left rules.
+         * Indicates if the chart should follow right-to-left rules.
          *
          * @ignore Exclude from docs
          * @type {boolean}
@@ -287,8 +287,11 @@ var Sprite = /** @class */ (function (_super) {
          */
         _this.rollOutDelay = 0;
         /**
+         * This flag is set to `true` for the initial sprite you create and place
+         * to the div so that we could clear all additional
+         * sprites/containers when this sprite is disposed.
+         *
          * @ignore
-         * this flag is set to true for the initial sprite you create and place to the div so that we could clear all additional sprites/containers when this sprite is disposed
          */
         _this.isBaseSprite = false;
         /**
@@ -309,7 +312,21 @@ var Sprite = /** @class */ (function (_super) {
          * @type {boolean}
          */
         _this.appeared = false;
+        /**
+         * [ex description]
+         *
+         * @todo Description
+         * @ignore
+         * @type {number}
+         */
         _this.ex = 0;
+        /**
+         * [ey description]
+         *
+         * @todo Description
+         * @ignore
+         * @type {number}
+         */
         _this.ey = 0;
         _this.className = "Sprite";
         // Generate a unique ID
@@ -723,9 +740,9 @@ var Sprite = /** @class */ (function (_super) {
                 this.tooltip = source.tooltip.clone();
             }
         }
-        if (source["_tooltip"] && !this._tooltip) {
-            this._tooltip = source["_tooltip"];
-        }
+        //if ((<any>source)["_tooltip"] && !this._tooltip) {
+        //	this._tooltip = (<any>source)["_tooltip"];
+        //}
         this._showSystemTooltip = source.showSystemTooltip;
         $utils.copyProperties(source.propertyFields, this.propertyFields);
         $utils.copyProperties(source.properties, this);
@@ -738,6 +755,7 @@ var Sprite = /** @class */ (function (_super) {
     };
     Sprite.prototype.dispose = function () {
         if (!this.isDisposed()) {
+            this.dispatchImmediately("beforedisposed");
             if (this.isBaseSprite) {
                 if (this.htmlContainer) {
                     while (this.htmlContainer.childNodes.length > 0) {
@@ -2082,6 +2100,17 @@ var Sprite = /** @class */ (function (_super) {
         if (this.states.hasKey("focus")) {
             this.focusable = true;
         }
+        // Propagate the new state to clones
+        if (this.applyOnClones) {
+            var clones = this.clones.values;
+            var length_1 = clones.length;
+            for (var i = 0; i < length_1; ++i) {
+                var clone = clones[i];
+                if (!clone.isDisposed()) {
+                    clone.states.setKey(state.name, state);
+                }
+            }
+        }
     };
     Object.defineProperty(Sprite.prototype, "animations", {
         /**
@@ -3116,8 +3145,8 @@ var Sprite = /** @class */ (function (_super) {
             }
             if (this.applyOnClones) {
                 var clones = this.clones.values;
-                var length_1 = clones.length;
-                for (var i = 0; i < length_1; ++i) {
+                var length_2 = clones.length;
+                for (var i = 0; i < length_2; ++i) {
                     var clone = clones[i];
                     if (!clone.isDisposed()) {
                         //(<Sprite>clone).setPropertyValue(<any>property, value, invalidate, transform);
@@ -6598,7 +6627,7 @@ var Sprite = /** @class */ (function (_super) {
             return this.rtl;
         },
         /**
-         * An RTL (righ-to-left) setting.
+         * An RTL (right-to-left) setting.
          *
          * RTL may affect alignment, text, and other visual properties.
          *

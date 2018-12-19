@@ -5,6 +5,38 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.9] - 2018-12-19
+
+### Added
+- `snapToSeries` added to `XYCursor`. Allows setting series to which cursor lines should be snapped. Works if one of the axis of the series is `DateAxis` or `CategoryAxis`. Won't work if both axes are `ValueAxis`.
+- New example: Pie charts in Columns using JSON config.
+- Export: `emptyAs` added to both CSV and Excel export options. If set, missing values will be replaced with this value (default is empty string).
+- New event `"beforedisposed"` added to `Sprite`. Kicks in right before the element starts to dismantle itself.
+- Italian translation.
+
+### Changed
+- Export: if no `dataFields` specify it will now look for fields in all of the data, not just the first line.
+- When creating a new state on an object, it will not automatically propagate itself on object's clones if `applyOnClones = true`.
+- Setting `Container`'s `setStateOnChildren` will now propage to the new value to its existing clones if `applyOnClones = true`.
+- In case `deepInvalidate()` is called on `Container`, it forces labels to redraw.
+- `filters` on `SpriteState` is now `List` (was `ListTemplate`). It's better for performance which does not require creating Filter template object.
+
+### Fixed
+- Clicking a hoverable/clickable object was resultin in "over" and "out" events generated next to "hit".
+- JSON: properties to existing `List` items were not being applied properly.
+- Using geodata in Ember app was causing errors (Issue 672).
+- Export to CSV/Excel was following first line of data values. It now respects `dataFields` setting, and will replace missing values with `emptyAs` (new options setting).
+- Wheel-scrolling in MacOS Safari was very slow.
+- HTML-based tooltips were too small to fit the actual contents on MaCOS Safari.
+- `DateFormatter` was not parsing `"i"` format as local timezone, rather than UTC.
+- Sometimes bullets with `Rectangle` element in them were not positioned properly.
+- If category was named `"undefined"`, it was messing up label positions on `CategoryAxis`.
+- State's property value was not being applied if current value of the property was `undefined`.
+- Performance of `PieChart` and `RadarChart` improved dramatically under IEs.
+- In some cases `"ready"` event was not being fired.
+- `FunnelSeries` with 0 (zero) value slices was not rendered correctly.
+
+
 ## [4.0.8] - 2018-12-11
 
 ### Added

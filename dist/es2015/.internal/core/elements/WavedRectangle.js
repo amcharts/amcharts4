@@ -157,19 +157,6 @@ var WavedRectangle = /** @class */ (function (_super) {
         this._bwaved = bottom;
         this._rwaved = left;
     };
-    /**
-     * Updates bounding box based on element dimension settings.
-     *
-     * @ignore Exclude from docs
-     */
-    WavedRectangle.prototype.measureElement = function () {
-        this._bbox = {
-            x: 0,
-            y: 0,
-            width: this.innerWidth,
-            height: this.innerHeight
-        };
-    };
     Object.defineProperty(WavedRectangle.prototype, "tension", {
         /**
          * @return {number} Tension

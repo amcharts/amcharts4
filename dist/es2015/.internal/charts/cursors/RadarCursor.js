@@ -32,6 +32,7 @@ var RadarCursor = /** @class */ (function (_super) {
         _this.innerRadius = percent(0);
         // Apply theme
         _this.applyTheme();
+        _this.mask = undefined;
         return _this;
     }
     /**

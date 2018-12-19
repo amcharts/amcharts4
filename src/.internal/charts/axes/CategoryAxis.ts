@@ -509,6 +509,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 			if (!dataItem.isRange || label.text == undefined) {
 				dataItem.text = dataItem.text;
 			}
+
 			renderer.updateLabelElement(label, position, endPosition);
 
 			if (dataItem.label.measuredWidth > this.ghostLabel.measuredWidth || dataItem.label.measuredHeight > this.ghostLabel.measuredHeight) {
@@ -677,9 +678,11 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 * @return {number}            Data item index
 	 */
 	public categoryToIndex(category: string): number {
-		let dataItem: this["_dataItem"] = this.dataItemsByCategory.getKey(category);
-		if (dataItem) {
-			return dataItem.index;
+		if($type.hasValue(category)){
+			let dataItem: this["_dataItem"] = this.dataItemsByCategory.getKey(category);
+			if (dataItem) {
+				return dataItem.index;
+			}
 		}
 	}
 
@@ -901,6 +904,12 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	/**
 	 * Returns category based on position.
 	 *
+	 * Please note that `position` represents position within axis which may be
+	 * zoomed and not correspond to Cursor's `position`.
+	 *
+	 * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
+	 *
+	 * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
 	 * @param  {number}  position  Relative position on axis (0-1)
 	 * @return {string}            Position label
 	 */

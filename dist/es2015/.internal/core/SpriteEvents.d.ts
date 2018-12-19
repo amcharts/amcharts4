@@ -288,4 +288,8 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
      * `isActive` property is being changed)
      */
     toggled: {};
+    /**
+     * Invoked just before Sprite is disposed.
+     */
+    beforedisposed: {};
 }

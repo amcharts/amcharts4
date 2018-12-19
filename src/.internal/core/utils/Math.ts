@@ -51,12 +51,12 @@ export function toNumberRange(value: any, min: number, max: number): number {
  * @param  {boolean} floor  In case value ends with 0.5 and precision is 0, we might need to floor the value instead of ceiling it.
  * @return {number}            Rounded value
  */
-export function round(value: number, precision?: number, floor?:boolean): number {
+export function round(value: number, precision?: number, floor?: boolean): number {
 	if (!$type.isNumber(precision) || precision <= 0) {
 
-		let rounded = Math.round(value);		
-		if(floor){
-			if(rounded - value == 0.5){
+		let rounded = Math.round(value);
+		if (floor) {
+			if (rounded - value == 0.5) {
 				rounded--;
 			}
 		}
@@ -666,39 +666,51 @@ export function fitAngleToRange(value: number, startAngle: number, endAngle: num
  * @return {IRectangle}              Rectangle
  */
 export function getArcRect(startAngle: number, endAngle: number, radius?: number): IRectangle {
-	// do not normalize here!
-	//startAngle = normalizeAngle(startAngle);
-	//endAngle = normalizeAngle(endAngle);
 
-	if (!$type.isNumber(radius)) {
+	let minX = Number.MAX_VALUE;
+	let minY = Number.MAX_VALUE;
+	let maxX = -Number.MAX_VALUE;
+	let maxY = -Number.MAX_VALUE;
+
+	let bpoints = [];
+
+	if(!$type.isNumber(radius)){
 		radius = 1;
 	}
 
-	if (startAngle == endAngle) {
-		endAngle += 360;
+	bpoints.push(getArcPoint(radius, startAngle));
+	bpoints.push(getArcPoint(radius, endAngle));
+
+	let fromAngle = Math.min(Math.floor(startAngle / 90) * 90, Math.floor(endAngle / 90) * 90);
+	let toAngle = Math.max(Math.ceil(startAngle / 90) * 90, Math.ceil(endAngle / 90) * 90);
+
+	for (let angle = fromAngle; angle <= toAngle; angle += 90) {
+		if (angle >= startAngle && angle <= endAngle) {
+			bpoints.push(getArcPoint(radius, angle));
+		}
 	}
 
-	if (startAngle > endAngle) {
-		let temp = endAngle;
-		endAngle = startAngle;
-		startAngle = temp;
+	for (let i = 0; i < bpoints.length; i++) {
+		let pt = bpoints[i];
+		if (pt.x < minX) { minX = pt.x; }
+		if (pt.y < minY) { minY = pt.y; }
+		if (pt.x > maxX) { maxX = pt.x; }
+		if (pt.y > maxY) { maxY = pt.y; }
 	}
 
-	let minX!: number;
-	let maxX!: number;
-	let minY!: number;
-	let maxY!: number;
+	return ({ x: minX, y: minY, width: maxX - minX, height: maxY - minY });
+}
 
-	let step = (endAngle - startAngle) / 720;
-
-	for (let angle = startAngle; angle < endAngle; angle += step) {
-		minX = min(cos(angle) * radius, minX);
-		maxX = max(cos(angle) * radius, maxX);
-		minY = min(sin(angle) * radius, minY);
-		maxY = max(sin(angle) * radius, maxY);
-	}
-
-	return { x: minX, y: minY, width: (maxX - minX), height: (maxY - minY) };
+/**
+ * Returns point on arc
+ *
+ * @param  {IPoint}  center point
+ * @param  {number}  radius
+ * @param  {number}  arc
+ * @return {boolean}
+ */
+export function getArcPoint(radius: number, arc: number) {
+	return ({ x: radius * cos(arc), y: radius * sin(arc) });
 }
 
 /**

@@ -428,33 +428,11 @@ var Axis = /** @class */ (function (_super) {
          */
         _this._series = new List();
         /**
-         * Holds reference to a function that accepts a DataItem and its index as
-         * parameters.
+         * Specifies if axis should be automatically disposed when removing from
+         * chart's axis list.
          *
-         * It can either return a fill opacity for a fill, or manipulate data item
-         * directly, to create various highlighting scenarios.
-         *
-         * For example, you can set it up to highlight only weekends on a
-         * [[DateAxis]].
-         *
-         * @type {function}
-         */
-        _this.fillRule = function (dataItem, index) {
-            if (!$type.isNumber(index)) {
-                index = dataItem.index;
-            }
-            if (index / 2 == Math.round(index / 2)) {
-                dataItem.axisFill.__disabled = true;
-                dataItem.axisFill.opacity = 0;
-            }
-            else {
-                dataItem.axisFill.opacity = 1;
-                dataItem.axisFill.__disabled = false;
-            }
-        };
-        /**
-         * Specifies if axis should be automatically disposed when removing from chart's axis list.
          * @default true
+         * @type {boolean}
          */
         _this.autoDispose = true;
         _this.className = "Axis";
@@ -492,6 +470,31 @@ var Axis = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    /**
+     * Holds reference to a function that accepts a DataItem and its index as
+     * parameters.
+     *
+     * It can either return a fill opacity for a fill, or manipulate data item
+     * directly, to create various highlighting scenarios.
+     *
+     * For example, you can set it up to highlight only weekends on a
+     * [[DateAxis]].
+     *
+     * @todo type
+     */
+    Axis.prototype.fillRule = function (dataItem, index) {
+        if (!$type.isNumber(index)) {
+            index = dataItem.index;
+        }
+        if (index / 2 == Math.round(index / 2)) {
+            dataItem.axisFill.__disabled = true;
+            dataItem.axisFill.opacity = 0;
+        }
+        else {
+            dataItem.axisFill.opacity = 1;
+            dataItem.axisFill.__disabled = false;
+        }
+    };
     /**
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
@@ -1315,6 +1318,12 @@ var Axis = /** @class */ (function (_super) {
      * Individual axis types should override this method to generate a label
      * that is relevant to axis type.
      *
+     * Please note that `position` represents position within axis which may be
+     * zoomed and not correspond to Cursor's `position`.
+     *
+     * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
      * @param  {number}  position  Relative position on axis (0-1)
      * @return {string}            Position label
      */

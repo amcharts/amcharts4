@@ -88,6 +88,7 @@ var XYCursor = /** @class */ (function (_super) {
         lineX.isMeasured = false;
         lineX.strokeOpacity = 0.4;
         lineX.interactionsEnabled = false;
+        lineX.y = 0; // important
         _this.lineX = lineX;
         _this._disposers.push(_this.lineX);
         // Create cursor's horizontal line
@@ -99,6 +100,7 @@ var XYCursor = /** @class */ (function (_super) {
         lineY.isMeasured = false;
         lineY.strokeOpacity = 0.4;
         lineY.interactionsEnabled = false;
+        lineY.x = 0; // important
         _this.lineY = lineY;
         _this._disposers.push(_this.lineY);
         // Add handler for size changes
@@ -107,6 +109,7 @@ var XYCursor = /** @class */ (function (_super) {
         _this._disposers.push(_this._lineY);
         _this._disposers.push(_this._xAxis);
         _this._disposers.push(_this._yAxis);
+        _this.mask = _this;
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -191,7 +194,11 @@ var XYCursor = /** @class */ (function (_super) {
      */
     XYCursor.prototype.triggerMoveReal = function (point) {
         _super.prototype.triggerMoveReal.call(this, point);
-        this.updateLinePositions(point);
+        if ((this.snapToSeries && !this.snapToSeries.isHidden)) {
+        }
+        else {
+            this.updateLinePositions(point);
+        }
         if (this.downPoint && $math.getDistance(this.downPoint, point) > 3) {
             if (this._generalBehavior == "pan") {
                 this.getPanningRanges();
@@ -445,7 +452,6 @@ var XYCursor = /** @class */ (function (_super) {
                 var chart = axis.chart;
                 this._xAxis.set(axis, new MultiDisposer([
                     axis.tooltip.events.on("positionchanged", this.handleXTooltipPosition, this, false),
-                    axis.events.on("validated", chart.handleCursorPositionChange, chart, false)
                 ]));
             }
         },
@@ -477,7 +483,6 @@ var XYCursor = /** @class */ (function (_super) {
                 var chart = axis.chart;
                 this._yAxis.set(axis, new MultiDisposer([
                     axis.tooltip.events.on("positionchanged", this.handleYTooltipPosition, this, false),
-                    axis.events.on("validated", chart.handleCursorPositionChange, chart, false)
                 ]));
             }
         },
@@ -630,6 +635,73 @@ var XYCursor = /** @class */ (function (_super) {
             }
         }
         _super.prototype.processConfig.call(this, config);
+    };
+    Object.defineProperty(XYCursor.prototype, "snapToSeries", {
+        /**
+         * @return {XYSeries}
+         */
+        get: function () {
+            return this.getPropertyValue("snapToSeries");
+        },
+        /**
+         * Specifies to which series cursor lines should be snapped. Works when one
+         * of the axis is `DateAxis` or `CategoryAxis`. Won't work if both axes are
+         * `ValueAxis`.
+         *
+         * @param {XYSeries}
+         */
+        set: function (series) {
+            if (this.setPropertyValue("snapToSeries", series)) {
+                if (this._snapToDisposer) {
+                    this._snapToDisposer.dispose();
+                }
+                if (series) {
+                    this._snapToDisposer = series.events.on("tooltipshownat", this.handleSnap, this, false);
+                }
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * [handleSnap description]
+     *
+     * @ignore
+     * @todo Description
+     */
+    XYCursor.prototype.handleSnap = function () {
+        var series = this.snapToSeries;
+        var y = series.tooltipY;
+        var x = series.tooltipX - this.pixelWidth;
+        if (this.xAxis) {
+            if (this.xAxis.renderer.opposite) {
+                y -= this.pixelHeight;
+            }
+        }
+        this.point = { x: x, y: y };
+        this.getPositions();
+        if (this.yAxis) {
+            if (this.yAxis.renderer.opposite) {
+                x += this.pixelWidth;
+            }
+        }
+        var tooltip = series.tooltip;
+        var duration = tooltip.animationDuration;
+        var easing = tooltip.animationEasing;
+        if (series.baseAxis == series.xAxis) {
+            series.yAxis.showTooltipAtPosition(this.yPosition);
+        }
+        if (series.baseAxis == series.yAxis) {
+            series.xAxis.showTooltipAtPosition(this.xPosition);
+        }
+        this.lineX.animate([{ property: "y", to: y }], duration, easing);
+        this.lineY.animate([{ property: "x", to: x }], duration, easing);
+        if (!this.xAxis) {
+            this.lineX.animate([{ property: "x", to: x }], duration, easing);
+        }
+        if (!this.yAxis) {
+            this.lineY.animate([{ property: "y", to: y }], duration, easing);
+        }
     };
     return XYCursor;
 }(Cursor));

@@ -1026,7 +1026,9 @@ export class XYChart extends SerialChart {
 	 */
 	public handleCursorPositionChange(): void {
 
-		if (this.cursor.visible && !this.cursor.isHiding) {
+		let cursor = this.cursor;
+
+		if (cursor.visible && !cursor.isHiding) {
 			let xPosition: number = this.cursor.xPosition;
 			let yPosition: number = this.cursor.yPosition;
 
@@ -1035,8 +1037,19 @@ export class XYChart extends SerialChart {
 				y: yPosition
 			});
 
-			this.showAxisTooltip(this.xAxes, xPosition);
-			this.showAxisTooltip(this.yAxes, yPosition);
+			let exceptAxis:Axis;
+			let snapToSeries = cursor.snapToSeries;
+			if(snapToSeries){
+				if(snapToSeries.baseAxis == snapToSeries.xAxis){
+					exceptAxis = snapToSeries.yAxis;
+				}
+				if(snapToSeries.baseAxis == snapToSeries.yAxis){
+					exceptAxis = snapToSeries.xAxis;
+				}
+			}	
+
+			this.showAxisTooltip(this.xAxes, xPosition, exceptAxis);
+			this.showAxisTooltip(this.yAxes, yPosition, exceptAxis);
 		}
 	}
 
@@ -1187,10 +1200,12 @@ export class XYChart extends SerialChart {
 	 * @param {List<Axis>}  axes      List of axes to show tooltip on
 	 * @param {number}      position  Position (px)
 	 */
-	public showAxisTooltip(axes: List<Axis>, position: number): void {
+	public showAxisTooltip(axes: List<Axis>, position: number, except?:Axis): void {
 		$iter.each(axes.iterator(), (axis) => {
-			if (this.dataItems.length > 0 || axis.dataItems.length > 0) {
-				axis.showTooltipAtPosition(position);
+			if(axis != except){
+				if (this.dataItems.length > 0 || axis.dataItems.length > 0) {				
+					axis.showTooltipAtPosition(position);
+				}
 			}
 		});
 	}
@@ -1202,7 +1217,7 @@ export class XYChart extends SerialChart {
 	 * @param  {IRange}  range  Range
 	 * @return {IRange}         Modified range
 	 */
-	public getUpdatedRange(axis: Axis, range: IRange): IRange {
+	public getUpdatedRange(axis: Axis<this["_xAxisRendererType"]>, range: IRange): IRange {
 
 		if (!axis) {
 			return;
@@ -1512,7 +1527,7 @@ export class XYChart extends SerialChart {
 	 * @param  {boolean}     instantly  If set to `true` will skip zooming animation
 	 * @return {IRange}                 Recalculated range that is common to all involved axes
 	 */
-	protected zoomAxes(axes: List<Axis>, range: IRange, instantly?: boolean, round?: boolean): IRange {
+	protected zoomAxes(axes: List<Axis<this["_xAxisRendererType"]>>, range: IRange, instantly?: boolean, round?: boolean): IRange {
 		let realRange: IRange = { start: 0, end: 1 };
 
 		this.showSeriesTooltip(); // hides

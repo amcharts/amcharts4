@@ -714,7 +714,7 @@ var BaseObject = /** @class */ (function () {
                 // If there are items already at the specified index in the list,
                 // apply properties rather than create a new one.
                 var listItem = void 0;
-                if ((index < (itemCount - 1)) && !entry["forceCreate"]) {
+                if ((index < itemCount) && !entry["forceCreate"]) {
                     listItem = item.getIndex(index);
                 }
                 else if (entry instanceof BaseObject) {

@@ -3,6 +3,18 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import am4themes_dark from "@amcharts/amcharts4/themes/dark";
 
+
+/**
+ * ---------------------------------------
+ * This demo was created using amCharts 4.
+ * 
+ * For more information visit:
+ * https://www.amcharts.com/
+ * 
+ * Documentation is available at:
+ * https://www.amcharts.com/docs/v4/
+ * ---------------------------------------
+ */
 am4core.useTheme(am4themes_animated);
 am4core.useTheme(am4themes_dark);
 
@@ -29,10 +41,43 @@ bullet.fill = am4core.color("#ff0000");
 bullet.propertyFields.fill = "color";
 bullet.strokeOpacity = 0;
 bullet.strokeWidth = 2;
-bullet.fillOpacity = 0.7;
+bullet.fillOpacity = 0.5;
 bullet.stroke = am4core.color("#ffffff");
 bullet.hiddenState.properties.opacity = 0;
 bullet.circle.tooltipText = "[bold]{title}:[/]\nPopulation: {value.value}\nIncome: {valueX.value}\nLife expectancy:{valueY.value}";
+
+let outline = chart.plotContainer.createChild(am4core.Circle);
+outline.fillOpacity = 0;
+outline.strokeOpacity = 0.8;
+outline.stroke = am4core.color("#ff0000");
+outline.strokeWidth = 2;
+outline.hide(0);
+
+let blurFilter = new am4core.BlurFilter();
+outline.filters.push(blurFilter);
+
+bullet.events.on("over", function(event) {
+    let target = event.target;
+    chart.cursor.triggerMove({ x: target.pixelX, y: target.pixelY }, "hard");
+    chart.cursor.lineX.y = target.pixelY;
+    chart.cursor.lineY.x = target.pixelX - chart.plotContainer.pixelWidth;
+    valueAxisX.tooltip.disabled = false;
+    valueAxisY.tooltip.disabled = false;
+
+    outline.radius = target.circle.pixelRadius + 2;
+    outline.x = target.pixelX;
+    outline.y = target.pixelY;
+    outline.show();
+})
+
+bullet.events.on("out", function(event) {
+    chart.cursor.triggerMove(event.pointer.point, "none");
+    chart.cursor.lineX.y = 0;
+    chart.cursor.lineY.x = 0;
+    valueAxisX.tooltip.disabled = true;
+    valueAxisY.tooltip.disabled = true;
+    outline.hide();
+})
 
 let hoverState = bullet.states.create("hover");
 hoverState.properties.fillOpacity = 1;
@@ -1564,3 +1609,5 @@ chart.data = [
         "value": 13013678
     }
 ];
+
+

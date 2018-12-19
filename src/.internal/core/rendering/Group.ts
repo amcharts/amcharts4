@@ -42,7 +42,7 @@ export class Group extends AMElement {
 	 * @param {AMElement}  element  Element
 	 */
 	public add(element: AMElement): void {
-		if (element) {			
+		if (element) {
 			this.node.appendChild(element.node);
 		}
 	}
@@ -58,7 +58,9 @@ export class Group extends AMElement {
 		if (element) {
 			let first = this.node.childNodes[0];
 			if (first) {
-				this.node.insertBefore(element.node, first);
+				if (first != element.node) {
+					this.node.insertBefore(element.node, first);
+				}
 			}
 			else {
 				this.node.appendChild(element.node);

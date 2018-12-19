@@ -8,6 +8,7 @@
  * @hidden
  */
 import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../Sprite";
+import { IRectangle } from "../defs/IRectangle";
 /**
  * ============================================================================
  * REQUISITES
@@ -75,9 +76,16 @@ export declare class Rectangle extends Sprite {
      */
     draw(): void;
     /**
-     * Updates bounding box based on element dimension settings.
+     * Measures the element.
      *
      * @ignore Exclude from docs
      */
     measureElement(): void;
+    /**
+     * Returns bounding box (square) for this element.
+     *
+     * @ignore Exclude from docs
+     * @type {IRectangle}
+     */
+    readonly bbox: IRectangle;
 }

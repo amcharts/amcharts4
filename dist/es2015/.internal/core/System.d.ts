@@ -45,7 +45,7 @@ export declare class System {
      */
     time: number;
     protected _frameRequested: boolean;
-    protected _updateStepDuration: number;
+    updateStepDuration: number;
     /**
      * Performs initialization of the System object.
      *

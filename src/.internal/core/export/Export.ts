@@ -333,6 +333,15 @@ export interface IExportCSVOptions {
 	 * @type {boolean}
 	 */
 	useLocale?: boolean;
+
+	/**
+	 * Replace missing values with this.
+	 *
+	 * @default "" (empty string)
+	 * @type {any}
+	 */
+	emptyAs?: any;
+
 }
 
 /**
@@ -400,6 +409,14 @@ export interface IExportExcelOptions {
 	 * @type {boolean}
 	 */
 	useLocale?: boolean;
+
+	/**
+	 * Replace missing values with this.
+	 *
+	 * @default "" (empty string)
+	 * @type {any}
+	 */
+	emptyAs?: any;
 }
 
 /**
@@ -988,12 +1005,14 @@ export class Export extends Validatable {
 		});
 
 		this._formatOptions.setKey("csv", {
-			addColumnNames: true
+			addColumnNames: true,
+			emptyAs: ""
 		});
 
 		this._formatOptions.setKey("xlsx", {
 			addColumnNames: true,
-			useLocale: true
+			useLocale: true,
+			emptyAs: ""
 		});
 
 		this._formatOptions.setKey("print", {
@@ -2374,14 +2393,17 @@ export class Export extends Validatable {
 		// Init worksheet data
 		let data = [];
 
+		// Data fields
+		const dataFields = this.dataFields;
+
 		// Add column names?
 		if (options.addColumnNames) {
-			data.push(this.getExcelRow(this.dataFields, options));
+			data.push(this.getExcelRow(dataFields, options));
 		}
 
 		// Add lines
 		for (let len = this.data.length, i = 0; i < len; i++) {
-			data.push(this.getExcelRow(this.data[i], options));
+			data.push(this.getExcelRow(this.data[i], options, dataFields));
 		}
 
 		// Create sheet and add data
@@ -2411,21 +2433,31 @@ export class Export extends Validatable {
 	 * Rertuns an array of values to be used as Excel row.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {any}                  row      Row data
-	 * @param  {IExportExcelOptions}  options  Options
-	 * @return {any[]}                         Array of values
+	 * @param  {any}                  row         Row data
+	 * @param  {IExportExcelOptions}  options     Options
+	 * @param  {any}                  dataFields  Data fields
+	 * @return {any[]}                            Array of values
 	 */
-	public getExcelRow(row: any, options?: IExportExcelOptions): any[] {
+	public getExcelRow(row: any, options?: IExportExcelOptions, dataFields?: any): any[] {
+
 		// Init
 		let items: any[] = [];
 
+		// Data fields
+		if (!dataFields) {
+			dataFields = row;
+		}
+
 		// Process each row item
-		$object.each(row, (key, value) => {
+		$object.each(dataFields, (key, name) => {
+
+			// Get value
+			let value = this.convertEmptyValue(key, row[key], options);
 
 			// Check if we need to skip
-			if ($type.hasValue(this.dataFields) && !$type.hasValue(this.dataFields[key])) {
+			/*if ($type.hasValue(this.dataFields) && !$type.hasValue(this.dataFields[key])) {
 				return;
-			}
+			}*/
 
 			items.push(this.convertDateValue<"xlsx">(key, value, options));
 		});
@@ -2449,10 +2481,13 @@ export class Export extends Validatable {
 		// Init output
 		let csv = "";
 
+		// Data fields
+		const dataFields = this.dataFields;
+
 		// Add rows
 		let br = "";
 		for (let len = this.data.length, i = 0; i < len; i++) {
-			let row = this.getCSVRow(this.data[i], options);
+			let row = this.getCSVRow(this.data[i], options, dataFields);
 			if (options.reverse) {
 				csv = row + br + csv;
 			}
@@ -2464,7 +2499,7 @@ export class Export extends Validatable {
 
 		// Add column names?
 		if (options.addColumnNames) {
-			csv = this.getCSVRow(this.dataFields, options) + br + csv;
+			csv = this.getCSVRow(dataFields, options) + br + csv;
 		}
 
 		// Add content type
@@ -2487,23 +2522,33 @@ export class Export extends Validatable {
 	 * Formats a row of CSV data.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {any}               row     An object holding data for the row
-	 * @param  {IExportCSVOptions} options Options
-	 * @return {string}                    Formated CSV line
+	 * @param  {any}                row         An object holding data for the row
+	 * @param  {IExportCSVOptions}  options     Options
+	 * @param  {any}                dataFields  Data fields
+	 * @return {string}                         Formated CSV line
 	 */
-	public getCSVRow(row: any, options?: IExportCSVOptions): string {
+	public getCSVRow(row: any, options?: IExportCSVOptions, dataFields?: any): string {
 
 		// Init
 		let separator = options.separator || ",";
 		let items: any[] = [];
 
+		// Data fields
+		if (!dataFields) {
+			dataFields = row;
+		}
+
 		// Process each row item
-		$object.each(row, (key, value) => {
+		$object.each(dataFields, (key, name) => {
+
+			// Get value
+			let value = this.convertEmptyValue(key, row[key], options);
 
 			// Check if we need to skip
-			if ($type.hasValue(this.dataFields) && !$type.hasValue(this.dataFields[key])) {
+			// This is no longer required because we are iterating via dataFields anyway
+			/*if ($type.hasValue(this.dataFields) && !$type.hasValue(this.dataFields[key])) {
 				return;
-			}
+			}*/
 
 			// Convert dates
 			let item = this.convertDateValue<"csv">(key, value, options);
@@ -2592,6 +2637,16 @@ export class Export extends Validatable {
 		}
 
 		return value;
+	}
+
+	/**
+	 * Converts empty value based on `emptyAs` option.
+	 *
+	 * @ignore Exclude from docs
+	 * @type {string}
+	 */
+	public convertEmptyValue<Key extends "csv" | "xlsx">(field: string, value: any, options?: IExportOptions[Key]): any {
+		return $type.hasValue(value) ? value : options.emptyAs;
 	}
 
 	/**
@@ -3205,12 +3260,15 @@ export class Export extends Validatable {
 	public generateDataFields(): void {
 		this._dataFields = {};
 		if (this.data.length) {
-			let row = this.data[0];
-			$object.each(row, (key, value) => {
-				this._dataFields[key] = this.adapter.apply("dataFieldName", {
-					name: key,
-					field: key
-				}).name;
+			$array.each(this.data, (row) => {
+				$object.each(row, (key, value) => {
+					if (!$type.hasValue(this._dataFields[key])) {
+						this._dataFields[key] = this.adapter.apply("dataFieldName", {
+							name: key,
+							field: key
+						}).name;
+					}
+				});
 			});
 		}
 	}

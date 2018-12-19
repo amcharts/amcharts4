@@ -724,7 +724,7 @@ export class XYSeries extends Series {
 	 * @todo Description
 	 * @type {Array<string>}
 	 */
-	protected _xValueFields: Array<string>;
+	protected _xValueFields: Array<string> = [];
 
 	/**
 	 * [_yValueFields description]
@@ -732,7 +732,7 @@ export class XYSeries extends Series {
 	 * @todo Description
 	 * @type {Array<string>}
 	 */
-	protected _yValueFields: Array<string>;
+	protected _yValueFields: Array<string> = [];
 
 	/**
 	 * Series which is stacked on top of this series, if any.
@@ -1062,6 +1062,7 @@ export class XYSeries extends Series {
 	 * @ignore Exclude from docs
 	 */
 	public validateDataItems() {
+
 		// this helps date axis to check which baseInterval we should use
 		this.xAxis.updateAxisBySeries();
 		this.yAxis.updateAxisBySeries();

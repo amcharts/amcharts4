@@ -472,9 +472,11 @@ var CategoryAxis = /** @class */ (function (_super) {
      * @return {number}            Data item index
      */
     CategoryAxis.prototype.categoryToIndex = function (category) {
-        var dataItem = this.dataItemsByCategory.getKey(category);
-        if (dataItem) {
-            return dataItem.index;
+        if ($type.hasValue(category)) {
+            var dataItem = this.dataItemsByCategory.getKey(category);
+            if (dataItem) {
+                return dataItem.index;
+            }
         }
     };
     /**
@@ -671,6 +673,12 @@ var CategoryAxis = /** @class */ (function (_super) {
     /**
      * Returns category based on position.
      *
+     * Please note that `position` represents position within axis which may be
+     * zoomed and not correspond to Cursor's `position`.
+     *
+     * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
      * @param  {number}  position  Relative position on axis (0-1)
      * @return {string}            Position label
      */

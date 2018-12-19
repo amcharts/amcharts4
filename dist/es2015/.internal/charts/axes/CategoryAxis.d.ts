@@ -422,6 +422,12 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
     /**
      * Returns category based on position.
      *
+     * Please note that `position` represents position within axis which may be
+     * zoomed and not correspond to Cursor's `position`.
+     *
+     * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
      * @param  {number}  position  Relative position on axis (0-1)
      * @return {string}            Position label
      */

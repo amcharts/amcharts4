@@ -398,9 +398,9 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * It can either return a fill opacity for a fill, or manipulate data item
 	 * directly, to create various highlighting scenarios.
 	 *
-	 * @type {function}
+	 * @todo type
 	 */
-	public fillRule: (dataItem: ValueAxisDataItem) => any = function(dataItem: ValueAxisDataItem) {
+	public fillRule(dataItem: ValueAxisDataItem) {
 		let value = dataItem.value;
 		let axis = dataItem.component;
 		if (!dataItem.axisFill.disabled) {
@@ -412,7 +412,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				dataItem.axisFill.__disabled = false;
 			}
 		}
-	};
+	}
 
 	/**
 	 * As calculating totals is expensive operation and not often needed, we
@@ -1457,7 +1457,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	}
 
 	/**
-	 * @return {number} 
+	 * @return {number}
 	 */
 	public get extraMin(): number {
 		return this.getPropertyValue("extraMin");
@@ -1472,8 +1472,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * E.g.: 0.5 will mean half of the current range. If we have axis displaying
 	 * from 100 to 200, we will now have axis displaying from 100 to 250 because
 	 * we asked to expand maximum value by 50% (0.5).
-	 * 
-	 * @param {number} 
+	 *
+	 * @param {number}
 	 */
 	public set extraMax(value: number) {
 		if (this.setPropertyValue("extraMax", value)) {
@@ -1924,6 +1924,12 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	/**
 	 * Returns value based on position.
 	 *
+	 * Please note that `position` represents position within axis which may be
+	 * zoomed and not correspond to Cursor's `position`.
+	 *
+	 * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
+	 *
+	 * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
 	 * @param  {number}  position  Relative position on axis (0-1)
 	 * @return {string}            Position label
 	 */

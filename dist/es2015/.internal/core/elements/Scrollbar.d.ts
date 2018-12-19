@@ -46,6 +46,12 @@ export interface IScrollbarProperties extends IContainerProperties {
      * @type {(value: number) => number}
      */
     animationEasing?: (value: number) => number;
+    /**
+     * Orientation of a scrollbar
+     *
+     * @type {Orientation}
+     */
+    orientation?: Orientation;
 }
 /**
  * Defines events for [[Scrollbar]].
