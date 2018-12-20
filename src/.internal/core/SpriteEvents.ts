@@ -85,9 +85,9 @@ export class SpriteEventDispatcher<T extends AMEvent<Sprite, ISpriteEvents>> ext
 	 * @todo Description
 	 * @type {[type]}
 	 */
-	private _addInteractionObjectEvent<C, Key extends keyof IInteractionObjectEvents>(type: Key, callback: (this: C, ev: AMEvent<InteractionObject, IInteractionObjectEvents>[Key]) => void, context: C): IDisposer {
+	private _addInteractionObjectEvent<C, Key extends keyof IInteractionObjectEvents>(type: Key, callback: (this: C, ev: AMEvent<InteractionObject, IInteractionObjectEvents>[Key]) => void, context: C, shouldClone: boolean): IDisposer {
 		const counter = this._interactionEvents.insertKeyIfEmpty(type, () => {
-			const disposer = this.target.interactions.events.on(type, callback, context);
+			const disposer = this.target.interactions.events.on(type, callback, context, shouldClone);
 
 			return new CounterDisposer(() => {
 				this._interactionEvents.removeKey(type);
@@ -122,7 +122,7 @@ export class SpriteEventDispatcher<T extends AMEvent<Sprite, ISpriteEvents>> ext
 			case "wheeldown":
 			case "wheelleft":
 			case "wheelright":
-				disposers.push(this._addInteractionObjectEvent(<any>type, this._dispatchSpritePointEvent, this));
+				disposers.push(this._addInteractionObjectEvent(<any>type, this._dispatchSpritePointEvent, this, shouldClone));
 				break;
 			case "rightclick":
 			case "down":
@@ -141,7 +141,7 @@ export class SpriteEventDispatcher<T extends AMEvent<Sprite, ISpriteEvents>> ext
 			case "focus":
 			case "blur":
 			case "toggled":
-				disposers.push(this._addInteractionObjectEvent(<any>type, this._dispatchSpriteEvent, this));
+				disposers.push(this._addInteractionObjectEvent(<any>type, this._dispatchSpriteEvent, this, shouldClone));
 				break;
 		}
 

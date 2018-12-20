@@ -458,7 +458,7 @@ var System = /** @class */ (function () {
      * @see {@link https://docs.npmjs.com/misc/semver}
      * @type {string}
      */
-    System.VERSION = "4.0.9";
+    System.VERSION = "4.0.10";
     return System;
 }());
 export { System };

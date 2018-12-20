@@ -474,14 +474,13 @@ export class Container extends Sprite {
 	 * @ignore Exclude from docs
 	 */
 	public invalidateLayout(): void {
-		if (this.disabled || this.isTemplate || this.layout == "none" || this.__disabled) {
+		if (this.layoutInvalid || this.disabled || this.isTemplate || this.layout == "none" || this.__disabled) {
 			return;
 		}
-		if (!this.layoutInvalid) {
-			this.layoutInvalid = true;
-			registry.addToInvalidLayouts(this);
-			system.requestFrame();
-		}
+
+		this.layoutInvalid = true;
+		registry.addToInvalidLayouts(this);
+		system.requestFrame();
 	}
 
 	/**
@@ -1410,7 +1409,7 @@ export class Container extends Sprite {
 		let measuredContentHeight = contentBottom - contentTop;
 
 		/// handle content alignment
-		if (this.layout != "none") {
+		if (this.layout != "none" && (this.contentAlign || this.contentValign) && children.length > 0) {
 			let dx: $type.Optional<number>;
 			let dy: $type.Optional<number>;
 

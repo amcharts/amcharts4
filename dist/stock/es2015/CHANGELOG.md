@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.10] - 2018-12-20
+
+### Fixed
+- In some situations, when `geodataSource` had events set, it was producing error.
+- Cloning an object was cloning sometimes was causing event handlers to be duplicated.
+- A leftover console debug line was removed.
+
+
 ## [4.0.9] - 2018-12-19
 
 ### Added

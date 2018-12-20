@@ -201,7 +201,6 @@ var XYChartScrollbar = /** @class */ (function (_super) {
     XYChartScrollbar.prototype.updateByOrientation = function () {
         var _this = this;
         if (this._scrollbarChart) {
-            console.log("update", this.orientation);
             $iter.each(this._scrollbarChart.xAxes.iterator(), function (xAxis) {
                 var renderer = xAxis.renderer;
                 if (_this.orientation == "vertical") {

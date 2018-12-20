@@ -17,5 +17,5 @@
  * PLEASE DO NOT REMOVE THIS COPYRIGHT NOTICE.
  * @hidden
  */
-webpackJsonp([10],{608:function(e,c,t){"use strict";Object.defineProperty(c,"__esModule",{value:!0});var b=t(609);window.am4themes_frozen=b.a},609:function(e,c,t){"use strict";var b=t(610);t.d(c,"a",function(){return b.a})},610:function(e,c,t){"use strict";var b=t(14),n=t(30);c.a=function(e){e instanceof n.a&&(e.list=[Object(b.c)("#bec4f8"),Object(b.c)("#a5abee"),Object(b.c)("#6a6dde"),Object(b.c)("#4d42cf"),Object(b.c)("#713e8d"),Object(b.c)("#a160a0"),Object(b.c)("#eb6eb0"),Object(b.c)("#f597bb"),Object(b.c)("#fbb8c9"),Object(b.c)("#f8d4d8")],e.minLightness=.2,e.maxLightness=.7,e.reuse=!0)}}},[608]);
+webpackJsonp([10],{612:function(e,c,t){"use strict";Object.defineProperty(c,"__esModule",{value:!0});var b=t(613);window.am4themes_frozen=b.a},613:function(e,c,t){"use strict";var b=t(614);t.d(c,"a",function(){return b.a})},614:function(e,c,t){"use strict";var b=t(15),n=t(30);c.a=function(e){e instanceof n.a&&(e.list=[Object(b.c)("#bec4f8"),Object(b.c)("#a5abee"),Object(b.c)("#6a6dde"),Object(b.c)("#4d42cf"),Object(b.c)("#713e8d"),Object(b.c)("#a160a0"),Object(b.c)("#eb6eb0"),Object(b.c)("#f597bb"),Object(b.c)("#fbb8c9"),Object(b.c)("#f8d4d8")],e.minLightness=.2,e.maxLightness=.7,e.reuse=!0)}}},[612]);
 //# sourceMappingURL=frozen.js.map

@@ -304,7 +304,6 @@ export class XYChartScrollbar extends Scrollbar {
 	 */
 	protected updateByOrientation() {
 		if (this._scrollbarChart) {
-			console.log("update", this.orientation)
 			$iter.each(this._scrollbarChart.xAxes.iterator(), (xAxis) => {
 				let renderer = xAxis.renderer;				
 				if (this.orientation == "vertical") {

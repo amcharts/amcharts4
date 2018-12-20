@@ -78,16 +78,18 @@ var DataLoader = /** @class */ (function () {
                 source_1.dispatchImmediately("ended");
             }
         }).catch(function (res) {
-            res.target.dispatchImmediately("loadended");
-            if (res.target.events.isEnabled("error")) {
-                res.target.events.dispatchImmediately("error", {
-                    type: "error",
-                    code: res.xhr.status,
-                    message: res.target.language.translate("Unable to load file: %1", null, res.target.url),
-                    target: res.target
-                });
+            if (res.target) {
+                res.target.dispatchImmediately("loadended");
+                if (res.target.events.isEnabled("error")) {
+                    res.target.events.dispatchImmediately("error", {
+                        type: "error",
+                        code: res.xhr.status,
+                        message: res.target.language.translate("Unable to load file: %1", null, res.target.url),
+                        target: res.target
+                    });
+                }
+                res.target.dispatchImmediately("ended");
             }
-            res.target.dispatchImmediately("ended");
         });
     };
     /**

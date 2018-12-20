@@ -181,14 +181,12 @@ var Container = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Container.prototype.invalidateLayout = function () {
-        if (this.disabled || this.isTemplate || this.layout == "none" || this.__disabled) {
+        if (this.layoutInvalid || this.disabled || this.isTemplate || this.layout == "none" || this.__disabled) {
             return;
         }
-        if (!this.layoutInvalid) {
-            this.layoutInvalid = true;
-            registry.addToInvalidLayouts(this);
-            system.requestFrame();
-        }
+        this.layoutInvalid = true;
+        registry.addToInvalidLayouts(this);
+        system.requestFrame();
     };
     /**
      * Invalidates element.
@@ -1000,7 +998,7 @@ var Container = /** @class */ (function (_super) {
         var measuredContentWidth = contentRight - contentLeft;
         var measuredContentHeight = contentBottom - contentTop;
         /// handle content alignment
-        if (this.layout != "none") {
+        if (this.layout != "none" && (this.contentAlign || this.contentValign) && children.length > 0) {
             var dx_1;
             var dy_1;
             var mwa = measuredWidth;
