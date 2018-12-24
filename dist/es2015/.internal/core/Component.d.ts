@@ -33,9 +33,16 @@ export declare type CalculatedValue = "value" | "percent" | "change" | "changePe
  */
 export interface IComponentProperties extends IContainerProperties {
     /**
-     * maximum zoom factor of a component
+     * Maximum zoom factor of a component.
      */
     maxZoomFactor?: number;
+    /**
+     * Maximum zoom declination (how much out of 0-1 range it will allow to step out)
+     *
+     * @ignore
+     * @default 0.5
+     */
+    maxZoomDeclination?: number;
 }
 /**
  * Defines data fields for [[Component]].
@@ -724,7 +731,7 @@ export declare class Component extends Container {
      * @param  {boolean} instantly      Do not animate?
      * @return {IRange}                 Actual modidied range (taking `maxZoomFactor` into account)
      */
-    zoom(range: IRange, skipRangeEvent?: boolean, instantly?: boolean): IRange;
+    zoom(range: IRange, skipRangeEvent?: boolean, instantly?: boolean, declination?: number): IRange;
     /**
      * Zooms to specific data items using their index in data.
      *
@@ -758,6 +765,18 @@ export declare class Component extends Container {
      * @param {number}  value  Maximum `zoomFactor`
      */
     maxZoomFactor: number;
+    /**
+     * @ignore
+     * @return {number} Maximum zoom declination
+     */
+    /**
+     * Max zoom declination.
+     *
+     * @ignore
+     * @default 1
+     * @param {number}  value  Maximum zoom declination
+     */
+    maxZoomDeclination: number;
     /**
      * Current starting index.
      *

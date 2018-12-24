@@ -51,6 +51,13 @@ export declare class Group extends AMElement {
      */
     removeElement(element: AMElement): void;
     /**
+     * Checks if this group already has the child element added
+     *
+     * @param {AMElement}  element
+     * @return {boolean}
+     */
+    hasChild(element: AMElement): boolean;
+    /**
      * @return {string} SVG markup
      */
     /**

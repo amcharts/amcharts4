@@ -871,9 +871,10 @@ export class XYCursor extends Cursor {
 	 * @todo Description
 	 */
 	public handleSnap() {
+		
 		let series = this.snapToSeries;
 		let y = series.tooltipY;
-		let x = series.tooltipX - this.pixelWidth;
+		let x = series.tooltipX;// - this.pixelWidth;
 
 		if (this.xAxis) {
 			if (this.xAxis.renderer.opposite) {
@@ -883,6 +884,8 @@ export class XYCursor extends Cursor {
 
 		this.point = { x: x, y: y };
 		this.getPositions();
+
+		x -= this.pixelWidth;
 
 		if (this.yAxis) {
 			if (this.yAxis.renderer.opposite) {

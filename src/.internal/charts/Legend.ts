@@ -521,7 +521,7 @@ export class Legend extends Component {
 		this.labels = new ListTemplate<Label>(label);
 		this._disposers.push(new ListDisposer(this.labels));
 		this._disposers.push(this.labels.template);
-		label.interactionsEnabled = false;		
+		label.interactionsEnabled = false;
 
 		// Create a template container and list for item value labels
 		let valueLabel: Label = new Label();
@@ -597,6 +597,8 @@ export class Legend extends Component {
 		// Tell series its legend data item
 		dataItem.dataContext.legendDataItem = dataItem;
 
+		let legendSettings = dataItem.dataContext.legendSettings;
+
 		// If we are not using default markers, create a unique legend marker based
 		// on the data item type
 		if (dataItem.dataContext.createLegendMarker && !this.useDefaultMarker) {
@@ -614,6 +616,10 @@ export class Legend extends Component {
 			valueLabel.__disabled = true;
 		}
 		else {
+			valueLabel.__disabled = false;
+		}
+
+		if(legendSettings && (legendSettings.itemValueText != undefined || legendSettings.valueText != undefined)){
 			valueLabel.__disabled = false;
 		}
 

@@ -180,8 +180,6 @@ categoryAxisRenderer.grid.template.radius = -25;
 categoryAxisRenderer.grid.template.strokeOpacity = 0.05;
 categoryAxisRenderer.grid.template.interactionsEnabled = false;
 
-categoryAxisRenderer.ticks.template.disabled = true;
-categoryAxisRenderer.axisFills.template.disabled = true;
 categoryAxisRenderer.line.disabled = true;
 
 categoryAxisRenderer.tooltipLocation = 0.5;
@@ -198,8 +196,6 @@ valueAxis.cursorTooltipEnabled = true;
 valueAxis.zIndex = 10;
 
 var valueAxisRenderer = valueAxis.renderer;
-valueAxisRenderer.axisFills.template.disabled = true;
-valueAxisRenderer.ticks.template.disabled = true;
 valueAxisRenderer.minGridDistance = 30;
 valueAxisRenderer.grid.template.strokeOpacity = 0.05;
 

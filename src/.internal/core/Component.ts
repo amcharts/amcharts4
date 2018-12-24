@@ -64,10 +64,19 @@ export type CalculatedValue =
  * Defines properties for [[Component]].
  */
 export interface IComponentProperties extends IContainerProperties {
+
 	/**
-	 * maximum zoom factor of a component
+	 * Maximum zoom factor of a component.
 	 */
 	maxZoomFactor?: number;
+
+	/**
+	 * Maximum zoom declination (how much out of 0-1 range it will allow to step out)
+	 *
+	 * @ignore
+	 * @default 0.5
+	 */
+	maxZoomDeclination?: number;
 }
 
 /**
@@ -117,12 +126,12 @@ export interface IComponentEvents extends IContainerEvents {
 	/**
 	 * Invoked when start position changes
 	 */
-	startchanged:{};
+	startchanged: {};
 
 	/**
 	 * Invoked when end position changes
 	 */
-	endchanged:{};
+	endchanged: {};
 }
 
 /**
@@ -549,6 +558,8 @@ export class Component extends Container {
 		this._start = 0;
 		this._end = 1;
 
+		this.maxZoomDeclination = 1;
+
 		// Apply theme
 		this.applyTheme();
 
@@ -582,7 +593,7 @@ export class Component extends Container {
 	 * @ignore Exclude from docs
 	 * @todo Description
 	 */
-	public handleDataItemValueChange(dataItem?: this["_dataItem"], name?:string): void {
+	public handleDataItemValueChange(dataItem?: this["_dataItem"], name?: string): void {
 		if (!this.dataItemsInvalid) {
 			this.invalidateDataItems();
 		}
@@ -593,7 +604,7 @@ export class Component extends Container {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	public handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?:string): void {
+	public handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?: string): void {
 
 	}
 
@@ -602,7 +613,7 @@ export class Component extends Container {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	public handleDataItemWorkingLocationChange(dataItem?: this["_dataItem"], name?:string): void {
+	public handleDataItemWorkingLocationChange(dataItem?: this["_dataItem"], name?: string): void {
 
 	}
 
@@ -611,7 +622,7 @@ export class Component extends Container {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	public handleDataItemCalculatedValueChange(dataItem?: this["_dataItem"], name?:string) {
+	public handleDataItemCalculatedValueChange(dataItem?: this["_dataItem"], name?: string) {
 
 	}
 
@@ -620,7 +631,7 @@ export class Component extends Container {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	public handleDataItemPropertyChange(dataItem?: this["_dataItem"], name?:string): void {
+	public handleDataItemPropertyChange(dataItem?: this["_dataItem"], name?: string): void {
 
 	}
 
@@ -931,7 +942,7 @@ export class Component extends Container {
 			this.rangeChangeUpdate();
 			this.appendDataItems();
 			this.invalidate();
-			this.dispatchImmediately("datarangechanged");			
+			this.dispatchImmediately("datarangechanged");
 		}
 	}
 
@@ -1166,8 +1177,8 @@ export class Component extends Container {
 		this.dataItemsInvalid = false;
 
 		this.invalidateDataRange();
-		this.invalidate();		
-		this.dispatch("dataitemsvalidated");		
+		this.invalidate();
+		this.dispatch("dataitemsvalidated");
 	}
 
 	/**
@@ -1416,10 +1427,14 @@ export class Component extends Container {
 	 * @param  {boolean} instantly      Do not animate?
 	 * @return {IRange}                 Actual modidied range (taking `maxZoomFactor` into account)
 	 */
-	public zoom(range: IRange, skipRangeEvent: boolean = false, instantly: boolean = false): IRange {
+	public zoom(range: IRange, skipRangeEvent: boolean = false, instantly: boolean = false, declination?: number): IRange {
 		let start: $type.Optional<number> = range.start;
 		let end = range.end;
 		let priority = range.priority;
+
+		if (!$type.isNumber(declination)) {
+			declination = this.maxZoomDeclination;
+		}
 
 		if (!$type.isNumber(start) || !$type.isNumber(end)) {
 			return { start: this.start, end: this.end };
@@ -1451,6 +1466,22 @@ export class Component extends Container {
 					//start = 0;
 					end = start + 1 / maxZoomFactor;
 				}
+			}
+
+			if (start < - declination) {
+				start = - declination;
+			}
+
+			if (1 / (end - start) > maxZoomFactor) {
+				end = start + 1 / maxZoomFactor;
+			}
+
+			if (end > 1 + declination) {
+				end = 1 + declination;
+			}
+
+			if (1 / (end - start) > maxZoomFactor) {
+				start = end - 1 / maxZoomFactor;
 			}
 
 			this._finalEnd = end;
@@ -1542,6 +1573,10 @@ export class Component extends Container {
 	 */
 	public set maxZoomFactor(value: number) {
 		if (this.setPropertyValue("maxZoomFactor", value)) {
+			if (value == 1) {
+				this.maxZoomDeclination = 0;
+			}
+
 			this.invalidateDataRange();
 		}
 	}
@@ -1551,6 +1586,28 @@ export class Component extends Container {
 	 */
 	public get maxZoomFactor(): number {
 		return this.getPropertyValue("maxZoomFactor");
+	}
+
+
+	/**
+	 * Max zoom declination.
+	 *
+	 * @ignore
+	 * @default 1
+	 * @param {number}  value  Maximum zoom declination
+	 */
+	public set maxZoomDeclination(value: number) {
+		if (this.setPropertyValue("maxZoomDeclination", value)) {
+			this.invalidateDataRange();
+		}
+	}
+
+	/**
+	 * @ignore
+	 * @return {number} Maximum zoom declination
+	 */
+	public get maxZoomDeclination(): number {
+		return this.getPropertyValue("maxZoomDeclination");
 	}
 
 	/**
@@ -1627,7 +1684,7 @@ export class Component extends Container {
 		if (this._start != value) {
 			this._start = value;
 			let startIndex = Math.max(0, Math.floor(this.dataItems.length * value) || 0);
-			this._startIndex = Math.min(startIndex, this.dataItems.length);			
+			this._startIndex = Math.min(startIndex, this.dataItems.length);
 			this.invalidateDataRange();
 			this.invalidate();
 			this.dispatchImmediately("startchanged");
@@ -1864,9 +1921,9 @@ export class Component extends Container {
 		return arg;
 	}
 
-	protected setDisabled(value: boolean):boolean {
+	protected setDisabled(value: boolean): boolean {
 		let changed = super.setDisabled(value);
-		if(changed){
+		if (changed) {
 			this.invalidateData();
 		}
 		return changed;

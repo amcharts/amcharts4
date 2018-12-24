@@ -105,8 +105,6 @@ export declare class FocusFilter extends Filter {
     feBlend: AMElement;
     /**
      * Constructor
-     * * Creates primitve (effect) elements
-     * * Sets default properties
      */
     constructor();
     /**

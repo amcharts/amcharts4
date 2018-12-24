@@ -344,6 +344,7 @@ var Legend = /** @class */ (function (_super) {
         container.readerChecked = dataItem.dataContext.visible;
         // Tell series its legend data item
         dataItem.dataContext.legendDataItem = dataItem;
+        var legendSettings = dataItem.dataContext.legendSettings;
         // If we are not using default markers, create a unique legend marker based
         // on the data item type
         if (dataItem.dataContext.createLegendMarker && !this.useDefaultMarker) {
@@ -359,6 +360,9 @@ var Legend = /** @class */ (function (_super) {
             valueLabel.__disabled = true;
         }
         else {
+            valueLabel.__disabled = false;
+        }
+        if (legendSettings && (legendSettings.itemValueText != undefined || legendSettings.valueText != undefined)) {
             valueLabel.__disabled = false;
         }
         var visible = dataItem.dataContext.visible;

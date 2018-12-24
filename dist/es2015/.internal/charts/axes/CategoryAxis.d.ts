@@ -347,7 +347,7 @@ export declare class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends
      * @param  {number}            position  Position (px)
      * @return {XYSeriesDataItem}            Series data item
      */
-    getSeriesDataItem(series: XYSeries, position: number): XYSeriesDataItem;
+    getSeriesDataItem(series: XYSeries, position: number, last?: boolean): XYSeriesDataItem;
     /**
      * Returns the X coordinate for series' data item.
      *

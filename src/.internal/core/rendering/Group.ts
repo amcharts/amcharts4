@@ -90,6 +90,22 @@ export class Group extends AMElement {
 		}
 	}
 
+
+	/**
+	 * Checks if this group already has the child element added
+	 *
+	 * @param {AMElement}  element
+	 * @return {boolean}
+	 */
+	public hasChild(element:AMElement):boolean {
+		for(let i = 0; i < this.node.childNodes.length; i++){
+			if(this.node.childNodes[i] == element.node){
+				return true;
+			}
+		}
+		return false;
+	}	
+
 	/**
 	 * Content of the group element.
 	 *

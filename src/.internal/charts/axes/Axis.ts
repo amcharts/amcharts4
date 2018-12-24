@@ -194,13 +194,35 @@ export class AxisDataItem extends DataItem {
 		if (!this._grid) {
 			let component = this.component;
 			if (component) {
-				let grid = component.renderer.grid.create();
+
+				let template: Grid;
+				let grid: Grid;
+
+				if (this.isRange) {
+					template = component.axisRanges.template.grid;
+					if (template.disabled) {
+						return;
+					}
+					else {
+						grid = template.clone();
+					}
+				}
+				else {
+					template = component.renderer.grid.template;
+					if (template.disabled) {
+						return;
+					}
+					else {
+						grid = component.renderer.grid.create();
+						this._disposers.push(new Disposer(() => {
+							component.renderer.grid.removeValue(grid);
+						}));
+					}
+				}
+
 				this.grid = grid;
 				this._disposers.push(grid);
 				grid.axis = this.component;
-				this._disposers.push(new Disposer(() => {
-					component.renderer.grid.removeValue(grid);
-				}));
 			}
 		}
 		return this._grid;
@@ -237,13 +259,35 @@ export class AxisDataItem extends DataItem {
 		if (!this._tick) {
 			let component = this.component;
 			if (component) {
-				let tick = component.renderer.ticks.create();
+
+				let template: AxisTick;
+				let tick: AxisTick;
+
+				if (this.isRange) {
+					template = component.axisRanges.template.tick;
+					if (template.disabled) {
+						return;
+					}
+					else {
+						tick = template.clone();
+					}
+				}
+				else {
+					template = component.renderer.ticks.template;
+					if (template.disabled) {
+						return;
+					}
+					else {
+						tick = component.renderer.ticks.create();
+						this._disposers.push(new Disposer(() => {
+							component.renderer.ticks.removeValue(tick);
+						}));
+					}
+				}
+
 				this.tick = tick;
 				tick.axis = this.component;
 				this._disposers.push(tick);
-				this._disposers.push(new Disposer(() => {
-					component.renderer.ticks.removeValue(tick);
-				}));
 			}
 		}
 		return this._tick;
@@ -280,15 +324,36 @@ export class AxisDataItem extends DataItem {
 		if (!this._label) {
 			let component = this.component;
 			if (component) {
-				let label = component.renderer.labels.create();
+
+				let template: AxisLabel;
+				let label: AxisLabel;
+
+				if (this.isRange) {
+					template = component.axisRanges.template.label;
+					if (template.disabled) {
+						return;
+					}
+					else {
+						label = template.clone();
+					}
+				}
+				else {
+					template = component.renderer.labels.template;
+					if (template.disabled) {
+						return;
+					}
+					else {
+						label = component.renderer.labels.create();
+						this._disposers.push(new Disposer(() => {
+							component.renderer.labels.removeValue(label);
+						}));
+					}
+				}
+
 				this._disposers.push(label);
 				this.label = label;
 				label.axis = this.component;
 				label.virtualParent = component;
-
-				this._disposers.push(new Disposer(() => {
-					component.renderer.labels.removeValue(label);
-				}));
 			}
 		}
 		return this._label;
@@ -326,13 +391,34 @@ export class AxisDataItem extends DataItem {
 		if (!this._axisFill) {
 			let component = this.component;
 			if (component) {
-				let axisFill = component.renderer.axisFills.create();
+
+				let template: AxisFill;
+				let axisFill: AxisFill;
+
+				if (this.isRange) {
+					template = component.axisRanges.template.axisFill;
+					if (!this.isTemplate && template.disabled) {
+						return;
+					}
+					else {
+						axisFill = template.clone();
+					}
+				}
+				else {
+					template = component.renderer.axisFills.template;
+					if (template.disabled) {
+						return;
+					}
+					else {
+						axisFill = component.renderer.axisFills.create();
+						this._disposers.push(new Disposer(() => {
+							component.renderer.axisFills.removeValue(axisFill);
+						}));
+					}
+				}
+
 				this.axisFill = axisFill;
 				this._disposers.push(axisFill);
-
-				this._disposers.push(new Disposer(() => {
-					component.renderer.axisFills.removeValue(axisFill);
-				}));
 			}
 		}
 		return this._axisFill;
@@ -383,12 +469,11 @@ export class AxisDataItem extends DataItem {
 
 			let component = this.component;
 			if (component) {
-				let mask: AxisFill = component.renderer.axisFills.create();
+				let mask: AxisFill = component.renderer.createFill(this.component);
 				mask.disabled = false;
 				mask.axis = component;
 				this.addSprite(mask);
 				this._mask = mask;
-
 				contents.mask = mask;
 			}
 		}
@@ -547,6 +632,13 @@ export interface IAxisProperties extends IComponentProperties {
 	 * @param {number} value Location (0-1)
 	 */
 	endLocation?: number;
+
+	/**
+	 * Indicates if cusor's tooltip should be shown on this Axis.
+	 *
+	 * @type {boolean}
+	 */
+	cursorTooltipEnabled?: boolean;
 }
 
 /**
@@ -663,13 +755,6 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @type {Chart}
 	 */
 	protected _chart: Chart;
-
-	/**
-	 * Indicates if cusor's tooltip should be shown on this Axis.
-	 *
-	 * @type {boolean}
-	 */
-	protected _cursorTooltipEnabled: boolean;
 
 	/**
 	 * A type for renderer used for this Axis.
@@ -796,7 +881,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 		super();
 		this.className = "Axis";
 		this.shouldClone = false;
-		this.cursorTooltipEnabled = true;
+		this.setPropertyValue("cursorTooltipEnabled", true);
 
 		let interfaceColors = new InterfaceColorSet();
 
@@ -928,10 +1013,21 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 */
 	public appendDataItem(dataItem: this["_dataItem"]) {
 		let renderer: AxisRenderer = this.renderer;
-		dataItem.tick.parent = renderer.gridContainer;
-		dataItem.label.parent = renderer;
-		dataItem.grid.parent = renderer.gridContainer;
-		dataItem.axisFill.parent = renderer.gridContainer;
+		if (dataItem.tick) {
+			dataItem.tick.parent = renderer.gridContainer;
+		}
+
+		if (dataItem.label) {
+			dataItem.label.parent = renderer;
+		}
+
+		if (dataItem.grid) {
+			dataItem.grid.parent = renderer.gridContainer;
+		}
+
+		if (dataItem.axisFill) {
+			dataItem.axisFill.parent = renderer.gridContainer;
+		}
 	}
 
 	/**
@@ -953,10 +1049,18 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 		$iter.each(this.axisRanges.iterator(), (axisRange) => {
 			this.appendDataItem(axisRange);
 			this.validateDataElement(axisRange);
-			axisRange.grid.validate();
-			axisRange.tick.validate();
-			axisRange.axisFill.validate();
-			axisRange.label.validate();
+			if (axisRange.grid) {
+				axisRange.grid.validate();
+			}
+			if (axisRange.tick) {
+				axisRange.tick.validate();
+			}
+			if (axisRange.axisFill) {
+				axisRange.axisFill.validate();
+			}
+			if (axisRange.label) {
+				axisRange.label.validate();
+			}
 		});
 	}
 
@@ -1152,10 +1256,10 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @param {boolean} value Display tooltip?
 	 */
 	public set cursorTooltipEnabled(value: boolean) {
-		this._cursorTooltipEnabled = value;
-
-		if (value && this.renderer) {
-			this.renderer.updateTooltip();
+		if (this.setPropertyValue("cursorTooltipEnabled", value)) {
+			if (value && this.renderer) {
+				this.renderer.updateTooltip();
+			}
 		}
 	}
 
@@ -1163,7 +1267,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @return {boolean} Display tooltip?
 	 */
 	public get cursorTooltipEnabled(): boolean {
-		return this._cursorTooltipEnabled;
+		return this.getPropertyValue("cursorTooltipEnabled");
 	}
 
 	/**
@@ -1336,6 +1440,19 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	public get axisRanges(): ListTemplate<this["_dataItem"]> {
 		if (!this._axisRanges) {
 			let dataItem: AxisDataItem = this.createDataItem();
+			dataItem.isRange = true;
+			dataItem.axisFill = this.renderer.axisFills.template.clone();
+			dataItem.grid = this.renderer.grid.template.clone();
+			dataItem.tick = this.renderer.ticks.template.clone();
+			dataItem.label = this.renderer.labels.template.clone();
+
+			dataItem.isTemplate = true;
+			dataItem.component = this;
+			dataItem.axisFill.disabled = false;
+			dataItem.tick.disabled = false;
+			dataItem.grid.disabled = false;
+			dataItem.label.disabled = false;
+
 			this._axisRanges = new ListTemplate<this["_dataItem"]>(dataItem);
 			this._axisRanges.events.on("inserted", this.processAxisRange, this, false);
 			this._disposers.push(new ListDisposer(this._axisRanges));
@@ -1765,9 +1882,21 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @return {this}            Range data item
 	 */
 	public createSeriesRange(series: XYSeries): this["_dataItem"] {
-		let range = this.createDataItem();
+		let range = this.axisRanges.create();
 		range.component = this;
+		range.axisFill = this.renderer.axisFills.template.clone();
 		range.axisFill.disabled = false;
+		range.axisFill.fillOpacity = 0;
+
+		range.grid = this.renderer.grid.template.clone();
+		range.grid.disabled = true;
+
+		range.tick = this.renderer.ticks.template.clone();
+		range.tick.disabled = true;
+
+		range.label = this.renderer.labels.template.clone();
+		range.label.disabled = true;
+
 		series.axisRanges.push(range);
 		return range;
 	}

@@ -35,14 +35,14 @@ import * as $type from "../../utils/Type";
  */
 export interface FilterProperties {
     /**
-     * Width of the filter in pixels.
+     * Width of the filter in percent.
      *
      * @default 120
      * @type {number}
      */
     width: number;
     /**
-     * Height of the filter in pixels.
+     * Height of the filter in percent.
      *
      * @default 120
      * @type {number}
@@ -163,10 +163,14 @@ export declare class Filter extends BaseObject implements IAnimatable {
      */
     animate(animationOptions: IAnimationOptions[] | IAnimationOptions, duration: number, easing?: (value: number) => number): Animation;
     /**
-     * @return {number} Width (px)
+     * @return {number} Width (%)
      */
     /**
-     * Width of the filter element in pixels.
+     * Width of the filter element in percent.
+     *
+     * If the filter is designed to "bleed out" of the original target element,
+     * like for example a shadow, you need this bigger than 100, or the
+     * non-fitting parts will be clipped.
      *
      * @default 120
      * @param {number} value Width (px)
@@ -176,10 +180,14 @@ export declare class Filter extends BaseObject implements IAnimatable {
      * @return {number} Height
      */
     /**
-     * Height of the filter element in pixels.
+     * Height of the filter element in percent.
+     *
+     * If the filter is designed to "bleed out" of the original target element,
+     * like for example a shadow, you need this bigger than 100, or the
+     * non-fitting parts will be clipped.
      *
      * @default 120
-     * @param {number} value Height (px)
+     * @param {number} value Height (%)
      */
     height: number;
     /**

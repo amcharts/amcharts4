@@ -1115,8 +1115,12 @@ export class XYChart extends SerialChart {
 		let sum = 0;
 		this.series.each((series) => {
 			//if (series.tooltipText || series.tooltipHTML) { // not good, bullets are not hovered then
-			series.tooltip.setBounds({ x: 0, y: 0, width: this.pixelWidth, height: this.pixelHeight });
+			
 			let point = series.showTooltipAtPosition(position.x, position.y);
+			if(point){
+				series.tooltip.setBounds({ x: 0, y: 0, width: this.pixelWidth, height: this.pixelHeight });	
+			}
+
 			if (point && $math.isInRectangle(point, { x: topLeft.x, y: topLeft.y, width: bottomRight.x - topLeft.x, height: bottomRight.y - topLeft.y })) {
 				seriesPoints.push({ point: point, series: series });
 				sum += point.y;
@@ -1156,6 +1160,7 @@ export class XYChart extends SerialChart {
 					let pointY = seriesPoints[i].point.y;
 
 					tooltip.setBounds({ x: 0, y: -maxY, width: this.pixelWidth, height: nextHeight + maxY });
+
 					if (tooltip.invalid) {
 						tooltip.validate();
 					}
@@ -1176,12 +1181,12 @@ export class XYChart extends SerialChart {
 					let series = seriesPoints[i].series;
 					let pointY = seriesPoints[i].point.y;
 					let tooltip = series.tooltip;
-
 					tooltip.setBounds({ x: 0, y: nextY, width: this.pixelWidth, height: bottom });
 
 					if (tooltip.invalid) {
 						tooltip.validate();
 					}
+
 					tooltip.toBack();
 
 					nextY = $utils.spritePointToSvg({ x: 0, y: tooltip.label.pixelY + tooltip.label.measuredHeight - tooltip.pixelY + pointY + tooltip.pixelMarginBottom }, tooltip).y;
@@ -1375,7 +1380,7 @@ export class XYChart extends SerialChart {
 			}
 			this._panEndXRange = newRange;
 
-			this.zoomAxes(this.xAxes, newRange);
+			this.zoomAxes(this.xAxes, newRange, false, false, cursor.maxPanOut);
 		}
 
 		if (this._panStartYRange && (behavior == "panY" || behavior == "panXY")) {
@@ -1401,7 +1406,7 @@ export class XYChart extends SerialChart {
 				end: newEnd
 			}
 			this._panEndYRange = newRange;
-			this.zoomAxes(this.yAxes, newRange);
+			this.zoomAxes(this.yAxes, newRange, false, false, cursor.maxPanOut);
 		}
 
 		this.handleHideCursor();
@@ -1527,7 +1532,7 @@ export class XYChart extends SerialChart {
 	 * @param  {boolean}     instantly  If set to `true` will skip zooming animation
 	 * @return {IRange}                 Recalculated range that is common to all involved axes
 	 */
-	protected zoomAxes(axes: List<Axis<this["_xAxisRendererType"]>>, range: IRange, instantly?: boolean, round?: boolean): IRange {
+	protected zoomAxes(axes: List<Axis<this["_xAxisRendererType"]>>, range: IRange, instantly?: boolean, round?: boolean, declination?:number): IRange {
 		let realRange: IRange = { start: 0, end: 1 };
 
 		this.showSeriesTooltip(); // hides
@@ -1546,7 +1551,7 @@ export class XYChart extends SerialChart {
 					range.end = range.start + diff;
 				}
 
-				let axisRange: IRange = axis.zoom(range, instantly, instantly);
+				let axisRange: IRange = axis.zoom(range, instantly, instantly, declination);
 
 				if (axis.renderer.inversed) {
 					axisRange = $math.invertRange(axisRange);

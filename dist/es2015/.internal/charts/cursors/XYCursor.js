@@ -672,7 +672,7 @@ var XYCursor = /** @class */ (function (_super) {
     XYCursor.prototype.handleSnap = function () {
         var series = this.snapToSeries;
         var y = series.tooltipY;
-        var x = series.tooltipX - this.pixelWidth;
+        var x = series.tooltipX; // - this.pixelWidth;
         if (this.xAxis) {
             if (this.xAxis.renderer.opposite) {
                 y -= this.pixelHeight;
@@ -680,6 +680,7 @@ var XYCursor = /** @class */ (function (_super) {
         }
         this.point = { x: x, y: y };
         this.getPositions();
+        x -= this.pixelWidth;
         if (this.yAxis) {
             if (this.yAxis.renderer.opposite) {
                 x += this.pixelWidth;

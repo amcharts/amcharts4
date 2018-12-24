@@ -27,8 +27,6 @@ dateAxis.periodChangeDateFormats.setKey("second", "[bold]h:mm a");
 dateAxis.periodChangeDateFormats.setKey("minute", "[bold]h:mm a");
 dateAxis.periodChangeDateFormats.setKey("hour", "[bold]h:mm a");
 dateAxis.renderer.inside = true;
-dateAxis.renderer.axisFills.template.disabled = true;
-dateAxis.renderer.ticks.template.disabled = true;
 
 var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 valueAxis.tooltip.disabled = true;
@@ -37,8 +35,6 @@ valueAxis.rangeChangeDuration = 500;
 valueAxis.renderer.inside = true;
 valueAxis.renderer.minLabelPosition = 0.05;
 valueAxis.renderer.maxLabelPosition = 0.95;
-valueAxis.renderer.axisFills.template.disabled = true;
-valueAxis.renderer.ticks.template.disabled = true;
 
 var series = chart.series.push(new am4charts.LineSeries());
 series.dataFields.dateX = "date";

@@ -23,8 +23,6 @@ var LightenFilter = /** @class */ (function (_super) {
     tslib_1.__extends(LightenFilter, _super);
     /**
      * Constructor
-     * * Creates primitve (effect) elements
-     * * Sets default properties
      */
     function LightenFilter() {
         var _this = _super.call(this) || this;

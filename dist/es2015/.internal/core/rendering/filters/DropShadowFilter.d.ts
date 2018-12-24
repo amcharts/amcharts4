@@ -111,8 +111,6 @@ export declare class DropShadowFilter extends Filter {
     feMerge: Group;
     /**
      * Constructor
-     * * Creates primitve (effect) elements
-     * * Sets default properties
      */
     constructor();
     /**

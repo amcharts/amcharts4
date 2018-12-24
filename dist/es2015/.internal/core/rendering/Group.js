@@ -81,6 +81,20 @@ var Group = /** @class */ (function (_super) {
             }
         }
     };
+    /**
+     * Checks if this group already has the child element added
+     *
+     * @param {AMElement}  element
+     * @return {boolean}
+     */
+    Group.prototype.hasChild = function (element) {
+        for (var i = 0; i < this.node.childNodes.length; i++) {
+            if (this.node.childNodes[i] == element.node) {
+                return true;
+            }
+        }
+        return false;
+    };
     Object.defineProperty(Group.prototype, "content", {
         /**
          * @return {string} SVG markup

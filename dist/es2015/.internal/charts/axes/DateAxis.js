@@ -430,7 +430,7 @@ var DateAxis = /** @class */ (function (_super) {
             gridInterval = tslib_1.__assign({}, this.baseInterval);
         }
         this._gridInterval = gridInterval;
-        this._gridDate = $time.round(new Date(this.min), gridInterval.timeUnit);
+        this._gridDate = $time.round(new Date(this.min), gridInterval.timeUnit, gridInterval.count);
         this._nextGridUnit = $time.getNextUnit(gridInterval.timeUnit);
         // the following is needed to avoid grid flickering while scrolling
         this._intervalDuration = $time.getDuration(gridInterval.timeUnit, gridInterval.count);
@@ -762,7 +762,8 @@ var DateAxis = /** @class */ (function (_super) {
             }
             var position = this.valueToPosition(timestamp);
             var endPosition = this.valueToPosition(endTimestamp);
-            if (this._gridInterval.count > 1) {
+            var fillEndPosition = endPosition;
+            if (!dataItem.isRange && this._gridInterval.count > 1) {
                 endPosition = position + (endPosition - position) / this._gridInterval.count;
             }
             dataItem.position = position;
@@ -776,7 +777,7 @@ var DateAxis = /** @class */ (function (_super) {
             }
             var fill = dataItem.axisFill;
             if (fill && !fill.disabled) {
-                renderer.updateFillElement(fill, position, endPosition);
+                renderer.updateFillElement(fill, position, fillEndPosition);
                 if (!dataItem.isRange) {
                     this.fillRule(dataItem);
                 }
@@ -1469,6 +1470,7 @@ var DateAxis = /** @class */ (function (_super) {
                 }
             });
             if (closestDate_1) {
+                closestDate_1 = $time.round(new Date(closestDate_1.getTime()), this.baseInterval.timeUnit, this.baseInterval.count);
                 closestDate_1 = new Date(closestDate_1.getTime() + this.baseDuration / 2);
                 position = this.dateToPosition(closestDate_1);
             }

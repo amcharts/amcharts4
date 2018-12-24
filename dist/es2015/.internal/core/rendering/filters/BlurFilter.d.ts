@@ -93,8 +93,6 @@ export declare class BlurFilter extends Filter {
     feGaussianBlur: AMElement;
     /**
      * Constructor
-     * * Creates primitve (effect) elements
-     * * Sets default properties
      */
     constructor();
     /**

@@ -296,8 +296,6 @@ var FunnelSeries = /** @class */ (function (_super) {
         if (dataItem.value > 0) {
             d = workingValue / dataItem.value;
         }
-        else {
-        }
         if (this.orientation == "vertical") {
             var linkHeight = sliceLink.pixelHeight * d;
             maxHeight = maxHeight + linkHeight; // to avoid one link gap in the bottom

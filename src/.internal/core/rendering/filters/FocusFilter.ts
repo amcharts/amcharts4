@@ -127,8 +127,6 @@ export class FocusFilter extends Filter {
 
 	/**
 	 * Constructor
-	 * * Creates primitve (effect) elements
-	 * * Sets default properties
 	 */
 	constructor() {
 		super();

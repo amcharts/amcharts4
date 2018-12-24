@@ -229,7 +229,7 @@ export class PieSeries3D extends PieSeries {
 	 * @param {PieSeries3DDataItem}  dataItem  Data item
 	 */
 	public validateDataElement(dataItem: PieSeries3DDataItem): void {
-		super.validateDataElement(dataItem);
+		
 		let slice: Slice3D = <Slice3D>dataItem.slice;
 
 		let depth: number = this.depth;
@@ -250,6 +250,8 @@ export class PieSeries3D extends PieSeries {
 		}
 
 		slice.angle = angle;
+
+		super.validateDataElement(dataItem);		
 	}
 
 	/**

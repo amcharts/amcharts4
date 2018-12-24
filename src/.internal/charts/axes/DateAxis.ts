@@ -641,7 +641,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 		this._gridInterval = gridInterval;
 
-		this._gridDate = $time.round(new Date(this.min), gridInterval.timeUnit);
+		this._gridDate = $time.round(new Date(this.min), gridInterval.timeUnit, gridInterval.count);
 		this._nextGridUnit = $time.getNextUnit(gridInterval.timeUnit);
 
 		// the following is needed to avoid grid flickering while scrolling
@@ -1016,12 +1016,11 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 			let position: number = this.valueToPosition(timestamp);
 			let endPosition: number = this.valueToPosition(endTimestamp);
+			let fillEndPosition = endPosition;
 
-			if (this._gridInterval.count > 1) {
+			if (!dataItem.isRange && this._gridInterval.count > 1) {
 				endPosition = position + (endPosition - position) / this._gridInterval.count;
 			}
-
-
 
 			dataItem.position = position;
 
@@ -1037,7 +1036,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 			let fill: AxisFill = dataItem.axisFill;
 			if (fill && !fill.disabled) {
-				renderer.updateFillElement(fill, position, endPosition);
+				renderer.updateFillElement(fill, position, fillEndPosition);
 				if (!dataItem.isRange) {
 					this.fillRule(dataItem);
 				}
@@ -1764,6 +1763,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		}
 		if (this.snapTooltip) {
 			let actualDate = $time.round(this.positionToDate(position), this.baseInterval.timeUnit, 1);
+
 			let actualTime = actualDate.getTime();
 			let closestDate: Date;
 
@@ -1791,6 +1791,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			})
 
 			if (closestDate) {
+				closestDate = $time.round(new Date(closestDate.getTime()), this.baseInterval.timeUnit, this.baseInterval.count);
 				closestDate = new Date(closestDate.getTime() + this.baseDuration / 2);
 				position = this.dateToPosition(closestDate);
 			}

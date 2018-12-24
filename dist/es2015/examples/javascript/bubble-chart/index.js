@@ -21,12 +21,7 @@ am4core.useTheme(am4themes_dark);
 let chart = am4core.create("chartdiv", am4charts.XYChart);
 
 let valueAxisX = chart.xAxes.push(new am4charts.ValueAxis());
-valueAxisX.renderer.ticks.template.disabled = true;
-valueAxisX.renderer.axisFills.template.disabled = true;
-
 let valueAxisY = chart.yAxes.push(new am4charts.ValueAxis());
-valueAxisY.renderer.ticks.template.disabled = true;
-valueAxisY.renderer.axisFills.template.disabled = true;
 
 let series = chart.series.push(new am4charts.LineSeries());
 series.dataFields.valueX = "x";

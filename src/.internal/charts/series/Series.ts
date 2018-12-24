@@ -1209,11 +1209,11 @@ export class Series extends Component {
 			let valueLabel: Label = legendDataItem.valueLabel;
 
 			// update legend
-			if (dataItem) {
+			if (dataItem) {				
 				if (valueLabel) {
 					if (legendSettings.itemValueText) {
 						valueLabel.text = legendSettings.itemValueText;
-					}
+					}					
 					valueLabel.dataItem = dataItem;
 				}
 				if (label) {

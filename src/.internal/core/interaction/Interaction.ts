@@ -395,29 +395,31 @@ export class Interaction extends BaseObjectEvents {
 	public addGlobalEvents(): void {
 		if (!this._globalEventsAdded) {
 
-			this._disposers.push(addEventListener<MouseEvent | PointerEvent>(
-				document,
-				this._pointerEvents.pointerdown,
-				(ev: MouseEvent) => { this.handleGlobalPointerDown(ev) }
-			));
+			if (!this._useTouchEventsOnly) {
+				this._disposers.push(addEventListener<MouseEvent | PointerEvent>(
+					document,
+					this._pointerEvents.pointerdown,
+					(ev: MouseEvent) => { this.handleGlobalPointerDown(ev) }
+				));
 
-			this._disposers.push(addEventListener<MouseEvent | PointerEvent>(
-				document,
-				this._pointerEvents.pointermove,
-				(ev: MouseEvent) => { this.handleGlobalPointerMove(ev) }
-			));
+				this._disposers.push(addEventListener<MouseEvent | PointerEvent>(
+					document,
+					this._pointerEvents.pointermove,
+					(ev: MouseEvent) => { this.handleGlobalPointerMove(ev) }
+				));
 
-			this._disposers.push(addEventListener<MouseEvent | PointerEvent>(
-				document,
-				this._pointerEvents.pointerup,
-				(ev: MouseEvent) => { this.handleGlobalPointerUp(ev) }
-			));
+				this._disposers.push(addEventListener<MouseEvent | PointerEvent>(
+					document,
+					this._pointerEvents.pointerup,
+					(ev: MouseEvent) => { this.handleGlobalPointerUp(ev) }
+				));
 
-			this._disposers.push(addEventListener<MouseEvent | PointerEvent>(
-				document,
-				this._pointerEvents.pointercancel,
-				(ev: MouseEvent) => { this.handleGlobalPointerUp(ev, true) }
-			));
+				this._disposers.push(addEventListener<MouseEvent | PointerEvent>(
+					document,
+					this._pointerEvents.pointercancel,
+					(ev: MouseEvent) => { this.handleGlobalPointerUp(ev, true) }
+				));
+			}
 
 			// No need to duplicate events for hubrid systems that support both
 			// pointer events and touch events. Touch events are need only for
@@ -634,7 +636,7 @@ export class Interaction extends BaseObjectEvents {
 	 * @param {InteractionObject}  io  Element
 	 */
 	public processFocusable(io: InteractionObject): void {
-		if (io.focusable === true && (io.tabindex > -1)) {
+		if (io.focusable === true && (io.tabindex > -1) && !this._useTouchEventsOnly) {
 			if (!io.eventDisposers.hasKey("focusable")) {
 				io.eventDisposers.setKey("focusable", new MultiDisposer([
 					addEventListener<FocusEvent>(io.element, "focus", (e) => this.handleFocus(io, e)),
@@ -1211,8 +1213,8 @@ export class Interaction extends BaseObjectEvents {
 
 		// Calculate deltas
 		if (ev instanceof WheelEvent) {
-			deltaX = Math.round(ev.wheelDeltaX || ev.deltaX) * mod;
-			deltaY = Math.round(ev.wheelDeltaY || ev.deltaY) * mod;
+			deltaX = Math.round((-1 * ev.wheelDeltaX) || ev.deltaX) * mod;
+			deltaY = Math.round((-1 * ev.wheelDeltaY) || ev.deltaY) * mod;
 		} else {
 			throw new Error("Invalid event type");
 		}

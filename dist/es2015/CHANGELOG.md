@@ -5,10 +5,41 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.11] - 2018-12-24
+
+### Added
+- `"disabled"` and `"enabled"` events added to `Sprite`.
+- `cursorTooltipEnabled` added to `XYSeries`  If set to `false` cursor will not trigger bullet/item tooltips on series.
+
+### Changed
+- IMPORTANT (CODE-BREAKING CHANGES) For performance reasons we no longer create axis elements if they are disabled. For the same reasons we disabled by `axis.ticks` and `axis.axisFills` by default. Previously to enable them you had to set their `strokeOpacity` and/or `fillOpacity` to non-zero. This no longer will work. You will need to set `disabled` to `false` instead.
+- `axisRanges` now take their default values from `dateAxis.axisRanges.template` items (`axisFill`, `grid`, `tick`, `label`). Previously they were using the defaults from `dateAxis.renderer.label` etc. This was not comfortable and counter-intuitive.
+
+### Fixed
+- `XYChartScrollbar`'s value axis was calculating `min`/`max` with a very big step.
+- Ember plugin was throwing console errors.
+- Fixed occasional zoom-in issue on Mobile Safari.
+- `MapChart` mouse wheel zoom direction was inverted on some browsers.
+- Cursor was not snapping correctly to `DateAxis` items.
+- Multiple floating columns on the same category were disappearing when scrolling the chart.
+- Date range fills were off when zooming on Gantt Chart.
+- Overlapping tooltips problem solved.
+- When `snapToSeries` was set for a tooltip, it was flickering a lot on slower browsers.
+- `alignLabels = false` on a `PieSeries3D` was causing labels to be positioned incorrectly.
+- `PieSeries.dataFields.radiusValue` was not accounting for `chart.innerRadius`.
+- Dynamically updating `alignLabels` for `PieSeries` did not work correctly.
+- Legend: `itemValueText` only worked if `valueText` was set.
+- `ValueAxis` setting `maxZoomFactor = 1` was not working as expected.
+- Changing values for all data items sometimes was resulting in `ValueAxis` scale going into negative.
+- Some more tooltip and cursor related issues fixed.
+- Axis Fill did not properly fill the whole span when axis was scaled.
+
+
 ## [4.0.10] - 2018-12-20
 
 ### Fixed
 - In some situations, when `geodataSource` had events set, it was producing error.
+- `DateAxis` was not rounding intervals properly, could display grid at `15:01`, `15:31` etc.
 - Cloning an object was cloning sometimes was causing event handlers to be duplicated.
 - A leftover console debug line was removed.
 

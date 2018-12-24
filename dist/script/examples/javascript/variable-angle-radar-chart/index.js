@@ -66,7 +66,6 @@ categoryAxis.dataFields.category = "category";
 categoryAxis.renderer.minGridDistance = 60;
 categoryAxis.renderer.labels.template.location = 0.5;
 categoryAxis.renderer.grid.template.location = 1;
-categoryAxis.renderer.axisFills.template.disabled = true;
 categoryAxis.interactionsEnabled = false;
 
 var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
@@ -74,7 +73,6 @@ valueAxis.tooltip.disabled = true;
 valueAxis.renderer.minGridDistance = 20;
 valueAxis.renderer.grid.template.strokeOpacity = 0.05
 valueAxis.renderer.labels.template.fontSize = 9;
-valueAxis.renderer.axisFills.template.disabled = true;
 valueAxis.interactionsEnabled = false;
 valueAxis.renderer.axisAngle = 260;
 //valueAxis.renderer.gridType = "polygons";

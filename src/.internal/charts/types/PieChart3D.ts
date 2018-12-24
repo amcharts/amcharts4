@@ -248,8 +248,9 @@ export class PieChart3D extends PieChart {
 	 * @param {number}  value  Depth (px)
 	 */
 	public set depth(value: number) {
-		this.setPropertyValue("depth", value);
-		this.invalidateDataUsers();
+		if (this.setPropertyValue("depth", value)) {			
+			this.invalidateDataUsers();
+		}
 	}
 
 	/**
@@ -266,8 +267,9 @@ export class PieChart3D extends PieChart {
 	 * @param {number}  value  Angle (degrees)
 	 */
 	public set angle(value: number) {
-		this.setPropertyValue("angle", value);
-		this.invalidateDataUsers();
+		if (this.setPropertyValue("angle", value)) {
+			this.invalidateDataUsers();
+		}
 	}
 
 	/**
@@ -282,7 +284,7 @@ export class PieChart3D extends PieChart {
 	 *
 	 * @return {PieSeries3D} New series
 	 */
-	protected createSeries():this["_seriesType"]{
+	protected createSeries(): this["_seriesType"] {
 		return new PieSeries3D();
 	}
 

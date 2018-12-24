@@ -17,5 +17,5 @@
  * PLEASE DO NOT REMOVE THIS COPYRIGHT NOTICE.
  * @hidden
  */
-webpackJsonp([11],{609:function(t,e,c){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var n=c(610);window.am4themes_dataviz=n.a},610:function(t,e,c){"use strict";var n=c(611);c.d(e,"a",function(){return n.a})},611:function(t,e,c){"use strict";var n=c(15),s=c(30);e.a=function(t){t instanceof s.a&&(t.list=[Object(n.c)("#283250"),Object(n.c)("#902c2d"),Object(n.c)("#d5433d"),Object(n.c)("#f05440")],t.reuse=!1,t.stepOptions={lightness:.05,hue:0},t.passOptions={})}}},[609]);
+webpackJsonp(["f6f5"],{JjGr:function(e,t,c){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var s=c("8ZqG"),n=c("DHte"),i=function(e){e instanceof n.a&&(e.list=[Object(s.c)("#283250"),Object(s.c)("#902c2d"),Object(s.c)("#d5433d"),Object(s.c)("#f05440")],e.reuse=!1,e.stepOptions={lightness:.05,hue:0},e.passOptions={})};window.am4themes_dataviz=i}},["JjGr"]);
 //# sourceMappingURL=dataviz.js.map

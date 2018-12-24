@@ -285,6 +285,12 @@ export interface IAxisProperties extends IComponentProperties {
      * @param {number} value Location (0-1)
      */
     endLocation?: number;
+    /**
+     * Indicates if cusor's tooltip should be shown on this Axis.
+     *
+     * @type {boolean}
+     */
+    cursorTooltipEnabled?: boolean;
 }
 /**
  * Defines events for [[Axis]].
@@ -384,12 +390,6 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * @type {Chart}
      */
     protected _chart: Chart;
-    /**
-     * Indicates if cusor's tooltip should be shown on this Axis.
-     *
-     * @type {boolean}
-     */
-    protected _cursorTooltipEnabled: boolean;
     /**
      * A type for renderer used for this Axis.
      * @type {T}

@@ -43,7 +43,7 @@ import * as $type from "../../utils/Type";
 export interface FilterProperties {
 
 	/**
-	 * Width of the filter in pixels.
+	 * Width of the filter in percent.
 	 *
 	 * @default 120
 	 * @type {number}
@@ -51,7 +51,7 @@ export interface FilterProperties {
 	width: number;
 
 	/**
-	 * Height of the filter in pixels.
+	 * Height of the filter in percent.
 	 *
 	 * @default 120
 	 * @type {number}
@@ -220,7 +220,11 @@ export class Filter extends BaseObject implements IAnimatable {
 	}
 
 	/**
-	 * Width of the filter element in pixels.
+	 * Width of the filter element in percent.
+	 *
+	 * If the filter is designed to "bleed out" of the original target element,
+	 * like for example a shadow, you need this bigger than 100, or the
+	 * non-fitting parts will be clipped.
 	 *
 	 * @default 120
 	 * @param {number} value Width (px)
@@ -230,17 +234,21 @@ export class Filter extends BaseObject implements IAnimatable {
 	}
 
 	/**
-	 * @return {number} Width (px)
+	 * @return {number} Width (%)
 	 */
 	public get width(): number {
 		return this.properties["width"];
 	}
 
 	/**
-	 * Height of the filter element in pixels.
+	 * Height of the filter element in percent.
+	 *
+	 * If the filter is designed to "bleed out" of the original target element,
+	 * like for example a shadow, you need this bigger than 100, or the
+	 * non-fitting parts will be clipped.
 	 *
 	 * @default 120
-	 * @param {number} value Height (px)
+	 * @param {number} value Height (%)
 	 */
 	public set height(value: number) {
 		this.properties["height"] = value;

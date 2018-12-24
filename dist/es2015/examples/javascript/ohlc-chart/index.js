@@ -11,13 +11,9 @@ chart.paddingRight = 20;
 
 let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
 dateAxis.renderer.grid.template.location = 0;
-dateAxis.renderer.axisFills.template.disabled = true;
-dateAxis.renderer.ticks.template.disabled = true;
 
 let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 valueAxis.tooltip.disabled = true;
-valueAxis.renderer.axisFills.template.disabled = true;
-valueAxis.renderer.ticks.template.disabled = true;
 
 let series = chart.series.push(new am4charts.OHLCSeries());
 series.dataFields.dateX = "date";

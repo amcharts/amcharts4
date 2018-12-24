@@ -423,7 +423,7 @@ export class Slice extends Container {
 	 */
 	public get iy(): number {
 		if (this.radius > 0) {
-			return $math.sin(this.middleAngle) * this.radiusY / this.radius;
+			return $math.sin(this.middleAngle);
 		}
 		else {
 			return $math.sin(this.middleAngle);

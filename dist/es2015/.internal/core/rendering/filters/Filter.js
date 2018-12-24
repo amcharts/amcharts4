@@ -125,13 +125,17 @@ var Filter = /** @class */ (function (_super) {
     };
     Object.defineProperty(Filter.prototype, "width", {
         /**
-         * @return {number} Width (px)
+         * @return {number} Width (%)
          */
         get: function () {
             return this.properties["width"];
         },
         /**
-         * Width of the filter element in pixels.
+         * Width of the filter element in percent.
+         *
+         * If the filter is designed to "bleed out" of the original target element,
+         * like for example a shadow, you need this bigger than 100, or the
+         * non-fitting parts will be clipped.
          *
          * @default 120
          * @param {number} value Width (px)
@@ -150,10 +154,14 @@ var Filter = /** @class */ (function (_super) {
             return this.properties["height"];
         },
         /**
-         * Height of the filter element in pixels.
+         * Height of the filter element in percent.
+         *
+         * If the filter is designed to "bleed out" of the original target element,
+         * like for example a shadow, you need this bigger than 100, or the
+         * non-fitting parts will be clipped.
          *
          * @default 120
-         * @param {number} value Height (px)
+         * @param {number} value Height (%)
          */
         set: function (value) {
             this.properties["height"] = value;

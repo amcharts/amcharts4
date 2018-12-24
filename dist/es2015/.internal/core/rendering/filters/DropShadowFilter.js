@@ -25,8 +25,6 @@ var DropShadowFilter = /** @class */ (function (_super) {
     tslib_1.__extends(DropShadowFilter, _super);
     /**
      * Constructor
-     * * Creates primitve (effect) elements
-     * * Sets default properties
      */
     function DropShadowFilter() {
         var _this = _super.call(this) || this;

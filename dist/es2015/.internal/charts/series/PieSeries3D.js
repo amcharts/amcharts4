@@ -99,7 +99,6 @@ var PieSeries3D = /** @class */ (function (_super) {
      * @param {PieSeries3DDataItem}  dataItem  Data item
      */
     PieSeries3D.prototype.validateDataElement = function (dataItem) {
-        _super.prototype.validateDataElement.call(this, dataItem);
         var slice = dataItem.slice;
         var depth = this.depth;
         if (!$type.isNumber(depth)) {
@@ -115,6 +114,7 @@ var PieSeries3D = /** @class */ (function (_super) {
             angle = this.chart.angle;
         }
         slice.angle = angle;
+        _super.prototype.validateDataElement.call(this, dataItem);
     };
     /**
      * (Re)validates the whole series, effectively causing it to redraw.

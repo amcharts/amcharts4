@@ -46,8 +46,6 @@ chart.data = data;
 
 var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
 categoryAxis.renderer.grid.template.location = 0;
-categoryAxis.renderer.ticks.template.disabled = true;
-categoryAxis.renderer.axisFills.template.disabled = true;
 categoryAxis.dataFields.category = "category";
 categoryAxis.renderer.minGridDistance = 15;
 categoryAxis.renderer.grid.template.location = 0.5;
@@ -59,8 +57,6 @@ categoryAxis.renderer.inside = true;
 
 var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 valueAxis.tooltip.disabled = true;
-valueAxis.renderer.ticks.template.disabled = true;
-valueAxis.renderer.axisFills.template.disabled = true;
 
 var series = chart.series.push(new am4charts.ColumnSeries());
 series.dataFields.categoryX = "category";

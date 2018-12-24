@@ -487,7 +487,7 @@ export class PieSeries extends PercentSeries {
 			slice.radius = this.pixelRadius;
 
 			if ($type.isNumber(dataItem.radiusValue)) {
-				slice.radius *= dataItem.values.radiusValue.percent / this._maxRadiusPercent;
+				slice.radius = this.pixelInnerRadius + (this.pixelRadius - this.pixelInnerRadius) * dataItem.values.radiusValue.percent / this._maxRadiusPercent;
 			}
 			if (!(slice.innerRadius instanceof Percent)) {
 				slice.innerRadius = this.pixelInnerRadius;
@@ -510,7 +510,8 @@ export class PieSeries extends PercentSeries {
 			if (this.alignLabels) {
 				let labelRadius = label.pixelRadius(slice.radius);
 				let x: number = tick.length + labelRadius;
-
+				label.dx = 0;
+				label.dy = 0;
 				label.verticalCenter = "middle";
 				let arcRect = this._arcRect;
 				// right half
@@ -531,9 +532,12 @@ export class PieSeries extends PercentSeries {
 				point = { x: x, y: slice.iy * distance };
 			}
 			else {
+				label.horizontalCenter = undefined;
+				label.verticalCenter = undefined;
 				let x: number = slice.ix * slice.radius;
 				let y: number = slice.iy * slice.radiusY;
-				point = label.fixPoint({ x: x, y: y }, slice.radius);
+
+				point = label.fixPoint({ x: x, y: y }, slice.radius, slice.radiusY);
 			}
 
 			label.moveTo(point);

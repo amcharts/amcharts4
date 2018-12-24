@@ -65,8 +65,6 @@ export declare class ColorizeFilter extends Filter {
     feColorMatrix: AMElement;
     /**
      * Constructor
-     * * Creates primitve (effect) elements
-     * * Sets default properties
      */
     constructor();
     /**

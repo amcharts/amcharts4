@@ -1530,8 +1530,8 @@ var Sprite = /** @class */ (function (_super) {
             var pixelPaddingTop = this.pixelPaddingTop;
             var pixelPaddingBottom = this.pixelPaddingBottom;
             // add padding to the measured size
-            var measuredWidth = $math.max(bbox.width + pixelPaddingLeft + pixelPaddingRight, this.pixelWidth);
-            var measuredHeight = $math.max(bbox.height + pixelPaddingTop + pixelPaddingBottom, this.pixelHeight);
+            var measuredWidth = $math.max(elementWidth + pixelPaddingLeft + pixelPaddingRight, this.pixelWidth);
+            var measuredHeight = $math.max(elementHeigth + pixelPaddingTop + pixelPaddingBottom, this.pixelHeight);
             // extremes
             var left = bbox.x;
             var right = bbox.x + measuredWidth;
@@ -2523,8 +2523,15 @@ var Sprite = /** @class */ (function (_super) {
                 this.parent = this.parent;
                 this.removeFromInvalids();
                 this.group.attr({ "display": "none" });
+                this.dispatch("disabled");
             }
             else {
+                if (this.parent) {
+                    var group = this.parent.element;
+                    if (!group.hasChild(this.group)) {
+                        group.add(this.group);
+                    }
+                }
                 if (this instanceof Container) {
                     this.deepInvalidate();
                 }
@@ -2534,6 +2541,7 @@ var Sprite = /** @class */ (function (_super) {
                 if (!this.__disabled) {
                     this.removeSVGAttribute("display");
                 }
+                this.dispatch("enabled");
             }
             this.dispatch("transformed");
             system.requestFrame();

@@ -309,10 +309,12 @@ export class XYChartScrollbar extends Scrollbar {
 				if (this.orientation == "vertical") {
 					renderer.grid.template.disabled = true;
 					renderer.labels.template.disabled = true;
+					renderer.minGridDistance = 10;
 				}
 				else{				
 					renderer.grid.template.disabled = false;
 					renderer.labels.template.disabled = false;
+					renderer.minGridDistance = xAxis.clonedFrom.renderer.minGridDistance;
 				}
 			});
 
@@ -322,10 +324,12 @@ export class XYChartScrollbar extends Scrollbar {
 				if (this.orientation == "horizontal") {
 					renderer.grid.template.disabled = true;
 					renderer.labels.template.disabled = true;
+					renderer.minGridDistance = 10;
 				}
 				else{
 					renderer.grid.template.disabled = false;
 					renderer.labels.template.disabled = false;					
+					renderer.minGridDistance = yAxis.clonedFrom.renderer.minGridDistance;
 				}
 			});
 		}

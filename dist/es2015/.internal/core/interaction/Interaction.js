@@ -286,10 +286,12 @@ var Interaction = /** @class */ (function (_super) {
     Interaction.prototype.addGlobalEvents = function () {
         var _this = this;
         if (!this._globalEventsAdded) {
-            this._disposers.push(addEventListener(document, this._pointerEvents.pointerdown, function (ev) { _this.handleGlobalPointerDown(ev); }));
-            this._disposers.push(addEventListener(document, this._pointerEvents.pointermove, function (ev) { _this.handleGlobalPointerMove(ev); }));
-            this._disposers.push(addEventListener(document, this._pointerEvents.pointerup, function (ev) { _this.handleGlobalPointerUp(ev); }));
-            this._disposers.push(addEventListener(document, this._pointerEvents.pointercancel, function (ev) { _this.handleGlobalPointerUp(ev, true); }));
+            if (!this._useTouchEventsOnly) {
+                this._disposers.push(addEventListener(document, this._pointerEvents.pointerdown, function (ev) { _this.handleGlobalPointerDown(ev); }));
+                this._disposers.push(addEventListener(document, this._pointerEvents.pointermove, function (ev) { _this.handleGlobalPointerMove(ev); }));
+                this._disposers.push(addEventListener(document, this._pointerEvents.pointerup, function (ev) { _this.handleGlobalPointerUp(ev); }));
+                this._disposers.push(addEventListener(document, this._pointerEvents.pointercancel, function (ev) { _this.handleGlobalPointerUp(ev, true); }));
+            }
             // No need to duplicate events for hubrid systems that support both
             // pointer events and touch events. Touch events are need only for
             // some touch-only systems, like Mobile Safari.
@@ -461,7 +463,7 @@ var Interaction = /** @class */ (function (_super) {
      */
     Interaction.prototype.processFocusable = function (io) {
         var _this = this;
-        if (io.focusable === true && (io.tabindex > -1)) {
+        if (io.focusable === true && (io.tabindex > -1) && !this._useTouchEventsOnly) {
             if (!io.eventDisposers.hasKey("focusable")) {
                 io.eventDisposers.setKey("focusable", new MultiDisposer([
                     addEventListener(io.element, "focus", function (e) { return _this.handleFocus(io, e); }),
@@ -926,8 +928,8 @@ var Interaction = /** @class */ (function (_super) {
         }
         // Calculate deltas
         if (ev instanceof WheelEvent) {
-            deltaX = Math.round(ev.wheelDeltaX || ev.deltaX) * mod;
-            deltaY = Math.round(ev.wheelDeltaY || ev.deltaY) * mod;
+            deltaX = Math.round((-1 * ev.wheelDeltaX) || ev.deltaX) * mod;
+            deltaY = Math.round((-1 * ev.wheelDeltaY) || ev.deltaY) * mod;
         }
         else {
             throw new Error("Invalid event type");

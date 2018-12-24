@@ -30,6 +30,7 @@ var AxisTick = /** @class */ (function (_super) {
         _this.location = 0.5;
         _this.isMeasured = false;
         _this.pixelPerfect = true;
+        _this.strokeOpacity = 0;
         _this.length = 5;
         _this.applyTheme();
         return _this;

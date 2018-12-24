@@ -2305,8 +2305,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			let pixelPaddingBottom = this.pixelPaddingBottom;
 
 			// add padding to the measured size
-			let measuredWidth = $math.max(bbox.width + pixelPaddingLeft + pixelPaddingRight, this.pixelWidth);
-			let measuredHeight = $math.max(bbox.height + pixelPaddingTop + pixelPaddingBottom, this.pixelHeight);
+			let measuredWidth = $math.max(elementWidth + pixelPaddingLeft + pixelPaddingRight, this.pixelWidth);
+			let measuredHeight = $math.max(elementHeigth + pixelPaddingTop + pixelPaddingBottom, this.pixelHeight);
 
 			// extremes
 			let left = bbox.x;
@@ -3389,8 +3389,16 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				this.parent = this.parent;
 				this.removeFromInvalids();
 				this.group.attr({ "display": "none" });
+				this.dispatch("disabled");
 			}
 			else {
+				if (this.parent) {
+					let group = <Group>this.parent.element;
+					if (!group.hasChild(this.group)) {
+						group.add(this.group);
+					}
+				}
+
 				if (this instanceof Container) {
 					this.deepInvalidate();
 				}
@@ -3400,6 +3408,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				if (!this.__disabled) {
 					this.removeSVGAttribute("display");
 				}
+				this.dispatch("enabled");
 			}
 
 			this.dispatch("transformed");
@@ -4048,6 +4057,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			this.properties[property] = value;
 
 			if (this.events.isEnabled("propertychanged")) {
+
 				const event: AMEvent<this, ISpriteEvents>["propertychanged"] = {
 					type: "propertychanged",
 					target: this,

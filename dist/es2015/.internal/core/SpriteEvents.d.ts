@@ -292,4 +292,12 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
      * Invoked just before Sprite is disposed.
      */
     beforedisposed: {};
+    /**
+     * Invoked when sprite is disabled
+     */
+    disabled: {};
+    /**
+     * Invoked when sprite is enabled
+     */
+    enabled: {};
 }

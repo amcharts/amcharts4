@@ -126,7 +126,7 @@ var Container = /** @class */ (function (_super) {
         catch (err) {
             // void
         }
-        if (this.element) {
+        if (this.element && !child.disabled) {
             var group = this.element;
             group.add(child.group);
         }

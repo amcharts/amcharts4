@@ -23,8 +23,6 @@ var DesaturateFilter = /** @class */ (function (_super) {
     tslib_1.__extends(DesaturateFilter, _super);
     /**
      * Constructor
-     * * Creates primitve (effect) elements
-     * * Sets default properties
      */
     function DesaturateFilter() {
         var _this = _super.call(this) || this;

@@ -343,6 +343,10 @@ export interface IXYSeriesProperties extends ISeriesProperties {
      * @type {boolean}
      */
     snapTooltip?: boolean;
+    /**
+     * Indicates if series should display a tooltip for chart's cursor.
+     */
+    cursorTooltipEnabled?: boolean;
 }
 /**
  * Defines events for [[XYSeries]].
@@ -875,4 +879,22 @@ export declare class XYSeries extends Series {
      * Updates item reader text based on the type and set up of axis.
      */
     protected updateItemReaderText(): void;
+    /**
+     * @return {boolean} Display tooltip?
+     */
+    /**
+     * Indicates if series should display a tooltip for chart's cursor.
+     *
+     * If set to `true` (default), the tooltips set for all series item's
+     * elements like columns and bullets will be automatically shown
+     * when [[XYCursor]] passes over category/date, even if its not hovered
+     * directly over the item.
+     *
+     * Set this to `false` to disable such behavior and display item-specific
+     * tooltips only when hovered directly over them
+     *
+     * @default true
+     * @param {boolean} value Display tooltip?
+     */
+    cursorTooltipEnabled: boolean;
 }

@@ -408,7 +408,7 @@ export class Container extends Sprite {
 			// void
 		}
 
-		if (this.element) {
+		if (this.element && !child.disabled) {
 			let group = <Group>this.element;
 			group.add(child.group);
 		}

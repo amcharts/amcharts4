@@ -553,6 +553,11 @@ export interface IXYSeriesProperties extends ISeriesProperties {
 	 * @type {boolean}
 	 */
 	snapTooltip?: boolean;
+
+	/**
+	 * Indicates if series should display a tooltip for chart's cursor.
+	 */
+	cursorTooltipEnabled?: boolean;
 }
 
 /**
@@ -756,6 +761,8 @@ export class XYSeries extends Series {
 		super();
 		this.className = "XYSeries";
 		this.isMeasured = false;
+
+		this.cursorTooltipEnabled = true;
 
 		this.mainContainer.mask = new Sprite();
 		this.mainContainer.mask.setElement(this.paper.add("path"));
@@ -1341,68 +1348,70 @@ export class XYSeries extends Series {
 	 * @param {number}  yPosition  Y
 	 */
 	public showTooltipAtPosition(xPosition: number, yPosition: number): IPoint {
-		let dataItem: this["_dataItem"];
+		if (this.cursorTooltipEnabled) {
+			let dataItem: this["_dataItem"];
 
-		if (this.visible && !this.isHiding) {
+			if (this.visible && !this.isHiding && !this.isShowing) {
 
-			let xAxis: Axis = this._xAxis.get();
-			let yAxis: Axis = this._yAxis.get();
+				let xAxis: Axis = this._xAxis.get();
+				let yAxis: Axis = this._yAxis.get();
 
-			if (xAxis == this.baseAxis) {
-				dataItem = <this["_dataItem"]>xAxis.getSeriesDataItem(this, xAxis.toAxisPosition(xPosition), this.snapTooltip);
-			}
-			if (yAxis == this.baseAxis) {
-				dataItem = <this["_dataItem"]>yAxis.getSeriesDataItem(this, yAxis.toAxisPosition(yPosition), this.snapTooltip);
-			}
+				if (xAxis == this.baseAxis) {
+					dataItem = <this["_dataItem"]>xAxis.getSeriesDataItem(this, xAxis.toAxisPosition(xPosition), this.snapTooltip);
+				}
+				if (yAxis == this.baseAxis) {
+					dataItem = <this["_dataItem"]>yAxis.getSeriesDataItem(this, yAxis.toAxisPosition(yPosition), this.snapTooltip);
+				}
 
-			this.returnBulletDefaultState(dataItem);
+				this.returnBulletDefaultState(dataItem);
 
-			if (dataItem && dataItem.visible) {
-				this.updateLegendValue(dataItem);
-				this.tooltipDataItem = dataItem;
+				if (dataItem && dataItem.visible) {
+					this.updateLegendValue(dataItem);
+					this.tooltipDataItem = dataItem;
 
-				// todo: add tooltipXField and tooltipYField.
-				let tooltipXField = this.tooltipXField;
-				let tooltipYField = this.tooltipYField;
+					// todo: add tooltipXField and tooltipYField.
+					let tooltipXField = this.tooltipXField;
+					let tooltipYField = this.tooltipYField;
 
-				if ($type.hasValue((<any>dataItem)[tooltipXField]) && $type.hasValue((<any>dataItem)[tooltipYField])) {
+					if ($type.hasValue((<any>dataItem)[tooltipXField]) && $type.hasValue((<any>dataItem)[tooltipYField])) {
 
-					let tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, dataItem.locations[tooltipXField], dataItem.locations[tooltipYField]);
+						let tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, dataItem.locations[tooltipXField], dataItem.locations[tooltipYField]);
 
-					if (tooltipPoint) {
+						if (tooltipPoint) {
 
-						this.tooltipX = tooltipPoint.x;
-						this.tooltipY = tooltipPoint.y;
+							this.tooltipX = tooltipPoint.x;
+							this.tooltipY = tooltipPoint.y;
 
-						if (this._prevTooltipDataItem != dataItem) {
-							this.dispatchImmediately("tooltipshownat", {
-								type: "tooltipshownat",
-								target: this,
-								dataItem: dataItem
-							});
+							if (this._prevTooltipDataItem != dataItem) {
+								this.dispatchImmediately("tooltipshownat", {
+									type: "tooltipshownat",
+									target: this,
+									dataItem: dataItem
+								});
 
-							this._prevTooltipDataItem = dataItem;
+								this._prevTooltipDataItem = dataItem;
+							}
+
+							for (let a of dataItem.bullets) {
+								let bullet = a[1]
+								bullet.isHover = true;
+							}
+
+							if (this.showTooltip()) {
+								return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
+							}
+							return;
 						}
-
-						for (let a of dataItem.bullets) {
-							let bullet = a[1]
-							bullet.isHover = true;
-						}
-
-						if (this.showTooltip()) {
-							return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
-						}
-						return;
 					}
 				}
+				// so that if tooltip is shown on columns or bullets for it not to be hidden
+				if (!this.tooltipText) {
+					return;
+				}
 			}
-			// so that if tooltip is shown on columns or bullets for it not to be hidden
-			if (!this.tooltipText) {
-				return;
-			}
-		}
 
-		this.hideTooltip();
+			this.hideTooltip();
+		}
 	}
 
 	/**
@@ -1668,7 +1677,7 @@ export class XYSeries extends Series {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	public handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?:string): void {
+	public handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?: string): void {
 		super.handleDataItemWorkingValueChange(dataItem, name);
 
 		// to calculate stack values
@@ -1970,6 +1979,31 @@ export class XYSeries extends Series {
 			text += "{" + key + "} ";
 		});
 		this.itemReaderText = text;
+	}
+
+	/**
+	 * Indicates if series should display a tooltip for chart's cursor.
+	 *
+	 * If set to `true` (default), the tooltips set for all series item's
+	 * elements like columns and bullets will be automatically shown
+	 * when [[XYCursor]] passes over category/date, even if its not hovered
+	 * directly over the item.
+	 *
+	 * Set this to `false` to disable such behavior and display item-specific
+	 * tooltips only when hovered directly over them
+	 *
+	 * @default true
+	 * @param {boolean} value Display tooltip?
+	 */
+	public set cursorTooltipEnabled(value: boolean) {
+		this.setPropertyValue("cursorTooltipEnabled", value);
+	}
+
+	/**
+	 * @return {boolean} Display tooltip?
+	 */
+	public get cursorTooltipEnabled(): boolean {
+		return this.getPropertyValue("cursorTooltipEnabled");
 	}
 
 }

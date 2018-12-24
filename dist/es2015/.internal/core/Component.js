@@ -224,6 +224,7 @@ var Component = /** @class */ (function (_super) {
         _this._disposers.push(new MultiDisposer(_this._dataDisposers));
         _this._start = 0;
         _this._end = 1;
+        _this.maxZoomDeclination = 1;
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -1005,13 +1006,16 @@ var Component = /** @class */ (function (_super) {
      * @param  {boolean} instantly      Do not animate?
      * @return {IRange}                 Actual modidied range (taking `maxZoomFactor` into account)
      */
-    Component.prototype.zoom = function (range, skipRangeEvent, instantly) {
+    Component.prototype.zoom = function (range, skipRangeEvent, instantly, declination) {
         var _this = this;
         if (skipRangeEvent === void 0) { skipRangeEvent = false; }
         if (instantly === void 0) { instantly = false; }
         var start = range.start;
         var end = range.end;
         var priority = range.priority;
+        if (!$type.isNumber(declination)) {
+            declination = this.maxZoomDeclination;
+        }
         if (!$type.isNumber(start) || !$type.isNumber(end)) {
             return { start: this.start, end: this.end };
         }
@@ -1039,6 +1043,18 @@ var Component = /** @class */ (function (_super) {
                     //start = 0;
                     end = start + 1 / maxZoomFactor;
                 }
+            }
+            if (start < -declination) {
+                start = -declination;
+            }
+            if (1 / (end - start) > maxZoomFactor) {
+                end = start + 1 / maxZoomFactor;
+            }
+            if (end > 1 + declination) {
+                end = 1 + declination;
+            }
+            if (1 / (end - start) > maxZoomFactor) {
+                start = end - 1 / maxZoomFactor;
             }
             this._finalEnd = end;
             this._finalStart = start;
@@ -1127,6 +1143,32 @@ var Component = /** @class */ (function (_super) {
          */
         set: function (value) {
             if (this.setPropertyValue("maxZoomFactor", value)) {
+                if (value == 1) {
+                    this.maxZoomDeclination = 0;
+                }
+                this.invalidateDataRange();
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Component.prototype, "maxZoomDeclination", {
+        /**
+         * @ignore
+         * @return {number} Maximum zoom declination
+         */
+        get: function () {
+            return this.getPropertyValue("maxZoomDeclination");
+        },
+        /**
+         * Max zoom declination.
+         *
+         * @ignore
+         * @default 1
+         * @param {number}  value  Maximum zoom declination
+         */
+        set: function (value) {
+            if (this.setPropertyValue("maxZoomDeclination", value)) {
                 this.invalidateDataRange();
             }
         },

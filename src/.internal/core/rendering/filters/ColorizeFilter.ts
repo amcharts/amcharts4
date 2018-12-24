@@ -81,8 +81,6 @@ export class ColorizeFilter extends Filter {
 
 	/**
 	 * Constructor
-	 * * Creates primitve (effect) elements
-	 * * Sets default properties
 	 */
 	constructor() {
 		super();

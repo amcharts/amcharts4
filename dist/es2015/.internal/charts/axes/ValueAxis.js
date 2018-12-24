@@ -375,11 +375,11 @@ var ValueAxis = /** @class */ (function (_super) {
                     if (dataItem.value != value_1) {
                         dataItem.value = value_1;
                         dataItem.text = this.formatLabel(value_1);
-                        if (dataItem.label.invalid) {
+                        if (dataItem.label && dataItem.label.invalid) {
                             dataItem.label.validate();
                         }
                         if (dataItem.value > this.min && dataItem.value < this.max) {
-                            if (dataItem.label.measuredWidth > this.ghostLabel.measuredWidth || dataItem.label.measuredHeight > this.ghostLabel.measuredHeight) {
+                            if (dataItem.label && (dataItem.label.measuredWidth > this.ghostLabel.measuredWidth || dataItem.label.measuredHeight > this.ghostLabel.measuredHeight)) {
                                 this.ghostLabel.text = dataItem.label.text;
                             }
                         }
@@ -417,7 +417,7 @@ var ValueAxis = /** @class */ (function (_super) {
                                 if (dataItem.value != breakValue_1) {
                                     dataItem.value = breakValue_1;
                                     dataItem.text = _this.formatLabel(breakValue_1);
-                                    if (dataItem.label.invalid) {
+                                    if (dataItem.label && dataItem.label.invalid) {
                                         dataItem.label.validate();
                                     }
                                 }
@@ -613,7 +613,7 @@ var ValueAxis = /** @class */ (function (_super) {
                 else {
                     position = (Math.log(value) * Math.LOG10E - Math.log(this.min) * Math.LOG10E) / ((Math.log(this.max) * Math.LOG10E - Math.log(this.min) * Math.LOG10E));
                 }
-                position = $math.round(position, 5);
+                //position = $math.round(position, 10);
                 return position;
             }
         }
@@ -1223,7 +1223,7 @@ var ValueAxis = /** @class */ (function (_super) {
             start = 0;
             end = 1;
         }
-        this.zoom({ start: start, end: end }, false);
+        this.zoom({ start: start, end: end }, false, false, 0);
     };
     Object.defineProperty(ValueAxis.prototype, "strictMinMax", {
         /**

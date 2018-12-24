@@ -389,6 +389,7 @@ var XYSeries = /** @class */ (function (_super) {
         _this._yValueFields = [];
         _this.className = "XYSeries";
         _this.isMeasured = false;
+        _this.cursorTooltipEnabled = true;
         _this.mainContainer.mask = new Sprite();
         _this.mainContainer.mask.setElement(_this.paper.add("path"));
         _this.stacked = false;
@@ -885,63 +886,65 @@ var XYSeries = /** @class */ (function (_super) {
      * @param {number}  yPosition  Y
      */
     XYSeries.prototype.showTooltipAtPosition = function (xPosition, yPosition) {
-        var dataItem;
-        if (this.visible && !this.isHiding) {
-            var xAxis = this._xAxis.get();
-            var yAxis = this._yAxis.get();
-            if (xAxis == this.baseAxis) {
-                dataItem = xAxis.getSeriesDataItem(this, xAxis.toAxisPosition(xPosition), this.snapTooltip);
-            }
-            if (yAxis == this.baseAxis) {
-                dataItem = yAxis.getSeriesDataItem(this, yAxis.toAxisPosition(yPosition), this.snapTooltip);
-            }
-            this.returnBulletDefaultState(dataItem);
-            if (dataItem && dataItem.visible) {
-                this.updateLegendValue(dataItem);
-                this.tooltipDataItem = dataItem;
-                // todo: add tooltipXField and tooltipYField.
-                var tooltipXField = this.tooltipXField;
-                var tooltipYField = this.tooltipYField;
-                if ($type.hasValue(dataItem[tooltipXField]) && $type.hasValue(dataItem[tooltipYField])) {
-                    var tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, dataItem.locations[tooltipXField], dataItem.locations[tooltipYField]);
-                    if (tooltipPoint) {
-                        this.tooltipX = tooltipPoint.x;
-                        this.tooltipY = tooltipPoint.y;
-                        if (this._prevTooltipDataItem != dataItem) {
-                            this.dispatchImmediately("tooltipshownat", {
-                                type: "tooltipshownat",
-                                target: this,
-                                dataItem: dataItem
-                            });
-                            this._prevTooltipDataItem = dataItem;
-                        }
-                        try {
-                            for (var _a = tslib_1.__values(dataItem.bullets), _b = _a.next(); !_b.done; _b = _a.next()) {
-                                var a = _b.value;
-                                var bullet = a[1];
-                                bullet.isHover = true;
+        if (this.cursorTooltipEnabled) {
+            var dataItem = void 0;
+            if (this.visible && !this.isHiding && !this.isShowing) {
+                var xAxis = this._xAxis.get();
+                var yAxis = this._yAxis.get();
+                if (xAxis == this.baseAxis) {
+                    dataItem = xAxis.getSeriesDataItem(this, xAxis.toAxisPosition(xPosition), this.snapTooltip);
+                }
+                if (yAxis == this.baseAxis) {
+                    dataItem = yAxis.getSeriesDataItem(this, yAxis.toAxisPosition(yPosition), this.snapTooltip);
+                }
+                this.returnBulletDefaultState(dataItem);
+                if (dataItem && dataItem.visible) {
+                    this.updateLegendValue(dataItem);
+                    this.tooltipDataItem = dataItem;
+                    // todo: add tooltipXField and tooltipYField.
+                    var tooltipXField = this.tooltipXField;
+                    var tooltipYField = this.tooltipYField;
+                    if ($type.hasValue(dataItem[tooltipXField]) && $type.hasValue(dataItem[tooltipYField])) {
+                        var tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, dataItem.locations[tooltipXField], dataItem.locations[tooltipYField]);
+                        if (tooltipPoint) {
+                            this.tooltipX = tooltipPoint.x;
+                            this.tooltipY = tooltipPoint.y;
+                            if (this._prevTooltipDataItem != dataItem) {
+                                this.dispatchImmediately("tooltipshownat", {
+                                    type: "tooltipshownat",
+                                    target: this,
+                                    dataItem: dataItem
+                                });
+                                this._prevTooltipDataItem = dataItem;
                             }
-                        }
-                        catch (e_1_1) { e_1 = { error: e_1_1 }; }
-                        finally {
                             try {
-                                if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                                for (var _a = tslib_1.__values(dataItem.bullets), _b = _a.next(); !_b.done; _b = _a.next()) {
+                                    var a = _b.value;
+                                    var bullet = a[1];
+                                    bullet.isHover = true;
+                                }
                             }
-                            finally { if (e_1) throw e_1.error; }
+                            catch (e_1_1) { e_1 = { error: e_1_1 }; }
+                            finally {
+                                try {
+                                    if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                                }
+                                finally { if (e_1) throw e_1.error; }
+                            }
+                            if (this.showTooltip()) {
+                                return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
+                            }
+                            return;
                         }
-                        if (this.showTooltip()) {
-                            return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
-                        }
-                        return;
                     }
                 }
+                // so that if tooltip is shown on columns or bullets for it not to be hidden
+                if (!this.tooltipText) {
+                    return;
+                }
             }
-            // so that if tooltip is shown on columns or bullets for it not to be hidden
-            if (!this.tooltipText) {
-                return;
-            }
+            this.hideTooltip();
         }
-        this.hideTooltip();
         var e_1, _c;
     };
     /**
@@ -1476,6 +1479,33 @@ var XYSeries = /** @class */ (function (_super) {
         });
         this.itemReaderText = text;
     };
+    Object.defineProperty(XYSeries.prototype, "cursorTooltipEnabled", {
+        /**
+         * @return {boolean} Display tooltip?
+         */
+        get: function () {
+            return this.getPropertyValue("cursorTooltipEnabled");
+        },
+        /**
+         * Indicates if series should display a tooltip for chart's cursor.
+         *
+         * If set to `true` (default), the tooltips set for all series item's
+         * elements like columns and bullets will be automatically shown
+         * when [[XYCursor]] passes over category/date, even if its not hovered
+         * directly over the item.
+         *
+         * Set this to `false` to disable such behavior and display item-specific
+         * tooltips only when hovered directly over them
+         *
+         * @default true
+         * @param {boolean} value Display tooltip?
+         */
+        set: function (value) {
+            this.setPropertyValue("cursorTooltipEnabled", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
     return XYSeries;
 }(Series));
 export { XYSeries };

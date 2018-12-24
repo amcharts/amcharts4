@@ -522,10 +522,7 @@ export class FunnelSeries extends PercentSeries {
 
 		let d = 1;
 		if (dataItem.value > 0) {
-			d = workingValue / dataItem.value;			
-		}
-		else{
-
+			d = workingValue / dataItem.value;
 		}
 
 		if (this.orientation == "vertical") {
