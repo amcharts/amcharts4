@@ -89,9 +89,8 @@ var Interaction = /** @class */ (function (_super) {
          */
         _this._usePointerEventsOnly = false;
         /**
-         * [_useTouchEventsOnly description]
+         * Use only touch events (for touch only devices such as tablets and phones)
          *
-         * @todo Description
          * @type {boolean}
          */
         _this._useTouchEventsOnly = false;
@@ -222,7 +221,7 @@ var Interaction = /** @class */ (function (_super) {
             // uses defaults for normal browsers
         }
         // Detect if device has a mouse
-        if (!matchMedia('(pointer:fine)').matches) {
+        if (!window.navigator.msPointerEnabled && !matchMedia('(pointer:fine)').matches) {
             _this._useTouchEventsOnly = true;
         }
         // Detect proper mouse wheel events

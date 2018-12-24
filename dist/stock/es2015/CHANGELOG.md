@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.12] - 2018-12-24
+
+### Fixed
+- Cursor/mouse operations were somewhat broken in IE11 and lower.
+
+
 ## [4.0.11] - 2018-12-24
 
 ### Added

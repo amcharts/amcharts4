@@ -128,9 +128,8 @@ export declare class Interaction extends BaseObjectEvents {
      */
     protected _usePointerEventsOnly: boolean;
     /**
-     * [_useTouchEventsOnly description]
+     * Use only touch events (for touch only devices such as tablets and phones)
      *
-     * @todo Description
      * @type {boolean}
      */
     protected _useTouchEventsOnly: boolean;
