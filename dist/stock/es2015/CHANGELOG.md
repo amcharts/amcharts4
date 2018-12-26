@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.13] - 2018-12-26
+
+### Fixed
+- Charts were broken in IE9.
+
+
 ## [4.0.12] - 2018-12-24
 
 ### Fixed

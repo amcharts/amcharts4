@@ -221,7 +221,7 @@ var Interaction = /** @class */ (function (_super) {
             // uses defaults for normal browsers
         }
         // Detect if device has a mouse
-        if (!window.navigator.msPointerEnabled && !matchMedia('(pointer:fine)').matches) {
+        if (!window.navigator.msPointerEnabled && (typeof matchMedia !== "undefined") && !matchMedia('(pointer:fine)').matches) {
             _this._useTouchEventsOnly = true;
         }
         // Detect proper mouse wheel events

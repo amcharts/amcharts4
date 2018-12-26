@@ -3,8 +3,8 @@
   "name": "amcharts4-example-map-line-gauge-mix",
   "version": "0.1.0",
   "devDependencies": {
-    "@amcharts/amcharts4": "^4.0.12",
-    "@amcharts/amcharts4-geodata": "^4.0.24",
+    "@amcharts/amcharts4": "^4.0.13",
+    "@amcharts/amcharts4-geodata": "^4.0.25",
     "webpack": "^4.23.1",
     "webpack-cli": "^3.1.2",
     "source-map-loader": "^0.2.4",

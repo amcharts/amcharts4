@@ -324,7 +324,7 @@ export class Interaction extends BaseObjectEvents {
 		}
 
 		// Detect if device has a mouse
-		if (!window.navigator.msPointerEnabled && !matchMedia('(pointer:fine)').matches) {
+		if (!window.navigator.msPointerEnabled && (typeof matchMedia !== "undefined") && !matchMedia('(pointer:fine)').matches) {
 			this._useTouchEventsOnly = true;
 		}
 
