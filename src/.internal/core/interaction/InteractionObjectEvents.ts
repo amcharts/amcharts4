@@ -492,11 +492,11 @@ export class InteractionObjectEventDispatcher<T extends AMEvent<InteractionObjec
 		return this._domEvents[type].increment();
 	}
 
-	private _dispatchKeyboardEvent(key: "keydown" & "keyup" & "keypress" & "input", ev: KeyboardEvent): void {
+	private _dispatchKeyboardEvent<Key extends "keydown" | "keyup" | "keypress" | "input">(key: Key, ev: KeyboardEvent): void {
 		// TODO use this.dispatchImmediately ?
 		if (this.target.events.isEnabled(key)) {
 			this.target.events.dispatchImmediately(key, {
-				type: key,
+				type: key as any,
 				target: this.target,
 				event: ev
 			});

@@ -896,7 +896,7 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 				// apply properties rather than create a new one.
 
 				let listItem;
-				if ((index < (itemCount - 1)) && !(<any>entry)["forceCreate"]) {
+				if ((index < itemCount) && !(<any>entry)["forceCreate"]) {
 					listItem = item.getIndex(index);
 				}
 				else if (<any>entry instanceof BaseObject) {

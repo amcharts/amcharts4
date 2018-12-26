@@ -315,7 +315,7 @@ export class AxisRendererCircular extends AxisRenderer {
 	 * @param  {number}  position  Position (0-1)
 	 * @return {IPoint}            Point
 	 */
-	public positionToPoint(position: number): IPoint {		
+	public positionToPoint(position: number): IPoint {
 		let coordinate: number = this.positionToCoordinate(position);
 		let angle: number = this.startAngle + (this.endAngle - this.startAngle) * coordinate / this.axisLength;
 		return { x: this.pixelRadius * $math.cos(angle), y: this.pixelRadius * $math.sin(angle) };
@@ -419,9 +419,9 @@ export class AxisRendererCircular extends AxisRenderer {
 	 * @param {number}     position     Starting position
 	 * @param {number}     endPosition  Ending position
 	 */
-	public updateLabelElement(label: this["_labelType"], position: number, endPosition: number, location?:number) {
+	public updateLabelElement(label: this["_labelType"], position: number, endPosition: number, location?: number) {
 
-		if(!$type.hasValue(location)){
+		if (!$type.hasValue(location)) {
 			location = label.location;
 		}
 
@@ -456,8 +456,9 @@ export class AxisRendererCircular extends AxisRenderer {
 	public set startAngle(value: number) {
 		// do not normalize angel here!
 		if (this.setPropertyValue("startAngle", value)) {
+			this.invalidateAxisItems();
 			if (this.axis) {
-				this.axis.invalidate();
+				this.axis.invalidateSeries();
 			}
 		}
 	}
@@ -477,8 +478,9 @@ export class AxisRendererCircular extends AxisRenderer {
 	public set endAngle(value: number) {
 		// do not normalize angel here!
 		if (this.setPropertyValue("endAngle", value)) {
+			this.invalidateAxisItems();
 			if (this.axis) {
-				this.axis.invalidate();
+				this.axis.invalidateSeries();
 			}
 		}
 	}
@@ -489,6 +491,7 @@ export class AxisRendererCircular extends AxisRenderer {
 	public get endAngle(): number {
 		return this.getPropertyValue("endAngle");
 	}
+
 
 	/**
 	 * [getPositionRangePath description]
@@ -563,10 +566,10 @@ export class AxisRendererCircular extends AxisRenderer {
 	 * @param  {IPoint}  point  Point
 	 * @return {number}         Position (0-1)
 	 */
-	public pointToPosition(point: IPoint) {		
-		let angle = $math.fitAngleToRange($math.getAngle(point), this.startAngle, this.endAngle);		
+	public pointToPosition(point: IPoint) {
+		let angle = $math.fitAngleToRange($math.getAngle(point), this.startAngle, this.endAngle);
 		return this.coordinateToPosition((angle - this.startAngle) / 360 * this.axisLength);
-	}	
+	}
 }
 
 /**

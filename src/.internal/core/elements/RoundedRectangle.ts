@@ -12,6 +12,7 @@ import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, SpriteEventD
 import { registry } from "../Registry";
 import * as $math from "../utils/Math";
 import * as $type from "../utils/Type";
+import { IRectangle } from "../defs/IRectangle";
 
 
 /**
@@ -251,8 +252,32 @@ export class RoundedRectangle extends Sprite {
 	 * @ignore Exclude from docs
 	 */
 	public measureElement(): void {
-		this._bbox = { x: 0, y: 0, width: this.innerWidth, height: this.innerHeight };
-	}
+		
+	}	
+
+	/**
+	 * Returns bounding box (square) for this element.
+	 *
+	 * @ignore Exclude from docs
+	 * @type {IRectangle}
+	 */
+	public get bbox(): IRectangle {
+		if (this.definedBBox) {
+			return this.definedBBox;
+		}
+
+		if (this.isMeasured) {
+			return {
+				x: 0,
+				y: 0,
+				width: this.innerWidth,
+				height: this.innerHeight
+			}
+		}
+		else {
+			return { x: 0, y: 0, width: 0, height: 0 };
+		}
+	}	
 
 }
 

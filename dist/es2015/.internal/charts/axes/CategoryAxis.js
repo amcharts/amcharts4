@@ -183,8 +183,20 @@ var CategoryAxis = /** @class */ (function (_super) {
                 series.invalidateDataRange();
             }
             else {
-                series.start = _this.start;
-                series.end = _this.end;
+                var firstSeriesDataItem = _this.getSeriesDataItem(series, _this.start);
+                var lastSeriesDataItem = _this.getSeriesDataItem(series, _this.end, true);
+                if (firstSeriesDataItem) {
+                    series.startIndex = firstSeriesDataItem.index;
+                }
+                else {
+                    series.start = _this.start;
+                }
+                if (lastSeriesDataItem) {
+                    series.endIndex = lastSeriesDataItem.index + 1;
+                }
+                else {
+                    series.end = _this.end;
+                }
                 // range might not change, but axis breaks might.
                 if (_this.axisBreaks.length > 0) {
                     series.invalidateDataRange();
@@ -310,11 +322,6 @@ var CategoryAxis = /** @class */ (function (_super) {
             fillPosition = this.indexToPosition(index, dataItem.locations.category);
             fillEndPosition = this.indexToPosition(fillEndIndex, dataItem.locations.endCategory);
         }
-        else {
-            fillEndIndex = index + this._frequency;
-            fillPosition = this.indexToPosition(index, dataItem.axisFill.location);
-            fillEndPosition = this.indexToPosition(fillEndIndex, dataItem.axisFill.location);
-        }
         dataItem.point = renderer.positionToPoint(position);
         var tick = dataItem.tick;
         if (tick && !tick.disabled) {
@@ -337,6 +344,11 @@ var CategoryAxis = /** @class */ (function (_super) {
         }
         var fill = dataItem.axisFill;
         if (fill && !fill.disabled) {
+            if (!dataItem.isRange) {
+                fillEndIndex = index + this._frequency;
+                fillPosition = this.indexToPosition(index, fill.location);
+                fillEndPosition = this.indexToPosition(fillEndIndex, fill.location);
+            }
             renderer.updateFillElement(fill, fillPosition, fillEndPosition);
             if (!dataItem.isRange) {
                 this.fillRule(dataItem, itemIndex);
@@ -472,9 +484,11 @@ var CategoryAxis = /** @class */ (function (_super) {
      * @return {number}            Data item index
      */
     CategoryAxis.prototype.categoryToIndex = function (category) {
-        var dataItem = this.dataItemsByCategory.getKey(category);
-        if (dataItem) {
-            return dataItem.index;
+        if ($type.hasValue(category)) {
+            var dataItem = this.dataItemsByCategory.getKey(category);
+            if (dataItem) {
+                return dataItem.index;
+            }
         }
     };
     /**
@@ -522,8 +536,61 @@ var CategoryAxis = /** @class */ (function (_super) {
      * @param  {number}            position  Position (px)
      * @return {XYSeriesDataItem}            Series data item
      */
-    CategoryAxis.prototype.getSeriesDataItem = function (series, position) {
-        return series.dataItems.getIndex(this.positionToIndex(position));
+    CategoryAxis.prototype.getSeriesDataItem = function (series, position, last) {
+        var _this = this;
+        if ($type.isNumber(position)) {
+            var index = this.positionToIndex(position);
+            var dataItem = this.dataItems.getIndex(index);
+            if (dataItem) {
+                var category_1 = dataItem.category;
+                var sdi_1;
+                //try the same index first
+                if (!last) {
+                    var seriesDataItem = series.dataItems.getIndex(index);
+                    if (series.xAxis == this) {
+                        if (seriesDataItem.categoryX == category_1) {
+                            return seriesDataItem;
+                        }
+                    }
+                    if (series.yAxis == this) {
+                        if (seriesDataItem.categoryY == category_1) {
+                            return seriesDataItem;
+                        }
+                    }
+                    $iter.eachContinue(series.dataItems.iterator(), function (dataItem) {
+                        if (series.xAxis == _this) {
+                            if (dataItem.categoryX == category_1) {
+                                sdi_1 = dataItem;
+                                return false;
+                            }
+                        }
+                        if (series.yAxis == _this) {
+                            if (dataItem.categoryY == category_1) {
+                                sdi_1 = dataItem;
+                                return false;
+                            }
+                        }
+                        return true;
+                    });
+                    return sdi_1;
+                }
+                else {
+                    for (var i = series.dataItems.length - 1; i >= 0; i--) {
+                        var dataItem_1 = series.dataItems.getIndex(i);
+                        if (series.xAxis == this) {
+                            if (dataItem_1.categoryX == category_1) {
+                                return dataItem_1;
+                            }
+                        }
+                        if (series.yAxis == this) {
+                            if (dataItem_1.categoryY == category_1) {
+                                return dataItem_1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     };
     /**
      * Returns the X coordinate for series' data item.
@@ -630,6 +697,9 @@ var CategoryAxis = /** @class */ (function (_super) {
      */
     CategoryAxis.prototype.positionToIndex = function (position) {
         position = $math.round(position, 10);
+        if (position < 0) {
+            position = 0;
+        }
         var startIndex = this.startIndex;
         var endIndex = this.endIndex;
         var difference = endIndex - startIndex;
@@ -671,6 +741,12 @@ var CategoryAxis = /** @class */ (function (_super) {
     /**
      * Returns category based on position.
      *
+     * Please note that `position` represents position within axis which may be
+     * zoomed and not correspond to Cursor's `position`.
+     *
+     * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
      * @param  {number}  position  Relative position on axis (0-1)
      * @return {string}            Position label
      */

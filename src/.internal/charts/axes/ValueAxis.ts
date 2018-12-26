@@ -398,9 +398,9 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * It can either return a fill opacity for a fill, or manipulate data item
 	 * directly, to create various highlighting scenarios.
 	 *
-	 * @type {function}
+	 * @todo type
 	 */
-	public fillRule: (dataItem: ValueAxisDataItem) => any = function(dataItem: ValueAxisDataItem) {
+	public fillRule(dataItem: ValueAxisDataItem) {
 		let value = dataItem.value;
 		let axis = dataItem.component;
 		if (!dataItem.axisFill.disabled) {
@@ -412,7 +412,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				dataItem.axisFill.__disabled = false;
 			}
 		}
-	};
+	}
 
 	/**
 	 * As calculating totals is expensive operation and not often needed, we
@@ -595,7 +595,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		if ($type.isNumber(this.min) && $type.isNumber(this.max)) {
 			let min: number = this.positionToValue(this.start);
 			let max: number = this.positionToValue(this.end);
-		
+
 			let differece: number = this.adjustDifference(min, max);
 			let minMaxStep: IMinMaxStep = this.adjustMinMax(min, max, differece, this._gridCount, true);
 
@@ -665,18 +665,18 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 						dataItem.value = value;
 
 						dataItem.text = this.formatLabel(value);
-						if (dataItem.label.invalid) {
+						if (dataItem.label && dataItem.label.invalid) {
 							dataItem.label.validate();
 						}
 						if (dataItem.value > this.min && dataItem.value < this.max) {
-							if (dataItem.label.measuredWidth > this.ghostLabel.measuredWidth || dataItem.label.measuredHeight > this.ghostLabel.measuredHeight) {
+							if (dataItem.label && (dataItem.label.measuredWidth > this.ghostLabel.measuredWidth || dataItem.label.measuredHeight > this.ghostLabel.measuredHeight)) {
 								this.ghostLabel.text = dataItem.label.text;
 							}
 						}
 					}
 					this.validateDataElement(dataItem);
 				}
-				i++;				
+				i++;
 
 				if (!this.logarithmic) {
 					value += this._step;
@@ -713,7 +713,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 								if (dataItem.value != breakValue) {
 									dataItem.value = breakValue;
 									dataItem.text = this.formatLabel(breakValue);
-									if (dataItem.label.invalid) {
+									if (dataItem.label && dataItem.label.invalid) {
 										dataItem.label.validate();
 									}
 								}
@@ -767,6 +767,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			renderer.updateGridElement(grid, position, endPosition);
 		}
 
+
 		let label: AxisLabel = dataItem.label;
 		if (label && !label.disabled) {
 			renderer.updateLabelElement(label, position, endPosition);
@@ -782,7 +783,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 		let mask: AxisFill = dataItem.mask;
 		if (mask) {
-			renderer.updateFillElement(mask, position, fillEndPosition);
+			renderer.updateFillElement(mask, position, fillEndPosition);		
 		}
 	}
 
@@ -936,7 +937,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 					position = (Math.log(value) * Math.LOG10E - Math.log(this.min) * Math.LOG10E) / ((Math.log(this.max) * Math.LOG10E - Math.log(this.min) * Math.LOG10E));
 				}
 
-				position = $math.round(position, 5);
+				//position = $math.round(position, 10);
 
 				return position;
 			}
@@ -1457,7 +1458,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	}
 
 	/**
-	 * @return {number} 
+	 * @return {number}
 	 */
 	public get extraMin(): number {
 		return this.getPropertyValue("extraMin");
@@ -1472,8 +1473,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * E.g.: 0.5 will mean half of the current range. If we have axis displaying
 	 * from 100 to 200, we will now have axis displaying from 100 to 250 because
 	 * we asked to expand maximum value by 50% (0.5).
-	 * 
-	 * @param {number} 
+	 *
+	 * @param {number}
 	 */
 	public set extraMax(value: number) {
 		if (this.setPropertyValue("extraMax", value)) {
@@ -1610,7 +1611,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			}
 		}
 
-		if(selectionMin == selectionMax){
+		if (selectionMin == selectionMax) {
 			selectionMin -= 1;
 			selectionMax += 1;
 		}
@@ -1647,7 +1648,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			end = 1;
 		}
 
-		this.zoom({ start: start, end: end }, false);
+		this.zoom({ start: start, end: end }, false, false, 0);
 	}
 
 	/**
@@ -1924,6 +1925,12 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	/**
 	 * Returns value based on position.
 	 *
+	 * Please note that `position` represents position within axis which may be
+	 * zoomed and not correspond to Cursor's `position`.
+	 *
+	 * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
+	 *
+	 * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
 	 * @param  {number}  position  Relative position on axis (0-1)
 	 * @return {string}            Position label
 	 */

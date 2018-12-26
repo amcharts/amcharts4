@@ -187,7 +187,7 @@ var DateAxis = /** @class */ (function (_super) {
          * Actual defaults will depend on the language locale set for the chart.
          *
          * To override format for a specific time unit, say days, you need to set
-         * the approperiate key to a format string. E.g.:
+         * the appropriate key to a format string. E.g.:
          *
          * ```TypeScript
          * axis.dateFormats.setKey("day", "MMMM d, yyyy");
@@ -243,29 +243,6 @@ var DateAxis = /** @class */ (function (_super) {
          * @type {number}
          */
         _this._minDifference = {};
-        /**
-         * A function which applies fills to axis cells.
-         *
-         * Default function fills every second fill. You can set this to a function
-         * that follows some other logic.
-         *
-         * Function should accept a [[DateAxisDataItem]] and modify its `axisFill`
-         * property accordingly.
-         *
-         * @type {function}
-         */
-        _this.fillRule = function (dataItem) {
-            var value = dataItem.value;
-            var axis = dataItem.component;
-            var gridInterval = axis._gridInterval;
-            var gridDuration = $time.getDuration(gridInterval.timeUnit, gridInterval.count);
-            if (Math.round((value - axis.min) / gridDuration) / 2 == Math.round(Math.round((value - axis.min) / gridDuration) / 2)) {
-                dataItem.axisFill.__disabled = true;
-            }
-            else {
-                dataItem.axisFill.__disabled = false;
-            }
-        };
         _this.className = "DateAxis";
         _this.setPropertyValue("markUnitChange", true);
         _this.snapTooltip = true;
@@ -322,6 +299,29 @@ var DateAxis = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    /**
+     * A function which applies fills to axis cells.
+     *
+     * Default function fills every second fill. You can set this to a function
+     * that follows some other logic.
+     *
+     * Function should accept a [[DateAxisDataItem]] and modify its `axisFill`
+     * property accordingly.
+     *
+     * @todo type
+     */
+    DateAxis.prototype.fillRule = function (dataItem) {
+        var value = dataItem.value;
+        var axis = dataItem.component;
+        var gridInterval = axis._gridInterval;
+        var gridDuration = $time.getDuration(gridInterval.timeUnit, gridInterval.count);
+        if (Math.round((value - axis.min) / gridDuration) / 2 == Math.round(Math.round((value - axis.min) / gridDuration) / 2)) {
+            dataItem.axisFill.__disabled = true;
+        }
+        else {
+            dataItem.axisFill.__disabled = false;
+        }
+    };
     /**
      * Sets defaults that instantiate some objects that rely on parent, so they
      * cannot be set in constructor.
@@ -430,7 +430,7 @@ var DateAxis = /** @class */ (function (_super) {
             gridInterval = tslib_1.__assign({}, this.baseInterval);
         }
         this._gridInterval = gridInterval;
-        this._gridDate = $time.round(new Date(this.min), gridInterval.timeUnit);
+        this._gridDate = $time.round(new Date(this.min), gridInterval.timeUnit, gridInterval.count);
         this._nextGridUnit = $time.getNextUnit(gridInterval.timeUnit);
         // the following is needed to avoid grid flickering while scrolling
         this._intervalDuration = $time.getDuration(gridInterval.timeUnit, gridInterval.count);
@@ -762,7 +762,8 @@ var DateAxis = /** @class */ (function (_super) {
             }
             var position = this.valueToPosition(timestamp);
             var endPosition = this.valueToPosition(endTimestamp);
-            if (this._gridInterval.count > 1) {
+            var fillEndPosition = endPosition;
+            if (!dataItem.isRange && this._gridInterval.count > 1) {
                 endPosition = position + (endPosition - position) / this._gridInterval.count;
             }
             dataItem.position = position;
@@ -776,7 +777,7 @@ var DateAxis = /** @class */ (function (_super) {
             }
             var fill = dataItem.axisFill;
             if (fill && !fill.disabled) {
-                renderer.updateFillElement(fill, position, endPosition);
+                renderer.updateFillElement(fill, position, fillEndPosition);
                 if (!dataItem.isRange) {
                     this.fillRule(dataItem);
                 }
@@ -1283,9 +1284,14 @@ var DateAxis = /** @class */ (function (_super) {
      * Returns a Series data item that corresponds to the specific pixel position
      * of the Axis.
      *
-     * @param  {XYSeries}          series    Series
-     * @param  {number}            position  Position (px)
-     * @return {XYSeriesDataItem}            Data item
+     * If `findNearest` (third parameter) is set to `true`, the method will try
+     * to locate nearest available data item if none is found directly under
+     * `position`.
+     *
+     * @param  {XYSeries}          series       Series
+     * @param  {number}            position     Position (px)
+     * @param  {boolean}           findNearest  Should axis try to find nearest tooltip if there is no data item at exact position
+     * @return {XYSeriesDataItem}               Data item
      */
     DateAxis.prototype.getSeriesDataItem = function (series, position, findNearest) {
         var value = this.positionToValue(position);
@@ -1342,11 +1348,17 @@ var DateAxis = /** @class */ (function (_super) {
     /**
      * Returns a formatted date based on position in axis scale.
      *
+     * Please note that `position` represents position within axis which may be
+     * zoomed and not correspond to Cursor's `position`.
+     *
+     * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
      * @param  {number}  position  Relative position on axis (0-1)
      * @return {string}            Position label
-     * @todo Better format recognition
      */
     DateAxis.prototype.getPositionLabel = function (position) {
+        // @todo Better format recognition
         var date = this.positionToDate(position);
         return this.dateFormatter.format(date, this.getCurrentLabelFormat());
     };
@@ -1458,6 +1470,7 @@ var DateAxis = /** @class */ (function (_super) {
                 }
             });
             if (closestDate_1) {
+                closestDate_1 = $time.round(new Date(closestDate_1.getTime()), this.baseInterval.timeUnit, this.baseInterval.count);
                 closestDate_1 = new Date(closestDate_1.getTime() + this.baseDuration / 2);
                 position = this.dateToPosition(closestDate_1);
             }

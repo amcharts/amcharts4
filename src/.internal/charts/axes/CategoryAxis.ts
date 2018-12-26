@@ -323,8 +323,21 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 				series.invalidateDataRange();
 			}
 			else {
-				series.start = this.start;
-				series.end = this.end;
+
+				let firstSeriesDataItem = this.getSeriesDataItem(series, this.start);
+				let lastSeriesDataItem = this.getSeriesDataItem(series, this.end, true);
+				if (firstSeriesDataItem) {
+					series.startIndex = firstSeriesDataItem.index;
+				}
+				else {
+					series.start = this.start;
+				}
+				if (lastSeriesDataItem) {
+					series.endIndex = lastSeriesDataItem.index + 1;
+				}
+				else {
+					series.end = this.end;
+				}
 
 				// range might not change, but axis breaks might.
 				if (this.axisBreaks.length > 0) {
@@ -441,7 +454,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 		});
 
 		this.validateBreaks();
-		this.validateAxisRanges();	
+		this.validateAxisRanges();
 
 		this.ghostLabel.invalidate(); // solves font issue
 		this.renderer.invalidateLayout();
@@ -485,11 +498,6 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 			fillPosition = this.indexToPosition(index, dataItem.locations.category);
 			fillEndPosition = this.indexToPosition(fillEndIndex, dataItem.locations.endCategory);
 		}
-		else {
-			fillEndIndex = index + this._frequency;
-			fillPosition = this.indexToPosition(index, dataItem.axisFill.location);
-			fillEndPosition = this.indexToPosition(fillEndIndex, dataItem.axisFill.location);
-		}
 
 		dataItem.point = renderer.positionToPoint(position);
 
@@ -503,26 +511,36 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 			renderer.updateGridElement(grid, position, endPosition);
 		}
 
+
 		let label: AxisLabel = dataItem.label;
 		if (label && !label.disabled) {
 			// theorethically this might result problems if category text changes, the range text won't change. But otherwise range.label.text = "custom text" wont' work, which is not intuitive.
 			if (!dataItem.isRange || label.text == undefined) {
 				dataItem.text = dataItem.text;
 			}
+
 			renderer.updateLabelElement(label, position, endPosition);
 
 			if (dataItem.label.measuredWidth > this.ghostLabel.measuredWidth || dataItem.label.measuredHeight > this.ghostLabel.measuredHeight) {
 				this.ghostLabel.text = dataItem.label.currentText;
-			}			
+			}
 		}
 
 		let fill: AxisFill = dataItem.axisFill;
 		if (fill && !fill.disabled) {
+
+			if (!dataItem.isRange) {
+				fillEndIndex = index + this._frequency;
+				fillPosition = this.indexToPosition(index, fill.location);
+				fillEndPosition = this.indexToPosition(fillEndIndex, fill.location);
+			}
+
 			renderer.updateFillElement(fill, fillPosition, fillEndPosition);
 			if (!dataItem.isRange) {
 				this.fillRule(dataItem, itemIndex);
 			}
 		}
+
 
 		let mask: AxisFill = dataItem.mask;
 		if (mask) {
@@ -677,9 +695,11 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 * @return {number}            Data item index
 	 */
 	public categoryToIndex(category: string): number {
-		let dataItem: this["_dataItem"] = this.dataItemsByCategory.getKey(category);
-		if (dataItem) {
-			return dataItem.index;
+		if ($type.hasValue(category)) {
+			let dataItem: this["_dataItem"] = this.dataItemsByCategory.getKey(category);
+			if (dataItem) {
+				return dataItem.index;
+			}
 		}
 	}
 
@@ -731,8 +751,65 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 * @param  {number}            position  Position (px)
 	 * @return {XYSeriesDataItem}            Series data item
 	 */
-	public getSeriesDataItem(series: XYSeries, position: number): XYSeriesDataItem {
-		return <XYSeriesDataItem>series.dataItems.getIndex(this.positionToIndex(position));
+	public getSeriesDataItem(series: XYSeries, position: number, last?: boolean): XYSeriesDataItem {
+
+		if ($type.isNumber(position)) {
+			let index = this.positionToIndex(position);
+
+			let dataItem = this.dataItems.getIndex(index);
+			if (dataItem) {
+				let category = dataItem.category;
+
+				let sdi: XYSeriesDataItem;
+				//try the same index first
+				if (!last) {
+					let seriesDataItem = series.dataItems.getIndex(index);
+					if (series.xAxis == this) {
+						if (seriesDataItem.categoryX == category) {
+							return seriesDataItem;
+						}
+					}
+					if (series.yAxis == this) {
+						if (seriesDataItem.categoryY == category) {
+							return seriesDataItem;
+						}
+					}
+
+					$iter.eachContinue(series.dataItems.iterator(), (dataItem) => {
+						if (series.xAxis == this) {
+							if (dataItem.categoryX == category) {
+								sdi = dataItem;
+								return false;
+							}
+						}
+						if (series.yAxis == this) {
+							if (dataItem.categoryY == category) {
+								sdi = dataItem;
+								return false;
+							}
+						}
+						return true;
+					})
+
+					return sdi;
+				}
+				else {
+					for (let i = series.dataItems.length - 1; i >= 0; i--) {
+						let dataItem = series.dataItems.getIndex(i);
+						if (series.xAxis == this) {
+							if (dataItem.categoryX == category) {
+								return dataItem;
+							}
+						}
+						if (series.yAxis == this) {
+							if (dataItem.categoryY == category) {
+								return dataItem;
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -846,6 +923,9 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	 */
 	public positionToIndex(position: number): number {
 		position = $math.round(position, 10);
+		if (position < 0) {
+			position = 0;
+		}
 
 		let startIndex: number = this.startIndex;
 		let endIndex: number = this.endIndex;
@@ -901,6 +981,12 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 	/**
 	 * Returns category based on position.
 	 *
+	 * Please note that `position` represents position within axis which may be
+	 * zoomed and not correspond to Cursor's `position`.
+	 *
+	 * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
+	 *
+	 * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
 	 * @param  {number}  position  Relative position on axis (0-1)
 	 * @return {string}            Position label
 	 */

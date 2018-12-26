@@ -163,8 +163,33 @@ var RoundedRectangle = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     RoundedRectangle.prototype.measureElement = function () {
-        this._bbox = { x: 0, y: 0, width: this.innerWidth, height: this.innerHeight };
     };
+    Object.defineProperty(RoundedRectangle.prototype, "bbox", {
+        /**
+         * Returns bounding box (square) for this element.
+         *
+         * @ignore Exclude from docs
+         * @type {IRectangle}
+         */
+        get: function () {
+            if (this.definedBBox) {
+                return this.definedBBox;
+            }
+            if (this.isMeasured) {
+                return {
+                    x: 0,
+                    y: 0,
+                    width: this.innerWidth,
+                    height: this.innerHeight
+                };
+            }
+            else {
+                return { x: 0, y: 0, width: 0, height: 0 };
+            }
+        },
+        enumerable: true,
+        configurable: true
+    });
     return RoundedRectangle;
 }(Sprite));
 export { RoundedRectangle };

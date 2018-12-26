@@ -369,7 +369,7 @@ export function isString(value) {
  * @return {value}         Is number?
  */
 export function isNumber(value) {
-    return typeof value === "number" && !isNaN(value);
+    return typeof value === "number" && Number(value) == value;
 }
 /**
  * Checks if parameter is `object`.

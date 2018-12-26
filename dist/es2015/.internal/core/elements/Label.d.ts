@@ -269,7 +269,9 @@ export declare class Label extends Container {
      */
     protected updateCurrentText(): boolean;
     /**
-     * Hard invalidate means the text will be redrawn even if it hasn't changed. This is used when we change fontSize of fontFamily or for some other reasons.
+     * Hard invalidate means the text will be redrawn even if it hasn't changed.
+     * This is used when we change `fontSize`, `fontFamily`, or for some other
+     * reasons.
      */
     hardInvalidate(): void;
     /**
@@ -508,4 +510,9 @@ export declare class Label extends Container {
      */
     readonly availableHeight: number;
     getSvgElement(text: string, style?: string): AMElement;
+    /**
+     * Invalidates the whole element, including layout AND all its child
+     * elements.
+     */
+    deepInvalidate(): void;
 }

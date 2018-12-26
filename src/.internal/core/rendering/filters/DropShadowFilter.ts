@@ -136,8 +136,6 @@ export class DropShadowFilter extends Filter {
 
 	/**
 	 * Constructor
-	 * * Creates primitve (effect) elements
-	 * * Sets default properties
 	 */
 	constructor() {
 		super();

@@ -454,7 +454,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     protected _isMeasured: $type.Optional<boolean>;
     /**
-     * Indicates if the chart should follow righ-to-left rules.
+     * Indicates if the chart should follow right-to-left rules.
      *
      * @ignore Exclude from docs
      * @type {boolean}
@@ -755,8 +755,11 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     protected _outTimeout: $type.Optional<IDisposer>;
     /**
+     * This flag is set to `true` for the initial sprite you create and place
+     * to the div so that we could clear all additional
+     * sprites/containers when this sprite is disposed.
+     *
      * @ignore
-     * this flag is set to true for the initial sprite you create and place to the div so that we could clear all additional sprites/containers when this sprite is disposed
      */
     isBaseSprite: boolean;
     /**
@@ -773,11 +776,13 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     dummyData: any;
     /**
-     * A reference to a real fill object. Sometimes might be useful to modify gradient (when fill is color but we have FillModifier).
+     * A reference to a real fill object. Sometimes might be useful to modify
+     * gradient (when fill is color but we have FillModifier).
      */
     realFill: Color | Pattern | LinearGradient | RadialGradient;
     /**
-     * A reference to a real stroke object. Sometimes might be useful to modify gradient (when fill is color but we have FillModifier).
+     * A reference to a real stroke object. Sometimes might be useful to modify
+     * gradient (when fill is color but we have a FillModifier).
      */
     realStroke: Color | Pattern | LinearGradient | RadialGradient;
     /**
@@ -787,6 +792,12 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @type {AmChartsLogo}
      */
     logo: AmChartsLogo;
+    /**
+     * [_baseId description]
+     *
+     * @todo Description
+     * @type {string}
+     */
     protected _baseId: string;
     /**
      * A read-only flag which indicates if a sprite has completed its initial
@@ -798,8 +809,28 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @type {boolean}
      */
     appeared: boolean;
+    /**
+     * [ex description]
+     *
+     * @todo Description
+     * @ignore
+     * @type {number}
+     */
     ex: number;
+    /**
+     * [ey description]
+     *
+     * @todo Description
+     * @ignore
+     * @type {number}
+     */
     ey: number;
+    /**
+     * [_showOnInitDisposer description]
+     *
+     * @todo Description
+     * @type {MultiDisposer}
+     */
     protected _showOnInitDisposer: MultiDisposer;
     /**
      * Constructor:
@@ -1818,7 +1849,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @param   {C}                  context   Context for handler function
      * @returns {IDisposer}                    Event Disposer
      */
-    observe<C>(property: string | string[], listener: (this: C, event: AMEvent<Sprite, ISpriteEvents>["propertychanged"]) => void, context?: C): IDisposer;
+    observe<C>(property: string | string[], listener: (this: C, event: AMEvent<this, ISpriteEvents>["propertychanged"]) => void, context?: C): IDisposer;
     /**
      * ==========================================================================
      * ACCESSIBILITY-RELATED PROPERTIES
@@ -3404,7 +3435,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @return {boolean} RTL?
      */
     /**
-     * An RTL (righ-to-left) setting.
+     * An RTL (right-to-left) setting.
      *
      * RTL may affect alignment, text, and other visual properties.
      *

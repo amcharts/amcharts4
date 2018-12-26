@@ -47,14 +47,12 @@ categoryAxis.dataFields.category = "country";
 categoryAxis.renderer.minGridDistance = 60;
 categoryAxis.renderer.grid.template.disabled = true;
 categoryAxis.renderer.baseGrid.disabled = true;
-categoryAxis.renderer.axisFills.template.disabled = true;
 categoryAxis.renderer.labels.template.dy = 20;
 
 var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 valueAxis.renderer.grid.template.disabled = true;
 valueAxis.renderer.baseGrid.disabled = true;
 valueAxis.renderer.labels.template.disabled = true;
-valueAxis.renderer.axisFills.template.disabled = true;
 valueAxis.renderer.minWidth = 0;
 
 var series = chart.series.push(new am4charts.ConeSeries());

@@ -98,6 +98,8 @@ export class AxisTick extends Tick {
 
 		this.pixelPerfect = true;
 
+		this.strokeOpacity = 0;
+
 		this.length = 5;
 
 		this.applyTheme();

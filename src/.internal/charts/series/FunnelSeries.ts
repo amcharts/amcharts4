@@ -418,7 +418,12 @@ export class FunnelSeries extends PercentSeries {
 		this.dataItems.each((dItem) => {
 			if ($type.hasValue(dItem.value)) {
 				count++;
-				total += dItem.getWorkingValue("value") / dItem.value;
+				if (dItem.value > 0) {
+					total += dItem.getWorkingValue("value") / dItem.value;
+				}
+				else {
+					total += 1;
+				}
 			}
 		})
 
@@ -515,9 +520,14 @@ export class FunnelSeries extends PercentSeries {
 		let workingValue = dataItem.getWorkingValue("value");
 		let bottomRatio = this.bottomRatio;
 
+		let d = 1;
+		if (dataItem.value > 0) {
+			d = workingValue / dataItem.value;
+		}
+
 		if (this.orientation == "vertical") {
 
-			let linkHeight = sliceLink.pixelHeight * workingValue / dataItem.value;
+			let linkHeight = sliceLink.pixelHeight * d;
 
 			maxHeight = maxHeight + linkHeight; // to avoid one link gap in the bottom
 
@@ -528,7 +538,7 @@ export class FunnelSeries extends PercentSeries {
 			sliceLink.bottomWidth = (workingValue - (workingValue - nextValue)) / this.dataItem.values.value.high * maxWidth;
 
 			slice.y = this._nextY;
-			slice.height = $math.max(0, maxHeight / this._count * workingValue / dataItem.value * 1 / this._total - linkHeight);
+			slice.height = $math.max(0, maxHeight / this._count * d / this._total - linkHeight);
 
 			slice.x = maxWidth / 2;
 
@@ -545,7 +555,7 @@ export class FunnelSeries extends PercentSeries {
 			sliceLink.x = slice.x;
 		}
 		else {
-			let linkWidth = sliceLink.pixelWidth * workingValue / dataItem.value;
+			let linkWidth = sliceLink.pixelWidth * d;
 
 			maxWidth = maxWidth + linkWidth; // to avoid one link gap in the bottom
 
@@ -556,7 +566,7 @@ export class FunnelSeries extends PercentSeries {
 			sliceLink.bottomWidth = (workingValue - (workingValue - nextValue)) / this.dataItem.values.value.high * maxHeight;
 
 			slice.x = this._nextY;
-			slice.width = maxWidth / this._count * workingValue / dataItem.value * 1 / this._total - linkWidth;
+			slice.width = maxWidth / this._count * d * 1 / this._total - linkWidth;
 			slice.y = maxHeight / 2;
 
 			if (!this.alignLabels) {

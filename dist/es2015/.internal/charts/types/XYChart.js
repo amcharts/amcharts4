@@ -718,15 +718,26 @@ var XYChart = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     XYChart.prototype.handleCursorPositionChange = function () {
-        if (this.cursor.visible && !this.cursor.isHiding) {
+        var cursor = this.cursor;
+        if (cursor.visible && !cursor.isHiding) {
             var xPosition = this.cursor.xPosition;
             var yPosition = this.cursor.yPosition;
             this.showSeriesTooltip({
                 x: xPosition,
                 y: yPosition
             });
-            this.showAxisTooltip(this.xAxes, xPosition);
-            this.showAxisTooltip(this.yAxes, yPosition);
+            var exceptAxis = void 0;
+            var snapToSeries = cursor.snapToSeries;
+            if (snapToSeries) {
+                if (snapToSeries.baseAxis == snapToSeries.xAxis) {
+                    exceptAxis = snapToSeries.yAxis;
+                }
+                if (snapToSeries.baseAxis == snapToSeries.yAxis) {
+                    exceptAxis = snapToSeries.xAxis;
+                }
+            }
+            this.showAxisTooltip(this.xAxes, xPosition, exceptAxis);
+            this.showAxisTooltip(this.yAxes, yPosition, exceptAxis);
         }
     };
     /**
@@ -785,8 +796,10 @@ var XYChart = /** @class */ (function (_super) {
         var sum = 0;
         this.series.each(function (series) {
             //if (series.tooltipText || series.tooltipHTML) { // not good, bullets are not hovered then
-            series.tooltip.setBounds({ x: 0, y: 0, width: _this.pixelWidth, height: _this.pixelHeight });
             var point = series.showTooltipAtPosition(position.x, position.y);
+            if (point) {
+                series.tooltip.setBounds({ x: 0, y: 0, width: _this.pixelWidth, height: _this.pixelHeight });
+            }
             if (point && $math.isInRectangle(point, { x: topLeft.x, y: topLeft.y, width: bottomRight.x - topLeft.x, height: bottomRight.y - topLeft.y })) {
                 seriesPoints.push({ point: point, series: series });
                 sum += point.y;
@@ -855,11 +868,13 @@ var XYChart = /** @class */ (function (_super) {
      * @param {List<Axis>}  axes      List of axes to show tooltip on
      * @param {number}      position  Position (px)
      */
-    XYChart.prototype.showAxisTooltip = function (axes, position) {
+    XYChart.prototype.showAxisTooltip = function (axes, position, except) {
         var _this = this;
         $iter.each(axes.iterator(), function (axis) {
-            if (_this.dataItems.length > 0 || axis.dataItems.length > 0) {
-                axis.showTooltipAtPosition(position);
+            if (axis != except) {
+                if (_this.dataItems.length > 0 || axis.dataItems.length > 0) {
+                    axis.showTooltipAtPosition(position);
+                }
             }
         });
     };
@@ -1003,7 +1018,7 @@ var XYChart = /** @class */ (function (_super) {
                 end: newEnd
             };
             this._panEndXRange = newRange;
-            this.zoomAxes(this.xAxes, newRange);
+            this.zoomAxes(this.xAxes, newRange, false, false, cursor.maxPanOut);
         }
         if (this._panStartYRange && (behavior == "panY" || behavior == "panXY")) {
             var panStartRange = this._panStartYRange;
@@ -1023,7 +1038,7 @@ var XYChart = /** @class */ (function (_super) {
                 end: newEnd
             };
             this._panEndYRange = newRange;
-            this.zoomAxes(this.yAxes, newRange);
+            this.zoomAxes(this.yAxes, newRange, false, false, cursor.maxPanOut);
         }
         this.handleHideCursor();
     };
@@ -1146,7 +1161,7 @@ var XYChart = /** @class */ (function (_super) {
      * @param  {boolean}     instantly  If set to `true` will skip zooming animation
      * @return {IRange}                 Recalculated range that is common to all involved axes
      */
-    XYChart.prototype.zoomAxes = function (axes, range, instantly, round) {
+    XYChart.prototype.zoomAxes = function (axes, range, instantly, round, declination) {
         var realRange = { start: 0, end: 1 };
         this.showSeriesTooltip(); // hides
         if (!this.dataInvalid) {
@@ -1160,7 +1175,7 @@ var XYChart = /** @class */ (function (_super) {
                     range.start = axis.roundPosition(range.start + 0.0001, 0);
                     range.end = range.start + diff;
                 }
-                var axisRange = axis.zoom(range, instantly, instantly);
+                var axisRange = axis.zoom(range, instantly, instantly, declination);
                 if (axis.renderer.inversed) {
                     axisRange = $math.invertRange(axisRange);
                 }

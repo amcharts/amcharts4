@@ -13,10 +13,6 @@ yAxis.dataFields.category = "hour";
 
 xAxis.renderer.grid.template.disabled = true;
 yAxis.renderer.grid.template.disabled = true;
-xAxis.renderer.axisFills.template.disabled = true;
-yAxis.renderer.axisFills.template.disabled = true;
-yAxis.renderer.ticks.template.disabled = true;
-xAxis.renderer.ticks.template.disabled = true;
 
 yAxis.renderer.inversed = true;
 

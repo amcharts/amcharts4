@@ -68,13 +68,6 @@ var Container = /** @class */ (function (_super) {
          */
         _this.hasFocused = false;
         /**
-         * Specifies if, when state is applied on this container, the same state
-         * should be applied to container's children as well as `background`.
-         *
-         * @type {boolean}
-         */
-        _this.setStateOnChildren = false;
-        /**
          * An array of references to elements the state should be set, when it is set
          * on this element.
          *
@@ -133,7 +126,7 @@ var Container = /** @class */ (function (_super) {
         catch (err) {
             // void
         }
-        if (this.element) {
+        if (this.element && !child.disabled) {
             var group = this.element;
             group.add(child.group);
         }
@@ -188,14 +181,12 @@ var Container = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Container.prototype.invalidateLayout = function () {
-        if (this.disabled || this.isTemplate || this.layout == "none" || this.__disabled) {
+        if (this.layoutInvalid || this.disabled || this.isTemplate || this.layout == "none" || this.__disabled) {
             return;
         }
-        if (!this.layoutInvalid) {
-            this.layoutInvalid = true;
-            registry.addToInvalidLayouts(this);
-            system.requestFrame();
-        }
+        this.layoutInvalid = true;
+        registry.addToInvalidLayouts(this);
+        system.requestFrame();
     };
     /**
      * Invalidates element.
@@ -214,7 +205,8 @@ var Container = /** @class */ (function (_super) {
      * Invalidates the whole element, including layout AND all its child
      * elements.
      *
-     * @ignore Exclude from docs
+     * As this will essentially force all elements to redraw, use only if
+     * absolutely necessary.
      */
     Container.prototype.deepInvalidate = function () {
         _super.prototype.invalidate.call(this);
@@ -1006,7 +998,7 @@ var Container = /** @class */ (function (_super) {
         var measuredContentWidth = contentRight - contentLeft;
         var measuredContentHeight = contentBottom - contentTop;
         /// handle content alignment
-        if (this.layout != "none") {
+        if (this.layout != "none" && (this.contentAlign || this.contentValign) && children.length > 0) {
             var dx_1;
             var dy_1;
             var mwa = measuredWidth;
@@ -1292,6 +1284,26 @@ var Container = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("reverseOrder", value, true);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Container.prototype, "setStateOnChildren", {
+        /**
+         * @return {boolean} Set state on children
+         */
+        get: function () {
+            return this.getPropertyValue("setStateOnChildren");
+        },
+        /**
+         * Specifies if, when state is applied on this container, the same state
+         * should be applied to container's children as well as `background`.
+         *
+         * @default false
+         * @param {boolean}  value  Set state on children
+         */
+        set: function (value) {
+            this.setPropertyValue("setStateOnChildren", value, true);
         },
         enumerable: true,
         configurable: true
@@ -1608,6 +1620,7 @@ var Container = /** @class */ (function (_super) {
      * Dispatches ready event. Dispatches when all children are ready.
      */
     Container.prototype.dispatchReady = function () {
+        var _this = this;
         if (!this.isReady() && !this.isDisposed()) {
             var allReady_1 = true;
             this.children.each(function (sprite) {
@@ -1624,8 +1637,10 @@ var Container = /** @class */ (function (_super) {
                 _super.prototype.dispatchReady.call(this);
             }
             else {
-                registry.events.once("exitframe", this.dispatchReady, this, false);
-                system.requestFrame();
+                registry.events.once("exitframe", function () {
+                    _this.dispatchReady();
+                    system.requestFrame();
+                }, undefined, false);
             }
         }
     };

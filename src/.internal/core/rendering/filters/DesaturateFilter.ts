@@ -72,8 +72,6 @@ export class DesaturateFilter extends Filter {
 
 	/**
 	 * Constructor
-	 * * Creates primitve (effect) elements
-	 * * Sets default properties
 	 */
 	constructor() {
 		super();

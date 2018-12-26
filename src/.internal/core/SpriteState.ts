@@ -10,7 +10,7 @@
  */
 import { BaseObject } from "./Base";
 import { Adapter } from "./utils/Adapter";
-import { ListTemplate, ListDisposer } from "./utils/List";
+import { List, ListDisposer } from "./utils/List";
 import { Filter } from "./rendering/filters/Filter";
 import { Sprite } from "./Sprite";
 
@@ -192,9 +192,9 @@ export class SpriteState<P, A> extends BaseObject {
 	 * A list of [[Filter]] elements to be applied to the relative [[Sprite]]
 	 * when switching to this State.
 	 *
-	 * @param {ListTemplate<Filter>}
+	 * @param {List}
 	 */
-	public filters = new ListTemplate<Filter>(new Filter());
+	public filters = new List<Filter>();
 
 	/**
 	 * Identifies if this object is a "template" and should not be treated as
@@ -214,7 +214,6 @@ export class SpriteState<P, A> extends BaseObject {
 
 		// Make filter list disposable
 		this._disposers.push(new ListDisposer(this.filters));
-		this._disposers.push(this.filters.template);
 
 		// Decorate adapter with events so that we can apply its settings whenever
 		// it is modified

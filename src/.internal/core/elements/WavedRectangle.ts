@@ -14,6 +14,7 @@ import { IPoint } from "../defs/IPoint";
 import { IWavedShape } from "../defs/IWavedShape";
 import { wavedLine } from "../rendering/Smoothing";
 import * as $path from "../rendering/Path";
+import { IRectangle } from "../defs/IRectangle";
 
 
 /**
@@ -245,20 +246,6 @@ export class WavedRectangle extends Rectangle implements IWavedShape {
 		this._lwaved = right;
 		this._bwaved = bottom;
 		this._rwaved = left;
-	}
-
-	/**
-	 * Updates bounding box based on element dimension settings.
-	 *
-	 * @ignore Exclude from docs
-	 */
-	public measureElement(): void {
-		this._bbox = {
-			x: 0,
-			y: 0,
-			width: this.innerWidth,
-			height: this.innerHeight
-		};
 	}
 
 	/**

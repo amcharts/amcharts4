@@ -1,6 +1,7 @@
 var $webpack = require("webpack");
 var $path = require("path");
 var $UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+var $ChunkIdPlugin = require("webpack-hashed-chunk-id-plugin");
 
 module.exports = function (info) {
     return {
@@ -27,9 +28,15 @@ module.exports = function (info) {
         },
 
         plugins: [
+            new $webpack.optimize.ModuleConcatenationPlugin(),
+
             new $webpack.optimize.CommonsChunkPlugin({
                 name: info.baseChunk,
                 minChunks: 2,
+            }),
+
+            new $webpack.HashedModuleIdsPlugin({
+                hashFunction: "sha256"
             }),
 
             new $webpack.BannerPlugin({
@@ -69,7 +76,9 @@ module.exports = function (info) {
                     }
                 })
             ] : []),
-        ),
+        ).concat([
+            new $ChunkIdPlugin({}),
+        ]),
 
         module: {
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.

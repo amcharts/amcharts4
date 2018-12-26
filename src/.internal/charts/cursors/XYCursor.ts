@@ -10,10 +10,12 @@
  */
 import { Cursor, ICursorProperties, ICursorAdapters, ICursorEvents } from "./Cursor";
 import { Sprite, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
-import { MutableValueDisposer, MultiDisposer } from "../../core/utils/Disposer";
+import { MutableValueDisposer, MultiDisposer, IDisposer } from "../../core/utils/Disposer";
 import { IPoint } from "../../core/defs/IPoint";
 import { IRange } from "../../core/defs/IRange";
 import { Axis } from "../axes/Axis";
+import { DateAxis } from "../axes/DateAxis";
+import { XYSeries, IXYSeriesEvents } from "../series/XYSeries";
 import { AxisRenderer } from "../axes/AxisRenderer";
 import { Tooltip } from "../../core/elements/Tooltip";
 import { XYChart } from "../types/XYChart";
@@ -81,6 +83,11 @@ export interface IXYCursorProperties extends ICursorProperties {
 	 */
 	maxPanOut?: number;
 
+	/**
+	 *
+	 * @type {XYSeries}
+	 */
+	snapToSeries: XYSeries;
 }
 
 /**
@@ -190,6 +197,8 @@ export class XYCursor extends Cursor {
 	 */
 	public _chart: XYChart;
 
+	protected _snapToDisposer: IDisposer;
+
 	/**
 	 * Constructor
 	 */
@@ -212,7 +221,7 @@ export class XYCursor extends Cursor {
 		selection.fillOpacity = 0.2;
 		selection.fill = interfaceColors.getFor("alternativeBackground");
 		selection.isMeasured = false;
-		selection.interactionsEnabled = false;		
+		selection.interactionsEnabled = false;
 		this.selection = selection;
 		this._disposers.push(this.selection);
 
@@ -225,6 +234,7 @@ export class XYCursor extends Cursor {
 		lineX.isMeasured = false;
 		lineX.strokeOpacity = 0.4;
 		lineX.interactionsEnabled = false;
+		lineX.y = 0;// important
 		this.lineX = lineX;
 		this._disposers.push(this.lineX);
 
@@ -237,6 +247,7 @@ export class XYCursor extends Cursor {
 		lineY.isMeasured = false;
 		lineY.strokeOpacity = 0.4;
 		lineY.interactionsEnabled = false;
+		lineY.x = 0; // important
 		this.lineY = lineY;
 		this._disposers.push(this.lineY);
 
@@ -247,6 +258,8 @@ export class XYCursor extends Cursor {
 		this._disposers.push(this._lineY);
 		this._disposers.push(this._xAxis);
 		this._disposers.push(this._yAxis);
+
+		this.mask = this;
 
 		// Apply theme
 		this.applyTheme();
@@ -351,7 +364,12 @@ export class XYCursor extends Cursor {
 	protected triggerMoveReal(point: IPoint): void {
 		super.triggerMoveReal(point);
 
-		this.updateLinePositions(point);
+		if ((this.snapToSeries && !this.snapToSeries.isHidden)) {
+
+		}
+		else {
+			this.updateLinePositions(point);
+		}
 
 		if (this.downPoint && $math.getDistance(this.downPoint, point) > 3) {
 			if (this._generalBehavior == "pan") {
@@ -624,7 +642,7 @@ export class XYCursor extends Cursor {
 			let chart: XYChart = <XYChart>axis.chart;
 			this._xAxis.set(axis, new MultiDisposer([
 				axis.tooltip.events.on("positionchanged", this.handleXTooltipPosition, this, false),
-				axis.events.on("validated", chart.handleCursorPositionChange, chart, false)
+				//axis.events.on("validated", chart.handleCursorPositionChange, chart, false)
 			]));
 		}
 	}
@@ -654,7 +672,7 @@ export class XYCursor extends Cursor {
 			let chart: XYChart = <XYChart>axis.chart;
 			this._yAxis.set(axis, new MultiDisposer([
 				axis.tooltip.events.on("positionchanged", this.handleYTooltipPosition, this, false),
-				axis.events.on("validated", chart.handleCursorPositionChange, chart, false)
+				//axis.events.on("validated", chart.handleCursorPositionChange, chart, false)
 			]));
 		}
 	}
@@ -820,6 +838,83 @@ export class XYCursor extends Cursor {
 
 	}
 
+	/**
+	 * Specifies to which series cursor lines should be snapped. Works when one
+	 * of the axis is `DateAxis` or `CategoryAxis`. Won't work if both axes are
+	 * `ValueAxis`.
+	 * 
+	 * @param {XYSeries}
+	 */
+	public set snapToSeries(series: XYSeries) {
+		if (this.setPropertyValue("snapToSeries", series)) {
+			if (this._snapToDisposer) {
+				this._snapToDisposer.dispose();
+			}
+
+			if (series) {
+				this._snapToDisposer = series.events.on("tooltipshownat", this.handleSnap, this, false);
+			}
+		}
+	}
+
+	/**
+	 * @return {XYSeries}
+	 */
+	public get snapToSeries(): XYSeries {
+		return this.getPropertyValue("snapToSeries");
+	}
+
+	/**
+	 * [handleSnap description]
+	 * 
+	 * @ignore
+	 * @todo Description
+	 */
+	public handleSnap() {
+		
+		let series = this.snapToSeries;
+		let y = series.tooltipY;
+		let x = series.tooltipX;// - this.pixelWidth;
+
+		if (this.xAxis) {
+			if (this.xAxis.renderer.opposite) {
+				y -= this.pixelHeight;
+			}
+		}
+
+		this.point = { x: x, y: y };
+		this.getPositions();
+
+		x -= this.pixelWidth;
+
+		if (this.yAxis) {
+			if (this.yAxis.renderer.opposite) {
+				x += this.pixelWidth;
+			}
+		}
+
+		let tooltip = series.tooltip;
+		let duration = tooltip.animationDuration;
+		let easing = tooltip.animationEasing;
+
+		if (series.baseAxis == series.xAxis) {
+			series.yAxis.showTooltipAtPosition(this.yPosition);
+		}
+
+		if (series.baseAxis == series.yAxis) {
+			series.xAxis.showTooltipAtPosition(this.xPosition);
+		}
+
+		this.lineX.animate([{ property: "y", to: y }], duration, easing);
+		this.lineY.animate([{ property: "x", to: x }], duration, easing);
+
+		if (!this.xAxis) {
+			this.lineX.animate([{ property: "x", to: x }], duration, easing);
+		}
+		if (!this.yAxis) {
+			this.lineY.animate([{ property: "y", to: y }], duration, easing);
+		}
+	}
 }
 
 /**

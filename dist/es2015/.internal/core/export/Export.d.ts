@@ -208,6 +208,13 @@ export interface IExportCSVOptions {
      * @type {boolean}
      */
     useLocale?: boolean;
+    /**
+     * Replace missing values with this.
+     *
+     * @default "" (empty string)
+     * @type {any}
+     */
+    emptyAs?: any;
 }
 /**
  * Represents options for JSON export
@@ -266,6 +273,13 @@ export interface IExportExcelOptions {
      * @type {boolean}
      */
     useLocale?: boolean;
+    /**
+     * Replace missing values with this.
+     *
+     * @default "" (empty string)
+     * @type {any}
+     */
+    emptyAs?: any;
 }
 /**
  * Represents options for print.
@@ -1074,11 +1088,12 @@ export declare class Export extends Validatable {
      * Rertuns an array of values to be used as Excel row.
      *
      * @ignore Exclude from docs
-     * @param  {any}                  row      Row data
-     * @param  {IExportExcelOptions}  options  Options
-     * @return {any[]}                         Array of values
+     * @param  {any}                  row         Row data
+     * @param  {IExportExcelOptions}  options     Options
+     * @param  {any}                  dataFields  Data fields
+     * @return {any[]}                            Array of values
      */
-    getExcelRow(row: any, options?: IExportExcelOptions): any[];
+    getExcelRow(row: any, options?: IExportExcelOptions, dataFields?: any): any[];
     /**
      * Returns chart's data formatted as CSV.
      *
@@ -1095,11 +1110,12 @@ export declare class Export extends Validatable {
      * Formats a row of CSV data.
      *
      * @ignore Exclude from docs
-     * @param  {any}               row     An object holding data for the row
-     * @param  {IExportCSVOptions} options Options
-     * @return {string}                    Formated CSV line
+     * @param  {any}                row         An object holding data for the row
+     * @param  {IExportCSVOptions}  options     Options
+     * @param  {any}                dataFields  Data fields
+     * @return {string}                         Formated CSV line
      */
-    getCSVRow(row: any, options?: IExportCSVOptions): string;
+    getCSVRow(row: any, options?: IExportCSVOptions, dataFields?: any): string;
     /**
      * Returns chart's data in JSON format.
      *
@@ -1122,6 +1138,13 @@ export declare class Export extends Validatable {
      * @return {any}                                              Formatted date value or unmodified value
      */
     convertDateValue<Key extends "json" | "csv" | "xlsx">(field: string, value: any, options?: IExportOptions[Key]): any;
+    /**
+     * Converts empty value based on `emptyAs` option.
+     *
+     * @ignore Exclude from docs
+     * @type {string}
+     */
+    convertEmptyValue<Key extends "csv" | "xlsx">(field: string, value: any, options?: IExportOptions[Key]): any;
     /**
      * Triggers download of the file.
      *

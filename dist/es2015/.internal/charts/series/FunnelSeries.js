@@ -210,7 +210,12 @@ var FunnelSeries = /** @class */ (function (_super) {
         this.dataItems.each(function (dItem) {
             if ($type.hasValue(dItem.value)) {
                 count++;
-                total += dItem.getWorkingValue("value") / dItem.value;
+                if (dItem.value > 0) {
+                    total += dItem.getWorkingValue("value") / dItem.value;
+                }
+                else {
+                    total += 1;
+                }
             }
         });
         this._total = 1 / count * total;
@@ -287,15 +292,19 @@ var FunnelSeries = /** @class */ (function (_super) {
         var nextValue = this.getNextValue(dataItem);
         var workingValue = dataItem.getWorkingValue("value");
         var bottomRatio = this.bottomRatio;
+        var d = 1;
+        if (dataItem.value > 0) {
+            d = workingValue / dataItem.value;
+        }
         if (this.orientation == "vertical") {
-            var linkHeight = sliceLink.pixelHeight * workingValue / dataItem.value;
+            var linkHeight = sliceLink.pixelHeight * d;
             maxHeight = maxHeight + linkHeight; // to avoid one link gap in the bottom
             slice.topWidth = workingValue / this.dataItem.values.value.high * maxWidth;
             slice.bottomWidth = (workingValue - (workingValue - nextValue) * bottomRatio) / this.dataItem.values.value.high * maxWidth;
             sliceLink.topWidth = slice.bottomWidth;
             sliceLink.bottomWidth = (workingValue - (workingValue - nextValue)) / this.dataItem.values.value.high * maxWidth;
             slice.y = this._nextY;
-            slice.height = $math.max(0, maxHeight / this._count * workingValue / dataItem.value * 1 / this._total - linkHeight);
+            slice.height = $math.max(0, maxHeight / this._count * d / this._total - linkHeight);
             slice.x = maxWidth / 2;
             if (!this.alignLabels) {
                 label.x = slice.x;
@@ -309,14 +318,14 @@ var FunnelSeries = /** @class */ (function (_super) {
             sliceLink.x = slice.x;
         }
         else {
-            var linkWidth = sliceLink.pixelWidth * workingValue / dataItem.value;
+            var linkWidth = sliceLink.pixelWidth * d;
             maxWidth = maxWidth + linkWidth; // to avoid one link gap in the bottom
             slice.topWidth = workingValue / this.dataItem.values.value.high * maxHeight;
             slice.bottomWidth = (workingValue - (workingValue - nextValue) * bottomRatio) / this.dataItem.values.value.high * maxHeight;
             sliceLink.topWidth = slice.bottomWidth;
             sliceLink.bottomWidth = (workingValue - (workingValue - nextValue)) / this.dataItem.values.value.high * maxHeight;
             slice.x = this._nextY;
-            slice.width = maxWidth / this._count * workingValue / dataItem.value * 1 / this._total - linkWidth;
+            slice.width = maxWidth / this._count * d * 1 / this._total - linkWidth;
             slice.y = maxHeight / 2;
             if (!this.alignLabels) {
                 label.y = slice.y;

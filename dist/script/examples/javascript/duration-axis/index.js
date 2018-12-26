@@ -17,14 +17,10 @@ chart.data = data;
 
 var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
 dateAxis.renderer.grid.template.location = 0;
-dateAxis.renderer.axisFills.template.disabled = true;
-dateAxis.renderer.ticks.template.disabled = true;
 
 var valueAxis = chart.yAxes.push(new am4charts.DurationAxis());
 valueAxis.tooltip.disabled = true;
 valueAxis.renderer.minWidth = 35;
-valueAxis.renderer.axisFills.template.disabled = true;
-valueAxis.renderer.ticks.template.disabled = true;
 valueAxis.baseUnit = "second";
 
 var series = chart.series.push(new am4charts.StepLineSeries());

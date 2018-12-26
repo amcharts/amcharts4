@@ -433,9 +433,9 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * Function should accept a [[DateAxisDataItem]] and modify its `axisFill`
 	 * property accordingly.
 	 *
-	 * @type {function}
+	 * @todo type
 	 */
-	public fillRule: (dataItem: DateAxisDataItem) => any = function(dataItem: DateAxisDataItem) {
+	public fillRule(dataItem: DateAxisDataItem) {
 		let value = dataItem.value;
 		let axis = dataItem.component;
 		let gridInterval = axis._gridInterval;
@@ -447,7 +447,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		else {
 			dataItem.axisFill.__disabled = false;
 		}
-	};
+	}
 
 	/**
 	 * Constructor
@@ -641,7 +641,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 		this._gridInterval = gridInterval;
 
-		this._gridDate = $time.round(new Date(this.min), gridInterval.timeUnit);
+		this._gridDate = $time.round(new Date(this.min), gridInterval.timeUnit, gridInterval.count);
 		this._nextGridUnit = $time.getNextUnit(gridInterval.timeUnit);
 
 		// the following is needed to avoid grid flickering while scrolling
@@ -1016,12 +1016,11 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 			let position: number = this.valueToPosition(timestamp);
 			let endPosition: number = this.valueToPosition(endTimestamp);
+			let fillEndPosition = endPosition;
 
-			if (this._gridInterval.count > 1) {
+			if (!dataItem.isRange && this._gridInterval.count > 1) {
 				endPosition = position + (endPosition - position) / this._gridInterval.count;
 			}
-
-
 
 			dataItem.position = position;
 
@@ -1037,7 +1036,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 			let fill: AxisFill = dataItem.axisFill;
 			if (fill && !fill.disabled) {
-				renderer.updateFillElement(fill, position, endPosition);
+				renderer.updateFillElement(fill, position, fillEndPosition);
 				if (!dataItem.isRange) {
 					this.fillRule(dataItem);
 				}
@@ -1591,9 +1590,14 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * Returns a Series data item that corresponds to the specific pixel position
 	 * of the Axis.
 	 *
-	 * @param  {XYSeries}          series    Series
-	 * @param  {number}            position  Position (px)
-	 * @return {XYSeriesDataItem}            Data item
+	 * If `findNearest` (third parameter) is set to `true`, the method will try
+	 * to locate nearest available data item if none is found directly under
+	 * `position`.
+	 *
+	 * @param  {XYSeries}          series       Series
+	 * @param  {number}            position     Position (px)
+	 * @param  {boolean}           findNearest  Should axis try to find nearest tooltip if there is no data item at exact position
+	 * @return {XYSeriesDataItem}               Data item
 	 */
 	public getSeriesDataItem(series: XYSeries, position: number, findNearest?: boolean): XYSeriesDataItem {
 		let value: number = this.positionToValue(position);
@@ -1655,11 +1659,17 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	/**
 	 * Returns a formatted date based on position in axis scale.
 	 *
+	 * Please note that `position` represents position within axis which may be
+	 * zoomed and not correspond to Cursor's `position`.
+	 *
+	 * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
+	 *
+	 * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
 	 * @param  {number}  position  Relative position on axis (0-1)
 	 * @return {string}            Position label
-	 * @todo Better format recognition
 	 */
 	public getPositionLabel(position: number): string {
+		// @todo Better format recognition
 		let date = this.positionToDate(position);
 		return this.dateFormatter.format(date, this.getCurrentLabelFormat());
 	}
@@ -1753,6 +1763,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		}
 		if (this.snapTooltip) {
 			let actualDate = $time.round(this.positionToDate(position), this.baseInterval.timeUnit, 1);
+
 			let actualTime = actualDate.getTime();
 			let closestDate: Date;
 
@@ -1780,6 +1791,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			})
 
 			if (closestDate) {
+				closestDate = $time.round(new Date(closestDate.getTime()), this.baseInterval.timeUnit, this.baseInterval.count);
 				closestDate = new Date(closestDate.getTime() + this.baseDuration / 2);
 				position = this.dateToPosition(closestDate);
 			}

@@ -379,6 +379,6 @@ export declare class InteractionObjectEventDispatcher<T extends AMEvent<Interact
      * @return {IDisposer} Disposer
      */
     private _addDOMEvent<E, Key, C>(type, key, listener, context);
-    private _dispatchKeyboardEvent(key, ev);
+    private _dispatchKeyboardEvent<Key>(key, ev);
     protected _on<A, B, Key extends keyof T>(once: boolean, type: Key | null, callback: A, context: B, shouldClone: boolean, dispatch: (type: Key, event: T[Key]) => void): EventListener<T>;
 }

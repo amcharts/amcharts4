@@ -9,7 +9,7 @@
  */
 import { BaseObject } from "./Base";
 import { Adapter } from "./utils/Adapter";
-import { ListTemplate } from "./utils/List";
+import { List } from "./utils/List";
 import { Filter } from "./rendering/filters/Filter";
 import { Sprite } from "./Sprite";
 import * as $type from "./utils/Type";
@@ -175,9 +175,9 @@ export declare class SpriteState<P, A> extends BaseObject {
      * A list of [[Filter]] elements to be applied to the relative [[Sprite]]
      * when switching to this State.
      *
-     * @param {ListTemplate<Filter>}
+     * @param {List}
      */
-    filters: ListTemplate<Filter>;
+    filters: List<Filter>;
     /**
      * Identifies if this object is a "template" and should not be treated as
      * real object that is drawn or actually used in the chart.

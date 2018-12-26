@@ -128,6 +128,12 @@ export declare class Interaction extends BaseObjectEvents {
      */
     protected _usePointerEventsOnly: boolean;
     /**
+     * Use only touch events (for touch only devices such as tablets and phones)
+     *
+     * @type {boolean}
+     */
+    protected _useTouchEventsOnly: boolean;
+    /**
      * Indicates if passive mode options is supported by this browser.
      *
      * @type {boolean}

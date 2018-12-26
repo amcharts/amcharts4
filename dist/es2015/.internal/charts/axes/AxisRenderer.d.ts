@@ -346,7 +346,7 @@ export declare class AxisRenderer extends Container {
      */
     updateLabelElement(label: AxisLabel, position: number, endPosition: number, location?: number): void;
     /**
-     * Updates and positions the axis line element.
+     * Updates and positions the axis fill element.
      *
      * @ignore Exclude from docs
      * @param {AxisFill}  fill         Fill element
@@ -416,6 +416,33 @@ export declare class AxisRenderer extends Container {
     /**
      * A list of Axis' Fill elements.
      *
+     * Those are fill elements that cover the space between every second set
+     * of grid lines, and can be configured to create striped charts.
+     *
+     * Please note that these are disabled by default. To enable them, set
+     * template to true.
+     *
+     * ```TypeScript
+     * categoryAxis.renderer.axisFills.template.disabled = false;
+     * ```
+     * ```JavaScript
+     * categoryAxis.renderer.axisFills.template.disabled = false;
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "xAxes": [{
+     *     // ...
+     *     "renderer": {
+     *       "axisFills": {
+     *         "disabled": false
+     *       }
+     *     }
+     *   }]
+     * }
+     * ```
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/tutorials/alternated-axis-fills/} this tutorial for more info.
      * @return {ListTemplate} Fill elements
      */
     readonly axisFills: ListTemplate<this["_fillType"]>;
@@ -439,6 +466,29 @@ export declare class AxisRenderer extends Container {
     createGrid(): this["_gridType"];
     /**
      * A list of Axis' Tick elements.
+     *
+     * Please note that these are disabled by default. To enable them, set
+     * template to true.
+     *
+     * ```TypeScript
+     * categoryAxis.renderer.ticks.template.disabled = false;
+     * ```
+     * ```JavaScript
+     * categoryAxis.renderer.ticks.template.disabled = false;
+     * ```
+     * ```JSON
+     * {
+     *   // ...
+     *   "xAxes": [{
+     *     // ...
+     *     "renderer": {
+     *       "ticks": {
+     *         "disabled": false
+     *       }
+     *     }
+     *   }]
+     * }
+     * ```
      *
      * @return {ListTemplate} Tick elements
      */

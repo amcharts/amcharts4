@@ -67,10 +67,10 @@ var SpriteEventDispatcher = /** @class */ (function (_super) {
      * @todo Description
      * @type {[type]}
      */
-    SpriteEventDispatcher.prototype._addInteractionObjectEvent = function (type, callback, context) {
+    SpriteEventDispatcher.prototype._addInteractionObjectEvent = function (type, callback, context, shouldClone) {
         var _this = this;
         var counter = this._interactionEvents.insertKeyIfEmpty(type, function () {
-            var disposer = _this.target.interactions.events.on(type, callback, context);
+            var disposer = _this.target.interactions.events.on(type, callback, context, shouldClone);
             return new CounterDisposer(function () {
                 _this._interactionEvents.removeKey(type);
                 disposer.dispose();
@@ -100,7 +100,7 @@ var SpriteEventDispatcher = /** @class */ (function (_super) {
             case "wheeldown":
             case "wheelleft":
             case "wheelright":
-                disposers.push(this._addInteractionObjectEvent(type, this._dispatchSpritePointEvent, this));
+                disposers.push(this._addInteractionObjectEvent(type, this._dispatchSpritePointEvent, this, shouldClone));
                 break;
             case "rightclick":
             case "down":
@@ -119,7 +119,7 @@ var SpriteEventDispatcher = /** @class */ (function (_super) {
             case "focus":
             case "blur":
             case "toggled":
-                disposers.push(this._addInteractionObjectEvent(type, this._dispatchSpriteEvent, this));
+                disposers.push(this._addInteractionObjectEvent(type, this._dispatchSpriteEvent, this, shouldClone));
                 break;
         }
         /**

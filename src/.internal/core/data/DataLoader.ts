@@ -108,6 +108,7 @@ export class DataLoader {
 				let result = res[x];
 				let source = result.target;
 
+
 				// Dispatch events
 				source.dispatchImmediately("loadended");
 
@@ -134,18 +135,22 @@ export class DataLoader {
 			}
 		}).catch((res) => {
 
-			res.target.dispatchImmediately("loadended");
+			if (res.target) {
 
-			if (res.target.events.isEnabled("error")) {
-				res.target.events.dispatchImmediately("error", {
-					type: "error",
-					code: res.xhr.status,
-					message: res.target.language.translate("Unable to load file: %1", null, res.target.url),
-					target: res.target
-				});
+				res.target.dispatchImmediately("loadended");
+
+				if (res.target.events.isEnabled("error")) {
+					res.target.events.dispatchImmediately("error", {
+						type: "error",
+						code: res.xhr.status,
+						message: res.target.language.translate("Unable to load file: %1", null, res.target.url),
+						target: res.target
+					});
+				}
+
+				res.target.dispatchImmediately("ended");
+
 			}
-
-			res.target.dispatchImmediately("ended");
 
 		});
 	}

@@ -132,6 +132,8 @@ export class RadarCursor extends XYCursor {
 
 		// Apply theme
 		this.applyTheme();
+
+		this.mask = undefined;
 	}
 
 	/**

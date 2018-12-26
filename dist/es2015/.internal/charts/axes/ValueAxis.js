@@ -155,27 +155,6 @@ var ValueAxis = /** @class */ (function (_super) {
         _this._adjustedEnd = 1;
         _this._extremesChanged = false;
         /**
-         * Holds reference to a function that accepts a DataItem as parameter.
-         *
-         * It can either return a fill opacity for a fill, or manipulate data item
-         * directly, to create various highlighting scenarios.
-         *
-         * @type {function}
-         */
-        _this.fillRule = function (dataItem) {
-            var value = dataItem.value;
-            var axis = dataItem.component;
-            if (!dataItem.axisFill.disabled) {
-                // rounding in left to solve floating point number
-                if ($math.round(value / axis.step / 2, 5) == Math.round(value / axis.step / 2)) {
-                    dataItem.axisFill.__disabled = true;
-                }
-                else {
-                    dataItem.axisFill.__disabled = false;
-                }
-            }
-        };
-        /**
          * As calculating totals is expensive operation and not often needed, we
          * don't do it by default.
          *
@@ -201,6 +180,27 @@ var ValueAxis = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    /**
+     * Holds reference to a function that accepts a DataItem as parameter.
+     *
+     * It can either return a fill opacity for a fill, or manipulate data item
+     * directly, to create various highlighting scenarios.
+     *
+     * @todo type
+     */
+    ValueAxis.prototype.fillRule = function (dataItem) {
+        var value = dataItem.value;
+        var axis = dataItem.component;
+        if (!dataItem.axisFill.disabled) {
+            // rounding in left to solve floating point number
+            if ($math.round(value / axis.step / 2, 5) == Math.round(value / axis.step / 2)) {
+                dataItem.axisFill.__disabled = true;
+            }
+            else {
+                dataItem.axisFill.__disabled = false;
+            }
+        }
+    };
     /**
      * Returns a new/empty [[DataItem]] of the type appropriate for this object.
      *
@@ -375,11 +375,11 @@ var ValueAxis = /** @class */ (function (_super) {
                     if (dataItem.value != value_1) {
                         dataItem.value = value_1;
                         dataItem.text = this.formatLabel(value_1);
-                        if (dataItem.label.invalid) {
+                        if (dataItem.label && dataItem.label.invalid) {
                             dataItem.label.validate();
                         }
                         if (dataItem.value > this.min && dataItem.value < this.max) {
-                            if (dataItem.label.measuredWidth > this.ghostLabel.measuredWidth || dataItem.label.measuredHeight > this.ghostLabel.measuredHeight) {
+                            if (dataItem.label && (dataItem.label.measuredWidth > this.ghostLabel.measuredWidth || dataItem.label.measuredHeight > this.ghostLabel.measuredHeight)) {
                                 this.ghostLabel.text = dataItem.label.text;
                             }
                         }
@@ -417,7 +417,7 @@ var ValueAxis = /** @class */ (function (_super) {
                                 if (dataItem.value != breakValue_1) {
                                     dataItem.value = breakValue_1;
                                     dataItem.text = _this.formatLabel(breakValue_1);
-                                    if (dataItem.label.invalid) {
+                                    if (dataItem.label && dataItem.label.invalid) {
                                         dataItem.label.validate();
                                     }
                                 }
@@ -613,7 +613,7 @@ var ValueAxis = /** @class */ (function (_super) {
                 else {
                     position = (Math.log(value) * Math.LOG10E - Math.log(this.min) * Math.LOG10E) / ((Math.log(this.max) * Math.LOG10E - Math.log(this.min) * Math.LOG10E));
                 }
-                position = $math.round(position, 5);
+                //position = $math.round(position, 10);
                 return position;
             }
         }
@@ -1223,7 +1223,7 @@ var ValueAxis = /** @class */ (function (_super) {
             start = 0;
             end = 1;
         }
-        this.zoom({ start: start, end: end }, false);
+        this.zoom({ start: start, end: end }, false, false, 0);
     };
     Object.defineProperty(ValueAxis.prototype, "strictMinMax", {
         /**
@@ -1483,6 +1483,12 @@ var ValueAxis = /** @class */ (function (_super) {
     /**
      * Returns value based on position.
      *
+     * Please note that `position` represents position within axis which may be
+     * zoomed and not correspond to Cursor's `position`.
+     *
+     * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
      * @param  {number}  position  Relative position on axis (0-1)
      * @return {string}            Position label
      */

@@ -89,6 +89,12 @@ var Interaction = /** @class */ (function (_super) {
          */
         _this._usePointerEventsOnly = false;
         /**
+         * Use only touch events (for touch only devices such as tablets and phones)
+         *
+         * @type {boolean}
+         */
+        _this._useTouchEventsOnly = false;
+        /**
          * Indicates if passive mode options is supported by this browser.
          *
          * @type {boolean}
@@ -214,6 +220,10 @@ var Interaction = /** @class */ (function (_super) {
         else {
             // uses defaults for normal browsers
         }
+        // Detect if device has a mouse
+        if (!window.navigator.msPointerEnabled && (typeof matchMedia !== "undefined") && !matchMedia('(pointer:fine)').matches) {
+            _this._useTouchEventsOnly = true;
+        }
         // Detect proper mouse wheel events
         if ("onwheel" in document.createElement("div")) {
             // Modern browsers
@@ -275,10 +285,12 @@ var Interaction = /** @class */ (function (_super) {
     Interaction.prototype.addGlobalEvents = function () {
         var _this = this;
         if (!this._globalEventsAdded) {
-            this._disposers.push(addEventListener(document, this._pointerEvents.pointerdown, function (ev) { _this.handleGlobalPointerDown(ev); }));
-            this._disposers.push(addEventListener(document, this._pointerEvents.pointermove, function (ev) { _this.handleGlobalPointerMove(ev); }));
-            this._disposers.push(addEventListener(document, this._pointerEvents.pointerup, function (ev) { _this.handleGlobalPointerUp(ev); }));
-            this._disposers.push(addEventListener(document, this._pointerEvents.pointercancel, function (ev) { _this.handleGlobalPointerUp(ev, true); }));
+            if (!this._useTouchEventsOnly) {
+                this._disposers.push(addEventListener(document, this._pointerEvents.pointerdown, function (ev) { _this.handleGlobalPointerDown(ev); }));
+                this._disposers.push(addEventListener(document, this._pointerEvents.pointermove, function (ev) { _this.handleGlobalPointerMove(ev); }));
+                this._disposers.push(addEventListener(document, this._pointerEvents.pointerup, function (ev) { _this.handleGlobalPointerUp(ev); }));
+                this._disposers.push(addEventListener(document, this._pointerEvents.pointercancel, function (ev) { _this.handleGlobalPointerUp(ev, true); }));
+            }
             // No need to duplicate events for hubrid systems that support both
             // pointer events and touch events. Touch events are need only for
             // some touch-only systems, like Mobile Safari.
@@ -450,7 +462,7 @@ var Interaction = /** @class */ (function (_super) {
      */
     Interaction.prototype.processFocusable = function (io) {
         var _this = this;
-        if (io.focusable === true && (io.tabindex > -1)) {
+        if (io.focusable === true && (io.tabindex > -1) && !this._useTouchEventsOnly) {
             if (!io.eventDisposers.hasKey("focusable")) {
                 io.eventDisposers.setKey("focusable", new MultiDisposer([
                     addEventListener(io.element, "focus", function (e) { return _this.handleFocus(io, e); }),
@@ -915,8 +927,8 @@ var Interaction = /** @class */ (function (_super) {
         }
         // Calculate deltas
         if (ev instanceof WheelEvent) {
-            deltaX = Math.round(ev.deltaX) * mod;
-            deltaY = Math.round(ev.deltaY) * mod;
+            deltaX = Math.round((-1 * ev.wheelDeltaX) || ev.deltaX) * mod;
+            deltaY = Math.round((-1 * ev.wheelDeltaY) || ev.deltaY) * mod;
         }
         else {
             throw new Error("Invalid event type");
@@ -1255,7 +1267,9 @@ var Interaction = /** @class */ (function (_super) {
         io.downPointers.removeValue(pointer);
         // Trigger out because some touch devices won't trigger out events
         // on their own
-        this.handleOut(io, pointer, ev, true);
+        if (pointer.touch || this._useTouchEventsOnly) {
+            this.handleOut(io, pointer, ev, true);
+        }
         // Check if object still down
         if (io.isDown) {
             // Check if there are no other pointers hovering this element

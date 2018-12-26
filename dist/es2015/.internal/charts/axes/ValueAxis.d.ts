@@ -318,9 +318,9 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * It can either return a fill opacity for a fill, or manipulate data item
      * directly, to create various highlighting scenarios.
      *
-     * @type {function}
+     * @todo type
      */
-    fillRule: (dataItem: ValueAxisDataItem) => any;
+    fillRule(dataItem: ValueAxisDataItem): void;
     /**
      * As calculating totals is expensive operation and not often needed, we
      * don't do it by default.
@@ -753,6 +753,12 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
     /**
      * Returns value based on position.
      *
+     * Please note that `position` represents position within axis which may be
+     * zoomed and not correspond to Cursor's `position`.
+     *
+     * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
      * @param  {number}  position  Relative position on axis (0-1)
      * @return {string}            Position label
      */

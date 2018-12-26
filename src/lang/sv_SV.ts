@@ -5,7 +5,7 @@
  * Language: Swedish
  * Author: Bjorn Svensson
  *
- * Follow instructions in [`amcharts4-lang` repo](https://github.com/amcharts/amcharts4-lang) to make corrections or add new translations.
+ * Follow instructions in [on this page](https://www.amcharts.com/docs/v4/tutorials/creating-translations/) to make corrections or add new translations.
  *
  * ---
  * Empty string means no translation, so default "International English"

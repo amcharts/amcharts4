@@ -294,11 +294,13 @@ var Export = /** @class */ (function (_super) {
             useLocale: true
         });
         _this._formatOptions.setKey("csv", {
-            addColumnNames: true
+            addColumnNames: true,
+            emptyAs: ""
         });
         _this._formatOptions.setKey("xlsx", {
             addColumnNames: true,
-            useLocale: true
+            useLocale: true,
+            emptyAs: ""
         });
         _this._formatOptions.setKey("print", {
             delay: 500,
@@ -1528,7 +1530,7 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getExcel = function (type, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var XLSX, wbOptions, sheetName, wb, data, len, i, uri;
+            var XLSX, wbOptions, sheetName, wb, data, dataFields, len, i, uri;
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.xlsx];
@@ -1549,13 +1551,14 @@ var Export = /** @class */ (function (_super) {
                             Sheets: {}
                         };
                         data = [];
+                        dataFields = this.dataFields;
                         // Add column names?
                         if (options.addColumnNames) {
-                            data.push(this.getExcelRow(this.dataFields, options));
+                            data.push(this.getExcelRow(dataFields, options));
                         }
                         // Add lines
                         for (len = this.data.length, i = 0; i < len; i++) {
-                            data.push(this.getExcelRow(this.data[i], options));
+                            data.push(this.getExcelRow(this.data[i], options, dataFields));
                         }
                         // Create sheet and add data
                         wb.Sheets[sheetName] = XLSX.utils.aoa_to_sheet(data);
@@ -1582,20 +1585,27 @@ var Export = /** @class */ (function (_super) {
      * Rertuns an array of values to be used as Excel row.
      *
      * @ignore Exclude from docs
-     * @param  {any}                  row      Row data
-     * @param  {IExportExcelOptions}  options  Options
-     * @return {any[]}                         Array of values
+     * @param  {any}                  row         Row data
+     * @param  {IExportExcelOptions}  options     Options
+     * @param  {any}                  dataFields  Data fields
+     * @return {any[]}                            Array of values
      */
-    Export.prototype.getExcelRow = function (row, options) {
+    Export.prototype.getExcelRow = function (row, options, dataFields) {
         var _this = this;
         // Init
         var items = [];
+        // Data fields
+        if (!dataFields) {
+            dataFields = row;
+        }
         // Process each row item
-        $object.each(row, function (key, value) {
+        $object.each(dataFields, function (key, name) {
+            // Get value
+            var value = _this.convertEmptyValue(key, row[key], options);
             // Check if we need to skip
-            if ($type.hasValue(_this.dataFields) && !$type.hasValue(_this.dataFields[key])) {
+            /*if ($type.hasValue(this.dataFields) && !$type.hasValue(this.dataFields[key])) {
                 return;
-            }
+            }*/
             items.push(_this.convertDateValue(key, value, options));
         });
         return items;
@@ -1613,12 +1623,13 @@ var Export = /** @class */ (function (_super) {
      */
     Export.prototype.getCSV = function (type, options) {
         return tslib_1.__awaiter(this, void 0, void 0, function () {
-            var csv, br, len, i, row, charset, uri;
+            var csv, dataFields, br, len, i, row, charset, uri;
             return tslib_1.__generator(this, function (_a) {
                 csv = "";
+                dataFields = this.dataFields;
                 br = "";
                 for (len = this.data.length, i = 0; i < len; i++) {
-                    row = this.getCSVRow(this.data[i], options);
+                    row = this.getCSVRow(this.data[i], options, dataFields);
                     if (options.reverse) {
                         csv = row + br + csv;
                     }
@@ -1629,7 +1640,7 @@ var Export = /** @class */ (function (_super) {
                 }
                 // Add column names?
                 if (options.addColumnNames) {
-                    csv = this.getCSVRow(this.dataFields, options) + br + csv;
+                    csv = this.getCSVRow(dataFields, options) + br + csv;
                 }
                 charset = this.adapter.apply("charset", {
                     charset: "charset=utf-8",
@@ -1648,21 +1659,29 @@ var Export = /** @class */ (function (_super) {
      * Formats a row of CSV data.
      *
      * @ignore Exclude from docs
-     * @param  {any}               row     An object holding data for the row
-     * @param  {IExportCSVOptions} options Options
-     * @return {string}                    Formated CSV line
+     * @param  {any}                row         An object holding data for the row
+     * @param  {IExportCSVOptions}  options     Options
+     * @param  {any}                dataFields  Data fields
+     * @return {string}                         Formated CSV line
      */
-    Export.prototype.getCSVRow = function (row, options) {
+    Export.prototype.getCSVRow = function (row, options, dataFields) {
         var _this = this;
         // Init
         var separator = options.separator || ",";
         var items = [];
+        // Data fields
+        if (!dataFields) {
+            dataFields = row;
+        }
         // Process each row item
-        $object.each(row, function (key, value) {
+        $object.each(dataFields, function (key, name) {
+            // Get value
+            var value = _this.convertEmptyValue(key, row[key], options);
             // Check if we need to skip
-            if ($type.hasValue(_this.dataFields) && !$type.hasValue(_this.dataFields[key])) {
+            // This is no longer required because we are iterating via dataFields anyway
+            /*if ($type.hasValue(this.dataFields) && !$type.hasValue(this.dataFields[key])) {
                 return;
-            }
+            }*/
             // Convert dates
             var item = _this.convertDateValue(key, value, options);
             // Cast and escape doublequotes
@@ -1740,6 +1759,15 @@ var Export = /** @class */ (function (_super) {
             }
         }
         return value;
+    };
+    /**
+     * Converts empty value based on `emptyAs` option.
+     *
+     * @ignore Exclude from docs
+     * @type {string}
+     */
+    Export.prototype.convertEmptyValue = function (field, value, options) {
+        return $type.hasValue(value) ? value : options.emptyAs;
     };
     /**
      * Triggers download of the file.
@@ -2271,12 +2299,15 @@ var Export = /** @class */ (function (_super) {
         var _this = this;
         this._dataFields = {};
         if (this.data.length) {
-            var row = this.data[0];
-            $object.each(row, function (key, value) {
-                _this._dataFields[key] = _this.adapter.apply("dataFieldName", {
-                    name: key,
-                    field: key
-                }).name;
+            $array.each(this.data, function (row) {
+                $object.each(row, function (key, value) {
+                    if (!$type.hasValue(_this._dataFields[key])) {
+                        _this._dataFields[key] = _this.adapter.apply("dataFieldName", {
+                            name: key,
+                            field: key
+                        }).name;
+                    }
+                });
             });
         }
     };

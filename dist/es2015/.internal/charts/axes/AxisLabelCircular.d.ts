@@ -132,5 +132,5 @@ export declare class AxisLabelCircular extends AxisLabel {
      * @param  {number}  axisRadius  Distance from point (px)
      * @return {IPoint}              [description]
      */
-    fixPoint(point: IPoint, axisRadius: number): IPoint;
+    fixPoint(point: IPoint, axisRadius: number, axisRadiusY?: number): IPoint;
 }

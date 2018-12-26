@@ -76,8 +76,6 @@ categoryAxis.renderer.labels.template.horizontalCenter = "right";
 categoryAxis.renderer.grid.template.location = 0;
 categoryAxis.renderer.tooltipLocation = 0.5;
 categoryAxis.renderer.grid.template.strokeOpacity = 0.07;
-categoryAxis.renderer.axisFills.template.disabled = true;
-categoryAxis.renderer.ticks.template.disabled = true;
 
 let valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
 valueAxis.tooltip.disabled = true;
@@ -88,8 +86,6 @@ valueAxis.strictMinMax = true;
 valueAxis.renderer.maxLabelPosition = 0.99;
 valueAxis.renderer.minGridDistance = 10;
 valueAxis.renderer.grid.template.strokeOpacity = 0.07;
-valueAxis.renderer.axisFills.template.disabled = true;
-valueAxis.renderer.ticks.template.disabled = true;
 
 let series1 = chart.series.push(new am4charts.RadarColumnSeries());
 series1.columns.template.width = am4core.percent(80);

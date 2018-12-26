@@ -83,7 +83,6 @@ var AxisRenderer = /** @class */ (function (_super) {
         _this.line = _this.createChild(AxisLine);
         _this.line.shouldClone = false;
         _this.line.strokeOpacity = 0;
-        _this.ticks.template.strokeOpacity = 0;
         var baseGrid = _this.createChild(Grid);
         baseGrid.shouldClone = false;
         _this.baseGrid = baseGrid;
@@ -94,7 +93,8 @@ var AxisRenderer = /** @class */ (function (_super) {
         disposers.push(gridContainer);
         disposers.push(breakContainer);
         disposers.push(_this._chart);
-        //this.axisFills.template.disabled = true;
+        _this.ticks.template.disabled = true;
+        _this.axisFills.template.disabled = true;
         _this.axisFills.template.interactionsEnabled = false;
         // Apply theme
         _this.applyTheme();
@@ -319,7 +319,7 @@ var AxisRenderer = /** @class */ (function (_super) {
         // This is a placeholder method for extending classes to override.
     };
     /**
-     * Updates and positions the axis line element.
+     * Updates and positions the axis fill element.
      *
      * @ignore Exclude from docs
      * @param {AxisFill}  fill         Fill element
@@ -438,12 +438,41 @@ var AxisRenderer = /** @class */ (function (_super) {
         /**
          * A list of Axis' Fill elements.
          *
+         * Those are fill elements that cover the space between every second set
+         * of grid lines, and can be configured to create striped charts.
+         *
+         * Please note that these are disabled by default. To enable them, set
+         * template to true.
+         *
+         * ```TypeScript
+         * categoryAxis.renderer.axisFills.template.disabled = false;
+         * ```
+         * ```JavaScript
+         * categoryAxis.renderer.axisFills.template.disabled = false;
+         * ```
+         * ```JSON
+         * {
+         *   // ...
+         *   "xAxes": [{
+         *     // ...
+         *     "renderer": {
+         *       "axisFills": {
+         *         "disabled": false
+         *       }
+         *     }
+         *   }]
+         * }
+         * ```
+         *
+         * @see {@link https://www.amcharts.com/docs/v4/tutorials/alternated-axis-fills/} this tutorial for more info.
          * @return {ListTemplate} Fill elements
          */
         get: function () {
             if (!this._axisFills) {
-                this._axisFills = new ListTemplate(this.createFill(this.axis));
-                this._axisFills.template.applyOnClones = true;
+                var fill = this.createFill(this.axis);
+                this._axisFills = new ListTemplate(fill);
+                fill.applyOnClones = true;
+                fill.events.on("enabled", this.invalidateAxisItems, this, false);
                 this._disposers.push(new ListDisposer(this._axisFills));
                 this._disposers.push(this._axisFills.template);
             }
@@ -468,8 +497,10 @@ var AxisRenderer = /** @class */ (function (_super) {
          */
         get: function () {
             if (!this._grid) {
-                this._grid = new ListTemplate(this.createGrid());
-                this._grid.template.applyOnClones = true;
+                var grid = this.createGrid();
+                this._grid = new ListTemplate(grid);
+                grid.applyOnClones = true;
+                grid.events.on("enabled", this.invalidateAxisItems, this, false);
                 this._disposers.push(new ListDisposer(this._grid));
                 this._disposers.push(this._grid.template);
             }
@@ -490,6 +521,29 @@ var AxisRenderer = /** @class */ (function (_super) {
         /**
          * A list of Axis' Tick elements.
          *
+         * Please note that these are disabled by default. To enable them, set
+         * template to true.
+         *
+         * ```TypeScript
+         * categoryAxis.renderer.ticks.template.disabled = false;
+         * ```
+         * ```JavaScript
+         * categoryAxis.renderer.ticks.template.disabled = false;
+         * ```
+         * ```JSON
+         * {
+         *   // ...
+         *   "xAxes": [{
+         *     // ...
+         *     "renderer": {
+         *       "ticks": {
+         *         "disabled": false
+         *       }
+         *     }
+         *   }]
+         * }
+         * ```
+         *
          * @return {ListTemplate} Tick elements
          */
         get: function () {
@@ -497,6 +551,7 @@ var AxisRenderer = /** @class */ (function (_super) {
                 var tick = this.createTick();
                 tick.applyOnClones = true;
                 tick.isMeasured = false;
+                tick.events.on("enabled", this.invalidateAxisItems, this, false);
                 this._ticks = new ListTemplate(tick);
                 this._disposers.push(new ListDisposer(this._ticks));
                 this._disposers.push(this._ticks.template);
@@ -522,8 +577,10 @@ var AxisRenderer = /** @class */ (function (_super) {
          */
         get: function () {
             if (!this._labels) {
-                this._labels = new ListTemplate(this.createLabel());
-                this._labels.template.applyOnClones = true;
+                var label = this.createLabel();
+                this._labels = new ListTemplate(label);
+                label.applyOnClones = true;
+                label.events.on("enabled", this.invalidateAxisItems, this, false);
                 this._disposers.push(new ListDisposer(this._labels));
                 this._disposers.push(this._labels.template);
             }

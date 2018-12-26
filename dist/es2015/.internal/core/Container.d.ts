@@ -131,6 +131,14 @@ export interface IContainerProperties extends ISpriteProperties {
      * @type {boolean}
      */
     reverseOrder?: boolean;
+    /**
+     * Specifies if, when state is applied on this container, the same state
+     * should be applied to container's children as well as `background`.
+     *
+     * @default false
+     * @type {boolean}
+     */
+    setStateOnChildren?: boolean;
 }
 /**
  * Defines events for the [[Container]]
@@ -246,13 +254,6 @@ export declare class Container extends Sprite {
      */
     hasFocused: boolean;
     /**
-     * Specifies if, when state is applied on this container, the same state
-     * should be applied to container's children as well as `background`.
-     *
-     * @type {boolean}
-     */
-    setStateOnChildren: boolean;
-    /**
      * An array of references to elements the state should be set, when it is set
      * on this element.
      *
@@ -342,7 +343,8 @@ export declare class Container extends Sprite {
      * Invalidates the whole element, including layout AND all its child
      * elements.
      *
-     * @ignore Exclude from docs
+     * As this will essentially force all elements to redraw, use only if
+     * absolutely necessary.
      */
     deepInvalidate(): void;
     /**
@@ -559,6 +561,17 @@ export declare class Container extends Sprite {
      * @param {Optional<boolean>}  value  Reverse children?
      */
     reverseOrder: Optional<boolean>;
+    /**
+     * @return {boolean} Set state on children
+     */
+    /**
+     * Specifies if, when state is applied on this container, the same state
+     * should be applied to container's children as well as `background`.
+     *
+     * @default false
+     * @param {boolean}  value  Set state on children
+     */
+    setStateOnChildren: boolean;
     /**
      * Checks if point is within bounds of a container.
      *

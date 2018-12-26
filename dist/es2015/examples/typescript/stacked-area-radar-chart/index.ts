@@ -151,8 +151,6 @@ categoryAxis.interactionsEnabled = false;
 let categoryAxisRenderer = categoryAxis.renderer;
 categoryAxisRenderer.cellStartLocation = 0;
 categoryAxisRenderer.tooltipLocation = 0.5;
-categoryAxisRenderer.grid.template.disabled = true;
-categoryAxisRenderer.ticks.template.disabled = true;
 
 categoryAxisRenderer.axisFills.template.fill = am4core.color("#ffffff");
 categoryAxisRenderer.axisFills.template.fillOpacity = 0.2;
@@ -171,8 +169,6 @@ let valueAxis = chart.yAxes.push(new am4charts.ValueAxis<am4charts.AxisRendererR
 let valueAxisRenderer = valueAxis.renderer;
 
 valueAxisRenderer.line.disabled = true;
-valueAxisRenderer.grid.template.disabled = true;
-valueAxisRenderer.ticks.template.disabled = true;
 valueAxis.min = 0;
 valueAxis.renderer.tooltip.disabled = true;
 

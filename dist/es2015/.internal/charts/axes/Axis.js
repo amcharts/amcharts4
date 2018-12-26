@@ -55,13 +55,32 @@ var AxisDataItem = /** @class */ (function (_super) {
             if (!this._grid) {
                 var component_1 = this.component;
                 if (component_1) {
-                    var grid_1 = component_1.renderer.grid.create();
+                    var template = void 0;
+                    var grid_1;
+                    if (this.isRange) {
+                        template = component_1.axisRanges.template.grid;
+                        if (template.disabled) {
+                            return;
+                        }
+                        else {
+                            grid_1 = template.clone();
+                        }
+                    }
+                    else {
+                        template = component_1.renderer.grid.template;
+                        if (template.disabled) {
+                            return;
+                        }
+                        else {
+                            grid_1 = component_1.renderer.grid.create();
+                            this._disposers.push(new Disposer(function () {
+                                component_1.renderer.grid.removeValue(grid_1);
+                            }));
+                        }
+                    }
                     this.grid = grid_1;
                     this._disposers.push(grid_1);
                     grid_1.axis = this.component;
-                    this._disposers.push(new Disposer(function () {
-                        component_1.renderer.grid.removeValue(grid_1);
-                    }));
                 }
             }
             return this._grid;
@@ -99,13 +118,32 @@ var AxisDataItem = /** @class */ (function (_super) {
             if (!this._tick) {
                 var component_2 = this.component;
                 if (component_2) {
-                    var tick_1 = component_2.renderer.ticks.create();
+                    var template = void 0;
+                    var tick_1;
+                    if (this.isRange) {
+                        template = component_2.axisRanges.template.tick;
+                        if (template.disabled) {
+                            return;
+                        }
+                        else {
+                            tick_1 = template.clone();
+                        }
+                    }
+                    else {
+                        template = component_2.renderer.ticks.template;
+                        if (template.disabled) {
+                            return;
+                        }
+                        else {
+                            tick_1 = component_2.renderer.ticks.create();
+                            this._disposers.push(new Disposer(function () {
+                                component_2.renderer.ticks.removeValue(tick_1);
+                            }));
+                        }
+                    }
                     this.tick = tick_1;
                     tick_1.axis = this.component;
                     this._disposers.push(tick_1);
-                    this._disposers.push(new Disposer(function () {
-                        component_2.renderer.ticks.removeValue(tick_1);
-                    }));
                 }
             }
             return this._tick;
@@ -143,14 +181,33 @@ var AxisDataItem = /** @class */ (function (_super) {
             if (!this._label) {
                 var component_3 = this.component;
                 if (component_3) {
-                    var label_1 = component_3.renderer.labels.create();
+                    var template = void 0;
+                    var label_1;
+                    if (this.isRange) {
+                        template = component_3.axisRanges.template.label;
+                        if (template.disabled) {
+                            return;
+                        }
+                        else {
+                            label_1 = template.clone();
+                        }
+                    }
+                    else {
+                        template = component_3.renderer.labels.template;
+                        if (template.disabled) {
+                            return;
+                        }
+                        else {
+                            label_1 = component_3.renderer.labels.create();
+                            this._disposers.push(new Disposer(function () {
+                                component_3.renderer.labels.removeValue(label_1);
+                            }));
+                        }
+                    }
                     this._disposers.push(label_1);
                     this.label = label_1;
                     label_1.axis = this.component;
                     label_1.virtualParent = component_3;
-                    this._disposers.push(new Disposer(function () {
-                        component_3.renderer.labels.removeValue(label_1);
-                    }));
                 }
             }
             return this._label;
@@ -188,12 +245,31 @@ var AxisDataItem = /** @class */ (function (_super) {
             if (!this._axisFill) {
                 var component_4 = this.component;
                 if (component_4) {
-                    var axisFill_1 = component_4.renderer.axisFills.create();
+                    var template = void 0;
+                    var axisFill_1;
+                    if (this.isRange) {
+                        template = component_4.axisRanges.template.axisFill;
+                        if (!this.isTemplate && template.disabled) {
+                            return;
+                        }
+                        else {
+                            axisFill_1 = template.clone();
+                        }
+                    }
+                    else {
+                        template = component_4.renderer.axisFills.template;
+                        if (template.disabled) {
+                            return;
+                        }
+                        else {
+                            axisFill_1 = component_4.renderer.axisFills.create();
+                            this._disposers.push(new Disposer(function () {
+                                component_4.renderer.axisFills.removeValue(axisFill_1);
+                            }));
+                        }
+                    }
                     this.axisFill = axisFill_1;
                     this._disposers.push(axisFill_1);
-                    this._disposers.push(new Disposer(function () {
-                        component_4.renderer.axisFills.removeValue(axisFill_1);
-                    }));
                 }
             }
             return this._axisFill;
@@ -274,7 +350,7 @@ var AxisDataItem = /** @class */ (function (_super) {
                 this._contents = contents;
                 var component = this.component;
                 if (component) {
-                    var mask = component.renderer.axisFills.create();
+                    var mask = component.renderer.createFill(this.component);
                     mask.disabled = false;
                     mask.axis = component;
                     this.addSprite(mask);
@@ -428,38 +504,16 @@ var Axis = /** @class */ (function (_super) {
          */
         _this._series = new List();
         /**
-         * Holds reference to a function that accepts a DataItem and its index as
-         * parameters.
+         * Specifies if axis should be automatically disposed when removing from
+         * chart's axis list.
          *
-         * It can either return a fill opacity for a fill, or manipulate data item
-         * directly, to create various highlighting scenarios.
-         *
-         * For example, you can set it up to highlight only weekends on a
-         * [[DateAxis]].
-         *
-         * @type {function}
-         */
-        _this.fillRule = function (dataItem, index) {
-            if (!$type.isNumber(index)) {
-                index = dataItem.index;
-            }
-            if (index / 2 == Math.round(index / 2)) {
-                dataItem.axisFill.__disabled = true;
-                dataItem.axisFill.opacity = 0;
-            }
-            else {
-                dataItem.axisFill.opacity = 1;
-                dataItem.axisFill.__disabled = false;
-            }
-        };
-        /**
-         * Specifies if axis should be automatically disposed when removing from chart's axis list.
          * @default true
+         * @type {boolean}
          */
         _this.autoDispose = true;
         _this.className = "Axis";
         _this.shouldClone = false;
-        _this.cursorTooltipEnabled = true;
+        _this.setPropertyValue("cursorTooltipEnabled", true);
         var interfaceColors = new InterfaceColorSet();
         // Create title
         _this.title = new Label();
@@ -492,6 +546,31 @@ var Axis = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    /**
+     * Holds reference to a function that accepts a DataItem and its index as
+     * parameters.
+     *
+     * It can either return a fill opacity for a fill, or manipulate data item
+     * directly, to create various highlighting scenarios.
+     *
+     * For example, you can set it up to highlight only weekends on a
+     * [[DateAxis]].
+     *
+     * @todo type
+     */
+    Axis.prototype.fillRule = function (dataItem, index) {
+        if (!$type.isNumber(index)) {
+            index = dataItem.index;
+        }
+        if (index / 2 == Math.round(index / 2)) {
+            dataItem.axisFill.__disabled = true;
+            dataItem.axisFill.opacity = 0;
+        }
+        else {
+            dataItem.axisFill.opacity = 1;
+            dataItem.axisFill.__disabled = false;
+        }
+    };
     /**
      * Returns a new/empty DataItem of the type appropriate for this object.
      *
@@ -571,10 +650,18 @@ var Axis = /** @class */ (function (_super) {
      */
     Axis.prototype.appendDataItem = function (dataItem) {
         var renderer = this.renderer;
-        dataItem.tick.parent = renderer.gridContainer;
-        dataItem.label.parent = renderer;
-        dataItem.grid.parent = renderer.gridContainer;
-        dataItem.axisFill.parent = renderer.gridContainer;
+        if (dataItem.tick) {
+            dataItem.tick.parent = renderer.gridContainer;
+        }
+        if (dataItem.label) {
+            dataItem.label.parent = renderer;
+        }
+        if (dataItem.grid) {
+            dataItem.grid.parent = renderer.gridContainer;
+        }
+        if (dataItem.axisFill) {
+            dataItem.axisFill.parent = renderer.gridContainer;
+        }
     };
     /**
      * Redraws Axis' related items.
@@ -595,10 +682,18 @@ var Axis = /** @class */ (function (_super) {
         $iter.each(this.axisRanges.iterator(), function (axisRange) {
             _this.appendDataItem(axisRange);
             _this.validateDataElement(axisRange);
-            axisRange.grid.validate();
-            axisRange.tick.validate();
-            axisRange.axisFill.validate();
-            axisRange.label.validate();
+            if (axisRange.grid) {
+                axisRange.grid.validate();
+            }
+            if (axisRange.tick) {
+                axisRange.tick.validate();
+            }
+            if (axisRange.axisFill) {
+                axisRange.axisFill.validate();
+            }
+            if (axisRange.label) {
+                axisRange.label.validate();
+            }
         });
     };
     /**
@@ -783,7 +878,7 @@ var Axis = /** @class */ (function (_super) {
          * @return {boolean} Display tooltip?
          */
         get: function () {
-            return this._cursorTooltipEnabled;
+            return this.getPropertyValue("cursorTooltipEnabled");
         },
         /**
          * Indicates if axis should display a tooltip for chart's cursor.
@@ -791,9 +886,10 @@ var Axis = /** @class */ (function (_super) {
          * @param {boolean} value Display tooltip?
          */
         set: function (value) {
-            this._cursorTooltipEnabled = value;
-            if (value && this.renderer) {
-                this.renderer.updateTooltip();
+            if (this.setPropertyValue("cursorTooltipEnabled", value)) {
+                if (value && this.renderer) {
+                    this.renderer.updateTooltip();
+                }
             }
         },
         enumerable: true,
@@ -947,6 +1043,17 @@ var Axis = /** @class */ (function (_super) {
         get: function () {
             if (!this._axisRanges) {
                 var dataItem = this.createDataItem();
+                dataItem.isRange = true;
+                dataItem.axisFill = this.renderer.axisFills.template.clone();
+                dataItem.grid = this.renderer.grid.template.clone();
+                dataItem.tick = this.renderer.ticks.template.clone();
+                dataItem.label = this.renderer.labels.template.clone();
+                dataItem.isTemplate = true;
+                dataItem.component = this;
+                dataItem.axisFill.disabled = false;
+                dataItem.tick.disabled = false;
+                dataItem.grid.disabled = false;
+                dataItem.label.disabled = false;
                 this._axisRanges = new ListTemplate(dataItem);
                 this._axisRanges.events.on("inserted", this.processAxisRange, this, false);
                 this._disposers.push(new ListDisposer(this._axisRanges));
@@ -1315,6 +1422,12 @@ var Axis = /** @class */ (function (_super) {
      * Individual axis types should override this method to generate a label
      * that is relevant to axis type.
      *
+     * Please note that `position` represents position within axis which may be
+     * zoomed and not correspond to Cursor's `position`.
+     *
+     * To convert Cursor's `position` to Axis' `position` use `toAxisPosition()` method.
+     *
+     * @see {@link https://www.amcharts.com/docs/v4/tutorials/tracking-cursors-position-via-api/#Tracking_Cursor_s_position} For more information about cursor tracking.
      * @param  {number}  position  Relative position on axis (0-1)
      * @return {string}            Position label
      */
@@ -1346,9 +1459,17 @@ var Axis = /** @class */ (function (_super) {
      * @return {this}            Range data item
      */
     Axis.prototype.createSeriesRange = function (series) {
-        var range = this.createDataItem();
+        var range = this.axisRanges.create();
         range.component = this;
+        range.axisFill = this.renderer.axisFills.template.clone();
         range.axisFill.disabled = false;
+        range.axisFill.fillOpacity = 0;
+        range.grid = this.renderer.grid.template.clone();
+        range.grid.disabled = true;
+        range.tick = this.renderer.ticks.template.clone();
+        range.tick.disabled = true;
+        range.label = this.renderer.labels.template.clone();
+        range.label.disabled = true;
         series.axisRanges.push(range);
         return range;
     };

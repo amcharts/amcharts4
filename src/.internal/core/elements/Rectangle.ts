@@ -11,6 +11,7 @@
 import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../Sprite";
 import { registry } from "../Registry";
 import * as $math from "../utils/Math";
+import { IRectangle } from "../defs/IRectangle";
 
 
 /**
@@ -110,17 +111,36 @@ export class Rectangle extends Sprite {
 	}
 
 	/**
-	 * Updates bounding box based on element dimension settings.
+	 * Measures the element.
 	 *
 	 * @ignore Exclude from docs
 	 */
 	public measureElement(): void {
-		this._bbox = {
-			x: 0,
-			y: 0,
-			width: this.innerWidth,
-			height: this.innerHeight
-		};
+		
+	}	
+
+	/**
+	 * Returns bounding box (square) for this element.
+	 *
+	 * @ignore Exclude from docs
+	 * @type {IRectangle}
+	 */
+	public get bbox(): IRectangle {
+		if (this.definedBBox) {
+			return this.definedBBox;
+		}
+
+		if (this.isMeasured) {
+			return {
+				x: 0,
+				y: 0,
+				width: this.innerWidth,
+				height: this.innerHeight
+			}
+		}
+		else {
+			return { x: 0, y: 0, width: 0, height: 0 };
+		}
 	}
 
 }

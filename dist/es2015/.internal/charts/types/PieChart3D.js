@@ -158,8 +158,9 @@ var PieChart3D = /** @class */ (function (_super) {
          * @param {number}  value  Depth (px)
          */
         set: function (value) {
-            this.setPropertyValue("depth", value);
-            this.invalidateDataUsers();
+            if (this.setPropertyValue("depth", value)) {
+                this.invalidateDataUsers();
+            }
         },
         enumerable: true,
         configurable: true
@@ -178,8 +179,9 @@ var PieChart3D = /** @class */ (function (_super) {
          * @param {number}  value  Angle (degrees)
          */
         set: function (value) {
-            this.setPropertyValue("angle", value);
-            this.invalidateDataUsers();
+            if (this.setPropertyValue("angle", value)) {
+                this.invalidateDataUsers();
+            }
         },
         enumerable: true,
         configurable: true

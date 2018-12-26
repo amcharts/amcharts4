@@ -296,9 +296,10 @@ var AxisRendererRadial = /** @class */ (function (_super) {
          * @param {number}  value  Start angle
          */
         set: function (value) {
-            // do not normalize angel here!
-            this.setPropertyValue("startAngle", value);
-            this.invalidateAxisItems();
+            // do not normalize angle here!
+            if (this.setPropertyValue("startAngle", value)) {
+                this.invalidateAxisItems();
+            }
         },
         enumerable: true,
         configurable: true
@@ -317,8 +318,9 @@ var AxisRendererRadial = /** @class */ (function (_super) {
          */
         set: function (value) {
             // do not normalize angel here!
-            this.setPropertyValue("endAngle", value);
-            this.invalidateAxisItems();
+            if (this.setPropertyValue("endAngle", value)) {
+                this.invalidateAxisItems();
+            }
         },
         enumerable: true,
         configurable: true

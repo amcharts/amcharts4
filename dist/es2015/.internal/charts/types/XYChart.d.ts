@@ -576,7 +576,7 @@ export declare class XYChart extends SerialChart {
      * @param {List<Axis>}  axes      List of axes to show tooltip on
      * @param {number}      position  Position (px)
      */
-    showAxisTooltip(axes: List<Axis>, position: number): void;
+    showAxisTooltip(axes: List<Axis>, position: number, except?: Axis): void;
     /**
      * Recalculates the value range for the axis taking into account zoom level & inversed.
      *
@@ -584,7 +584,7 @@ export declare class XYChart extends SerialChart {
      * @param  {IRange}  range  Range
      * @return {IRange}         Modified range
      */
-    getUpdatedRange(axis: Axis, range: IRange): IRange;
+    getUpdatedRange(axis: Axis<this["_xAxisRendererType"]>, range: IRange): IRange;
     /**
      * Performs zoom and other operations when user finishes zooming using chart
      * cursor, e.g. zooms axes.
@@ -658,7 +658,7 @@ export declare class XYChart extends SerialChart {
      * @param  {boolean}     instantly  If set to `true` will skip zooming animation
      * @return {IRange}                 Recalculated range that is common to all involved axes
      */
-    protected zoomAxes(axes: List<Axis>, range: IRange, instantly?: boolean, round?: boolean): IRange;
+    protected zoomAxes(axes: List<Axis<this["_xAxisRendererType"]>>, range: IRange, instantly?: boolean, round?: boolean, declination?: number): IRange;
     /**
      * @return {boolean} Mask bullet container?
      */

@@ -8,6 +8,7 @@
  * @hidden
  */
 import { Sprite, ISpriteProperties, ISpriteAdapters, ISpriteEvents } from "../Sprite";
+import { IRectangle } from "../defs/IRectangle";
 /**
  * ============================================================================
  * REQUISITES
@@ -157,4 +158,11 @@ export declare class RoundedRectangle extends Sprite {
      * @ignore Exclude from docs
      */
     measureElement(): void;
+    /**
+     * Returns bounding box (square) for this element.
+     *
+     * @ignore Exclude from docs
+     * @type {IRectangle}
+     */
+    readonly bbox: IRectangle;
 }

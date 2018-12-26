@@ -22,12 +22,9 @@ let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
 dateAxis.renderer.grid.template.location = 0;
 dateAxis.renderer.ticks.template.length = 8;
 dateAxis.renderer.ticks.template.strokeOpacity = 0.1;
-dateAxis.renderer.axisFills.template.disabled = true;
 
 let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 valueAxis.tooltip.disabled = true;
-valueAxis.renderer.axisFills.template.disabled = true;
-valueAxis.renderer.ticks.template.disabled = true;
 
 let series = chart.series.push(new am4charts.LineSeries());
 series.dataFields.dateX = "date";

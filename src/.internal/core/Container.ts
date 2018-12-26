@@ -164,6 +164,15 @@ export interface IContainerProperties extends ISpriteProperties {
 	 * @type {boolean}
 	 */
 	reverseOrder?: boolean;
+
+	/**
+	 * Specifies if, when state is applied on this container, the same state
+	 * should be applied to container's children as well as `background`.
+	 *
+	 * @default false
+	 * @type {boolean}
+	 */
+	setStateOnChildren?: boolean
 }
 
 /**
@@ -299,14 +308,6 @@ export class Container extends Sprite {
 	public hasFocused: boolean = false;
 
 	/**
-	 * Specifies if, when state is applied on this container, the same state
-	 * should be applied to container's children as well as `background`.
-	 *
-	 * @type {boolean}
-	 */
-	public setStateOnChildren: boolean = false;
-
-	/**
 	 * An array of references to elements the state should be set, when it is set
 	 * on this element.
 	 *
@@ -407,7 +408,7 @@ export class Container extends Sprite {
 			// void
 		}
 
-		if (this.element) {
+		if (this.element && !child.disabled) {
 			let group = <Group>this.element;
 			group.add(child.group);
 		}
@@ -473,14 +474,13 @@ export class Container extends Sprite {
 	 * @ignore Exclude from docs
 	 */
 	public invalidateLayout(): void {
-		if (this.disabled || this.isTemplate || this.layout == "none" || this.__disabled) {
+		if (this.layoutInvalid || this.disabled || this.isTemplate || this.layout == "none" || this.__disabled) {
 			return;
 		}
-		if (!this.layoutInvalid) {
-			this.layoutInvalid = true;
-			registry.addToInvalidLayouts(this);
-			system.requestFrame();
-		}
+
+		this.layoutInvalid = true;
+		registry.addToInvalidLayouts(this);
+		system.requestFrame();
 	}
 
 	/**
@@ -501,7 +501,8 @@ export class Container extends Sprite {
 	 * Invalidates the whole element, including layout AND all its child
 	 * elements.
 	 *
-	 * @ignore Exclude from docs
+	 * As this will essentially force all elements to redraw, use only if
+	 * absolutely necessary.
 	 */
 	public deepInvalidate(): void {
 		super.invalidate();
@@ -1325,7 +1326,7 @@ export class Container extends Sprite {
 			}
 		}
 
-		if(this.layout == "none"){
+		if (this.layout == "none") {
 			let noneBBox = this.bbox;
 			left = noneBBox.x;
 			right = noneBBox.x + noneBBox.width;
@@ -1408,7 +1409,7 @@ export class Container extends Sprite {
 		let measuredContentHeight = contentBottom - contentTop;
 
 		/// handle content alignment
-		if (this.layout != "none") {
+		if (this.layout != "none" && (this.contentAlign || this.contentValign) && children.length > 0) {
 			let dx: $type.Optional<number>;
 			let dy: $type.Optional<number>;
 
@@ -1714,6 +1715,24 @@ export class Container extends Sprite {
 	 */
 	public get reverseOrder(): Optional<boolean> {
 		return this.getPropertyValue("reverseOrder");
+	}
+
+	/**
+	 * Specifies if, when state is applied on this container, the same state
+	 * should be applied to container's children as well as `background`.
+	 *
+	 * @default false
+	 * @param {boolean}  value  Set state on children
+	 */
+	public set setStateOnChildren(value: boolean) {
+		this.setPropertyValue("setStateOnChildren", value, true);
+	}
+
+	/**
+	 * @return {boolean} Set state on children
+	 */
+	public get setStateOnChildren(): boolean {
+		return this.getPropertyValue("setStateOnChildren");
 	}
 
 	/**
@@ -2060,8 +2079,10 @@ export class Container extends Sprite {
 				super.dispatchReady();
 			}
 			else {
-				registry.events.once("exitframe", this.dispatchReady, this, false);
-				system.requestFrame();
+				registry.events.once("exitframe", ()=>{
+					this.dispatchReady();
+					system.requestFrame();
+				}, undefined, false);				
 			}
 		}
 	}

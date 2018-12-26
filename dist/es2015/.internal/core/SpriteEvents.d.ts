@@ -50,7 +50,7 @@ export declare class SpriteEventDispatcher<T extends AMEvent<Sprite, ISpriteEven
      * @todo Description
      * @type {[type]}
      */
-    private _addInteractionObjectEvent<C, Key>(type, callback, context);
+    private _addInteractionObjectEvent<C, Key>(type, callback, context, shouldClone);
     /**
      * [_on description]
      *
@@ -288,4 +288,16 @@ export interface ISpriteEvents extends IInteractionObjectEvents {
      * `isActive` property is being changed)
      */
     toggled: {};
+    /**
+     * Invoked just before Sprite is disposed.
+     */
+    beforedisposed: {};
+    /**
+     * Invoked when sprite is disabled
+     */
+    disabled: {};
+    /**
+     * Invoked when sprite is enabled
+     */
+    enabled: {};
 }

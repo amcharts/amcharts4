@@ -239,7 +239,7 @@ var PieSeries = /** @class */ (function (_super) {
             var slice = dataItem.slice;
             slice.radius = this.pixelRadius;
             if ($type.isNumber(dataItem.radiusValue)) {
-                slice.radius *= dataItem.values.radiusValue.percent / this._maxRadiusPercent;
+                slice.radius = this.pixelInnerRadius + (this.pixelRadius - this.pixelInnerRadius) * dataItem.values.radiusValue.percent / this._maxRadiusPercent;
             }
             if (!(slice.innerRadius instanceof Percent)) {
                 slice.innerRadius = this.pixelInnerRadius;
@@ -256,6 +256,8 @@ var PieSeries = /** @class */ (function (_super) {
             if (this.alignLabels) {
                 var labelRadius = label.pixelRadius(slice.radius);
                 var x = tick.length + labelRadius;
+                label.dx = 0;
+                label.dy = 0;
                 label.verticalCenter = "middle";
                 var arcRect = this._arcRect;
                 // right half
@@ -275,9 +277,11 @@ var PieSeries = /** @class */ (function (_super) {
                 point = { x: x, y: slice.iy * distance };
             }
             else {
+                label.horizontalCenter = undefined;
+                label.verticalCenter = undefined;
                 var x = slice.ix * slice.radius;
                 var y = slice.iy * slice.radiusY;
-                point = label.fixPoint({ x: x, y: y }, slice.radius);
+                point = label.fixPoint({ x: x, y: y }, slice.radius, slice.radiusY);
             }
             label.moveTo(point);
             this._currentStartAngle += slice.arc;

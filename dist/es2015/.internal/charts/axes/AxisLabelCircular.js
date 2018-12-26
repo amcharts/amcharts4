@@ -110,8 +110,11 @@ var AxisLabelCircular = /** @class */ (function (_super) {
      * @param  {number}  axisRadius  Distance from point (px)
      * @return {IPoint}              [description]
      */
-    AxisLabelCircular.prototype.fixPoint = function (point, axisRadius) {
+    AxisLabelCircular.prototype.fixPoint = function (point, axisRadius, axisRadiusY) {
         var angle = $math.DEGREES * Math.atan2(point.y, point.x);
+        if (!$type.isNumber(axisRadiusY)) {
+            axisRadiusY = axisRadius;
+        }
         if (this.invalid) {
             this.validate(); //@todo" check if we need this
         }
@@ -167,7 +170,7 @@ var AxisLabelCircular = /** @class */ (function (_super) {
         this.fdx = this.dx;
         this.fdy = this.dy;
         point.x += $math.cos(angle) * labelRadius;
-        point.y += $math.sin(angle) * labelRadius;
+        point.y += $math.sin(angle) * labelRadius * axisRadiusY / axisRadius;
         return point;
     };
     return AxisLabelCircular;

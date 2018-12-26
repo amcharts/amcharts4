@@ -305,7 +305,6 @@ export class AxisRenderer extends Container {
 		this.line = this.createChild(AxisLine);
 		this.line.shouldClone = false;
 		this.line.strokeOpacity = 0;
-		this.ticks.template.strokeOpacity = 0;
 
 		let baseGrid: Grid = this.createChild(Grid);
 		baseGrid.shouldClone = false;
@@ -319,7 +318,8 @@ export class AxisRenderer extends Container {
 		disposers.push(breakContainer);
 		disposers.push(this._chart);
 
-		//this.axisFills.template.disabled = true;
+		this.ticks.template.disabled = true;
+		this.axisFills.template.disabled = true;
 		this.axisFills.template.interactionsEnabled = false;
 		// Apply theme
 		this.applyTheme();
@@ -563,7 +563,7 @@ export class AxisRenderer extends Container {
 	}
 
 	/**
-	 * Updates and positions the axis line element.
+	 * Updates and positions the axis fill element.
 	 *
 	 * @ignore Exclude from docs
 	 * @param {AxisFill}  fill         Fill element
@@ -685,12 +685,41 @@ export class AxisRenderer extends Container {
 	/**
 	 * A list of Axis' Fill elements.
 	 *
+	 * Those are fill elements that cover the space between every second set
+	 * of grid lines, and can be configured to create striped charts.
+	 *
+	 * Please note that these are disabled by default. To enable them, set
+	 * template to true.
+	 *
+	 * ```TypeScript
+	 * categoryAxis.renderer.axisFills.template.disabled = false;
+	 * ```
+	 * ```JavaScript
+	 * categoryAxis.renderer.axisFills.template.disabled = false;
+	 * ```
+	 * ```JSON
+	 * {
+	 *   // ...
+	 *   "xAxes": [{
+	 *     // ...
+	 *     "renderer": {
+	 *       "axisFills": {
+	 *         "disabled": false
+	 *       }
+	 *     }
+	 *   }]
+	 * }
+	 * ```
+	 *
+	 * @see {@link https://www.amcharts.com/docs/v4/tutorials/alternated-axis-fills/} this tutorial for more info.
 	 * @return {ListTemplate} Fill elements
 	 */
 	public get axisFills(): ListTemplate<this["_fillType"]> {
 		if (!this._axisFills) {
-			this._axisFills = new ListTemplate<AxisFill>(this.createFill(this.axis));
-			this._axisFills.template.applyOnClones = true;
+			let fill = this.createFill(this.axis);
+			this._axisFills = new ListTemplate<AxisFill>(fill);
+			fill.applyOnClones = true;
+			fill.events.on("enabled", this.invalidateAxisItems, this, false);
 			this._disposers.push(new ListDisposer(this._axisFills));
 			this._disposers.push(this._axisFills.template);
 		}
@@ -713,8 +742,10 @@ export class AxisRenderer extends Container {
 	 */
 	public get grid(): ListTemplate<this["_gridType"]> {
 		if (!this._grid) {
-			this._grid = new ListTemplate<Grid>(this.createGrid());
-			this._grid.template.applyOnClones = true;
+			let grid = this.createGrid();
+			this._grid = new ListTemplate<Grid>(grid);
+			grid.applyOnClones = true;
+			grid.events.on("enabled", this.invalidateAxisItems, this, false);
 			this._disposers.push(new ListDisposer(this._grid));
 			this._disposers.push(this._grid.template);
 		}
@@ -733,6 +764,29 @@ export class AxisRenderer extends Container {
 	/**
 	 * A list of Axis' Tick elements.
 	 *
+	 * Please note that these are disabled by default. To enable them, set
+	 * template to true.
+	 *
+	 * ```TypeScript
+	 * categoryAxis.renderer.ticks.template.disabled = false;
+	 * ```
+	 * ```JavaScript
+	 * categoryAxis.renderer.ticks.template.disabled = false;
+	 * ```
+	 * ```JSON
+	 * {
+	 *   // ...
+	 *   "xAxes": [{
+	 *     // ...
+	 *     "renderer": {
+	 *       "ticks": {
+	 *         "disabled": false
+	 *       }
+	 *     }
+	 *   }]
+	 * }
+	 * ```
+	 *
 	 * @return {ListTemplate} Tick elements
 	 */
 	public get ticks(): ListTemplate<this["_tickType"]> {
@@ -740,6 +794,7 @@ export class AxisRenderer extends Container {
 			let tick: AxisTick = this.createTick();
 			tick.applyOnClones = true;
 			tick.isMeasured = false;
+			tick.events.on("enabled", this.invalidateAxisItems, this, false);
 			this._ticks = new ListTemplate<AxisTick>(tick);
 			this._disposers.push(new ListDisposer(this._ticks));
 			this._disposers.push(this._ticks.template);
@@ -763,8 +818,10 @@ export class AxisRenderer extends Container {
 	 */
 	public get labels(): ListTemplate<this["_labelType"]> {
 		if (!this._labels) {
-			this._labels = new ListTemplate<AxisLabel>(this.createLabel());
-			this._labels.template.applyOnClones = true;
+			let label = this.createLabel();
+			this._labels = new ListTemplate<AxisLabel>(label);
+			label.applyOnClones = true;
+			label.events.on("enabled", this.invalidateAxisItems, this, false);
 			this._disposers.push(new ListDisposer(this._labels));
 			this._disposers.push(this._labels.template);
 		}

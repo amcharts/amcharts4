@@ -444,7 +444,7 @@ export function isString(value: any): value is string {
  * @return {value}         Is number?
  */
 export function isNumber(value: any): value is number {
-	return typeof value === "number" && !isNaN(value);
+	return typeof value === "number" && Number(value) == value;
 }
 
 /**

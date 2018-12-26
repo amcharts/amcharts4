@@ -52,7 +52,9 @@ var Group = /** @class */ (function (_super) {
         if (element) {
             var first = this.node.childNodes[0];
             if (first) {
-                this.node.insertBefore(element.node, first);
+                if (first != element.node) {
+                    this.node.insertBefore(element.node, first);
+                }
             }
             else {
                 this.node.appendChild(element.node);
@@ -78,6 +80,20 @@ var Group = /** @class */ (function (_super) {
             catch (err) {
             }
         }
+    };
+    /**
+     * Checks if this group already has the child element added
+     *
+     * @param {AMElement}  element
+     * @return {boolean}
+     */
+    Group.prototype.hasChild = function (element) {
+        for (var i = 0; i < this.node.childNodes.length; i++) {
+            if (this.node.childNodes[i] == element.node) {
+                return true;
+            }
+        }
+        return false;
     };
     Object.defineProperty(Group.prototype, "content", {
         /**

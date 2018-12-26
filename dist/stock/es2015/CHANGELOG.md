@@ -5,6 +5,89 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.13] - 2018-12-26
+
+### Fixed
+- Charts were broken in IE9.
+
+
+## [4.0.12] - 2018-12-24
+
+### Fixed
+- Cursor/mouse operations were somewhat broken in IE11 and lower.
+
+
+## [4.0.11] - 2018-12-24
+
+### Added
+- `"disabled"` and `"enabled"` events added to `Sprite`.
+- `cursorTooltipEnabled` added to `XYSeries`  If set to `false` cursor will not trigger bullet/item tooltips on series.
+
+### Changed
+- IMPORTANT (CODE-BREAKING CHANGES) For performance reasons we no longer create axis elements if they are disabled. For the same reasons we disabled by `axis.ticks` and `axis.axisFills` by default. Previously to enable them you had to set their `strokeOpacity` and/or `fillOpacity` to non-zero. This no longer will work. You will need to set `disabled` to `false` instead.
+- `axisRanges` now take their default values from `dateAxis.axisRanges.template` items (`axisFill`, `grid`, `tick`, `label`). Previously they were using the defaults from `dateAxis.renderer.label` etc. This was not comfortable and counter-intuitive.
+
+### Fixed
+- `XYChartScrollbar`'s value axis was calculating `min`/`max` with a very big step.
+- Ember plugin was throwing console errors.
+- Fixed occasional zoom-in issue on Mobile Safari.
+- `MapChart` mouse wheel zoom direction was inverted on some browsers.
+- Cursor was not snapping correctly to `DateAxis` items.
+- Multiple floating columns on the same category were disappearing when scrolling the chart.
+- Date range fills were off when zooming on Gantt Chart.
+- Overlapping tooltips problem solved.
+- When `snapToSeries` was set for a tooltip, it was flickering a lot on slower browsers.
+- `alignLabels = false` on a `PieSeries3D` was causing labels to be positioned incorrectly.
+- `PieSeries.dataFields.radiusValue` was not accounting for `chart.innerRadius`.
+- Dynamically updating `alignLabels` for `PieSeries` did not work correctly.
+- Legend: `itemValueText` only worked if `valueText` was set.
+- `ValueAxis` setting `maxZoomFactor = 1` was not working as expected.
+- Changing values for all data items sometimes was resulting in `ValueAxis` scale going into negative.
+- Some more tooltip and cursor related issues fixed.
+- Axis Fill did not properly fill the whole span when axis was scaled.
+
+
+## [4.0.10] - 2018-12-20
+
+### Fixed
+- In some situations, when `geodataSource` had events set, it was producing error.
+- `DateAxis` was not rounding intervals properly, could display grid at `15:01`, `15:31` etc.
+- Cloning an object was cloning sometimes was causing event handlers to be duplicated.
+- A leftover console debug line was removed.
+
+
+## [4.0.9] - 2018-12-19
+
+### Added
+- `snapToSeries` added to `XYCursor`. Allows setting series to which cursor lines should be snapped. Works if one of the axis of the series is `DateAxis` or `CategoryAxis`. Won't work if both axes are `ValueAxis`.
+- New example: Pie charts in Columns using JSON config.
+- Export: `emptyAs` added to both CSV and Excel export options. If set, missing values will be replaced with this value (default is empty string).
+- New event `"beforedisposed"` added to `Sprite`. Kicks in right before the element starts to dismantle itself.
+- Italian translation.
+
+### Changed
+- Export: if no `dataFields` specify it will now look for fields in all of the data, not just the first line.
+- When creating a new state on an object, it will not automatically propagate itself on object's clones if `applyOnClones = true`.
+- Setting `Container`'s `setStateOnChildren` will now propage to the new value to its existing clones if `applyOnClones = true`.
+- In case `deepInvalidate()` is called on `Container`, it forces labels to redraw.
+- `filters` on `SpriteState` is now `List` (was `ListTemplate`). It's better for performance which does not require creating Filter template object.
+
+### Fixed
+- Clicking a hoverable/clickable object was resultin in "over" and "out" events generated next to "hit".
+- JSON: properties to existing `List` items were not being applied properly.
+- Using geodata in Ember app was causing errors (Issue 672).
+- Export to CSV/Excel was following first line of data values. It now respects `dataFields` setting, and will replace missing values with `emptyAs` (new options setting).
+- Wheel-scrolling in MacOS Safari was very slow.
+- HTML-based tooltips were too small to fit the actual contents on MaCOS Safari.
+- `DateFormatter` was not parsing `"i"` format as local timezone, rather than UTC.
+- Sometimes bullets with `Rectangle` element in them were not positioned properly.
+- If category was named `"undefined"`, it was messing up label positions on `CategoryAxis`.
+- State's property value was not being applied if current value of the property was `undefined`.
+- Performance of `PieChart` and `RadarChart` improved dramatically under IEs.
+- In some cases `"ready"` event was not being fired.
+- `FunnelSeries` with 0 (zero) value slices was not rendered correctly.
+
+
 ## [4.0.8] - 2018-12-11
 
 ### Added
