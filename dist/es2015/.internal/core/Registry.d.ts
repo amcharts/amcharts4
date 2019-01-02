@@ -255,11 +255,11 @@ export declare class Registry {
     /**
      * @ignore
      */
-    addToInvalidLayouts(sprite: Sprite): void;
+    addToInvalidLayouts(sprite: Container): void;
     /**
      * @ignore
      */
-    removeFromInvalidLayouts(sprite: Sprite): void;
+    removeFromInvalidLayouts(sprite: Container): void;
 }
 /**
  * A singleton global instance of [[Registry]].

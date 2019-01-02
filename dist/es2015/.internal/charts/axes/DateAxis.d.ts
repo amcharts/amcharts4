@@ -363,7 +363,7 @@ export declare class DateAxis<T extends AxisRenderer = AxisRenderer> extends Val
      *
      * @todo type
      */
-    fillRule(dataItem: DateAxisDataItem): void;
+    fillRule(dataItem: this["_dataItem"]): void;
     /**
      * Constructor
      */

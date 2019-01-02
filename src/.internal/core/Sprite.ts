@@ -876,7 +876,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * This flag is set to `true` for the initial sprite you create and place
 	 * to the div so that we could clear all additional
 	 * sprites/containers when this sprite is disposed.
-	 * 
+	 *
 	 * @ignore
 	 */
 	public isBaseSprite: boolean = false;
@@ -1319,8 +1319,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			this._inited = true;
 
 			if (!this.showOnInit) {
-				this.appeared = true;
+				this.appeared = true;			
 			}
+
+			if (this.hidden) {
+				this.hide(0);
+			}			
+
 			this.applyMask();
 			this.dispatch("validated");
 			this.dispatch("inited");
@@ -3963,13 +3968,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			let dataContext = <any>dataItem.dataContext;
 
 			if (dataContext) {
-				for (let propertyName in this.propertyFields) {
-					let fieldValue = this.propertyFields[propertyName];
+				$object.each(this.propertyFields, (propertyName, fieldValue) => {
 					if ($type.hasValue(dataContext[fieldValue])) {
 						let anyThis = <any>this;
 						anyThis[propertyName] = dataContext[fieldValue];
 					}
-				}
+				});
 			}
 
 			this.invalidate();

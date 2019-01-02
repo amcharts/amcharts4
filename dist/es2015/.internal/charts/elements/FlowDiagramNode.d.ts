@@ -196,7 +196,7 @@ export declare class FlowDiagramNode extends Container {
      * @readonly
      * @return {List<FlowDiagramDataItem>} Incoming items
      */
-    readonly incomingDataItems: List<FlowDiagramDataItem>;
+    readonly incomingDataItems: List<this["_dataItem"]>;
     /**
      * List of outgoing items (links).
      *

@@ -206,7 +206,7 @@ export declare class SankeyDiagram extends FlowDiagram {
      * @ignore
      * @type {Iterator}
      */
-    protected _sorted: $iter.Iterator<[string, SankeyNode]>;
+    protected _sorted: $iter.Iterator<[string, this["_node"]]>;
     protected _heightAnimation: Animation;
     /**
      * Constructor
@@ -221,11 +221,11 @@ export declare class SankeyDiagram extends FlowDiagram {
     /**
      * Returns node's highest level.
      *
-     * @param  {SankeyNode}  node   Node
-     * @param  {number}      level  Current level
-     * @return {number}             New level
+     * @param  {this["_node"]}  node   Node
+     * @param  {number}        level  Current level
+     * @return {number}               New level
      */
-    protected getNodeLevel(node: SankeyNode, level: number): number;
+    protected getNodeLevel(node: this["_node"], level: number): number;
     /**
      * Calculates relation between pixel height and total value.
      *

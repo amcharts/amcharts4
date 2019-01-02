@@ -12,6 +12,7 @@ import { IRectangle } from "../defs/IRectangle";
 import { IDisposer } from "../utils/Disposer";
 import { IPoint } from "../defs/IPoint";
 import * as $dom from "../utils/DOM";
+import * as $object from "../utils/Object";
 import * as $type from "../utils/Type";
 
 /**
@@ -626,19 +627,18 @@ export class AMElement implements IDisposer {
 	 * @return {AMElement}                  The same element
 	 */
 	public attr(attributes: ISVGAttribute): AMElement {
-		for (let attributeName in attributes) {
-
-			if (!$type.hasValue((<any>attributes)[attributeName])) {
+		$object.each(attributes, (attributeName, attributeValue) => {
+			if (!$type.hasValue(attributeValue)) {
 				this.node.removeAttribute(attributeName);
 			}
 			else {
 				// this is for performance testing
-				//if((<any>attributes)[attributeName] == this.node.getAttribute(attributeName)){
-				//	console.log(attributeName, (<any>attributes)[attributeName])
+				//if(attributeValue == this.node.getAttribute(attributeName)){
+				//	console.log(attributeName, attributeValue)
 				//}
-				this.node.setAttribute(attributeName, (<any>attributes)[attributeName]);
+				this.node.setAttribute(attributeName, attributeValue);
 			}
-		}
+		});
 		return this;
 	}
 
@@ -705,14 +705,14 @@ export class AMElement implements IDisposer {
 	 */
 	public addStyle(attributes: Object): AMElement {
 		// @todo Review because it's a bit messy and maybe not needed (pratically not used)
-		for (let attributeName in attributes) {
-			if (!$type.hasValue((<any>attributes)[attributeName])) {
+		$object.each(attributes, (attributeName, attributeValue) => {
+			if (!$type.hasValue(attributeValue)) {
 				this.removeStyle(attributeName);
 			}
 			else {
-				(<any>this.node.style)[attributeName] = (<any>attributes)[attributeName];
+				(<any>this.node.style)[attributeName] = attributeValue;
 			}
-		}
+		});
 		return this;
 	}
 

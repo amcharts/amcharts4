@@ -414,7 +414,7 @@ export interface IExportAdapters {
         options?: IExportOptions[Keys];
     };
     exportFunction: {
-        func: (type: Keys, options?: IExportOptions[Keys]) => Promise<any>;
+        func: <Key extends keyof IExportOptions>(type: Key, options?: IExportOptions[Key]) => Promise<any>;
         type: Keys;
         options?: IExportOptions[Keys];
     };

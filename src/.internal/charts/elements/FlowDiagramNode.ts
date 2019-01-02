@@ -336,7 +336,7 @@ export class FlowDiagramNode extends Container {
 	 * @readonly
 	 * @return {List<FlowDiagramDataItem>} Incoming items
 	 */
-	public get incomingDataItems(): List<FlowDiagramDataItem> {
+	public get incomingDataItems(): List<this["_dataItem"]> {
 		if (!this._incomingDataItems) {
 			let incomingDataItems = new List<FlowDiagramDataItem>();
 			incomingDataItems.events.on("inserted", () => {

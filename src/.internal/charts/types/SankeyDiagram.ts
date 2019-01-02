@@ -28,6 +28,7 @@ import { Orientation } from "../../core/defs/Orientation";
 import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
+import * as $object from "../../core/utils/Object";
 import * as $number from "../../core/utils/Number";
 import * as $order from "../../core/utils/Order";
 
@@ -270,7 +271,7 @@ export class SankeyDiagram extends FlowDiagram {
 	 * @ignore
 	 * @type {Iterator}
 	 */
-	protected _sorted: $iter.Iterator<[string, SankeyNode]>;
+	protected _sorted: $iter.Iterator<[string, this["_node"]]>;
 
 	protected _heightAnimation: Animation;
 
@@ -315,14 +316,14 @@ export class SankeyDiagram extends FlowDiagram {
 	/**
 	 * Returns node's highest level.
 	 *
-	 * @param  {SankeyNode}  node   Node
-	 * @param  {number}      level  Current level
-	 * @return {number}             New level
+	 * @param  {this["_node"]}  node   Node
+	 * @param  {number}        level  Current level
+	 * @return {number}               New level
 	 */
-	protected getNodeLevel(node: SankeyNode, level: number): number {
+	protected getNodeLevel(node: this["_node"], level: number): number {
 		//@todo solve circular so
 		let levels: number[] = [level];
-		$iter.each(node.incomingDataItems.iterator(), (link: SankeyDiagramDataItem) => {
+		$iter.each(node.incomingDataItems.iterator(), (link) => {
 			if (link.fromNode) {
 				levels.push(this.getNodeLevel(link.fromNode, level + 1));
 			}
@@ -375,12 +376,13 @@ export class SankeyDiagram extends FlowDiagram {
 		});
 
 		let maxSumLevel: number;
-		for (let key in this._levelSum) {
-			if (this.maxSum < this._levelSum[key]) {
-				this.maxSum = this._levelSum[key];
+
+		$object.each(this._levelSum, (key, value) => {
+			if (this.maxSum < value) {
+				this.maxSum = value;
 				maxSumLevel = $type.toNumber(key);
 			}
-		}
+		});
 
 		this._maxSumLevel = maxSumLevel;
 		let maxSumLevelNodeCount = this._levelNodesCount[this._maxSumLevel];

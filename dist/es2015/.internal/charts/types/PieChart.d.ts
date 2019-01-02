@@ -110,7 +110,7 @@ export interface IPieChartAdapters extends IPercentChartAdapters, IPieChartPrope
  * 	"country": "Lithuania",
  * 	"litres": 501.9
  * }, {
- * 	"country": "Czech Republic",
+ * 	"country": "Czechia",
  * 	"litres": 301.9
  * }, {
  * 	"country": "Ireland",
@@ -134,7 +134,7 @@ export interface IPieChartAdapters extends IPercentChartAdapters, IPieChartPrope
  * 	"country": "Lithuania",
  * 	"litres": 501.9
  * }, {
- * 	"country": "Czech Republic",
+ * 	"country": "Czechia",
  * 	"litres": 301.9
  * }, {
  * 	"country": "Ireland",
@@ -163,7 +163,7 @@ export interface IPieChartAdapters extends IPercentChartAdapters, IPieChartPrope
  * 		"country": "Lithuania",
  * 		"litres": 501.9
  * 	}, {
- * 		"country": "Czech Republic",
+ * 		"country": "Czechia",
  * 		"litres": 301.9
  * 	}, {
  * 		"country": "Ireland",

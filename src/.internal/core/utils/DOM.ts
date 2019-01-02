@@ -226,7 +226,7 @@ export function isElement(el: HTMLElement): boolean {
 
 /**
  * Checks of element `a` contains element `b`.
- * 
+ *
  * @param  {HTMLElement | SVGSVGElement}  a  Aleged ascendant
  * @param  {HTMLElement | SVGSVGElement}  b  Aleged descendant
  * @return {boolean}                         Contains?
@@ -247,14 +247,12 @@ export function contains(a: HTMLElement | SVGSVGElement, b: HTMLElement | SVGSVG
  * @param {HTMLElement | SVGSVGElement}          target  Element to copy attributes to
  */
 export function copyAttributes(source: Element | HTMLElement | SVGSVGElement, target: HTMLElement | SVGSVGElement): void {
-	for (let attr in source.attributes) {
-		let value = source.attributes[attr].nodeValue;
-
+	$array.each(source.attributes, (attr) => {
 		// TODO what if it's null ?
-		if (value != null) {
-			target.setAttribute(source.attributes[attr].nodeName, value);
+		if (attr.value != null) {
+			target.setAttribute(attr.name, attr.value);
 		}
-	}
+	});
 }
 
 /**

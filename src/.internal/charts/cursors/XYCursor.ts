@@ -400,7 +400,7 @@ export class XYCursor extends Cursor {
 		if (this.visible && !this.isHiding) {
 
 			if (this.fitsToBounds(point)) {
-				this.downPoint = point;
+				this.downPoint = { x: point.x, y: point.y };
 
 				this.updatePoint(point);
 
@@ -871,7 +871,7 @@ export class XYCursor extends Cursor {
 	 * @todo Description
 	 */
 	public handleSnap() {
-		
+
 		let series = this.snapToSeries;
 		let y = series.tooltipY;
 		let x = series.tooltipX;// - this.pixelWidth;

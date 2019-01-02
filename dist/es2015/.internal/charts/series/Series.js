@@ -313,9 +313,11 @@ var Series = /** @class */ (function (_super) {
         /*
         return $iter.findMap(this.dataItems.iterator(), (dataItem) => {
             for (let key in dataItem.values) {
-                let value: number = dataItem.values[key].workingValue;
-                if ($type.isNumber(value)) {
-                    return value;
+                if ($object.hasKey(dataItem.values, key)) {
+                    let value: number = dataItem.values[key].workingValue;
+                    if ($type.isNumber(value)) {
+                        return value;
+                    }
                 }
             }
 
@@ -350,6 +352,7 @@ var Series = /** @class */ (function (_super) {
      * @param {OrderedList<this["_dataItem"]>} dataItems [description]
      */
     Series.prototype.processValues = function (working) {
+        var _this = this;
         var dataItems = this.dataItems;
         var count = {};
         var sum = {};
@@ -371,18 +374,18 @@ var Series = /** @class */ (function (_super) {
         }
         if (startIndex > 0) {
             var dataItem_1 = dataItems.getIndex(startIndex - 1);
-            for (var key in dataItem_1.values) {
-                var value = dataItem_1.values[key].workingValue;
+            $object.each(dataItem_1.values, function (key, values) {
+                var value = values.workingValue;
                 if ($type.isNumber(value)) {
                     // save previous
                     previous[key] = value;
                 }
-            }
+            });
         }
-        for (var i = startIndex; i < endIndex; i++) {
+        var _loop_1 = function (i) {
             var dataItem_2 = dataItems.getIndex(i);
-            for (var key in dataItem_2.values) {
-                var value = dataItem_2.values[key].workingValue;
+            $object.each(dataItem_2.values, function (key, values) {
+                var value = values.workingValue;
                 //if (i >= startIndex && i <= endIndex) { // do not add to count, sum etc if it is not within start/end index
                 if ($type.isNumber(value)) {
                     // count values
@@ -420,7 +423,7 @@ var Series = /** @class */ (function (_super) {
                         }
                     }
                     if (!$type.isNumber(first[key])) {
-                        first[key] = this.getFirstValue(key, startIndex);
+                        first[key] = _this.getFirstValue(key, startIndex);
                     }
                     // change
                     dataItem_2.setCalculatedValue(key, value - first[key], "change");
@@ -438,10 +441,13 @@ var Series = /** @class */ (function (_super) {
                     // save previous
                     previous[key] = value;
                 }
-            }
+            });
+        };
+        for (var i = startIndex; i < endIndex; i++) {
+            _loop_1(i);
         }
         if (this.calculatePercent) {
-            var _loop_1 = function (i) {
+            var _loop_2 = function (i) {
                 var dataItem_3 = dataItems.getIndex(i);
                 $object.each(dataItem_3.values, function (key) {
                     var ksum = sum[key];
@@ -459,7 +465,7 @@ var Series = /** @class */ (function (_super) {
                 });
             };
             for (var i = startIndex; i < endIndex; i++) {
-                _loop_1(i);
+                _loop_2(i);
             }
         }
         // calculate one before first (cant do that in cycle, as we don't know open yet
@@ -468,13 +474,11 @@ var Series = /** @class */ (function (_super) {
         if (startIndex > 0) {
             var zeroItem_1 = dataItems.getIndex(startIndex - 1);
             $object.each(zeroItem_1.values, function (key) {
-                //for (let key in zeroItem.values) {
                 var value = zeroItem_1.values[key].value;
                 // change
                 zeroItem_1.setCalculatedValue(key, value - open[key], "change");
                 // change percent
                 zeroItem_1.setCalculatedValue(key, (value - open[key]) / open[key] * 100, "changePercent");
-                //}
             });
         }
         // we save various data like sum, average to dataPoint of the series

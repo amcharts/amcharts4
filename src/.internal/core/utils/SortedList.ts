@@ -59,9 +59,9 @@ export class OrderedList<T> {
 	/**
 	 * Event dispatcher.
 	 *
-	 * @type {EventDispatcher<AMEvent<this, ISortedListEvents<T>>>}
+	 * @type {EventDispatcher<AMEvent<OrderedList<T>, ISortedListEvents<T>>>}
 	 */
-	public events: EventDispatcher<AMEvent<this, ISortedListEvents<T>>> = new EventDispatcher();
+	public events: EventDispatcher<AMEvent<OrderedList<T>, ISortedListEvents<T>>> = new EventDispatcher();
 
 	/**
 	 * Constructor

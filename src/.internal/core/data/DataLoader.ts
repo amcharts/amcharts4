@@ -14,6 +14,7 @@ import { CSVParser } from "./CSVParser";
 import { JSONParser } from "./JSONParser";
 import { Adapter } from "../utils/Adapter";
 import * as $net from "../utils/Net";
+import * as $array from "../utils/Array";
 
 /**
  * Represents a list of available adapters for Sprite
@@ -86,28 +87,22 @@ export class DataLoader {
 	 */
 	public load(source: DataSource | DataSource[]): void {
 		let sources = Array.isArray(source) ? source : [source];
-		let promises = [];
 
 		// Add each Source to the list to be loaded simultaneously
-		for (let x in sources) {
-
+		let promises = $array.map(sources, (x) => {
 			// Dispatch events
-			sources[x].dispatchImmediately("started");
-			sources[x].dispatchImmediately("loadstarted");
+			x.dispatchImmediately("started");
+			x.dispatchImmediately("loadstarted");
 
-			promises.push($net.load(sources[x].url, sources[x], sources[x].requestOptions));
-		}
+			return $net.load(x.url, x, x.requestOptions);
+		});
 
 		// Run all promises in parallel
 		Promise.all(promises).then((res) => {
-
 			// Process each loaded source
-			for (let x in res) {
-
+			$array.each(res, (result) => {
 				// Get Source
-				let result = res[x];
 				let source = result.target;
-
 
 				// Dispatch events
 				source.dispatchImmediately("loadended");
@@ -131,8 +126,7 @@ export class DataLoader {
 				}
 
 				source.dispatchImmediately("ended");
-
-			}
+			});
 		}).catch((res) => {
 
 			if (res.target) {

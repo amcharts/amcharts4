@@ -435,7 +435,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 *
 	 * @todo type
 	 */
-	public fillRule(dataItem: DateAxisDataItem) {
+	public fillRule(dataItem: this["_dataItem"]) {
 		let value = dataItem.value;
 		let axis = dataItem.component;
 		let gridInterval = axis._gridInterval;
@@ -736,7 +736,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		let baseInterval: ITimeInterval = this.baseInterval;
 
 		$object.each(dataItem.dates, (key) => {
-			//for (let key in dataItem.dates) {
 			let date: Date = dataItem.getDate(key);
 			let startDate: Date = $time.round($time.copy(date), baseInterval.timeUnit, baseInterval.count);
 			let endDate: Date = $time.add($time.copy(startDate), baseInterval.timeUnit, baseInterval.count);

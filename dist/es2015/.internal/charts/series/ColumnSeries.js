@@ -416,7 +416,7 @@ var ColumnSeries = /** @class */ (function (_super) {
                 return;
             }
             if (!$type.isNaN(percentHeight)) {
-                var offset = $math.round((1 - percentHeight / 100) / 2, 5);
+                var offset = $math.round((endLocation - startLocation) * (1 - percentHeight / 100) / 2, 5);
                 startLocation += offset;
                 endLocation -= offset;
             }

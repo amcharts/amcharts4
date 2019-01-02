@@ -628,9 +628,11 @@ export class Series extends Component {
 		/*
 		return $iter.findMap(this.dataItems.iterator(), (dataItem) => {
 			for (let key in dataItem.values) {
-				let value: number = dataItem.values[key].workingValue;
-				if ($type.isNumber(value)) {
-					return value;
+				if ($object.hasKey(dataItem.values, key)) {
+					let value: number = dataItem.values[key].workingValue;
+					if ($type.isNumber(value)) {
+						return value;
+					}
 				}
 			}
 
@@ -696,21 +698,22 @@ export class Series extends Component {
 
 		if (startIndex > 0) {
 			let dataItem = dataItems.getIndex(startIndex - 1);
-			for (let key in dataItem.values) {
-				let value: number = dataItem.values[key].workingValue;
+
+			$object.each(dataItem.values, (key, values) => {
+				let value: number = values.workingValue;
 
 				if ($type.isNumber(value)) {
 					// save previous
 					previous[key] = value;
 				}
-			}
+			});
 		}
 
 		for (let i = startIndex; i < endIndex; i++) {
 			let dataItem = dataItems.getIndex(i);
-			for (let key in dataItem.values) {
 
-				let value: number = dataItem.values[key].workingValue;
+			$object.each(dataItem.values, (key, values) => {
+				let value: number = values.workingValue;
 
 				//if (i >= startIndex && i <= endIndex) { // do not add to count, sum etc if it is not within start/end index
 				if ($type.isNumber(value)) {
@@ -778,7 +781,7 @@ export class Series extends Component {
 					// save previous
 					previous[key] = value;
 				}
-			}
+			});
 		}
 
 		if (this.calculatePercent) {
@@ -814,13 +817,11 @@ export class Series extends Component {
 			let zeroItem: this["_dataItem"] = dataItems.getIndex(startIndex - 1);
 
 			$object.each(zeroItem.values, (key) => {
-				//for (let key in zeroItem.values) {
 				let value = zeroItem.values[key].value;
 				// change
 				zeroItem.setCalculatedValue(key, value - open[key], "change");
 				// change percent
 				zeroItem.setCalculatedValue(key, (value - open[key]) / open[key] * 100, "changePercent");
-				//}
 			});
 		}
 
@@ -1209,11 +1210,11 @@ export class Series extends Component {
 			let valueLabel: Label = legendDataItem.valueLabel;
 
 			// update legend
-			if (dataItem) {				
+			if (dataItem) {
 				if (valueLabel) {
 					if (legendSettings.itemValueText) {
 						valueLabel.text = legendSettings.itemValueText;
-					}					
+					}
 					valueLabel.dataItem = dataItem;
 				}
 				if (label) {

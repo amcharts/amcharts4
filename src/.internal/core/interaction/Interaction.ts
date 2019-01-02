@@ -337,10 +337,6 @@ export class Interaction extends BaseObjectEvents {
 			// Webkit and IE support at least "mousewheel"
 			this._pointerEvents.wheel = "mousewheel";
 		}
-		else {
-			// The rest of the legacy browsers
-			this._pointerEvents.wheel = "DOMMouseScroll";
-		}
 
 		// Set up default inertia options
 		this.inertiaOptions.setKey("move", {
@@ -601,7 +597,12 @@ export class Interaction extends BaseObjectEvents {
 			//io.hoverable = true;
 			if (!io.eventDisposers.hasKey("wheelable")) {
 				io.eventDisposers.setKey("wheelable", new MultiDisposer([
-					addEventListener<WheelEvent>(io.element, this._pointerEvents.wheel, (e) => this.handleMouseWheel(io, e)),
+					addEventListener<WheelEvent>(
+						io.element,
+						this._pointerEvents.wheel,
+						(e) => this.handleMouseWheel(io, e),
+						this._passiveSupported ? { passive: false } : false
+					),
 					io.events.on("out", (e) => {
 						if (io.wheelable) {
 							this.unlockWheel();
@@ -681,22 +682,44 @@ export class Interaction extends BaseObjectEvents {
 
 			// Add local events
 			if (!io.eventDisposers.hasKey("touchable")) {
-				io.eventDisposers.setKey("touchable", new MultiDisposer([
 
-					addEventListener<MouseEvent>(
-						io.element,
-						this._pointerEvents.pointerdown,
-						(e) => this.handlePointerDown(io, e)
-					),
+				if (!this._useTouchEventsOnly && !this._usePointerEventsOnly) {
+					io.eventDisposers.setKey("touchable", new MultiDisposer([
 
-					addEventListener<TouchEvent>(
-						io.element,
-						"touchstart",
-						(e) => this.handleTouchDown(io, e),
-						this._passiveSupported ? { passive: false } : false
-					)
+						addEventListener<MouseEvent>(
+							io.element,
+							this._pointerEvents.pointerdown,
+							(e) => this.handlePointerDown(io, e)
+						),
 
-				]));
+						addEventListener<TouchEvent>(
+							io.element,
+							"touchstart",
+							(e) => this.handleTouchDown(io, e),
+							this._passiveSupported ? { passive: false } : false
+						)
+
+					]));
+				}
+				else if (!this._useTouchEventsOnly) {
+					io.eventDisposers.setKey("touchable", 
+						addEventListener<MouseEvent>(
+							io.element,
+							this._pointerEvents.pointerdown,
+							(e) => this.handlePointerDown(io, e)
+						)
+					);
+				}
+				else if (!this._usePointerEventsOnly) {
+					io.eventDisposers.setKey("touchable", 
+						addEventListener<TouchEvent>(
+							io.element,
+							"touchstart",
+							(e) => this.handleTouchDown(io, e),
+							this._passiveSupported ? { passive: false } : false
+						)
+					);
+				}
 			}
 
 		} else {
@@ -878,8 +901,6 @@ export class Interaction extends BaseObjectEvents {
 	 */
 	public handleGlobalPointerMove(ev: MouseEvent): void {
 
-		//this.log("[RAW] (global)", ev);
-
 		// Get pointer
 		let pointer: IPointer = this.getPointer(ev);
 
@@ -912,10 +933,7 @@ export class Interaction extends BaseObjectEvents {
 	 */
 	public handleGlobalPointerDown(ev: MouseEvent): void {
 
-		//this.log("[RAW] (global)", ev);
-
 		// Remove delayed hovers
-		//console.log("Running processDelayed fom handleGlobalPointerDown")
 		this.processDelayed();
 
 		// Get pointer
@@ -953,8 +971,6 @@ export class Interaction extends BaseObjectEvents {
 	 */
 	public handleGlobalPointerUp(ev: MouseEvent, cancelled: boolean = false): void {
 
-		//this.log("[RAW] (global)", ev);
-
 		// Get pointer
 		let pointer: IPointer = this.getPointer(ev);
 
@@ -987,8 +1003,6 @@ export class Interaction extends BaseObjectEvents {
 	 * @param {TouchEvent} ev Event object
 	 */
 	public handleGlobalTouchMove(ev: TouchEvent): void {
-
-		//this.log("[RAW] (global)", ev);
 
 		// Stop further propagation so we don't get multiple triggers on hybrid
 		// devices (both mouse and touch capabilities)
@@ -1033,10 +1047,7 @@ export class Interaction extends BaseObjectEvents {
 	 */
 	public handleGlobalTouchStart(ev: TouchEvent): void {
 
-		//this.log("[RAW] (global)", ev);
-
 		// Remove delayed hovers
-		//console.log("Running processDelayed fom handleGlobalTouchStart")
 		this.processDelayed();
 
 		// Process each changed touch point
@@ -1067,8 +1078,6 @@ export class Interaction extends BaseObjectEvents {
 	 * @param {TouchEvent} ev Event object
 	 */
 	public handleGlobalTouchEnd(ev: TouchEvent): void {
-
-		//this.log("[RAW] (global)", ev);
 
 		// Stop further propagation so we don't get multiple triggers on hybrid
 		// devices (both mouse and touch capabilities)
@@ -1118,8 +1127,6 @@ export class Interaction extends BaseObjectEvents {
 	 */
 	public handlePointerDown(io: InteractionObject, ev: MouseEvent | PointerEvent): void {
 
-		//this.log("[RAW]", ev);
-
 		// Stop further propagation so we don't get multiple triggers on hybrid
 		// devices (both mouse and touch capabilities)
 		//ev.preventDefault();
@@ -1154,8 +1161,6 @@ export class Interaction extends BaseObjectEvents {
 	 */
 	public handlePointerOver(io: InteractionObject, ev: MouseEvent | PointerEvent): void {
 
-		//this.log("[RAW]", ev);
-
 		// Get pointer
 		let pointer = this.getPointer(ev);
 
@@ -1171,8 +1176,6 @@ export class Interaction extends BaseObjectEvents {
 	 * @param {MouseEvent}         ev  Original event
 	 */
 	public handlePointerOut(io: InteractionObject, ev: MouseEvent | PointerEvent): void {
-
-		//this.log("[RAW]", ev);
 
 		// Get pointer
 		let pointer = this.getPointer(ev);
@@ -1190,8 +1193,6 @@ export class Interaction extends BaseObjectEvents {
 	 * @todo Investigate more-cross browser stuff https://developer.mozilla.org/en-US/docs/Web/Events/wheel
 	 */
 	public handleMouseWheel(io: InteractionObject, ev: WheelEvent): void {
-
-		//this.log("[RAW]", ev);
 
 		// Get pointer
 		let pointer = this.getPointer(ev);
@@ -1239,8 +1240,6 @@ export class Interaction extends BaseObjectEvents {
 	  * @param {TouchEvent}         ev  Original event
 	  */
 	public handleTouchDown(io: InteractionObject, ev: TouchEvent): void {
-
-		//this.log("[RAW]", ev);
 
 		// Stop further propagation so we don't get multiple triggers on hybrid
 		// devices (both mouse and touch capabilities)
@@ -1361,8 +1360,6 @@ export class Interaction extends BaseObjectEvents {
 		// Remove any delayed outs
 		this.processDelayed();
 
-		//this.log("[HANDLER] OVER", ev, io);
-
 		// Add pointer
 		io.overPointers.moveValue(pointer);
 
@@ -1413,8 +1410,6 @@ export class Interaction extends BaseObjectEvents {
 			return;
 		}
 
-		//this.log("[HANDLER] OUT", ev, io);
-
 		// Remove pointer
 		io.overPointers.removeValue(pointer);
 
@@ -1424,7 +1419,6 @@ export class Interaction extends BaseObjectEvents {
 
 			// Should we run additional checks?
 			if (soft && io.overPointers.length) {
-				//this.log("[HANDLER] failed soft test " + io.overPointers.length, ev, io);
 				// There are still pointers hovering - don't do anything else and
 				// wait until either no over pointers are there or we get a hard out
 				// event.
@@ -1433,7 +1427,6 @@ export class Interaction extends BaseObjectEvents {
 
 			// Should we delay "out" if this is happening on a touch device?
 			if (pointer.touch && !force && !this.old(pointer)) {
-				//this.log("[HANDLER] OUT delaying", ev, io);
 
 				// This is a touch pointer, and it hasn't moved, let's pretend
 				// the object is still hovered, and act as per "behavior" setting
@@ -1470,8 +1463,6 @@ export class Interaction extends BaseObjectEvents {
 				}
 
 			}
-
-			//this.log("[HANDLER] OUT unhovering", ev, io);
 
 			// Set element as not hovered
 			io.isHover = false;
@@ -1523,8 +1514,6 @@ export class Interaction extends BaseObjectEvents {
 	 */
 	public handleDown(io: InteractionObject, pointer: IPointer, ev: MouseEvent | TouchEvent | undefined): void {
 
-		//this.log("[HANDLER] DOWN", ev, io);
-
 		// Need to prevent default event from happening on transformable objects
 		this.maybePreventDefault(io, ev);
 
@@ -1557,7 +1546,6 @@ export class Interaction extends BaseObjectEvents {
 
 			// Prep object for dragging and/or resizing
 			if (io.draggable) {
-				//this.log("[HANDLER] starting drag " + io.draggable, ev, io);
 				this.processDragStart(io, pointer, ev);
 			}
 			if (io.resizable) {
@@ -1588,8 +1576,6 @@ export class Interaction extends BaseObjectEvents {
 	 */
 	public handleGlobalUp(pointer: IPointer, ev: MouseEvent | TouchEvent | undefined, cancelled: boolean = false): void {
 
-		//this.log("[HANDLER] GLOBAL UP", ev);
-
 		// Process all down objects
 		$iter.each(this.downObjects.backwards().iterator(), (io) => {
 
@@ -1612,8 +1598,6 @@ export class Interaction extends BaseObjectEvents {
 	 * @param {MouseEvent | TouchEvent}  ev       Original event
 	 */
 	public handleUp(io: InteractionObject, pointer: IPointer, ev: MouseEvent | TouchEvent, cancelled: boolean = false): void {
-
-		//this.log("[HANDLER] UP", ev, io);
 
 		// Restore cursor style
 		this.restoreCursorDownStyle(io, pointer);
@@ -1654,16 +1638,12 @@ export class Interaction extends BaseObjectEvents {
 			// other actions.
 			if (!cancelled) {
 
-				////this.log("[HANDLER] UP (event triggered)", ev, io);
 				// Handle swiping-related stuff
 				if (io.swipeable && this.swiped(io, pointer)) {
 					// Swiped - nothing else should happen
 					this.handleSwipe(io, pointer, ev);
-					////this.log("[HANDLER] UP (swipe?)", ev, io);
-
 				} else {
 
-					////this.log("[HANDLER] UP (proceeding) " + io.draggable, ev, io);
 					// Check if it maybe a click
 					if (io.clickable && !this.moved(pointer, this.getHitOption(io, "hitTolerance"))) {
 						this.handleHit(io, pointer, ev);
@@ -1671,11 +1651,9 @@ export class Interaction extends BaseObjectEvents {
 
 					// Handle inertia
 					if (io.inert && this.moved(pointer, this.getHitOption(io, "hitTolerance"))) {
-						////this.log("[HANDLER] UP (tarting inertia)", ev, io);
 						this.handleInertia(io, pointer);
 					}
 					else if (io.draggable) {
-						////this.log("[HANDLER] UP (stopping drag)", ev, io);
 						this.processDragStop(io, pointer, ev);
 					}
 
@@ -1700,7 +1678,6 @@ export class Interaction extends BaseObjectEvents {
 	 */
 	private maybePreventDefault(io: InteractionObject, ev: MouseEvent | TouchEvent | undefined): void {
 		if ($type.hasValue(ev) && (io.draggable || io.swipeable || io.trackable || io.resizable) && !this.isGlobalElement(io)) {
-			//this.log("[PREVENT]", ev);
 			ev.preventDefault();
 		}
 	}
@@ -1737,6 +1714,7 @@ export class Interaction extends BaseObjectEvents {
 				}
 			});
 		}
+
 
 		// Process down elements
 		$iter.each(this.transformedObjects.backwards().iterator(), (io) => {
@@ -2536,7 +2514,11 @@ export class Interaction extends BaseObjectEvents {
 	 * @ignore Exclude from docs
 	 */
 	public lockWheel(): void {
-		window.addEventListener(this._pointerEvents.wheel, this.wheelLockEvent);
+		window.addEventListener(
+			this._pointerEvents.wheel,
+			this.wheelLockEvent,
+			this._passiveSupported ? { passive: false } : false
+		);
 	}
 
 	/**
@@ -2545,7 +2527,10 @@ export class Interaction extends BaseObjectEvents {
 	 * @ignore Exclude from docs
 	 */
 	public unlockWheel(): void {
-		window.removeEventListener(this._pointerEvents.wheel, this.wheelLockEvent);
+		window.removeEventListener(
+			this._pointerEvents.wheel,
+			this.wheelLockEvent
+		);
 	}
 
 	/**
@@ -2572,10 +2557,10 @@ export class Interaction extends BaseObjectEvents {
 	 * A function that cancels mouse wheel scroll.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {MouseEvent}  ev  Event object
+	 * @param  {Event}  ev  Event object
 	 * @return {boolean}         Returns `false` to cancel
 	 */
-	protected wheelLockEvent(ev: MouseEvent): boolean {
+	protected wheelLockEvent(ev: Event): boolean {
 		ev.preventDefault();
 		return false;
 	}
@@ -2914,7 +2899,7 @@ export class Interaction extends BaseObjectEvents {
 	 * @ignore
 	 * @param  {IPointer}  pointer  Pointer
 	 * @param  {number}    minTime  Minimum time to consider pointer old
-	 * @return {boolean}            
+	 * @return {boolean}
 	 */
 	public old(pointer: IPointer, minTime: number = 300): boolean {
 		return $time.getTime() - pointer.startTime > minTime;

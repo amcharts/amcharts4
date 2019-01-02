@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.14] - 2019-01-02
+
+### Added
+- New setting `zoomStep` added to `MapChart`. Allows controlling zoom in/out speed.
+
+### Fixed
+- `Series.hidden` did not work as expected.
+- World map did not work in Ember.
+- Eliminated multiple warnings in recent version of Chrome regarding wheel events being active.
+- Fixed mousewheel zoom in IEs.
+- Draggable/resizable items were not working properly on some Android browsers.
+- Setting `height` to a relative value for a horizontal `ColumnSeries` column template was not working propertly.
+
+
 ## [4.0.13] - 2018-12-26
 
 ### Fixed

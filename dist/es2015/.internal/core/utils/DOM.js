@@ -227,13 +227,12 @@ export function contains(a, b) {
  * @param {HTMLElement | SVGSVGElement}          target  Element to copy attributes to
  */
 export function copyAttributes(source, target) {
-    for (var attr in source.attributes) {
-        var value = source.attributes[attr].nodeValue;
+    $array.each(source.attributes, function (attr) {
         // TODO what if it's null ?
-        if (value != null) {
-            target.setAttribute(source.attributes[attr].nodeName, value);
+        if (attr.value != null) {
+            target.setAttribute(attr.name, attr.value);
         }
-    }
+    });
 }
 /**
  * [fixPixelPerfect description]

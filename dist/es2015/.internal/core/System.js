@@ -12,6 +12,7 @@ import { raf } from "./utils/AsyncPending";
 import { animations } from "./utils/Animation";
 import { triggerIdle } from "./utils/AsyncPending";
 import * as $array from "./utils/Array";
+import * as $object from "./utils/Object";
 /**
  * ============================================================================
  * MAIN CLASS
@@ -104,42 +105,44 @@ var System = /** @class */ (function () {
         // important to go backwards, as items are removed!
         // TODO use iterator instead
         for (var key in registry.invalidDatas) {
-            var invalidData = registry.invalidDatas[key];
-            while (invalidData.length > 0) {
-                var component = invalidData[0];
-                var dataProvider = component.dataProvider;
-                if (!component.isDisposed()) {
-                    if (dataProvider && dataProvider.dataInvalid) {
-                        try {
-                            dataProvider.validateData();
-                            if (dataProvider.dataValidationProgress < 1) {
-                                break;
+            if ($object.hasKey(registry.invalidDatas, key)) {
+                var invalidData = registry.invalidDatas[key];
+                while (invalidData.length > 0) {
+                    var component = invalidData[0];
+                    var dataProvider = component.dataProvider;
+                    if (!component.isDisposed()) {
+                        if (dataProvider && dataProvider.dataInvalid) {
+                            try {
+                                dataProvider.validateData();
+                                if (dataProvider.dataValidationProgress < 1) {
+                                    break;
+                                }
+                            }
+                            catch (e) {
+                                $array.remove(invalidData, dataProvider);
+                                dataProvider.raiseCriticalError(e);
                             }
                         }
-                        catch (e) {
-                            $array.remove(invalidData, dataProvider);
-                            dataProvider.raiseCriticalError(e);
+                        else {
+                            try {
+                                component.validateData();
+                                if (component.dataValidationProgress < 1) {
+                                    break;
+                                }
+                            }
+                            catch (e) {
+                                $array.remove(invalidData, component);
+                                component.raiseCriticalError(e);
+                            }
                         }
                     }
                     else {
-                        try {
-                            component.validateData();
-                            if (component.dataValidationProgress < 1) {
-                                break;
-                            }
-                        }
-                        catch (e) {
-                            $array.remove(invalidData, component);
-                            component.raiseCriticalError(e);
-                        }
+                        $array.remove(invalidData, component);
                     }
                 }
-                else {
-                    $array.remove(invalidData, component);
+                if (Date.now() - time > this.updateStepDuration) {
+                    break;
                 }
-            }
-            if (Date.now() - time > this.updateStepDuration) {
-                break;
             }
         }
         while (registry.invalidRawDatas.length > 0) {
@@ -203,23 +206,22 @@ var System = /** @class */ (function () {
         var skippedSprites = [];
         // display objects later
         // TODO use iterator instead
-        for (var key_1 in registry.invalidLayouts) {
-            this.validateLayouts(key_1);
-        }
-        for (var key_2 in registry.invalidPositions) {
-            this.validatePositions(key_2);
-        }
+        $object.each(registry.invalidLayouts, function (key) {
+            _this.validateLayouts(key);
+        });
+        $object.each(registry.invalidPositions, function (key) {
+            _this.validatePositions(key);
+        });
         var hasSkipped = false;
         time = Date.now();
-        for (var key in registry.invalidSprites) {
+        $object.each(registry.invalidSprites, function (key, invalidSprites) {
             var count = 0;
-            var invalidSprites = registry.invalidSprites[key];
             while (invalidSprites.length > 0) {
-                this.validateLayouts(key);
-                this.validatePositions(key);
+                _this.validateLayouts(key);
+                _this.validatePositions(key);
                 count++;
                 if (count == 5) {
-                    if (Date.now() - time > this.updateStepDuration) {
+                    if (Date.now() - time > _this.updateStepDuration) {
                         break;
                     }
                     count = 0;
@@ -227,12 +229,12 @@ var System = /** @class */ (function () {
                 var sprite = invalidSprites[invalidSprites.length - 1];
                 // we need to check this, as validateLayout might validate sprite
                 if (sprite && !sprite.isDisposed()) {
-                    if (!this.checkIfValidate(sprite)) {
+                    if (!_this.checkIfValidate(sprite)) {
                         // void
                         skippedSprites.push(sprite);
                     }
                     else {
-                        if (!this.checkIfValidate2(sprite)) {
+                        if (!_this.checkIfValidate2(sprite)) {
                             // void
                             skippedSprites.push(sprite);
                         }
@@ -268,54 +270,54 @@ var System = /** @class */ (function () {
                 $array.remove(invalidSprites, sprite);
             }
             registry.invalidSprites[key] = registry.invalidSprites[key].concat(skippedSprites);
-        }
-        for (var key in registry.invalidSprites) {
-            if (registry.invalidSprites[key].length > 0) {
+        });
+        $object.each(registry.invalidSprites, function (key, value) {
+            if (value.length > 0) {
                 hasSkipped = true;
             }
-        }
-        for (var key in registry.invalidDatas) {
-            if (registry.invalidDatas[key].length > 0) {
+        });
+        $object.each(registry.invalidDatas, function (key, value) {
+            if (value.length > 0) {
                 hasSkipped = true;
             }
-        }
+        });
         // TODO make this more efficient
         // TODO don't copy the array
         $array.each($array.copy(animations), function (x) {
             x.update();
         });
         //if(!hasSkipped){
-        for (var key_3 in registry.invalidLayouts) {
-            this.validateLayouts(key_3);
-        }
-        for (var key_4 in registry.invalidPositions) {
-            this.validatePositions(key_4);
-        }
+        $object.each(registry.invalidLayouts, function (key) {
+            _this.validateLayouts(key);
+        });
+        $object.each(registry.invalidPositions, function (key) {
+            _this.validatePositions(key);
+        });
         //}
         triggerIdle();
-        for (var key_5 in registry.invalidLayouts) {
-            this.validateLayouts(key_5);
-        }
-        for (var key_6 in registry.invalidPositions) {
-            this.validatePositions(key_6);
-        }
+        $object.each(registry.invalidLayouts, function (key) {
+            _this.validateLayouts(key);
+        });
+        $object.each(registry.invalidPositions, function (key) {
+            _this.validatePositions(key);
+        });
         registry.dispatchImmediately("exitframe");
         if (hasSkipped || animations.length > 0 || skippedComponents.length > 0) {
             this.requestFrame();
         }
         if (this.updateStepDuration < 200) {
-            var all0 = true;
-            for (var key in registry.invalidDatas) {
-                if (registry.invalidDatas[key].length > 0) {
-                    all0 = false;
+            var all0_1 = true;
+            $object.each(registry.invalidDatas, function (key, value) {
+                if (value.length > 0) {
+                    all0_1 = false;
                 }
-            }
-            for (var key in registry.invalidSprites) {
-                if (registry.invalidSprites[key].length > 0) {
-                    all0 = false;
+            });
+            $object.each(registry.invalidSprites, function (key, value) {
+                if (value.length > 0) {
+                    all0_1 = false;
                 }
-            }
-            if (all0) {
+            });
+            if (all0_1) {
                 this.updateStepDuration = 200;
             }
         }
@@ -458,7 +460,7 @@ var System = /** @class */ (function () {
      * @see {@link https://docs.npmjs.com/misc/semver}
      * @type {string}
      */
-    System.VERSION = "4.0.13";
+    System.VERSION = "4.0.14";
     return System;
 }());
 export { System };

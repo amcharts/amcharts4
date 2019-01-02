@@ -414,7 +414,7 @@ export class CategoryAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T>
 			if (i < this.dataItems.length) {
 				let dataItem: this["_dataItem"] = this.dataItems.getIndex(i);
 				if (i / this._frequency == Math.round(i / this._frequency)) {
-					let axisBreak: CategoryAxisBreak = <CategoryAxisBreak>this.isInBreak(i);
+					let axisBreak: CategoryAxisBreak = this.isInBreak(i);
 					if (!axisBreak) {
 						this.appendDataItem(dataItem);
 						this.validateDataElement(dataItem, itemIndex);

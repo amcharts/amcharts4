@@ -63,7 +63,7 @@ export { PieChartDataItem };
  * 	"country": "Lithuania",
  * 	"litres": 501.9
  * }, {
- * 	"country": "Czech Republic",
+ * 	"country": "Czechia",
  * 	"litres": 301.9
  * }, {
  * 	"country": "Ireland",
@@ -87,7 +87,7 @@ export { PieChartDataItem };
  * 	"country": "Lithuania",
  * 	"litres": 501.9
  * }, {
- * 	"country": "Czech Republic",
+ * 	"country": "Czechia",
  * 	"litres": 301.9
  * }, {
  * 	"country": "Ireland",
@@ -116,7 +116,7 @@ export { PieChartDataItem };
  * 		"country": "Lithuania",
  * 		"litres": 501.9
  * 	}, {
- * 		"country": "Czech Republic",
+ * 		"country": "Czechia",
  * 		"litres": 301.9
  * 	}, {
  * 		"country": "Ireland",

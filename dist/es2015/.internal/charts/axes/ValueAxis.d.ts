@@ -320,7 +320,7 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      *
      * @todo type
      */
-    fillRule(dataItem: ValueAxisDataItem): void;
+    fillRule(dataItem: this["_dataItem"]): void;
     /**
      * As calculating totals is expensive operation and not often needed, we
      * don't do it by default.

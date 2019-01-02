@@ -11,6 +11,7 @@ import { Animation } from "../../core/utils/Animation";
 import * as $iter from "../../core/utils/Iterator";
 import * as $math from "../../core/utils/Math";
 import * as $type from "../../core/utils/Type";
+import * as $object from "../../core/utils/Object";
 /**
  * ============================================================================
  * DATA ITEM
@@ -88,9 +89,9 @@ var SankeyDiagram = /** @class */ (function (_super) {
     /**
      * Returns node's highest level.
      *
-     * @param  {SankeyNode}  node   Node
-     * @param  {number}      level  Current level
-     * @return {number}             New level
+     * @param  {this["_node"]}  node   Node
+     * @param  {number}        level  Current level
+     * @return {number}               New level
      */
     SankeyDiagram.prototype.getNodeLevel = function (node, level) {
         var _this = this;
@@ -140,12 +141,12 @@ var SankeyDiagram = /** @class */ (function (_super) {
             }
         });
         var maxSumLevel;
-        for (var key in this._levelSum) {
-            if (this.maxSum < this._levelSum[key]) {
-                this.maxSum = this._levelSum[key];
+        $object.each(this._levelSum, function (key, value) {
+            if (_this.maxSum < value) {
+                _this.maxSum = value;
                 maxSumLevel = $type.toNumber(key);
             }
-        }
+        });
         this._maxSumLevel = maxSumLevel;
         var maxSumLevelNodeCount = this._levelNodesCount[this._maxSumLevel];
         var availableHeight;

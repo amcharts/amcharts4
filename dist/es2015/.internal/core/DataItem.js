@@ -761,7 +761,6 @@ var DataItem = /** @class */ (function (_super) {
         $utils.copyProperties(this.values, dataItem.values);
         $utils.copyProperties(this.dates, dataItem.dates);
         $object.each(this.values, function (name, value) {
-            //for (let name in this.values) {
             dataItem.values[name] = $object.copy(value);
         });
         dataItem.adapter.copyFrom(this.adapter);

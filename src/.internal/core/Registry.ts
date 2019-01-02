@@ -296,7 +296,7 @@ export class Registry {
 
 	/**
 	 * Returns a unique placeholder suitable for the key.
-	 * 
+	 *
 	 * @param  {string}  key  Key
 	 * @return {string}       Random string to be used as placeholder
 	 */
@@ -379,13 +379,13 @@ export class Registry {
 		}
 
 		$array.remove(this.invalidPositions["noBase"], sprite);
-	}	
+	}
 
 
 	/**
 	 * @ignore
 	 */
-	public addToInvalidLayouts(sprite: Sprite) {
+	public addToInvalidLayouts(sprite: Container) {
 		if (sprite.baseId) {
 			$array.add(this.invalidLayouts[sprite.baseId], sprite);
 		}
@@ -397,13 +397,13 @@ export class Registry {
 	/**
 	 * @ignore
 	 */
-	public removeFromInvalidLayouts(sprite: Sprite) {
+	public removeFromInvalidLayouts(sprite: Container) {
 		if (sprite.baseId) {
 			$array.remove(this.invalidLayouts[sprite.baseId], sprite);
 		}
 
 		$array.remove(this.invalidLayouts["noBase"], sprite);
-	}		
+	}
 }
 
 /**

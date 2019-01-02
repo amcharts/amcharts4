@@ -2,6 +2,7 @@
  * [[AMElement]] represents any SVG element and related functionality.
  */
 import * as $dom from "../utils/DOM";
+import * as $object from "../utils/Object";
 import * as $type from "../utils/Type";
 /**
  * ============================================================================
@@ -296,18 +297,19 @@ var AMElement = /** @class */ (function () {
      * @return {AMElement}                  The same element
      */
     AMElement.prototype.attr = function (attributes) {
-        for (var attributeName in attributes) {
-            if (!$type.hasValue(attributes[attributeName])) {
-                this.node.removeAttribute(attributeName);
+        var _this = this;
+        $object.each(attributes, function (attributeName, attributeValue) {
+            if (!$type.hasValue(attributeValue)) {
+                _this.node.removeAttribute(attributeName);
             }
             else {
                 // this is for performance testing
-                //if((<any>attributes)[attributeName] == this.node.getAttribute(attributeName)){
-                //	console.log(attributeName, (<any>attributes)[attributeName])
+                //if(attributeValue == this.node.getAttribute(attributeName)){
+                //	console.log(attributeName, attributeValue)
                 //}
-                this.node.setAttribute(attributeName, attributes[attributeName]);
+                _this.node.setAttribute(attributeName, attributeValue);
             }
-        }
+        });
         return this;
     };
     /**
@@ -367,15 +369,16 @@ var AMElement = /** @class */ (function () {
      * @return {AMElement}              The same element
      */
     AMElement.prototype.addStyle = function (attributes) {
+        var _this = this;
         // @todo Review because it's a bit messy and maybe not needed (pratically not used)
-        for (var attributeName in attributes) {
-            if (!$type.hasValue(attributes[attributeName])) {
-                this.removeStyle(attributeName);
+        $object.each(attributes, function (attributeName, attributeValue) {
+            if (!$type.hasValue(attributeValue)) {
+                _this.removeStyle(attributeName);
             }
             else {
-                this.node.style[attributeName] = attributes[attributeName];
+                _this.node.style[attributeName] = attributeValue;
             }
-        }
+        });
         return this;
     };
     /**

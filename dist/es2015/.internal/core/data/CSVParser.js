@@ -10,6 +10,7 @@ import * as tslib_1 from "tslib";
  */
 import { DataParser } from "./DataParser";
 import * as $type from "../utils/Type";
+import * as $array from "../utils/Array";
 /**
  * Define possible separators.
  */
@@ -64,49 +65,39 @@ var CSVParser = /** @class */ (function (_super) {
         // possible separators and check if it results in same number of columns.
         // If it does, we're going to assume it's a CSV
         var lines = data.split("\n");
+        var len = lines.length;
         var separator;
-        try {
+        $array.each(separators, function (sep) {
+            var columns = 0, lineColums = 0;
             // TODO replace with iterators
-            for (var separators_1 = tslib_1.__values(separators), separators_1_1 = separators_1.next(); !separators_1_1.done; separators_1_1 = separators_1.next()) {
-                var sep = separators_1_1.value;
-                var columns = 0, lineColums = 0;
-                for (var i in lines) {
-                    // Get number of columns in a line
-                    columns = lines[i].split(sep).length;
-                    if (columns > 1) {
-                        // More than one column - possible candidate
-                        if (lineColums === 0) {
-                            // First line
-                            lineColums = columns;
-                        }
-                        else if (columns != lineColums) {
-                            // Incorrect number of columns, give up on this separator
-                            lineColums = 0;
-                            break;
-                        }
+            for (var i = 0; i < len; ++i) {
+                // Get number of columns in a line
+                columns = lines[i].split(sep).length;
+                if (columns > 1) {
+                    // More than one column - possible candidate
+                    if (lineColums === 0) {
+                        // First line
+                        lineColums = columns;
                     }
-                    else {
-                        // Not this separator
-                        // Not point in continuing
+                    else if (columns != lineColums) {
+                        // Incorrect number of columns, give up on this separator
                         lineColums = 0;
                         break;
                     }
                 }
-                // Check if we have a winner
-                if (lineColums) {
-                    separator = sep;
+                else {
+                    // Not this separator
+                    // Not point in continuing
+                    lineColums = 0;
+                    break;
                 }
             }
-        }
-        catch (e_1_1) { e_1 = { error: e_1_1 }; }
-        finally {
-            try {
-                if (separators_1_1 && !separators_1_1.done && (_a = separators_1.return)) _a.call(separators_1);
+            // Check if we have a winner
+            if (lineColums) {
+                separator = sep;
             }
-            finally { if (e_1) throw e_1.error; }
-        }
+        });
         return separator;
-        var e_1, _a;
     };
     /**
      * Parses and returns data.

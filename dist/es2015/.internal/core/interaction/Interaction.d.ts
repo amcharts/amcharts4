@@ -842,10 +842,10 @@ export declare class Interaction extends BaseObjectEvents {
      * A function that cancels mouse wheel scroll.
      *
      * @ignore Exclude from docs
-     * @param  {MouseEvent}  ev  Event object
+     * @param  {Event}  ev  Event object
      * @return {boolean}         Returns `false` to cancel
      */
-    protected wheelLockEvent(ev: MouseEvent): boolean;
+    protected wheelLockEvent(ev: Event): boolean;
     /**
      * Applies a set of styles to an element. Stores the original styles so they
      * can be restored later.

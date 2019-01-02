@@ -306,7 +306,6 @@ export class ColumnSeries extends XYSeries {
 	 */
 	public simplifiedProcessing: boolean = false;
 
-
 	/**
 	 * Constructor
 	 */
@@ -631,7 +630,7 @@ export class ColumnSeries extends XYSeries {
 			}
 
 			if (!$type.isNaN(percentHeight)) {
-				let offset: number = $math.round((1 - percentHeight / 100) / 2, 5);
+				let offset: number = $math.round((endLocation - startLocation) * (1 - percentHeight / 100) / 2, 5);
 				startLocation += offset;
 				endLocation -= offset;
 			}

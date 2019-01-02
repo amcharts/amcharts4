@@ -85,7 +85,7 @@ export interface IAnimationOptions {
 	 *
 	 * @type {function}
 	 */
-	updateMethod?: (progress: number, from: IAnimationOption, to: IAnimationOption) => IAnimationOption;
+	updateMethod?(progress: number, from: IAnimationOption, to: IAnimationOption): IAnimationOption;
 
 
 	/**
@@ -796,7 +796,7 @@ export class Animation extends BaseObjectEvents implements IAnimationObject {
 		else {
 			this.stop();
 			this._isFinished = true;
-		}		
+		}
 
 		return this;
 	}

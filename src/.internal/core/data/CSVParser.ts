@@ -11,6 +11,7 @@
 import { DataParser, IDataParserOptions } from "./DataParser";
 import { DateFormatter } from "../formatters/DateFormatter";
 import * as $type from "../utils/Type";
+import * as $array from "../utils/Array";
 
 /**
  * Defines options for CSV format parser
@@ -130,13 +131,15 @@ export class CSVParser extends DataParser {
 		// possible separators and check if it results in same number of columns.
 		// If it does, we're going to assume it's a CSV
 		let lines = data.split("\n");
+		let len = lines.length;
 		let separator: string;
 
-		// TODO replace with iterators
-		for (let sep of separators) {
+		$array.each(separators, (sep) => {
 			let columns = 0,
 				lineColums = 0;
-			for (let i in lines) {
+
+			// TODO replace with iterators
+			for (let i = 0; i < len; ++i) {
 
 				// Get number of columns in a line
 				columns = lines[i].split(sep).length;
@@ -170,8 +173,7 @@ export class CSVParser extends DataParser {
 			if (lineColums) {
 				separator = sep;
 			}
-
-		}
+		});
 
 		return separator;
 	}

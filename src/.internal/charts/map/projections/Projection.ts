@@ -256,7 +256,7 @@ export class Projection {
 
 	/**
 	 * Returns X/Y coordinates.
-	 * Individual projections will override this method to apply their own 
+	 * Individual projections will override this method to apply their own
 	 * projection logic.
 	 * @param  {number} lambda [description]
 	 * @param  {number} phi    [description]
@@ -269,7 +269,7 @@ export class Projection {
 
 	/**
 	 * Returns geographical coordinates (lat/long).
-	 * Individual projections will override this method to apply their own 
+	 * Individual projections will override this method to apply their own
 	 * projection logic.
 	 * @param  {number}    x X coordinate
 	 * @param  {number}    y Y coordinate
@@ -362,7 +362,7 @@ export class Projection {
 
 		cp1 = clipPolygon[clipPolygon.length - 1];
 
-		for (let j in clipPolygon) {
+		for (let j = 0; j < clipPolygon.length; ++j) {
 			cp2 = clipPolygon[j];
 			let inputList = segment;
 			segment = [];
@@ -423,12 +423,13 @@ export class Projection {
 
 		cp1 = clipPolygon[clipPolygon.length - 1];
 
-		for (let j in clipPolygon) {
+		for (let j = 0; j < clipPolygon.length; ++j) {
 			cp2 = clipPolygon[j];
 			let inputList = outputList;
 			outputList = [];
 			s = inputList[inputList.length - 1]; //last on the input list
-			for (let i in inputList) {
+
+			for (let i = 0, len = inputList.length; i < len; ++i) {
 				e = inputList[i];
 
 				if (inside(e)) {
@@ -442,6 +443,7 @@ export class Projection {
 				}
 				s = e;
 			}
+
 			cp1 = cp2;
 		}
 		return outputList;
@@ -536,7 +538,7 @@ export class Projection {
 /**
  * Register class in system, so that it can be instantiated using its name from
  * anywhere.
- * 
+ *
  * @ignore
  */
 registry.registeredClasses["Projection"] = Projection;

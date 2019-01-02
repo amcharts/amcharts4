@@ -314,18 +314,19 @@ export class SpriteState<P, A> extends BaseObject {
 
 		// Cycle through all adapters and add values for missing properties
 		let keys = this.adapter.keys();
-		for (let x in keys) {
-			let prop = keys[x];
+
+		$object.each(keys, (_x, prop) => {
 			let value = this.getPropertyValue<any>(prop);
 			(<any>res)[prop] = value;
-		}
+		});
 
 		// Cycle through all property fileds and add values for missing properties
 		let propertyFields = this.propertyFields;
-		for (let prop in propertyFields) {
+
+		$object.each(propertyFields, (prop) => {
 			let value = this.getPropertyValue<any>(prop);
 			(<any>res)[prop] = value;
-		}
+		});
 
 		return res;
 	}

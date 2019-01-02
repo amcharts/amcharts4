@@ -97,7 +97,7 @@ export declare class AxisDataItem extends DataItem {
      *
      * @type {AxisBreak}
      */
-    protected _axisBreak: AxisBreak;
+    _axisBreak: AxisBreak;
     /**
      * Defines a type of [[Component]] this data item is used for.
      *
@@ -200,7 +200,7 @@ export declare class AxisDataItem extends DataItem {
      *
      * @param {AxisBreak} axisBreak Axis break
      */
-    axisBreak: AxisBreak;
+    axisBreak: this["_axisBreak"];
     /**
      * Re-draws the element.
      *
@@ -394,7 +394,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * A type for renderer used for this Axis.
      * @type {T}
      */
-    protected _renderer: T;
+    _renderer: T;
     /**
      * Number of Grid elements on the axis.
      *
@@ -455,7 +455,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      *
      * @todo type
      */
-    fillRule(dataItem: AxisDataItem, index?: number): void;
+    fillRule(dataItem: this["_dataItem"], index?: number): void;
     /**
      * Full length of the axis, in pixels.
      *
@@ -551,9 +551,9 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * `axisBreaks`.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<AxisBreak>["inserted"]} event Event
+     * @param {IListEvents<this["_axisBreak"]>["inserted"]} event Event
      */
-    processBreak(event: IListEvents<AxisBreak>["inserted"]): void;
+    processBreak(event: IListEvents<this["_axisBreak"]>["inserted"]): void;
     /**
      * Registers a [[XYSeries]] element with this Axis.
      *
@@ -565,7 +565,7 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      */
     registerSeries(series: XYSeries): IDisposer;
     /**
-     * @return {T} Renderer
+     * @return {this["_renderer"]} Renderer
      */
     /**
      * An [[AxisRenderer]] to be used to render this Axis.
@@ -587,9 +587,9 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * ```
      *
      * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/} for more info
-     * @param {T}  renderer  Renderer
+     * @param {this["_renderer"]}  renderer  Renderer
      */
-    renderer: T;
+    renderer: this["_renderer"];
     /**
      * Converts a relative position to angle. (for circular axes)
      *
@@ -734,9 +734,9 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
     /**
      * Decorates an axis range after it has been added to the axis range list.
      *
-     * @param {IListEvents<AxisDataItem>["inserted"]} event Event
+     * @param {IListEvents<this["_dataItem"]>["inserted"]} event Event
      */
-    protected processAxisRange(event: IListEvents<AxisDataItem>["inserted"]): void;
+    protected processAxisRange(event: IListEvents<this["_dataItem"]>["inserted"]): void;
     /**
      * A list of axis breaks on this Axis.
      *
@@ -899,9 +899,9 @@ export declare class Axis<T extends AxisRenderer = AxisRenderer> extends Compone
      * Returns [[AxisBreak]] the value falls into.
      *
      * @param  {number}     value  Value to check
-     * @return {AxisBreak}         Axis break
+     * @return {this["_axisBreak"]}         Axis break
      */
-    protected isInBreak(value: number): AxisBreak;
+    protected isInBreak(value: number): this["_axisBreak"];
     /**
      * [fixAxisBreaks description]
      *

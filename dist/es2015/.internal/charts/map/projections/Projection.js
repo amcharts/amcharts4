@@ -269,7 +269,7 @@ var Projection = /** @class */ (function () {
         };
         var segment = subjectPolyline;
         cp1 = clipPolygon[clipPolygon.length - 1];
-        for (var j in clipPolygon) {
+        for (var j = 0; j < clipPolygon.length; ++j) {
             cp2 = clipPolygon[j];
             var inputList = segment;
             segment = [];
@@ -315,12 +315,12 @@ var Projection = /** @class */ (function () {
         };
         var outputList = subjectPolygon;
         cp1 = clipPolygon[clipPolygon.length - 1];
-        for (var j in clipPolygon) {
+        for (var j = 0; j < clipPolygon.length; ++j) {
             cp2 = clipPolygon[j];
             var inputList = outputList;
             outputList = [];
             s = inputList[inputList.length - 1]; //last on the input list
-            for (var i in inputList) {
+            for (var i = 0, len = inputList.length; i < len; ++i) {
                 e = inputList[i];
                 if (inside(e)) {
                     if (!inside(s)) {

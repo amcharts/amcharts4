@@ -518,7 +518,6 @@ var DateAxis = /** @class */ (function (_super) {
         // we need to do this for all series data items not only added recently, as baseInterval might change
         var baseInterval = this.baseInterval;
         $object.each(dataItem.dates, function (key) {
-            //for (let key in dataItem.dates) {
             var date = dataItem.getDate(key);
             var startDate = $time.round($time.copy(date), baseInterval.timeUnit, baseInterval.count);
             var endDate = $time.add($time.copy(startDate), baseInterval.timeUnit, baseInterval.count);

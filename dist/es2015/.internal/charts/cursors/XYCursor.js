@@ -223,7 +223,7 @@ var XYCursor = /** @class */ (function (_super) {
     XYCursor.prototype.triggerDownReal = function (point) {
         if (this.visible && !this.isHiding) {
             if (this.fitsToBounds(point)) {
-                this.downPoint = point;
+                this.downPoint = { x: point.x, y: point.y };
                 this.updatePoint(point);
                 //this.updateLinePositions(point); // otherwise lines won't be in correct position and touch won't work fine
                 this.point.x = this.downPoint.x;

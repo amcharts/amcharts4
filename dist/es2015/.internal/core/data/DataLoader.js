@@ -5,6 +5,7 @@ import { CSVParser } from "./CSVParser";
 import { JSONParser } from "./JSONParser";
 import { Adapter } from "../utils/Adapter";
 import * as $net from "../utils/Net";
+import * as $array from "../utils/Array";
 ;
 /**
  * Data Loader is responsible for loading and parsing external data.
@@ -44,39 +45,37 @@ var DataLoader = /** @class */ (function () {
      */
     DataLoader.prototype.load = function (source) {
         var sources = Array.isArray(source) ? source : [source];
-        var promises = [];
         // Add each Source to the list to be loaded simultaneously
-        for (var x in sources) {
+        var promises = $array.map(sources, function (x) {
             // Dispatch events
-            sources[x].dispatchImmediately("started");
-            sources[x].dispatchImmediately("loadstarted");
-            promises.push($net.load(sources[x].url, sources[x], sources[x].requestOptions));
-        }
+            x.dispatchImmediately("started");
+            x.dispatchImmediately("loadstarted");
+            return $net.load(x.url, x, x.requestOptions);
+        });
         // Run all promises in parallel
         Promise.all(promises).then(function (res) {
             // Process each loaded source
-            for (var x in res) {
+            $array.each(res, function (result) {
                 // Get Source
-                var result = res[x];
-                var source_1 = result.target;
+                var source = result.target;
                 // Dispatch events
-                source_1.dispatchImmediately("loadended");
+                source.dispatchImmediately("loadended");
                 if (result.error) {
-                    if (source_1.events.isEnabled("error")) {
-                        source_1.events.dispatchImmediately("error", {
+                    if (source.events.isEnabled("error")) {
+                        source.events.dispatchImmediately("error", {
                             type: "error",
                             code: result.xhr.status,
-                            message: source_1.language.translate("Unable to load file: %1", null, source_1.url),
-                            target: source_1
+                            message: source.language.translate("Unable to load file: %1", null, source.url),
+                            target: source
                         });
                     }
                 }
                 else {
                     // Initiate parsing of the loaded data
-                    source_1.processData(result.response, result.type);
+                    source.processData(result.response, result.type);
                 }
-                source_1.dispatchImmediately("ended");
-            }
+                source.dispatchImmediately("ended");
+            });
         }).catch(function (res) {
             if (res.target) {
                 res.target.dispatchImmediately("loadended");

@@ -186,9 +186,38 @@ export interface IMapChartProperties extends ISerialChartProperties {
      * @type {number}
      */
     deltaLongitude?: number;
+    /**
+     * Maximum portion of the map's width/height to allow panning "off screen".
+     *
+     * A value of 0 (zero) will prevent any portion of the the map to be panned
+     * outside the viewport.
+     *
+     * 0.5 will allow half of the map to be outside viewable area.
+     *
+     * @default 0.7
+     * @type {number}
+     */
     maxPanOut?: number;
+    /**
+     * A map will start centered on this geographical point.
+     *
+     * @type {IGeoPoint}
+     */
     homeGeoPoint?: IGeoPoint;
+    /**
+     * A map will start zoomed to this level.
+     *
+     * @type {number}
+     */
     homeZoomLevel?: number;
+    /**
+     * When user zooms in or out current zoom level is multiplied or divided
+     * by value of this setting.
+     *
+     * @default 2
+     * @type {number}
+     */
+    zoomStep?: number;
     /**
      * Specifies what should chart do if when mouse wheel is rotated.
      */
@@ -727,9 +756,15 @@ export declare class MapChart extends SerialChart {
      * @return {number} Max pan out
      */
     /**
-     * Max pan out
+     * Maximum portion of the map's width/height to allow panning "off screen".
      *
-     * @param {number} Max pan out
+     * A value of 0 (zero) will prevent any portion of the the map to be panned
+     * outside the viewport.
+     *
+     * 0.5 will allow half of the map to be outside viewable area.
+     *
+     * @default 0.7
+     * @param {number}  value  Max pan out
      */
     maxPanOut: number;
     /**
@@ -756,6 +791,17 @@ export declare class MapChart extends SerialChart {
      * @param {number}  value  Home zoom level
      */
     homeZoomLevel: number;
+    /**
+     * @return {number} Zoom factor
+     */
+    /**
+     * When user zooms in or out current zoom level is multiplied or divided
+     * by value of this setting.
+     *
+     * @default 2
+     * @param {number}  value  Zoom factor
+     */
+    zoomStep: number;
     /**
      * Invalidates projection, causing all series to be redrawn.
      */

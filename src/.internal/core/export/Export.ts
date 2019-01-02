@@ -576,7 +576,7 @@ export interface IExportAdapters {
 	},
 
 	exportFunction: {
-		func: (type: Keys, options?: IExportOptions[Keys]) => Promise<any>,
+		func: <Key extends keyof IExportOptions>(type: Key, options?: IExportOptions[Key]) => Promise<any>,
 		type: Keys,
 		options?: IExportOptions[Keys]
 	},
@@ -879,7 +879,7 @@ export class Export extends Validatable {
 	/**
 	 * Holds references to the objects that were temporarily hidden when export
 	 * started, so that we can reveal them back when export ends.
-	 * 
+	 *
 	 * @type {Sprite[]}
 	 */
 	protected _hiddenObjects: Sprite[] = [];
@@ -1164,7 +1164,7 @@ export class Export extends Validatable {
 			case "json":
 				return <any>this.getJSON;
 			case "print":
-				return this.getPrint;
+				return <any>this.getPrint;
 			default:
 				return this.unsupported;
 		}
@@ -1236,7 +1236,7 @@ export class Export extends Validatable {
 
 
 		func = this.adapter.apply("exportFunction", {
-			func: func,
+			func: func as any,
 			type: type,
 			options: options
 		}).func;

@@ -263,17 +263,16 @@ var SpriteState = /** @class */ (function (_super) {
             });
             // Cycle through all adapters and add values for missing properties
             var keys = this.adapter.keys();
-            for (var x in keys) {
-                var prop = keys[x];
-                var value = this.getPropertyValue(prop);
+            $object.each(keys, function (_x, prop) {
+                var value = _this.getPropertyValue(prop);
                 res[prop] = value;
-            }
+            });
             // Cycle through all property fileds and add values for missing properties
             var propertyFields = this.propertyFields;
-            for (var prop in propertyFields) {
-                var value = this.getPropertyValue(prop);
+            $object.each(propertyFields, function (prop) {
+                var value = _this.getPropertyValue(prop);
                 res[prop] = value;
-            }
+            });
             return res;
         },
         enumerable: true,

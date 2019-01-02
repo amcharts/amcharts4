@@ -711,7 +711,7 @@ var Axis = /** @class */ (function (_super) {
      * `axisBreaks`.
      *
      * @ignore Exclude from docs
-     * @param {IListEvents<AxisBreak>["inserted"]} event Event
+     * @param {IListEvents<this["_axisBreak"]>["inserted"]} event Event
      */
     Axis.prototype.processBreak = function (event) {
         var axisBreak = event.newValue;
@@ -745,7 +745,7 @@ var Axis = /** @class */ (function (_super) {
     };
     Object.defineProperty(Axis.prototype, "renderer", {
         /**
-         * @return {T} Renderer
+         * @return {this["_renderer"]} Renderer
          */
         get: function () {
             return this._renderer;
@@ -770,7 +770,7 @@ var Axis = /** @class */ (function (_super) {
          * ```
          *
          * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/} for more info
-         * @param {T}  renderer  Renderer
+         * @param {this["_renderer"]}  renderer  Renderer
          */
         set: function (renderer) {
             if (renderer != this._renderer) {
@@ -1067,7 +1067,7 @@ var Axis = /** @class */ (function (_super) {
     /**
      * Decorates an axis range after it has been added to the axis range list.
      *
-     * @param {IListEvents<AxisDataItem>["inserted"]} event Event
+     * @param {IListEvents<this["_dataItem"]>["inserted"]} event Event
      */
     Axis.prototype.processAxisRange = function (event) {
         var axisRange = event.newValue;
@@ -1319,7 +1319,7 @@ var Axis = /** @class */ (function (_super) {
      * Returns [[AxisBreak]] the value falls into.
      *
      * @param  {number}     value  Value to check
-     * @return {AxisBreak}         Axis break
+     * @return {this["_axisBreak"]}         Axis break
      */
     Axis.prototype.isInBreak = function (value) {
         return $iter.find(this.axisBreaks.iterator(), function (axisBreak) {

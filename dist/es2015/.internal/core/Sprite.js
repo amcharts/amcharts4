@@ -631,6 +631,9 @@ var Sprite = /** @class */ (function (_super) {
             if (!this.showOnInit) {
                 this.appeared = true;
             }
+            if (this.hidden) {
+                this.hide(0);
+            }
             this.applyMask();
             this.dispatch("validated");
             this.dispatch("inited");
@@ -3052,6 +3055,7 @@ var Sprite = /** @class */ (function (_super) {
      * @param {DataItem} dataItem DataItem
      */
     Sprite.prototype.setDataItem = function (dataItem) {
+        var _this = this;
         if (this._dataItem != dataItem) {
             this._dataItem = dataItem;
             if (this.configField) {
@@ -3059,15 +3063,14 @@ var Sprite = /** @class */ (function (_super) {
                     this.config = dataItem.dataContext[this.configField];
                 }
             }
-            var dataContext = dataItem.dataContext;
-            if (dataContext) {
-                for (var propertyName in this.propertyFields) {
-                    var fieldValue = this.propertyFields[propertyName];
-                    if ($type.hasValue(dataContext[fieldValue])) {
-                        var anyThis = this;
-                        anyThis[propertyName] = dataContext[fieldValue];
+            var dataContext_1 = dataItem.dataContext;
+            if (dataContext_1) {
+                $object.each(this.propertyFields, function (propertyName, fieldValue) {
+                    if ($type.hasValue(dataContext_1[fieldValue])) {
+                        var anyThis = _this;
+                        anyThis[propertyName] = dataContext_1[fieldValue];
                     }
-                }
+                });
             }
             this.invalidate();
         }

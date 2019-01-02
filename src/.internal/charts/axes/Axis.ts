@@ -131,7 +131,7 @@ export class AxisDataItem extends DataItem {
 	 *
 	 * @type {AxisBreak}
 	 */
-	protected _axisBreak: AxisBreak;
+	public _axisBreak: AxisBreak;
 
 	/**
 	 * Defines a type of [[Component]] this data item is used for.
@@ -485,7 +485,7 @@ export class AxisDataItem extends DataItem {
 	 *
 	 * @param {AxisBreak} axisBreak Axis break
 	 */
-	public set axisBreak(axisBreak: AxisBreak) {
+	public set axisBreak(axisBreak: this["_axisBreak"]) {
 		if (this._axisBreak) {
 			this._axisBreak.dataItems.removeValue(this);
 		}
@@ -498,7 +498,7 @@ export class AxisDataItem extends DataItem {
 	/**
 	 * @return {AxisBreak} Axis break
 	 */
-	public get axisBreak(): AxisBreak {
+	public get axisBreak(): this["_axisBreak"] {
 		return this._axisBreak;
 	}
 
@@ -760,7 +760,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * A type for renderer used for this Axis.
 	 * @type {T}
 	 */
-	protected _renderer: T;
+	public _renderer: T;
 
 	/**
 	 * Number of Grid elements on the axis.
@@ -832,7 +832,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 *
 	 * @todo type
 	 */
-	public fillRule(dataItem: AxisDataItem, index?: number) {
+	public fillRule(dataItem: this["_dataItem"], index?: number) {
 		if (!$type.isNumber(index)) {
 			index = dataItem.index;
 		}
@@ -858,7 +858,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * Ghost label is used to prevent chart shrinking/expanding when zooming or
 	 * when data is invalidated. You can set custom text on it so that it would
 	 * be bigger/smaller,
-	 * 
+	 *
 	 * @type {AxisLabel}
 	 */
 	public ghostLabel: AxisLabel;
@@ -866,7 +866,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	/**
 	 * Specifies if axis should be automatically disposed when removing from
 	 * chart's axis list.
-	 * 
+	 *
 	 * @default true
 	 * @type {boolean}
 	 */
@@ -1080,10 +1080,10 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * `axisBreaks`.
 	 *
 	 * @ignore Exclude from docs
-	 * @param {IListEvents<AxisBreak>["inserted"]} event Event
+	 * @param {IListEvents<this["_axisBreak"]>["inserted"]} event Event
 	 */
-	public processBreak(event: IListEvents<AxisBreak>["inserted"]) {
-		let axisBreak: AxisBreak = event.newValue;
+	public processBreak(event: IListEvents<this["_axisBreak"]>["inserted"]) {
+		let axisBreak: this["_axisBreak"] = event.newValue;
 		axisBreak.parent = this.renderer.breakContainer;
 		axisBreak.axis = this;
 	}
@@ -1136,9 +1136,9 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * ```
 	 *
 	 * @see {@link https://www.amcharts.com/docs/v4/concepts/axes/} for more info
-	 * @param {T}  renderer  Renderer
+	 * @param {this["_renderer"]}  renderer  Renderer
 	 */
-	public set renderer(renderer: T) {
+	public set renderer(renderer: this["_renderer"]) {
 		if (renderer != this._renderer) {
 			this._renderer = renderer;
 			renderer.chart = this.chart;
@@ -1167,9 +1167,9 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	}
 
 	/**
-	 * @return {T} Renderer
+	 * @return {this["_renderer"]} Renderer
 	 */
-	public get renderer(): T {
+	public get renderer(): this["_renderer"] {
 		return this._renderer;
 	}
 
@@ -1464,9 +1464,9 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	/**
 	 * Decorates an axis range after it has been added to the axis range list.
 	 *
-	 * @param {IListEvents<AxisDataItem>["inserted"]} event Event
+	 * @param {IListEvents<this["_dataItem"]>["inserted"]} event Event
 	 */
-	protected processAxisRange(event: IListEvents<AxisDataItem>["inserted"]) {
+	protected processAxisRange(event: IListEvents<this["_dataItem"]>["inserted"]) {
 		let axisRange: AxisDataItem = event.newValue;
 		axisRange.component = this;
 		axisRange.isRange = true;
@@ -1479,7 +1479,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 */
 	public get axisBreaks(): SortedListTemplate<this["_axisBreak"]> {
 		if (!this._axisBreaks) {
-			this._axisBreaks = new SortedListTemplate<AxisBreak>(this.createAxisBreak(), (a, b) => {
+			this._axisBreaks = new SortedListTemplate<this["_axisBreak"]>(this.createAxisBreak(), (a, b) => {
 				return $number.order(a.adjustedStartValue, b.adjustedStartValue);
 			});
 
@@ -1737,9 +1737,9 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * Returns [[AxisBreak]] the value falls into.
 	 *
 	 * @param  {number}     value  Value to check
-	 * @return {AxisBreak}         Axis break
+	 * @return {this["_axisBreak"]}         Axis break
 	 */
-	protected isInBreak(value: number): AxisBreak {
+	protected isInBreak(value: number): this["_axisBreak"] {
 		return $iter.find(this.axisBreaks.iterator(), (axisBreak) =>
 			value >= axisBreak.adjustedStartValue &&
 			value <= axisBreak.adjustedEndValue);
@@ -1752,7 +1752,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	 * @todo Description
 	 */
 	protected fixAxisBreaks(): void {
-		let axisBreaks: SortedListTemplate<AxisBreak> = this.axisBreaks;
+		let axisBreaks: SortedListTemplate<this["_axisBreak"]> = this.axisBreaks;
 		if (axisBreaks.length > 0) {
 			// first make sure that startValue is <= end value
 			// This needs to make a copy of axisBreaks because it mutates the list while traversing
@@ -1768,7 +1768,7 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 			});
 
 
-			let firstAxisBreak: AxisBreak = axisBreaks.first;
+			let firstAxisBreak: this["_axisBreak"] = axisBreaks.first;
 			let previousEndValue: number = Math.min(firstAxisBreak.startValue, firstAxisBreak.endValue);
 
 			// process breaks

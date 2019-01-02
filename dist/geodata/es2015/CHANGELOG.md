@@ -3,6 +3,19 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [UNRElEASED] - ????-??-??
+
+### Changed
+- Renamed Czech Republic to Czechia in all maps.
+
+## [4.0.26] - 2018-12-28
+
+### Added
+- New maps: Pakistan, Peru, Qatar, Romania, Saint Pierre and Miquelon, Samoa, San Marino, São Tomé and Príncipe.
+
+### Fixed
+- Fixed maps with missing areas: Norway, Europe, Asia.
+
 ## [4.0.25] - 2018-12-26
 
 ### Added

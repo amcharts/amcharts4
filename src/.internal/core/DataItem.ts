@@ -311,7 +311,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	 * @ignore Exclude from docs
 	 * @type {boolean}
 	 */
-	protected _hidden: boolean = false;	
+	protected _hidden: boolean = false;
 
 	/**
 	 * Should this Data Item be used when calculating data ranges and scales?
@@ -404,7 +404,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	public set visible(value: boolean) {
 		if(value){
 			this.hidden = false;
-		}		
+		}
 		if (this._visible != value) {
 			this.setVisibility(value);
 		}
@@ -425,7 +425,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 				this.setVisibility(true, true);
 			}
 		}
-	}	
+	}
 
 	/**
 	 * Returns `true` if this Data Item is currently hidden.
@@ -467,7 +467,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	 *
 	 * @param {boolean} value Data Item
 	 */
-	public setVisibility(value: boolean, noChangeValues?: boolean): void {		
+	public setVisibility(value: boolean, noChangeValues?: boolean): void {
 		$array.each(this.sprites, (sprite) => {
 			if (value) {
 				sprite.visible = sprite.defaultState.properties.visible;
@@ -1004,7 +1004,6 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 		$utils.copyProperties(this.dates, dataItem.dates);
 
 		$object.each(this.values, (name, value) => {
-			//for (let name in this.values) {
 			dataItem.values[name] = $object.copy(value);
 		});
 
@@ -1172,7 +1171,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 		}
 
 		if(this.isHiding){
-			sprite.hide();	
+			sprite.hide();
 		}
 		this.sprites.push(sprite);
 		sprite.dataItem = this;

@@ -16,6 +16,7 @@ import { animations } from "./utils/Animation";
 import { triggerIdle } from "./utils/AsyncPending";
 import * as $dom from "./utils/DOM";
 import * as $array from "./utils/Array";
+import * as $object from "./utils/Object";
 import * as $type from "./utils/Type";
 
 
@@ -53,7 +54,7 @@ export class System {
 	 * @see {@link https://docs.npmjs.com/misc/semver}
 	 * @type {string}
 	 */
-	static VERSION: string = "4.0.13";
+	static VERSION: string = "4.0.14";
 
 	/**
 	 * @todo Description
@@ -144,45 +145,47 @@ export class System {
 		// TODO use iterator instead
 
 		for (var key in registry.invalidDatas) {
-			let invalidData = registry.invalidDatas[key];
+			if ($object.hasKey(registry.invalidDatas, key)) {
+				let invalidData = registry.invalidDatas[key];
 
-			while (invalidData.length > 0) {
-				let component: Component = invalidData[0];
-				let dataProvider: $type.Optional<Component> = component.dataProvider;
+				while (invalidData.length > 0) {
+					let component: Component = invalidData[0];
+					let dataProvider: $type.Optional<Component> = component.dataProvider;
 
-				if (!component.isDisposed()) {
+					if (!component.isDisposed()) {
 
-					if (dataProvider && dataProvider.dataInvalid) {
-						try {
-							dataProvider.validateData();
-							if (dataProvider.dataValidationProgress < 1) {
-								break;
+						if (dataProvider && dataProvider.dataInvalid) {
+							try {
+								dataProvider.validateData();
+								if (dataProvider.dataValidationProgress < 1) {
+									break;
+								}
+							}
+							catch (e) {
+								$array.remove(invalidData, dataProvider);
+								dataProvider.raiseCriticalError(e);
 							}
 						}
-						catch (e) {
-							$array.remove(invalidData, dataProvider);
-							dataProvider.raiseCriticalError(e);
+						else {
+							try {
+								component.validateData();
+								if (component.dataValidationProgress < 1) {
+									break;
+								}
+							}
+							catch (e) {
+								$array.remove(invalidData, component);
+								component.raiseCriticalError(e);
+							}
 						}
 					}
 					else {
-						try {
-							component.validateData();
-							if (component.dataValidationProgress < 1) {
-								break;
-							}
-						}
-						catch (e) {
-							$array.remove(invalidData, component);
-							component.raiseCriticalError(e);
-						}
+						$array.remove(invalidData, component);
 					}
 				}
-				else {
-					$array.remove(invalidData, component);
+				if (Date.now() - time > this.updateStepDuration) {
+					break;
 				}
-			}
-			if (Date.now() - time > this.updateStepDuration) {
-				break;
 			}
 		}
 
@@ -257,22 +260,21 @@ export class System {
 		// display objects later
 		// TODO use iterator instead
 
-		for (let key in registry.invalidLayouts) {
+		$object.each(registry.invalidLayouts, (key) => {
 			this.validateLayouts(key);
-		}
-		for (let key in registry.invalidPositions) {
+		});
+
+		$object.each(registry.invalidPositions, (key) => {
 			this.validatePositions(key);
-		}
+		});
 
 
 		let hasSkipped: boolean = false;
 
 		time = Date.now();
 
-		for (var key in registry.invalidSprites) {
+		$object.each(registry.invalidSprites, (key, invalidSprites) => {
 			let count = 0;
-
-			let invalidSprites = registry.invalidSprites[key];
 
 			while (invalidSprites.length > 0) {
 				this.validateLayouts(key);
@@ -333,19 +335,19 @@ export class System {
 			}
 
 			registry.invalidSprites[key] = registry.invalidSprites[key].concat(skippedSprites);
-		}
+		});
 
-		for (var key in registry.invalidSprites) {
-			if (registry.invalidSprites[key].length > 0) {
+		$object.each(registry.invalidSprites, (key, value) => {
+			if (value.length > 0) {
 				hasSkipped = true;
 			}
-		}
+		});
 
-		for (var key in registry.invalidDatas) {
-			if (registry.invalidDatas[key].length > 0) {
+		$object.each(registry.invalidDatas, (key, value) => {
+			if (value.length > 0) {
 				hasSkipped = true;
 			}
-		}
+		});
 
 		// TODO make this more efficient
 		// TODO don't copy the array
@@ -354,22 +356,24 @@ export class System {
 		});
 
 		//if(!hasSkipped){
-		for (let key in registry.invalidLayouts) {
+		$object.each(registry.invalidLayouts, (key) => {
 			this.validateLayouts(key);
-		}
-		for (let key in registry.invalidPositions) {
+		});
+
+		$object.each(registry.invalidPositions, (key) => {
 			this.validatePositions(key);
-		}
+		});
 		//}
 
 		triggerIdle();
 
-		for (let key in registry.invalidLayouts) {
+		$object.each(registry.invalidLayouts, (key) => {
 			this.validateLayouts(key);
-		}
-		for (let key in registry.invalidPositions) {
+		});
+
+		$object.each(registry.invalidPositions, (key) => {
 			this.validatePositions(key);
-		}
+		});
 
 
 		registry.dispatchImmediately("exitframe");
@@ -381,17 +385,18 @@ export class System {
 		if (this.updateStepDuration < 200) {
 			let all0 = true;
 
-			for (var key in registry.invalidDatas) {
-				if (registry.invalidDatas[key].length > 0) {
+			$object.each(registry.invalidDatas, (key, value) => {
+				if (value.length > 0) {
 					all0 = false;
 				}
-			}
+			});
 
-			for (var key in registry.invalidSprites) {
-				if (registry.invalidSprites[key].length > 0) {
+			$object.each(registry.invalidSprites, (key, value) => {
+				if (value.length > 0) {
 					all0 = false;
 				}
-			}
+			});
+
 			if (all0) {
 				this.updateStepDuration = 200;
 			}
@@ -414,7 +419,7 @@ export class System {
 		else {
 			return true;
 		}
-	}	
+	}
 
 	/**
 	 * Requests new animation frame

@@ -122,6 +122,7 @@ var MapChart = /** @class */ (function (_super) {
         _this.deltaLongitude = 0;
         _this.maxPanOut = 0.7;
         _this.homeZoomLevel = 1;
+        _this.zoomStep = 2;
         // Set padding
         _this.padding(0, 0, 0, 0);
         // so that the map would render in a hidden div too
@@ -670,7 +671,7 @@ var MapChart = /** @class */ (function (_super) {
      * @return {Animation}            Zoom animation
      */
     MapChart.prototype.zoomIn = function (geoPoint, duration) {
-        return this.zoomToGeoPoint(geoPoint, this.zoomLevel * 2, false, duration);
+        return this.zoomToGeoPoint(geoPoint, this.zoomLevel * this.zoomStep, false, duration);
     };
     /**
      * Zooms out the map, optionally centering on particular latitude/longitude
@@ -681,7 +682,7 @@ var MapChart = /** @class */ (function (_super) {
      * @return {Animation}            Zoom animation
      */
     MapChart.prototype.zoomOut = function (geoPoint, duration) {
-        return this.zoomToGeoPoint(geoPoint, this.zoomLevel / 2, false, duration);
+        return this.zoomToGeoPoint(geoPoint, this.zoomLevel / this.zoomStep, false, duration);
     };
     /**
      * Pans the maps using relative coordinates. E.g.:
@@ -874,9 +875,15 @@ var MapChart = /** @class */ (function (_super) {
             return this.getPropertyValue("maxPanOut");
         },
         /**
-         * Max pan out
+         * Maximum portion of the map's width/height to allow panning "off screen".
          *
-         * @param {number} Max pan out
+         * A value of 0 (zero) will prevent any portion of the the map to be panned
+         * outside the viewport.
+         *
+         * 0.5 will allow half of the map to be outside viewable area.
+         *
+         * @default 0.7
+         * @param {number}  value  Max pan out
          */
         set: function (value) {
             this.setPropertyValue("maxPanOut", value);
@@ -922,6 +929,26 @@ var MapChart = /** @class */ (function (_super) {
          */
         set: function (value) {
             this.setPropertyValue("homeZoomLevel", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(MapChart.prototype, "zoomStep", {
+        /**
+         * @return {number} Zoom factor
+         */
+        get: function () {
+            return this.getPropertyValue("zoomStep");
+        },
+        /**
+         * When user zooms in or out current zoom level is multiplied or divided
+         * by value of this setting.
+         *
+         * @default 2
+         * @param {number}  value  Zoom factor
+         */
+        set: function (value) {
+            this.setPropertyValue("zoomStep", value);
         },
         enumerable: true,
         configurable: true

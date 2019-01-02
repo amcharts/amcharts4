@@ -242,11 +242,41 @@ export interface IMapChartProperties extends ISerialChartProperties {
 	 */
 	deltaLongitude?: number;
 
+	/**
+	 * Maximum portion of the map's width/height to allow panning "off screen".
+	 *
+	 * A value of 0 (zero) will prevent any portion of the the map to be panned
+	 * outside the viewport.
+	 *
+	 * 0.5 will allow half of the map to be outside viewable area.
+	 * 
+	 * @default 0.7
+	 * @type {number}
+	 */
 	maxPanOut?: number;
 
+	/**
+	 * A map will start centered on this geographical point.
+	 * 
+	 * @type {IGeoPoint}
+	 */
 	homeGeoPoint?: IGeoPoint;
 
+	/**
+	 * A map will start zoomed to this level.
+	 * 
+	 * @type {number}
+	 */
 	homeZoomLevel?: number;
+
+	/**
+	 * When user zooms in or out current zoom level is multiplied or divided
+	 * by value of this setting.
+	 *
+	 * @default 2
+	 * @type {number}
+	 */
+	zoomStep?: number;
 
 	/**
 	 * Specifies what should chart do if when mouse wheel is rotated.
@@ -537,6 +567,7 @@ export class MapChart extends SerialChart {
 		this.deltaLongitude = 0;
 		this.maxPanOut = 0.7;
 		this.homeZoomLevel = 1;
+		this.zoomStep = 2;
 
 		// Set padding
 		this.padding(0, 0, 0, 0);
@@ -1176,7 +1207,7 @@ export class MapChart extends SerialChart {
 	 * @return {Animation}            Zoom animation
 	 */
 	public zoomIn(geoPoint?: IGeoPoint, duration?: number): Animation {
-		return this.zoomToGeoPoint(geoPoint, this.zoomLevel * 2, false, duration);
+		return this.zoomToGeoPoint(geoPoint, this.zoomLevel * this.zoomStep, false, duration);
 	}
 
 	/**
@@ -1188,7 +1219,7 @@ export class MapChart extends SerialChart {
 	 * @return {Animation}            Zoom animation
 	 */
 	public zoomOut(geoPoint?: IGeoPoint, duration?: number): Animation {
-		return this.zoomToGeoPoint(geoPoint, this.zoomLevel / 2, false, duration);
+		return this.zoomToGeoPoint(geoPoint, this.zoomLevel / this.zoomStep, false, duration);
 	}
 
 	/**
@@ -1369,9 +1400,15 @@ export class MapChart extends SerialChart {
 	}
 
 	/**
-	 * Max pan out
+	 * Maximum portion of the map's width/height to allow panning "off screen".
 	 *
-	 * @param {number} Max pan out
+	 * A value of 0 (zero) will prevent any portion of the the map to be panned
+	 * outside the viewport.
+	 *
+	 * 0.5 will allow half of the map to be outside viewable area.
+	 * 
+	 * @default 0.7
+	 * @param {number}  value  Max pan out
 	 */
 	public set maxPanOut(value: number) {
 		this.setPropertyValue("maxPanOut", value);
@@ -1422,6 +1459,23 @@ export class MapChart extends SerialChart {
 		return this.getPropertyValue("homeZoomLevel");
 	}
 
+	/**
+	 * When user zooms in or out current zoom level is multiplied or divided
+	 * by value of this setting.
+	 *
+	 * @default 2
+	 * @param {number}  value  Zoom factor
+	 */
+	public set zoomStep(value: number) {
+		this.setPropertyValue("zoomStep", value);
+	}
+
+	/**
+	 * @return {number} Zoom factor
+	 */
+	public get zoomStep(): number {
+		return this.getPropertyValue("zoomStep");
+	}
 
 	/**
 	 * Invalidates projection, causing all series to be redrawn.

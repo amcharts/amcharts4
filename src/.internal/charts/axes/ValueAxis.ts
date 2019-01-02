@@ -400,7 +400,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 *
 	 * @todo type
 	 */
-	public fillRule(dataItem: ValueAxisDataItem) {
+	public fillRule(dataItem: this["_dataItem"]) {
 		let value = dataItem.value;
 		let axis = dataItem.component;
 		if (!dataItem.axisFill.disabled) {
@@ -783,7 +783,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 
 		let mask: AxisFill = dataItem.mask;
 		if (mask) {
-			renderer.updateFillElement(mask, position, fillEndPosition);		
+			renderer.updateFillElement(mask, position, fillEndPosition);
 		}
 	}
 
