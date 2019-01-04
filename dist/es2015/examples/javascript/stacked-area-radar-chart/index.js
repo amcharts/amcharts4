@@ -158,6 +158,7 @@ categoryAxisRenderer.axisFills.template.location = -0.5;
 categoryAxisRenderer.axisFills.template.disabled = false;
 categoryAxisRenderer.line.disabled = true;
 categoryAxisRenderer.tooltip.disabled = true;
+categoryAxisRenderer.grid.template.disabled = true;
 categoryAxis.renderer.labels.template.disabled = true;
 
 categoryAxis.adapter.add("maxZoomFactor", (maxZoomFactor, target) => {
@@ -167,7 +168,7 @@ categoryAxis.adapter.add("maxZoomFactor", (maxZoomFactor, target) => {
 let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
 let valueAxisRenderer = valueAxis.renderer;
-
+valueAxisRenderer.grid.template.disabled = true;
 valueAxisRenderer.line.disabled = true;
 valueAxis.min = 0;
 valueAxis.renderer.tooltip.disabled = true;

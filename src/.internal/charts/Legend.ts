@@ -22,6 +22,10 @@ import { registry } from "../core/Registry";
 import { getInteraction } from "../core/interaction/Interaction";
 import { percent } from "../core/utils/Percent";
 import { InterfaceColorSet } from "../core/utils/InterfaceColorSet";
+import { Color } from "../core/utils/Color";
+import { RadialGradient } from "../core/rendering/fills/RadialGradient";
+import { LinearGradient } from "../core/rendering/fills/LinearGradient";
+import { Pattern } from "../core/rendering/fills/Pattern";
 import * as $type from "../core/utils/Type";
 import { Sprite } from "../core/Sprite";
 import { IDisposer, Disposer, MultiDisposer } from "../core/utils/Disposer";
@@ -88,6 +92,12 @@ export class LegendDataItem extends DataItem {
 	public childrenCreated: boolean = false;
 
 	/**
+	 * @ignore
+	 */
+	public colorOrig: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>;
+
+
+	/**
 	 * Constructor
 	 */
 	constructor() {
@@ -96,7 +106,11 @@ export class LegendDataItem extends DataItem {
 		this.applyTheme();
 	}
 
-
+	/**
+	 * A legend item's [[Label]] element.
+	 * 
+	 * @return {Label} Label
+	 */
 	public get label(): Label {
 		if (!this._label) {
 			let label = this.component.labels.create();
@@ -112,7 +126,51 @@ export class LegendDataItem extends DataItem {
 		return this._label;
 	}
 
+	/**
+	 * Main color of legend data item.
+	 *
+	 * This is set by the target element this legend item represents, like
+	 * a Series or a Slice.
+	 *
+	 * It can be used to derive a color in legend's sub-items, like label:
+	 *
+	 * ```TypeScript
+	 * chart.legend.labels.template.text = "[{color}]{name}[/]";
+	 * ```
+	 * ```JavaScript
+	 * chart.legend.labels.template.text = "[{color}]{name}[/]";
+	 * ```
+	 * ```JSON
+	 * {
+	 *   // ...
+	 *   "legend": {
+	 *     // ...
+	 *     "labels": {
+	 *       "text": "[{color}]{name}[/]"
+	 *     }
+	 *   }
+	 * }
+	 * ```
+	 *
+	 * @see {@link https://www.amcharts.com/docs/v4/concepts/legend/#Legend_labels} For more information about configuring legend labels.
+	 * @param {Color | Pattern | LinearGradient | RadialGradient}  value  Main color
+	 */
+	public set color(value: $type.Optional<Color | Pattern | LinearGradient | RadialGradient>) {
+		this.setProperty("color", value);
+	}
 
+	/**
+	 * @return {Color | Pattern | LinearGradient | RadialGradient} Main color
+	 */
+	public get color(): $type.Optional<Color | Pattern | LinearGradient | RadialGradient> {
+		return this.properties.color;
+	}
+
+	/**
+	 * A legend item's [[Label]] element for "value label".
+	 * 
+	 * @return {Label} Label
+	 */
 	public get valueLabel(): Label {
 		if (!this._valueLabel) {
 			let valueLabel = this.component.valueLabels.create();
@@ -129,6 +187,12 @@ export class LegendDataItem extends DataItem {
 		return this._valueLabel;
 	}
 
+	/**
+	 * A reference to the main [[Container]] that holds legend item's elements:
+	 * marker and labels.
+	 * 
+	 * @return {Container} Item container
+	 */
 	public get itemContainer(): Container {
 		if (!this._itemContainer) {
 			let itemContainer = this.component.itemContainers.create();
@@ -185,6 +249,11 @@ export class LegendDataItem extends DataItem {
 		return this._itemContainer;
 	}
 
+	/**
+	 * A [[Container]] that holds legend item's marker element.
+	 * 
+	 * @return {Container} Marker
+	 */
 	public get marker(): Container {
 		if (!this._marker) {
 			let marker = this.component.markers.create();
@@ -199,7 +268,6 @@ export class LegendDataItem extends DataItem {
 		}
 		return this._marker;
 	}
-
 }
 
 
@@ -284,7 +352,6 @@ export interface ILegendDataFields extends IComponentDataFields {
 	 * @type {string}
 	 */
 	visible?: string;
-
 }
 
 /**
@@ -601,10 +668,14 @@ export class Legend extends Component {
 
 		// If we are not using default markers, create a unique legend marker based
 		// on the data item type
-		if (dataItem.dataContext.createLegendMarker && !this.useDefaultMarker) {
+		let dataContext = dataItem.dataContext;
+		if (dataContext.createLegendMarker && !this.useDefaultMarker) {
 			if (!dataItem.childrenCreated) {
-				dataItem.dataContext.createLegendMarker(marker);
+				dataContext.createLegendMarker(marker);
 				dataItem.childrenCreated = true;
+				if (dataContext.updateLegendValue) {
+					dataContext.updateLegendValue(); // this solves issue with external legend, as legend is created after chart updates legend values
+				}
 			}
 		}
 
@@ -619,7 +690,7 @@ export class Legend extends Component {
 			valueLabel.__disabled = false;
 		}
 
-		if(legendSettings && (legendSettings.itemValueText != undefined || legendSettings.valueText != undefined)){
+		if (legendSettings && (legendSettings.itemValueText != undefined || legendSettings.valueText != undefined)) {
 			valueLabel.__disabled = false;
 		}
 
@@ -713,6 +784,8 @@ export class Legend extends Component {
 		let dataContext = item.dataContext;
 
 		if (!dataContext.visible || dataContext.isHiding || (dataContext instanceof Sprite && dataContext.isHidden)) {
+			item.color = item.colorOrig;
+
 			item.itemContainer.isActive = false;
 
 			if (dataContext.hidden === true) {
@@ -725,6 +798,7 @@ export class Legend extends Component {
 			else {
 				dataContext.visible = true;
 			}
+
 		}
 		else {
 			item.itemContainer.isActive = true;
@@ -735,6 +809,8 @@ export class Legend extends Component {
 			else {
 				dataContext.visible = false;
 			}
+
+			item.color = new InterfaceColorSet().getFor("disabledBackground");
 		}
 
 	}
@@ -748,6 +824,16 @@ export class Legend extends Component {
 	 */
 	public get preloader(): Optional<Preloader> {
 		return;
+	}
+
+	/**
+	 * [handleDataItemPropertyChange description]
+	 *
+	 * @ignore Exclude from docs
+	 */
+	public handleDataItemPropertyChange(dataItem?: this["_dataItem"], name?: string): void {
+		dataItem.valueLabel.invalidate();
+		dataItem.label.invalidate();
 	}
 
 }

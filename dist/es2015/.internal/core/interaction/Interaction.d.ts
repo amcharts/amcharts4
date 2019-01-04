@@ -227,6 +227,15 @@ export declare class Interaction extends BaseObjectEvents {
      * outside particular chart container.
      */
     constructor();
+    /**
+     * This is a nasty detection for Firefox. The reason why we have is that
+     * Firefox ESR version does not support matchMedia correctly.
+     *
+     * On iOS, Firefox uses different userAgent, so we don't have to detect iOS.
+     *
+     * @return {boolean} Full Firefox?
+     */
+    protected fullFF(): boolean;
     protected debug(): void;
     /**
      * ==========================================================================

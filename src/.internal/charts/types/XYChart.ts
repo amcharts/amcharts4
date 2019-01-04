@@ -1508,7 +1508,14 @@ export class XYChart extends SerialChart {
 	 */
 	protected handleXScrollbarChange(event: AMEvent<Scrollbar, IScrollbarEvents>["rangechanged"]): void {
 		let scrollbar: Scrollbar = event.target;
-		let range: IRange = this.zoomAxes(this.xAxes, scrollbar.range);
+		let range = scrollbar.range;
+		if(range.end == 1){
+			range.priority = "end";
+		}
+		if(range.start == 0){
+			range.priority = "start";
+		}		
+		range = this.zoomAxes(this.xAxes, range);
 		scrollbar.fixRange(range);
 	}
 
@@ -1591,7 +1598,7 @@ export class XYChart extends SerialChart {
 	 */
 	protected handleWheel(event: AMEvent<Sprite, ISpriteEvents>["wheel"]) {
 		let plotContainer = this.plotContainer;
-		let svgPoint: IPoint = $utils.documentPointToSvg(event.point, this.htmlContainer);
+		let svgPoint: IPoint = $utils.documentPointToSvg(event.point, this.htmlContainer, this.svgContainer.cssScale);
 		let plotPoint = $utils.svgPointToSprite(svgPoint, plotContainer);
 		let shift = event.shift.y;
 

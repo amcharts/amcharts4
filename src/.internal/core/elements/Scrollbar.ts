@@ -822,6 +822,7 @@ export class Scrollbar extends Container {
 			this.updateThumb();
 			this._skipRangeEvents = false;
 			this.thumb.validate();
+			this.thumb.background.validate();
 		}
 	}
 

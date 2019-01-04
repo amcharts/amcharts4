@@ -514,12 +514,17 @@ var PercentSeries = /** @class */ (function (_super) {
             child.stroke = slice.stroke;
             child.fillOpacity = slice.fillOpacity;
             child.strokeOpacity = slice.strokeOpacity;
+            var legendDataItem = marker.dataItem;
+            legendDataItem.color = slice.fill;
+            legendDataItem.colorOrig = slice.fill;
             slice.events.on("propertychanged", function (ev) {
                 if (ev.property == "fill") {
                     if (!child.isActive) {
                         child.fill = slice.fill;
                     }
                     child.defaultState.properties.fill = slice.fill;
+                    legendDataItem.color = slice.fill;
+                    legendDataItem.colorOrig = slice.fill;
                 }
                 if (ev.property == "stroke") {
                     if (!child.isActive) {

@@ -32,6 +32,7 @@ import { Modal } from "../elements/Modal";
 import { List } from "../utils/List";
 import { IDisposer } from "../utils/Disposer";
 import { DateFormatter } from "../formatters/DateFormatter";
+import { DurationFormatter } from "../formatters/DurationFormatter";
 import { Language } from "../utils/Language";
 import { Validatable } from "../utils/Validatable";
 import { Color } from "../utils/Color";
@@ -480,12 +481,25 @@ export interface IExportAdapters {
     dateFields: {
         dateFields: any;
     };
+    durationFormatter: {
+        durationFormatter: DurationFormatter;
+    };
+    durationFormat: {
+        durationFormat: $type.Optional<string>;
+    };
+    durationFields: {
+        durationFields: any;
+    };
     dataFieldName: {
         name: string;
         field: string;
     };
     isDateField: {
         isDateField: boolean;
+        field: string;
+    };
+    isDurationField: {
+        isDurationField: boolean;
         field: string;
     };
     contentType: {
@@ -659,6 +673,27 @@ export declare class Export extends Validatable {
      * @type {Optional<List<string>>}
      */
     protected _dateFields: $type.Optional<List<string>>;
+    /**
+     * A reference to [[DurationFormatter]].
+     *
+     * @ignore Exclude from docs
+     * @type {Optional<DurationFormatter>}
+     */
+    protected _durationFormatter: $type.Optional<DurationFormatter>;
+    /**
+     * A duration format to be used when formatting numeric values.
+     *
+     * @ignore Exclude from docs
+     * @type {Optional<string>}
+     */
+    protected _durationFormat: $type.Optional<string>;
+    /**
+     * A list of column keys that hold duration values.
+     *
+     * @ignore Exclude from docs
+     * @type {Optional<List<string>>}
+     */
+    protected _durationFields: $type.Optional<List<string>>;
     /**
      * Holds a list of objects that were temporarily removed from the DOM while
      * exporting. Those most probably are tainted images, or foreign objects that
@@ -1132,12 +1167,13 @@ export declare class Export extends Validatable {
      * Converts the value to proper date format.
      *
      * @ignore Exclude from docs
-     * @param  {string}                                  field    Field name
-     * @param  {any}                                     value    Value
-     * @param  {IExportCSVOptions | IExportJSONOptions}  options  Options
-     * @return {any}                                              Formatted date value or unmodified value
+     * @param  {string}                                  field       Field name
+     * @param  {any}                                     value       Value
+     * @param  {IExportCSVOptions | IExportJSONOptions}  options     Options
+     * @param  {boolean}                                 keepAsDate  Will ignore formatting and will keep as Date object if set
+     * @return {any}                                                 Formatted date value or unmodified value
      */
-    convertDateValue<Key extends "json" | "csv" | "xlsx">(field: string, value: any, options?: IExportOptions[Key]): any;
+    convertToDateOrDuration<Key extends "json" | "csv" | "xlsx">(field: string, value: any, options?: IExportOptions[Key], keepAsDate?: boolean): any;
     /**
      * Converts empty value based on `emptyAs` option.
      *
@@ -1294,6 +1330,35 @@ export declare class Export extends Validatable {
      */
     dateFields: List<string>;
     /**
+     * @return {any} A DurationFormatter instance
+     */
+    /**
+     * A [[DurationFormatter]] to use when formatting duration values when
+     * exporting data.
+     *
+     * @param {any}  value  DurationFormatter instance
+     */
+    durationFormatter: any;
+    /**
+     * @return {Optional<string>} Duration format
+     */
+    /**
+     * A format to use when formatting values from `durationFields`.
+     * Will use [[DurationFormatter]] format if not set.
+     *
+     * @param {Optional<string>} value Duration format
+     */
+    durationFormat: $type.Optional<string>;
+    /**
+     * @return {List<string>} Duration field list
+     */
+    /**
+     * A list of fields that hold duration values.
+     *
+     * @param {List<string>} value Duration field list
+     */
+    durationFields: List<string>;
+    /**
      * Generates data fields out of the first row of data.
      *
      * @ignore Exclude from docs
@@ -1309,6 +1374,16 @@ export declare class Export extends Validatable {
      * @return {boolean}               `true` if it's a date field
      */
     isDateField(field: string): boolean;
+    /**
+     * Cheks against `dateFields` property to determine if this field holds
+     * dates.
+     *
+     * @ignore Exclude from docs
+     * @param  {string}        field   Field name
+     * @param  {IExportOptions} options Options
+     * @return {boolean}               `true` if it's a date field
+     */
+    isDurationField(field: string): boolean;
     /**
      * Returns proper content type for the export type.
      *

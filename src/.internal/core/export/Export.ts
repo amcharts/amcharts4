@@ -35,6 +35,7 @@ import { List } from "../utils/List";
 import { Dictionary } from "../utils/Dictionary";
 import { IDisposer } from "../utils/Disposer";
 import { DateFormatter } from "../formatters/DateFormatter";
+import { DurationFormatter } from "../formatters/DurationFormatter";
 import { Language } from "../utils/Language";
 import { Validatable } from "../utils/Validatable";
 import { keyboard, KeyboardKeys } from "../utils/Keyboard";
@@ -660,6 +661,18 @@ export interface IExportAdapters {
 		dateFields: any
 	},
 
+	durationFormatter: {
+		durationFormatter: DurationFormatter
+	},
+
+	durationFormat: {
+		durationFormat: $type.Optional<string>
+	},
+
+	durationFields: {
+		durationFields: any
+	},
+
 	dataFieldName: {
 		name: string,
 		field: string
@@ -667,6 +680,11 @@ export interface IExportAdapters {
 
 	isDateField: {
 		isDateField: boolean,
+		field: string
+	},
+
+	isDurationField: {
+		isDurationField: boolean,
 		field: string
 	},
 
@@ -865,6 +883,30 @@ export class Export extends Validatable {
 	 * @type {Optional<List<string>>}
 	 */
 	protected _dateFields: $type.Optional<List<string>>;
+
+	/**
+	 * A reference to [[DurationFormatter]].
+	 *
+	 * @ignore Exclude from docs
+	 * @type {Optional<DurationFormatter>}
+	 */
+	protected _durationFormatter: $type.Optional<DurationFormatter>;
+
+	/**
+	 * A duration format to be used when formatting numeric values.
+	 *
+	 * @ignore Exclude from docs
+	 * @type {Optional<string>}
+	 */
+	protected _durationFormat: $type.Optional<string>;
+
+	/**
+	 * A list of column keys that hold duration values.
+	 *
+	 * @ignore Exclude from docs
+	 * @type {Optional<List<string>>}
+	 */
+	protected _durationFields: $type.Optional<List<string>>;
 
 	/**
 	 * Holds a list of objects that were temporarily removed from the DOM while
@@ -1590,7 +1632,6 @@ export class Export extends Validatable {
 	 * @return {Promise<string>}              Data uri
 	 */
 	public async getImageAdvanced(type: imageFormats, options?: IExportImageOptions): Promise<string> {
-		//console.warn("Falling back to canvg for exporting");
 
 		// Convert external images to data uris
 		await this.imagesToDataURI(this.sprite.dom, options);
@@ -2375,7 +2416,8 @@ export class Export extends Validatable {
 			options: {
 				bookType: "xlsx",
 				bookSST: false,
-				type: "base64"
+				type: "base64",
+				//dateNF: 'yyyy-mm-dd'
 			}
 		}).options;
 
@@ -2459,7 +2501,7 @@ export class Export extends Validatable {
 				return;
 			}*/
 
-			items.push(this.convertDateValue<"xlsx">(key, value, options));
+			items.push(this.convertToDateOrDuration<"xlsx">(key, value, options, true));
 		});
 
 		return items;
@@ -2551,7 +2593,7 @@ export class Export extends Validatable {
 			}*/
 
 			// Convert dates
-			let item = this.convertDateValue<"csv">(key, value, options);
+			let item = this.convertToDateOrDuration<"csv">(key, value, options);
 
 			// Cast and escape doublequotes
 			item = "" + item;
@@ -2586,7 +2628,7 @@ export class Export extends Validatable {
 		let json = JSON.stringify(this.data, (key, value) => {
 			if (typeof value == "object") {
 				$object.each(value, (field, item) => {
-					value[field] = this.convertDateValue<"json">(field, item, options);
+					value[field] = this.convertToDateOrDuration<"json">(field, item, options);
 				});
 			}
 			return value;
@@ -2612,16 +2654,22 @@ export class Export extends Validatable {
 	 * Converts the value to proper date format.
 	 *
 	 * @ignore Exclude from docs
-	 * @param  {string}                                  field    Field name
-	 * @param  {any}                                     value    Value
-	 * @param  {IExportCSVOptions | IExportJSONOptions}  options  Options
-	 * @return {any}                                              Formatted date value or unmodified value
+	 * @param  {string}                                  field       Field name
+	 * @param  {any}                                     value       Value
+	 * @param  {IExportCSVOptions | IExportJSONOptions}  options     Options
+	 * @param  {boolean}                                 keepAsDate  Will ignore formatting and will keep as Date object if set
+	 * @return {any}                                                 Formatted date value or unmodified value
 	 */
-	public convertDateValue<Key extends "json" | "csv" | "xlsx">(field: string, value: any, options?: IExportOptions[Key]): any {
+	public convertToDateOrDuration<Key extends "json" | "csv" | "xlsx">(field: string, value: any, options?: IExportOptions[Key], keepAsDate?: boolean): any {
 
-		// Is this a timestamp?
-		if (typeof value == "number" && this.isDateField(field)) {
-			value = new Date(value);
+		// Is this a timestamp or duration?
+		if (typeof value == "number") {
+			if (this.isDateField(field)) {
+				value = new Date(value);
+			}
+			else if (this.isDurationField(field)) {
+				return this.durationFormatter.format(value, this.durationFormat);
+			}
 		}
 
 		if (value instanceof Date) {
@@ -2629,7 +2677,9 @@ export class Export extends Validatable {
 				value = value.getTime();
 			}
 			else if (options.useLocale) {
-				value = value.toLocaleString();
+				if (!keepAsDate) {
+					value = value.toLocaleString();
+				}
 			}
 			else {
 				value = this.dateFormatter.format(value, this.dateFormat);
@@ -3253,6 +3303,68 @@ export class Export extends Validatable {
 	}
 
 	/**
+	 * A [[DurationFormatter]] to use when formatting duration values when
+	 * exporting data.
+	 *
+	 * @param {any}  value  DurationFormatter instance
+	 */
+	public set durationFormatter(value: any) {
+		this._durationFormatter = value;
+	}
+
+	/**
+	 * @return {any} A DurationFormatter instance
+	 */
+	public get durationFormatter(): any {
+		if (!this._durationFormatter) {
+			this._durationFormatter = new DurationFormatter();
+		}
+		return this.adapter.apply("durationFormatter", {
+			durationFormatter: this._durationFormatter
+		}).durationFormatter;
+	}
+
+	/**
+	 * A format to use when formatting values from `durationFields`.
+	 * Will use [[DurationFormatter]] format if not set.
+	 *
+	 * @param {Optional<string>} value Duration format
+	 */
+	public set durationFormat(value: $type.Optional<string>) {
+		this._durationFormat = value;
+	}
+
+	/**
+	 * @return {Optional<string>} Duration format
+	 */
+	public get durationFormat(): $type.Optional<string> {
+		return this.adapter.apply("durationFormat", {
+			durationFormat: this._durationFormat
+		}).durationFormat;
+	}
+
+	/**
+	 * A list of fields that hold duration values.
+	 *
+	 * @param {List<string>} value Duration field list
+	 */
+	public set durationFields(value: List<string>) {
+		this._durationFields = value;
+	}
+
+	/**
+	 * @return {List<string>} Duration field list
+	 */
+	public get durationFields(): List<string> {
+		if (!this._durationFields) {
+			this._durationFields = new List<string>();
+		}
+		return this.adapter.apply("durationFields", {
+			durationFields: this._durationFields
+		}).durationFields;
+	}
+
+	/**
 	 * Generates data fields out of the first row of data.
 	 *
 	 * @ignore Exclude from docs
@@ -3287,6 +3399,22 @@ export class Export extends Validatable {
 			isDateField: this.dateFields.contains(field),
 			field: field
 		}).isDateField;
+	}
+
+	/**
+	 * Cheks against `dateFields` property to determine if this field holds
+	 * dates.
+	 *
+	 * @ignore Exclude from docs
+	 * @param  {string}        field   Field name
+	 * @param  {IExportOptions} options Options
+	 * @return {boolean}               `true` if it's a date field
+	 */
+	public isDurationField(field: string): boolean {
+		return this.adapter.apply("isDurationField", {
+			isDurationField: this.durationFields.contains(field),
+			field: field
+		}).isDurationField;
 	}
 
 	/**

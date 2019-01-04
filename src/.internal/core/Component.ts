@@ -77,6 +77,17 @@ export interface IComponentProperties extends IContainerProperties {
 	 * @default 0.5
 	 */
 	maxZoomDeclination?: number;
+
+	/**
+	 * Use this for [[CategoryAxis]] or [[DateAxis]].
+	 *
+	 * Allows restricting zoom in beyond certain number of categories or base
+	 * intervals.
+	 * 
+	 * @default 1
+	 * @type {number}
+	 */
+	minZoomCount?: number;
 }
 
 /**
@@ -546,6 +557,8 @@ export class Component extends Container {
 		// Init
 		super();
 		this.className = "Component";
+
+		this.minZoomCount = 1;
 
 		this.invalidateData();
 
@@ -1442,7 +1455,7 @@ export class Component extends Container {
 
 		if (this._finalStart != start || this._finalEnd != end) {
 
-			let maxZoomFactor: number = this.maxZoomFactor;
+			let maxZoomFactor: number = this.maxZoomFactor / this.minZoomCount;
 			// most likely we are dragging left scrollbar grip here, so we tend to modify end
 
 			if (priority == "start") {
@@ -1568,8 +1581,20 @@ export class Component extends Container {
 	 * Max available `zoomFactor`.
 	 *
 	 * The element will not allow zoom to occur beyond this factor.
+	 * 
+	 * [[DateAxis]] and [[CategoryAxis]] calculate this atutomatically so that
+	 * category axis could be zoomed to one category and date axis allows to be
+	 * zoomed up to one base interval.
+	 * 
+	 * In case you want to restrict category or date axis to be zoomed to more
+	 * than one category or more than one base interval, use `minZoomCount`
+	 * property (set it to `> 1`).
+	 * 
+	 * Default value of [[ValueAxis]]'s `maxZoomFactor` is `1000`.
+	 * 
+	 * Feel free to modify it to allow bigger zoom or to restrict zooming.
 	 *
-	 * @param {number}  value  Maximum `zoomFactor`
+	 * @param {number}  value  Maximum zoomFactor
 	 */
 	public set maxZoomFactor(value: number) {
 		if (this.setPropertyValue("maxZoomFactor", value)) {
@@ -1582,7 +1607,7 @@ export class Component extends Container {
 	}
 
 	/**
-	 * @return {number} Maximum `zoomFactor`
+	 * @return {number} Maximum zoomFactor
 	 */
 	public get maxZoomFactor(): number {
 		return this.getPropertyValue("maxZoomFactor");
@@ -1958,5 +1983,25 @@ export class Component extends Container {
 			}
 		}
 		super.setBaseId(value);
+	}
+
+	/**
+	 * Use this for [[CategoryAxis]] or [[DateAxis]].
+	 *
+	 * Allows restricting zoom in beyond certain number of categories or base
+	 * intervals.
+	 * 
+	 * @default 1
+	 * @param {number}  value  Min zoom count
+	 */
+	public set minZoomCount(value: number) {
+		this.setPropertyValue("minZoomCount", value);
+	}
+
+	/**
+	 * @return {number} Min zoom count
+	 */
+	public get minZoomCount(): number {
+		return this.getPropertyValue("minZoomCount");
 	}
 }

@@ -31,6 +31,7 @@ import { Modal } from "../elements/Modal";
 import { List } from "../utils/List";
 import { Dictionary } from "../utils/Dictionary";
 import { DateFormatter } from "../formatters/DateFormatter";
+import { DurationFormatter } from "../formatters/DurationFormatter";
 import { Language } from "../utils/Language";
 import { Validatable } from "../utils/Validatable";
 import { color } from "../utils/Color";
@@ -828,11 +829,9 @@ var Export = /** @class */ (function (_super) {
             return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: 
-                    //console.warn("Falling back to canvg for exporting");
                     // Convert external images to data uris
                     return [4 /*yield*/, this.imagesToDataURI(this.sprite.dom, options)];
                     case 1:
-                        //console.warn("Falling back to canvg for exporting");
                         // Convert external images to data uris
                         _a.sent();
                         background = this.backgroundColor || this.findBackgroundColor(this.sprite.dom);
@@ -1540,7 +1539,7 @@ var Export = /** @class */ (function (_super) {
                             options: {
                                 bookType: "xlsx",
                                 bookSST: false,
-                                type: "base64"
+                                type: "base64",
                             }
                         }).options;
                         sheetName = this.normalizeExcelSheetName(this.adapter.apply("xlsxSheetName", {
@@ -1606,7 +1605,7 @@ var Export = /** @class */ (function (_super) {
             /*if ($type.hasValue(this.dataFields) && !$type.hasValue(this.dataFields[key])) {
                 return;
             }*/
-            items.push(_this.convertDateValue(key, value, options));
+            items.push(_this.convertToDateOrDuration(key, value, options, true));
         });
         return items;
     };
@@ -1683,7 +1682,7 @@ var Export = /** @class */ (function (_super) {
                 return;
             }*/
             // Convert dates
-            var item = _this.convertDateValue(key, value, options);
+            var item = _this.convertToDateOrDuration(key, value, options);
             // Cast and escape doublequotes
             item = "" + item;
             item = item.replace(/"/g, '""');
@@ -1715,7 +1714,7 @@ var Export = /** @class */ (function (_super) {
                 json = JSON.stringify(this.data, function (key, value) {
                     if (typeof value == "object") {
                         $object.each(value, function (field, item) {
-                            value[field] = _this.convertDateValue(field, item, options);
+                            value[field] = _this.convertToDateOrDuration(field, item, options);
                         });
                     }
                     return value;
@@ -1737,22 +1736,30 @@ var Export = /** @class */ (function (_super) {
      * Converts the value to proper date format.
      *
      * @ignore Exclude from docs
-     * @param  {string}                                  field    Field name
-     * @param  {any}                                     value    Value
-     * @param  {IExportCSVOptions | IExportJSONOptions}  options  Options
-     * @return {any}                                              Formatted date value or unmodified value
+     * @param  {string}                                  field       Field name
+     * @param  {any}                                     value       Value
+     * @param  {IExportCSVOptions | IExportJSONOptions}  options     Options
+     * @param  {boolean}                                 keepAsDate  Will ignore formatting and will keep as Date object if set
+     * @return {any}                                                 Formatted date value or unmodified value
      */
-    Export.prototype.convertDateValue = function (field, value, options) {
-        // Is this a timestamp?
-        if (typeof value == "number" && this.isDateField(field)) {
-            value = new Date(value);
+    Export.prototype.convertToDateOrDuration = function (field, value, options, keepAsDate) {
+        // Is this a timestamp or duration?
+        if (typeof value == "number") {
+            if (this.isDateField(field)) {
+                value = new Date(value);
+            }
+            else if (this.isDurationField(field)) {
+                return this.durationFormatter.format(value, this.durationFormat);
+            }
         }
         if (value instanceof Date) {
             if (options.useTimestamps) {
                 value = value.getTime();
             }
             else if (options.useLocale) {
-                value = value.toLocaleString();
+                if (!keepAsDate) {
+                    value = value.toLocaleString();
+                }
             }
             else {
                 value = this.dateFormatter.format(value, this.dateFormat);
@@ -2290,6 +2297,74 @@ var Export = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Export.prototype, "durationFormatter", {
+        /**
+         * @return {any} A DurationFormatter instance
+         */
+        get: function () {
+            if (!this._durationFormatter) {
+                this._durationFormatter = new DurationFormatter();
+            }
+            return this.adapter.apply("durationFormatter", {
+                durationFormatter: this._durationFormatter
+            }).durationFormatter;
+        },
+        /**
+         * A [[DurationFormatter]] to use when formatting duration values when
+         * exporting data.
+         *
+         * @param {any}  value  DurationFormatter instance
+         */
+        set: function (value) {
+            this._durationFormatter = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Export.prototype, "durationFormat", {
+        /**
+         * @return {Optional<string>} Duration format
+         */
+        get: function () {
+            return this.adapter.apply("durationFormat", {
+                durationFormat: this._durationFormat
+            }).durationFormat;
+        },
+        /**
+         * A format to use when formatting values from `durationFields`.
+         * Will use [[DurationFormatter]] format if not set.
+         *
+         * @param {Optional<string>} value Duration format
+         */
+        set: function (value) {
+            this._durationFormat = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Export.prototype, "durationFields", {
+        /**
+         * @return {List<string>} Duration field list
+         */
+        get: function () {
+            if (!this._durationFields) {
+                this._durationFields = new List();
+            }
+            return this.adapter.apply("durationFields", {
+                durationFields: this._durationFields
+            }).durationFields;
+        },
+        /**
+         * A list of fields that hold duration values.
+         *
+         * @param {List<string>} value Duration field list
+         */
+        set: function (value) {
+            this._durationFields = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * Generates data fields out of the first row of data.
      *
@@ -2325,6 +2400,21 @@ var Export = /** @class */ (function (_super) {
             isDateField: this.dateFields.contains(field),
             field: field
         }).isDateField;
+    };
+    /**
+     * Cheks against `dateFields` property to determine if this field holds
+     * dates.
+     *
+     * @ignore Exclude from docs
+     * @param  {string}        field   Field name
+     * @param  {IExportOptions} options Options
+     * @return {boolean}               `true` if it's a date field
+     */
+    Export.prototype.isDurationField = function (field) {
+        return this.adapter.apply("isDurationField", {
+            isDurationField: this.durationFields.contains(field),
+            field: field
+        }).isDurationField;
     };
     /**
      * Returns proper content type for the export type.

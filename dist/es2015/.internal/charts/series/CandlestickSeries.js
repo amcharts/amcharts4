@@ -414,6 +414,9 @@ var CandlestickSeries = /** @class */ (function (_super) {
         $object.copyProperties(this.columns.template, column, visualProperties);
         column.stroke = this.riseFromOpenState.properties.stroke;
         column.fill = column.stroke;
+        var legendDataItem = marker.dataItem;
+        legendDataItem.color = column.fill;
+        legendDataItem.colorOrig = column.fill;
     };
     /**
      * Returns an element to use for Candlestick

@@ -3980,7 +3980,7 @@ var Sprite = /** @class */ (function (_super) {
     Sprite.prototype.handleDragMove = function (ev) {
         var point = this.interactions.originalPosition;
         if (point) {
-            var globalScale = this.parent.globalScale;
+            var globalScale = this.parent.globalScale * this.svgContainer.cssScale;
             this.moveTo({ x: point.x + ev.shift.x / globalScale, y: point.y + ev.shift.y / globalScale }, undefined, undefined, true);
             //this.dispatchImmediately("drag", ev);
         }
@@ -4101,7 +4101,7 @@ var Sprite = /** @class */ (function (_super) {
             }
             var point = void 0;
             if (ev && ev.pointer) {
-                point = $utils.documentPointToSvg(ev.pointer.point, this.svgContainer.SVGContainer);
+                point = $utils.documentPointToSvg(ev.pointer.point, this.svgContainer.SVGContainer, this.svgContainer.cssScale);
             }
             this.showTooltip(point);
         }
@@ -4608,8 +4608,8 @@ var Sprite = /** @class */ (function (_super) {
         })*/
         //this.moveTo(this.originalPosition.x + ev.shift.x, this.originalPosition.y + ev.shift.y);
         if (this.draggable) {
-            var svgPoint1 = $utils.documentPointToSvg(ev.point1, this.htmlContainer);
-            var svgPoint2 = $utils.documentPointToSvg(ev.point2, this.htmlContainer);
+            var svgPoint1 = $utils.documentPointToSvg(ev.point1, this.htmlContainer, this.svgContainer.cssScale);
+            var svgPoint2 = $utils.documentPointToSvg(ev.point2, this.htmlContainer, this.svgContainer.cssScale);
             var svgMidPoint = $math.getMidPoint(svgPoint1, svgPoint2);
             var parentPoint1 = $utils.documentPointToSprite(ev.startPoint1, this.parent);
             var parentPoint2 = $utils.documentPointToSprite(ev.startPoint2, this.parent);
@@ -4830,6 +4830,7 @@ var Sprite = /** @class */ (function (_super) {
                 _export.sprite = this;
                 _export.language = this.language;
                 _export.dateFormatter = this.dateFormatter;
+                _export.durationFormatter = this.durationFormatter;
                 this._exporting.set(_export, _export);
             }
             else {
@@ -5407,7 +5408,7 @@ var Sprite = /** @class */ (function (_super) {
         },
         /**
          * Maximum allowed height for the element in pixels.
-         *max
+         *
          * @param {number}  value  Maximum height (px)
          */
         set: function (value) {
@@ -7145,7 +7146,7 @@ var Sprite = /** @class */ (function (_super) {
         var _this = this;
         if (this.tooltipPosition == "pointer") {
             this._interactionDisposer = getInteraction().body.events.on("track", function (ev) {
-                return _this.pointTooltipTo($utils.documentPointToSvg(ev.point, _this.svgContainer.SVGContainer), true);
+                return _this.pointTooltipTo($utils.documentPointToSvg(ev.point, _this.svgContainer.SVGContainer, _this.svgContainer.cssScale), true);
             });
             if (point) {
                 return this.pointTooltipTo(point, true);

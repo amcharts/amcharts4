@@ -2865,7 +2865,7 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      */
     /**
      * Maximum allowed height for the element in pixels.
-     *max
+     *
      * @param {number}  value  Maximum height (px)
      */
     maxHeight: number;

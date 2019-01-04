@@ -271,7 +271,7 @@ var MapChart = /** @class */ (function (_super) {
      * @param {AMEvent<Sprite, ISpriteEvents>["doublehit"]}  event  Original event
      */
     MapChart.prototype.handleDoubleHit = function (event) {
-        var svgPoint = $utils.documentPointToSvg(event.point, this.htmlContainer);
+        var svgPoint = $utils.documentPointToSvg(event.point, this.htmlContainer, this.svgContainer.cssScale);
         var geoPoint = this.svgPointToGeo(svgPoint);
         this.zoomIn(geoPoint);
     };
@@ -282,7 +282,7 @@ var MapChart = /** @class */ (function (_super) {
      * @param {AMEvent<Sprite, ISpriteEvents>["wheel"]}  event  Original event
      */
     MapChart.prototype.handleWheel = function (event) {
-        var svgPoint = $utils.documentPointToSvg(event.point, this.htmlContainer);
+        var svgPoint = $utils.documentPointToSvg(event.point, this.htmlContainer, this.svgContainer.cssScale);
         var geoPoint = this.svgPointToGeo(svgPoint);
         if (event.shift.y < 0) {
             this.zoomIn(geoPoint);

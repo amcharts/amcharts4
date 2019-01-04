@@ -113,6 +113,7 @@ export declare class SVGContainer implements IDisposer {
      * @type {Disposer[]}
      */
     protected _disposers: Array<IDisposer>;
+    cssScale: number;
     /**
      * Constructor
      *
@@ -219,4 +220,5 @@ export declare class SVGContainer implements IDisposer {
      * Closes all currently open popup windows
      */
     closeAllPopups(): void;
+    protected checkTransform(div: HTMLElement): void;
 }

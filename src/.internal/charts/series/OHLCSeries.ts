@@ -20,7 +20,7 @@ import * as $utils from "../../core/utils/Utils";
 import * as $object from "../../core/utils/Object";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
-
+import { LegendDataItem } from "../../charts/Legend";
 
 /**
  * ============================================================================
@@ -338,6 +338,10 @@ export class OHLCSeries extends CandlestickSeries {
 		$object.copyProperties(this.columns.template, column, visualProperties);
 
 		column.stroke = this.riseFromOpenState.properties.stroke;
+
+		let legendDataItem = <LegendDataItem>marker.dataItem;
+		legendDataItem.color = column.stroke;
+		legendDataItem.colorOrig = column.stroke;
 	}
 
 	/**

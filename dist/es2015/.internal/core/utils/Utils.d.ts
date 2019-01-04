@@ -412,7 +412,7 @@ export declare function spriteRectToSvg(rect: IRectangle, sprite: Sprite): IRect
  * @param  {HTMLElement}  svgContainer  SVG element
  * @return {IPoint}                     SVG coordinates
  */
-export declare function documentPointToSvg(point: IPoint, svgContainer: HTMLElement): IPoint;
+export declare function documentPointToSvg(point: IPoint, svgContainer: HTMLElement, cssScale?: number): IPoint;
 /**
  * Converts SVG coordinates to global document-wide coordinates.
  *

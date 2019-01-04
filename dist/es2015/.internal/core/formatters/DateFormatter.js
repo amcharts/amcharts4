@@ -249,8 +249,8 @@ var DateFormatter = /** @class */ (function (_super) {
                 case "Y":
                     var week = $utils.getWeek(date);
                     var year = fullYear;
-                    if (week == 1 && weekday > 1) {
-                        year++;
+                    if (week == 1 && (weekday > 1)) {
+                        year--;
                     }
                     if (info.parts[i] == "YYYY") {
                         value = Math.abs(year).toString();

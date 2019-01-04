@@ -218,12 +218,17 @@ var Interaction = /** @class */ (function (_super) {
             //this._usePointerEventsOnly = true;
         }
         else {
-            // uses defaults for normal browsers
-        }
-        // Detect if device has a mouse
-        if (!window.navigator.msPointerEnabled && (typeof matchMedia !== "undefined") && !matchMedia('(pointer:fine)').matches) {
+            // Uses defaults for normal browsers
+            // We also assume that this must be a touch device that does not have
+            // any pointer events
             _this._useTouchEventsOnly = true;
         }
+        // Detect if device has a mouse
+        // This is turning out to be not reliable
+        // @todo remove
+        /*if (!window.navigator.msPointerEnabled && (typeof matchMedia !== "undefined") && !matchMedia('(pointer:fine)').matches && !this.fullFF()) {
+            this._useTouchEventsOnly = true;
+        }*/
         // Detect proper mouse wheel events
         if ("onwheel" in document.createElement("div")) {
             // Modern browsers
@@ -264,6 +269,17 @@ var Interaction = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    /**
+     * This is a nasty detection for Firefox. The reason why we have is that
+     * Firefox ESR version does not support matchMedia correctly.
+     *
+     * On iOS, Firefox uses different userAgent, so we don't have to detect iOS.
+     *
+     * @return {boolean} Full Firefox?
+     */
+    Interaction.prototype.fullFF = function () {
+        return (window.navigator.userAgent.match(/Firefox/)) && !(window.navigator.userAgent.match(/Android/));
+    };
     Interaction.prototype.debug = function () { };
     /**
      * ==========================================================================
@@ -751,12 +767,6 @@ var Interaction = /** @class */ (function (_super) {
      * @param {TouchEvent} ev Event object
      */
     Interaction.prototype.handleGlobalTouchMove = function (ev) {
-        // Stop further propagation so we don't get multiple triggers on hybrid
-        // devices (both mouse and touch capabilities)
-        /*ev.stopPropagation();
-        if (ev.defaultPrevented) {
-            ev.preventDefault();
-        }*/
         // Process each changed touch point
         for (var i = 0; i < ev.changedTouches.length; i++) {
             // Get pointer
@@ -811,12 +821,6 @@ var Interaction = /** @class */ (function (_super) {
      * @param {TouchEvent} ev Event object
      */
     Interaction.prototype.handleGlobalTouchEnd = function (ev) {
-        // Stop further propagation so we don't get multiple triggers on hybrid
-        // devices (both mouse and touch capabilities)
-        /*ev.stopPropagation();
-        if (ev.defaultPrevented) {
-            ev.preventDefault();
-        }*/
         // Process each changed touch point
         for (var i = 0; i < ev.changedTouches.length; i++) {
             // Get pointer
@@ -946,6 +950,7 @@ var Interaction = /** @class */ (function (_super) {
         // Stop further propagation so we don't get multiple triggers on hybrid
         // devices (both mouse and touch capabilities)
         this.maybePreventDefault(io, ev);
+        //return;
         // Process each changed touch point
         for (var i = 0; i < ev.changedTouches.length; i++) {
             // Get pointer

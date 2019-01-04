@@ -529,6 +529,7 @@ var Scrollbar = /** @class */ (function (_super) {
             this.updateThumb();
             this._skipRangeEvents = false;
             this.thumb.validate();
+            this.thumb.background.validate();
         }
     };
     /**

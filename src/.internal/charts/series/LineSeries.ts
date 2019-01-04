@@ -28,6 +28,7 @@ import * as $object from "../../core/utils/Object";
 import * as $type from "../../core/utils/Type";
 import * as $utils from "../../core/utils/Utils";
 import { Bullet } from "../elements/Bullet";
+import { LegendDataItem } from "../Legend";
 
 /**
  * ============================================================================
@@ -764,6 +765,10 @@ export class LineSeries extends XYSeries {
 
 			line.y = 0;
 		}
+
+		let legendDataItem = <LegendDataItem>marker.dataItem;
+		legendDataItem.color = this.stroke;
+		legendDataItem.colorOrig = this.fill;
 
 		$iter.eachContinue(this.bullets.iterator(), (bullet) => {
 			if (bullet.copyToLegendMarker) {

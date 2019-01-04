@@ -20,7 +20,7 @@ import * as $utils from "../../core/utils/Utils";
 import * as $object from "../../core/utils/Object";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
-
+import { LegendDataItem } from "../../charts/Legend";
 
 /**
  * ============================================================================
@@ -386,7 +386,7 @@ export class CandlestickSeries extends ColumnSeries {
 		this.validateCandlestick(dataItem);
 	}
 
-	protected validateCandlestick(dataItem: this["dataItem"]){
+	protected validateCandlestick(dataItem: this["dataItem"]) {
 		let column: Candlestick = dataItem.column;
 		if (column) {
 			let lowLine = column.lowLine;
@@ -595,6 +595,10 @@ export class CandlestickSeries extends ColumnSeries {
 
 		column.stroke = this.riseFromOpenState.properties.stroke;
 		column.fill = column.stroke;
+
+		let legendDataItem = <LegendDataItem>marker.dataItem;
+		legendDataItem.color = column.fill;
+		legendDataItem.colorOrig = column.fill;
 	}
 
 	/**

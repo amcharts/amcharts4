@@ -487,6 +487,10 @@ export class FlowDiagramNode extends Container {
 		column.padding(0, 0, 0, 0); // if columns will have padding (which is often), legend marker will be very narrow
 		column.width = w;
 		column.height = h;
+
+		let legendDataItem = <LegendDataItem>marker.dataItem;
+		legendDataItem.color = column.fill;
+		legendDataItem.colorOrig = column.fill;		
 	}
 
 	/**

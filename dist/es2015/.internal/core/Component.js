@@ -217,6 +217,7 @@ var Component = /** @class */ (function (_super) {
         _this.dataValidationProgress = 0;
         _this._addAllDataItems = true;
         _this.className = "Component";
+        _this.minZoomCount = 1;
         _this.invalidateData();
         // TODO what about remove ?
         _this.dataUsers.events.on("inserted", _this.handleDataUserAdded, _this, false);
@@ -1020,7 +1021,7 @@ var Component = /** @class */ (function (_super) {
             return { start: this.start, end: this.end };
         }
         if (this._finalStart != start || this._finalEnd != end) {
-            var maxZoomFactor = this.maxZoomFactor;
+            var maxZoomFactor = this.maxZoomFactor / this.minZoomCount;
             // most likely we are dragging left scrollbar grip here, so we tend to modify end
             if (priority == "start") {
                 // add to the end
@@ -1129,7 +1130,7 @@ var Component = /** @class */ (function (_super) {
     });
     Object.defineProperty(Component.prototype, "maxZoomFactor", {
         /**
-         * @return {number} Maximum `zoomFactor`
+         * @return {number} Maximum zoomFactor
          */
         get: function () {
             return this.getPropertyValue("maxZoomFactor");
@@ -1139,7 +1140,19 @@ var Component = /** @class */ (function (_super) {
          *
          * The element will not allow zoom to occur beyond this factor.
          *
-         * @param {number}  value  Maximum `zoomFactor`
+         * [[DateAxis]] and [[CategoryAxis]] calculate this atutomatically so that
+         * category axis could be zoomed to one category and date axis allows to be
+         * zoomed up to one base interval.
+         *
+         * In case you want to restrict category or date axis to be zoomed to more
+         * than one category or more than one base interval, use `minZoomCount`
+         * property (set it to `> 1`).
+         *
+         * Default value of [[ValueAxis]]'s `maxZoomFactor` is `1000`.
+         *
+         * Feel free to modify it to allow bigger zoom or to restrict zooming.
+         *
+         * @param {number}  value  Maximum zoomFactor
          */
         set: function (value) {
             if (this.setPropertyValue("maxZoomFactor", value)) {
@@ -1519,6 +1532,28 @@ var Component = /** @class */ (function (_super) {
         }
         _super.prototype.setBaseId.call(this, value);
     };
+    Object.defineProperty(Component.prototype, "minZoomCount", {
+        /**
+         * @return {number} Min zoom count
+         */
+        get: function () {
+            return this.getPropertyValue("minZoomCount");
+        },
+        /**
+         * Use this for [[CategoryAxis]] or [[DateAxis]].
+         *
+         * Allows restricting zoom in beyond certain number of categories or base
+         * intervals.
+         *
+         * @default 1
+         * @param {number}  value  Min zoom count
+         */
+        set: function (value) {
+            this.setPropertyValue("minZoomCount", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
     return Component;
 }(Container));
 export { Component };

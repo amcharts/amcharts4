@@ -136,6 +136,8 @@ export class SVGContainer implements IDisposer {
 	 */
 	protected _disposers: Array<IDisposer> = [];
 
+	public cssScale: number = 1;
+
 	/**
 	 * Constructor
 	 *
@@ -202,6 +204,8 @@ export class SVGContainer implements IDisposer {
 			if (!container.maxHeight) {
 				container.maxHeight = 0;
 			}
+			this.cssScale = 1;
+			this.checkTransform(this.htmlElement);
 		}
 	}
 
@@ -390,5 +394,36 @@ export class SVGContainer implements IDisposer {
 		this.popups.each((popup) => {
 			popup.close();
 		});
+	}
+
+
+	protected checkTransform(div: HTMLElement) {
+		if (window.getComputedStyle) {
+			if (div && div.style) {
+				let style = window.getComputedStyle(div, null);
+				if (style) {
+					let matrix = style.getPropertyValue("-webkit-transform") ||
+						style.getPropertyValue("-moz-transform") ||
+						style.getPropertyValue("-ms-transform") ||
+						style.getPropertyValue("-o-transform") ||
+						style.getPropertyValue("transform");
+
+					if (matrix && matrix !== "none") {
+						let values = matrix.split('(')[1].split(')')[0].split(',');
+						let a = Number(values[0]);
+						let b = Number(values[1]);
+
+						let scale = Math.sqrt(a * a + b * b);
+
+						if (!isNaN(scale)) {
+							this.cssScale *= scale;
+						}
+					}
+				}
+			}
+			if (div.parentNode && div.parentNode instanceof HTMLElement) {
+				this.checkTransform(div.parentNode);
+			}
+		}
 	}
 }

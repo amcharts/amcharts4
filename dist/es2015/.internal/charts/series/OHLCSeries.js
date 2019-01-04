@@ -212,6 +212,9 @@ var OHLCSeries = /** @class */ (function (_super) {
         $object.copyProperties(this, marker, visualProperties);
         $object.copyProperties(this.columns.template, column, visualProperties);
         column.stroke = this.riseFromOpenState.properties.stroke;
+        var legendDataItem = marker.dataItem;
+        legendDataItem.color = column.stroke;
+        legendDataItem.colorOrig = column.stroke;
     };
     /**
      * Returns an element to use for Candlestick

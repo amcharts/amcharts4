@@ -747,7 +747,7 @@ export class MapChart extends SerialChart {
 	 * @param {AMEvent<Sprite, ISpriteEvents>["doublehit"]}  event  Original event
 	 */
 	protected handleDoubleHit(event: AMEvent<Sprite, ISpriteEvents>["doublehit"]) {
-		let svgPoint: IPoint = $utils.documentPointToSvg(event.point, this.htmlContainer);
+		let svgPoint: IPoint = $utils.documentPointToSvg(event.point, this.htmlContainer, this.svgContainer.cssScale);
 		let geoPoint: IGeoPoint = this.svgPointToGeo(svgPoint);
 		this.zoomIn(geoPoint);
 	}
@@ -760,7 +760,7 @@ export class MapChart extends SerialChart {
 	 */
 	protected handleWheel(event: AMEvent<Sprite, ISpriteEvents>["wheel"]) {
 
-		let svgPoint: IPoint = $utils.documentPointToSvg(event.point, this.htmlContainer);
+		let svgPoint: IPoint = $utils.documentPointToSvg(event.point, this.htmlContainer, this.svgContainer.cssScale);
 		let geoPoint: IGeoPoint = this.svgPointToGeo(svgPoint);
 
 		if (event.shift.y < 0) {

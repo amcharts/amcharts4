@@ -43,6 +43,16 @@ export interface IComponentProperties extends IContainerProperties {
      * @default 0.5
      */
     maxZoomDeclination?: number;
+    /**
+     * Use this for [[CategoryAxis]] or [[DateAxis]].
+     *
+     * Allows restricting zoom in beyond certain number of categories or base
+     * intervals.
+     *
+     * @default 1
+     * @type {number}
+     */
+    minZoomCount?: number;
 }
 /**
  * Defines data fields for [[Component]].
@@ -755,14 +765,26 @@ export declare class Component extends Container {
      */
     readonly zoomFactor: number;
     /**
-     * @return {number} Maximum `zoomFactor`
+     * @return {number} Maximum zoomFactor
      */
     /**
      * Max available `zoomFactor`.
      *
      * The element will not allow zoom to occur beyond this factor.
      *
-     * @param {number}  value  Maximum `zoomFactor`
+     * [[DateAxis]] and [[CategoryAxis]] calculate this atutomatically so that
+     * category axis could be zoomed to one category and date axis allows to be
+     * zoomed up to one base interval.
+     *
+     * In case you want to restrict category or date axis to be zoomed to more
+     * than one category or more than one base interval, use `minZoomCount`
+     * property (set it to `> 1`).
+     *
+     * Default value of [[ValueAxis]]'s `maxZoomFactor` is `1000`.
+     *
+     * Feel free to modify it to allow bigger zoom or to restrict zooming.
+     *
+     * @param {number}  value  Maximum zoomFactor
      */
     maxZoomFactor: number;
     /**
@@ -936,4 +958,17 @@ export declare class Component extends Container {
      */
     protected setShowOnInit(value: boolean): void;
     protected setBaseId(value: string): void;
+    /**
+     * @return {number} Min zoom count
+     */
+    /**
+     * Use this for [[CategoryAxis]] or [[DateAxis]].
+     *
+     * Allows restricting zoom in beyond certain number of categories or base
+     * intervals.
+     *
+     * @default 1
+     * @param {number}  value  Min zoom count
+     */
+    minZoomCount: number;
 }

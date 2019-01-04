@@ -58,6 +58,7 @@ var Resize = /** @class */ (function (_super) {
         tlGrip.draggable = true;
         _this.tlGrip = tlGrip;
         tlGrip.events.on("drag", _this.handleGrips, _this, true);
+        tlGrip.events.on("dragstart", _this.handleStartResize, _this, true);
         _this.trGrip = tlGrip.clone();
         _this.trGrip.parent = _this;
         _this.brGrip = tlGrip.clone();
@@ -109,33 +110,13 @@ var Resize = /** @class */ (function (_super) {
             this.blGrip.y = h;
         }
     };
+    Resize.prototype.handleStartResize = function () {
+        this._startWidth = this.sprite.measuredWidth;
+        this._startHeight = this.sprite.measuredHeight;
+        this._startX = this.sprite.pixelX;
+        this._startY = this.sprite.pixelY;
+    };
     Resize.prototype.handleGrips = function (event) {
-        var grip = event.target;
-        var tlGrip = this.tlGrip;
-        var trGrip = this.trGrip;
-        var blGrip = this.blGrip;
-        var brGrip = this.brGrip;
-        if (grip == tlGrip) {
-            blGrip.x = grip.x;
-            trGrip.y = grip.y;
-        }
-        else if (grip == blGrip) {
-            tlGrip.x = grip.x;
-            brGrip.y = grip.y;
-        }
-        else if (grip == trGrip) {
-            brGrip.x = grip.x;
-            tlGrip.y = grip.y;
-        }
-        else if (grip == brGrip) {
-            trGrip.x = grip.x;
-            blGrip.y = grip.y;
-        }
-        var rectangle = this.rectangle;
-        rectangle.x = Math.min(tlGrip.pixelX, trGrip.pixelX, blGrip.pixelX, brGrip.pixelX);
-        rectangle.y = Math.min(tlGrip.pixelY, trGrip.pixelY, blGrip.pixelY, brGrip.pixelY);
-        rectangle.width = Math.max(tlGrip.pixelX, trGrip.pixelX, blGrip.pixelX, brGrip.pixelX) - rectangle.pixelX;
-        rectangle.height = Math.max(tlGrip.pixelY, trGrip.pixelY, blGrip.pixelY, brGrip.pixelY) - rectangle.pixelY;
     };
     return Resize;
 }(Container));

@@ -544,6 +544,9 @@ var LineSeries = /** @class */ (function (_super) {
             fill.visible = true;
             line.y = 0;
         }
+        var legendDataItem = marker.dataItem;
+        legendDataItem.color = this.stroke;
+        legendDataItem.colorOrig = this.fill;
         $iter.eachContinue(this.bullets.iterator(), function (bullet) {
             if (bullet.copyToLegendMarker) {
                 // do not copy bullets with labels

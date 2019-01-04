@@ -20,6 +20,7 @@ import { RoundedRectangle } from "../../core/elements/RoundedRectangle";
 import { Container } from "../../core/Container";
 import * as $object from "../../core/utils/Object";
 import * as $iter from "../../core/utils/Iterator";
+import { LegendDataItem } from "../../charts/Legend";
 
 /**
  * ============================================================================
@@ -396,6 +397,10 @@ export class TreeMapSeries extends ColumnSeries {
 		column.padding(0, 0, 0, 0); // if columns will have padding (which is often), legend marker will be very narrow
 		column.width = w;
 		column.height = h;
+
+		let legendDataItem = <LegendDataItem>marker.dataItem;
+		legendDataItem.color = column.fill;
+		legendDataItem.colorOrig = column.fill;
 	}
 }
 

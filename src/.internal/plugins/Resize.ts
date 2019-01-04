@@ -102,6 +102,12 @@ export class Resize extends Container {
 
 	public rectangle: Rectangle;
 
+	protected _startWidth:number;
+	protected _startHeight:number;
+
+	protected _startX:number;
+	protected _startY:number;	
+
 	/**
 	 * Constructor
 	 */
@@ -136,6 +142,7 @@ export class Resize extends Container {
 		this.tlGrip = tlGrip;
 		
 		tlGrip.events.on("drag", this.handleGrips, this, true);
+		tlGrip.events.on("dragstart", this.handleStartResize, this, true);
 
 		this.trGrip = tlGrip.clone();
 		this.trGrip.parent = this;
@@ -197,39 +204,15 @@ export class Resize extends Container {
 		}
 	}
 
+	protected handleStartResize(){
+		this._startWidth = this.sprite.measuredWidth;
+		this._startHeight = this.sprite.measuredHeight;
+		this._startX = this.sprite.pixelX;
+		this._startY = this.sprite.pixelY;
+	}
+
 	protected handleGrips(event: AMEvent<Sprite, ISpriteEvents>["drag"]) {
 
-		let grip = event.target;
-
-		let tlGrip = this.tlGrip;
-		let trGrip = this.trGrip;
-		let blGrip = this.blGrip;
-		let brGrip = this.brGrip;		
-
-		if(grip == tlGrip){
-			blGrip.x = grip.x;
-			trGrip.y = grip.y;
-		}
-		else if(grip == blGrip){
-			tlGrip.x = grip.x;
-			brGrip.y = grip.y;
-		}		
-		else if(grip == trGrip){
-			brGrip.x = grip.x;
-			tlGrip.y = grip.y;
-		}
-		else if(grip == brGrip){
-			trGrip.x = grip.x;
-			blGrip.y = grip.y;
-		}
-
-		let rectangle = this.rectangle;
-
-		rectangle.x = Math.min(tlGrip.pixelX, trGrip.pixelX, blGrip.pixelX, brGrip.pixelX);
-		rectangle.y = Math.min(tlGrip.pixelY, trGrip.pixelY, blGrip.pixelY, brGrip.pixelY);
-
-		rectangle.width = Math.max(tlGrip.pixelX, trGrip.pixelX, blGrip.pixelX, brGrip.pixelX) - rectangle.pixelX;
-		rectangle.height = Math.max(tlGrip.pixelY, trGrip.pixelY, blGrip.pixelY, brGrip.pixelY) - rectangle.pixelY;
 	}
 }
 

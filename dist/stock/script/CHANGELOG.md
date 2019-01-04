@@ -5,6 +5,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.15] - 2019-01-04
+
+### Added
+- `color` property added to `LegendDataItem`. Can be used for coloring `label` or `valueLabel` text like `text = "[{color}] {name}"`.
+- `minZoomCount` added to `Component`.
+- Export now allows formatting numberic values as durations. Use newly added `durationFields` and `durationFormat` settings.
+
+### Changed
+- Export: When exporting date to XLSX, date fields will now export as true date fields in Excel (which in turn will format them according to regional settings), unless `useLocal` is set to `false`.
+
+### Fixed
+- Charts were not working properly in FireFox Extended Support Release.
+- Some computer setups were not properly registering mouse movement.
+- `legendSettings` was being ignored initially if legend was in external container.
+- "Week year" (format code `"YYYY"`) was not being properly calculated.
+
+
 ## [4.0.14] - 2019-01-02
 
 ### Added

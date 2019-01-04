@@ -324,6 +324,9 @@ var FlowDiagramNode = /** @class */ (function (_super) {
         column.padding(0, 0, 0, 0); // if columns will have padding (which is often), legend marker will be very narrow
         column.width = w;
         column.height = h;
+        var legendDataItem = marker.dataItem;
+        legendDataItem.color = column.fill;
+        legendDataItem.colorOrig = column.fill;
     };
     Object.defineProperty(FlowDiagramNode.prototype, "legendDataItem", {
         /**

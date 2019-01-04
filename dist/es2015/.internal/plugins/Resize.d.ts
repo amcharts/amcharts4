@@ -76,11 +76,16 @@ export declare class Resize extends Container {
     brGrip: Rectangle;
     constrainProportions: boolean;
     rectangle: Rectangle;
+    protected _startWidth: number;
+    protected _startHeight: number;
+    protected _startX: number;
+    protected _startY: number;
     /**
      * Constructor
      */
     constructor();
     sprite: Optional<Sprite>;
     updatePosition(): void;
+    protected handleStartResize(): void;
     protected handleGrips(event: AMEvent<Sprite, ISpriteEvents>["drag"]): void;
 }

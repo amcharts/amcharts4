@@ -92,7 +92,7 @@ dateAxis.renderer.labels.template.adapter.add("fillOpacity", function (fillOpaci
 })
 
 // need to set this, otherwise fillOpacity is not changed and not set
-dateAxis.events.on("datarangechanged", function () {
+dateAxis.events.on("validated", function () {
     am4core.iter.each(dateAxis.renderer.labels.iterator(), function (label) {
         label.fillOpacity = label.fillOpacity;
     })

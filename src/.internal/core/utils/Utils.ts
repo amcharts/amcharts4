@@ -977,12 +977,16 @@ export function spriteRectToSvg(rect: IRectangle, sprite: Sprite): IRectangle {
  * @param  {HTMLElement}  svgContainer  SVG element
  * @return {IPoint}                     SVG coordinates
  */
-export function documentPointToSvg(point: IPoint, svgContainer: HTMLElement): IPoint {
+export function documentPointToSvg(point: IPoint, svgContainer: HTMLElement, cssScale?:number): IPoint {
 	let bbox = svgContainer.getBoundingClientRect();
 
+	if(!$type.isNumber(cssScale)){
+		cssScale = 1;
+	}
+
 	return {
-		"x": point.x - bbox.left,
-		"y": point.y - bbox.top
+		"x": (point.x - bbox.left) / cssScale,
+		"y": (point.y - bbox.top) / cssScale
 	};
 }
 
@@ -1012,7 +1016,7 @@ export function svgPointToDocument(point: IPoint, svgContainer: HTMLElement): IP
  */
 export function documentPointToSprite(point: IPoint, sprite: Sprite): IPoint {
 	if (sprite) {
-		let svgPoint: IPoint = documentPointToSvg(point, $type.getValue(sprite.htmlContainer));
+		let svgPoint: IPoint = documentPointToSvg(point, $type.getValue(sprite.htmlContainer), sprite.svgContainer.cssScale);
 		return svgPointToSprite(svgPoint, sprite);
 	}
 	else {

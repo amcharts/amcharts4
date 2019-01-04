@@ -4948,7 +4948,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		let point: Optional<IPoint> = this.interactions.originalPosition;
 
 		if (point) {
-			let globalScale = this.parent.globalScale;
+			let globalScale = this.parent.globalScale * this.svgContainer.cssScale;
 
 			this.moveTo({ x: point.x + ev.shift.x / globalScale, y: point.y + ev.shift.y / globalScale }, undefined, undefined, true);
 			//this.dispatchImmediately("drag", ev);
@@ -5066,7 +5066,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			}
 			let point: IPoint
 			if (ev && ev.pointer) {
-				point = $utils.documentPointToSvg(ev.pointer.point, this.svgContainer.SVGContainer)
+				point = $utils.documentPointToSvg(ev.pointer.point, this.svgContainer.SVGContainer, this.svgContainer.cssScale)
 			}
 
 			this.showTooltip(point);
@@ -5568,8 +5568,8 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		})*/
 		//this.moveTo(this.originalPosition.x + ev.shift.x, this.originalPosition.y + ev.shift.y);
 		if (this.draggable) {
-			let svgPoint1: IPoint = $utils.documentPointToSvg(ev.point1, this.htmlContainer);
-			let svgPoint2: IPoint = $utils.documentPointToSvg(ev.point2, this.htmlContainer);
+			let svgPoint1: IPoint = $utils.documentPointToSvg(ev.point1, this.htmlContainer, this.svgContainer.cssScale);
+			let svgPoint2: IPoint = $utils.documentPointToSvg(ev.point2, this.htmlContainer, this.svgContainer.cssScale);
 			let svgMidPoint: IPoint = $math.getMidPoint(svgPoint1, svgPoint2);
 
 			let parentPoint1: IPoint = $utils.documentPointToSprite(ev.startPoint1, this.parent);
@@ -5791,6 +5791,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				_export.sprite = this;
 				_export.language = this.language;
 				_export.dateFormatter = this.dateFormatter;
+				_export.durationFormatter = this.durationFormatter;
 				this._exporting.set(_export, _export);
 			}
 			else {
@@ -6332,7 +6333,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 
 	/**
 	 * Maximum allowed height for the element in pixels.
-	 *max
+	 *
 	 * @param {number}  value  Maximum height (px)
 	 */
 	public set maxHeight(value: number) {
@@ -8057,7 +8058,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	protected updateTooltipPosition(point?: IPoint): boolean {
 		if (this.tooltipPosition == "pointer") {
 			this._interactionDisposer = getInteraction().body.events.on("track", (ev) => {
-				return this.pointTooltipTo($utils.documentPointToSvg(ev.point, this.svgContainer.SVGContainer), true);
+				return this.pointTooltipTo($utils.documentPointToSvg(ev.point, this.svgContainer.SVGContainer, this.svgContainer.cssScale), true);
 			});
 			if (point) {
 				return this.pointTooltipTo(point, true);

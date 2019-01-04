@@ -853,11 +853,14 @@ export function spriteRectToSvg(rect, sprite) {
  * @param  {HTMLElement}  svgContainer  SVG element
  * @return {IPoint}                     SVG coordinates
  */
-export function documentPointToSvg(point, svgContainer) {
+export function documentPointToSvg(point, svgContainer, cssScale) {
     var bbox = svgContainer.getBoundingClientRect();
+    if (!$type.isNumber(cssScale)) {
+        cssScale = 1;
+    }
     return {
-        "x": point.x - bbox.left,
-        "y": point.y - bbox.top
+        "x": (point.x - bbox.left) / cssScale,
+        "y": (point.y - bbox.top) / cssScale
     };
 }
 /**
@@ -884,7 +887,7 @@ export function svgPointToDocument(point, svgContainer) {
  */
 export function documentPointToSprite(point, sprite) {
     if (sprite) {
-        var svgPoint = documentPointToSvg(point, $type.getValue(sprite.htmlContainer));
+        var svgPoint = documentPointToSvg(point, $type.getValue(sprite.htmlContainer), sprite.svgContainer.cssScale);
         return svgPointToSprite(svgPoint, sprite);
     }
     else {

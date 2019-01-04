@@ -50,6 +50,11 @@ var LegendDataItem = /** @class */ (function (_super) {
         return _this;
     }
     Object.defineProperty(LegendDataItem.prototype, "label", {
+        /**
+         * A legend item's [[Label]] element.
+         *
+         * @return {Label} Label
+         */
         get: function () {
             var _this = this;
             if (!this._label) {
@@ -67,7 +72,54 @@ var LegendDataItem = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(LegendDataItem.prototype, "color", {
+        /**
+         * @return {Color | Pattern | LinearGradient | RadialGradient} Main color
+         */
+        get: function () {
+            return this.properties.color;
+        },
+        /**
+         * Main color of legend data item.
+         *
+         * This is set by the target element this legend item represents, like
+         * a Series or a Slice.
+         *
+         * It can be used to derive a color in legend's sub-items, like label:
+         *
+         * ```TypeScript
+         * chart.legend.labels.template.text = "[{color}]{name}[/]";
+         * ```
+         * ```JavaScript
+         * chart.legend.labels.template.text = "[{color}]{name}[/]";
+         * ```
+         * ```JSON
+         * {
+         *   // ...
+         *   "legend": {
+         *     // ...
+         *     "labels": {
+         *       "text": "[{color}]{name}[/]"
+         *     }
+         *   }
+         * }
+         * ```
+         *
+         * @see {@link https://www.amcharts.com/docs/v4/concepts/legend/#Legend_labels} For more information about configuring legend labels.
+         * @param {Color | Pattern | LinearGradient | RadialGradient}  value  Main color
+         */
+        set: function (value) {
+            this.setProperty("color", value);
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(LegendDataItem.prototype, "valueLabel", {
+        /**
+         * A legend item's [[Label]] element for "value label".
+         *
+         * @return {Label} Label
+         */
         get: function () {
             var _this = this;
             if (!this._valueLabel) {
@@ -86,6 +138,12 @@ var LegendDataItem = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(LegendDataItem.prototype, "itemContainer", {
+        /**
+         * A reference to the main [[Container]] that holds legend item's elements:
+         * marker and labels.
+         *
+         * @return {Container} Item container
+         */
         get: function () {
             var _this = this;
             if (!this._itemContainer) {
@@ -135,6 +193,11 @@ var LegendDataItem = /** @class */ (function (_super) {
         configurable: true
     });
     Object.defineProperty(LegendDataItem.prototype, "marker", {
+        /**
+         * A [[Container]] that holds legend item's marker element.
+         *
+         * @return {Container} Marker
+         */
         get: function () {
             var _this = this;
             if (!this._marker) {
@@ -347,10 +410,14 @@ var Legend = /** @class */ (function (_super) {
         var legendSettings = dataItem.dataContext.legendSettings;
         // If we are not using default markers, create a unique legend marker based
         // on the data item type
-        if (dataItem.dataContext.createLegendMarker && !this.useDefaultMarker) {
+        var dataContext = dataItem.dataContext;
+        if (dataContext.createLegendMarker && !this.useDefaultMarker) {
             if (!dataItem.childrenCreated) {
-                dataItem.dataContext.createLegendMarker(marker);
+                dataContext.createLegendMarker(marker);
                 dataItem.childrenCreated = true;
+                if (dataContext.updateLegendValue) {
+                    dataContext.updateLegendValue(); // this solves issue with external legend, as legend is created after chart updates legend values
+                }
             }
         }
         if (valueLabel.invalid) {
@@ -455,6 +522,7 @@ var Legend = /** @class */ (function (_super) {
     Legend.prototype.toggleDataItem = function (item) {
         var dataContext = item.dataContext;
         if (!dataContext.visible || dataContext.isHiding || (dataContext instanceof Sprite && dataContext.isHidden)) {
+            item.color = item.colorOrig;
             item.itemContainer.isActive = false;
             if (dataContext.hidden === true) {
                 dataContext.hidden = false;
@@ -474,6 +542,7 @@ var Legend = /** @class */ (function (_super) {
             else {
                 dataContext.visible = false;
             }
+            item.color = new InterfaceColorSet().getFor("disabledBackground");
         }
     };
     Object.defineProperty(Legend.prototype, "preloader", {
@@ -490,6 +559,15 @@ var Legend = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * [handleDataItemPropertyChange description]
+     *
+     * @ignore Exclude from docs
+     */
+    Legend.prototype.handleDataItemPropertyChange = function (dataItem, name) {
+        dataItem.valueLabel.invalidate();
+        dataItem.label.invalidate();
+    };
     return Legend;
 }(Component));
 export { Legend };

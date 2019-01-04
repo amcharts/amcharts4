@@ -30,7 +30,7 @@ import * as $iter from "../../core/utils/Iterator";
 import * as $array from "../../core/utils/Array";
 import * as $type from "../../core/utils/Type";
 import { IDisposer, Disposer, MultiDisposer } from "../../core/utils/Disposer";
-
+import { LegendDataItem } from "../../charts/Legend";
 
 /**
  * ============================================================================
@@ -444,7 +444,7 @@ export class ColumnSeries extends XYSeries {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	public handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?:string): void {
+	public handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?: string): void {
 		if (this.simplifiedProcessing) {
 			this.validateDataElement(dataItem);
 		}
@@ -1030,6 +1030,10 @@ export class ColumnSeries extends XYSeries {
 		column.padding(0, 0, 0, 0); // if columns will have padding (which is often), legend marker will be very narrow
 		column.width = w;
 		column.height = h;
+
+		let legendDataItem = <LegendDataItem>marker.dataItem;
+		legendDataItem.color = this.fill;
+		legendDataItem.colorOrig = this.fill;
 	}
 
 	/**

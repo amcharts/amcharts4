@@ -1139,7 +1139,14 @@ var XYChart = /** @class */ (function (_super) {
      */
     XYChart.prototype.handleXScrollbarChange = function (event) {
         var scrollbar = event.target;
-        var range = this.zoomAxes(this.xAxes, scrollbar.range);
+        var range = scrollbar.range;
+        if (range.end == 1) {
+            range.priority = "end";
+        }
+        if (range.start == 0) {
+            range.priority = "start";
+        }
+        range = this.zoomAxes(this.xAxes, range);
         scrollbar.fixRange(range);
     };
     /**
@@ -1213,7 +1220,7 @@ var XYChart = /** @class */ (function (_super) {
      */
     XYChart.prototype.handleWheel = function (event) {
         var plotContainer = this.plotContainer;
-        var svgPoint = $utils.documentPointToSvg(event.point, this.htmlContainer);
+        var svgPoint = $utils.documentPointToSvg(event.point, this.htmlContainer, this.svgContainer.cssScale);
         var plotPoint = $utils.svgPointToSprite(svgPoint, plotContainer);
         var shift = event.shift.y;
         var rangeX = this.getCommonAxisRange(this.xAxes);

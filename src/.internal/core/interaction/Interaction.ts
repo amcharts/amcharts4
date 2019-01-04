@@ -320,13 +320,18 @@ export class Interaction extends BaseObjectEvents {
 			//this._usePointerEventsOnly = true;
 		}
 		else {
-			// uses defaults for normal browsers
+			// Uses defaults for normal browsers
+			// We also assume that this must be a touch device that does not have
+			// any pointer events
+			this._useTouchEventsOnly = true;
 		}
 
 		// Detect if device has a mouse
-		if (!window.navigator.msPointerEnabled && (typeof matchMedia !== "undefined") && !matchMedia('(pointer:fine)').matches) {
+		// This is turning out to be not reliable
+		// @todo remove
+		/*if (!window.navigator.msPointerEnabled && (typeof matchMedia !== "undefined") && !matchMedia('(pointer:fine)').matches && !this.fullFF()) {
 			this._useTouchEventsOnly = true;
-		}
+		}*/
 
 		// Detect proper mouse wheel events
 		if ("onwheel" in document.createElement("div")) {
@@ -368,6 +373,18 @@ export class Interaction extends BaseObjectEvents {
 
 		// Apply theme
 		this.applyTheme();
+	}
+
+	/**
+	 * This is a nasty detection for Firefox. The reason why we have is that
+	 * Firefox ESR version does not support matchMedia correctly.
+	 *
+	 * On iOS, Firefox uses different userAgent, so we don't have to detect iOS.
+	 * 
+	 * @return {boolean} Full Firefox?
+	 */
+	protected fullFF(): boolean {
+		return (window.navigator.userAgent.match(/Firefox/)) && !(window.navigator.userAgent.match(/Android/));
 	}
 
 	protected debug(): void { }
@@ -682,7 +699,6 @@ export class Interaction extends BaseObjectEvents {
 
 			// Add local events
 			if (!io.eventDisposers.hasKey("touchable")) {
-
 				if (!this._useTouchEventsOnly && !this._usePointerEventsOnly) {
 					io.eventDisposers.setKey("touchable", new MultiDisposer([
 
@@ -702,7 +718,7 @@ export class Interaction extends BaseObjectEvents {
 					]));
 				}
 				else if (!this._useTouchEventsOnly) {
-					io.eventDisposers.setKey("touchable", 
+					io.eventDisposers.setKey("touchable",
 						addEventListener<MouseEvent>(
 							io.element,
 							this._pointerEvents.pointerdown,
@@ -711,7 +727,7 @@ export class Interaction extends BaseObjectEvents {
 					);
 				}
 				else if (!this._usePointerEventsOnly) {
-					io.eventDisposers.setKey("touchable", 
+					io.eventDisposers.setKey("touchable",
 						addEventListener<TouchEvent>(
 							io.element,
 							"touchstart",
@@ -1004,13 +1020,6 @@ export class Interaction extends BaseObjectEvents {
 	 */
 	public handleGlobalTouchMove(ev: TouchEvent): void {
 
-		// Stop further propagation so we don't get multiple triggers on hybrid
-		// devices (both mouse and touch capabilities)
-		/*ev.stopPropagation();
-		if (ev.defaultPrevented) {
-			ev.preventDefault();
-		}*/
-
 		// Process each changed touch point
 		for (let i = 0; i < ev.changedTouches.length; i++) {
 			// Get pointer
@@ -1078,13 +1087,6 @@ export class Interaction extends BaseObjectEvents {
 	 * @param {TouchEvent} ev Event object
 	 */
 	public handleGlobalTouchEnd(ev: TouchEvent): void {
-
-		// Stop further propagation so we don't get multiple triggers on hybrid
-		// devices (both mouse and touch capabilities)
-		/*ev.stopPropagation();
-		if (ev.defaultPrevented) {
-			ev.preventDefault();
-		}*/
 
 		// Process each changed touch point
 		for (let i = 0; i < ev.changedTouches.length; i++) {
@@ -1244,6 +1246,7 @@ export class Interaction extends BaseObjectEvents {
 		// Stop further propagation so we don't get multiple triggers on hybrid
 		// devices (both mouse and touch capabilities)
 		this.maybePreventDefault(io, ev);
+		//return;
 
 		// Process each changed touch point
 		for (let i = 0; i < ev.changedTouches.length; i++) {

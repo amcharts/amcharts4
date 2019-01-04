@@ -64,6 +64,7 @@ var SVGContainer = /** @class */ (function () {
          * @type {Disposer[]}
          */
         this._disposers = [];
+        this.cssScale = 1;
         // Log parent HTML element
         this.htmlElement = htmlElement;
         var callback = function () { _this.measure(); };
@@ -113,6 +114,8 @@ var SVGContainer = /** @class */ (function () {
             if (!container.maxHeight) {
                 container.maxHeight = 0;
             }
+            this.cssScale = 1;
+            this.checkTransform(this.htmlElement);
         }
     };
     Object.defineProperty(SVGContainer.prototype, "container", {
@@ -292,6 +295,32 @@ var SVGContainer = /** @class */ (function () {
         this.popups.each(function (popup) {
             popup.close();
         });
+    };
+    SVGContainer.prototype.checkTransform = function (div) {
+        if (window.getComputedStyle) {
+            if (div && div.style) {
+                var style = window.getComputedStyle(div, null);
+                if (style) {
+                    var matrix = style.getPropertyValue("-webkit-transform") ||
+                        style.getPropertyValue("-moz-transform") ||
+                        style.getPropertyValue("-ms-transform") ||
+                        style.getPropertyValue("-o-transform") ||
+                        style.getPropertyValue("transform");
+                    if (matrix && matrix !== "none") {
+                        var values = matrix.split('(')[1].split(')')[0].split(',');
+                        var a = Number(values[0]);
+                        var b = Number(values[1]);
+                        var scale = Math.sqrt(a * a + b * b);
+                        if (!isNaN(scale)) {
+                            this.cssScale *= scale;
+                        }
+                    }
+                }
+            }
+            if (div.parentNode && div.parentNode instanceof HTMLElement) {
+                this.checkTransform(div.parentNode);
+            }
+        }
     };
     return SVGContainer;
 }());
