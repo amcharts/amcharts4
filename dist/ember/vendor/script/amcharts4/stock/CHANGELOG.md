@@ -5,6 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.16] - 2019-01-05
+
+### Added
+- New locales: Norwegian Bokmål (np_NO), Danish (da_DK).
+
+### Changed
+- Renamed Swedish locale to `sv_SE`.
+
+### Fixed
+- Interactions on MacOS Safari was broken sincle last update.
+
+
 ## [4.0.15] - 2019-01-04
 
 ### Added

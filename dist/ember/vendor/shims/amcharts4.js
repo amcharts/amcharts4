@@ -2986,6 +2986,14 @@ define('@amcharts/amcharts4/core', [], function () {
   'use strict';
   return self.am4core;
 });
+define('@amcharts/amcharts4/lang/da_DK', [], function () {
+  'use strict';
+  var output = self.am4lang_da_DK;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'lang/da_DK' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4/lang/de_CH', [], function () {
   'use strict';
   var output = self.am4lang_de_CH;
@@ -3058,6 +3066,14 @@ define('@amcharts/amcharts4/lang/lt_LT', [], function () {
   }
   throw new Error("You must add 'lang/lt_LT' to the amcharts4.files array in your EmberApp.");
 });
+define('@amcharts/amcharts4/lang/nb_NO', [], function () {
+  'use strict';
+  var output = self.am4lang_nb_NO;
+  if (output != null) {
+    return output;
+  }
+  throw new Error("You must add 'lang/nb_NO' to the amcharts4.files array in your EmberApp.");
+});
 define('@amcharts/amcharts4/lang/nl_NL', [], function () {
   'use strict';
   var output = self.am4lang_nl_NL;
@@ -3098,13 +3114,13 @@ define('@amcharts/amcharts4/lang/sl_SL', [], function () {
   }
   throw new Error("You must add 'lang/sl_SL' to the amcharts4.files array in your EmberApp.");
 });
-define('@amcharts/amcharts4/lang/sv_SV', [], function () {
+define('@amcharts/amcharts4/lang/sv_SE', [], function () {
   'use strict';
-  var output = self.am4lang_sv_SV;
+  var output = self.am4lang_sv_SE;
   if (output != null) {
     return output;
   }
-  throw new Error("You must add 'lang/sv_SV' to the amcharts4.files array in your EmberApp.");
+  throw new Error("You must add 'lang/sv_SE' to the amcharts4.files array in your EmberApp.");
 });
 define('@amcharts/amcharts4/maps', [], function () {
   'use strict';

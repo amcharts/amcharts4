@@ -217,6 +217,11 @@ var Interaction = /** @class */ (function (_super) {
             _this._pointerEvents.pointerout = "MSPointerOut";
             //this._usePointerEventsOnly = true;
         }
+        else if ((typeof matchMedia !== "undefined") && matchMedia('(pointer:fine)')) {
+            // This is only for Safari as it does not support PointerEvent
+            // Do nothing and let it use regular `mouse*` events
+            // Hi Apple ;)
+        }
         else {
             // Uses defaults for normal browsers
             // We also assume that this must be a touch device that does not have

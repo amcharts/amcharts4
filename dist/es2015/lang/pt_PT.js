@@ -132,7 +132,7 @@ export default {
     "Legend": "Legenda",
     // Legend's item screen reader indicator.
     "Click, tap or press ENTER to toggle": "Clique, toque ou pressione ENTER para alternar",
-    // Shown when the cahrt is busy loading something.
+    // Shown when the chart is busy loading something.
     "Loading": "Carregando",
     // Shown as the first button in the breadcrumb navigation, e.g.:
     // Home > First level > ...

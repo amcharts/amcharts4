@@ -29,10 +29,6 @@ as class reference visit [V4 documentation website](https://www.amcharts.com/doc
 * [ZIP download](https://www.amcharts.com/download/download-v4/)
 
 
-### Source code
-
-This repository will contain full TypeScript source code for amCharts V4, once we're ready.
-
 ### Related packages
 
 This package inlcudes `MapChart` (geographical maps) functionality. However,

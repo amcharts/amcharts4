@@ -36,7 +36,7 @@
  * to native speakers of that language, fill those with the same as full
  * version.
  *
- * PLACEHODERS:
+ * PLACEHOLDERS:
  * Some prompts have placeholders like "%1". Those will be replaced by actual
  * values during translation and should be retained in the translated prompts.
  *
@@ -213,7 +213,7 @@ export default {
     "Legend": "Legende",
     // Legend's item screen reader indicator.
     "Click, tap or press ENTER to toggle": "Klicken, tippen oder ENTER drücken zum Umschalten",
-    // Shown when the cahrt is busy loading something.
+    // Shown when the chart is busy loading something.
     "Loading": "Wird geladen",
     // Shown as the first button in the breadcrumb navigation, e.g.:
     // Home > First level > ...
