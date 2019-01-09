@@ -3,10 +3,14 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [UNRElEASED] - ????-??-??
+## [4.0.27] - 2019-01-08
+
+### Added
+- New maps: USA Terroritories (2 versions).
 
 ### Changed
 - Renamed Czech Republic to Czechia in all maps.
+- Czech maps are now available with two names: Czechia and czechRepublic.
 
 ## [4.0.26] - 2018-12-28
 

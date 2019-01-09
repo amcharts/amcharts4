@@ -268,6 +268,13 @@ export declare class DataItem extends BaseObjectEvents implements IAnimatable {
      */
     protected _animations: $type.Optional<Array<Animation>>;
     /**
+     * The current index within the dataItems
+     *
+     * @ignore Exclude from docs
+     * @type {number | null}
+     */
+    _index: number | null;
+    /**
      * Is Data Item currently visible?
      *
      * @ignore Exclude from docs

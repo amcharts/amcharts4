@@ -767,6 +767,8 @@ export class TreeMap extends XYChart {
 				});
 			}
 
+			this._updateDataItemIndexes(0);
+
 			this.layoutAlgorithm(parent);
 
 			for (let i = 0, len = children.length; i < len; i++) {

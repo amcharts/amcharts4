@@ -133,13 +133,8 @@ var SmallMap = /** @class */ (function (_super) {
      * @param {AMEvent<Sprite, ISpriteEvents>["hit"]}  event  Event
      */
     SmallMap.prototype.moveToPosition = function (event) {
-        var svgPoint = event.svgPoint;
-        var rectPoint = $utils.svgPointToSprite(svgPoint, this.rectangle);
-        var zoomLevel = this.chart.zoomLevel;
-        var scale = Math.min(this.percentWidth, this.percentHeight) / 100;
-        var x = (rectPoint.x + this.rectangle.pixelWidth / 2) / scale * zoomLevel;
-        var y = (rectPoint.y + this.rectangle.pixelHeight / 2) / scale * zoomLevel;
-        var geoPoint = this.chart.svgPointToGeo({ x: x, y: y });
+        var rectPoint = $utils.spritePointToSprite(event.spritePoint, this, this.seriesContainer);
+        var geoPoint = this.chart.seriesPointToGeo(rectPoint);
         this.chart.zoomToGeoPoint(geoPoint, this.chart.zoomLevel, true);
     };
     Object.defineProperty(SmallMap.prototype, "chart", {
@@ -179,8 +174,8 @@ var SmallMap = /** @class */ (function (_super) {
         rectangle.height = this.pixelHeight / zoomLevel;
         var scale = Math.min(this.percentWidth, this.percentHeight) / 100;
         var seriesContainer = chart.seriesContainer;
-        rectangle.x = Math.ceil((zoomLevel * seriesContainer.pixelWidth / 2 - seriesContainer.pixelX) * scale / zoomLevel + rectangle.pixelWidth / 2);
-        rectangle.y = Math.ceil((zoomLevel * seriesContainer.pixelHeight / 2 - seriesContainer.pixelY) * scale / zoomLevel + rectangle.pixelHeight / 2);
+        rectangle.x = Math.ceil((zoomLevel * seriesContainer.pixelWidth / 2 - seriesContainer.pixelX) * scale / zoomLevel); // + rectangle.pixelWidth / 2);
+        rectangle.y = Math.ceil((zoomLevel * seriesContainer.pixelHeight / 2 - seriesContainer.pixelY) * scale / zoomLevel); // + rectangle.pixelHeight / 2);
         rectangle.validate();
     };
     /**

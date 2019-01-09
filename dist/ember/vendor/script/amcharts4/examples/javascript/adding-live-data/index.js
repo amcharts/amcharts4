@@ -101,7 +101,7 @@ dateAxis.events.on("validated", function () {
 // this makes date axis labels which are at equal minutes to be rotated
 dateAxis.renderer.labels.template.adapter.add("rotation", function (rotation, target) {
     var dataItem = target.dataItem;
-    if (dataItem.date.getTime() == am4core.time.round(new Date(dataItem.date.getTime()), "minute").getTime()) {
+    if (dataItem.date && dataItem.date.getTime() == am4core.time.round(new Date(dataItem.date.getTime()), "minute").getTime()) {
         target.horizontalCenter = "left";
         target.verticalCenter = "middle";
         return -90;

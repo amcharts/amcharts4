@@ -17,6 +17,12 @@ export interface ISortedListEvents<A> {
      */
     inserted: {
         /**
+         * Index where the element was inserted.
+         *
+         * @type {number}
+         */
+        index: number;
+        /**
          * Inserted value.
          *
          * @type {A}
@@ -27,6 +33,12 @@ export interface ISortedListEvents<A> {
      * Invoked when a value is removed from the list.
      */
     removed: {
+        /**
+         * Index of the element which was removed.
+         *
+         * @type {number}
+         */
+        index: number;
         /**
          * Removed value.
          *
@@ -71,7 +83,7 @@ export declare class OrderedList<T> {
      *
      * @param {T}  value  Value
      */
-    protected _insert(value: T): void;
+    protected _insert(value: T): number;
     /**
      * Number of items in the list.
      *
@@ -195,7 +207,7 @@ export declare class SortedList<T> extends OrderedList<T> {
      *
      * @param {T}  value  Item
      */
-    protected _insert(value: T): void;
+    protected _insert(value: T): number;
     /**
      * Returns index of the item in list if found.
      *

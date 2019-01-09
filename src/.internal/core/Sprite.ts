@@ -1319,12 +1319,12 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 			this._inited = true;
 
 			if (!this.showOnInit) {
-				this.appeared = true;			
+				this.appeared = true;
 			}
 
 			if (this.hidden) {
 				this.hide(0);
-			}			
+			}
 
 			this.applyMask();
 			this.dispatch("validated");
@@ -1797,7 +1797,6 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 	 * console.log(mySprite.map.getKey("myid"));
 	 * ```
 	 *
-	 * @ignore Exclude from docs
 	 * @return {Dictionary<string, any>} Map collection
 	 */
 	public get map(): Dictionary<string, any> {
@@ -2166,7 +2165,19 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 				filter.scale = this.globalScale;
 			});
 
-			this.filterElement.attr({ "width": width + "%", "height": height + "%", "x": -(width - 100) / 2 + "%", "y": -(height - 100) / 2 + "%" });
+			let w = width + "%";
+			let h = height + "%";
+
+			/* temporarily removed as it is breaking tooltips on Safari @todo come back to this
+			if (this._measuredHeight <= 1) {
+				h = height + "";
+			}
+
+			if (this._measuredWidth <= 1) {
+				h = width + "";
+			}*/
+
+			this.filterElement.attr({ "width": w, "height": h, "x": -(width - 100) / 2 + "%", "y": -(height - 100) / 2 + "%" });
 
 			this.group.attr({ "filter": "url(#" + id + ")" });
 		}
@@ -2190,7 +2201,13 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 		}
 	}
 
-
+	/**
+	 * [setElement description]
+	 *
+	 * @ignore
+	 * @todo Description
+	 * @param {AMElement} element [description]
+	 */
 	public setElement(element: AMElement) {
 		this.element = element;
 		this.setSVGAttributes();

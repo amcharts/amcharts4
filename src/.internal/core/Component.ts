@@ -7,7 +7,7 @@
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "./Container";
 import { SpriteEventDispatcher, AMEvent } from "./Sprite";
 import { List, IListEvents, ListDisposer } from "./utils/List";
-import { OrderedListTemplate } from "./utils/SortedList";
+import { OrderedListTemplate, ISortedListEvents } from "./utils/SortedList";
 import { Animation } from "./utils/Animation";
 import { Dictionary } from "./utils/Dictionary";
 import { IDisposer, Disposer, MultiDisposer } from "./utils/Disposer";
@@ -83,7 +83,7 @@ export interface IComponentProperties extends IContainerProperties {
 	 *
 	 * Allows restricting zoom in beyond certain number of categories or base
 	 * intervals.
-	 * 
+	 *
 	 * @default 1
 	 * @type {number}
 	 */
@@ -560,6 +560,12 @@ export class Component extends Container {
 
 		this.minZoomCount = 1;
 
+		this._dataItems = new OrderedListTemplate<DataItem>(this.createDataItem());
+		this._dataItems.events.on("inserted", this.handleDataItemAdded, this, false);
+		this._dataItems.events.on("removed", this.handleDataItemRemoved, this, false);
+		this._disposers.push(new ListDisposer(this._dataItems));
+		this._disposers.push(this._dataItems.template);
+
 		this.invalidateData();
 
 		// TODO what about remove ?
@@ -716,7 +722,7 @@ export class Component extends Container {
 				}
 			});
 
-			// @todo we might need some flag which would tell whether we should create empty data items or not. 
+			// @todo we might need some flag which would tell whether we should create empty data items or not.
 			if (!this._addAllDataItems && !hasSomeValues) {
 				this.dataItems.remove(dataItem);
 			}
@@ -851,7 +857,7 @@ export class Component extends Container {
 					this.dataItems.remove(dataItem);
 				}
 
-				$iter.each(this.dataUsers.iterator(), (dataUser) => {
+				this.dataUsers.each((dataUser) => {
 					let dataItem = dataUser.dataItems.getIndex(0);
 					if (dataItem) {
 						dataUser.dataItems.remove(dataItem);
@@ -865,7 +871,6 @@ export class Component extends Container {
 			}
 		}
 	}
-
 
 	/**
 	 * Triggers a data (re)parsing.
@@ -1096,7 +1101,7 @@ export class Component extends Container {
 
 		// data items array is reset only if all data is validated, if _parseDataFrom is not 0, we append new data only
 		// check heatmap demo if uncommented
-		// fixed both issues by adding && this.data.length > 0 
+		// fixed both issues by adding && this.data.length > 0
 		// check adding series example if changed
 		if (this._parseDataFrom === 0 && this.data.length > 0) {
 			this.disposeData();
@@ -1118,14 +1123,14 @@ export class Component extends Container {
 			// parse data
 			let i = this._parseDataFrom;
 			let n = this.data.length;
+
 			for (i; i < n; i++) {
 				let rawDataItem = this.data[i];
 
 				let dataItem: this["_dataItem"] = this.dataItems.create();
-
 				this.processDataItem(dataItem, rawDataItem);
 
-				$iter.each(this.dataUsers.iterator(), (dataUser) => {
+				this.dataUsers.each((dataUser) => {
 					if (dataUser.data.length == 0) { // checking if data is not set directly
 						let dataUserDataItem: DataItem = dataUser.dataItems.create();
 						dataUser.processDataItem(dataUserDataItem, rawDataItem);
@@ -1167,6 +1172,7 @@ export class Component extends Container {
 				preloader.progress = 1;
 			}
 		}
+
 		this.dataValidationProgress = 1;
 		this._parseDataFrom = 0; // reset this index, it is set to dataItems.length if addData() method was used.
 
@@ -1581,17 +1587,17 @@ export class Component extends Container {
 	 * Max available `zoomFactor`.
 	 *
 	 * The element will not allow zoom to occur beyond this factor.
-	 * 
+	 *
 	 * [[DateAxis]] and [[CategoryAxis]] calculate this atutomatically so that
 	 * category axis could be zoomed to one category and date axis allows to be
 	 * zoomed up to one base interval.
-	 * 
+	 *
 	 * In case you want to restrict category or date axis to be zoomed to more
 	 * than one category or more than one base interval, use `minZoomCount`
 	 * property (set it to `> 1`).
-	 * 
+	 *
 	 * Default value of [[ValueAxis]]'s `maxZoomFactor` is `1000`.
-	 * 
+	 *
 	 * Feel free to modify it to allow bigger zoom or to restrict zooming.
 	 *
 	 * @param {number}  value  Maximum zoomFactor
@@ -1777,18 +1783,23 @@ export class Component extends Container {
 	 * @return {OrderedListTemplate} List of data items
 	 */
 	public get dataItems(): OrderedListTemplate<this["_dataItem"]> {
-		// @todo Check if we can automatically dispose all of the data items when
-		// Component is disposed
-		if (!this._dataItems) {
-			this._dataItems = new OrderedListTemplate<DataItem>(this.createDataItem());
-			this._dataItems.events.on("inserted", this.handleDataItemAdded, this, false);
-			this._dataItems.events.on("removed", this.invalidateDataItems, this, false);
-			this._disposers.push(new ListDisposer(this._dataItems));
-			this._disposers.push(this._dataItems.template);
-		}
 		return this._dataItems;
 	}
 
+
+	/**
+	 * Updates the indexes for the dataItems
+	 *
+	 * @ignore Exclude from docs
+	 */
+	protected _updateDataItemIndexes(startIndex: number): void {
+		const dataItems = this.dataItems.values;
+		const length = dataItems.length;
+
+		for (let i = startIndex; i < length; ++i) {
+			dataItems[i]._index = i;
+		}
+	}
 
 	/**
 	 * Processes newly added [[DataItem]] as well as triggers data re-validation.
@@ -1796,9 +1807,14 @@ export class Component extends Container {
 	 * @ignore Exclude from docs
 	 * @param {IListEvents<DataItem>["inserted"]} event [description]
 	 */
-	protected handleDataItemAdded(event: IListEvents<DataItem>["inserted"]) {
+	protected handleDataItemAdded(event: ISortedListEvents<DataItem>["inserted"]) {
 		event.newValue.component = this;
-		this.invalidateDataItems();
+
+		this._updateDataItemIndexes(event.index);
+
+		if (!this.dataItemsInvalid) {
+			this.invalidateDataItems();
+		}
 	}
 
 	/**
@@ -1807,9 +1823,14 @@ export class Component extends Container {
 	 * @ignore Exclude from docs
 	 * @param {IListEvents<DataItem>["inserted"]} event [description]
 	 */
-	protected handleDataItemRemoved(event: IListEvents<DataItem>["removed"]) {
+	protected handleDataItemRemoved(event: ISortedListEvents<DataItem>["removed"]) {
 		event.oldValue.component = undefined;
-		this.invalidateDataItems();
+
+		this._updateDataItemIndexes(event.index);
+
+		if (!this.dataItemsInvalid) {
+			this.invalidateDataItems();
+		}
 	}
 
 	/**
@@ -1969,7 +1990,7 @@ export class Component extends Container {
 				}
 			}
 		}
-		// important order here		
+		// important order here
 		super.setShowOnInit(value);
 	}
 
@@ -1990,7 +2011,7 @@ export class Component extends Container {
 	 *
 	 * Allows restricting zoom in beyond certain number of categories or base
 	 * intervals.
-	 * 
+	 *
 	 * @default 1
 	 * @param {number}  value  Min zoom count
 	 */

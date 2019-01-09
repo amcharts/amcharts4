@@ -222,16 +222,8 @@ export class SmallMap extends Container {
 	 * @param {AMEvent<Sprite, ISpriteEvents>["hit"]}  event  Event
 	 */
 	public moveToPosition(event: AMEvent<Sprite, ISpriteEvents>["hit"]) {
-		let svgPoint: IPoint = event.svgPoint;
-		let rectPoint: IPoint = $utils.svgPointToSprite(svgPoint, this.rectangle);
-
-		let zoomLevel: number = this.chart.zoomLevel;
-		let scale: number = Math.min(this.percentWidth, this.percentHeight) / 100;
-		let x: number = (rectPoint.x + this.rectangle.pixelWidth / 2) / scale * zoomLevel;
-		let y: number = (rectPoint.y + this.rectangle.pixelHeight / 2) / scale * zoomLevel;
-
-		let geoPoint: IGeoPoint = this.chart.svgPointToGeo({ x: x, y: y });
-
+		let rectPoint: IPoint = $utils.spritePointToSprite(event.spritePoint, this, this.seriesContainer);
+		let geoPoint: IGeoPoint = this.chart.seriesPointToGeo(rectPoint);
 		this.chart.zoomToGeoPoint(geoPoint, this.chart.zoomLevel, true);
 	}
 
@@ -274,8 +266,8 @@ export class SmallMap extends Container {
 
 		let seriesContainer: Container = chart.seriesContainer;
 
-		rectangle.x = Math.ceil((zoomLevel * seriesContainer.pixelWidth / 2 - seriesContainer.pixelX) * scale / zoomLevel + rectangle.pixelWidth / 2);
-		rectangle.y = Math.ceil((zoomLevel * seriesContainer.pixelHeight / 2 - seriesContainer.pixelY) * scale / zoomLevel + rectangle.pixelHeight / 2);
+		rectangle.x = Math.ceil((zoomLevel * seriesContainer.pixelWidth / 2 - seriesContainer.pixelX) * scale / zoomLevel)// + rectangle.pixelWidth / 2);
+		rectangle.y = Math.ceil((zoomLevel * seriesContainer.pixelHeight / 2 - seriesContainer.pixelY) * scale / zoomLevel)// + rectangle.pixelHeight / 2);
 
 		rectangle.validate();
 	}

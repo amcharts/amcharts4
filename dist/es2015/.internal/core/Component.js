@@ -218,6 +218,11 @@ var Component = /** @class */ (function (_super) {
         _this._addAllDataItems = true;
         _this.className = "Component";
         _this.minZoomCount = 1;
+        _this._dataItems = new OrderedListTemplate(_this.createDataItem());
+        _this._dataItems.events.on("inserted", _this.handleDataItemAdded, _this, false);
+        _this._dataItems.events.on("removed", _this.handleDataItemRemoved, _this, false);
+        _this._disposers.push(new ListDisposer(_this._dataItems));
+        _this._disposers.push(_this._dataItems.template);
         _this.invalidateData();
         // TODO what about remove ?
         _this.dataUsers.events.on("inserted", _this.handleDataUserAdded, _this, false);
@@ -350,7 +355,7 @@ var Component = /** @class */ (function (_super) {
                     dataItem.setProperty(f, value);
                 }
             });
-            // @todo we might need some flag which would tell whether we should create empty data items or not. 
+            // @todo we might need some flag which would tell whether we should create empty data items or not.
             if (!this._addAllDataItems && !hasSomeValues_1) {
                 this.dataItems.remove(dataItem);
             }
@@ -469,7 +474,7 @@ var Component = /** @class */ (function (_super) {
                 if (dataItem) {
                     this.dataItems.remove(dataItem);
                 }
-                $iter.each(this.dataUsers.iterator(), function (dataUser) {
+                this.dataUsers.each(function (dataUser) {
                     var dataItem = dataUser.dataItems.getIndex(0);
                     if (dataItem) {
                         dataUser.dataItems.remove(dataItem);
@@ -677,7 +682,7 @@ var Component = /** @class */ (function (_super) {
         }
         // data items array is reset only if all data is validated, if _parseDataFrom is not 0, we append new data only
         // check heatmap demo if uncommented
-        // fixed both issues by adding && this.data.length > 0 
+        // fixed both issues by adding && this.data.length > 0
         // check adding series example if changed
         if (this._parseDataFrom === 0 && this.data.length > 0) {
             this.disposeData();
@@ -699,7 +704,7 @@ var Component = /** @class */ (function (_super) {
                 var rawDataItem = this_1.data[i];
                 var dataItem = this_1.dataItems.create();
                 this_1.processDataItem(dataItem, rawDataItem);
-                $iter.each(this_1.dataUsers.iterator(), function (dataUser) {
+                this_1.dataUsers.each(function (dataUser) {
                     if (dataUser.data.length == 0) { // checking if data is not set directly
                         var dataUserDataItem = dataUser.dataItems.create();
                         dataUser.processDataItem(dataUserDataItem, rawDataItem);
@@ -1332,20 +1337,23 @@ var Component = /** @class */ (function (_super) {
          * @return {OrderedListTemplate} List of data items
          */
         get: function () {
-            // @todo Check if we can automatically dispose all of the data items when
-            // Component is disposed
-            if (!this._dataItems) {
-                this._dataItems = new OrderedListTemplate(this.createDataItem());
-                this._dataItems.events.on("inserted", this.handleDataItemAdded, this, false);
-                this._dataItems.events.on("removed", this.invalidateDataItems, this, false);
-                this._disposers.push(new ListDisposer(this._dataItems));
-                this._disposers.push(this._dataItems.template);
-            }
             return this._dataItems;
         },
         enumerable: true,
         configurable: true
     });
+    /**
+     * Updates the indexes for the dataItems
+     *
+     * @ignore Exclude from docs
+     */
+    Component.prototype._updateDataItemIndexes = function (startIndex) {
+        var dataItems = this.dataItems.values;
+        var length = dataItems.length;
+        for (var i = startIndex; i < length; ++i) {
+            dataItems[i]._index = i;
+        }
+    };
     /**
      * Processes newly added [[DataItem]] as well as triggers data re-validation.
      *
@@ -1354,7 +1362,10 @@ var Component = /** @class */ (function (_super) {
      */
     Component.prototype.handleDataItemAdded = function (event) {
         event.newValue.component = this;
-        this.invalidateDataItems();
+        this._updateDataItemIndexes(event.index);
+        if (!this.dataItemsInvalid) {
+            this.invalidateDataItems();
+        }
     };
     /**
      * removes [[DataItem]] as well as triggers data re-validation.
@@ -1364,7 +1375,10 @@ var Component = /** @class */ (function (_super) {
      */
     Component.prototype.handleDataItemRemoved = function (event) {
         event.oldValue.component = undefined;
-        this.invalidateDataItems();
+        this._updateDataItemIndexes(event.index);
+        if (!this.dataItemsInvalid) {
+            this.invalidateDataItems();
+        }
     };
     Object.defineProperty(Component.prototype, "dataMethods", {
         /**
@@ -1518,7 +1532,7 @@ var Component = /** @class */ (function (_super) {
                 }
             }
         }
-        // important order here		
+        // important order here
         _super.prototype.setShowOnInit.call(this, value);
     };
     Component.prototype.setBaseId = function (value) {

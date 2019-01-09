@@ -854,13 +854,25 @@ export class Series extends Component {
 		this.bulletsContainer.fill = this.fill;
 		this.bulletsContainer.stroke = this.stroke;
 
-		$iter.each(this.dataItems.iterator(), (dataItem) => {
-			if (dataItem.index < this.startIndex || dataItem.index >= this.endIndex) {
-				dataItem.bullets.each((key, bullet) => {
-					bullet.__disabled = true;
-				})
+		if (this.bulletsContainer.children.length > 0) {
+			for (let i = 0; i < this.startIndex; i++) {
+				let dataItem = this.dataItems.getIndex(i);
+				if (dataItem) {
+					dataItem.bullets.each((key, bullet) => {
+						bullet.__disabled = true;
+					})
+				}
 			}
-		});
+
+			for (let i = this.dataItems.length - 1; i > this.endIndex; i--) {
+				let dataItem = this.dataItems.getIndex(i);
+				if (dataItem) {
+					dataItem.bullets.each((key, bullet) => {
+						bullet.__disabled = true;
+					})
+				}
+			}
+		}
 
 		this.updateTooltipBounds();
 	}
@@ -951,7 +963,7 @@ export class Series extends Component {
 	 *
 	 * @ignore Exclude from docs
 	 */
-	public handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?:string): void {
+	public handleDataItemWorkingValueChange(dataItem?: this["_dataItem"], name?: string): void {
 		if (!this.dataRangeInvalid) {
 			this.invalidateProcessedData();
 		}
@@ -1095,8 +1107,8 @@ export class Series extends Component {
 	 * @param {boolean} value Hidden in legend?
 	 */
 	public set hiddenInLegend(value: boolean) {
-		if(this.setPropertyValue("hiddenInLegend", value)){
-			if(this.chart){
+		if (this.setPropertyValue("hiddenInLegend", value)) {
+			if (this.chart) {
 				this.chart.feedLegend();
 			}
 		}
@@ -1413,7 +1425,7 @@ export class Series extends Component {
 
 									let percent = (workingValue - minValue) / (maxValue - minValue);
 
-									if($type.isNumber(workingValue) && !$type.isNumber(percent)){
+									if ($type.isNumber(workingValue) && !$type.isNumber(percent)) {
 										percent = 0.5;
 									}
 									// fixes problems if all values are the same
@@ -1521,16 +1533,16 @@ export class Series extends Component {
 	 * Returns visibility value
 	 * @ignore
 	 */
-/*
-	protected getVisibility(): boolean {
-		let hidden = this.getPropertyValue("hidden");
-		if (hidden) {
-			return false;
-		}
-		else {
-			return super.getVisibility();
-		}
-	}*/
+	/*
+		protected getVisibility(): boolean {
+			let hidden = this.getPropertyValue("hidden");
+			if (hidden) {
+				return false;
+			}
+			else {
+				return super.getVisibility();
+			}
+		}*/
 
 	/**
 	 * This function is used to sort element's JSON config properties, so that

@@ -57,6 +57,7 @@ var OrderedList = /** @class */ (function () {
      */
     OrderedList.prototype._insert = function (value) {
         this._values.push(value);
+        return this._values.length - 1;
     };
     Object.defineProperty(OrderedList.prototype, "length", {
         /**
@@ -130,11 +131,12 @@ var OrderedList = /** @class */ (function () {
      * @param {T}  value  Value
      */
     OrderedList.prototype.insert = function (value) {
-        this._insert(value);
+        var index = this._insert(value);
         if (this.events.isEnabled("inserted")) {
             this.events.dispatchImmediately("inserted", {
                 type: "inserted",
                 target: this,
+                index: index,
                 newValue: value
             });
         }
@@ -153,7 +155,8 @@ var OrderedList = /** @class */ (function () {
                 this.events.dispatchImmediately("removed", {
                     type: "removed",
                     target: this,
-                    oldValue: oldValue
+                    index: index,
+                    oldValue: oldValue,
                 });
             }
         }
@@ -167,29 +170,20 @@ var OrderedList = /** @class */ (function () {
      */
     OrderedList.prototype.setAll = function (newArray) {
         var _this = this;
-        var oldArray = $array.copy(this._values);
-        this._values.length = 0;
-        $array.each(newArray, function (value) {
-            _this._insert(value);
-        });
-        if (this.events.isEnabled("removed")) {
-            $array.each(oldArray, function (x) {
+        $array.eachReverse(this._values, function (x, i) {
+            _this._values.pop();
+            if (_this.events.isEnabled("removed")) {
                 _this.events.dispatchImmediately("removed", {
                     type: "removed",
                     target: _this,
+                    index: i,
                     oldValue: x
                 });
-            });
-        }
-        if (this.events.isEnabled("inserted")) {
-            $array.each(this._values, function (x) {
-                _this.events.dispatchImmediately("inserted", {
-                    type: "inserted",
-                    target: _this,
-                    newValue: x
-                });
-            });
-        }
+            }
+        });
+        $array.each(newArray, function (value) {
+            _this.insert(value);
+        });
     };
     /**
      * Removes all items from the list.
@@ -337,6 +331,7 @@ var SortedList = /** @class */ (function (_super) {
     SortedList.prototype._insert = function (value) {
         var index = $array.getSortedIndex(this._values, this._ordering, value).index;
         $array.insertIndex(this._values, index, value);
+        return index;
     };
     /**
      * Returns index of the item in list if found.
@@ -371,6 +366,7 @@ var SortedList = /** @class */ (function (_super) {
             // Check if the current ordering is correct
             if (!((index === 0 || this._ordering(this._values[index - 1], value) < 0) &&
                 (index === last || this._ordering(value, this._values[index + 1]) < 0))) {
+                // TODO send remove/insert/move events
                 $array.removeIndex(this._values, index);
                 this._insert(value);
             }

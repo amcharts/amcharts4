@@ -186,11 +186,9 @@ var MapImageSeries = /** @class */ (function (_super) {
                                     return "continue";
                                 }
                                 var coordinates = geometry.coordinates;
-                                if (coordinates) {
-                                    // make the same as MultiPoint
-                                    if (type == "MultiPoint") {
-                                        coordinates = [coordinates];
-                                    }
+                                // make the same as MultiPoint
+                                if (type == "Point") {
+                                    coordinates = [coordinates];
                                 }
                                 var dataObject = $array.find(this_1.data, function (value, i) {
                                     return value.id == id_1;

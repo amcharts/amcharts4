@@ -499,7 +499,6 @@ var Series = /** @class */ (function (_super) {
      * @ignore Exclude from docs
      */
     Series.prototype.validate = function () {
-        var _this = this;
         $iter.each(this.axisRanges.iterator(), function (axisRange) {
             //axisRange.contents.disposeChildren(); // not good for columns, as they are reused
             //			axisRange.appendChildren();
@@ -508,13 +507,24 @@ var Series = /** @class */ (function (_super) {
         _super.prototype.validate.call(this);
         this.bulletsContainer.fill = this.fill;
         this.bulletsContainer.stroke = this.stroke;
-        $iter.each(this.dataItems.iterator(), function (dataItem) {
-            if (dataItem.index < _this.startIndex || dataItem.index >= _this.endIndex) {
-                dataItem.bullets.each(function (key, bullet) {
-                    bullet.__disabled = true;
-                });
+        if (this.bulletsContainer.children.length > 0) {
+            for (var i = 0; i < this.startIndex; i++) {
+                var dataItem = this.dataItems.getIndex(i);
+                if (dataItem) {
+                    dataItem.bullets.each(function (key, bullet) {
+                        bullet.__disabled = true;
+                    });
+                }
             }
-        });
+            for (var i = this.dataItems.length - 1; i > this.endIndex; i--) {
+                var dataItem = this.dataItems.getIndex(i);
+                if (dataItem) {
+                    dataItem.bullets.each(function (key, bullet) {
+                        bullet.__disabled = true;
+                    });
+                }
+            }
+        }
         this.updateTooltipBounds();
     };
     /**

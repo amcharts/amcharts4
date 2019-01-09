@@ -1053,7 +1053,6 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * console.log(mySprite.map.getKey("myid"));
      * ```
      *
-     * @ignore Exclude from docs
      * @return {Dictionary<string, any>} Map collection
      */
     readonly map: Dictionary<string, any>;
@@ -1212,6 +1211,13 @@ export declare class Sprite extends BaseObjectEvents implements IAnimatable {
      * @todo Description
      */
     protected removeClipPath(): void;
+    /**
+     * [setElement description]
+     *
+     * @ignore
+     * @todo Description
+     * @param {AMElement} element [description]
+     */
     setElement(element: AMElement): void;
     /**
      * @return {AMElement} Element

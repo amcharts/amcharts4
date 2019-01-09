@@ -243,7 +243,7 @@ var BaseObject = /** @class */ (function () {
      * @param {this} object Source element
      */
     BaseObject.prototype.copyFrom = function (object) {
-        object.clones.moveValue(this);
+        object.clones.push(this); // do not moveValue, as it is expensive! even if there will be several items in clones list, it's not that bad.
         this.clonedFrom = object;
     };
     Object.defineProperty(BaseObject.prototype, "className", {

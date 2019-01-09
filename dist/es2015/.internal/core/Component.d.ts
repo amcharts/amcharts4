@@ -6,7 +6,7 @@
  */
 import { Container, IContainerProperties, IContainerAdapters, IContainerEvents } from "./Container";
 import { List, IListEvents } from "./utils/List";
-import { OrderedListTemplate } from "./utils/SortedList";
+import { OrderedListTemplate, ISortedListEvents } from "./utils/SortedList";
 import { Animation } from "./utils/Animation";
 import { Dictionary } from "./utils/Dictionary";
 import { IDisposer } from "./utils/Disposer";
@@ -868,19 +868,25 @@ export declare class Component extends Container {
      */
     readonly dataItems: OrderedListTemplate<this["_dataItem"]>;
     /**
+     * Updates the indexes for the dataItems
+     *
+     * @ignore Exclude from docs
+     */
+    protected _updateDataItemIndexes(startIndex: number): void;
+    /**
      * Processes newly added [[DataItem]] as well as triggers data re-validation.
      *
      * @ignore Exclude from docs
      * @param {IListEvents<DataItem>["inserted"]} event [description]
      */
-    protected handleDataItemAdded(event: IListEvents<DataItem>["inserted"]): void;
+    protected handleDataItemAdded(event: ISortedListEvents<DataItem>["inserted"]): void;
     /**
      * removes [[DataItem]] as well as triggers data re-validation.
      *
      * @ignore Exclude from docs
      * @param {IListEvents<DataItem>["inserted"]} event [description]
      */
-    protected handleDataItemRemoved(event: IListEvents<DataItem>["removed"]): void;
+    protected handleDataItemRemoved(event: ISortedListEvents<DataItem>["removed"]): void;
     /**
      * [dataMethods description]
      *

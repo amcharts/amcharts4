@@ -444,7 +444,7 @@ var DateAxis = /** @class */ (function (_super) {
                 // TODO use $type.castNumber ?
                 var startIndex = series.dataItems.findClosestIndex(_this._minZoomed, function (x) { return x[field_1]; }, "left");
                 // 1 millisecond is removed so that if only first item is selected, it would not count in the second.
-                var endIndex = series.dataItems.findClosestIndex(_this._maxZoomed - 1, function (x) { return x[field_1]; }, "left") + 1;
+                var endIndex = series.dataItems.findClosestIndex(_this._maxZoomed - 1, function (x) { return x[field_1]; }, "right") + 1;
                 series.startIndex = startIndex;
                 series.endIndex = endIndex;
             }

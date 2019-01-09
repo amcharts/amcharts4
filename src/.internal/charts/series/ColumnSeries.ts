@@ -402,11 +402,15 @@ export class ColumnSeries extends XYSeries {
 
 		super.validate();
 
-		this.dataItems.each((dataItem) => {
-			if (dataItem.index < this.startIndex || dataItem.index >= this.endIndex) {
-				this.disableUnusedColumns(dataItem);
-			}
-		})
+		for (let i = 0; i < this.startIndex; i++) {
+			let dataItem = this.dataItems.getIndex(i);
+			this.disableUnusedColumns(dataItem);
+		}
+
+		for (let i = this.dataItems.length - 1; i > this.endIndex; i--) {
+			let dataItem = this.dataItems.getIndex(i);
+			this.disableUnusedColumns(dataItem);
+		}
 	}
 
 	/**
@@ -783,22 +787,24 @@ export class ColumnSeries extends XYSeries {
 
 
 	disableUnusedColumns(dataItem: ColumnSeriesDataItem) {
-		if (dataItem.column) {
-			// otherwise might flicker when enabling
-			dataItem.column.width = 0;
-			dataItem.column.height = 0;
-			dataItem.column.__disabled = true;
-		}
-
-		$iter.each(this.axisRanges.iterator(), (axisRange) => {
-			let rangeColumn: Sprite = dataItem.rangesColumns.getKey(axisRange.uid);
-			if (rangeColumn) {
+		if (dataItem) {
+			if (dataItem.column) {
 				// otherwise might flicker when enabling
-				rangeColumn.width = 0;
-				rangeColumn.height = 0;
-				rangeColumn.__disabled = true;
+				dataItem.column.width = 0;
+				dataItem.column.height = 0;
+				dataItem.column.__disabled = true;
 			}
-		});
+
+			$iter.each(this.axisRanges.iterator(), (axisRange) => {
+				let rangeColumn: Sprite = dataItem.rangesColumns.getKey(axisRange.uid);
+				if (rangeColumn) {
+					// otherwise might flicker when enabling
+					rangeColumn.width = 0;
+					rangeColumn.height = 0;
+					rangeColumn.__disabled = true;
+				}
+			});
+		}
 	}
 
 

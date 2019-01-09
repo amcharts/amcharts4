@@ -20,6 +20,12 @@ export interface ISortedListEvents<A> {
 	 * Invoked when new value is inserted into the list.
 	 */
 	inserted: {
+		/**
+		 * Index where the element was inserted.
+		 *
+		 * @type {number}
+		 */
+		index: number;
 
 		/**
 		 * Inserted value.
@@ -33,6 +39,12 @@ export interface ISortedListEvents<A> {
 	 * Invoked when a value is removed from the list.
 	 */
 	removed: {
+		/**
+		 * Index of the element which was removed.
+		 *
+		 * @type {number}
+		 */
+		index: number;
 
 		/**
 		 * Removed value.
@@ -91,8 +103,9 @@ export class OrderedList<T> {
 	 *
 	 * @param {T}  value  Value
 	 */
-	protected _insert(value: T): void {
+	protected _insert(value: T): number {
 		this._values.push(value);
+		return this._values.length - 1;
 	}
 
 	/**
@@ -161,12 +174,13 @@ export class OrderedList<T> {
 	 * @param {T}  value  Value
 	 */
 	public insert(value: T): void {
-		this._insert(value);
+		const index = this._insert(value);
 
 		if (this.events.isEnabled("inserted")) {
 			this.events.dispatchImmediately("inserted", {
 				type: "inserted",
 				target: this,
+				index: index,
 				newValue: value
 			});
 		}
@@ -189,7 +203,8 @@ export class OrderedList<T> {
 				this.events.dispatchImmediately("removed", {
 					type: "removed",
 					target: this,
-					oldValue: oldValue
+					index: index,
+					oldValue: oldValue,
 				});
 			}
 		}
@@ -203,33 +218,22 @@ export class OrderedList<T> {
 	 * @param {Array<T>}  newArray  New items
 	 */
 	public setAll(newArray: Array<T>): void {
-		const oldArray = $array.copy(this._values);
+		$array.eachReverse(this._values, (x, i) => {
+			this._values.pop();
 
-		this._values.length = 0;
-
-		$array.each(newArray, (value) => {
-			this._insert(value);
-		});
-
-		if (this.events.isEnabled("removed")) {
-			$array.each(oldArray, (x) => {
+			if (this.events.isEnabled("removed")) {
 				this.events.dispatchImmediately("removed", {
 					type: "removed",
 					target: this,
+					index: i,
 					oldValue: x
 				});
-			});
-		}
+			}
+		});
 
-		if (this.events.isEnabled("inserted")) {
-			$array.each(this._values, (x) => {
-				this.events.dispatchImmediately("inserted", {
-					type: "inserted",
-					target: this,
-					newValue: x
-				});
-			});
-		}
+		$array.each(newArray, (value) => {
+			this.insert(value);
+		});
 	}
 
 	/**
@@ -380,10 +384,12 @@ export class SortedList<T> extends OrderedList<T> {
 	 *
 	 * @param {T}  value  Item
 	 */
-	protected _insert(value: T): void {
+	protected _insert(value: T): number {
 		const { index } = $array.getSortedIndex(this._values, this._ordering, value);
 
 		$array.insertIndex(this._values, index, value);
+
+		return index;
 	}
 
 	/**
@@ -423,6 +429,7 @@ export class SortedList<T> extends OrderedList<T> {
 			// Check if the current ordering is correct
 			if (!((index === 0 || this._ordering(this._values[index - 1], value) < 0) &&
 				(index === last || this._ordering(value, this._values[index + 1]) < 0))) {
+				// TODO send remove/insert/move events
 				$array.removeIndex(this._values, index);
 				this._insert(value);
 			}

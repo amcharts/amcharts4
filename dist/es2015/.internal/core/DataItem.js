@@ -135,6 +135,13 @@ var DataItem = /** @class */ (function (_super) {
          */
         _this.isTemplate = false;
         /**
+         * The current index within the dataItems
+         *
+         * @ignore Exclude from docs
+         * @type {number | null}
+         */
+        _this._index = null;
+        /**
          * Is Data Item currently visible?
          *
          * @ignore Exclude from docs
@@ -192,7 +199,12 @@ var DataItem = /** @class */ (function (_super) {
          */
         get: function () {
             if (this.component) {
-                return this.component.dataItems.indexOf(this);
+                if (this._index != null) {
+                    return this._index;
+                }
+                else {
+                    return -1;
+                }
             }
             else {
                 return -1;

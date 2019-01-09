@@ -659,7 +659,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				// TODO use $type.castNumber ?
 				let startIndex: number = series.dataItems.findClosestIndex(this._minZoomed, (x) => <number>x[field], "left");
 				// 1 millisecond is removed so that if only first item is selected, it would not count in the second.
-				let endIndex: number = series.dataItems.findClosestIndex(this._maxZoomed - 1, (x) => <number>x[field], "left") + 1;
+				let endIndex: number = series.dataItems.findClosestIndex(this._maxZoomed - 1, (x) => <number>x[field], "right") + 1;
 
 				series.startIndex = startIndex;
 				series.endIndex = endIndex;

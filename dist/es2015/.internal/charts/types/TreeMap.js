@@ -481,6 +481,7 @@ var TreeMap = /** @class */ (function (_super) {
                     return b.value - a.value;
                 });
             }
+            this._updateDataItemIndexes(0);
             this.layoutAlgorithm(parent);
             for (var i = 0, len = children.length; i < len; i++) {
                 var node = children.getIndex(i);

@@ -1049,7 +1049,6 @@ var Sprite = /** @class */ (function (_super) {
          * console.log(mySprite.map.getKey("myid"));
          * ```
          *
-         * @ignore Exclude from docs
          * @return {Dictionary<string, any>} Map collection
          */
         get: function () {
@@ -1404,7 +1403,17 @@ var Sprite = /** @class */ (function (_super) {
                 }
                 filter.scale = _this.globalScale;
             });
-            this.filterElement.attr({ "width": width_1 + "%", "height": height_1 + "%", "x": -(width_1 - 100) / 2 + "%", "y": -(height_1 - 100) / 2 + "%" });
+            var w = width_1 + "%";
+            var h = height_1 + "%";
+            /* temporarily removed as it is breaking tooltips on Safari @todo come back to this
+            if (this._measuredHeight <= 1) {
+                h = height + "";
+            }
+
+            if (this._measuredWidth <= 1) {
+                h = width + "";
+            }*/
+            this.filterElement.attr({ "width": w, "height": h, "x": -(width_1 - 100) / 2 + "%", "y": -(height_1 - 100) / 2 + "%" });
             this.group.attr({ "filter": "url(#" + id + ")" });
         }
         else if (this.filterElement) {
@@ -1425,6 +1434,13 @@ var Sprite = /** @class */ (function (_super) {
             this._clipPath = undefined;
         }
     };
+    /**
+     * [setElement description]
+     *
+     * @ignore
+     * @todo Description
+     * @param {AMElement} element [description]
+     */
     Sprite.prototype.setElement = function (element) {
         this.element = element;
         this.setSVGAttributes();

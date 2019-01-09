@@ -3,8 +3,8 @@
   "name": "amcharts4-example-simple-map-chart",
   "version": "0.1.0",
   "devDependencies": {
-    "@amcharts/amcharts4": "^4.0.16",
-    "@amcharts/amcharts4-geodata": "^4.0.26",
+    "@amcharts/amcharts4": "^4.0.17",
+    "@amcharts/amcharts4-geodata": "^4.0.27",
     "webpack": "^4.23.1",
     "webpack-cli": "^3.1.2",
     "source-map-loader": "^0.2.4",

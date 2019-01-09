@@ -347,7 +347,7 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 	 * @param {this} object Source element
 	 */
 	public copyFrom(object: this): void {
-		object.clones.moveValue(this);
+		object.clones.push(this); // do not moveValue, as it is expensive! even if there will be several items in clones list, it's not that bad.
 		this.clonedFrom = object;
 	}
 

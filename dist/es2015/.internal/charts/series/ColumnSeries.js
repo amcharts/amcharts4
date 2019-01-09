@@ -224,11 +224,14 @@ var ColumnSeries = /** @class */ (function (_super) {
         this._startLocation = cellStartLocation + (index / clusterCount) * (cellEndLocation - cellStartLocation);
         this._endLocation = cellStartLocation + (index + 1) / clusterCount * (cellEndLocation - cellStartLocation);
         _super.prototype.validate.call(this);
-        this.dataItems.each(function (dataItem) {
-            if (dataItem.index < _this.startIndex || dataItem.index >= _this.endIndex) {
-                _this.disableUnusedColumns(dataItem);
-            }
-        });
+        for (var i = 0; i < this.startIndex; i++) {
+            var dataItem = this.dataItems.getIndex(i);
+            this.disableUnusedColumns(dataItem);
+        }
+        for (var i = this.dataItems.length - 1; i > this.endIndex; i--) {
+            var dataItem = this.dataItems.getIndex(i);
+            this.disableUnusedColumns(dataItem);
+        }
     };
     /**
      * Validates data item's element, effectively redrawing it.
@@ -538,21 +541,23 @@ var ColumnSeries = /** @class */ (function (_super) {
         dataItem.itemHeight = h;
     };
     ColumnSeries.prototype.disableUnusedColumns = function (dataItem) {
-        if (dataItem.column) {
-            // otherwise might flicker when enabling
-            dataItem.column.width = 0;
-            dataItem.column.height = 0;
-            dataItem.column.__disabled = true;
-        }
-        $iter.each(this.axisRanges.iterator(), function (axisRange) {
-            var rangeColumn = dataItem.rangesColumns.getKey(axisRange.uid);
-            if (rangeColumn) {
+        if (dataItem) {
+            if (dataItem.column) {
                 // otherwise might flicker when enabling
-                rangeColumn.width = 0;
-                rangeColumn.height = 0;
-                rangeColumn.__disabled = true;
+                dataItem.column.width = 0;
+                dataItem.column.height = 0;
+                dataItem.column.__disabled = true;
             }
-        });
+            $iter.each(this.axisRanges.iterator(), function (axisRange) {
+                var rangeColumn = dataItem.rangesColumns.getKey(axisRange.uid);
+                if (rangeColumn) {
+                    // otherwise might flicker when enabling
+                    rangeColumn.width = 0;
+                    rangeColumn.height = 0;
+                    rangeColumn.__disabled = true;
+                }
+            });
+        }
     };
     /**
      * Apply different state/coloring to columns based on the change value.

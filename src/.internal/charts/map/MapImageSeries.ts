@@ -335,12 +335,10 @@ export class MapImageSeries extends MapSeries {
 
 								let coordinates: any[] = geometry.coordinates;
 
-								if (coordinates) {
-									// make the same as MultiPoint
-									if (type == "MultiPoint") {
-										coordinates = [coordinates];
-									}
-								}
+								// make the same as MultiPoint
+								if (type == "Point") {
+									coordinates = [coordinates];
+								}								
 
 								let dataObject: IMapImageDataObject = $array.find(this.data, (value, i) => {
 									return value.id == id;

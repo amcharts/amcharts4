@@ -298,6 +298,14 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	protected _animations: $type.Optional<Array<Animation>>;
 
 	/**
+	 * The current index within the dataItems
+	 *
+	 * @ignore Exclude from docs
+	 * @type {number | null}
+	 */
+	public _index: number | null = null;
+
+	/**
 	 * Is Data Item currently visible?
 	 *
 	 * @ignore Exclude from docs
@@ -376,7 +384,12 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	 */
 	public get index(): number {
 		if (this.component) {
-			return this.component.dataItems.indexOf(this);
+			if (this._index != null) {
+				return this._index;
+
+			} else {
+				return -1;
+			}
 		}
 		else {
 			return -1;
@@ -402,7 +415,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	 * @param {boolean} value Visible?
 	 */
 	public set visible(value: boolean) {
-		if(value){
+		if (value) {
 			this.hidden = false;
 		}
 		if (this._visible != value) {
@@ -416,12 +429,12 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	 * @param {boolean} value Hidden?
 	 */
 	public set hidden(value: boolean) {
-		if(this._hidden != value){
+		if (this._hidden != value) {
 			this._hidden = value;
-			if(value){
+			if (value) {
 				this.setVisibility(false);
 			}
-			else{
+			else {
 				this.setVisibility(true, true);
 			}
 		}
@@ -432,7 +445,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	 *
 	 * @return {boolean} Hidden?
 	 */
-	public get hidden():boolean{
+	public get hidden(): boolean {
 		return this._hidden;
 	}
 
@@ -500,7 +513,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	 * @return {boolean} Visible?
 	 */
 	public get visible(): boolean {
-		if(this._hidden){
+		if (this._hidden) {
 			return false;
 		}
 		return this._visible;
@@ -514,7 +527,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	 * @param {string[]}  fields    A list of fields to set values of
 	 */
 	public show(duration?: number, delay?: number, fields?: string[]): $type.Optional<Animation> {
-		if(!this.hidden){
+		if (!this.hidden) {
 			this.setVisibility(true, true);
 
 			this.isHiding = false;
@@ -691,7 +704,6 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 			if (!realName) {
 				realName = "workingValue";
 			}
-
 			return this.adapter.apply("workingValue", {
 				workingValue: this.values[name][realName],
 				field: name
@@ -1008,6 +1020,7 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 		});
 
 		dataItem.adapter.copyFrom(this.adapter);
+
 		dataItem.events.copyFrom(this.events);
 		dataItem.component = this.component;
 
@@ -1166,11 +1179,11 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 		if (sprite.dataItem && sprite.dataItem != this) {
 			$array.remove(sprite.dataItem.sprites, sprite);
 		}
-		if(!this.visible){
+		if (!this.visible) {
 			sprite.hide(0);
 		}
 
-		if(this.isHiding){
+		if (this.isHiding) {
 			sprite.hide();
 		}
 		this.sprites.push(sprite);

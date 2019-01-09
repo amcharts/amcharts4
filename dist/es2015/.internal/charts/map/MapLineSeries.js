@@ -226,10 +226,10 @@ var MapLineSeries = /** @class */ (function (_super) {
         _super.call(this) || this;
         _this.className = "MapLineSeries";
         // Set data fields
-        _this.dataFields.multiLine = "multiLine";
-        _this.dataFields.line = "line";
-        _this.dataFields.geoLine = "geoLine";
-        _this.dataFields.multiGeoLine = "multiGeoLine";
+        _this.dataFields.multiLine = "multiLineString";
+        _this.dataFields.line = "lineString";
+        _this.dataFields.geoLine = "geoLineString";
+        _this.dataFields.multiGeoLine = "multiGeoLineString";
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -283,15 +283,12 @@ var MapLineSeries = /** @class */ (function (_super) {
                                     return "continue";
                                 }
                                 var coordinates = geometry.coordinates;
-                                if (coordinates) {
-                                    // make the same as MultiPolygon
-                                    if (type == "MultiLineString") {
-                                        coordinates = [coordinates];
-                                    }
-                                }
                                 var dataObject = $array.find(this_1.data, function (value, i) {
                                     return value.id == id_1;
                                 });
+                                if (type == "LineString") {
+                                    coordinates = [coordinates];
+                                }
                                 if (!dataObject) {
                                     dataObject = { multiLineString: coordinates, id: id_1 };
                                     this_1.data.push(dataObject);
