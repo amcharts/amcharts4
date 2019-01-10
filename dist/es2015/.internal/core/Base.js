@@ -580,7 +580,18 @@ var BaseObject = /** @class */ (function () {
                     target[configKey] = configValue;
                 }
             }
+            else if (!_this.isReserved(configKey)) {
+                // Doesn't have property set. But we're going to assume JSON config
+                // creator knows what he/she is doing and set it anyway.
+                target[configKey] = configValue;
+            }
         }, this.configOrder);
+        // Any errors?
+        if (this.processingErrors.length) {
+            var errors = this.processingErrors.join("\n");
+            this._processingErrors = [];
+            throw Error(errors);
+        }
     };
     /**
      * Tries to detect if value is color or percent and converts to proper object
@@ -846,6 +857,30 @@ var BaseObject = /** @class */ (function () {
     BaseObject.prototype.hasProperty = function (prop) {
         return prop in this ? true : false;
     };
+    /**
+     * Checkes whether JSON key is a reserved keyword.
+     *
+     * @param  {string}   key  Key
+     * @return {boolean}       Reserved
+     */
+    BaseObject.prototype.isReserved = function (key) {
+        return ["type", "forceCreate"].indexOf(key) !== -1;
+    };
+    Object.defineProperty(BaseObject.prototype, "processingErrors", {
+        /**
+         * A list of errors that happened during JSON processing.
+         *
+         * @return {string[]} Errors
+         */
+        get: function () {
+            if (!this._processingErrors) {
+                this._processingErrors = [];
+            }
+            return this._processingErrors;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return BaseObject;
 }());
 export { BaseObject };

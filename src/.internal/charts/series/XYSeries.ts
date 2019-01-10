@@ -1913,11 +1913,23 @@ export class XYSeries extends Series {
 		if (config) {
 
 			// Set up axes
-			if ($type.hasValue(config.xAxis) && $type.isString(config.xAxis) && this.map.hasKey(config.xAxis)) {
-				config.xAxis = this.map.getKey(config.xAxis);
+			if ($type.hasValue(config.xAxis) && $type.isString(config.xAxis)) {
+				if (this.map.hasKey(config.xAxis)) {
+					config.xAxis = this.map.getKey(config.xAxis);
+				}
+				else {
+					this.processingErrors.push("[XYSeries (" + (this.name || "unnamed") + ")] No axis with id \"" + config.xAxis +"\" found for `xAxis`.");
+					delete config.xAxis;
+				}
 			}
-			if ($type.hasValue(config.yAxis) && $type.isString(config.yAxis) && this.map.hasKey(config.yAxis)) {
-				config.yAxis = this.map.getKey(config.yAxis);
+			if ($type.hasValue(config.yAxis) && $type.isString(config.yAxis)) {
+				if (this.map.hasKey(config.yAxis)) {
+					config.yAxis = this.map.getKey(config.yAxis);
+				}
+				else {
+					this.processingErrors.push("[XYSeries (" + (this.name || "unnamed") + ")] No axis with id \"" + config.yAxis +"\" found for `yAxis`.");
+					delete config.yAxis;
+				}
 			}
 
 			// Set up axis ranges
@@ -1938,7 +1950,7 @@ export class XYSeries extends Series {
 
 			// Parse date fields based on the series fields
 			if (!$type.hasValue(config.dataFields) || !$type.isObject(config.dataFields)) {
-				throw Error("`dataFields` is not set for series [" + this.name + "]");
+				this.processingErrors.push("`dataFields` is not set for series [" + (this.name || "unnamed") + "]");
 			}
 
 		}

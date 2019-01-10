@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.18] - 2019-01-10
+
+### Added
+- JSON: Better id checking and error reporting.
+
+### Fixed
+- Export menu no longer shows DATA menu for `MapChart` (and other charts if data is empty).
+- JSON: Some empty properties like `dummyData` were not being set properly.
+- Disposing a chart or series when `Legend` was enbled was resulting in error.
+
+
 ## [4.0.17] - 2019-01-09
 
 ### Fixed

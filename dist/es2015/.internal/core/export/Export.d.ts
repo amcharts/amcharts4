@@ -828,6 +828,12 @@ export declare class Export extends Validatable {
      */
     typeSupported<Key extends keyof IExportOptions>(type: Key): boolean;
     /**
+     * Checks if data is available.
+     *
+     * @return {boolean} Has data?
+     */
+    private _hasData();
+    /**
      * Get function to handle export for particular format.
      *
      * @ignore Exclude from docs

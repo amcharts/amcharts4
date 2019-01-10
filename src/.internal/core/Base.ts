@@ -130,6 +130,13 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 	 */
 	public cloneId: $type.Optional<string>;
 
+	/**
+	 * Holds processing error list.
+	 * 
+	 * @type {string[]}
+	 */
+	protected _processingErrors: string[];
+
 	//protected _classes: { [index: string]: any } = {};
 
 	/**
@@ -709,7 +716,7 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 
 					// ... a dictionary
 					// ------------------------------------------------------------------
-					
+
 					this.processDictionary(item, configValue);
 
 				}
@@ -745,7 +752,22 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 				}
 
 			}
+			else if (!this.isReserved(configKey)) {
+
+				// Doesn't have property set. But we're going to assume JSON config
+				// creator knows what he/she is doing and set it anyway.
+				target[configKey] = configValue;
+
+			}
 		}, this.configOrder);
+
+		// Any errors?
+		if (this.processingErrors.length) {
+			let errors = this.processingErrors.join("\n");
+			this._processingErrors = [];
+			throw Error(errors);
+			
+		}
 
 	}
 
@@ -861,7 +883,7 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 			// existing one.
 			// @todo support for non-basic types
 			$object.each(config, (entryKey, entryValue) => {
-					item.setKey(entryKey, entryValue);
+				item.setKey(entryKey, entryValue);
 			});
 
 		}
@@ -1042,6 +1064,28 @@ export class BaseObject implements IClone<BaseObject>, IDisposer {
 	 */
 	protected hasProperty(prop: string): boolean {
 		return prop in this ? true : false;
+	}
+
+	/**
+	 * Checkes whether JSON key is a reserved keyword.
+	 * 
+	 * @param  {string}   key  Key
+	 * @return {boolean}       Reserved
+	 */
+	protected isReserved(key: string): boolean {
+		return ["type", "forceCreate"].indexOf(key) !== -1;
+	}
+
+	/**
+	 * A list of errors that happened during JSON processing.
+	 * 
+	 * @return {string[]} Errors
+	 */
+	protected get processingErrors(): string[] {
+		if (!this._processingErrors) {
+			this._processingErrors = [];
+		}
+		return this._processingErrors;
 	}
 
 }

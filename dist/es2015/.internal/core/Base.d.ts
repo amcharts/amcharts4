@@ -105,6 +105,12 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      */
     cloneId: $type.Optional<string>;
     /**
+     * Holds processing error list.
+     *
+     * @type {string[]}
+     */
+    protected _processingErrors: string[];
+    /**
      * Constructor
      * * Sets class name
      */
@@ -373,6 +379,19 @@ export declare class BaseObject implements IClone<BaseObject>, IDisposer {
      * @return {boolean}        Has property?
      */
     protected hasProperty(prop: string): boolean;
+    /**
+     * Checkes whether JSON key is a reserved keyword.
+     *
+     * @param  {string}   key  Key
+     * @return {boolean}       Reserved
+     */
+    protected isReserved(key: string): boolean;
+    /**
+     * A list of errors that happened during JSON processing.
+     *
+     * @return {string[]} Errors
+     */
+    protected readonly processingErrors: string[];
 }
 /**
  * Defines events for [[BaseObjectEvents]].

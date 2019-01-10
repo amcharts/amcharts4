@@ -64,7 +64,9 @@ var LegendDataItem = /** @class */ (function (_super) {
                 this._disposers.push(label_1);
                 label_1.parent = this.itemContainer;
                 this._disposers.push(new Disposer(function () {
-                    _this.component.labels.removeValue(label_1);
+                    if ($type.hasValue(_this.component)) {
+                        _this.component.labels.removeValue(label_1);
+                    }
                 }));
             }
             return this._label;
@@ -129,7 +131,9 @@ var LegendDataItem = /** @class */ (function (_super) {
                 this._disposers.push(valueLabel_1);
                 valueLabel_1.parent = this.itemContainer;
                 this._disposers.push(new Disposer(function () {
-                    _this.component.valueLabels.removeValue(valueLabel_1);
+                    if ($type.hasValue(_this.component)) {
+                        _this.component.valueLabels.removeValue(valueLabel_1);
+                    }
                 }));
             }
             return this._valueLabel;
@@ -152,7 +156,9 @@ var LegendDataItem = /** @class */ (function (_super) {
                 this.addSprite(itemContainer_1);
                 this._disposers.push(itemContainer_1);
                 this._disposers.push(new Disposer(function () {
-                    _this.component.itemContainers.removeValue(itemContainer_1);
+                    if ($type.hasValue(_this.component)) {
+                        _this.component.itemContainers.removeValue(itemContainer_1);
+                    }
                 }));
                 if (this.dataContext.uidAttr) {
                     itemContainer_1.readerControls = this.dataContext.uidAttr();
@@ -207,7 +213,9 @@ var LegendDataItem = /** @class */ (function (_super) {
                 this.addSprite(marker_1);
                 this._disposers.push(marker_1);
                 this._disposers.push(new Disposer(function () {
-                    _this.component.markers.removeValue(marker_1);
+                    if ($type.hasValue(_this.component)) {
+                        _this.component.markers.removeValue(marker_1);
+                    }
                 }));
             }
             return this._marker;

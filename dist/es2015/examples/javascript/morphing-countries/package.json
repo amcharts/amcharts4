@@ -3,7 +3,7 @@
   "name": "amcharts4-example-morphing-countries",
   "version": "0.1.0",
   "devDependencies": {
-    "@amcharts/amcharts4": "^4.0.17",
+    "@amcharts/amcharts4": "^4.0.18",
     "@amcharts/amcharts4-geodata": "^4.0.27",
     "webpack": "^4.23.1",
     "webpack-cli": "^3.1.2",

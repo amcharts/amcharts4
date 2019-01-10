@@ -406,18 +406,26 @@ var Export = /** @class */ (function (_super) {
             supported = this.downloadSupport();
         }
         else if (type === "xlsx") {
-            supported = (this.downloadSupport() && this.data) ? true : false;
+            supported = (this.downloadSupport() && this._hasData()) ? true : false;
         }
         else if (type == "print" && !window.print) {
             supported = false;
         }
-        else if (["json", "csv"].indexOf(type) !== -1 && !this.data) {
+        else if (["json", "csv"].indexOf(type) !== -1 && !this._hasData()) {
             supported = false;
         }
         return this.adapter.apply("supported", {
             supported: supported,
             type: type
         }).supported;
+    };
+    /**
+     * Checks if data is available.
+     *
+     * @return {boolean} Has data?
+     */
+    Export.prototype._hasData = function () {
+        return this.data && this.data.length;
     };
     /**
      * Get function to handle export for particular format.

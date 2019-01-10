@@ -825,11 +825,23 @@ export class XYCursor extends Cursor {
 		if (config) {
 
 			// Set up axes
-			if ($type.hasValue(config.xAxis) && $type.isString(config.xAxis) && this.map.hasKey(config.xAxis)) {
-				config.xAxis = this.map.getKey(config.xAxis);
+			if ($type.hasValue(config.xAxis) && $type.isString(config.xAxis)) {
+				if (this.map.hasKey(config.xAxis)) {
+					config.xAxis = this.map.getKey(config.xAxis);
+				}
+				else {
+					this.processingErrors.push("[XYCursor] No axis with id \"" + config.xAxis +"\" found for `xAxis`");
+					delete config.xAxis;
+				}
 			}
-			if ($type.hasValue(config.yAxis) && $type.isString(config.yAxis) && this.map.hasKey(config.yAxis)) {
-				config.yAxis = this.map.getKey(config.yAxis);
+			if ($type.hasValue(config.yAxis) && $type.isString(config.yAxis)) {
+				if (this.map.hasKey(config.yAxis)) {
+					config.yAxis = this.map.getKey(config.yAxis);
+				}
+				else {
+					this.processingErrors.push("[XYCursor] No axis with id \"" + config.yAxis +"\" found for `yAxis`");
+					delete config.yAxis;
+				}
 			}
 
 		}

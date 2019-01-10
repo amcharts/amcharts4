@@ -120,7 +120,9 @@ export class LegendDataItem extends DataItem {
 			label.parent = this.itemContainer;
 
 			this._disposers.push(new Disposer(() => {
-				this.component.labels.removeValue(label);
+				if ($type.hasValue(this.component)) {
+					this.component.labels.removeValue(label);
+				}
 			}));
 		}
 		return this._label;
@@ -181,7 +183,9 @@ export class LegendDataItem extends DataItem {
 			valueLabel.parent = this.itemContainer;
 
 			this._disposers.push(new Disposer(() => {
-				this.component.valueLabels.removeValue(valueLabel);
+				if ($type.hasValue(this.component)) {
+					this.component.valueLabels.removeValue(valueLabel);
+				}
 			}));
 		}
 		return this._valueLabel;
@@ -201,7 +205,9 @@ export class LegendDataItem extends DataItem {
 			this._disposers.push(itemContainer);
 
 			this._disposers.push(new Disposer(() => {
-				this.component.itemContainers.removeValue(itemContainer);
+				if ($type.hasValue(this.component)) {
+					this.component.itemContainers.removeValue(itemContainer);
+				}
 			}));
 
 			if (this.dataContext.uidAttr) {
@@ -263,7 +269,9 @@ export class LegendDataItem extends DataItem {
 			this._disposers.push(marker);
 
 			this._disposers.push(new Disposer(() => {
-				this.component.markers.removeValue(marker);
+				if ($type.hasValue(this.component)) {
+					this.component.markers.removeValue(marker);
+				}
 			}));
 		}
 		return this._marker;

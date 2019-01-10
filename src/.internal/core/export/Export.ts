@@ -1169,18 +1169,27 @@ export class Export extends Validatable {
 			supported = this.downloadSupport();
 		}
 		else if (type === "xlsx") {
-			supported = (this.downloadSupport() && this.data) ? true : false;
+			supported = (this.downloadSupport() && this._hasData()) ? true : false;
 		}
 		else if (type == "print" && !(<any>window).print) {
 			supported = false;
 		}
-		else if (["json", "csv"].indexOf(type) !== -1 && !this.data) {
+		else if (["json", "csv"].indexOf(type) !== -1 && !this._hasData()) {
 			supported = false;
 		}
 		return this.adapter.apply("supported", {
 			supported: supported,
 			type: type
 		}).supported;
+	}
+
+	/**
+	 * Checks if data is available.
+	 * 
+	 * @return {boolean} Has data?
+	 */
+	private _hasData(): boolean {
+		return this.data && this.data.length;
 	}
 
 	/**
