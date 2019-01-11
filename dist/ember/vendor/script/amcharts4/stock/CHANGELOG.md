@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.20] - 2011-01-11
+
+### Fixed
+- Chart with `ColumnSeries` was failing with an error when `data` was updated.
+
+
 ## [4.0.19] - 2019-01-11
 
 ### Fixed

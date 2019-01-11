@@ -82,7 +82,11 @@ var ColumnSeriesDataItem = /** @class */ (function (_super) {
             }
             this.addSprite(column);
             this._disposers.push(new Disposer(function () {
-                _this.component.columns.removeValue(column);
+                // TODO investigate why component is undefined
+                // https://codepen.io/team/amcharts/pen/dac4be245d658233a6d7e5597df2208b?editors=0010
+                if (_this.component) {
+                    _this.component.columns.removeValue(column);
+                }
             }));
         }
     };

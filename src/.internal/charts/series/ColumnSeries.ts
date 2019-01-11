@@ -126,7 +126,11 @@ export class ColumnSeriesDataItem extends XYSeriesDataItem {
 			this.addSprite(column);
 
 			this._disposers.push(new Disposer(() => {
-				this.component.columns.removeValue(column);
+				// TODO investigate why component is undefined
+				// https://codepen.io/team/amcharts/pen/dac4be245d658233a6d7e5597df2208b?editors=0010
+				if (this.component) {
+					this.component.columns.removeValue(column);
+				}
 			}));
 		}
 	}
