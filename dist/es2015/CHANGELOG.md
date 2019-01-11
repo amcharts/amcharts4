@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.19] - 2019-01-11
+
+### Fixed
+- `MapLineSeries` with direct `data` set were somewhat broken since last update.
+
+
 ## [4.0.18] - 2019-01-10
 
 ### Added

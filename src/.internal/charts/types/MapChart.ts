@@ -148,22 +148,22 @@ export interface IMapLineDataObject {
 	/**
 	 * Single line information in X/Y coordinates.
 	 */
-	lineString?: number[][];
+	line?: number[][];
 
 	/**
 	 * Multi-part line information in X/Y coordinates.
 	 */
-	multiLineString?: number[][][];
+	multiLine?: number[][][];
 
 	/**
 	 * Single line information in lat/long geo-coordinates.
 	 */
-	geoLineString?: IGeoPoint[];
+	geoLine?: IGeoPoint[];
 
 	/**
 	 * Multi-part line information in lat/long geo-coordinates.
 	 */
-	multiGeoLineString?: IGeoPoint[][];
+	multiGeoLine?: IGeoPoint[][];
 
 }
 

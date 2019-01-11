@@ -383,11 +383,11 @@ export class MapLineSeries extends MapSeries {
 		this.className = "MapLineSeries";
 
 		// Set data fields
-		this.dataFields.multiLine = "multiLineString";
-		this.dataFields.line = "lineString";
+		this.dataFields.multiLine = "multiLine";
+		this.dataFields.line = "line";
 
-		this.dataFields.geoLine = "geoLineString";
-		this.dataFields.multiGeoLine = "multiGeoLineString";
+		this.dataFields.geoLine = "geoLine";
+		this.dataFields.multiGeoLine = "multiGeoLine";
 
 		// Apply theme
 		this.applyTheme();
@@ -459,12 +459,12 @@ export class MapLineSeries extends MapSeries {
 								}
 
 								if (!dataObject) {									
-									dataObject = { multiLineString: coordinates, id: id };
+									dataObject = { multiLine: coordinates, id: id };
 									this.data.push(dataObject);
 								}
 								else {
-									if (!dataObject.multiLineString) {
-										dataObject.multiLineString = coordinates;
+									if (!dataObject.multiLine) {
+										dataObject.multiLine = coordinates;
 									}
 								}
 								// copy properties data to datacontext

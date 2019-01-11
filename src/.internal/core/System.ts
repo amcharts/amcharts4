@@ -54,7 +54,7 @@ export class System {
 	 * @see {@link https://docs.npmjs.com/misc/semver}
 	 * @type {string}
 	 */
-	static VERSION: string = "4.0.18";
+	static VERSION: string = "4.0.19";
 
 	/**
 	 * @todo Description

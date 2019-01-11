@@ -226,10 +226,10 @@ var MapLineSeries = /** @class */ (function (_super) {
         _super.call(this) || this;
         _this.className = "MapLineSeries";
         // Set data fields
-        _this.dataFields.multiLine = "multiLineString";
-        _this.dataFields.line = "lineString";
-        _this.dataFields.geoLine = "geoLineString";
-        _this.dataFields.multiGeoLine = "multiGeoLineString";
+        _this.dataFields.multiLine = "multiLine";
+        _this.dataFields.line = "line";
+        _this.dataFields.geoLine = "geoLine";
+        _this.dataFields.multiGeoLine = "multiGeoLine";
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -290,12 +290,12 @@ var MapLineSeries = /** @class */ (function (_super) {
                                     coordinates = [coordinates];
                                 }
                                 if (!dataObject) {
-                                    dataObject = { multiLineString: coordinates, id: id_1 };
+                                    dataObject = { multiLine: coordinates, id: id_1 };
                                     this_1.data.push(dataObject);
                                 }
                                 else {
-                                    if (!dataObject.multiLineString) {
-                                        dataObject.multiLineString = coordinates;
+                                    if (!dataObject.multiLine) {
+                                        dataObject.multiLine = coordinates;
                                     }
                                 }
                                 // copy properties data to datacontext
