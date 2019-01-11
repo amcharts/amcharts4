@@ -167,7 +167,9 @@ export class FlowDiagramDataItem extends ChartDataItem {
 			this.addSprite(link);
 
 			this._disposers.push(new Disposer(() => {
-				this.component.links.removeValue(link);
+				if (this.component) {
+					this.component.links.removeValue(link);
+				}
 			}));
 		}
 		return this._link;

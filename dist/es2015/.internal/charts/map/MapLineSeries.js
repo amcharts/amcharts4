@@ -53,7 +53,9 @@ var MapLineSeriesDataItem = /** @class */ (function (_super) {
                 this.addSprite(mapLine_1);
                 this._disposers.push(mapLine_1);
                 this._disposers.push(new Disposer(function () {
-                    _this.component.mapLines.removeValue(mapLine_1);
+                    if (_this.component) {
+                        _this.component.mapLines.removeValue(mapLine_1);
+                    }
                 }));
             }
             return this._mapLine;

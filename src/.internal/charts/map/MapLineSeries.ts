@@ -100,7 +100,9 @@ export class MapLineSeriesDataItem extends MapSeriesDataItem {
 
 			this._disposers.push(mapLine);
 			this._disposers.push(new Disposer(() => {
-				this.component.mapLines.removeValue(mapLine);
+				if (this.component) {
+					this.component.mapLines.removeValue(mapLine);
+				}
 			}));
 		}
 		return this._mapLine;

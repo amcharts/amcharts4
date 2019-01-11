@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.21] - 2011-01-11
+
+### Fixed
+- Issues that caused errors in Map an Percent charts on data update and dispose fixed.
+
+
 ## [4.0.20] - 2011-01-11
 
 ### Fixed
@@ -33,7 +39,7 @@ adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 ### Fixed
 - Dramatically improved performance for data-heavy charts (with 10s and 100s of thousands of data points).
 - `SmallMap` viewport indicator rectangle was positioned incorrectly.
-- Clicking on `SmallMap` was not moving map to correct location.
+- Clicking on `SmallMap` was not moving map to corthis.component.rect location.
 - Lines from GeoJSON were not drawn by `MapLineSeries`.
 - Issue with multiple data points on the same date fixed (not all data points were visible at the end of selection).
 

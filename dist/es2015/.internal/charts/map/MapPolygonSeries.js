@@ -53,7 +53,9 @@ var MapPolygonSeriesDataItem = /** @class */ (function (_super) {
                 this.addSprite(mapPolygon_1);
                 this._disposers.push(mapPolygon_1);
                 this._disposers.push(new Disposer(function () {
-                    _this.component.mapPolygons.removeValue(mapPolygon_1);
+                    if (_this.component) {
+                        _this.component.mapPolygons.removeValue(mapPolygon_1);
+                    }
                 }));
             }
             return this._mapPolygon;

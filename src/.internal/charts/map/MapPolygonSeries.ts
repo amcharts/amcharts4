@@ -99,7 +99,9 @@ export class MapPolygonSeriesDataItem extends MapSeriesDataItem {
 
 			this._disposers.push(mapPolygon);
 			this._disposers.push(new Disposer(() => {
-				this.component.mapPolygons.removeValue(mapPolygon);
+				if (this.component) {
+					this.component.mapPolygons.removeValue(mapPolygon);
+				}
 			}));
 		}
 		return this._mapPolygon;

@@ -136,7 +136,9 @@ var FlowDiagramDataItem = /** @class */ (function (_super) {
                 this._link = link_1;
                 this.addSprite(link_1);
                 this._disposers.push(new Disposer(function () {
-                    _this.component.links.removeValue(link_1);
+                    if (_this.component) {
+                        _this.component.links.removeValue(link_1);
+                    }
                 }));
             }
             return this._link;

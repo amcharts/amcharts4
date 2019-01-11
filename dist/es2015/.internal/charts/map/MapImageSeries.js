@@ -53,7 +53,9 @@ var MapImageSeriesDataItem = /** @class */ (function (_super) {
                 this._mapImage = mapImage_1;
                 this._disposers.push(mapImage_1);
                 this._disposers.push(new Disposer(function () {
-                    _this.component.mapImages.removeValue(mapImage_1);
+                    if (_this.component) {
+                        _this.component.mapImages.removeValue(mapImage_1);
+                    }
                 }));
             }
             return this._mapImage;

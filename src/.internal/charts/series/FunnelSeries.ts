@@ -101,7 +101,9 @@ export class FunnelSeriesDataItem extends PercentSeriesDataItem {
 			sliceLink.parent = this.component.slicesContainer;
 
 			this._disposers.push(new Disposer(() => {
-				this.component.sliceLinks.removeValue(sliceLink);
+				if (this.component) {
+					this.component.sliceLinks.removeValue(sliceLink);
+				}
 			}));
 
 			this.addSprite(sliceLink);

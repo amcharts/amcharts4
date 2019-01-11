@@ -227,7 +227,9 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 			tick.parent = this.component.ticksContainer;
 
 			this._disposers.push(new Disposer(() => {
-				this.component.ticks.removeValue(tick);
+				if (this.component) {
+					this.component.ticks.removeValue(tick);
+				}
 			}));
 
 			this.addSprite(tick);
@@ -251,7 +253,9 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 			label.parent = this.component.labelsContainer;
 
 			this._disposers.push(new Disposer(() => {
-				this.component.labels.removeValue(label);
+				if (this.component) {
+					this.component.labels.removeValue(label);
+				}
 			}));
 
 			this.addSprite(label);

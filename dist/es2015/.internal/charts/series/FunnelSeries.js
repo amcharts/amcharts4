@@ -56,7 +56,9 @@ var FunnelSeriesDataItem = /** @class */ (function (_super) {
                 this._disposers.push(sliceLink_1);
                 sliceLink_1.parent = this.component.slicesContainer;
                 this._disposers.push(new Disposer(function () {
-                    _this.component.sliceLinks.removeValue(sliceLink_1);
+                    if (_this.component) {
+                        _this.component.sliceLinks.removeValue(sliceLink_1);
+                    }
                 }));
                 this.addSprite(sliceLink_1);
                 sliceLink_1.visible = this.visible;

@@ -159,7 +159,9 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
                 this._disposers.push(tick_1);
                 tick_1.parent = this.component.ticksContainer;
                 this._disposers.push(new Disposer(function () {
-                    _this.component.ticks.removeValue(tick_1);
+                    if (_this.component) {
+                        _this.component.ticks.removeValue(tick_1);
+                    }
                 }));
                 this.addSprite(tick_1);
                 tick_1.visible = this.visible;
@@ -184,7 +186,9 @@ var PercentSeriesDataItem = /** @class */ (function (_super) {
                 this._disposers.push(label_1);
                 label_1.parent = this.component.labelsContainer;
                 this._disposers.push(new Disposer(function () {
-                    _this.component.labels.removeValue(label_1);
+                    if (_this.component) {
+                        _this.component.labels.removeValue(label_1);
+                    }
                 }));
                 this.addSprite(label_1);
                 label_1.visible = this.visible;

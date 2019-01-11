@@ -85,7 +85,9 @@ export class MapImageSeriesDataItem extends MapSeriesDataItem {
 			this._mapImage = mapImage;
 			this._disposers.push(mapImage);
 			this._disposers.push(new Disposer(() => {
-				this.component.mapImages.removeValue(mapImage);
+				if (this.component) {
+					this.component.mapImages.removeValue(mapImage);
+				}
 			}));
 		}
 		return this._mapImage;
