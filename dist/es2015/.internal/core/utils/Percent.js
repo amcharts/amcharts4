@@ -56,6 +56,9 @@ var Percent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
+    Percent.prototype.toString = function () {
+        return "" + this._value + "%";
+    };
     return Percent;
 }());
 export { Percent };

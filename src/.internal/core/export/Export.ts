@@ -1763,7 +1763,11 @@ export class Export extends Validatable {
 				// Get image and its href
 				let image = images[i];
 				let href = image.getAttributeNS(Export.XLINK, "href");
-				//let href = image.getAttribute("href");
+
+				// no href?
+				if (!href) {
+					continue;
+				}
 
 				if (href.indexOf("data:image") !== -1) {
 					// Ignore image if it's already in Data URI format

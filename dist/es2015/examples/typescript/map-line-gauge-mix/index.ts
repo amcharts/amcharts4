@@ -30,9 +30,7 @@ try {
     mapChart.geodata = am4geodata_continentsLow;
 }
 catch (e) {
-    mapChart.raiseCriticalError({
-        "message": "Map geodata could not be loaded. Please download the latest <a href=\"https://www.amcharts.com/download/download-v4/\">amcharts geodata</a> and extract its contents into the same directory as your amCharts files."
-    });
+    mapChart.raiseCriticalError(new Error("Map geodata could not be loaded. Please download the latest <a href=\"https://www.amcharts.com/download/download-v4/\">amcharts geodata</a> and extract its contents into the same directory as your amCharts files."));
 }
 
 mapChart.projection = new am4maps.projections.Miller();

@@ -929,7 +929,10 @@ var Export = /** @class */ (function (_super) {
                         for (count = images.length, i = 0; i < count; i++) {
                             image = images[i];
                             href = image.getAttributeNS(Export.XLINK, "href");
-                            //let href = image.getAttribute("href");
+                            // no href?
+                            if (!href) {
+                                continue;
+                            }
                             if (href.indexOf("data:image") !== -1) {
                                 // Ignore image if it's already in Data URI format
                             }

@@ -1,6 +1,6 @@
 /**
  * This is a demo for MapChart.
- * 
+ *
  * Refer to the following link(s) for reference:
  * @see {@link https://www.amcharts.com/docs/v4/chart-types/map/}
  */
@@ -17,9 +17,7 @@ try {
 	chart.geodata = am4geodata_worldLow;
 }
 catch (e) {
-	chart.raiseCriticalError({
-		"message": "Map geodata could not be loaded. Please download the latest <a href=\"https://www.amcharts.com/download/download-v4/\">amcharts geodata</a> and extract its contents into the same directory as your amCharts files."
-	});
+	chart.raiseCriticalError(new Error("Map geodata could not be loaded. Please download the latest <a href=\"https://www.amcharts.com/download/download-v4/\">amcharts geodata</a> and extract its contents into the same directory as your amCharts files."));
 }
 
 // Set projection to be used

@@ -60,11 +60,11 @@ export class Percent {
 		return this._value;
 	}
 
-	/*public toString(): string {
+	public toString(): string {
 		return "" + this._value + "%";
 	}
 
-	public toNumber(): number {
+	/*public toNumber(): number {
 		return this.percent;
 	}*/
 

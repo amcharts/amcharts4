@@ -5,13 +5,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
-## [4.0.21] - 2011-01-11
+## [4.0.22] - 2019-01-23
+
+### Added
+- 23 new locales: Arabic, Bosnian, Catalan, Czech, Greek, Estonian, Finnish, Hebrew, Hindi, Croatian, Hungarian, Indonesian, Japanese, Korean, Latvian, Polish, Romanian, Serbian, Thai, Turkish, Vietnamese, Chinese (simplified and traditional versions). Thanks Bjorn Svensson!
+
+### Fixed
+- It is no longer necessary to use `"strictFunctionTypes": false`, [thanks to goloveychuk for their help](https://github.com/amcharts/amcharts4/pull/645).
+- Broken images were causing export to fail.
+- Setting Series' `name` to a number with percent sign was resulting in breakage of the whole chart.
+
+
+## [4.0.21] - 2019-01-11
 
 ### Fixed
 - Issues that caused errors in Map an Percent charts on data update and dispose fixed.
 
 
-## [4.0.20] - 2011-01-11
+## [4.0.20] - 2019-01-11
 
 ### Fixed
 - Chart with `ColumnSeries` was failing with an error when `data` was updated.

@@ -7,9 +7,7 @@ try {
     chart.geodata = am4geodata_worldLow;
 }
 catch (e) {
-    chart.raiseCriticalError({
-        "message": "Map geodata could not be loaded. Please download the latest <a href=\"https://www.amcharts.com/download/download-v4/\">amcharts geodata</a> and extract its contents into the same directory as your amCharts files."
-    });
+    chart.raiseCriticalError(new Error("Map geodata could not be loaded. Please download the latest <a href=\"https://www.amcharts.com/download/download-v4/\">amcharts geodata</a> and extract its contents into the same directory as your amCharts files."));
 }
 
 chart.projection = new am4maps.projections.Mercator();
@@ -215,7 +213,7 @@ function showPieChart(polygon) {
     var radius = polygon.polygon.measuredWidth / 2 * polygon.globalScale / chart.seriesContainer.scale;
     pieChart.width = radius * 2;
     pieChart.height = radius * 2;
-    pieChart.radius = radius;    
+    pieChart.radius = radius;
 
     var centerPoint = am4core.utils.spritePointToSvg(polygon.polygon.centerPoint, polygon.polygon);
     centerPoint = am4core.utils.svgPointToSprite(centerPoint, chart.seriesContainer);

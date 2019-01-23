@@ -276,7 +276,12 @@ export function toNumber(value) {
  */
 export function toText(value) {
     if (hasValue(value) && !isString(value)) {
-        return castString(value);
+        if (isNumber(value)) {
+            return castString(value);
+        }
+        else if (isObject(value)) {
+            return value.toString();
+        }
     }
     return value;
 }

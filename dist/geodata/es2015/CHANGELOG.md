@@ -3,6 +3,17 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [4.0.29] - 2019-01-22
+
+### Fixed
+- Maintenance release.
+
+## [4.0.28] - 2019-01-22
+
+### Added
+- Added new highest detail level of most world/region maps "ultra", e.g. `worldUltra`. The level of detail is the same as individual country maps, so they are suitable for combining.
+- New maps: Saudi Arabia, Senegal, Seychelles, Singapore, Slovakia, Slovenia, Solomon Islands, Somalia, South Africa, Sri Lanka, Saint Helena, Saint Kitts and Nevis, Saint Lucia, Saint Vincent, Sudan, Svalbard, Sweden, Switzerland, Syria, Tajikistan, Tanzania, Thailand.
+
 ## [4.0.27] - 2019-01-08
 
 ### Added

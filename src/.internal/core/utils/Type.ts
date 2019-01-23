@@ -65,7 +65,7 @@ export type Type
  * @return {Type}         Type of the value
  */
 export function getType<A>(value: A): Type {
-	return ({}).toString.call(value);
+	return ({}).toString.call(value) as Type;
 }
 
 /**
@@ -327,7 +327,12 @@ export function toNumber(value: any): number {
  */
 export function toText(value: any): string {
 	if (hasValue(value) && !isString(value)) {
-		return castString(value);
+		if (isNumber(value)) {
+			return castString(value);
+		}
+		else if (isObject(value)) {
+			return value.toString();
+		}
 	}
 	return value;
 }

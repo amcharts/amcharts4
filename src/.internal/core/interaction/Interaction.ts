@@ -385,7 +385,7 @@ export class Interaction extends BaseObjectEvents {
 	 * Firefox ESR version does not support matchMedia correctly.
 	 *
 	 * On iOS, Firefox uses different userAgent, so we don't have to detect iOS.
-	 * 
+	 *
 	 * @return {boolean} Full Firefox?
 	 */
 	protected fullFF(): boolean {
@@ -1220,8 +1220,8 @@ export class Interaction extends BaseObjectEvents {
 
 		// Calculate deltas
 		if (ev instanceof WheelEvent) {
-			deltaX = Math.round((-1 * ev.wheelDeltaX) || ev.deltaX) * mod;
-			deltaY = Math.round((-1 * ev.wheelDeltaY) || ev.deltaY) * mod;
+			deltaX = Math.round((-1 * (<any>ev).wheelDeltaX) || ev.deltaX) * mod;
+			deltaY = Math.round((-1 * (<any>ev).wheelDeltaY) || ev.deltaY) * mod;
 		} else {
 			throw new Error("Invalid event type");
 		}

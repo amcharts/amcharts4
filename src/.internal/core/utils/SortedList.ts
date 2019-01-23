@@ -365,9 +365,9 @@ export class SortedList<T> extends OrderedList<T> {
 	/**
 	 * A reference to the ordering function.
 	 *
-	 * @type {T}
+	 * @type {(left: T, right: T) => Ordering}
 	 */
-	private _ordering: (left: T, right: T) => Ordering;
+	private _ordering: any;
 
 	/**
 	 * Constructor.

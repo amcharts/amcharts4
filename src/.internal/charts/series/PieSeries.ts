@@ -331,21 +331,21 @@ export class PieSeries extends PercentSeries {
 		this.applyTheme();
 	}
 
-	/** 
+	/**
 	 * creates slice
 	 */
 	protected createSlice(): this["_slice"] {
 		return new Slice();
 	}
 
-	/** 
+	/**
 	 * creates tick
 	 */
 	protected createTick(): this["_tick"] {
 		return new PieTick();
 	}
 
-	/** 
+	/**
 	 * creates label
 	 */
 	protected createLabel(): this["_label"] {

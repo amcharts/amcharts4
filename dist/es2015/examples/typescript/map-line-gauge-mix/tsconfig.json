@@ -2,7 +2,6 @@
     "compilerOptions": {
         "strict": true,
         "strictNullChecks": false,
-        "strictFunctionTypes": false,
         "esModuleInterop": true,
         "sourceMap": true,
         "inlineSources": true,

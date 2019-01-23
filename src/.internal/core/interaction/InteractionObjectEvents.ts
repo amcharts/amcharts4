@@ -477,7 +477,7 @@ export class InteractionObjectEventDispatcher<T extends AMEvent<InteractionObjec
 	): IDisposer {
 		if (!this._domEvents[type]) {
 			const callback = function (e: Event): void {
-				listener.call(context, key, e);
+				listener.call(context, key, e as any);
 			};
 
 			this.target.element.addEventListener(type, callback, false);

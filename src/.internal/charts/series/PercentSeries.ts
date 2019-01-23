@@ -60,7 +60,7 @@ export class PercentSeriesDataItem extends SeriesDataItem {
 
 	/**
 	 * A reference to a slice label element.
-	 * 
+	 *
 	 * @ignore Exclude from docs
 	 * @type {AxisLabelCircular}
 	 */
@@ -581,7 +581,7 @@ export class PercentSeries extends Series {
 
 	/**
 	 * Creates a slice element.
-	 * 
+	 *
 	 * @return {FunnelSlice} Slice
 	 */
 	protected createSlice(): this["_slice"] {
@@ -590,7 +590,7 @@ export class PercentSeries extends Series {
 
 	/**
 	 * Creates a tick element.
-	 * 
+	 *
 	 * @return {Tick} Tick
 	 */
 	protected createTick(): this["_tick"] {
@@ -599,7 +599,7 @@ export class PercentSeries extends Series {
 
 	/**
 	 * Sreates label element.
-	 * 
+	 *
 	 * @return {Label} label
 	 */
 	protected createLabel(): this["_label"] {

@@ -48,6 +48,7 @@ export declare class Percent {
      * @return {number} Percent
      */
     readonly percent: number;
+    toString(): string;
 }
 /**
  * Converts numeric percent value to a proper [[Percent]] object.
