@@ -823,9 +823,9 @@ export class Container extends Sprite {
 	 */
 	public handleGlobalScale(): void {
 		super.handleGlobalScale();
-		//this.children.each((child) => {
-		//	child.handleGlobalScale();
-		//})
+		this.children.each((child) => {
+			child.handleGlobalScale();
+		})
 	}
 
 	/**

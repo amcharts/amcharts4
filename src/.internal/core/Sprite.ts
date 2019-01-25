@@ -1301,6 +1301,7 @@ export class Sprite extends BaseObjectEvents implements IAnimatable {
 					case "fillOpacity":
 					case "stroke":
 					case "strokeOpacity":
+					case "strokeWidth":
 					case "shapeRendering":
 					case "strokeDasharray":
 					case "textDecoration":

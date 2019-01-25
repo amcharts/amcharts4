@@ -607,6 +607,7 @@ var Sprite = /** @class */ (function (_super) {
                         case "fillOpacity":
                         case "stroke":
                         case "strokeOpacity":
+                        case "strokeWidth":
                         case "shapeRendering":
                         case "strokeDasharray":
                         case "textDecoration":

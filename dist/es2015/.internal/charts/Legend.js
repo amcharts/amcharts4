@@ -419,7 +419,7 @@ var Legend = /** @class */ (function (_super) {
         // If we are not using default markers, create a unique legend marker based
         // on the data item type
         var dataContext = dataItem.dataContext;
-        if (dataContext.createLegendMarker && (!this.useDefaultMarker || !(dataItem instanceof Sprite))) {
+        if (dataContext.createLegendMarker && (!this.useDefaultMarker || !(dataContext instanceof Sprite))) {
             if (!dataItem.childrenCreated) {
                 dataContext.createLegendMarker(marker);
                 dataItem.childrenCreated = true;

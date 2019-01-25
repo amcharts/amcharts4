@@ -5,13 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.24] - 2019-01-25
+
+### Fixed
+- `nonScalingStroke` (broken in 4.0.23) fixed.
+- Legend custom adapters problem (broken in 4.0.23) fixed.
+
+
 ## [4.0.23] - 2019-01-25
 
 ### Changed
 - `PieChart3D` property `angle` is now limited to 0-90 range.
 
 ### Fixed
-
 - `LabelBullet` was not showing text on `RadarChart` without some additional tweaking.
 - Clicking and releasing on plot area without moving cursor sometimes could result in chart zooming in.
 - Bullets for `PieSeries`, `FunnelSeries` were not positioned properly.
