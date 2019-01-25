@@ -13,7 +13,7 @@ import { ListTemplate } from "../../core/utils/List";
 import { OrderedList, OrderedListTemplate } from "../../core/utils/SortedList";
 import { registry } from "../../core/Registry";
 import * as $type from "../../core/utils/Type";
-
+import { Bullet } from "../elements/Bullet";
 
 /**
  * ============================================================================
@@ -195,7 +195,7 @@ export class PieSeries3D extends PieSeries {
 	 */
 	public _chart: PieChart3D;
 
-	public _slice: Slice3D;	
+	public _slice: Slice3D;
 
 	/**
 	 * Constructor
@@ -220,7 +220,7 @@ export class PieSeries3D extends PieSeries {
 	 */
 	protected createSlice(): this["_slice"] {
 		return new Slice3D();
-	}	
+	}
 
 	/**
 	 * Validates data item's element, effectively redrawing it.
@@ -229,7 +229,7 @@ export class PieSeries3D extends PieSeries {
 	 * @param {PieSeries3DDataItem}  dataItem  Data item
 	 */
 	public validateDataElement(dataItem: PieSeries3DDataItem): void {
-		
+
 		let slice: Slice3D = <Slice3D>dataItem.slice;
 
 		let depth: number = this.depth;
@@ -251,7 +251,7 @@ export class PieSeries3D extends PieSeries {
 
 		slice.angle = angle;
 
-		super.validateDataElement(dataItem);		
+		super.validateDataElement(dataItem);
 	}
 
 	/**
@@ -262,7 +262,7 @@ export class PieSeries3D extends PieSeries {
 	public validate(): void {
 		super.validate();
 
-		for(let i = this._workingStartIndex; i < this._workingEndIndex; i++){
+		for (let i = this._workingStartIndex; i < this._workingEndIndex; i++) {
 			let dataItem = this.dataItems.getIndex(i);
 			let slice: Slice3D = dataItem.slice;
 
@@ -309,6 +309,21 @@ export class PieSeries3D extends PieSeries {
 	 */
 	public get angle(): number {
 		return this.getPropertyValue("angle");
+	}
+
+	/**
+	 * Positions series bullet.
+	 *
+	 * @ignore Exclude from docs
+	 * @param {Bullet}  bullet  Bullet
+	 */
+	public positionBullet(bullet: Bullet): void {
+		super.positionBullet(bullet);
+
+		let dataItem: this["_dataItem"] = <this["_dataItem"]>bullet.dataItem;
+		let slice = dataItem.slice;
+
+		bullet.y = bullet.pixelY - slice.depth;
 	}
 }
 

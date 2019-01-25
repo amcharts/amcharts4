@@ -22,12 +22,11 @@ import { XYChart } from "../types/XYChart";
 import { registry } from "../../core/Registry";
 import { color } from "../../core/utils/Color";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
-import { IInteractionEvents } from "../../core/interaction/Interaction";
+import { IInteractionEvents, getInteraction } from "../../core/interaction/Interaction";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
 import * as $path from "../../core/rendering/Path";
-
 
 /**
  * ============================================================================
@@ -445,25 +444,27 @@ export class XYCursor extends Cursor {
 
 
 	protected triggerUpReal(point: IPoint) {
-		if (this.downPoint) {
-			this.upPoint = point;
+		if ($math.getDistance(this._upPointOrig, this._downPointOrig) > getInteraction().getHitOption(this.interactions, "hitTolerance")) {
+			if (this.downPoint) {
+				this.upPoint = point;
 
-			this.updatePoint(this.upPoint);
+				this.updatePoint(this.upPoint);
 
-			this.getRanges();
+				this.getRanges();
 
-			if (this.behavior == "selectX" || this.behavior == "selectY" || this.behavior == "selectXY") {
-				// void
+				if (this.behavior == "selectX" || this.behavior == "selectY" || this.behavior == "selectXY") {
+					// void
+				}
+				else {
+					this.selection.hide();
+				}
+				super.triggerUpReal(point);
 			}
-			else {
-				this.selection.hide();
-			}
-
-			super.triggerUpReal(point);
 		}
-
+		else {
+			this.selection.hide(0);
+		}
 		this.downPoint = undefined;
-		this.updateSelection();
 	}
 
 
@@ -830,7 +831,7 @@ export class XYCursor extends Cursor {
 					config.xAxis = this.map.getKey(config.xAxis);
 				}
 				else {
-					this.processingErrors.push("[XYCursor] No axis with id \"" + config.xAxis +"\" found for `xAxis`");
+					this.processingErrors.push("[XYCursor] No axis with id \"" + config.xAxis + "\" found for `xAxis`");
 					delete config.xAxis;
 				}
 			}
@@ -839,7 +840,7 @@ export class XYCursor extends Cursor {
 					config.yAxis = this.map.getKey(config.yAxis);
 				}
 				else {
-					this.processingErrors.push("[XYCursor] No axis with id \"" + config.yAxis +"\" found for `yAxis`");
+					this.processingErrors.push("[XYCursor] No axis with id \"" + config.yAxis + "\" found for `yAxis`");
 					delete config.yAxis;
 				}
 			}

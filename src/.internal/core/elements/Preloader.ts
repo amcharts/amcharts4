@@ -235,6 +235,8 @@ export class Preloader extends Container {
 	public set progress(value: number) {
 		this.__disabled = false;
 
+		this.validateLayout(); // show not in center without this
+
 		this.setPropertyValue("progress", value);
 
 		/*if (!this.visible && value == 1) {

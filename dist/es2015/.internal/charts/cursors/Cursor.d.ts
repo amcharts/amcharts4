@@ -173,6 +173,18 @@ export declare class Cursor extends Container {
      */
     protected _stickPoint: IPoint;
     /**
+     * non-modified down point
+     * @ignore
+     * @type {IPoint}
+     */
+    protected _downPointOrig: IPoint;
+    /**
+     * non-modified up point
+     * @ignore
+     * @type {IPoint}
+     */
+    protected _upPointOrig: IPoint;
+    /**
      * Constructor
      */
     constructor();

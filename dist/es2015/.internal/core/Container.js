@@ -488,7 +488,7 @@ var Container = /** @class */ (function (_super) {
     };
     Object.defineProperty(Container.prototype, "background", {
         /**
-         * @return {Sprite} Background element
+         * @return {Rectangle} Background element
          */
         get: function () {
             if (!this._background) {
@@ -522,9 +522,9 @@ var Container = /** @class */ (function (_super) {
      */
     Container.prototype.handleGlobalScale = function () {
         _super.prototype.handleGlobalScale.call(this);
-        this.children.each(function (child) {
-            child.handleGlobalScale();
-        });
+        //this.children.each((child) => {
+        //	child.handleGlobalScale();
+        //})
     };
     /**
      * Creates and returns a [[Rectangle]] to use as a background for Container.

@@ -297,7 +297,7 @@ export interface IAxisProperties extends IComponentProperties {
  */
 export interface IAxisEvents extends IComponentEvents {
     /**
-     * Invoked when available axis lenght chganges, e.g. after resizing the whole
+     * Invoked when available axis lenght changes, e.g. after resizing the whole
      * chart.
      */
     lengthchanged: {};

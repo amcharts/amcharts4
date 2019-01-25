@@ -428,7 +428,7 @@ export declare class Container extends Sprite {
      */
     disposeChildren(): void;
     /**
-     * @return {Sprite} Background element
+     * @return {Rectangle} Background element
      */
     /**
      * An element to use as container background.

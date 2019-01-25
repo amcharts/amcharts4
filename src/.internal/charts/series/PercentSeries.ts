@@ -685,6 +685,7 @@ export class PercentSeries extends Series {
 	public validateDataElement(dataItem: this["_dataItem"]): void {
 
 		let slice = dataItem.slice;
+
 		if (slice) {
 			if (slice.fill == undefined) {
 				slice.fill = this.colors.getIndex(dataItem.index * this.colors.step);
@@ -696,6 +697,29 @@ export class PercentSeries extends Series {
 
 		// do this at the end, otherwise bullets won't be positioned properly
 		super.validateDataElement(dataItem);
+
+		if (slice) {
+			dataItem.bullets.each((key, bullet) => {
+				if (bullet.fill == undefined) {
+					bullet.fill = slice.fill;
+				}
+				if (bullet.stroke == undefined) {
+					bullet.stroke = slice.stroke;
+				}
+			})
+		}
+	}
+
+	/**
+	 * Validates (processes) data.
+	 *
+	 * @ignore Exclude from docs
+	 */
+	public validateData(): void {
+		super.validateData();
+		if (this.chart) {
+			this.chart.feedLegend();
+		}
 	}
 
 	/**
@@ -790,12 +814,19 @@ export class PercentSeries extends Series {
 			child.fillOpacity = slice.fillOpacity;
 			child.strokeOpacity = slice.strokeOpacity;
 
+			if(child.fill == undefined){
+				child.__disabled = true;
+			}
+
 			let legendDataItem = <LegendDataItem>marker.dataItem;
 			legendDataItem.color = slice.fill;
 			legendDataItem.colorOrig = slice.fill;
 
 			slice.events.on("propertychanged", (ev) => {
 				if (ev.property == "fill") {
+
+					child.__disabled = false;
+
 					if (!child.isActive) {
 						child.fill = slice.fill;
 					}
@@ -866,7 +897,7 @@ export class PercentSeries extends Series {
 	 * @param {boolean}  value  Align labels?
 	 */
 	public set alignLabels(value: boolean) {
-		this.setPropertyValue("alignLabels", value, true);
+		this.setAlignLabels(value);
 	}
 
 	/**
@@ -874,6 +905,13 @@ export class PercentSeries extends Series {
 	 */
 	public get alignLabels(): boolean {
 		return this.getPropertyValue("alignLabels");
+	}
+
+	/**
+	 * @ignore
+	 */
+	protected setAlignLabels(value: boolean) {
+		this.setPropertyValue("alignLabels", value, true);
 	}
 }
 

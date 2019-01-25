@@ -315,6 +315,7 @@ var MapSeries = /** @class */ (function (_super) {
         var mapObject = event.newValue;
         mapObject.parent = this;
         mapObject.series = this;
+        mapObject.strokeWidth = mapObject.strokeWidth;
     };
     Object.defineProperty(MapSeries.prototype, "geodata", {
         /**

@@ -389,4 +389,8 @@ export declare class ColumnSeries extends XYSeries {
      * @ignore Exclude from docs
      */
     protected fixHorizontalCoordinate(coordinate: number): number;
+    /**
+     * @ignore
+     */
+    disposeData(): void;
 }

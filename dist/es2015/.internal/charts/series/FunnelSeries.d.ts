@@ -381,4 +381,8 @@ export declare class FunnelSeries extends PercentSeries {
      * @return {Animation}            Animation
      */
     hide(duration?: number): Animation;
+    /**
+     * @ignore
+     */
+    protected setAlignLabels(value: boolean): void;
 }

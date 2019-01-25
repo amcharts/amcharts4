@@ -375,6 +375,12 @@ export declare class PercentSeries extends Series {
      */
     validateDataElement(dataItem: this["_dataItem"]): void;
     /**
+     * Validates (processes) data.
+     *
+     * @ignore Exclude from docs
+     */
+    validateData(): void;
+    /**
      * Arranges slice labels according to position settings.
      *
      * @ignore Exclude from docs
@@ -448,4 +454,8 @@ export declare class PercentSeries extends Series {
      * @param {boolean}  value  Align labels?
      */
     alignLabels: boolean;
+    /**
+     * @ignore
+     */
+    protected setAlignLabels(value: boolean): void;
 }

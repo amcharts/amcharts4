@@ -103,6 +103,9 @@ export class LabelBullet extends Bullet {
 		label.horizontalCenter = "middle";
 		label.truncate = true;
 		label.hideOversized = true;
+		
+		label.maxWidth = 500;
+		label.maxHeight = 500;
 
 		label.stroke = color();
 		label.strokeOpacity = 0;

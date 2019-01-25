@@ -286,6 +286,7 @@ export class AxisRenderer extends Container {
 		gridContainer.isMeasured = false;
 		gridContainer.width = percent(100);
 		gridContainer.height = percent(100);
+
 		this.gridContainer = gridContainer;
 		// not good without this
 		gridContainer.events.on("maxsizechanged", () => {
@@ -341,6 +342,7 @@ export class AxisRenderer extends Container {
 		this._axis = axis;
 		this.baseGrid.parent = axis;
 		this.line.parent = axis;
+		this.gridContainer.bind("opacity", axis);
 	}
 
 
@@ -659,8 +661,8 @@ export class AxisRenderer extends Container {
 	protected toggleVisibility(sprite: Sprite, position: number, minPosition: number, maxPosition: number): void {
 		let axis = this.axis;
 
-		let updatedStart = axis.start + (axis.end - axis.start) * minPosition - 0.00001;
-		let updatedEnd = axis.start + (axis.end - axis.start) * maxPosition + 0.00001;
+		let updatedStart = axis.start + (axis.end - axis.start) * (minPosition - 0.00001);
+		let updatedEnd = axis.start + (axis.end - axis.start) * (maxPosition + 0.00001);
 
 		if (!sprite.disabled) {
 			if (position < updatedStart || position > updatedEnd) {

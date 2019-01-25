@@ -497,6 +497,8 @@ export class HeatLegend extends Container {
 			}
 			valueAxis.renderer.inside = true;
 			valueAxis.renderer.labels.template.inside = true;
+
+			this.markerContainer.reverseOrder = true;
 		}
 
 		let renderer = valueAxis.renderer;

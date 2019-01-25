@@ -22,6 +22,7 @@ import { Rectangle } from "../../core/elements/Rectangle";
 import * as $iter from "../../core/utils/Iterator";
 import * as $object from "../../core/utils/Object";
 import * as $type from "../../core/utils/Type";
+import * as $array from "../../core/utils/Array";
 /**
  * ============================================================================
  * DATA ITEM
@@ -190,9 +191,9 @@ var LineSeries = /** @class */ (function (_super) {
         var _this = this;
         _super.prototype.validate.call(this);
         this._segmentsIterator.reset();
-        this.openSegment(this._workingStartIndex);
+        this.openSegment(this._adjustedStartIndex);
         $iter.each(this.axisRanges.iterator(), function (range) {
-            _this.openSegment(_this._workingStartIndex, range);
+            _this.openSegment(_this._adjustedStartIndex, range);
         });
         $iter.each(this._segmentsIterator.iterator(), function (segment) {
             segment.__disabled = true;
@@ -216,6 +217,7 @@ var LineSeries = /** @class */ (function (_super) {
                 break;
             }
         }
+        this._adjustedStartIndex = this.findAdjustedIndex(startIndex, ["stroke", "strokeWidth", "strokeDasharray", "strokeOpacity", "fill", "fillOpacity", "opacity"]);
         // find first to the right
         // TODO use iterator instead
         for (var i = this.endIndex, len = this.dataItems.length; i < len; i++) {
@@ -227,6 +229,28 @@ var LineSeries = /** @class */ (function (_super) {
         }
         this._workingStartIndex = startIndex;
         this._workingEndIndex = endIndex;
+    };
+    /**
+     * @ignore
+     */
+    LineSeries.prototype.findAdjustedIndex = function (adjustedIndex, properties) {
+        var _this = this;
+        var propertyFields = this.propertyFields;
+        var startIndex = adjustedIndex;
+        $array.each(properties, function (property) {
+            if ($type.hasValue(propertyFields[property])) {
+                for (var i = startIndex; i >= 0; i--) {
+                    var dataItem = _this.dataItems.getIndex(i);
+                    if ($type.hasValue(dataItem.properties[property])) {
+                        if (adjustedIndex > i) {
+                            adjustedIndex = i;
+                        }
+                        break;
+                    }
+                }
+            }
+        });
+        return adjustedIndex;
     };
     /**
      * [openSegment description]

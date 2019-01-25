@@ -381,6 +381,9 @@ export class PieChart extends PercentChart {
 
 		this.seriesContainer.definedBBox = { x: chartRadius * rect.x, y: chartRadius * rect.y, width: chartRadius * rect.width, height: chartRadius * rect.height };
 		this.seriesContainer.invalidateLayout();
+
+		this.bulletsContainer.x = this.seriesContainer.x;
+		this.bulletsContainer.y = this.seriesContainer.y;
 	}
 
 	/**

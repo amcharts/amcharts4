@@ -156,7 +156,7 @@ var MapImageSeries = /** @class */ (function (_super) {
      */
     MapImageSeries.prototype.validateData = function () {
         var _this = this;
-        if (this.data.length > 0) {
+        if (this.data.length > 0 && this._parseDataFrom == 0) {
             this.mapImages.clear();
         }
         // process geoJSON and created map objects

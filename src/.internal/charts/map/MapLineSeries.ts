@@ -413,7 +413,7 @@ export class MapLineSeries extends MapSeries {
 	 * @ignore Exclude from docs
 	 */
 	public validateData(): void {
-		if (this.data.length > 0) {
+		if (this.data.length > 0 && this._parseDataFrom == 0) {
 			this.mapLines.clear();
 		}
 
@@ -451,16 +451,16 @@ export class MapLineSeries extends MapSeries {
 									continue;
 								}
 
-								let coordinates: any[] = geometry.coordinates;								
+								let coordinates: any[] = geometry.coordinates;
 								let dataObject: IMapLineDataObject = $array.find(this.data, (value, i) => {
 									return value.id == id;
 								});
 
-								if(type == "LineString"){
+								if (type == "LineString") {
 									coordinates = [coordinates];
 								}
 
-								if (!dataObject) {									
+								if (!dataObject) {
 									dataObject = { multiLine: coordinates, id: id };
 									this.data.push(dataObject);
 								}

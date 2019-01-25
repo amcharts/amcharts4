@@ -247,14 +247,15 @@ export class XYChart3D extends XYChart {
 	 */
 	public validateLayout() {
 		super.validateLayout();
-		this.fixLayout();
-	}
+		this.fixColumns();
+	}	
 
 	/**
 	 * Updates the layout (padding and scrollbar positions) to accommodate for
 	 * 3D depth and angle.
 	 */
 	protected fixLayout(): void {
+
 		this.chartContainer.marginTop = -this.dy3D;
 		this.chartContainer.paddingRight = this.dx3D;
 
@@ -269,6 +270,8 @@ export class XYChart3D extends XYChart {
 		}
 
 		this.fixColumns();
+
+		super.fixLayout();		
 	}
 
 	/**

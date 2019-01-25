@@ -242,6 +242,9 @@ export function intersection(range1, range2) {
  * @return {number}          Distance in relative pixels
  */
 export function getDistance(point1, point2) {
+    if (!point1) {
+        return 0;
+    }
     if (!point2) {
         point2 = { x: 0, y: 0 };
     }

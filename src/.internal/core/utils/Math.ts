@@ -298,6 +298,10 @@ export function intersection(range1: IRange, range2: IRange): $type.Optional<IRa
  * @return {number}          Distance in relative pixels
  */
 export function getDistance(point1: IPoint, point2?: IPoint): number {
+	if (!point1) {
+		return 0;
+	}
+
 	if (!point2) {
 		point2 = { x: 0, y: 0 };
 	}
@@ -674,7 +678,7 @@ export function getArcRect(startAngle: number, endAngle: number, radius?: number
 
 	let bpoints = [];
 
-	if(!$type.isNumber(radius)){
+	if (!$type.isNumber(radius)) {
 		radius = 1;
 	}
 

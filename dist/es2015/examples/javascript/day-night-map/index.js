@@ -62,8 +62,8 @@ santaImage.width = 70;
 santaImage.height = 40;
 santaImage.tooltipText = "Because I can!";
 santaImage.dy = 3;
-santaImage.tooltipY = -35;
-santaImage.tooltipX = -10;
+santaImage.tooltipY = -10;
+santaImage.tooltipX = 20;
 santaImage.href = "santa.png";
 
 // add slider to chart container in order not to occupy space

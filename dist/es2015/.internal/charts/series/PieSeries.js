@@ -10,6 +10,7 @@ import * as tslib_1 from "tslib";
  */
 import { PercentSeries, PercentSeriesDataItem } from "./PercentSeries";
 import { Slice } from "../../core/elements/Slice";
+//import { Slice3D } from "../../core/elements/3D/Slice3D";
 import { AxisLabelCircular } from "../axes/AxisLabelCircular";
 import { PieTick } from "../elements/PieTick";
 import { registry } from "../../core/Registry";
@@ -275,15 +276,15 @@ var PieSeries = /** @class */ (function (_super) {
                 }
                 var distance = slice.radius + tick.length + labelRadius;
                 point = { x: x, y: slice.iy * distance };
+                label.moveTo(point);
             }
             else {
-                label.horizontalCenter = undefined;
-                label.verticalCenter = undefined;
-                var x = slice.ix * slice.radius;
-                var y = slice.iy * slice.radiusY;
-                point = label.fixPoint({ x: x, y: y }, slice.radius, slice.radiusY);
+                var depth = slice["depth"];
+                if (!$type.isNumber(depth)) {
+                    depth = 0;
+                }
+                label.fixPosition(slice.middleAngle, slice.radius, slice.radiusY, 0, -depth);
             }
-            label.moveTo(point);
             this._currentStartAngle += slice.arc;
             // do this at the end, otherwise bullets won't be positioned properly
             _super.prototype.validateDataElement.call(this, dataItem);
@@ -431,9 +432,8 @@ var PieSeries = /** @class */ (function (_super) {
             locationY = 1;
         }
         var angle = slice.startAngle + slice.arc * locationX;
-        var radius = locationY * slice.radius;
-        bullet.x = radius * $math.cos(angle);
-        bullet.y = radius * $math.sin(angle);
+        bullet.x = locationY * slice.radius * $math.cos(angle);
+        bullet.y = locationY * slice.radiusY * $math.sin(angle);
     };
     /**
      * Repositions bullet and labels when slice moves.

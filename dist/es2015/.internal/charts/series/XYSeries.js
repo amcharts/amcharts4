@@ -822,6 +822,10 @@ var XYSeries = /** @class */ (function (_super) {
         var maxY = -Infinity;
         var startIndex = this.startIndex;
         var endIndex = this.endIndex;
+        if (!working) {
+            startIndex = 0;
+            endIndex = this.dataItems.length;
+        }
         for (var i = startIndex; i < endIndex; i++) {
             var dataItem = dataItems.getIndex(i);
             this.getStackValue(dataItem, working);

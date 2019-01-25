@@ -174,6 +174,18 @@ var PieSeries3D = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * Positions series bullet.
+     *
+     * @ignore Exclude from docs
+     * @param {Bullet}  bullet  Bullet
+     */
+    PieSeries3D.prototype.positionBullet = function (bullet) {
+        _super.prototype.positionBullet.call(this, bullet);
+        var dataItem = bullet.dataItem;
+        var slice = dataItem.slice;
+        bullet.y = bullet.pixelY - slice.depth;
+    };
     return PieSeries3D;
 }(PieSeries));
 export { PieSeries3D };

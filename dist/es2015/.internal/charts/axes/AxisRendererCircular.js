@@ -293,10 +293,8 @@ var AxisRendererCircular = /** @class */ (function (_super) {
             location = label.location;
         }
         position = position + (endPosition - position) * location;
-        var point = this.positionToPoint(position);
-        label.fixPoint(point, this.pixelRadius);
+        label.fixPosition(this.positionToAngle(position), this.pixelRadius);
         label.zIndex = 2;
-        this.positionItem(label, point);
         this.toggleVisibility(label, position, this.minLabelPosition, this.maxLabelPosition);
     };
     /**

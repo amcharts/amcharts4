@@ -63,6 +63,13 @@ var SeriesDataItem = /** @class */ (function (_super) {
         _this.applyTheme();
         return _this;
     }
+    /**
+     * Destroys this object and all related data.
+     */
+    SeriesDataItem.prototype.dispose = function () {
+        this.bullets.clear();
+        _super.prototype.dispose.call(this);
+    };
     Object.defineProperty(SeriesDataItem.prototype, "value", {
         /**
          * @return {number} Value
@@ -585,7 +592,12 @@ var Series = /** @class */ (function (_super) {
                     bullet.deepInvalidate();
                 }
                 bullet.parent = _this.bulletsContainer;
-                bullet.visible = true;
+                if (_this.visible) {
+                    bullet.show(0);
+                }
+                else {
+                    bullet.hide(0);
+                }
                 dataItem.bullets.setKey(bulletTemplate.uid, bullet);
                 // pass max w/h so we'd know if we should show/hide somethings
                 bullet.maxWidth = dataItem.itemWidth;

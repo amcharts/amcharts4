@@ -210,6 +210,20 @@ export class Cursor extends Container {
 	protected _stickPoint: IPoint;
 
 	/**
+	 * non-modified down point
+	 * @ignore
+	 * @type {IPoint}
+	 */
+	protected _downPointOrig: IPoint;
+
+	/**
+	 * non-modified up point
+	 * @ignore
+	 * @type {IPoint}
+	 */
+	protected _upPointOrig: IPoint;
+
+	/**
 	 * Constructor
 	 */
 	constructor() {
@@ -334,7 +348,6 @@ export class Cursor extends Container {
 	 */
 	protected triggerMoveReal(point: IPoint): void {
 		if (this.point.x != point.x || this.point.y != point.y) {
-			
 			this.point = point;
 			this.invalidatePosition();
 			// hide cursor if it's out of bounds
@@ -347,7 +360,7 @@ export class Cursor extends Container {
 					this.hide(0);
 				}
 			}
-			
+
 			if (this.visible) {
 				this.getPositions();
 
@@ -403,7 +416,8 @@ export class Cursor extends Container {
 
 		this.updatePoint(this.upPoint);
 		let interaction = getInteraction();
-		if ($math.getDistance(this.upPoint, this.downPoint) > interaction.getHitOption(this.interactions, "hitTolerance")) {
+
+		if ($math.getDistance(this._upPointOrig, this._downPointOrig) > interaction.getHitOption(this.interactions, "hitTolerance")) {
 			switch (this._generalBehavior) {
 				case "zoom":
 					this.dispatchImmediately("zoomended");
@@ -418,14 +432,14 @@ export class Cursor extends Container {
 					interaction.setGlobalStyle(MouseCursorStyle.default);
 					break;
 			}
+			this.downPoint = undefined;
+			this.updateSelection();			
 		}
 		else {
 			this.dispatchImmediately("behaviorcanceled");
 			interaction.setGlobalStyle(MouseCursorStyle.default);
-		}
-
-		this.downPoint = undefined;
-		this.updateSelection();
+			this.downPoint = undefined;
+		}		
 	}
 
 	/**
@@ -452,11 +466,14 @@ export class Cursor extends Container {
 	 * @param {IInteractionEvents["down"]} event Original event
 	 */
 	public handleCursorDown(event: IInteractionEvents["down"]): void {
+
 		if (!this.interactionsEnabled || !getInteraction().isLocalElement(event.pointer, this.paper.svg, this.uid)) {
 			return;
 		}
 		// Get local point
 		let local: IPoint = $utils.documentPointToSprite(event.pointer.point, this);
+
+		this._downPointOrig = { x: local.x, y: local.y };
 
 		// We need to cancel the event to prevent gestures on touch devices
 		if (event.event.cancelable && this.fitsToBounds(local)) {
@@ -489,6 +506,8 @@ export class Cursor extends Container {
 			return;
 		}
 		let local: IPoint = $utils.documentPointToSprite(event.pointer.point, this);
+		this._upPointOrig = { x: local.x, y: local.y };
+
 		this.triggerMove(local);
 		this.triggerUp(local);
 	}

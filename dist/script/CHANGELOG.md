@@ -5,6 +5,37 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.0.23] - 2019-01-25
+
+### Changed
+- `PieChart3D` property `angle` is now limited to 0-90 range.
+
+### Fixed
+
+- `LabelBullet` was not showing text on `RadarChart` without some additional tweaking.
+- Clicking and releasing on plot area without moving cursor sometimes could result in chart zooming in.
+- Bullets for `PieSeries`, `FunnelSeries` were not positioned properly.
+- Labels of `PieSeries3D` were not being positioned properly if `alignLabels = false` and `label.radius < 0`.
+- Axis' grid was not hidden when axis was hidden.
+- It was not possible to disable funnel series ticks if `alignLabels = true`.
+- Adding a `MapLine` on zoomed `MapChart` ignored `nonScalinStroke = true` until zoom.
+- On Gantt chart horizontal axis' labels/grid used to bleed out outside the plot area when zoomed in significantly.
+- Columns of `ColumnSeries` with `strokeOpacity > 0` could leave lines at the beginning/end of the plot area when zoomed-in.
+- Adapters for `fontSize`, `textDecoration` and some other `Label`-related properties were not working properly.
+- Chart legend was not updated if data was set directly on `PercentSeries`.
+- `MapChart` was drawing only 109 MapLines in some cases.
+- `MapLine` tooltip was not being positioned properly.
+- When `invalidateRawData()` was called for a chart with a `DateAxis` while it was zoomed-in, the chart was not keeping current zoom.
+- If data was added to a series while it was hidden, bullets of new data items were not hidden.
+- `columns` of `ColumnSeries` were not being cleared when data was updated.
+- `propertyFields.fill`/`stroke` was not respected when value was outside zoom range.
+- Ticks on a `PieChart3D` were misaligned.
+- `Preloader` of a second and any subsequent chart on the same page was not being centered.
+- `PercentChart` legend markers where black if `legend.useDefaultMarker = true`.
+- `PercentChart` legend markers could blink black initially before obtaining true color.
+- The color scale on a vertical `HeatLegend` with `markersCount > 2` was being drawn reversed.
+
+
 ## [4.0.22] - 2019-01-23
 
 ### Added

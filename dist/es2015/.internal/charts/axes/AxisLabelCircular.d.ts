@@ -8,7 +8,6 @@
  * @hidden
  */
 import { AxisLabel, IAxisLabelProperties, IAxisLabelAdapters, IAxisLabelEvents } from "./AxisLabel";
-import { IPoint } from "../../core/defs/IPoint";
 import { Percent } from "../../core/utils/Percent";
 /**
  * ============================================================================
@@ -124,13 +123,16 @@ export declare class AxisLabelCircular extends AxisLabel {
      */
     pixelRadius(axisRadius: number): number;
     /**
-     * [fixPoint description]
+     * returns label radius in pixels
+     */
+    pixelRadiusY(axisRadius: number, axisRadiusY: number): number;
+    /**
+     * [fixPosition description]
      *
      * @ignore Exclude from docs
      * @todo Description
      * @param  {IPoint}  point       Label affixation point
      * @param  {number}  axisRadius  Distance from point (px)
-     * @return {IPoint}              [description]
      */
-    fixPoint(point: IPoint, axisRadius: number, axisRadiusY?: number): IPoint;
+    fixPosition(angle: number, axisRadius: number, axisRadiusY?: number, dx?: number, dy?: number): void;
 }

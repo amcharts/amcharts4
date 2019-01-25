@@ -13,6 +13,7 @@ import { PieChart, IPieChartProperties, IPieChartDataFields, IPieChartAdapters, 
 import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { PieSeries3D } from "../series/PieSeries3D";
 import { registry } from "../../core/Registry";
+import * as $math from "../../core/utils/Math";
 
 
 /**
@@ -261,12 +262,13 @@ export class PieChart3D extends PieChart {
 	}
 
 	/**
-	 * An angle of a "point of view" in degrees.
+	 * An angle of a "point of view" in degrees. Possible range 0 - 90.
 	 *
 	 * @default 10
 	 * @param {number}  value  Angle (degrees)
 	 */
 	public set angle(value: number) {
+		value = $math.fitToRange(value, 0, 90);
 		if (this.setPropertyValue("angle", value)) {
 			this.invalidateDataUsers();
 		}

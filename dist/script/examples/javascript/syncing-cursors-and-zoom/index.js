@@ -5,6 +5,15 @@ container.width = am4core.percent(100);
 container.height = am4core.percent(100);
 container.layout = "vertical";
 
+container.events.on("up", function(event) {
+  for (var i = 0; i < charts.length; i++) {
+    var chart = charts[i];
+    var cursor = chart.cursor;
+    cursor.selection.hide(0);
+  }
+});
+
+
 var chartCount = 3;
 var charts = [];
 var cursorShowDisposers = [];
@@ -51,14 +60,14 @@ function makeChart() {
   var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
   dateAxis.renderer.grid.template.location = 0;
   dateAxis.renderer.labels.template.disabled = true;
-  dateAxis.tooltip.animationDuration = 0; 
+  dateAxis.tooltip.animationDuration = 0;
   dateAxis.cursorTooltipEnabled = false;
-  
+
   var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
   valueAxis.tooltip.disabled = true;
   valueAxis.tooltip.disabled = true;
   valueAxis.renderer.minWidth = 60;
-  
+
   var series = chart.series.push(new am4charts.LineSeries());
   series.dataFields.dateX = "date";
   series.dataFields.valueY = "value";

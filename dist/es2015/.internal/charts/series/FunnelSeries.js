@@ -190,7 +190,6 @@ var FunnelSeries = /** @class */ (function (_super) {
             slicesContainer.isMeasured = true;
             labelsContainer.isMeasured = true;
             labelsContainer.margin(10, 10, 10, 10);
-            this.ticks.template.disabled = false;
             labelTemplate.horizontalCenter = "left";
             if (this.orientation == "horizontal") {
                 this.layout = "vertical";
@@ -204,7 +203,6 @@ var FunnelSeries = /** @class */ (function (_super) {
             labelTemplate.interactionsEnabled = false;
             slicesContainer.isMeasured = false;
             labelsContainer.isMeasured = true;
-            this.ticks.template.disabled = true;
             labelTemplate.horizontalCenter = "middle";
         }
         var total = 0;
@@ -420,8 +418,8 @@ var FunnelSeries = /** @class */ (function (_super) {
         if (!$type.isNumber(locationY)) {
             locationY = 1;
         }
-        bullet.x = slice.measuredWidth * locationX;
-        bullet.y = slice.measuredHeight * locationY;
+        bullet.x = slice.pixelX + slice.measuredWidth * locationX;
+        bullet.y = slice.pixelY + slice.measuredHeight * locationY;
     };
     Object.defineProperty(FunnelSeries.prototype, "orientation", {
         /**
@@ -597,6 +595,13 @@ var FunnelSeries = /** @class */ (function (_super) {
             animation.delay(delay);
         }
         return animation;
+    };
+    /**
+     * @ignore
+     */
+    FunnelSeries.prototype.setAlignLabels = function (value) {
+        _super.prototype.setAlignLabels.call(this, value);
+        this.ticks.template.disabled = !value;
     };
     return FunnelSeries;
 }(PercentSeries));

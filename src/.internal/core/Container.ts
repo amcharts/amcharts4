@@ -823,9 +823,9 @@ export class Container extends Sprite {
 	 */
 	public handleGlobalScale(): void {
 		super.handleGlobalScale();
-		this.children.each((child) => {
-			child.handleGlobalScale();
-		})
+		//this.children.each((child) => {
+		//	child.handleGlobalScale();
+		//})
 	}
 
 	/**
@@ -839,7 +839,7 @@ export class Container extends Sprite {
 	}
 
 	/**
-	 * @return {Sprite} Background element
+	 * @return {Rectangle} Background element
 	 */
 	public get background(): this["_background"] {
 		if (!this._background) {

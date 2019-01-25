@@ -240,4 +240,16 @@ export declare class MapLine extends MapObject {
      * @return {number} Latitude
      */
     readonly longitude: number;
+    /**
+     * X coordinate for the slice tooltip.
+     *
+     * @return {number} X
+     */
+    protected getTooltipX(): number;
+    /**
+     * Y coordinate for the slice tooltip.
+     *
+     * @return {number} Y
+     */
+    protected getTooltipY(): number;
 }

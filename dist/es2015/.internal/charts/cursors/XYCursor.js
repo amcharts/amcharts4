@@ -14,6 +14,7 @@ import { MutableValueDisposer, MultiDisposer } from "../../core/utils/Disposer";
 import { registry } from "../../core/Registry";
 import { color } from "../../core/utils/Color";
 import { InterfaceColorSet } from "../../core/utils/InterfaceColorSet";
+import { getInteraction } from "../../core/interaction/Interaction";
 import * as $math from "../../core/utils/Math";
 import * as $utils from "../../core/utils/Utils";
 import * as $type from "../../core/utils/Type";
@@ -260,20 +261,24 @@ var XYCursor = /** @class */ (function (_super) {
         }
     };
     XYCursor.prototype.triggerUpReal = function (point) {
-        if (this.downPoint) {
-            this.upPoint = point;
-            this.updatePoint(this.upPoint);
-            this.getRanges();
-            if (this.behavior == "selectX" || this.behavior == "selectY" || this.behavior == "selectXY") {
-                // void
+        if ($math.getDistance(this._upPointOrig, this._downPointOrig) > getInteraction().getHitOption(this.interactions, "hitTolerance")) {
+            if (this.downPoint) {
+                this.upPoint = point;
+                this.updatePoint(this.upPoint);
+                this.getRanges();
+                if (this.behavior == "selectX" || this.behavior == "selectY" || this.behavior == "selectXY") {
+                    // void
+                }
+                else {
+                    this.selection.hide();
+                }
+                _super.prototype.triggerUpReal.call(this, point);
             }
-            else {
-                this.selection.hide();
-            }
-            _super.prototype.triggerUpReal.call(this, point);
+        }
+        else {
+            this.selection.hide(0);
         }
         this.downPoint = undefined;
-        this.updateSelection();
     };
     /**
      * [getRanges description]

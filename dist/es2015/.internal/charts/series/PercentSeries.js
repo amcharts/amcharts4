@@ -433,6 +433,27 @@ var PercentSeries = /** @class */ (function (_super) {
         }
         // do this at the end, otherwise bullets won't be positioned properly
         _super.prototype.validateDataElement.call(this, dataItem);
+        if (slice) {
+            dataItem.bullets.each(function (key, bullet) {
+                if (bullet.fill == undefined) {
+                    bullet.fill = slice.fill;
+                }
+                if (bullet.stroke == undefined) {
+                    bullet.stroke = slice.stroke;
+                }
+            });
+        }
+    };
+    /**
+     * Validates (processes) data.
+     *
+     * @ignore Exclude from docs
+     */
+    PercentSeries.prototype.validateData = function () {
+        _super.prototype.validateData.call(this);
+        if (this.chart) {
+            this.chart.feedLegend();
+        }
     };
     /**
      * Arranges slice labels according to position settings.
@@ -518,11 +539,15 @@ var PercentSeries = /** @class */ (function (_super) {
             child.stroke = slice.stroke;
             child.fillOpacity = slice.fillOpacity;
             child.strokeOpacity = slice.strokeOpacity;
+            if (child.fill == undefined) {
+                child.__disabled = true;
+            }
             var legendDataItem = marker.dataItem;
             legendDataItem.color = slice.fill;
             legendDataItem.colorOrig = slice.fill;
             slice.events.on("propertychanged", function (ev) {
                 if (ev.property == "fill") {
+                    child.__disabled = false;
                     if (!child.isActive) {
                         child.fill = slice.fill;
                     }
@@ -595,11 +620,17 @@ var PercentSeries = /** @class */ (function (_super) {
          * @param {boolean}  value  Align labels?
          */
         set: function (value) {
-            this.setPropertyValue("alignLabels", value, true);
+            this.setAlignLabels(value);
         },
         enumerable: true,
         configurable: true
     });
+    /**
+     * @ignore
+     */
+    PercentSeries.prototype.setAlignLabels = function (value) {
+        this.setPropertyValue("alignLabels", value, true);
+    };
     return PercentSeries;
 }(Series));
 export { PercentSeries };

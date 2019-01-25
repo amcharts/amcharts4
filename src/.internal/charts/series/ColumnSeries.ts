@@ -624,6 +624,13 @@ export class ColumnSeries extends XYSeries {
 
 			// used to save location for bullets, but it's not a good approach
 			// dataItem.locations[xField] = startLocation + (endLocation - startLocation) / 2;
+
+			let axisLenght = this.yAxis.axisLength;
+
+			if ((t < 0 && b < 0) || (t > axisLenght && b > axisLenght)) {
+				outOfBounds = true;
+			}
+
 			t = this.fixVerticalCoordinate(t);
 			b = this.fixVerticalCoordinate(b);
 
@@ -672,6 +679,13 @@ export class ColumnSeries extends XYSeries {
 			l = this.xAxis.getX(dataItem, xOpenField, leftLocation);
 			// used to save location for bullets, but it's not a good approach
 			// dataItem.locations[yField] = startLocation + (endLocation - startLocation) / 2;
+
+			let axisLenght = this.xAxis.axisLength;
+
+			if ((r < 0 && l < 0) || (r > axisLenght && l > axisLenght)) {
+				outOfBounds = true;
+			}
+
 			r = this.fixHorizontalCoordinate(r);
 			l = this.fixHorizontalCoordinate(l);
 
@@ -1109,6 +1123,14 @@ export class ColumnSeries extends XYSeries {
 
 		return $math.fitToRange(coordinate, minX, maxX);
 	}
+
+	/**
+	 * @ignore
+	 */
+	public disposeData() {
+		super.disposeData();
+		this.columns.clear();
+	}	
 }
 
 /**

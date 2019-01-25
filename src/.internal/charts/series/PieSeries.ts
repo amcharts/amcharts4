@@ -11,6 +11,7 @@
 import { IPercentSeriesAdapters, IPercentSeriesDataFields, IPercentSeriesEvents, IPercentSeriesProperties, PercentSeries, PercentSeriesDataItem } from "./PercentSeries";
 import { ISpriteEvents, SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Slice } from "../../core/elements/Slice";
+//import { Slice3D } from "../../core/elements/3D/Slice3D";
 import { AxisLabelCircular } from "../axes/AxisLabelCircular";
 import { PieTick } from "../elements/PieTick";
 import { ListTemplate, ListDisposer } from "../../core/utils/List";
@@ -530,17 +531,16 @@ export class PieSeries extends PercentSeries {
 
 				let distance = slice.radius + tick.length + labelRadius;
 				point = { x: x, y: slice.iy * distance };
+				label.moveTo(point);
 			}
 			else {
-				label.horizontalCenter = undefined;
-				label.verticalCenter = undefined;
-				let x: number = slice.ix * slice.radius;
-				let y: number = slice.iy * slice.radiusY;
-
-				point = label.fixPoint({ x: x, y: y }, slice.radius, slice.radiusY);
+				let depth = (<any>slice)["depth"];
+				if (!$type.isNumber(depth)) {
+					depth = 0;
+				}
+				label.fixPosition(slice.middleAngle, slice.radius, slice.radiusY, 0, -depth);
 			}
 
-			label.moveTo(point);
 			this._currentStartAngle += slice.arc;
 
 			// do this at the end, otherwise bullets won't be positioned properly
@@ -682,10 +682,9 @@ export class PieSeries extends PercentSeries {
 		}
 
 		let angle = slice.startAngle + slice.arc * locationX;
-		let radius = locationY * slice.radius;
 
-		bullet.x = radius * $math.cos(angle);
-		bullet.y = radius * $math.sin(angle);
+		bullet.x = locationY * slice.radius * $math.cos(angle);
+		bullet.y = locationY * slice.radiusY * $math.sin(angle);
 	}
 
 

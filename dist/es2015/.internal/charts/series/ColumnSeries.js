@@ -411,6 +411,10 @@ var ColumnSeries = /** @class */ (function (_super) {
             t = this.yAxis.getY(dataItem, yField, topLocation);
             // used to save location for bullets, but it's not a good approach
             // dataItem.locations[xField] = startLocation + (endLocation - startLocation) / 2;
+            var axisLenght = this.yAxis.axisLength;
+            if ((t < 0 && b < 0) || (t > axisLenght && b > axisLenght)) {
+                outOfBounds = true;
+            }
             t = this.fixVerticalCoordinate(t);
             b = this.fixVerticalCoordinate(b);
             if (Math.abs(r - l) - paddingLeft - paddingRight == 0) {
@@ -452,6 +456,10 @@ var ColumnSeries = /** @class */ (function (_super) {
             l = this.xAxis.getX(dataItem, xOpenField, leftLocation);
             // used to save location for bullets, but it's not a good approach
             // dataItem.locations[yField] = startLocation + (endLocation - startLocation) / 2;
+            var axisLenght = this.xAxis.axisLength;
+            if ((r < 0 && l < 0) || (r > axisLenght && l > axisLenght)) {
+                outOfBounds = true;
+            }
             r = this.fixHorizontalCoordinate(r);
             l = this.fixHorizontalCoordinate(l);
             if (Math.abs(t - b) - paddingTop - paddingBottom == 0) {
@@ -850,6 +858,13 @@ var ColumnSeries = /** @class */ (function (_super) {
         var minX = -paddingLeft;
         var maxX = this.xAxis.axisLength + paddingRight;
         return $math.fitToRange(coordinate, minX, maxX);
+    };
+    /**
+     * @ignore
+     */
+    ColumnSeries.prototype.disposeData = function () {
+        _super.prototype.disposeData.call(this);
+        this.columns.clear();
     };
     return ColumnSeries;
 }(XYSeries));

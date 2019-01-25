@@ -213,7 +213,7 @@ export declare class PieChart3D extends PieChart {
      * @return {number} Angle (degrees)
      */
     /**
-     * An angle of a "point of view" in degrees.
+     * An angle of a "point of view" in degrees. Possible range 0 - 90.
      *
      * @default 10
      * @param {number}  value  Angle (degrees)

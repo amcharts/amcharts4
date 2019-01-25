@@ -525,6 +525,7 @@ export class MapSeries extends Series {
 		let mapObject: MapObject = event.newValue;
 		mapObject.parent = this;
 		mapObject.series = this;
+		mapObject.strokeWidth = mapObject.strokeWidth;		
 	}
 
 	/**

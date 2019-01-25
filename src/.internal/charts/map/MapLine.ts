@@ -463,6 +463,23 @@ export class MapLine extends MapObject {
 		return dataItem.east + (dataItem.west - dataItem.east) / 2;
 	}
 
+	/**
+	 * X coordinate for the slice tooltip.
+	 *
+	 * @return {number} X
+	 */
+	protected getTooltipX(): number {
+		return this.line.positionToPoint(0.5).x;
+	}
+
+	/**
+	 * Y coordinate for the slice tooltip.
+	 *
+	 * @return {number} Y
+	 */
+	protected getTooltipY(): number {
+		return this.line.positionToPoint(0.5).y;
+	}
 }
 
 /**

@@ -253,7 +253,7 @@ var MapLineSeries = /** @class */ (function (_super) {
      */
     MapLineSeries.prototype.validateData = function () {
         var _this = this;
-        if (this.data.length > 0) {
+        if (this.data.length > 0 && this._parseDataFrom == 0) {
             this.mapLines.clear();
         }
         // process geoJSON and created map objects

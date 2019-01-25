@@ -123,6 +123,14 @@ export class SeriesDataItem extends DataItem {
 	}
 
 	/**
+	 * Destroys this object and all related data.
+	 */
+	public dispose() {
+		this.bullets.clear();
+		super.dispose();		
+	}	
+
+	/**
 	 * data items's numeric value.
 	 *
 	 * @param {number}  value  Value
@@ -942,7 +950,13 @@ export class Series extends Component {
 				}
 
 				bullet.parent = this.bulletsContainer;
-				bullet.visible = true;
+				if (this.visible) {
+					bullet.show(0);
+				}
+				else {
+					bullet.hide(0);
+				}
+
 				dataItem.bullets.setKey(bulletTemplate.uid, bullet);
 
 				// pass max w/h so we'd know if we should show/hide somethings

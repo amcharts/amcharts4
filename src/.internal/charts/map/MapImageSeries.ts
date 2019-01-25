@@ -297,7 +297,7 @@ export class MapImageSeries extends MapSeries {
 	 * @ignore Exclude from docs
 	 */
 	public validateData(): void {
-		if (this.data.length > 0) {
+		if (this.data.length > 0 && this._parseDataFrom == 0) {
 			this.mapImages.clear();
 		}
 
@@ -340,7 +340,7 @@ export class MapImageSeries extends MapSeries {
 								// make the same as MultiPoint
 								if (type == "Point") {
 									coordinates = [coordinates];
-								}								
+								}
 
 								let dataObject: IMapImageDataObject = $array.find(this.data, (value, i) => {
 									return value.id == id;
@@ -372,8 +372,8 @@ export class MapImageSeries extends MapSeries {
 		$iter.each(this.dataItems.iterator(), (dataItem) => {
 			let mapImage = dataItem.mapImage;
 			this.mapImages.moveValue(mapImage);
-			if($type.isNumber(mapImage.latitude) && $type.isNumber(mapImage.latitude)){
-				dataItem.geoPoint = {latitude:mapImage.latitude, longitude:mapImage.longitude}
+			if ($type.isNumber(mapImage.latitude) && $type.isNumber(mapImage.latitude)) {
+				dataItem.geoPoint = { latitude: mapImage.latitude, longitude: mapImage.longitude }
 			}
 		});
 	}

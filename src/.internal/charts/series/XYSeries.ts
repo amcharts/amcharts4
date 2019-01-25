@@ -1269,6 +1269,11 @@ export class XYSeries extends Series {
 		let startIndex = this.startIndex;
 		let endIndex = this.endIndex;
 
+		if(!working){
+			startIndex = 0;
+			endIndex = this.dataItems.length;
+		}
+
 		for (let i = startIndex; i < endIndex; i++) {
 			let dataItem = dataItems.getIndex(i);
 

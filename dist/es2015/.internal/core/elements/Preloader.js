@@ -118,6 +118,7 @@ var Preloader = /** @class */ (function (_super) {
         set: function (value) {
             var _this = this;
             this.__disabled = false;
+            this.validateLayout(); // show not in center without this
             this.setPropertyValue("progress", value);
             /*if (!this.visible && value == 1) {
                 return;

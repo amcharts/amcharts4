@@ -340,6 +340,22 @@ var MapLine = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    /**
+     * X coordinate for the slice tooltip.
+     *
+     * @return {number} X
+     */
+    MapLine.prototype.getTooltipX = function () {
+        return this.line.positionToPoint(0.5).x;
+    };
+    /**
+     * Y coordinate for the slice tooltip.
+     *
+     * @return {number} Y
+     */
+    MapLine.prototype.getTooltipY = function () {
+        return this.line.positionToPoint(0.5).y;
+    };
     return MapLine;
 }(MapObject));
 export { MapLine };

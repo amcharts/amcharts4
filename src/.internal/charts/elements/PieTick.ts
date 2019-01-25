@@ -119,7 +119,7 @@ export class PieTick extends Tick {
 
 		if (slice && slice.radius > 0 && label && label.text) {
 			let x0 = slice.dx + slice.slice.dx + slice.pixelX + slice.ix * slice.radius * slice.scale;
-			let y0 = slice.dy + slice.slice.dy + slice.pixelY + slice.iy * slice.radius * slice.scale;
+			let y0 = slice.dy + slice.slice.dy + slice.pixelY + slice.iy * slice.radiusY * slice.scale;
 
 			let x1: number;
 			let y1: number;

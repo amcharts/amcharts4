@@ -337,6 +337,7 @@ var HeatLegend = /** @class */ (function (_super) {
                 }
                 valueAxis.renderer.inside = true;
                 valueAxis.renderer.labels.template.inside = true;
+                this.markerContainer.reverseOrder = true;
             }
             var renderer = valueAxis.renderer;
             renderer.grid.template.disabled = true;

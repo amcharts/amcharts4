@@ -164,7 +164,7 @@ var XYChart3D = /** @class */ (function (_super) {
      */
     XYChart3D.prototype.validateLayout = function () {
         _super.prototype.validateLayout.call(this);
-        this.fixLayout();
+        this.fixColumns();
     };
     /**
      * Updates the layout (padding and scrollbar positions) to accommodate for
@@ -182,6 +182,7 @@ var XYChart3D = /** @class */ (function (_super) {
             this.scrollbarY.dx = this.dx3D;
         }
         this.fixColumns();
+        _super.prototype.fixLayout.call(this);
     };
     /**
      * Updates column positions, offset and dimensions based on chart's angle

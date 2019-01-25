@@ -106,9 +106,7 @@ var ChordNode = /** @class */ (function (_super) {
             }
             var x = slice.radius * $math.cos(labelAngle);
             var y = slice.radius * $math.sin(labelAngle);
-            var point = { x: x, y: y };
-            label.fixPoint(point, slice.radius);
-            label.moveTo(point);
+            var point = label.fixPosition(labelAngle, slice.radius);
             this.nextAngle = startAngle;
             if (this._outgoingSorted) {
                 $iter.each(this._outgoingSorted, function (dataItem) {

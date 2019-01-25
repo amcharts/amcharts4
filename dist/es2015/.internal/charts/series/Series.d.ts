@@ -84,6 +84,10 @@ export declare class SeriesDataItem extends DataItem {
      */
     constructor();
     /**
+     * Destroys this object and all related data.
+     */
+    dispose(): void;
+    /**
      * @return {number} Value
      */
     /**

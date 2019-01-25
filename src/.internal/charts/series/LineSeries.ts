@@ -27,6 +27,7 @@ import * as $iter from "../../core/utils/Iterator";
 import * as $object from "../../core/utils/Object";
 import * as $type from "../../core/utils/Type";
 import * as $utils from "../../core/utils/Utils";
+import * as $array from "../../core/utils/Array";
 import { Bullet } from "../elements/Bullet";
 import { LegendDataItem } from "../Legend";
 
@@ -231,6 +232,8 @@ export class LineSeries extends XYSeries {
 	 */
 	protected _segmentsIterator: $iter.ListIterator<this["_segment"]>;
 
+	protected _adjustedStartIndex:number;
+
 	/**
 	 * Constructor
 	 */
@@ -377,10 +380,10 @@ export class LineSeries extends XYSeries {
 
 		this._segmentsIterator.reset();
 
-		this.openSegment(this._workingStartIndex);
+		this.openSegment(this._adjustedStartIndex);
 
 		$iter.each(this.axisRanges.iterator(), (range) => {
-			this.openSegment(this._workingStartIndex, range);
+			this.openSegment(this._adjustedStartIndex, range);
 		});
 
 		$iter.each(this._segmentsIterator.iterator(), (segment) => {
@@ -407,6 +410,8 @@ export class LineSeries extends XYSeries {
 				break;
 			}
 		}
+		this._adjustedStartIndex = this.findAdjustedIndex(startIndex, ["stroke", "strokeWidth", "strokeDasharray", "strokeOpacity", "fill", "fillOpacity", "opacity"]);
+
 		// find first to the right
 		// TODO use iterator instead
 		for (let i = this.endIndex, len = this.dataItems.length; i < len; i++) {
@@ -419,6 +424,28 @@ export class LineSeries extends XYSeries {
 
 		this._workingStartIndex = startIndex;
 		this._workingEndIndex = endIndex;
+	}
+
+	/**
+	 * @ignore
+	 */
+	protected findAdjustedIndex(adjustedIndex: number, properties: string[]): number {
+		let propertyFields:any = this.propertyFields;
+		let startIndex = adjustedIndex;
+		$array.each(properties, (property) => {
+			if ($type.hasValue(propertyFields[property])) {
+				for (let i = startIndex; i >= 0; i--) {
+					let dataItem = this.dataItems.getIndex(i);
+					if ($type.hasValue(dataItem.properties[property])) {
+						if (adjustedIndex > i) {
+							adjustedIndex = i;
+						}
+						break;
+					}
+				}
+			}
+		})
+		return adjustedIndex;
 	}
 
 	/**
@@ -643,7 +670,7 @@ export class LineSeries extends XYSeries {
 	 * @param {boolean}  value  Connect?
 	 */
 	public set connect(value: boolean) {
-		if(this.setPropertyValue("connect", value)){
+		if (this.setPropertyValue("connect", value)) {
 			this.invalidate();
 		}
 	}
@@ -720,15 +747,15 @@ export class LineSeries extends XYSeries {
 	}
 
 
-	 /*
-	public positionBullet(bullet: Bullet): void {
-		super.positionBullet(bullet);
+	/*
+   public positionBullet(bullet: Bullet): void {
+	   super.positionBullet(bullet);
 
-		let dataItem: this["_dataItem"] = <this["_dataItem"]>bullet.dataItem;
-		if (dataItem.segment) {
-			$object.softCopyProperties(dataItem.segment, bullet, visualProperties);
-		}
-	}*/
+	   let dataItem: this["_dataItem"] = <this["_dataItem"]>bullet.dataItem;
+	   if (dataItem.segment) {
+		   $object.softCopyProperties(dataItem.segment, bullet, visualProperties);
+	   }
+   }*/
 
 	/**
 	 * Creates elements in related legend container, that mimics the look of this

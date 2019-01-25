@@ -182,6 +182,7 @@ export declare class LineSeries extends XYSeries {
      * @type {ListIterator<LineSeriesSegment>}
      */
     protected _segmentsIterator: $iter.ListIterator<this["_segment"]>;
+    protected _adjustedStartIndex: number;
     /**
      * Constructor
      */
@@ -228,6 +229,10 @@ export declare class LineSeries extends XYSeries {
      * @todo Description
      */
     protected sliceData(): void;
+    /**
+     * @ignore
+     */
+    protected findAdjustedIndex(adjustedIndex: number, properties: string[]): number;
     /**
      * [openSegment description]
      *

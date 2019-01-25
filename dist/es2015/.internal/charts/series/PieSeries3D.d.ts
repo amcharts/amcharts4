@@ -7,6 +7,7 @@
 import { PieSeries, PieSeriesDataItem, IPieSeriesDataFields, IPieSeriesProperties, IPieSeriesAdapters, IPieSeriesEvents } from "../series/PieSeries";
 import { PieChart3D } from "../types/PieChart3D";
 import { Slice3D } from "../../core/elements/3d/Slice3D";
+import { Bullet } from "../elements/Bullet";
 /**
  * ============================================================================
  * DATA ITEM
@@ -194,4 +195,11 @@ export declare class PieSeries3D extends PieSeries {
      * @param {number}  value  Angle
      */
     angle: number;
+    /**
+     * Positions series bullet.
+     *
+     * @ignore Exclude from docs
+     * @param {Bullet}  bullet  Bullet
+     */
+    positionBullet(bullet: Bullet): void;
 }

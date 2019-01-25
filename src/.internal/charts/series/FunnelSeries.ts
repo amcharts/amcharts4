@@ -396,7 +396,6 @@ export class FunnelSeries extends PercentSeries {
 			slicesContainer.isMeasured = true;
 			labelsContainer.isMeasured = true;
 			labelsContainer.margin(10, 10, 10, 10);
-			this.ticks.template.disabled = false;
 			labelTemplate.horizontalCenter = "left";
 
 			if (this.orientation == "horizontal") {
@@ -411,7 +410,6 @@ export class FunnelSeries extends PercentSeries {
 			labelTemplate.interactionsEnabled = false;
 			slicesContainer.isMeasured = false;
 			labelsContainer.isMeasured = true;
-			this.ticks.template.disabled = true;
 			labelTemplate.horizontalCenter = "middle";
 		}
 
@@ -674,8 +672,8 @@ export class FunnelSeries extends PercentSeries {
 			locationY = 1;
 		}
 
-		bullet.x = slice.measuredWidth * locationX;
-		bullet.y = slice.measuredHeight * locationY;
+		bullet.x = slice.pixelX + slice.measuredWidth * locationX;
+		bullet.y = slice.pixelY + slice.measuredHeight * locationY;
 	}
 
 	/**
@@ -860,6 +858,15 @@ export class FunnelSeries extends PercentSeries {
 
 		return animation;
 	}
+
+
+	/**
+	 * @ignore
+	 */
+	protected setAlignLabels(value:boolean){
+		super.setAlignLabels(value);
+		this.ticks.template.disabled = !value;		
+	}	
 }
 
 /**

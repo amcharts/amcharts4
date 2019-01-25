@@ -11,6 +11,7 @@ import * as tslib_1 from "tslib";
 import { PieChart, PieChartDataItem } from "./PieChart";
 import { PieSeries3D } from "../series/PieSeries3D";
 import { registry } from "../../core/Registry";
+import * as $math from "../../core/utils/Math";
 /**
  * ============================================================================
  * DATA ITEM
@@ -173,12 +174,13 @@ var PieChart3D = /** @class */ (function (_super) {
             return this.getPropertyValue("angle");
         },
         /**
-         * An angle of a "point of view" in degrees.
+         * An angle of a "point of view" in degrees. Possible range 0 - 90.
          *
          * @default 10
          * @param {number}  value  Angle (degrees)
          */
         set: function (value) {
+            value = $math.fitToRange(value, 0, 90);
             if (this.setPropertyValue("angle", value)) {
                 this.invalidateDataUsers();
             }

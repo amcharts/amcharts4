@@ -210,7 +210,7 @@ var Cursor = /** @class */ (function (_super) {
     Cursor.prototype.triggerUpReal = function (point) {
         this.updatePoint(this.upPoint);
         var interaction = getInteraction();
-        if ($math.getDistance(this.upPoint, this.downPoint) > interaction.getHitOption(this.interactions, "hitTolerance")) {
+        if ($math.getDistance(this._upPointOrig, this._downPointOrig) > interaction.getHitOption(this.interactions, "hitTolerance")) {
             switch (this._generalBehavior) {
                 case "zoom":
                     this.dispatchImmediately("zoomended");
@@ -223,13 +223,14 @@ var Cursor = /** @class */ (function (_super) {
                     interaction.setGlobalStyle(MouseCursorStyle.default);
                     break;
             }
+            this.downPoint = undefined;
+            this.updateSelection();
         }
         else {
             this.dispatchImmediately("behaviorcanceled");
             interaction.setGlobalStyle(MouseCursorStyle.default);
+            this.downPoint = undefined;
         }
-        this.downPoint = undefined;
-        this.updateSelection();
     };
     /**
      * Updates selection dimensions on size change.
@@ -258,6 +259,7 @@ var Cursor = /** @class */ (function (_super) {
         }
         // Get local point
         var local = $utils.documentPointToSprite(event.pointer.point, this);
+        this._downPointOrig = { x: local.x, y: local.y };
         // We need to cancel the event to prevent gestures on touch devices
         if (event.event.cancelable && this.fitsToBounds(local)) {
             event.event.preventDefault();
@@ -286,6 +288,7 @@ var Cursor = /** @class */ (function (_super) {
             return;
         }
         var local = $utils.documentPointToSprite(event.pointer.point, this);
+        this._upPointOrig = { x: local.x, y: local.y };
         this.triggerMove(local);
         this.triggerUp(local);
     };
