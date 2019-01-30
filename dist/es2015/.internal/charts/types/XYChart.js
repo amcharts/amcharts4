@@ -25,6 +25,7 @@ import * as $math from "../../core/utils/Math";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import * as $utils from "../../core/utils/Utils";
+import * as $array from "../../core/utils/Array";
 /**
  * ============================================================================
  * DATA ITEM
@@ -790,8 +791,6 @@ var XYChart = /** @class */ (function (_super) {
             });
             return;
         }
-        var topLeft = $utils.spritePointToSvg({ x: -0.5, y: -0.5 }, this.plotContainer);
-        var bottomRight = $utils.spritePointToSvg({ x: this.plotContainer.pixelWidth + 0.5, y: this.plotContainer.pixelHeight + 0.5 }, this.plotContainer);
         var seriesPoints = [];
         var sum = 0;
         this.series.each(function (series) {
@@ -799,13 +798,28 @@ var XYChart = /** @class */ (function (_super) {
             var point = series.showTooltipAtPosition(position.x, position.y);
             if (point) {
                 series.tooltip.setBounds({ x: 0, y: 0, width: _this.pixelWidth, height: _this.pixelHeight });
-            }
-            if (point && $math.isInRectangle(point, { x: topLeft.x, y: topLeft.y, width: bottomRight.x - topLeft.x, height: bottomRight.y - topLeft.y })) {
-                seriesPoints.push({ point: point, series: series });
-                sum += point.y;
+                seriesPoints.push({ series: series, point: point });
             }
             //}
         });
+        this.sortSeriesTooltips(seriesPoints);
+    };
+    /**
+     * @ignore
+     */
+    XYChart.prototype.sortSeriesTooltips = function (seriesPoints) {
+        var topLeft = $utils.spritePointToSvg({ x: -0.5, y: -0.5 }, this.plotContainer);
+        var bottomRight = $utils.spritePointToSvg({ x: this.plotContainer.pixelWidth + 0.5, y: this.plotContainer.pixelHeight + 0.5 }, this.plotContainer);
+        var sum = 0;
+        var filteredSeriesPoints = [];
+        $array.each(seriesPoints, function (seriesPoint) {
+            var point = seriesPoint.point;
+            if (point && $math.isInRectangle(point, { x: topLeft.x, y: topLeft.y, width: bottomRight.x - topLeft.x, height: bottomRight.y - topLeft.y })) {
+                filteredSeriesPoints.push({ point: point, series: seriesPoint.series });
+                sum += point.y;
+            }
+        });
+        seriesPoints = filteredSeriesPoints;
         seriesPoints.sort(function (a, b) {
             if (a.point.y > b.point.y) {
                 return 1;

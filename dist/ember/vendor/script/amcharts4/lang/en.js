@@ -17,5 +17,5 @@
  * PLEASE DO NOT REMOVE THIS COPYRIGHT NOTICE.
  * @hidden
  */
-webpackJsonp(["39d1"],{ni0V:function(e,n,a){"use strict";Object.defineProperty(n,"__esModule",{value:!0});var i=a("JNIx");window.am4lang_en=i.a}},["ni0V"]);
+am4internal_webpackJsonp(["39d1"],{ni0V:function(e,n,a){"use strict";Object.defineProperty(n,"__esModule",{value:!0});var i=a("JNIx");window.am4lang_en=i.a}},["ni0V"]);
 //# sourceMappingURL=en.js.map

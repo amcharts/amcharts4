@@ -441,9 +441,9 @@ var DataItem = /** @class */ (function (_super) {
      * @return {number}            Duration (ms)
      */
     DataItem.prototype.getDuration = function (duration) {
-        var component = this.component;
-        if (component) {
-            if (!$type.isNumber(duration)) {
+        if (!$type.isNumber(duration)) {
+            var component = this.component;
+            if (component) {
                 duration = component.interpolationDuration;
             }
         }

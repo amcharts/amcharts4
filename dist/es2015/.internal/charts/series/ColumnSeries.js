@@ -141,14 +141,6 @@ var ColumnSeries = /** @class */ (function (_super) {
          * @type {number}
          */
         _this._endLocation = 1;
-        /**
-         * When working value of dataItem changes, we must process all the values to calculate sum, min, max etc. Also update stack values. This is quite expensive operation.
-         * Unfortunately we do not know if user needs this processed values or not. By setting simplifiedProcessing = true you disable this processing and in case working
-         * value changes, we only redraw the particular column. Do not do this if you have staked chart or use calculated values in bullets or in tooltips.
-         *
-         * @type {boolean}
-         */
-        _this.simplifiedProcessing = false;
         _this.className = "ColumnSeries";
         _this.width = percent(100);
         _this.height = percent(100);

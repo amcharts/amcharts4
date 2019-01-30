@@ -12,7 +12,7 @@ import * as $type from "../utils/Type";
  *
  * @ignore Exclude from docs
  */
-export let timeUnitDurations: {[Key in TimeUnit]: number } = {
+export let timeUnitDurations: { [Key in TimeUnit]: number } = {
 	millisecond: 1,
 	second: 1000,
 	minute: 60000,
@@ -184,46 +184,45 @@ export function checkChange(dateOne: Date, dateTwo: Date, unit: TimeUnit): boole
  * @return {Date}             Modified date
  */
 export function add(date: Date, unit: TimeUnit, count: number): Date {
-	let year: number = date.getFullYear();
-	let month: number = date.getMonth();
-	let day: number = date.getDate();
-	let hours: number = date.getHours();
-	let minutes: number = date.getMinutes();
-	let seconds: number = date.getSeconds();
-	let milliseconds: number = date.getMilliseconds();
-	//let weekDay: number = date.getDay();
-
 	switch (unit) {
-		case "year":
-			date.setFullYear(year + count);
-			break;
-
-		case "month":
-			date.setMonth(month + count);
-			break;
-
-		case "week":
-			date.setDate(day + count * 7);
-			break;
-
 		case "day":
+			let day: number = date.getDate();
 			date.setDate(day + count);
 			break;
 
-		case "hour":
-			date.setHours(hours + count);
-			break;
-
-		case "minute":
-			date.setMinutes(minutes + count);
-			break;
-
 		case "second":
+			let seconds: number = date.getSeconds();
 			date.setSeconds(seconds + count);
 			break;
 
 		case "millisecond":
+			let milliseconds: number = date.getMilliseconds();
 			date.setMilliseconds(milliseconds + count);
+			break;
+
+		case "hour":
+			let hours: number = date.getHours();
+			date.setHours(hours + count);
+			break;
+
+		case "minute":
+			let minutes: number = date.getMinutes();
+			date.setMinutes(minutes + count);
+			break;
+
+		case "year":
+			let year: number = date.getFullYear();
+			date.setFullYear(year + count);
+			break;
+
+		case "month":
+			let month: number = date.getMonth();
+			date.setMonth(month + count);
+			break;
+
+		case "week":
+			let wday: number = date.getDate();
+			date.setDate(wday + count * 7);
 			break;
 	}
 
@@ -240,93 +239,111 @@ export function add(date: Date, unit: TimeUnit, count: number): Date {
  * @param  {number}    firstDateOfWeek  First day of week
  * @return {Date}                       New date
  */
-export function round(date: Date, unit: TimeUnit, count?: number, firstDateOfWeek?: number): Date {
+export function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek?: number): Date {
 
 	if (!$type.isNumber(count)) {
 		count = 1;
 	}
-
-	if (!$type.isNumber(firstDateOfWeek)) {
-		firstDateOfWeek = 1;
-	}
-
-	let year: number = date.getFullYear();
-	let month: number = date.getMonth();
-	let day: number = date.getDate();
-	let hours: number = date.getHours();
-	let minutes: number = date.getMinutes();
-	let seconds: number = date.getSeconds();
-	let milliseconds: number = date.getMilliseconds();
-	let weekDay: number = date.getDay();
-
+	
 	switch (unit) {
-		case "year":
-			year = Math.floor(year / count) * count;
-			month = 0;
-			day = 1;
-			hours = 0;
-			minutes = 0;
-			seconds = 0;
-			milliseconds = 0;
-			break;
-
-		case "month":
-			month = Math.floor(month / count) * count;
-			day = 1;
-			hours = 0;
-			minutes = 0;
-			seconds = 0;
-			milliseconds = 0;
-			break;
-
-		case "week":
-			// todo: rounding when count is not 1
-			if (weekDay >= firstDateOfWeek) {
-				day = day - weekDay + firstDateOfWeek;
-			} else {
-				day = day - (7 + weekDay) + firstDateOfWeek;
-			}
-
-			hours = 0;
-			minutes = 0;
-			seconds = 0;
-			milliseconds = 0;
-			break;
 
 		case "day":
-			day = Math.floor(day / count) * count;
+			let day = date.getDate();			
+			if (count > 1) {
+				day = Math.floor(day / count) * count;
+			}
 			day = day;
-			hours = 0;
-			minutes = 0;
-			seconds = 0;
-			milliseconds = 0;
-			break;
 
-		case "hour":
-			hours = Math.floor(hours / count) * count;
-			minutes = 0;
-			seconds = 0;
-			milliseconds = 0;
-			break;
+			date.setDate(day);
+			date.setHours(0, 0, 0, 0);
 
-		case "minute":
-			minutes = Math.floor(minutes / count) * count;
-			seconds = 0;
-			milliseconds = 0;
 			break;
 
 		case "second":
-			seconds = Math.floor(seconds / count) * count;
-			milliseconds = 0;
+			let seconds = date.getSeconds();
+			if (count > 1) {
+				seconds = Math.floor(seconds / count) * count;
+			}
+			date.setSeconds(seconds, 0);
 			break;
 
 		case "millisecond":
+			if (count == 1) {
+				return date; // much better for perf!
+			}
+
+			let milliseconds = date.getMilliseconds();
 			milliseconds = Math.floor(milliseconds / count) * count;
+			date.setMilliseconds(milliseconds);
+			break;
+
+		case "hour":
+
+			let hours = date.getHours();
+			if (count > 1) {
+				hours = Math.floor(hours / count) * count;
+			}
+			date.setHours(hours, 0, 0, 0);
+
+			break;
+
+		case "minute":
+
+			let minutes = date.getMinutes();
+			milliseconds = date.getMilliseconds();
+			if (count > 1) {
+				minutes = Math.floor(minutes / count) * count;
+			}
+
+			date.setMinutes(minutes, 0, 0);
+
+			break;
+
+		case "month":
+
+			let month = date.getMonth();
+			if (count > 1) {
+				month = Math.floor(month / count) * count;
+			}
+
+			date.setMonth(month, 1);
+			date.setHours(0, 0, 0, 0);
+
+			break;
+
+		case "year":
+
+			let year = date.getFullYear();
+			if (count > 1) {
+				year = Math.floor(year / count) * count;
+			}
+			date.setFullYear(year, 0, 1);
+			date.setHours(0, 0, 0, 0);
+
+			break;
+
+
+		case "week":
+
+			let wday = date.getDate();
+			let weekDay = date.getDay();
+
+			if (!$type.isNumber(firstDateOfWeek)) {
+				firstDateOfWeek = 1;
+			}
+
+			// todo: rounding when count is not 1
+			if (weekDay >= firstDateOfWeek) {
+				wday = wday - weekDay + firstDateOfWeek;
+			} else {
+				wday = wday - (7 + weekDay) + firstDateOfWeek;
+			}
+
+			date.setDate(wday);
+			date.setHours(0, 0, 0, 0);
+
 			break;
 	}
-
-	date.setFullYear(year, month, day);
-	date.setHours(hours, minutes, seconds, milliseconds);
 
 	return date;
 }

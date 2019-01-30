@@ -1465,19 +1465,22 @@ var ValueAxis = /** @class */ (function (_super) {
     ValueAxis.prototype.fixAxisBreaks = function () {
         var _this = this;
         _super.prototype.fixAxisBreaks.call(this);
-        // process breaks
-        $iter.each(this.axisBreaks.iterator(), function (axisBreak) {
-            var startValue = axisBreak.adjustedStartValue;
-            var endValue = axisBreak.adjustedEndValue;
-            // break difference
-            var axisBreakDif = endValue - startValue;
-            var axisBreakGridCount = Math.ceil(axisBreakDif * axisBreak.breakSize) * _this._gridCount / (_this.max - _this.min);
-            // calculate min, max and step for axis break
-            var breakMinMaxStep = _this.adjustMinMax(startValue, endValue, axisBreakDif, axisBreakGridCount, true);
-            axisBreak.adjustedStep = breakMinMaxStep.step;
-            axisBreak.adjustedMin = breakMinMaxStep.min;
-            axisBreak.adjustedMax = breakMinMaxStep.max;
-        });
+        var axisBreaks = this.axisBreaks;
+        if (axisBreaks.length > 0) {
+            // process breaks
+            axisBreaks.each(function (axisBreak) {
+                var startValue = axisBreak.adjustedStartValue;
+                var endValue = axisBreak.adjustedEndValue;
+                // break difference
+                var axisBreakDif = endValue - startValue;
+                var axisBreakGridCount = Math.ceil(axisBreakDif * axisBreak.breakSize) * _this._gridCount / (_this.max - _this.min);
+                // calculate min, max and step for axis break
+                var breakMinMaxStep = _this.adjustMinMax(startValue, endValue, axisBreakDif, axisBreakGridCount, true);
+                axisBreak.adjustedStep = breakMinMaxStep.step;
+                axisBreak.adjustedMin = breakMinMaxStep.min;
+                axisBreak.adjustedMax = breakMinMaxStep.max;
+            });
+        }
         this._difference = this.adjustDifference(this.min, this.max);
     };
     /**

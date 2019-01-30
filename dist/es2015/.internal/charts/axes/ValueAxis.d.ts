@@ -12,7 +12,7 @@ import { AxisRenderer } from "./AxisRenderer";
 import { List } from "../../core/utils/List";
 import { IPoint, IOrientationPoint } from "../../core/defs/IPoint";
 import { IDisposer } from "../../core/utils/Disposer";
-import { SerialChart } from "../types/SerialChart";
+import { XYChart } from "../types/XYChart";
 import { XYSeries, XYSeriesDataItem } from "../series/XYSeries";
 import { ValueAxisBreak } from "./ValueAxisBreak";
 import { Animation } from "../../core/utils/Animation";
@@ -183,9 +183,9 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
     /**
      * A reference to chart the axis is for.
      *
-     * @type {SerialChart}
+     * @type {XYChart}
      */
-    chart: SerialChart;
+    chart: XYChart;
     /**
      * A list of Series that are using this Axis.
      *

@@ -66,7 +66,7 @@ series.sequencedInterpolationDelay = 100;
 series.columns.template.strokeOpacity = 0;
 
 chart.cursor = new am4charts.XYCursor();
-chart.cursor.behavior = "zoomY";
+chart.cursor.behavior = "panY";
 
 
 // as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set

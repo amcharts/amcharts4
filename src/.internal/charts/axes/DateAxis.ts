@@ -715,10 +715,13 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @todo Description
 	 */
 	public postProcessSeriesDataItems(): void {
-		$iter.each(this.series.iterator(), (series) => {
-			$iter.each(series.dataItems.iterator(), (dataItem) => {
-				this.postProcessSeriesDataItem(dataItem);
-			});
+		this.series.each((series) => {
+			if (JSON.stringify(series._baseInterval[this.uid]) != JSON.stringify(this.baseInterval)) {
+				series.dataItems.each((dataItem) => {
+					this.postProcessSeriesDataItem(dataItem);
+				});
+				series._baseInterval[this.uid] = this.baseInterval;
+			}
 		});
 
 		this.addEmptyUnitsBreaks();
@@ -735,16 +738,21 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		// we need to do this for all series data items not only added recently, as baseInterval might change
 		let baseInterval: ITimeInterval = this.baseInterval;
 
+		let series: XYSeries = dataItem.component;
+		let dataItemsByAxis = series.dataItemsByAxis.getKey(this.uid);
+
 		$object.each(dataItem.dates, (key) => {
 			let date: Date = dataItem.getDate(key);
-			let startDate: Date = $time.round($time.copy(date), baseInterval.timeUnit, baseInterval.count);
-			let endDate: Date = $time.add($time.copy(startDate), baseInterval.timeUnit, baseInterval.count);
+			let time = date.getTime();
 
-			dataItem.setCalculatedValue(key, startDate.getTime(), "open");
+			let startDate: Date = $time.round(new Date(time), baseInterval.timeUnit, baseInterval.count);
+			let startTime = startDate.getTime();
+			let endDate: Date = $time.add(new Date(startTime), baseInterval.timeUnit, baseInterval.count);
+
+			dataItem.setCalculatedValue(key, startTime, "open");
 			dataItem.setCalculatedValue(key, endDate.getTime(), "close");
 
-			let series: XYSeries = dataItem.component;
-			series.dataItemsByAxis.getKey(this.uid).setKey(startDate.getTime().toString(), dataItem);
+			dataItemsByAxis.setKey(startTime.toString(), dataItem);
 		});
 	}
 
@@ -806,17 +814,21 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 */
 	public fixAxisBreaks(): void {
 		super.fixAxisBreaks();
-		let axisBreaks = this._axisBreaks;
-		$iter.each(axisBreaks.iterator(), (axisBreak) => {
-			let breakGridCount: number = Math.ceil(this._gridCount * (Math.min(this.end, axisBreak.endPosition) - Math.max(this.start, axisBreak.startPosition)) / (this.end - this.start));
-			axisBreak.gridInterval = this.chooseInterval(0, axisBreak.adjustedEndValue - axisBreak.adjustedStartValue, breakGridCount);
-			let gridDate = $time.round(new Date(axisBreak.adjustedStartValue), axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count);
-			if (gridDate.getTime() > axisBreak.startDate.getTime()) {
-				$time.add(gridDate, axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count);
-			}
 
-			axisBreak.gridDate = gridDate;
-		});
+		let axisBreaks = this.axisBreaks;
+		if (axisBreaks.length > 0) {
+			// process breaks
+			axisBreaks.each((axisBreak) => {
+				let breakGridCount: number = Math.ceil(this._gridCount * (Math.min(this.end, axisBreak.endPosition) - Math.max(this.start, axisBreak.startPosition)) / (this.end - this.start));
+				axisBreak.gridInterval = this.chooseInterval(0, axisBreak.adjustedEndValue - axisBreak.adjustedStartValue, breakGridCount);
+				let gridDate = $time.round(new Date(axisBreak.adjustedStartValue), axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count);
+				if (gridDate.getTime() > axisBreak.startDate.getTime()) {
+					$time.add(gridDate, axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count);
+				}
+
+				axisBreak.gridDate = gridDate;
+			});
+		}
 	}
 
 	/**
@@ -832,7 +844,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		let timeUnit: TimeUnit = this._gridInterval.timeUnit;
 		let realIntervalCount: number = this._gridInterval.count;
 		// round date
-		$time.round(date, timeUnit);
+		$time.round(date, timeUnit, 1);
 
 		let prevTimestamp: number = date.getTime();
 
@@ -1093,7 +1105,10 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @return {number}         Adjusted value
 	 */
 	protected fixMin(value: number) {
-		return $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count).getTime() + this.baseDuration * this.startLocation;
+		// like this because months are not equal
+		let startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count).getTime();
+		let endTime = $time.add(new Date(startTime), this.baseInterval.timeUnit, this.baseInterval.count).getTime();
+		return startTime + (endTime - startTime) * this.startLocation;
 	}
 
 	/**
@@ -1103,7 +1118,10 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @return {number}         Adjusted value
 	 */
 	protected fixMax(value: number) {
-		return $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count).getTime() + this.baseDuration * this.endLocation;
+		// like this because months are not equal
+		let startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count).getTime();
+		let endTime = $time.add(new Date(startTime), this.baseInterval.timeUnit, this.baseInterval.count).getTime();
+		return startTime + (endTime - startTime) * this.endLocation;
 	}
 
 	/**
@@ -1359,6 +1377,16 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 		}
 
 		this._prevSeriesTime = time;
+
+		if (series._baseInterval[this.uid]) {
+			this.postProcessSeriesDataItem(dataItem);
+		}
+		else {
+			if (this._baseInterval) {
+				series._baseInterval[this.uid] = this._baseInterval;
+				this.postProcessSeriesDataItem(dataItem);
+			}
+		}
 	}
 
 	/**
@@ -1382,7 +1410,6 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			baseInterval.count = 1;
 		}
 
-		//baseInterval.count = 1; // good
 		this._baseIntervalReal = baseInterval;
 		// no need to invalidate
 	}
@@ -1401,7 +1428,11 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @param {ITimeInterval} timeInterval base interval
 	 */
 	public set baseInterval(timeInterval: ITimeInterval) {
-		this._baseInterval = timeInterval;
+		if (JSON.stringify(this._baseInterval) != JSON.stringify(timeInterval)) {
+			this._baseInterval = timeInterval;
+			this.invalidate();
+			this.postProcessSeriesDataItems();
+		}
 	}
 
 	/**
@@ -1599,12 +1630,17 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 	 * @return {XYSeriesDataItem}               Data item
 	 */
 	public getSeriesDataItem(series: XYSeries, position: number, findNearest?: boolean): XYSeriesDataItem {
+
 		let value: number = this.positionToValue(position);
 		let date: Date = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count);
-		let dataItem = series.dataItemsByAxis.getKey(this.uid).getKey(date.getTime().toString());
+
+		let dataItemsByAxis = series.dataItemsByAxis.getKey(this.uid);
+
+		let dataItem = dataItemsByAxis.getKey(date.getTime().toString());
 
 		// todo:  alternatively we can find closiest here
 		if (!dataItem && findNearest) {
+			/*
 			// to the left
 			let leftCount = 0;
 			let leftDataItem: XYSeriesDataItem;
@@ -1612,7 +1648,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 
 			while (leftDate.getTime() > this.minZoomed) {
 				leftDate = $time.add(leftDate, this.baseInterval.timeUnit, -this.baseInterval.count);
-				leftDataItem = series.dataItemsByAxis.getKey(this.uid).getKey(leftDate.getTime().toString());
+				leftDataItem = dataItemsByAxis.getKey(leftDate.getTime().toString());
 				if (leftDataItem) {
 					break;
 				}
@@ -1627,7 +1663,7 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			let rightDate = new Date(date.getTime());
 			while (rightDate.getTime() < this.maxZoomed) {
 				rightDate = $time.add(rightDate, this.baseInterval.timeUnit, this.baseInterval.count);
-				rightDataItem = series.dataItemsByAxis.getKey(this.uid).getKey(rightDate.getTime().toString());
+				rightDataItem = dataItemsByAxis.getKey(rightDate.getTime().toString());
 				if (rightDataItem) {
 					break;
 				}
@@ -1650,8 +1686,20 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 				else {
 					return rightDataItem;
 				}
+			}*/
+
+			let key: "dateX" | "dateY";
+
+			if (this.axisLetter == "Y") {
+				key = "dateY";
 			}
+			else {
+				key = "dateX";
+			}
+
+			dataItem = series.dataItems.getIndex(series.dataItems.findClosestIndex(date.getTime(), (x) => <number>x[key].getTime(), "any"));
 		}
+
 		return dataItem;
 	}
 
@@ -1790,24 +1838,26 @@ export class DateAxis<T extends AxisRenderer = AxisRenderer> extends ValueAxis<T
 			})
 
 			if (closestDate) {
-				closestDate = $time.round(new Date(closestDate.getTime()), this.baseInterval.timeUnit, this.baseInterval.count);
+				let closestTime = closestDate.getTime();
+				closestDate = $time.round(new Date(closestTime), this.baseInterval.timeUnit, this.baseInterval.count);
 				closestDate = new Date(closestDate.getTime() + this.baseDuration / 2);
 				position = this.dateToPosition(closestDate);
+
+				let seriesPoints: { point: IPoint, series: XYSeries }[] = [];
+
+				this.series.each((series) => {
+					let dataItem = series.dataItemsByAxis.getKey(this.uid).getKey(closestTime.toString());
+					let point = series.showTooltipAtDataItem(dataItem);
+					if (point) {
+						seriesPoints.push({ series: series, point: point });
+					}
+				})
+
+				this.chart.sortSeriesTooltips(seriesPoints);
 			}
 		}
 
 		super.showTooltipAtPosition(position, true);
-
-		let globalPosition = this.toGlobalPosition(position);
-
-		this.series.each((series) => {
-			if (series.xAxis == this) {
-				series.showTooltipAtPosition(globalPosition, undefined);
-			}
-			if (series.yAxis == this) {
-				series.showTooltipAtPosition(undefined, globalPosition);
-			}
-		})
 	}
 
 	/**

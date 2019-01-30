@@ -499,10 +499,13 @@ var DateAxis = /** @class */ (function (_super) {
      */
     DateAxis.prototype.postProcessSeriesDataItems = function () {
         var _this = this;
-        $iter.each(this.series.iterator(), function (series) {
-            $iter.each(series.dataItems.iterator(), function (dataItem) {
-                _this.postProcessSeriesDataItem(dataItem);
-            });
+        this.series.each(function (series) {
+            if (JSON.stringify(series._baseInterval[_this.uid]) != JSON.stringify(_this.baseInterval)) {
+                series.dataItems.each(function (dataItem) {
+                    _this.postProcessSeriesDataItem(dataItem);
+                });
+                series._baseInterval[_this.uid] = _this.baseInterval;
+            }
         });
         this.addEmptyUnitsBreaks();
     };
@@ -514,17 +517,19 @@ var DateAxis = /** @class */ (function (_super) {
      * @param {XYSeriesDataItem} dataItem Data item
      */
     DateAxis.prototype.postProcessSeriesDataItem = function (dataItem) {
-        var _this = this;
         // we need to do this for all series data items not only added recently, as baseInterval might change
         var baseInterval = this.baseInterval;
+        var series = dataItem.component;
+        var dataItemsByAxis = series.dataItemsByAxis.getKey(this.uid);
         $object.each(dataItem.dates, function (key) {
             var date = dataItem.getDate(key);
-            var startDate = $time.round($time.copy(date), baseInterval.timeUnit, baseInterval.count);
-            var endDate = $time.add($time.copy(startDate), baseInterval.timeUnit, baseInterval.count);
-            dataItem.setCalculatedValue(key, startDate.getTime(), "open");
+            var time = date.getTime();
+            var startDate = $time.round(new Date(time), baseInterval.timeUnit, baseInterval.count);
+            var startTime = startDate.getTime();
+            var endDate = $time.add(new Date(startTime), baseInterval.timeUnit, baseInterval.count);
+            dataItem.setCalculatedValue(key, startTime, "open");
             dataItem.setCalculatedValue(key, endDate.getTime(), "close");
-            var series = dataItem.component;
-            series.dataItemsByAxis.getKey(_this.uid).setKey(startDate.getTime().toString(), dataItem);
+            dataItemsByAxis.setKey(startTime.toString(), dataItem);
         });
     };
     /**
@@ -583,16 +588,19 @@ var DateAxis = /** @class */ (function (_super) {
     DateAxis.prototype.fixAxisBreaks = function () {
         var _this = this;
         _super.prototype.fixAxisBreaks.call(this);
-        var axisBreaks = this._axisBreaks;
-        $iter.each(axisBreaks.iterator(), function (axisBreak) {
-            var breakGridCount = Math.ceil(_this._gridCount * (Math.min(_this.end, axisBreak.endPosition) - Math.max(_this.start, axisBreak.startPosition)) / (_this.end - _this.start));
-            axisBreak.gridInterval = _this.chooseInterval(0, axisBreak.adjustedEndValue - axisBreak.adjustedStartValue, breakGridCount);
-            var gridDate = $time.round(new Date(axisBreak.adjustedStartValue), axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count);
-            if (gridDate.getTime() > axisBreak.startDate.getTime()) {
-                $time.add(gridDate, axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count);
-            }
-            axisBreak.gridDate = gridDate;
-        });
+        var axisBreaks = this.axisBreaks;
+        if (axisBreaks.length > 0) {
+            // process breaks
+            axisBreaks.each(function (axisBreak) {
+                var breakGridCount = Math.ceil(_this._gridCount * (Math.min(_this.end, axisBreak.endPosition) - Math.max(_this.start, axisBreak.startPosition)) / (_this.end - _this.start));
+                axisBreak.gridInterval = _this.chooseInterval(0, axisBreak.adjustedEndValue - axisBreak.adjustedStartValue, breakGridCount);
+                var gridDate = $time.round(new Date(axisBreak.adjustedStartValue), axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count);
+                if (gridDate.getTime() > axisBreak.startDate.getTime()) {
+                    $time.add(gridDate, axisBreak.gridInterval.timeUnit, axisBreak.gridInterval.count);
+                }
+                axisBreak.gridDate = gridDate;
+            });
+        }
     };
     /**
      * [getGridDate description]
@@ -607,7 +615,7 @@ var DateAxis = /** @class */ (function (_super) {
         var timeUnit = this._gridInterval.timeUnit;
         var realIntervalCount = this._gridInterval.count;
         // round date
-        $time.round(date, timeUnit);
+        $time.round(date, timeUnit, 1);
         var prevTimestamp = date.getTime();
         var newDate = $time.copy(date);
         // modify date by adding intervalcount
@@ -831,7 +839,10 @@ var DateAxis = /** @class */ (function (_super) {
      * @return {number}         Adjusted value
      */
     DateAxis.prototype.fixMin = function (value) {
-        return $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count).getTime() + this.baseDuration * this.startLocation;
+        // like this because months are not equal
+        var startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count).getTime();
+        var endTime = $time.add(new Date(startTime), this.baseInterval.timeUnit, this.baseInterval.count).getTime();
+        return startTime + (endTime - startTime) * this.startLocation;
     };
     /**
      * Adjusts the maximum timestamp as per cell start location.
@@ -840,7 +851,10 @@ var DateAxis = /** @class */ (function (_super) {
      * @return {number}         Adjusted value
      */
     DateAxis.prototype.fixMax = function (value) {
-        return $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count).getTime() + this.baseDuration * this.endLocation;
+        // like this because months are not equal
+        var startTime = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count).getTime();
+        var endTime = $time.add(new Date(startTime), this.baseInterval.timeUnit, this.baseInterval.count).getTime();
+        return startTime + (endTime - startTime) * this.endLocation;
     };
     /**
      * [chooseInterval description]
@@ -1060,6 +1074,15 @@ var DateAxis = /** @class */ (function (_super) {
             }
         }
         this._prevSeriesTime = time;
+        if (series._baseInterval[this.uid]) {
+            this.postProcessSeriesDataItem(dataItem);
+        }
+        else {
+            if (this._baseInterval) {
+                series._baseInterval[this.uid] = this._baseInterval;
+                this.postProcessSeriesDataItem(dataItem);
+            }
+        }
     };
     /**
      * [updateAxisBySeries description]
@@ -1080,7 +1103,6 @@ var DateAxis = /** @class */ (function (_super) {
             baseInterval.timeUnit = "day";
             baseInterval.count = 1;
         }
-        //baseInterval.count = 1; // good
         this._baseIntervalReal = baseInterval;
         // no need to invalidate
     };
@@ -1110,7 +1132,11 @@ var DateAxis = /** @class */ (function (_super) {
          * @param {ITimeInterval} timeInterval base interval
          */
         set: function (timeInterval) {
-            this._baseInterval = timeInterval;
+            if (JSON.stringify(this._baseInterval) != JSON.stringify(timeInterval)) {
+                this._baseInterval = timeInterval;
+                this.invalidate();
+                this.postProcessSeriesDataItems();
+            }
         },
         enumerable: true,
         configurable: true
@@ -1295,16 +1321,19 @@ var DateAxis = /** @class */ (function (_super) {
     DateAxis.prototype.getSeriesDataItem = function (series, position, findNearest) {
         var value = this.positionToValue(position);
         var date = $time.round(new Date(value), this.baseInterval.timeUnit, this.baseInterval.count);
-        var dataItem = series.dataItemsByAxis.getKey(this.uid).getKey(date.getTime().toString());
+        var dataItemsByAxis = series.dataItemsByAxis.getKey(this.uid);
+        var dataItem = dataItemsByAxis.getKey(date.getTime().toString());
         // todo:  alternatively we can find closiest here
         if (!dataItem && findNearest) {
+            /*
             // to the left
-            var leftCount = 0;
-            var leftDataItem = void 0;
-            var leftDate = new Date(date.getTime());
+            let leftCount = 0;
+            let leftDataItem: XYSeriesDataItem;
+            let leftDate = new Date(date.getTime());
+
             while (leftDate.getTime() > this.minZoomed) {
                 leftDate = $time.add(leftDate, this.baseInterval.timeUnit, -this.baseInterval.count);
-                leftDataItem = series.dataItemsByAxis.getKey(this.uid).getKey(leftDate.getTime().toString());
+                leftDataItem = dataItemsByAxis.getKey(leftDate.getTime().toString());
                 if (leftDataItem) {
                     break;
                 }
@@ -1313,12 +1342,13 @@ var DateAxis = /** @class */ (function (_super) {
                     break;
                 }
             }
-            var rightCount = 0;
-            var rightDataItem = void 0;
-            var rightDate = new Date(date.getTime());
+
+            let rightCount = 0;
+            let rightDataItem: XYSeriesDataItem;
+            let rightDate = new Date(date.getTime());
             while (rightDate.getTime() < this.maxZoomed) {
                 rightDate = $time.add(rightDate, this.baseInterval.timeUnit, this.baseInterval.count);
-                rightDataItem = series.dataItemsByAxis.getKey(this.uid).getKey(rightDate.getTime().toString());
+                rightDataItem = dataItemsByAxis.getKey(rightDate.getTime().toString());
                 if (rightDataItem) {
                     break;
                 }
@@ -1327,6 +1357,7 @@ var DateAxis = /** @class */ (function (_super) {
                     break;
                 }
             }
+
             if (leftDataItem && !rightDataItem) {
                 return leftDataItem;
             }
@@ -1340,7 +1371,15 @@ var DateAxis = /** @class */ (function (_super) {
                 else {
                     return rightDataItem;
                 }
+            }*/
+            var key_1;
+            if (this.axisLetter == "Y") {
+                key_1 = "dateY";
             }
+            else {
+                key_1 = "dateX";
+            }
+            dataItem = series.dataItems.getIndex(series.dataItems.findClosestIndex(date.getTime(), function (x) { return x[key_1].getTime(); }, "any"));
         }
         return dataItem;
     };
@@ -1469,21 +1508,22 @@ var DateAxis = /** @class */ (function (_super) {
                 }
             });
             if (closestDate_1) {
-                closestDate_1 = $time.round(new Date(closestDate_1.getTime()), this.baseInterval.timeUnit, this.baseInterval.count);
+                var closestTime_1 = closestDate_1.getTime();
+                closestDate_1 = $time.round(new Date(closestTime_1), this.baseInterval.timeUnit, this.baseInterval.count);
                 closestDate_1 = new Date(closestDate_1.getTime() + this.baseDuration / 2);
                 position = this.dateToPosition(closestDate_1);
+                var seriesPoints_1 = [];
+                this.series.each(function (series) {
+                    var dataItem = series.dataItemsByAxis.getKey(_this.uid).getKey(closestTime_1.toString());
+                    var point = series.showTooltipAtDataItem(dataItem);
+                    if (point) {
+                        seriesPoints_1.push({ series: series, point: point });
+                    }
+                });
+                this.chart.sortSeriesTooltips(seriesPoints_1);
             }
         }
         _super.prototype.showTooltipAtPosition.call(this, position, true);
-        var globalPosition = this.toGlobalPosition(position);
-        this.series.each(function (series) {
-            if (series.xAxis == _this) {
-                series.showTooltipAtPosition(globalPosition, undefined);
-            }
-            if (series.yAxis == _this) {
-                series.showTooltipAtPosition(undefined, globalPosition);
-            }
-        });
     };
     Object.defineProperty(DateAxis.prototype, "snapTooltip", {
         /**

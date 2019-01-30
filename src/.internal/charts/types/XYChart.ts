@@ -36,6 +36,7 @@ import * as $math from "../../core/utils/Math";
 import * as $iter from "../../core/utils/Iterator";
 import * as $type from "../../core/utils/Type";
 import * as $utils from "../../core/utils/Utils";
+import * as $array from "../../core/utils/Array";
 
 
 /**
@@ -1108,9 +1109,6 @@ export class XYChart extends SerialChart {
 			return;
 		}
 
-		let topLeft = $utils.spritePointToSvg({ x: -0.5, y: -0.5 }, this.plotContainer);
-		let bottomRight = $utils.spritePointToSvg({ x: this.plotContainer.pixelWidth + 0.5, y: this.plotContainer.pixelHeight + 0.5 }, this.plotContainer);
-
 		let seriesPoints: { point: IPoint, series: XYSeries }[] = [];
 		let sum = 0;
 		this.series.each((series) => {
@@ -1119,14 +1117,35 @@ export class XYChart extends SerialChart {
 			let point = series.showTooltipAtPosition(position.x, position.y);
 			if(point){
 				series.tooltip.setBounds({ x: 0, y: 0, width: this.pixelWidth, height: this.pixelHeight });	
+				seriesPoints.push({series:series, point:point});
 			}
 
-			if (point && $math.isInRectangle(point, { x: topLeft.x, y: topLeft.y, width: bottomRight.x - topLeft.x, height: bottomRight.y - topLeft.y })) {
-				seriesPoints.push({ point: point, series: series });
-				sum += point.y;
-			}
 			//}
 		});
+
+		this.sortSeriesTooltips(seriesPoints);
+	}
+
+
+	/**
+	 * @ignore
+	 */
+	public sortSeriesTooltips(seriesPoints:{ point: IPoint, series: XYSeries }[]){
+
+		let topLeft = $utils.spritePointToSvg({ x: -0.5, y: -0.5 }, this.plotContainer);
+		let bottomRight = $utils.spritePointToSvg({ x: this.plotContainer.pixelWidth + 0.5, y: this.plotContainer.pixelHeight + 0.5 }, this.plotContainer);
+
+		let sum = 0;
+		let filteredSeriesPoints:{ point: IPoint, series: XYSeries }[] = [];
+		$array.each(seriesPoints, (seriesPoint)=>{
+			let point = seriesPoint.point;
+			if (point && $math.isInRectangle(point, { x: topLeft.x, y: topLeft.y, width: bottomRight.x - topLeft.x, height: bottomRight.y - topLeft.y })) {
+				filteredSeriesPoints.push({ point: point, series: seriesPoint.series });
+				sum += point.y;
+			}			
+		})
+
+		seriesPoints = filteredSeriesPoints;
 
 		seriesPoints.sort((a, b) => {
 			if (a.point.y > b.point.y) {
@@ -1192,7 +1211,7 @@ export class XYChart extends SerialChart {
 					nextY = $utils.spritePointToSvg({ x: 0, y: tooltip.label.pixelY + tooltip.label.measuredHeight - tooltip.pixelY + pointY + tooltip.pixelMarginBottom }, tooltip).y;
 				}
 			}
-		}
+		}		
 	}
 
 	/**

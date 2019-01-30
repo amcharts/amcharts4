@@ -66,6 +66,7 @@ hoverState.properties.fillOpacity = 1;
 hoverState.properties.tension = 0.5;
 
 chart.cursor = new am4charts.XYCursor();
+chart.cursor.behavior = "panX";
 
 // Add distinctive colors for each column using adapter
 series.columns.template.adapter.add("fill", (fill, target) => {

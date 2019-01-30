@@ -127,8 +127,8 @@ export class SeriesDataItem extends DataItem {
 	 */
 	public dispose() {
 		this.bullets.clear();
-		super.dispose();		
-	}	
+		super.dispose();
+	}
 
 	/**
 	 * data items's numeric value.
@@ -483,6 +483,15 @@ export class Series extends Component {
 	public autoDispose: boolean = true;
 
 	/**
+	 * When working value of dataItem changes, we must process all the values to calculate sum, min, max etc. Also update stack values. This is quite expensive operation.
+	 * Unfortunately we do not know if user needs this processed values or not. By setting simplifiedProcessing = true you disable this processing and in case working
+	 * value changes, we only redraw the particular column. Do not do this if you have staked chart or use calculated values in bullets or in tooltips.
+	 *
+	 * @type {boolean}
+	 */
+	public simplifiedProcessing: boolean = false;
+
+	/**
 	 * Constructor
 	 */
 	constructor() {
@@ -678,172 +687,174 @@ export class Series extends Component {
 	 * @param {OrderedList<this["_dataItem"]>} dataItems [description]
 	 */
 	protected processValues(working: boolean) {
-		let dataItems = this.dataItems;
+		if (!this.simplifiedProcessing) {
+			let dataItems = this.dataItems;
 
-		let count: { [index: string]: number } = {};
-		let sum: { [index: string]: number } = {};
-		let low: { [index: string]: number } = {};
-		let high: { [index: string]: number } = {};
-		let open: { [index: string]: number } = {};
-		let close: { [index: string]: number } = {};
-		let previous: { [index: string]: number } = {};
-		let first: { [index: string]: number } = {};
+			let count: { [index: string]: number } = {};
+			let sum: { [index: string]: number } = {};
+			let low: { [index: string]: number } = {};
+			let high: { [index: string]: number } = {};
+			let open: { [index: string]: number } = {};
+			let close: { [index: string]: number } = {};
+			let previous: { [index: string]: number } = {};
+			let first: { [index: string]: number } = {};
 
-		//let duration: number = 0; // todo: check if series uses selection.change or selection.change.percent and set duration to interpolationduration
+			//let duration: number = 0; // todo: check if series uses selection.change or selection.change.percent and set duration to interpolationduration
 
-		let startIndex: number = $math.max(0, this._workingStartIndex);
-		startIndex = $math.min(startIndex, this.dataItems.length);
+			let startIndex: number = $math.max(0, this._workingStartIndex);
+			startIndex = $math.min(startIndex, this.dataItems.length);
 
-		let endIndex: number = $math.min(this._workingEndIndex, this.dataItems.length);
+			let endIndex: number = $math.min(this._workingEndIndex, this.dataItems.length);
 
-		if (!$type.isNumber(startIndex)) {
-			startIndex = 0;
-		}
+			if (!$type.isNumber(startIndex)) {
+				startIndex = 0;
+			}
 
-		if (!$type.isNumber(endIndex)) {
-			endIndex = this.dataItems.length;
-		}
+			if (!$type.isNumber(endIndex)) {
+				endIndex = this.dataItems.length;
+			}
 
-		if (startIndex > 0) {
-			let dataItem = dataItems.getIndex(startIndex - 1);
+			if (startIndex > 0) {
+				let dataItem = dataItems.getIndex(startIndex - 1);
 
-			$object.each(dataItem.values, (key, values) => {
-				let value: number = values.workingValue;
+				$object.each(dataItem.values, (key, values) => {
+					let value: number = values.workingValue;
 
-				if ($type.isNumber(value)) {
-					// save previous
-					previous[key] = value;
-				}
-			});
-		}
-
-		for (let i = startIndex; i < endIndex; i++) {
-			let dataItem = dataItems.getIndex(i);
-
-			$object.each(dataItem.values, (key, values) => {
-				let value: number = values.workingValue;
-
-				//if (i >= startIndex && i <= endIndex) { // do not add to count, sum etc if it is not within start/end index
-				if ($type.isNumber(value)) {
-
-					// count values
-					if (!$type.isNumber(count[key])) {
-						count[key] = 0;
-					}
-					count[key]++;
-
-					// sum values
-					if (!$type.isNumber(sum[key])) {
-						sum[key] = 0;
-					}
-					sum[key] += value;
-
-					// open
-					if (!$type.isNumber(open[key])) {
-						open[key] = value;
-					}
-
-					// close
-					close[key] = value;
-
-					// low
-					if (!$type.isNumber(low[key])) {
-						low[key] = value;
-					}
-					else {
-						if (low[key] > value) {
-							low[key] = value;
-						}
-					}
-
-					// high
-					if (!$type.isNumber(high[key])) {
-						high[key] = value;
-					}
-					else {
-						if (high[key] < value) {
-							high[key] = value;
-						}
-					}
-
-					if (!$type.isNumber(first[key])) {
-						first[key] = this.getFirstValue(key, startIndex);
-					}
-
-					// change
-					dataItem.setCalculatedValue(key, value - first[key], "change");
-					// change from start percent
-					// will fail if first value is 0
-					dataItem.setCalculatedValue(key, (value - first[key]) / first[key] * 100, "changePercent");
-
-					// previous change
-					let prevValue: number = previous[key];
-					if (!$type.isNumber(prevValue)) {
-						prevValue = value;
-					}
-
-					dataItem.setCalculatedValue(key, value - prevValue, "previousChange");
-					// previous change percent
-					dataItem.setCalculatedValue(key, (value - prevValue) / prevValue * 100, "previousChangePercent");
-
-					// save previous
-					previous[key] = value;
-				}
-			});
-		}
-
-		if (this.calculatePercent) {
-			for (let i = startIndex; i < endIndex; i++) {
-				let dataItem = dataItems.getIndex(i);
-
-				$object.each(dataItem.values, (key) => {
-					let ksum: number = sum[key];
-
-					let value: number = dataItem.values[key].workingValue;
-
-					if ($type.isNumber(value) && ksum > 0) {
-
-						// this hack is made in order to make it possible to animate single slice to 0
-						// if there is only one slice left, percent value is always 100%, so it won't animate
-						// so we use real value of a slice instead of current value
-						if (value == ksum) {
-							ksum = dataItem.values[key].value;
-						}
-
-						let percent = value / ksum * 100;
-						dataItem.setCalculatedValue(key, percent, "percent");
+					if ($type.isNumber(value)) {
+						// save previous
+						previous[key] = value;
 					}
 				});
 			}
-		}
+
+			for (let i = startIndex; i < endIndex; i++) {
+				let dataItem = dataItems.getIndex(i);
+
+				$object.each(dataItem.values, (key, values) => {
+					let value: number = values.workingValue;
+
+					//if (i >= startIndex && i <= endIndex) { // do not add to count, sum etc if it is not within start/end index
+					if ($type.isNumber(value)) {
+
+						// count values
+						if (!$type.isNumber(count[key])) {
+							count[key] = 0;
+						}
+						count[key]++;
+
+						// sum values
+						if (!$type.isNumber(sum[key])) {
+							sum[key] = 0;
+						}
+						sum[key] += value;
+
+						// open
+						if (!$type.isNumber(open[key])) {
+							open[key] = value;
+						}
+
+						// close
+						close[key] = value;
+
+						// low
+						if (!$type.isNumber(low[key])) {
+							low[key] = value;
+						}
+						else {
+							if (low[key] > value) {
+								low[key] = value;
+							}
+						}
+
+						// high
+						if (!$type.isNumber(high[key])) {
+							high[key] = value;
+						}
+						else {
+							if (high[key] < value) {
+								high[key] = value;
+							}
+						}
+
+						if (!$type.isNumber(first[key])) {
+							first[key] = this.getFirstValue(key, startIndex);
+						}
+
+						// change
+						dataItem.setCalculatedValue(key, value - first[key], "change");
+						// change from start percent
+						// will fail if first value is 0
+						dataItem.setCalculatedValue(key, (value - first[key]) / first[key] * 100, "changePercent");
+
+						// previous change
+						let prevValue: number = previous[key];
+						if (!$type.isNumber(prevValue)) {
+							prevValue = value;
+						}
+
+						dataItem.setCalculatedValue(key, value - prevValue, "previousChange");
+						// previous change percent
+						dataItem.setCalculatedValue(key, (value - prevValue) / prevValue * 100, "previousChangePercent");
+
+						// save previous
+						previous[key] = value;
+					}
+				});
+			}
+
+			if (this.calculatePercent) {
+				for (let i = startIndex; i < endIndex; i++) {
+					let dataItem = dataItems.getIndex(i);
+
+					$object.each(dataItem.values, (key) => {
+						let ksum: number = sum[key];
+
+						let value: number = dataItem.values[key].workingValue;
+
+						if ($type.isNumber(value) && ksum > 0) {
+
+							// this hack is made in order to make it possible to animate single slice to 0
+							// if there is only one slice left, percent value is always 100%, so it won't animate
+							// so we use real value of a slice instead of current value
+							if (value == ksum) {
+								ksum = dataItem.values[key].value;
+							}
+
+							let percent = value / ksum * 100;
+							dataItem.setCalculatedValue(key, percent, "percent");
+						}
+					});
+				}
+			}
 
 
-		// calculate one before first (cant do that in cycle, as we don't know open yet
-		// when drawing line chart we should draw line to the invisible data point to the left, otherwise the line will always look like it starts from the selected point
-		// so we do startIndex - 1
-		if (startIndex > 0) {
-			let zeroItem: this["_dataItem"] = dataItems.getIndex(startIndex - 1);
+			// calculate one before first (cant do that in cycle, as we don't know open yet
+			// when drawing line chart we should draw line to the invisible data point to the left, otherwise the line will always look like it starts from the selected point
+			// so we do startIndex - 1
+			if (startIndex > 0) {
+				let zeroItem: this["_dataItem"] = dataItems.getIndex(startIndex - 1);
 
-			$object.each(zeroItem.values, (key) => {
-				let value = zeroItem.values[key].value;
-				// change
-				zeroItem.setCalculatedValue(key, value - open[key], "change");
-				// change percent
-				zeroItem.setCalculatedValue(key, (value - open[key]) / open[key] * 100, "changePercent");
+				$object.each(zeroItem.values, (key) => {
+					let value = zeroItem.values[key].value;
+					// change
+					zeroItem.setCalculatedValue(key, value - open[key], "change");
+					// change percent
+					zeroItem.setCalculatedValue(key, (value - open[key]) / open[key] * 100, "changePercent");
+				});
+			}
+
+			// we save various data like sum, average to dataPoint of the series
+			let dataItem: DataItem = this.dataItem;
+			$object.each(dataItem.values, (key) => {
+				dataItem.setCalculatedValue(key, sum[key], "sum");
+				dataItem.setCalculatedValue(key, sum[key] / count[key], "average");
+				dataItem.setCalculatedValue(key, open[key], "open");
+				dataItem.setCalculatedValue(key, close[key], "close");
+				dataItem.setCalculatedValue(key, low[key], "low");
+				dataItem.setCalculatedValue(key, high[key], "high");
+				dataItem.setCalculatedValue(key, count[key], "count");
 			});
 		}
-
-		// we save various data like sum, average to dataPoint of the series
-		let dataItem: DataItem = this.dataItem;
-		$object.each(dataItem.values, (key) => {
-			dataItem.setCalculatedValue(key, sum[key], "sum");
-			dataItem.setCalculatedValue(key, sum[key] / count[key], "average");
-			dataItem.setCalculatedValue(key, open[key], "open");
-			dataItem.setCalculatedValue(key, close[key], "close");
-			dataItem.setCalculatedValue(key, low[key], "low");
-			dataItem.setCalculatedValue(key, high[key], "high");
-			dataItem.setCalculatedValue(key, count[key], "count");
-		});
 	}
 
 	/**
@@ -911,6 +922,11 @@ export class Series extends Component {
 
 				if (!bullet) {
 					bullet = bulletTemplate.clone();
+					dataItem.addSprite(bullet);
+
+					if(!this.visible || this.isHiding){
+						bullet.hide(0);
+					}
 				}
 
 				let currentDataItem: this["_dataItem"] = <this["_dataItem"]>bullet.dataItem;
@@ -918,9 +934,7 @@ export class Series extends Component {
 					// set to undefined in order not to reuse
 					if (currentDataItem) {
 						currentDataItem.bullets.setKey(bulletTemplate.uid, undefined);
-					}
-
-					dataItem.addSprite(bullet);
+					}					
 
 					// Add accessibility to bullet
 					let readerText = this.itemReaderText || ("{" + bullet.xField + "}: {" + bullet.yField + "}");
@@ -950,13 +964,6 @@ export class Series extends Component {
 				}
 
 				bullet.parent = this.bulletsContainer;
-				if (this.visible) {
-					bullet.show(0);
-				}
-				else {
-					bullet.hide(0);
-				}
-
 				dataItem.bullets.setKey(bulletTemplate.uid, bullet);
 
 				// pass max w/h so we'd know if we should show/hide somethings

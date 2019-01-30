@@ -679,14 +679,16 @@ export class Component extends Container {
 
 				let value: any = (<any>dataContext)[fieldValue];
 				// Apply adapters to a retrieved value
-				value = this.adapter.apply("dataContextValue", {
-					field: fieldName,
-					value: value,
-					dataItem: dataItem
-				}).value;
+				if (this.adapter.isEnabled("dataContextValue")) {
+					value = this.adapter.apply("dataContextValue", {
+						field: fieldName,
+						value: value,
+						dataItem: dataItem
+					}).value;
+				}
 
 				if (dataItem.hasChildren[fieldName]) {
-					if (value) {
+					if ($type.hasValue(value)) {
 						hasSomeValues = true;
 						let children = new OrderedListTemplate<DataItem>(this.createDataItem());
 						children.events.on("inserted", this.handleDataItemAdded, this, false);
@@ -847,7 +849,7 @@ export class Component extends Container {
 	/**
 	 * Removes elements from the beginning of data
 	 *
-	 * @param {Optional<number>} coun number of elements to remove
+	 * @param {Optional<number>} count number of elements to remove
 	 */
 	public removeData(count: $type.Optional<number>) {
 		if ($type.isNumber(count)) {
@@ -1707,7 +1709,7 @@ export class Component extends Container {
 	 * @param {number} value Start (0-1)
 	 */
 	public set start(value: number) {
-		value = $math.round(value, 5);
+		// value = $math.round(value, 10); not good
 
 		//if (1 / (this.end - value) > this.maxZoomFactor) {
 		//	value = this.end - 1 / this.maxZoomFactor;
@@ -1738,7 +1740,7 @@ export class Component extends Container {
 	 * @param {number} value End (0-1)
 	 */
 	public set end(value: number) {
-		value = $math.round(value, 5);
+		// value = $math.round(value, 10); // not good
 
 		//if (1 / (value - this.start) > this.maxZoomFactor) {
 		//	value = 1 / this.maxZoomFactor + this.start;

@@ -637,9 +637,9 @@ export class DataItem extends BaseObjectEvents implements IAnimatable {
 	 * @return {number}            Duration (ms)
 	 */
 	public getDuration(duration?: number): $type.Optional<number> {
-		let component: $type.Optional<Component> = this.component;
-		if (component) {
-			if (!$type.isNumber(duration)) {
+		if (!$type.isNumber(duration)) {
+			let component: $type.Optional<Component> = this.component;
+			if (component) {
 				duration = component.interpolationDuration;
 			}
 		}

@@ -20,6 +20,7 @@ import { DateAxis } from "../axes/DateAxis";
 import { Bullet } from "../elements/Bullet";
 import { CalculatedValue } from "../../core/Component";
 import { Animation } from "../../core/utils/Animation";
+import { ITimeInterval } from "../../core/defs/ITimeInterval";
 /**
  * ============================================================================
  * DATA ITEM
@@ -517,6 +518,12 @@ export declare class XYSeries extends Series {
      */
     protected _prevTooltipDataItem: XYSeriesDataItem;
     /**
+     * @ignore
+     */
+    _baseInterval: {
+        [index: string]: ITimeInterval;
+    };
+    /**
      * Constructor
      */
     constructor();
@@ -681,11 +688,16 @@ export declare class XYSeries extends Series {
     /**
      * Shows series tooltip at specific position.
      *
-     * @ignore Exclude from docs
      * @param {number}  xPosition  X
      * @param {number}  yPosition  Y
      */
     showTooltipAtPosition(xPosition: number, yPosition: number): IPoint;
+    /**
+     * Shows series tooltip at specific dataItem.
+     *
+     * @param {this["_dataItem"]}  dataItem
+     */
+    showTooltipAtDataItem(dataItem: this["_dataItem"]): IPoint;
     /**
      * returns default state to bullets when tooltip is shown at some other data item or hidden
      *

@@ -567,6 +567,13 @@ export declare class XYChart extends SerialChart {
      */
     showSeriesTooltip(position?: IPoint): void;
     /**
+     * @ignore
+     */
+    sortSeriesTooltips(seriesPoints: {
+        point: IPoint;
+        series: XYSeries;
+    }[]): void;
+    /**
      * Shows tooltips for a list of axes at specific position.
      *
      * Position might be X coordinate for horizontal axes, and Y coordinate for

@@ -33,7 +33,7 @@ import * as $type from "../../core/utils/Type";
 import * as $array from "../../core/utils/Array";
 import * as $object from "../../core/utils/Object";
 import * as $path from "../../core/rendering/Path";
-
+import { ITimeInterval } from "../../core/defs/ITimeInterval";
 
 /**
  * ============================================================================
@@ -754,6 +754,13 @@ export class XYSeries extends Series {
 	 */
 	protected _prevTooltipDataItem: XYSeriesDataItem;
 
+
+	/**
+	 * @ignore
+	 */
+	public _baseInterval:{[index:string]:ITimeInterval} = {};
+
+
 	/**
 	 * Constructor
 	 */
@@ -852,6 +859,7 @@ export class XYSeries extends Series {
 	 * @param {number}            index        Index of the data item
 	 */
 	protected processDataItem(dataItem: this["_dataItem"], dataContext?: Object): void {
+
 		try {
 			super.processDataItem(dataItem, dataContext);
 
@@ -1269,7 +1277,7 @@ export class XYSeries extends Series {
 		let startIndex = this.startIndex;
 		let endIndex = this.endIndex;
 
-		if(!working){
+		if (!working) {
 			startIndex = 0;
 			endIndex = this.dataItems.length;
 		}
@@ -1348,7 +1356,6 @@ export class XYSeries extends Series {
 	/**
 	 * Shows series tooltip at specific position.
 	 *
-	 * @ignore Exclude from docs
 	 * @param {number}  xPosition  X
 	 * @param {number}  yPosition  Y
 	 */
@@ -1368,47 +1375,12 @@ export class XYSeries extends Series {
 					dataItem = <this["_dataItem"]>yAxis.getSeriesDataItem(this, yAxis.toAxisPosition(yPosition), this.snapTooltip);
 				}
 
-				this.returnBulletDefaultState(dataItem);
-
-				if (dataItem && dataItem.visible) {
-					this.updateLegendValue(dataItem);
-					this.tooltipDataItem = dataItem;
-
-					// todo: add tooltipXField and tooltipYField.
-					let tooltipXField = this.tooltipXField;
-					let tooltipYField = this.tooltipYField;
-
-					if ($type.hasValue((<any>dataItem)[tooltipXField]) && $type.hasValue((<any>dataItem)[tooltipYField])) {
-
-						let tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, dataItem.locations[tooltipXField], dataItem.locations[tooltipYField]);
-
-						if (tooltipPoint) {
-
-							this.tooltipX = tooltipPoint.x;
-							this.tooltipY = tooltipPoint.y;
-
-							if (this._prevTooltipDataItem != dataItem) {
-								this.dispatchImmediately("tooltipshownat", {
-									type: "tooltipshownat",
-									target: this,
-									dataItem: dataItem
-								});
-
-								this._prevTooltipDataItem = dataItem;
-							}
-
-							for (let a of dataItem.bullets) {
-								let bullet = a[1]
-								bullet.isHover = true;
-							}
-
-							if (this.showTooltip()) {
-								return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
-							}
-							return;
-						}
-					}
+				let point = this.showTooltipAtDataItem(dataItem);
+				
+				if(point){
+					return point;
 				}
+
 				// so that if tooltip is shown on columns or bullets for it not to be hidden
 				if (!this.tooltipText) {
 					return;
@@ -1419,6 +1391,56 @@ export class XYSeries extends Series {
 		}
 	}
 
+
+	/**
+	 * Shows series tooltip at specific dataItem.
+	 *
+	 * @param {this["_dataItem"]}  dataItem
+	 */
+	public showTooltipAtDataItem(dataItem: this["_dataItem"]): IPoint {
+		this.returnBulletDefaultState(dataItem);
+
+		if (dataItem && dataItem.visible) {
+
+			this.updateLegendValue(dataItem);
+			this.tooltipDataItem = dataItem;
+
+			// todo: add tooltipXField and tooltipYField.
+			let tooltipXField = this.tooltipXField;
+			let tooltipYField = this.tooltipYField;
+
+			if ($type.hasValue((<any>dataItem)[tooltipXField]) && $type.hasValue((<any>dataItem)[tooltipYField])) {
+
+				let tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, dataItem.locations[tooltipXField], dataItem.locations[tooltipYField]);
+
+				if (tooltipPoint) {
+
+					this.tooltipX = tooltipPoint.x;
+					this.tooltipY = tooltipPoint.y;
+
+					if (this._prevTooltipDataItem != dataItem) {
+						this.dispatchImmediately("tooltipshownat", {
+							type: "tooltipshownat",
+							target: this,
+							dataItem: dataItem
+						});
+
+						this._prevTooltipDataItem = dataItem;
+					}
+
+					for (let a of dataItem.bullets) {
+						let bullet = a[1]
+						bullet.isHover = true;
+					}
+
+					if (this.showTooltip()) {
+						return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
+					}
+					return;
+				}
+			}
+		}
+	}
 	/**
 	 * returns default state to bullets when tooltip is shown at some other data item or hidden
 	 *
@@ -1923,7 +1945,7 @@ export class XYSeries extends Series {
 					config.xAxis = this.map.getKey(config.xAxis);
 				}
 				else {
-					this.processingErrors.push("[XYSeries (" + (this.name || "unnamed") + ")] No axis with id \"" + config.xAxis +"\" found for `xAxis`.");
+					this.processingErrors.push("[XYSeries (" + (this.name || "unnamed") + ")] No axis with id \"" + config.xAxis + "\" found for `xAxis`.");
 					delete config.xAxis;
 				}
 			}
@@ -1932,7 +1954,7 @@ export class XYSeries extends Series {
 					config.yAxis = this.map.getKey(config.yAxis);
 				}
 				else {
-					this.processingErrors.push("[XYSeries (" + (this.name || "unnamed") + ")] No axis with id \"" + config.yAxis +"\" found for `yAxis`.");
+					this.processingErrors.push("[XYSeries (" + (this.name || "unnamed") + ")] No axis with id \"" + config.yAxis + "\" found for `yAxis`.");
 					delete config.yAxis;
 				}
 			}

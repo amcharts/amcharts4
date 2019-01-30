@@ -316,13 +316,15 @@ var Component = /** @class */ (function (_super) {
                 var fieldName = key;
                 var value = dataContext[fieldValue];
                 // Apply adapters to a retrieved value
-                value = _this.adapter.apply("dataContextValue", {
-                    field: fieldName,
-                    value: value,
-                    dataItem: dataItem
-                }).value;
+                if (_this.adapter.isEnabled("dataContextValue")) {
+                    value = _this.adapter.apply("dataContextValue", {
+                        field: fieldName,
+                        value: value,
+                        dataItem: dataItem
+                    }).value;
+                }
                 if (dataItem.hasChildren[fieldName]) {
-                    if (value) {
+                    if ($type.hasValue(value)) {
                         hasSomeValues_1 = true;
                         var children = new OrderedListTemplate(_this.createDataItem());
                         children.events.on("inserted", _this.handleDataItemAdded, _this, false);
@@ -465,7 +467,7 @@ var Component = /** @class */ (function (_super) {
     /**
      * Removes elements from the beginning of data
      *
-     * @param {Optional<number>} coun number of elements to remove
+     * @param {Optional<number>} count number of elements to remove
      */
     Component.prototype.removeData = function (count) {
         if ($type.isNumber(count)) {
@@ -1270,7 +1272,7 @@ var Component = /** @class */ (function (_super) {
          * @param {number} value Start (0-1)
          */
         set: function (value) {
-            value = $math.round(value, 5);
+            // value = $math.round(value, 10); not good
             //if (1 / (this.end - value) > this.maxZoomFactor) {
             //	value = this.end - 1 / this.maxZoomFactor;
             //}
@@ -1302,7 +1304,7 @@ var Component = /** @class */ (function (_super) {
          * @param {number} value End (0-1)
          */
         set: function (value) {
-            value = $math.round(value, 5);
+            // value = $math.round(value, 10); // not good
             //if (1 / (value - this.start) > this.maxZoomFactor) {
             //	value = 1 / this.maxZoomFactor + this.start;
             //}

@@ -551,7 +551,7 @@ export declare class Component extends Container {
     /**
      * Removes elements from the beginning of data
      *
-     * @param {Optional<number>} coun number of elements to remove
+     * @param {Optional<number>} count number of elements to remove
      */
     removeData(count: $type.Optional<number>): void;
     /**

@@ -190,6 +190,14 @@ var Series = /** @class */ (function (_super) {
          * @default true
          */
         _this.autoDispose = true;
+        /**
+         * When working value of dataItem changes, we must process all the values to calculate sum, min, max etc. Also update stack values. This is quite expensive operation.
+         * Unfortunately we do not know if user needs this processed values or not. By setting simplifiedProcessing = true you disable this processing and in case working
+         * value changes, we only redraw the particular column. Do not do this if you have staked chart or use calculated values in bullets or in tooltips.
+         *
+         * @type {boolean}
+         */
+        _this.simplifiedProcessing = false;
         _this.className = "Series";
         _this.isMeasured = false;
         _this.layout = "none";
@@ -360,145 +368,147 @@ var Series = /** @class */ (function (_super) {
      */
     Series.prototype.processValues = function (working) {
         var _this = this;
-        var dataItems = this.dataItems;
-        var count = {};
-        var sum = {};
-        var low = {};
-        var high = {};
-        var open = {};
-        var close = {};
-        var previous = {};
-        var first = {};
-        //let duration: number = 0; // todo: check if series uses selection.change or selection.change.percent and set duration to interpolationduration
-        var startIndex = $math.max(0, this._workingStartIndex);
-        startIndex = $math.min(startIndex, this.dataItems.length);
-        var endIndex = $math.min(this._workingEndIndex, this.dataItems.length);
-        if (!$type.isNumber(startIndex)) {
-            startIndex = 0;
-        }
-        if (!$type.isNumber(endIndex)) {
-            endIndex = this.dataItems.length;
-        }
-        if (startIndex > 0) {
-            var dataItem_1 = dataItems.getIndex(startIndex - 1);
-            $object.each(dataItem_1.values, function (key, values) {
-                var value = values.workingValue;
-                if ($type.isNumber(value)) {
-                    // save previous
-                    previous[key] = value;
-                }
-            });
-        }
-        var _loop_1 = function (i) {
-            var dataItem_2 = dataItems.getIndex(i);
-            $object.each(dataItem_2.values, function (key, values) {
-                var value = values.workingValue;
-                //if (i >= startIndex && i <= endIndex) { // do not add to count, sum etc if it is not within start/end index
-                if ($type.isNumber(value)) {
-                    // count values
-                    if (!$type.isNumber(count[key])) {
-                        count[key] = 0;
+        if (!this.simplifiedProcessing) {
+            var dataItems = this.dataItems;
+            var count_1 = {};
+            var sum_1 = {};
+            var low_1 = {};
+            var high_1 = {};
+            var open_1 = {};
+            var close_1 = {};
+            var previous_1 = {};
+            var first_1 = {};
+            //let duration: number = 0; // todo: check if series uses selection.change or selection.change.percent and set duration to interpolationduration
+            var startIndex_1 = $math.max(0, this._workingStartIndex);
+            startIndex_1 = $math.min(startIndex_1, this.dataItems.length);
+            var endIndex = $math.min(this._workingEndIndex, this.dataItems.length);
+            if (!$type.isNumber(startIndex_1)) {
+                startIndex_1 = 0;
+            }
+            if (!$type.isNumber(endIndex)) {
+                endIndex = this.dataItems.length;
+            }
+            if (startIndex_1 > 0) {
+                var dataItem_1 = dataItems.getIndex(startIndex_1 - 1);
+                $object.each(dataItem_1.values, function (key, values) {
+                    var value = values.workingValue;
+                    if ($type.isNumber(value)) {
+                        // save previous
+                        previous_1[key] = value;
                     }
-                    count[key]++;
-                    // sum values
-                    if (!$type.isNumber(sum[key])) {
-                        sum[key] = 0;
-                    }
-                    sum[key] += value;
-                    // open
-                    if (!$type.isNumber(open[key])) {
-                        open[key] = value;
-                    }
-                    // close
-                    close[key] = value;
-                    // low
-                    if (!$type.isNumber(low[key])) {
-                        low[key] = value;
-                    }
-                    else {
-                        if (low[key] > value) {
-                            low[key] = value;
+                });
+            }
+            var _loop_1 = function (i) {
+                var dataItem_2 = dataItems.getIndex(i);
+                $object.each(dataItem_2.values, function (key, values) {
+                    var value = values.workingValue;
+                    //if (i >= startIndex && i <= endIndex) { // do not add to count, sum etc if it is not within start/end index
+                    if ($type.isNumber(value)) {
+                        // count values
+                        if (!$type.isNumber(count_1[key])) {
+                            count_1[key] = 0;
                         }
-                    }
-                    // high
-                    if (!$type.isNumber(high[key])) {
-                        high[key] = value;
-                    }
-                    else {
-                        if (high[key] < value) {
-                            high[key] = value;
+                        count_1[key]++;
+                        // sum values
+                        if (!$type.isNumber(sum_1[key])) {
+                            sum_1[key] = 0;
                         }
-                    }
-                    if (!$type.isNumber(first[key])) {
-                        first[key] = _this.getFirstValue(key, startIndex);
-                    }
-                    // change
-                    dataItem_2.setCalculatedValue(key, value - first[key], "change");
-                    // change from start percent
-                    // will fail if first value is 0
-                    dataItem_2.setCalculatedValue(key, (value - first[key]) / first[key] * 100, "changePercent");
-                    // previous change
-                    var prevValue = previous[key];
-                    if (!$type.isNumber(prevValue)) {
-                        prevValue = value;
-                    }
-                    dataItem_2.setCalculatedValue(key, value - prevValue, "previousChange");
-                    // previous change percent
-                    dataItem_2.setCalculatedValue(key, (value - prevValue) / prevValue * 100, "previousChangePercent");
-                    // save previous
-                    previous[key] = value;
-                }
-            });
-        };
-        for (var i = startIndex; i < endIndex; i++) {
-            _loop_1(i);
-        }
-        if (this.calculatePercent) {
-            var _loop_2 = function (i) {
-                var dataItem_3 = dataItems.getIndex(i);
-                $object.each(dataItem_3.values, function (key) {
-                    var ksum = sum[key];
-                    var value = dataItem_3.values[key].workingValue;
-                    if ($type.isNumber(value) && ksum > 0) {
-                        // this hack is made in order to make it possible to animate single slice to 0
-                        // if there is only one slice left, percent value is always 100%, so it won't animate
-                        // so we use real value of a slice instead of current value
-                        if (value == ksum) {
-                            ksum = dataItem_3.values[key].value;
+                        sum_1[key] += value;
+                        // open
+                        if (!$type.isNumber(open_1[key])) {
+                            open_1[key] = value;
                         }
-                        var percent = value / ksum * 100;
-                        dataItem_3.setCalculatedValue(key, percent, "percent");
+                        // close
+                        close_1[key] = value;
+                        // low
+                        if (!$type.isNumber(low_1[key])) {
+                            low_1[key] = value;
+                        }
+                        else {
+                            if (low_1[key] > value) {
+                                low_1[key] = value;
+                            }
+                        }
+                        // high
+                        if (!$type.isNumber(high_1[key])) {
+                            high_1[key] = value;
+                        }
+                        else {
+                            if (high_1[key] < value) {
+                                high_1[key] = value;
+                            }
+                        }
+                        if (!$type.isNumber(first_1[key])) {
+                            first_1[key] = _this.getFirstValue(key, startIndex_1);
+                        }
+                        // change
+                        dataItem_2.setCalculatedValue(key, value - first_1[key], "change");
+                        // change from start percent
+                        // will fail if first value is 0
+                        dataItem_2.setCalculatedValue(key, (value - first_1[key]) / first_1[key] * 100, "changePercent");
+                        // previous change
+                        var prevValue = previous_1[key];
+                        if (!$type.isNumber(prevValue)) {
+                            prevValue = value;
+                        }
+                        dataItem_2.setCalculatedValue(key, value - prevValue, "previousChange");
+                        // previous change percent
+                        dataItem_2.setCalculatedValue(key, (value - prevValue) / prevValue * 100, "previousChangePercent");
+                        // save previous
+                        previous_1[key] = value;
                     }
                 });
             };
-            for (var i = startIndex; i < endIndex; i++) {
-                _loop_2(i);
+            for (var i = startIndex_1; i < endIndex; i++) {
+                _loop_1(i);
             }
-        }
-        // calculate one before first (cant do that in cycle, as we don't know open yet
-        // when drawing line chart we should draw line to the invisible data point to the left, otherwise the line will always look like it starts from the selected point
-        // so we do startIndex - 1
-        if (startIndex > 0) {
-            var zeroItem_1 = dataItems.getIndex(startIndex - 1);
-            $object.each(zeroItem_1.values, function (key) {
-                var value = zeroItem_1.values[key].value;
-                // change
-                zeroItem_1.setCalculatedValue(key, value - open[key], "change");
-                // change percent
-                zeroItem_1.setCalculatedValue(key, (value - open[key]) / open[key] * 100, "changePercent");
+            if (this.calculatePercent) {
+                var _loop_2 = function (i) {
+                    var dataItem_3 = dataItems.getIndex(i);
+                    $object.each(dataItem_3.values, function (key) {
+                        var ksum = sum_1[key];
+                        var value = dataItem_3.values[key].workingValue;
+                        if ($type.isNumber(value) && ksum > 0) {
+                            // this hack is made in order to make it possible to animate single slice to 0
+                            // if there is only one slice left, percent value is always 100%, so it won't animate
+                            // so we use real value of a slice instead of current value
+                            if (value == ksum) {
+                                ksum = dataItem_3.values[key].value;
+                            }
+                            var percent = value / ksum * 100;
+                            dataItem_3.setCalculatedValue(key, percent, "percent");
+                        }
+                    });
+                };
+                for (var i = startIndex_1; i < endIndex; i++) {
+                    _loop_2(i);
+                }
+            }
+            // calculate one before first (cant do that in cycle, as we don't know open yet
+            // when drawing line chart we should draw line to the invisible data point to the left, otherwise the line will always look like it starts from the selected point
+            // so we do startIndex - 1
+            if (startIndex_1 > 0) {
+                var zeroItem_1 = dataItems.getIndex(startIndex_1 - 1);
+                $object.each(zeroItem_1.values, function (key) {
+                    var value = zeroItem_1.values[key].value;
+                    // change
+                    zeroItem_1.setCalculatedValue(key, value - open_1[key], "change");
+                    // change percent
+                    zeroItem_1.setCalculatedValue(key, (value - open_1[key]) / open_1[key] * 100, "changePercent");
+                });
+            }
+            // we save various data like sum, average to dataPoint of the series
+            var dataItem_4 = this.dataItem;
+            $object.each(dataItem_4.values, function (key) {
+                dataItem_4.setCalculatedValue(key, sum_1[key], "sum");
+                dataItem_4.setCalculatedValue(key, sum_1[key] / count_1[key], "average");
+                dataItem_4.setCalculatedValue(key, open_1[key], "open");
+                dataItem_4.setCalculatedValue(key, close_1[key], "close");
+                dataItem_4.setCalculatedValue(key, low_1[key], "low");
+                dataItem_4.setCalculatedValue(key, high_1[key], "high");
+                dataItem_4.setCalculatedValue(key, count_1[key], "count");
             });
         }
-        // we save various data like sum, average to dataPoint of the series
-        var dataItem = this.dataItem;
-        $object.each(dataItem.values, function (key) {
-            dataItem.setCalculatedValue(key, sum[key], "sum");
-            dataItem.setCalculatedValue(key, sum[key] / count[key], "average");
-            dataItem.setCalculatedValue(key, open[key], "open");
-            dataItem.setCalculatedValue(key, close[key], "close");
-            dataItem.setCalculatedValue(key, low[key], "low");
-            dataItem.setCalculatedValue(key, high[key], "high");
-            dataItem.setCalculatedValue(key, count[key], "count");
-        });
     };
     /**
      * (Re)validates the whole series, effectively causing it to redraw.
@@ -558,6 +568,10 @@ var Series = /** @class */ (function (_super) {
                 var bullet = dataItem.bullets.getKey(bulletTemplate.uid);
                 if (!bullet) {
                     bullet = bulletTemplate.clone();
+                    dataItem.addSprite(bullet);
+                    if (!_this.visible || _this.isHiding) {
+                        bullet.hide(0);
+                    }
                 }
                 var currentDataItem = bullet.dataItem;
                 if (currentDataItem != dataItem) {
@@ -565,7 +579,6 @@ var Series = /** @class */ (function (_super) {
                     if (currentDataItem) {
                         currentDataItem.bullets.setKey(bulletTemplate.uid, undefined);
                     }
-                    dataItem.addSprite(bullet);
                     // Add accessibility to bullet
                     var readerText_1 = _this.itemReaderText || ("{" + bullet.xField + "}: {" + bullet.yField + "}");
                     if (bullet.focusable) {
@@ -592,12 +605,6 @@ var Series = /** @class */ (function (_super) {
                     bullet.deepInvalidate();
                 }
                 bullet.parent = _this.bulletsContainer;
-                if (_this.visible) {
-                    bullet.show(0);
-                }
-                else {
-                    bullet.hide(0);
-                }
                 dataItem.bullets.setKey(bulletTemplate.uid, bullet);
                 // pass max w/h so we'd know if we should show/hide somethings
                 bullet.maxWidth = dataItem.itemWidth;

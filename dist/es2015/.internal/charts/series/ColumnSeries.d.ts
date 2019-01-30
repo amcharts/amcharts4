@@ -206,14 +206,6 @@ export declare class ColumnSeries extends XYSeries {
      */
     protected _riseFromPreviousState: SpriteState<this["_properties"], this["_adapter"]>;
     /**
-     * When working value of dataItem changes, we must process all the values to calculate sum, min, max etc. Also update stack values. This is quite expensive operation.
-     * Unfortunately we do not know if user needs this processed values or not. By setting simplifiedProcessing = true you disable this processing and in case working
-     * value changes, we only redraw the particular column. Do not do this if you have staked chart or use calculated values in bullets or in tooltips.
-     *
-     * @type {boolean}
-     */
-    simplifiedProcessing: boolean;
-    /**
      * Constructor
      */
     constructor();

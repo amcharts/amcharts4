@@ -14,6 +14,7 @@ module.exports = function (info) {
             publicPath: (info.runtimeDir != null ? info.runtimeDir: info.baseDir),
             filename: "[name].js",
             chunkFilename: "deps/[name].js",
+            jsonpFunction: "am4internal_webpackJsonp",
             libraryTarget: "var",
             pathinfo: !info.minify
         },

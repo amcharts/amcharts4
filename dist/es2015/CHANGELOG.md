@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.1.0] - 2019-01-30
+
+### Changed
+- Standalone scripts were recompiled to use unique Webpack scope, to avoid conflicts with other Webpack packages. If you are using map charts, to avoid breakage, make sure you update to 4.1 version of geodata package as well.
+
+### Fixed
+- Performance optimizations of date-based charts, especially with more than one series.
+- Overlapping tooltips of series with gaps in date-based data fixed.
+- Bullets were not hidden when series was hidden in some cases.
+- `simplifiedProcessing` moved from `ColumnSeries` to `Series`. If set to `true` (default `false`) the chart will not auto-calculate derivative values for data items, like sum, average, change, etc.
+- Last grid of monthly data was not always drawn.
+
+
 ## [4.0.24] - 2019-01-25
 
 ### Fixed

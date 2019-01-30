@@ -152,38 +152,38 @@ export function checkChange(dateOne, dateTwo, unit) {
  * @return {Date}             Modified date
  */
 export function add(date, unit, count) {
-    var year = date.getFullYear();
-    var month = date.getMonth();
-    var day = date.getDate();
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    var seconds = date.getSeconds();
-    var milliseconds = date.getMilliseconds();
-    //let weekDay: number = date.getDay();
     switch (unit) {
-        case "year":
-            date.setFullYear(year + count);
-            break;
-        case "month":
-            date.setMonth(month + count);
-            break;
-        case "week":
-            date.setDate(day + count * 7);
-            break;
         case "day":
+            var day = date.getDate();
             date.setDate(day + count);
             break;
-        case "hour":
-            date.setHours(hours + count);
-            break;
-        case "minute":
-            date.setMinutes(minutes + count);
-            break;
         case "second":
+            var seconds = date.getSeconds();
             date.setSeconds(seconds + count);
             break;
         case "millisecond":
+            var milliseconds = date.getMilliseconds();
             date.setMilliseconds(milliseconds + count);
+            break;
+        case "hour":
+            var hours = date.getHours();
+            date.setHours(hours + count);
+            break;
+        case "minute":
+            var minutes = date.getMinutes();
+            date.setMinutes(minutes + count);
+            break;
+        case "year":
+            var year = date.getFullYear();
+            date.setFullYear(year + count);
+            break;
+        case "month":
+            var month = date.getMonth();
+            date.setMonth(month + count);
+            break;
+        case "week":
+            var wday = date.getDate();
+            date.setDate(wday + count * 7);
             break;
     }
     return date;
@@ -202,77 +202,79 @@ export function round(date, unit, count, firstDateOfWeek) {
     if (!$type.isNumber(count)) {
         count = 1;
     }
-    if (!$type.isNumber(firstDateOfWeek)) {
-        firstDateOfWeek = 1;
-    }
-    var year = date.getFullYear();
-    var month = date.getMonth();
-    var day = date.getDate();
-    var hours = date.getHours();
-    var minutes = date.getMinutes();
-    var seconds = date.getSeconds();
-    var milliseconds = date.getMilliseconds();
-    var weekDay = date.getDay();
     switch (unit) {
-        case "year":
-            year = Math.floor(year / count) * count;
-            month = 0;
-            day = 1;
-            hours = 0;
-            minutes = 0;
-            seconds = 0;
-            milliseconds = 0;
-            break;
-        case "month":
-            month = Math.floor(month / count) * count;
-            day = 1;
-            hours = 0;
-            minutes = 0;
-            seconds = 0;
-            milliseconds = 0;
-            break;
-        case "week":
-            // todo: rounding when count is not 1
-            if (weekDay >= firstDateOfWeek) {
-                day = day - weekDay + firstDateOfWeek;
-            }
-            else {
-                day = day - (7 + weekDay) + firstDateOfWeek;
-            }
-            hours = 0;
-            minutes = 0;
-            seconds = 0;
-            milliseconds = 0;
-            break;
         case "day":
-            day = Math.floor(day / count) * count;
+            var day = date.getDate();
+            if (count > 1) {
+                day = Math.floor(day / count) * count;
+            }
             day = day;
-            hours = 0;
-            minutes = 0;
-            seconds = 0;
-            milliseconds = 0;
-            break;
-        case "hour":
-            hours = Math.floor(hours / count) * count;
-            minutes = 0;
-            seconds = 0;
-            milliseconds = 0;
-            break;
-        case "minute":
-            minutes = Math.floor(minutes / count) * count;
-            seconds = 0;
-            milliseconds = 0;
+            date.setDate(day);
+            date.setHours(0, 0, 0, 0);
             break;
         case "second":
-            seconds = Math.floor(seconds / count) * count;
-            milliseconds = 0;
+            var seconds = date.getSeconds();
+            if (count > 1) {
+                seconds = Math.floor(seconds / count) * count;
+            }
+            date.setSeconds(seconds, 0);
             break;
         case "millisecond":
+            if (count == 1) {
+                return date; // much better for perf!
+            }
+            var milliseconds = date.getMilliseconds();
             milliseconds = Math.floor(milliseconds / count) * count;
+            date.setMilliseconds(milliseconds);
+            break;
+        case "hour":
+            var hours = date.getHours();
+            if (count > 1) {
+                hours = Math.floor(hours / count) * count;
+            }
+            date.setHours(hours, 0, 0, 0);
+            break;
+        case "minute":
+            var minutes = date.getMinutes();
+            milliseconds = date.getMilliseconds();
+            if (count > 1) {
+                minutes = Math.floor(minutes / count) * count;
+            }
+            date.setMinutes(minutes, 0, 0);
+            break;
+        case "month":
+            var month = date.getMonth();
+            if (count > 1) {
+                month = Math.floor(month / count) * count;
+            }
+            date.setMonth(month, 1);
+            date.setHours(0, 0, 0, 0);
+            break;
+        case "year":
+            var year = date.getFullYear();
+            if (count > 1) {
+                year = Math.floor(year / count) * count;
+            }
+            date.setFullYear(year, 0, 1);
+            date.setHours(0, 0, 0, 0);
+            break;
+        case "week":
+            var wday = date.getDate();
+            var weekDay = date.getDay();
+            if (!$type.isNumber(firstDateOfWeek)) {
+                firstDateOfWeek = 1;
+            }
+            // todo: rounding when count is not 1
+            if (weekDay >= firstDateOfWeek) {
+                wday = wday - weekDay + firstDateOfWeek;
+            }
+            else {
+                wday = wday - (7 + weekDay) + firstDateOfWeek;
+            }
+            date.setDate(wday);
+            date.setHours(0, 0, 0, 0);
             break;
     }
-    date.setFullYear(year, month, day);
-    date.setHours(hours, minutes, seconds, milliseconds);
     return date;
 }
 //# sourceMappingURL=Time.js.map

@@ -87,4 +87,4 @@ export declare function add(date: Date, unit: TimeUnit, count: number): Date;
  * @param  {number}    firstDateOfWeek  First day of week
  * @return {Date}                       New date
  */
-export declare function round(date: Date, unit: TimeUnit, count?: number, firstDateOfWeek?: number): Date;
+export declare function round(date: Date, unit: TimeUnit, count: number, firstDateOfWeek?: number): Date;

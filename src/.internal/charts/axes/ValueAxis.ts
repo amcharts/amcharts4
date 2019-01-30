@@ -20,6 +20,7 @@ import { SpriteEventDispatcher, AMEvent } from "../../core/Sprite";
 import { Grid } from "./Grid";
 import { IDisposer, Disposer, MultiDisposer } from "../../core/utils/Disposer";
 import { SerialChart } from "../types/SerialChart";
+import { XYChart } from "../types/XYChart";
 import { XYSeries, XYSeriesDataItem } from "../series/XYSeries";
 import { registry } from "../../core/Registry";
 import { ValueAxisBreak } from "./ValueAxisBreak";
@@ -241,9 +242,9 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	/**
 	 * A reference to chart the axis is for.
 	 *
-	 * @type {SerialChart}
+	 * @type {XYChart}
 	 */
-	public chart: SerialChart;
+	public chart: XYChart;
 
 	/**
 	 * A list of Series that are using this Axis.
@@ -1901,25 +1902,27 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	public fixAxisBreaks(): void {
 
 		super.fixAxisBreaks();
+		let axisBreaks = this.axisBreaks;
+		if (axisBreaks.length > 0) {
+			// process breaks
+			axisBreaks.each((axisBreak) => {
+				let startValue: number = axisBreak.adjustedStartValue;
+				let endValue: number = axisBreak.adjustedEndValue;
 
-		// process breaks
-		$iter.each(this.axisBreaks.iterator(), (axisBreak) => {
-			let startValue: number = axisBreak.adjustedStartValue;
-			let endValue: number = axisBreak.adjustedEndValue;
+				// break difference
+				let axisBreakDif: number = endValue - startValue;
+				let axisBreakGridCount: number = Math.ceil(axisBreakDif * axisBreak.breakSize) * this._gridCount / (this.max - this.min);
 
-			// break difference
-			let axisBreakDif: number = endValue - startValue;
-			let axisBreakGridCount: number = Math.ceil(axisBreakDif * axisBreak.breakSize) * this._gridCount / (this.max - this.min);
+				// calculate min, max and step for axis break
+				let breakMinMaxStep = this.adjustMinMax(startValue, endValue, axisBreakDif, axisBreakGridCount, true);
 
-			// calculate min, max and step for axis break
-			let breakMinMaxStep = this.adjustMinMax(startValue, endValue, axisBreakDif, axisBreakGridCount, true);
-
-			axisBreak.adjustedStep = breakMinMaxStep.step;
-			axisBreak.adjustedMin = breakMinMaxStep.min;
-			axisBreak.adjustedMax = breakMinMaxStep.max;
-		});
-
-		this._difference = this.adjustDifference(this.min, this.max);
+				axisBreak.adjustedStep = breakMinMaxStep.step;
+				axisBreak.adjustedMin = breakMinMaxStep.min;
+				axisBreak.adjustedMax = breakMinMaxStep.max;
+			});
+		}
+		
+		this._difference = this.adjustDifference(this.min, this.max);		
 	}
 
 	/**

@@ -387,6 +387,10 @@ var XYSeries = /** @class */ (function (_super) {
          * @type {Array<string>}
          */
         _this._yValueFields = [];
+        /**
+         * @ignore
+         */
+        _this._baseInterval = {};
         _this.className = "XYSeries";
         _this.isMeasured = false;
         _this.cursorTooltipEnabled = true;
@@ -885,7 +889,6 @@ var XYSeries = /** @class */ (function (_super) {
     /**
      * Shows series tooltip at specific position.
      *
-     * @ignore Exclude from docs
      * @param {number}  xPosition  X
      * @param {number}  yPosition  Y
      */
@@ -901,46 +904,9 @@ var XYSeries = /** @class */ (function (_super) {
                 if (yAxis == this.baseAxis) {
                     dataItem = yAxis.getSeriesDataItem(this, yAxis.toAxisPosition(yPosition), this.snapTooltip);
                 }
-                this.returnBulletDefaultState(dataItem);
-                if (dataItem && dataItem.visible) {
-                    this.updateLegendValue(dataItem);
-                    this.tooltipDataItem = dataItem;
-                    // todo: add tooltipXField and tooltipYField.
-                    var tooltipXField = this.tooltipXField;
-                    var tooltipYField = this.tooltipYField;
-                    if ($type.hasValue(dataItem[tooltipXField]) && $type.hasValue(dataItem[tooltipYField])) {
-                        var tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, dataItem.locations[tooltipXField], dataItem.locations[tooltipYField]);
-                        if (tooltipPoint) {
-                            this.tooltipX = tooltipPoint.x;
-                            this.tooltipY = tooltipPoint.y;
-                            if (this._prevTooltipDataItem != dataItem) {
-                                this.dispatchImmediately("tooltipshownat", {
-                                    type: "tooltipshownat",
-                                    target: this,
-                                    dataItem: dataItem
-                                });
-                                this._prevTooltipDataItem = dataItem;
-                            }
-                            try {
-                                for (var _a = tslib_1.__values(dataItem.bullets), _b = _a.next(); !_b.done; _b = _a.next()) {
-                                    var a = _b.value;
-                                    var bullet = a[1];
-                                    bullet.isHover = true;
-                                }
-                            }
-                            catch (e_1_1) { e_1 = { error: e_1_1 }; }
-                            finally {
-                                try {
-                                    if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
-                                }
-                                finally { if (e_1) throw e_1.error; }
-                            }
-                            if (this.showTooltip()) {
-                                return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
-                            }
-                            return;
-                        }
-                    }
+                var point = this.showTooltipAtDataItem(dataItem);
+                if (point) {
+                    return point;
                 }
                 // so that if tooltip is shown on columns or bullets for it not to be hidden
                 if (!this.tooltipText) {
@@ -948,6 +914,54 @@ var XYSeries = /** @class */ (function (_super) {
                 }
             }
             this.hideTooltip();
+        }
+    };
+    /**
+     * Shows series tooltip at specific dataItem.
+     *
+     * @param {this["_dataItem"]}  dataItem
+     */
+    XYSeries.prototype.showTooltipAtDataItem = function (dataItem) {
+        this.returnBulletDefaultState(dataItem);
+        if (dataItem && dataItem.visible) {
+            this.updateLegendValue(dataItem);
+            this.tooltipDataItem = dataItem;
+            // todo: add tooltipXField and tooltipYField.
+            var tooltipXField = this.tooltipXField;
+            var tooltipYField = this.tooltipYField;
+            if ($type.hasValue(dataItem[tooltipXField]) && $type.hasValue(dataItem[tooltipYField])) {
+                var tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, dataItem.locations[tooltipXField], dataItem.locations[tooltipYField]);
+                if (tooltipPoint) {
+                    this.tooltipX = tooltipPoint.x;
+                    this.tooltipY = tooltipPoint.y;
+                    if (this._prevTooltipDataItem != dataItem) {
+                        this.dispatchImmediately("tooltipshownat", {
+                            type: "tooltipshownat",
+                            target: this,
+                            dataItem: dataItem
+                        });
+                        this._prevTooltipDataItem = dataItem;
+                    }
+                    try {
+                        for (var _a = tslib_1.__values(dataItem.bullets), _b = _a.next(); !_b.done; _b = _a.next()) {
+                            var a = _b.value;
+                            var bullet = a[1];
+                            bullet.isHover = true;
+                        }
+                    }
+                    catch (e_1_1) { e_1 = { error: e_1_1 }; }
+                    finally {
+                        try {
+                            if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                        }
+                        finally { if (e_1) throw e_1.error; }
+                    }
+                    if (this.showTooltip()) {
+                        return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
+                    }
+                    return;
+                }
+            }
         }
         var e_1, _c;
     };
