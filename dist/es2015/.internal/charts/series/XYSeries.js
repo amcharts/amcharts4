@@ -682,6 +682,8 @@ var XYSeries = /** @class */ (function (_super) {
         if (this.yAxis.invalid) {
             this.yAxis.validate();
         }
+        this.y = this.yAxis.pixelY;
+        this.x = this.xAxis.pixelX;
         this._showBullets = true;
         var minBulletDistance = this.minBulletDistance;
         if ($type.isNumber(minBulletDistance)) {
@@ -923,43 +925,45 @@ var XYSeries = /** @class */ (function (_super) {
      */
     XYSeries.prototype.showTooltipAtDataItem = function (dataItem) {
         this.returnBulletDefaultState(dataItem);
-        if (dataItem && dataItem.visible) {
-            this.updateLegendValue(dataItem);
-            this.tooltipDataItem = dataItem;
-            // todo: add tooltipXField and tooltipYField.
-            var tooltipXField = this.tooltipXField;
-            var tooltipYField = this.tooltipYField;
-            if ($type.hasValue(dataItem[tooltipXField]) && $type.hasValue(dataItem[tooltipYField])) {
-                var tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, dataItem.locations[tooltipXField], dataItem.locations[tooltipYField]);
-                if (tooltipPoint) {
-                    this.tooltipX = tooltipPoint.x;
-                    this.tooltipY = tooltipPoint.y;
-                    if (this._prevTooltipDataItem != dataItem) {
-                        this.dispatchImmediately("tooltipshownat", {
-                            type: "tooltipshownat",
-                            target: this,
-                            dataItem: dataItem
-                        });
-                        this._prevTooltipDataItem = dataItem;
-                    }
-                    try {
-                        for (var _a = tslib_1.__values(dataItem.bullets), _b = _a.next(); !_b.done; _b = _a.next()) {
-                            var a = _b.value;
-                            var bullet = a[1];
-                            bullet.isHover = true;
+        if (this.cursorTooltipEnabled) {
+            if (dataItem && dataItem.visible) {
+                this.updateLegendValue(dataItem);
+                this.tooltipDataItem = dataItem;
+                // todo: add tooltipXField and tooltipYField.
+                var tooltipXField = this.tooltipXField;
+                var tooltipYField = this.tooltipYField;
+                if ($type.hasValue(dataItem[tooltipXField]) && $type.hasValue(dataItem[tooltipYField])) {
+                    var tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, dataItem.locations[tooltipXField], dataItem.locations[tooltipYField]);
+                    if (tooltipPoint) {
+                        this.tooltipX = tooltipPoint.x;
+                        this.tooltipY = tooltipPoint.y;
+                        if (this._prevTooltipDataItem != dataItem) {
+                            this.dispatchImmediately("tooltipshownat", {
+                                type: "tooltipshownat",
+                                target: this,
+                                dataItem: dataItem
+                            });
+                            this._prevTooltipDataItem = dataItem;
                         }
-                    }
-                    catch (e_1_1) { e_1 = { error: e_1_1 }; }
-                    finally {
                         try {
-                            if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                            for (var _a = tslib_1.__values(dataItem.bullets), _b = _a.next(); !_b.done; _b = _a.next()) {
+                                var a = _b.value;
+                                var bullet = a[1];
+                                bullet.isHover = true;
+                            }
                         }
-                        finally { if (e_1) throw e_1.error; }
+                        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+                        finally {
+                            try {
+                                if (_b && !_b.done && (_c = _a.return)) _c.call(_a);
+                            }
+                            finally { if (e_1) throw e_1.error; }
+                        }
+                        if (this.showTooltip()) {
+                            return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
+                        }
+                        return;
                     }
-                    if (this.showTooltip()) {
-                        return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
-                    }
-                    return;
                 }
             }
         }

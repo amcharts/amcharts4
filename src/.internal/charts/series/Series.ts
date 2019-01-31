@@ -870,8 +870,12 @@ export class Series extends Component {
 		});
 
 		super.validate();
-		this.bulletsContainer.fill = this.fill;
-		this.bulletsContainer.stroke = this.stroke;
+		let bulletsContainer = this.bulletsContainer;
+		bulletsContainer.fill = this.fill;
+		bulletsContainer.stroke = this.stroke;
+		bulletsContainer.x = this.pixelX;
+		bulletsContainer.y = this.pixelY;
+
 
 		if (this.bulletsContainer.children.length > 0) {
 			for (let i = 0; i < this.startIndex; i++) {
@@ -924,7 +928,7 @@ export class Series extends Component {
 					bullet = bulletTemplate.clone();
 					dataItem.addSprite(bullet);
 
-					if(!this.visible || this.isHiding){
+					if (!this.visible || this.isHiding) {
 						bullet.hide(0);
 					}
 				}
@@ -934,7 +938,7 @@ export class Series extends Component {
 					// set to undefined in order not to reuse
 					if (currentDataItem) {
 						currentDataItem.bullets.setKey(bulletTemplate.uid, undefined);
-					}					
+					}
 
 					// Add accessibility to bullet
 					let readerText = this.itemReaderText || ("{" + bullet.xField + "}: {" + bullet.yField + "}");

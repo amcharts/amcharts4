@@ -22,6 +22,7 @@ import { WavedLine } from "../../core/elements/WavedLine";
 import { WavedRectangle } from "../../core/elements/WavedRectangle";
 import { registry } from "../../core/Registry";
 import { percent } from "../../core/utils/Percent";
+import { XYChart } from "../types/XYChart";
 import * as $math from "../../core/utils/Math";
 import * as $path from "../../core/rendering/Path";
 import * as $utils from "../../core/utils/Utils";
@@ -121,6 +122,18 @@ export class AxisRendererX extends AxisRenderer {
 		super.setAxis(axis);
 		axis.layout = "vertical";
 	}
+
+	/**
+	 * @ignore
+	 */
+	public updateGridContainer(){
+		let axis = this.axis;
+		if(axis){
+			let gridContainer = this.gridContainer;
+			gridContainer.x = axis.pixelX;
+			gridContainer.width = axis.pixelWidth;
+		}
+	}	
 
 	/**
 	 * Called when rendered is attached to an Axis, as well as a property of
@@ -344,6 +357,7 @@ export class AxisRendererX extends AxisRenderer {
 	public updateGridElement(grid: Grid, position: number, endPosition: number): void {
 		position = position + (endPosition - position) * grid.location;
 		let point: IPoint = this.positionToPoint(position);
+		//point.x = $utils.spritePointToSprite({x:point.x, y:0}, this, this.gridContainer).x;
 
 		grid.path = $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: 0, y: this.getHeight() });
 
@@ -400,7 +414,7 @@ export class AxisRendererX extends AxisRenderer {
 
 		let axis: Axis = this.axis;
 		let h: number = this.getHeight();
-		let w: number = this.getWidth();
+		let w: number = this.pixelWidth;
 		let baseGrid: Sprite = this.baseGrid;
 
 		let x: number = axis.basePoint.x;

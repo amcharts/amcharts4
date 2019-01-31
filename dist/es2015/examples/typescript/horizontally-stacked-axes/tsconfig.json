@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "strictNullChecks": false,
+        "esModuleInterop": true,
+        "sourceMap": true,
+        "inlineSources": true,
+        "moduleResolution": "node",
+        "module": "esnext",
+        "target": "es5",
+    }
+}

@@ -15,6 +15,7 @@ import { Axis } from "./Axis";
 import { HorizontalCenter } from "../../core/defs/HorizontalCenter";
 import { Label } from "../../core/elements/Label";
 import { Grid } from "./Grid";
+import { XYChart } from "../types/XYChart";
 import { AxisTick } from "./AxisTick";
 import { AxisLabel } from "./AxisLabel";
 import { AxisBreak } from "./AxisBreak";
@@ -100,6 +101,7 @@ export class AxisRendererY extends AxisRenderer {
 		this.opposite = false;
 		this.height = percent(100);
 		this.labels.template.verticalCenter = "middle";
+
 		this.applyTheme();
 	}
 
@@ -109,6 +111,18 @@ export class AxisRendererY extends AxisRenderer {
 	public setAxis(axis: Axis) {
 		super.setAxis(axis);
 		axis.layout = "horizontal";
+	}
+
+	/**
+	 * @ignore
+	 */
+	public updateGridContainer(){
+		let axis = this.axis;
+		if(axis){
+			let gridContainer = this.gridContainer;
+			gridContainer.y = axis.pixelY;
+			gridContainer.height = axis.pixelHeight;
+		}
 	}
 
 	/**
@@ -251,6 +265,8 @@ export class AxisRendererY extends AxisRenderer {
 	public updateGridElement(grid: Grid, position: number, endPosition: number) {
 		position = position + (endPosition - position) * grid.location;
 		let point: IPoint = this.positionToPoint(position);
+	//	point.y = $utils.spritePointToSprite({ x: 0, y: point.y }, this, this.gridContainer).y;
+
 		grid.path = $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: this.getWidth(), y: 0 });
 
 		this.positionItem(grid, point);
@@ -277,7 +293,7 @@ export class AxisRendererY extends AxisRenderer {
 		} catch{
 			// void
 		}
-		
+
 		if (!this.opposite) {
 			tickLength *= (tick.inside ? 1 : -1);
 			point.x = 0;
@@ -314,7 +330,7 @@ export class AxisRendererY extends AxisRenderer {
 		let axis: Axis = this.axis;
 
 		let w: number = this.getWidth();
-		let h: number = this.getHeight();
+		let h: number = this.pixelHeight;
 		let y: number = axis.basePoint.y;
 
 		let baseGrid: Sprite = this.baseGrid;

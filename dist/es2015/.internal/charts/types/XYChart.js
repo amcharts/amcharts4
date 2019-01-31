@@ -1152,16 +1152,18 @@ var XYChart = /** @class */ (function (_super) {
      * @param {AMEvent<Scrollbar, IScrollbarEvents>["rangechanged"]} event Scrollbar range change event
      */
     XYChart.prototype.handleXScrollbarChange = function (event) {
-        var scrollbar = event.target;
-        var range = scrollbar.range;
-        if (range.end == 1) {
-            range.priority = "end";
+        if (this.inited) {
+            var scrollbar = event.target;
+            var range = scrollbar.range;
+            if (range.end == 1) {
+                range.priority = "end";
+            }
+            if (range.start == 0) {
+                range.priority = "start";
+            }
+            range = this.zoomAxes(this.xAxes, range);
+            scrollbar.fixRange(range);
         }
-        if (range.start == 0) {
-            range.priority = "start";
-        }
-        range = this.zoomAxes(this.xAxes, range);
-        scrollbar.fixRange(range);
     };
     /**
      * Zooms axes affected by the vertical (Y) scrollbar when the selection
@@ -1170,9 +1172,18 @@ var XYChart = /** @class */ (function (_super) {
      * @param {AMEvent<Scrollbar, IScrollbarEvents>["rangechanged"]} event Scrollbar range change event
      */
     XYChart.prototype.handleYScrollbarChange = function (event) {
-        var scrollbar = event.target;
-        var range = this.zoomAxes(this.yAxes, scrollbar.range);
-        scrollbar.fixRange(range);
+        if (this.inited) {
+            var scrollbar = event.target;
+            var range = scrollbar.range;
+            if (range.end == 1) {
+                range.priority = "end";
+            }
+            if (range.start == 0) {
+                range.priority = "start";
+            }
+            range = this.zoomAxes(this.yAxes, range);
+            scrollbar.fixRange(range);
+        }
     };
     /**
      * Zooms axes that are affected by to specific relative range.

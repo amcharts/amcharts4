@@ -384,6 +384,7 @@ export class MapLine extends MapObject {
 	protected handleLineObjectAdded(event: IListEvents<MapLineObject>["inserted"]) {
 		let mapLineObject: MapLineObject = event.newValue;
 		mapLineObject.mapLine = this;		
+		mapLineObject.shouldClone = false;
 		mapLineObject.parent = this;
 	}
 

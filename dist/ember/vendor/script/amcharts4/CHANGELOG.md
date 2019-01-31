@@ -5,6 +5,20 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 Please note, that this project, while following numbering syntax, it DOES NOT
 adhere to [Semantic Versioning](http://semver.org/spec/v2.0.0.html) rules.
 
+## [4.1.1] - 2019-01-31
+
+### Added
+- `keepSelection` added to `ValueAxis` (will work on DateAxis too). With this set to `true`, axis will keep the relative selection when data changes (is updated). This is useful for "pre-zooming" a date axis: just set it's `start` property (e.g. `axis.start = 0.8`).
+
+### Changed
+- If `ValueAxis` has `strictMinMax = true` set but `min` and `max` are not set, axis will fix the min and max and real high/low values.
+
+### Fixed
+- `cursorTooltipDisabled = true` was not working properly in some cases.
+- Sometimes duplicate `MapLineObjects` used to appear on map lines.
+- Some fixes made so that vertically and horizontally stacked axes on `XYChart` are now possible. Check new example in `examples/vertically-stacked-axes`.
+
+
 ## [4.1.0] - 2019-01-30
 
 ### Changed

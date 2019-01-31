@@ -55,6 +55,17 @@ var AxisRendererX = /** @class */ (function (_super) {
         axis.layout = "vertical";
     };
     /**
+     * @ignore
+     */
+    AxisRendererX.prototype.updateGridContainer = function () {
+        var axis = this.axis;
+        if (axis) {
+            var gridContainer = this.gridContainer;
+            gridContainer.x = axis.pixelX;
+            gridContainer.width = axis.pixelWidth;
+        }
+    };
+    /**
      * Called when rendered is attached to an Axis, as well as a property of
      * Axis that might affect the appearance is updated.
      *
@@ -247,6 +258,7 @@ var AxisRendererX = /** @class */ (function (_super) {
     AxisRendererX.prototype.updateGridElement = function (grid, position, endPosition) {
         position = position + (endPosition - position) * grid.location;
         var point = this.positionToPoint(position);
+        //point.x = $utils.spritePointToSprite({x:point.x, y:0}, this, this.gridContainer).x;
         grid.path = $path.moveTo({ x: 0, y: 0 }) + $path.lineTo({ x: 0, y: this.getHeight() });
         this.positionItem(grid, point);
         this.toggleVisibility(grid, position, 0, 1);
@@ -292,7 +304,7 @@ var AxisRendererX = /** @class */ (function (_super) {
         _super.prototype.updateBaseGridElement.call(this);
         var axis = this.axis;
         var h = this.getHeight();
-        var w = this.getWidth();
+        var w = this.pixelWidth;
         var baseGrid = this.baseGrid;
         var x = axis.basePoint.x;
         if (x < 0 || x > w) {

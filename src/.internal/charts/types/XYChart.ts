@@ -1526,16 +1526,18 @@ export class XYChart extends SerialChart {
 	 * @param {AMEvent<Scrollbar, IScrollbarEvents>["rangechanged"]} event Scrollbar range change event
 	 */
 	protected handleXScrollbarChange(event: AMEvent<Scrollbar, IScrollbarEvents>["rangechanged"]): void {
-		let scrollbar: Scrollbar = event.target;
-		let range = scrollbar.range;
-		if(range.end == 1){
-			range.priority = "end";
+		if(this.inited){
+			let scrollbar: Scrollbar = event.target;
+			let range = scrollbar.range;
+			if(range.end == 1){
+				range.priority = "end";
+			}
+			if(range.start == 0){
+				range.priority = "start";
+			}		
+			range = this.zoomAxes(this.xAxes, range);
+			scrollbar.fixRange(range);
 		}
-		if(range.start == 0){
-			range.priority = "start";
-		}		
-		range = this.zoomAxes(this.xAxes, range);
-		scrollbar.fixRange(range);
 	}
 
 	/**
@@ -1545,9 +1547,19 @@ export class XYChart extends SerialChart {
 	 * @param {AMEvent<Scrollbar, IScrollbarEvents>["rangechanged"]} event Scrollbar range change event
 	 */
 	protected handleYScrollbarChange(event: AMEvent<Scrollbar, IScrollbarEvents>["rangechanged"]): void {
-		let scrollbar: Scrollbar = event.target;
-		let range: IRange = this.zoomAxes(this.yAxes, scrollbar.range);
-		scrollbar.fixRange(range);
+		if(this.inited){
+			let scrollbar: Scrollbar = event.target;
+			let range = scrollbar.range;
+			if(range.end == 1){
+				range.priority = "end";
+			}
+			if(range.start == 0){
+				range.priority = "start";
+			}		
+			range = this.zoomAxes(this.yAxes, range);
+			scrollbar.fixRange(range);
+		}
+
 	}
 
 	/**

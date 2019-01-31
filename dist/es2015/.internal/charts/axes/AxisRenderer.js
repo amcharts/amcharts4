@@ -212,6 +212,8 @@ var AxisRenderer = /** @class */ (function (_super) {
         }
         return coordinate;
     };
+    AxisRenderer.prototype.updateGridContainer = function () {
+    };
     AxisRenderer.prototype.getHeight = function () {
         var axis = this.axis;
         if (axis && axis.chart) {

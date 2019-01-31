@@ -256,6 +256,7 @@ var MapLine = /** @class */ (function (_super) {
     MapLine.prototype.handleLineObjectAdded = function (event) {
         var mapLineObject = event.newValue;
         mapLineObject.mapLine = this;
+        mapLineObject.shouldClone = false;
         mapLineObject.parent = this;
     };
     Object.defineProperty(MapLine.prototype, "arrow", {

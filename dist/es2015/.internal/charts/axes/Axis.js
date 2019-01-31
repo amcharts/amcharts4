@@ -671,6 +671,7 @@ var Axis = /** @class */ (function (_super) {
     Axis.prototype.validate = function () {
         _super.prototype.validate.call(this);
         this.validateLayout();
+        this.renderer.updateGridContainer();
     };
     /**
      * Redars Axis ranges.

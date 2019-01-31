@@ -1038,6 +1038,8 @@ export class Axis<T extends AxisRenderer = AxisRenderer> extends Component {
 	public validate(): void {
 		super.validate();
 		this.validateLayout();
+
+		this.renderer.updateGridContainer();
 	}
 
 	/**

@@ -130,6 +130,7 @@ export interface IValueAxisProperties extends IAxisProperties {
 	maxPrecision?: number;
 	extraMin?: number;
 	extraMax?: number;
+	keepSelection?: boolean;
 }
 
 /**
@@ -450,6 +451,7 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 		this.setPropertyValue("extraMax", 0);
 		this.setPropertyValue("strictMinMax", false);
 		this.setPropertyValue("maxPrecision", Number.MAX_VALUE);
+		this.keepSelection = false;
 
 		// Apply theme
 		this.applyTheme();
@@ -483,8 +485,19 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	 * @todo Description
 	 */
 	public dataChangeUpdate(): void {
-		this._start = 0;
-		this._end = 1;
+		if (!this.keepSelection) {
+			this._start = 0;
+			this._end = 1;
+		}
+		else {
+			if (this._start != 0) {
+				this.dispatchImmediately("startchanged");
+			}
+			if (this._end != 1) {
+				this.dispatchImmediately("endchanged");
+			}
+		}
+
 		this._maxZoomed = this._maxDefined;
 		this._minZoomed = this._minDefined;
 		this._maxAdjusted = this._maxDefined;
@@ -1157,9 +1170,15 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 			if ($type.isNumber(this._minDefined)) {
 				min = this._minDefined;
 			}
+			else {
+				min = this._minReal;
+			}
 
 			if ($type.isNumber(this._maxDefined)) {
 				max = this._maxDefined;
+			}
+			else {
+				max = this._maxReal;
 			}
 		}
 
@@ -1603,6 +1622,10 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				selectionMin = this.min;
 			}
 		}
+		else if (this.strictMinMax) {
+			selectionMin = this._minReal;
+		}
+
 		if ($type.isNumber(this._maxDefined)) {
 			if (this.strictMinMax) {
 				selectionMax = this._maxDefined;
@@ -1611,6 +1634,9 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				selectionMax = this.max;
 			}
 		}
+		else if (this.strictMinMax) {
+			selectionMax = this._maxReal;
+		}		
 
 		if (selectionMin == selectionMax) {
 			selectionMin -= 1;
@@ -1698,6 +1724,24 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 	public get logarithmic(): boolean {
 		return this.getPropertyValue("logarithmic");
 	}
+
+
+	/**
+	 * Indicates if a current selection should be kept on data update. You can also use this to initially pre-zoom axis: set keepSelection = true and then axis.start = 0.5; axis.end = 0.7.
+	 *
+	 * @param {boolean} 
+	 */
+	public set keepSelection(value: boolean) {
+		this.setPropertyValue("keepSelection", value);
+	}
+
+	/**
+	 * @return {boolean} Logarithmic scale?
+	 */
+	public get keepSelection(): boolean {
+		return this.getPropertyValue("keepSelection");
+	}
+
 
 
 	/**
@@ -1921,8 +1965,8 @@ export class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Axis<T> {
 				axisBreak.adjustedMax = breakMinMaxStep.max;
 			});
 		}
-		
-		this._difference = this.adjustDifference(this.min, this.max);		
+
+		this._difference = this.adjustDifference(this.min, this.max);
 	}
 
 	/**

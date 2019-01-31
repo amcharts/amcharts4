@@ -85,6 +85,7 @@ export interface IValueAxisProperties extends IAxisProperties {
     maxPrecision?: number;
     extraMin?: number;
     extraMax?: number;
+    keepSelection?: boolean;
 }
 /**
  * Defines events for [[ValueAxis]].
@@ -649,6 +650,15 @@ export declare class ValueAxis<T extends AxisRenderer = AxisRenderer> extends Ax
      * @param {boolean} value Logarithmic scale?
      */
     logarithmic: boolean;
+    /**
+     * @return {boolean} Logarithmic scale?
+     */
+    /**
+     * Indicates if a current selection should be kept on data update. You can also use this to initially pre-zoom axis: set keepSelection = true and then axis.start = 0.5; axis.end = 0.7.
+     *
+     * @param {boolean}
+     */
+    keepSelection: boolean;
     /**
      * @return {boolean} max precision
      */

@@ -176,6 +176,7 @@ var ValueAxis = /** @class */ (function (_super) {
         _this.setPropertyValue("extraMax", 0);
         _this.setPropertyValue("strictMinMax", false);
         _this.setPropertyValue("maxPrecision", Number.MAX_VALUE);
+        _this.keepSelection = false;
         // Apply theme
         _this.applyTheme();
         return _this;
@@ -227,8 +228,18 @@ var ValueAxis = /** @class */ (function (_super) {
      * @todo Description
      */
     ValueAxis.prototype.dataChangeUpdate = function () {
-        this._start = 0;
-        this._end = 1;
+        if (!this.keepSelection) {
+            this._start = 0;
+            this._end = 1;
+        }
+        else {
+            if (this._start != 0) {
+                this.dispatchImmediately("startchanged");
+            }
+            if (this._end != 1) {
+                this.dispatchImmediately("endchanged");
+            }
+        }
         this._maxZoomed = this._maxDefined;
         this._minZoomed = this._minDefined;
         this._maxAdjusted = this._maxDefined;
@@ -785,8 +796,14 @@ var ValueAxis = /** @class */ (function (_super) {
             if ($type.isNumber(this._minDefined)) {
                 min = this._minDefined;
             }
+            else {
+                min = this._minReal;
+            }
             if ($type.isNumber(this._maxDefined)) {
                 max = this._maxDefined;
+            }
+            else {
+                max = this._maxReal;
             }
         }
         // checking isNumber is good when all series are hidden
@@ -1187,6 +1204,9 @@ var ValueAxis = /** @class */ (function (_super) {
                 selectionMin = this.min;
             }
         }
+        else if (this.strictMinMax) {
+            selectionMin = this._minReal;
+        }
         if ($type.isNumber(this._maxDefined)) {
             if (this.strictMinMax) {
                 selectionMax = this._maxDefined;
@@ -1194,6 +1214,9 @@ var ValueAxis = /** @class */ (function (_super) {
             else {
                 selectionMax = this.max;
             }
+        }
+        else if (this.strictMinMax) {
+            selectionMax = this._maxReal;
         }
         if (selectionMin == selectionMax) {
             selectionMin -= 1;
@@ -1272,6 +1295,24 @@ var ValueAxis = /** @class */ (function (_super) {
             if (this.setPropertyValue("logarithmic", value)) {
                 this.invalidate();
             }
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ValueAxis.prototype, "keepSelection", {
+        /**
+         * @return {boolean} Logarithmic scale?
+         */
+        get: function () {
+            return this.getPropertyValue("keepSelection");
+        },
+        /**
+         * Indicates if a current selection should be kept on data update. You can also use this to initially pre-zoom axis: set keepSelection = true and then axis.start = 0.5; axis.end = 0.7.
+         *
+         * @param {boolean}
+         */
+        set: function (value) {
+            this.setPropertyValue("keepSelection", value);
         },
         enumerable: true,
         configurable: true

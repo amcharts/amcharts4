@@ -1119,6 +1119,10 @@ export class XYSeries extends Series {
 			this.yAxis.validate();
 		}
 
+		this.y = this.yAxis.pixelY;		
+		this.x = this.xAxis.pixelX;
+
+
 		this._showBullets = true;
 		let minBulletDistance: number = this.minBulletDistance;
 		if ($type.isNumber(minBulletDistance)) {
@@ -1399,44 +1403,45 @@ export class XYSeries extends Series {
 	 */
 	public showTooltipAtDataItem(dataItem: this["_dataItem"]): IPoint {
 		this.returnBulletDefaultState(dataItem);
+		if (this.cursorTooltipEnabled) {
+			if (dataItem && dataItem.visible) {
 
-		if (dataItem && dataItem.visible) {
+				this.updateLegendValue(dataItem);
+				this.tooltipDataItem = dataItem;
 
-			this.updateLegendValue(dataItem);
-			this.tooltipDataItem = dataItem;
+				// todo: add tooltipXField and tooltipYField.
+				let tooltipXField = this.tooltipXField;
+				let tooltipYField = this.tooltipYField;
 
-			// todo: add tooltipXField and tooltipYField.
-			let tooltipXField = this.tooltipXField;
-			let tooltipYField = this.tooltipYField;
+				if ($type.hasValue((<any>dataItem)[tooltipXField]) && $type.hasValue((<any>dataItem)[tooltipYField])) {
 
-			if ($type.hasValue((<any>dataItem)[tooltipXField]) && $type.hasValue((<any>dataItem)[tooltipYField])) {
+					let tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, dataItem.locations[tooltipXField], dataItem.locations[tooltipYField]);
 
-				let tooltipPoint = this.getPoint(dataItem, tooltipXField, tooltipYField, dataItem.locations[tooltipXField], dataItem.locations[tooltipYField]);
+					if (tooltipPoint) {
 
-				if (tooltipPoint) {
+						this.tooltipX = tooltipPoint.x;
+						this.tooltipY = tooltipPoint.y;
 
-					this.tooltipX = tooltipPoint.x;
-					this.tooltipY = tooltipPoint.y;
+						if (this._prevTooltipDataItem != dataItem) {
+							this.dispatchImmediately("tooltipshownat", {
+								type: "tooltipshownat",
+								target: this,
+								dataItem: dataItem
+							});
 
-					if (this._prevTooltipDataItem != dataItem) {
-						this.dispatchImmediately("tooltipshownat", {
-							type: "tooltipshownat",
-							target: this,
-							dataItem: dataItem
-						});
+							this._prevTooltipDataItem = dataItem;
+						}
 
-						this._prevTooltipDataItem = dataItem;
+						for (let a of dataItem.bullets) {
+							let bullet = a[1]
+							bullet.isHover = true;
+						}
+
+						if (this.showTooltip()) {
+							return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
+						}
+						return;
 					}
-
-					for (let a of dataItem.bullets) {
-						let bullet = a[1]
-						bullet.isHover = true;
-					}
-
-					if (this.showTooltip()) {
-						return $utils.spritePointToSvg({ x: tooltipPoint.x, y: tooltipPoint.y }, this);
-					}
-					return;
 				}
 			}
 		}

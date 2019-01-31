@@ -522,8 +522,11 @@ var Series = /** @class */ (function (_super) {
             axisRange.validate();
         });
         _super.prototype.validate.call(this);
-        this.bulletsContainer.fill = this.fill;
-        this.bulletsContainer.stroke = this.stroke;
+        var bulletsContainer = this.bulletsContainer;
+        bulletsContainer.fill = this.fill;
+        bulletsContainer.stroke = this.stroke;
+        bulletsContainer.x = this.pixelX;
+        bulletsContainer.y = this.pixelY;
         if (this.bulletsContainer.children.length > 0) {
             for (var i = 0; i < this.startIndex; i++) {
                 var dataItem = this.dataItems.getIndex(i);

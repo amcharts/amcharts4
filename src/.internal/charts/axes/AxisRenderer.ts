@@ -444,6 +444,10 @@ export class AxisRenderer extends Container {
 		return coordinate;
 	}
 
+	public updateGridContainer(){
+
+	}	
+
 
 	protected getHeight(): number {
 		let axis = this.axis;
