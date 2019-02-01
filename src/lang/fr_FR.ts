@@ -59,8 +59,8 @@ export default {
 	// 
 	// Please check with the local standards which separator is accepted to be
 	// used for separating decimals, and which for thousands.
-	"_decimalSeparator": ".",
-	"_thousandSeparator": ",",
+	"_decimalSeparator": ",",
+	"_thousandSeparator": " ",
 
 	// Suffixes for numbers
 	// When formatting numbers, big or small numers might be reformatted to
